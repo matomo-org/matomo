@@ -30,7 +30,7 @@ class Singleton
     /**
      * Returns the singleton instance for the derived class. If the singleton instance
      * has not been created, this method will create it.
-     * 
+     *
      * @return Singleton
      */
     public static function getInstance() {

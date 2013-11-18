@@ -53,7 +53,7 @@ use Piwik\Session;
  *
  * @package Piwik
  * @subpackage FrontController
- * @static \Piwik\FrontController getInstance()
+ * @static method \Piwik\FrontController getInstance()
  */
 class FrontController extends Singleton
 {

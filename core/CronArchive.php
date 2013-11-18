@@ -10,6 +10,11 @@
  */
 namespace Piwik;
 
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
+use Exception;
+
 /**
  * archive.php runs as a cron and is a useful tool for general maintenance,
  * and pre-process reports for a Fast dashboard rendering.
@@ -51,6 +56,10 @@ class CronArchive
     private $todayArchiveTimeToLive;
     private $websiteDayHasFinishedSinceLastRun = array();
     private $idSitesInvalidatedOldReports = array();
+    private $shouldArchiveSpecifiedSites = array();
+    private $websites = array();
+    private $allWebsites = array();
+    private $segments = array();
     private $piwikUrl = false;
     private $token_auth = false;
     private $visits = 0;
