@@ -348,12 +348,11 @@ class DataTableFactory
      */
     private function transformMetadata($table)
     {
-        return;
-//        $periods = $this->periods;
-//        $table->filter(function ($table) use ($periods) {
-//            $table->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, new Site($table->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX)));
-//            $table->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, $periods[$table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)]);
-//        });
+        $periods = $this->periods;
+        $table->filter(function ($table) use ($periods) {
+            $table->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, new Site($table->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX)));
+            $table->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, $periods[$table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)]);
+        });
     }
 
     /**
@@ -378,8 +377,7 @@ class DataTableFactory
     private function setTableMetadata($keyMetadata, $result)
     {
         if (!isset($keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX])) {
-            $idSite = reset($this->sitesId);
-            $keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX] = new Site($idSite);
+            $keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX] = reset($this->sitesId);
         }
 
         if (!isset($keyMetadata[DataTableFactory::TABLE_METADATA_PERIOD_INDEX])) {
