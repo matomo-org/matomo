@@ -29,7 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
     const REAL_TIME_WINDOW = 'last30';
 
-    public function visitorMap($segmentOverride = false)
+    public function visitorMap($fetch = false, $segmentOverride = false)
     {
         $this->checkUserCountryPluginEnabled();
 
