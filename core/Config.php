@@ -206,6 +206,7 @@ class Config extends Singleton
         $this->pathLocal   = $hostConfig['path'];
         $this->configLocal = array();
         $this->initialized = false;
+        return $this->pathLocal;
     }
 
     /**
@@ -526,7 +527,7 @@ class Config extends Singleton
         if ($output !== false) {
             $success = @file_put_contents($pathLocal, $output);
             if (!$success) {
-                throw new Exception(Piwik::translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)", "")));
+                throw $this->getConfigNotWritableException();
             }
         }
 
@@ -541,5 +542,14 @@ class Config extends Singleton
     public function forceSave()
     {
         $this->writeConfig($this->configLocal, $this->configGlobal, $this->configCache, $this->pathLocal);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getConfigNotWritableException()
+    {
+        $path = "config/" . basename($this->pathLocal);
+        return new Exception(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
     }
 }

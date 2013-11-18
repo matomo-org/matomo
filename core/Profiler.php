@@ -201,7 +201,7 @@ class Profiler
 
         require_once $path;
 
-        $currentGitBranch = self::getCurrentGitBranch();
+        $currentGitBranch = SettingsPiwik::getCurrentGitBranch();
         $profilerNamespace = "piwik";
         if($currentGitBranch != 'master') {
             $profilerNamespace .= "." . $currentGitBranch;
@@ -258,15 +258,6 @@ class Profiler
             $array = array();
         }
         return $array;
-    }
-
-    private static function getCurrentGitBranch()
-    {
-        $firstLineOfGitHead = file(PIWIK_INCLUDE_PATH . '/.git/HEAD');
-        $firstLineOfGitHead = $firstLineOfGitHead[0];
-        $parts = explode("/", $firstLineOfGitHead);
-        $currentGitBranch = trim($parts[2]);
-        return $currentGitBranch;
     }
 
     /**

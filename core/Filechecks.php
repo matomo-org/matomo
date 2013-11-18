@@ -87,12 +87,13 @@ class Filechecks
         // Also give the chown since the chmod is only 755
         if (!SettingsServer::isWindows()) {
             $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
-            $directoryList = "<code>chown -R www-data:www-data " . $realpath . "</code><br/>" . $directoryList;
+            $directoryList = "<code>chown -R www-data:www-data " . $realpath . "</code><br />" . $directoryList;
         }
 
         // The error message mentions chmod 777 in case users can't chown
-        $directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p>
-							<p>Try to Execute the following commands on your server, to allow Write access on these directories:</p>"
+
+        $directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p>";
+        $directoryMessage .= "<p>Try to Execute the following commands on your server, to allow Write access on these directories:</p>"
             . "<blockquote>$directoryList</blockquote>"
             . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0755 (or 0777 if 0755 is not enough). To do so with your FTP software, right click on the directories then click permissions.</p>"
             . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
@@ -117,7 +118,10 @@ class Filechecks
         }
 
         if (!class_exists('\\Piwik\\Manifest')) {
-            $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest') . " If you are deploying Piwik from Git, this message is normal.";
+            $git = SettingsPiwik::getCurrentGitBranch();
+            if(empty($git)) {
+                $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest') . " If you are deploying Piwik from Git, this message is normal.";
+            }
             return $messages;
         }
 

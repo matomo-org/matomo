@@ -254,4 +254,41 @@ class SettingsPiwik
 
         return $path;
     }
+
+    /**
+     * Returns true if the Piwik server appears to be working.
+     *
+     * @param $piwikServerUrl
+     * @return bool
+     */
+    static public function checkPiwikServerWorking($piwikServerUrl)
+    {
+        // Now testing if the webserver is running
+        try {
+            $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 45);
+        } catch (Exception $e) {
+            $fetched = "ERROR fetching: " . $e->getMessage();
+        }
+        $expectedString = 'plugins/CoreHome/images/favicon.ico';
+
+        if (strpos($fetched, $expectedString) === false) {
+            throw new Exception("\nPiwik should be running at: "
+                . $piwikServerUrl
+                . " but this URL returned an unexpected response: '"
+                . $fetched . "'\n\n");
+        }
+    }
+
+    public static function getCurrentGitBranch()
+    {
+        $firstLineOfGitHead = file(PIWIK_INCLUDE_PATH . '/.git/HEAD');
+        if (empty($firstLineOfGitHead)) {
+            return '';
+        }
+        $firstLineOfGitHead = $firstLineOfGitHead[0];
+        $parts = explode("/", $firstLineOfGitHead);
+        $currentGitBranch = trim($parts[2]);
+        return $currentGitBranch;
+    }
+
 }

@@ -68,21 +68,7 @@ Try again.
 -> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
         exit(1);
     }
+    $baseUrl = Test_Piwik_BaseFixture::getRootUrl();
 
-    // Now testing if the webserver is running
-    $piwikServerUrl = Test_Piwik_BaseFixture::getRootUrl();
-    try {
-        $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 45);
-    } catch (Exception $e) {
-        $fetched = "ERROR fetching: " . $e->getMessage();
-    }
-    $expectedString = 'plugins/CoreHome/images/favicon.ico';
-
-    if (strpos($fetched, $expectedString) === false) {
-        echo "\nPiwik should be running at: "
-            . $piwikServerUrl
-            . " but this URL returned an unexpected response: '"
-            . $fetched . "'\n\n";
-        exit(1);
-    }
+    \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl);
 }

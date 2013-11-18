@@ -94,7 +94,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $pluginsManager->loadPlugins($plugins);
         if ($installPlugins)
         {
-            $pluginsManager->installLoadedPlugins();
+            $messages = $pluginsManager->installLoadedPlugins();
+            if(!empty($messages)) {
+                echo implode("  ----  ", $messages);
+            }
         }
     }
 

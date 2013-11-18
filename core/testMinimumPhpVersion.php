@@ -121,6 +121,8 @@ if (!function_exists('Piwik_ExitWithMessage')) {
             . ' ' . $optionalLinks;
 
         if($isCli) {
+            $message = str_replace(array("<br />", "<br>", "<br/>", "</p>"), "\n", $message);
+            $message = str_replace("\t", "", $message);
             echo strip_tags($message);
         } else {
             echo $headerPage . $content . $footerPage;

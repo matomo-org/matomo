@@ -50,7 +50,8 @@ abstract class ControllerAdmin extends Controller
         $isConfigFileWritable = PiwikConfig::getInstance()->isFileWritable();
 
         if (!$isConfigFileWritable) {
-            $message = Piwik::translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)","<br/>"));
+            $exception = PiwikConfig::getInstance()->getConfigNotWritableException();
+            $message = $exception->getMessage();
 
             $notification = new Notification($message);
             $notification->raw     = true;

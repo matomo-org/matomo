@@ -261,16 +261,20 @@ class Manager extends Singleton
 
     /**
      * Install loaded plugins
+     *
+     * @return array Error messages of plugin install fails
      */
     public function installLoadedPlugins()
     {
+        $messages[] = array();
         foreach ($this->getLoadedPlugins() as $plugin) {
             try {
                 $this->installPluginIfNecessary($plugin);
             } catch (\Exception $e) {
-                echo $e->getMessage();
+                $messages[] = $e->getMessage();
             }
         }
+        return $messages;
     }
 
     /**
