@@ -20,6 +20,9 @@ use Piwik\Archive;
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 {
+    /**
+     * @var Test_Piwik_Fixture_OneVisitorTwoVisits
+     */
     public static $fixture = null; // initialized below class
 
     public function setUp()
@@ -44,6 +47,9 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     public function getApiForTesting()
     {
         $idSite = self::$fixture->idSite;
+        $idSiteBis = self::$fixture->idSiteEmptyBis;
+        $idSiteTer = self::$fixture->idSiteEmptyTer;
+
         $dateTime = self::$fixture->dateTime;
 
         $enExtraParam = array('expanded' => 1,
@@ -52,7 +58,9 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                               'translateColumnNames' => 1
         );
         $bulkUrls = array(
-            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitsSummary.get",
+            // Testing with several days
+            "idSite=" . $idSite . "&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
+            "idSite=" . $idSite . ",$idSiteBis,$idSiteTer&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
             "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitorInterest.getNumberOfVisitsPerVisitDuration"
         );
         foreach ($bulkUrls as &$url) {
