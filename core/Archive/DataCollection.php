@@ -296,9 +296,9 @@ class DataCollection
         if (!empty($metadataNamesToIndexBy)) {
             $metadataName = array_shift($metadataNamesToIndexBy);
 
-            if ($metadataName == 'site') {
+            if ($metadataName == DataTableFactory::TABLE_METADATA_SITE_INDEX) {
                 $indexKeyValues = array_values($this->sitesId);
-            } else if ($metadataName == 'period') {
+            } else if ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
                 $indexKeyValues = array_keys($this->periods);
             }
 
@@ -318,9 +318,9 @@ class DataCollection
         $currentLevel = & $index;
 
         foreach ($metadataNamesToIndexBy as $metadataName) {
-            if ($metadataName == 'site') {
+            if ($metadataName == DataTableFactory::TABLE_METADATA_SITE_INDEX) {
                 $key = $idSite;
-            } else if ($metadataName == 'period') {
+            } else if ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
                 $key = $period;
             } else {
                 $key = $row[self::METADATA_CONTAINER_ROW_KEY][$metadataName];

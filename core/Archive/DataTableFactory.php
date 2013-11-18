@@ -310,13 +310,13 @@ class DataTableFactory
             $result = $table;
         }
 
-        if (!isset($keyMetadata['site'])) {
-            $keyMetadata['site'] = reset($this->sitesId);
+        if (!isset($keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX])) {
+            $keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX] = reset($this->sitesId);
         }
 
-        if (!isset($keyMetadata['period'])) {
+        if (!isset($keyMetadata[DataTableFactory::TABLE_METADATA_PERIOD_INDEX])) {
             reset($this->periods);
-            $keyMetadata['period'] = key($this->periods);
+            $keyMetadata[DataTableFactory::TABLE_METADATA_PERIOD_INDEX] = key($this->periods);
         }
 
         // Note: $result can be a DataTable\Map
@@ -400,7 +400,7 @@ class DataTableFactory
      */
     private function prettifyIndexLabel($labelType, $label)
     {
-        if ($labelType == 'period') { // prettify period labels
+        if ($labelType == self::TABLE_METADATA_PERIOD_INDEX) { // prettify period labels
             return $this->periods[$label]->getPrettyString();
         }
         return $label;
