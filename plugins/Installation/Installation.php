@@ -66,7 +66,7 @@ class Installation extends \Piwik\Plugin
         if (in_array($step, array_keys($controller->getInstallationSteps()))
             || $isActionWhiteListed
         ) {
-            $controller->$step($message);
+            echo $controller->$step($message);
         } else {
             Piwik::exitWithErrorMessage(Piwik::translate('Installation_NoConfigFound'));
         }
