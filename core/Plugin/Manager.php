@@ -266,7 +266,7 @@ class Manager extends Singleton
      */
     public function installLoadedPlugins()
     {
-        $messages[] = array();
+        $messages = array();
         foreach ($this->getLoadedPlugins() as $plugin) {
             try {
                 $this->installPluginIfNecessary($plugin);
