@@ -72,6 +72,15 @@ class Site
     }
 
     /**
+     * @param $idsite
+     * @param $site
+     */
+    protected static function setSite($idsite, $site)
+    {
+        self::$infoSites[$idsite] = $site;
+    }
+
+    /**
      * Sets the cached Site data with a non-associated array of site data.
      * 
      * @param array $sites The array of sites data. eg,
@@ -90,6 +99,7 @@ class Site
         }
         self::setSites($sitesById);
     }
+
 
     /**
      * Returns a string representation of the site this instance references.
@@ -313,7 +323,8 @@ class Site
         $idsite = (int)$idsite;
 
         if (!isset(self::$infoSites[$idsite])) {
-            self::$infoSites[$idsite] = API::getInstance()->getSiteFromId($idsite);
+            $site = API::getInstance()->getSiteFromId($idsite);
+            self::setSite($idsite, $site);
         }
 
         return self::$infoSites[$idsite][$field];

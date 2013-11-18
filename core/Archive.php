@@ -712,7 +712,7 @@ class Archive
      * whether archiving should be launched based on whether $this->idarchives has a
      * an entry for a specific 'done' flag.
      *
-     * If this function is not called, then periods with no visits will not add
+     * If this  function is not called, then periods with no visits will not add
      * entries to the cache. If the archive is used again, SQL will be executed to
      * try and find the archive IDs even though we know there are none.
      */

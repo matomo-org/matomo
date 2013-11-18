@@ -527,6 +527,8 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $subsubtableAfter = new DataTable;
         $subsubtableAfter->addRowsFromSerializedArray($serialized[$idsubsubtable]);
         $this->assertEquals($subsubtable->getRows(), $subsubtableAfter->getRows());
+        $this->assertEquals($subsubtable->getRows(), DataTable::fromSerializedArray($serialized[$idsubsubtable])->getRows());
+        $this->assertTrue($subsubtable->getRowsCount() > 0);
 
         $this->assertEquals($table, Manager::getInstance()->getTable($idtable));
         $this->assertEquals($subsubtable, Manager::getInstance()->getTable($idsubsubtable));

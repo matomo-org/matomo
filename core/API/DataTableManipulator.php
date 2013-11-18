@@ -11,6 +11,7 @@
 namespace Piwik\API;
 
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Period\Range;
@@ -119,7 +120,7 @@ abstract class DataTableManipulator
 
         $request['idSubtable'] = $idSubTable;
         if ($dataTable) {
-            $period = $dataTable->getMetadata('period');
+            $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
             if ($period instanceof Range) {
                 $request['date'] = $period->getDateStart() . ',' . $period->getDateEnd();
             } else {

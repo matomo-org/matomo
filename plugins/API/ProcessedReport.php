@@ -12,6 +12,7 @@ namespace Piwik\Plugins\API;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
@@ -421,7 +422,7 @@ class ProcessedReport
                 list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
                 $enhancedSimpleDataTable->setAllTableMetadata($simpleDataTable->getAllTableMetadata());
 
-                $period = $simpleDataTable->getMetadata('period')->getLocalizedLongString();
+                $period = $simpleDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedLongString();
                 $newReport->addTable($enhancedSimpleDataTable, $period);
                 $rowsMetadata->addTable($rowMetadata, $period);
             }

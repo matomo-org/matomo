@@ -11,6 +11,7 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
+use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
@@ -75,8 +76,8 @@ class Rss extends Renderer
         $moreRecentFirst = array_reverse($table->getDataTables(), true);
         foreach ($moreRecentFirst as $date => $subtable) {
             /** @var DataTable $subtable */
-            $timestamp = $subtable->getMetadata('period')->getDateStart()->getTimestamp();
-            $site = $subtable->getMetadata('site');
+            $timestamp = $subtable->getMetadata(Archive\DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart()->getTimestamp();
+            $site = $subtable->getMetadata(Archive\DataTableFactory::TABLE_METADATA_SITE_INDEX);
 
             $pudDate = date('r', $timestamp);
 

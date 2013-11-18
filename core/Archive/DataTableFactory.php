@@ -80,6 +80,9 @@ class DataTableFactory
      */
     private $defaultRow;
 
+    const TABLE_METADATA_SITE_INDEX = 'site';
+    const TABLE_METADATA_PERIOD_INDEX = 'period';
+
     /**
      * Constructor.
      */
@@ -383,8 +386,8 @@ class DataTableFactory
     {
         $periods = $this->periods;
         $table->filter(function ($table) use ($periods) {
-            $table->setMetadata('site', new Site($table->getMetadata('site')));
-            $table->setMetadata('period', $periods[$table->getMetadata('period')]);
+            $table->setMetadata(self::TABLE_METADATA_SITE_INDEX, new Site($table->getMetadata(self::TABLE_METADATA_SITE_INDEX)));
+            $table->setMetadata(self::TABLE_METADATA_PERIOD_INDEX, $periods[$table->getMetadata(self::TABLE_METADATA_PERIOD_INDEX)]);
         });
     }
 

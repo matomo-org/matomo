@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\Period;
@@ -439,7 +440,7 @@ class API extends \Piwik\Plugin\API
                         }
                     }
 
-                    $rowId = $periodsData[$i]->getMetadata('period')->getLocalizedShortString();
+                    $rowId = $periodsData[$i]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
                 }
             }

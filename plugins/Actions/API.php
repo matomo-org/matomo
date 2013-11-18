@@ -351,11 +351,11 @@ class API extends \Piwik\Plugin\API
             foreach ($customVariableDatatables as $key => $customVariableTableForDate) {
                 // we do not enter the IF, in the case idSite=1,3 AND period=day&date=datefrom,dateto,
                 if ($customVariableTableForDate instanceof DataTable
-                    && $customVariableTableForDate->getMetadata('period')
+                    && $customVariableTableForDate->getMetadata(Archive\DataTableFactory::TABLE_METADATA_PERIOD_INDEX)
                 ) {
                     $row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
                     if ($row) {
-                        $dateRewrite = $customVariableTableForDate->getMetadata('period')->getDateStart()->toString();
+                        $dateRewrite = $customVariableTableForDate->getMetadata(Archive\DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart()->toString();
                         $idSubtable = $row->getIdSubDataTable();
                         $categories = APICustomVariables::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
                         $dataTable->addTable($categories, $key);
