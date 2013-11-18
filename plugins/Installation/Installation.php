@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\Installation;
 
 use Piwik\Common;
+use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Translate;
@@ -66,7 +67,7 @@ class Installation extends \Piwik\Plugin
         if (in_array($step, array_keys($controller->getInstallationSteps()))
             || $isActionWhiteListed
         ) {
-            $controller->$step($message);
+            echo FrontController::getInstance()->dispatch('Installation', $step, array($message));
         } else {
             Piwik::exitWithErrorMessage(Piwik::translate('Installation_NoConfigFound'));
         }

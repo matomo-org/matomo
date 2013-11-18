@@ -241,7 +241,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph(array $columns = array(), $idGoal = false)
+    public function getEvolutionGraph($fetch = false, array $columns = array(), $idGoal = false)
     {
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns');
