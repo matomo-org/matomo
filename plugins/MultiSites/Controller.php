@@ -44,12 +44,12 @@ class Controller extends \Piwik\Plugin\Controller
 
     function index()
     {
-        $this->getSitesInfo($isWidgetized = false);
+        return $this->getSitesInfo($isWidgetized = false);
     }
 
     function standalone()
     {
-        $this->getSitesInfo($isWidgetized = true);
+        return $this->getSitesInfo($isWidgetized = true);
     }
 
     public function getSitesInfo($isWidgetized = false)
