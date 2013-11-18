@@ -178,7 +178,8 @@ class Xml extends Renderer
         foreach ($array as $key => $value) {
             // based on the type of array & the key, determine how this node will look
             if ($isAssociativeArray) {
-                if (is_numeric($key)) {
+                $keyIsInvalidXmlElement = is_numeric($key) || is_numeric($key[0]);
+                if ($keyIsInvalidXmlElement) {
                     $prefix = "<row key=\"$key\">";
                     $suffix = "</row>";
                     $emptyNode = "<row key=\"$key\"/>";

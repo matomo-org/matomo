@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<2010-03-06>
+		<row key="2010-03-06">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>2</nb_visits>
 			<nb_actions>8</nb_actions>
@@ -12,12 +12,12 @@
 			<bounce_rate>50%</bounce_rate>
 			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>811</avg_time_on_site>
-		</2010-03-06>
-		<2010-03-07>
-		</2010-03-07>
+		</row>
+		<row key="2010-03-07">
+		</row>
 	</row>
 	<row>
-		<2010-03-06>
+		<row key="2010-03-06">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>2</nb_visits>
 			<nb_actions>8</nb_actions>
@@ -28,9 +28,9 @@
 			<bounce_rate>50%</bounce_rate>
 			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>811</avg_time_on_site>
-		</2010-03-06>
-		<2010-03-07>
-		</2010-03-07>
+		</row>
+		<row key="2010-03-07">
+		</row>
 	</row>
 	<row>
 		<row>
