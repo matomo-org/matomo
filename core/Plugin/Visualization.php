@@ -37,6 +37,8 @@ class Visualization extends ViewDataTable
     const TEMPLATE_FILE = '';
 
     private $templateVars = array();
+    private $reportLastUpdatedMessage = null;
+    private $metadata = null;
 
     final public function __construct($controllerAction, $apiMethodToRequestDataTable)
     {
@@ -103,6 +105,7 @@ class Visualization extends ViewDataTable
         $view->clientSideParameters = $this->getClientSideParametersToSet();
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
         $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
+        $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
 
@@ -171,9 +174,9 @@ class Visualization extends ViewDataTable
 
         // deal w/ table metadata
         if ($this->dataTable instanceof DataTable) {
-            $this->config->metadata = $this->dataTable->getAllTableMetadata();
+            $this->metadata = $this->dataTable->getAllTableMetadata();
 
-            if (isset($this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+            if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
                 $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
             }
         }
@@ -235,7 +238,7 @@ class Visualization extends ViewDataTable
      */
     private function makePrettyArchivedOnText()
     {
-        $dateText = $this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
+        $dateText = $this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
         $date     = Date::factory($dateText);
         $today    = mktime(0, 0, 0);
 

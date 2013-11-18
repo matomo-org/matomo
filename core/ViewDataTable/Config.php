@@ -393,16 +393,6 @@ class Config
     /**
      * TODO
      */
-    public $report_last_updated_message = false;
-
-    /**
-     * TODO
-     */
-    public $metadata  = array();
-
-    /**
-     * TODO
-     */
     public $report_id = '';
 
     /**
