@@ -30,7 +30,11 @@ $controller = \Piwik\FrontController::getInstance();
 \Piwik\Config::getInstance()->Plugins['Plugins'] = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
 
 $controller->init();
-$controller->dispatch();
+$response = $controller->dispatch();
+
+if (!is_null($response)) {
+    echo $response;
+}
 
 ob_flush();
 
