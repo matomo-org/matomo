@@ -95,7 +95,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getLastVisitsDetails($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     /**

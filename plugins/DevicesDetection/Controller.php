@@ -33,37 +33,37 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getType($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getBrand($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getModel($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getOsFamilies($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getOsVersions($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getBrowserFamilies($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getBrowserVersions($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     /**

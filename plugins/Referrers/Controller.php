@@ -139,7 +139,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getReferrerType($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     /**
@@ -152,27 +152,27 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getAll($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getKeywords($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getSearchEnginesFromKeywordId($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getSearchEngines($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getKeywordsFromSearchEngineId($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function indexWebsites($fetch = false)
@@ -189,17 +189,17 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getWebsites($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getSocials($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getUrlsForSocial($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function indexCampaigns($fetch = false)
@@ -211,17 +211,17 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getCampaigns($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getKeywordsFromCampaignId($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getUrlsFromWebsiteId($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     protected function getReferrersVisitorsByType($date = false)

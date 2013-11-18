@@ -462,26 +462,26 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getItemsSku($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getItemsName($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getItemsCategory($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getVisitsUntilConversion($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getDaysToConversion($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 }
