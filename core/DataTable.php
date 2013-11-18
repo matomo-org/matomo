@@ -34,7 +34,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * ### The Basics
  * 
  * DataTables consist of rows and each row consists of columns. A column value can be
- * be a numeric, string or array.
+ * be numeric, a string or an array.
  * 
  * Every row has an ID. The ID is either the index of the row or [ID_SUMMARY_ROW](#ID_SUMMARY_ROW).
  * 
@@ -97,9 +97,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * 
  * ### Learn more
  * 
- * - **ArchiveProcessor** &mdash; to learn how DataTables are persisted.
- * - **DataTable\Renderer** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
- * - **DataTable\Filter** &mdash; to see all core Filters.
+ * - **[ArchiveProcessor](#)** &mdash; to learn how DataTables are persisted.
+ * - **[DataTable\Renderer](#)** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
+ * - **[DataTable\Filter](#)** &mdash; to see all core Filters.
  * 
  * ### Examples
  * 

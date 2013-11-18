@@ -21,9 +21,8 @@ use Piwik\Common;
  */
 class RequestConfig
 {
-
     /**
-     * The list of ViewDataTable properties that are 'Client Side Parameters'.
+     * The list of request parameters that are 'Client Side Parameters'.
      */
     public $clientSideParameters = array(
         'filter_excludelowpop',
@@ -222,5 +221,4 @@ class RequestConfig
 
         return $method;
     }
-
 }
