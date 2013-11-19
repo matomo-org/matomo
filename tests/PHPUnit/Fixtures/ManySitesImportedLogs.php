@@ -66,7 +66,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                                             'enabledAllUsers' => true),
             'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),
                                             'idSite'          => false,
-                                            'autoArchive'     => true,
+                                            'autoArchive'     => false, //FIXME revert to true
                                             'enabledAllUsers' => false),
         );
     }
