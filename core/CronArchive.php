@@ -43,6 +43,8 @@ Arguments:
 			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
 	--force-idsites=1,2,n
 			Restricts archiving to the specified website IDs, comma separated list.
+	--skip-idsites=1,2,n
+			If the specified websites IDs were to be archived, skip them instead.
 	--xhprof
 			Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).
 	--accept-invalid-ssl-certificate
@@ -97,6 +99,7 @@ Notes:
     private $websiteDayHasFinishedSinceLastRun = array();
     private $idSitesInvalidatedOldReports = array();
     private $shouldArchiveSpecifiedSites = array();
+    private $shouldSkipSpecifiedSites = array();
     private $websites = array();
     private $allWebsites = array();
     private $segments = array();
@@ -170,6 +173,13 @@ Notes:
                 continue;
             }
 
+            $skipWebsiteForced = in_array($idsite, $this->shouldSkipSpecifiedSites);
+            if($skipWebsiteForced) {
+                $this->log("Skipped website id $idsite, found in --skip-idsites ");
+                $skipped++;
+                continue;
+            }
+
             $timerWebsite = new Timer;
 
             $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
@@ -229,7 +239,7 @@ Notes:
                 $skipDayArchive = false;
             }
 
-            if ($skipDayArchive) {
+             if ($skipDayArchive) {
                 $this->log("Skipped website id $idsite, already processed today's report in recent run, "
                     . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
                     . " ago, " . $timerWebsite->__toString());
@@ -733,7 +743,9 @@ Notes:
         $this->shouldArchiveAllSites = (bool) $this->isParameterSet("force-all-websites");
         $this->shouldStartProfiler = (bool) $this->isParameterSet("xhprof");
         $restrictToIdSites = $this->isParameterSet("force-idsites", true);
+        $skipIdSites = $this->isParameterSet("skip-idsites", true);
         $this->shouldArchiveSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($restrictToIdSites);
+        $this->shouldSkipSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($skipIdSites);
         $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
 
