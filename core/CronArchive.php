@@ -21,6 +21,47 @@ use Exception;
  */
 class CronArchive
 {
+    static public function getUsage()
+    {
+        return "Usage:
+	/path/to/cli/php \"" . @$_SERVER['argv'][0] . "\" --url=http://your-website.org/path/to/piwik/ [arguments]
+
+Arguments:
+	--url=[piwik-server-url]
+			Mandatory argument. Must be set to the Piwik base URL.
+			For example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/
+	--force-all-websites
+			If specified, the script will trigger archiving on all websites and all past dates.
+			You may use --force-all-periods=[seconds] to only trigger archiving on those websites that had visits in the last [seconds] seconds.
+	--force-all-periods[=seconds]
+			Limits archiving to websites with some traffic in the last [seconds] seconds.
+			For example --force-all-periods=86400 will archive websites that had visits in the last 24 hours.
+			If [seconds] is not specified, all websites will visits in the last ". CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
+            . " seconds (" . round( CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE/86400 ) ." days) will be archived.
+	--force-timeout-for-periods=[seconds]
+			The current week/ current month/ current year will be processed at most every [seconds].
+			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
+	--force-idsites=1,2,n
+			Restricts archiving to the specified website IDs, comma separated list.
+	--xhprof
+			Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).
+	--accept-invalid-ssl-certificate
+			It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!
+			It can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1
+	--help
+			Displays usage
+
+Notes:
+	* It is recommended to run the script with the argument --url=[piwik-server-url] only. Other arguments are not required.
+	* This script should be executed every hour via crontab, or as a deamon.
+	* You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
+	  but it is recommended to run it via command line/CLI instead.
+	* If you use Piwik to track dozens/hundreds of websites, please let the team know at hello@piwik.org
+	  it makes us happy to learn successful user stories :)
+	* Enjoy!
+";
+    }
+
     // the url can be set here before the init, and it will be used instead of --url=
     static public $url = false;
 
@@ -166,6 +207,11 @@ class CronArchive
                 $shouldArchivePeriods = true;
             }
 
+            $websiteIdIsForced = in_array($idsite, $this->shouldArchiveSpecifiedSites);
+            if($websiteIdIsForced) {
+                $shouldArchivePeriods = true;
+            }
+
             // Test if we should process this website at all
             $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
 
@@ -178,7 +224,9 @@ class CronArchive
             $skipDayArchive = $skipDayArchive && !$websiteIsOldDataInvalidate;
 
             // Also reprocess when day has ended since last run
-            if($dayHasEndedMustReprocess && !$existingArchiveIsValid) {
+            if($dayHasEndedMustReprocess
+                && !$existingArchiveIsValid
+                && !$websiteIdIsForced) {
                 $skipDayArchive = false;
             }
 
@@ -611,8 +659,7 @@ class CronArchive
      */
     private function usage()
     {
-        global $USAGE;
-        echo $USAGE;
+        echo self::getUsage();
     }
 
     /**
