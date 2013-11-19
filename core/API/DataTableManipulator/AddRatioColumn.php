@@ -11,7 +11,6 @@
 namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
-use Piwik\API\Request;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Filter;
@@ -28,7 +27,7 @@ use Piwik\Plugins\API\API;
  */
 class AddRatioColumn extends DataTableManipulator
 {
-    protected $roundPrecision = 2;
+    protected $roundPrecision = 1;
     private $totalValues = array();
 
     /**
@@ -50,7 +49,7 @@ class AddRatioColumn extends DataTableManipulator
     {
         $metricsToCalculate = Metrics::getMetricIdsToProcessRatio();
 
-        $parentTable = $this->getFirstLevelDataTable();
+        $parentTable = $this->getFirstLevelDataTable($dataTable);
 
         if ($parentTable instanceof DataTable\Map) {
             // TODO
@@ -71,8 +70,12 @@ class AddRatioColumn extends DataTableManipulator
         return $dataTable;
     }
 
-    protected function getFirstLevelDataTable()
+    protected function getFirstLevelDataTable($table)
     {
+        if (!array_key_exists('idSubtable', $this->request)) {
+            return $table;
+        }
+
         $reportMetadata = API::getInstance()->getReportMetadata();
 
         $firstLevelReport = array();
@@ -128,11 +131,12 @@ class AddRatioColumn extends DataTableManipulator
             return;
         }
 
-        $mappingIdToName  = Metrics::$mappingFromIdToName;
-        $columnIdReadable = $mappingIdToName[$columnIdRaw];
-        $relativeValue    = $this->getPercentage($value, $this->totalValues[$columnIdRaw]);
+        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
 
-        $row->addColumn($columnIdReadable . '_ratio_report', $relativeValue);
+        $relativeValue    = $this->getPercentage($value, $this->totalValues[$columnIdRaw]);
+        $ratioMetric      = Metrics::makeReportRatioMetricName($columnIdReadable);
+
+        $row->addColumn($ratioMetric, $relativeValue);
     }
 
     private function getPercentage($value, $totalValue)
@@ -150,16 +154,11 @@ class AddRatioColumn extends DataTableManipulator
      *
      * @param Row|array $row
      * @param int $columnIdRaw see consts in Archive::
-     * @param bool|array $mappingIdToName
      * @return mixed  Value of column, false if not found
      */
-    protected function getColumn($row, $columnIdRaw, $mappingIdToName = false)
+    protected function getColumn($row, $columnIdRaw)
     {
-        if (empty($mappingIdToName)) {
-            $mappingIdToName = Metrics::$mappingFromIdToName;
-        }
-
-        $columnIdReadable = $mappingIdToName[$columnIdRaw];
+        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
 
         if ($row instanceof Row) {
             $raw = $row->getColumn($columnIdRaw);

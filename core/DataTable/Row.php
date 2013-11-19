@@ -457,7 +457,7 @@ class Row
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
         foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
-            if (!isset(self::$unsummableColumns[$columnToSumName])) // make sure we can add this column
+            if (!isset(self::$unsummableColumns[$columnToSumName]) && false === strpos($columnToSumName, '_ratio')) // make sure we can add this column
             {
                 $thisColumnValue = $this->getColumn($columnToSumName);
 

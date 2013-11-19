@@ -301,15 +301,15 @@ class ResponseBuilder
         }
 
         // if the flag disable_generic_filters is defined we skip the generic filters
-        if (1 == Common::getRequestVar('ratio', '1', 'integer', $this->request)) {
-            $genericFilter = new AddRatioColumn($this->apiModule, $this->apiMethod, $this->request);
-            $datatable = $genericFilter->addColumns($datatable);
-        }
-
-        // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $genericFilter = new DataTableGenericFilter($this->request);
             $genericFilter->filter($datatable);
+        }
+
+        // if the flag disable_generic_filters is defined we skip the generic filters
+        if (1 == Common::getRequestVar('ratio', '1', 'integer', $this->request)) {
+            $genericFilter = new AddRatioColumn($this->apiModule, $this->apiMethod, $this->request);
+            $datatable = $genericFilter->addColumns($datatable);
         }
 
         // we automatically safe decode all datatable labels (against xss)
