@@ -717,7 +717,7 @@ Notes:
         } catch (Exception $e) {
             echo "ERROR: During Piwik init, Message: " . $e->getMessage();
             //echo $e->getTraceAsString();
-            exit;
+            exit(1);
         }
     }
 
