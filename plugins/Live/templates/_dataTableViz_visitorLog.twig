@@ -79,6 +79,8 @@
                 <span title="{% if visitor.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.getColumn('visitorId') }}{% endif -%}
                 {%- if visitor.getColumn('latitude') or visitor.getColumn('longitude') %}
 
+{{ visitor.getColumn('location') }}
+
 GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longitude') }}{% endif %}">
                     IP: {{ visitor.getColumn('visitIp') }}</span>{% endif %}
 
