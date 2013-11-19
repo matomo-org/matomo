@@ -188,7 +188,7 @@ class AddRatioColumn extends DataTableManipulator
             $request['period'] = 'range';
         }
 
-        $parametersToRemove = array('flat', '');
+        $parametersToRemove = array('flat', 'idSubtable');
 
         foreach ($parametersToRemove as $param) {
             if (array_key_exists($param, $request)) {
