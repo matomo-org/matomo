@@ -56,8 +56,7 @@ Notes:
 	* This script should be executed every hour via crontab, or as a deamon.
 	* You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
 	  but it is recommended to run it via command line/CLI instead.
-	* If you use Piwik to track dozens/hundreds of websites, please let the team know at hello@piwik.org
-	  it makes us happy to learn successful user stories :)
+	* If you have any suggestion about this script, please let the team know at hello@piwik.org
 	* Enjoy!
 ";
     }
