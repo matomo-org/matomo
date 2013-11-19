@@ -11,9 +11,11 @@
 namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
+use Piwik\API\Request;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Filter;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Metrics;
 use Piwik\Plugins\API\API;
@@ -49,6 +51,10 @@ class AddRatioColumn extends DataTableManipulator
         $metricsToCalculate = Metrics::getMetricIdsToProcessRatio();
 
         $parentTable = $this->getFirstLevelDataTable();
+
+        if ($parentTable instanceof DataTable\Map) {
+            // TODO
+        }
 
         foreach ($parentTable->getRows() as $row) {
             foreach ($metricsToCalculate as $metricId) {
@@ -174,8 +180,13 @@ class AddRatioColumn extends DataTableManipulator
     protected function manipulateSubtableRequest(&$request)
     {
         $request['ratio']         = 0;
+        $request['expanded']      = 0;
         $request['filter_limit']  = -1;
         $request['filter_offset'] = 0;
+
+        if (Range::parseDateRange($request['date'])) {
+            $request['period'] = 'range';
+        }
 
         $parametersToRemove = array('flat', '');
 

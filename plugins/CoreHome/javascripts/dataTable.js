@@ -277,6 +277,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 		self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
+        self.handleColumnHighlighting(domElem);
     },
 
     handleLimit: function (domElem) {
@@ -1145,7 +1146,25 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $("tr:even td", domElem).slice(1).addClass('column columneven');
 
         $('td span.label', domElem).each(function () { self.truncate($(this)); });
+    },
 
+    handleColumnHighlighting: function (domElem) {
+
+        // higlight all columns on hover
+        $('td', domElem).hover(
+            function() {
+                var table    = $(this).closest('table');
+                var nthChild = $(this).parent('tr').children().index($(this));
+                var rows     = $('tr', table);
+                rows.find("td:nth-child(" + (nthChild + 1) + ")").addClass('highlight');
+            },
+            function() {
+                var table    = $(this).closest('table');
+                var nthChild = $(this).parent('tr').children().index($(this));
+                var rows     = $('tr', table);
+                rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
+            }
+        );
     },
 
     //behaviour for 'nested DataTable' (DataTable loaded on a click on a row)

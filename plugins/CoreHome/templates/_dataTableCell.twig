@@ -20,4 +20,10 @@
     </a>
 {% endif %}
 {% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
+
+{% if row.getColumn([column, '_ratio_report']|join)  %}
+    <span class="ratio">
+    {{ row.getColumn([column, '_ratio_report']|join) }}
+    </span>
+{% endif %}
 {% endspaceless %}
