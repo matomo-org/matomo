@@ -118,7 +118,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth(),
-                      '--recorders'                 => '4',
+                      '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '2');
 
         self::executeLogImporter($logFile, $opts);
@@ -134,7 +134,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
         $opts = array('--add-sites-new-hosts'       => false,
                       '--token-auth'                => self::getTokenAuth(),
-                      '--recorders'                 => '4',
+                      '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1');
 
         self::executeLogImporter($logFile, $opts);
@@ -150,7 +150,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth(),
-                      '--recorders'                 => '4',
+                      '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '2',
                       '--enable-static'             => false,
                       '--enable-bots'               => false,
@@ -171,7 +171,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
 
         $opts = array('--token-auth'                => self::getTokenAuth(),
-                      '--recorders'                 => '4',
+                      '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '2',
                       '--replay-tracking'           => false);
 
