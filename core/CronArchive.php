@@ -234,8 +234,11 @@ Notes:
 
             // Also reprocess when day has ended since last run
             if($dayHasEndedMustReprocess
-                && !$existingArchiveIsValid
-                && !$websiteIdIsForced) {
+                && !$existingArchiveIsValid) {
+                $skipDayArchive = false;
+            }
+
+            if($websiteIdIsForced) {
                 $skipDayArchive = false;
             }
 
