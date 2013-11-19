@@ -16,13 +16,13 @@ use Piwik\Plugins\SitesManager\API;
 class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
-    
+
     public static function createAccessInstance()
     {
         Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
         \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
-    
+
     public function getApiForTesting()
     {
         $results = array();
@@ -30,14 +30,9 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         // First, API calls for Segmented reports
 
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
-
-            $idSites = array();
             if($segmentName =='segmentOnlySuperuser') {
+                // Live detail should match no visitor
                 $idSites = array(self::$fixture->idSite2);
-            } elseif($segmentName == 'segmentOnlyOneSite') {
-                $idSites = array(self::$fixture->idSite);
-            }
-            if(!empty($idSites)) {
                 foreach($idSites as $idSite) {
                     $results[] = array('Live.getLastVisitsDetails', array('idSite'     => $idSite,
                                                                           'date'       => '2012-08-09',
@@ -47,6 +42,8 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                     ));
                 }
             }
+
+
             $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                           'date'       => '2012-08-09',
                                                           'periods'    => array('day', 'week', 'month', 'year'),
@@ -54,11 +51,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                                                           'testSuffix' => '_' . $segmentName));
 
 
-
-
         }
-        file_put_contents('/tmp/logaction2', var_export( \Piwik\Db::get()->fetchAll("SELECT * FROM " . \Piwik\Common::prefixTable("log_action")), true ));
-
 
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
@@ -74,7 +67,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 
         return $results;
     }
-    
+
     public function getArchivePhpCronOptionsToTest()
     {
         return array(
@@ -86,7 +79,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             array('forceAllPeriods_allTime', array('--force-all-periods' => false)),*/
         );
     }
-    
+
     /**
      * @dataProvider getArchivePhpCronOptionsToTest
      * @group        Integration
@@ -99,29 +92,29 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 
         foreach ($this->getApiForTesting() as $testInfo) {
             list($api, $params) = $testInfo;
-            
+
             if (!isset($params['testSuffix'])) {
                 $params['testSuffix'] = '';
             }
             $params['testSuffix'] .= '_' . $optionGroupName;
             $params['disableArchiving'] = true;
-            
+
             // only do day for the last 3 option groups
             if ($optionGroupName != 'noOptions') {
                 $params['periods'] = array('day');
             }
-            
+
             $this->runApiTests($api, $params);
         }
     }
-    
+
     private function setLastRunArchiveOptions()
     {
         $periodTypes = array('day', 'periods');
         $idSites = API::getInstance()->getAllSitesId();
-        
+
         $time = Date::factory(self::$fixture->dateTime)->subDay(1)->getTimestamp();
-        
+
         foreach ($periodTypes as $period) {
             foreach ($idSites as $idSite) {
                 // lastRunKey() function inlined
@@ -130,12 +123,12 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             }
         }
     }
-    
+
     private function runArchivePhpCron($options)
     {
         $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
         $urlToProxy = Test_Piwik_BaseFixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
-        
+
         // create the command
         $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" ";
         foreach ($options as $name => $value) {
@@ -146,7 +139,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             $cmd .= ' ';
         }
         $cmd .= '2>&1';
-        
+
         // run the command
         exec($cmd, $output, $result);
         if ($result !== 0) {
