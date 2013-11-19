@@ -64,7 +64,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                                             'idSite'          => false,
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
-            'segmentOnlySuperuser' => array('definition'      => 'customVariablePageName1=='.urlencode('HTTP-code'),
+            'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),
                                             'idSite'          => false,
                                             'autoArchive'     => true,
                                             'enabledAllUsers' => false),
