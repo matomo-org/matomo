@@ -30,9 +30,14 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         // First, API calls for Segmented reports
 
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
+
+            $idSites = array();
             if($segmentName =='segmentOnlySuperuser') {
-                // Live detail should match no visitor
                 $idSites = array(self::$fixture->idSite2);
+            } elseif($segmentName == 'segmentOnlyOneSite') {
+                $idSites = array(self::$fixture->idSite);
+            }
+            if(!empty($idSites)) {
                 foreach($idSites as $idSite) {
                     $results[] = array('Live.getLastVisitsDetails', array('idSite'     => $idSite,
                                                                           'date'       => '2012-08-09',
@@ -42,8 +47,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                     ));
                 }
             }
-
-
             $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                           'date'       => '2012-08-09',
                                                           'periods'    => array('day', 'week', 'month', 'year'),
@@ -51,8 +54,12 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                                                           'testSuffix' => '_' . $segmentName));
 
 
+
+
         }
-        
+        file_put_contents('/tmp/logaction2', var_export( \Piwik\Db::get()->fetchAll("SELECT * FROM " . \Piwik\Common::prefixTable("log_action")), true ));
+
+
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
                                                       'periods'    => array('day', 'week', 'month', 'year'),

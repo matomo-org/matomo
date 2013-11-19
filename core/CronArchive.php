@@ -32,7 +32,7 @@ Arguments:
 			For example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/
 	--force-all-websites
 			If specified, the script will trigger archiving on all websites and all past dates.
-			You may use --force-all-periods=[seconds] to only trigger archiving on those websites that had visits in the last [seconds] seconds.
+			You may use --force-all-periods=[seconds] to trigger archiving on those websites that had visits in the last [seconds] seconds.
 	--force-all-periods[=seconds]
 			Limits archiving to websites with some traffic in the last [seconds] seconds.
 			For example --force-all-periods=86400 will archive websites that had visits in the last 24 hours.

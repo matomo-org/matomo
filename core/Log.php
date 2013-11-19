@@ -556,7 +556,7 @@ class Log extends Singleton
             if (isset($tracepoint['class'])
                 && $tracepoint['class'] != "Piwik\\Log"
                 && $tracepoint['class'] != "Piwik\\Piwik"
-                && $tracepoint['class'] != "CronArchive"
+                && $tracepoint['class'] != "Piwik\\CronArchive"
             ) {
                 return $tracepoint['class'];
             }
