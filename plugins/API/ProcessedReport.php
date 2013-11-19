@@ -118,6 +118,10 @@ class ProcessedReport
                 $availableReport['processedMetrics'] = Metrics::getDefaultProcessedMetrics();
             }
 
+            if (!isset($availableReport['ratioMetrics'])) {
+                $availableReport['ratioMetrics'] = Metrics::getDefaultRatioMetrics();
+            }
+
             if ($hideMetricsDoc) // remove metric documentation if it's not wanted
             {
                 unset($availableReport['metricsDocumentation']);
@@ -154,7 +158,7 @@ class ProcessedReport
         // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
         $this->addApiGetMetdata($availableReports);
 
-        $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
+        $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics(), Metrics::getDefaultRatioMetrics());
         foreach ($availableReports as &$availableReport) {
             // Ensure all metrics have a translation
             $metrics = $availableReport['metrics'];
@@ -176,6 +180,9 @@ class ProcessedReport
             $availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
             if (isset($availableReport['processedMetrics'])) {
                 $availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
+            }
+            if (isset($availableReport['ratioMetrics'])) {
+                $availableReport['ratioMetrics'] = $this->hideShowMetrics($availableReport['ratioMetrics']);
             }
             if (isset($availableReport['metricsDocumentation'])) {
                 $availableReport['metricsDocumentation'] =
@@ -375,6 +382,21 @@ class ProcessedReport
                 array('label' => $reportMetadata['dimension']),
                 $columns
             );
+
+            if (isset($reportMetadata['ratioMetrics'])) {
+                $ratioMetricDocs = Metrics::getDefaultRatioMetricsDocumentation();
+
+                // we automatically detect which ratio metrics should be added
+                foreach ($reportMetadata['ratioMetrics'] as $ratioMetricId => $ratioMetricTranslation) {
+                    if (array_filter($dataTable->getColumn($ratioMetricId))) {
+                        $columns[$ratioMetricId] = $ratioMetricTranslation;
+
+                        if (array_key_exists('metricsDocumentation', $reportMetadata)) {
+                             $reportMetadata['metricsDocumentation'][$ratioMetricId] = $ratioMetricDocs[$ratioMetricId];
+                        }
+                    }
+                }
+            }
 
             if (isset($reportMetadata['processedMetrics'])) {
                 $processedMetricsAdded = Metrics::getDefaultProcessedMetrics();

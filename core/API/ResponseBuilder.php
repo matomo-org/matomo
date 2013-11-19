@@ -11,6 +11,7 @@
 namespace Piwik\API;
 
 use Exception;
+use Piwik\API\DataTableManipulator\AddRatioColumn;
 use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\Common;
@@ -297,6 +298,12 @@ class ResponseBuilder
                 $flattener->includeAggregateRows();
             }
             $datatable = $flattener->flatten($datatable);
+        }
+
+        // if the flag disable_generic_filters is defined we skip the generic filters
+        if (1 == Common::getRequestVar('ratio', '1', 'integer', $this->request)) {
+            $genericFilter = new AddRatioColumn($this->apiModule, $this->apiMethod, $this->request);
+            $datatable = $genericFilter->addColumns($datatable);
         }
 
         // if the flag disable_generic_filters is defined we skip the generic filters

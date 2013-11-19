@@ -286,6 +286,44 @@ class Metrics
         return array_map(array('\\Piwik\\Piwik','translate'), $translations);
     }
 
+    static public function getMetricIdsToProcessRatio()
+    {
+        return array(
+            Metrics::INDEX_NB_VISITS,
+            Metrics::INDEX_NB_UNIQ_VISITORS,
+            Metrics::INDEX_NB_ACTIONS,
+            Metrics::INDEX_PAGE_NB_HITS,
+            Metrics::INDEX_NB_VISITS_CONVERTED,
+            Metrics::INDEX_NB_CONVERSIONS
+        );
+    }
+
+    static public function getDefaultRatioMetrics()
+    {
+        $translations = array(
+            'nb_visits_ratio_report'        => 'General_ColumnNbVisitsRatio',
+            'nb_uniq_visitors_ratio_report' => 'General_ColumnNbUniqVisitorsRatio',
+            'nb_actions_ratio_report'       => 'General_ColumnNbActionsRatio',
+            'nb_hits_ratio_report'          => 'General_ColumnNbHitsRatio',
+            'nb_visits_converted_ratio_report' => 'General_ColumnNbVisitsConvertedRatio'
+        );
+
+        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
+    }
+
+    static public function getDefaultRatioMetricsDocumentation()
+    {
+        $translations = array(
+            'nb_visits_ratio_report'        => 'General_ColumnNbVisitsRatioDocumentation',
+            'nb_uniq_visitors_ratio_report' => 'General_ColumnNbUniqVisitorsRatioDocumentation',
+            'nb_actions_ratio_report'       => 'General_ColumnNbActionsRatioDocumentation',
+            'nb_hits_ratio_report'          => 'General_ColumnNbHitsRatioDocumentation',
+            'nb_visits_converted_ratio_report' => 'General_ColumnNbConversionRatioDocumentation'
+        );
+
+        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
+    }
+
     static public function getDefaultMetricsDocumentation()
     {
         $documentation = array(
