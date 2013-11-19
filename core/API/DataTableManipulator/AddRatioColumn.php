@@ -29,6 +29,7 @@ class AddRatioColumn extends DataTableManipulator
 {
     protected $roundPrecision = 1;
     private $totalValues = array();
+    private static $reportMetadata = array();
 
     /**
      * @param  DataTable $table
@@ -47,6 +48,12 @@ class AddRatioColumn extends DataTableManipulator
      */
     protected function manipulateDataTable($dataTable)
     {
+        $report = $this->getCurrentReport();
+
+        if (!empty($report) && empty($report['dimension'])) {
+            return $dataTable;
+        }
+
         $metricsToCalculate = Metrics::getMetricIdsToProcessRatio();
 
         $parentTable = $this->getFirstLevelDataTable($dataTable);
@@ -70,16 +77,27 @@ class AddRatioColumn extends DataTableManipulator
         return $dataTable;
     }
 
+    protected function getCurrentReport()
+    {
+        foreach ($this->getReportMetadata() as $report) {
+            if (!empty($report['actionToLoadSubTables'])
+                && $this->apiMethod == $report['action']
+                && $this->apiModule == $report['module']) {
+
+                return $report;
+            }
+        }
+
+    }
+
     protected function getFirstLevelDataTable($table)
     {
         if (!array_key_exists('idSubtable', $this->request)) {
             return $table;
         }
 
-        $reportMetadata = API::getInstance()->getReportMetadata();
-
         $firstLevelReport = array();
-        foreach ($reportMetadata as $report) {
+        foreach ($this->getReportMetadata() as $report) {
             if (!empty($report['actionToLoadSubTables'])
                 && $this->apiMethod == $report['actionToLoadSubTables']
                 && $this->apiModule == $report['module']) {
@@ -194,5 +212,16 @@ class AddRatioColumn extends DataTableManipulator
                 unset($request[$param]);
             }
         }
+    }
+
+    private function getReportMetadata()
+    {
+        if (!empty(static::$reportMetadata)) {
+            return static::$reportMetadata;
+        }
+
+        static::$reportMetadata = API::getInstance()->getReportMetadata();
+
+        return static::$reportMetadata;
     }
 }
