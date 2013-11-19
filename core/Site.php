@@ -41,7 +41,7 @@ class Site
     /**
      * @var array
      */
-    public static $infoSites = array();
+    protected static $infoSites = array();
 
     /**
      * Constructor.
@@ -52,7 +52,8 @@ class Site
     {
         $this->id = (int)$idsite;
         if (!isset(self::$infoSites[$this->id])) {
-            self::$infoSites[$this->id] = API::getInstance()->getSiteFromId($this->id);
+            $site = API::getInstance()->getSiteFromId($this->id);
+            self::setSite($this->id, $site);
         }
     }
 
@@ -68,7 +69,9 @@ class Site
      */
     public static function setSites($sites)
     {
-        self::$infoSites = $sites;
+        foreach($sites as $idsite => $site) {
+            self::setSite($idsite, $site);
+        }
     }
 
     /**
@@ -328,6 +331,16 @@ class Site
         }
 
         return self::$infoSites[$idsite][$field];
+    }
+
+    /**
+     * Returns all websites pre-cached
+     *
+     * @ignore
+     */
+    static public function getSites()
+    {
+        return self::$infoSites;
     }
 
     /**

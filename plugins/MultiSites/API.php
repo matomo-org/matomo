@@ -178,10 +178,7 @@ class API extends \Piwik\Plugin\API
                     APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin)
                 );
             }
-        }
-
-        if ($allWebsitesRequested) {
-            $sitesToProblablyAdd = Site::$infoSites;
+            $sitesToProblablyAdd = Site::getSites();
         } else {
             $sitesToProblablyAdd = array(APISitesManager::getInstance()->getSiteFromId($idSitesOrIdSite));
         }

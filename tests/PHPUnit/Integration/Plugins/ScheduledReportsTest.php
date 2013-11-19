@@ -354,10 +354,10 @@ class Plugins_ScheduledReportsTest extends DatabaseTestCase
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
-        Site::$infoSites = array(
+        Site::setSites( array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
-        );
+        ));
 
         // expected tasks
         $scheduleTask1 = ScheduledTime::factory('daily');
