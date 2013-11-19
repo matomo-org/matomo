@@ -12,7 +12,9 @@ use Piwik\Error;
 use Piwik\ExceptionHandler;
 use Piwik\FrontController;
 
-define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
+if(!defined('PIWIK_DOCUMENT_ROOT')) {
+    define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
+}
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
