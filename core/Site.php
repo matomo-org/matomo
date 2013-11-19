@@ -96,11 +96,9 @@ class Site
      */
     public static function setSitesFromArray($sites)
     {
-        $sitesById = array();
         foreach ($sites as $site) {
-            $sitesById[$site['idsite']] = $site;
+            self::setSite($site['idsite'], $site);
         }
-        self::setSites($sitesById);
     }
 
 

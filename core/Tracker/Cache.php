@@ -48,7 +48,13 @@ class Cache
      */
     static function getCacheWebsiteAttributes($idSite)
     {
+        if($idSite == 'all') {
+            return array();
+        }
         $idSite = (int)$idSite;
+        if($idSite <= 0) {
+            return array();
+        }
 
         $cache = self::getInstance();
         if (($cacheContent = $cache->get($idSite)) !== false) {
