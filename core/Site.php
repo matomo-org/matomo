@@ -75,12 +75,33 @@ class Site
     }
 
     /**
-     * @param $idsite
-     * @param $site
+     * Sets a site information in memory (statically cached).
+     *
+     * Plugins can filter the website attributes before it is cached, eg. to change the website name,
+     * creation date, etc.
+     *
+     * @param $idSite
+     * @param $infoSite
+     * @throws Exception if website or idsite is invalid
      */
-    protected static function setSite($idsite, $site)
+    protected static function setSite($idSite, $infoSite)
     {
-        self::$infoSites[$idsite] = $site;
+        if(empty($idSite) || empty($infoSite)) {
+            throw new Exception("Un unexpected website was found.");
+        }
+
+
+        /**
+         * Piwik core APIs and plugins use the Site object to get information about websites.
+         * This event is called just before a Website information is stored in the memory cache.
+         * It can be used to modify the data for a website, such as decorate its name or change its created datetime.
+         *
+         * @param $idSite int Website ID
+         * @param $infoSite array Website information array
+         */
+        Piwik::postEvent('Site.setSite', array($idSite, &$infoSite));
+
+        self::$infoSites[$idSite] = $infoSite;
     }
 
     /**
@@ -99,6 +120,39 @@ class Site
         foreach ($sites as $site) {
             self::setSite($site['idsite'], $site);
         }
+    }
+
+    /**
+     * The Multisites reports displays the first calendar date as the earliest day available for all websites.
+     * Also, today is the later "today" available across all timezones.
+     * @param array $siteIds Array of IDs for each site being displayed.
+     * @return Date[] of two Date instances. First is the min-date & the second
+     *               is the max date.
+     */
+    public static function getMinMaxDateAcrossWebsites($siteIds)
+    {
+        $siteIds = self::getIdSitesFromIdSitesString($siteIds);
+        $now = Date::now();
+
+        $minDate = null;
+        $maxDate = $now->subDay(1)->getTimestamp();
+        foreach ($siteIds as $idsite) {
+            // look for 'now' in the website's timezone
+            $timezone = Site::getTimezoneFor($idsite);
+            $date = Date::adjustForTimezone($now->getTimestamp(), $timezone);
+            if ($date > $maxDate) {
+                $maxDate = $date;
+            }
+
+            // look for the absolute minimum date
+            $creationDate = Site::getCreationDateFor($idsite);
+            $date = Date::adjustForTimezone(strtotime($creationDate), $timezone);
+            if (is_null($minDate) || $date < $minDate) {
+                $minDate = $date;
+            }
+        }
+
+        return array(Date::factory($minDate), Date::factory($maxDate));
     }
 
 
