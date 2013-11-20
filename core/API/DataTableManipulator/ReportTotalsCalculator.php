@@ -21,27 +21,26 @@ use Piwik\Metrics;
 use Piwik\Plugins\API\API;
 
 /**
- * This class is responsible for adding ratio columns.
+ * This class is responsible for setting the metadata property 'totals' on each dataTable if the report
+ * has a dimension. 'Totals' means it tries to calculate the total report value for each metric. For each
+ * the total number of visits, actions, ... for a given report / dataTable.
  *
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Totals extends DataTableManipulator
+class ReportTotalsCalculator extends DataTableManipulator
 {
-    protected $roundPrecision = 1;
-
     /**
-     * Array [readableMetric] => [summed value]
+     * Cached report metadata array.
      * @var array
      */
-    private $totalValues = array();
     private static $reportMetadata = array();
 
     /**
      * @param  DataTable $table
      * @return \Piwik\DataTable|\Piwik\DataTable\Map
      */
-    public function generate($table)
+    public function calculate($table)
     {
         return $this->manipulate($table);
     }
@@ -54,33 +53,35 @@ class Totals extends DataTableManipulator
      */
     protected function manipulateDataTable($dataTable)
     {
-        $report = $this->getCurrentReport();
+        $report = $this->findCurrentReport();
 
         if (!empty($report) && empty($report['dimension'])) {
+            // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
         }
 
-        $this->totalValues = array();
+        // Array [readableMetric] => [summed value]
+        $totalValues = array();
 
+        $firstLevelTable    = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
         $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
-        $parentTable        = $this->getFirstLevelDataTable($dataTable);
 
         foreach ($metricsToCalculate as $metricId) {
-            if (!$this->hasDataTableMetric($parentTable, $metricId)) {
+            if (!$this->hasDataTableMetric($firstLevelTable, $metricId)) {
                 continue;
             }
 
-            foreach ($parentTable->getRows() as $row) {
-                $this->addColumnValueToTotal($row, $metricId);
+            foreach ($firstLevelTable->getRows() as $row) {
+                $totalValues = $this->sumColumnValueToTotal($row, $metricId, $totalValues);
             }
         }
 
-        $dataTable->setMetadata('totals', $this->totalValues);
+        $dataTable->setMetadata('totals', $totalValues);
 
         return $dataTable;
     }
 
-    protected function hasDataTableMetric(DataTable $dataTable, $metricId)
+    private function hasDataTableMetric(DataTable $dataTable, $metricId)
     {
         $firstRow = $dataTable->getFirstRow();
 
@@ -95,7 +96,7 @@ class Totals extends DataTableManipulator
         return true;
     }
 
-    protected function getColumn($row, $columnIdRaw)
+    private function getColumn($row, $columnIdRaw)
     {
         $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
 
@@ -111,35 +112,13 @@ class Totals extends DataTableManipulator
         return false;
     }
 
-    protected function getCurrentReport()
-    {
-        foreach ($this->getReportMetadata() as $report) {
-            if (!empty($report['actionToLoadSubTables'])
-                && $this->apiMethod == $report['action']
-                && $this->apiModule == $report['module']) {
-
-                return $report;
-            }
-        }
-
-    }
-
-    protected function getFirstLevelDataTable($table)
+    private function makeSureToWorkOnFirstLevelDataTable($table)
     {
         if (!array_key_exists('idSubtable', $this->request)) {
             return $table;
         }
 
-        $firstLevelReport = array();
-        foreach ($this->getReportMetadata() as $report) {
-            if (!empty($report['actionToLoadSubTables'])
-                && $this->apiMethod == $report['actionToLoadSubTables']
-                && $this->apiModule == $report['module']) {
-
-                $firstLevelReport = $report;
-                break;
-            }
-        }
+        $firstLevelReport = $this->findFirstLevelReport();
 
         if (empty($firstLevelReport)) {
             // it is not a subtable report
@@ -168,22 +147,24 @@ class Totals extends DataTableManipulator
         return $this->callApiAndReturnDataTable($module, $action, $request);
     }
 
-    private function addColumnValueToTotal(Row $row, $metricId)
+    private function sumColumnValueToTotal(Row $row, $metricId, $totalValues)
     {
         $value = $this->getColumn($row, $metricId);
 
         if (false === $value) {
 
-            return;
+            return $totalValues;
         }
 
         $metricName = Metrics::getReadableColumnName($metricId);
 
-        if (array_key_exists($metricName, $this->totalValues)) {
-            $this->totalValues[$metricName] += $value;
+        if (array_key_exists($metricName, $totalValues)) {
+            $totalValues[$metricName] += $value;
         } else {
-            $this->totalValues[$metricName] = $value;
+            $totalValues[$metricName] = $value;
         }
+
+        return $totalValues;
     }
 
     /**
@@ -216,5 +197,33 @@ class Totals extends DataTableManipulator
         static::$reportMetadata = API::getInstance()->getReportMetadata();
 
         return static::$reportMetadata;
+    }
+
+    private function findCurrentReport()
+    {
+        foreach ($this->getReportMetadata() as $report) {
+            if ($this->apiMethod == $report['action']
+                && $this->apiModule == $report['module']) {
+
+                return $report;
+            }
+        }
+
+    }
+
+    private function findFirstLevelReport()
+    {
+        $firstLevelReport = array();
+        foreach ($this->getReportMetadata() as $report) {
+            if (!empty($report['actionToLoadSubTables'])
+                && $this->apiMethod == $report['actionToLoadSubTables']
+                && $this->apiModule == $report['module']
+            ) {
+
+                $firstLevelReport = $report;
+                break;
+            }
+        }
+        return $firstLevelReport;
     }
 }
