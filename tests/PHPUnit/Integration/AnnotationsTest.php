@@ -298,9 +298,6 @@ class AnnotationsTest extends IntegrationTestCase
         FakeAccess::$idSitesView = $hasViewAccess ? array(self::$fixture->idSite1) : array();
         Access::setSingletonInstance($access);
 
-        // to make sure exception are thrown
-        $request .= '&format=original';
-
         if ($checkException) {
             try {
                 $request = new Request($request);
