@@ -91,7 +91,7 @@ class Goals extends \Piwik\Plugin
         $hooks = array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Site.getSiteAttributes'                 => 'fetchGoalsFromDb',
+            'Tracker.Cache.getSiteAttributes'        => 'fetchGoalsFromDb',
             'API.getReportMetadata.end'              => 'getReportMetadata',
             'API.getSegmentsMetadata'                => 'getSegmentsMetadata',
             'WidgetsList.addWidgets'                 => 'addWidgets',
