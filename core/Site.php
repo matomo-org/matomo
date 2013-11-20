@@ -379,12 +379,11 @@ class Site
      * Utility function. Returns the value of the specified field for the
      * site with the specified ID.
      *
-     * @param int|string $idsite The ID of the site whose data is being
-     *                             accessed.
-     * @param string $field The name of the field to get.
-     * @return mixed
+     * @param int $idsite The ID of the site whose data is being accessed.
+     * @param bool|string $field The name of the field to get.
+     * @return array|string
      */
-    static protected function getFor($idsite, $field)
+    static protected function getFor($idsite, $field = false)
     {
         $idsite = (int)$idsite;
 
@@ -392,8 +391,10 @@ class Site
             $site = API::getInstance()->getSiteFromId($idsite);
             self::setSite($idsite, $site);
         }
-
-        return self::$infoSites[$idsite][$field];
+        if($field) {
+            return self::$infoSites[$idsite][$field];
+        }
+        return self::$infoSites[$idsite];
     }
 
     /**
@@ -404,6 +405,11 @@ class Site
     static public function getSites()
     {
         return self::$infoSites;
+    }
+
+    static public function getSite($id)
+    {
+        return self::getFor($id);
     }
 
     /**

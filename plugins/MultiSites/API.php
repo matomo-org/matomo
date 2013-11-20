@@ -170,13 +170,9 @@ class API extends \Piwik\Plugin\API
                 // Instead, we make sure that only the right set of data is returned
                 && !TaskScheduler::isTaskBeingExecuted()
             ) {
-                Site::setSites(
-                    APISitesManager::getInstance()->getAllSites()
-                );
+                $sites = APISitesManager::getInstance()->getAllSites();
             } else {
-                Site::setSitesFromArray(
-                    APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin)
-                );
+                $sites = APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
             $sitesToProblablyAdd = Site::getSites();
         } else {

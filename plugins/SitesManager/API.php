@@ -101,6 +101,8 @@ class API extends \Piwik\Plugin\API
         $sites = Db::get()->fetchAll("SELECT *
     									FROM " . Common::prefixTable("site") . "
     								   WHERE `group` = ?", $group);
+
+        Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -135,6 +137,8 @@ class API extends \Piwik\Plugin\API
         $site = Db::get()->fetchRow("SELECT *
     								FROM " . Common::prefixTable("site") . "
     								WHERE idsite = ?", $idSite);
+
+        Site::setSitesFromArray(array($site));
         return $site;
     }
 
@@ -202,6 +206,7 @@ class API extends \Piwik\Plugin\API
         foreach ($sites as $site) {
             $return[$site['idsite']] = $site;
         }
+        Site::setSitesFromArray($return);
         return $return;
     }
 
@@ -372,6 +377,8 @@ class API extends \Piwik\Plugin\API
 								FROM " . Common::prefixTable("site") . "
 								WHERE idsite IN (" . implode(", ", $idSites) . ")
 								ORDER BY idsite ASC $limit");
+
+        Site::setSitesFromArray($sites);
         return $sites;
     }
 

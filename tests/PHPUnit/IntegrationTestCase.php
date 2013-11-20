@@ -825,6 +825,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     protected function checkRequestResponse($response)
     {
+        if(!is_string($response)) {
+            $response = json_encode($response);
+        }
         $this->assertTrue(stripos($response, 'error') === false);
         $this->assertTrue(stripos($response, 'exception') === false);
     }

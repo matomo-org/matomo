@@ -36,13 +36,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view = new View('@SitesManager/index');
 
+        Site::clearCache();
         if (Piwik::isUserIsSuperUser()) {
-            $sites = API::getInstance()->getAllSites();
-            Site::setSites($sites);
-            $sites = array_values($sites);
+            $sitesRaw = API::getInstance()->getAllSites();
         } else {
-            $sites = API::getInstance()->getSitesWithAdminAccess();
-            Site::setSitesFromArray($sites);
+            $sitesRaw = API::getInstance()->getSitesWithAdminAccess();
+        }
+        // Gets sites after Site.setSite hook was called
+        $sites = array_values( Site::getSites() );
+        if(count($sites) != count($sitesRaw)) {
+            throw new Exception("One or more website are missing or invalid.");
         }
 
         foreach ($sites as &$site) {
@@ -187,16 +190,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $pattern = str_replace('/', '\\/', $pattern);
             }
             foreach ($sites as $s) {
-                $hl_name = $s['name'];
+                $siteName = Site::getNameFor($s['idsite']);
+                $label = $siteName;
                 if (strlen($pattern) > 0) {
-                    @preg_match_all("/$pattern+/i", $hl_name, $matches);
+                    @preg_match_all("/$pattern+/i", $label, $matches);
                     if (is_array($matches[0]) && count($matches[0]) >= 1) {
                         foreach ($matches[0] as $match) {
-                            $hl_name = str_replace($match, '<span class="autocompleteMatched">' . $match . '</span>', $s['name']);
+                            $label = str_replace($match, '<span class="autocompleteMatched">' . $match . '</span>', $siteName);
                         }
                     }
                 }
-                $results[] = array('label' => $hl_name, 'id' => $s['idsite'], 'name' => $s['name']);
+                $results[] = array('label' => $label, 'id' => $s['idsite'], 'name' => $siteName);
             }
         }
 
