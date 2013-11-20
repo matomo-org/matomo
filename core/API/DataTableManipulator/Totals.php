@@ -150,6 +150,13 @@ class Totals extends DataTableManipulator
         }
 
         $request = $this->request;
+        
+        /** @var \Piwik\Period\Day $period */
+        $period = $table->getMetadata('period');
+        if (!empty($period)) {
+            $request['date']   = $period->toString();
+            $request['period'] = $period->getLabel();
+        }
 
         return $this->callApiAndReturnDataTable($module, $action, $request);
     }
