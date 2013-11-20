@@ -12,6 +12,9 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Plugin\Visualization;
 use Piwik\View;
+use Piwik\Common;
+use Piwik\Period;
+use Piwik\API\Request as ApiRequest;
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
@@ -42,6 +45,16 @@ class HtmlTable extends Visualization
 
             $this->config->show_visualization_only = true;
         }
+
+        // we do not want to get a datatable\map
+        $period = Common::getRequestVar('period', 'day', 'string');
+        if (Period\Range::parseDateRange($period)) {
+            $period = 'range';
+        }
+
+        $request = new ApiRequest(array('method' => 'API.get', 'module' => 'API', 'format' => 'original', 'period' => $period));
+
+        $this->assignTemplateVar('siteSummary', $request->process());
     }
 
 }

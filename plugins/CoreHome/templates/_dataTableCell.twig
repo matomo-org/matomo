@@ -21,7 +21,16 @@
 {% endif %}
 {% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
     {% set totals = dataTable.getMetadata('totals') %}
-{% if column in totals|keys and totals[column] -%}
-    <span class="ratio">&nbsp;{{ row.getColumn(column)|percentage(totals[column], 1) }}</span>
+{% if column in totals|keys -%}
+    {% set rowPercentage = row.getColumn(column)|percentage(totals[column], 1) %}
+    {% set totalValue = siteSummary.getFirstRow.getColumn(column) %}
+
+    {% if totalValue %}
+    {% set totalPercentage = row.getColumn(column)|percentage(totalValue, 1) %}
+    {% set secondPartOfTooltip = ['This is ', totalPercentage, ' of all ', totalValue, ' ', translations[column]|default(column)]|join %}
+    {% else %}
+        {% set secondPartOfTooltip = '' %}
+    {% endif %}
+    <span class="ratio" title="'{{ row.getColumn(columns_to_display|first)|e('html_attr') }}' represents {{ rowPercentage|e('html_attr') }} of {{ totals[column]|e('html_attr') }} with {{ translations[columns_to_display|first]|default(columns_to_display|first)|e('html_attr') }}. {{ secondPartOfTooltip }}">&nbsp;{{ rowPercentage }}</span>
 {%- endif %}
 {% endspaceless %}
