@@ -20,17 +20,23 @@
     </a>
 {% endif %}
 {% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
-    {% set totals = dataTable.getMetadata('totals') %}
-{% if column in totals|keys -%}
-    {% set rowPercentage = row.getColumn(column)|percentage(totals[column], 1) %}
-    {% set totalValue = siteSummary.getFirstRow.getColumn(column) %}
 
-    {% if totalValue %}
-    {% set totalPercentage = row.getColumn(column)|percentage(totalValue, 1) %}
-    {% set secondPartOfTooltip = ['This is ', totalPercentage, ' of all ', totalValue, ' ', translations[column]|default(column)]|join %}
+{% set totals = dataTable.getMetadata('totals') %}
+{% if column in totals|keys -%}
+    {% set labelColumn   = columns_to_display|first %}
+    {% set reportTotal   = totals[column] %}
+    {% set siteTotal     = siteSummary.getFirstRow.getColumn(column) %}
+    {% set rowPercentage = row.getColumn(column)|percentage(reportTotal, 1) %}
+
+    {% set firstPartOfTooltip = ["'", row.getColumn(labelColumn), "' represents ", rowPercentage, ' of ', reportTotal, ' ', translations[column]|default(column), ' with ', translations[labelColumn]|default(labelColumn), '.']|join %}
+
+    {% if siteTotal and siteTotal != reportTotal %}
+        {% set totalPercentage     = row.getColumn(column)|percentage(siteTotal, 1) %}
+        {% set secondPartOfTooltip = ['This is ', totalPercentage, ' of all ', siteTotal, ' ', translations[column]|default(column), '.']|join %}
     {% else %}
         {% set secondPartOfTooltip = '' %}
+
     {% endif %}
-    <span class="ratio" title="'{{ row.getColumn(columns_to_display|first)|e('html_attr') }}' represents {{ rowPercentage|e('html_attr') }} of {{ totals[column]|e('html_attr') }} with {{ translations[columns_to_display|first]|default(columns_to_display|first)|e('html_attr') }}. {{ secondPartOfTooltip }}">&nbsp;{{ rowPercentage }}</span>
+    <span class="ratio" title="{{ firstPartOfTooltip|e('html_attr') }} {{ secondPartOfTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
 {%- endif %}
 {% endspaceless %}
