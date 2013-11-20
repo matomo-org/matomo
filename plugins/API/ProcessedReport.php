@@ -343,7 +343,7 @@ class ProcessedReport
             'columns'        => $columns,
             'reportData'     => $newReport,
             'reportMetadata' => $rowsMetadata,
-            'total'          => $totals
+            'reportTotal'    => $totals
         );
         if ($showTimer) {
             $return['timerMillis'] = $timer->getTimeMs(0);
