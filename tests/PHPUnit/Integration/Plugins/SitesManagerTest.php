@@ -691,15 +691,22 @@ class Plugins_SitesManagerTest extends DatabaseTestCase
 
         // Updating the group to nothing
         $group = '';
-        API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = false, $ss_kwd = '', $ss_cat = null, $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group, $startDate = '2010-01-01');
+        $type = 'mobileAppTest';
+        API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = false, $ss_kwd = '', $ss_cat = null, $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group, $startDate = '2010-01-01', $excludedUserAgent = null, $keepUrlFragment = 1, $type);
         $websites = API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
         $this->assertEquals('2010-01-01', date('Y-m-d', strtotime($websites[0]['ts_created'])));
 
+        // Test setting the website type
+        $this->assertEquals($type, Site::getTypeFor($idsite));
+
+        // Check Alias URLs contain only main url
         $allUrls = API::getInstance()->getSiteUrlsFromId($idsite);
         $this->assertEquals($newMainUrl, $allUrls[0]);
         $aliasUrls = array_slice($allUrls, 1);
         $this->assertEquals(array(), $aliasUrls);
+
+
     }
 
     /**
