@@ -27,16 +27,18 @@
     {% set reportTotal   = totals[column] %}
     {% set siteTotal     = siteSummary.getFirstRow.getColumn(column) %}
     {% set rowPercentage = row.getColumn(column)|percentage(reportTotal, 1) %}
+    {% set metricTitle   = translations[column]|default(column) %}
+    {% set reportLabel   = row.getColumn(labelColumn)|truncate(40) %}
 
-    {% set firstPartOfTooltip = ["'", row.getColumn(labelColumn)|truncate(40), "' represents ", rowPercentage, ' of ', reportTotal, ' ', translations[column]|default(column), ' with ', translations[labelColumn]|default(labelColumn), '.']|join %}
+    {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(reportLabel, rowPercentage, reportTotal, metricTitle, translations[labelColumn]|default(labelColumn)) %}
 
-    {% if siteTotal and siteTotal >= reportTotal %}
-        {% set totalPercentage     = row.getColumn(column)|percentage(siteTotal, 1) %}
-        {% set secondPartOfTooltip = ['This is ', totalPercentage, ' of all ', siteTotal, ' ', translations[column]|default(column), '.']|join %}
+    {% if siteTotal and siteTotal > reportTotal %}
+        {% set totalPercentage   = row.getColumn(column)|percentage(siteTotal, 1) %}
+        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal, metricTitle) %}
     {% else %}
-        {% set secondPartOfTooltip = '' %}
-
+        {% set totalRatioTooltip = '' %}
     {% endif %}
-    <span class="ratio" title="{{ firstPartOfTooltip|e('html_attr') }} {{ secondPartOfTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
+
+    <span class="ratio" title="{{ reportRatioTooltip|e('html_attr') }} {{ totalRatioTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
 {%- endif %}
 {% endspaceless %}
