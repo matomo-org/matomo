@@ -59,18 +59,18 @@ class Totals extends DataTableManipulator
             return $dataTable;
         }
 
-        if (empty($this->totalValues)) {
-            $metricsToCalculate = Metrics::getMetricIdsToProcessRatio();
-            $parentTable        = $this->getFirstLevelDataTable($dataTable);
+        $this->totalValues = array();
 
-            foreach ($metricsToCalculate as $metricId) {
-                if (!$this->hasDataTableMetric($parentTable, $metricId)) {
-                    continue;
-                }
+        $metricsToCalculate = Metrics::getMetricIdsToProcessRatio();
+        $parentTable        = $this->getFirstLevelDataTable($dataTable);
 
-                foreach ($parentTable->getRows() as $row) {
-                    $this->addColumnValueToTotal($row, $metricId);
-                }
+        foreach ($metricsToCalculate as $metricId) {
+            if (!$this->hasDataTableMetric($parentTable, $metricId)) {
+                continue;
+            }
+
+            foreach ($parentTable->getRows() as $row) {
+                $this->addColumnValueToTotal($row, $metricId);
             }
         }
 

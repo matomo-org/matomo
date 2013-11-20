@@ -405,6 +405,7 @@ class ProcessedReport
         }
 
         $columns = $this->hideShowMetrics($columns);
+        $totals  = array();
 
         // $dataTable is an instance of Set when multiple periods requested
         if ($dataTable instanceof DataTable\Map) {
@@ -426,15 +427,26 @@ class ProcessedReport
                 $period = $simpleDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedLongString();
                 $newReport->addTable($enhancedSimpleDataTable, $period);
                 $rowsMetadata->addTable($rowMetadata, $period);
+
+                if ($simpleDataTable->getMetadata('totals')) {
+                    $simpleTotals = $this->hideShowMetrics($simpleDataTable->getMetadata('totals'));
+
+                    foreach ($simpleTotals as $metric => $value) {
+                        if (!array_key_exists($metric, $totals)) {
+                            $totals[$metric] = $value;
+                        } else {
+                            $totals[$metric] += $value;
+                        }
+                    }
+                }
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
             list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
-        }
 
-        $totals = array();
-        if ($dataTable->getMetadata('totals')) {
-            $totals = $this->hideShowMetrics($dataTable->getMetadata('totals'));
+            if ($dataTable->getMetadata('totals')) {
+                $totals = $this->hideShowMetrics($dataTable->getMetadata('totals'));
+            }
         }
 
         return array(
