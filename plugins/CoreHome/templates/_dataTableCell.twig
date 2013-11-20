@@ -30,7 +30,7 @@
 
     {% set firstPartOfTooltip = ["'", row.getColumn(labelColumn)|truncate(40), "' represents ", rowPercentage, ' of ', reportTotal, ' ', translations[column]|default(column), ' with ', translations[labelColumn]|default(labelColumn), '.']|join %}
 
-    {% if siteTotal and siteTotal != reportTotal %}
+    {% if siteTotal and siteTotal >= reportTotal %}
         {% set totalPercentage     = row.getColumn(column)|percentage(siteTotal, 1) %}
         {% set secondPartOfTooltip = ['This is ', totalPercentage, ' of all ', siteTotal, ' ', translations[column]|default(column), '.']|join %}
     {% else %}
