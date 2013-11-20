@@ -15,6 +15,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Filter;
 use Piwik\Period\Range;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Metrics;
 use Piwik\Plugins\API\API;
@@ -125,10 +126,6 @@ class Totals extends DataTableManipulator
 
     protected function getFirstLevelDataTable($table)
     {
-        if (!array_key_exists('idSubtable', $this->request)) {
-            return $table;
-        }
-
         $firstLevelReport = array();
         foreach ($this->getReportMetadata() as $report) {
             if (!empty($report['actionToLoadSubTables'])
@@ -150,12 +147,18 @@ class Totals extends DataTableManipulator
         }
 
         $request = $this->request;
-        
-        /** @var \Piwik\Period\Day $period */
+
+        /** @var \Piwik\Period\Range $period */
         $period = $table->getMetadata('period');
+
         if (!empty($period)) {
-            $request['date']   = $period->toString();
-            $request['period'] = $period->getLabel();
+            if (Period::isMultiplePeriod($request['date'], $request['period']) || 'range' == $period->getLabel()) {
+                $request['date']   = $period->getRangeString();
+                $request['period'] = 'range';
+            } else {
+                $request['date']   = $period->toString();
+                $request['period'] = $period->getLabel();
+            }
         }
 
         return $this->callApiAndReturnDataTable($module, $action, $request);
@@ -186,14 +189,10 @@ class Totals extends DataTableManipulator
      */
     protected function manipulateSubtableRequest(&$request)
     {
-        $request['ratio']         = 0;
+        $request['totals']        = 0;
         $request['expanded']      = 0;
         $request['filter_limit']  = -1;
         $request['filter_offset'] = 0;
-
-        if (Range::parseDateRange($request['date'])) {
-            $request['period'] = 'range';
-        }
 
         $parametersToRemove = array('flat', 'idSubtable');
 
