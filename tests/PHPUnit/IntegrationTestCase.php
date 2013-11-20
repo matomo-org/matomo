@@ -719,7 +719,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // with format=original, objects or php arrays can be returned.
         // we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
         $response = (string)$request->process();
-        $this->checkRequestResponse($response);
 
         if ($isLiveMustDeleteDates) {
             $response = $this->removeAllLiveDatesFromXml($response);
@@ -828,8 +827,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         if(!is_string($response)) {
             $response = json_encode($response);
         }
-        $this->assertTrue(stripos($response, 'error') === false);
-        $this->assertTrue(stripos($response, 'exception') === false);
+        $this->assertTrue(stripos($response, 'error') === false, "error in $response");
+        $this->assertTrue(stripos($response, 'exception') === false, "exception in $response");
     }
 
     protected function removeAllLiveDatesFromXml($input)
