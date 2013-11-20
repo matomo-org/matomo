@@ -118,7 +118,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth(),
-                      '--recorders'                 => '1',
+                      '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '2');
 
         self::executeLogImporter($logFile, $opts);
@@ -134,7 +134,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
         $opts = array('--add-sites-new-hosts'       => false,
                       '--token-auth'                => self::getTokenAuth(),
-                      '--recorders'                 => '1',
+                      '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '1');
 
         self::executeLogImporter($logFile, $opts);

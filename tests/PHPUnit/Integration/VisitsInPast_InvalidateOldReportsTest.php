@@ -69,16 +69,30 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
         // 1) Invalidate old reports for the 2 websites
         // Test invalidate 1 date only
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
-        ($r->process());
+        $this->checkRequestResponse($r->process());
+
         // Test invalidate comma separated dates
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "," . $idSite2 . "&dates=2010-01-06,2009-10-30");
-        ($r->process());
+        $this->checkRequestResponse($r->process());
+
         // test invalidate date in the past
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2009-06-29");
-        ($r->process());
+        // Format=original will re-throw exception
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2009-06-29&format=original");
+        $this->checkRequestResponse( json_encode( $r->process() ) );
+
         // invalidate a date more recent to check the date is only updated when it's earlier than current
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2010-03-03");
-        ($r->process());
+        $this->checkRequestResponse($r->process());
+
+        // Make an invalid call
+        $idSiteNoAccess = 777;
+        try {
+            $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSiteNoAccess . "&dates=2010-03-03&format=original");
+            $request->process();
+            $this->fail();
+        } catch(Exception $e) {
+        }
+
 
         // 2) Call API again, with an older date, which should now return data
         $this->runApiTests($api, $params);

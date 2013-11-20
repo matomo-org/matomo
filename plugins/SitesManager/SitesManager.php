@@ -32,7 +32,7 @@ class SitesManager extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Menu.Admin.addItems'                    => 'addMenu',
-            'Site.getSiteAttributes'                 => 'recordWebsiteDataInCache',
+            'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }

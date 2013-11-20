@@ -33,6 +33,8 @@ use Piwik\Plugins\SitesManager\API;
  */
 class Site
 {
+    const DEFAULT_SITE_TYPE = "website";
+
     /**
      * @var int|null
      */
@@ -75,12 +77,33 @@ class Site
     }
 
     /**
-     * @param $idsite
-     * @param $site
+     * Sets a site information in memory (statically cached).
+     *
+     * Plugins can filter the website attributes before it is cached, eg. to change the website name,
+     * creation date, etc.
+     *
+     * @param $idSite
+     * @param $infoSite
+     * @throws Exception if website or idsite is invalid
      */
-    protected static function setSite($idsite, $site)
+    protected static function setSite($idSite, $infoSite)
     {
-        self::$infoSites[$idsite] = $site;
+        if(empty($idSite) || empty($infoSite)) {
+            throw new Exception("Un unexpected website was found.");
+        }
+
+
+        /**
+         * Piwik core APIs and plugins use the Site object to get information about websites.
+         * This event is called just before a Website information is stored in the memory cache.
+         * It can be used to modify the data for a website, such as decorate its name or change its created datetime.
+         *
+         * @param $idSite int Website ID
+         * @param $infoSite array Website information array
+         */
+        Piwik::postEvent('Site.setSite', array($idSite, &$infoSite));
+
+        self::$infoSites[$idSite] = $infoSite;
     }
 
     /**
@@ -101,6 +124,38 @@ class Site
         }
     }
 
+    /**
+     * The Multisites reports displays the first calendar date as the earliest day available for all websites.
+     * Also, today is the later "today" available across all timezones.
+     * @param array $siteIds Array of IDs for each site being displayed.
+     * @return Date[] of two Date instances. First is the min-date & the second
+     *               is the max date.
+     */
+    public static function getMinMaxDateAcrossWebsites($siteIds)
+    {
+        $siteIds = self::getIdSitesFromIdSitesString($siteIds);
+        $now = Date::now();
+
+        $minDate = null;
+        $maxDate = $now->subDay(1)->getTimestamp();
+        foreach ($siteIds as $idsite) {
+            // look for 'now' in the website's timezone
+            $timezone = Site::getTimezoneFor($idsite);
+            $date = Date::adjustForTimezone($now->getTimestamp(), $timezone);
+            if ($date > $maxDate) {
+                $maxDate = $date;
+            }
+
+            // look for the absolute minimum date
+            $creationDate = Site::getCreationDateFor($idsite);
+            $date = Date::adjustForTimezone(strtotime($creationDate), $timezone);
+            if (is_null($minDate) || $date < $minDate) {
+                $minDate = $date;
+            }
+        }
+
+        return array(Date::factory($minDate), Date::factory($maxDate));
+    }
 
     /**
      * Returns a string representation of the site this instance references.
@@ -166,6 +221,16 @@ class Site
             throw new Exception('The requested website id = ' . (int)$this->id . ' (or its property ' . $name . ') couldn\'t be found');
         }
         return self::$infoSites[$this->id][$name];
+    }
+
+    /**
+     * Returns the type of the website (by default "website")
+     * @return string
+     */
+    public function getType()
+    {
+        $type = $this->get('type');
+        return $type;
     }
 
     /**
@@ -314,12 +379,11 @@ class Site
      * Utility function. Returns the value of the specified field for the
      * site with the specified ID.
      *
-     * @param int|string $idsite The ID of the site whose data is being
-     *                             accessed.
-     * @param string $field The name of the field to get.
-     * @return mixed
+     * @param int $idsite The ID of the site whose data is being accessed.
+     * @param bool|string $field The name of the field to get.
+     * @return array|string
      */
-    static protected function getFor($idsite, $field)
+    static protected function getFor($idsite, $field = false)
     {
         $idsite = (int)$idsite;
 
@@ -327,8 +391,10 @@ class Site
             $site = API::getInstance()->getSiteFromId($idsite);
             self::setSite($idsite, $site);
         }
-
-        return self::$infoSites[$idsite][$field];
+        if($field) {
+            return self::$infoSites[$idsite][$field];
+        }
+        return self::$infoSites[$idsite];
     }
 
     /**
@@ -339,6 +405,11 @@ class Site
     static public function getSites()
     {
         return self::$infoSites;
+    }
+
+    static public function getSite($id)
+    {
+        return self::getFor($id);
     }
 
     /**
@@ -361,6 +432,17 @@ class Site
     static public function getTimezoneFor($idsite)
     {
         return self::getFor($idsite, 'timezone');
+    }
+
+    /**
+     * Returns the type of the site with the specified ID.
+     *
+     * @param $idsite
+     * @return string
+     */
+    static public function getTypeFor($idsite)
+    {
+        return self::getFor($idsite, 'type');
     }
 
     /**

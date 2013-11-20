@@ -549,6 +549,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
                         // find first row w/ subtable
                         $content = $request->process();
+
+                        $this->checkRequestResponse($content);
                         foreach ($content as $row) {
                             if (isset($row['idsubdatatable'])) {
                                 $parametersToSet['idSubtable'] = $row['idsubdatatable'];
@@ -818,6 +820,15 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 file_put_contents($processedFilePath, $response);
             }
         }
+    }
+
+    protected function checkRequestResponse($response)
+    {
+        if(!is_string($response)) {
+            $response = json_encode($response);
+        }
+        $this->assertTrue(stripos($response, 'error') === false, "error in $response");
+        $this->assertTrue(stripos($response, 'exception') === false, "exception in $response");
     }
 
     protected function removeAllLiveDatesFromXml($input)
