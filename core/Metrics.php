@@ -322,51 +322,6 @@ class Metrics
         );
     }
 
-    static public function getDefaultRatioMetrics()
-    {
-        $metrics = self::getMetricIdsToProcessRatio();
-        $metricTranslations = self::getDefaultMetricTranslations();
-
-        $translations = array();
-
-        foreach ($metrics as $metricId) {
-            $readableMetric = self::getReadableColumnName($metricId);
-            $ratioMetric    = self::makeReportRatioMetricName($readableMetric);
-
-            if (array_key_exists($readableMetric, $metricTranslations)) {
-                $metricTranslated           = $metricTranslations[$readableMetric];
-                $translations[$ratioMetric] = Piwik::translate('General_ColumnRatioMetric', $metricTranslated);
-            }
-        }
-
-        return $translations;
-    }
-
-    static public function makeReportRatioMetricName($metric)
-    {
-        return $metric . '_ratio_report';
-    }
-
-    static public function getDefaultRatioMetricsDocumentation()
-    {
-        $metrics = self::getMetricIdsToProcessRatio();
-        $metricTranslations = self::getDefaultMetricTranslations();
-
-        $translations = array();
-
-        foreach ($metrics as $metricId) {
-            $readableMetric = self::getReadableColumnName($metricId);
-            $ratioMetric    = self::makeReportRatioMetricName($readableMetric);
-
-            if (array_key_exists($readableMetric, $metricTranslations)) {
-                $metricTranslated           = $metricTranslations[$readableMetric];
-                $translations[$ratioMetric] = Piwik::translate('General_ColumnRatioMetricDocumentation', $metricTranslated);
-            }
-        }
-
-        return $translations;
-    }
-
     static public function getDefaultMetricsDocumentation()
     {
         $documentation = array(

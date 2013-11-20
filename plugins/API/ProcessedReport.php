@@ -118,10 +118,6 @@ class ProcessedReport
                 $availableReport['processedMetrics'] = Metrics::getDefaultProcessedMetrics();
             }
 
-            if (!isset($availableReport['ratioMetrics'])) {
-                $availableReport['ratioMetrics'] = Metrics::getDefaultRatioMetrics();
-            }
-
             if ($hideMetricsDoc) // remove metric documentation if it's not wanted
             {
                 unset($availableReport['metricsDocumentation']);
@@ -158,7 +154,7 @@ class ProcessedReport
         // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
         $this->addApiGetMetdata($availableReports);
 
-        $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics(), Metrics::getDefaultRatioMetrics());
+        $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
         foreach ($availableReports as &$availableReport) {
             // Ensure all metrics have a translation
             $metrics = $availableReport['metrics'];
@@ -180,9 +176,6 @@ class ProcessedReport
             $availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
             if (isset($availableReport['processedMetrics'])) {
                 $availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
-            }
-            if (isset($availableReport['ratioMetrics'])) {
-                $availableReport['ratioMetrics'] = $this->hideShowMetrics($availableReport['ratioMetrics']);
             }
             if (isset($availableReport['metricsDocumentation'])) {
                 $availableReport['metricsDocumentation'] =
@@ -334,7 +327,7 @@ class ProcessedReport
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
+        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
         foreach ($columns as $columnId => &$name) {
             $name = ucfirst($name);
         }
@@ -350,6 +343,7 @@ class ProcessedReport
             'columns'        => $columns,
             'reportData'     => $newReport,
             'reportMetadata' => $rowsMetadata,
+            'total'          => $totals
         );
         if ($showTimer) {
             $return['timerMillis'] = $timer->getTimeMs(0);
@@ -382,21 +376,6 @@ class ProcessedReport
                 array('label' => $reportMetadata['dimension']),
                 $columns
             );
-
-            if (isset($reportMetadata['ratioMetrics'])) {
-                $ratioMetricDocs = Metrics::getDefaultRatioMetricsDocumentation();
-
-                // we automatically detect which ratio metrics should be added
-                foreach ($reportMetadata['ratioMetrics'] as $ratioMetricId => $ratioMetricTranslation) {
-                    if (array_filter($dataTable->getColumn($ratioMetricId))) {
-                        $columns[$ratioMetricId] = $ratioMetricTranslation;
-
-                        if (array_key_exists('metricsDocumentation', $reportMetadata)) {
-                             $reportMetadata['metricsDocumentation'][$ratioMetricId] = $ratioMetricDocs[$ratioMetricId];
-                        }
-                    }
-                }
-            }
 
             if (isset($reportMetadata['processedMetrics'])) {
                 $processedMetricsAdded = Metrics::getDefaultProcessedMetrics();
@@ -453,10 +432,16 @@ class ProcessedReport
             list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
         }
 
+        $totals = array();
+        if ($dataTable->getMetadata('totals')) {
+            $totals = $this->hideShowMetrics($dataTable->getMetadata('totals'));
+        }
+
         return array(
             $newReport,
             $columns,
-            $rowsMetadata
+            $rowsMetadata,
+            $totals
         );
     }
 

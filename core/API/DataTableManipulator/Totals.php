@@ -25,7 +25,7 @@ use Piwik\Plugins\API\API;
  * @package Piwik
  * @subpackage Piwik_API
  */
-class AddRatioColumn extends DataTableManipulator
+class Totals extends DataTableManipulator
 {
     protected $roundPrecision = 1;
 
@@ -40,7 +40,7 @@ class AddRatioColumn extends DataTableManipulator
      * @param  DataTable $table
      * @return \Piwik\DataTable|\Piwik\DataTable\Map
      */
-    public function addColumns($table)
+    public function generate($table)
     {
         return $this->manipulate($table);
     }
@@ -72,15 +72,7 @@ class AddRatioColumn extends DataTableManipulator
             }
         }
 
-        foreach ($this->totalValues as $metricId => $totalValue) {
-            if (!$this->hasDataTableMetric($dataTable, $metricId)) {
-                continue;
-            }
-
-            foreach ($dataTable->getRows() as $row) {
-                $this->addRatioColumnIfPossible($row, $metricId, $totalValue);
-            }
-        }
+        $dataTable->setMetadata('totals', $this->totalValues);
 
         return $dataTable;
     }
@@ -169,33 +161,13 @@ class AddRatioColumn extends DataTableManipulator
             return;
         }
 
-        if (array_key_exists($metricId, $this->totalValues)) {
-            $this->totalValues[$metricId] += $value;
+        $metricName = Metrics::getReadableColumnName($metricId);
+
+        if (array_key_exists($metricName, $this->totalValues)) {
+            $this->totalValues[$metricName] += $value;
         } else {
-            $this->totalValues[$metricId] = $value;
+            $this->totalValues[$metricName] = $value;
         }
-    }
-
-    private function addRatioColumnIfPossible(Row $row, $metricId, $totalValue)
-    {
-        $value = $this->getColumn($row, $metricId);
-
-        if (false === $value) {
-            return;
-        }
-
-        $relativeValue = $this->getPercentage($value, $totalValue);
-        $metricName    = Metrics::getReadableColumnName($metricId);
-        $ratioMetric   = Metrics::makeReportRatioMetricName($metricName);
-
-        $row->addColumn($ratioMetric, $relativeValue);
-    }
-
-    private function getPercentage($value, $totalValue)
-    {
-        $percentage = Piwik::getPercentageSafe($value, $totalValue, $this->roundPrecision);
-
-        return $percentage . '%';
     }
 
     /**

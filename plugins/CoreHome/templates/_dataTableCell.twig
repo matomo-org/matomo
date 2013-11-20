@@ -20,7 +20,8 @@
     </a>
 {% endif %}
 {% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
-{% if row.getColumn([column, '_ratio_report']|join) -%}
-    <span class="ratio">&nbsp;&nbsp;&nbsp;{{ row.getColumn([column, '_ratio_report']|join) }}</span>
+    {% set totals = dataTable.getMetadata('totals') %}
+{% if column in totals|keys and totals[column] -%}
+    <span class="ratio">&nbsp;{{ row.getColumn(column)|percentage(totals[column], 1) }}</span>
 {%- endif %}
 {% endspaceless %}
