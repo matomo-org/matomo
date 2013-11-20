@@ -62,7 +62,7 @@ class Totals extends DataTableManipulator
 
         $this->totalValues = array();
 
-        $metricsToCalculate = Metrics::getMetricIdsToProcessRatio();
+        $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
         $parentTable        = $this->getFirstLevelDataTable($dataTable);
 
         foreach ($metricsToCalculate as $metricId) {
@@ -126,6 +126,10 @@ class Totals extends DataTableManipulator
 
     protected function getFirstLevelDataTable($table)
     {
+        if (!array_key_exists('idSubtable', $this->request)) {
+            return $table;
+        }
+
         $firstLevelReport = array();
         foreach ($this->getReportMetadata() as $report) {
             if (!empty($report['actionToLoadSubTables'])

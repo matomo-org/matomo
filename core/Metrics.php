@@ -298,15 +298,9 @@ class Metrics
         return $columnIdRaw;
     }
 
-    static public function getMetricIdsToProcessRatio()
+    static public function getMetricIdsToProcessReportTotal()
     {
         return array(
-            self::$mappingFromIdToNameGoal[self::INDEX_GOAL_REVENUE],
-            self::$mappingFromIdToNameGoal[self::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL],
-            self::$mappingFromIdToNameGoal[self::INDEX_GOAL_ECOMMERCE_REVENUE_TAX],
-            self::$mappingFromIdToNameGoal[self::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING],
-            self::$mappingFromIdToNameGoal[self::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT],
-            self::$mappingFromIdToNameGoal[self::INDEX_GOAL_ECOMMERCE_ITEMS],
             self::INDEX_NB_VISITS,
             self::INDEX_NB_UNIQ_VISITORS,
             self::INDEX_NB_ACTIONS,
