@@ -28,6 +28,11 @@ use Piwik\Plugins\API\API;
 class AddRatioColumn extends DataTableManipulator
 {
     protected $roundPrecision = 1;
+
+    /**
+     * Array [readableMetric] => [summed value]
+     * @var array
+     */
     private $totalValues = array();
     private static $reportMetadata = array();
 
@@ -55,26 +60,60 @@ class AddRatioColumn extends DataTableManipulator
         }
 
         $metricsToCalculate = Metrics::getMetricIdsToProcessRatio();
+        $parentTable        = $this->getFirstLevelDataTable($dataTable);
 
-        $parentTable = $this->getFirstLevelDataTable($dataTable);
+        foreach ($metricsToCalculate as $metricId) {
+            if (!$this->hasDataTableMetric($parentTable, $metricId)) {
+                continue;
+            }
 
-        if ($parentTable instanceof DataTable\Map) {
-            // TODO
-        }
-
-        foreach ($parentTable->getRows() as $row) {
-            foreach ($metricsToCalculate as $metricId) {
+            foreach ($parentTable->getRows() as $row) {
                 $this->addColumnValueToTotal($row, $metricId);
             }
         }
 
-        foreach ($dataTable->getRows() as $row) {
-            foreach ($metricsToCalculate as $metricId) {
-                $this->addRatioColumnIfNeeded($row, $metricId);
+        foreach ($this->totalValues as $metricId => $totalValue) {
+            if (!$this->hasDataTableMetric($dataTable, $metricId)) {
+                continue;
+            }
+
+            foreach ($dataTable->getRows() as $row) {
+                $this->addRatioColumnIfPossible($row, $metricId, $totalValue);
             }
         }
 
         return $dataTable;
+    }
+
+    protected function hasDataTableMetric(DataTable $dataTable, $metricId)
+    {
+        $firstRow = $dataTable->getFirstRow();
+
+        if (empty($firstRow)) {
+            return false;
+        }
+
+        if (false === $this->getColumn($firstRow, $metricId)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function getColumn($row, $columnIdRaw)
+    {
+        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
+
+        if ($row instanceof Row) {
+            $raw = $row->getColumn($columnIdRaw);
+            if ($raw !== false) {
+                return $raw;
+            }
+
+            return $row->getColumn($columnIdReadable);
+        }
+
+        return false;
     }
 
     protected function getCurrentReport()
@@ -121,38 +160,33 @@ class AddRatioColumn extends DataTableManipulator
         return $this->callApiAndReturnDataTable($module, $action, $request);
     }
 
-    private function addColumnValueToTotal(Row $row, $columnIdRaw)
+    private function addColumnValueToTotal(Row $row, $metricId)
     {
-        $value = $this->getColumn($row, $columnIdRaw);
+        $value = $this->getColumn($row, $metricId);
 
         if (false === $value) {
 
             return;
         }
 
-        if (array_key_exists($columnIdRaw, $this->totalValues)) {
-            $this->totalValues[$columnIdRaw] += $value;
+        if (array_key_exists($metricId, $this->totalValues)) {
+            $this->totalValues[$metricId] += $value;
         } else {
-            $this->totalValues[$columnIdRaw] = $value;
+            $this->totalValues[$metricId] = $value;
         }
     }
 
-    private function addRatioColumnIfNeeded(Row $row, $columnIdRaw)
+    private function addRatioColumnIfPossible(Row $row, $metricId, $totalValue)
     {
-        if (!array_key_exists($columnIdRaw, $this->totalValues)) {
-            return;
-        }
-
-        $value = $this->getColumn($row, $columnIdRaw);
+        $value = $this->getColumn($row, $metricId);
 
         if (false === $value) {
             return;
         }
 
-        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
-
-        $relativeValue    = $this->getPercentage($value, $this->totalValues[$columnIdRaw]);
-        $ratioMetric      = Metrics::makeReportRatioMetricName($columnIdReadable);
+        $relativeValue = $this->getPercentage($value, $totalValue);
+        $metricName    = Metrics::getReadableColumnName($metricId);
+        $ratioMetric   = Metrics::makeReportRatioMetricName($metricName);
 
         $row->addColumn($ratioMetric, $relativeValue);
     }
@@ -162,31 +196,6 @@ class AddRatioColumn extends DataTableManipulator
         $percentage = Piwik::getPercentageSafe($value, $totalValue, $this->roundPrecision);
 
         return $percentage . '%';
-    }
-
-    /**
-     * Returns column from a given row.
-     * Will work with 2 types of datatable
-     * - raw datatables coming from the archive DB, which columns are int indexed
-     * - datatables processed resulting of API calls, which columns have human readable english names
-     *
-     * @param Row|array $row
-     * @param int $columnIdRaw see consts in Archive::
-     * @return mixed  Value of column, false if not found
-     */
-    protected function getColumn($row, $columnIdRaw)
-    {
-        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
-
-        if ($row instanceof Row) {
-            $raw = $row->getColumn($columnIdRaw);
-            if ($raw !== false) {
-                return $raw;
-            }
-            return $row->getColumn($columnIdReadable);
-        }
-
-        return false;
     }
 
     /**
