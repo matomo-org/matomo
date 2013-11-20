@@ -33,6 +33,8 @@ use Piwik\Plugins\SitesManager\API;
  */
 class Site
 {
+    const DEFAULT_SITE_TYPE = "website";
+
     /**
      * @var int|null
      */
@@ -155,7 +157,6 @@ class Site
         return array(Date::factory($minDate), Date::factory($maxDate));
     }
 
-
     /**
      * Returns a string representation of the site this instance references.
      * 
@@ -220,6 +221,16 @@ class Site
             throw new Exception('The requested website id = ' . (int)$this->id . ' (or its property ' . $name . ') couldn\'t be found');
         }
         return self::$infoSites[$this->id][$name];
+    }
+
+    /**
+     * Returns the type of the website (by default "website")
+     * @return string
+     */
+    public function getType()
+    {
+        $type = $this->get('type');
+        return $type;
     }
 
     /**
@@ -415,6 +426,17 @@ class Site
     static public function getTimezoneFor($idsite)
     {
         return self::getFor($idsite, 'timezone');
+    }
+
+    /**
+     * Returns the type of the site with the specified ID.
+     *
+     * @param $idsite
+     * @return string
+     */
+    static public function getTypeFor($idsite)
+    {
+        return self::getFor($idsite, 'type');
     }
 
     /**

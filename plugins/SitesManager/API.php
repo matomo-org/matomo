@@ -470,6 +470,7 @@ class API extends \Piwik\Plugin\API
      * @param int $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                              will be removed. If 0, the default global behavior will be used.
      * @see getKeepURLFragmentsGlobal.
+     * @param string $type The website type, defaults to "website" if not set.
      *
      * @return int the website ID created
      */
@@ -486,7 +487,8 @@ class API extends \Piwik\Plugin\API
                             $group = null,
                             $startDate = null,
                             $excludedUserAgents = null,
-                            $keepURLFragments = 0)
+                            $keepURLFragments = null,
+                            $type = null)
     {
         Piwik::checkUserIsSuperUser();
 
@@ -534,6 +536,7 @@ class API extends \Piwik\Plugin\API
         $bind['ts_created'] = !is_null($startDate)
             ? Date::factory($startDate)->getDatetime()
             : Date::now()->getDatetime();
+        $bind['type'] = $this->checkAndReturnType($type);
 
         if (!empty($group)
             && Piwik::isUserIsSuperUser()
@@ -642,6 +645,17 @@ class API extends \Piwik\Plugin\API
         if (!in_array($currency, array_keys($this->getCurrencyList()))) {
             throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
         }
+    }
+
+    private function checkAndReturnType($type)
+    {
+        if(empty($type)) {
+            $type = Site::DEFAULT_SITE_TYPE;
+        }
+        if(!is_string($type)) {
+            throw new Exception("Invalid website type $type");
+        }
+        return $type;
     }
 
     /**
@@ -977,6 +991,7 @@ class API extends \Piwik\Plugin\API
      * @param null|string $excludedUserAgents
      * @param int|null $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                                   will be removed. If 0, the default global behavior will be used.
+     * @param string $type The Website type, default value is "website"
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
@@ -997,7 +1012,8 @@ class API extends \Piwik\Plugin\API
                                $group = null,
                                $startDate = null,
                                $excludedUserAgents = null,
-                               $keepURLFragments = null)
+                               $keepURLFragments = null,
+                               $type = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1054,6 +1070,7 @@ class API extends \Piwik\Plugin\API
         list($searchKeywordParameters, $searchCategoryParameters) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
         $bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
+        $bind['type'] = $this->checkAndReturnType($type);
 
         $bind['name'] = $siteName;
         $db = Db::get();

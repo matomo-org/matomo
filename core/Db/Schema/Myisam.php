@@ -98,6 +98,7 @@ class Myisam implements SchemaInterface
   						  excluded_parameters TEXT NOT NULL,
   						  excluded_user_agents TEXT NOT NULL,
   						  `group` VARCHAR(250) NOT NULL,
+  						  `type` VARCHAR(255) NOT NULL,
   						  keep_url_fragment TINYINT NOT NULL DEFAULT 0,
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8
