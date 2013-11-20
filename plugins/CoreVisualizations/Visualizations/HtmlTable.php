@@ -55,11 +55,16 @@ class HtmlTable extends Visualization
         $request = new ApiRequest(array(
             'method' => 'API.get',
             'module' => 'API',
+            'action' => 'get',
             'format' => 'original',
-            'period' => $period
+            'filter_limit'  => '-1',
+            'filter_offset' => 0,
+            'period'        => $period
         ));
 
-        $this->assignTemplateVar('siteSummary', $request->process());
+        $dataTable = $request->process();
+
+        $this->assignTemplateVar('siteSummary', $dataTable);
     }
 
 }
