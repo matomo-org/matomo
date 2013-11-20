@@ -113,7 +113,8 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         $periodTypes = array('day', 'periods');
         $idSites = API::getInstance()->getAllSitesId();
 
-        $time = Date::factory(self::$fixture->dateTime)->subDay(1)->getTimestamp();
+        $daysAgoArchiveRanSuccessfully = 10;
+        $time = Date::factory(self::$fixture->dateTime)->subDay($daysAgoArchiveRanSuccessfully)->getTimestamp();
 
         foreach ($periodTypes as $period) {
             foreach ($idSites as $idSite) {
