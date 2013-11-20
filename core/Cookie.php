@@ -143,8 +143,14 @@ class Cookie
             if (!strncasecmp($Domain, 'www.', 4)) {
                 $Domain = substr($Domain, 4);
             }
-            $Domain = '.' . $Domain;
 
+            if (strncasecmp($Domain, '*', 1) == 0) {
+                $Domain = substr($Domain, 1);
+            }
+            if (strncasecmp($Domain, '.', 1) != 0) {
+                $Domain = '.' . $Domain;
+            }
+            
             // Remove port information.
             $Port = strpos($Domain, ':');
             if ($Port !== false) $Domain = substr($Domain, 0, $Port);
