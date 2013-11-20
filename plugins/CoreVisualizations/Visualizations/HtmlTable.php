@@ -52,7 +52,12 @@ class HtmlTable extends Visualization
             $period = 'range';
         }
 
-        $request = new ApiRequest(array('method' => 'API.get', 'module' => 'API', 'format' => 'original', 'period' => $period));
+        $request = new ApiRequest(array(
+            'method' => 'API.get',
+            'module' => 'API',
+            'format' => 'original',
+            'period' => $period
+        ));
 
         $this->assignTemplateVar('siteSummary', $request->process());
     }
