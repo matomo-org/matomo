@@ -337,6 +337,10 @@ enable_marketplace = 0
 ; this is useful when you want to do cross websites analysis
 use_third_party_id_cookie = 0
 
+; Allows to explicitly define a cookie domain for 3rd party cookies. Requires
+; the property 'use_third_party_id_cookie' to be set to 1
+cookie_domain = 
+
 ; There is a feature in the Tracking API that lets you create new visit at any given time, for example if you know that a different user/customer is using
 ; the app then you would want to tell Piwik to create a new visit (even though both users are using the same browser/computer).
 ; To prevent abuse and easy creation of fake visits, this feature requires admin token_auth by default
