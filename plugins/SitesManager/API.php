@@ -63,6 +63,15 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param string $piwikUrl
+     * @param bool $mergeSubdomains
+     * @param bool $groupPageTitlesByDomain
+     * @param bool $mergeAliasUrls
+     * @param bool $visitorCustomVariables
+     * @param bool $pageCustomVariables
+     * @param bool $customCampaignNameQueryParam
+     * @param bool $customCampaignKeywordParam
+     * @param bool $doNotTrack
+     * @internal param $
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false, $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false, $doNotTrack = false)
@@ -1059,6 +1068,29 @@ class API extends \Piwik\Plugin\API
             $this->addSiteAliasUrls($idSite, array_slice($urls, 1));
         }
         $this->postUpdateWebsite($idSite);
+    }
+
+    /**
+     * Updates the field ts_created for the specified websites.
+     *
+     * @param $idSites int Id Site to update ts_created
+     * @param $minDate Date to set as creation date. To play it safe it will substract one more day.
+     *
+     * @ignore
+     */
+    public function updateSiteCreatedTime($idSites, $minDate)
+    {
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        Piwik::checkUserHasAdminAccess($idSites);
+
+        // Update piwik_site.ts_created
+        $query = "UPDATE " . Common::prefixTable("site") .
+            " SET ts_created = ?" .
+            " WHERE idsite IN ( " . implode(",", $idSites) . " )
+					AND ts_created > ?";
+        $minDateSql = $minDate->subDay(1)->getDatetime();
+        $bind = array($minDateSql, $minDateSql);
+        Db::query($query, $bind);
     }
 
     private function checkAndReturnCommaSeparatedStringList($parameters)
