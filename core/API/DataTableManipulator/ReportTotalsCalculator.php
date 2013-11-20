@@ -96,6 +96,16 @@ class ReportTotalsCalculator extends DataTableManipulator
         return true;
     }
 
+    /**
+     * Returns column from a given row.
+     * Will work with 2 types of datatable
+     * - raw datatables coming from the archive DB, which columns are int indexed
+     * - datatables processed resulting of API calls, which columns have human readable english names
+     *
+     * @param Row|array $row
+     * @param int $columnIdRaw see consts in Metrics::
+     * @return mixed  Value of column, false if not found
+     */
     private function getColumn($row, $columnIdRaw)
     {
         $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
@@ -131,10 +141,11 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         $request = $this->request;
 
-        /** @var \Piwik\Period\Range $period */
+        /** @var \Piwik\Period $period */
         $period = $table->getMetadata('period');
 
         if (!empty($period)) {
+            // we want a dataTable, not a dataTable\map
             if (Period::isMultiplePeriod($request['date'], $request['period']) || 'range' == $period->getLabel()) {
                 $request['date']   = $period->getRangeString();
                 $request['period'] = 'range';
@@ -208,22 +219,18 @@ class ReportTotalsCalculator extends DataTableManipulator
                 return $report;
             }
         }
-
     }
 
     private function findFirstLevelReport()
     {
-        $firstLevelReport = array();
         foreach ($this->getReportMetadata() as $report) {
             if (!empty($report['actionToLoadSubTables'])
                 && $this->apiMethod == $report['actionToLoadSubTables']
                 && $this->apiModule == $report['module']
             ) {
 
-                $firstLevelReport = $report;
-                break;
+                return $report;
             }
         }
-        return $firstLevelReport;
     }
 }

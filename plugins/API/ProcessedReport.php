@@ -428,25 +428,13 @@ class ProcessedReport
                 $newReport->addTable($enhancedSimpleDataTable, $period);
                 $rowsMetadata->addTable($rowMetadata, $period);
 
-                if ($simpleDataTable->getMetadata('totals')) {
-                    $simpleTotals = $this->hideShowMetrics($simpleDataTable->getMetadata('totals'));
-
-                    foreach ($simpleTotals as $metric => $value) {
-                        if (!array_key_exists($metric, $totals)) {
-                            $totals[$metric] = $value;
-                        } else {
-                            $totals[$metric] += $value;
-                        }
-                    }
-                }
+                $totals = $this->aggregateReportTotalValues($simpleDataTable, $totals);
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
             list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
 
-            if ($dataTable->getMetadata('totals')) {
-                $totals = $this->hideShowMetrics($dataTable->getMetadata('totals'));
-            }
+            $totals = $this->aggregateReportTotalValues($dataTable, $totals);
         }
 
         return array(
@@ -614,5 +602,27 @@ class ProcessedReport
             $enhancedDataTable,
             $rowsMetadata
         );
+    }
+
+    private function aggregateReportTotalValues(DataTable $simpleDataTable, $totals)
+    {
+        $metadataTotals = $simpleDataTable->getMetadata('totals');
+
+        if (empty($metadataTotals)) {
+
+            return $totals;
+        }
+        
+        $simpleTotals = $this->hideShowMetrics($metadataTotals);
+
+        foreach ($simpleTotals as $metric => $value) {
+            if (!array_key_exists($metric, $totals)) {
+                $totals[$metric] = $value;
+            } else {
+                $totals[$metric] += $value;
+            }
+        }
+
+        return $totals;
     }
 }

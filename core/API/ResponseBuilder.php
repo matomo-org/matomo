@@ -302,7 +302,7 @@ class ResponseBuilder
 
         if (1 == Common::getRequestVar('totals', '1', 'integer', $this->request)) {
             $genericFilter = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request);
-            $datatable = $genericFilter->calculate($datatable);
+            $datatable     = $genericFilter->calculate($datatable);
         }
 
         // if the flag disable_generic_filters is defined we skip the generic filters
