@@ -308,7 +308,8 @@ class AnnotationsTest extends IntegrationTestCase
             }
         } else {
             $request = new Request($request);
-            $request->process();
+            $response = $request->process();
+            $this->checkRequestResponse($response);
         }
     }
 }

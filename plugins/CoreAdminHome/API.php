@@ -168,7 +168,7 @@ class API extends \Piwik\Plugin\API
                 " AND idsite IN (" . implode(",", $idSites) . ")";
             Db::query($query, $bind);
         }
-        \Piwik\Plugins\SitesManager\API::updateSiteCreatedTime($idSites, $minDate);
+        \Piwik\Plugins\SitesManager\API::getInstance()->updateSiteCreatedTime($idSites, $minDate);
 
         // Force to re-process data for these websites in the next archive.php cron run
         $invalidatedIdSites = self::getWebsiteIdsToInvalidate();

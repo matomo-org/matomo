@@ -549,6 +549,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
                         // find first row w/ subtable
                         $content = $request->process();
+
+                        $this->checkRequestResponse($content);
                         foreach ($content as $row) {
                             if (isset($row['idsubdatatable'])) {
                                 $parametersToSet['idSubtable'] = $row['idsubdatatable'];
@@ -717,6 +719,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // with format=original, objects or php arrays can be returned.
         // we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
         $response = (string)$request->process();
+        $this->checkRequestResponse($response);
 
         if ($isLiveMustDeleteDates) {
             $response = $this->removeAllLiveDatesFromXml($response);
@@ -818,6 +821,12 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 file_put_contents($processedFilePath, $response);
             }
         }
+    }
+
+    protected function checkRequestResponse($response)
+    {
+        $this->assertTrue(stripos($response, 'error') === false);
+        $this->assertTrue(stripos($response, 'exception') === false);
     }
 
     protected function removeAllLiveDatesFromXml($input)

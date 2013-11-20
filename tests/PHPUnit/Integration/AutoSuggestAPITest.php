@@ -82,6 +82,7 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
                 . '&format=php&serialize=0'
         );
         $response = $request->process();
+        $this->checkRequestResponse($response);
         $topSegmentValue = @$response[0];
 
         if ($topSegmentValue !== false && !is_null($topSegmentValue)) {
