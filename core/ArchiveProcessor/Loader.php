@@ -141,7 +141,7 @@ class Loader
         } elseif ($period == 'range') {
             $debugSetting = 'always_archive_data_range';
         }
-        return Config::getInstance()->Debug[$debugSetting];
+        return (bool) Config::getInstance()->Debug[$debugSetting];
     }
 
     /**
@@ -153,11 +153,13 @@ class Loader
     protected function loadExistingArchiveIdFromDb()
     {
         $noArchiveFound = array(false, false, false);
+
+        // see isArchiveTemporary()
+        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
+
         if ($this->isArchivingForcedToTrigger()) {
             return $noArchiveFound;
         }
-
-        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
         $site = $this->params->getSite();
         $period = $this->params->getPeriod();
         $segment = $this->params->getSegment();
