@@ -188,6 +188,9 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
     private function trackVisitsSite2()
     {
         $t = self::getTracker($this->idSite2, $this->dateTime, $defaultInit = true);
+
+        // Same page name as on website1, different domain (for MetaSites test)
+        $t->setUrl('http://example-site2.com/index.htm');
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1)->getDatetime());
         $t->setCustomVariable(1, "cvar Name 1", "cvar Value 1");
         self::checkResponse($t->doTrackPageView('one page visit'));

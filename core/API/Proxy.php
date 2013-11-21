@@ -249,7 +249,7 @@ class Proxy extends Singleton
              *                         - **parameters**: The array of parameters passed to the API
              *                                           method.
              */
-            Piwik::postEvent(sprintf('API.Request.dispatch.end', $pluginName, $methodName), $endHookParams);
+            Piwik::postEvent('API.Request.dispatch.end', $endHookParams);
 
             // Restore the request
             $_GET = $saveGET;
