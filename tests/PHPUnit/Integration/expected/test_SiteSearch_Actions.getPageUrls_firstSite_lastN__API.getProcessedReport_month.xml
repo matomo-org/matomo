@@ -95,4 +95,8 @@
 		<result prettyDate="2010, June" />
 		<result prettyDate="2010, July" />
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>3</nb_visits>
+		<nb_hits>4</nb_hits>
+	</reportTotal>
 </result>

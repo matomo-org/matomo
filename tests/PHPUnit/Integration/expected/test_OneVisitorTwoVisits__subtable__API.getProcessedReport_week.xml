@@ -55,4 +55,8 @@
 			<url>http://example.org/store/purchase.htm</url>
 		</row>
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>4</nb_visits>
+		<nb_hits>4</nb_hits>
+	</reportTotal>
 </result>

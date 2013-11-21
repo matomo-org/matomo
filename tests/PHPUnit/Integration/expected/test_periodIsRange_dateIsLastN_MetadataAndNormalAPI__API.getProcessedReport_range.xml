@@ -68,4 +68,10 @@
 			<logoHeight>11</logoHeight>
 		</row>
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>3</nb_visits>
+		<nb_actions>5</nb_actions>
+		<nb_conversions>3</nb_conversions>
+		<bounce_count>2</bounce_count>
+	</reportTotal>
 </result>
