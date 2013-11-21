@@ -204,7 +204,7 @@ class ReportTotalsCalculator extends DataTableManipulator
      *
      * @param array $request
      */
-    protected function manipulateSubtableRequest(&$request)
+    protected function manipulateSubtableRequest($request)
     {
         $request['totals']        = 0;
         $request['expanded']      = 0;
@@ -218,6 +218,8 @@ class ReportTotalsCalculator extends DataTableManipulator
                 unset($request[$param]);
             }
         }
+
+        return $request;
     }
 
     private function getReportMetadata()

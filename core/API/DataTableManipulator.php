@@ -140,7 +140,7 @@ abstract class DataTableManipulator
      * @param $request
      * @return
      */
-    protected abstract function manipulateSubtableRequest(&$request);
+    protected abstract function manipulateSubtableRequest($request);
 
     /**
      * Extract the API method for loading subtables from the meta data
@@ -164,7 +164,7 @@ abstract class DataTableManipulator
     {
         $class = Request::getClassNameAPI($apiModule);
 
-        $this->manipulateSubtableRequest($request);
+        $request = $this->manipulateSubtableRequest($request);
         $request['serialize'] = 0;
         $request['expanded'] = 0;
 
