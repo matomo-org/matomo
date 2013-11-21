@@ -59,7 +59,8 @@ class HtmlTable extends Visualization
             'format' => 'original',
             'filter_limit'  => '-1',
             'filter_offset' => 0,
-            'period'        => $period
+            'period'        => $period,
+            'showColumns'   => implode(',', $this->config->columns_to_display)
         ));
 
         $dataTable = $request->process();
