@@ -65,6 +65,7 @@ class Twig
         $this->addFilter_money();
         $this->addFilter_truncate();
         $this->addFilter_notificiation();
+        $this->addFilter_percentage();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
 
@@ -185,6 +186,14 @@ class Twig
 
         }, array('is_safe' => array('html')));
         $this->twig->addFilter($notificationFunction);
+    }
+
+    protected function addFilter_percentage()
+    {
+        $percentage = new Twig_SimpleFilter('percentage', function ($string, $totalValue, $precision = 1) {
+            return Piwik::getPercentageSafe($string, $totalValue, $precision) . '%';
+        });
+        $this->twig->addFilter($percentage);
     }
 
     protected function addFilter_truncate()

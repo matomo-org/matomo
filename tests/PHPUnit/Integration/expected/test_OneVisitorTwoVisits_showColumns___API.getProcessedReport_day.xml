@@ -54,4 +54,8 @@
 			
 		</row>
 	</reportMetadata>
+	<reportTotal>
+		<nb_hits>4</nb_hits>
+		<entry_nb_visits>2</entry_nb_visits>
+	</reportTotal>
 </result>

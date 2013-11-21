@@ -54,4 +54,8 @@
 	<reportMetadata>
 		<result prettyDate="2010, January" />
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>4</nb_visits>
+		<nb_actions>5</nb_actions>
+	</reportTotal>
 </result>

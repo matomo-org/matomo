@@ -104,4 +104,9 @@
 		</row>
 	</reportData>
 	<reportMetadata />
+	<reportTotal>
+		<nb_visits>12</nb_visits>
+		<nb_uniq_visitors>8</nb_uniq_visitors>
+		<nb_actions>17</nb_actions>
+	</reportTotal>
 </result>

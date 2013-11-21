@@ -5,6 +5,20 @@
   padding: 0;
   border-spacing: 0;
   margin: 0;
+
+  td .ratio {
+    color: #999999;
+    font-size: 12px;
+    display:none;
+    text-align: right;
+    min-width: 45px;
+    margin-top: 3px;
+    margin-left: 4px;
+  }
+
+  td.highlight .ratio {
+    display: inline-block;
+  }
 }
 
 div.dataTable {
@@ -85,6 +99,10 @@ table.dataTable tr:hover > td.cellSubDataTable .dataTableRowActions {
 
 td.clean {
   background-color: #fff;
+}
+
+table.dataTable td.column {
+  white-space: nowrap;
 }
 
 table.dataTable td.columneven {

@@ -57,4 +57,9 @@
 		<result prettyDate="Sunday 3 January 2010" />
 		<result prettyDate="Monday 4 January 2010" />
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>4</nb_visits>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_actions>5</nb_actions>
+	</reportTotal>
 </result>

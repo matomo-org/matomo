@@ -71,4 +71,11 @@
 			<logoHeight>11</logoHeight>
 		</row>
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_actions>1</nb_actions>
+		<nb_conversions>1</nb_conversions>
+		<bounce_count>1</bounce_count>
+	</reportTotal>
 </result>
