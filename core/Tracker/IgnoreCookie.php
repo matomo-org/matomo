@@ -30,8 +30,9 @@ class IgnoreCookie
     {
         $cookie_name = @Config::getInstance()->Tracker['cookie_name'];
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
+        $cookie_domain = @Piwik_Config::getInstance()->Tracker['cookie_domain']; 
 
-        return new Cookie($cookie_name, null, $cookie_path);
+        return new Cookie($cookie_name, null, $cookie_path, $cookie_domain);
     }
 
     /**
@@ -43,8 +44,9 @@ class IgnoreCookie
     {
         $cookie_name = @Config::getInstance()->Tracker['ignore_visits_cookie_name'];
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
+        $cookie_domain = @Piwik_Config::getInstance()->Tracker['cookie_domain']; 
 
-        return new Cookie($cookie_name, null, $cookie_path);
+        return new Cookie($cookie_name, null, $cookie_path, $cookie_domain);
     }
 
     /**
