@@ -148,6 +148,7 @@ Notes:
         $websitesIds = $this->initWebsiteIds();
         $this->filterWebsiteIds($websitesIds);
         $this->websites = $websitesIds;
+
         if($this->shouldStartProfiler) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
             $this->log("XHProf profiling is enabled.");
@@ -776,6 +777,9 @@ Notes:
 
     private function filterWebsiteIds(&$websiteIds)
     {
+        // Keep only the websites that do exist
+        $websiteIds = array_intersect($websiteIds, $this->allWebsites);
+
         /**
          * When the cron to run archive.php is executed, it fetches the list of website IDs to process.
          * Use this hook to add, remove, or change the order of websites IDs to pre-archive.
