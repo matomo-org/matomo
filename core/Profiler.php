@@ -195,11 +195,19 @@ class Profiler
         }
 
         $path = PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_runs.php';
+
         if(!file_exists($path)) {
             return;
         }
 
         require_once $path;
+        require_once PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_lib.php';
+
+        if(!function_exists('xhprof_error')) {
+            function xhprof_error($out) {
+                echo substr($out, 0, 300) . '...';
+            }
+        }
 
         $currentGitBranch = SettingsPiwik::getCurrentGitBranch();
         $profilerNamespace = "piwik";
