@@ -1065,6 +1065,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $first = reset($this->comparisonFailures);
             throw $first;
         }
+
+        return count($this->comparisonFailures) == 0;
     }
 
     /**
