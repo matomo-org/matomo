@@ -295,4 +295,11 @@
 		</row>
 	</reportData>
 	<reportMetadata />
+	<reportTotal>
+		<nb_visits>3</nb_visits>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_actions>13</nb_actions>
+		<nb_conversions>3</nb_conversions>
+		<bounce_count>0</bounce_count>
+	</reportTotal>
 </result>

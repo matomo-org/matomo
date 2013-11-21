@@ -286,6 +286,36 @@ class Metrics
         return array_map(array('\\Piwik\\Piwik','translate'), $translations);
     }
 
+    static public function getReadableColumnName($columnIdRaw)
+    {
+        $mappingIdToName = self::$mappingFromIdToName;
+
+        if (array_key_exists($columnIdRaw, $mappingIdToName)) {
+
+            return $mappingIdToName[$columnIdRaw];
+        }
+
+        return $columnIdRaw;
+    }
+
+    static public function getMetricIdsToProcessReportTotal()
+    {
+        return array(
+            self::INDEX_NB_VISITS,
+            self::INDEX_NB_UNIQ_VISITORS,
+            self::INDEX_NB_ACTIONS,
+            self::INDEX_PAGE_NB_HITS,
+            self::INDEX_NB_VISITS_CONVERTED,
+            self::INDEX_NB_CONVERSIONS,
+            self::INDEX_BOUNCE_COUNT,
+            self::INDEX_PAGE_ENTRY_BOUNCE_COUNT,
+            self::INDEX_PAGE_ENTRY_NB_VISITS,
+            self::INDEX_PAGE_ENTRY_NB_ACTIONS,
+            self::INDEX_PAGE_EXIT_NB_VISITS,
+            self::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS
+        );
+    }
+
     static public function getDefaultMetricsDocumentation()
     {
         $documentation = array(

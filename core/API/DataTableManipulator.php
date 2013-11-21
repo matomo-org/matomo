@@ -128,26 +128,8 @@ abstract class DataTableManipulator
             }
         }
 
-        $class = Request::getClassNameAPI($this->apiModule);
         $method = $this->getApiMethodForSubtable();
-
-        $this->manipulateSubtableRequest($request);
-        $request['serialize'] = 0;
-        $request['expanded'] = 0;
-
-        // don't want to run recursive filters on the subtables as they are loaded,
-        // otherwise the result will be empty in places (or everywhere). instead we
-        // run it on the flattened table.
-        unset($request['filter_pattern_recursive']);
-
-        $dataTable = Proxy::getInstance()->call($class, $method, $request);
-        $response = new ResponseBuilder($format = 'original', $request);
-        $dataTable = $response->getResponse($dataTable);
-        if (method_exists($dataTable, 'applyQueuedFilters')) {
-            $dataTable->applyQueuedFilters();
-        }
-
-        return $dataTable;
+        return $this->callApiAndReturnDataTable($this->apiModule, $method, $request);
     }
 
     /**
@@ -158,7 +140,7 @@ abstract class DataTableManipulator
      * @param $request
      * @return
      */
-    protected abstract function manipulateSubtableRequest(&$request);
+    protected abstract function manipulateSubtableRequest($request);
 
     /**
      * Extract the API method for loading subtables from the meta data
@@ -176,5 +158,28 @@ abstract class DataTableManipulator
             }
         }
         return $this->apiMethodForSubtable;
+    }
+
+    protected function callApiAndReturnDataTable($apiModule, $method, $request)
+    {
+        $class = Request::getClassNameAPI($apiModule);
+
+        $request = $this->manipulateSubtableRequest($request);
+        $request['serialize'] = 0;
+        $request['expanded'] = 0;
+
+        // don't want to run recursive filters on the subtables as they are loaded,
+        // otherwise the result will be empty in places (or everywhere). instead we
+        // run it on the flattened table.
+        unset($request['filter_pattern_recursive']);
+
+        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+        $response = new ResponseBuilder($format = 'original', $request);
+        $dataTable = $response->getResponse($dataTable);
+        if (method_exists($dataTable, 'applyQueuedFilters')) {
+            $dataTable->applyQueuedFilters();
+        }
+
+        return $dataTable;
     }
 }

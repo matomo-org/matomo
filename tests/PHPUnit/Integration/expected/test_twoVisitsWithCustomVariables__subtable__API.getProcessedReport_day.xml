@@ -70,4 +70,10 @@
 		</row>
 	</reportData>
 	<reportMetadata />
+	<reportTotal>
+		<nb_visits>7</nb_visits>
+		<nb_actions>24</nb_actions>
+		<nb_conversions>6</nb_conversions>
+		<bounce_count>4</bounce_count>
+	</reportTotal>
 </result>

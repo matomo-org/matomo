@@ -13,6 +13,7 @@ namespace Piwik\API;
 use Exception;
 use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
+use Piwik\API\DataTableManipulator\ReportTotalsCalculator;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Renderer;
@@ -297,6 +298,11 @@ class ResponseBuilder
                 $flattener->includeAggregateRows();
             }
             $datatable = $flattener->flatten($datatable);
+        }
+
+        if (1 == Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+            $genericFilter = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request);
+            $datatable     = $genericFilter->calculate($datatable);
         }
 
         // if the flag disable_generic_filters is defined we skip the generic filters

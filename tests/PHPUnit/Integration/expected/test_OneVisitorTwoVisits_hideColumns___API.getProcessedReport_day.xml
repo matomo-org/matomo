@@ -47,4 +47,9 @@
 			
 		</row>
 	</reportMetadata>
+	<reportTotal>
+		<entry_bounce_count>1</entry_bounce_count>
+		<entry_nb_actions>8</entry_nb_actions>
+		<exit_nb_visits>2</exit_nb_visits>
+	</reportTotal>
 </result>

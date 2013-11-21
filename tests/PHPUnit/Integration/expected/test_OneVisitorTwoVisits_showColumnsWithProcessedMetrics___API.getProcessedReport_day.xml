@@ -154,4 +154,7 @@
 		</row>
 	</reportData>
 	<reportMetadata />
+	<reportTotal>
+		<nb_visits>2</nb_visits>
+	</reportTotal>
 </result>
