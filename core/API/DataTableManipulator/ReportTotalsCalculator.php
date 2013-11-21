@@ -43,24 +43,8 @@ class ReportTotalsCalculator extends DataTableManipulator
     public function calculate($table)
     {
         // looks like apiModule & apiMethod is not set in case of flat=1
-        if (empty($this->apiModule) && !empty($this->request['apiModule'])) {
-            $this->apiModule = $this->request['apiModule'];
-        } elseif (empty($this->apiModule) && !empty($this->request['module'])) {
-            $this->apiModule = $this->request['module'];
-        }
-
-        if (empty($this->apiMethod) && !empty($this->request['apiAction'])) {
-            $this->apiMethod = $this->request['apiAction'];
-        } elseif (empty($this->apiMethod) && !empty($this->request['action'])) {
-            $this->apiMethod = $this->request['action'];
-        }
-
-        if ((empty($this->apiMethod) || empty($this->apiModule))
-            && !empty($this->request['method'])
-            && false !== strpos($this->request['method'], '.')) {
-            $method = explode('.', $this->request['method']);
-            $this->apiModule = $method[0];
-            $this->apiMethod = $method[1];
+        if (empty($this->apiModule) || empty($this->apiMethod)) {
+            return $table;
         }
 
         return $this->manipulate($table);
