@@ -145,7 +145,9 @@ Notes:
 
         $this->segments = $this->initSegmentsToArchive();
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
-        $this->websites = $this->initWebsitesToProcess();
+        $websitesIds = $this->initWebsiteIds();
+        $this->filterWebsiteIds($websitesIds);
+        $this->websites = $websitesIds;
         if($this->shouldStartProfiler) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
             $this->log("XHProf profiling is enabled.");
@@ -772,14 +774,24 @@ Notes:
         }
     }
 
+    private function filterWebsiteIds(&$websiteIds)
+    {
+        /**
+         * When the cron to run archive.php is executed, it fetches the list of website IDs to process.
+         * Use this hook to add, remove, or change the order of websites IDs to pre-archive.
+         */
+        Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));
+    }
+
     /**
      *  Returns the list of sites to loop over and archive.
      *  @return array
      */
-    private function initWebsitesToProcess()
+    private function initWebsiteIds()
     {
         if(count($this->shouldArchiveSpecifiedSites) > 0) {
             $this->log("- Will process " . count($this->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
+
             return $this->shouldArchiveSpecifiedSites;
         }
         if ($this->shouldArchiveAllSites) {
@@ -791,11 +803,8 @@ Notes:
             $this->addWebsiteIdsWithVisitsSinceLastRun(),
             $this->addWebsiteIdsToReprocess()
         );
-        $websiteIds = array_merge($websiteIds,
-            $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds)
-        );
-
-        return array_unique( $websiteIds );
+        $websiteIds = array_merge($websiteIds, $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds));
+        return array_unique($websiteIds);
     }
 
     private function initTokenAuth()
