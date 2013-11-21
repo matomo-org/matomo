@@ -55,8 +55,12 @@ class ReportTotalsCalculator extends DataTableManipulator
             $this->apiMethod = $this->request['action'];
         }
 
-        if (empty($this->apiMethod) || empty($this->apiModule)) {
-            throw new \Exception('Api Method or Api Module not found. Request: ' . print_r($this->request, 1));
+        if ((empty($this->apiMethod) || empty($this->apiModule))
+            && !empty($this->request['method'])
+            && false !== strpos($this->request['method'], '.')) {
+            $method = explode('.', $this->request['method']);
+            $this->apiModule = $method[0];
+            $this->apiMethod = $method[1];
         }
 
         return $this->manipulate($table);
