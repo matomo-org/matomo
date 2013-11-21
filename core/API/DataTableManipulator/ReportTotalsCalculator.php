@@ -163,7 +163,7 @@ class ReportTotalsCalculator extends DataTableManipulator
                 $request['date']   = $period->getRangeString();
                 $request['period'] = 'range';
             } else {
-                $request['date']   = $period->toString();
+                $request['date']   = $period->getDateStart()->toString();
                 $request['period'] = $period->getLabel();
             }
         }
