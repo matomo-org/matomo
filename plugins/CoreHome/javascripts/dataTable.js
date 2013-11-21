@@ -1159,7 +1159,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             function() {
                 var table    = $(this).closest('table');
                 var nthChild = $(this).parent('tr').children().index($(this)) + 1;
-                var rows     = $('tr', table);
+                var rows     = $('> tbody > tr', table);
 
                 if (!maxWidth[nthChild]) {
                     maxWidth[nthChild] = 0;
@@ -1180,7 +1180,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 currentNthChild = nthChild;
 
-                rows.find("td:nth-child(" + (nthChild) + ")").addClass('highlight');
+                rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
                 self.repositionRowActions($(this).parent('tr'));
             },
             function(event) {
