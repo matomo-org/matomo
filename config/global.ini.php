@@ -37,6 +37,27 @@ adapter = PDO_MYSQL
 login = 
 password =
 
+[log]
+; possible values for log: screen, database, file
+log_writers[] = screen
+
+; log level, everything logged w/ this level or one of greater severity
+; will be logged. everything else will be ignored. possible values are:
+; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
+log_level = WARN
+
+; if set to 1, only requests done in CLI mode (eg. the archive.php cron run) will be logged
+; NOTE: log_only_when_debug_parameter will also be checked for
+log_only_when_cli = 0
+
+; if set to 1, only requests with "&debug" parameter will be logged
+; NOTE: log_only_when_cli will also be checked for
+log_only_when_debug_parameter = 0
+
+; if configured to log in a file, log entries will be made to this file
+logger_file_path = tmp/logs/piwik.log
+
+
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
@@ -473,26 +494,6 @@ host = ; Proxy host: the host name of your proxy server (mandatory)
 port = ; Proxy port: the port that the proxy server listens to. There is no standard default, but 80, 1080, 3128, and 8080 are popular
 username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
-
-[log]
-; possible values for log: screen, database, file
-log_writers[] = screen
-
-; log level, everything logged w/ this level or one of greater severity
-; will be logged. everything else will be ignored. possible values are:
-; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
-log_level = WARN
-
-; if set to 1, only requests done in CLI mode (eg. the archive.php cron run) will be logged
-; NOTE: log_only_when_debug_parameter will also be checked for
-log_only_when_cli = 0
-
-; if set to 1, only requests with "&debug" parameter will be logged
-; NOTE: log_only_when_cli will also be checked for
-log_only_when_debug_parameter = 0
-
-; if configured to log in a file, log entries will be made to this file
-logger_file_path = tmp/logs/piwik.log
 
 [Plugins]
 Plugins[] = CorePluginsAdmin
