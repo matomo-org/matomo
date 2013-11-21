@@ -1150,31 +1150,51 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     handleColumnHighlighting: function (domElem) {
 
+        var maxWidth = {};
+        var currentNthChild = null;
+
         // higlight all columns on hover
         $('td', domElem).hover(
             function() {
                 var table    = $(this).closest('table');
-                var nthChild = $(this).parent('tr').children().index($(this));
+                var nthChild = $(this).parent('tr').children().index($(this)) + 1;
                 var rows     = $('tr', table);
 
+                if (!maxWidth[nthChild]) {
+                    maxWidth[nthChild] = 0;
+                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                        var width    = $(element).width();
+                        if (width > maxWidth[nthChild]) {
+                            maxWidth[nthChild] = width;
+                        }
+                    });
+                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                        $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
+                    });
+                }
 
-                var maxWidth = 0;
-                rows.find("td:nth-child(" + (nthChild + 1) + ") .value").each(function (index, element) {
-                    var width    = $(element).width();
-                    if (width > maxWidth) {
-                        maxWidth = width;
-                    }
-                });
-                rows.find("td:nth-child(" + (nthChild + 1) + ") .value").each(function (index, element) {
-                    $(element).css({width: maxWidth, display: 'inline-block'});
-                });
+                if (currentNthChild === nthChild) {
+                    return;
+                }
 
-                var rows     = $('tr', table);
-                rows.find("td:nth-child(" + (nthChild + 1) + ")").addClass('highlight');
+                currentNthChild = nthChild;
+
+                rows.find("td:nth-child(" + (nthChild) + ")").addClass('highlight');
             },
-            function() {
+            function(event) {
+
                 var table    = $(this).closest('table');
+                var tr       = $(this).parent('tr').children();
                 var nthChild = $(this).parent('tr').children().index($(this));
+                var targetTd = $(event.relatedTarget).closest('td');
+                var nthChildTarget = targetTd.parent('tr').children().index(targetTd);
+
+                if (nthChild == nthChildTarget) {
+                    return;
+                }
+
+                currentNthChild = null;
+
                 var rows     = $('tr', table);
                 rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
             }
