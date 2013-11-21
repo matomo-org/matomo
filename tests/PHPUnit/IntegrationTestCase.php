@@ -725,15 +725,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
         $response = $this->normalizePdfContent($response);
 
-        if (empty($compareAgainst)) {
-            file_put_contents($processedFilePath, $response);
-        }
-
         $expected = $this->loadExpectedFile($expectedFilePath);
         $expectedContent = $expected;
         $expected = $this->normalizePdfContent($expected);
 
         if (empty($expected)) {
+
+            if (empty($compareAgainst)) {
+                file_put_contents($processedFilePath, $response);
+            }
+
             print("The expected file is not found at '$expectedFilePath'. The Processed response was:");
             print("\n----------------------------\n\n");
             var_dump($response);
@@ -796,6 +797,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $expected = str_replace('.11</revenue>', '</revenue>', $expected);
         $response = str_replace('.11</revenue>', '</revenue>', $response);
 
+        file_put_contents($processedFilePath, $response);
+
         try {
             if (strpos($requestUrl, 'format=xml') !== false) {
                 $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath");
@@ -807,18 +810,12 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             if (trim($response) == trim($expected)
                 && empty($compareAgainst)
             ) {
-                file_put_contents($processedFilePath, $response);
-
                 if(trim($expectedContent) != trim($expected)) {
                     file_put_contents($expectedFilePath, $expected);
                 }
             }
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
-
-            if (!empty($compareAgainst)) {
-                file_put_contents($processedFilePath, $response);
-            }
         }
     }
 
