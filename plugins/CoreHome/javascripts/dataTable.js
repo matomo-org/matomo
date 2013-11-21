@@ -17,17 +17,17 @@ var exports = require('piwik/UI'),
 /**
  * This class contains the client side logic for viewing and interacting with
  * Piwik datatables.
- * 
+ *
  * The id attribute for DataTables is set dynamically by the initNewDataTables
  * method, and this class instance is stored using the jQuery $.data function
  * with the 'uiControlObject' key.
- * 
+ *
  * To find a datatable element by report (ie, 'UserSettings.getBrowser'),
  * use piwik.DataTable.getDataTableByReport.
- * 
+ *
  * To get the dataTable JS instance (an instance of this class) for a
  * datatable HTML element, use $(element).data('uiControlObject').
- * 
+ *
  * @constructor
  */
 function DataTable(element) {
@@ -466,9 +466,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                             self.param.filter_column = 'label';
                             self.param.filter_pattern = keyword;
                         }
-						
+
 						delete self.param.totalRows;
-						
+
                         self.reloadAjaxDataTable(true, callbackSuccess);
                     }
                 );
@@ -759,7 +759,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             if (!id) {
                 return;
             }
-            
+
             var handler = DataTable._footerIconHandlers[id];
             if (!handler) {
                 handler = DataTable._footerIconHandlers['table'];
@@ -901,7 +901,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
                 if (label) {
                     label = label.split(',');
-                    
+
                     if (label.length > 1) {
                         for (var i = 0; i != label.length; ++i) {
                             str += '&label[]=' + encodeURIComponent(label[i]);
@@ -1152,6 +1152,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var maxWidth = {};
         var currentNthChild = null;
+        var self = this;
 
         // higlight all columns on hover
         $('td', domElem).hover(
@@ -1180,6 +1181,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 currentNthChild = nthChild;
 
                 rows.find("td:nth-child(" + (nthChild) + ")").addClass('highlight');
+                self.repositionRowActions($(this).parent('tr'));
             },
             function(event) {
 
@@ -1237,9 +1239,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     self.param.idSubtable = idSubTable;
                     self.param.action = self.props.subtable_controller_action;
-					
+
 					delete self.param.totalRows;
-					
+
                     self.reloadAjaxDataTable(false, function(response) {
                         self.dataTableLoaded(response, divIdToReplaceWithSubTable);
                     });
@@ -1372,7 +1374,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     handleRowActions: function (domElem) {
         this.doHandleRowActions(domElem.find('table > tbody > tr'));
     },
-	
+
 	handleCellTooltips: function(domElem) {
 		domElem.find('span.cell-tooltip').tooltip({
 			track: true,
@@ -1500,6 +1502,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             // show actions that are available for the row on hover
             var actionsDom = null;
+
             tr.hover(function () {
                     if (actionsDom === null) {
                         // create dom nodes on the fly
@@ -1584,8 +1587,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     repositionRowActions: function (tr) {
+        if (!tr) {
+            return;
+        }
+
         var td = tr.find('td:first');
         var actions = tr.find('div.dataTableRowActions');
+
+        if (!actions) {
+            return;
+        }
+
         actions.height(tr.innerHeight() - 2);
         actions.css('marginLeft', (td.width() + 5 - actions.outerWidth()) + 'px');
     },
