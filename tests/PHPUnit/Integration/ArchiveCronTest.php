@@ -87,10 +87,13 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     public function testArchivePhpCron($optionGroupName, $archivePhpOptions)
     {
         self::deleteArchiveTables();
+
         $this->setLastRunArchiveOptions();
         $output = $this->runArchivePhpCron($archivePhpOptions);
 
         foreach ($this->getApiForTesting() as $testInfo) {
+
+
             list($api, $params) = $testInfo;
 
             if (!isset($params['testSuffix'])) {
@@ -104,7 +107,11 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                 $params['periods'] = array('day');
             }
 
-            $this->runApiTests($api, $params);
+            $success = $this->runApiTests($api, $params);
+
+            if(!$success) {
+                var_dump($output);
+            }
         }
     }
 
@@ -113,7 +120,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         $periodTypes = array('day', 'periods');
         $idSites = API::getInstance()->getAllSitesId();
 
-        $daysAgoArchiveRanSuccessfully = 10;
+        $daysAgoArchiveRanSuccessfully = 50;
         $this->assertTrue($daysAgoArchiveRanSuccessfully > (\Piwik\CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400));
         $time = Date::factory(self::$fixture->dateTime)->subDay($daysAgoArchiveRanSuccessfully)->getTimestamp();
 
