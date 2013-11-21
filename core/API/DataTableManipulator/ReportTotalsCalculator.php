@@ -42,7 +42,9 @@ class ReportTotalsCalculator extends DataTableManipulator
      */
     public function calculate($table)
     {
-        // looks like apiModule & apiMethod is not set in case of flat=1
+        // apiModule and/or apiMethod is empty for instance in case when flat=1 is called. Basically whenever a
+        // datamanipulator calls the API and wants the dataTable in return, see callApiAndReturnDataTable().
+        // it is also not set for some settings API request etc.
         if (empty($this->apiModule) || empty($this->apiMethod)) {
             return $table;
         }
