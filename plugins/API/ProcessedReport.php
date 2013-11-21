@@ -604,7 +604,7 @@ class ProcessedReport
         );
     }
 
-    private function aggregateReportTotalValues(DataTable $simpleDataTable, $totals)
+    private function aggregateReportTotalValues($simpleDataTable, $totals)
     {
         $metadataTotals = $simpleDataTable->getMetadata('totals');
 
@@ -612,7 +612,7 @@ class ProcessedReport
 
             return $totals;
         }
-        
+
         $simpleTotals = $this->hideShowMetrics($metadataTotals);
 
         foreach ($simpleTotals as $metric => $value) {
