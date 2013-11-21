@@ -1156,6 +1156,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var table    = $(this).closest('table');
                 var nthChild = $(this).parent('tr').children().index($(this));
                 var rows     = $('tr', table);
+
+
+                var maxWidth = 0;
+                rows.find("td:nth-child(" + (nthChild + 1) + ") .value").each(function (index, element) {
+                    var width    = $(element).width();
+                    if (width > maxWidth) {
+                        maxWidth = width;
+                    }
+                });
+                rows.find("td:nth-child(" + (nthChild + 1) + ") .value").each(function (index, element) {
+                    $(element).css({width: maxWidth, display: 'inline-block'});
+                });
+
+                var rows     = $('tr', table);
                 rows.find("td:nth-child(" + (nthChild + 1) + ")").addClass('highlight');
             },
             function() {

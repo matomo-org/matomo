@@ -14,7 +14,7 @@
         <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
         {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
         {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
-{% endif %}{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}
+{% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}</span>
 {% if column=='label' %}</span>{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
     </a>
