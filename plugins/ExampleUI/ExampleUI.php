@@ -44,7 +44,7 @@ class ExampleUI extends \Piwik\Plugin
     function addTopMenuItems()
     {
         $urlParams = array('module' => 'ExampleUI', 'action' => 'notifications');
-        MenuTop::getInstance()->addEntry('Example UI Notifications', $urlParams, $displayedForCurrentUser = true, $order = 3);
+        MenuTop::getInstance()->addEntry('UI Notifications', $urlParams, $displayedForCurrentUser = true, $order = 3);
     }
 
     private function addSubMenu($subMenu, $action, $order)
