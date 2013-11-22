@@ -941,7 +941,7 @@ class PiwikTracker
     public function getAttributionInfo()
     {
         if(!empty($this->attributionInfo)) {
-            return $this->attributionInfo;
+            return json_encode($this->attributionInfo);
         }
         return $this->getCookieMatchingName('ref');
     }
