@@ -46,7 +46,7 @@ class Theme
     public function rewriteAssetsPathToTheme($output)
     {
         if ($this->themeName == \Piwik\Plugin\Manager::DEFAULT_THEME) {
-            return;
+            return $output;
         }
 
         $pattern = array(
