@@ -167,6 +167,9 @@ class AssetManager
          */
         Piwik::postEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
 
+        $theme = new Theme;
+        $mergedContent = $theme->rewriteAssetsPathToTheme($mergedContent);
+
         $mergedContent =
             $firstLineCompileHash . "\n"
             . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
@@ -201,7 +204,7 @@ class AssetManager
     /*
      * Rewrite css url directives
      * - rewrites relative paths
-     *  - rewrite windows directory separator \\ to /
+     * - rewrite windows directory separator \\ to /
      */
     protected static function rewriteCssPathsDirectives($relativePath, $content)
     {
@@ -313,14 +316,10 @@ class AssetManager
 
         $stylesheets = self::sortCssFiles($stylesheets);
 
-        // We look for the currently enabled theme and add CSS from the json
-        $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
-        if ($theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
-            $info = $theme->getInformation();
-            if (isset($info['stylesheet'])) {
-                $themeStylesheetFile = 'plugins/' . $theme->getPluginName() . '/' . $info['stylesheet'];
-            }
-            $stylesheets[] = $themeStylesheetFile;
+        $theme = new Theme;
+        $themeStylesheet = $theme->getStylesheet();
+        if($themeStylesheet) {
+            $stylesheets[] = $themeStylesheet;
         }
         return $stylesheets;
     }
@@ -391,6 +390,9 @@ class AssetManager
          * @param string &$mergedContent The minified and merged JavaScript.
          */
         Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
+
+        $theme = new Theme;
+        $mergedContent = $theme->rewriteAssetsPathToTheme($mergedContent);
 
         self::writeAssetToFile($mergedContent, self::MERGED_JS_FILE);
     }
