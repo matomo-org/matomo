@@ -1,0 +1,36 @@
+.ui-dialog-title {
+    color: @brand-black;
+    font-weight: normal;
+}
+
+#feedback-sent,
+#feedback-faq {
+    p {
+        color: @brand-black;
+        strong {
+            color: @brand-black;
+        }
+    }
+
+    a {
+        color: @brand-blue;
+    }
+
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 0px !important;
+    .ui-icon {
+        .opacity(0.5);
+    }
+    &:hover {
+        .opacity(1);
+        background: none !important;
+    }
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    border: 0px !important;
+}
+
+button:hover, .add-trusted-host:hover, input[type="submit"]:hover, button[type="button"]:hover, .submit:hover { 
+    background-color: @brand-red !important;
+}
