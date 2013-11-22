@@ -113,7 +113,7 @@ abstract class UITest extends IntegrationTestCase
         
         parent::tearDownAfterClass();
     }
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -262,6 +262,11 @@ Screenshot diff: $diffPath\n";
             }
         }
 
+        self::createProxySymlinks();
+    }
+
+    private static function createProxySymlinks()
+    {
         foreach (self::$recursiveProxyLinkNames as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
