@@ -74,6 +74,7 @@ class Manager extends Singleton
         'ExamplePluginTemplate',
         'ExampleTheme',
         'LeftMenu',
+        'Morpheus',
     );
 
     public function getCorePluginsDisabledByDefault()
@@ -339,9 +340,8 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns the non default theme currently enabled.
-     *
-     * If Zeitgeist is enabled, returns false (Zeitgeist cannot be disabled).
+     * Returns the theme currently enabled.
+     * If no theme is enabled, Zeitgeist is returned (default theme)
      *
      * @return Plugin
      * @api
