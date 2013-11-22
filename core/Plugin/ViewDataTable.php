@@ -299,9 +299,9 @@ abstract class ViewDataTable implements ViewInterface
 
         foreach ($properties as $name) {
             if (property_exists($this->requestConfig, $name)) {
-                $this->requestConfig->name = $this->getPropertyFromQueryParam($name, $this->requestConfig->$name);
+                $this->requestConfig->$name = $this->getPropertyFromQueryParam($name, $this->requestConfig->$name);
             } elseif (property_exists($this->config, $name)) {
-                $this->config->name  = $this->getPropertyFromQueryParam($name, $this->config->$name);
+                $this->config->$name  = $this->getPropertyFromQueryParam($name, $this->config->$name);
             }
         }
 
