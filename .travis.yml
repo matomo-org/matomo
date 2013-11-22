@@ -38,10 +38,10 @@ before_script:
 
 after_success:
   - cd $TRAVIS_BUILD_DIR
-  - ./tests/travis/initiate_ui_tests.sh
   - ./tests/travis/generate_docs.sh
 
 after_script:
+  - ./tests/travis/initiate_ui_tests.sh
   - cat /var/log/nginx/error.log
   - cat $TRAVIS_BUILD_DIR/tmp/php-fpm.log
   - cat $TRAVIS_BUILD_DIR/tmp/logs/piwik.log
