@@ -52,21 +52,28 @@ class HtmlTable extends Visualization
             $period = 'range';
         }
 
-        $request = new ApiRequest(array(
-            'method' => 'API.get',
-            'module' => 'API',
-            'action' => 'get',
-            'format' => 'original',
-            'filter_limit'  => '-1',
-            'filter_offset' => 0,
-            'period'        => $period,
-            'showColumns'   => implode(',', $this->config->columns_to_display),
-            'columns'       => implode(',', $this->config->columns_to_display)
-        ));
+        if ($this->dataTable->getRowsCount()) {
 
-        $dataTable = $request->process();
+            $request = new ApiRequest(array(
+                'method' => 'API.get',
+                'module' => 'API',
+                'action' => 'get',
+                'format' => 'original',
+                'filter_limit'  => '-1',
+                'disable_generic_filters' => 1,
+                'expanded'      => 0,
+                'flat'          => 0,
+                'filter_offset' => 0,
+                'period'        => $period,
+                'showColumns'   => implode(',', $this->config->columns_to_display),
+                'columns'       => implode(',', $this->config->columns_to_display)
+            ));
 
-        $this->assignTemplateVar('siteSummary', $dataTable);
+            $dataTable = $request->process();
+            $this->assignTemplateVar('siteSummary', $dataTable);
+        }
+
+
     }
 
 }

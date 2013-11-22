@@ -25,7 +25,11 @@
 {% if column in totals|keys -%}
     {% set labelColumn   = columns_to_display|first %}
     {% set reportTotal   = totals[column] %}
-    {% set siteTotal     = siteSummary.getFirstRow.getColumn(column) %}
+    {% if siteSummary is defined and siteSummary.getFirstRow %}
+        {% set siteTotal = siteSummary.getFirstRow.getColumn(column) %}
+    {% else %}
+        {% set siteTotal = 0 %}
+    {% endif %}
     {% set rowPercentage = row.getColumn(column)|percentage(reportTotal, 1) %}
     {% set metricTitle   = translations[column]|default(column) %}
     {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|raw %}
