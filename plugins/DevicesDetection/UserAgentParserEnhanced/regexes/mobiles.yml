@@ -136,7 +136,7 @@ Apple:
   models:
     - regex: 'AppleTV'
       model: 'Apple TV'
-      device: 'tv'
+      device: 'desktop'
     - regex: 'iPad'
       model: 'iPad'
       device: 'tablet'
@@ -363,7 +363,7 @@ Google:
       device: 'tablet'
       model: '$1'
     - regex: '(GoogleTV)'
-      device: 'tv'
+      device: 'desktop'
       model: '$1'
 
 # Gradiente
@@ -375,16 +375,6 @@ Gradiente:
       model: '$1'
     - regex: 'GRADIENTE ([A-Za-z0-9\-]+)'
       model: '$1'
-
-# Grundig
-Grundig:
-  regex: 'GRUNDIG|portalmmm/2\.0 G'
-  device: 'tv'
-  models: 
-    - regex: 'GRUNDIG ([A-Za-z0-9]+)'
-      model: '$1'
-    - regex: 'portalmmm/2\.0 G([A-Za-z0-9]+)'
-      model: 'G$1'
 
 # Haier
 Haier:
@@ -479,9 +469,6 @@ LG:
   regex: 'LG|portalmmm/2\.0 (?:KE|KG|KP|L3)|VX[0-9]+'
   device: 'smartphone'
   models:
-    - regex: 'LGE_DLNA_SDK'
-      device: 'tv'
-      model: 'NetCast'
     - regex: 'LGE(?: |-LG| LG-AX|-)([A-Za-z0-9]+)'
       model: '$1'
     - regex: 'LGE;([A-Za-z0-9\-]+)'
@@ -654,9 +641,6 @@ Panasonic:
   regex: 'Panasonic'
   device: 'smartphone'
   models:
-    - regex: 'Panasonic MIL DLNA'
-      device: 'tv'
-      model: 'Viera Cast'
     - regex: 'Panasonic[ \-]?([A-Za-z0-9]+)'
       model: '$1'
     - regex: 'portalmmm/2.0 (P[A-Za-z0-9]+)'
@@ -717,9 +701,6 @@ Samsung:
       model: '$1'
     - regex: 'SAM-([A-Za-z0-9]+)'
       model: 'SCH-$1'
-    - regex: 'SMART-TV'
-      device: 'tv'
-      model: 'Smart TV'
     - regex: '(Galaxy [A-Za-z0-9]+)'
       model: '$1'
     - regex: '(?:portalmmm|o2imode)/2\.0 ([SZ][A-Za-z0-9]+)'
@@ -773,19 +754,6 @@ Spice:
     - regex: 'Spice-([A-Za-z0-9]+)'
       model: '$1'
   
-# Sharp
-Sharp:
-  regex: 'SHARP|SBM'
-  device: 'smartphone'
-  models: 
-    - regex: 'SHARP-AQUOS'
-      device: 'tv'
-      model: 'Aquos Net Plus'
-    - regex: 'SHARP[ \-]([A-Za-z0-9\-]+)'
-      model: '$1'
-    - regex: '(?:SHARP|SBM)([A-Za-z0-9]+)'
-      model: '$1'
-
 # Softbank
 Softbank:
   regex: 'Softbank|J-PHONE'
@@ -932,12 +900,6 @@ Fly:
       model: '$1'
     - regex: 'MERIDIAN-([A-Za-z0-9]+)'
       model: '$1'
-
-# WebTV
-WebTV:
-  regex: 'WebTV/(\d+\.\d+)'
-  device: 'tv'
-  model: '$1'
 
 # ZTE
 ZTE:
