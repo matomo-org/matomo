@@ -30,7 +30,7 @@
     {% set metricTitle   = translations[column]|default(column) %}
     {% set reportLabel   = row.getColumn(labelColumn)|truncate(40) %}
 
-    {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(reportLabel, rowPercentage, reportTotal, metricTitle, translations[labelColumn]|default(labelColumn)) %}
+    {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(reportLabel, rowPercentage|e('html_attr'), reportTotal|e('html_attr'), metricTitle|e('html_attr'), translations[labelColumn]|default(labelColumn))|e('html_attr') %}
 
     {% if siteTotal and siteTotal > reportTotal %}
         {% set totalPercentage   = row.getColumn(column)|percentage(siteTotal, 1) %}
@@ -39,6 +39,6 @@
         {% set totalRatioTooltip = '' %}
     {% endif %}
 
-    <span class="ratio" title="{{ reportRatioTooltip|e('html_attr') }} {{ totalRatioTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
+    <span class="ratio" title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
 {%- endif %}
 {% endspaceless %}
