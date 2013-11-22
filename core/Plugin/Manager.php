@@ -74,6 +74,7 @@ class Manager extends Singleton
         'ExamplePluginTemplate',
         'ExampleTheme',
         'LeftMenu',
+        'Morpheus'
     );
 
     public function getCorePluginsDisabledByDefault()
