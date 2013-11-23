@@ -321,6 +321,7 @@ class AssetManager
         if($themeStylesheet) {
             $stylesheets[] = $themeStylesheet;
         }
+
         return $stylesheets;
     }
 
@@ -448,6 +449,13 @@ class AssetManager
          * @param string[] $jsFiles The JavaScript files to load.
          */
         Piwik::postEvent(self::JAVASCRIPT_IMPORT_EVENT, array(&$jsFiles));
+
+        $theme = new Theme;
+        $jsInThemes = $theme->getJavaScriptFiles();
+        if(!empty($jsInThemes)) {
+            $jsFiles = array_merge($jsFiles, $jsInThemes);
+        }
+
         $jsFiles = self::sortJsFiles($jsFiles);
         return $jsFiles;
     }

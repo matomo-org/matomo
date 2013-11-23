@@ -43,6 +43,26 @@ class Theme
         return $themeStylesheet;
     }
 
+    public function getJavaScriptFiles()
+    {
+        if ($this->themeName == \Piwik\Plugin\Manager::DEFAULT_THEME) {
+            return false;
+        }
+
+        $info = $this->theme->getInformation();
+        if (empty($info['javascript'])) {
+            return false;
+        }
+        $jsFiles = $info['javascript'];
+        if(!is_array($jsFiles)) {
+            $jsFiles = array($jsFiles);
+        }
+        foreach($jsFiles as &$jsFile) {
+            $jsFile = 'plugins/' . $this->theme->getPluginName() . '/' . $jsFile;
+        }
+        return $jsFiles;
+    }
+
     public function rewriteAssetsPathToTheme($output)
     {
         if ($this->themeName == \Piwik\Plugin\Manager::DEFAULT_THEME) {
