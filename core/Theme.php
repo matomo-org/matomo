@@ -73,7 +73,8 @@ class Theme
         $pathAsset = $src[2];
 
         // Basic health check, we dont replace if not starting with plugins/
-        if( strpos($pathAsset, 'plugins') !== 0) {
+        $posPluginsInPath = strpos($pathAsset, 'plugins');
+        if( $posPluginsInPath !== 0) {
             return $source;
         }
 
@@ -82,7 +83,17 @@ class Theme
             return $source;
         }
 
-        $defaultThemePath = "plugins/" . \Piwik\Plugin\Manager::DEFAULT_THEME;
+        $pathPluginName = substr($pathAsset, strlen('plugins/'));
+        $nextSlash = strpos($pathPluginName, '/');
+        if($nextSlash === false) {
+            return $source;
+        }
+        $pathPluginName = substr($pathPluginName, 0, $nextSlash);
+
+        // replace all plugin assets to the theme, if the theme overrides this asset
+        // when there are name conflicts (two plugins define the same asset name in same folder),
+        // we shall rename so there is no more conflict.
+        $defaultThemePath = "plugins/" . $pathPluginName;
         $newThemePath = "plugins/" . $this->themeName;
         $overridingAsset = str_replace($defaultThemePath, $newThemePath, $pathAsset);
 
