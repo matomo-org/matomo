@@ -1,4 +1,4 @@
-{% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
+{% set displayVisitorsInOwnColumn = (isWidget ? false : true) %}
 <table class="dataTable" cellspacing="0" width="100%" style="width:100%;table-layout:fixed;">
 <thead>
 <tr>
@@ -22,8 +22,9 @@
 <tbody>
 {% set cycleIndex=0 %}
 {% for visitor in dataTable.getRows() %}
+    {% set inlineVisitorRank = visitor.getColumn('visitEcommerceStatusIcon') ? false : true %}
     {% set visitorColumnContent %}
-        &nbsp;
+        <p {% if inlineVisitorRank %}style="display: inline-block"{% endif %}>
         <img src="{{ visitor.getColumn('countryFlag') }}" title="{{ visitor.getColumn('location') }}, Provider {{ visitor.getColumn('providerName') }}"/>
         &nbsp;
         {% if visitor.getColumn('plugins') %}
@@ -39,10 +40,10 @@
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
                  title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitorId') is not empty %}{% endif %}"/>
         {% endif %}
-
-        {% if not displayVisitorsInOwnColumn %}<br/><br/>{% endif %}
-        &nbsp;
+        </p>
+        {% if not displayVisitorsInOwnColumn %}<br/><br />{% endif %}
         {% if visitor.getColumn('visitConverted') %}
+        <p {% if inlineVisitorRank %}style="display: inline-block"{% endif %}>
             <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank'
                 {% if not displayVisitorsInOwnColumn %}style='margin-left:0;'{% endif %}>
             <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
@@ -53,8 +54,9 @@
                 <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
             {% endif %}
             </span>
+        </p>
         {% endif %}
-        <br/>
+        {% if not displayVisitorsInOwnColumn %}<br/><br />{% endif %}
         {% if displayVisitorsInOwnColumn %}
             {% if visitor.getColumn('pluginsIcons')|length > 0 %}
                 <hr/>
