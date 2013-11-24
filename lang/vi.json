@@ -1313,7 +1313,7 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Báo cáo này cho thấy tất cả sự chỉ dẫn của bạn trong một báo cáo, liệt kê tất cả các trang web, từ khóa tìm kiếm và Chiến dịch được sử dụng bởi khách truy cập để tìm trang web của bạn.",
-        "CampaignFooterHelp": "Trợ giúp: %s chiến dịch theo dõi trong Piwik %s công cụ xây dựng URL",
+        "CampaignFooterHelp": "Trợ giúp: %s chiến dịch theo dõi trong Piwik %s công cụ xây dựng URL%s",
         "Campaigns": "Các chiến dịch",
         "CampaignsDocumentation": "Khách truy cập đã tới trang web của bạn như là kết quả của một chiến dịch. %s Xem báo cáo %s để biết thêm chi tiết.",
         "CampaignsReportDocumentation": "Báo cáo này cho thấy các chiến dịch dẫn khách truy cập vào trang web của bạn. %s Để biết thêm thông tin về các chiến dịch theo dõi, đọc tài liệu chiến dịch %s trên %s piwik.org",

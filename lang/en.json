@@ -1296,7 +1296,7 @@
         "ColumnWebsitePage": "Website Page",
         "ColumnSocial": "Social network",
         "ColumnCampaign": "Campaign",
-        "CampaignFooterHelp": "Help: %sTracking Campaigns in Piwik %s URL Builder tool",
+        "CampaignFooterHelp": "Help: %sTracking Campaigns in Piwik %s URL Builder tool%s",
         "ReferrerName": "Referrer Name",
         "DetailsByReferrerType": "Details by Referrer Type",
         "TypeDirectEntries": "%s direct entries",
