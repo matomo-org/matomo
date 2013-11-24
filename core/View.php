@@ -240,6 +240,9 @@ class View implements ViewInterface
     {
         $output = $this->twig->render($this->template, $this->templateVars);
         $output = $this->applyFilter_cacheBuster($output);
+
+        $helper = new Theme;
+        $output = $helper->rewriteAssetsPathToTheme($output);
         return $output;
     }
 

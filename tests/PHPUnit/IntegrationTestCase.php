@@ -187,7 +187,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik::setUserIsSuperUser();
 
         Cache::deleteTrackerCache();
-        if ($installPlugins === null) $installPlugins = $createEmptyDatabase;
+        if ($installPlugins === null) {
+            $installPlugins = $createEmptyDatabase;
+        }
         static::installAndLoadPlugins( $installPlugins);
 
 

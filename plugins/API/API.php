@@ -323,16 +323,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/images/logo.png';
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.png')
-        ) {
-            $logo = 'misc/user/logo.png';
-        }
-        if (!$pathOnly) {
-            return SettingsPiwik::getPiwikUrl() . $logo;
-        }
-        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
+        $defaultLogo = 'plugins/Zeitgeist/images/logo.png';
+        $themeLogo = 'plugins/%s/images/logo.png';
+        $userLogo = 'misc/user/logo.png';
+        return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $userLogo);
     }
 
     /**
@@ -343,16 +337,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/images/logo-header.png';
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo-header.png')
-        ) {
-            $logo = 'misc/user/logo-header.png';
-        }
-        if (!$pathOnly) {
-            return SettingsPiwik::getPiwikUrl() . $logo;
-        }
-        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
+        $defaultLogo = 'plugins/Zeitgeist/images/logo-header.png';
+        $themeLogo = 'plugins/%s/images/logo-header.png';
+        $customLogo = 'misc/user/logo-header.png';
+        return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
     }
 
     /**
@@ -364,16 +352,35 @@ class API extends \Piwik\Plugin\API
      */
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/images/logo.svg';
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.svg')
-        ) {
-            $logo = 'misc/user/logo.svg';
+        $defaultLogo = 'plugins/Zeitgeist/images/logo.svg';
+        $themeLogo = 'plugins/%s/images/logo.svg';
+        $customLogo = 'misc/user/logo.svg';
+        $svg = $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
+        return $svg;
+    }
+
+    protected function getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo)
+    {
+        $pathToPiwikRoot = Filesystem::getPathToPiwikRoot();
+
+        $logo = $defaultLogo;
+
+        $themeName = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
+        $themeLogo = sprintf($themeLogo, $themeName);
+
+        if (file_exists($pathToPiwikRoot . '/' . $themeLogo)) {
+            $logo = $themeLogo;
         }
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
+            && file_exists($pathToPiwikRoot . '/' . $customLogo)
+        ) {
+            $logo = $customLogo;
+        }
+
         if (!$pathOnly) {
             return SettingsPiwik::getPiwikUrl() . $logo;
         }
-        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
+        return $pathToPiwikRoot . '/' . $logo;
     }
 
     /**
@@ -386,7 +393,9 @@ class API extends \Piwik\Plugin\API
         if (Config::getInstance()->branding['use_custom_logo'] == 0) {
             /* We always have our application logo */
             return true;
-        } else if (Config::getInstance()->branding['use_custom_logo'] == 1
+        }
+
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             return true;
