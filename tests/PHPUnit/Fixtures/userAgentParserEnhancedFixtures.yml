@@ -11399,8 +11399,8 @@
   browser:
     name: UNK
     short_name: UNK
-    version: UNK
-  device: 1
+    version:
+  device: 5
   brand: LG
   model: NetCast 4.0
   os_family: Other
@@ -11410,12 +11410,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version:
   browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 1
+    name: Safari
+    short_name: SF
+    version: 5.0
+  device: 5
   brand: LG
   model: NetCast 3.0
   os_family: Other
@@ -11425,14 +11425,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 1
+    name: Safari
+    short_name: SF
+    version:
+  device: 5
   brand: LG
-  model: GLOBAL_PLAT3
+  model: GLOBAL PLAT3
   os_family: Other
   browser_family: Other
 
@@ -11440,12 +11440,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: BO
   model: BeoVision
   os_family: Other
@@ -11455,12 +11455,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: BO
   model: BeoVision
   os_family: Other
@@ -11470,12 +11470,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: BO
   model: BeoVision
   os_family: Other
@@ -11485,14 +11485,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
-  brand: BeoVision
-  model: BO
+  device: 5
+  brand: BO
+  model: BeoVision
   os_family: Other
   browser_family: Other
 
@@ -11500,12 +11500,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 1
+    name: Opera
+    short_name: OP
+    version: 4.0
+  device: 5
   brand: CN
   model: CNV001
   os_family: Other
@@ -11515,27 +11515,27 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: CN
   model: CNV001
   os_family: Other
   browser_family: Other
 
 - user_agent: Mozilla/5.0 (Linux mips; U;HbbTV/1.1.1 (+RTSP;DMM;Dreambox;0.1a;1.0;) CE-HTML/1.0; en) AppleWebKit/535.19 no/Volksbox QtWebkit/2.2
-  os:
+    os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: DM
   model: Dreambox
   os_family: Other
@@ -11545,14 +11545,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: GU
-  model: UNK
+  model: 
   os_family: Other
   browser_family: Other
 
@@ -11560,14 +11560,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: GU
-  model: UNK
+  model: 
   os_family: Other
   browser_family: Other
 
@@ -11575,14 +11575,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: GU
-  model: UNK
+  model: 
   os_family: Other
   browser_family: Other
 
@@ -11590,14 +11590,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: GU
-  model: UNK
+  model: 
   os_family: Other
   browser_family: Other
 
@@ -11605,14 +11605,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: GU
-  model: UNK
+  model: 
   os_family: Other
   browser_family: Other
 
@@ -11620,14 +11620,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: HX
-  model: HD Nano
+  model: HD NANO
   os_family: Other
   browser_family: Other
 
@@ -11640,7 +11640,7 @@
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: HX
   model: IRHD-5100S
   os_family: Other
@@ -11650,14 +11650,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: HX
-  model: iCord HD
+  model: iCord HD+
   os_family: Other
   browser_family: Other
   
@@ -11665,12 +11665,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: HX
   model: iCord MINI
   os_family: Other
@@ -11680,12 +11680,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: HX
   model: CXHD-5100C
   os_family: Other
@@ -11695,12 +11695,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: HX
   model: HMS-1000S
   os_family: Other
@@ -11710,42 +11710,42 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 2
   brand: HX
-  model: iCord HD
+  model: iCord HD+
   os_family: Other
   browser_family: Other
   
 - user_agent: HbbTV/1.1.1 (+PVR;Humax;HD FOX+;1.00.12;1.0)CE-HTML/1.0 ANTGalio/3.1.1.23.04.09
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: ANTGalio
     short_name: AG
     version: 3.1
-  device: 1
+  device: 5
   brand: HX
-  model: HD FOX
+  model: HD FOX+
   os_family: Other
   browser_family: Other
 
 - user_agent: HbbTV/1.1.1 (+PVR;Humax;iCord Cable;1.01.09;1.0)CE-HTML/1.0 ANTGalio/3.1.1.23.04.09
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: ANTGalio
     short_name: AG
     version: 3.1
-  device: 1
+  device: 5
   brand: HX
   model: iCord Cable
   os_family: Other
@@ -11755,12 +11755,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: IT
   model: Vantage
   os_family: Other
@@ -11770,12 +11770,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: IT
   model: VT-100
   os_family: Other
@@ -11785,12 +11785,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: IT
   model: VT-100
   os_family: Other
@@ -11800,12 +11800,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: LO
   model: SL150
   os_family: Other
@@ -11815,12 +11815,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: LO
   model: SL220
   os_family: Other
@@ -11830,27 +11830,27 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 10.3
-  device: 1
-  brand: LO
-  model: UNK
+  device: 
+  brand: 
+  model: 
   os_family: Other
   browser_family: Other
 
 - user_agent: LOEWE/TV HBBTV/1.0 CE-HTML/1.0 SL150/14.16.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: LO
   model: SL150
   os_family: Other
@@ -11858,14 +11858,14 @@
 
 - user_agent: LOEWE/TV HbbTV/1.1.1 (+PVR; Loewe; SL121; LOH;;) CE-HTML/1.0 SL121/16.16.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: LinUNKux
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: LO
   model: SL121
   os_family: Other
@@ -11873,14 +11873,14 @@
 
 - user_agent: LOEWE/TV HbbTV/1.1.1 CE-HTML/1.0 SL121/16.16.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: LO
   model: SL121
   os_family: Other
@@ -11888,14 +11888,14 @@
 
 - user_agent: LOEWE/TV HbbTV/1.2.1 (+PVR; Loewe; SL220; LOH/4.00;;) CE-HTML/1.0 SL220/
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: LO
   model: SL220
   os_family: Other
@@ -11905,27 +11905,27 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 10.6
-  device: 1
-  brand: LO
-  model: UNK
+  device: 
+  brand: 
+  model: 
   os_family: Other
   browser_family: Other
 
 - user_agent: HbbTV/1.2.1 (;MTK;MT5396;;;) ANTGalio/3.3.0.26.02.devel
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: ANTGalio
     short_name: AG
     version: 3.3
-  device: 1
+  device: 5
   brand: MK
   model: MT5396
   os_family: Other
@@ -11933,14 +11933,14 @@
 
 - user_agent: HbbTV/1.1.1 (;MTK;MT5396;;;) ANTGalio/3.2.0.C341.06
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: ANTGalio
     short_name: AG
     version: 3.2
-  device: 1
+  device: 5
   brand: MK
   model: MT5396
   os_family: Other
@@ -11950,12 +11950,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 1
+    name: Safari
+    short_name: SF
+    version: 
+  device: 5
   brand: ME
   model: UNK
   os_family: Other
@@ -11963,14 +11963,14 @@
 
 - user_agent: HbbTV/1.1.1 (;Panasonic;VIERA 2011;1.805;0071-7702 2000-0000;)
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: PA
   model: VIERA 2011
   os_family: Other
@@ -11978,14 +11978,14 @@
 
 - user_agent: HbbTV/1.1.1 (;Panasonic;VIERA 2012;1.210;0071-3403 2000-0000;)
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: PA
   model: VIERA 2012
   os_family: Other
@@ -11993,14 +11993,14 @@
 
 - user_agent: HbbTV/1.2.1 (;Panasonic;VIERA 2013;3.838;1101-0003 0004-0000;)
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: PA
   model: VIERA 2013
   os_family: Other
@@ -12010,14 +12010,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: PA
-  model: DIGA M9031
+  model: 
   os_family: Other
   browser_family: Other
 
@@ -12025,12 +12025,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: IA
   model: LF1V358
   os_family: Other
@@ -12040,12 +12040,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.1
-  device: 1
+  device: 5
   brand: PE
   model: LF1V350
   os_family: Other
@@ -12055,12 +12055,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.1
-  device: 1
+  device: 5
   brand: TC
   model: LF1V349
   os_family: Other
@@ -12070,12 +12070,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: TN
   model: LF1V375
   os_family: Other
@@ -12085,12 +12085,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: TN
   model: LF1V017
   os_family: Other
@@ -12100,29 +12100,29 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: TC
   model: LF1V042
   os_family: Other
   browser_family: Other
 
-- user_agent: Opera/9.80 (Linux armv7l; U; CE-HTML/1.0 NETTV/3.3.0; PHILIPS-AVM-2012; en) Presto/2.9.167 Version/11.50
+- user_agent: Opera/9.80 (Linux i686; U; HbbTV/1.1.1 (; Philips; ; ; ; ) CE-HTML/1.0 NETTV/4.0.1; en) Presto/2.10.250 Version/11.60
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
-    version: 11.5
-  device: 1
+    version: 11.6
+  device: 5
   brand: PH
-  model: NETTV/3.3
+  model: NETTV/4.0.1
   os_family: Other
   browser_family: Other
 
@@ -12130,102 +12130,27 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.6
-  device: 1
+  device: 5
   brand: PH
-  model: NETTV/4.0
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Opera/9.80 (Linux i686; U; HbbTV/1.1.1 (; Philips; ; ; ; ) CE-HTML/1.0 NETTV/4.0.1; en) Presto/2.10.250 Version/11.60
-  os:
-    name: Linux
-    short_name: LIN
-    version: UNK
-  browser:
-    name: Opera
-    short_name: OP
-    version: 11.6
-  device: 1
-  brand: PH
-  model: NETTV/4.0
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Opera/10.60 (Linux armv6l ; U; CE-HTML/1.0 (<profilelist><ui_profile name=""PHILIPS_OLS_2010""/></profilelist>); en) Presto/2.6.33 Version/10.60
-  os:
-    name: Linux
-    short_name: LIN
-    version: UNK
-  browser:
-    name: Opera
-    short_name: OP
-    version: 10.6
-  device: 1
-  brand: PH
-  model: UNK
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Opera/9.50 (Linux mips ; U; CE-HTML/1.0 (<profilelist><ui_profile name=""PHILIPS_OLS_2008""/></profilelist>); en
-  os:
-    name: Linux
-    short_name: LIN
-    version: UNK
-  browser:
-    name: Opera
-    short_name: OP
-    version: 9.5
-  device: 1
-  brand: PH
-  model: UNK
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Opera/9.70 (Linux armv6l ; U; CE-HTML/1.0 (<profilelist><ui_profile name=""PHILIPS_OLS_2008""/></profilelist>); en) Presto/2.2.1
-  os:
-    name: Linux
-    short_name: LIN
-    version: UNK
-  browser:
-    name: Opera
-    short_name: OP
-    version: 9.7
-  device: 1
-  brand: PH
-  model: UNK
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Opera/9.70 (Linux armv6l ; U; CE-HTML/1.0 (<profilelist><ui_profile name=""PHILIPS_OLS_2010""/></profilelist>); en) Presto/2.2.1
-  os:
-    name: Linux
-    short_name: LIN
-    version: UNK
-  browser:
-    name: Opera
-    short_name: OP
-    version: 9.7
-  device: 1
-  brand: PH
-  model: UNK
+  model: NETTV/4.0.1
   os_family: Other
   browser_family: Other
 
 - user_agent: HbbTV/1.1.1 (;;;;;) Maple_2011
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SA
   model: SmartTV2011
   os_family: Other
@@ -12233,14 +12158,14 @@
 
 - user_agent: HbbTV/1.1.1 (;Samsung;SmartTV2012;;;) WebKit
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SA
   model: SmartTV2012
   os_family: Other
@@ -12248,14 +12173,14 @@
 
 - user_agent: HbbTV/1.1.1 (;Samsung;SmartTV2013;BPH-F8509EUB-1003.2;;) WebKit
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SA
   model: SmartTV2013
   os_family: Other
@@ -12263,14 +12188,14 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; selevision; Selevision EMC1000i; 1.0; 1.0;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SV
   model: EMC1000i
   os_family: Other
@@ -12278,14 +12203,14 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; selevision; Selevision EMC1000i; 1.0; 1.0;) hdplusinteraktiv/1.0 (NETRANGEMMH;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SV
   model: EMC1000i
   os_family: Other
@@ -12295,12 +12220,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12.1
-  device: 1
+  device: 5
   brand: SH
   model: LE752
   os_family: Other
@@ -12310,12 +12235,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12.1
-  device: 1
+  device: 5
   brand: SH
   model: LE652
   os_family: Other
@@ -12325,14 +12250,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: SH
-  model: LE542
+  model: LE542E
   os_family: Other
   browser_family: Other
 
@@ -12340,12 +12265,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: SH
   model: LE737
   os_family: Other
@@ -12353,14 +12278,14 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; inverto; IDL-6750N Volksbox II; 1.0; 1.0;) hdplusinteraktiv/1.0 (NETRANGEMMH;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: IV
   model: Volksbox II
   os_family: Other
@@ -12368,14 +12293,14 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; inverto; IDL-6651N Volksbox Web Edition; 1.0; 1.0;) hdplusinteraktiv/1.0 (NETRANGEMMH;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: IV
   model: Volksbox Web Edition
   os_family: Other
@@ -12383,14 +12308,14 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; inverto; IDL-6640N Volksbox Essential; 1.0; 1.0;) hdplusinteraktiv/1.0 (NETRANGEMMH;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: IV
   model: Volksbox Essential
   os_family: Other
@@ -12398,14 +12323,14 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; smart; CX10; 1.0; 1.0;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SM
   model: CX10
   os_family: Other
@@ -12413,14 +12338,14 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; smart; VX10; 1.0; 1.0;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SM
   model: VX10
   os_family: Other
@@ -12428,16 +12353,16 @@
 
 - user_agent: Mozilla/5.0 (;;;) AppleWebKit/534.6 HbbTV/1.1.1 (+DL+PVR; smart; ZAPPIX HD+; 1.0; 1.0;)  CE-HTML/1.0
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: SM
-  model: Zappix
+  model: ZAPPIX
   os_family: Other
   browser_family: Other
 
@@ -12445,12 +12370,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11
-  device: 1
+  device: 5
   brand: SO
   model: KDL55NX725
   os_family: Other
@@ -12460,14 +12385,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12.11
-  device: 1
+  device: 5
   brand: SO
-  model: KDL42W805A
+  model: KDL42W805
   os_family: Other
   browser_family: Other
   
@@ -12475,12 +12400,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: SO
   model: KDL40HX758
   os_family: Other
@@ -12490,12 +12415,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: SO
   model: KDL46EX650
   os_family: Other
@@ -12505,12 +12430,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11
-  device: 1
+  device: 5
   brand: SO
   model: KDL32CX525
   os_family: Other
@@ -12520,12 +12445,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: TX
   model: Digit ISIO C
   os_family: Other
@@ -12535,12 +12460,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: TX
   model: Digit ISIO S
   os_family: Other
@@ -12550,12 +12475,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: TX
   model: DigiCorder ISIO C
   os_family: Other
@@ -12565,12 +12490,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: TX
   model: DigiCorder ISIO S
   os_family: Other
@@ -12580,42 +12505,27 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.5
-  device: 1
+  device: 5
   brand: TX
   model: MultyVision ISIO
   os_family: Other
   browser_family: Other
 
-- user_agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.4+ (KHTML, like Gecko) Version/5.0 Safari/535.4+ HbbTV/1.1.1 (;;;;;) CE-HTML/1.0 hdplusinteraktiv/1.0 hdplusSmartTV/1.0 (NETRANGEMMH;) TechnoTrend Goerler/Kathrein
-  os:
-    name: Linux
-    short_name: LIN
-    version: UNK
-  browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 1
-  brand: TT
-  model: UNK
-  os_family: Other
-  browser_family: Other
-
 - user_agent: HbbTV/1.1.1 (+DL;TechnoTrend Goerler;S-855;3.1.8.24.04.20.devel;;) CE-HTML/1.0 hdplusinteraktiv/1.0 (NETRANGEMMH;)
   os:
-    name: Linux
-    short_name: LIN
-    version: UNK
+    name: UNK
+    short_name: UNK
+    version: 
   browser:
     name: UNK
     short_name: UNK
     version: UNK
-  device: 1
+  device: 5
   brand: TT
   model: S-855
   os_family: Other
@@ -12625,12 +12535,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 10.6
-  device: 1
+  device: 5
   brand: TS
   model: 55WL863
   os_family: Other
@@ -12640,12 +12550,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 10.6
-  device: 1
+  device: 5
   brand: TS
   model: 55ZL1
   os_family: Other
@@ -12655,29 +12565,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
-  brand: TE
+  device: 5
+  brand: TL
   model: MB95
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Opera/9.80 (Linux mips; U; HbbTV/1.1.1 (; Vestel; MB95; 1.0; 1.0; ); en) Presto/2.10.287 Version/12.00 HbbTV/1.1.1 (; MEDION; MB90; 2.1.9.h; 1.0;) CE-HTML/1.0 FXM-U2FsdGVkX1+oZew0140/QNW2Q/WZvu+GN7lmg44M1ANDWvQHEwn7x2Si0oNrSMWq-END
-  os:
-    name: Linux
-    short_name: LIN
-    version: UNK
-  browser:
-    name: Opera
-    short_name: OP
-    version: 12
-  device: 1
-  brand: MD
-  model: MB90
   os_family: Other
   browser_family: Other
 
@@ -12685,12 +12580,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: VS
   model: MB95
   os_family: Other
@@ -12700,12 +12595,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 11.1
-  device: 1
+  device: 5
   brand: VW
   model: tv2n
   os_family: Other
@@ -12715,12 +12610,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: Opera
     short_name: OP
     version: 12
-  device: 1
+  device: 5
   brand: VW
   model: VideoWeb TV
   os_family: Other
@@ -12730,12 +12625,12 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
+    version: 
   browser:
     name: ANTGalio
     short_name: AG
     version: 3.0
-  device: 1
+  device: 5
   brand: VW
   model: 600S
   os_family: Other
