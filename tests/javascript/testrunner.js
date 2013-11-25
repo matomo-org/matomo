@@ -73,6 +73,10 @@ page.onConsoleMessage = function(message) {
     console.log(message);
 }
 
+page.onAlert = function(msg) {
+    console.log('ALERT: ' + msg + "\n");
+}
+
 page.open(url, function(success) {
     if (success === "success") {
         if (!isPhantomAttached()) {
