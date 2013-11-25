@@ -46,14 +46,14 @@ class RowEvolution
         $label = ResponseBuilder::unsanitizeLabelParameter($label);
         $labels = Piwik::getArrayFromApiParameter($label);
 
-        $dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $idGoal);
+        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
+
+        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $idGoal);
 
         if (empty($labels)) {
             $labels = $this->getLabelsFromDataTable($dataTable, $labels);
             $dataTable = $this->enrichRowAddMetadataLabelIndex($labels, $dataTable);
         }
-        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
-
         if (count($labels) != 1) {
             $data = $this->getMultiRowEvolution(
                 $dataTable,
@@ -208,6 +208,7 @@ class RowEvolution
     }
 
     /**
+     * @param array $metadata see getRowEvolutionMetaData()
      * @param int $idSite
      * @param string $period
      * @param string $date
@@ -219,7 +220,7 @@ class RowEvolution
      * @throws Exception
      * @return DataTable\Map|DataTable
      */
-    private function loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $idGoal = false)
+    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $idGoal = false)
     {
         if (!is_array($label)) {
             $label = array($label);
@@ -250,13 +251,8 @@ class RowEvolution
         // note: some reports should not be filtered with AddColumnProcessedMetrics
         // specifically, reports without the Metrics::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
         // this is because the AddColumnProcessedMetrics filter removes all datable rows lacking this metric
-        if
-        (
-            $apiModule != 'Actions'
-            &&
-            ($apiModule != 'Goals' || ($apiAction != 'getVisitsUntilConversion' && $apiAction != 'getDaysToConversion'))
-            && !empty($label)
-        ) {
+        if( isset($metadata['metrics']['nb_visits'])
+            && !empty($label)) {
             $parameters['filter_add_columns_when_show_all_columns'] = '1';
         }
 
