@@ -34,7 +34,7 @@
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
-    lastIndex, length, parse, prototype, push, replace, slice, stringify,
+    lastIndex, length, parse, prototype, push, replace, sort, slice, stringify,
     test, toJSON, toString, valueOf,
     objectToJSON
 */
@@ -1568,6 +1568,33 @@ if (typeof Piwik !== 'object') {
                 configCookiesDisabled = savedConfigCookiesDisabled;
             }
 
+            function sortObjectByKeys(value) {
+                if (!value || !isObject(value)) {
+                    return;
+                }
+
+                // Object.keys(value) is not supported by all browsers, we get the keys manually
+                var keys = [];
+                var key;
+
+                for (key in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, key)) {
+                        keys.push(key);
+                    }
+                }
+
+                var normalized = {};
+                keys.sort();
+                var len = keys.length;
+                var i;
+
+                for (i = 0; i < len; i++) {
+                    normalized[keys[i]] = value[keys[i]];
+                }
+
+                return normalized;
+            }
+
             /**
              * Returns the URL to call piwik.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
@@ -1748,8 +1775,11 @@ if (typeof Piwik !== 'object') {
                     return '';
                 }
 
-                request += appendCustomVariablesToRequest(customVariablesPage, 'cvar');
-                request += appendCustomVariablesToRequest(customVariablesEvent, 'e_cvar');
+                var sortedCustomVarPage  = sortObjectByKeys(customVariablesPage);
+                var sortedCustomVarEvent = sortObjectByKeys(customVariablesEvent);
+
+                request += appendCustomVariablesToRequest(sortedCustomVarPage, 'cvar');
+                request += appendCustomVariablesToRequest(sortedCustomVarEvent, 'e_cvar');
 
                 // Custom Variables, scope "visit"
                 if (customVariables) {

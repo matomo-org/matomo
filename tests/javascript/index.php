@@ -1134,7 +1134,7 @@ if ($sqlite) {
 			ok( /search=search%20Keyword&idsite=1/.test(results), "site search, no cat, no results count ");
 
 			// Test events
-			ok( /(e_c=Event%20Category&e_a=Event%20Action&idsite=1).*(&e_cvar=%7B%222%22%3A%5B%22cookiename2EVENT%22%2C%22cookievalue2EVENT%22%5D%2C%221%22%3A%5B%22cvarEventName%22%2C%22cvarEventValue%22%5D%7D)/.test(results), "event Category + Action + Custom Variable");
+			ok( /(e_c=Event%20Category&e_a=Event%20Action&idsite=1).*(&e_cvar=%7B%221%22%3A%5B%22cvarEventName%22%2C%22cvarEventValue%22%5D%2C%222%22%3A%5B%22cookiename2EVENT%22%2C%22cookievalue2EVENT%22%5D%7D)/.test(results), "event Category + Action + Custom Variable");
 			ok( /e_c=Event%20Category2&e_a=Event%20Action2&e_n=Event%20Name2&idsite=1/.test(results), "event Category + Action + Name");
 			ok( /e_c=Event%20Category3&e_a=Event%20Action3&e_n=Event%20Name3&e_v=3.333&idsite=1/.test(results), "event Category + Action + Name + Value");
 
