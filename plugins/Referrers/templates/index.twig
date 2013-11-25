@@ -76,7 +76,7 @@
                 <td width="50%">
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctWebsites) }}
                         <strong>{{ numberDistinctWebsites }}</strong> {{ 'Referrers_DistinctWebsites'|translate }}
-                        {{ 'Referrers_UsingNDistinctUrls'|translate("<strong>"~numberDistinctWebsitesUrls~"</strong>") }}
+                        {{ 'Referrers_UsingNDistinctUrls'|translate("<strong>"~numberDistinctWebsitesUrls~"</strong>")|raw }}
                         {% if numberDistinctWebsitesEvolution|default is not empty %}
                             {{ numberDistinctWebsitesEvolution|raw }}
                         {% endif %}
