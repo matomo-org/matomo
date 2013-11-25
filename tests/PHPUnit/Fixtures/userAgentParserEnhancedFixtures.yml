@@ -11545,6 +11545,7 @@
   os:
     name: Linux
     short_name: LIN
+    version:
   browser:
     name: Opera
     short_name: OP
@@ -11609,7 +11610,7 @@
     name: Opera
     short_name: OP
     version: 11.6
-  device: 2
+  device: 5
   brand: HX
   model: iCord HD+
   os_family: Other
@@ -11619,6 +11620,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: ANTGalio
     short_name: AG
@@ -11633,6 +11635,7 @@
   os:
     name: UNK
     short_name: UNK
+    version UNK
   browser:
     name: ANTGalio
     short_name: AG
@@ -11737,6 +11740,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -11751,6 +11755,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -11779,6 +11784,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -11808,6 +11814,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: ANTGalio
     short_name: AG
@@ -11822,6 +11829,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: ANTGalio
     short_name: AG
@@ -11851,6 +11859,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -11865,6 +11874,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -11879,6 +11889,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12028,6 +12039,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12042,6 +12054,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12056,6 +12069,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12070,6 +12084,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12084,6 +12099,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12158,6 +12174,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12172,6 +12189,7 @@
   os:
     name: UNK
     short_name: UNK
+    version:
   browser:
     name: UNK
     short_name: UNK
@@ -12186,6 +12204,7 @@
   os:
     name: UNK
     short_name: UNK
+    version:
   browser:
     name: UNK
     short_name: UNK
@@ -12200,6 +12219,7 @@
   os:
     name: UNK
     short_name: UNK
+    version:
   browser:
     name: UNK
     short_name: UNK
@@ -12214,6 +12234,7 @@
   os:
     name: UNK
     short_name: UNK
+    version:
   browser:
     name: UNK
     short_name: UNK
@@ -12228,6 +12249,7 @@
   os:
     name: UNK
     short_name: UNK
+    version:
   browser:
     name: UNK
     short_name: UNK
@@ -12392,6 +12414,7 @@
   os:
     name: UNK
     short_name: UNK
+    version:
   browser:
     name: UNK
     short_name: UNK
