@@ -39,7 +39,7 @@ class Provider extends \Piwik\Plugin
             'WidgetsList.addWidgets'          => 'addWidget',
             'Menu.Reporting.addItems'         => 'addMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
-            'API.getSegmentsMetadata'         => 'getSegmentsMetadata',
+            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
         );
         return $hooks;

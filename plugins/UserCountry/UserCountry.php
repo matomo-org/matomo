@@ -47,7 +47,7 @@ class UserCountry extends \Piwik\Plugin
             'Menu.Admin.addItems'                    => 'addAdminMenu',
             'Goals.getReportsWithGoalMetrics'        => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                  => 'getReportMetadata',
-            'API.getSegmentsMetadata'                => 'getSegmentsMetadata',
+            'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Tracker.newVisitorInformation'          => 'getVisitorLocation',

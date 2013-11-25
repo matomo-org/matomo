@@ -93,7 +93,7 @@ class Goals extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Tracker.Cache.getSiteAttributes'        => 'fetchGoalsFromDb',
             'API.getReportMetadata.end'              => 'getReportMetadata',
-            'API.getSegmentsMetadata'                => 'getSegmentsMetadata',
+            'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
             'WidgetsList.addWidgets'                 => 'addWidgets',
             'Menu.Reporting.addItems'                => 'addMenus',
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',

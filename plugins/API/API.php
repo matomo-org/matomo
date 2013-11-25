@@ -130,7 +130,7 @@ class API extends \Piwik\Plugin\API
          *                       for. Some segments (such as Goal segments) depend on the
          *                       site.
          */
-        Piwik::postEvent('API.getSegmentsMetadata', array(&$segments, $idSites));
+        Piwik::postEvent('API.getSegmentDimensionMetadata', array(&$segments, $idSites));
 
         $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
 
