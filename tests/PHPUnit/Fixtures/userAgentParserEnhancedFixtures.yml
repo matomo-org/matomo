@@ -11395,11 +11395,10 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
   browser:
-    name: UNK
-    short_name: UNK
-    version:
+    name: Safari
+    short_name: SF
+    version: 5.0
   device: 5
   brand: LG
   model: NetCast 4.0
@@ -11541,81 +11540,6 @@
   os_family: Other
   browser_family: Other
 
-- user_agent: Mozilla/5.0 (X11; U; Linux i686; de) AppleWebKit/534.1 (KHTML, like Gecko) HbbTV/1.1.1 (+PVR;Mstar;OWB;;;)
-  os:
-    name: Linux
-    short_name: LIN
-    version: 
-  browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 5
-  brand: GU
-  model: 
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/534.1 (KHTML, like Gecko) HbbTV/1.1.1 (+PVR;Mstar;OWB;;;)
-  os:
-    name: Linux
-    short_name: LIN
-    version: 
-  browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 5
-  brand: GU
-  model: 
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/534.1 (KHTML, like Gecko) HbbTV/1.1.1 (;Mstar;OWB;;;)
-  os:
-    name: Linux
-    short_name: LIN
-    version: 
-  browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 5
-  brand: GU
-  model: 
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Mozilla/5.0 (X11; U; Linux i686; tr) AppleWebKit/534.1 (KHTML, like Gecko) HbbTV/1.1.1 (;Mstar;OWB;Arcelik;BK;)
-  os:
-    name: Linux
-    short_name: LIN
-    version: 
-  browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 5
-  brand: GU
-  model: 
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Mozilla/5.0 (X11; U; Linux i686; tr) AppleWebKit/534.1 (KHTML, like Gecko) HbbTV/1.1.1 (;Mstar;OWB;Arcelik;J5;)
-  os:
-    name: Linux
-    short_name: LIN
-    version: 
-  browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 5
-  brand: GU
-  model: 
-  os_family: Other
-  browser_family: Other
-
 - user_agent: Opera/9.80 (Linux 7325b0; U; HbbTV/1.1.1 (; Humax; HD NANO; 1.00.16; 1.0; ); ce-html/1.0; en) Presto/2.9.167 Version/11.50
   os:
     name: Linux
@@ -11635,7 +11559,6 @@
   os:
     name: Linux
     short_name: LIN
-    version: UNK
   browser:
     name: Opera
     short_name: OP
@@ -11643,21 +11566,6 @@
   device: 5
   brand: HX
   model: IRHD-5100S
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Opera/9.80 (Linux 7335b0-smp; U; HbbTV/1.1.1 (; Humax; iCord HD+; 1.02.16; 1.0; ); ce-html/1.0; en) Presto/2.9.167 Version/11.50
-  os:
-    name: Linux
-    short_name: LIN
-    version: 
-  browser:
-    name: Opera
-    short_name: OP
-    version: 11.5
-  device: 5
-  brand: HX
-  model: iCord HD+
   os_family: Other
   browser_family: Other
   
@@ -11725,7 +11633,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: ANTGalio
     short_name: AG
@@ -11740,7 +11647,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: ANTGalio
     short_name: AG
@@ -11845,7 +11751,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -11858,9 +11763,8 @@
 
 - user_agent: LOEWE/TV HbbTV/1.1.1 (+PVR; Loewe; SL121; LOH;;) CE-HTML/1.0 SL121/16.16.0
   os:
-    name: LinUNKux
+    name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -11875,7 +11779,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -11890,7 +11793,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -11920,7 +11822,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: ANTGalio
     short_name: AG
@@ -11935,7 +11836,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: ANTGalio
     short_name: AG
@@ -11965,7 +11865,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -11980,7 +11879,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -11995,7 +11893,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12145,7 +12042,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12160,7 +12056,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12175,7 +12070,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12190,7 +12084,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12205,7 +12098,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12280,7 +12172,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12295,7 +12186,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12310,7 +12200,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12325,7 +12214,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12340,7 +12228,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12355,7 +12242,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
@@ -12520,7 +12406,6 @@
   os:
     name: UNK
     short_name: UNK
-    version: 
   browser:
     name: UNK
     short_name: UNK
