@@ -611,7 +611,7 @@ function PiwikTest() {
 	});
 
 	test("Tracker getClassesRegExp()", function() {
-		expect(0);
+		expect(3);
 
 		var tracker = Piwik.getTracker();
 
