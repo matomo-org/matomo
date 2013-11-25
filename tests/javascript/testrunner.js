@@ -47,6 +47,12 @@ page.onResourceReceived = function() {
             window.phantomResults = obj;
         });
 
+        QUnit.log(function(obj) {
+            if (!obj.result) {
+                console.log("Test failed in: '" + obj.module + " / " + obj.name + "' Error: " + obj.message);
+            }
+        });
+
         window.phantomAttached = true;
     });
 }
