@@ -65,7 +65,7 @@ class Visualization extends ViewDataTable
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
 
             $this->applyFilters();
-            $this->afterAllFilteresAreApplied();
+            $this->afterAllFiltersAreApplied();
             $this->beforeRender();
 
             $this->logMessageIfRequestPropertiesHaveChanged($requestPropertiesAfterLoadDataTable);
@@ -410,7 +410,7 @@ class Visualization extends ViewDataTable
      * This hook is executed after the data table is loaded and after all filteres are applied.
      * Format the data that you want to pass to the view here.
      */
-    public function afterAllFilteresAreApplied()
+    public function afterAllFiltersAreApplied()
     {
     }
 

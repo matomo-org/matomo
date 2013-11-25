@@ -40,9 +40,9 @@ class Pie extends JqplotGraph
         $this->config->datatable_js_type = 'JqplotPieGraphDataTable';
     }
 
-    public function afterAllFilteresAreApplied()
+    public function afterAllFiltersAreApplied()
     {
-        parent::afterAllFilteresAreApplied();
+        parent::afterAllFiltersAreApplied();
 
         $metricColumn = reset($this->config->columns_to_display);
 

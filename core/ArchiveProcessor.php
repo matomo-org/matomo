@@ -70,8 +70,6 @@ use Piwik\Period;
  * 
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
  * 
- *         $myDataTable = // ... use LogAggregator to generate a report about some log data ...
- *     
  *         $dataTable = // ... build by aggregating visits ...
  *         $serializedData = $dataTable->getSerialized($maxRowsInTable, $maxRowsInSubtable = $maxRowsInTable,
  *                                                     $columnToSortBy = Metrics::INDEX_NB_VISITS);

@@ -56,9 +56,9 @@ class Evolution extends JqplotGraph
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
     }
 
-    public function afterAllFilteresAreApplied()
+    public function afterAllFiltersAreApplied()
     {
-        parent::afterAllFilteresAreApplied();
+        parent::afterAllFiltersAreApplied();
 
         if (false === $this->config->x_axis_step_size) {
             $rowCount = $this->dataTable->getRowsCount();

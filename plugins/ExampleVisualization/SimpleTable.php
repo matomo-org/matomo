@@ -45,7 +45,7 @@ class SimpleTable extends Visualization
         // $this->dateTable->filter($nameOrClosure, $parameters);
     }
 
-    public function afterAllFilteresAreApplied()
+    public function afterAllFiltersAreApplied()
     {
         // this hook is executed after the data table is loaded and after all filteres are applied.
         // format your data here that you want to pass to the view

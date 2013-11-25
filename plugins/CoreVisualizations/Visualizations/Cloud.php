@@ -51,7 +51,7 @@ class Cloud extends Visualization
         $this->config->show_limit_control          = false;
     }
 
-    public function afterAllFilteresAreApplied()
+    public function afterAllFiltersAreApplied()
     {
         if ($this->dataTable->getRowsCount() == 0) {
             return;

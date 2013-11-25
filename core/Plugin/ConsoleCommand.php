@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
  * The base class for console commands.
  * 
  * @package Piwik_Console
+ * @api
  */
 class ConsoleCommand extends SymfonyCommand
 {
