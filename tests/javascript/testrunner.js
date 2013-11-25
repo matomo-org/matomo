@@ -49,7 +49,19 @@ page.onResourceReceived = function() {
 
         QUnit.log(function(obj) {
             if (!obj.result) {
-                console.log("Test failed in module " + obj.module + ": '" + obj.name + "' \nError: " + obj.message + " \nActual: " + obj.actual + " \nExpected: " + obj.expected + ' \nSource: ' + obj.source + "\n\n");
+                var errorMessage = "Test failed in module " + obj.module + ": '" + obj.name + "' \nError: " + obj.message;
+
+                if (obj.actual) {
+                    errorMessage += " \nActual: " + obj.actual;
+                }
+
+                if (obj.expected) {
+                    errorMessage += " \nExpected: " + obj.expected;
+                }
+
+                errorMessage += " \nSource: " + obj.source + "\n\n";
+
+                console.log(errorMessage);
             }
         });
 
