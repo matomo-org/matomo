@@ -1,9 +1,5 @@
 #!/bin/bash
 
-RESULT_JS=0
-RESULT_PHP=0
-touch ../javascript/enable_sqlite
-
 if [ `phpunit --group __nogroup__ | grep "No tests executed" | wc -l` -ne 1 ]
 then
     echo "=====> There are some tests functions which do not have a @group set. "
@@ -13,10 +9,13 @@ then
 else
     if [ -n "$TEST_SUITE" ]
     then
-        phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
-        RESULT_PHP=$?
-        phantomjs ../javascript/testrunner.js
-        RESULT_JS=$?
+        if [ "$TEST_SUITE" = "JsTests" ]
+        then
+            touch ../javascript/enable_sqlite
+            phantomjs ../javascript/testrunner.js
+        else
+            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+        fi
     else
       if [ -n "$TEST_DIR" ]
       then
@@ -29,16 +28,8 @@ else
         fi
 
         phpunit --colors $TEST_DIR
-        RESULT_PHP=$?
       else
         phpunit --configuration phpunit.xml --coverage-text --colors
-        RESULT_PHP=$?
       fi
     fi
-fi
-
-if [ 0 == $RESULT_PHP ] && [ 0 == $RESULT_JS ]; then
-   exit 0;
-else
-   exit 1;
 fi
