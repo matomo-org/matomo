@@ -11395,10 +11395,11 @@
   os:
     name: Linux
     short_name: LIN
+    version:
   browser:
     name: Safari
     short_name: SF
-    version: 5.0
+    version:
   device: 5
   brand: LG
   model: NetCast 4.0
@@ -11522,21 +11523,6 @@
   device: 5
   brand: CN
   model: CNV001
-  os_family: Other
-  browser_family: Other
-
-- user_agent: Mozilla/5.0 (Linux mips; U;HbbTV/1.1.1 (+RTSP;DMM;Dreambox;0.1a;1.0;) CE-HTML/1.0; en) AppleWebKit/535.19 no/Volksbox QtWebkit/2.2
-    os:
-    name: Linux
-    short_name: LIN
-    version: 
-  browser:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  device: 5
-  brand: DM
-  model: Dreambox
   os_family: Other
   browser_family: Other
 
