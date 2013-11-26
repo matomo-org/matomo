@@ -42,7 +42,7 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         );
     }
 
-    protected function trackVisitsSite1($url, $orderId = '937nsjusu 3894', $orderId2 = '1037nsjusu4s3894', $orderId3 = '666', $orderId4 = '666')
+    protected function trackVisitsSite1($url, $orderId = '937nsjusu 3894', $orderId2 = '1037nsjusu4s3894', $orderId3 = '666', $orderId4 = '777')
     {
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
