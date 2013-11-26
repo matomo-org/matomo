@@ -1316,7 +1316,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "本报表集中显示所有访问来源，列出了访客用于查找您的网站而用到的所有的网站、搜索关键词和广告。",
-        "CampaignFooterHelp": "帮助: %s跟踪 Piwik 广告活动的 %s 网址优化工具",
         "Campaigns": "广告活动",
         "CampaignsDocumentation": "广告活动带来的访客。%s 查看 %s 报表了解详情。",
         "CampaignsReportDocumentation": "本报表显示哪些广告活动带来了访客，%s 广告跟踪的详情，请看 %s piwik.org 上的广告活动文档 %s",
