@@ -83,7 +83,7 @@ class ColumnCallbackAddColumnQuotient extends Filter
             // Delete existing column if it exists
             $existingValue = $row->getColumn($this->columnNameToAdd);
             if ($existingValue !== false) {
-                $row->deleteColumn($this->columnNameToAdd);
+                continue;
             }
 
             $divisor = $this->getDivisor($row);
