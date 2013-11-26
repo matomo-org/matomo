@@ -631,6 +631,10 @@
 				<pageId>3</pageId>
 				<customVariables>
 					<row>
+						<customVariablePageName2>_pkp</customVariablePageName2>
+						<customVariablePageValue2>888</customVariablePageValue2>
+					</row>
+					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
 						<customVariablePageValue3>SKU VERY nice indeed</customVariablePageValue3>
 					</row>

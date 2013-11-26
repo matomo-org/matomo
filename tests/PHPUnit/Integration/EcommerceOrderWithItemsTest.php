@@ -171,7 +171,9 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                                 array($goalWeekApi, array('idSite'     => $idSite2, 'date' => $dateTime, 'periods' => array('week'),
                                                           'testSuffix' => '_Website2')),
 
-                           ), self::getApiForTestingScheduledReports($dateTime, 'week'));
+                           ),
+                            self::getApiForTestingScheduledReports($dateTime, 'week')
+        );
     }
 
     public static function getOutputPrefix()

@@ -120,7 +120,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         $periodTypes = array('day', 'periods');
         $idSites = API::getInstance()->getAllSitesId();
 
-        $daysAgoArchiveRanSuccessfully = 50;
+        $daysAgoArchiveRanSuccessfully = 500;
         $this->assertTrue($daysAgoArchiveRanSuccessfully > (\Piwik\CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400));
         $time = Date::factory(self::$fixture->dateTime)->subDay($daysAgoArchiveRanSuccessfully)->getTimestamp();
 
