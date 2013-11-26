@@ -9,7 +9,7 @@ then
 else
     if [ -n "$TEST_SUITE" ]
     then
-        if [ "$TEST_SUITE" = "JsTests" ]
+        if [ "$TEST_SUITE" = "JavascriptTests" ]
         then
             touch ../javascript/enable_sqlite
             phantomjs ../javascript/testrunner.js
