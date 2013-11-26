@@ -75,14 +75,15 @@ class ColumnCallbackAddColumnQuotient extends Filter
     public function filter($table)
     {
         foreach ($table->getRows() as $key => $row) {
-            $existingValue = $row->getColumn($this->columnNameToAdd);
-            if ($existingValue !== false) {
-                continue;
-            }
-
             $value = $this->getDividend($row);
             if ($value === false && $this->shouldSkipRows) {
                 continue;
+            }
+
+            // Delete existing column if it exists
+            $existingValue = $row->getColumn($this->columnNameToAdd);
+            if ($existingValue !== false) {
+                $row->deleteColumn($this->columnNameToAdd);
             }
 
             $divisor = $this->getDivisor($row);
