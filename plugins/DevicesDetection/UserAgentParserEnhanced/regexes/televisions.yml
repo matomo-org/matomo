@@ -24,9 +24,7 @@ creNova:
 DMM:
   regex: 'DMM'
   device: 'tv'
-  models:
-    - regex: 'Dreambox'
-    model: '$1'
+  models: 'Dreambox'
 
 # Grundig
 Grundig:

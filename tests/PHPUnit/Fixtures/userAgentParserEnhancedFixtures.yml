@@ -11635,7 +11635,7 @@
   os:
     name: UNK
     short_name: UNK
-    version UNK
+    version: UNK
   browser:
     name: ANTGalio
     short_name: AG
@@ -12189,7 +12189,7 @@
   os:
     name: UNK
     short_name: UNK
-    version:
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12204,7 +12204,7 @@
   os:
     name: UNK
     short_name: UNK
-    version:
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12219,7 +12219,7 @@
   os:
     name: UNK
     short_name: UNK
-    version:
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12234,7 +12234,7 @@
   os:
     name: UNK
     short_name: UNK
-    version:
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12249,7 +12249,7 @@
   os:
     name: UNK
     short_name: UNK
-    version:
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
@@ -12414,7 +12414,7 @@
   os:
     name: UNK
     short_name: UNK
-    version:
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
