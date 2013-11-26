@@ -106,7 +106,7 @@
                 .pluginDetails .featuredIcon {
                     height: 16px;
                     width: 16px;
-                    margin-right: 6px;
+                    margin-right: 5px;
                 }
             </style>
 
@@ -251,7 +251,9 @@
                                 {% if plugin.activity.numContributors > 1 %}
                                     by {{ plugin.activity.numContributors }} developers
                                 {% endif %}
-                                (last commit {{ plugin.activity.lastCommitDate }})</dd>
+                                {% if plugin.activity.lastCommitDate %}
+                                    (last commit {{ plugin.activity.lastCommitDate }})
+                                {% endif %}</dd>
                         {% endif %}
                     </dl>
                     <br />

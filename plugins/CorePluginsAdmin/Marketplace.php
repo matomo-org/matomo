@@ -113,9 +113,13 @@ class Marketplace
         $plugin['isInstalled']  = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($plugin['name']);
         $plugin['lastUpdated']  = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
 
-        if (!empty($plugin['activity']['lastCommitDate'])) {
+        if (!empty($plugin['activity']['lastCommitDate'])
+            && false === strpos($plugin['activity']['lastCommitDate'], '0000')) {
+
             $dateFormat = Piwik::translate('CoreHome_DateFormat');
             $plugin['activity']['lastCommitDate'] = Date::factory($plugin['activity']['lastCommitDate'])->getLocalized($dateFormat);
+        } else {
+            $plugin['activity']['lastCommitDate'] = null;
         }
 
         return $plugin;
