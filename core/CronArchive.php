@@ -41,10 +41,14 @@ Arguments:
 	--force-timeout-for-periods=[seconds]
 			The current week/ current month/ current year will be processed at most every [seconds].
 			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
+    --force-date-last-n=M
+            This script calls the API with period=lastN. You can force the N in lastN by specifying this value.
 	--force-idsites=1,2,n
 			Restricts archiving to the specified website IDs, comma separated list.
 	--skip-idsites=1,2,n
 			If the specified websites IDs were to be archived, skip them instead.
+	--disable-scheduled-tasks
+	        Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).
 	--xhprof
 			Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).
 	--accept-invalid-ssl-certificate
@@ -420,6 +424,10 @@ Notes:
     public function runScheduledTasks()
     {
         $this->logSection("SCHEDULED TASKS");
+        if($this->isParameterSet('--disable-scheduled-tasks')) {
+            $this->log("Scheduled tasks are disabled with --disable-scheduled-tasks");
+            return;
+        }
         $this->log("Starting Scheduled tasks... ");
 
         $tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=" . $this->token_auth);
@@ -474,6 +482,12 @@ Notes:
         if ($dateLast > $dateLastMax) {
             $dateLast = $dateLastMax;
         }
+
+        $dateLastForced = $this->isParameterSet('--force-date-last-n', true);
+        if(!empty($dateLastForced)){
+            $dateLast = $dateLastForced;
+        }
+
         return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
     }
 
