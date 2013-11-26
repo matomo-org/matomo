@@ -477,6 +477,9 @@ class API extends \Piwik\Plugin\API
      */
     protected function filterPageDatatable($dataTable)
     {
+        $columnsToRemove = array('bounce_rate');
+        $dataTable->queueFilter('ColumnDelete', array($columnsToRemove));
+
         // Average time on page = total time on page / number visits on that page
         $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_time_on_page', 'sum_time_spent', 'nb_visits', 0));
 
