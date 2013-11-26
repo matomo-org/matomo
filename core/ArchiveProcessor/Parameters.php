@@ -101,7 +101,7 @@ class Parameters
 
         $idSites = array($idSite);
 
-        Piwik::postEvent('ArchiveProcessor.Parameters.getIdSites', array( &$idSites ) );
+        Piwik::postEvent('ArchiveProcessor.Parameters.getIdSites', array(&$idSites, $this->getPeriod()->getLabel()));
 
         return $idSites;
     }
