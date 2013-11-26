@@ -41,6 +41,17 @@
 
 {% endmacro %}
 
+{% macro pluginDeveloper(owner) %}
+    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="/plugins/Zeitgeist/images/logo-marketplace.png"/>{% else %}<strong>{{ owner }}</strong>{% endif %}
+{% endmacro %}
+
+{% macro featuredIcon() %}
+    <img class="featuredIcon"
+         title="Featured plugin"
+         src="/plugins/CorePluginsAdmin/images/rating_important.png"
+         align="right" />
+{% endmacro %}
+
 {% macro pluginsFilter(isTheme, isMarketplaceEnabled) %}
 
     <p class="pluginsFilter entityContainer">

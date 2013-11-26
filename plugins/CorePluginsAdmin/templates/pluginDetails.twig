@@ -205,7 +205,7 @@
                         <dt>Downloads</dt>
                         <dd title="Latest version: {{ plugin.versions[plugin.versions|length - 1].numDownloads|number_format }} Downloads">{{ plugin.numDownloads }}</dd>
                         <dt>Developer</dt>
-                        <dd>{{ plugin.owner }}</dd>
+                        <dd>{% if 'piwik' == plugin.owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="/plugins/Zeitgeist/images/logo-marketplace.png"/>{% else %}<strong>{{ plugin.owner }}</strong>{% endif %}</dd>
                         <dt>Authors</dt>
                         <dd>{% for author in plugin.authors if author.name %}
 
