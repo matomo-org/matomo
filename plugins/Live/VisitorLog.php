@@ -63,7 +63,9 @@ class VisitorLog extends Visualization
             'totalRows'         => 10000000,
 
             'filterEcommerce'   => Common::getRequestVar('filterEcommerce', 0, 'int'),
-            'pageUrlNotDefined' => Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'))
+            'pageUrlNotDefined' => Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL')),
+
+            'smallWidth'        => 1 == Common::getRequestVar('small', 0, 'int'),
         );
 
         $this->config->footer_icons = array(

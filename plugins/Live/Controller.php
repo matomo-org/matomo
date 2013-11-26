@@ -97,7 +97,7 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
-     * @deprecated
+     * Widget
      */
     public function getVisitorLog()
     {
@@ -111,7 +111,6 @@ class Controller extends \Piwik\Plugin\Controller
         $_GET['period'] = 'day';
         $view = new View('@Live/getLastVisitsStart');
         $view->idSite = $this->idSite;
-
         $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
         $visitors = $api->process();
         $view->visitors = $visitors;

@@ -245,6 +245,8 @@ class Config
      * of a data table div. This data can be used by JavaScript DataTable classes.
      *
      * e.g. array('typeReferrer' => ...)
+     *
+     * It can then be accessed in the twig templates by clientSideParameters.typeReferrer
      */
     public $custom_parameters = array();
 
