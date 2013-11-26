@@ -46,7 +46,7 @@ $(document).ready(function () {
     syncMaxHeight('.pluginslist .plugin');
     syncMaxHeight('.themeslist .plugin');
 
-    $('.pluginslist').on('click', '[data-pluginName]', function (event) {
+    $('.pluginslist, #plugins, .themeslist').on('click', '[data-pluginName]', function (event) {
         if ($(event.target).hasClass('install')) {
             return;
         }
@@ -58,20 +58,6 @@ $(document).ready(function () {
         }
 
         broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
-    });
-
-    $('.themeslist').on('click', '[data-pluginName]', function (event) {
-        if ($(event.target).hasClass('install')) {
-            return;
-        }
-
-        var themeName = $( this ).attr('data-pluginName');
-
-        if (!themeName) {
-            return;
-        }
-
-        broadcast.propagateNewPopoverParameter('browsePluginDetail', themeName);
     });
 
     var showPopover = function (pluginName) {

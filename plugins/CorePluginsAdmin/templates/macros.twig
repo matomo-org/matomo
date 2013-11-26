@@ -15,7 +15,9 @@
             {% for name,plugin in pluginsHavingUpdate %}
                 <tr {% if plugin.isActivated %}class="highlighted"{% endif %}>
                     <td class="name">
-                        {{ plugin.name }}
+                        <a href="javascript:return;" data-pluginName="{{ plugin.name|e('html_attr') }}">
+                            {{ plugin.name }}
+                        </a>
                     </td>
                     <td class="vers">
                         {% if plugin.repositoryChangelogUrl %}
@@ -112,11 +114,13 @@
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="highlighted"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
-                        {% if plugin.info.homepage is defined %}
-                        <a title="{{ 'CorePluginsAdmin_PluginHomepage'|translate }}" href="{{ plugin.info.homepage }}" target="_blank">
-                            {% endif %}
+                        {% if plugin.isCorePlugin %}
                             {{ name }}
-                            {% if plugin.info.homepage is defined %}</a>{% endif %}
+                        {% else %}
+                            <a href="javascript:return;" data-pluginName="{{ name|e('html_attr') }}">
+                                {{ name }}
+                                </a>
+                        {% endif %}
 
                         {% if name in pluginNamesHavingSettings %}
                             <br /><br />
