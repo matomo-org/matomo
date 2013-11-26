@@ -164,6 +164,12 @@ class FetchFromOTrance extends ConsoleCommand
 
     public static function getDownloadPath() {
 
-        return PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . self::DOWNLOADPATH;
+        $path = PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . self::DOWNLOADPATH;
+
+        if (!is_dir($path)) {
+            mkdir($path);
+        }
+
+        return $path;
     }
 }
