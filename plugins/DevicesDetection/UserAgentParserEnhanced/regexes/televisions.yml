@@ -43,8 +43,8 @@ Humax:
       model: 'HMS-1000S'
 
 # IKEA
-IKEA:
-  regex: 'IKEA'
+Ikea:
+  regex: 'Ikea'
   device: 'tv'
   models:
     - regex: '(LF1V[0-9]{3})'

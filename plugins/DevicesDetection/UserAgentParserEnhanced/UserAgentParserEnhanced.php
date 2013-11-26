@@ -56,7 +56,7 @@ class UserAgentParserEnhanced
         'HT' => 'HTC',
         'HU' => 'Huawei',
         'HX' => 'Humax',
-        'IA' => 'IKEA',
+        'IA' => 'Ikea',
         'IK' => 'iKoMo',
         'IM' => 'i-mate',
         'IN' => 'Innostream',
