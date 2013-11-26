@@ -49,7 +49,7 @@
                 }
 
                 .pluginDetails .ui-tabs .ui-tabs-panel {
-                    padding: 1em 3em 0em 0em;
+                    padding: 1.4em 3em 0em 0em;
                 }
 
                 .pluginDetails .content a {
@@ -141,20 +141,18 @@
                                 <li><a href="#tabs-support">Support</a></li>
                             {% endif %}
                         </ul>
+
                         <div id="tabs-description">
                             {{ plugin.versions[plugin.versions|length - 1].readmeHtml.description|raw }}
-
                         </div>
+
                         {% if plugin.versions[plugin.versions|length - 1].readmeHtml.faq %}
                             <div id="tabs-faq">
-
                                 {{ plugin.versions[plugin.versions|length - 1].readmeHtml.faq|raw }}
-
                             </div>
                         {% endif %}
 
                         <div id="tabs-changelog">
-
                             {% if plugin.versions[plugin.versions|length - 1].readmeHtml.changelog %}
                                 {{ plugin.versions[plugin.versions|length - 1].readmeHtml.changelog|raw }}
                             {% endif %}
@@ -163,15 +161,16 @@
 
                             <ul>
                                 {% for version in plugin.versions %}
-                                    <li><strong>{{ version.name }}</strong> from {{ version.release }}</li>
+                                    <li><strong>{{ version.name }}</strong> from {{ version.release|date }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
+
                         {% if plugin.screenshots|length %}
                             <div id="tabs-screenshots">
                                 <ul class="thumbnails">
                                     {% for screenshot in plugin.screenshots %}
-                                        <li >
+                                        <li>
                                             <div class="thumbnail">
                                                 <a href="{{ screenshot }}" target="_blank"><img src="{{ screenshot }}?w=400" width="400" alt=""></a>
                                                 <p>
@@ -183,6 +182,7 @@
                                 </ul>
                             </div>
                         {% endif %}
+
                         {% if plugin.versions[plugin.versions|length - 1].readmeHtml.support %}
                             <div id="tabs-support">
 
@@ -246,6 +246,13 @@
             <script type="text/javascript">
                 $(function() {
                     $( "#pluginDetailsTabs" ).tabs();
+                    $('.pluginDetails a').each(function (index, a) {
+                        var link = $(a).attr('href');
+
+                        if (link && 0 === link.indexOf('http')) {
+                            $(a).attr('target', '_blank');
+                        }
+                    });
                 });
             </script>
         {% endif %}
