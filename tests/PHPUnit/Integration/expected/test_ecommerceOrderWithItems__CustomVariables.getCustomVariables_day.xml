@@ -151,7 +151,7 @@
 				<label>Value not defined</label>
 				<nb_visits>3</nb_visits>
 				<nb_actions>5</nb_actions>
-				<price_viewed>666</price_viewed>
+				<price_viewed>710.4</price_viewed>
 			</row>
 			<row>
 				<label>Category TWO LEFT in cart</label>
@@ -189,7 +189,7 @@
 				<label>PRODUCT name</label>
 				<nb_visits>2</nb_visits>
 				<nb_actions>5</nb_actions>
-				<price_viewed>814.37</price_viewed>
+				<price_viewed>832.78</price_viewed>
 			</row>
 			<row>
 				<label>PRODUCT THREE LEFT in cart</label>
@@ -213,7 +213,7 @@
 				<label>SKU VERY nice indeed</label>
 				<nb_visits>3</nb_visits>
 				<nb_actions>8</nb_actions>
-				<price_viewed>666</price_viewed>
+				<price_viewed>697.71</price_viewed>
 			</row>
 			<row>
 				<label>SKU IN ABANDONED CART TWO</label>
@@ -288,8 +288,8 @@
 	</row>
 	<row>
 		<label>_pkp</label>
-		<nb_visits>7</nb_visits>
-		<nb_actions>7</nb_actions>
+		<nb_visits>8</nb_visits>
+		<nb_actions>8</nb_actions>
 		<subtable>
 			<row>
 				<label>333</label>
@@ -305,6 +305,11 @@
 				<label>999</label>
 				<nb_visits>2</nb_visits>
 				<nb_actions>2</nb_actions>
+			</row>
+			<row>
+				<label>888</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
 			</row>
 			<row>
 				<label>1111.11111</label>

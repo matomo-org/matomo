@@ -68,7 +68,7 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
 
         // Note: here testing to pass a timestamp to the tracking API rather than the datetime string
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getTimestampUTC());
-        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', '');
+        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $cat = '', $price = 888);
         self::checkResponse($t->doTrackPageView('Another Product page with no category'));
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
