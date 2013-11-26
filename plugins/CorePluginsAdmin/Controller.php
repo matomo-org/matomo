@@ -130,8 +130,11 @@ class Controller extends Plugin\ControllerAdmin
         $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
 
         try {
-            $marketplace = new Marketplace();
+            $marketplace  = new Marketplace();
             $view->plugin = $marketplace->getPluginInfo($pluginName);
+            $view->isSuperUser  = Piwik::isUserIsSuperUser();
+            $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
+            $view->updateNonce  = Nonce::getNonce(static::UPDATE_NONCE);
         } catch (\Exception $e) {
             $view->errorMessage = $e->getMessage();
         }

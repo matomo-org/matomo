@@ -691,7 +691,7 @@ class Piwik
      * need to use this function.
      *
      * @param string $eventName The event name.
-     * @param callable $function The observer.
+     * @param callable|array $function The observer.
      * @api
      */
     public static function addAction($eventName, $function)

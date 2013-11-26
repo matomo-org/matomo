@@ -26,11 +26,11 @@
             {% for plugin in plugins %}
 
                 <div class="plugin">
-                    <div class="content">
+                    <div class="content" data-pluginName="{{ plugin.name }}">
                         {% include "@CorePluginsAdmin/pluginOverview.twig" %}
                     </div>
 
-                    <div class="footer">
+                    <div class="footer" data-pluginName="{{ plugin.name }}">
                         {% include "@CorePluginsAdmin/pluginMetadata.twig" %}
                     </div>
                 </div>

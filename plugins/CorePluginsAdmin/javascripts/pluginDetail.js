@@ -30,6 +30,8 @@ $(document).ready(function () {
                 max[top] = height;
             } else if (max[top] < height) {
                 max[top] = height;
+            } else {
+                $node.height(max[top] + 'px');
             }
         });
 
@@ -44,7 +46,11 @@ $(document).ready(function () {
     syncMaxHeight('.pluginslist .plugin');
     syncMaxHeight('.themeslist .plugin');
 
-    $('.pluginslist').on('click', '.more', function (event) {
+    $('.pluginslist').on('click', '[data-pluginName]', function (event) {
+        if ($(event.target).hasClass('install')) {
+            return;
+        }
+
         var pluginName = $( this ).attr('data-pluginName');
 
         if (!pluginName) {
@@ -54,7 +60,11 @@ $(document).ready(function () {
         broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
     });
 
-    $('.themeslist').on('click', '.more', function (event) {
+    $('.themeslist').on('click', '[data-pluginName]', function (event) {
+        if ($(event.target).hasClass('install')) {
+            return;
+        }
+
         var themeName = $( this ).attr('data-pluginName');
 
         if (!themeName) {

@@ -16,19 +16,20 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 
 /**
- * Adds the processed metrics columns to a DataTable using metrics that already exist.
+ * Adds processed metrics columns to a DataTable using metrics that already exist.
  *
- * Columns processed are:
- * - **conversion_rate**: percent value of `nb_conversions / nb_visits
+ * Columns added are:
+ * 
+ * - **conversion_rate**: percent value of `nb_visits_converted / nb_visits
  * - **nb_actions_per_visit**: `nb_actions / nb_visits`
  * - **avg_time_on_site**: in number of seconds, `round(visit_length / nb_visits)`. not
- *                         pretty formatted
+ *                         pretty formatted.
  * - **bounce_rate**: percent value of `bounce_count / nb_visits`
  * 
  * Adding the **filter_add_columns_when_show_all_columns** query parameter to
  * an API request will trigger the execution of this Filter.
  * 
- * Note: This filter must be called before [ReplaceColumnNames](#) is called.
+ * _Note: This filter must be called before [ReplaceColumnNames](#) is called._
  * 
  * **Basic usage example**
  * 

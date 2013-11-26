@@ -106,7 +106,7 @@ abstract class Graph extends Visualization
      * Defaults the selectable_columns property if it has not been set and then transforms
      * it into something the SeriesPicker JavaScript class can use.
      */
-    public function afterAllFilteresAreApplied()
+    public function afterAllFiltersAreApplied()
     {
         $this->determineWhichRowsAreSelectable();
 
