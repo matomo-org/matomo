@@ -3,5 +3,5 @@
     <li class="odd">{{ 'CorePluginsAdmin_Version'|translate }}: <strong>{{ plugin.latestVersion }}</strong></li>
     <li class="even">Updated: <strong>{{ plugin.lastUpdated }}</strong></li>
     <li class="odd">{{ 'General_Downloads'|translate }}: <strong>{{ plugin.numDownloads }}</strong></li>
-    <li class="even">{{ 'Developer'|translate }}: <strong>{{ plugin.owner }}</strong></li>
+    <li class="even">Developer: {% if 'piwik' == plugin.owner %}<img style="padding-bottom:2px;" src="/plugins/CorePluginsAdmin/images/piwik_logo.png" height="11"/>{% else %}<strong>{{ plugin.owner }}</strong>{% endif %}</li>
 </ul>
