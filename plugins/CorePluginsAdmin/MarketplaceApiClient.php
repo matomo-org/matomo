@@ -100,6 +100,7 @@ class MarketplaceApiClient
 
         foreach ($hasUpdates as $pluginHavingUpdate) {
             $plugin = $this->getPluginInfo($pluginHavingUpdate['name']);
+            $plugin['repositoryChangelogUrl'] = $pluginHavingUpdate['repositoryChangelogUrl'];
 
             if (!empty($plugin['isTheme']) == $themesOnly) {
                 $pluginDetails[] = $plugin;

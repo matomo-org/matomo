@@ -70,7 +70,15 @@
 
                             <ul>
                                 {% for version in plugin.versions %}
-                                    <li><strong>{{ version.name }}</strong> from {{ version.release|date }}</li>
+                                    <li>
+                                        <strong>
+                                            {% if version.repositoryChangelogUrl %}
+                                                <a target="_blank" title="Changelog" href="{{ version.repositoryChangelogUrl }}">{{ version.name }}</a>
+                                            {% else %}
+                                                {{ version.name }}
+                                            {% endif %}
+                                        </strong>
+                                        from {{ version.release|date }}</li>
                                 {% endfor %}
                             </ul>
                         </div>

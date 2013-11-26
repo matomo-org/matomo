@@ -18,7 +18,11 @@
                         {{ plugin.name }}
                     </td>
                     <td class="vers">
-                        {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
+                        {% if plugin.repositoryChangelogUrl %}
+                            <a title="Changelog" target="_blank" href="{{ plugin.repositoryChangelogUrl }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
+                        {% else %}
+                            {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
+                        {% endif %}
                     </td>
                     <td class="desc">
                         {{ plugin.description }}
