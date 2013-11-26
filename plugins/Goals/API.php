@@ -215,8 +215,11 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->filter('Sort', array(Metrics::INDEX_ECOMMERCE_ITEM_REVENUE));
 
+        $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date);
+
+        // First rename the avg_price_viewed column
         $renameColumn = array(self::AVG_PRICE_VIEWED => 'avg_price');
-        $dataTable->queueFilter('ReplaceColumnNames', array($renameColumn, $skipIfColumnAlreadyNonEmpty = true));
+        $dataTable->queueFilter('ReplaceColumnNames', array($renameColumn));
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
@@ -234,8 +237,6 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
             array('avg_quantity', 'quantity', $ordersColumn, $precision = 1));
         $dataTable->queueFilter('ColumnDelete', array('price'));
-
-        $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date);
 
         // Product conversion rate = orders / visits
         $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', GoalManager::REVENUE_PRECISION));
