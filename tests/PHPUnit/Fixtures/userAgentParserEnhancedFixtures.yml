@@ -11770,6 +11770,7 @@
   os:
     name: UNK
     short_name: UNK
+    version: UNK
   browser:
     name: UNK
     short_name: UNK
