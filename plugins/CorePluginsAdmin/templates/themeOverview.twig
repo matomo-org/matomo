@@ -1,3 +1,5 @@
+{% import '@CorePluginsAdmin/macros.twig' as plugins %}
+
 {% if isSuperUser %}
     {% if plugin.canBeUpdated %}
         <a href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
@@ -15,7 +17,7 @@
     <a href="javascript:return;" class="more">{{ plugin.name }}</a>
 </h3>
 
-<p class="description">{{ plugin.description }}</p>
+<p class="description">{% if plugin.featured %}{{ plugins.featuredIcon() }}{% endif %}{{ plugin.description }}</p>
 
 <a href="javascript:return;" class="more"><img  title="Click for more details"
             class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>

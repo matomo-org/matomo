@@ -1,9 +1,5 @@
 {% import '@CorePluginsAdmin/macros.twig' as plugins %}
 
-{% if plugin.featured %}
-    {{ plugins.featuredIcon() }}
-{% endif %}
-
 <hr class="metadataSeparator"/>
 <ul class="metadata">
     <li class="odd">{{ 'CorePluginsAdmin_Version'|translate }}: <strong>{{ plugin.latestVersion }}</strong></li>

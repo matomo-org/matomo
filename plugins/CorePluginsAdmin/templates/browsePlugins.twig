@@ -1,4 +1,5 @@
 {% extends 'admin.twig' %}
+{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% block content %}
 
@@ -23,6 +24,7 @@
     <div class="pluginslist">
 
         {% if plugins|length %}
+
             {% for plugin in plugins %}
 
                 <div class="plugin">
@@ -31,6 +33,9 @@
                     </div>
 
                     <div class="footer" data-pluginName="{{ plugin.name }}">
+                        {% if plugin.featured %}
+                            {{ pluginsMacro.featuredIcon() }}
+                        {% endif %}
                         {% include "@CorePluginsAdmin/pluginMetadata.twig" %}
                     </div>
                 </div>

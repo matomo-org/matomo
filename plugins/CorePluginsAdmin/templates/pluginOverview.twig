@@ -1,3 +1,5 @@
+{% import '@CorePluginsAdmin/macros.twig' as plugins %}
+
 {% if isSuperUser %}
     {% if plugin.canBeUpdated %}
         <a class="update"
