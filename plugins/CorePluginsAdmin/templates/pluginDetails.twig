@@ -1,3 +1,4 @@
+{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% block content %}
 
@@ -101,12 +102,23 @@
                     margin-left: 10px;
                     line-height: 20px;
                 }
+
+                .pluginDetails .featuredIcon {
+                    height: 16px;
+                    width: 16px;
+                    margin-right: 6px;
+                }
             </style>
 
             <div class="header">
                 <div class="intro" style="width:75%;float:left;">
                     <h2>{{ plugin.name }}</h2>
-                    <p class="description">{{ plugin.description }}</p>
+                    <p class="description">
+                        {% if plugin.featured %}
+                            {{ pluginsMacro.featuredIcon('left') }}
+                        {% endif %}
+                        {{ plugin.description }}
+                    </p>
                 </div>
                 <div class="width:25%;float:left;">
 
