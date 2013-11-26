@@ -1227,7 +1227,7 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Laporan ini menampilkan seluruh Pengarah Anda dalam laporan satu kompak, mendaftar seluruh Situs, dan kata kunci Pencarian serta Kampanye yang digunakan pengunjung Anda menemukan situs Anda.",
-        "CampaignFooterHelp": "Batuan: %sPelacakan Kampanye%s di peralatan Pembangun URL Piwik",
+        "CampaignFooterHelp": "Batuan: %sPelacakan Kampanye%s di peralatan Pembangun URL Piwik%s",
         "Campaigns": "Kampanye",
         "CampaignsDocumentation": "Pengunjung yang datang ke situs Anda sebagai hasil dari kampanye. %s Lihat laporan %s untuk selengkapnya.",
         "CampaignsReportDocumentation": "Laporan ini menampilan kampanye mana yang mengarahkan pengungunjung ke situs Anda. %s Informasi selengkapnya tentang kampanye pelacakan, baca %sdokumentasi kampanye di piwik.org%s",
