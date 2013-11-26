@@ -22,7 +22,9 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
     {
         $this->setUpWebsitesAndGoals();
         self::setUpScheduledReports($this->idSite);
-        $this->trackVisits();
+
+        $this->trackVisitsSite1($url = 'http://example.org/index.htm');
+        $this->trackVisitsSite2($url = 'http://example-site2.com/index.htm');
     }
 
     public function tearDown()
@@ -40,18 +42,12 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         );
     }
 
-    private function trackVisits()
-    {
-        $this->trackVisitsSite1();
-        $this->trackVisitsSite2();
-    }
-
-    private function trackVisitsSite1()
+    protected function trackVisitsSite1($url, $orderId = '937nsjusu 3894', $orderId2 = '1037nsjusu4s3894', $orderId3 = '666', $orderId4 = '666')
     {
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
 
         // VISIT NO 1
-        $t->setUrl('http://example.org/index.htm');
+        $t->setUrl($url);
         $category = 'Electronics & Cameras';
         $price = 1111.11111;
 
@@ -111,7 +107,8 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $categories, $price = 500, $quantity = 2);
         $t->addEcommerceItem($sku = 'ANOTHER SKU HERE', $name = 'PRODUCT name BIS', $category = '', $price = 100, $quantity = 6);
-        self::checkResponse($t->doTrackEcommerceOrder($orderId = '937nsjusu 3894', $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
+
+        self::checkResponse($t->doTrackEcommerceOrder($orderId, $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
 
         // ORDER NO 2
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.1)->getDatetime());
@@ -124,7 +121,8 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         // without passing the custom variable 1st party cookie along since it's not known by back office
         $visitorCustomVarSave = $t->visitorCustomVar;
         $t->visitorCustomVar = false;
-        self::checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+
+        self::checkResponse($t->doTrackEcommerceOrder($orderId2, $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
         $t->visitorCustomVar = $visitorCustomVarSave;
 
         // ORDER SHOULD DEDUPE
@@ -132,7 +130,7 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         // we test that both the order, and the products, are not updated on subsequent "Receipt" views
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.2)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR NOT!', $category = 'Electronics & Cameras NOT!', $price = 15000000000, $quantity = 10000);
-        self::checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId2, $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
 
         // Leave with an opened cart
         // No category
@@ -147,7 +145,7 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
             if ($offsetHour >= 24) {
                 $t->setDebugStringAppend("&_idvc=1");
                 $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
-                self::checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+                self::checkResponse($t->doTrackEcommerceOrder($orderId2, $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
             }
 
             // VIEW PRODUCT PAGES
@@ -174,23 +172,23 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         // One more Ecommerce order to check weekly archiving works fine on orders
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(30.7)->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after', $category = 'Tools', $price = 100, $quantity = 2);
-        self::checkResponse($t->doTrackEcommerceOrder($orderId = '666', $grandTotal = 240, $subTotal = 200, $tax = 20, $shipping = 20, $discount = 20));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId3, $grandTotal = 240, $subTotal = 200, $tax = 20, $shipping = 20, $discount = 20));
 
         // One more Ecommerce order, without any product in it, because we still track orders without products
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(30.8)->getDatetime());
-        self::checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 10000));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId4, $grandTotal = 10000));
         return array($defaultInit, $t, $category, $price, $sku, $name, $quantity, $grandTotal, $orderId);
     }
 
     /**
      * @param $this->dateTime
      */
-    private function trackVisitsSite2()
+    protected function trackVisitsSite2($url)
     {
         $t = self::getTracker($this->idSite2, $this->dateTime, $defaultInit = true);
 
         // Same page name as on website1, different domain (for MetaSites test)
-        $t->setUrl('http://example-site2.com/index.htm');
+        $t->setUrl($url);
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1)->getDatetime());
         $t->setCustomVariable(1, "cvar Name 1", "cvar Value 1");
         self::checkResponse($t->doTrackPageView('one page visit'));
