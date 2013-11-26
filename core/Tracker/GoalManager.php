@@ -13,6 +13,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Tracker;
 
@@ -837,7 +838,13 @@ class GoalManager
         $sql = 'UPDATE  ' . Common::prefixTable('log_conversion') . "
 					SET " . implode($updateParts, ', ') . "
 						WHERE " . implode($updateWhereParts, ' AND ');
-        Tracker::getDatabase()->query($sql, $sqlBind);
+
+        try {
+            Tracker::getDatabase()->query($sql, $sqlBind);
+        } catch(Exception $e){
+            Common::printDebug("There was an error while updating the Conversion: " . $e->getMessage());
+            return false;
+        }
         return true;
     }
 }
