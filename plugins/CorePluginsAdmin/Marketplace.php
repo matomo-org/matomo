@@ -33,7 +33,10 @@ class Marketplace
     {
         $marketplace = new MarketplaceApiClient();
 
-        return $marketplace->getPluginInfo($pluginName);
+        $plugin = $marketplace->getPluginInfo($pluginName);
+        $plugin = $this->addPluginState($plugin);
+
+        return $plugin;
     }
 
     public function searchPlugins($query, $sort, $themesOnly)
@@ -44,12 +47,8 @@ class Marketplace
             $plugins = $this->client->searchForPlugins('', $query, $sort);
         }
 
-        $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
-
-        foreach ($plugins as &$plugin) {
-            $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);
-            $plugin['isInstalled'] = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($plugin['name']);
-            $plugin['lastUpdated'] = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
+        foreach ($plugins as $key => $plugin) {
+            $plugins[$key] = $this->addPluginState($plugin);
         }
 
         return $plugins;
@@ -104,6 +103,17 @@ class Marketplace
         }
 
         return $pluginsHavingUpdate;
+    }
+
+    private function addPluginState($plugin)
+    {
+        $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
+
+        $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);
+        $plugin['isInstalled']  = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($plugin['name']);
+        $plugin['lastUpdated']  = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
+
+        return $plugin;
     }
 
 }

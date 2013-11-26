@@ -12,15 +12,12 @@
 {% endif %}
 
 
-<h3 class="header">{{ plugin.name }}</h3>
-<!--
 <h3 class="header" title="Click for more details">
-    <a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more">{{ plugin.name }}</a>
+    <a href="javascript:return;" class="more">{{ plugin.name }}</a>
 </h3>
--->
 <p class="description">{{ plugin.description }}
     <br />
-    <!--<a href="javascript:return;" title="Click for more details" data-pluginName="{{ plugin.name }}" class="more">&gt;&gt; more</a>-->
+    <a href="javascript:return;" title="Click for more details" class="more">&gt;&gt; more</a>
 </p>
 {% if plugin.canBeUpdated %}
     <p class="updateAvailableNotice">You can update this plugin to version {{ plugin.latestVersion }}</p>

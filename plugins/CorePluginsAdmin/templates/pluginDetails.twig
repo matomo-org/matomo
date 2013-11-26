@@ -1,12 +1,253 @@
 
 {% block content %}
 
-    <div style="max-width:980px;">
-
+    <div class="pluginDetails">
         {% if errorMessage %}
             {{ errorMessage }}
         {% elseif plugin %}
-            {{ plugin.detailPageHtml|raw }}
+
+            <style type="text/css">
+                .pluginDetails {
+                    font-size: 13px;
+                    text-align: left;
+                    font-family: Arial, Helvetica, sans-serif;
+                    line-height: 20px;
+                }
+
+                .pluginDetails h3, .pluginDetails h4, .pluginDetails h5, .pluginDetails h6 {
+                    margin: 10px 0px;
+                }
+
+                .pluginDetails p, .pluginDetails .ui-tabs-panel ul, .pluginDetails .ui-tabs-panel li {
+                    font-family: Arial, Helvetica, sans-serif;
+                    text-align: left;
+                    line-height: 20px;
+                }
+
+                .pluginDetails .header .intro {
+                    margin-bottom: 15px;
+                }
+
+                .pluginDetails .content p {
+                    margin: 0 0 10px;
+                }
+
+                .pluginDetails .description {
+                    padding-right: 25px;
+                }
+
+                .pluginDetails .ui-tabs {
+                    padding: 0em;
+                }
+
+                .pluginDetails .ui-tabs .ui-tabs-nav {
+                    padding: 0em;
+                    border-bottom: 1px solid #cccccc;
+                    margin-right: 25px;
+                    border-radius: 0px;
+                    font-size: 15px;
+                }
+
+                .pluginDetails .ui-tabs .ui-tabs-panel {
+                    padding: 1em 3em 0em 0em;
+                }
+
+                .pluginDetails .content a {
+                    color: #255792;
+                    text-decoration: none;
+                }
+
+                .pluginDetails .metadata dl {
+                    padding-right: 25px;
+                }
+
+                .pluginDetails .metadata a:hover {
+                    text-decoration: underline;
+                }
+
+                .pluginDetails .ui-state-default {
+                    border: 0px !important;
+                }
+
+                .pluginDetails .ui-state-active {
+                    padding-bottom: 0px !important;
+                }
+
+                .pluginDetails .ui-state-active.ui-state-default {
+                    border: 1px solid #cccccc !important;
+                }
+
+                .pluginDetails .ui-state-default:hover {
+                    background-color: #eeeeee !important;
+                }
+
+                .pluginDetails .install {
+                    padding: 11px 19px;
+                    font-size: 17.5px;
+                    -webkit-border-radius: 6px;
+                    -moz-border-radius: 6px;
+                    border-radius: 6px;
+                    color: #ffffff;
+                    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+                    background-color: #5bb75b;
+                    display: inline-block;
+                    text-decoration: none;
+                }
+                .pluginDetails dt {
+                    font-weight: bold;
+                    line-height: 20px;
+                }
+                .pluginDetails dd {
+                    margin-left: 10px;
+                    line-height: 20px;
+                }
+            </style>
+
+            <div class="header">
+                <div class="intro" style="width:75%;float:left;">
+                    <h2>{{ plugin.name }}</h2>
+                    <p class="description">{{ plugin.description }}</p>
+                </div>
+                <div class="width:25%;float:left;">
+
+                    {% if isSuperUser %}
+                        {% if plugin.canBeUpdated %}
+                            <a class="install update"
+                               href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
+                                    >Update</a>
+                        {% elseif plugin.isInstalled %}
+                        {% else %}
+                            <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
+                               class="install">Install</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="content">
+                <div style="width:75%;float:left;">
+
+                    <div id="pluginDetailsTabs">
+                        <ul>
+                            <li><a href="#tabs-description">Description</a></li>
+                            {% if plugin.versions[plugin.versions|length - 1].readmeHtml.faq %}
+                                <li><a href="#tabs-faq">FAQ</a></li>
+                            {% endif %}
+                            <li><a href="#tabs-changelog">Changelog</a></li>
+                            {% if plugin.screenshots|length %}
+                                <li><a href="#tabs-screenshots">Screenshots</a></li>
+                            {% endif %}
+                            {% if plugin.versions[plugin.versions|length - 1].readmeHtml.support %}
+                                <li><a href="#tabs-support">Support</a></li>
+                            {% endif %}
+                        </ul>
+                        <div id="tabs-description">
+                            {{ plugin.versions[plugin.versions|length - 1].readmeHtml.description|raw }}
+
+                        </div>
+                        {% if plugin.versions[plugin.versions|length - 1].readmeHtml.faq %}
+                            <div id="tabs-faq">
+
+                                {{ plugin.versions[plugin.versions|length - 1].readmeHtml.faq|raw }}
+
+                            </div>
+                        {% endif %}
+
+                        <div id="tabs-changelog">
+
+                            {% if plugin.versions[plugin.versions|length - 1].readmeHtml.changelog %}
+                                {{ plugin.versions[plugin.versions|length - 1].readmeHtml.changelog|raw }}
+                            {% endif %}
+
+                            <h3>History</h3>
+
+                            <ul>
+                                {% for version in plugin.versions %}
+                                    <li><strong>{{ version.name }}</strong> from {{ version.release }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% if plugin.screenshots|length %}
+                            <div id="tabs-screenshots">
+                                <ul class="thumbnails">
+                                    {% for screenshot in plugin.screenshots %}
+                                        <li >
+                                            <div class="thumbnail">
+                                                <a href="{{ screenshot }}" target="_blank"><img src="{{ screenshot }}?w=400" width="400" alt=""></a>
+                                                <p>
+                                                    {{ screenshot|split('/')|last|replace({'_': ' ', '.png': '', '.jpg': '', '.jpeg': ''}) }}
+                                                </p>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if plugin.versions[plugin.versions|length - 1].readmeHtml.support %}
+                            <div id="tabs-support">
+
+                                {{ plugin.versions[plugin.versions|length - 1].readmeHtml.support|raw }}
+
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="metadata" style="width:25%;float:left;">
+                    <p><br /></p>
+                    <dl>
+                        <dt>Version</dt>
+                        <dd>{{ plugin.latestVersion }}</dd>
+                        <dt>Keywords</dt>
+                        <dd>{{ plugin.keywords|join(', ') }}</dd>
+                        <dt>Last Updated</dt>
+                        <dd>{{ plugin.lastUpdated }}</dd>
+                        <dt>Downloads</dt>
+                        <dd title="Latest version: {{ plugin.versions[plugin.versions|length - 1].numDownloads|number_format }} Downloads">{{ plugin.numDownloads }}</dd>
+                        <dt>Authors</dt>
+                        <dd>{% for author in plugin.authors if author.name %}
+
+                                {% spaceless %}
+                                    {% if author.homepage %}
+                                        <a target="_blank" href="{{ author.homepage }}">{{ author.name }}</a>
+                                    {% elseif author.email %}
+                                        <a href="mailto:{{ author.email|escape('url') }}">{{ author.name }}</a>
+                                    {% else %}
+                                        {{ author.name }}
+                                    {% endif %}
+
+                                    {% if loop.index < plugin.authors|length %}
+                                        ,
+                                    {% endif %}
+                                {% endspaceless %}
+
+                            {% endfor %}
+                        </dd>
+                        <dt>Websites</dt>
+                        <dd>
+                            {% if plugin.homepage %}
+                                <a target="_blank" href="{{ plugin.homepage }}">Plugin Website</a>,
+                            {% endif %}
+                            <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a></dd>
+                        {% if plugin.activity %}
+                            <dt>Activity</dt>
+                            <dd>
+                                {{ plugin.activity.numCommits }} commits
+
+                                {% if plugin.activity.numContributors > 1 %}
+                                    by {{ plugin.activity.numContributors }} developers
+                                {% endif %}
+                                (last commit {{ plugin.activity.lastCommitDate|date }})</dd>
+                        {% endif %}
+                    </dl>
+                    <br />
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function() {
+                    $( "#pluginDetailsTabs" ).tabs();
+                });
+            </script>
         {% endif %}
     </div>
 
