@@ -795,7 +795,17 @@
         "InfoThemeUpdateIsRecommended": "Update your themes to enjoy the latest version.",
         "InfoPluginUpdateIsRecommended": "Update your plugins now to benefit from the latest improvements.",
         "NumDownloadsLatestVersion": "Latest version: %s Downloads",
-        "EnjoyAnotherLookAndFeelOfThemes": "Enjoy another look & feel"
+        "EnjoyAnotherLookAndFeelOfThemes": "Enjoy another look & feel",
+        "MarketplaceSellPluginSubject": "Marketplace - Sell Plugin",
+        "DownloadAndInstallPluginsFromMarketplace": "You may automatically download and install new Plugins from the %sMarketplace%s</a>.",
+        "GetEarlyAccessForPaidPlugins": "Note: all plugins are available for free at present; in the future we will enable Paid Plugins in the Marketplace (%scontact us%s for early access).",
+        "GetNewFunctionality": "Get new functionality",
+        "ByInstallingNewPluginFromMarketplace": "by %sinstalling a new plugin from the Marketplace%s",
+        "ByInstallingNewThemeFromMarketplace": "by %sinstalling a new theme from the Marketplace%s",
+        "ByWritingOwnPlugin": "by %swriting your own plugin%s",
+        "OrByUploadingAPlugin": "or by %suploading a plugin%s",
+        "ByDesigningOwnTheme": "by %sdesign your own theme%s",
+        "OrByUploadingATheme": "or by %suploading a theme%s"
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",
