@@ -80,13 +80,11 @@ class API extends \Piwik\Plugin\API
 
         $from = "log_visit";
 
-        $where = "log_visit.idsite = ?
-				AND log_visit.visit_last_action_time >= ?";
+        list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite);
 
-        $bind = array(
-            $idSite,
-            Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s')
-        );
+        $where = $whereIdSites . "AND log_visit.visit_last_action_time >= ?";
+        $bind = $idSites;
+        $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
 
         $segment = new Segment($segment, $idSite);
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -586,11 +584,12 @@ class API extends \Piwik\Plugin\API
     private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $numLastVisitorsToFetch = 100, $visitorId = false, $minTimestamp = false)
     {
         $where = $whereBind = array();
-        $where[] = "log_visit.idsite in (?) ";
 
-        Piwik::postEvent('Live.API.getIdSitesString', array(&$idSite));
+        list($whereClause, $idSites) = $this->getIdSitesWhereClause($idSite);
 
-        $whereBind[] = $idSite;
+        $where[] = $whereClause;
+        $whereBind = $idSites;
+
         $orderBy = "idsite, visit_last_action_time DESC";
         $orderByParent = "sub.visit_last_action_time DESC";
         if (!empty($visitorId)) {
@@ -687,5 +686,19 @@ class API extends \Piwik\Plugin\API
         $dataTable->addRowsFromSimpleArray($data);
 
         return $dataTable;
+    }
+
+    /**
+     * @param $idSite
+     * @return array
+     */
+    private function getIdSitesWhereClause($idSite)
+    {
+        $idSites = array($idSite);
+        Piwik::postEvent('Live.API.getIdSitesString', array(&$idSites));
+
+        $idSitesBind = Common::getSqlStringFieldsArray($idSites);
+        $whereClause = "log_visit.idsite in ($idSitesBind) ";
+        return array($whereClause, $idSites);
     }
 }
