@@ -315,6 +315,9 @@ class Manager extends Singleton
         $this->installPluginIfNecessary($plugin);
         $plugin->activate();
 
+        EventDispatcher::getInstance()->postPendingEventsTo($plugin);
+
+
         // we add the plugin to the list of activated plugins
         if (!in_array($pluginName, $plugins)) {
             $plugins[] = $pluginName;
@@ -597,6 +600,8 @@ class Manager extends Singleton
                 if ($newPlugin === null) {
                     continue;
                 }
+
+                EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
             }
         }
     }
@@ -635,7 +640,6 @@ class Manager extends Singleton
 
     /**
      * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry
-     * Do NOT give the class name ie. UserCountry, but give the plugin name ie. UserCountry
      *
      * @param string $pluginName
      * @throws \Exception
@@ -649,9 +653,6 @@ class Manager extends Singleton
         $newPlugin = $this->makePluginClass($pluginName);
 
         $this->addLoadedPlugin($pluginName, $newPlugin);
-
-        EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
-
         return $newPlugin;
     }
 
