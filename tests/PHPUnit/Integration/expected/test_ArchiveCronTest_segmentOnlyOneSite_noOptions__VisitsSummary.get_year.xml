@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<nb_visits>6</nb_visits>
-		<nb_actions>6</nb_actions>
-		<nb_visits_converted>6</nb_visits_converted>
-		<bounce_count>6</bounce_count>
+		<nb_visits>9</nb_visits>
+		<nb_actions>9</nb_actions>
+		<nb_visits_converted>9</nb_visits_converted>
+		<bounce_count>9</bounce_count>
 		<sum_visit_length>0</sum_visit_length>
 		<max_actions>1</max_actions>
 		<bounce_rate>100%</bounce_rate>
