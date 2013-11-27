@@ -586,7 +586,10 @@ class API extends \Piwik\Plugin\API
     private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $numLastVisitorsToFetch = 100, $visitorId = false, $minTimestamp = false)
     {
         $where = $whereBind = array();
-        $where[] = "log_visit.idsite = ? ";
+        $where[] = "log_visit.idsite in (?) ";
+
+        Piwik::postEvent('Live.API.getIdSitesString', array(&$idSite));
+
         $whereBind[] = $idSite;
         $orderBy = "idsite, visit_last_action_time DESC";
         $orderByParent = "sub.visit_last_action_time DESC";

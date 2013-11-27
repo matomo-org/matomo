@@ -48,8 +48,11 @@ class Nonce
             // generate a new nonce
             $nonce = md5(SettingsPiwik::getSalt() . time() . Common::generateUniqId());
             $ns->nonce = $nonce;
-            $ns->setExpirationSeconds($ttl, 'nonce');
         }
+
+        // extend lifetime if nonce is requested again to prevent from early timeout if nonce is requested again
+        // a few seconds before timeout
+        $ns->setExpirationSeconds($ttl, 'nonce');
 
         return $nonce;
     }
