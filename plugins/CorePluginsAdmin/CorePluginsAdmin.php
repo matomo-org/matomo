@@ -86,7 +86,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
 
         if (static::isMarketplaceEnabled()) {
 
-            MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuExtend',
+            MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Marketplace',
                 array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
                 !Piwik::isUserIsAnonymous(),
                 $order = 5);
