@@ -15,13 +15,13 @@
             {% for name,plugin in pluginsHavingUpdate %}
                 <tr {% if plugin.isActivated %}class="highlighted"{% endif %}>
                     <td class="name">
-                        <a href="javascript:false;" data-pluginName="{{ plugin.name|e('html_attr') }}">
+                        <a href="javascript:void(0);" data-pluginName="{{ plugin.name|e('html_attr') }}">
                             {{ plugin.name }}
                         </a>
                     </td>
                     <td class="vers">
                         {% if plugin.repositoryChangelogUrl %}
-                            <a href="javascript:false;" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" data-activePluginTab="changelog" data-pluginName="{{ plugin.name|e('html_attr') }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
+                            <a href="javascript:void(0);" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" data-activePluginTab="changelog" data-pluginName="{{ plugin.name|e('html_attr') }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
                         {% else %}
                             {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
                         {% endif %}
@@ -115,7 +115,7 @@
                 <tr {% if plugin.activated %}class="highlighted"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
                         {% if not plugin.isCorePlugin and name in marketplacePluginNames -%}
-                            <a href="javascript:false;"
+                            <a href="javascript:void(0);"
                                data-pluginName="{{ name|e('html_attr') }}"
                                >{{ name }}</a>
                         {%- else %}

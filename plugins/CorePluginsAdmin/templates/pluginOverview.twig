@@ -15,11 +15,11 @@
 
 
 <h3 class="header" title="{{ 'General_MoreDetails'|translate }}">
-    <a href="javascript:false;" class="more">{{ plugin.name }}</a>
+    <a href="javascript:void(0);" class="more">{{ plugin.name }}</a>
 </h3>
 <p class="description">{{ plugin.description }}
     <br />
-    <a href="javascript:false;" title="{{ 'General_MoreDetails'|translate }}" class="more">&gt;&gt; {{ 'General_MoreLowerCase'|translate }}</a>
+    <a href="javascript:void(0);" title="{{ 'General_MoreDetails'|translate }}" class="more">&gt;&gt; {{ 'General_MoreLowerCase'|translate }}</a>
 </p>
 {% if plugin.canBeUpdated %}
     <p class="updateAvailableNotice" data-activePluginTab="changelog">{{ 'CorePluginsAdmin_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}</p>
