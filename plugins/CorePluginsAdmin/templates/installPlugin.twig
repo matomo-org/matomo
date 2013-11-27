@@ -19,7 +19,7 @@
                 <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">{{ 'CorePluginsAdmin_ActionActivateTheme'|translate }}</a></strong>
 
                     |
-                    <a href="{{ linkTo({'action': 'extend'}) }}">{{ 'CorePluginsAdmin_BackToExtendPiwik'|translate }}</a></p>
+                    <a href="{{ linkTo({'action': 'browseThemes'}) }}">{{ 'CorePluginsAdmin_BackToExtendPiwik'|translate }}</a></p>
 
             {% else %}
 
@@ -32,7 +32,7 @@
                 <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">{{ 'CorePluginsAdmin_ActionActivatePlugin'|translate }}</a></strong>
 
                     |
-                    <a href="{{ linkTo({'action': 'extend'}) }}">{{ 'CorePluginsAdmin_BackToExtendPiwik'|translate }}</a></p>
+                    <a href="{{ linkTo({'action': 'browsePlugins'}) }}">{{ 'CorePluginsAdmin_BackToExtendPiwik'|translate }}</a></p>
 
             {% endif %}
         </div>
