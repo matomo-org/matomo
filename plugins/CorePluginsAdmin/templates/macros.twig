@@ -114,12 +114,12 @@
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="highlighted"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
-                        {% if plugin.isCorePlugin %}
+                        {% if plugin.isCorePlugin or plugin.info.version == 'Unknown'|translate %}
                             {{ name }}
                         {% else %}
                             <a href="javascript:return;" data-pluginName="{{ name|e('html_attr') }}">
                                 {{ name }}
-                                </a>
+                            </a>
                         {% endif %}
 
                         {% if name in pluginNamesHavingSettings %}
