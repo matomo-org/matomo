@@ -126,6 +126,10 @@ class Controller extends Plugin\ControllerAdmin
         static::dieIfMarketplaceIsDisabled();
 
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
+        $activeTab  = Common::getRequestVar('activeTab', '', 'string');
+        if ('changelog' !== $activeTab) {
+            $activeTab = '';
+        }
 
         $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
 
@@ -135,6 +139,7 @@ class Controller extends Plugin\ControllerAdmin
             $view->isSuperUser  = Piwik::isUserIsSuperUser();
             $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
             $view->updateNonce  = Nonce::getNonce(static::UPDATE_NONCE);
+            $view->activeTab    = $activeTab;
         } catch (\Exception $e) {
             $view->errorMessage = $e->getMessage();
         }

@@ -51,17 +51,35 @@ $(document).ready(function () {
             return;
         }
 
-        var pluginName = $( this ).attr('data-pluginName');
+        var pluginName = $(this).attr('data-pluginName');
 
         if (!pluginName) {
             return;
         }
 
+        var activeTab = $(event.target).attr('data-activePluginTab');
+        if (activeTab) {
+            pluginName += '!' + activeTab;
+        }
+
         broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
     });
 
-    var showPopover = function (pluginName) {
+    var showPopover = function (value) {
+        var pluginName = value;
+        var activeTab  = null;
+
+        if (-1 !== value.indexOf('!')) {
+            activeTab  = value.substr(value.indexOf('!') + 1);
+            pluginName = value.substr(0, value.indexOf('!'));
+        }
+
         var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + encodeURIComponent(pluginName);
+
+        if (activeTab) {
+            url += '&activeTab=' + encodeURIComponent(activeTab);
+        }
+
         Piwik_Popover.createPopupAndLoadUrl(url, 'details');
     };
 

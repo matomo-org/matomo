@@ -172,7 +172,17 @@
             </div>
             <script type="text/javascript">
                 $(function() {
-                    $( "#pluginDetailsTabs" ).tabs();
+
+                    var active = 0;
+                    {% if activeTab %}
+                        var $activeTab = $('#tabs-{{ activeTab|e('js') }}');
+                        if ($activeTab) {
+                            active = $activeTab.index() - 1;
+                        }
+                    {% endif %}
+
+                    $( "#pluginDetailsTabs" ).tabs({active: active >= 0 ? active : 0});
+
                     $('.pluginDetails a').each(function (index, a) {
                         var link = $(a).attr('href');
 

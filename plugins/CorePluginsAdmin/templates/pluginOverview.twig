@@ -22,5 +22,5 @@
     <a href="javascript:return;" title="Click for more details" class="more">&gt;&gt; more</a>
 </p>
 {% if plugin.canBeUpdated %}
-    <p class="updateAvailableNotice">You can update this plugin from version {{ plugin.currentVersion }} to {{ plugin.latestVersion }}</p>
+    <p class="updateAvailableNotice" data-activePluginTab="changelog">You can update this plugin from version {{ plugin.currentVersion }} to {{ plugin.latestVersion }}</p>
 {% endif %}

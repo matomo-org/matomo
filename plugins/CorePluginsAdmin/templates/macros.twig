@@ -21,7 +21,7 @@
                     </td>
                     <td class="vers">
                         {% if plugin.repositoryChangelogUrl %}
-                            <a title="Changelog" target="_blank" href="{{ plugin.repositoryChangelogUrl }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
+                            <a href="javascript:return;" title="Changelog" data-activePluginTab="changelog" data-pluginName="{{ plugin.name|e('html_attr') }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
                         {% else %}
                             {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
                         {% endif %}
