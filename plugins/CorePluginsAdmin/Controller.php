@@ -356,10 +356,10 @@ class Controller extends Plugin\ControllerAdmin
 
             $message = Piwik::translate('CorePluginsAdmin_PluginSuccessfullyActicated', array($pluginName));
             if (SettingsManager::hasPluginSettingsForCurrentUser($pluginName)) {
-                $target   = sprintf('index.php%s#%s',
+                $target   = sprintf('<a href="index.php%s#%s">',
                                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'pluginSettings')),
                                     $pluginName);
-                $message .= ' ' . Piwik::translate('CorePluginsAdmin_ChangeSettingsPossible', array($target));
+                $message .= ' ' . Piwik::translate('CorePluginsAdmin_ChangeSettingsPossible', array($target, '</a>'));
             }
 
             $notification = new Notification($message);

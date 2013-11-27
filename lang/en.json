@@ -733,7 +733,7 @@
         "UninstallConfirm": "You are about to uninstall a plugin %s. The plugin will be completely removed from your platform and it won't be recoverable. Are you sure you want to do this?",
         "NoZipFileSelected": "Please select a ZIP file.",
         "PluginSuccessfullyActicated": "You have successfully activated plugin <strong>%s</strong>.",
-        "ChangeSettingsPossible": "You can change <a href=\"%s\">settings</a> for this plugin.",
+        "ChangeSettingsPossible": "You can change %ssettings%s for this plugin.",
         "OriginCore": "Core",
         "OriginThirdParty": "Third-party",
         "Origin": "Origin",
