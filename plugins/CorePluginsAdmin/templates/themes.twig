@@ -6,9 +6,9 @@
 <div style="max-width:980px;">
 
     {% if pluginsHavingUpdate|length %}
-        <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
+        <h2>{{ 'CorePluginsAdmin_NumUpdatesAvailable'|translate(pluginsHavingUpdate|length) }}</h2>
 
-        <p>{{ 'Update your themes to enjoy the latest version.'|translate }}</p>
+        <p>{{ 'CorePluginsAdmin_InfoThemeUpdateIsRecommended'|translate }}</p>
 
         {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, true) }}
     {% endif %}
@@ -17,7 +17,7 @@
 
     <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}
     {% if otherUsersCount > 0 %}
-        <br/> Note: the other {{ otherUsersCount }} users registered in this Piwik are also using the theme {{ themeEnabled }}.
+        <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
     {% endif %}
     </p>
 

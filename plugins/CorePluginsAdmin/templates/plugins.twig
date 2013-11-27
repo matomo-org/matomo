@@ -8,7 +8,7 @@
     {% if pluginsHavingUpdate|length %}
         <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
 
-        <p>{{ 'Update your plugins now to benefit from the latest improvements.'|translate }}</p>
+        <p>{{ 'CorePluginsAdmin_InfoPluginUpdateIsRecommended'|translate }}</p>
 
         {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
     {% endif %}
