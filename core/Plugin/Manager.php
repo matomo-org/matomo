@@ -566,6 +566,21 @@ class Manager extends Singleton
     }
 
     /**
+     * Returns a list of all names of currently activated plugin eg,
+     *
+     *     array(
+     *         'UserCountry'
+     *         'UserSettings'
+     *     );
+     *
+     * @return string[]
+     */
+    public function getActivatedPlugins()
+    {
+        return $this->pluginsToLoad;
+    }
+
+    /**
      * Returns a Plugin object by name.
      *
      * @param string $name The name of the plugin, eg, `'Actions'`.
