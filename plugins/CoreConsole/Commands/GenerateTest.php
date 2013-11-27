@@ -190,6 +190,7 @@ class GenerateTest extends GeneratePluginBase
     {
         if('Integration' == $testType) {
             return array(
+                '/.gitignore',
                 '/tests',
                 '/tests/SimpleIntegrationTest.php',
                 '/tests/expected',

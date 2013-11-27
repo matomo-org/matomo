@@ -54,7 +54,11 @@ class GeneratePluginBase extends ConsoleCommand
     {
         $replace['PLUGINNAME'] = $pluginName;
 
-        $files = Filesystem::globr($templateFolder, '*');
+        $files = array_merge(
+                Filesystem::globr($templateFolder, '*'),
+                // Also copy files starting with . such as .gitignore
+                Filesystem::globr($templateFolder, '.*')
+        );
 
         foreach ($files as $file) {
             $fileNamePlugin = str_replace($templateFolder, '', $file);
