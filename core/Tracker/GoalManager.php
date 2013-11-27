@@ -796,7 +796,7 @@ class GoalManager
          * @param array $goal Array of SQL fields value for this conversion, will be inserted in the log_conversion table
          * @param \Piwik\Tracker\Request $request
          */
-        Piwik::postEvent('Tracker.newConversionInformation', array($newGoal, $this->request));
+        Piwik::postEvent('Tracker.newConversionInformation', array( &$newGoal, $this->request));
 
         $newGoalDebug = $newGoal;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
