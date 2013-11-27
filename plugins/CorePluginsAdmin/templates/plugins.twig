@@ -10,7 +10,7 @@
 
         <p>{{ 'Update your plugins now to benefit from the latest improvements.'|translate }}</p>
 
-        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
+        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0, isMarketplaceEnabled) }}
     {% endif %}
 
     <h2>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>

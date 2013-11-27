@@ -88,7 +88,7 @@
 
 {% endmacro %}
 
-{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme) %}
+{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, isMarketplaceEnabled) %}
 
 <div id="confirmUninstallPlugin" class="ui-confirm">
 
@@ -114,7 +114,7 @@
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="highlighted"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
-                        {% if plugin.isCorePlugin or plugin.info.version == 'Unknown'|translate %}
+                        {% if plugin.isCorePlugin or plugin.info.version == 'Unknown'|translate or not isMarketplaceEnabled %}
                             {{ name }}
                         {% else %}
                             <a href="javascript:false;" data-pluginName="{{ name|e('html_attr') }}">

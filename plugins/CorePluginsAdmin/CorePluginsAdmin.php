@@ -61,7 +61,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
         $pluginsUpdateMessage = '';
         $themesUpdateMessage = '';
 
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::isUserIsSuperUser() && static::isMarketplaceEnabled()) {
             $marketplace = new Marketplace();
             $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
             $themesHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = true);
