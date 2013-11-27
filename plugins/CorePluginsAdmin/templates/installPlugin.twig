@@ -4,35 +4,35 @@
 
     <div style="max-width:980px;">
 
-        <h2>Installing {{ plugin.name }}</h2>
+        <h2>{{ 'CorePluginsAdmin_InstallingPlugin'|translate(plugin.name) }}</h2>
 
         <div>
 
             {% if plugin.isTheme %}
 
-                <p>Downloading theme from Marketplace</p>
+                <p>{{ 'CorePluginsAdmin_StepDownloadingThemeFromMarketplace'|translate }}</p>
 
-                <p>Unzipping theme</p>
+                <p>{{ 'CorePluginsAdmin_StepUnzippingTheme'|translate }}</p>
 
-                <p>You have successfully installed the theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+                <p>{{ 'CorePluginsAdmin_StepThemeSuccessfullyInstalled'|translate(plugin.name, plugin.latestVersion) }}</p>
 
-                <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Theme</a></strong>
+                <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">{{ 'CorePluginsAdmin_ActionActivateTheme'|translate }}</a></strong>
 
                     |
-                    <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
+                    <a href="{{ linkTo({'action': 'extend'}) }}">{{ 'CorePluginsAdmin_BackToExtendPiwik'|translate }}</a></p>
 
             {% else %}
 
-                <p>Downloading plugin from Marketplace</p>
+                <p>{{ 'CorePluginsAdmin_StepDownloadingPluginFromMarketplace'|translate }}</p>
 
-                <p>Unzipping plugin</p>
+                <p>{{ 'CorePluginsAdmin_StepUnzippingPlugin'|translate }}</p>
 
-                <p>You have successfully installed the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+                <p>{{ 'CorePluginsAdmin_StepPluginSuccessfullyInstalled'|translate(plugin.name, plugin.latestVersion) }}</p>
 
-                <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
+                <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">{{ 'CorePluginsAdmin_ActionActivatePlugin'|translate }}</a></strong>
 
                     |
-                    <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
+                    <a href="{{ linkTo({'action': 'extend'}) }}">{{ 'CorePluginsAdmin_BackToExtendPiwik'|translate }}</a></p>
 
             {% endif %}
         </div>

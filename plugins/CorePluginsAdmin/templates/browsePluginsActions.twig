@@ -1,12 +1,12 @@
 <div class="sort">
-    <a href="{{ linkTo({'sort': 'popular', 'query': ''}) }}" {% if 'popular' == sort %}class="active"{% endif %}>popular</a>
+    <a href="{{ linkTo({'sort': 'popular', 'query': ''}) }}" {% if 'popular' == sort %}class="active"{% endif %}>{{ 'CorePluginsAdmin_SortByPopular'|translate }}</a>
     |
-    <a href="{{ linkTo({'sort': 'newest', 'query': ''}) }}" {% if 'newest' == sort %}class="active"{% endif %}>newest</a>
+    <a href="{{ linkTo({'sort': 'newest', 'query': ''}) }}" {% if 'newest' == sort %}class="active"{% endif %}>{{ 'CorePluginsAdmin_SortByNewest'|translate }}</a>
     |
-    <a href="{{ linkTo({'sort': 'alpha', 'query': ''}) }}" {% if 'alpha' == sort %}class="active"{% endif %}>alpha</a>
+    <a href="{{ linkTo({'sort': 'alpha', 'query': ''}) }}" {% if 'alpha' == sort %}class="active"{% endif %}>{{ 'CorePluginsAdmin_SortByAlpha'|translate }}</a>
     |
     <form action="{{ linkTo({'sort': ''}) }}" method="POST">
-        <input value="{{ query }}" placeholder="Search" type="text" name="query"/>
-        <button type="submit">Search</button>
+        <input value="{{ query }}" placeholder="{{ 'General_Search'|translate }}" type="text" name="query"/>
+        <button type="submit">{{ 'General_Search'|translate }}</button>
     </form>
 </div>

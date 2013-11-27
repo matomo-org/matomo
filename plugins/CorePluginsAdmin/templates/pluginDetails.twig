@@ -23,11 +23,11 @@
                         {% if plugin.canBeUpdated %}
                             <a class="install update"
                                href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
-                                    >Update</a>
+                                    >{{ 'CoreUpdater_UpdateTitle'|translate }}</a>
                         {% elseif plugin.isInstalled %}
                         {% else %}
                             <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
-                               class="install">Install</a>
+                               class="install">{{ 'CorePluginsAdmin_ActionInstall'|translate }}</a>
                         {% endif %}
                     {% endif %}
                 </div>
@@ -38,16 +38,16 @@
 
                     <div id="pluginDetailsTabs">
                         <ul>
-                            <li><a href="#tabs-description">Description</a></li>
+                            <li><a href="#tabs-description">{{ 'General_Description'|translate }}</a></li>
                             {% if plugin.versions[plugin.versions|length - 1].readmeHtml.faq %}
-                                <li><a href="#tabs-faq">FAQ</a></li>
+                                <li><a href="#tabs-faq">{{ 'General_Faq'|translate }}</a></li>
                             {% endif %}
-                            <li><a href="#tabs-changelog">Changelog</a></li>
+                            <li><a href="#tabs-changelog">{{ 'CorePluginsAdmin_Changelog'|translate }}</a></li>
                             {% if plugin.screenshots|length %}
-                                <li><a href="#tabs-screenshots">Screenshots</a></li>
+                                <li><a href="#tabs-screenshots">{{ 'CorePluginsAdmin_Screenshots'|translate }}</a></li>
                             {% endif %}
                             {% if plugin.versions[plugin.versions|length - 1].readmeHtml.support %}
-                                <li><a href="#tabs-support">Support</a></li>
+                                <li><a href="#tabs-support">{{ 'CorePluginsAdmin_Support'|translate }}</a></li>
                             {% endif %}
                         </ul>
 
@@ -63,8 +63,8 @@
 
                         <div id="tabs-changelog">
                             {% if plugin.canBeUpdated %}
-                                <p class="updateAvailableNotice">You can update this plugin from version {{ plugin.currentVersion }} to {{ plugin.latestVersion }}.
-                                    {% if plugin.repositoryChangelogUrl %}<a target="_blank" href="{{ plugin.repositoryChangelogUrl }}">View the changes</a>{% endif %}
+                                <p class="updateAvailableNotice">{{ 'CorePluginsAdmin_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}
+                                    {% if plugin.repositoryChangelogUrl %}<a target="_blank" href="{{ plugin.repositoryChangelogUrl }}">{{ 'CorePluginsAdmin_ViewRepositoryChangelog'|translate }}</a>{% endif %}
                                 </p>
                             {% endif %}
 
@@ -72,19 +72,22 @@
                                 {{ plugin.versions[plugin.versions|length - 1].readmeHtml.changelog|raw }}
                             {% endif %}
 
-                            <h3>History</h3>
+                            <h3>{{ 'CorePluginsAdmin_History'|translate }}</h3>
 
                             <ul>
                                 {% for version in plugin.versions|reverse %}
                                     <li>
-                                        <strong>
-                                            {% if version.repositoryChangelogUrl %}
-                                                <a target="_blank" title="Changelog" href="{{ version.repositoryChangelogUrl }}">{{ version.name }}</a>
-                                            {% else %}
-                                                {{ version.name }}
-                                            {% endif %}
-                                        </strong>
-                                        from {{ version.release }}</li>
+                                        {% set versionName %}
+                                            <strong>
+                                                {% if version.repositoryChangelogUrl %}
+                                                    <a target="_blank" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" href="{{ version.repositoryChangelogUrl }}">{{ version.name }}</a>
+                                                {% else %}
+                                                    {{ version.name }}
+                                                {% endif %}
+                                            </strong>
+                                        {% endset %}
+                                        {{ 'CorePluginsAdmin_PluginVersionInfo'|translate(versionName, version.release) }}
+                                        </li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -119,17 +122,17 @@
                 <div class="metadata" style="width:25%;float:left;">
                     <p><br /></p>
                     <dl>
-                        <dt>Version</dt>
+                        <dt>{{ 'CorePluginsAdmin_Version'|translate }}</dt>
                         <dd>{{ plugin.latestVersion }}</dd>
-                        <dt>Keywords</dt>
+                        <dt>{{ 'CorePluginsAdmin_PluginKeywords'|translate }}</dt>
                         <dd>{{ plugin.keywords|join(', ') }}</dd>
-                        <dt>Last Updated</dt>
+                        <dt>{{ 'CorePluginsAdmin_LastUpdated'|translate }}</dt>
                         <dd>{{ plugin.lastUpdated }}</dd>
-                        <dt>Downloads</dt>
+                        <dt>{{ 'General_Downloads'|translate }}</dt>
                         <dd title="Latest version: {{ plugin.versions[plugin.versions|length - 1].numDownloads|number_format }} Downloads">{{ plugin.numDownloads }}</dd>
-                        <dt>Developer</dt>
+                        <dt>{{ 'CorePluginsAdmin_Developer'|translate }}</dt>
                         <dd>{{ pluginsMacro.pluginDeveloper(plugin.owner) }}</dd>
-                        <dt>Authors</dt>
+                        <dt>{{ 'CorePluginsAdmin_Authors'|translate }}</dt>
                         <dd>{% for author in plugin.authors if author.name %}
 
                                 {% spaceless %}
@@ -148,22 +151,22 @@
 
                             {% endfor %}
                         </dd>
-                        <dt>Websites</dt>
+                        <dt>{{ 'CorePluginsAdmin_Websites'|translate }}</dt>
                         <dd>
                             {% if plugin.homepage %}
-                                <a target="_blank" href="{{ plugin.homepage }}">Plugin Website</a>,
+                                <a target="_blank" href="{{ plugin.homepage }}">{{ 'CorePluginsAdmin_PluginWebsite'|translate }}</a>,
                             {% endif %}
                             <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a></dd>
                         {% if plugin.activity %}
-                            <dt>Activity</dt>
+                            <dt>{{ 'CorePluginsAdmin_Activity'|translate }}</dt>
                             <dd>
                                 {{ plugin.activity.numCommits }} commits
 
                                 {% if plugin.activity.numContributors > 1 %}
-                                    by {{ plugin.activity.numContributors }} developers
+                                    {{ 'CorePluginsAdmin_ByXDevelopers'|translate(plugin.activity.numContributors) }}
                                 {% endif %}
                                 {% if plugin.activity.lastCommitDate %}
-                                    (last commit {{ plugin.activity.lastCommitDate }})
+                                    {{ 'CorePluginsAdmin_LastCommitTime'|translate(plugin.activity.lastCommitDate) }}
                                 {% endif %}</dd>
                         {% endif %}
                     </dl>

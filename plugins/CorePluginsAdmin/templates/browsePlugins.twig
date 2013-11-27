@@ -5,10 +5,10 @@
 
     <div class="pluginslistActionBar">
 
-        <h2>Extend Piwik by installing a new plugin</h2>
+        <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate }}</h2>
 
         <div class="infoBox">
-            Plugins that are not authored by Piwik team must be used with care: we did not review them.
+            {{ 'CorePluginsAdmin_BeCarefulUsingPlugins'|translate }}
         </div>
 
         {% include "@CorePluginsAdmin/browsePluginsActions.twig" %}
@@ -16,8 +16,7 @@
 
     {% if not isSuperUser %}
         <div class="pluginslistNonSuperUserHint">
-            You can browse the list of plugins that can be installed to customize or extend your Piwik platform. Please
-            contact your administrator if you need any of these installed.
+            {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplacePlugins'|translate }}
         </div>
     {% endif %}
 
@@ -43,7 +42,7 @@
             {% endfor %}
 
         {% else %}
-            No plugins found
+            {{ 'CorePluginsAdmin_NoPluginsFound'|translate }}
         {% endif %}
     </div>
 {% endblock %}
