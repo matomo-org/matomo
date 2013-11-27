@@ -793,7 +793,7 @@
         "InfoThemeIsUsedByOtherUsersAsWell": "Note: the other %1$s users registered in this Piwik are also using the theme %2$s.",
         "NumUpdatesAvailable": "%s Update(s) available",
         "InfoThemeUpdateIsRecommended": "Update your themes to enjoy the latest version.",
-        "InfoPluginUpdateIsRecommended": "Update your plugins now to benefit from the latest improvements."
+        "InfoPluginUpdateIsRecommended": "Update your plugins now to benefit from the latest improvements.",
         "NumDownloadsLatestVersion": "Latest version: %s Downloads",
         "EnjoyAnotherLookAndFeelOfThemes": "Enjoy another look & feel"
     },
