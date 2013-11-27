@@ -34,7 +34,7 @@ class Marketplace
         $marketplace = new MarketplaceApiClient();
 
         $plugin = $marketplace->getPluginInfo($pluginName);
-        $plugin = $this->addPluginState($plugin);
+        $plugin = $this->enrichPluginInformation($plugin);
 
         return $plugin;
     }
@@ -48,27 +48,32 @@ class Marketplace
         }
 
         foreach ($plugins as $key => $plugin) {
-            $plugins[$key] = $this->addPluginState($plugin);
+            $plugins[$key] = $this->enrichPluginInformation($plugin);
         }
 
         return $plugins;
     }
 
-    private function hasPluginUpdate($plugin)
+    private function getPluginUpdateInformation($plugin)
     {
         if (empty($plugin['name'])) {
-            return false;
+            return;
         }
 
         $pluginsHavingUpdate = $this->getPluginsHavingUpdate($plugin['isTheme']);
 
         foreach ($pluginsHavingUpdate as $pluginHavingUpdate) {
             if ($plugin['name'] == $pluginHavingUpdate['name']) {
-                return true;
+                return $pluginHavingUpdate;
             }
         }
+    }
 
-        return false;
+    private function hasPluginUpdate($plugin)
+    {
+        $update = $this->getPluginUpdateInformation($plugin);
+
+        return !empty($update);
     }
 
     /**
@@ -105,13 +110,19 @@ class Marketplace
         return $pluginsHavingUpdate;
     }
 
-    private function addPluginState($plugin)
+    private function enrichPluginInformation($plugin)
     {
         $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
 
         $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);
         $plugin['isInstalled']  = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($plugin['name']);
         $plugin['lastUpdated']  = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
+
+        if ($plugin['canBeUpdated']) {
+            $pluginUpdate = $this->getPluginUpdateInformation($plugin);
+            $plugin['repositoryChangelogUrl'] = $pluginUpdate['repositoryChangelogUrl'];
+            $plugin['currentVersion']         = $pluginUpdate['currentVersion'];
+        }
 
         if (!empty($plugin['activity']['lastCommitDate'])
             && false === strpos($plugin['activity']['lastCommitDate'], '0000')) {

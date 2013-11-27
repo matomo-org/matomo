@@ -23,5 +23,5 @@
             class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
 
 {% if plugin.canBeUpdated %}
-    <p class="updateAvailableNotice">You can update this theme to version {{ plugin.latestVersion }}</p>
+    <p class="updateAvailableNotice">You can update this theme from version {{ plugin.currentVersion }} to {{ plugin.latestVersion }}</p>
 {% endif %}

@@ -62,6 +62,12 @@
                         {% endif %}
 
                         <div id="tabs-changelog">
+                            {% if plugin.canBeUpdated %}
+                                <p class="updateAvailableNotice">You can update this plugin from version {{ plugin.currentVersion }} to {{ plugin.latestVersion }}.
+                                    {% if plugin.repositoryChangelogUrl %}<a target="_blank" href="{{ plugin.repositoryChangelogUrl }}">View the changes</a>{% endif %}
+                                </p>
+                            {% endif %}
+
                             {% if plugin.versions[plugin.versions|length - 1].readmeHtml.changelog %}
                                 {{ plugin.versions[plugin.versions|length - 1].readmeHtml.changelog|raw }}
                             {% endif %}

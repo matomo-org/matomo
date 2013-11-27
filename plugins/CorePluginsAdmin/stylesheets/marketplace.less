@@ -76,10 +76,15 @@
     .updateAvailableNotice {
       font-size: 14px;
       padding: 10px;
-      color: #301901;
+      color: #9b7a44;
       display: inline-block;
       background-color: #ffffe0;
       border-radius: 3px;
+
+      a {
+        color: #9b7a44;
+        font-weight: bold;
+      }
     }
 
     &:hover {
@@ -201,16 +206,7 @@
   }
 
   .infoBox {
-    font-size: 14px;
-    margin: 0px 0px 10px 10px;
-    padding: 15px;
-    color: #301901;
-    display: inline-block;
-    background-color: #ffffe0;
-    border: 1px solid #e6db55;
-    border-radius: 3px;
-    width: 250px;
-    float: right;
+    margin: 0px 0px 20px 0px;
   }
 }
 
@@ -223,7 +219,21 @@
   h3, h4, h5, h6 {
     margin: 10px 0px;
   }
-  
+
+  .content .updateAvailableNotice {
+    font-size: 14px;
+    padding: 10px;
+    color: #9b7a44;
+    display: inline-block;
+    background-color: #ffffe0;
+    border-radius: 3px;
+
+    a {
+      color: #9b7a44;
+      font-weight: bold;
+    }
+  }
+
   p, .ui-tabs-panel ul, .ui-tabs-panel li {
     font-family: Arial, Helvetica, sans-serif;
     text-align: left;
