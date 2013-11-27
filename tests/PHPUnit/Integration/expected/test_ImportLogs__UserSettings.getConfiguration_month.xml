@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>Linux / Epiphany / unknown</label>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>5</bounce_count>
+		<nb_visits_converted>5</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
 		<label>Mac OS / RockMelt / unknown</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>8</nb_actions>
@@ -12,16 +22,6 @@
 	</row>
 	<row>
 		<label>Windows 7 / Internet Explorer / unknown</label>
-		<nb_visits>5</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>5</bounce_count>
-		<nb_visits_converted>5</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
-	</row>
-	<row>
-		<label>Linux / Epiphany / unknown</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>
@@ -62,6 +62,26 @@
 	</row>
 	<row>
 		<label>Linux / Chrome / unknown</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>Unknown / Epiphany / unknown</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>Mac OS / Chrome / unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
