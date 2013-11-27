@@ -223,9 +223,11 @@ class Controller extends Plugin\ControllerAdmin
 
         if (CorePluginsAdmin::isMarketplaceEnabled()) {
             $marketplace = new Marketplace();
-            $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly);
+            $view->marketplacePluginNames = $marketplace->getAvailablePluginNames($themesOnly);
+            $view->pluginsHavingUpdate    = $marketplace->getPluginsHavingUpdate($themesOnly);
         } else {
-            $view->pluginsHavingUpdate = array();
+            $view->pluginsHavingUpdate    = array();
+            $view->marketplacePluginNames = array();
         }
 
         return $view;

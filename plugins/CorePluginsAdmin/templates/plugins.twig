@@ -10,7 +10,7 @@
 
         <p>{{ 'Update your plugins now to benefit from the latest improvements.'|translate }}</p>
 
-        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0, isMarketplaceEnabled) }}
+        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
     {% endif %}
 
     <h2>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
@@ -19,7 +19,7 @@
 
     {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}
 
-    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false) }}
+    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false, marketplacePluginNames) }}
 
 </div>
 {% endblock %}

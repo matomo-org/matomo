@@ -39,6 +39,22 @@ class Marketplace
         return $plugin;
     }
 
+    public function getAvailablePluginNames($themesOnly)
+    {
+        if ($themesOnly) {
+            $plugins = $this->client->searchForThemes('', '', '');
+        } else {
+            $plugins = $this->client->searchForPlugins('', '', '');
+        }
+
+        $names = array();
+        foreach ($plugins as $plugin) {
+            $names[] = $plugin['name'];
+        }
+
+        return $names;
+    }
+
     public function searchPlugins($query, $sort, $themesOnly)
     {
         if ($themesOnly) {
