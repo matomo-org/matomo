@@ -33,6 +33,7 @@
         "ExitPageTitles": "Utgångssidors titel",
         "ExitPageTitlesReportDocumentation": "Den här rapporten innehåller information om sidtitlar för utgångssidorna som använts under den valda perioden.",
         "LearnMoreAboutSiteSearchLink": "Läs mer om spårning för hur dina besökare använder din sökmotor.",
+        "OneSearch": "1 sökning",
         "OutlinkDocumentation": "En utlänk är en länk som leder besökaren bort från webbplatsen (till en annan domän).",
         "OutlinksReportDocumentation": "Denna rapport visar en hierarkisk lista över utlänkarnas webbadresser som klickades på utav dina besökare.",
         "PagesReportDocumentation": "Denna rapport innehåller information om webbadresserna som har besökts. %s Tabellen ordnas hierarkiskt, webbadresserna visas som en mappstruktur.",

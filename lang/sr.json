@@ -237,7 +237,6 @@
         "Inactive": "Neaktivno",
         "LicenseHomepage": "Podaci o licenci",
         "MainDescription": "Dodaci proširuju funkcionalnost Piwik-a. Jednom instaliran dodatak se ovde može aktivirati ili deaktivirati.",
-        "MenuExtend": "Proširi",
         "MenuPlatform": "Platforma",
         "NoZipFileSelected": "Molimo vas da izaberete ZIP datoteku.",
         "PluginAskDevToUpdate": "Ukoliko ste uživali koristeći ovaj dodatak, možda možete da zamolite razvojni tim da ga nadograde kako bi radio sa najnovijim Piwik-om.",

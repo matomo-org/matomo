@@ -241,7 +241,6 @@
         "Inactive": "Inactif",
         "LicenseHomepage": "Page de la licence",
         "MainDescription": "Les plugins étendent et ajoutent des fonctionnalités à Piwik. Une fois un plugin installé, vous pouvez l'activer ou le désactiver ici.",
-        "MenuExtend": "Ajouter des outils",
         "MenuPlatform": "Plate-forme",
         "NoZipFileSelected": "Veuillez sélectionner un fichier ZIP.",
         "PluginAskDevToUpdate": "Si vous avez apprécié ce composant, peut être pouvez vous demander à ses développeurs de le mettre à jour pour la dernière version de Piwik.",
