@@ -789,7 +789,7 @@
         "PluginWebsite": "Plugin Website",
         "Activity": "Activity",
         "ByXDevelopers": "by %s developers",
-        "LastCommitTime": "(last commit %s})",
+        "LastCommitTime": "(last commit %s)",
         "InfoThemeIsUsedByOtherUsersAsWell": "Note: the other %1$s users registered in this Piwik are also using the theme %2$s.",
         "NumUpdatesAvailable": "%s Update(s) available",
         "InfoThemeUpdateIsRecommended": "Update your themes to enjoy the latest version.",
