@@ -174,7 +174,7 @@ class GenerateTest extends GeneratePluginBase
 
         if (empty($testtype)) {
             $dialog   = $this->getHelperSet()->get('dialog');
-            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate: ', $validate);
+            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate);
         } else {
             $validate($testtype);
         }

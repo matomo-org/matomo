@@ -789,6 +789,15 @@ class GoalManager
      */
     protected function insertNewConversion($newGoal)
     {
+        /**
+         * This hook is called before inserting a new Goal Conversion.. You can use it to update the Goal
+         * attributes before they are saved in the log_conversion table.
+         * `$visitor` contains the current known visit information.
+         * @param array $goal Array of SQL fields value for this conversion, will be inserted in the log_conversion table
+         * @param \Piwik\Tracker\Request $request
+         */
+        Piwik::postEvent('Tracker.newConversionInformation', array($newGoal, $this->request));
+
         $newGoalDebug = $newGoal;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);

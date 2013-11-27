@@ -103,7 +103,7 @@ class Referrer
             && !$referrerDetected
         ) {
             $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_WEBSITE;
-            $this->nameReferrerAnalyzed = mb_strtolower($this->referrerHost, 'UTF-8');
+            $this->nameReferrerAnalyzed = Common::mb_strtolower($this->referrerHost);
         }
 
         $referrerInformation = array(

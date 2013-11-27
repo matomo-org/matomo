@@ -200,6 +200,10 @@ class Profiler
             return;
         }
 
+        if(!function_exists('xhprof_enable')) {
+            return;
+        }
+
         require_once $path;
         require_once PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_lib.php';
 
@@ -234,17 +238,22 @@ class Profiler
 
             if($mainRun) {
                 $runIds = implode(',', $runs);
-                $out = "\n\nHere is the profiler URL aggregating all runs triggered from this process: ";
+                $out = "\n\n";
                 $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
                 $baseUrlStored = SettingsPiwik::getPiwikUrl();
                 if(strlen($baseUrlStored) > strlen($baseUrl)) {
                     $baseUrl = $baseUrlStored;
                 }
-                $baseUrl = "\n\n" . $baseUrl
+                $baseUrl = "\n" . $baseUrl
                     ."tests/lib/xhprof-0.9.4/xhprof_html/?source=$profilerNamespace&run=";
-                $out .= $baseUrl . "$runIds\n\n";
-                $out .= "Main run profile:";
-                $out .= $baseUrl . "$runId\n\n";
+
+                $out .= "Profiler report is available at:";
+                $out .= $baseUrl . $runId;
+                if($runId != $runIds) {
+                    $out .= "\n\nProfiler Report aggregating all runs triggered from this process: ";
+                    $out .= $baseUrl . $runIds;
+                }
+                $out .= "\n\n";
                 echo ($out);
             } else {
                 self::setProfilingRunIds($runs);

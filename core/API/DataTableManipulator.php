@@ -151,6 +151,14 @@ abstract class DataTableManipulator
     {
         if (!$this->apiMethodForSubtable) {
             $meta = API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
+
+            if(empty($meta)) {
+                throw new Exception(sprintf(
+                    "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: http://developer.piwik.org/api-reference/hooks#apigetreportmetadata",
+                    $this->apiModule, $this->apiMethod
+                ));
+            }
+
             if (isset($meta[0]['actionToLoadSubTables'])) {
                 $this->apiMethodForSubtable = $meta[0]['actionToLoadSubTables'];
             } else {
