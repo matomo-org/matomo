@@ -75,7 +75,7 @@
                             <h3>History</h3>
 
                             <ul>
-                                {% for version in plugin.versions %}
+                                {% for version in plugin.versions|reverse %}
                                     <li>
                                         <strong>
                                             {% if version.repositoryChangelogUrl %}
@@ -84,7 +84,7 @@
                                                 {{ version.name }}
                                             {% endif %}
                                         </strong>
-                                        from {{ version.release|date }}</li>
+                                        from {{ version.release }}</li>
                                 {% endfor %}
                             </ul>
                         </div>

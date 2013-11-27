@@ -14,12 +14,12 @@
 {% endif %}
 
 <h3 class="header" title="Click for more details">
-    <a href="javascript:return;" class="more">{{ plugin.name }}</a>
+    <a href="javascript:false;" class="more">{{ plugin.name }}</a>
 </h3>
 
 <p class="description">{% if plugin.featured %}{{ plugins.featuredIcon('right') }}{% endif %}{{ plugin.description }}</p>
 
-<a href="javascript:return;" class="more"><img  title="Click for more details"
+<a href="javascript:false;" class="more"><img  title="Click for more details"
             class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
 
 {% if plugin.canBeUpdated %}

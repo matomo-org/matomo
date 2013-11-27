@@ -15,11 +15,11 @@
 
 
 <h3 class="header" title="Click for more details">
-    <a href="javascript:return;" class="more">{{ plugin.name }}</a>
+    <a href="javascript:false;" class="more">{{ plugin.name }}</a>
 </h3>
 <p class="description">{{ plugin.description }}
     <br />
-    <a href="javascript:return;" title="Click for more details" class="more">&gt;&gt; more</a>
+    <a href="javascript:false;" title="Click for more details" class="more">&gt;&gt; more</a>
 </p>
 {% if plugin.canBeUpdated %}
     <p class="updateAvailableNotice" data-activePluginTab="changelog">You can update this plugin from version {{ plugin.currentVersion }} to {{ plugin.latestVersion }}</p>

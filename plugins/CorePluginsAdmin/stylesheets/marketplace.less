@@ -84,6 +84,8 @@
       display: inline-block;
       background-color: #ffffe0;
       border-radius: 3px;
+      margin-top: 1px;
+      margin-bottom: 16px;
 
       a {
         color: #9b7a44;
@@ -103,10 +105,14 @@
       &.even {
         padding-right: 0px;
         width: 140px;
+        overflow: hidden;
+        white-space: nowrap;
       }
       &.odd {
         padding-right: 0px;
         width: 130px;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
 
@@ -149,7 +155,7 @@
 
     .footer {
       position: absolute;
-      bottom: 6px;
+      bottom: 4px;
       left: 0px;
       right: 0px;
       cursor: pointer;
@@ -221,7 +227,7 @@
   line-height: 20px;
   
   h3, h4, h5, h6 {
-    margin: 10px 0px;
+    margin: 20px 0px 10px 0px;
     color: #000000;
   }
 
@@ -316,6 +322,10 @@
     background-color: #5bb75b;
     display: inline-block;
     text-decoration: none;
+  }
+
+  .install:hover {
+    text-decoration: underline;
   }
 
   dt {
