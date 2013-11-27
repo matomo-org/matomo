@@ -46,7 +46,8 @@ class Login extends \Piwik\Plugin
         $exceptionMessage = $exception->getMessage();
 
         $controller = new Controller();
-        $controller->login($exceptionMessage, '' /* $exception->getTraceAsString() */);
+
+        echo $controller->login($exceptionMessage, '' /* $exception->getTraceAsString() */);
     }
 
     /**
