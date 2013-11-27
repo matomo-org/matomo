@@ -19,9 +19,9 @@
 
 <p class="description">{% if plugin.featured %}{{ plugins.featuredIcon('right') }}{% endif %}{{ plugin.description }}</p>
 
-<a href="javascript:false;" class="more"><img  title="{{ 'General_MoreDetails'|translate }}"
-            class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
-
 {% if plugin.canBeUpdated %}
     <p class="updateAvailableNotice">{{ 'CorePluginsAdmin_ThemeUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}</p>
 {% endif %}
+
+<a href="javascript:false;" class="more"><img  title="{{ 'General_MoreDetails'|translate }}"
+            class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
