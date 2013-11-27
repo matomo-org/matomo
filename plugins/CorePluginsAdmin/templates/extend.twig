@@ -6,9 +6,9 @@
     <div class="extendPlatform">
 
         <div class="ui-confirm" id="installPluginByUpload">
-            <h2>Extend Piwik by uploading a ZIP file</h2>
+            <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByUpload'|translate }}</h2>
 
-            <p class="description"> You may upload a plugin or theme in .zip format via this page. </p>
+            <p class="description"> {{ 'CorePluginsAdmin_AllowedUploadFormats'|translate }} </p>
 
             <form enctype="multipart/form-data"
                   method="post"
@@ -16,13 +16,13 @@
                   action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
                 <input type="file" name="pluginZip">
                 <br />
-                <input class="startUpload" type="submit" value="Upload ZIP file">
+                <input class="startUpload" type="submit" value="{{ 'CorePluginsAdmin_UploadZipFile'|translate }}">
             </form>
         </div>
 
         <div class="introduction">
 
-            <h2>Extend Piwik with Plugins and Themes</h2>
+            <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwik'|translate }}</h2>
 
             <p>You may automatically download and install new Plugins from the <a href='?module=Proxy&action=redirect&url=http://plugins.piwik.org/' target='_blank'>Marketplace</a>. </p>
 

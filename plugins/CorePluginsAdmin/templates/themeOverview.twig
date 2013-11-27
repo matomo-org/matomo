@@ -9,19 +9,19 @@
         <span class="install">{{ 'General_Installed'|translate }}</span>
     {% else %}
         <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
-           class="install">Install</a>
+           class="install">{{ 'CorePluginsAdmin_ActionInstall'|translate }}</a>
     {% endif %}
 {% endif %}
 
-<h3 class="header" title="Click for more details">
+<h3 class="header" title="{{ 'General_MoreDetails'|translate }}">
     <a href="javascript:false;" class="more">{{ plugin.name }}</a>
 </h3>
 
 <p class="description">{% if plugin.featured %}{{ plugins.featuredIcon('right') }}{% endif %}{{ plugin.description }}</p>
 
-<a href="javascript:false;" class="more"><img  title="Click for more details"
+<a href="javascript:false;" class="more"><img  title="{{ 'General_MoreDetails'|translate }}"
             class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
 
 {% if plugin.canBeUpdated %}
-    <p class="updateAvailableNotice">You can update this theme from version {{ plugin.currentVersion }} to {{ plugin.latestVersion }}</p>
+    <p class="updateAvailableNotice">{{ 'CorePluginsAdmin_ThemeUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}</p>
 {% endif %}

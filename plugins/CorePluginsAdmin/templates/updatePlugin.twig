@@ -4,37 +4,37 @@
 
     <div style="max-width:980px;">
 
-        <h2>Updating {{ plugin.name}}</h2>
+        <h2>{{ 'CorePluginsAdmin_UpdatingPlugin'|translate(plugin.name) }}</h2>
 
         <div>
 
             {% if plugin.isTheme %}
 
-                <p>Downloading theme from Marketplace</p>
+                <p>{{ 'CorePluginsAdmin_StepDownloadingThemeFromMarketplace'|translate }}</p>
 
-                <p>Unzipping theme</p>
+                <p>{{ 'CorePluginsAdmin_StepUnzippingTheme'|translate }}</p>
 
-                <p>Replacing existing theme</p>
+                <p>{{ 'CorePluginsAdmin_StepReplaceExistingTheme'|translate }}</p>
 
-                <p>You have successfully updated the theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+                <p>{{ 'CorePluginsAdmin_StepThemeSuccessfullyUpdated'|translate(plugin.name, plugin.latestVersion) }}</p>
 
             {% else %}
 
-                <p>Downloading plugin from Marketplace</p>
+                <p>{{ 'CorePluginsAdmin_StepDownloadingPluginFromMarketplace'|translate }}</p>
 
-                <p>Unzipping plugin</p>
+                <p>{{ 'CorePluginsAdmin_StepUnzippingPlugin'|translate }}</p>
 
-                <p>Replacing existing plugin</p>
+                <p>{{ 'CorePluginsAdmin_StepReplaceExistingPlugin'|translate }}</p>
 
-                <p>You have successfully updated the plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+                <p>{{ 'CorePluginsAdmin_StepPluginSuccessfullyUpdated'|translate(plugin.name, plugin.latestVersion) }}</p>
 
             {% endif %}
 
-            <p><a href="{{ linkTo({'action': 'plugins'}) }}">Plugins</a>
+            <p><a href="{{ linkTo({'action': 'plugins'}) }}">{{ 'General_Plugins'|translate }}</a>
                 |
-                <a href="{{ linkTo({'action': 'themes'}) }}">Themes</a>
+                <a href="{{ linkTo({'action': 'themes'}) }}">{{ 'CorePluginsAdmin_Themes'|translate }}</a>
                 |
-                <a href="{{ linkTo({'action': 'extend'}) }}">Extend Piwik</a></p>
+                <a href="{{ linkTo({'action': 'extend'}) }}">{{ 'CorePluginsAdmin_BackToExtendPiwik'|translate }}</a></p>
         </div>
     </div>
 
