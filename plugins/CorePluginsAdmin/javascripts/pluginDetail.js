@@ -47,7 +47,7 @@ $(document).ready(function () {
     syncMaxHeight('.themeslist .plugin');
 
     $('.pluginslist, #plugins, .themeslist').on('click', '[data-pluginName]', function (event) {
-        if ($(event.target).hasClass('install')) {
+        if ($(event.target).hasClass('install') || $(event.target).hasClass('uninstall')) {
             return;
         }
 
