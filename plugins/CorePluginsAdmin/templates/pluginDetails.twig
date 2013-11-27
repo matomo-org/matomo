@@ -96,18 +96,16 @@
 
                         {% if plugin.screenshots|length %}
                             <div id="tabs-screenshots">
-                                <ul class="thumbnails">
+                                <div class="thumbnails">
                                     {% for screenshot in plugin.screenshots %}
-                                        <li>
-                                            <div class="thumbnail">
-                                                <a href="{{ screenshot }}" target="_blank"><img src="{{ screenshot }}?w=400" width="400" alt=""></a>
-                                                <p>
-                                                    {{ screenshot|split('/')|last|replace({'_': ' ', '.png': '', '.jpg': '', '.jpeg': ''}) }}
-                                                </p>
-                                            </div>
-                                        </li>
+                                        <div class="thumbnail">
+                                            <a href="{{ screenshot }}" target="_blank"><img src="{{ screenshot }}?w=400" width="400" alt=""></a>
+                                            <p>
+                                                {{ screenshot|split('/')|last|replace({'_': ' ', '.png': '', '.jpg': '', '.jpeg': ''}) }}
+                                            </p>
+                                        </div>
                                     {% endfor %}
-                                </ul>
+                                </div>
                             </div>
                         {% endif %}
 
