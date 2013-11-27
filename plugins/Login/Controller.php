@@ -71,7 +71,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param string $messageNoAccess Access error message
      * @param bool $infoMessage
      * @internal param string $currentUrl Current URL
-     * @return void
+     * @return string
      */
     function login($messageNoAccess = null, $infoMessage = false)
     {
