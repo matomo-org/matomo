@@ -32,6 +32,7 @@ use Piwik\Piwik;
  *     }
  * 
  * @package Piwik_Menu
+ * @method static \Piwik\Menu\MenuTop getInstance()
  */
 class MenuTop extends MenuAbstract
 {
