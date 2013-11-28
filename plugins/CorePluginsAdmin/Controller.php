@@ -312,8 +312,16 @@ class Controller extends Plugin\ControllerAdmin
         return $pluginsFiltered;
     }
 
-    public function safemode($lastError)
+    public function safemode($lastError = array())
     {
+        if (empty($lastError)) {
+            $lastError = array(
+                'message' => Common::getRequestVar('error_message', null, 'string'),
+                'file'    => Common::getRequestVar('error_file', null, 'string'),
+                'line'    => Common::getRequestVar('error_line', null, 'integer')
+            );
+        }
+
         $outputFormat = Common::getRequestVar('format', 'html', 'string');
         $outputFormat = strtolower($outputFormat);
 
