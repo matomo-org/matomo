@@ -10,10 +10,10 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 Piwik\Translate::loadEnglishTranslation();
-// load all plugins
 
+// load active plugins
 $pluginsManager = \Piwik\Plugin\Manager::getInstance();
-$pluginsToLoad = \Piwik\Config::getInstance()->Plugins['Plugins'];
+$pluginsToLoad  = \Piwik\Config::getInstance()->Plugins['Plugins'];
 
 $pluginsManager->loadPlugins($pluginsToLoad);
 
