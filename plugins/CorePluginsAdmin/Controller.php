@@ -21,6 +21,7 @@ use Piwik\Plugin;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Version;
 use Exception;
 
 /**
@@ -338,6 +339,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = Piwik::getSuperUserEmail();
+        $view->piwikVersion    = Version::VERSION;
         $view->pluginCausesIssue = '';
 
         if (!empty($lastError['file'])) {
