@@ -1,7 +1,7 @@
 {
     "name": "ExampleVisualization",
     "version": "0.1.0",
-    "description": "Example for generating a simple visualization",
+    "description": "ExampleVisualizationDescription",
     "theme": false,
     "license": "GPL-3.0+",
     "keywords": ["SimpleTable"],

@@ -50,30 +50,12 @@ class GenerateController extends GeneratePluginBase
      * @return array
      * @throws \RunTimeException
      */
-    private function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
         $pluginNames = $this->getPluginNamesHavingNotSpecificFile('Controller.php');
+        $invalidName = 'You have to enter the name of an existing plugin which does not already have a Controller';
 
-        $validate = function ($pluginName) use ($pluginNames) {
-            if (!in_array($pluginName, $pluginNames)) {
-                throw new \InvalidArgumentException('You have to enter the name of an existing plugin which does not already have a Controller');
-            }
-
-            return $pluginName;
-        };
-
-        $pluginName = $input->getOption('pluginname');
-
-        if (empty($pluginName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $pluginName = $dialog->askAndValidate($output, 'Enter the name of your plugin: ', $validate, false, null, $pluginNames);
-        } else {
-            $validate($pluginName);
-        }
-
-        $pluginName = ucfirst($pluginName);
-
-        return $pluginName;
+        return parent::getPluginName($input, $output, $pluginNames, $invalidName);
     }
 
 }

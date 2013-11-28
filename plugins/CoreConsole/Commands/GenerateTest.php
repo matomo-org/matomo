@@ -105,33 +105,15 @@ class GenerateTest extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return string
+     * @return array
      * @throws \RunTimeException
      */
-    private function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
         $pluginNames = $this->getPluginNames();
+        $invalidName = 'You have to enter the name of an existing plugin';
 
-        $validate = function ($pluginName) use ($pluginNames) {
-            if (!in_array($pluginName, $pluginNames)) {
-                throw new \InvalidArgumentException('You have to enter the name of an existing plugin');
-            }
-
-            return $pluginName;
-        };
-
-        $pluginName = $input->getOption('pluginname');
-
-        if (empty($pluginName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $pluginName = $dialog->askAndValidate($output, 'Enter the name of your plugin: ', $validate, false, null, $pluginNames);
-        } else {
-            $validate($pluginName);
-        }
-
-        $pluginName = ucfirst($pluginName);
-
-        return $pluginName;
+        return parent::getPluginName($input, $output, $pluginNames, $invalidName);
     }
 
     /**
@@ -149,7 +131,7 @@ class GenerateTest extends GeneratePluginBase
         return false;
     }
 
-    function getValidTypes()
+    public function getValidTypes()
     {
         return array('unit', 'integration', 'database');
     }
@@ -163,11 +145,11 @@ class GenerateTest extends GeneratePluginBase
     {
         $testtype = $input->getOption('testtype');
 
-        $validate = function ($testtype) {
+        $self = $this;
 
-
-            if (empty($testtype) || !in_array($testtype, $this->getValidTypes())) {
-                throw new \InvalidArgumentException('You have to enter a valid test type: ' . implode(" or ", $this->getValidTypes()));
+        $validate = function ($testtype) use ($self) {
+            if (empty($testtype) || !in_array($testtype, $self->getValidTypes())) {
+                throw new \InvalidArgumentException('You have to enter a valid test type: ' . implode(" or ", $self->getValidTypes()));
             }
             return $testtype;
         };
