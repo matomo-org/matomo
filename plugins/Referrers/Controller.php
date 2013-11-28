@@ -98,7 +98,7 @@ class Controller extends \Piwik\Plugin\Controller
      * & allows the user to switch between them.
      *
      * @param int $visits The number of visits for this period & site. If <= 0, the
-     *                    reports are not shown, since they will have no data.
+     *                    reports are not shown, since they will have no data.getReferrersReportsByDimensionView
      * @return string The report viewer HTML.
      */
     private function getReferrersReportsByDimensionView($visits)
@@ -107,7 +107,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         // only display the reports by dimension view if there are visits
         if ($visits > 0) {
-            $referrersReportsByDimension = new View\ReportsByDimension();
+            $referrersReportsByDimension = new View\ReportsByDimension('Referrers');
 
             $referrersReportsByDimension->addReport(
                 'Referrers_ViewAllReferrers', 'Referrers_WidgetGetAll', 'Referrers.getAll');

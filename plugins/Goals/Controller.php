@@ -409,7 +409,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $preloadAbandonedCart = $cartNbConversions !== false && $conversions == 0;
 
-        $goalReportsByDimension = new ReportsByDimension();
+        $goalReportsByDimension = new ReportsByDimension('Goals');
 
         // add ecommerce reports
         $ecommerceCustomParams = array();
