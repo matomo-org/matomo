@@ -11,7 +11,11 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 Piwik\Translate::loadEnglishTranslation();
 // load all plugins
-Piwik\Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
+
+$pluginsManager = \Piwik\Plugin\Manager::getInstance();
+$pluginsToLoad = \Piwik\Config::getInstance()->Plugins['Plugins'];
+
+$pluginsManager->loadPlugins($pluginsToLoad);
 
 if (!Piwik\Common::isPhpCliMode()) {
     exit;
