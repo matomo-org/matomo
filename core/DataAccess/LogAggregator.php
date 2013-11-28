@@ -499,25 +499,6 @@ class LogAggregator
      */
     public function queryEcommerceItems($dimension)
     {
-        $query = "SELECT
-						name as label,
-						" . self::getSqlRevenue('SUM(quantity * price)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_REVENUE . "`,
-						" . self::getSqlRevenue('SUM(quantity)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY . "`,
-						" . self::getSqlRevenue('SUM(price)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE . "`,
-						count(distinct idorder) as `" . Metrics::INDEX_ECOMMERCE_ORDERS . "`,
-						count(distinct idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
-						case idorder when '0' then " . GoalManager::IDGOAL_CART . " else " . GoalManager::IDGOAL_ORDER . " end as ecommerceType
-			 	FROM " . Common::prefixTable('log_conversion_item') . "
-			 		LEFT JOIN " . Common::prefixTable('log_action') . "
-			 		ON $dimension = idaction
-			 	WHERE server_time >= ?
-						AND server_time <= ?
-			 			AND idsite = ?
-			 			AND deleted = 0
-			 	GROUP BY ecommerceType, $dimension
-				ORDER BY null";
-        // Segment not supported yet
-        // $query = $this->query($select, $from, $where, $groupBy, $orderBy);
         $select = array(
             "name as label",
             self::getSqlRevenue('SUM(quantity * price)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_REVENUE . "`",
@@ -528,21 +509,19 @@ class LogAggregator
             "case idorder when '0' then " . GoalManager::IDGOAL_CART . " else " . GoalManager::IDGOAL_ORDER . " end as ecommerceType"
         );
 
-        $bind = $this->getBindDatetimeSite();
-        return $this->getDb()->query($query, $bind);
         $from = array(
             "log_conversion_item",
             array(
                 "table" => "log_action",
-                "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $field)
+                "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $dimension)
             ),
             array(
                 "table" => "log_visit",
                 "joinOn" => "log_conversion_item.idvisit = log_visit.idvisit"
             )
         );
-        $where = " server_time >= ? AND server_time <= ? AND log_conversion_item.idsite = ? AND deleted = 0";
-        $groupBy = sprintf("ecommerceType, %s", $field);
+        $where = "server_time >= ? AND server_time <= ? AND log_conversion_item.idsite = ? AND deleted = 0";
+        $groupBy = sprintf("ecommerceType, %s", $dimension);
 
         $query = $this->generateQuery(
             implode(", ", $select),

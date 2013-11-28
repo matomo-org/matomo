@@ -375,7 +375,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         $dataTableToSum = $this->dimensionRecord;
         foreach ($this->dimensionRecord as $recordName) {
             $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
-        $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
+        }
+        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
 
         /*
          *  Archive General Goal metrics
