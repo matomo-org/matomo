@@ -35,7 +35,7 @@ function loadAllPluginsButOneTheme()
 
     $themesNotToEnable = array('ExampleTheme', 'LeftMenu', 'PleineLune');
 
-    $enableMorpheus = empty($_REQUEST['morpheus']);
+    $enableMorpheus = !empty($_REQUEST['morpheus']);
     if (!$enableMorpheus) {
         $themesNotToEnable[] = 'Morpheus';
     }
