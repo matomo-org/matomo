@@ -1,10 +1,11 @@
 {# testing, remove test_ from var names #}
 {% set test_latest_version_available="2.0" %}
 {% set test_piwikUrl='http://demo.piwik.org/' %}
+{% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
 
-<span id="header_message" class="{% if piwikUrl == 'http://demo.piwik.org/' or not latest_version_available %}header_info{% else %}header_alert{% endif %}">
+<span id="header_message" class="{% if isPiwikDemo or not latest_version_available %}header_info{% else %}header_alert{% endif %}">
     <span class="header_short">
-        {% if piwikUrl == 'http://demo.piwik.org/' %}
+        {% if isPiwikDemo %}
             {{ 'General_YouAreViewingDemoShortMessage'|translate }}
         {% elseif latest_version_available %}
             {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
@@ -14,19 +15,21 @@
     </span>
 
     <span class="header_full">
-        {% if piwikUrl == 'http://demo.piwik.org/' %}
+        {% if isPiwikDemo %}
             {{ 'General_YouAreViewingDemoShortMessage'|translate }}
             <br/>
             {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
-        {% elseif latest_version_available %}
+            <br/>
+        {% endif %}
+        {% if latest_version_available %}
             {% if isSuperUser %}
                 {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
                 <br/>
                 {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
-            {% else %}
+            {% elseif not isPiwikDemo %}
                 {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>{{ latest_version_available }}</a>")|raw }}
             {% endif %}
-        {% else %}
+        {% elseif not isPiwikDemo %}
             {{ 'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate(
                     "<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>",
                     piwik_version~"</a>",

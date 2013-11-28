@@ -15,12 +15,14 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
@@ -30,10 +32,12 @@ use Piwik\View;
  *
  * @package CoreAdminHome
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     const LOGO_HEIGHT = 300;
     const LOGO_SMALL_HEIGHT = 100;
+
+    const SET_PLUGIN_SETTINGS_NONCE = 'CoreAdminHome.setPluginSettings';
 
     public function index()
     {
@@ -59,7 +63,7 @@ class Controller extends \Piwik\Controller\Admin
             $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
             $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-            $this->displayWarningIfConfigFileNotWritable($view);
+            $this->displayWarningIfConfigFileNotWritable();
 
             $config = Config::getInstance();
 
@@ -85,7 +89,111 @@ class Controller extends \Piwik\Controller\Admin
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
-        echo $view->render();
+        return $view->render();
+    }
+
+    public function pluginSettings()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $settings = $this->getPluginSettings();
+
+        $view = new View('@CoreAdminHome/pluginSettings');
+        $view->nonce          = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);
+        $view->pluginSettings = $settings;
+        $view->firstSuperUserSettingNames = $this->getFirstSuperUserSettingNames($settings);
+
+        $this->setBasicVariablesView($view);
+
+        return $view->render();
+    }
+
+    private function getPluginSettings()
+    {
+        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
+
+        ksort($pluginsSettings);
+
+        return $pluginsSettings;
+    }
+
+    /**
+     * @param \Piwik\Plugin\Settings[] $pluginsSettings
+     * @return array   array([pluginName] => [])
+     */
+    private function getFirstSuperUserSettingNames($pluginsSettings)
+    {
+        $names = array();
+        foreach ($pluginsSettings as $pluginName => $pluginSettings) {
+
+            foreach ($pluginSettings->getSettingsForCurrentUser() as $setting) {
+                if ($setting instanceof \Piwik\Settings\SystemSetting) {
+                    $names[$pluginName] = $setting->getName();
+                    break;
+                }
+            }
+        }
+
+        return $names;
+    }
+
+    public function setPluginSettings()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Json::sendHeaderJSON();
+
+        $nonce = Common::getRequestVar('nonce', null, 'string');
+
+        if (!Nonce::verifyNonce(static::SET_PLUGIN_SETTINGS_NONCE, $nonce)) {
+            return json_encode(array(
+                'result' => 'error',
+                'message' => Piwik::translate('General_ExceptionNonceMismatch')
+            ));
+        }
+
+        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
+
+        try {
+
+            foreach ($pluginsSettings as $pluginName => $pluginSetting) {
+                foreach ($pluginSetting->getSettingsForCurrentUser() as $setting) {
+
+                    $value = $this->findSettingValueFromRequest($pluginName, $setting->getKey());
+
+                    if (!is_null($value)) {
+                        $setting->setValue($value);
+                    }
+                }
+            }
+
+            foreach ($pluginsSettings as $pluginSetting) {
+                $pluginSetting->save();
+            }
+
+        } catch (Exception $e) {
+            $message = html_entity_decode($e->getMessage(), ENT_QUOTES, 'UTF-8');
+            return json_encode(array('result' => 'error', 'message' => $message));
+        }
+        
+        Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
+        return json_encode(array('result' => 'success'));
+    }
+
+    private function findSettingValueFromRequest($pluginName, $settingKey)
+    {
+        $changedPluginSettings = Common::getRequestVar('settings', null, 'array');
+
+        if (!array_key_exists($pluginName, $changedPluginSettings)) {
+            return;
+        }
+
+        $settings = $changedPluginSettings[$pluginName];
+
+        foreach ($settings as $setting) {
+            if ($setting['name'] == $settingKey) {
+                return $setting['value'];
+            }
+        }
     }
 
     public function setGeneralSettings()
@@ -134,7 +242,8 @@ class Controller extends \Piwik\Controller\Admin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 
     /**
@@ -171,7 +280,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\Controller::isDntSupported();
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -195,7 +304,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->language = APILanguagesManager::getInstance()->isLanguageAvailable($language)
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
-        echo $view->render();
+        return $view->render();
     }
 
     public function uploadCustomLogo()
@@ -204,14 +313,12 @@ class Controller extends \Piwik\Controller\Admin
         if (empty($_FILES['customLogo'])
             || !empty($_FILES['customLogo']['error'])
         ) {
-            echo '0';
-            return;
+            return '0';
         }
 
         $file = $_FILES['customLogo']['tmp_name'];
         if (!file_exists($file)) {
-            echo '0';
-            return;
+            return '0';
         }
 
         list($width, $height) = getimagesize($file);
@@ -226,8 +333,7 @@ class Controller extends \Piwik\Controller\Admin
                 $image = imagecreatefromgif($file);
                 break;
             default:
-                echo '0';
-                return;
+                return '0';
         }
 
         $widthExpected = round($width * self::LOGO_HEIGHT / $height);
@@ -240,7 +346,6 @@ class Controller extends \Piwik\Controller\Admin
 
         imagepng($logo, PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png', 3);
         imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png', 3);
-        echo '1';
-        return;
+        return '1';
     }
 }

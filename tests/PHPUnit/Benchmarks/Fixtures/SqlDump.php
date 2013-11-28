@@ -6,10 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Common;
 use Piwik\Config;
-use Piwik\DbHelper;
 use Piwik\Db;
+use Piwik\DbHelper;
 
 /**
  * Reusable fixture. Loads a SQL dump into the DB.
@@ -62,7 +61,6 @@ class Piwik_Test_Fixture_SqlDump
         $password = Config::getInstance()->database['password'];
         $dbName = Config::getInstance()->database['dbname'];
         Config::getInstance()->database['tables_prefix'] = $this->tablesPrefix;
-        Common::$cachedTablePrefix = null;
 
         $cmd = "mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1";
         exec($cmd, $output, $return);

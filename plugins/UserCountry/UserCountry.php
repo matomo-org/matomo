@@ -12,14 +12,16 @@ namespace Piwik\Plugins\UserCountry;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-
 use Piwik\Url;
 use Piwik\WidgetsList;
 
@@ -40,21 +42,19 @@ class UserCountry extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.Reporting.addItems'                  => 'addMenu',
-            'Menu.Admin.addItems'                      => 'addAdminMenu',
-            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
-            'Tracker.newVisitorInformation'            => 'getVisitorLocation',
-            'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
-            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
-            'Tracker.setTrackerCacheGeneral'           => 'setTrackerCacheGeneral'
+            'WidgetsList.addWidgets'                 => 'addWidgets',
+            'Menu.Reporting.addItems'                => 'addMenu',
+            'Menu.Admin.addItems'                    => 'addAdminMenu',
+            'Goals.getReportsWithGoalMetrics'        => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                  => 'getReportMetadata',
+            'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'Tracker.newVisitorInformation'          => 'enrichVisitWithLocation',
+            'TaskScheduler.getScheduledTasks'        => 'getScheduledTasks',
+            'ViewDataTable.configure'                => 'configureViewDataTable',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral'
         );
         return $hooks;
     }
@@ -80,16 +80,15 @@ class UserCountry extends \Piwik\Plugin
         $jsFiles[] = "plugins/UserCountry/javascripts/userCountry.js";
     }
 
-    public function getVisitorLocation(&$visitorInfo, $extraInfo)
+    public function enrichVisitWithLocation(&$visitorInfo, \Piwik\Tracker\Request $request)
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
+        $ipAddress = IP::N2P(Config::getInstance()->Tracker['use_anonymized_ip_for_visit_enrichment'] == 1 ? $visitorInfo['location_ip'] : $request->getIp());
         $userInfo = array(
             'lang' => $visitorInfo['location_browser_lang'],
-            'ip'   => IP::N2P($visitorInfo['location_ip'])
+            'ip' => $ipAddress
         );
-
-        $location = array();
 
         $id = Common::getCurrentLocationProviderId();
         $provider = LocationProvider::getProviderById($id);
@@ -109,7 +108,7 @@ class UserCountry extends \Piwik\Plugin
             Common::printDebug("GEO: couldn't find a location with Geo Module '$id', using Default '$defaultId' provider as fallback...");
             $id = $defaultId;
         }
-        Common::printDebug("GEO: Found IP location (provider '" . $id . "'): " . var_export($location, true));
+        Common::printDebug("GEO: Found IP $ipAddress location (provider '" . $id . "'): " . var_export($location, true));
 
         if (empty($location['country_code'])) { // sanity check
             $location['country_code'] = \Piwik\Tracker\Visit::UNKNOWN_CODE;
@@ -328,22 +327,6 @@ class UserCountry extends \Piwik\Plugin
                                                ));
     }
 
-    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->archivePeriod();
-        }
-    }
-
-    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->archiveDay();
-        }
-    }
-
     /**
      * Returns a list of country codes for a given continent code.
      *
@@ -363,23 +346,32 @@ class UserCountry extends \Piwik\Plugin
                      'bind' => '-'); // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
     }
 
-    public function getReportDisplayProperties(&$properties)
+    public function configureViewDataTable(ViewDataTable $view)
     {
-        $properties['UserCountry.getCountry'] = $this->getDisplayPropertiesForGetCountry();
-        $properties['UserCountry.getContinent'] = $this->getDisplayPropertiesForGetContinent();
-        $properties['UserCountry.getRegion'] = $this->getDisplayPropertiesForGetRegion();
-        $properties['UserCountry.getCity'] = $this->getDisplayPropertiesForGetCity();
+        switch ($view->requestConfig->apiMethodToRequestDataTable) {
+            case 'UserCountry.getCountry':
+                $this->configureViewForGetCountry($view);
+                break;
+            case 'UserCountry.getContinent':
+                $this->configureViewForGetContinent($view);
+                break;
+            case 'UserCountry.getRegion':
+                $this->configureViewForGetRegion($view);
+                break;
+            case 'UserCountry.getCity':
+                $this->configureViewForGetCity($view);
+                break;
+        }
     }
 
-    private function getDisplayPropertiesForGetCountry()
+    private function configureViewForGetCountry(ViewDataTable $view)
     {
-        $result = array(
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'filter_limit'                => 5,
-            'translations'                => array('label' => Piwik::translate('UserCountry_Country')),
-            'documentation'               => Piwik::translate('UserCountry_getCountryDocumentation')
-        );
+        $view->config->show_goals = true;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('UserCountry_Country'));
+        $view->config->documentation = Piwik::translate('UserCountry_getCountryDocumentation');
+
+        $view->requestConfig->filter_limit = 5;
 
         if (LocationProvider::getCurrentProviderId() == DefaultProvider::ID) {
             // if we're using the default location provider, add a note explaining how it works
@@ -387,52 +379,44 @@ class UserCountry extends \Piwik\Plugin
                 . Piwik::translate('UserCountry_DefaultLocationProviderExplanation',
                     array('<a target="_blank" href="http://piwik.org/docs/geo-locate/">', '</a>'));
 
-            $result['show_footer_message'] = $footerMessage;
+            $view->config->show_footer_message = $footerMessage;
         }
-
-        return $result;
     }
 
-    private function getDisplayPropertiesForGetContinent()
+    private function configureViewForGetContinent(ViewDataTable $view)
     {
-        return array(
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'show_search'                 => false,
-            'show_offset_information'     => false,
-            'show_pagination_control'     => false,
-            'show_limit_control'          => false,
-            'translations'                => array('label' => Piwik::translate('UserCountry_Continent')),
-            'documentation'               => Piwik::translate('UserCountry_getContinentDocumentation')
-        );
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_goals = true;
+        $view->config->show_search = false;
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control = false;
+        $view->config->documentation = Piwik::translate('UserCountry_getContinentDocumentation');
+        $view->config->addTranslation('label', Piwik::translate('UserCountry_Continent'));
     }
 
-    private function getDisplayPropertiesForGetRegion()
+    private function configureViewForGetRegion(ViewDataTable $view)
     {
-        $result = array(
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'filter_limit'                => 5,
-            'translations'                => array('label' => Piwik::translate('UserCountry_Region')),
-            'documentation'               => Piwik::translate('UserCountry_getRegionDocumentation') . '<br/>'
-                . $this->getGeoIPReportDocSuffix()
-        );
-        $this->checkIfNoDataForGeoIpReport($result);
-        return $result;
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_goals = true;
+        $view->config->documentation = Piwik::translate('UserCountry_getRegionDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
+        $view->config->addTranslation('label', Piwik::translate('UserCountry_Region'));
+
+        $view->requestConfig->filter_limit = 5;
+
+        $this->checkIfNoDataForGeoIpReport($view);
     }
 
-    private function getDisplayPropertiesForGetCity()
+    private function configureViewForGetCity(ViewDataTable $view)
     {
-        $result = array(
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'filter_limit'                => 5,
-            'translations'                => array('label' => Piwik::translate('UserCountry_City')),
-            'documentation'               => Piwik::translate('UserCountry_getCityDocumentation') . '<br/>'
-                . $this->getGeoIPReportDocSuffix()
-        );
-        $this->checkIfNoDataForGeoIpReport($result);
-        return $result;
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_goals = true;
+        $view->config->documentation = Piwik::translate('UserCountry_getCityDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
+        $view->config->addTranslation('label', Piwik::translate('UserCountry_City'));
+
+        $view->requestConfig->filter_limit = 5;
+
+        $this->checkIfNoDataForGeoIpReport($view);
     }
 
     private function getGeoIPReportDocSuffix()
@@ -449,10 +433,10 @@ class UserCountry extends \Piwik\Plugin
      * Checks if a datatable for a view is empty and if so, displays a message in the footer
      * telling users to configure GeoIP.
      */
-    private function checkIfNoDataForGeoIpReport(&$properties)
+    private function checkIfNoDataForGeoIpReport(ViewDataTable $view)
     {
         $self = $this;
-        $properties['filters'][] = function ($dataTable, $view) use ($self) {
+        $view->config->filters[] = function ($dataTable) use ($self, $view) {
             // if there's only one row whose label is 'Unknown', display a message saying there's no data
             if ($dataTable->getRowsCount() == 1
                 && $dataTable->getFirstRow()->getColumn('label') == Piwik::translate('General_Unknown')
@@ -472,7 +456,7 @@ class UserCountry extends \Piwik\Plugin
                             array('<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
                 }
 
-                $view->show_footer_message = $footerMessage;
+                $view->config->show_footer_message = $footerMessage;
             }
         };
     }
@@ -494,5 +478,6 @@ class UserCountry extends \Piwik\Plugin
     {
         $translationKeys[] = "UserCountry_FatalErrorDuringDownload";
         $translationKeys[] = "UserCountry_SetupAutomaticUpdatesOfGeoIP";
+        $translationKeys[] = "General_Done";
     }
 }

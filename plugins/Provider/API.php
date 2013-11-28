@@ -23,19 +23,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
  * The Provider API lets you access reports for your visitors Internet Providers.
  *
  * @package Provider
+ * @method static \Piwik\Plugins\Provider\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     public function getProvider($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);

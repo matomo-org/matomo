@@ -1,15 +1,20 @@
 {# untrusted host warning #}
 {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
-    <div class="ajaxSuccess" style="clear:both;width:800px;">
+    {% set invalidHostText %}
         <a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="plugins/Zeitgeist/images/help_grey.png"/></a>
         <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidHostMessage|raw }}
 
-        <br><hr>
+        <br>
+        <br>
 
         <small>{{ invalidHostMessageHowToFix|raw }}
         <br/><br/><a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank">{{ 'General_Help'|translate }}
         <img style="vertical-align: bottom;" src="plugins/Zeitgeist/images/help_grey.png"/></a><br/>
         </small>
+    {% endset %}
+
+    <div style="clear:both;width:800px;">
+        {{ invalidHostText|notification({'noclear': true, 'raw': true, 'context': 'warning'}) }}
     </div>
 
 {% endif %}

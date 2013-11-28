@@ -4,10 +4,10 @@
 		<label>PRODUCT TWO LEFT in cart</label>
 		<revenue>6000</revenue>
 		<quantity>6</quantity>
-		<abandoned_carts>3</abandoned_carts>
 		<nb_visits>3</nb_visits>
 		<nb_actions>3</nb_actions>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<abandoned_carts>3</abandoned_carts>
 		<avg_price>1000</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -25,10 +25,10 @@
 		<label>PRODUCT THREE LEFT in cart</label>
 		<revenue>30</revenue>
 		<quantity>3</quantity>
-		<abandoned_carts>3</abandoned_carts>
 		<nb_visits>3</nb_visits>
 		<nb_actions>6</nb_actions>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<abandoned_carts>3</abandoned_carts>
 		<avg_price>10</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -38,7 +38,7 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<avg_price>814.37</avg_price>
+		<avg_price>832.78</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 	</row>

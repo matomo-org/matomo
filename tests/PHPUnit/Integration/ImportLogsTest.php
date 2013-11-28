@@ -18,7 +18,6 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        ImportLogs
      */
     public function testApi($api, $params)
     {
@@ -31,6 +30,13 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
             array('all', array('idSite'  => self::$fixture->idSite,
                                'date'    => '2012-08-09',
                                'periods' => 'month')),
+
+            array('MultiSites.getAll', array('idSite'   => self::$fixture->idSite,
+                                             'date'     => '2012-08-09',
+                                             'periods'  => array('month'),
+                                             'setDateLastN' => true,
+                                             'otherRequestParameters' => array('enhanced' => 1),
+                                             'testSuffix' => '_withEnhancedAndLast7')),
 
             // report generated from custom log format including generation time
             array('Actions.getPageUrls', array('idSite'  => self::$fixture->idSite,
@@ -46,7 +52,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        ImportLogs
+     *
      * 
      * NOTE: This test must be last since the new sites that get added are added in
      *       random order.

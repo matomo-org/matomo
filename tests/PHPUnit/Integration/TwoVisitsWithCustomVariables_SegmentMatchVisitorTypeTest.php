@@ -18,7 +18,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables_SegmentMatchVisitorType
      */
     public function testApi($api, $params)
     {
@@ -55,7 +54,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
     /**
      * @depends      testApi
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables_SegmentMatchVisitorType
      */
     public function testCheck()
     {
@@ -67,7 +65,10 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
 
         $tests = array(
             // 1) CHECK 'day' archive stored in January
-            // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the custom var values + 5 Referrers blob)
+            // We expect 2 segments
+            //   * (1 custom variable name + 2 ref metrics
+            //      + 6 subtable for the custom var values + 5 Referrers blob
+            //   )
             'archive_blob_2010_01'    => 28,
             // This contains all 'last N' weeks & days,
             // (1 metrics

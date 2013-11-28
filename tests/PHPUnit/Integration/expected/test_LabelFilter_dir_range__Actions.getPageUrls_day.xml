@@ -5,11 +5,11 @@
 			<label>dir</label>
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
-			<sum_time_spent>720</sum_time_spent>
+			<sum_time_spent>684</sum_time_spent>
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.123</min_time_generation>
 			<max_time_generation>0.153</max_time_generation>
-			<avg_time_on_page>360</avg_time_on_page>
+			<avg_time_on_page>342</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.138</avg_time_generation>

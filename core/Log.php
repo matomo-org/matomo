@@ -13,20 +13,71 @@ namespace Piwik;
 use Piwik\Db;
 
 /**
- * Logging utility.
- *
+ * Logging utility class.
+ * 
+ * Log entries are made with a message and log level. The logging utility will tag each
+ * log entry with the name of the plugin that's doing the logging. If no plugin is found,
+ * the name of the current class is used.
+ * 
  * You can log messages using one of the public static functions (eg, 'error', 'warning',
- * 'info', etc.).
+ * 'info', etc.). Messages logged with the **error** level will **always** be logged to
+ * the screen, regardless of whether the [log] log_writer config option includes the
+ * screen writer.
  *
  * Currently, Piwik supports the following logging backends:
  * - logging to the screen
  * - logging to a file
  * - logging to a database
  *
+ * ### Logging configuration
+ * 
  * The logging utility can be configured by manipulating the INI config options in the
  * [log] section.
+ * 
+ * The following configuration options can be set:
+ * 
+ * - `log_writers[]`: This is an array of log writer IDs. The three log writers provided
+ *                    by Piwik core are **file**, **screen** and **database**. You can
+ *                    get more by installing plugins. The default value is **screen**.
+ * - `log_level`: The current log level. Can be **ERROR**, **WARN**, **INFO**, **DEBUG**,
+ *                or **VERBOSE**. Log entries made with a log level that is as or more
+ *                severe than the current log level will be outputted. Others will be
+ *                ignored. The default level is **WARN**.
+ * - `log_only_when_cli`: 0 or 1. If 1, logging is only enabled when Piwik is executed
+ *                        in the command line (for example, by the archive.php cron
+ *                        script). Default: 0.
+ * - `log_only_when_debug_parameter`: 0 or 1. If 1, logging is only enabled when the
+ *                                    `debug` query parameter is 1. Default: 0.
+ * - `logger_file_path`: For the file log writer, specifies the path to the log file
+ *                       to log to or a path to a directory to store logs in. If a
+ *                       directory, the file name is piwik.log. Can be relative to
+ *                       Piwik's root dir or an absolute path. Defaults to **tmp/logs**.
+ * 
+ * ### Custom message formatting
+ * 
+ * If you'd like to format log messages differently for different backends, you can use
+ * one of the `'Log.format...Message'` events. These events are fired when an object is
+ * logged. You can create your own custom class containing the information to log and
+ * listen to this event.
+ * 
+ * ### Custom log writers
+ * 
+ * New logging backends can be added via the `'Log.getAvailableWriters'` event. A log
+ * writer is just a callback that accepts log entry information (such as the message,
+ * level, etc.), so any backend could conceivably be used (including existing PSR3
+ * backends).
+ * 
+ * ### Examples
+ * 
+ * **Basic logging**
+ * 
+ *     Log::error("This log message will end up on the screen and in a file.")
+ *     Log::verbose("This log message uses %s params, but %s will only be called if the"
+ *                . " configured log level includes %s.", "sprintf", "sprintf", "verbose");
+ * 
+ * @method static \Piwik\Log getInstance()
  */
-class Log
+class Log extends Singleton
 {
     // log levels
     const NONE = 0;
@@ -51,35 +102,6 @@ class Log
     const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
 
     /**
-     * The singleton Log instance.
-     *
-     * @var Log
-     */
-    private static $instance = null;
-
-    /**
-     * Returns the singleton Log instance or creates it if it doesn't exist.
-     *
-     * @return Log
-     */
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new Log();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Unsets the singleton instance so it will be re-created the next time getInstance() is
-     * called. For testing purposes only.
-     */
-    public static function clearInstance()
-    {
-        self::$instance = null;
-    }
-
-    /**
      * The current logging level. Everything of equal or greater priority will be logged.
      * Everything else will be ignored.
      *
@@ -101,7 +123,7 @@ class Log
      *
      * @var string
      */
-    private $logMessageFormat = "%tag%[%datetime%] %message%";
+    private $logMessageFormat = "%level% %tag%[%datetime%] %message%";
 
     /**
      * If we're logging to a file, this is the path to the file to log to.
@@ -120,7 +142,7 @@ class Log
     /**
      * Constructor.
      */
-    private function __construct()
+    protected function __construct()
     {
         $logConfig = Config::getInstance()->log;
         $this->setCurrentLogLevelFromConfig($logConfig);
@@ -288,16 +310,17 @@ class Log
          *
          * Logging writers must be associated by name in the array passed to event handlers.
          *
-         * Example handler:
-         * ```
-         * function (&$writers) {
-         *     $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
-         *         ...
+         * ***Example**
+         * 
+         *     function (&$writers) {
+         *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
+         *             // ...
+         *         };
          *     }
-         * }
          *
-         * // 'myloggername' can now be used in the log_writers config option.
-         * ```
+         *     // 'myloggername' can now be used in the log_writers config option.
+         * 
+         * @param $
          */
         Piwik::postEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
@@ -318,9 +341,14 @@ class Log
              * This event is called when trying to log an object to a file. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
-             * The $message parameter is the object that is being logged. Event handlers should
-             * check if the object is of a certain type and if it is, set $message to the
-             * string that should be logged.
+             * @param mixed &$message The object that is being logged. Event handlers should
+             *                        check if the object is of a certain type and if it is,
+             *                        set $message to the string that should be logged.
+             * @param int $level The log level used with this log entry.
+             * @param string $tag The current plugin that started logging (or if no plugin,
+             *                    the current class).
+             * @param string $datetime Datetime of the logging call.
+             * @param Log $logger The Log singleton.
              */
             Piwik::postEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
@@ -329,7 +357,10 @@ class Log
             return;
         }
 
-        file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND);
+        if(!file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND)) {
+            $message = Filechecks::getErrorMessageMissingPermissions($this->logToFilePath);
+            throw new \Exception( $message );
+        }
     }
 
     private function logToScreen($level, $tag, $datetime, $message)
@@ -359,12 +390,17 @@ class Log
              * This event is called when trying to log an object to the screen. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
-             * The $message parameter is the object that is being logged. Event handlers should
-             * check if the object is of a certain type and if it is, set $message to the
-             * string that should be logged.
-             *
              * The result of this callback can be HTML so no sanitization is done on the result.
              * This means YOU MUST SANITIZE THE MESSAGE YOURSELF if you use this event.
+             *
+             * @param mixed &$message The object that is being logged. Event handlers should
+             *                        check if the object is of a certain type and if it is,
+             *                        set $message to the string that should be logged.
+             * @param int $level The log level used with this log entry.
+             * @param string $tag The current plugin that started logging (or if no plugin,
+             *                    the current class).
+             * @param string $datetime Datetime of the logging call.
+             * @param Log $logger The Log singleton.
              */
             Piwik::postEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
@@ -387,9 +423,14 @@ class Log
              * This event is called when trying to log an object to a database table. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
-             * The $message parameter is the object that is being logged. Event handlers should
-             * check if the object is of a certain type and if it is, set $message to the
-             * string that should be logged.
+             * @param mixed &$message The object that is being logged. Event handlers should
+             *                        check if the object is of a certain type and if it is,
+             *                        set $message to the string that should be logged.
+             * @param int $level The log level used with this log entry.
+             * @param string $tag The current plugin that started logging (or if no plugin,
+             *                    the current class).
+             * @param string $datetime Datetime of the logging call.
+             * @param Log $logger The Log singleton.
              */
             Piwik::postEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
@@ -414,7 +455,11 @@ class Log
                 $message = vsprintf($message, $sprintfParams);
             }
 
-            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            if (version_compare(phpversion(), '5.3.6', '>=')) {
+                $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT);
+            } else {
+                $backtrace = debug_backtrace();
+            }
             $tag = Plugin::getPluginNameFromBacktrace($backtrace);
 
             // if we can't determine the plugin, use the name of the calling class
@@ -511,7 +556,7 @@ class Log
             if (isset($tracepoint['class'])
                 && $tracepoint['class'] != "Piwik\\Log"
                 && $tracepoint['class'] != "Piwik\\Piwik"
-                && $tracepoint['class'] != "CronArchive"
+                && $tracepoint['class'] != "Piwik\\CronArchive"
             ) {
                 return $tracepoint['class'];
             }

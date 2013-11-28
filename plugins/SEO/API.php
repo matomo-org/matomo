@@ -15,6 +15,7 @@ use Piwik\Piwik;
 
 /**
  * @see plugins/Referrers/functions.php
+ * @method static \Piwik\Plugins\SEO\API getInstance()
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 
@@ -23,22 +24,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
  * Alexa Rank, age of the Domain name and count of DMOZ entries.
  *
  * @package SEO
+ * @method static \Piwik\Plugins\SEO\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\SEO\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Returns SEO statistics for a URL.
      *

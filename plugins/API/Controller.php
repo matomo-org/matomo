@@ -15,13 +15,14 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\View;
 
 /**
  *
  * @package Piwik_API
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {
@@ -30,13 +31,13 @@ class Controller extends \Piwik\Controller
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
         }
         $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
-        echo $request->process();
+        return $request->process();
     }
 
     public function listAllMethods()
     {
         $ApiDocumentation = new DocumentationGenerator();
-        echo $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
+        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
     }
 
     public function listAllAPI()
@@ -47,7 +48,7 @@ class Controller extends \Piwik\Controller
         $ApiDocumentation = new DocumentationGenerator();
         $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
         $view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
-        echo $view->render();
+        return $view->render();
     }
 
     public function listSegments()
@@ -58,6 +59,12 @@ class Controller extends \Piwik\Controller
         $customVariables = 0;
         $lastCategory = array();
         foreach ($segments as $segment) {
+            // Eg. Event Value is a metric, not in the Visit metric category,
+            // we make sure it is displayed along with the Events dimensions
+            if($segment['type'] == 'metric' && $segment['category'] != Piwik::translate('General_Visit')) {
+                $segment['type'] = 'dimension';
+            }
+
             $onlyDisplay = array('customVariableName1', 'customVariableName2', 'customVariableValue1', 'customVariableValue2', 'customVariablePageName1', 'customVariablePageValue1');
             $customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay);
             // Don't display more than 4 custom variables name/value rows
@@ -106,7 +113,7 @@ class Controller extends \Piwik\Controller
             }
         }
 
-        echo "
+        return "
 		<strong>Dimensions</strong>
 		<table>
 		$tableDimensions

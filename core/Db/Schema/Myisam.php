@@ -98,6 +98,7 @@ class Myisam implements SchemaInterface
   						  excluded_parameters TEXT NOT NULL,
   						  excluded_user_agents TEXT NOT NULL,
   						  `group` VARCHAR(250) NOT NULL,
+  						  `type` VARCHAR(255) NOT NULL,
   						  keep_url_fragment TINYINT NOT NULL DEFAULT 0,
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8
@@ -129,7 +130,7 @@ class Myisam implements SchemaInterface
 									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
                                       tag VARCHAR(50) NULL,
 									  timestamp TIMESTAMP NULL,
-                                      level TINYINT NULL,
+                                      level VARCHAR(16) NULL,
 									  message TEXT NULL,
 									  PRIMARY KEY(idlogger_message)
 									)  DEFAULT CHARSET=utf8
@@ -165,6 +166,7 @@ class Myisam implements SchemaInterface
 							  visit_entry_idaction_name INTEGER(11) UNSIGNED NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_searches SMALLINT(5) UNSIGNED NOT NULL,
+							  visit_total_events SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_goal_converted TINYINT(1) NOT NULL,
 							  visit_goal_buyer TINYINT(1) NOT NULL,
@@ -292,6 +294,8 @@ class Myisam implements SchemaInterface
 											  idaction_url_ref INTEGER(10) UNSIGNED NULL DEFAULT 0,
 											  idaction_name INTEGER(10) UNSIGNED,
 											  idaction_name_ref INTEGER(10) UNSIGNED NOT NULL,
+											  idaction_event_category INTEGER(10) UNSIGNED DEFAULT NULL,
+											  idaction_event_action INTEGER(10) UNSIGNED DEFAULT NULL,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  custom_var_k1 VARCHAR(200) DEFAULT NULL,
 											  custom_var_v1 VARCHAR(200) DEFAULT NULL,

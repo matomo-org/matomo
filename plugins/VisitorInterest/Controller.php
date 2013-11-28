@@ -11,12 +11,12 @@
 namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * @package VisitorInterest
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
@@ -25,40 +25,38 @@ class Controller extends \Piwik\Controller
         $view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
         $view->dataTableNumberOfVisitsByVisitNum = $this->getNumberOfVisitsByVisitCount(true);
         $view->dataTableNumberOfVisitsByDaysSinceLast = $this->getNumberOfVisitsByDaysSinceLast(true);
-        echo $view->render();
+        return $view->render();
     }
 
-    public function getNumberOfVisitsPerVisitDuration($fetch = false)
+    public function getNumberOfVisitsPerVisitDuration()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getNumberOfVisitsPerPage($fetch = false)
+    public function getNumberOfVisitsPerPage()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Returns a report that lists the count of visits for different ranges of
      * a visitor's visit number.
      *
-     * @param bool $fetch Whether to return the rendered view as a string or echo it.
      * @return string The rendered report or nothing if $fetch is set to false.
      */
-    public function getNumberOfVisitsByVisitCount($fetch = false)
+    public function getNumberOfVisitsByVisitCount()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Returns a rendered report that lists the count of visits for different ranges
      * of days since a visitor's last visit.
      *
-     * @param bool $fetch Whether to return the rendered view as a string or echo it.
      * @return string The rendered report or nothing if $fetch is set to false.
      */
-    public function getNumberOfVisitsByDaysSinceLast($fetch = false)
+    public function getNumberOfVisitsByDaysSinceLast()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 }

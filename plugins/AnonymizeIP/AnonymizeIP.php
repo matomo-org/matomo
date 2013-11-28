@@ -10,7 +10,6 @@
  */
 namespace Piwik\Plugins\AnonymizeIP;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
@@ -57,7 +56,7 @@ class AnonymizeIP extends \Piwik\Plugin
     {
         // IPv4 or mapped IPv4 in IPv6
         if (IP::isIPv4($ip)) {
-            $i = Common::strlen($ip);
+            $i = strlen($ip);
             if ($maskLength > $i) {
                 $maskLength = $i;
             }

@@ -20,7 +20,6 @@ use Piwik\ScheduledTime;
  * @package Piwik
  * @subpackage ScheduledTime
  *
- * @api
  */
 class Hourly extends ScheduledTime
 {

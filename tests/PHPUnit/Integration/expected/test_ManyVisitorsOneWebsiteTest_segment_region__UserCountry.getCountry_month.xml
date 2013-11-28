@@ -3,10 +3,10 @@
 	<row>
 		<label>United Kingdom</label>
 		<nb_visits>6</nb_visits>
-		<nb_actions>8</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>2895</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<nb_actions>11</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>3786</sum_visit_length>
+		<bounce_count>3</bounce_count>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>

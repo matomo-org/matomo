@@ -14,6 +14,7 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Singleton;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -27,8 +28,9 @@ use ReflectionMethod;
  *
  * @package Piwik
  * @subpackage Piwik_API
+ * @static \Piwik\API\Proxy getInstance()
  */
-class Proxy
+class Proxy extends Singleton
 {
     // array of already registered plugins names
     protected $alreadyRegistered = array();
@@ -40,30 +42,11 @@ class Proxy
     private $noDefaultValue;
 
     /**
-     * Singleton instance
-     * @var \Piwik\API\Proxy|null
-     */
-    static private $instance = null;
-
-    /**
      * protected constructor
      */
     protected function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
-    }
-
-    /**
-     * Singleton, returns instance
-     *
-     * @return \Piwik\API\Proxy
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
     }
 
     /**
@@ -168,7 +151,7 @@ class Proxy
             $this->registerClass($className);
 
             // instanciate the object
-            $object = call_user_func(array($className, "getInstance"));
+            $object = $className::getInstance();
 
             // check method exists
             $this->checkMethodExists($className, $methodName);
@@ -183,17 +166,32 @@ class Proxy
             $pluginName = $this->getModuleNameFromClassName($className);
 
             /**
-             * Generic hook that plugins can use to modify any input to any API method. You could also use this to build
-             * an enhanced permission system. The event is triggered shortly before any API method is executed.
-             *
-             * The `$fnalParameters` contains all paramteres that will be passed to the actual API method.
+             * Triggered before an API request is dispatched.
+             * 
+             * This event can be used to modify the input that is passed to every API method or just
+             * one.
+             * 
+             * @param array &$finalParameters List of parameters that will be passed to the API method.
+             * @param string $pluginName The name of the plugin being dispatched to.
+             * @param string $methodName The name of the API method that will be called.
              */
-            Piwik::postEvent(sprintf('API.Request.dispatch', $pluginName, $methodName), array(&$finalParameters));
+            Piwik::postEvent('API.Request.dispatch', array(&$finalParameters, $pluginName, $methodName));
 
             /**
-             * This event is similar to the `API.Request.dispatch` event. It distinguishes the possibility to subscribe
-             * only to a specific API method instead of all API methods. You can use it for example to modify any input
-             * parameters or to execute any other logic before the actual API method is called.
+             * This event exists for convenience and is triggered directly after the [API.Request.dispatch](#)
+             * event is triggered.
+             * 
+             * It can be used to modify the input that is passed to a single API method. This is also
+             * possible with the [API.Request.dispatch](#) event, however that event requires event handlers
+             * check if the plugin name and method name are correct before modifying the parameters.
+             * 
+             * **Example**
+             * 
+             *     Piwik::addAction('API.Actions.getPageUrls', function (&$parameters) {
+             *         // ...
+             *     });
+             * 
+             * @param array &$finalParameters List of parameters that will be passed to the API method.
              */
             Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
@@ -209,39 +207,49 @@ class Proxy
             );
 
             /**
-             * This event is similar to the `API.Request.dispatch.end` event. It distinguishes the possibility to
-             * subscribe only to the end of a specific API method instead of all API methods. You can use it for example
-             * to modify the response. The passed parameters contains the returned value as well as some additional
-             * meta information:
+             * This event exists for convenience and is triggered immediately before the
+             * [API.Request.dispatch.end](#) event.
+             * 
+             * It can be used to modify the output of a single API method. This is also possible with
+             * the [API.Request.dispatch.end](#) event, however that event requires event handlers
+             * check if the plugin name and method name are correct before modifying the output.
              *
-             * ```
-             * function (
-             *     &$returnedValue,
-             *     array('className'  => $className,
-             *           'module'     => $pluginName,
-             *           'action'     => $methodName,
-             *           'parameters' => $finalParameters)
-             * );
-             * ```
+             * @param mixed &$returnedValue The value returned from the API method. This will not be
+             *                              a rendered string, but an actual object. For example, it
+             *                              could be a [DataTable](#).
+             * @param array $extraInfo An array holding information regarding the API request. Will
+             *                         contain the following data:
+             * 
+             *                         - **className**: The name of the namespace-d class name of the
+             *                                          API instance that's being called.
+             *                         - **module**: The name of the plugin the API request was
+             *                                       dispatched to.
+             *                         - **action**: The name of the API method that was executed.
+             *                         - **parameters**: The array of parameters passed to the API
+             *                                           method.
              */
             Piwik::postEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), $endHookParams);
 
             /**
-             * Generic hook that plugins can use to modify any output of any API method. The event is triggered after
-             * any API method is executed but before the result is send to the user. The parameters originally
-             * passed to the controller are available as well:
-             *
-             * ```
-             * function (
-             *     &$returnedValue,
-             *     array('className'  => $className,
-             *           'module'     => $pluginName,
-             *           'action'     => $methodName,
-             *           'parameters' => $finalParameters)
-             * );
-             * ```
+             * Triggered directly after an API request is dispatched.
+             * 
+             * This event can be used to modify the output of any API method.
+             * 
+             * @param mixed &$returnedValue The value returned from the API method. This will not be
+             *                              a rendered string, but an actual object. For example, it
+             *                              could be a [DataTable](#).
+             * @param array $extraInfo An array holding information regarding the API request. Will
+             *                         contain the following data:
+             * 
+             *                         - **className**: The name of the namespace-d class name of the
+             *                                          API instance that's being called.
+             *                         - **module**: The name of the plugin the API request was
+             *                                       dispatched to.
+             *                         - **action**: The name of the API method that was executed.
+             *                         - **parameters**: The array of parameters passed to the API
+             *                                           method.
              */
-            Piwik::postEvent(sprintf('API.Request.dispatch.end', $pluginName, $methodName), $endHookParams);
+            Piwik::postEvent('API.Request.dispatch.end', $endHookParams);
 
             // Restore the request
             $_GET = $saveGET;
@@ -280,6 +288,19 @@ class Proxy
     public function getModuleNameFromClassName($className)
     {
         return str_replace(array('\\Piwik\\Plugins\\', '\\API'), '', $className);
+    }
+
+    public function isExistingApiAction($pluginName, $apiAction)
+    {
+        $namespacedApiClassName = "\\Piwik\\Plugins\\$pluginName\\API";
+        $api = $namespacedApiClassName::getInstance();
+
+        return method_exists($api, $apiAction);
+    }
+
+    public function buildApiActionName($pluginName, $apiAction)
+    {
+        return sprintf("%s.%s", $pluginName, $apiAction);
     }
 
     /**
@@ -332,7 +353,7 @@ class Proxy
                     }
                 }
             } catch (Exception $e) {
-                throw new Exception(Piwik::translateException('General_PleaseSpecifyValue', array($name)));
+                throw new Exception(Piwik::translate('General_PleaseSpecifyValue', array($name)));
             }
             $finalParameters[] = $requestValue;
         }
@@ -398,7 +419,7 @@ class Proxy
     private function checkMethodExists($className, $methodName)
     {
         if (!$this->isMethodAvailable($className, $methodName)) {
-            throw new Exception(Piwik::translateException('General_ExceptionMethodNotFound', array($methodName, $className)));
+            throw new Exception(Piwik::translate('General_ExceptionMethodNotFound', array($methodName, $className)));
         }
     }
 

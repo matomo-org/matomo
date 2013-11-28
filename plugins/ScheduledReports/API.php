@@ -34,8 +34,9 @@ use Zend_Mime;
  * See also the documentation about <a href='http://piwik.org/docs/email-reports/' target='_blank'>Scheduled Email reports</a> in Piwik.
  *
  * @package ScheduledReports
+ * @method static \Piwik\Plugins\ScheduledReports\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const VALIDATE_PARAMETERS_EVENT = 'ScheduledReports.validateReportParameters';
     const GET_REPORT_PARAMETERS_EVENT = 'ScheduledReports.getReportParameters';
@@ -53,31 +54,7 @@ class API
     const OUTPUT_INLINE = 3;
     const OUTPUT_RETURN = 4;
 
-    const REPORT_TYPE_INFO_KEY = 'reportType';
-    const OUTPUT_TYPE_INFO_KEY = 'outputType';
-    const ID_SITE_INFO_KEY = 'idSite';
-    const REPORT_KEY = 'report';
-    const REPORT_CONTENT_KEY = 'contents';
-    const FILENAME_KEY = 'filename';
-    const PRETTY_DATE_KEY = 'prettyDate';
-    const REPORT_SUBJECT_KEY = 'reportSubject';
-    const REPORT_TITLE_KEY = 'reportTitle';
-    const ADDITIONAL_FILES_KEY = 'additionalFiles';
-
     const REPORT_TRUNCATE = 23;
-
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\ScheduledReports\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * Creates a new report and schedules it.
@@ -260,8 +237,8 @@ class API
         }
 
         // Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
-        $reports = Db::fetchAll("SELECT *
-								FROM " . Common::prefixTable('report') . "
+        $reports = Db::fetchAll("SELECT report.*
+								FROM " . Common::prefixTable('report') . " AS `report`
 									JOIN " . Common::prefixTable('site') . "
 									USING (idsite)
 								WHERE deleted = 0
@@ -305,10 +282,10 @@ class API
 
         // load specified language
         if (empty($language)) {
-            $language = Translate::getInstance()->getLanguageDefault();
+            $language = Translate::getLanguageDefault();
         }
 
-        Translate::getInstance()->reloadLanguage($language);
+        Translate::reloadLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
         $report = reset($reports);
@@ -406,28 +383,54 @@ class API
             $_GET['filter_truncate'] = $initialFilterTruncate;
         }
 
-        $notificationInfo = array(
-            self::REPORT_TYPE_INFO_KEY => $reportType,
-            self::OUTPUT_TYPE_INFO_KEY => $outputType,
-            self::REPORT_KEY           => $report,
-        );
-
         /**
-         * This event allows plugins to alter processed reports.
+         * Triggered when generating the content of scheduled reports.
+         *
+         * This event can be used to modify the content of processed report data or
+         * metadata, either for one specific report/report type/output format or all
+         * of them.
+         * 
+         * TODO: list data available in $report or make it a new class that can be documented (same for
+         *       all other events that use a $report)
+         * 
+         * @param array &$processedReports The list of processed reports in the scheduled
+         *                                 report. Includes report data and metadata.
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
+         * @param string $outputType The output format of the report, eg, `'html'`, `'pdf'`, etc.
+         * @param array $report An array describing the scheduled report that is being
+         *                      generated.
          */
         Piwik::postEvent(
             self::PROCESS_REPORTS_EVENT,
-            array(&$processedReports, $notificationInfo)
+            array(&$processedReports, $reportType, $outputType, $report)
         );
 
-        /**
-         * This event is triggered to retrieve the report renderer instance.
-         */
         $reportRenderer = null;
+
+        /**
+         * Triggered when obtaining a renderer instance based on the scheduled report type.
+         * 
+         * Plugins that provide new scheduled report backends should use this event to
+         * handle their new report types.
+         * 
+         * @param ReportRenderer &$reportRenderer This variable should be set to an instance that
+         *                                        extends [ReportRenderer](#) by one of the event
+         *                                        subscribers.
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
+         * @param string $outputType The output format of the report, eg, `'html'`, `'pdf'`, etc.
+         * @param array $report An array describing the scheduled report that is being
+         *                      generated.
+         */
         Piwik::postEvent(
             self::GET_RENDERER_INSTANCE_EVENT,
-            array(&$reportRenderer, $notificationInfo)
+            array(&$reportRenderer, $reportType, $outputType, $report)
         );
+
+        if(is_null($reportRenderer)) {
+            throw new Exception("A report renderer was not supplied in the event " . self::GET_RENDERER_INSTANCE_EVENT);
+        }
 
         // init report renderer
         $reportRenderer->setLocale($language);
@@ -442,32 +445,13 @@ class API
         array_walk($processedReports, array($reportRenderer, 'renderReport'));
 
         switch ($outputType) {
+
             case self::OUTPUT_SAVE_ON_DISK:
+
                 $outputFilename = strtoupper($reportFormat) . ' ' . ucfirst($reportType) . ' Report - ' . $idReport . '.' . $date . '.' . $idSite . '.' . $language;
                 $outputFilename = $reportRenderer->sendToDisk($outputFilename);
 
-                $additionalFiles = array();
-                if ($reportRenderer instanceof Html) {
-                    foreach ($processedReports as &$report) {
-                        if ($report['displayGraph']) {
-                            $additionalFile = array();
-                            $additionalFile['filename'] = $report['metadata']['name'] . '.png';
-                            $additionalFile['cid'] = $report['metadata']['uniqueId'];
-                            $additionalFile['content'] =
-                                ReportRenderer::getStaticGraph(
-                                    $report['metadata'],
-                                    Html::IMAGE_GRAPH_WIDTH,
-                                    Html::IMAGE_GRAPH_HEIGHT,
-                                    $report['evolutionGraph'],
-                                    $segment
-                                );
-                            $additionalFile['mimeType'] = 'image/png';
-                            $additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
-
-                            $additionalFiles[] = $additionalFile;
-                        }
-                    }
-                }
+                $additionalFiles = $this->getAttachments($reportRenderer, $report, $processedReports, $prettyDate);
 
                 return array(
                     $outputFilename,
@@ -476,6 +460,7 @@ class API
                     $reportTitle,
                     $additionalFiles,
                 );
+
                 break;
 
             case self::OUTPUT_INLINE:
@@ -535,19 +520,39 @@ class API
         $contents = fread($handle, filesize($outputFilename));
         fclose($handle);
 
+        /**
+         * Triggered when sending scheduled reports.
+         *
+         * Plugins that provide new scheduled report backends should use this event to
+         * send the scheduled report uses their backend.
+         * 
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
+         * @param array $report An array describing the scheduled report that is being
+         *                      generated.
+         * @param string $contents The contents of the scheduled report that was generated
+         *                         and now should be sent.
+         * @param string $filename The path to the file where the scheduled report has
+         *                         been saved.
+         * @param string $prettyDate A prettified date string for the data within the
+         *                           scheduled report.
+         * @param string $reportSubject A string describing what's in the scheduled
+         *                              report.
+         * @param string $reportTitle The scheduled report's given title.
+         * @param array $additionalFiles The list of additional files that should be
+         *                               sent with this report.
+         */
         Piwik::postEvent(
             self::SEND_REPORT_EVENT,
             array(
-                 $notificationInfo = array(
-                     self::REPORT_TYPE_INFO_KEY => $report['type'],
-                     self::REPORT_KEY           => $report,
-                     self::REPORT_CONTENT_KEY   => $contents,
-                     self::FILENAME_KEY         => $filename,
-                     self::PRETTY_DATE_KEY      => $prettyDate,
-                     self::REPORT_SUBJECT_KEY   => $reportSubject,
-                     self::REPORT_TITLE_KEY     => $reportTitle,
-                     self::ADDITIONAL_FILES_KEY => $additionalFiles,
-                 )
+                $report['type'],
+                $report,
+                $contents,
+                $filename,
+                $prettyDate,
+                $reportSubject,
+                $reportTitle,
+                $additionalFiles
             )
         );
 
@@ -583,11 +588,19 @@ class API
         // get list of valid parameters
         $availableParameters = array();
 
-        $notificationInfo = array(
-            self::REPORT_TYPE_INFO_KEY => $reportType
-        );
-
-        Piwik::postEvent(self::GET_REPORT_PARAMETERS_EVENT, array(&$availableParameters, $notificationInfo));
+        /**
+         * Triggered when gathering the available parameters for a scheduled report type.
+         * 
+         * Plugins that provide their own scheduled reports backend should use this
+         * event to list the available report parameters for their backend.
+         * 
+         * @param array $availableParameters The list of available parameters for this report type.
+         *                                   This is an array that maps paramater IDs with a boolean
+         *                                   that indicates whether the parameter is mandatory or not.
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
+         */
+        Piwik::postEvent(self::GET_REPORT_PARAMETERS_EVENT, array(&$availableParameters, $reportType));
 
         // unset invalid parameters
         $availableParameterKeys = array_keys($availableParameters);
@@ -605,9 +618,17 @@ class API
         }
 
         /**
-         * This event is triggered to delegate report parameter validation.
+         * Triggered when validating the parameters for a scheduled report.
+         * 
+         * Plugins that provide their own scheduled reports backend should use this
+         * event to validate the custom parameters defined with
+         * [ScheduledReports.getReportParameters](#ScheduledReports.getReportParameters).
+         * 
+         * @param array $parameters The list of parameters for the scheduled report.
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
          */
-        Piwik::postEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $notificationInfo));
+        Piwik::postEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $reportType));
 
         return Common::json_encode($parameters);
     }
@@ -697,7 +718,7 @@ class API
 
         if (!in_array($reportFormat, $reportFormats)) {
             throw new Exception(
-                Piwik::translateException(
+                Piwik::translate(
                     'General_ExceptionInvalidReportRendererFormat',
                     array($reportFormat, implode(', ', $reportFormats))
                 )
@@ -710,18 +731,23 @@ class API
      */
     static public function getReportMetadata($idSite, $reportType)
     {
-        $notificationInfo = array(
-            self::REPORT_TYPE_INFO_KEY => $reportType,
-            self::ID_SITE_INFO_KEY     => $idSite,
-        );
+        $availableReportMetadata = array();
 
         /**
-         * This event is used to retrieve all available reports.
+         * Triggered when gathering the list of Piwik reports that can be used with a certain
+         * scheduled reports backend.
+         * 
+         * Plugins that provide their own scheduled reports backend should use this
+         * event to list the Piwik reports that their backend supports.
+         * 
+         * @param array &$availableReportMetadata
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
+         * @param int $idSite The ID of the site we're getting available reports for.
          */
-        $availableReportMetadata = array();
         Piwik::postEvent(
             self::GET_REPORT_METADATA_EVENT,
-            array(&$availableReportMetadata, $notificationInfo)
+            array(&$availableReportMetadata, $reportType, $idSite)
         );
 
         return $availableReportMetadata;
@@ -733,14 +759,23 @@ class API
     static public function allowMultipleReports($reportType)
     {
         $allowMultipleReports = null;
+
+        /**
+         * Triggered when we're determining if a scheduled report backend can
+         * handle sending multiple Piwik reports in one scheduled report or not.
+         * 
+         * Plugins that provide their own scheduled reports backend should use this
+         * event to specify whether their backend can send more than one Piwik report
+         * at a time.
+         * 
+         * @param bool &$allowMultipleReports Whether the backend type can handle multiple
+         *                                    Piwik reports or not.
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
+         */
         Piwik::postEvent(
             self::ALLOW_MULTIPLE_REPORTS_EVENT,
-            array(
-                 &$allowMultipleReports,
-                 $notificationInfo = array(
-                     self::REPORT_TYPE_INFO_KEY => $reportType,
-                 )
-            )
+            array(&$allowMultipleReports, $reportType)
         );
         return $allowMultipleReports;
     }
@@ -751,6 +786,17 @@ class API
     static public function getReportTypes()
     {
         $reportTypes = array();
+
+        /**
+         * Triggered when gathering all available scheduled report backend types.
+         * 
+         * Plugins that provide their own scheduled reports backend should use this
+         * event to make their backend available.
+         * 
+         * @param array &$reportTypes An array mapping string IDs for each available
+         *                            scheduled report backend with icon paths for those
+         *                            backends. Add your new backend's ID to this array.
+         */
         Piwik::postEvent(self::GET_REPORT_TYPES_EVENT, array(&$reportTypes));
 
         return $reportTypes;
@@ -763,14 +809,19 @@ class API
     {
         $reportFormats = array();
 
+        /**
+         * Triggered when gathering all available scheduled report formats.
+         * 
+         * Plugins that provide their own scheduled report format should use
+         * this event to make their format available.
+         * 
+         * @param array &$reportFormats An array mapping string IDs for each available
+         *                              scheduled report format with icon paths for those
+         *                              formats. Add your new format's ID to this array.
+         */
         Piwik::postEvent(
             self::GET_REPORT_FORMATS_EVENT,
-            array(
-                 &$reportFormats,
-                 $notificationInfo = array(
-                     self::REPORT_TYPE_INFO_KEY => $reportType
-                 )
-            )
+            array(&$reportFormats, $reportType)
         );
 
         return $reportFormats;
@@ -781,16 +832,25 @@ class API
      */
     static public function getReportRecipients($report)
     {
-        $notificationInfo = array(
-            self::REPORT_TYPE_INFO_KEY => $report['type'],
-            self::REPORT_KEY           => $report,
-        );
+        $recipients = array();
 
         /**
-         * This event is used to retrieve the report renderer instance.
+         * Triggered when getting the list of recipients of a scheduled report.
+         * 
+         * Plugins that provide their own scheduled report backend should use this event
+         * so the list of recipients can be extracted from their backend's specific report
+         * format.
+         * 
+         * @param array &$recipients An array of strings describing each of the scheduled
+         *                           reports recipients. Can be, for example, a list of email
+         *                           addresses or phone numbers or whatever else your plugin
+         *                           uses.
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
+         * @param array $report An array describing the scheduled report that is being
+         *                      generated.
          */
-        $recipients = array();
-        Piwik::postEvent(self::GET_REPORT_RECIPIENTS_EVENT, array(&$recipients, $notificationInfo));
+        Piwik::postEvent(self::GET_REPORT_RECIPIENTS_EVENT, array(&$recipients, $report['type'], $report));
 
         return $recipients;
     }
@@ -817,6 +877,64 @@ class API
      */
     public static function isSegmentEditorActivated()
     {
-        return \Piwik\PluginsManager::getInstance()->isPluginActivated('SegmentEditor');
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('SegmentEditor');
+    }
+
+    private function getAttachments($reportRenderer, $report, $processedReports, $prettyDate)
+    {
+        $additionalFiles = array();
+
+        if ($reportRenderer instanceof Html) {
+
+            foreach ($processedReports as $processedReport) {
+
+                if ($processedReport['displayGraph']) {
+
+                    $additionalFiles[] = $this->createAttachment($report, $processedReport, $prettyDate);
+                }
+            }
+        }
+
+        return $additionalFiles;
+    }
+
+    private function createAttachment($report, $processedReport, $prettyDate)
+    {
+        $additionalFile = array();
+
+        $segment = self::getSegment($report['idsegment']);
+
+        $segmentName = $segment != null ? sprintf(' (%s)', $segment['name']) : '';
+
+        $processedReportMetadata = $processedReport['metadata'];
+
+        $additionalFile['filename'] =
+            sprintf(
+                '%s - %s - %s %d - %s %d%s.png',
+                $processedReportMetadata['name'],
+                $prettyDate,
+                Piwik::translate('General_Website'),
+                $report['idsite'],
+                Piwik::translate('General_Report'),
+                $report['idreport'],
+                $segmentName
+            );
+
+        $additionalFile['cid'] = $processedReportMetadata['uniqueId'];
+
+        $additionalFile['content'] =
+            ReportRenderer::getStaticGraph(
+                $processedReportMetadata,
+                Html::IMAGE_GRAPH_WIDTH,
+                Html::IMAGE_GRAPH_HEIGHT,
+                $processedReport['evolutionGraph'],
+                $segment
+            );
+
+        $additionalFile['mimeType'] = 'image/png';
+
+        $additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
+
+        return $additionalFile;
     }
 }

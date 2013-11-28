@@ -7,7 +7,6 @@
  */
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\Common;
 use Piwik\Plugins\Goals\API;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
@@ -49,7 +48,6 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
         try {
             if (isset(self::$fixture->tablesPrefix)) {
                 Config::getInstance()->database['tables_prefix'] = self::$fixture->tablesPrefix;
-                Common::$cachedTablePrefix = null;
             }
 
             Db::query("USE " . $dbName);

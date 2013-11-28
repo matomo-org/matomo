@@ -17,7 +17,6 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TrackCustomVariablesAndCampaigns_ForceUsingVisitIdNotHeuristics
      */
     public function testApi($api, $params)
     {

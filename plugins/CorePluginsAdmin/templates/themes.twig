@@ -5,14 +5,10 @@
 {% block content %}
 <div style="max-width:980px;">
 
-    {% if activatedPluginName %}
-        <div id="feedback-success"><strong>Well done!</strong> You have successfully activated theme {{ activatedPluginName }}</div>
-    {% endif %}
-
     {% if pluginsHavingUpdate|length %}
-        <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
+        <h2>{{ 'CorePluginsAdmin_NumUpdatesAvailable'|translate(pluginsHavingUpdate|length) }}</h2>
 
-        <p>{{ 'Update your themes to enjoy the latest version.'|translate }}</p>
+        <p>{{ 'CorePluginsAdmin_InfoThemeUpdateIsRecommended'|translate }}</p>
 
         {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, true) }}
     {% endif %}
@@ -21,11 +17,13 @@
 
     <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}
     {% if otherUsersCount > 0 %}
-        <br/> Note: the other {{ otherUsersCount }} users registered in this Piwik are also using the theme {{ themeEnabled }}.
+        <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
     {% endif %}
     </p>
 
-    {{ plugins.tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, true) }}
+    {{ plugins.pluginsFilter(true, isMarketplaceEnabled) }}
+
+    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames) }}
 
 </div>
 {% endblock %}

@@ -8,9 +8,9 @@
  * @package Piwik
  */
 
+use Piwik\Common;
 use Piwik\Timer;
 use Piwik\Tracker;
-use Piwik\Common;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
@@ -36,7 +36,9 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 @ignore_user_abort(true);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
+require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Singleton.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Manager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
@@ -54,7 +56,13 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitInterface.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/GoalManager.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/PageUrl.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/TableLogAction.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionClickUrl.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionEvent.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionPageview.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionSiteSearch.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Referrer.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitExcluded.php';

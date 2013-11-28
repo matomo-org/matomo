@@ -7,15 +7,14 @@
  */
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\API;
-use Piwik\Translate\Writer;
-use Piwik\PluginsManager;
-use Piwik\Translate\Validate\NoScripts;
-use Piwik\Translate\Validate\CoreTranslations;
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\EmptyTranslations;
 use Piwik\Translate\Filter\EncodedEntities;
 use Piwik\Translate\Filter\UnnecassaryWhitespaces;
+use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Writer;
 
 require_once 'LanguagesManager/API.php';
 
@@ -32,7 +31,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
         $languages = API::getInstance()->getAvailableLanguages();
 
-        $plugins = PluginsManager::getInstance()->readPluginsDirectory();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->readPluginsDirectory();
 
         $pluginsWithTranslation = array();
 
@@ -62,7 +61,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test all languages
      *
      * @group Plugins
-     * @group LanguagesManager
+     *
      * @dataProvider getTestDataForLanguageFiles
      */
     function testGetTranslationsForLanguages($language, $plugin)
@@ -103,7 +102,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test language when it's not defined
      *
      * @group Plugins
-     * @group LanguagesManager
+     *
      * @expectedException Exception
      */
     function testWriterInvalidPlugin()
@@ -115,7 +114,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test language when it's not defined
      *
      * @group Plugins
-     * @group LanguagesManager
      */
     function testGetTranslationsForLanguagesNot()
     {
@@ -126,7 +124,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test English short name for language
      *
      * @group Plugins
-     * @group LanguagesManager
      */
     function testGetLanguageNamesInEnglish()
     {
@@ -164,7 +161,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test format of DataFile/Languages.php
      *
      * @group Plugins
-     * @group LanguagesManager
      */
     function testGetLanguagesList()
     {

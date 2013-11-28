@@ -14,19 +14,48 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Plugin\Controller;
 use Piwik\Session;
 
 /**
- * Front controller.
- * This is the class hit in the first place.
- * It dispatches the request to the right controller.
+ * This singleton dispatches requests to the appropriate plugin Controller.
+ * 
+ * Piwik uses this class for all requests that go through index.php. Plugins can
+ * use it to call controller actions of other plugins.
+ * 
+ * ### Examples
+ * 
+ * **Forwarding controller requests**
+ * 
+ *     public function myConfiguredRealtimeMap()
+ *     {
+ *         $_GET['changeVisitAlpha'] = false;
+ *         $_GET['removeOldVisits'] = false;
+ *         $_GET['showFooterMessage'] = false;
+ *         FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
+ *     }
+ * 
+ * **Using other plugin controller actions**
+ * 
+ *     public function myPopupWithRealtimeMap()
+ *     {
+ *         $_GET['changeVisitAlpha'] = false;
+ *         $_GET['removeOldVisits'] = false;
+ *         $_GET['showFooterMessage'] = false;
+ *         $realtimeMap = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap');
+ *         
+ *         $view = new View('@MyPlugin/myPopupWithRealtimeMap.twig');
+ *         $view->realtimeMap = $realtimeMap;
+ *         echo $realtimeMap->render();
+ *     }
  *
- * For a detailed explanation, see the documentation on http://piwik.org/docs/plugins/framework-overview
+ * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
  *
  * @package Piwik
  * @subpackage FrontController
+ * @static method \Piwik\FrontController getInstance()
  */
-class FrontController
+class FrontController extends Singleton
 {
     /**
      * Set to false and the Front Controller will not dispatch the request
@@ -35,37 +64,103 @@ class FrontController
      */
     public static $enableDispatch = true;
 
-    private static $instance = null;
-
-    protected function prepareDispatch($module, $action, $parameters)
+    /**
+     * Executes the requested plugin controller action.
+     * 
+     * See also [fetchDispatch](#fetchDispatch).
+     * 
+     * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
+     *                                                     there is not enough permission, etc.
+     *
+     * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
+     * @param string $action The controller action name, eg, `'realtimeMap'`.
+     * @param array $parameters Array of parameters to pass to the controller action method.
+     * @return void|mixed The returned value of the call. Often nothing as most controller actions echo, but do not
+     *                    return data.
+     * @api
+     */
+    public function dispatch($module = null, $action = null, $parameters = null)
     {
-        if (is_null($module)) {
-            $defaultModule = 'CoreHome';
-            $module = Common::getRequestVar('module', $defaultModule, 'string');
+        if (self::$enableDispatch === false) {
+            return;
         }
 
-        if (is_null($action)) {
-            $action = Common::getRequestVar('action', false);
-        }
+        list($module, $action, $parameters) = $this->prepareDispatch($module, $action, $parameters);
 
-        if (!Session::isFileBasedSessions()
-            && ($module !== 'API' || ($action && $action !== 'index'))
-        ) {
-            Session::start();
-        }
+        /**
+         * Triggered directly before controller actions are dispatched.
+         *
+         * This event can be used to modify the parameters passed to one or more controller actions
+         * and can be used to change the plugin and action that is being dispatched to.
+         *
+         * @param string &$module The name of the plugin being dispatched to.
+         * @param string &$action The name of the controller method being dispatched to.
+         * @param array &$parameters The arguments passed to the controller action.
+         */
+        Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
 
-        if (is_null($parameters)) {
-            $parameters = array();
-        }
+        list($controller, $action) = $this->makeController($module, $action);
 
-        if (!ctype_alnum($module)) {
-            throw new Exception("Invalid module name '$module'");
-        }
+        /**
+         * This event exists for convenience and is triggered directly after the [Request.dispatch](#)
+         * event is triggered.
+         * 
+         * It can be used to do the same things as the [Request.dispatch](#) event, but for one controller
+         * action only. Using this event will result in a little less code than [Request.dispatch](#).
+         * 
+         * @param array &$parameters The arguments passed to the controller action.
+         */
+        Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
 
-        if (!PluginsManager::getInstance()->isPluginActivated($module)) {
-            throw new PluginDeactivatedException($module);
-        }
+        try {
+            $result = call_user_func_array(array($controller, $action), $parameters);
 
+            /**
+             * This event exists for convenience and is triggered immediately before the
+             * [Request.dispatch.end](#) event is triggered.
+             * 
+             * It can be used to do the same things as the [Request.dispatch.end](#) event, but for one
+             * controller action only. Using this event will result in a little less code than
+             * [Request.dispatch.end](#).
+             * 
+             * @param mixed &$result The result of the controller action.
+             * @param array $parameters The arguments passed to the controller action.
+             */
+            Piwik::postEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
+
+            /**
+             * Triggered after a controller action is successfully called.
+             * 
+             * This event can be used to modify controller action output (if there was any) before
+             * the output is returned.
+             * 
+             * @param mixed &$result The result of the controller action.
+             * @param array $parameters The arguments passed to the controller action.
+             */
+            Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
+
+            return $result;
+
+        } catch (NoAccessException $exception) {
+
+            /**
+             * Triggered when a user with insufficient access permissions tries to view some resource.
+             * 
+             * This event can be used to customize the error that occurs when a user is denied access
+             * (for example, displaying an error message, redirecting to a page other than login, etc.).
+             * 
+             * @param NoAccessException $exception The exception that was caught.
+             */
+            Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
+        } catch (Exception $e) {
+            $debugTrace = $e->getTraceAsString();
+            $message = Common::sanitizeInputValue($e->getMessage());
+            Piwik_ExitWithMessage($message, $debugTrace, true, true);
+        }
+    }
+
+    protected function makeController($module, $action)
+    {
         $controllerClassName = $this->getClassNameController($module);
 
         // FrontController's autoloader
@@ -87,90 +182,7 @@ class FrontController
         if (!is_callable(array($controller, $action))) {
             throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
         }
-        return array($module, $action, $parameters, $controller);
-    }
-
-    /**
-     * returns singleton
-     *
-     * @return \Piwik\FrontController
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Dispatches the request to the right plugin and executes the requested action on the plugin controller.
-     *
-     * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist, there is not enough permission, etc.
-     *
-     * @param string $module
-     * @param string $action
-     * @param array $parameters
-     * @return void|mixed  The returned value of the calls, often nothing as the module print but don't return data
-     * @see fetchDispatch()
-     */
-    public function dispatch($module = null, $action = null, $parameters = null)
-    {
-        if (self::$enableDispatch === false) {
-            return;
-        }
-
-        // list($module, $action, $parameters, $controller)
-        $params = $this->prepareDispatch($module, $action, $parameters);
-
-        /**
-         * Generic hook that plugins can use to modify any input to the function, or even change the plugin being
-         * called. You could also use this to build an enhanced permission system. The event is triggered before every
-         * call to a controller method.
-         *
-         * The `$params` array contains the following properties: `array($module, $action, $parameters, $controller)`
-         */
-        Piwik::postEvent('Request.dispatch', $params);
-
-        /**
-         * This event is similar to the `Request.dispatch` hook. It distinguishes the possibility to subscribe only to a
-         * specific controller method instead of all controller methods. You can use it for example to modify any input
-         * parameters or execute any other logic before the actual controller is called.
-         */
-        Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
-
-        try {
-            $result = call_user_func_array(array($params[3], $params[1]), $params[2]);
-
-            /**
-             * This event is similar to the `Request.dispatch.end` hook. It distinguishes the possibility to subscribe
-             * only to the end of a specific controller method instead of all controller methods. You can use it for
-             * example to modify the response of a single controller method.
-             */
-            Piwik::postEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
-
-            /**
-             * Generic hook that plugins can use to modify any output of any controller method. The event is triggered
-             * after a controller method is executed but before the result is send to the user. The parameters
-             * originally passed to the method are available as well.
-             */
-            Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
-
-            return $result;
-
-        } catch (NoAccessException $exception) {
-
-            /**
-             * This event is triggered in case the user wants to access anything in the Piwik UI but has not the
-             * required permissions to do this. You can subscribe to this event to display a custom error message or
-             * to display a custom login form in such a case.
-             */
-            Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
-        } catch (Exception $e) {
-            $debugTrace = $e->getTraceAsString();
-            $message = Common::sanitizeInputValue($e->getMessage());
-            Piwik_ExitWithMessage($message, $debugTrace, true, true);
-        }
+        return array($controller, $action);
     }
 
     protected function getClassNameController($module)
@@ -179,18 +191,21 @@ class FrontController
     }
 
     /**
-     * Often plugins controller display stuff using echo/print.
-     * Using this function instead of dispatch() returns the output string form the actions calls.
-     *
-     * @param string $controllerName
-     * @param string $actionName
-     * @param array $parameters
-     * @return string
+     * Executes the requested plugin controller action and returns the data the action echos.
+     * 
+     * Note: If the plugin controller returns something, the return value is returned instead
+     * of whatever is in the output buffer.
+     * 
+     * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
+     * @param string $action The controller action name, eg, `'realtimeMap'`.
+     * @param array $parameters Array of parameters to pass to the controller action method.
+     * @return string The `echo`'d data or the return value of the controller action.
+     * @api
      */
-    public function fetchDispatch($controllerName = null, $actionName = null, $parameters = null)
+    public function fetchDispatch($module = null, $actionName = null, $parameters = null)
     {
         ob_start();
-        $output = $this->dispatch($controllerName, $actionName, $parameters);
+        $output = $this->dispatch($module, $actionName, $parameters);
         // if nothing returned we try to load something that was printed on the screen
         if (empty($output)) {
             $output = ob_get_contents();
@@ -201,7 +216,6 @@ class FrontController
 
     /**
      * Called at the end of the page generation
-     *
      */
     public function __destruct()
     {
@@ -241,9 +255,11 @@ class FrontController
         } catch (Exception $exception) {
 
             /**
-             * This event is triggered in case no configuration file is available. This usually means Piwik is not
-             * installed yet. The event can be used to start the installation process or to display a custom error
-             * message.
+             * Triggered when the configuration file cannot be found or read. This usually
+             * means Piwik is not installed yet. This event can be used to start the
+             * installation process or to display a custom error message.
+             * 
+             * @param Exception $exception The exception that was thrown by `Config::getInstance()`.
              */
             Piwik::postEvent('Config.NoConfigurationFile', array($exception), $pending = true);
             $exceptionToThrow = $exception;
@@ -282,10 +298,13 @@ class FrontController
                 '/tmp/templates_c/',
             );
 
+            libxml_disable_entity_loader(); // prevent remote file inclusion
+
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
             self::assignCliParametersToRequest();
 
-            Translate::getInstance()->loadEnglishTranslation();
+
+            Translate::loadEnglishTranslation();
 
             $exceptionToThrow = self::createConfigObject();
 
@@ -295,8 +314,9 @@ class FrontController
 
             $this->handleMaintenanceMode();
             $this->handleSSLRedirection();
+            $this->handleProfiler();
 
-            $pluginsManager = PluginsManager::getInstance();
+            $pluginsManager = \Piwik\Plugin\Manager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
 
             $pluginsManager->loadPlugins($pluginsToLoad);
@@ -311,12 +331,15 @@ class FrontController
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;
-        }
+                }
 
                 /**
-                 * This event is triggered in case a config file is not in the correct format or in case required values
-                 * are missing. The event can be used to start the installation process or to display a custom error
-                 * message.
+                 * Triggered if the INI config file has the incorrect format or if certain required configuration
+                 * options are absent. This event can be used to start the installation process or to display a
+                 * custom error message.
+                 * 
+                 * @param $exception Exception The exception thrown from creating and testing the database
+                 *                             connection.
                  */
                 Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
                 throw $exception;
@@ -326,12 +349,13 @@ class FrontController
             Access::getInstance();
 
             /**
-             * This event is the first event triggered just after the platform is initialized and plugins are loaded.
-             * You can use this event to do early initialization. Note: the user is not authenticated yet.
+             * Triggered just after the platform is initialized and plugins are loaded.
+             * This event can be used to do early initialization. Note: At this point the user
+             * is not authenticated yet.
              */
             Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
-            PluginsManager::getInstance()->installLoadedPlugins();
+            \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {
@@ -339,8 +363,9 @@ class FrontController
             }
 
             /**
-             * This event is triggered before the user is authenticated. You can use it to create your own
-             * authentication object which implements the `Piwik\Auth` interface, and override the default authentication logic.
+             * Triggered before the user is authenticated. You can use it to create your own
+             * authentication object which implements the [Piwik\Auth](#) interface and overrides
+             * the default authentication logic.
              */
             Piwik::postEvent('Request.initAuthenticationObject');
             try {
@@ -360,13 +385,14 @@ class FrontController
             }
             SettingsServer::raiseMemoryLimitIfNecessary();
 
-            Translate::getInstance()->reloadLanguage();
+            Translate::reloadLanguage();
             $pluginsManager->postLoadPlugins();
 
             /**
-             * This event is triggered to check for updates. It is triggered after the platform is initialized and after
-             * the user is authenticated but before the platform is going to dispatch the actual request. You can use
-             * it to check for any updates.
+             * Triggered after the platform is initialized and after the user has been authenticated, but
+             * before the platform dispatched the request.
+             * 
+             * Piwik uses this event to check for updates to Piwik.
              */
             Piwik::postEvent('Updater.checkForUpdates');
         } catch (Exception $e) {
@@ -378,6 +404,40 @@ class FrontController
             $debugTrace = $e->getTraceAsString();
             Piwik_ExitWithMessage($e->getMessage(), $debugTrace, true);
         }
+    }
+
+    protected function prepareDispatch($module, $action, $parameters)
+    {
+        if (is_null($module)) {
+            $defaultModule = 'CoreHome';
+            $module = Common::getRequestVar('module', $defaultModule, 'string');
+        }
+
+        if (is_null($action)) {
+            $action = Common::getRequestVar('action', false);
+        }
+
+        if (!Session::isFileBasedSessions()
+            && ($module !== 'API' || ($action && $action !== 'index'))
+        ) {
+            Session::start();
+        }
+
+        if (is_null($parameters)) {
+            $parameters = array();
+        }
+
+        if (!ctype_alnum($module)) {
+            throw new Exception("Invalid module name '$module'");
+        }
+
+        $module = Request::renameModule($module);
+
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
+            throw new PluginDeactivatedException($module);
+        }
+
+        return array($module, $action, $parameters);
     }
 
     protected function handleMaintenanceMode()
@@ -437,8 +497,15 @@ class FrontController
             }
         }
     }
-}
 
+    private function handleProfiler()
+    {
+        if (!empty($_GET['xhprof'])) {
+            $mainRun = $_GET['xhprof'] == 1; // archive.php sets xhprof=2
+            Profiler::setupProfilerXHProf($mainRun);
+        }
+    }
+}
 
 /**
  * Exception thrown when the requested plugin is not activated in the config file

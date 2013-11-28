@@ -5,8 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\DataTable;
 use Piwik\DataTable\Filter\ExcludeLowPopulation;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCase
@@ -28,12 +28,8 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_ExcludeLowPopulation
-     */
+     **/
     public function testStandardTable()
     {
         $table = $this->getTestDataTable();
@@ -44,12 +40,8 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_ExcludeLowPopulation
-     */
+     **/
     public function testFilterEqualOneDoesFilter()
     {
         $table = $this->getTestDataTable();
@@ -59,12 +51,8 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_ExcludeLowPopulation
-     */
+     **/
     public function testFilterEqualZeroDoesFilter()
     {
         $table = $this->getTestDataTable();
@@ -75,12 +63,8 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_ExcludeLowPopulation
-     */
+    */
     public function testFilterSpecifyExcludeLowPopulationThresholdDoesFilter()
     {
         $table = $this->getTestDataTable();
@@ -95,10 +79,7 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
      * Test to exclude low population filter
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_ExcludeLowPopulation
-     */
+    */
     public function testFilterLowpop1()
     {
 

@@ -11,7 +11,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group Config
      */
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {
@@ -39,7 +38,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Config
      */
     public function testWritingConfigWithSpecialCharacters()
     {
@@ -70,7 +68,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Config
      */
     public function testUserConfigOverwritesGlobalConfig()
     {
@@ -132,7 +129,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Config
+     * 
      * @dataProvider getCompareElementsData
      */
     public function testCompareElements($description, $test)
@@ -191,7 +188,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Config
+     * 
      * @dataProvider getArrayUnmergeData
      */
     public function testArrayUnmerge($description, $test)
@@ -339,7 +336,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Config
+     * 
      * @dataProvider getDumpConfigData
      */
     public function testDumpConfig($description, $test)

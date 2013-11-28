@@ -1,4 +1,13 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @category Piwik
+ * @package Piwik
+ */
 namespace Piwik\Tracker;
 
 use Exception;
@@ -10,15 +19,10 @@ use Piwik\Piwik;
 use Piwik\Tracker;
 
 /**
- * Piwik - Open source web analytics
+ * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
  *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
- * @category Piwik
- * @package Piwik
+ * @package Piwik\Tracker
  */
-
 class Request
 {
     /**
@@ -75,7 +79,7 @@ class Request
     {
         $shouldAuthenticate = Config::getInstance()->Tracker['tracking_requests_require_authentication'];
         if ($shouldAuthenticate) {
-            $tokenAuth = $tokenAuthFromBulkRequest || Common::getRequestVar('token_auth', false, 'string', $this->params);
+            $tokenAuth = $tokenAuthFromBulkRequest ? $tokenAuthFromBulkRequest : Common::getRequestVar('token_auth', false, 'string', $this->params);
             try {
                 $idSite = $this->getIdSite();
                 $this->isAuthenticated = $this->authenticateSuperUserOrAdmin($tokenAuth, $idSite);
@@ -94,12 +98,12 @@ class Request
 
     public static function authenticateSuperUserOrAdmin($tokenAuth, $idSite)
     {
-        if (!$tokenAuth) {
+        if (empty($tokenAuth)) {
             return false;
         }
         $superUserLogin = Config::getInstance()->superuser['login'];
         $superUserPassword = Config::getInstance()->superuser['password'];
-        if (md5($superUserLogin . $superUserPassword) == $tokenAuth) {
+        if (md5($superUserLogin . $superUserPassword) === $tokenAuth) {
             return true;
         }
 
@@ -251,6 +255,12 @@ class Request
             'ec_dt'        => array(false, 'float'),
             'ec_items'     => array('', 'string'),
 
+            // Events
+            'e_c'          => array(false, 'string'),
+            'e_a'          => array(false, 'string'),
+            'e_n'          => array(false, 'string'),
+            'e_v'          => array(false, 'float'),
+
             // some visitor attributes can be overwritten
             'cip'          => array(false, 'string'),
             'cdt'          => array(false, 'string'),
@@ -294,13 +304,20 @@ class Request
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
-         * This event allows a plugin to set/change the idsite in the tracking request. Note: A modified idSite has to
-         * be higher than `0`, otherwise an exception will be triggered. By default the idSite is specified on the URL
-         * parameter `idsite`.
+         * Triggered when obtaining the ID of the site that is currently being tracked.
+         * 
+         * This event can be used to modify the site ID from what is specified by the **idsite**
+         * query parameter.
+         * 
+         * @param int &$idSite Initialized to the value of the **idsite** query parameter. If a
+         *                     subscriber sets this variable, the value it uses must be greater
+         *                     than 0.
+         * @param array $params The entire array of request parameters passed with this tracking
+         *                      request.
          */
-        Piwik::postEvent('Tracker.setSiteId', array(&$idSite, $this->params));
+        Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
         if ($idSite <= 0) {
-            throw new Exception('Invalid idSite');
+            throw new Exception('Invalid idSite: \'' . $idSite . '\'');
         }
         return $idSite;
     }
@@ -526,5 +543,18 @@ class Request
     public function getParamsCount()
     {
         return count($this->params);
+    }
+
+    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
+
+    public function getPageGenerationTime()
+    {
+        $generationTime = $this->getParam('gt_ms');
+        if ($generationTime > 0
+            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
+        ) {
+            return (int)$generationTime;
+        }
+        return false;
     }
 }

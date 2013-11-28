@@ -25,19 +25,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
  * operating systems, plugins supported in their browser, Screen resolution and Screen types (normal, widescreen, dual screen or mobile).
  *
  * @package UserSettings
+ * @method static \Piwik\Plugins\UserSettings\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -229,7 +220,9 @@ class API
 
             // When Truncate filter is applied, it will call AddSummaryRow which tries to sum all rows.
             // We tell the object to skip the column nb_visits_percentage when aggregating (since it's not correct to sum % values)
-            $table->setColumnAggregationOperation('nb_visits_percentage', 'skip');
+            $columnAggregationOps = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+            $columnAggregationOps['nb_visits_percentage'] = 'skip';
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOps);
 
             // The filter must be applied now so that the new column can
             // be sorted by the generic filters (applied right after this loop exits)

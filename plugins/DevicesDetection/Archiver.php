@@ -12,9 +12,8 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const DEVICE_TYPE_RECORD_NAME = 'DevicesDetection_types';
     const DEVICE_BRAND_RECORD_NAME = 'DevicesDetection_brands';
@@ -32,7 +31,7 @@ class Archiver extends PluginsArchiver
     const BROWSER_FIELD = "config_browser_name";
     const BROWSER_VERSION_DIMENSION = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $this->aggregateByLabel(self::DEVICE_TYPE_FIELD, self::DEVICE_TYPE_RECORD_NAME);
         $this->aggregateByLabel(self::DEVICE_BRAND_FIELD, self::DEVICE_BRAND_RECORD_NAME);
@@ -43,14 +42,7 @@ class Archiver extends PluginsArchiver
         $this->aggregateByLabel(self::BROWSER_VERSION_DIMENSION, self::BROWSER_VERSION_RECORD_NAME);
     }
 
-    private function aggregateByLabel($labelSQL, $recordName)
-    {
-        $metrics = $this->getProcessor()->getMetricsForDimension($labelSQL);
-        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
-        $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
-    }
-
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $dataTablesToSum = array(
             self::DEVICE_TYPE_RECORD_NAME,
@@ -62,8 +54,16 @@ class Archiver extends PluginsArchiver
             self::BROWSER_VERSION_RECORD_NAME
         );
         foreach ($dataTablesToSum as $dt) {
-            $this->getProcessor()->aggregateDataTableReports(
+            $this->getProcessor()->aggregateDataTableRecords(
                 $dt, $this->maximumRows, $this->maximumRows, $columnToSort = "nb_visits");
         }
     }
+
+    private function aggregateByLabel($labelSQL, $recordName)
+    {
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL)->asDataTable();
+        $report = $metrics->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        $this->getProcessor()->insertBlobRecord($recordName, $report);
+    }
+
 }

@@ -21,23 +21,11 @@ use Piwik\Segment;
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
  *
  * @package SegmentEditor
+ * @method static \Piwik\Plugins\SegmentEditor\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const DEACTIVATE_SEGMENT_EVENT = 'SegmentEditor.deactivate';
-
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\SegmentEditor\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     protected function checkSegmentValue($definition, $idSite)
     {
@@ -94,7 +82,7 @@ class API
     {
         $autoArchive = (int)$autoArchive;
         if ($autoArchive) {
-            $exception = new Exception("To prevent abuse, autoArchive=1 requires Super User or Admin access.");
+            $exception = new Exception("To prevent abuse, autoArchive=1 requires Super User or ControllerAdmin access.");
             if (empty($idSite)) {
                 if (!Piwik::isUserIsSuperUser()) {
                     throw $exception;
@@ -311,10 +299,14 @@ class API
     private function sendSegmentDeactivationEvent($idSegment)
     {
         /**
-         * This event is triggered when a segment is deleted or made invisible. It allows plugins to throw an exception
-         * or to propagate the action.
+         * Triggered before a segment is deleted or made invisible.
+         * 
+         * This event can be used by plugins to throw an exception
+         * or do something else.
+         * 
+         * @param int $idSegment The ID of the segment being deleted.
          */
-        Piwik::postEvent(self::DEACTIVATE_SEGMENT_EVENT, array(&$idSegment));
+        Piwik::postEvent(self::DEACTIVATE_SEGMENT_EVENT, array($idSegment));
     }
 
     /**

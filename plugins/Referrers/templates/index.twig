@@ -11,7 +11,7 @@
             {% if visitorsFromDirectEntryPercent|default is not empty %},
                 <strong>{{ visitorsFromDirectEntryPercent }}%</strong> of visits
             {% endif %}
-            {% if visitorsFromDirectEntryEvolution is not empty %}
+            {% if visitorsFromDirectEntryEvolution|default is not empty %}
                 {{ visitorsFromDirectEntryEvolution|raw }}
             {% endif %}
         </div>
@@ -20,7 +20,7 @@
             {% if visitorsFromSearchEnginesPercent|default is not empty %},
                 <strong>{{ visitorsFromSearchEnginesPercent }}%</strong> of visits
             {% endif %}
-            {% if visitorsFromSearchEnginesEvolution is not empty %}
+            {% if visitorsFromSearchEnginesEvolution|default is not empty %}
                 {{ visitorsFromSearchEnginesEvolution|raw }}
             {% endif %}
         </div>
@@ -31,7 +31,7 @@
             {% if visitorsFromWebsitesPercent|default is not empty %},
                 <strong>{{ visitorsFromWebsitesPercent }}%</strong> of visits
             {% endif %}
-            {% if visitorsFromWebsitesEvolution is not empty %}
+            {% if visitorsFromWebsitesEvolution|default is not empty %}
                 {{ visitorsFromWebsitesEvolution|raw }}
             {% endif %}
         </div>
@@ -40,7 +40,7 @@
             {% if visitorsFromCampaignsPercent|default is not empty %},
                 <strong>{{ visitorsFromCampaignsPercent }}%</strong> of visits
             {% endif %}
-            {% if visitorsFromCampaignsEvolution is not empty %}
+            {% if visitorsFromCampaignsEvolution|default is not empty %}
                 {{ visitorsFromCampaignsEvolution|raw }}
             {% endif %}
         </div>
@@ -62,13 +62,13 @@
                 <td width="50%">
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctSearchEngines) }}
                         <strong>{{ numberDistinctSearchEngines }}</strong> {{ 'Referrers_DistinctSearchEngines'|translate }}
-                        {% if numberDistinctSearchEnginesEvolution is not empty %}
+                        {% if numberDistinctSearchEnginesEvolution|default is not empty %}
                             {{ numberDistinctSearchEnginesEvolution|raw }}
                         {% endif %}
                     </div>
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctKeywords) }}
                         <strong>{{ numberDistinctKeywords }}</strong> {{ 'Referrers_DistinctKeywords'|translate }}
-                        {% if numberDistinctKeywordsEvolution is not empty %}
+                        {% if numberDistinctKeywordsEvolution|default is not empty %}
                             {{ numberDistinctKeywordsEvolution|raw }}
                         {% endif %}
                     </div>
@@ -76,14 +76,14 @@
                 <td width="50%">
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctWebsites) }}
                         <strong>{{ numberDistinctWebsites }}</strong> {{ 'Referrers_DistinctWebsites'|translate }}
-                        {{ 'Referrers_UsingNDistinctUrls'|translate("<strong>"~numberDistinctWebsitesUrls~"</strong>") }}
-                        {% if numberDistinctWebsitesEvolution is not empty %}
+                        {{ 'Referrers_UsingNDistinctUrls'|translate("<strong>"~numberDistinctWebsitesUrls~"</strong>")|raw }}
+                        {% if numberDistinctWebsitesEvolution|default is not empty %}
                             {{ numberDistinctWebsitesEvolution|raw }}
                         {% endif %}
                     </div>
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctCampaigns) }}
                         <strong>{{ numberDistinctCampaigns }}</strong> {{ 'Referrers_DistinctCampaigns'|translate }}
-                        {% if numberDistinctCampaignsEvolution is not empty %}
+                        {% if numberDistinctCampaignsEvolution|default is not empty %}
                             {{ numberDistinctCampaignsEvolution|raw }}
                         {% endif %}
                     </div>
@@ -115,4 +115,3 @@
 {% endif %}
 
 {% include "_sparklineFooter.twig" %}
-

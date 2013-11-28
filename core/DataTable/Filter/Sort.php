@@ -17,11 +17,12 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 
 /**
- * Sort the DataTable based on the value of column $columnToSort ordered by $order.
+ * Sorts a DataTable based on the value of a specific column.
  * Possible to specify a natural sorting (see php.net/natsort for details)
  *
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class Sort extends Filter
 {
@@ -29,11 +30,13 @@ class Sort extends Filter
     protected $order;
 
     /**
-     * @param DataTable $table
-     * @param string $columnToSort name of the column to sort by
-     * @param string $order order (asc|desc)
-     * @param bool $naturalSort use natural sort?
-     * @param bool $recursiveSort sort recursively?
+     * Constructor.
+     * 
+     * @param DataTable $table The table to eventually filter.
+     * @param string $columnToSort The name of the column to sort by.
+     * @param string $order order `'asc'` or `'desc'`.
+     * @param bool $naturalSort Whether to use a natural sort or not (see [http://php.net/natsort](#http://php.net/natsort)).
+     * @param bool $recursiveSort Whether to sort all subtables or not.
      */
     public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false)
     {

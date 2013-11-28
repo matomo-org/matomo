@@ -1,0 +1,16 @@
+{
+    "name": "ExampleVisualization",
+    "version": "0.1.0",
+    "description": "Example for generating a simple visualization",
+    "theme": false,
+    "license": "GPL-3.0+",
+    "keywords": ["SimpleTable"],
+    "homepage": "http://piwik.org",
+    "authors": [
+        {
+            "name": "The Piwik Team",
+            "email": "hello@piwik.org",
+            "homepage": "http://piwik.org"
+        }
+    ]
+}

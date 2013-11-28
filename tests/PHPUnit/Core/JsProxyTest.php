@@ -3,7 +3,6 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group JsProxy
      */
     function testPiwikJs()
     {
@@ -22,7 +21,6 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group JsProxy
      */
     function testPiwikPhp()
     {

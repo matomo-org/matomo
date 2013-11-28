@@ -22,7 +22,6 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled
      */
     public function testApi($api, $params)
     {

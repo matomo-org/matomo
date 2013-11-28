@@ -16,9 +16,8 @@ use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\PluginsArchiver;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const COUNTRY_RECORD_NAME = 'UserCountry_country';
     const REGION_RECORD_NAME = 'UserCountry_region';
@@ -40,18 +39,34 @@ class Archiver extends PluginsArchiver
 
     protected $dimensions = array(self::COUNTRY_FIELD, self::REGION_FIELD, self::CITY_FIELD);
 
+    /**
+     * @var DataArray[] $arrays
+     */
     protected $arrays;
     const LATITUDE_FIELD = 'location_latitude';
     const LONGITUDE_FIELD = 'location_longitude';
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         foreach ($this->dimensions as $dimension) {
             $this->arrays[$dimension] = new DataArray();
         }
         $this->aggregateFromVisits();
         $this->aggregateFromConversions();
-        $this->recordDayReports();
+        $this->insertDayReports();
+    }
+
+    public function aggregateMultipleReports()
+    {
+        $dataTableToSum = array(
+            self::COUNTRY_RECORD_NAME,
+            self::REGION_RECORD_NAME,
+            self::CITY_RECORD_NAME,
+        );
+
+        $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
+        $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
+            $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
     }
 
     protected function aggregateFromVisits()
@@ -67,7 +82,6 @@ class Archiver extends PluginsArchiver
             $this->makeRegionCityLabelsUnique($row);
             $this->rememberCityLatLong($row);
 
-            /* @var $dataArray DataArray */
             foreach ($this->arrays as $dimension => $dataArray) {
                 $dataArray->sumMetricsVisits($row[$dimension], $row);
             }
@@ -117,32 +131,31 @@ class Archiver extends PluginsArchiver
         while ($row = $query->fetch()) {
             $this->makeRegionCityLabelsUnique($row);
 
-            /* @var $dataArray DataArray */
             foreach ($this->arrays as $dimension => $dataArray) {
                 $dataArray->sumMetricsGoals($row[$dimension], $row);
             }
         }
 
-        /* @var $dataArray DataArray */
         foreach ($this->arrays as $dataArray) {
             $dataArray->enrichMetricsWithConversions();
         }
     }
 
-    protected function recordDayReports()
+    protected function insertDayReports()
     {
-        $tableCountry = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::COUNTRY_FIELD]);
-        $this->getProcessor()->insertBlobRecord(self::COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
+        $tableCountry = $this->arrays[self::COUNTRY_FIELD]->asDataTable();
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
+        $report = $tableCountry->getSerialized();
+        $this->getProcessor()->insertBlobRecord(self::COUNTRY_RECORD_NAME, $report);
 
-        $tableRegion = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::REGION_FIELD]);
-        $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
-        $this->getProcessor()->insertBlobRecord(self::REGION_RECORD_NAME, $serialized);
+        $tableRegion = $this->arrays[self::REGION_FIELD]->asDataTable();
+        $report = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
+        $this->getProcessor()->insertBlobRecord(self::REGION_RECORD_NAME, $report);
 
-        $tableCity = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::CITY_FIELD]);
+        $tableCity = $this->arrays[self::CITY_FIELD]->asDataTable();
         $this->setLatitudeLongitude($tableCity);
-        $serialized = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
-        $this->getProcessor()->insertBlobRecord(self::CITY_RECORD_NAME, $serialized);
+        $report = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
+        $this->getProcessor()->insertBlobRecord(self::CITY_RECORD_NAME, $report);
     }
 
     /**
@@ -166,16 +179,4 @@ class Archiver extends PluginsArchiver
         }
     }
 
-    public function archivePeriod()
-    {
-        $dataTableToSum = array(
-            self::COUNTRY_RECORD_NAME,
-            self::REGION_RECORD_NAME,
-            self::CITY_RECORD_NAME,
-        );
-
-        $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
-        $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
-            $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
-    }
 }

@@ -1,0 +1,9 @@
+{% extends 'dashboard.twig' %}
+
+{% block content %}
+    <h2>Inline notification example:</h2>
+
+    <div style="display:inline-block;margin-top:10px;" id="exampleUI_notifications">
+        {{ 'This is an example for an inline notification. Have you noticed the success message disappeared after a few seconds?'|notification({'placeAt': '#exampleUI_notifications', 'title': 'Info: ', 'noclear': true, 'context': 'info'}) }}
+    </div>
+{% endblock %}

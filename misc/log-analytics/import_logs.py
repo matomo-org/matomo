@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# vim: et sw=4 ts=4:
 # -*- coding: utf-8 -*-
 #
 # Piwik - Open source web analytics
@@ -104,13 +105,13 @@ PIWIK_EXPECTED_IMAGE = base64.b64decode(
 ## Formats.
 ##
 
-class RegexFormat(object):
+class BaseFormatException(Exception): pass
 
-    def __init__(self, name, regex, date_format='%d/%b/%Y:%H:%M:%S'):
+class BaseFormat(object):
+    def __init__(self, name):
         self.name = name
-        if regex is not None:
-            self.regex = re.compile(regex)
-        self.date_format = date_format
+        self.regex = None
+        self.date_format = '%d/%b/%Y:%H:%M:%S'
 
     def check_format(self, file):
         line = file.readline()
@@ -118,7 +119,77 @@ class RegexFormat(object):
         return self.check_format_line(line)
 
     def check_format_line(self, line):
-        return re.match(self.regex, line)
+        return False
+
+
+class JsonFormat(BaseFormat):
+    def __init__(self, name):
+        super(JsonFormat, self).__init__(name)
+        self.json = None
+        self.date_format = '%Y-%m-%dT%H:%M:%S'
+    
+    def check_format_line(self, line):
+        try:
+            self.json = json.loads(line)
+            return True
+        except:
+            return False
+
+    def match(self, line):
+        try:
+            self.json = json.loads(line)
+            return self
+        except:
+            self.json = None
+            return None
+
+    def get(self, key):
+        # Some ugly patchs ...
+        if key == 'generation_time_milli':
+            self.json[key] =  int(self.json[key] * 1000)
+        # Patch date format ISO 8601 
+        elif key == 'date':
+            tz = self.json[key][19:]
+            self.json['timezone'] = tz.replace(':', '')
+            self.json[key] = self.json[key][:19]
+
+        try:
+            return self.json[key]
+        except KeyError:
+            raise BaseFormatException()
+    
+    def get_all(self,):
+        return self.json
+
+
+
+class RegexFormat(BaseFormat):
+
+    def __init__(self, name, regex, date_format=None):
+        super(RegexFormat, self).__init__(name)
+        if regex is not None:
+            self.regex = re.compile(regex)
+        if date_format is not None:
+            self.date_format = date_format
+        self.matched = None
+
+    def check_format_line(self, line):
+        return self.match(line)
+
+    def match(self,line):
+        self.matched = self.regex.match(line)
+        return self.matched
+
+    def get(self, key):
+        try:
+            return self.matched.group(key)
+        except IndexError:
+            raise BaseFormatException()
+
+    def get_all(self,):
+        return self.matched.groupdict()
+            
+
 
 
 class IisFormat(RegexFormat):
@@ -191,6 +262,7 @@ FORMATS = {
     'iis': IisFormat(),
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
     'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
+    'nginx_json': JsonFormat('nginx_json'),
 }
 
 
@@ -808,7 +880,7 @@ class Piwik(object):
         try:
             return json.loads(res)
         except ValueError:
-            truncate_after = 300
+            truncate_after = 700
             raise urllib2.URLError('Piwik returned an invalid response: ' + res[:truncate_after])
 
 
@@ -825,7 +897,7 @@ class Piwik(object):
                     if on_failure is not None:
                         error_message = on_failure(response, kwargs.get('data'))
                     else:
-                        truncate_after = 300
+                        truncate_after = 700
                         truncated_response = (response[:truncate_after] + '..') if len(response) > truncate_after else response
                         error_message = "didn't receive the expected response. Response was %s " % truncated_response
 
@@ -1339,15 +1411,21 @@ class Parser(object):
         format = None
         format_groups = 0
         for name, candidate_format in FORMATS.iteritems():
+            logging.debug("Check format %s", name)
             match = candidate_format.check_format(file)
             if match:
                 logging.debug('Format %s matches', name)
 
-                # if there's more info in this match, use this format
-                match_groups = len(match.groups())
-                if format_groups < match_groups:
+                # compare format groups if this *BaseFormat has groups() method
+                try:
+                    # if there's more info in this match, use this format
+                    match_groups = len(match.groups())
+                    if format_groups < match_groups:
+                        format = candidate_format
+                        format_groups = match_groups
+                except AttributeError: 
                     format = candidate_format
-                    format_groups = match_groups
+
             else:
                 logging.debug('Format %s does not match', name)
 
@@ -1418,7 +1496,7 @@ class Parser(object):
             if stats.count_lines_parsed.value <= config.options.skip:
                 continue
 
-            match = format.regex.match(line)
+            match = format.match(line)
             if not match:
                 invalid_line(line, 'line did not match')
                 continue
@@ -1426,8 +1504,8 @@ class Parser(object):
             hit = Hit(
                 filename=filename,
                 lineno=lineno,
-                status=match.group('status'),
-                full_path=match.group('path'),
+                status=format.get('status'),
+                full_path=format.get('path'),
                 is_download=False,
                 is_robot=False,
                 is_error=False,
@@ -1436,44 +1514,44 @@ class Parser(object):
             )
 
             try:
-                hit.query_string = match.group('query_string')
+                hit.query_string = format.get('query_string')
                 hit.path = hit.full_path
-            except IndexError:
+            except BaseFormatException:
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
 
             try:
-                hit.referrer = match.group('referrer')
-            except IndexError:
+                hit.referrer = format.get('referrer')
+            except BaseFormatException:
                 hit.referrer = ''
             if hit.referrer == '-':
                 hit.referrer = ''
 
             try:
-                hit.user_agent = match.group('user_agent')
-            except IndexError:
+                hit.user_agent = format.get('user_agent')
+            except BaseFormatException:
                 hit.user_agent = ''
 
-            hit.ip = match.group('ip')
+            hit.ip = format.get('ip')
             try:
-                hit.length = int(match.group('length'))
-            except (ValueError, IndexError):
+                hit.length = int(format.get('length'))
+            except (ValueError, BaseFormatException):
                 # Some lines or formats don't have a length (e.g. 304 redirects, IIS logs)
                 hit.length = 0
 
             try:
-                hit.generation_time_milli = int(match.group('generation_time_milli'))
-            except IndexError:
+                hit.generation_time_milli = int(format.get('generation_time_milli'))
+            except BaseFormatException:
                 try:
-                    hit.generation_time_milli = int(match.group('generation_time_micro')) / 1000
-                except IndexError:
+                    hit.generation_time_milli = int(format.get('generation_time_micro')) / 1000
+                except BaseFormatException:
                     hit.generation_time_milli = 0
 
             if config.options.log_hostname:
                 hit.host = config.options.log_hostname
             else:
                 try:
-                    hit.host = match.group('host').lower().strip('.')
-                except IndexError:
+                    hit.host = format.get('host').lower().strip('.')
+                except BaseFormatException:
                     # Some formats have no host.
                     pass
 
@@ -1484,7 +1562,7 @@ class Parser(object):
             # Parse date.
             # We parse it after calling check_methods as it's quite CPU hungry, and
             # we want to avoid that cost for excluded hits.
-            date_string = match.group('date')
+            date_string = format.get('date')
             try:
                 hit.date = datetime.datetime.strptime(date_string, format.date_format)
             except ValueError:
@@ -1493,8 +1571,8 @@ class Parser(object):
 
             # Parse timezone and substract its value from the date
             try:
-                timezone = float(match.group('timezone'))
-            except IndexError:
+                timezone = float(format.get('timezone'))
+            except BaseFormatException:
                 timezone = 0
             except ValueError:
                 invalid_line(line, 'invalid timezone')

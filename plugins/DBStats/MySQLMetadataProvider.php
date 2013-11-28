@@ -230,8 +230,7 @@ class MySQLMetadataProvider
             // if option exists && !$forceCache, use the cached data, otherwise create the
             $cachedData = Option::get($dataTableOptionName);
             if ($cachedData !== false && !$forceCache) {
-                $table = new DataTable();
-                $table->addRowsFromSerializedArray($cachedData);
+                $table = DataTable::fromSerializedArray($cachedData);
             } else {
                 // otherwise, create data table & cache it
                 $sql = "SELECT name as 'label', COUNT(*) as 'row_count'$extraCols FROM {$status['Name']} GROUP BY name";

@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Period\Range;
 
 /**
@@ -20,29 +21,19 @@ use Piwik\Period\Range;
  * display tables. See also the ExampleAPI plugin for an introduction to Piwik APIs.
  *
  * @package ExampleUI
+ * @method static \Piwik\Plugins\ExampleUI\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     public static $disableRandomness = false;
-
-    private static $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\ExampleUI\API
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }
 
     public function getTemperaturesEvolution($date, $period)
     {
         $temperatures = array();
+
+        $date   = Date::factory('2013-10-10', 'UTC');
         $period = new Range($period, 'last30');
+        $period->setDefaultEndDate($date);
 
         foreach ($period->getSubperiods() as $subPeriod) {
             if (self::$disableRandomness) {

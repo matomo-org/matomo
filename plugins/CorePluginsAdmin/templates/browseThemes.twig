@@ -4,10 +4,10 @@
 
     <div class="pluginslistActionBar">
 
-        <h2>Enjoy another look & feel by installing a new theme</h2>
+        <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate }}</h2>
 
         <div class="infoBox">
-            Piwik is not the owner of these Themes and did not review them.
+            {{ 'CorePluginsAdmin_BeCarefulUsingThemes'|translate }}
         </div>
 
         {% include "@CorePluginsAdmin/browsePluginsActions.twig" %}
@@ -15,8 +15,7 @@
 
     {% if not isSuperUser %}
         <div class="pluginslistNonSuperUserHint">
-            You can browse the list of themes that can be installed to customize the appearance of the Piwik platform.
-            Please contact your administrator to get any of these installed for you.
+            {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplaceThemes'|translate }}
         </div>
     {% endif %}
 
@@ -26,18 +25,18 @@
             {% for plugin in plugins %}
 
                 <div class="plugin">
-                    <div class="content">
+                    <div class="content" data-pluginName="{{ plugin.name }}">
                         {% include "@CorePluginsAdmin/themeOverview.twig" %}
                     </div>
 
-                    <div class="footer">
+                    <div class="footer" data-pluginName="{{ plugin.name }}">
                         {% include "@CorePluginsAdmin/pluginMetadata.twig" %}
                     </div>
                 </div>
 
             {% endfor %}
         {% else %}
-            No themes found
+            {{ 'CorePluginsAdmin_NoThemesFound'|translate }}
         {% endif %}
 
     </div>

@@ -23,24 +23,12 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
  *  - check remaining credits
  *  - send SMS
  * @package MobileMessaging
+ * @method static \Piwik\Plugins\MobileMessaging\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const VERIFICATION_CODE_LENGTH = 5;
     const SMS_FROM = 'Piwik';
-
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\MobileMessaging\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * @param string $provider

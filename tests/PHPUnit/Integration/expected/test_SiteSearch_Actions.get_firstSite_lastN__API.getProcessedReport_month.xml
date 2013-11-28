@@ -71,4 +71,6 @@
 		<result prettyDate="2010, June" />
 		<result prettyDate="2010, July" />
 	</reportMetadata>
+	<reportTotal>
+	</reportTotal>
 </result>

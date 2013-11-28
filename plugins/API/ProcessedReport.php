@@ -12,6 +12,7 @@ namespace Piwik\Plugins\API;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
@@ -38,7 +39,7 @@ class ProcessedReport
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
         foreach ($reportsMetadata as $report) {
-            // See ArchiveProcessor/Period.php - unique visitors are not processed for period != day
+            // See ArchiveProcessor/Aggregator.php - unique visitors are not processed for period != day
             if (($period && $period != 'day') && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
                 unset($report['metrics']['nb_uniq_visitors']);
             }
@@ -86,9 +87,27 @@ class ProcessedReport
         $availableReports = array();
 
         /**
-         * This event is triggered to get all available reports. Your plugin can use this event to add one or
-         * multiple reports. By doing that the report will be for instance available in ScheduledReports as well as
-         * in the Piwik Mobile App.
+         * Triggered when gathering the metadata for all available reports.
+         * 
+         * Plugins that define new reports should use this event to make them available in via
+         * the metadata API. By doing so, the report will become available in scheduled reports
+         * as well as in the Piwik Mobile App. In fact, any third party app that uses the metadata
+         * API will automatically have access to the new report.
+         * 
+         * TODO: list all information that is required in $availableReports.
+         * 
+         * @param string &$availableReports The list of available reports. Append to this list
+         *                                  to make a report available.
+         * @param array $parameters Contains the values of the sites and period we are
+         *                          getting reports for. Some report depend on this data.
+         *                          For example, Goals reports depend on the site IDs being
+         *                          request. Contains the following information:
+         * 
+         *                          - **idSites**: The array of site IDs we are getting reports for.
+         *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
+         *                                        `'year'`, `'range'`.
+         *                          - **date**: A string date within the period or a date range, eg,
+         *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
          */
         Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
@@ -109,8 +128,23 @@ class ProcessedReport
         }
 
         /**
-         * This event is triggered after all available reports are collected. Plugins can add custom metrics to
-         * other reports or remove reports from the list of all available reports.
+         * Triggered after all available reports are collected.
+         * 
+         * This event can be used to modify the report metadata of reports in other plugins. You
+         * could, for example, add custom metrics to every report or remove reports from the list
+         * of available reports.
+         * 
+         * @param array &$availableReports List of all report metadata.
+         * @param array $parameters Contains the values of the sites and period we are
+         *                          getting reports for. Some report depend on this data.
+         *                          For example, Goals reports depend on the site IDs being
+         *                          request. Contains the following information:
+         * 
+         *                          - **idSites**: The array of site IDs we are getting reports for.
+         *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
+         *                                        `'year'`, `'range'`.
+         *                          - **date**: A string date within the period or a date range, eg,
+         *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
          */
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
@@ -293,13 +327,13 @@ class ProcessedReport
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
+        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
         foreach ($columns as $columnId => &$name) {
             $name = ucfirst($name);
         }
         $website = new Site($idSite);
 
-        $period = Period::advancedFactory($period, $date);
+        $period = Period::factory($period, $date);
         $period = $period->getLocalizedLongString();
 
         $return = array(
@@ -309,6 +343,7 @@ class ProcessedReport
             'columns'        => $columns,
             'reportData'     => $newReport,
             'reportMetadata' => $rowsMetadata,
+            'reportTotal'    => $totals
         );
         if ($showTimer) {
             $return['timerMillis'] = $timer->getTimeMs(0);
@@ -370,6 +405,7 @@ class ProcessedReport
         }
 
         $columns = $this->hideShowMetrics($columns);
+        $totals  = array();
 
         // $dataTable is an instance of Set when multiple periods requested
         if ($dataTable instanceof DataTable\Map) {
@@ -386,21 +422,26 @@ class ProcessedReport
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
                 list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
-                $enhancedSimpleDataTable->metadata = $simpleDataTable->metadata;
+                $enhancedSimpleDataTable->setAllTableMetadata($simpleDataTable->getAllTableMetadata());
 
-                $period = $simpleDataTable->metadata['period']->getLocalizedLongString();
+                $period = $simpleDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedLongString();
                 $newReport->addTable($enhancedSimpleDataTable, $period);
                 $rowsMetadata->addTable($rowMetadata, $period);
+
+                $totals = $this->aggregateReportTotalValues($simpleDataTable, $totals);
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
             list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
+
+            $totals = $this->aggregateReportTotalValues($dataTable, $totals);
         }
 
         return array(
             $newReport,
             $columns,
-            $rowsMetadata
+            $rowsMetadata,
+            $totals
         );
     }
 
@@ -561,5 +602,27 @@ class ProcessedReport
             $enhancedDataTable,
             $rowsMetadata
         );
+    }
+
+    private function aggregateReportTotalValues($simpleDataTable, $totals)
+    {
+        $metadataTotals = $simpleDataTable->getMetadata('totals');
+
+        if (empty($metadataTotals)) {
+
+            return $totals;
+        }
+
+        $simpleTotals = $this->hideShowMetrics($metadataTotals);
+
+        foreach ($simpleTotals as $metric => $value) {
+            if (!array_key_exists($metric, $totals)) {
+                $totals[$metric] = $value;
+            } else {
+                $totals[$metric] += $value;
+            }
+        }
+
+        return $totals;
     }
 }

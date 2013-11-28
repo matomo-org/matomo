@@ -4,9 +4,46 @@
   .introduction { max-width:980px; }
   .byPlugins { width:50%;float:left; }
   .byThemes { width:50%;float:left; }
-  .teaserImage { width: 250px; height: 250px; }
+  .teaserImage { width: 128px; height: 128px; margin: 64px; }
   .header { font-size: 1.6em; }
   .callToAction { font-size: 1.1em;line-height: 2em; }
+}
+
+#plugins .settingsLink {
+  text-align: right;
+  width: 100%;
+  display: inline-block;
+  font-style: italic;
+}
+
+.admin .pluginsFilter {
+  color: #666;
+  .active {
+    font-weight: bold;
+  }
+
+  a {
+    color: #255792;
+    text-decoration: none;
+  }
+
+  a .counter {
+    color: #999999;
+    font-weight: normal;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .status {
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .getNewPlugins {
+    float: right;
+  }
 }
 
 #installPluginByUpload {
@@ -19,6 +56,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+}
+
+.old-ie .pluginslist .plugin .featuredIcon {
+  margin-top: -20px;
 }
 
 .pluginslist {
@@ -39,10 +80,17 @@
     .updateAvailableNotice {
       font-size: 14px;
       padding: 10px;
-      color: #301901;
+      color: #9b7a44;
       display: inline-block;
       background-color: #ffffe0;
       border-radius: 3px;
+      margin-top: 1px;
+      margin-bottom: 16px;
+
+      a {
+        color: #9b7a44;
+        font-weight: bold;
+      }
     }
 
     &:hover {
@@ -56,17 +104,29 @@
 
       &.even {
         padding-right: 0px;
+        width: 140px;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      &.odd {
+        padding-right: 0px;
+        width: 130px;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
+
     ul {
       list-style: none;
       margin-left: 0;
       line-height: 140%;
     }
+
     .header {
       margin-top: 0px;
       margin-bottom: 15px;
     }
+
     .description {
       padding-bottom: 10px;
     }
@@ -83,13 +143,22 @@
     }
     .content {
       margin-bottom: 46px;
+      cursor: pointer;
     }
+
+    .featuredIcon {
+      margin-right: 3px;
+      margin-bottom: 3px;
+      height: 24px;
+      width: 24px;
+    }
+
     .footer {
-      height: 58px;
       position: absolute;
-      bottom: 6px;
+      bottom: 4px;
       left: 0px;
       right: 0px;
+      cursor: pointer;
     }
     .metadataSeparator {
       background-color: lightgray;
@@ -147,15 +216,136 @@
   }
 
   .infoBox {
+    margin: 0px 0px 20px 0px;
+  }
+}
+
+.pluginDetails {
+  font-size: 13px;
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  
+  h3, h4, h5, h6 {
+    margin: 20px 0px 10px 0px;
+    color: #000000;
+  }
+
+  .ui-tabs-panel ul, .ui-tabs-panel ol {
+    list-style: initial;
+    padding-left: 20px;
+  }
+
+  .content .updateAvailableNotice {
     font-size: 14px;
-    margin: 0px 0px 10px 10px;
-    padding: 15px;
-    color: #301901;
+    padding: 10px;
+    color: #9b7a44;
     display: inline-block;
     background-color: #ffffe0;
-    border: 1px solid #e6db55;
     border-radius: 3px;
-    width: 250px;
-    float: right;
+
+    a {
+      color: #9b7a44;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
   }
+
+  p, .ui-tabs-panel ul, .ui-tabs-panel li {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    line-height: 20px;
+  }
+  
+  .header .intro {
+    margin-bottom: 15px;
+  }
+  
+  .content p {
+    margin: 0 0 10px;
+  }
+  
+  .description {
+    padding-right: 25px;
+  }
+  
+  .ui-tabs {
+    padding: 0em;
+  }
+  
+  .ui-tabs .ui-tabs-nav {
+    padding: 0em;
+    border-bottom: 1px solid #cccccc;
+    margin-right: 25px;
+    border-radius: 0px;
+    font-size: 15px;
+  }
+  
+  .ui-tabs .ui-tabs-panel {
+    padding: 1.4em 3em 0em 0em;
+  }
+  
+  .content a {
+    color: #255792;
+    text-decoration: none;
+  }
+  
+  .metadata dl {
+    padding-right: 25px;
+  }
+  
+  .metadata a:hover {
+    text-decoration: underline;
+  }
+  
+  .ui-state-default {
+    border: 0px !important;
+  }
+  
+  .ui-state-active {
+    padding-bottom: 0px !important;
+  }
+  
+  .ui-state-active.ui-state-default {
+    border: 1px solid #cccccc !important;
+  }
+  
+  .ui-state-default:hover {
+    background-color: #eeeeee !important;
+  }
+  
+  .install {
+    padding: 11px 19px;
+    font-size: 17.5px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #5bb75b;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .install:hover {
+    text-decoration: underline;
+  }
+
+  dt {
+    font-weight: bold;
+    line-height: 20px;
+  }
+  dd {
+    margin-left: 10px;
+    line-height: 20px;
+  }
+  
+  .featuredIcon {
+    height: 16px;
+    width: 16px;
+    margin-right: 5px;
+  }
+
 }

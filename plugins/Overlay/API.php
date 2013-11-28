@@ -18,25 +18,15 @@ use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Transitions\API as APITransitions;
-use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 
-class API
+/**
+ * Class API
+ * @package Overlay
+ * @method static \Piwik\Plugins\Overlay\API getInstance()
+ */
+class API extends \Piwik\Plugin\API
 {
-
-    private static $instance = null;
-
-    /**
-     * Get Singleton instance
-     * @return \Piwik\Plugins\Overlay\API
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Get translation strings
      */
@@ -85,7 +75,7 @@ class API
     {
         $this->authenticate($idSite);
 
-        $url = Action::excludeQueryParametersFromUrl($url, $idSite);
+        $url = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
 
         $resultDataTable = new DataTable;
@@ -117,9 +107,23 @@ class API
     private function authenticate($idSite)
     {
         /**
-         * This event is triggered shortly before the user is authenticated. Use it to create your own
-         * authentication object instead of the Piwik authentication. Make sure to implement the `Piwik\Auth`
-         * interface in case you want to define your own authentication.
+         * Triggered shortly before the user is authenticated.
+         * 
+         * This event can be used by plugins that provide their own authentication mechanism
+         * to make that mechanism available. Subscribers should set the `'auth'` object in
+         * the [Piwik\Registry](#) to an object that implements the [Auth](#) interface.
+         * 
+         * **Example**
+         * 
+         *     use Piwik\Registry;
+         * 
+         *     public function initAuthenticationObject($allowCookieAuthentication)
+         *     {
+         *         Registry::set('auth', new LDAPAuth($allowCookieAuthentication));
+         *     }
+         * 
+         * @param bool $allowCookieAuthentication Whether authentication based on $_COOKIE values should
+         *                                        be allowed.
          */
         Piwik::postEvent('Request.initAuthenticationObject', array($allowCookieAuthentication = true));
 

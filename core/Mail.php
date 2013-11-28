@@ -14,15 +14,16 @@ use Zend_Mail;
 
 /**
  * Class for sending mails, for more information see:
+ * [http://framework.zend.com/manual/en/zend.mail.html](#http://framework.zend.com/manual/en/zend.mail.html)
  *
  * @package Piwik
  * @see Zend_Mail, libs/Zend/Mail.php
- * @link http://framework.zend.com/manual/en/zend.mail.html
+ * @api
  */
 class Mail extends Zend_Mail
 {
     /**
-     * Default charset utf-8
+     * Constructor.
      *
      * @param string $charset charset, defaults to utf-8
      */
@@ -33,10 +34,10 @@ class Mail extends Zend_Mail
     }
 
     /**
-     * Sets the sender to use
+     * Sets the sender.
      *
-     * @param string $email
-     * @param null|string $name
+     * @param string $email Email address of the sender.
+     * @param null|string $name Name of the sender.
      * @return Zend_Mail
      */
     public function setFrom($email, $name = null)

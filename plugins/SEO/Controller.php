@@ -19,7 +19,7 @@ use Piwik\View;
 /**
  * @package SEO
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     function getRank()
     {
@@ -45,6 +45,6 @@ class Controller extends \Piwik\Controller
         $renderer = Renderer::factory('php');
         $renderer->setSerialize(false);
         $view->ranks = $renderer->render($dataTable);
-        echo $view->render();
+        return $view->render();
     }
 }

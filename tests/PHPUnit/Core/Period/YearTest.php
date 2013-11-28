@@ -17,8 +17,6 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
     /**
      * test normal case
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testYearNormalcase()
     {
@@ -44,8 +42,6 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
     /**
      * test past
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testYearPastAndWrongdate()
     {
@@ -71,12 +67,10 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testGetLocalizedShortString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedShortString());
@@ -84,12 +78,10 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testGetLocalizedLongString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedLongString());
@@ -97,12 +89,10 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testGetPrettyString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getPrettyString());

@@ -154,9 +154,10 @@ class Console extends Renderer
             $i++;
         }
 
-        if (!empty($table->metadata)) {
+        $metadata = $table->getAllTableMetadata();
+        if (!empty($metadata)) {
             $output .= "<hr />Metadata<br />";
-            foreach ($table->metadata as $id => $metadata) {
+            foreach ($metadata as $id => $metadata) {
                 $output .= "<br />";
                 $output .= $prefix . " <b>$id</b><br />";
                 foreach ($metadata as $name => $value) {

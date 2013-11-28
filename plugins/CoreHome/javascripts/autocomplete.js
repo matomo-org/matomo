@@ -6,15 +6,18 @@
  */
 
 function switchSite(id, name, showAjaxLoading, idCanBeAll) {
+    var $mainLink = $('.custom_select_main_link').attr('data-loading', 1);
+
     if (id == 'all'
-        && !idCanBeAll) {
+        && !idCanBeAll
+    ) {
         broadcast.propagateNewPage('module=MultiSites&action=index');
     }
     else {
         $('.sites_autocomplete input').val(id);
-        $('.custom_select_main_link > span')
-            .text(name)
-            .addClass('custom_select_loading');
+        $mainLink
+            .find('span')
+            .text(name);
         broadcast.propagateNewPage('segment=&idSite=' + id, showAjaxLoading);
     }
     return false;
@@ -75,10 +78,15 @@ $(function () {
                 select: function (event, ui) {
                     event.preventDefault();
                     if (ui.item.id > 0) {
+                        // autocomplete.js allows item names to be HTML, so we have to entity the site name in PHP.
+                        // to avoid double encoding, we decode before setting text.
+                        // note: use of $.html() would not be future-proof.
+                        ui.item.name = piwikHelper.htmlDecode(ui.item.name);
+
                         // set attributes of selected site display (what shows in the box)
                         $('.custom_select_main_link', selector)
                             .attr('data-siteid', ui.item.id)
-                            .text(ui.item.name);
+                            .html($('<span/>').text(ui.item.name));
 
                         // hide the dropdown
                         $('.custom_select_block', selector).removeClass('custom_select_block_show');
@@ -98,12 +106,12 @@ $(function () {
                 },
                 search: function (event, ui) {
                     $('.reset', selector).show();
-                    $('.custom_select_main_link', selector).addClass('custom_select_loading');
+                    $('.custom_select_main_link', selector).attr('data-loading', 1);
                 },
                 open: function (event, ui) {
                     var widthSitesSelection = +$('.custom_select_ul_list', selector).width();
 
-                    $('.custom_select_main_link', selector).removeClass('custom_select_loading');
+                    $('.custom_select_main_link', selector).attr('data-loading', 0);
 
                     var maxSitenameWidth = $('.max_sitename_width', selector);
                     if (widthSitesSelection > maxSitenameWidth.val()) {

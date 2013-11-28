@@ -14,10 +14,35 @@
         <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
         {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
         {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
-{% endif %}{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}
+{% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}</span>
 {% if column=='label' %}</span>{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
     </a>
 {% endif %}
 {% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
+
+{% set totals = dataTable.getMetadata('totals') %}
+{% if column in totals|keys -%}
+    {% set labelColumn   = columns_to_display|first %}
+    {% set reportTotal   = totals[column] %}
+    {% if siteSummary is defined and siteSummary.getFirstRow %}
+        {% set siteTotal = siteSummary.getFirstRow.getColumn(column) %}
+    {% else %}
+        {% set siteTotal = 0 %}
+    {% endif %}
+    {% set rowPercentage = row.getColumn(column)|percentage(reportTotal, 1) %}
+    {% set metricTitle   = translations[column]|default(column) %}
+    {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|raw %}
+
+    {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(reportLabel, rowPercentage|e('html_attr'), reportTotal|e('html_attr'), metricTitle|e('html_attr'), translations[labelColumn]|default(labelColumn)|e('html_attr')) %}
+
+    {% if siteTotal and siteTotal > reportTotal %}
+        {% set totalPercentage   = row.getColumn(column)|percentage(siteTotal, 1) %}
+        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal, metricTitle) %}
+    {% else %}
+        {% set totalRatioTooltip = '' %}
+    {% endif %}
+
+    <span class="ratio" title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
+{%- endif %}
 {% endspaceless %}

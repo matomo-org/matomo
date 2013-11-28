@@ -31,7 +31,6 @@ class ProxyTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getAcceptableRemoteUrls
      * @group Plugins
-     * @group Proxy
      */
     public function testIsAcceptableRemoteUrl($url, $expected)
     {

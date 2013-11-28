@@ -8,11 +8,13 @@
  * @package Piwik
  */
 
-use Piwik\FrontController;
 use Piwik\Error;
 use Piwik\ExceptionHandler;
+use Piwik\FrontController;
 
-define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
+if(!defined('PIWIK_DOCUMENT_ROOT')) {
+    define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
+}
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
@@ -50,9 +52,25 @@ if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
     ExceptionHandler::setUp();
 }
 
+register_shutdown_function(function () {
+
+    $lastError = error_get_last();
+
+    if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+        $controller = FrontController::getInstance();
+        $controller->init();
+        $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
+
+        echo $message;
+    }
+});
 
 if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {
     $controller = FrontController::getInstance();
     $controller->init();
-    $controller->dispatch();
+    $response = $controller->dispatch();
+
+    if (!is_null($response)) {
+        echo $response;
+    }
 }

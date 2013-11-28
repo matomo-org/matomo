@@ -84,16 +84,33 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
         if (verificationCode != null && verificationCode != '') {
             var success =
                 function (response) {
+
+                    var UI = require('piwik/UI');
+                    var notification = new UI.Notification();
+
                     $(phoneNumberActivatedSelector).hide();
                     if (!response.value) {
-                        $(invalidVerificationCodeAjaxErrorSelector).html($(invalidActivationCodeMsgSelector).html()).fadeIn();
+                        var message = $(invalidActivationCodeMsgSelector).html();
+                        notification.show(message, {
+                            context: 'error',
+                            id: 'MobileMessaging_ValidatePhoneNumber',
+                            style: {marginTop: '10px'}
+                        });
                     }
                     else {
-                        $(phoneNumberActivatedSelector).show();
+                        var message = $(phoneNumberActivatedSelector).html();
+                        notification.show(message, {
+                            context: 'success',
+                            id: 'MobileMessaging_ValidatePhoneNumber',
+                            style: {marginTop: '10px'}
+                        });
+
                         $(verificationCodeContainer).remove();
                         $(phoneNumberContainer).find(validatePhoneNumberSubmitSelector).remove();
                         $(phoneNumberContainer).find(formDescriptionSelector).remove();
                     }
+
+                    notification.scrollToNotification();
                 };
 
             var ajaxHandler = new ajaxHelper();

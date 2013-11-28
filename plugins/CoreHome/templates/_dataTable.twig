@@ -1,5 +1,5 @@
 {% if properties.show_visualization_only %}
-    {% include visualization.getTemplateFile() with visualization.getTemplateVars() %}
+    {% include visualizationTemplate %}
 {%- else -%}
 
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
@@ -11,7 +11,7 @@
      data-params="{% if clientSideParameters is empty %}{}{% else %}{{ clientSideParameters|json_encode }}{% endif %}">
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
-        {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}
+        {% if reportLastUpdatedMessage is defined %}<span class='helpDate'>{{ reportLastUpdatedMessage }}</span>{% endif %}
     </div>
     <div class="dataTableWrapper">
         {% if error is defined %}
@@ -26,7 +26,7 @@
                 {% endif %}
                 </div>
             {% else %}
-                {% include visualization.getTemplateFile() with visualization.getTemplateVars() %}
+                {% include visualizationTemplate %}
             {% endif %}
 
             {% if properties.show_footer %}

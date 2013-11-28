@@ -12,8 +12,8 @@
 namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
-use Piwik\Common;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -65,7 +65,7 @@ class JqplotDataGenerator
      * @param array $properties
      * @param string $graphType
      *
-     * @internal param \Piwik\ViewDataTable\Visualization\ $visualization
+     * @internal param \Piwik\Plugin\ViewDataTable $visualization
      */
     public function __construct($properties, $graphType)
     {
@@ -86,8 +86,8 @@ class JqplotDataGenerator
         if ($dataTable->getRowsCount() > 0) {
             // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
             // different metrics
-            if ($this->properties['visualization_properties']->add_total_row) {
-                $dataTable->queueFilter('AddSummaryRow', array(0, Piwik::translate('General_Total'), null, false));
+            if ($this->properties['add_total_row']) {
+                $dataTable->queueFilter('AddSummaryRow', Piwik::translate('General_Total'));
             }
 
             $dataTable->applyQueuedFilters();

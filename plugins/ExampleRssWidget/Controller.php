@@ -18,16 +18,16 @@ use Piwik\Piwik;
  *
  * @package ExampleRssWidget
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function rssPiwik()
     {
         try {
             $rss = new RssRenderer('http://feeds.feedburner.com/Piwik');
             $rss->showDescription(true);
-            echo $rss->get();
+            return $rss->get();
         } catch (Exception $e) {
-            $this->error($e);
+            return $this->error($e);
         }
     }
 
@@ -36,11 +36,11 @@ class Controller extends \Piwik\Controller
         try {
             $rss = new RssRenderer('http://feeds.feedburner.com/PiwikReleases');
             $rss->setCountPosts(1);
-            $rss->showDescription(false);
-            $rss->showContent(true);
-            echo $rss->get();
+            $rss->showDescription(true);
+            $rss->showContent(false);
+            return $rss->get();
         } catch (Exception $e) {
-            $this->error($e);
+            return $this->error($e);
         }
     }
 
@@ -49,7 +49,7 @@ class Controller extends \Piwik\Controller
      */
     protected function error($e)
     {
-        echo '<div class="pk-emptyDataTable">'
+        return '<div class="pk-emptyDataTable">'
             . Piwik::translate('General_ErrorRequest')
             . ' - ' . $e->getMessage() . '</div>';
     }

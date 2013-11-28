@@ -66,7 +66,13 @@ PageRenderer.prototype = {
         setTimeout(function () {
             if (url == self.url) {
                 self.webpage.evaluate(function () {
-                    window.piwik.ajaxRequestFinished();
+                    if (window.piwik
+                        && window.piwik.ajaxRequestFinished
+                    ) {
+                        window.piwik.ajaxRequestFinished();
+                    } else {
+                        console.log("__AJAX_DONE__");
+                    }
                 });
             }
         }, 5000);
@@ -87,9 +93,15 @@ PageRenderer.prototype = {
 
     _setupWebpageEvents: function () {
         var self = this;
-        this.webpage.onError = function (message) {
-            console.log("Webpage error: " + message);
-            app.exit(1);
+        this.webpage.onError = function (message, trace) {
+            var msgStack = ['Webpage error: ' + message];
+            if (trace && trace.length) {
+                msgStack.push('trace:');
+                trace.forEach(function(t) {
+                    msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
+                });
+            }
+            console.log(msgStack.join('\n'));
         };
 
         this.webpage.onConsoleMessage = function (message) {

@@ -1,0 +1,6 @@
+{
+ "name": "ExampleCommand",
+ "version": "0.1.0",
+ "description": "Example for console commands",
+ "theme": false
+}

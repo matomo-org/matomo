@@ -5,11 +5,11 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Period\Month;
-use Piwik\Period\Year;
-use Piwik\Period\Week;
-use Piwik\Period\Range;
 use Piwik\Date;
+use Piwik\Period\Month;
+use Piwik\Period\Range;
+use Piwik\Period\Week;
+use Piwik\Period\Year;
 use Piwik\Translate;
 
 class Period_RangeTest extends PHPUnit_Framework_TestCase
@@ -17,8 +17,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeToday()
     {
@@ -36,8 +34,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeTodayUtcPlus12()
     {
@@ -57,8 +53,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRange2days()
     {
@@ -78,8 +72,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 3
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRange5days()
     {
@@ -99,8 +91,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 4
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangePrevious3days()
     {
@@ -120,8 +110,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeComma1()
     {
@@ -141,8 +129,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeComma2()
     {
@@ -172,8 +158,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeWeekcomma1()
     {
@@ -219,8 +203,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeYearcomma1()
     {
@@ -264,8 +246,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeMonthcomma1()
     {
@@ -347,8 +327,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range WEEK
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeWeek()
     {
@@ -372,8 +350,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range WEEK last1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeWeekLast1()
     {
@@ -386,8 +362,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range MONTH
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeMonth()
     {
@@ -410,8 +384,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range MONTH last1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeMonthLast1()
     {
@@ -424,8 +396,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range PREVIOUS MONTH
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangePreviousmonth()
     {
@@ -447,11 +417,155 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
+    /**
+     * @group Core
+     */
+    public function testRangePreviousmonth_onLastDayOfMonth()
+    {
+        $end = Date::factory('2013-10-31');
+        $range = new Range('month', 'previous10', 'UTC', $end);
+        $end = $end->subMonth(1);
+
+        $correct = array();
+        for ($i = 0; $i < 10; $i++) {
+            $date = $end->subMonth($i);
+            $week = new Month($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+
+        $this->assertEquals(10, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+
+    /**
+     * @group Core
+     */
+    public function testRangePreviousweek_onLastDayOfWeek()
+    {
+        $end = Date::factory('2013-11-03');
+        $range = new Range('week', 'previous2', 'UTC', $end);
+        $end = $end->subWeek(1);
+
+        $correct = array();
+        for ($i = 0; $i < 2; $i++) {
+            $date = $end->subWeek($i);
+            $week = new Week($date);
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testRangePreviousweek_onFirstDayOfWeek()
+    {
+        $end = Date::factory('2013-11-04');
+        $range = new Range('week', 'previous2', 'UTC', $end);
+        $end = $end->subWeek(1);
+
+        $correct = array();
+        for ($i = 0; $i < 2; $i++) {
+            $date = $end->subWeek($i);
+            $week = new Week($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+        $this->assertEquals($correct, $range->toString());
+    }
+    /**
+     * @group Core
+     */
+    public function testRangeLastweek_onFirstDayOfWeek()
+    {
+        $end = Date::factory('2013-11-04');
+        $range = new Range('week', 'last2', 'UTC', $end);
+
+        $correct = array();
+        for ($i = 0; $i < 2; $i++) {
+            $date = $end->subWeek($i);
+            $week = new Week($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testRangeLastmonth_onLastDayOfMonth()
+    {
+        $end = Date::factory('2013-10-31');
+        $range = new Range('month', 'last10', 'UTC', $end);
+
+        $correct = array();
+        for ($i = 0; $i < 10; $i++) {
+            $date = $end->subMonth($i);
+            $week = new Month($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+
+        $this->assertEquals(10, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function _testRangePreviousmonth_onFirstOfMonth()
+    {
+        $end = Date::factory('2013-11-01');
+        $range = new Range('month', 'previous10', 'UTC', $end);
+        $end = $end->subMonth(1);
+
+        $correct = array();
+        for ($i = 0; $i < 10; $i++) {
+            $date = $end->subMonth($i);
+            $week = new Month($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+
+
+        $this->assertEquals(10, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function _testRangeLastmonth_onFirstOfMonth()
+    {
+        $end = Date::factory('2013-11-01');
+        $range = new Range('month', 'last10', 'UTC', $end);
+
+        $correct = array();
+        for ($i = 0; $i < 10; $i++) {
+            $date = $end->subMonth($i);
+            $week = new Month($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+
+
+        $this->assertEquals(10, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
     // test range YEAR
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeYear()
     {
@@ -474,8 +588,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range YEAR last1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeYearLast1()
     {
@@ -487,8 +599,91 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
+     */
+    public function testCustomRangeYearUsesYearIfPossible()
+    {
+        $range = new Range('range', '2005-12-17,2008-01-03', 'UTC', Date::factory('2008-01-03'));
+        $year2006 = new Year(Date::factory('2006-02-02'));
+        $year2007 = new Year(Date::factory('2007-02-02'));
+        $year2008 = new Year(Date::factory('2008-02-02'));
+
+        $correct = array(
+            '2005-12-17',
+            '2005-12-18',
+            array (
+                "2005-12-19",
+                "2005-12-20",
+                "2005-12-21",
+                "2005-12-22",
+                "2005-12-23",
+                "2005-12-24",
+                "2005-12-25"
+            ),
+            "2005-12-26",
+            "2005-12-27",
+            "2005-12-28",
+            "2005-12-29",
+            "2005-12-30",
+            "2005-12-31",
+            $year2006->toString(),
+            $year2007->toString(),
+            $year2008->toString()
+        );
+
+        $this->assertEquals(12, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testCustomRangeIsYear_UsesFullYear()
+    {
+        $range = new Range('range', '2011-01-01,2011-12-31', 'UTC', Date::factory('2012-01-03'));
+        $year2011 = new Year(Date::factory('2011-02-02'));
+
+        $correct = array(
+            $year2011->toString()
+        );
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testCustomRangeYear_UsesCurrentYear()
+    {
+        $range = new Range('range', '2013-01-01,2013-11-01', 'UTC', Date::factory('2013-11-01'));
+        $year2013 = new Year(Date::factory('2013-02-02'));
+
+        $correct = array(
+            $year2013->toString()
+        );
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testCustomRangeYearUsesCurrentYear_onLastDayOfYear()
+    {
+        $range = new Range('range', '2013-01-01,2013-12-31', 'UTC', Date::factory('2013-12-31'));
+        $year2013 = new Year(Date::factory('2013-01-01'));
+
+        $correct = array(
+            $year2013->toString()
+        );
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
      */
     public function testCustomRangeWeekInsideEndingToday()
     {
@@ -522,8 +717,59 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
+     */
+    public function testRangeEndDateIsTodayAndStartDateNotStartOfTheWeek()
+    {
+        $range = new Range('range', '2013-10-29,2013-10-30', 'UTC', Date::factory('2013-10-30'));
+
+        $correct = array(
+            '2013-10-29',
+            '2013-10-30'
+        );
+
+        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testRangeEndDateIsInFuture()
+    {
+        $range = new Range('range', '2013-10-29,2013-10-31', 'UTC', Date::factory('2013-10-30'));
+
+        $correct = array(
+            '2013-10-29',
+            '2013-10-30',
+            '2013-10-31'
+        );
+
+        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testRangePreviousmonthEndDateIsInFutureAndEndOfTheWeek()
+    {
+        $range = new Range('range', '2013-10-29,2013-11-03', 'UTC', Date::factory('2013-10-30'));
+
+        $correct = array(
+            '2013-10-29',
+            '2013-10-30',
+            '2013-10-31',
+            '2013-11-01',
+            '2013-11-02',
+            '2013-11-03',
+        );
+
+        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
      */
     public function testCustomRangeWeekInsideEndingYesterday()
     {
@@ -562,8 +808,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeOnlyDaysLessThanOneWeek()
     {
@@ -580,8 +824,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeOneWeekOnly()
     {
@@ -604,8 +846,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeStartsWithWeek()
     {
@@ -630,8 +870,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeEndsWithWeek()
     {
@@ -666,8 +904,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeContainsMonthAndWeek()
     {
@@ -733,8 +969,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeContainsSeveralMonthsAndWeeksStartingWithMonth()
     {
@@ -849,8 +1083,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeOneMonthOnly()
     {
@@ -895,8 +1127,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function test_CustomRange_startsWithWeek_EndsWithMonth()
     {
@@ -952,8 +1182,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeBeforeIsAfterYearRight()
     {
@@ -971,8 +1199,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeLastN()
     {
@@ -990,8 +1216,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangePreviousN()
     {
@@ -1008,8 +1232,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangePreviousNEndToday()
     {
@@ -1025,8 +1247,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testInvalidRangeThrows()
     {
@@ -1041,12 +1261,10 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testGetLocalizedShortString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Range('range', '2000-12-09,2001-02-01');
         $shouldBe = '9 Dec 00 - 1 Feb 01';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
@@ -1054,12 +1272,10 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testGetLocalizedLongString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Range('range', '2023-05-09,2023-05-21');
         $shouldBe = '8 May 23 - 21 May 23';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
@@ -1067,12 +1283,10 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testGetPrettyString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Range('range', '2007-02-09,2007-03-15');
         $shouldBe = 'From 2007-02-09 to 2007-03-15';
         $this->assertEquals($shouldBe, $month->getPrettyString());
@@ -1091,8 +1305,8 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
+     * 
+     * 
      * @dataProvider getDataForLastNLimitsTest
      */
     public function testLastNLimits($period, $lastN, $expectedLastN)

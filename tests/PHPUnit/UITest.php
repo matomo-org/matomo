@@ -8,18 +8,21 @@
 use Piwik\Access;
 use Piwik\AssetManager;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugins\VisitsSummary\API;
-use Piwik\Db;
 
 abstract class UITest extends IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
     const SCREENSHOT_GROUP_SIZE = 25;
+    const DEBUG_IMAGE_MAGICK_COMPARE = true;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
     private static $imageMagickAvailable = false;
+
+    public static $failureScreenshotNames = array();
 
     public static function createAccessInstance()
     {
@@ -110,7 +113,7 @@ abstract class UITest extends IntegrationTestCase
         
         parent::tearDownAfterClass();
     }
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -138,28 +141,57 @@ abstract class UITest extends IntegrationTestCase
             || strpos($output, "ERROR") !== false
         ) {
             echo self::CAPTURE_PROGRAM . " failed: " . $output . "\n\ncommand used: $cmd\n";
-            throw new Exception("phantomjs failed");
         }
         return $output;
+    }
+
+    protected function compareScreenshots($testsInfo)
+    {
+        $failures = array();
+        foreach ($testsInfo as $info) {
+            list($name, $urlQuery) = $info;
+
+            // compare processed w/ expected
+            try {
+                $this->compareScreenshot($name, $urlQuery);
+            } catch (Exception $ex) {
+                $failures[] = $ex;
+            }
+        }
     }
     
     protected function compareScreenshot($name, $urlQuery)
     {
         list($processedPath, $expectedPath) = self::getProcessedAndExpectedScreenshotPaths($name);
 
+        if (!file_exists($processedPath)) {
+            $this->fail("failed to generate screenshot for '$name'.");
+            return;
+        }
+
         $processed = file_get_contents($processedPath);
         
         if (!file_exists($expectedPath)) {
-            $this->fail("expected screenshot for processed '$processedPath' is missing");
+            $this->fail("expected screenshot for '$name' test is missing.
+Generated screenshot: $processedPath");
             return;
         }
         
         $expected = file_get_contents($expectedPath);
         if ($expected != $processed) {
-            echo "\nFail: '$processedPath' for '$urlQuery'\n";
+            self::$failureScreenshotNames[] = $name;
 
-            $this->saveImageDiff($expectedPath, $processedPath, self::getScreenshotDiffPath($name));
+            $diffPath = self::getScreenshotDiffPath($name);
+
+            echo "\nFail: generated screenshot does not match expected for '$name'.
+Url to reproduce: $urlQuery
+Generated screenshot: $processedPath
+Expected screenshot: $expectedPath
+Screenshot diff: $diffPath\n";
+
+            $this->saveImageDiff($expectedPath, $processedPath, $diffPath);
         }
+
         $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
 
@@ -168,7 +200,9 @@ abstract class UITest extends IntegrationTestCase
         $cmd = "compare \"$expectedPath\" \"$processedPath\" \"$diffPath\" 2>&1";
         exec($cmd, $output, $result);
 
-        if ($result !== 0) {
+        if (self::DEBUG_IMAGE_MAGICK_COMPARE
+            && $result !== 0
+        ) {
             echo "Could not save image diff: " . implode("\n", $output) . "\n";
         }
     }
@@ -183,7 +217,7 @@ abstract class UITest extends IntegrationTestCase
         return self::isProgramAvailable('slimerjs');
     }
 
-    private static function isPhantomJsAvailable()
+    public static function isPhantomJsAvailable()
     {
         return self::isProgramAvailable('phantomjs');
     }
@@ -228,6 +262,11 @@ abstract class UITest extends IntegrationTestCase
             }
         }
 
+        self::createProxySymlinks();
+    }
+
+    private static function createProxySymlinks()
+    {
         foreach (self::$recursiveProxyLinkNames as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
@@ -260,20 +299,34 @@ abstract class UITest extends IntegrationTestCase
 
     private static function outputDiffViewerHtmlFile()
     {
+        if (!empty(self::$failureScreenshotNames)) {
+            $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.html';
+            echo "\nFailures encountered. View all diffs at:
+$diffViewerPath
+
+If processed screenshots are correct, you can copy the generated screenshots to the expected screenshot folder.
+
+*** IMPORTANT *** In your commit message, explain the cause of the difference in rendering so other Piwik developers will be aware of it.";
+        }
+
+        list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
         $diffDir = self::getScreenshotDiffDir();
 
-        $diffFiles = array();
-        foreach (scandir($diffDir) as $file) {
-            if (strpos($file, ".png") != strlen($file) - 4) continue;
+        $diffViewerEntries = array();
+        foreach (self::$failureScreenshotNames as $name) {
+            $name = static::getOutputPrefix() . '_' . $name;
+            $file = $name . '.png';
 
-            $parts = explode('.', $file, 2);
-            $name = reset($parts);
+            $diffFileOrError = $file;
+            if (!is_file($diffDir . '/' . $file)) {
+                $diffFileOrError = false;
+            }
 
-            $diffFiles[] = array(
+            $diffViewerEntries[] = array(
                 'name' => $name,
                 'expectedUrl' => 'https://raw.github.com/piwik/piwik-ui-tests/master/expected-ui-screenshots/' . $file,
                 'processedUrl' => '../processed-ui-screenshots/' . $file,
-                'diffUrl' => $file
+                'diffUrl' => $diffFileOrError
             );
         }
 
@@ -288,13 +341,20 @@ abstract class UITest extends IntegrationTestCase
         <th>Processed</th>
         <th>Difference</th>
     </tr>';
-        foreach ($diffFiles as $fileInfo) {
+        foreach ($diffViewerEntries as $fileInfo) {
             $diffViewerHtml .= '
     <tr>
         <td>' . $fileInfo['name'] . '</td>
         <td><a href="' . $fileInfo['expectedUrl'] . '">Expected</a></td>
         <td><a href="' . $fileInfo['processedUrl'] . '">Processed</a></td>
-        <td><a href="' . $fileInfo['diffUrl'] . '">Difference</a></td>
+        <td>';
+            if (!empty($fileInfo['diffUrl'])) {
+                $diffViewerHtml .= '<a href="' . $fileInfo['diffUrl'] . '">Difference</a>';
+            } else {
+                $diffViewerHtml .= "<em>Could not create diff.</em>";
+            }
+            $diffViewerHtml .= '
+        </td>
     </tr>';
         }
         $diffViewerHtml .= '

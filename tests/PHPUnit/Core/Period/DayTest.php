@@ -16,8 +16,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testInvalidDate()
     {
@@ -31,8 +29,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testToString()
     {
@@ -45,8 +41,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * today is NOT finished
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayIsFinishedToday()
     {
@@ -59,8 +53,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * yesterday 23:59:59 is finished
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayIsFinishedYesterday()
     {
@@ -74,8 +66,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * tomorrow is not finished
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayIsFinishedTomorrow()
     {
@@ -88,8 +78,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * test day doesnt exist 31st feb
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayIsFinished31stfeb()
     {
@@ -102,8 +90,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * test date that doesn't exist, should return the corresponding correct date
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayGetDateStart1()
     {
@@ -123,8 +109,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * test normal date
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayGetDateStart2()
     {
@@ -144,8 +128,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * test last day of year
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayGetDateStart3()
     {
@@ -165,8 +147,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * test date that doesn't exist, should return the corresponding correct date
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayGetDateEnd1()
     {
@@ -183,8 +163,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * test normal date
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayGetDateEnd2()
     {
@@ -201,8 +179,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * test last day of year
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testDayGetDateEnd3()
     {
@@ -219,8 +195,6 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     /**
      * adding a subperiod should not be possible
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testAddSubperiodFails()
     {
@@ -238,12 +212,10 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testGetLocalizedShortString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = 'Wed 9 Oct';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
@@ -251,12 +223,10 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testGetLocalizedLongString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = 'Wednesday 9 October 2024';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
@@ -264,12 +234,10 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Day
      */
     public function testGetPrettyString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = '2024-10-09';
         $this->assertEquals($shouldBe, $month->getPrettyString());

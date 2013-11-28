@@ -7,22 +7,11 @@
 
 function initDashboard(dashboardId, dashboardLayout) {
 
-    // Standard dashboard
-    if ($('#periodString').length) {
-        $('#periodString').after($('#dashboardSettings'));
-
-        var leftMargin = $('#periodString')[0].offsetWidth;
-        var segmentSelector = $('#segmentEditorPanel:visible');
-        if(segmentSelector.length) {
-            segmentSelector = $($('#segmentEditorPanel:visible')[0]);
-            leftMargin = segmentSelector.position().left + segmentSelector.outerWidth();
-        }
-        $('#dashboardSettings').css({left: leftMargin});
-    }
+    $('#dashboardSettings').show();
+    initTopControls();
 
     // Embed dashboard
     if (!$('#topBars').length) {
-        $('#dashboardSettings').css({left: 0});
         $('#dashboardSettings').after($('#Dashboard'));
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
@@ -80,7 +69,7 @@ function initDashboard(dashboardId, dashboardLayout) {
         $(this).addClass('choosen');
     });
 
-    $('.submenu>li').on('mouseenter', function (event) {
+    $('.submenu > li').on('mouseenter', function (event) {
         if (!$('.widgetpreview-categorylist', event.target).length) {
             $('#dashboardSettings').widgetPreview('reset');
         }

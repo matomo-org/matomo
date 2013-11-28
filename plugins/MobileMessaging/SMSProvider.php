@@ -58,7 +58,7 @@ abstract class SMSProvider
             return new $className;
         } catch (Exception $e) {
             throw new Exception(
-                Piwik::translateException(
+                Piwik::translate(
                     'MobileMessaging_Exception_UnknownProvider',
                     array($providerName, implode(', ', array_keys(self::$availableSMSProviders)))
                 )

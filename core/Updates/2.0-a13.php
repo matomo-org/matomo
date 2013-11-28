@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Updater;
 use Piwik\Updates;
@@ -43,7 +42,7 @@ class Updates_2_0_a13 extends Updates
         // Rename Referrers widgets in custom dashboards
         $sql['UPDATE `' . Common::prefixTable('user_dashboard') . '` SET `layout`=REPLACE(`layout`, \'Referer\', \'Referrer\') WHERE `layout` LIKE \'%Referer%\''] = $errorCodeTableNotFound;
 
-        $sql['UPDATE `' . Common::prefixTable('option') . '` SET `option_name` = \'version_ScheduledReports\' WHERE `option_name` = \'version_PDFReports\' '] = false;
+        $sql['UPDATE `' . Common::prefixTable('option') . '` SET `option_name` = \'version_ScheduledReports\' WHERE `option_name` = \'version_PDFReports\' '] = '1062'; // http://forum.piwik.org/read.php?2,106895
 
         return $sql;
     }
@@ -55,24 +54,14 @@ class Updates_2_0_a13 extends Updates
 
         Updater::updateDatabase(__FILE__, self::getSql());
 
-        // Deleting old plugins
-        $obsoleteDirectories = array(
-            PIWIK_INCLUDE_PATH . '/plugins/Referers',
-            PIWIK_INCLUDE_PATH . '/plugins/PDFReports',
-        );
-        foreach ($obsoleteDirectories as $dir) {
-            if (file_exists($dir)) {
-                Filesystem::unlinkRecursive($dir, true);
-            }
-        }
-
+        // old plugins deleted in 2.0-a17 update file
 
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('Referrers');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('Referrers');
         } catch (\Exception $e) {
         }
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('ScheduledReports');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('ScheduledReports');
         } catch (\Exception $e) {
         }
 

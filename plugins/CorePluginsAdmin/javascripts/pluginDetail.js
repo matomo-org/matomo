@@ -30,6 +30,8 @@ $(document).ready(function () {
                 max[top] = height;
             } else if (max[top] < height) {
                 max[top] = height;
+            } else {
+                $node.height(max[top] + 'px');
             }
         });
 
@@ -44,28 +46,40 @@ $(document).ready(function () {
     syncMaxHeight('.pluginslist .plugin');
     syncMaxHeight('.themeslist .plugin');
 
-    $('.pluginslist').on('click', '.more', function (event) {
-        var pluginName = $( this ).attr('data-pluginName');
+    $('.pluginslist, #plugins, .themeslist').on('click', '[data-pluginName]', function (event) {
+        if ($(event.target).hasClass('install') || $(event.target).hasClass('uninstall')) {
+            return;
+        }
+
+        var pluginName = $(this).attr('data-pluginName');
 
         if (!pluginName) {
             return;
         }
 
+        var activeTab = $(event.target).attr('data-activePluginTab');
+        if (activeTab) {
+            pluginName += '!' + activeTab;
+        }
+
         broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
     });
 
-    $('.themeslist').on('click', '.more', function (event) {
-        var themeName = $( this ).attr('data-pluginName');
+    var showPopover = function (value) {
+        var pluginName = value;
+        var activeTab  = null;
 
-        if (!themeName) {
-            return;
+        if (-1 !== value.indexOf('!')) {
+            activeTab  = value.substr(value.indexOf('!') + 1);
+            pluginName = value.substr(0, value.indexOf('!'));
         }
 
-        broadcast.propagateNewPopoverParameter('browsePluginDetail', themeName);
-    });
-
-    var showPopover = function (pluginName) {
         var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + encodeURIComponent(pluginName);
+
+        if (activeTab) {
+            url += '&activeTab=' + encodeURIComponent(activeTab);
+        }
+
         Piwik_Popover.createPopupAndLoadUrl(url, 'details');
     };
 

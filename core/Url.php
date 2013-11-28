@@ -13,11 +13,36 @@ namespace Piwik;
 use Exception;
 
 /**
- * Class to retrieve absolute URL or URI components of the current URL,
- * and handle URL redirection.
- *
+ * Provides URL related helper methods.
+ * 
+ * This class provides simple methods that can be used to parse and modify
+ * the current URL. It is most useful when plugins need to redirect the current
+ * request to a URL and when they need to link to other parts of Piwik in
+ * HTML.
+ * 
+ * ### Examples
+ * 
+ * **Redirect to a different controller action**
+ * 
+ *     $url = Url::getCurrentQueryStringWithParametersModified(array(
+ *         'module' => 'UserSettings',
+ *         'action' => 'index'
+ *     ));
+ *     Url::redirectToUrl($url);
+ * 
+ * **Link to a different controller action in a template**
+ * 
+ *     $url = Url::getCurrentQueryStringWithParametersModified(array(
+ *         'module' => 'UserCountryMap',
+ *         'action' => 'realtimeMap',
+ *         'changeVisitAlpha' => 0,
+ *         'removeOldVisits' => 0
+ *     ));
+ *     $view = new View("@MyPlugin/myPopup");
+ *     $view->realtimeMapUrl = $url;
+ *     echo $view->render();
+ * 
  * @package Piwik
- * @api
  */
 class Url
 {
@@ -27,10 +52,10 @@ class Url
     private static $alwaysTrustedHosts = array('localhost', '127.0.0.1', '::1', '[::1]');
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+     * Returns the current URL.
      *
-     * @return string
+     * @return string eg, `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     * @api
      */
     static public function getCurrentUrl()
     {
@@ -41,12 +66,13 @@ class Url
     }
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return "http://example.org/dir1/dir2/index.php"
-     *
+     * Returns the current URL without the query string.
+     * 
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
      *                               except in Controller.
-     * @return string
+     * @return string eg, `"http://example.org/dir1/dir2/index.php"` if the current URL is
+     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
+     * @api
      */
     static public function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
     {
@@ -56,10 +82,12 @@ class Url
     }
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return "http://example.org/dir1/dir2/"
+     * Returns the current URL without the query string and without the name of the file
+     * being executed.
      *
-     * @return string with trailing slash
+     * @return string eg, `"http://example.org/dir1/dir2/"` if the current URL is
+     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
+     * @api
      */
     static public function getCurrentUrlWithoutFileName()
     {
@@ -69,10 +97,11 @@ class Url
     }
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return "/dir1/dir2/"
+     * Returns the path to the script being executed. The script file name is not included.
      *
-     * @return string with trailing slash
+     * @return string eg, `"/dir1/dir2/"` if the current URL is
+     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     * @api
      */
     static public function getCurrentScriptPath()
     {
@@ -89,10 +118,11 @@ class Url
     }
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return "/dir1/dir2/index.php"
+     * Returns the path to the script being executed. Includes the script file name.
      *
-     * @return string
+     * @return string eg, `"/dir1/dir2/index.php"` if the current URL is
+     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     * @api
      */
     static public function getCurrentScriptName()
     {
@@ -139,10 +169,10 @@ class Url
     }
 
     /**
-     * If the current URL is 'http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return 'http'
+     * Returns the current URL's protocol.
      *
-     * @return string 'https' or 'http'
+     * @return string `'https'` or `'http'`
+     * @api
      */
     static public function getCurrentScheme()
     {
@@ -162,12 +192,11 @@ class Url
     }
 
     /**
-     * Validate "Host" (untrusted user input)
+     * Validates the "Host" header (untrusted user input).
      *
      * @param string|bool $host Contents of Host: header from Request. If false, gets the
      *                          value from the request.
-     *
-     * @return bool True if valid; false otherwise
+     * @return bool True if valid; false otherwise.
      */
     static public function isValidHost($host = false)
     {
@@ -198,7 +227,7 @@ class Url
         }
 
         // Only punctuation we allow is '[', ']', ':', '.' and '-'
-        $hostLength = Common::strlen($host);
+        $hostLength = strlen($host);
         if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ ')) {
             return false;
         }
@@ -243,11 +272,11 @@ class Url
     }
 
     /**
-     * Get host
+     * Returns the current host.
      *
      * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
      *                             except in Controller.
-     * @return string|bool    false if no host found
+     * @return string|bool eg, `"demo.piwik.org"` or false if no host found.
      */
     static public function getHost($checkIfTrusted = true)
     {
@@ -270,7 +299,7 @@ class Url
 
     /**
      * Sets the host. Useful for CLI scripts, eg. archive.php
-     *
+     * 
      * @param $host string
      */
     static public function setHost($host)
@@ -279,17 +308,24 @@ class Url
     }
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return "example.org"
+     * Returns the current host.
      *
      * @param string $default Default value to return if host unknown
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
      *                               except in Controller.
-     * @return string
+     * @return string eg, `"example.org"` if the current URL is
+     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     * @api
      */
     static public function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
-        $hostHeaders = @Config::getInstance()->General['proxy_host_headers'];
+        $hostHeaders = array();
+
+        $config = Config::getInstance()->General;
+        if(isset($config['proxy_host_headers'])) {
+            $hostHeaders = $config['proxy_host_headers'];
+        }
+
         if (!is_array($hostHeaders)) {
             $hostHeaders = array();
         }
@@ -301,10 +337,11 @@ class Url
     }
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return "?param1=value1&param2=value2"
+     * Returns the query string of the current URL.
      *
-     * @return string
+     * @return string eg, `"?param1=value1&param2=value2"` if the current URL is
+     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     * @api
      */
     static public function getCurrentQueryString()
     {
@@ -318,15 +355,20 @@ class Url
     }
 
     /**
-     * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
-     * will return
-     *  array
-     *    'param1' => string 'value1'
-     *    'param2' => string 'value2'
+     * Returns an array mapping query paramater names with query parameter values for
+     * the current URL.
      *
-     * @return array
+     * @return array If current URL is `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     *               this will return:
+     *               ```
+     *               array(
+     *                   'param1' => string 'value1',
+     *                   'param2' => string 'value2'
+     *               )
+     *               ```
+     * @api
      */
-    static function getArrayFromCurrentQueryString()
+    static public function getArrayFromCurrentQueryString()
     {
         $queryString = self::getCurrentQueryString();
         $urlValues = UrlHelper::getArrayFromQueryString($queryString);
@@ -334,12 +376,15 @@ class Url
     }
 
     /**
-     * Given an array of name-values, it will return the current query string
-     * with the new requested parameter key-values;
-     * If a parameter wasn't found in the current query string, the new key-value will be added to the returned query string.
+     * Modifies the current query string with the supplied parameters and returns
+     * the result. Parameters in the current URL will be overwritten with values
+     * in `$params` and parameters absent from the current URL but present in `$params`
+     * will be added to the result.
      *
-     * @param array $params array ( 'param3' => 'value3' )
-     * @return string ?param2=value2&param3=value3
+     * @param array $params set of parameters to modify/add in the current URL
+     *                      eg, `array('param3' => 'value3')`
+     * @return string eg, `"?param2=value2&param3=value3"`
+     * @api
      */
     static function getCurrentQueryStringWithParametersModified($params)
     {
@@ -355,11 +400,12 @@ class Url
     }
 
     /**
-     * Given an array of parameters name->value, returns the query string.
-     * Also works with array values using the php array syntax for GET parameters.
-     *
-     * @param array $parameters eg. array( 'param1' => 10, 'param2' => array(1,2))
-     * @return string eg. "param1=10&param2[]=1&param2[]=2"
+     * Converts an an array of parameters name => value mappings to a query
+     * string.
+     * 
+     * @param array $parameters eg. `array('param1' => 10, 'param2' => array(1,2))`
+     * @return string eg. `"param1=10&param2[]=1&param2[]=2"`
+     * @api
      */
     static public function getQueryStringFromParameters($parameters)
     {
@@ -381,8 +427,10 @@ class Url
     }
 
     /**
-     * Redirects the user to the referrer if found.
-     * If the user doesn't have a referrer set, it redirects to the current URL without query string.
+     * Redirects the user to the referrer. If no referrer exists, the user is redirected
+     * to the current URL without query string.
+     * 
+     * @api
      */
     static public function redirectToReferrer()
     {
@@ -394,9 +442,10 @@ class Url
     }
 
     /**
-     * Redirects the user to the specified URL
+     * Redirects the user to the specified URL.
      *
      * @param string $url
+     * @api
      */
     static public function redirectToUrl($url)
     {
@@ -411,9 +460,10 @@ class Url
     }
 
     /**
-     * Returns the HTTP_REFERER header, false if not found.
+     * Returns the HTTP_REFERER header, or false if not found.
      *
-     * @return string|bool
+     * @return string|false
+     * @api
      */
     static public function getReferrer()
     {
@@ -424,10 +474,11 @@ class Url
     }
 
     /**
-     * Is the URL on the same host?
+     * Returns true if the URL points to something on the same host, false if otherwise.
      *
      * @param string $url
      * @return bool True if local; false otherwise.
+     * @api
      */
     static public function isLocalUrl($url)
     {

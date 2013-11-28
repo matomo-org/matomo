@@ -1,0 +1,137 @@
+//colors calendar
+@calendarHeaderBackground: #fff; 
+@calendarHeaderColor: #999;
+@calendarCurrentStateHover: #f5f5f5;
+@calendarBorder: #ccc;
+.ui-datepicker {
+
+    th, th.ui-datepicker-week-end {
+        background: @calendarHeaderBackground !important;
+        color: @calendarHeaderColor !important;
+    }
+
+    .ui-state-default {
+        border-color: @calendarBorder !important;
+        background: @brad-black !important;
+    }
+
+    .ui-datepicker-header {
+        background: @calendarHeaderBackground !important;
+        border-color: @gray;
+        border-bottom-width: 0px;
+    }
+
+    .ui-datepicker-calendar {
+        border: 1px solid @gray;
+        thead {
+            border-bottom: 1px solid @gray;
+        }
+    }
+}
+
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+    background: @brand-black !important;
+}
+
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+    background: @calendarCurrentStateHover;
+}
+
+.add_new_segment,
+#calendarRangeApply {
+    font-size: 12px !important;
+    padding: 0 10px !important;
+    margin-left: 0px !important;
+}
+
+#periodString {
+    border: 1px solid @silver-80;
+    .border-radius(0px);
+    background: #fff;
+    &:hover {
+        background: #fff;
+        border-color: @silver-80;
+    }
+
+    .calendar-icon {
+        width: 17px;
+        height: 17px;
+    }
+
+    label.selected-period-label {
+        text-decoration: none !important;
+    }
+
+    h6 {
+        .font-default(13px, 16px);
+        font-weight: normal;
+        color: @brand-black;
+    }
+
+    #periodMore {
+        .period-range {
+            .ui-datepicker-header {
+                background: red;
+            }
+        }
+    }
+
+    #date {
+        .border-radius(0px);
+        background-color: #fff;
+        .box-shadow(~"inset 1px 1px 3px #d8d8d8");
+        padding: 8px 10px;
+        color: @silver-20;
+        text-transform: uppercase;
+        .font-default(10px, 12px);
+
+        strong {
+            color: @brand-black;
+
+        }
+    }
+}
+
+#header_message {
+    border: 1px solid @silver-80;
+    padding: 8px 10px 8px 10px;
+    height: auto;
+    background: #fff;
+    .border-radius(0px);
+    .header_short {
+        .font-default(10px, 12px);
+        text-transform: uppercase;
+    }
+
+    .header_full {
+        .font-default(12px, 18px);
+    }
+}
+
+.ui-menu {
+    .ui-menu-item {
+        a {
+            color: @silver-20;
+            text-transform: uppercase;
+            .font-default(10px, 18px);
+            padding: 2px;
+        }
+    }
+}
+
+.loadingPiwikBelow,
+.loadingPiwik {
+    .font-default(10px, 12px);
+    color: @silver-60;
+    font-weight: normal;
+}
+
+.annotations {
+    table {
+        td {
+            .font-default(12px, 14px) !important;
+            color: @brand-black;
+            padding: 6px 5px;
+        }
+    }
+}

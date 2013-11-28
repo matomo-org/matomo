@@ -1,0 +1,26 @@
+<div>
+    <h2>{{ vizTitle }}</h2>
+
+    <table class="dataTable">
+        <thead>
+            <tr>
+                {% for name in properties.columns_to_display %}
+                    {% if name in properties.translations|keys %}
+                        <th>{{ properties.translations[name]|translate }}</th>
+                    {% else %}
+                        <th>{{ name }}</th>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tableRow in dataTable.getRows %}
+            <tr>
+                {% for column in properties.columns_to_display %}
+                    <td>{{ tableRow.getColumn(column)|default('-')|truncate(50)|raw }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

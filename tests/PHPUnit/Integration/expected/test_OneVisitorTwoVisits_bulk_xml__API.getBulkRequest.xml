@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>2</nb_visits>
-		<nb_actions>8</nb_actions>
-		<nb_visits_converted>2</nb_visits_converted>
-		<bounce_count>1</bounce_count>
-		<sum_visit_length>1621</sum_visit_length>
-		<max_actions>7</max_actions>
-		<bounce_rate>50%</bounce_rate>
-		<nb_actions_per_visit>4</nb_actions_per_visit>
-		<avg_time_on_site>811</avg_time_on_site>
+		<row key="2010-03-06">
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>8</nb_actions>
+			<nb_visits_converted>2</nb_visits_converted>
+			<bounce_count>1</bounce_count>
+			<sum_visit_length>1621</sum_visit_length>
+			<max_actions>7</max_actions>
+			<bounce_rate>50%</bounce_rate>
+			<nb_actions_per_visit>4</nb_actions_per_visit>
+			<avg_time_on_site>811</avg_time_on_site>
+		</row>
+		<row key="2010-03-07">
+		</row>
+	</row>
+	<row>
+		<row key="2010-03-06">
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>8</nb_actions>
+			<nb_visits_converted>2</nb_visits_converted>
+			<bounce_count>1</bounce_count>
+			<sum_visit_length>1621</sum_visit_length>
+			<max_actions>7</max_actions>
+			<bounce_rate>50%</bounce_rate>
+			<nb_actions_per_visit>4</nb_actions_per_visit>
+			<avg_time_on_site>811</avg_time_on_site>
+		</row>
+		<row key="2010-03-07">
+		</row>
 	</row>
 	<row>
 		<row>

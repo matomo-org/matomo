@@ -17,8 +17,20 @@ use Piwik\DataTable\Filter;
  * Filter that will remove columns from a DataTable using either a blacklist,
  * whitelist or both.
  *
+ * This filter is used to handle the **hideColumn** and **showColumn** query parameters.
+ * 
+ * **Basic usage example**
+ * 
+ *     $columnsToRemove = array('nb_hits', 'nb_pageviews');
+ *     $dataTable->filter('ColumnDelete', array($columnsToRemove));
+ * 
+ *     $columnsToKeep = array('nb_visits');
+ *     $dataTable->filter('ColumnDelete', array(array(), $columnsToKeep));
+ * 
+ * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class ColumnDelete extends Filter
 {
@@ -55,13 +67,13 @@ class ColumnDelete extends Filter
     /**
      * Constructor.
      *
-     * @param DataTable $table
+     * @param DataTable $table The DataTable instance that will eventually be filtered.
      * @param array|string $columnsToRemove An array of column names or a comma-separated list of
-     *                                         column names. These columns will be removed.
+     *                                      column names. These columns will be removed.
      * @param array|string $columnsToKeep An array of column names that should be kept or a
-     *                                         comma-separated list of column names. Columns not in
-     *                                         this list will be removed.
-     * @param bool $deleteIfZeroOnly
+     *                                    comma-separated list of column names. Columns not in
+     *                                    this list will be removed.
+     * @param bool $deleteIfZeroOnly If true, columns will be removed only if their value is 0.
      */
     public function __construct($table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false)
     {

@@ -83,17 +83,17 @@
                                     {% endset %}
                                     {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
                                 {% endif %}
-                                {{ action.revenue|money(idSite) }} - {{ action.serverTimePretty }}
+                                {{ action.revenue|money(idSite)|raw }} - {{ action.serverTimePretty }}
                                 {% if action.itemDetails is not empty %}
                                     {% for product in action.itemDetails %}
-                                    # {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}{% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}, {{ 'General_Quantity'|translate }}: {{ product.quantity }}, {{ 'General_Price'|translate }}: {{ product.price|money(idSite) }}
+                                    # {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}{% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}, {{ 'General_Quantity'|translate }}: {{ product.quantity }}, {{ 'General_Price'|translate }}: {{ product.price|money(idSite)|raw }}
                                     {% endfor %}
                                 {% endif %}
                             {% endset %}
                             <span title="{{ title }}">
 						        <img class='iconPadding' src="{{ action.icon }}"/>
                                 {% if action.type == 'ecommerceOrder' %}
-                                    {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite) }}
+                                    {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }}
                                 {% endif %}
                             </span>
                         {% else %}
@@ -119,9 +119,12 @@
                                 {% elseif action.type == 'search' %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{{ 'Actions_SubmenuSitesearch'|translate }}: {{ action.siteSearchKeyword }} - {{ action.serverTimePretty }}"/>
+                                {% elseif action.eventCategory|default(false) is not empty %}
+                                    <img  class="iconPadding" src='{{ action.icon }}'
+                                        title="{{ 'Events_Event'|translate }} {{ action.eventCategory }} - {{ action.eventAction }} {% if action.eventName is defined %}- {{ action.eventName }}{% endif %} {% if action.eventValue is defined %}- {{ action.eventValue }}{% endif %}"/>
                                 {% else %}
                                     <img class='iconPadding' src="{{ action.icon }}"
-                                         title="{{ action.goalName }} - {% if action.revenue > 0 %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite) }} - {% endif %} {{ action.serverTimePretty }}"/>
+                                         title="{{ action.goalName }} - {% if action.revenue > 0 %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }} - {% endif %} {{ action.serverTimePretty }}"/>
                                 {% endif %}
                             </a>
                         {% endif %}

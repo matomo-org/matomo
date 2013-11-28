@@ -76,7 +76,6 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        ApiGetReportMetadata
      */
     public function testApi($api, $params)
     {

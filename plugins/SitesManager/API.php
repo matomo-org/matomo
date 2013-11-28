@@ -42,23 +42,11 @@ use Piwik\UrlHelper;
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
  * See also the documentation about <a href='http://piwik.org/docs/manage-websites/' target='_blank'>Managing Websites</a> in Piwik.
  * @package SitesManager
+ * @method static \Piwik\Plugins\SitesManager\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
     const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword';
-
-    /**
-     * @return \Piwik\Plugins\SitesManager\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
     const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
     const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
@@ -75,9 +63,18 @@ class API
      *
      * @param int $idSite
      * @param string $piwikUrl
+     * @param bool $mergeSubdomains
+     * @param bool $groupPageTitlesByDomain
+     * @param bool $mergeAliasUrls
+     * @param bool $visitorCustomVariables
+     * @param bool $pageCustomVariables
+     * @param bool $customCampaignNameQueryParam
+     * @param bool $customCampaignKeywordParam
+     * @param bool $doNotTrack
+     * @internal param $
      * @return string The Javascript tag ready to be included on the HTML pages
      */
-    public function getJavascriptTag($idSite, $piwikUrl = '')
+    public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false, $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false, $doNotTrack = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -86,7 +83,7 @@ class API
         }
         $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 
-        $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl);
+        $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain, $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables, $customCampaignNameQueryParam, $customCampaignKeywordParam, $doNotTrack);
         $htmlEncoded = str_replace(array('<br>', '<br />', '<br/>'), '', $htmlEncoded);
         return $htmlEncoded;
     }
@@ -104,6 +101,8 @@ class API
         $sites = Db::get()->fetchAll("SELECT *
     									FROM " . Common::prefixTable("site") . "
     								   WHERE `group` = ?", $group);
+
+        Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -138,6 +137,8 @@ class API
         $site = Db::get()->fetchRow("SELECT *
     								FROM " . Common::prefixTable("site") . "
     								WHERE idsite = ?", $idSite);
+
+        Site::setSitesFromArray(array($site));
         return $site;
     }
 
@@ -205,6 +206,7 @@ class API
         foreach ($sites as $site) {
             $return[$site['idsite']] = $site;
         }
+        Site::setSitesFromArray($return);
         return $return;
     }
 
@@ -329,6 +331,10 @@ class API
      */
     public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
     {
+        if (Piwik::isUserIsSuperUser() && !TaskScheduler::isTaskBeingExecuted()) {
+            return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+        }
+
         if (!empty($_restrictSitesToLogin)
             // Only super user or logged in user can see viewable sites for a specific login,
             // but during scheduled task execution, we sometimes want to restrict sites to
@@ -336,6 +342,7 @@ class API
             && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
                 || TaskScheduler::isTaskBeingExecuted())
         ) {
+
             $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
             foreach ($accessRaw as $access) {
@@ -370,6 +377,8 @@ class API
 								FROM " . Common::prefixTable("site") . "
 								WHERE idsite IN (" . implode(", ", $idSites) . ")
 								ORDER BY idsite ASC $limit");
+
+        Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -468,6 +477,7 @@ class API
      * @param int $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                              will be removed. If 0, the default global behavior will be used.
      * @see getKeepURLFragmentsGlobal.
+     * @param string $type The website type, defaults to "website" if not set.
      *
      * @return int the website ID created
      */
@@ -484,7 +494,8 @@ class API
                             $group = null,
                             $startDate = null,
                             $excludedUserAgents = null,
-                            $keepURLFragments = 0)
+                            $keepURLFragments = null,
+                            $type = null)
     {
         Piwik::checkUserIsSuperUser();
 
@@ -532,6 +543,7 @@ class API
         $bind['ts_created'] = !is_null($startDate)
             ? Date::factory($startDate)->getDatetime()
             : Date::now()->getDatetime();
+        $bind['type'] = $this->checkAndReturnType($type);
 
         if (!empty($group)
             && Piwik::isUserIsSuperUser()
@@ -578,7 +590,7 @@ class API
         }
         $nbSites = count($idSites);
         if ($nbSites == 1) {
-            throw new Exception(Piwik::translateException("SitesManager_ExceptionDeleteSite"));
+            throw new Exception(Piwik::translate("SitesManager_ExceptionDeleteSite"));
         }
 
         $db = Db::get();
@@ -596,9 +608,13 @@ class API
         Cache::deleteCacheWebsiteAttributes($idSite);
 
         /**
-         * This event is triggered after a site has been deleted. Plugins can use this event to remove site specific
-         * values or settings. For instance removing all goals that belong to a specific website. If you store any data
-         * related to a website you may want to clean up that information.
+         * Triggered after a site has been deleted.
+         * 
+         * Plugins can use this event to remove site specific values or settings, such as removing all
+         * goals that belong to a specific website. If you store any data related to a website you
+         * should clean up that information here.
+         * 
+         * @param int $idSite The ID of the site being deleted.
          */
         Piwik::postEvent('SitesManager.deleteSite.end', array($idSite));
     }
@@ -614,7 +630,7 @@ class API
         if (!is_array($urls)
             || count($urls) == 0
         ) {
-            throw new Exception(Piwik::translateException("SitesManager_ExceptionNoUrl"));
+            throw new Exception(Piwik::translate("SitesManager_ExceptionNoUrl"));
         }
     }
 
@@ -628,14 +644,25 @@ class API
                 }
             }
         }
-        throw new Exception(Piwik::translateException('SitesManager_ExceptionInvalidTimezone', array($timezone)));
+        throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidTimezone', array($timezone)));
     }
 
     private function checkValidCurrency($currency)
     {
         if (!in_array($currency, array_keys($this->getCurrencyList()))) {
-            throw new Exception(Piwik::translateException('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
+            throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
         }
+    }
+
+    private function checkAndReturnType($type)
+    {
+        if(empty($type)) {
+            $type = Site::DEFAULT_SITE_TYPE;
+        }
+        if(!is_string($type)) {
+            throw new Exception("Invalid website type $type");
+        }
+        return $type;
     }
 
     /**
@@ -656,7 +683,7 @@ class API
         $ips = array_filter($ips, 'strlen');
         foreach ($ips as $ip) {
             if (!$this->isValidIp($ip)) {
-                throw new Exception(Piwik::translateException('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
+                throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
             }
         }
         $ips = implode(',', $ips);
@@ -971,6 +998,7 @@ class API
      * @param null|string $excludedUserAgents
      * @param int|null $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                                   will be removed. If 0, the default global behavior will be used.
+     * @param string $type The Website type, default value is "website"
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
@@ -991,7 +1019,8 @@ class API
                                $group = null,
                                $startDate = null,
                                $excludedUserAgents = null,
-                               $keepURLFragments = null)
+                               $keepURLFragments = null,
+                               $type = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1048,6 +1077,7 @@ class API
         list($searchKeywordParameters, $searchCategoryParameters) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
         $bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
+        $bind['type'] = $this->checkAndReturnType($type);
 
         $bind['name'] = $siteName;
         $db = Db::get();
@@ -1062,6 +1092,29 @@ class API
             $this->addSiteAliasUrls($idSite, array_slice($urls, 1));
         }
         $this->postUpdateWebsite($idSite);
+    }
+
+    /**
+     * Updates the field ts_created for the specified websites.
+     *
+     * @param $idSites int Id Site to update ts_created
+     * @param $minDate Date to set as creation date. To play it safe it will substract one more day.
+     *
+     * @ignore
+     */
+    public function updateSiteCreatedTime($idSites, $minDate)
+    {
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        Piwik::checkUserHasAdminAccess($idSites);
+
+        // Update piwik_site.ts_created
+        $query = "UPDATE " . Common::prefixTable("site") .
+            " SET ts_created = ?" .
+            " WHERE idsite IN ( " . implode(",", $idSites) . " )
+					AND ts_created > ?";
+        $minDateSql = $minDate->subDay(1)->getDatetime();
+        $bind = array($minDateSql, $minDateSql);
+        Db::query($query, $bind);
     }
 
     private function checkAndReturnCommaSeparatedStringList($parameters)
@@ -1198,11 +1251,15 @@ class API
         if (count($urls) != 0) {
             $db = Db::get();
             foreach ($urls as $url) {
-                $db->insert(Common::prefixTable("site_url"), array(
-                                                                  'idsite' => $idSite,
-                                                                  'url'    => $url
-                                                             )
-                );
+                try {
+                    $db->insert(Common::prefixTable("site_url"), array(
+                                                                      'idsite' => $idSite,
+                                                                      'url'    => $url
+                                                                 )
+                    );
+                } catch(Exception $e) {
+                    // See bug #4149
+                }
             }
         }
     }
@@ -1266,7 +1323,7 @@ class API
     private function checkName($siteName)
     {
         if (empty($siteName)) {
-            throw new Exception(Piwik::translateException("SitesManager_ExceptionEmptyName"));
+            throw new Exception(Piwik::translate("SitesManager_ExceptionEmptyName"));
         }
     }
 
@@ -1302,7 +1359,7 @@ class API
     {
         foreach ($urls as $url) {
             if (!$this->isValidUrl($url)) {
-                throw new Exception(sprintf(Piwik::translateException("SitesManager_ExceptionInvalidUrl"), $url));
+                throw new Exception(sprintf(Piwik::translate("SitesManager_ExceptionInvalidUrl"), $url));
             }
         }
     }

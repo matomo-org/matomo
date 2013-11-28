@@ -128,7 +128,7 @@ var broadcast = {
                     broadcast.loadAjaxContent(hashUrl);
 
                     // make sure the "Widgets & Dashboard" is deleted on reload
-                    $('#dashboardSettings').remove();
+                    $('#dashboardSettings').hide();
                     $('#dashboardWidgetsArea').dashboard('destroy');
 
                     // remove unused controls
@@ -391,11 +391,13 @@ var broadcast = {
      * @return {Boolean}
      */
     loadAjaxContent: function (urlAjax) {
-        piwikMenu.activateMenu(
-            broadcast.getParamValue('module', urlAjax),
-            broadcast.getParamValue('action', urlAjax),
-            broadcast.getParamValue('idGoal', urlAjax) || broadcast.getParamValue('idDashboard', urlAjax)
-        );
+        if (typeof piwikMenu !== 'undefined') {
+            piwikMenu.activateMenu(
+                broadcast.getParamValue('module', urlAjax),
+                broadcast.getParamValue('action', urlAjax),
+                broadcast.getParamValue('idGoal', urlAjax) || broadcast.getParamValue('idDashboard', urlAjax)
+            );
+        }
 
         piwikHelper.hideAjaxError('loadingError');
         piwikHelper.showAjaxLoading();

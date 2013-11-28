@@ -1,3 +1,5 @@
+{% import '@CorePluginsAdmin/macros.twig' as plugins %}
+
 {% if isSuperUser %}
     {% if plugin.canBeUpdated %}
         <a href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
@@ -7,19 +9,19 @@
         <span class="install">{{ 'General_Installed'|translate }}</span>
     {% else %}
         <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
-           class="install">Install</a>
+           class="install">{{ 'CorePluginsAdmin_ActionInstall'|translate }}</a>
     {% endif %}
 {% endif %}
 
-<h3 class="header" title="Click for more details">
-    <a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more">{{ plugin.name }}</a>
+<h3 class="header" title="{{ 'General_MoreDetails'|translate }}">
+    <a href="javascript:void(0);" class="more">{{ plugin.name }}</a>
 </h3>
 
-<p class="description">{{ plugin.description }}</p>
-
-<a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more"><img  title="Click for more details"
-            class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
+<p class="description">{% if plugin.featured %}{{ plugins.featuredIcon('right') }}{% endif %}{{ plugin.description }}</p>
 
 {% if plugin.canBeUpdated %}
-    <p class="updateAvailableNotice">You can update this theme to version {{ plugin.latestVersion }}</p>
+    <p class="updateAvailableNotice">{{ 'CorePluginsAdmin_ThemeUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}</p>
 {% endif %}
+
+<a href="javascript:void(0);" class="more"><img  title="{{ 'General_MoreDetails'|translate }}"
+            class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>

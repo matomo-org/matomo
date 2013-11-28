@@ -31,7 +31,8 @@ class Referrer
     protected $idsite;
 
     // Used to prefix when a adsense referrer is detected
-    const LABEL_PREFIX_ADSENSE_KEYWORD = '(adsense) ';
+    const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
+    const LABEL_ADWORDS_NAME = 'AdWords';
 
     /**
      * Returns an array containing the following information:
@@ -74,7 +75,7 @@ class Referrer
             $referrerUrl = '';
         }
 
-        $currentUrl = Action::cleanupUrl($currentUrl);
+        $currentUrl = PageUrl::cleanupUrl($currentUrl);
 
         $this->referrerUrl = $referrerUrl;
         $this->referrerUrlParse = @parse_url($this->referrerUrl);
@@ -88,13 +89,7 @@ class Referrer
             $this->referrerHost = $this->referrerUrlParse['host'];
         }
 
-        $referrerDetected = false;
-
-        if (!empty($this->currentUrlParse['host'])
-            && $this->detectReferrerCampaign()
-        ) {
-            $referrerDetected = true;
-        }
+        $referrerDetected = $this->detectReferrerCampaign();
 
         if (!$referrerDetected) {
             if ($this->detectReferrerDirectEntry()
@@ -108,7 +103,7 @@ class Referrer
             && !$referrerDetected
         ) {
             $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_WEBSITE;
-            $this->nameReferrerAnalyzed = mb_strtolower($this->referrerHost, 'UTF-8');
+            $this->nameReferrerAnalyzed = Common::mb_strtolower($this->referrerHost);
         }
 
         $referrerInformation = array(
@@ -130,8 +125,20 @@ class Referrer
         $searchEngineInformation = UrlHelper::extractSearchEngineInformationFromUrl($this->referrerUrl);
 
         /**
-         * This event is triggered after basic search engine detection has been attempted. A plugin can use this event
-         * to modify or provide new results based on the passed referrer URL.
+         * Triggered when detecting the search engine of a referrer URL.
+         * 
+         * Plugins can use this event to provide custom search engine detection
+         * logic.
+         * 
+         * @param array &$searchEngineInformation An array with the following information:
+         * 
+         *                                        - **name**: The search engine name.
+         *                                        - **keywords**: The search keywords used.
+         *  
+         *                                        This parameter will be defaulted to the results
+         *                                        of Piwik's default search engine detection
+         *                                        logic.
+         * @param string referrerUrl The referrer URL.
          */
         Piwik::postEvent('Tracker.detectReferrerSearchEngine', array(&$searchEngineInformation, $this->referrerUrl));
         if ($searchEngineInformation === false) {
@@ -156,59 +163,23 @@ class Referrer
             }
         }
 
-        if (!empty($campaignName)) {
-            $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
-            $this->nameReferrerAnalyzed = $campaignName;
-
-            foreach ($this->campaignKeywords as $campaignKeywordParameter) {
-                $campaignKeyword = UrlHelper::getParameterFromQueryString($string, $campaignKeywordParameter);
-                if (!empty($campaignKeyword)) {
-                    $this->keywordReferrerAnalyzed = trim(urldecode($campaignKeyword));
-                    break;
-                }
-            }
-
-            // if the campaign keyword is empty, try to get a keyword from the referrer URL
-            if (empty($this->keywordReferrerAnalyzed)) {
-                // Set the Campaign keyword to the keyword found in the Referrer URL if any
-                $referrerUrlInfo = UrlHelper::extractSearchEngineInformationFromUrl($this->referrerUrl);
-                if (!empty($referrerUrlInfo['keywords'])) {
-                    $this->keywordReferrerAnalyzed = $referrerUrlInfo['keywords'];
-                }
-
-                // Set the keyword, to the hostname found, in a Adsense Referrer URL '&url=' parameter
-                if (empty($this->keywordReferrerAnalyzed)
-                    && !empty($this->referrerUrlParse['query'])
-                    && !empty($this->referrerHost)
-                    && (strpos($this->referrerHost, 'google') !== false || strpos($this->referrerHost, 'doubleclick') !== false)
-                ) {
-                    // This parameter sometimes is found & contains the page with the adsense ad bringing visitor to our site
-                    $adsenseReferrerParameter = 'url';
-                    $value = trim(urldecode(UrlHelper::getParameterFromQueryString($this->referrerUrlParse['query'], $adsenseReferrerParameter)));
-                    if (!empty($value)) {
-                        $parsedAdsenseReferrerUrl = parse_url($value);
-                        if (!empty($parsedAdsenseReferrerUrl['host'])) {
-                            $this->keywordReferrerAnalyzed = self::LABEL_PREFIX_ADSENSE_KEYWORD . $parsedAdsenseReferrerUrl['host'];
-                        }
-                    }
-                }
-
-                // or we default to the referrer hostname otherwise
-                if (empty($this->keywordReferrerAnalyzed)) {
-                    $this->keywordReferrerAnalyzed = $this->referrerHost;
-                }
-            }
-
-            return true;
+        if (empty($campaignName)) {
+            return false;
         }
-        return false;
+        $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
+        $this->nameReferrerAnalyzed = $campaignName;
+
+        foreach ($this->campaignKeywords as $campaignKeywordParameter) {
+            $campaignKeyword = UrlHelper::getParameterFromQueryString($string, $campaignKeywordParameter);
+            if (!empty($campaignKeyword)) {
+                $this->keywordReferrerAnalyzed = trim(urldecode($campaignKeyword));
+                break;
+            }
+        }
+        return !empty($this->keywordReferrerAnalyzed);
     }
 
-    /**
-     * Campaign analysis
-     * @return bool
-     */
-    protected function detectReferrerCampaign()
+    protected function detectReferrerCampaignFromLandingUrl()
     {
         if (!isset($this->currentUrlParse['query'])
             && !isset($this->currentUrlParse['fragment'])
@@ -230,9 +201,8 @@ class Referrer
         if (!$found
             && isset($this->currentUrlParse['fragment'])
         ) {
-            $found = $this->detectCampaignFromString($this->currentUrlParse['fragment']);
+            $this->detectCampaignFromString($this->currentUrlParse['fragment']);
         }
-        return $found;
     }
 
     /**
@@ -260,4 +230,76 @@ class Referrer
         }
         return false;
     }
+
+    protected function detectCampaignKeywordFromReferrerUrl()
+    {
+        if(!empty($this->nameReferrerAnalyzed)
+            && !empty($this->keywordReferrerAnalyzed)) {
+            // keyword is already set, we skip
+            return true;
+        }
+
+        // Set the Campaign keyword to the keyword found in the Referrer URL if any
+        if(!empty($this->nameReferrerAnalyzed)) {
+            $referrerUrlInfo = UrlHelper::extractSearchEngineInformationFromUrl($this->referrerUrl);
+            if (!empty($referrerUrlInfo['keywords'])) {
+                $this->keywordReferrerAnalyzed = $referrerUrlInfo['keywords'];
+            }
+        }
+
+        // Set the keyword, to the hostname found, in a Adsense Referrer URL '&url=' parameter
+        if (empty($this->keywordReferrerAnalyzed)
+            && !empty($this->referrerUrlParse['query'])
+            && !empty($this->referrerHost)
+            && (strpos($this->referrerHost, 'googleads') !== false || strpos($this->referrerHost, 'doubleclick') !== false)
+        ) {
+            // This parameter sometimes is found & contains the page with the adsense ad bringing visitor to our site
+            $value = $this->getParameterValueFromReferrerUrl('url');
+            if (!empty($value)) {
+                $parsedAdsenseReferrerUrl = parse_url($value);
+                if (!empty($parsedAdsenseReferrerUrl['host'])) {
+
+                    if(empty($this->nameReferrerAnalyzed)) {
+                        $type = $this->getParameterValueFromReferrerUrl('ad_type');
+                        $type = $type ? " ($type)" : '';
+                        $this->nameReferrerAnalyzed = self::LABEL_ADWORDS_NAME . $type;
+                        $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
+                    }
+                    $this->keywordReferrerAnalyzed = self::LABEL_PREFIX_ADWORDS_KEYWORD . $parsedAdsenseReferrerUrl['host'];
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @return string
+     */
+    protected function getParameterValueFromReferrerUrl($adsenseReferrerParameter)
+    {
+        $value = trim(urldecode(UrlHelper::getParameterFromQueryString($this->referrerUrlParse['query'], $adsenseReferrerParameter)));
+        return $value;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function detectReferrerCampaign()
+    {
+        $this->detectReferrerCampaignFromLandingUrl();
+        $this->detectCampaignKeywordFromReferrerUrl();
+
+        // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
+        if ($this->typeReferrerAnalyzed != Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+        if(empty($this->keywordReferrerAnalyzed)) {
+            $this->keywordReferrerAnalyzed = $this->referrerHost;
+        }
+
+        $this->keywordReferrerAnalyzed = Common::mb_strtolower($this->keywordReferrerAnalyzed);
+        $this->nameReferrerAnalyzed = Common::mb_strtolower($this->nameReferrerAnalyzed);
+        return true;
+    }
+
 }

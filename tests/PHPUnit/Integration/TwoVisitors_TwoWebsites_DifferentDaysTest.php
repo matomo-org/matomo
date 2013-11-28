@@ -21,7 +21,6 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
 
     /**
      * @group        Integration
-     * @group        TwoVisitors_TwoWebsites_DifferentDays
      */
     public function testImagesIncludedInTests()
     {
@@ -31,7 +30,6 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitors_TwoWebsites_DifferentDays
      */
     public function testApi($api, $params)
     {

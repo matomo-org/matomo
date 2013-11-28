@@ -12,3 +12,10 @@ require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 
+\Piwik\SettingsServer::setMaxExecutionTime(0);
+
+// Make sure Data processed in archive.php is not being purged instantly (useful for: Integration/ArchiveCronTest)
+if(\Piwik\SettingsServer::isArchivePhpTriggered()) {
+    \Piwik\ArchiveProcessor\Rules::$purgeDisabledByTests = true;
+}
+

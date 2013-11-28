@@ -70,6 +70,11 @@ class Csv extends Renderer
     public $exportIdSubtable = true;
 
     /**
+     * This string is also hardcoded in archive,sh
+     */
+    const NO_DATA_AVAILABLE = 'No data available';
+
+    /**
      * Computes the dataTable output and returns the string/binary
      *
      * @return string
@@ -78,7 +83,7 @@ class Csv extends Renderer
     {
         $str = $this->renderTable($this->table);
         if (empty($str)) {
-            return 'No data available';
+            return self::NO_DATA_AVAILABLE;
         }
 
         $this->renderHeader();

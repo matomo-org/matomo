@@ -18,12 +18,18 @@ use Piwik\Site;
  * A DataTable filter that calculates the evolution of a metric and adds
  * it to each row as a percentage.
  *
- * This filter cannot be used as a normal filter since it requires
- * corresponding data from another datatable. Instead, to use it,
- * you must manually perform a binary filter (see the MultiSites API).
+ * **This filter cannot be used as an argument to [DataTable::filter](#)** since
+ * it requires corresponding data from another datatable. Instead, to use it,
+ * you must manually perform a binary filter (see the MultiSites API for an
+ * example).
  *
  * The evolution metric is calculated as:
- * <code>((currentValue - pastValue) / pastValue) * 100</code>
+ * 
+ *     ((currentValue - pastValue) / pastValue) * 100
+ *
+ * @package Piwik
+ * @subpackage DataTable
+ * @api
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
@@ -43,12 +49,12 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * Constructor.
      *
      * @param DataTable $table The DataTable being filtered.
-     * @param DataTable $pastDataTable
-     * @param string $columnToAdd
-     * @param string $columnToRead
-     * @param int $quotientPrecision
+     * @param DataTable $pastDataTable The DataTable containing data for the period in the past.
+     * @param string $columnToAdd The column to add evolution data to, eg, `'visits_evolution'`.
+     * @param string $columnToRead The column to use to calculate evolution data, eg, `'nb_visits'`.
+     * @param int $quotientPrecision The precision to use when rounding the evolution value.
      */
-    function __construct($table, $pastDataTable, $columnToAdd, $columnToRead, $quotientPrecision = 0)
+    public function __construct($table, $pastDataTable, $columnToAdd, $columnToRead, $quotientPrecision = 0)
     {
         parent::__construct(
             $table, $columnToAdd, $columnToRead, $columnToRead, $quotientPrecision, $shouldSkipRows = true);
@@ -142,7 +148,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * @param float|int $quotientPrecision The quotient precision to round to.
      * @param bool $appendPercentSign Whether to append a '%' sign to the end of the number or not.
      *
-     * @return string The evolution percent 15%
+     * @return string The evolution percent, eg `'15%'`.
      */
     public static function calculate($currentValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = true)
     {
@@ -155,8 +161,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 
     public static function appendPercentSign($number)
     {
-        $number = $number . '%';
-        return $number;
+        return $number . '%';
     }
 
     public static function prependPlusSignToNumber($number)

@@ -20,9 +20,10 @@ use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 use Piwik\View;
 
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     /** The index of the plugin */
@@ -45,7 +46,7 @@ class Controller extends \Piwik\Controller
 
         $view->ssl = ProxyHttp::isHttps();
 
-        echo $view->render();
+        return $view->render();
     }
 
     /** Render the area left of the iframe */
@@ -57,12 +58,12 @@ class Controller extends \Piwik\Controller
         $currentUrl = Common::getRequestVar('currentUrl');
         $currentUrl = Common::unsanitizeInputValue($currentUrl);
 
-        $normalizedCurrentUrl = Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
+        $normalizedCurrentUrl = PageUrl::excludeQueryParametersFromUrl($currentUrl, $idSite);
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
 
         // load the appropriate row of the page urls report using the label filter
         ArchivingHelper::reloadConfig();
-        $path = ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_ACTION_URL);
+        $path = ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_PAGE_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
         $request = new Request(
@@ -118,7 +119,7 @@ class Controller extends \Piwik\Controller
         $view->idSite = $idSite;
         $view->period = $period;
         $view->date = $date;
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -135,7 +136,7 @@ class Controller extends \Piwik\Controller
         $urls = $sitesManager->getSiteUrlsFromId($idSite);
 
         @header('Content-Type: text/html; charset=UTF-8');
-        echo '
+        return '
 			<html><head><title></title></head><body>
 			<script type="text/javascript">
 				function handleProtocol(url) {
@@ -218,7 +219,7 @@ class Controller extends \Piwik\Controller
             $view->troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorUser'));
         }
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -232,6 +233,6 @@ class Controller extends \Piwik\Controller
     public function notifyParentIframe()
     {
         $view = new View('@Overlay/notifyParentIframe');
-        echo $view->render();
+        return $view->render();
     }
 }

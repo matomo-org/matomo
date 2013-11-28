@@ -11,6 +11,7 @@
 namespace Piwik\View;
 
 use Piwik\FrontController;
+use Piwik\Piwik;
 use Piwik\Url;
 use Piwik\View;
 
@@ -25,11 +26,14 @@ class ReportsByDimension extends View
 {
     /**
      * Constructor.
+     *
+     * @param string $id
      */
-    public function __construct()
+    public function __construct($id)
     {
         parent::__construct('@CoreHome/ReportsByDimension/_reportsByDimension');
         $this->dimensionCategories = array();
+        $this->id = $id;
     }
 
     /**
@@ -72,12 +76,27 @@ class ReportsByDimension extends View
     }
 
     /**
+     * @return string The ID specified in the constructor, usually the plugin name
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Renders this view.
      *
      * @return string The rendered view.
      */
     public function render()
     {
+        /**
+         * Use this hook to configure the "Report by dimension" UI controller. This controller is displayed for example
+         * in the Referrers>Overview and the Goals>Overview report. It displays a list of repotrs on the left, and when click
+         * loads the report on the right column. This hook can be used to filter this list of report. @see ReportsByDimension class for more info.
+         */
+        Piwik::postEvent('View.ReportsByDimension.render', array($this));
+
         $this->firstReport = "";
 
         // if there are reports & report categories added, render the first one so we can

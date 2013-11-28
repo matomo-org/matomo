@@ -1,4 +1,5 @@
-{% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
+{% set displayVisitorsInOwnColumn = (isWidget ? false : true) %}
+{% set displayReferrersInOwnColumn = (clientSideParameters.smallWidth ? false : true) %}
 <table class="dataTable" cellspacing="0" width="100%" style="width:100%;table-layout:fixed;">
 <thead>
 <tr>
@@ -11,9 +12,11 @@
             <div id="thDIV">{{ 'General_Visitors'|translate }}</div>
         </th>
     {% endif %}
+    {% if displayReferrersInOwnColumn %}
     <th id="label" class="sortable label" style="cursor: auto;width:230px;" width="230px">
         <div id="thDIV">{{ 'Live_Referrer_URL'|translate }}</div>
     </th>
+    {% endif %}
     <th id="label" class="sortable label" style="cursor: auto;">
         <div id="thDIV">{{ 'General_ColumnNbActions'|translate }}</div>
     </th>
@@ -22,8 +25,8 @@
 <tbody>
 {% set cycleIndex=0 %}
 {% for visitor in dataTable.getRows() %}
+    {% set breakBeforeVisitorRank = (visitor.getColumn('visitEcommerceStatusIcon') and visitor.getColumn('visitorTypeIcon')) ? true : false %}
     {% set visitorColumnContent %}
-        &nbsp;
         <img src="{{ visitor.getColumn('countryFlag') }}" title="{{ visitor.getColumn('location') }}, Provider {{ visitor.getColumn('providerName') }}"/>
         &nbsp;
         {% if visitor.getColumn('plugins') %}
@@ -39,12 +42,10 @@
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
                  title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitorId') is not empty %}{% endif %}"/>
         {% endif %}
-
-        {% if not displayVisitorsInOwnColumn %}<br/><br/>{% endif %}
-        &nbsp;
+        {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}<br/><br />{% endif %}
         {% if visitor.getColumn('visitConverted') %}
             <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank'
-                {% if not displayVisitorsInOwnColumn %}style='margin-left:0;'{% endif %}>
+                  {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}style="margin-left:0;"{% endif %}>
             <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
             <span class='hash'>#</span>
             {{ visitor.getColumn('goalConversions') }}
@@ -54,7 +55,7 @@
             {% endif %}
             </span>
         {% endif %}
-        <br/>
+        {% if not displayVisitorsInOwnColumn %}<br/><br />{% endif %}
         {% if displayVisitorsInOwnColumn %}
             {% if visitor.getColumn('pluginsIcons')|length > 0 %}
                 <hr/>
@@ -65,6 +66,48 @@
             {% endif %}
         {% endif %}
     {% endset %}
+
+    {% set referrerColumnContent %}
+    <div class="referrer">
+        {% if visitor.getColumn('referrerType') == 'website' %}
+            {{ 'Referrers_ColumnWebsite'|translate }}:
+            <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"
+               style="text-decoration:underline;">
+                {{ visitor.getColumn('referrerName') }}
+            </a>
+        {% endif %}
+        {% if visitor.getColumn('referrerType') == 'campaign' %}
+            {{ 'Referrers_ColumnCampaign'|translate }}
+            <br/>
+            {{ visitor.getColumn('referrerName') }}
+            {% if visitor.getColumn('referrerKeyword') is not empty %} - {{ visitor.getColumn('referrerKeyword') }}{% endif %}
+        {% endif %}
+        {% if visitor.getColumn('referrerType') == 'search' %}
+            {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
+            {%- set showKeyword = visitor.getColumn('referrerKeyword') is not empty and visitor.getColumn('referrerKeyword') != keywordNotDefined -%}
+            {% if visitor.getColumn('searchEngineIcon') %}
+                <img src="{{ visitor.getColumn('searchEngineIcon') }}" alt="{{ visitor.getColumn('referrerName') }}"/>
+            {% endif %}
+            <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
+            {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
+                <br/>
+                <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" style="text-decoration:underline;">
+                    "{{ visitor.getColumn('referrerKeyword') }}"</a>
+            {% endif %}
+            {% set keyword %}{{ visitor.getColumn('referrerKeyword') }}{% endset %}
+            {% set searchName %}{{ visitor.getColumn('referrerName') }}{% endset %}
+            {% set position %}#{{ visitor.getColumn('referrerKeywordPosition') }}{% endset %}
+            {% if visitor.getColumn('referrerKeywordPosition') %}
+                <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank'>
+                                <span class='hash'>#</span>
+                    {{ visitor.getColumn('referrerKeywordPosition') }}
+                            </span>
+            {% endif %}
+        {% endif %}
+        {% if visitor.getColumn('referrerType') == 'direct' %}{{ 'Referrers_DirectEntry'|translate }}{% endif %}
+    </div>
+    {% endset %}
+
 
     {% set visitorRow %}
         <tr class="label{{ cycle(['odd','even'], cycleIndex) }}">
@@ -78,6 +121,8 @@
                     <br/>
                 <span title="{% if visitor.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.getColumn('visitorId') }}{% endif -%}
                 {%- if visitor.getColumn('latitude') or visitor.getColumn('longitude') %}
+
+{{ visitor.getColumn('location') }}
 
 GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longitude') }}{% endif %}">
                     IP: {{ visitor.getColumn('visitIp') }}</span>{% endif %}
@@ -105,6 +150,10 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                     <br/>
                     {{ visitorColumnContent }}
                 {% endif %}
+                {% if not displayReferrersInOwnColumn %}
+                    <br/>
+                    {{ referrerColumnContent }}
+                {% endif %}
             </td>
 
             {% if displayVisitorsInOwnColumn %}
@@ -113,46 +162,12 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 </td>
             {% endif %}
 
-            <td class="column">
-                <div class="referrer">
-                    {% if visitor.getColumn('referrerType') == 'website' %}
-                        {{ 'Referrers_ColumnWebsite'|translate }}:
-                        <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"
-                           style="text-decoration:underline;">
-                            {{ visitor.getColumn('referrerName') }}
-                        </a>
-                    {% endif %}
-                    {% if visitor.getColumn('referrerType') == 'campaign' %}
-                        {{ 'Referrers_ColumnCampaign'|translate }}
-                        <br/>
-                        {{ visitor.getColumn('referrerName') }}
-                        {% if visitor.getColumn('referrerKeyword') is not empty %} - {{ visitor.getColumn('referrerKeyword') }}{% endif %}
-                    {% endif %}
-                    {% if visitor.getColumn('referrerType') == 'search' %}
-                        {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
-                        {%- set showKeyword = visitor.getColumn('referrerKeyword') is not empty and visitor.getColumn('referrerKeyword') != keywordNotDefined -%}
-                        {% if visitor.getColumn('searchEngineIcon') %}
-                            <img src="{{ visitor.getColumn('searchEngineIcon') }}" alt="{{ visitor.getColumn('referrerName') }}"/>
-                        {% endif %}
-                        <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
-                        {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
-                            <br/>
-                            <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" style="text-decoration:underline;">
-                                "{{ visitor.getColumn('referrerKeyword') }}"</a>
-                        {% endif %}
-                        {% set keyword %}{{ visitor.getColumn('referrerKeyword') }}{% endset %}
-                        {% set searchName %}{{ visitor.getColumn('referrerName') }}{% endset %}
-                        {% set position %}#{{ visitor.getColumn('referrerKeywordPosition') }}{% endset %}
-                        {% if visitor.getColumn('referrerKeywordPosition') %}
-                            <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank'>
-                                <span class='hash'>#</span>
-                                {{ visitor.getColumn('referrerKeywordPosition') }}
-                            </span>
-                        {% endif %}
-                    {% endif %}
-                    {% if visitor.getColumn('referrerType') == 'direct' %}{{ 'Referrers_DirectEntry'|translate }}{% endif %}
-                </div>
-            </td>
+            {% if displayReferrersInOwnColumn %}
+                <td class="column">
+                    {{ referrerColumnContent }}
+                </td>
+            {% endif %}
+
             <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
                 <div class="visitor-log-page-list">
                     {% if visitor.getColumn('visitorId') is not empty %}
@@ -178,7 +193,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
         </tr>
     {% endset %}
 
-    {% if not clientSideParameters.filterEcommerce or visitorHasSomeEcommerceActivity is not empty %}
+    {% if not clientSideParameters.filterEcommerce or visitorHasSomeEcommerceActivity|default(false) %}
         {{ visitorRow }}
     {% endif %}
 {% endfor %}

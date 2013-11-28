@@ -12,6 +12,7 @@
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
+		<events>0</events>
 		<actions>0</actions>
 		<actionDetails>
 			<row>
@@ -145,6 +146,7 @@
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
+		<events>0</events>
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -152,8 +154,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>14</pageId>
 				
+				<pageId>14</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -181,8 +183,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>15</pageId>
 				
+				<pageId>15</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -210,8 +212,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>16</pageId>
 				
+				<pageId>16</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>

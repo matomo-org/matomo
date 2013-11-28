@@ -19,7 +19,7 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 use Piwik\Url;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * ROW EVOLUTION
@@ -184,31 +184,32 @@ class RowEvolution
      * Do as much as possible from outside the controller.
      * @param string|bool $graphType
      * @param array|bool $metrics
-     * @return ViewDataTable
+     * @return Factory
      */
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = ViewDataTable::factory($graphType ? : $this->graphType, $this->apiMethod,
+        $view = Factory::build($graphType ? : $this->graphType, $this->apiMethod,
             $controllerAction = 'CoreHome.getRowEvolutionGraph', $forceDefault = true);
         $view->setDataTable($this->dataTable);
 
         if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
-            $view->columns_to_display = array_keys($metrics ? : $this->graphMetrics);
+            $view->config->columns_to_display = array_keys($metrics ? : $this->graphMetrics);
         }
 
-        $view->show_goals = false;
-        $view->show_all_views_icons = false;
-        $view->show_active_view_icon = false;
-        $view->show_related_reports = false;
-        $view->visualization_properties->show_series_picker = false;
+        $view->config->show_goals = false;
+        $view->config->show_all_views_icons = false;
+        $view->config->show_active_view_icon = false;
+        $view->config->show_related_reports  = false;
+        $view->config->show_series_picker    = false;
+        $view->config->show_footer_message   = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
-            $view->translations[$metric] = $metadata['name'];
+            $view->config->translations[$metric] = $metadata['name'];
         }
 
-        $view->visualization_properties->external_series_toggle = 'RowEvolutionSeriesToggle';
-        $view->visualization_properties->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
+        $view->config->external_series_toggle = 'RowEvolutionSeriesToggle';
+        $view->config->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
 
         return $view;
     }
@@ -222,15 +223,11 @@ class RowEvolution
         $i = 0;
         $metrics = array();
         foreach ($this->availableMetrics as $metric => $metricData) {
-            $max = isset($metricData['max']) ? $metricData['max'] : 0;
-            $min = isset($metricData['min']) ? $metricData['min'] : 0;
+            $unit = Metrics::getUnit($metric, $this->idSite);
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
-            $unit = Metrics::getUnit($metric, $this->idSite);
-            $min .= $unit;
-            $max .= $unit;
-
-            $details = Piwik::translate('RowEvolution_MetricBetweenText', array($min, $max));
+            list($first, $last) = $this->getFirstAndLastDataPointsForMetric($metric);
+            $details = Piwik::translate('RowEvolution_MetricBetweenText', array($first, $last));
 
             if ($change !== false) {
                 $lowerIsBetter = Metrics::isLowerValueBetter($metric);
@@ -252,9 +249,17 @@ class RowEvolution
                 $details .= ', ' . Piwik::translate('RowEvolution_MetricChangeText', $change);
             }
 
+            // set metric min/max text (used as tooltip for details)
+            $max = isset($metricData['max']) ? $metricData['max'] : 0;
+            $min = isset($metricData['min']) ? $metricData['min'] : 0;
+            $min .= $unit;
+            $max .= $unit;
+            $minmax = Piwik::translate('RowEvolution_MetricMinMax', array($metricData['name'], $min, $max));
+
             $newMetric = array(
                 'label'     => $metricData['name'],
                 'details'   => $details,
+                'minmax'    => $minmax,
                 'sparkline' => $this->getSparkline($metric),
             );
             // Multi Rows, each metric can be for a particular row and display an icon
@@ -291,5 +296,28 @@ class RowEvolution
     public function useAvailableMetrics()
     {
         $this->graphMetrics = $this->availableMetrics;
+    }
+
+    private function getFirstAndLastDataPointsForMetric($metric)
+    {
+        $first = 0;
+        $firstTable = $this->dataTable->getFirstRow();
+        if (!empty($firstTable)) {
+            $row = $firstTable->getFirstRow();
+            if (!empty($row)) {
+                $first = floatval($row->getColumn($metric));
+            }
+        }
+
+        $last = 0;
+        $lastTable = $this->dataTable->getLastRow();
+        if (!empty($lastTable)) {
+            $row = $lastTable->getFirstRow();
+            if (!empty($row)) {
+                $last = floatval($row->getColumn($metric));
+            }
+        }
+
+        return array($first, $last);
     }
 }

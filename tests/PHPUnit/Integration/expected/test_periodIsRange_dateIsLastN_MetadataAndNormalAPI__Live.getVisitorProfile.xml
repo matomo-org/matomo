@@ -55,6 +55,7 @@
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<searches>0</searches>
+			<events>0</events>
 			<actions>1</actions>
 			<actionDetails>
 				<row>
@@ -62,8 +63,8 @@
 					<url>http://test.com</url>
 					<pageTitle />
 					<pageIdAction>6</pageIdAction>
-					<pageId>5</pageId>
 					
+					<pageId>5</pageId>
 					<icon>plugins/Zeitgeist/images/link.gif</icon>
 				</row>
 			</actionDetails>
@@ -159,6 +160,7 @@
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<searches>0</searches>
+			<events>0</events>
 			<actions>1</actions>
 			<actionDetails>
 				<row>
@@ -176,8 +178,8 @@
 					<url>http://example.org/homepage</url>
 					<pageTitle>Homepage</pageTitle>
 					<pageIdAction>2</pageIdAction>
-					<pageId>4</pageId>
 					
+					<pageId>4</pageId>
 					<icon />
 				</row>
 			</actionDetails>

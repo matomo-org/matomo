@@ -16,29 +16,15 @@ use Piwik\Plugin;
 /**
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
+ *
+ * @method static \Piwik\EventDispatcher getInstance()
  */
-class EventDispatcher
+class EventDispatcher extends Singleton
 {
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;
     const EVENT_CALLBACK_GROUP_SECOND = 1;
     const EVENT_CALLBACK_GROUP_THIRD = 2;
-
-    /**
-     * Singleton instance.
-     */
-    private static $instance = null;
-
-    /**
-     * Returns the singleton EventDispatcher instance. Creates it if necessary.
-     */
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new EventDispatcher();
-        }
-        return self::$instance;
-    }
 
     /**
      * Array of observers (callbacks attached to events) that are not methods
@@ -80,7 +66,7 @@ class EventDispatcher
         }
 
         if (empty($plugins)) {
-            $plugins = PluginsManager::getInstance()->getLoadedPlugins();
+            $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
         }
 
         $callbacks = array();
@@ -88,7 +74,7 @@ class EventDispatcher
         // collect all callbacks to execute
         foreach ($plugins as $plugin) {
             if (is_string($plugin)) {
-                $plugin = PluginsManager::getInstance()->getLoadedPlugin($plugin);
+                $plugin = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin($plugin);
             }
 
             $hooks = $plugin->getListHooksRegistered();

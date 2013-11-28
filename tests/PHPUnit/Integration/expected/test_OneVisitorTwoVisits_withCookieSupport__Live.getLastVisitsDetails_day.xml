@@ -12,6 +12,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -29,8 +30,8 @@
 				<url>http://example.org/store/purchase.htm</url>
 				<pageTitle>Checkout/Purchasing...</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>9</pageId>
 				
+				<pageId>9</pageId>
 				<generationTime>0.13s</generationTime>
 				<icon />
 			</row>
@@ -118,6 +119,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
+		<events>0</events>
 		<actions>8</actions>
 		<actionDetails>
 			<row>
@@ -125,11 +127,11 @@
 				<url>http://example.org/index.htm?parameter=Should display</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>1</pageId>
 				
+				<pageId>1</pageId>
+				<generationTime>0.23s</generationTime>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<generationTime>0.23s</generationTime>
 				<icon />
 			</row>
 			<row>
@@ -137,11 +139,11 @@
 				<url>http://example.org/</url>
 				<pageTitle>Second page view - should be registered as URL</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>2</pageId>
 				
+				<pageId>2</pageId>
+				<generationTime>0.22s</generationTime>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<generationTime>0.22s</generationTime>
 				<icon />
 			</row>
 			<row>
@@ -149,8 +151,8 @@
 				<url>http://dev.piwik.org/svn</url>
 				<pageTitle />
 				<pageIdAction>5</pageIdAction>
-				<pageId>3</pageId>
 				
+				<pageId>3</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/link.gif</icon>
@@ -160,8 +162,8 @@
 				<url>http://piwik.org/path/again/latest.zip</url>
 				<pageTitle />
 				<pageIdAction>6</pageIdAction>
-				<pageId>4</pageId>
 				
+				<pageId>4</pageId>
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/download.png</icon>
@@ -171,8 +173,8 @@
 				<url>http://outlinks.org/other_outlink</url>
 				<pageTitle />
 				<pageIdAction>7</pageIdAction>
-				<pageId>5</pageId>
 				
+				<pageId>5</pageId>
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/link.gif</icon>
@@ -182,8 +184,8 @@
 				<url>http://dev.piwik.org/svn</url>
 				<pageTitle />
 				<pageIdAction>5</pageIdAction>
-				<pageId>6</pageId>
 				
+				<pageId>6</pageId>
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/link.gif</icon>
@@ -202,12 +204,12 @@
 				<type>search</type>
 				<url />
 				<pageIdAction />
-				<pageId>7</pageId>
 				
+				<pageId>7</pageId>
+				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
+				<generationTime>0.81s</generationTime>
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
-				<generationTime>0.81s</generationTime>
-				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -215,8 +217,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at homepage after site search...</pageTitle>
 				<pageIdAction>10</pageIdAction>
-				<pageId>8</pageId>
 				
+				<pageId>8</pageId>
 				<generationTime>0.02s</generationTime>
 				<icon />
 			</row>

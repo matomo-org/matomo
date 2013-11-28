@@ -5,9 +5,9 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Piwik;
 
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric
@@ -25,7 +25,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests
+     * *
      */
     public function testApi($api, $params)
     {
@@ -64,7 +64,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
     /**
      * @depends      testApi
      * @group        Integration
-     * @group        OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests
+     * *
      */
     public function testCheck()
     {

@@ -182,4 +182,106 @@ class Profiler
         }
         Log::debug($output);
     }
+
+    /**
+     * Initializes Profiling via XHProf.
+     * See: https://github.com/piwik/piwik/blob/master/tests/README.xhprof.md
+     */
+    public static function setupProfilerXHProf($mainRun = false)
+    {
+        if(!empty($GLOBALS['PIWIK_TRACKER_MODE'])) {
+            // do not profile Tracker
+            return;
+        }
+
+        $path = PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_runs.php';
+
+        if(!file_exists($path)) {
+            return;
+        }
+
+        if(!function_exists('xhprof_enable')) {
+            return;
+        }
+
+        require_once $path;
+        require_once PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_lib.php';
+
+        if(!function_exists('xhprof_error')) {
+            function xhprof_error($out) {
+                echo substr($out, 0, 300) . '...';
+            }
+        }
+
+        $currentGitBranch = SettingsPiwik::getCurrentGitBranch();
+        $profilerNamespace = "piwik";
+        if($currentGitBranch != 'master') {
+            $profilerNamespace .= "." . $currentGitBranch;
+        }
+
+        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+
+        if($mainRun) {
+            self::setProfilingRunIds(array());
+        }
+
+        register_shutdown_function(function () use($profilerNamespace, $mainRun) {
+            $xhprofData = xhprof_disable();
+            $xhprofRuns = new \XHProfRuns_Default();
+            $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
+
+            $runs = self::getProfilingRunIds();
+            $runs[] = $runId;
+//            $weights = array_fill(0, count($runs), 1);
+//            $aggregate = xhprof_aggregate_runs($xhprofRuns, $runs, $weights, $profilerNamespace);
+//            $runId = $xhprofRuns->save_run($aggregate, $profilerNamespace);
+
+            if($mainRun) {
+                $runIds = implode(',', $runs);
+                $out = "\n\n";
+                $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
+                $baseUrlStored = SettingsPiwik::getPiwikUrl();
+                if(strlen($baseUrlStored) > strlen($baseUrl)) {
+                    $baseUrl = $baseUrlStored;
+                }
+                $baseUrl = "\n" . $baseUrl
+                    ."tests/lib/xhprof-0.9.4/xhprof_html/?source=$profilerNamespace&run=";
+
+                $out .= "Profiler report is available at:";
+                $out .= $baseUrl . $runId;
+                if($runId != $runIds) {
+                    $out .= "\n\nProfiler Report aggregating all runs triggered from this process: ";
+                    $out .= $baseUrl . $runIds;
+                }
+                $out .= "\n\n";
+                echo ($out);
+            } else {
+                self::setProfilingRunIds($runs);
+            }
+        });
+    }
+
+    private static function setProfilingRunIds($ids)
+    {
+        file_put_contents( self::getPathToXHProfRunIds(), json_encode($ids) );
+        @chmod(self::getPathToXHProfRunIds(), 0777);
+    }
+
+    private static function getProfilingRunIds()
+    {
+        $runIds = file_get_contents( self::getPathToXHProfRunIds() );
+        $array = json_decode($runIds, $assoc = true);
+        if(!is_array($array)) {
+            $array = array();
+        }
+        return $array;
+    }
+
+    /**
+     * @return string
+     */
+    private static function getPathToXHProfRunIds()
+    {
+        return PIWIK_INCLUDE_PATH . '/tmp/cache/tests-xhprof-runs';
+    }
 }

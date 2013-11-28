@@ -13,30 +13,37 @@ namespace Piwik\Menu;
 use Piwik\Piwik;
 
 /**
+ * Contains menu entries for the Admin menu. Plugins can subscribe to the 
+ * [Menu.Admin.addItems](#) event to add new pages to the admin menu.
+ * 
+ * **Example**
+ * 
+ *     // add a new page in an observer to Menu.Admin.addItems
+ *     public function addAdminMenuItem()
+ *     {
+ *         MenuAdmin::getInstance()->add(
+ *             'MyPlugin_MyTranslatedAdminMenuCategory',
+ *             'MyPlugin_MyTranslatedAdminPageName',
+ *             array('module' => 'MyPlugin', 'action' => 'index'),
+ *             Piwik::isUserHasSomeAdminAccess(),
+ *             $order = 2
+ *         );
+ *     }
+ * 
  * @package Piwik_Menu
+ * @method static \Piwik\Menu\MenuAdmin getInstance()
  */
 class MenuAdmin extends MenuAbstract
 {
-    static private $instance = null;
-
     /**
-     * @return MenuAdmin
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Adds a new AdminMenu entry.
+     * Adds a new AdminMenu entry under the 'Settings' category.
      *
-     * @param string $adminMenuName
-     * @param string $url
-     * @param boolean $displayedForCurrentUser
-     * @param int $order
+     * @param string $adminMenuName The name of the admin menu entry. Can be a translation token.
+     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     *                          that can be used to build the URL.
+     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
+     *                                         current user. If false, the entry will not be added.
+     * @param int $order The order hint.
      * @api
      */
     public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
@@ -54,24 +61,25 @@ class MenuAdmin extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * This event is triggered to collect all available admin menu items. Subscribe to this event if you want
-             * to add one or more items to the Piwik admin menu. Just define the name of your menu item as well as a
-             * controller and an action that should be executed once a user selects your menu item. It is also possible
-             * to display the item only for users having a specific role.
+             * Triggered when collecting all available admin menu items. Subscribe to this event if you want
+             * to add one or more items to the Piwik admin menu.
              *
-             * Example:
-             * ```
-             * public function addMenuItems()
-             * {
-             *     MenuAdmin::getInstance()->add(
-             *         'MenuName',
-             *         'SubmenuName',
-             *         array('module' => 'MyPlugin', 'action' => 'index'),
-             *         Piwik::isUserIsSuperUser(),
-             *         $order = 6
-             *     );
-             * }
-             * ```
+             * Menu items should be added via the [Menu::add](#) method.
+             *
+             * **Example**
+             * 
+             *     use Piwik\Menu\MenuAdmin;
+             * 
+             *     public function addMenuItems()
+             *     {
+             *         MenuAdmin::getInstance()->add(
+             *             'MenuName',
+             *             'SubmenuName',
+             *             array('module' => 'MyPlugin', 'action' => 'index'),
+             *             $showOnlyIf = Piwik::isUserIsSuperUser(),
+             *             $order = 6
+             *         );
+             *     }
              */
             Piwik::postEvent('Menu.Admin.addItems');
         }
@@ -83,7 +91,7 @@ class MenuAdmin extends MenuAbstract
      *
      * @return boolean
      */
-    function getCurrentAdminMenuName()
+    public function getCurrentAdminMenuName()
     {
         $menu = MenuAdmin::getInstance()->getMenu();
         $currentModule = Piwik::getModule();
@@ -101,4 +109,3 @@ class MenuAdmin extends MenuAbstract
         return false;
     }
 }
-

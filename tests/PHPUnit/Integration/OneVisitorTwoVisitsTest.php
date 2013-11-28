@@ -20,6 +20,9 @@ use Piwik\Archive;
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 {
+    /**
+     * @var Test_Piwik_Fixture_OneVisitorTwoVisits
+     */
     public static $fixture = null; // initialized below class
 
     public function setUp()
@@ -35,7 +38,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testApi($api, $params)
     {
@@ -45,11 +47,20 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     public function getApiForTesting()
     {
         $idSite = self::$fixture->idSite;
+        $idSiteBis = self::$fixture->idSiteEmptyBis;
+        $idSiteTer = self::$fixture->idSiteEmptyTer;
+
         $dateTime = self::$fixture->dateTime;
 
-        $enExtraParam = array('expanded' => 1, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
+        $enExtraParam = array('expanded' => 1,
+                              'flat' => 1,
+                              'include_aggregate_rows' => 0,
+                              'translateColumnNames' => 1
+        );
         $bulkUrls = array(
-            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitsSummary.get",
+            // Testing with several days
+            "idSite=" . $idSite . "&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
+            "idSite=" . $idSite . ",$idSiteBis,$idSiteTer&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
             "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitorInterest.getNumberOfVisitsPerVisitDuration"
         );
         foreach ($bulkUrls as &$url) {
@@ -131,6 +142,15 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                                                       'showColumns' => 'nb_visits,revenue'
                                                   ))),
 
+            // showColumns with only one column and report having no dimension
+            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                  'periods'                => 'day', 'apiModule' => 'VisitsSummary',
+                                                  'apiAction'              => 'get',
+                                                  'testSuffix'             => '_showColumns_onlyOne',
+                                                  'otherRequestParameters' => array(
+                                                      'showColumns'        => 'nb_visits'
+                                                  ))),
+
             // test hideColumns w/ expanded=1
             array('Actions.getPageTitles', array('idSite'                 => $idSite, 'date' => $dateTime,
                                                  'periods'                => 'day', 'testSuffix' => '_hideColumns_',
@@ -148,7 +168,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                 'idSite'                 => $idSite,
                 'date'                   => $dateTime,
                 'periods'                => 'day',
-                'testSuffix'             => '_showColumns', 
+                'testSuffix'             => '_showColumns',
                 'otherRequestParameters' => array(
                     'showColumns'        => 'nb_uniq_visitors,nb_pageviews,bounce_rate'
                 )
@@ -160,7 +180,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
      * Test that Archive::getBlob won't fetch extra unnecessary blobs.
      *
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testArchiveSingleGetBlob()
     {
@@ -186,7 +205,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
      * works when building an archive query object.
      * 
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testArchiveSitesWhenRestrictingToLogin()
     {

@@ -29,12 +29,12 @@
  * @version 2012-10-08
  * @link http://www.JSON.org/js.html
  ************************************************************/
-/*jslint evil: true, regexp: false, bitwise: true */
+/*jslint evil: true, regexp: false, bitwise: true*/
 /*global JSON2:true */
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
-    lastIndex, length, parse, prototype, push, replace, slice, stringify,
+    lastIndex, length, parse, prototype, push, replace, sort, slice, stringify,
     test, toJSON, toString, valueOf,
     objectToJSON
 */
@@ -426,8 +426,9 @@ if (typeof JSON2 !== 'object') {
     doNotTrack, setDoNotTrack, msDoNotTrack,
     addListener, enableLinkTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, trackSiteSearch,
-    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate
+    trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
+    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
+    deleteCookies
  */
 /*global _paq:true */
 /*members push */
@@ -483,7 +484,7 @@ if (typeof Piwik !== 'object') {
             asyncTracker,
 
             /* iterator */
-            i,
+            iterator,
 
             /* local Piwik */
             Piwik;
@@ -783,16 +784,16 @@ if (typeof Piwik !== 'object') {
                 },
 
                 cvt_hex = function (val) {
-                    var str = '',
+                    var strout = '',
                         i,
                         v;
 
                     for (i = 7; i >= 0; i--) {
                         v = (val >>> (i * 4)) & 0x0f;
-                        str += v.toString(16);
+                        strout += v.toString(16);
                     }
 
-                    return str;
+                    return strout;
                 },
 
                 blockstart,
@@ -1172,6 +1173,9 @@ if (typeof Piwik !== 'object') {
                 // Custom Variables, scope "page"
                 customVariablesPage = {},
 
+                // Custom Variables, scope "event"
+                customVariablesEvent = {},
+
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
 
@@ -1278,11 +1282,13 @@ if (typeof Piwik !== 'object') {
 
                 baseUrl = purify(baseUrl);
 
-                if ((i = baseUrl.indexOf('?')) >= 0) {
+                i = baseUrl.indexOf('?');
+                if (i >= 0) {
                     baseUrl = baseUrl.slice(0, i);
                 }
 
-                if ((i = baseUrl.lastIndexOf('/')) !== baseUrl.length - 1) {
+                i = baseUrl.lastIndexOf('/');
+                if (i !== baseUrl.length - 1) {
                     baseUrl = baseUrl.slice(0, i + 1);
                 }
 
@@ -1327,7 +1333,9 @@ if (typeof Piwik !== 'object') {
             function getImage(request) {
                 var image = new Image(1, 1);
 
-                image.onload = function () { };
+                image.onload = function () {
+                    iterator = 0; // To avoid JSLint warning of empty block
+                };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
@@ -1534,7 +1542,7 @@ if (typeof Piwik !== 'object') {
                         if (isObject(cookie)) {
                             return cookie;
                         }
-                    } catch (err) {
+                    } catch (ignore) {
                         // Pre 1.3, this cookie was not JSON encoded
                     }
                 }
@@ -1558,6 +1566,33 @@ if (typeof Piwik !== 'object') {
                 setCookie(getCookieName('ref'), '', -86400, configCookiePath, configCookieDomain);
 
                 configCookiesDisabled = savedConfigCookiesDisabled;
+            }
+
+            function sortObjectByKeys(value) {
+                if (!value || !isObject(value)) {
+                    return;
+                }
+
+                // Object.keys(value) is not supported by all browsers, we get the keys manually
+                var keys = [];
+                var key;
+
+                for (key in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, key)) {
+                        keys.push(key);
+                    }
+                }
+
+                var normalized = {};
+                keys.sort();
+                var len = keys.length;
+                var i;
+
+                for (i = 0; i < len; i++) {
+                    normalized[keys[i]] = value[keys[i]];
+                }
+
+                return normalized;
             }
 
             /**
@@ -1606,7 +1641,6 @@ if (typeof Piwik !== 'object') {
                 visitCount = id[3];
                 currentVisitTs = id[4];
                 lastVisitTs = id[5];
-
                 // case migrating from pre-1.5 cookies
                 if (!isDefined(id[6])) {
                     id[6] = "";
@@ -1633,10 +1667,18 @@ if (typeof Piwik !== 'object') {
                 referralUrl = attributionCookie[3];
 
                 if (!ses) {
-                    // new session (aka new visit)
-                    visitCount++;
+                    // cookie 'ses' was not found: we consider this the start of a 'session'
 
-                    lastVisitTs = currentVisitTs;
+                    // here we make sure that if 'ses' cookie is deleted few times within the visit
+                    // and so this code path is triggered many times for one visit,
+                    // we only increase visitCount once per Visit window (default 30min)
+                    var visitDuration = configSessionCookieTimeout / 1000;
+                    if (!lastVisitTs
+                            || (nowTs - lastVisitTs) > visitDuration) {
+                        visitCount++;
+                        lastVisitTs = currentVisitTs;
+                    }
+
 
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set
@@ -1709,12 +1751,6 @@ if (typeof Piwik !== 'object') {
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '');
 
-                // Custom Variables, scope "page"
-                var customVariablesPageStringified = JSON2.stringify(customVariablesPage);
-
-                if (customVariablesPageStringified.length > 2) {
-                    request += '&cvar=' + encodeWrapper(customVariablesPageStringified);
-                }
 
                 // browser features
                 for (i in browserFeatures) {
@@ -1730,14 +1766,24 @@ if (typeof Piwik !== 'object') {
                     request += '&data=' + encodeWrapper(JSON2.stringify(configCustomData));
                 }
 
+                // Custom Variables, scope "page"
+                function appendCustomVariablesToRequest(customVariables, parameterName) {
+                    var customVariablesStringified = JSON2.stringify(customVariables);
+                    if (customVariablesStringified.length > 2) {
+                        return '&' + parameterName + '=' + encodeWrapper(customVariablesStringified);
+                    }
+                    return '';
+                }
+
+                var sortedCustomVarPage  = sortObjectByKeys(customVariablesPage);
+                var sortedCustomVarEvent = sortObjectByKeys(customVariablesEvent);
+
+                request += appendCustomVariablesToRequest(sortedCustomVarPage, 'cvar');
+                request += appendCustomVariablesToRequest(sortedCustomVarEvent, 'e_cvar');
+
                 // Custom Variables, scope "visit"
                 if (customVariables) {
-                    var customVariablesStringified = JSON2.stringify(customVariables);
-
-                    // Don't sent empty custom variables {}
-                    if (customVariablesStringified.length > 2) {
-                        request += '&_cvar=' + encodeWrapper(customVariablesStringified);
-                    }
+                    request += appendCustomVariablesToRequest(customVariables, '_cvar');
 
                     // Don't save deleted custom variables in the cookie
                     for (i in customVariablesCopy) {
@@ -1752,11 +1798,13 @@ if (typeof Piwik !== 'object') {
                 }
 
                 // performance tracking
-                if (configPerformanceTrackingEnabled && configPerformanceGenerationTime) {
-                    request += '&gt_ms=' + configPerformanceGenerationTime;
-                } else if (configPerformanceTrackingEnabled && performanceAlias && performanceAlias.timing
-                        && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                    request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                if (configPerformanceTrackingEnabled) {
+                    if (configPerformanceGenerationTime) {
+                        request += '&gt_ms=' + configPerformanceGenerationTime;
+                    } else if (performanceAlias && performanceAlias.timing
+                            && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
+                        request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                    }
                 }
 
                 // update cookies
@@ -1882,17 +1930,17 @@ if (typeof Piwik !== 'object') {
                     // periodic check for activity
                     lastActivityTime = now.getTime();
                     setTimeout(function heartBeat() {
-                        var now = new Date(),
-                            request;
+                        var requestPing;
+                        now = new Date();
 
                         // there was activity during the heart beat period;
                         // on average, this is going to overstate the visitDuration by configHeartBeatTimer/2
                         if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
                             // send ping if minimum visit time has elapsed
                             if (configMinimumVisitTime < now.getTime()) {
-                                request = getRequest('ping=1', customData, 'ping');
+                                requestPing = getRequest('ping=1', customData, 'ping');
 
-                                sendRequest(request, configTrackerPause);
+                                sendRequest(requestPing, configTrackerPause);
                             }
 
                             // resume heart beat
@@ -1901,6 +1949,26 @@ if (typeof Piwik !== 'object') {
                         // else heart beat cancelled due to inactivity
                     }, configHeartBeatTimer);
                 }
+            }
+
+            /*
+             * Log the event
+             */
+            function logEvent(category, action, name, value, customData) {
+                // Category and Action are required parameters
+                if (String(category).length === 0 || String(action).length === 0) {
+                    return false;
+                }
+                var request = getRequest(
+                        'e_c=' + encodeWrapper(category)
+                            + '&e_a=' + encodeWrapper(action)
+                            + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
+                            + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : ''),
+                        customData,
+                        'event'
+                    );
+
+                sendRequest(request, configTrackerPause);
             }
 
             /*
@@ -2045,10 +2113,16 @@ if (typeof Piwik !== 'object') {
                     tag,
                     linkType;
 
-                while ((parentElement = sourceElement.parentNode) !== null &&
-                        isDefined(parentElement) && // buggy IE5.5
-                        ((tag = sourceElement.tagName.toUpperCase()) !== 'A' && tag !== 'AREA')) {
+                parentElement = sourceElement.parentNode;
+                while (parentElement !== null &&
+                        /* buggy IE5.5 */
+                        isDefined(parentElement)) {
+                    tag = sourceElement.tagName.toUpperCase();
+                    if (tag === 'A' || tag === 'AREA') {
+                        break;
+                    }
                     sourceElement = parentElement;
+                    parentElement = sourceElement.parentNode;
                 }
 
                 if (isDefined(sourceElement.href)) {
@@ -2213,7 +2287,7 @@ if (typeof Piwik !== 'object') {
                     } else if (isString(userHook)) {
                         try {
                             eval('hookObj =' + userHook);
-                        } catch (e) { }
+                        } catch (ignore) { }
                     }
 
                     registeredHooks[hookName] = hookObj;
@@ -2391,7 +2465,8 @@ if (typeof Piwik !== 'object') {
                  * @param string value
                  * @param string scope Scope of Custom Variable:
                  *                     - "visit" will store the name/value in the visit and will persist it in the cookie for the duration of the visit,
-                 *                     - "page" will store the name/value in the page view.
+                 *                     - "page" will store the name/value in the next page view tracked.
+                 *                     - "event" will store the name/value in the next event tracked.
                  */
                 setCustomVariable: function (index, name, value, scope) {
                     var toRecord;
@@ -2409,6 +2484,8 @@ if (typeof Piwik !== 'object') {
                             customVariables[index] = toRecord;
                         } else if (scope === 'page' || scope === 3) { /* GA compatibility/misuse */
                             customVariablesPage[index] = toRecord;
+                        } else if (scope === 'event') { /* GA does not have 'event' scope but we do */
+                            customVariablesEvent[index] = toRecord;
                         }
                     }
                 },
@@ -2417,7 +2494,7 @@ if (typeof Piwik !== 'object') {
                  * Get custom variable
                  *
                  * @param int index
-                 * @param string scope Scope of Custom Variable: "visit" or "page"
+                 * @param string scope Scope of Custom Variable: "visit" or "page" or "event"
                  */
                 getCustomVariable: function (index, scope) {
                     var cvar;
@@ -2428,6 +2505,8 @@ if (typeof Piwik !== 'object') {
 
                     if (scope === "page" || scope === 3) {
                         cvar = customVariablesPage[index];
+                    } else if (scope === "event") {
+                        cvar = customVariablesEvent[index];
                     } else if (scope === "visit" || scope === 2) {
                         loadCustomVariables();
                         cvar = customVariables[index];
@@ -2674,10 +2753,9 @@ if (typeof Piwik !== 'object') {
 
                 /**
                  * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
-                 * it maybe help to "reset" tracking cookies to prevent data reuse for different users.
-                 *
+                 * it maybe helps to "reset" tracking cookies to prevent data reuse for different users.
                  */
-                deleteCookies: function() {
+                deleteCookies: function () {
                     deleteCookies();
                 },
 
@@ -2749,7 +2827,7 @@ if (typeof Piwik !== 'object') {
                  * 
                  * @param int generationTime
                  */
-                setGenerationTimeMs: function(generationTime) {
+                setGenerationTimeMs: function (generationTime) {
                     configPerformanceGenerationTime = parseInt(generationTime, 10);
                 },
 
@@ -2837,6 +2915,20 @@ if (typeof Piwik !== 'object') {
                             logPageView(customTitle, customData);
                         });
                     }
+                },
+
+                /**
+                 * Records an event
+                 *
+                 * @param string category The Event Category (Videos, Music, Games...)
+                 * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
+                 * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+                 * @param float value (optional) The Event's value
+                 */
+                trackEvent: function (category, action, name, value) {
+                    trackCallback(function () {
+                        logEvent(category, action, name, value);
+                    });
                 },
 
                 /**
@@ -2973,18 +3065,18 @@ if (typeof Piwik !== 'object') {
         asyncTracker = new Tracker();
 
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
-        for (i = 0; i < _paq.length; i++) {
-            if (_paq[i][0] === 'setTrackerUrl'
-                    || _paq[i][0] === 'setSiteId') {
-                apply(_paq[i]);
-                delete _paq[i];
+        for (iterator = 0; iterator < _paq.length; iterator++) {
+            if (_paq[iterator][0] === 'setTrackerUrl'
+                    || _paq[iterator][0] === 'setSiteId') {
+                apply(_paq[iterator]);
+                delete _paq[iterator];
             }
         }
 
         // apply the queue of actions
-        for (i = 0; i < _paq.length; i++) {
-            if (_paq[i]) {
-                apply(_paq[i]);
+        for (iterator = 0; iterator < _paq.length; iterator++) {
+            if (_paq[iterator]) {
+                apply(_paq[iterator]);
             }
         }
 
@@ -3064,7 +3156,7 @@ if (typeof piwik_log !== 'function') {
         function getOption(optionName) {
             try {
                 return eval('piwik_' + optionName);
-            } catch (e) { }
+            } catch (ignore) { }
 
             return; // undefined
         }

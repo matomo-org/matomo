@@ -36,7 +36,7 @@ class UsersManager extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
-            'Site.getSiteAttributes'                 => 'recordAdminUsersInCache',
+            'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
@@ -124,7 +124,7 @@ class UsersManager extends \Piwik\Plugin
     public static function checkPassword($password)
     {
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
                                                                                                         self::PASSWORD_MAX_LENGTH)));
         }
     }
@@ -140,6 +140,7 @@ class UsersManager extends \Piwik\Plugin
     {
         $translationKeys[] = "General_OrCancel";
         $translationKeys[] = "General_Save";
+        $translationKeys[] = "General_Done";
         $translationKeys[] = "UsersManager_DeleteConfirm";
     }
 }

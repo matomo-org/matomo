@@ -14,7 +14,7 @@ $(document).ready(function () {
 
         var parent = $(this).parent(),
             loading = $('.loadingPiwik', parent),
-            ajaxSuccess = $('.ajaxSuccess', parent);
+            ajaxSuccess = $('.success', parent);
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.setLoadingElement(loading);
@@ -25,10 +25,16 @@ $(document).ready(function () {
         }, 'get');
         ajaxRequest.setCallback(
             function () {
-                ajaxSuccess.fadeIn(1000, function () {
-                    setTimeout(function () {
-                        ajaxSuccess.fadeOut(1000);
-                    }, 2000);
+
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show(_pk_translate('General_Done'), {
+                    placeat: ajaxSuccess,
+                    context: 'success',
+                    noclear: true,
+                    type: 'toast',
+                    style: {display:'inline-block', marginTop: '10px'},
+                    id: 'userCountryLocationProvider'
                 });
             }
         );
@@ -143,7 +149,16 @@ $(document).ready(function () {
             var updateGeoIPSuccess = function (response) {
                 if (response && response.error) {
                     $('#geoip-progressbar-container').hide();
-                    $('#geoipdb-update-info-error').html(response.error).show();
+
+                    var UI = require('piwik/UI');
+                    var notification = new UI.Notification();
+                    notification.show(response.error, {
+                        placeat: 'geoipdb-update-info-error',
+                        context: 'error',
+                        style: {display: 'inline-block'},
+                        id: 'userCountryGeoIpUpdate'
+                    });
+
                 }
                 else if (response && response.to_download) {
                     var continuing = currentDownloading == response.to_download;
@@ -164,11 +179,15 @@ $(document).ready(function () {
                     $('#geoip-updater-progressbar-label').html('');
                     $('#geoip-progressbar-container').hide();
 
-                    // fade in/out Done message
-                    $('#done-updating-updater').fadeIn(1000, function () {
-                        setTimeout(function () {
-                            $('#done-updating-updater').fadeOut(1000);
-                        }, 3000);
+                    var UI = require('piwik/UI');
+                    var notification = new UI.Notification();
+                    notification.show(_pk_translate('General_Done'), {
+                        placeat: '#done-updating-updater',
+                        context: 'success',
+                        noclear: true,
+                        type: 'toast',
+                        style: {display: 'inline-block'},
+                        id: 'userCountryGeoIpUpdate'
                     });
                 }
             };

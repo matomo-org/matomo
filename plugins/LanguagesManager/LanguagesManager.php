@@ -14,8 +14,8 @@ namespace Piwik\Plugins\LanguagesManager;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Cookie;
 
+use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -40,7 +40,19 @@ class LanguagesManager extends \Piwik\Plugin
             'User.getLanguage'                => 'getLanguageToLoad',
             'UsersManager.deleteUser'         => 'deleteUserLanguage',
             'Template.topBar'                 => 'addLanguagesManagerToOtherTopBar',
+            'Console.addCommands'             => 'addConsoleCommands'
         );
+    }
+
+    public function addConsoleCommands(&$commands)
+    {
+        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\CreatePull';
+        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\FetchFromOTrance';
+        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\LanguageCodes';
+        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\LanguageNames';
+        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\PluginsWithTranslations';
+        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\SetTranslations';
+        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\Update';
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -91,7 +103,7 @@ class LanguagesManager extends \Piwik\Plugin
             $language = self::getLanguageCodeForCurrentUser();
         }
         if (!API::getInstance()->isLanguageAvailable($language)) {
-            $language = Translate::getInstance()->getLanguageDefault();
+            $language = Translate::getLanguageDefault();
         }
     }
 
@@ -140,7 +152,7 @@ class LanguagesManager extends \Piwik\Plugin
             $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
         }
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Translate::getInstance()->getLanguageDefault();
+            $languageCode = Translate::getLanguageDefault();
         }
         return $languageCode;
     }

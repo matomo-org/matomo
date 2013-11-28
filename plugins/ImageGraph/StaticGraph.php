@@ -12,8 +12,8 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
-use pData;
 
+use pData;
 use pImage;
 use Piwik\Loader;
 use Piwik\Piwik;
@@ -95,7 +95,7 @@ abstract class StaticGraph
             return new $className;
         } else {
             throw new Exception(
-                Piwik::translateException(
+                Piwik::translate(
                     'General_ExceptionInvalidStaticGraphType',
                     array($graphType, implode(', ', self::getAvailableStaticGraphTypes()))
                 )

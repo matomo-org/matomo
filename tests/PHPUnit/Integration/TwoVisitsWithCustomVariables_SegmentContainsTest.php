@@ -21,7 +21,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extend
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables_SegmentContains
      */
     public function testApi($api, $params)
     {

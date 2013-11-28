@@ -24,7 +24,8 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 
 /**
- * This class contains Archiving rules/logic which are used in several places
+ * This class contains Archiving rules/logic which are used when creating and processing Archives.
+ * 
  */
 class Rules
 {
@@ -35,7 +36,7 @@ class Rules
     const FLAG_TABLE_PURGED = 'lastPurge_';
 
     /** Old Archives purge can be disabled (used in tests only) */
-    static public $purgeDisabledByTests = true;
+    static public $purgeDisabledByTests = false;
 
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;
@@ -175,7 +176,7 @@ class Rules
     {
         $timeToLiveSeconds = (int)$timeToLiveSeconds;
         if ($timeToLiveSeconds <= 0) {
-            throw new Exception(Piwik::translateException('General_ExceptionInvalidArchiveTimeToLive'));
+            throw new Exception(Piwik::translate('General_ExceptionInvalidArchiveTimeToLive'));
         }
         Option::set(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoLoad = true);
     }

@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
-
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
@@ -78,7 +77,7 @@ class LogDataPurger
         foreach ($logTables as $logTable) {
             // deleting from log_action must be handled differently, so we do it later
             if ($logTable != Common::prefixTable('log_action')) {
-                Db::deleteAllRows($logTable, $where, "idvisit", $this->maxRowsToDeletePerQuery, array($maxIdVisit));
+                Db::deleteAllRows($logTable, $where, "idvisit ASC", $this->maxRowsToDeletePerQuery, array($maxIdVisit));
             }
         }
 
@@ -269,7 +268,10 @@ class LogDataPurger
             'log_link_visit_action' => array('idaction_url',
                                              'idaction_url_ref',
                                              'idaction_name',
-                                             'idaction_name_ref'),
+                                             'idaction_name_ref',
+                                             'idaction_event_category',
+                                             'idaction_event_action'
+            ),
 
             'log_conversion'        => array('idaction_url'),
 

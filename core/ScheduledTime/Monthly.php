@@ -20,10 +20,14 @@ use Piwik\ScheduledTime;
  * @package Piwik
  * @subpackage ScheduledTime
  *
- * @api
  */
 class Monthly extends ScheduledTime
 {
+    /**
+     * List of available week number strings used in setDayOfWeekFromString.
+     */
+    private static $weekNumberStringToInt = array('first' => 0, 'second' => 1, 'third' => 2, 'fourth' => 3);
+
     /**
      * Day of the week for scheduled time.
      *
@@ -37,6 +41,26 @@ class Monthly extends ScheduledTime
      * @var int
      */
     private $week = null;
+
+    public function setDayOfWeekFromString($day)
+    {
+        @list($weekNumberString, $dayNumberString) = explode(' ', $day);
+
+        // get day number
+        $day = Weekly::getDayIntFromString($dayNumberString) % 7;
+
+        // get week number
+        $week = false;
+        $weekNumberString = strtolower($weekNumberString);
+        if (isset(self::$weekNumberStringToInt[$weekNumberString])) {
+            $week = self::$weekNumberStringToInt[$weekNumberString];
+        } else {
+            throw new Exception("Invalid week describer in ScheduledTime\\Monthly::setDayOfWeekFromString: '$weekNumberString'. "
+                              . "Supported values are 'first', 'second', 'third', 'fourth'.");
+        }
+
+        $this->setDayOfWeek($day, $week);
+    }
 
     /**
      * @return int

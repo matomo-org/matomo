@@ -51,8 +51,18 @@
                         prevhtml = current;
                         prevelement = $(this);
                     }
-                    
-                    $(this).tooltip({
+
+                    var $this = $(this);
+                    var tooltipIsOpened = false;
+
+                    $('a', $this).on('focus', function () {
+                        // see http://dev.piwik.org/trac/ticket/4099
+                        if (tooltipIsOpened) {
+                            $this.tooltip('close');
+                        }
+                    });
+
+                    $this.tooltip({
                         track: true,
                         show: false,
                         hide: false,
@@ -60,7 +70,9 @@
                             var title = $(this).attr('title');
                             return $('<a>').text( title ).html().replace(/\n/g, '<br />');
                         },
-                        tooltipClass: 'small'
+                        tooltipClass: 'small',
+                        open: function() { tooltipIsOpened = true; },
+                        close: function() { tooltipIsOpened = false; }
                     });
                 });
             });

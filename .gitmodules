@@ -1,16 +1,20 @@
-[submodule "tests/PHPUnit/UI"]
-	path = tests/PHPUnit/UI
-	url = https://github.com/piwik/piwik-ui-tests.git
+[submodule "plugins/PleineLune"]
+	path = plugins/PleineLune
+	url = https://github.com/piwik/theme-PleineLune.git
 	branch = master
 [submodule "plugins/SecurityInfo"]
 	path = plugins/SecurityInfo
 	url = https://github.com/piwik/plugin-SecurityInfo.git
 	branch = master
+[submodule "plugins/TreemapVisualization"]
+	path = plugins/TreemapVisualization
+	url = https://github.com/piwik/plugin-TreemapVisualization.git
+	branch = master
 [submodule "plugins/VisitorGenerator"]
 	path = plugins/VisitorGenerator
 	url = https://github.com/piwik/plugin-VisitorGenerator
 	branch = master
-[submodule "plugins/TreemapVisualization"]
-	path = plugins/TreemapVisualization
-	url = https://github.com/piwik/plugin-TreemapVisualization.git
+[submodule "tests/PHPUnit/UI"]
+	path = tests/PHPUnit/UI
+	url = https://github.com/piwik/piwik-ui-tests.git
 	branch = master

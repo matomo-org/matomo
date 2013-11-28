@@ -1,3 +1,18 @@
+- user_agent: Mozilla/5.0 (IE 11.0; Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv:11.0) like Gecko
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 11.0
+  device: 0
+  brand:
+  model:
+  os_family: Other
+  browser_family: Other
+
 
 
 - user_agent: Opera/9.80 (J2ME/MIDP; Opera Mini/5.0.22371/28.3782; U; en) Presto/2.8.119 Version/11.10

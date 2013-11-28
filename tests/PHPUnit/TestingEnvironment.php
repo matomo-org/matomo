@@ -53,11 +53,15 @@ class Piwik_TestingEnvironment
                 "ExampleAPI", "ExamplePlugin", "ExampleRssWidget", "Provider", "Feedback", "Login", "UsersManager",
                 "SitesManager", "Installation", "CoreUpdater", "ScheduledReports", "UserCountryMap", "Live",
                 "CustomVariables", "PrivacyManager", "ImageGraph", "DoNotTrack", "Annotations", "MobileMessaging",
-                "Overlay", "SegmentEditor", "DevicesDetection", "DBStats", 'ExampleUI'
+                "Overlay", "SegmentEditor", "DevicesDetection", "DBStats", 'ExampleUI', 'AnonymizeIP'
             );
             $config->Plugins = array('Plugins' => $pluginsToLoad);
 
-            $config->General['session_save_handler'] = 'dbtables'; // to avoid weird session error in travis
+            $trackerPluginsToLoad = array(
+                'Provider', 'Goals', 'DoNotTrack', 'UserCountry', 'AnonymizeIP', 'DevicesDetection'
+            );
+            $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
+
             $config->superuser['email'] = 'hello@example.org';
         });
         \Piwik\Piwik::addAction('Request.dispatch', function() {

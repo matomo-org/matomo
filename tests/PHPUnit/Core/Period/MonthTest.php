@@ -17,8 +17,6 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     /**
      * testing december
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testMonthDec()
     {
@@ -62,8 +60,6 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     /**
      * testing month feb leap year
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testMonthFebLeap()
     {
@@ -105,8 +101,6 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     /**
      * testing month feb non-leap year
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testMonthFebNonLeap()
     {
@@ -147,8 +141,6 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     /**
      * testing jan
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testMonthJan()
     {
@@ -192,8 +184,6 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     /**
      * testing month containing a time change (DST)
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testMonthDSTChangeMarch()
     {
@@ -236,8 +226,6 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testMonthDSTChangeOct()
     {
@@ -280,12 +268,10 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testGetLocalizedShortString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Month(Date::factory('2024-10-09'));
         $shouldBe = 'Oct 2024';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
@@ -293,12 +279,10 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testGetLocalizedLongString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Month(Date::factory('2024-10-09'));
         $shouldBe = '2024, October';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
@@ -306,12 +290,10 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Month
      */
     public function testGetPrettyString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $month = new Month(Date::factory('2024-10-09'));
         $shouldBe = '2024-10';
         $this->assertEquals($shouldBe, $month->getPrettyString());

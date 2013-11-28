@@ -20,7 +20,6 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorOneWebsite_SeveralDaysDateRange
      */
     public function testApi($api, $params)
     {

@@ -11,17 +11,20 @@
 namespace Piwik;
 
 /**
- * Class SettingsServer holds the logic related to reading server/php settings
+ * Contains helper methods that can be used to get information regarding the
+ * server, its settings and PHP settings.
  *
  * @package Piwik
  */
 class SettingsServer
 {
     /**
-     * Is the current script execution triggered by misc/cron/archive.php ?
+     * Returns true if the current script execution was triggered misc/cron/archive.php.
      *
-     * Helpful for error handling: directly throw error without HTML (eg. when DB is down)
+     * Helpful for error handling: directly throw error without HTML (eg. when DB is down).
+     * 
      * @return bool
+     * @api
      */
     public static function isArchivePhpTriggered()
     {
@@ -30,9 +33,10 @@ class SettingsServer
     }
 
     /**
-     * Returns true if running on Microsoft IIS 7 (or above)
+     * Returns true if running on Microsoft IIS 7 (or above), false if otherwise.
      *
      * @return bool
+     * @api
      */
     public static function isIIS()
     {
@@ -44,9 +48,10 @@ class SettingsServer
     }
 
     /**
-     * Returns true if running on an Apache web server
+     * Returns true if running on an Apache web server, false if otherwise.
      *
      * @return bool
+     * @api
      */
     public static function isApache()
     {
@@ -57,10 +62,11 @@ class SettingsServer
     }
 
     /**
-     * Returns true if running on a Windows operating system
+     * Returns true if running on a Windows operating system, false if otherwise.
      *
      * @since 0.6.5
-     * @return bool true if PHP detects it is running on Windows; else false
+     * @return bool
+     * @api
      */
     public static function isWindows()
     {
@@ -68,11 +74,12 @@ class SettingsServer
     }
 
     /**
-     * Determine if this php version/build supports timezone manipulation
+     * Returns true if this php version/build supports timezone manipulation
      * (e.g., php >= 5.2, or compiled with EXPERIMENTAL_DATE_SUPPORT=1 for
      * php < 5.2).
      *
-     * @return bool  True if timezones supported; false otherwise
+     * @return bool
+     * @api
      */
     public static function isTimezoneSupportEnabled()
     {
@@ -85,9 +92,12 @@ class SettingsServer
     }
 
     /**
-     * Is GD php extension (sparklines, graphs) available?
+     * Returns true if the GD PHP extension is available, false if otherwise.
+     * 
+     * ImageGraph and sparklines depend on the GD extension.
      *
      * @return bool
+     * @api
      */
     public static function isGdExtensionEnabled()
     {

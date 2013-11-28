@@ -16,32 +16,44 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\PluginDeactivatedException;
-use Piwik\PluginsManager;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
 
 /**
- * An API request is the object used to make a call to the API and get the result.
- * The request has the format of a normal GET request, ie. parameter_1=X&parameter_2=Y
+ * Dispatches API requests to the appropriate API method.
+ * 
+ * The Request class is used throughout Piwik to call API methods. The difference
+ * between using Request and calling API methods directly is that Request
+ * will do more after calling the API including: apply generic filters, apply queued filters,
+ * and handle the **flat** and **label** query parameters.
+ * 
+ * Additionally, the Request class will **forward current query parameters** to the request
+ * which is more convenient than calling [Common::getRequestVar](#) many times over.
+ * 
+ * In most cases, using a Request object to query the API is the right way to go.
  *
- * You can use this object from anywhere in piwik (inside plugins for example).
- * You can even call it outside of piwik  using the REST API over http
- * or in a php script on the same server as piwik, by including piwik/index.php
- * (see examples in the documentation http://piwik.org/docs/analytics-api)
- *
- * Example:
- * $request = new Request('
- *                method=UserSettings.getWideScreen
- *                &idSite=1
- *            &date=yesterday
- *                &period=week
- *                &format=xml
- *                &filter_limit=5
- *                &filter_offset=0
- *    ');
- *    $result = $request->process();
- *  echo $result;
+ * ### Examples
+ * 
+ * **Basic Usage**
+ * 
+ *     $request = new Request('method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week'
+ *                          . '&format=xml&filter_limit=5&filter_offset=0')
+ *     $result = $request->process();
+ *     echo $result;
+ * 
+ * **Getting a unrendered DataTable**
+ * 
+ *     // use convenience the convenience method 'processRequest'
+ *     $dataTable = Request::processRequest('UserSettings.getWideScreen', array(
+ *         'idSite' => 1,
+ *         'date' => 'yesterday',
+ *         'period' => 'week',
+ *         'format' => 'original', // this is the important bit
+ *         'filter_limit' => 5,
+ *         'filter_offset' => 0
+ *     ));
+ *     echo "This DataTable has " . $dataTable->getRowsCount() . " rows.";
  *
  * @see http://piwik.org/docs/analytics-api
  * @package Piwik
@@ -54,10 +66,13 @@ class Request
     protected $request = null;
 
     /**
-     * Returns the request array as string
+     * Converts the supplied request string into an array of query paramater name/value
+     * mappings. The current query parameters (everything in `$_GET` and `$_POST`) are
+     * forwarded to request array before it is returned.
      *
-     * @param string|array $request
-     * @return array|null
+     * @param string|array $request The base request string or array, eg,
+     *                              `'module=UserSettings&action=getWidescreen'`.
+     * @return array
      */
     static public function getRequestArrayFromString($request)
     {
@@ -95,17 +110,37 @@ class Request
     }
 
     /**
-     * Constructs the request to the API, given the request url
+     * Constructor.
      *
-     * @param string $request GET request that defines the API call (must at least contain a "method" parameter)
-     *                          Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
-     *                          If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
-     *                          the values directly from the HTTP GET query.
+     * @param string $request GET request that defines the API call (must at least contain a **method** parameter),
+     *                        eg, `'method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml'`
+     *                        If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
+     *                        the values directly from the HTTP GET query.
      */
-    function __construct($request = null)
+    public function __construct($request = null)
     {
         $this->request = self::getRequestArrayFromString($request);
         $this->sanitizeRequest();
+    }
+
+    /**
+     * For backward compatibility: Piwik API still works if module=Referers,
+     * we rewrite to correct renamed plugin: Referrers
+     *
+     * @param $module
+     * @return string
+     * @ignore
+     */
+    public static function renameModule($module)
+    {
+        $moduleToRedirect = array(
+            'Referers'   => 'Referrers',
+            'PDFReports' => 'ScheduledReports',
+        );
+        if (isset($moduleToRedirect[$module])) {
+            return $moduleToRedirect[$module];
+        }
+        return $module;
     }
 
     /**
@@ -125,13 +160,23 @@ class Request
     }
 
     /**
-     * Handles the request to the API.
-     * It first checks that the method called (parameter 'method') is available in the module (it means that the method exists and is public)
-     * It then reads the parameters from the request string and throws an exception if there are missing parameters.
-     * It then calls the API Proxy which will call the requested method.
-     *
-     * @throws PluginDeactivatedException
-     * @return DataTable|mixed  The data resulting from the API call
+     * Dispatches the API request to the appropriate API method and returns the result
+     * after post-processing.
+     * 
+     * Post-processing includes:
+     * 
+     * - flattening if **flat** is 0
+     * - running generic filters unless **disable_generic_filters** is set to 1
+     * - URL decoding label column values
+     * - running queued filters unless **disable_queued_filters** is set to 1
+     * - removes columns based on the values of the **hideColumns** and **showColumns** query parameters
+     * - filters rows if the **label** query parameter is set
+     * 
+     * @throws PluginDeactivatedException if the module plugin is not activated.
+     * @throws Exception if the requested API method cannot be called, if required parameters for the
+     *                   API method are missing or if the API method throws an exception and the **format**
+     *                   query parameter is **original**.
+     * @return DataTable|Map|string The data resulting from the API call.
      */
     public function process()
     {
@@ -147,7 +192,9 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
-            if (!PluginsManager::getInstance()->isPluginActivated($module)) {
+            $module = $this->renameModule($module);
+
+            if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
                 throw new PluginDeactivatedException($module);
             }
             $apiClassName = $this->getClassNameAPI($module);
@@ -164,9 +211,15 @@ class Request
         return $toReturn;
     }
 
-    static public function getClassNameAPI($module)
+    /**
+     * Returns the class name of a plugin's API given the plugin name.
+     * 
+     * @param string $plugin The plugin name.
+     * @return string
+     */
+    static public function getClassNameAPI($plugin)
     {
-        return sprintf('\Piwik\Plugins\%s\API', $module);
+        return sprintf('\Piwik\Plugins\%s\API', $plugin);
     }
 
     /**
@@ -176,6 +229,7 @@ class Request
      *
      * @param array $request If null, uses the default request ($_GET)
      * @return void
+     * @ignore
      */
     static public function reloadAuthUsingTokenAuth($request = null)
     {
@@ -184,8 +238,14 @@ class Request
         if ($token_auth) {
 
             /**
-             * This event is triggered when authenticating the API call, only if the token_auth is found in the request.
-             * In this case the current session should authenticate using this token_auth.
+             * Triggered when authenticating an API request. Only triggered if the **token_auth**
+             * query parameter is found in the request.
+             * 
+             * Plugins that provide authentication capabilities should subscribe to this event
+             * and make sure the authentication object (the object returned by `Registry::get('auth')`)
+             * is setup to use `$token_auth` when its `authenticate()` method is executed.
+             * 
+             * @param string $token_auth The value of the **token_auth** query parameter.
              */
             Piwik::postEvent('API.Request.authenticate', array($token_auth));
             Access::getInstance()->reloadAccess();
@@ -210,7 +270,8 @@ class Request
     }
 
     /**
-     * Helper method to process an API request using the variables in $_GET and $_POST.
+     * Helper method that processes an API request in one line using the variables in `$_GET`
+     * and `$_POST`.
      *
      * @param string $method The API method to call, ie, Actions.getPageTitles
      * @param array $paramOverride The parameter name-value pairs to use instead of what's
@@ -231,6 +292,10 @@ class Request
     }
 
     /**
+     * Returns the original request parameters in the current query string as an array mapping
+     * query parameter names with values. This result of this function will not be affected
+     * by any modifications to `$_GET` and will not include parameters in `$_POST`.
+     * 
      * @return array
      */
     public static function getRequestParametersGET()
@@ -240,6 +305,20 @@ class Request
         }
         $GET = UrlHelper::getArrayFromQueryString($_SERVER['QUERY_STRING']);
         return $GET;
+    }
+
+    /**
+     * Returns URL for the current requested report w/o any filter parameters.
+     *
+     * @param string $module The API module.
+     * @param string $action The API action.
+     * @param array $queryParams Query parameter overrides.
+     * @return string
+     */
+    public static function getBaseReportUrl($module, $action, $queryParams = array())
+    {
+        $params = array_merge($queryParams, array('module' => $module, 'action' => $action));
+        return Request::getCurrentUrlWithoutGenericFilters($params);
     }
 
     /**
@@ -265,6 +344,24 @@ class Request
     }
 
     /**
+     * Returns whether the DataTable result will have to be expanded for the
+     * current request before rendering.
+     *
+     * @return bool
+     * @ignore
+     */
+    public static function shouldLoadExpanded()
+    {
+        // if filter_column_recursive & filter_pattern_recursive are supplied, and flat isn't supplied
+        // we have to load all the child subtables.
+        return Common::getRequestVar('filter_column_recursive', false) !== false
+            && Common::getRequestVar('filter_pattern_recursive', false) !== false
+            && Common::getRequestVar('flat', false) === false;
+    }
+
+    /**
+     * Returns the unmodified segment from the original request.
+     * 
      * @return array|bool
      */
     static public function getRawSegmentFromRequest()

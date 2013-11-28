@@ -5,17 +5,16 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Unzip;
 use Piwik\Unzip\Gzip;
 use Piwik\Unzip\PclZip;
-use Piwik\Unzip\ZipArchive;
 use Piwik\Unzip\Tar;
+use Piwik\Unzip;
+use Piwik\Unzip\ZipArchive;
 
 class UnzipTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group Unzip
      */
     public function testRelativePath()
     {
@@ -61,7 +60,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testRelativePathAttack()
     {
@@ -93,7 +91,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testAbsolutePathAttack()
     {
@@ -119,7 +116,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipErrorInfo()
     {
@@ -133,7 +129,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipEmptyFile()
     {
@@ -148,7 +143,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipNotExistingFile()
     {
@@ -165,7 +159,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipInvalidFile2()
     {
@@ -182,7 +175,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testGzipFile()
     {
@@ -199,7 +191,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testTarGzFile()
     {

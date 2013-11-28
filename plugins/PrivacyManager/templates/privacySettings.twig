@@ -25,7 +25,9 @@
                         <input type="hidden" name="pluginName" value="{{ anonymizeIP.name }}"/>
                     </td>
                     <td width="200">
-                        {{ piwik.inlineHelp('AnonymizeIP_PluginDescription'|translate) }}
+                        <div style="width:180px">
+                            {{ piwik.inlineHelp('AnonymizeIP_PluginDescription'|translate) }}
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -45,11 +47,39 @@
                             checked {% endif %}/> {{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("3","192.xxx.xxx.xxx") }}</label>
                     </td>
                     <td width="200">
-                        {{ piwik.inlineHelp('PrivacyManager_GeolocationAnonymizeIpNote'|translate) }}
+                        <div style="width:180px">
+                            {{ piwik.inlineHelp('PrivacyManager_GeolocationAnonymizeIpNote'|translate) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="250">
+                        {{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichment'|translate }}
+                    </td>
+                    <td width='500'>
+                        <label>
+                            <input type="radio" name="useAnonymizedIpForVisitEnrichment" value="1" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '1' %}checked {% endif %}/> {{ 'General_Yes'|translate }}
+
+                            <span class="form-description">
+                                {{ 'PrivacyManager_RecommendedForPrivacy'|translate }}
+                            </span>
+                        </label>
+                        <br/>
+                        <label>
+                            <input type="radio" name="useAnonymizedIpForVisitEnrichment" value="0" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '0' %} checked {% endif %}/>  {{ 'General_No'|translate }}
+                        </label>
+                    </td>
+                    <td width="200">
+                        <div style="width:180px">
+                            {{ piwik.inlineHelp('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate) }}
+                        </div>
                     </td>
                 </tr>
             </table>
         </div>
+
+        <input type="hidden" name="nonce" value="{% if anonymizeIP.enabled %}{{ deactivateNonce }}{% else %}{{ activateNonce }}{% endif %}">
+
         <input type="submit" value="{{ 'General_Save'|translate }}" id="privacySettingsSubmit" class="submit"/>
     </form>
     <div class="ui-confirm" id="confirmDeleteSettings">
@@ -85,11 +115,14 @@
                                   style="margin-left:20px;" {% if deleteData.config.delete_logs_enable == '0' %}
                         checked {% endif %}/>  {{ 'General_No'|translate }}
                     </label>
-				<span class="ajaxSuccess">
-					{{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
-                    <a href="http://piwik.org/faq/general/#faq_125" target="_blank">
-                        {{ 'General_ClickHere'|translate }}
-                    </a>
+				<span id="privacyManagerDeleteLogDescription" style="margin-top: 10px;display:inline-block;">
+                    {% set deleteLogDescription %}
+                        {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
+                        <a href="http://piwik.org/faq/general/#faq_125" target="_blank">
+                            {{ 'General_ClickHere'|translate }}
+                        </a>
+                    {% endset %}
+                    {{ deleteLogDescription|notification({'raw': true, 'placeat': '#privacyManagerDeleteLogDescription', 'noclear': true, 'context': 'warning'}) }}
 				</span>
                 </td>
                 <td width="200">
@@ -129,14 +162,17 @@
                         <input type="radio" name="deleteReportsEnable" value="0" {% if deleteData.config.delete_reports_enable == '0' %}checked="true"{% endif %} style="margin-left:20px;"/>
                         {{ 'General_No'|translate }}
                     </label>
-				
-				<span class="ajaxSuccess">
-					{% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
-                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
-                    <span id='deleteOldReportsMoreInfo'><br/><br/>
-                        {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
-                        {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}</span>
-				</span>
+
+                    {% set useDeleteLog %}
+                        {% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
+                        {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
+                        <span id='deleteOldReportsMoreInfo'><br/><br/>
+                            {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
+                            {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}</span>
+                    {% endset %}
+                    <span id="privacyManagerUseDeleteLog" style="margin-top: 10px;display:inline-block;">
+                        {{ useDeleteLog|notification({'raw': true, 'placeat': '#privacyManagerUseDeleteLog', 'noclear': true, 'context': 'warning'}) }}
+                    </span>
                 </td>
                 <td width="200">
                     {{ piwik.inlineHelp('PrivacyManager_DeleteReportsDetailedInfo'|translate('archive_numeric_*','archive_blob_*')) }}
@@ -187,7 +223,7 @@
                 <td width="200">
                     {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
                         {% set manualEstimate %}
-                            <em><a id="getPurgeEstimateLink" class="ui-inline-help" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a></em>
+                            <em><a id="getPurgeEstimateLink" style="width:280px" class="ui-inline-help" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a></em>
                         {% endset %}
                         {{ piwik.inlineHelp(manualEstimate) }}
                     {% endif %}
@@ -235,16 +271,18 @@
                 <p>
                     {% if dntSupport %}
                         {% set action='deactivate' %}
+                        {% set nonce=deactivateNonce %}
                         <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
                         <br/>
                         {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
                     {% else %}
                         {% set action='activate' %}
+                        {% set nonce=activateNonce %}
                         {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
                     {% endif %}
                 </p>
 			<span style="margin-left:20px;">
-			<a href='{{ {'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
+			<a href='{{ {'module':'CorePluginsAdmin','nonce':nonce,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
                 {% if dntSupport %}{{ 'PrivacyManager_DoNotTrack_Disable'|translate }} {{ 'General_NotRecommended'|translate }}
                 {% else %}{{ 'PrivacyManager_DoNotTrack_Enable'|translate }} {{ 'General_Recommended'|translate }}{% endif %}
                 <br/>

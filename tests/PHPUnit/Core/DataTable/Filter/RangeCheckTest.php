@@ -5,18 +5,14 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\DataTable;
 use Piwik\DataTable\Filter\RangeCheck;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 class DataTable_Filter_RangeCheckTest extends PHPUnit_Framework_TestCase
 {
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_RangeCheck
      */
     public function testRangeCheckNormalDataTable()
     {
@@ -36,11 +32,7 @@ class DataTable_Filter_RangeCheckTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_RangeCheck
      */
     public function testRangeCheckNormalDataTableNonIntegerValues()
     {

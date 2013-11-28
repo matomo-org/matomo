@@ -103,4 +103,14 @@
 		<result prettyDate="Friday 8 January 2010" />
 		<result prettyDate="Saturday 9 January 2010" />
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>6</nb_visits>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_hits>6</nb_hits>
+		<entry_bounce_count>1</entry_bounce_count>
+		<entry_nb_visits>2</entry_nb_visits>
+		<entry_nb_actions>6</entry_nb_actions>
+		<exit_nb_visits>1</exit_nb_visits>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+	</reportTotal>
 </result>

@@ -20,11 +20,9 @@ use Piwik\ScheduledTime;
  * @package Piwik
  * @subpackage ScheduledTime
  *
- * @api
  */
 class Weekly extends ScheduledTime
 {
-
     /**
      * @see ScheduledTime::getRescheduledTime
      * @return int
@@ -61,15 +59,29 @@ class Weekly extends ScheduledTime
     }
 
     /**
-     * @param int $_day the day to set, has to be >= 1 and < 8
+     * @param int $day the day to set, has to be >= 1 and < 8
      * @throws Exception if parameter _day is invalid
      */
-    public function setDay($_day)
+    public function setDay($day)
     {
-        if (!($_day >= 1 && $_day < 8)) {
+        if (!is_int($day)) {
+            $day = self::getDayIntFromString($day);
+        }
+
+        if (!($day >= 1 && $day < 8)) {
             throw new Exception ("Invalid day parameter, must be >=1 and < 8");
         }
 
-        $this->day = $_day;
+        $this->day = $day;
+    }
+
+    public static function getDayIntFromString($dayString)
+    {
+        $time = strtotime($dayString);
+        if ($time === false) {
+            throw new Exception("Invalid day string '$dayString'. Must be 'monday', 'tuesday', etc.");
+        }
+
+        return date("N", $time);
     }
 }

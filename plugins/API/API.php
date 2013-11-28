@@ -45,22 +45,10 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
  *
  * @package Piwik_API
+ * @method static \Piwik\Plugins\API\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\API\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Get Piwik version
      * @return string
@@ -97,23 +85,55 @@ class API
         $segments = array();
 
         /**
-         * This event is triggered to get all available segments. Your plugin can use this event to add one or
-         * multiple new segments.
+         * Triggered when gathering all available segments.
+         * 
+         * This event can be used to make new segments available.
+         * 
+         * **Example**
+         * 
+         *     public function getSegmentsMetadata(&$segments, $idSites)
+         *     {
+         *         $segments[] = array(
+         *             'type'           => 'dimension',
+         *            'category'       => Piwik::translate('General_Visit'),
+         *             'name'           => 'General_VisitorIP',
+         *             'segment'        => 'visitIp',
+         *             'acceptedValues' => '13.54.122.1, etc.',
+         *             'sqlSegment'     => 'log_visit.location_ip',
+         *             'sqlFilter'      => array('Piwik\IP', 'P2N'),
+         *             'permission'     => $isAuthenticatedWithViewAccess,
+         *         );
+         *     }
+         * 
+         * @param array &$segments The list of available segments. Append to this list to add
+         *                         new segments. Each element in this list must contain the
+         *                         following information:
+         *                         
+         *                         - **type**: Either `'metric'` or `'dimension'`. `'metric'` means
+         *                                     the value is a numeric and `'dimension'` means it is
+         *                                     a string. Also, `'metric'` values will be displayed
+         *                                     **Visit (metrics)** in the Segment Editor.
+         *                         - **category**: The segment category name. This can be an existing
+         *                                         segment category visible in the segment editor.
+         *                         - **name**: The pretty name of the segment.
+         *                         - **segment**: The segment name, eg, `'visitIp'` or `'searches'`.
+         *                         - **acceptedValues**: A string describing one or two exacmple values, eg
+         *                                               `'13.54.122.1, etc.'`.
+         *                         - **sqlSegment**: The table column this segment will segment by.
+         *                                           For example, `'log_visit.location_ip'` for the
+         *                                           **visitIp** segment.
+         *                         - **sqlFilter**: A PHP callback to apply to segment values before
+         *                                          they are used in SQL.
+         *                         - **permission**: True if the current user has view access to this
+         *                                           segment, false if otherwise.
+         * @param array $idSites The list of site IDs we're getting the available segments
+         *                       for. Some segments (such as Goal segments) depend on the
+         *                       site.
          */
-        Piwik::postEvent('API.getSegmentsMetadata', array(&$segments, $idSites));
+        Piwik::postEvent('API.getSegmentDimensionMetadata', array(&$segments, $idSites));
 
         $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
 
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitorIP',
-            'segment'        => 'visitIp',
-            'acceptedValues' => '13.54.122.1, etc.',
-            'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilter'      => array('Piwik\IP', 'P2N'),
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik::translate('General_Visit'),
@@ -121,7 +141,7 @@ class API
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
             'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilter'      => array('Piwik\Common', 'convertVisitorIdToBin'),
+            'sqlFilterValue' => array('Piwik\Common', 'convertVisitorIdToBin'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
@@ -129,8 +149,19 @@ class API
             'category'       => Piwik::translate('General_Visit'),
             'name'           => Piwik::translate('General_Visit') . " ID",
             'segment'        => 'visitId',
-            'acceptedValues' => 'Any integer.',
+            'acceptedValues' => 'Any integer. ',
             'sqlSegment'     => 'log_visit.idvisit',
+            'permission'     => $isAuthenticatedWithViewAccess,
+        );
+
+        $segments[] = array(
+            'type'           => 'metric',
+            'category'       => Piwik::translate('General_Visit'),
+            'name'           => 'General_VisitorIP',
+            'segment'        => 'visitIp',
+            'acceptedValues' => '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255',
+            'sqlSegment'     => 'log_visit.location_ip',
+            'sqlFilterValue' => array('Piwik\IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
@@ -162,7 +193,7 @@ class API
             'segment'        => 'visitorType',
             'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
             'sqlSegment'     => 'log_visit.visitor_returning',
-            'sqlFilter'      => function ($type) {
+            'sqlFilterValue' => function ($type) {
                     return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
                 }
         );
@@ -205,7 +236,7 @@ class API
             'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
                 . '. ' . Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
             'sqlSegment'     => 'log_visit.visit_goal_buyer',
-            'sqlFilter'      => __NAMESPACE__ . '\API::getVisitEcommerceStatus',
+            'sqlFilterValue' => __NAMESPACE__ . '\API::getVisitEcommerceStatus',
         );
 
         $segments[] = array(
@@ -222,6 +253,7 @@ class API
 
             if ($_hideImplementationData) {
                 unset($segment['sqlFilter']);
+                unset($segment['sqlFilterValue']);
                 unset($segment['sqlSegment']);
             }
         }
@@ -255,7 +287,7 @@ class API
     {
         $id = array_search($status, self::$visitEcommerceStatus);
         if ($id === false) {
-            throw new \Exception("Invalid 'visitEcommerceStatus' segment value");
+            throw new \Exception("Invalid 'visitEcommerceStatus' segment value $status");
         }
         return $id;
     }
@@ -291,16 +323,10 @@ class API
      */
     public function getLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/images/logo.png';
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.png')
-        ) {
-            $logo = 'misc/user/logo.png';
-        }
-        if (!$pathOnly) {
-            return SettingsPiwik::getPiwikUrl() . $logo;
-        }
-        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
+        $defaultLogo = 'plugins/Zeitgeist/images/logo.png';
+        $themeLogo = 'plugins/%s/images/logo.png';
+        $userLogo = 'misc/user/logo.png';
+        return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $userLogo);
     }
 
     /**
@@ -311,16 +337,10 @@ class API
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/images/logo-header.png';
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo-header.png')
-        ) {
-            $logo = 'misc/user/logo-header.png';
-        }
-        if (!$pathOnly) {
-            return SettingsPiwik::getPiwikUrl() . $logo;
-        }
-        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
+        $defaultLogo = 'plugins/Zeitgeist/images/logo-header.png';
+        $themeLogo = 'plugins/%s/images/logo-header.png';
+        $customLogo = 'misc/user/logo-header.png';
+        return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
     }
 
     /**
@@ -332,16 +352,35 @@ class API
      */
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/images/logo.svg';
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.svg')
-        ) {
-            $logo = 'misc/user/logo.svg';
+        $defaultLogo = 'plugins/Zeitgeist/images/logo.svg';
+        $themeLogo = 'plugins/%s/images/logo.svg';
+        $customLogo = 'misc/user/logo.svg';
+        $svg = $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
+        return $svg;
+    }
+
+    protected function getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo)
+    {
+        $pathToPiwikRoot = Filesystem::getPathToPiwikRoot();
+
+        $logo = $defaultLogo;
+
+        $themeName = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
+        $themeLogo = sprintf($themeLogo, $themeName);
+
+        if (file_exists($pathToPiwikRoot . '/' . $themeLogo)) {
+            $logo = $themeLogo;
         }
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
+            && file_exists($pathToPiwikRoot . '/' . $customLogo)
+        ) {
+            $logo = $customLogo;
+        }
+
         if (!$pathOnly) {
             return SettingsPiwik::getPiwikUrl() . $logo;
         }
-        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
+        return $pathToPiwikRoot . '/' . $logo;
     }
 
     /**
@@ -354,7 +393,9 @@ class API
         if (Config::getInstance()->branding['use_custom_logo'] == 0) {
             /* We always have our application logo */
             return true;
-        } else if (Config::getInstance()->branding['use_custom_logo'] == 1
+        }
+
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             return true;
@@ -370,7 +411,7 @@ class API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        Translate::getInstance()->reloadLanguage($language);
+        Translate::reloadLanguage($language);
         $reporter = new ProcessedReport();
         $metadata = $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
@@ -577,7 +618,7 @@ class API
             throw new \Exception("Requested segment not found.");
         }
 
-        $startDate = Date::now()->subDay(60)->toString();
+            $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range
@@ -631,11 +672,13 @@ class API
      */
     protected function doesSegmentNeedActionsData($segmentName)
     {
+        // If you update this, also update flattenVisitorDetailsArray
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
                                          'pageUrl', 'pageTitle', 'siteSearchKeyword',
                                          'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
-        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage;
+        $isEventSegment = stripos($segmentName, 'event') !== false;
+        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage || $isEventSegment;
         return $doesSegmentNeedActionsInfo;
     }
 }

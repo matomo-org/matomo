@@ -21,7 +21,6 @@ class ArchivingProcessBenchmark extends BenchmarkTestCase
 
     /**
      * @group        Benchmarks
-     * @group        ArchivingProcess
      */
     public function testArchivingProcess()
     {

@@ -14,6 +14,7 @@ namespace Piwik\DataTable;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Singleton;
 
 /**
  * The DataTable_Manager registers all the instanciated DataTable and provides an
@@ -22,24 +23,10 @@ use Piwik\DataTable;
  *
  * @package Piwik
  * @subpackage DataTable
+ * @method static \Piwik\DataTable\Manager getInstance()
  */
-class Manager
+class Manager extends Singleton
 {
-    static private $instance = null;
-
-    /**
-     * Returns instance
-     *
-     * @return \Piwik\DataTable\Manager
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Array used to store the DataTable
      *

@@ -5,8 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\DataTable;
 use Piwik\DataTable\Filter\Limit;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
@@ -37,11 +37,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testNormal()
     {
@@ -53,15 +49,11 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $table->getRowsCount());
         $this->assertEquals(2, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(4, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitLessThanCountShouldReturnCountLimit()
     {
@@ -73,57 +65,45 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(7, $table->getRowsCount());
         $this->assertEquals(2, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(8, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitIsCountShouldNotDeleteAnything()
     {
         $offset = 0;
         $limit = 10;
         $table = $this->getDataTableCount10();
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getRowsCount());
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(10, $table->getRowsCount());
         $this->assertEquals(0, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitGreaterThanCountShouldReturnCountUntilCount()
     {
         $offset = 5;
         $limit = 20;
         $table = $this->getDataTableCount10();
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getRowsCount());
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(5, $table->getRowsCount());
         $this->assertEquals(5, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitIsNullShouldReturnCountIsOffset()
     {
@@ -134,15 +114,11 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(9, $table->getRowsCount());
         $this->assertEquals(1, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetJustBeforeSummaryRowShouldJustReturnSummaryRow()
     {
@@ -154,15 +130,11 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $table->getRowsCount());
         $this->assertEquals(9, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetJustBeforeSummaryRowWithBigLimitShouldJustReturnSummaryRow()
     {
@@ -174,15 +146,11 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $table->getRowsCount());
         $this->assertEquals(9, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetBeforeSummaryRowShouldJustReturnRowAndSummaryRow()
     {
@@ -194,15 +162,11 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, $table->getRowsCount());
         $this->assertEquals(8, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetGreaterThanCountShouldReturnEmptyTable()
     {
@@ -212,15 +176,11 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(0, $table->getRowsCount());
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitIsZeroShouldReturnEmptyTable()
     {
@@ -230,16 +190,13 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(0, $table->getRowsCount());
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME));
     }
 
     /**
      * Test to filter a table with a offset, limit
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimit()
     {
@@ -276,9 +233,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
      * Test to filter a column with a offset, limit off bound
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimitOffbound()
     {
@@ -315,9 +269,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
      * Test to filter a column with a offset, limit 2
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimit2()
     {
@@ -353,9 +304,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
      * Test to filter a column with a offset, limit 3
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimit3()
     {

@@ -38,7 +38,6 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
     private function trackVisits()
     {
         $tracker = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $tracker->setTokenAuth(self::getTokenAuth());
         $tracker->enableBulkTracking();
         
         $tracker->setIp('156.5.3.1');
@@ -49,7 +48,10 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
         $this->trackPageView($tracker, 0.3, 'the/third_page.html?foo=bar');
         $this->trackPageView($tracker, 0.4, 'page/one.html');
         $this->trackPageView($tracker, 0.5, 'the/third_page.html?foo=bar');
+        $this->trackPageView($tracker, 0.5, 'the/third_page.html?foo=bar');
         $this->trackPageView($tracker, 0.6, 'page/one.html');
+        $this->trackPageView($tracker, 0.6, 'page/one.html');
+        $this->trackPageView($tracker, 0.7, 'the/third_page.html?foo=baz#anchor1');
         $this->trackPageView($tracker, 0.7, 'the/third_page.html?foo=baz#anchor1');
         $this->trackPageView($tracker, 0.8, 'page/one.html');
         $this->trackPageView($tracker, 0.9, 'page/one.html');
@@ -86,15 +88,13 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
         // before & after
         $tracker->setIp('156.5.3.6');
         $tracker->setNewVisitorId();
-        $this->trackPageView($tracker, 0, 'page/search.html#q=mykwd', $this->dateTime, $pageViewType = 'site-search',
-                             $searchKeyword = 'mykwd', $searchCategory = 'mysearchcat');
+        $this->trackPageView($tracker, 0, 'page/search.html#q=mykwd', $this->dateTime, $pageViewType = 'site-search', $searchKeyword = 'mykwd', $searchCategory = 'mysearchcat');
         $this->trackPageView($tracker, 0.1, 'page/one.html');
-        $this->trackPageView($tracker, 0.2, 'page/search.html#q=anotherkwd', $this->dateTime,
-                             $pageViewType = 'site-search', $searchKeyword = 'anotherkwd',
-                             $searchCategory = 'mysearchcat');
+        $this->trackPageView($tracker, 0.2, 'page/search.html#q=anotherkwd', $this->dateTime, $pageViewType = 'site-search', $searchKeyword = 'anotherkwd', $searchCategory = 'mysearchcat');
         $this->trackPageView($tracker, 0.25, 'page/one.html');
         $this->trackPageView($tracker, 0.3, 'to/outlink/page.html', $this->dateTime, $pageViewType = 'outlink');
         $this->trackPageView($tracker, 0.35, 'page/one.html');
+        $this->trackPageView($tracker, 0.11, 'page/search.html#q=thirdkwd', $this->dateTime, $pageViewType = 'event', 'Song name here', 'Music');
         $this->trackPageView($tracker, 0.4, '', $this->dateTime, $pageViewType = 'download');
         $this->trackPageView($tracker, 0.45, 'page/one.html');
         $this->trackPageView($tracker, 0.5, '', $this->dateTime, $pageViewType = 'download');
@@ -105,9 +105,9 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
         $laterDate = Date::factory($this->dateTime)->addDay(8)->getDatetime();
         $tracker->setIp('156.5.3.7');
         $tracker->setNewVisitorId();
-        $this->trackPageView($tracker, 0, 'page/search.html#q=thirdkwd', $laterDate, $pageViewType = 'site-search',
-                             $searchKeyword = 'thirdkwd', $searchCategory = 'mysearchcat');
+        $this->trackPageView($tracker, 0, 'page/search.html#q=thirdkwd', $laterDate, $pageViewType = 'site-search', $searchKeyword = 'thirdkwd', $searchCategory = 'mysearchcat');
         $this->trackPageView($tracker, 0.1, 'page/one.html', $laterDate);
+        $this->trackPageView($tracker, 0.11, 'page/search.html#q=thirdkwd', $laterDate, $pageViewType = 'event', 'Song name here', 'Music');
         $this->trackPageView($tracker, 0.15, 'to/another/outlink.html', $laterDate, $pageViewType = 'outlink');
         $this->trackPageView($tracker, 0.2, 'page/one.html', $laterDate);
         $this->trackPageView($tracker, 0.25, '', $laterDate, $pageViewType = 'download');
@@ -144,6 +144,8 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
             self::assertTrue($visit->doTrackAction($downloadUrl, 'download'));
         } else if ($pageViewType == 'site-search') {
             self::assertTrue($visit->doTrackSiteSearch($searchKeyword, $searchCategory, $this->prefixCounter));
+        } else if ($pageViewType == 'event') {
+            self::assertTrue($visit->doTrackEvent($searchCategory, "event name", $searchKeyword, $this->prefixCounter));
         }
     }
 }

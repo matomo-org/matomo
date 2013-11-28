@@ -49,7 +49,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
     /**
      * Test that php compression isn't enabled ... otherwise, lots of tests will fail
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_phpOutputCompression()
     {
@@ -59,7 +59,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
     /**
      * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serverStaticFile is called with a null file
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_nullFile()
     {
@@ -77,7 +77,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serverStaticFile is called with a non existing file
      *
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_ghostFile()
     {
@@ -95,7 +95,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      * Checks that "HTTP/1.0 505 Internal server error" is returned when Piwik::serverStaticFile is called with a
      * non-readable file
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_nonReadableFile()
     {
@@ -132,7 +132,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      *  - file is send back without compression
      *  - cache control headers are correctly set
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_firstAccessNoCompression()
     {
@@ -175,7 +175,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      * Expected :
      *  - "HTTP/1.1 304 Not Modified" sent back to client
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_secondAccessNoCompression()
     {
@@ -198,7 +198,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      * Expected :
      *  - http return code 200 sent back to client
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_secondAccessNoCompressionExpiredFile()
     {
@@ -222,7 +222,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      *  - the response has to be readable, it tests the proxy doesn't compress the file when compression
      *      is enabled in php.
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_responseReadableWithPhpCompression()
     {
@@ -247,7 +247,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      *  - the response has to be readable
      *  - the compression method used must be gzdeflate and not gzcompression to be IE compatible
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_deflateCompression()
     {
@@ -281,7 +281,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      *  - the response has to be readable
      *  - the compression method used is gzip
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_gzipCompression()
     {
@@ -312,7 +312,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      * Expected :
      *  - the compressed file cache mechanism works file, ie. the .deflate file is not generated twice
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_compressionCache()
     {
@@ -353,7 +353,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      * Expected :
      *  - the test file has been updated, the cached compressed file should be regenerated
      *
-     * @group ServeStaticFile
+     * @group Core
      */
     public function test_compressionCacheInvalidation()
     {

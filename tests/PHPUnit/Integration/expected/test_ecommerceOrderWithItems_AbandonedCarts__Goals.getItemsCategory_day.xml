@@ -4,10 +4,10 @@
 		<label>Category TWO LEFT in cart</label>
 		<revenue>4000</revenue>
 		<quantity>4</quantity>
-		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
+		<abandoned_carts>2</abandoned_carts>
 		<avg_price>1000</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -16,10 +16,10 @@
 		<label>Product Category not defined</label>
 		<revenue>1000.22</revenue>
 		<quantity>2</quantity>
-		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
 		<nb_actions>5</nb_actions>
+		<abandoned_carts>2</abandoned_carts>
 		<avg_price>500.11</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>66.67%</conversion_rate>
@@ -28,10 +28,10 @@
 		<label>Electronics &amp; Cameras</label>
 		<revenue>20</revenue>
 		<quantity>2</quantity>
-		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
 		<nb_actions>6</nb_actions>
+		<abandoned_carts>2</abandoned_carts>
 		<avg_price>10</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>66.67%</conversion_rate>

@@ -14,14 +14,34 @@ namespace Piwik;
 use Exception;
 
 /**
- * Date object widely used in Piwik.
- *
+ * Utility class that wraps date/time related PHP functions. Using this class can
+ * be easier than using `date`, `time`, `date_default_timezone_set`, etc.
+ * 
+ * ### Performance concerns
+ * 
+ * The helper methods in this class are instance methods and thus `Date` instances
+ * need to be constructed before they can be used. The memory allocation can result
+ * in noticeable performance degradation if you construct thousands of Date instances,
+ * say, in a loop.
+ * 
+ * ### Examples
+ * 
+ * **Basic usage**
+ * 
+ *     $date = Date::factory('2007-07-24 14:04:24', 'EST');
+ *     $date->addHour(5);
+ *     echo $date->getLocalized("%longDay% the %day% of %longMonth% at %time%");
+ * 
  * @package Piwik
  * @api
  */
 class Date
 {
+    /** Number of seconds in a day. */
     const NUM_SECONDS_IN_DAY = 86400;
+
+    /** The default date time string format. */
+    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     /**
      * The stored timestamp is always UTC based.
@@ -37,37 +57,37 @@ class Date
      */
     protected $timezone = 'UTC';
 
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-
     /**
-     * Builds a Date object
+     * Constructor.
      *
-     * @param int $timestamp
-     * @param string $timezone
-     * @throws Exception
+     * @param int $timestamp The number in seconds since the unix epoch.
+     * @param string $timezone The timezone of the datetime.
+     * @throws Exception If $timestamp is not an int.
      */
     protected function __construct($timestamp, $timezone = 'UTC')
     {
         if (!is_int($timestamp)) {
-            throw new Exception("Date is expecting a unix timestamp");
+            throw new Exception("Date is expecting a unix timestamp, got: '$timestamp'.");
         }
         $this->timezone = $timezone;
         $this->timestamp = $timestamp;
     }
 
     /**
-     * Returns a Date objects.
+     * Creates a new Date instance using a string datetime value. The timezone of the Date
+     * result will be in UTC.
      *
-     * @param string|\Piwik\Date $dateString 'today' 'yesterday' or any YYYY-MM-DD or timestamp
-     * @param string $timezone if specified, the dateString will be relative to this $timezone.
-     *                                  For example, today in UTC+12 will be a timestamp in the future for UTC.
-     *                                  This is different from using ->setTimezone()
-     * @throws Exception
-     * @return \Piwik\Date
+     * @param string|int $dateString `'today'`, `'yesterday'`, `'now'`, `'yesterdaySameTime'`, a string with
+     *                               `'YYYY-MM-DD HH:MM:SS'` format or a unix timestamp.
+     * @param string $timezone The timezone of `$dateString`. If specified, `$dateString` will be converted
+     *                         from UTC to this timezone before being used in the Date return value.
+     * @throws Exception If `$dateString` is in an invalid format or if the time is before
+     *                   Tue, 06 Aug 1991.
+     * @return Date
      */
     public static function factory($dateString, $timezone = null)
     {
-        $invalidDateException = new Exception(Piwik::translateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
+        $invalidDateException = new Exception(Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
         if ($dateString instanceof self) {
             $dateString = $dateString->toString();
         }
@@ -107,7 +127,7 @@ class Date
     }
 
     /**
-     * Returns the datetime of the current timestamp
+     * Returns the current timestamp as a string with the following format: `'YYYY-MM-DD HH:MM:SS'`.
      *
      * @return string
      */
@@ -117,7 +137,9 @@ class Date
     }
 
     /**
-     * Returns the datetime start in UTC
+     * Returns the start of the day of the current timestamp in UTC. For example,
+     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
+     * be `'2007-07-24'`.
      *
      * @return string
      */
@@ -129,7 +151,9 @@ class Date
     }
 
     /**
-     * Returns the datetime end in UTC
+     * Returns the end of the day of the current timestamp in UTC. For example,
+     * if the current timestamp is `'2007-07-24 14:03:24'` in UTC, the result will
+     * be `'2007-07-24 23:59:59'`.
      *
      * @return string
      */
@@ -141,12 +165,13 @@ class Date
     }
 
     /**
-     * Returns a new date object, copy of $this, with the timezone set
-     * This timezone is used to offset the UTC timestamp returned by @see getTimestamp()
-     * Doesn't modify $this
+     * Returns a new date object with the same timestamp as `$this` but with a new
+     * timezone.
+     * 
+     * See [getTimestamp](#getTimestamp) to see how the timezone is used.
      *
-     * @param string $timezone 'UTC', 'Europe/London', ...
-     * @return \Piwik\Date
+     * @param string $timezone eg, `'UTC'`, `'Europe/London'`, etc.
+     * @return Date
      */
     public function setTimezone($timezone)
     {
@@ -179,11 +204,11 @@ class Date
     }
 
     /**
-     * Adjusts a UNIX timestamp in UTC to a specific timezone.
+     * Converts a timestamp in a timezone to UTC.
      *
      * @param int $timestamp The UNIX timestamp to adjust.
-     * @param string $timezone The timezone to adjust to.
-     * @return int  The adjusted time as seconds from EPOCH.
+     * @param string $timezone The timezone to adjust from.
+     * @return int The adjusted time as seconds from EPOCH.
      */
     public static function adjustForTimezone($timestamp, $timezone)
     {
@@ -201,7 +226,7 @@ class Date
     }
 
     /**
-     * Returns the Unix timestamp of the date in UTC
+     * Returns the Unix timestamp of the date in UTC.
      *
      * @return int
      */
@@ -211,8 +236,8 @@ class Date
     }
 
     /**
-     * Returns the unix timestamp of the date in UTC,
-     * converted from the date timezone
+     * Returns the unix timestamp of the date in UTC, converted from the current
+     * timestamp timezone.
      *
      * @return int
      */
@@ -243,9 +268,9 @@ class Date
     }
 
     /**
-     * Returns true if the current date is older than the given $date
+     * Returns true if the current date is older than the given `$date`.
      *
-     * @param \Piwik\Date $date
+     * @param Date $date
      * @return bool
      */
     public function isLater(Date $date)
@@ -254,9 +279,9 @@ class Date
     }
 
     /**
-     * Returns true if the current date is earlier than the given $date
+     * Returns true if the current date is earlier than the given `$date`.
      *
-     * @param \Piwik\Date $date
+     * @param Date $date
      * @return bool
      */
     public function isEarlier(Date $date)
@@ -265,21 +290,21 @@ class Date
     }
 
     /**
-     * Returns the Y-m-d representation of the string.
-     * You can specify the output, see the list on php.net/date
+     * Converts this date to the requested string format. See [http://php.net/date](http://php.net/date)
+     * for the list of format strings.
      *
-     * @param string $part
+     * @param string $format
      * @return string
      */
-    public function toString($part = 'Y-m-d')
+    public function toString($format = 'Y-m-d')
     {
-        return date($part, $this->getTimestamp());
+        return date($format, $this->getTimestamp());
     }
 
     /**
-     * @see toString()
+     * See [toString](#toString).
      *
-     * @return string
+     * @return string The current date in `'YYYY-MM-DD'` format.
      */
     public function __toString()
     {
@@ -287,12 +312,11 @@ class Date
     }
 
     /**
-     * Compares the week of the current date against the given $date
-     * Returns 0 if equal, -1 if current week is earlier or 1 if current week is later
-     * Example: 09.Jan.2007 13:07:25 -> compareWeek(2); -> 0
+     * Performs three-way comparison of the week of the current date against the given `$date`'s week.
      *
      * @param \Piwik\Date $date
-     * @return int  0 = equal, 1 = later, -1 = earlier
+     * @return int Returns `0` if the current week is equal to `$date`'s, `-1` if the current week is
+     *             earlier or `1` if the current week is later.
      */
     public function compareWeek(Date $date)
     {
@@ -308,12 +332,11 @@ class Date
     }
 
     /**
-     * Compares the month of the current date against the given $date month
-     * Returns 0 if equal, -1 if current month is earlier or 1 if current month is later
-     * For example: 10.03.2000 -> 15.03.1950 -> 0
+     * Performs three-way comparison of the month of the current date against the given `$date`'s month.
      *
      * @param \Piwik\Date $date Month to compare
-     * @return int  0 = equal, 1 = later, -1 = earlier
+     * @return int Returns `0` if the current month is equal to `$date`'s, `-1` if the current month is
+     *             earlier or `1` if the current month is later.
      */
     public function compareMonth(Date $date)
     {
@@ -329,8 +352,29 @@ class Date
     }
 
     /**
-     * Returns true if current date is today
+     * Performs three-way comparison of the month of the current date against the given `$date`'s year.
      *
+     * @param \Piwik\Date $date Year to compare
+     * @return int Returns `0` if the current year is equal to `$date`'s, `-1` if the current year is
+     *             earlier or `1` if the current year is later.
+     */
+    public function compareYear(Date $date)
+    {
+        $currentYear   = date('Y', $this->getTimestamp());
+        $toCompareYear = date('Y', $date->getTimestamp());
+        if ($currentYear == $toCompareYear) {
+            return 0;
+        }
+        if ($currentYear < $toCompareYear) {
+
+            return -1;
+        }
+        return 1;
+    }
+
+    /**
+     * Returns true if current date is today.
+     * 
      * @return bool
      */
     public function isToday()
@@ -339,7 +383,7 @@ class Date
     }
 
     /**
-     * Returns a date object set to now (same as today, except that the time is also set)
+     * Returns a date object set to now in UTC (same as [today](#today), except that the time is also set).
      *
      * @return \Piwik\Date
      */
@@ -349,7 +393,7 @@ class Date
     }
 
     /**
-     * Returns a date object set to today midnight
+     * Returns a date object set to today at midnight in UTC.
      *
      * @return \Piwik\Date
      */
@@ -359,7 +403,7 @@ class Date
     }
 
     /**
-     * Returns a date object set to yesterday midnight
+     * Returns a date object set to yesterday at midnight in UTC.
      *
      * @return \Piwik\Date
      */
@@ -369,7 +413,7 @@ class Date
     }
 
     /**
-     * Returns a date object set to yesterday same time of day
+     * Returns a date object set to yesterday with the current time of day in UTC.
      *
      * @return \Piwik\Date
      */
@@ -379,11 +423,11 @@ class Date
     }
 
     /**
-     * Sets the time part of the date
-     * Doesn't modify $this
+     * Returns a new Date instance with `$this` date's day and the specified new
+     * time of day.
      *
-     * @param string $time HH:MM:SS
-     * @return \Piwik\Date The new date with the time part set
+     * @param string $time String in the `'HH:MM:SS'` format.
+     * @return \Piwik\Date The new date with the time of day changed.
      */
     public function setTime($time)
     {
@@ -391,12 +435,11 @@ class Date
     }
 
     /**
-     * Sets a new day
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Returns a new Date instance with `$this` date's time of day and the day specified
+     * by `$day`.
      *
-     * @param int $day Day eg. 31
-     * @return \Piwik\Date  new date
+     * @param int $day The day eg. `31`.
+     * @return \Piwik\Date
      */
     public function setDay($day)
     {
@@ -413,12 +456,11 @@ class Date
     }
 
     /**
-     * Sets a new year
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Returns a new Date instance with `$this` date's time of day, month and day, but with
+     * a new year (specified by `$year`).
      *
-     * @param int $year 2010
-     * @return \Piwik\Date  new date
+     * @param int $year The year, eg. `2010`.
+     * @return \Piwik\Date
      */
     public function setYear($year)
     {
@@ -435,12 +477,10 @@ class Date
     }
 
     /**
-     * Subtracts days from the existing date object and returns a new Date object
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Subtracts `$n` number of days from `$this` date and returns a new Date object.
      *
-     * @param int $n
-     * @return \Piwik\Date  new date
+     * @param int $n An integer > 0.
+     * @return \Piwik\Date
      */
     public function subDay($n)
     {
@@ -452,12 +492,10 @@ class Date
     }
 
     /**
-     * Subtracts weeks from the existing date object and returns a new Date object
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Subtracts `$n` weeks from `$this` date and returns a new Date object.
      *
-     * @param int $n
-     * @return \Piwik\Date  new date
+     * @param int $n An integer > 0.
+     * @return \Piwik\Date
      */
     public function subWeek($n)
     {
@@ -465,11 +503,9 @@ class Date
     }
 
     /**
-     * Subtracts a month from the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Subtracts `$n` months from `$this` date and returns the result as a new Date object.
      *
-     * @param int $n
+     * @param int $n An integer > 0.
      * @return \Piwik\Date  new date
      */
     public function subMonth($n)
@@ -490,12 +526,10 @@ class Date
     }
 
     /**
-     * Subtracts a year from the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Subtracts `$n` years from `$this` date and returns the result as a new Date object.
      *
-     * @param int $n
-     * @return \Piwik\Date  new date
+     * @param int $n An integer > 0.
+     * @return \Piwik\Date
      */
     public function subYear($n)
     {
@@ -515,11 +549,22 @@ class Date
     }
 
     /**
-     * Returns a localized date string, given a template.
-     * Allowed tags are: %day%, %shortDay%, %longDay%, etc.
+     * Returns a localized date string using the given template.
+     * The template should contain tags that will be replaced with localized date strings.
+     * 
+     * Allowed tags include:
+     * 
+     * - **%day%**: replaced with the day of the month without leading zeros, eg, **1** or **20**.
+     * - **%shortMonth%**: the short month in the current language, eg, **Jan**, **Feb**.
+     * - **%longMonth%**: the whole month name in the current language, eg, **January**, **February**.
+     * - **%shortDay%**: the short day name in the current language, eg, **Mon**, **Tue**.
+     * - **%longDay%**: the long day name in the current language, eg, **Monday**, **Tuesday**.
+     * - **%longYear%**: the four digit year, eg, **2007**, **2013**.
+     * - **%shortYear%**: the two digit year, eg, **07**, **13**.
+     * - **%time%**: the time of day, eg, **07:35:00**, or **15:45:00**.
      *
-     * @param string $template string eg. %shortMonth% %longYear%
-     * @return string  eg. "Aug 2009"
+     * @param string $template eg. `"%shortMonth% %longYear%"`
+     * @return string eg. `"Aug 2009"`
      */
     public function getLocalized($template)
     {
@@ -541,12 +586,11 @@ class Date
     }
 
     /**
-     * Adds days to the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Adds `$n` days to `$this` date and returns the result in a new Date.
+     * instance.
      *
-     * @param int $n Number of days to add
-     * @return \Piwik\Date  new date
+     * @param int $n Number of days to add, must be > 0.
+     * @return \Piwik\Date
      */
     public function addDay($n)
     {
@@ -555,12 +599,10 @@ class Date
     }
 
     /**
-     * Adds hours to the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Adds `$n` hours to `$this` date and returns the result in a new Date.
      *
-     * @param int $n Number of hours to add
-     * @return \Piwik\Date new date
+     * @param int $n Number of hours to add. Can be less than 0.
+     * @return \Piwik\Date
      */
     public function addHour($n)
     {
@@ -569,11 +611,13 @@ class Date
     }
 
     /**
-     * Adds N number of hours to a UNIX timestamp and returns the result.
+     * Adds N number of hours to a UNIX timestamp and returns the result. Using
+     * this static function instead of [addHour](#addHour) will be faster since a
+     * Date instance does not have to be created.
      *
      * @param int $timestamp The timestamp to add to.
-     * @param number $n Number of hours to add.
-     * @return int  The result as a UNIX timestamp.
+     * @param number $n Number of hours to add, must be > 0.
+     * @return int The result as a UNIX timestamp.
      */
     public static function addHourTo($timestamp, $n)
     {
@@ -601,12 +645,10 @@ class Date
     }
 
     /**
-     * Substract hour to the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Subtracts `$n` hours from `$this` date and returns the result in a new Date.
      *
-     * @param int $n Number of hours to substract
-     * @return \Piwik\Date  new date
+     * @param int $n Number of hours to subtract. Can be less than 0.
+     * @return \Piwik\Date
      */
     public function subHour($n)
     {
@@ -614,13 +656,11 @@ class Date
     }
 
     /**
-     * Adds period to the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Adds a period to `$this` date and returns the result in a new Date instance.
      *
-     * @param int $n
-     * @param string $period period to add (WEEK, DAY,...)
-     * @return \Piwik\Date  new date
+     * @param int $n The number of periods to add. Can be negative.
+     * @param string $period The type of period to add (YEAR, MONTH, WEEK, DAY, ...)
+     * @return \Piwik\Date
      */
     public function addPeriod($n, $period)
     {
@@ -633,13 +673,11 @@ class Date
     }
 
     /**
-     * Subtracts period from the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
+     * Subtracts a period from `$this` date and returns the result in a new Date instance.
      *
-     * @param int $n
-     * @param string $period period to sub
-     * @return \Piwik\Date  new date
+     * @param int $n The number of periods to add. Can be negative.
+     * @param string $period The type of period to add (YEAR, MONTH, WEEK, DAY, ...)
+     * @return \Piwik\Date
      */
     public function subPeriod($n, $period)
     {

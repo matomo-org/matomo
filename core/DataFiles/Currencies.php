@@ -185,7 +185,7 @@ if (!isset($GLOBALS['Piwik_CurrencyList'])) {
         'VND' => array('₫', 'Vietnamese đồng'),
         'XOF' => array('Fr', 'West African CFA franc'),
         'YER' => array('﷼', 'Yemeni rial'),
-        'ZMK' => array('ZK', 'Zambian kwacha'),
+        'ZMW' => array('ZK', 'Zambian kwacha'),
         'ZWL' => array('$', 'Zimbabwean dollar'),
     );
 }

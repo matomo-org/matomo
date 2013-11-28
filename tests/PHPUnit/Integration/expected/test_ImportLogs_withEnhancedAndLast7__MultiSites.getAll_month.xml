@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2012-08">
+		<row>
+			<label>Piwik test</label>
+			<nb_visits>26</nb_visits>
+			<nb_actions>29</nb_actions>
+			<nb_pageviews>25</nb_pageviews>
+			<revenue>120</revenue>
+			<nb_conversions>24</nb_conversions>
+			<visits_evolution>100%</visits_evolution>
+			<actions_evolution>100%</actions_evolution>
+			<pageviews_evolution>100%</pageviews_evolution>
+			<revenue_evolution>100%</revenue_evolution>
+			<nb_conversions_evolution>100%</nb_conversions_evolution>
+			<idsite>1</idsite>
+		</row>
+		<row>
+			<label>Piwik test two</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<nb_pageviews>1</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>100%</visits_evolution>
+			<actions_evolution>100%</actions_evolution>
+			<pageviews_evolution>100%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
+		</row>
+	</result>
+	<result date="2012-09">
+		<row>
+			<label>Piwik test</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>10</nb_actions>
+			<nb_pageviews>10</nb_pageviews>
+			<revenue>5</revenue>
+			<nb_conversions>1</nb_conversions>
+			<visits_evolution>-96.2%</visits_evolution>
+			<actions_evolution>-65.5%</actions_evolution>
+			<pageviews_evolution>-60%</pageviews_evolution>
+			<revenue_evolution>-95.8%</revenue_evolution>
+			<nb_conversions_evolution>-95.8%</nb_conversions_evolution>
+			<idsite>1</idsite>
+		</row>
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test two</label>
+			<visits_evolution>-100%</visits_evolution>
+			<actions_evolution>-100%</actions_evolution>
+			<pageviews_evolution>-100%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
+		</row>
+	</result>
+	<result date="2012-10">
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test</label>
+			<visits_evolution>-100%</visits_evolution>
+			<actions_evolution>-100%</actions_evolution>
+			<pageviews_evolution>-100%</pageviews_evolution>
+			<revenue_evolution>-100%</revenue_evolution>
+			<nb_conversions_evolution>-100%</nb_conversions_evolution>
+			<idsite>1</idsite>
+		</row>
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test two</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
+		</row>
+	</result>
+	<result date="2012-11">
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
+		</row>
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test two</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
+		</row>
+	</result>
+	<result date="2012-12">
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
+		</row>
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test two</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
+		</row>
+	</result>
+	<result date="2013-01">
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
+		</row>
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test two</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
+		</row>
+	</result>
+	<result date="2013-02">
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
+		</row>
+		<row>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<label>Piwik test two</label>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
+		</row>
+	</result>
+</results>

@@ -3,11 +3,11 @@
 {% block content %}
 
 <h2>{{ 'UsersManager_ManageAccess'|translate }}</h2>
-<div id="sites">
+<div id="sites" class="usersManager">
     <section class="sites_selector_container">
         <p>{{ 'UsersManager_MainDescription'|translate }}</p>
 
-        <div style="display:inline-block;margin-top:5px;">{{ 'SitesManager_Sites'|translate }}:</div>
+        <div class="sites_selector_title">{{ 'SitesManager_Sites'|translate }}:</div>
 
         {% set applyAllSitesText %}
             <strong>{{ 'UsersManager_ApplyToAllWebsites'|translate }}</strong>
@@ -29,9 +29,8 @@
 
 <div class="entityContainer" style="width:600px;">
     {% if anonymousHasViewAccess %}
-        <div class="ajaxSuccess" style="display:inline-block;">
-            {{ 'UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'") }}<br/>
-            {{ 'UsersManager_AnonymousUserHasViewAccess2'|translate }}
+        <div style="display:inline-block;margin-top:10px;" id="usersManagerAnonymousUserHasViewAccess">
+            {{ ['UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'"), 'UsersManager_AnonymousUserHasViewAccess2'|translate]|join('<br/>')|notification({'placeAt': '#usersManagerAnonymousUserHasViewAccess', 'noclear': true}) }}
         </div>
     {% endif %}
     <table class="entityTable dataTable" id="access" style="display:inline-table;width:500px;">
@@ -65,7 +64,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <div id="accessUpdated" class="ajaxSuccess" style="display:none;vertical-align:top;">{{ 'General_Done'|translate }}!</div>
+    <div id="accessUpdated" style="vertical-align:top;"></div>
 </div>
 
 <div class="ui-confirm" id="confirm">

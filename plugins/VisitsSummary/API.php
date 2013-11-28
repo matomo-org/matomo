@@ -20,22 +20,10 @@ use Piwik\SettingsPiwik;
  * count of actions (page views & downloads & clicks on outlinks), time on site, bounces and converted visits.
  *
  * @package VisitsSummary
+ * @method static \Piwik\Plugins\VisitsSummary\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\VisitsSummary\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);

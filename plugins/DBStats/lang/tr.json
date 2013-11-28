@@ -1,16 +1,16 @@
 {
     "DBStats": {
-        "PluginDescription": "Bu eklenti Piwik tabloları ile MySQL veritabanı kullanım raporu.",
         "DatabaseUsage": "Veritabanı kullanımı",
-        "MainDescription": "Piwik tüm web istatistiklerinizi MySQL veritabanında saklar. Piwik tabloları %s kullanıyor.",
-        "Table": "Tablo",
-        "RowCount": "Satır sayısı",
         "DataSize": "Veri boyutu",
-        "IndexSize": "Dizin boyutu",
-        "TotalSize": "Toplam boyut",
         "DBSize": "Veritabanı boyutu",
         "EstimatedSize": "Tahmin edilen boyut",
+        "IndexSize": "Dizin boyutu",
+        "MainDescription": "Piwik tüm web istatistiklerinizi MySQL veritabanında saklar. Piwik tabloları %s kullanıyor.",
+        "OtherTables": "Diğer Tablolar",
+        "PluginDescription": "Bu eklenti Piwik tabloları ile MySQL veritabanı kullanım raporu.",
         "ReportTables": "Rapor Tabloları",
-        "OtherTables": "Diğer Tablolar"
+        "RowCount": "Satır sayısı",
+        "Table": "Tablo",
+        "TotalSize": "Toplam boyut"
     }
 }

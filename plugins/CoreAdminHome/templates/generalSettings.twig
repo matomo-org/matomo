@@ -189,9 +189,9 @@
     <h2>{{ 'CoreAdminHome_BrandingSettings'|translate }}</h2>
     <div id='brandSettings'>
         {{ 'CoreAdminHome_CustomLogoHelpText'|translate }}
-        <table class="adminTable" style="width:600px;">
+        <table class="adminTable" style="width:900px;">
             <tr>
-                <td>{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
+                <td style="width:200px;">{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
                 <td style="width:200px;">
                     <label>
                         <input type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
@@ -202,15 +202,17 @@
                         {{ 'General_No'|translate }}
                     </label>
                 </td>
+                <td>
+                    {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
+                    {% set customLogoHelp %}
+                    {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
+                    {% endset %}
+                    {{ piwik.inlineHelp(customLogoHelp) }}
+                </td>
             </tr>
         </table>
     </div>
     <div id='logoSettings'>
-        {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
-        {% set customLogoHelp %}
-            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
-        {% endset %}
-        {{ piwik.inlineHelp(customLogoHelp) }}
         <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
             <table class="adminTable" style='width:550px;'>
                 <tr>
@@ -222,11 +224,13 @@
                         </td>
                         <td style="width:200px;">
                             <input name="customLogo" type="file" id="customLogo"/>
-                            <img src="misc/user/logo.png?r={math equation='rand(10,1000)'}" id="currentLogo" height="150"/>
+                            <img src="misc/user/logo.png?r={{ random() }}" id="currentLogo" height="150"/>
                         </td>
                     {% else %}
                         <td>
-                            <span class="ajaxSuccess">{{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|raw }}</span>
+                            <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_LogoNotWriteable">
+                                {{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
+                            </div>
                         </td>
                     {% endif %}
                 </tr>
@@ -253,7 +257,7 @@
     {% set iframeOptOut %}
         <iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>
     {% endset %}
-    <code>{{ iframeOptOut }}</code>
+    <code>{{ iframeOptOut|escape }}</code>
     <br/>
     {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
 </p>

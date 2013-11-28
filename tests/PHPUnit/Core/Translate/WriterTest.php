@@ -1,11 +1,11 @@
 <?php
 
-use Piwik\Translate\Writer;
-use Piwik\Translate\Validate\CoreTranslations;
-use Piwik\Translate\Validate\NoScripts;
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\UnnecassaryWhitespaces;
+use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Writer;
 
 /**
  * Piwik - Open source web analytics
@@ -24,7 +24,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @dataProvider getValidConstructorData
      */
     public function testConstructorValid($language, $plugin)
@@ -45,7 +45,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @expectedException Exception
      */
     public function testConstructorInvalid()
@@ -55,7 +55,6 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
      */
     public function testHasTranslations()
     {
@@ -66,7 +65,6 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
      */
     public function testHasNoTranslations()
     {
@@ -76,7 +74,6 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
      */
     public function testSetTranslationsEmpty()
     {
@@ -88,7 +85,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @dataProvider getInvalidTranslations
      */
     public function testSetTranslationsInvalid($translations, $error)
@@ -129,7 +126,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @expectedException Exception
      */
     public function testSaveException()
@@ -140,7 +137,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @expectedException Exception
      */
     public function testSaveTemporaryException()
@@ -151,7 +148,6 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
      */
     public function testSaveTranslation()
     {
@@ -186,7 +182,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @dataProvider getTranslationPathTestData
      */
     public function testGetTranslationsPath($language, $plugin, $path)
@@ -207,7 +203,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @dataProvider getTranslationPathTemporaryTestData
      */
     public function testGetTemporaryTranslationPath($language, $plugin, $path)
@@ -228,7 +224,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Translate
+     *
      * @dataProvider getValidLanguages
      */
     public function testSetLanguageValid($language)
@@ -254,7 +250,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     }
     /**
      * @group Core
-     * @group Translate
+     *
      * @expectedException Exception
      * @dataProvider getInvalidLanguages
      */

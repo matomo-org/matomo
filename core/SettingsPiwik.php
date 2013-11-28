@@ -13,10 +13,9 @@ namespace Piwik;
 use Exception;
 
 /**
- * Class SettingsPiwik
+ * Contains helper methods that can be used to get common Piwik settings.
+ * 
  * @package Piwik
- *
- * @api
  */
 class SettingsPiwik
 {
@@ -52,20 +51,37 @@ class SettingsPiwik
     public static $cachedKnownSegmentsToArchive = null;
 
     /**
-     * Segments to pre-process
+     * Returns the list of stored segments to pre-process for all sites when executing cron archiving.
      *
-     * @return string
+     * @return array The list of stored segments that apply to all sites.
+     * @api
      */
-    static public function getKnownSegmentsToArchive()
+    public static function getKnownSegmentsToArchive()
     {
         if (self::$cachedKnownSegmentsToArchive === null) {
             $segments = Config::getInstance()->Segments;
             $segmentsToProcess = isset($segments['Segments']) ? $segments['Segments'] : array();
 
             /**
-             * This event is triggered when the automatic archiving runs.
-             * You can use it to add Segments to the list of segments to pre-process during archiving.
-             * Segments specified in this array will be pre-processed for all websites.
+             * Triggered during the cron archiving process to collect segments that
+             * should be pre-processed for all websites. The archiving process will be launched
+             * for each of these segments when archiving data for each site.
+             * 
+             * This event can be used to add segments to be pre-processed. This can be provide
+             * enhanced performance if your plugin depends on data from a specific segment.
+             * 
+             * Note: If you just want to add a segment that is managed by the user, you should use the
+             * SegmentEditor API.
+             * 
+             * @param array &$segmentsToProcess List of segment definitions, eg,
+             *                                  ```
+             *                                  array(
+             *                                      'browserCode=ff;resolution=800x600',
+             *                                      'country=JP;city=Tokyo'
+             *                                  )
+             *                                  ```
+             *                                  Add segments to process to this array in your event
+             *                                  handler.
              */
             Piwik::postEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
 
@@ -75,15 +91,38 @@ class SettingsPiwik
         return self::$cachedKnownSegmentsToArchive;
     }
 
-
+    /**
+     * Returns the list of stored segments to pre-process for an individual site when executing
+     * cron archiving.
+     * 
+     * @param int $idSite The ID of the site to get stored segments for.
+     * @return string The list of stored segments that apply to the requested site.
+     */
     public static function getKnownSegmentsToArchiveForSite($idSite)
     {
         $segments = array();
 
         /**
-         * This event is triggered when the automatic archiving runs.
-         * You can use it to add Segments to the list of segments to pre-process during archiving,
-         * for this particular website ID $idSite.
+         * Triggered during the cron archiving process to collect segments that
+         * should be pre-processed for one specific site. The archiving process will be launched
+         * for each of these segments when archiving data for that one site.
+         * 
+         * This event can be used to add segments to be pre-processed. This can be provide
+         * enhanced performance if your plugin depends on data from a specific segment.
+         * 
+         * Note: If you just want to add a segment that is managed by the user, you should use the
+         * SegmentEditor API.
+         * 
+         * @param array &$segmentsToProcess List of segment definitions, eg,
+         *                                  ```
+         *                                  array(
+         *                                      'browserCode=ff;resolution=800x600',
+         *                                      'country=JP;city=Tokyo'
+         *                                  )
+         *                                  ```
+         *                                  Add segments to process to this array in your event
+         *                                  handler.
+         * @param int $idSite The ID of the site to get segments for.
          */
         Piwik::postEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;
@@ -110,12 +149,10 @@ class SettingsPiwik
     static public $piwikUrlCache = null;
 
     /**
-     * Returns the cached the Piwik URL, eg. http://demo.piwik.org/ or http://example.org/piwik/
-     * If not found, then tries to cache it and returns the value.
-     *
-     * If the Piwik URL changes (eg. Piwik moved to new server), the value will automatically be refreshed in the cache.
+     * Returns the URL to this Piwik instance, eg. http://demo.piwik.org/ or http://example.org/piwik/.
      *
      * @return string
+     * @api
      */
     public static function getPiwikUrl()
     {
@@ -149,9 +186,10 @@ class SettingsPiwik
     }
 
     /**
-     * Returns true if Segmentation is allowed for this user
+     * Returns true if segmentation is allowed for this user, false if otherwise.
      *
      * @return bool
+     * @api
      */
     public static function isSegmentationEnabled()
     {
@@ -160,12 +198,15 @@ class SettingsPiwik
     }
 
     /**
-     * Should we process and display Unique Visitors?
-     * -> Always process for day/week/month periods
-     * For Year and Range, only process if it was enabled in the config file,
+     * Returns true if unique visitors should be processed for the given period type.
+     * 
+     * Unique visitor processing is controlled by the **[General] enable_processing_unique_visitors_...**
+     * INI config options. By default, day/week/month periods always process unique visitors and
+     * year/range are not.
      *
-     * @param string $periodLabel Period label (e.g., 'day')
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
      * @return bool
+     * @api
      */
     public static function isUniqueVisitorsEnabled($periodLabel)
     {
@@ -213,4 +254,41 @@ class SettingsPiwik
 
         return $path;
     }
+
+    /**
+     * Returns true if the Piwik server appears to be working.
+     *
+     * @param $piwikServerUrl
+     * @return bool
+     */
+    static public function checkPiwikServerWorking($piwikServerUrl)
+    {
+        // Now testing if the webserver is running
+        try {
+            $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 45);
+        } catch (Exception $e) {
+            $fetched = "ERROR fetching: " . $e->getMessage();
+        }
+        $expectedString = 'plugins/CoreHome/images/favicon.ico';
+
+        if (strpos($fetched, $expectedString) === false) {
+            throw new Exception("\nPiwik should be running at: "
+                . $piwikServerUrl
+                . " but this URL returned an unexpected response: '"
+                . $fetched . "'\n\n");
+        }
+    }
+
+    public static function getCurrentGitBranch()
+    {
+        $firstLineOfGitHead = file(PIWIK_INCLUDE_PATH . '/.git/HEAD');
+        if (empty($firstLineOfGitHead)) {
+            return '';
+        }
+        $firstLineOfGitHead = $firstLineOfGitHead[0];
+        $parts = explode("/", $firstLineOfGitHead);
+        $currentGitBranch = trim($parts[2]);
+        return $currentGitBranch;
+    }
+
 }

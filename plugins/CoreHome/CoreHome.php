@@ -56,6 +56,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/promo.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -84,10 +85,13 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/autocomplete.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/top_controls.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

@@ -17,10 +17,7 @@
 {% endmacro %}
 
 {% macro inlineHelp(text) %}
-    <div class="ui-widget">
-        <div class="ui-inline-help ui-state-highlight ui-corner-all">
-            <span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em;"></span>
-            {{ text|raw }}
-        </div>
+    <div class="ui-inline-help" >
+        {{ text|raw }}
     </div>
 {% endmacro %}

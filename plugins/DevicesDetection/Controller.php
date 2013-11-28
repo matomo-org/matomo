@@ -14,12 +14,12 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 use UserAgentParserEnhanced;
 
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
-    public function index($fetch = false)
+    public function index()
     {
         $view = new View('@DevicesDetection/index');
         $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
@@ -28,42 +28,42 @@ class Controller extends \Piwik\Controller
         $view->deviceModels = $this->getModel(true);
         $view->osReport = $this->getOsFamilies(true);
         $view->browserReport = $this->getBrowserFamilies(true);
-        echo $view->render();
+        return $view->render();
     }
 
-    public function getType($fetch = false)
+    public function getType()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getBrand($fetch = false)
+    public function getBrand()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getModel($fetch = false)
+    public function getModel()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getOsFamilies($fetch = false)
+    public function getOsFamilies()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getOsVersions($fetch = false)
+    public function getOsVersions()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getBrowserFamilies($fetch = false)
+    public function getBrowserFamilies()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getBrowserVersions($fetch = false)
+    public function getBrowserVersions()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
@@ -74,18 +74,23 @@ class Controller extends \Piwik\Controller
         Piwik::checkUserIsSuperUser();
         $q = "SELECT idvisit, config_debug_ua FROM " . Common::prefixTable("log_visit");
         $res = Db::fetchAll($q);
+
+        $output = '';
+
         foreach ($res as $rec) {
             $UAParser = new UserAgentParserEnhanced($rec['config_debug_ua']);
             $UAParser->parse();
-            echo "Processing idvisit = " . $rec['idvisit'] . "<br/>";
-            echo "UserAgent string: " . $rec['config_debug_ua'] . "<br/> Decoded values:";
+            $output .= "Processing idvisit = " . $rec['idvisit'] . "<br/>";
+            $output .= "UserAgent string: " . $rec['config_debug_ua'] . "<br/> Decoded values:";
             $uaDetails = $this->getArray($UAParser);
             var_export($uaDetails);
-            echo "<hr/>";
+            $output .= "<hr/>";
             $this->updateVisit($rec['idvisit'], $uaDetails);
             unset($UAParser);
         }
-        echo "Please remember to truncate your archives !";
+        $output .=  "Please remember to truncate your archives !";
+
+        return $output;
     }
 
     private function getArray(UserAgentParserEnhanced $UAParser)

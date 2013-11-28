@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result idSite="1" />
+	<result idSite="1">
+		<row>
+			<label>/index.htm</label>
+			<nb_visits>2</nb_visits>
+			<nb_hits>2</nb_hits>
+			<sum_time_spent>360</sum_time_spent>
+			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
+			<min_time_generation>0.123</min_time_generation>
+			<max_time_generation>0.323</max_time_generation>
+			<entry_nb_visits>1</entry_nb_visits>
+			<entry_nb_actions>5</entry_nb_actions>
+			<entry_sum_visit_length>901</entry_sum_visit_length>
+			<entry_bounce_count>0</entry_bounce_count>
+			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+			<avg_time_on_page>180</avg_time_on_page>
+			<bounce_rate>0%</bounce_rate>
+			<exit_rate>0%</exit_rate>
+			<avg_time_generation>0.223</avg_time_generation>
+			<url>http://example.org/index.htm</url>
+		</row>
+	</result>
 	<result idSite="2" />
 </results>

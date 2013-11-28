@@ -14,7 +14,6 @@ use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -27,7 +26,7 @@ use Piwik\View;
  *
  * @package UsersManager
  */
-class Controller extends Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     static function orderByName($a, $b)
     {
@@ -98,7 +97,8 @@ class Controller extends Admin
         uasort($websites, array('Piwik\Plugins\UsersManager\Controller', 'orderByName'));
         $view->websites = $websites;
         $this->setBasicVariablesView($view);
-        echo $view->render();
+
+        return $view->render();
     }
 
     private function hasAnonymousUserViewAccess($usersAccessByWebsite)
@@ -138,7 +138,7 @@ class Controller extends Admin
         if (Piwik::isUserIsSuperUser()) {
             $view->userAlias = $userLogin;
             $view->userEmail = Piwik::getSuperUserEmail();
-            $this->displayWarningIfConfigFileNotWritable($view);
+            $this->displayWarningIfConfigFileNotWritable();
         } else {
             $user = APIUsersManager::getInstance()->getUser($userLogin);
             $view->userAlias = $user['alias'];
@@ -174,7 +174,8 @@ class Controller extends Admin
         $this->initViewAnonymousUserSettings($view);
         $view->piwikHost = Url::getCurrentHost();
         $this->setBasicVariablesView($view);
-        echo $view->render();
+
+        return $view->render();
     }
 
     public function setIgnoreCookie()
@@ -252,7 +253,8 @@ class Controller extends Admin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 
     /**
@@ -317,28 +319,7 @@ class Controller extends Admin
 
             // logs the user in with the new password
             if ($newPassword !== false) {
-                $info = array(
-                    'login'       => $userLogin,
-                    'md5Password' => md5($newPassword),
-                    'rememberMe'  => false,
-                );
-
-                /**
-                 * This event is triggered to initialize a user session. You can use this event to authenticate user against
-                 * third party systems.
-                 *
-                 * Example:
-                 * ```
-                 * public function initSession($info)
-                 * {
-                 *     $login = $info['login'];
-                 *     $md5Password = $info['md5Password'];
-                 *     $rememberMe = $info['rememberMe'];
-                 * }
-                 * ```
-                 * @todo this event is also triggered twice.
-                 */
-                Piwik::postEvent('Login.initSession', array($info));
+                \Piwik\Registry::get('auth')->initSession($userLogin, md5($newPassword), $rememberMe = false);
             }
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,
@@ -351,6 +332,7 @@ class Controller extends Admin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 }

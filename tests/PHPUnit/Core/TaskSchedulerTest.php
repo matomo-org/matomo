@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\EventDispatcher;
+use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
 use Piwik\TaskScheduler;
-use Piwik\ScheduledTask;
 
 class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 {
@@ -47,7 +47,6 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
      * @dataProvider getTimetableFromOptionValueTestCases
      */
     public function testGetTimetableFromOptionValue($expectedTimetable, $option)
@@ -75,7 +74,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider taskHasBeenScheduledOnceTestCases
      */
     public function testTaskHasBeenScheduledOnce($expectedDecision, $taskName, $timetable)
@@ -104,7 +103,6 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
      * @dataProvider getScheduledTimeForMethodTestCases
      */
     public function testGetScheduledTimeForMethod($expectedTime, $className, $methodName, $methodParameter, $timetable)
@@ -138,7 +136,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider taskShouldBeExecutedTestCases
      */
     public function testTaskShouldBeExecuted($expectedDecision, $taskName, $timetable)
@@ -165,7 +163,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider executeTaskTestCases
      */
     public function testExecuteTask($methodName, $parameterValue)
@@ -179,11 +177,13 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($executeTask->invoke(
             new TaskScheduler(),
-            new ScheduledTask ($mock, $methodName, $parameterValue, new Daily())
+            new ScheduledTask ($mock, $methodName, $parameterValue, \Piwik\ScheduledTime::factory('daily'))
         ));
     }
 
     /**
+     * @group Core
+     *
      * Dataprovider for testRunTasks
      */
     public function testRunTasksTestCases()
@@ -276,16 +276,16 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider testRunTasksTestCases
      */
     public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
     {
         // temporarily unload plugins
-        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
         $plugins = array_map(function ($p) { return $p->getPluginName(); }, $plugins);
 
-        \Piwik\PluginsManager::getInstance()->unloadPlugins();
+        \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
         
         // make sure the get tasks event returns our configured tasks
         \Piwik\Piwik::addAction(TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
@@ -313,7 +313,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
         // restore loaded plugins & piwik options
         EventDispatcher::getInstance()->clearObservers(TaskScheduler::GET_TASKS_EVENT);
-        \Piwik\PluginsManager::getInstance()->loadPlugins($plugins);
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins($plugins);
         self::resetPiwikOption();
     }
 

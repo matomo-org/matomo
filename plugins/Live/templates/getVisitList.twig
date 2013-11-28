@@ -6,7 +6,8 @@
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
                                                        'clientSideParameters': {
                                                             'filterEcommerce': false,
-                                                            'idSite': idSite
+                                                            'idSite': idSite,
+                                                            'pageUrlNotDefined': 'General_NotDefined'|translate('Actions_ColumnPageURL'|translate)
                                                         },
                                                         'overrideLinkStyle': false} %}
         </ol>

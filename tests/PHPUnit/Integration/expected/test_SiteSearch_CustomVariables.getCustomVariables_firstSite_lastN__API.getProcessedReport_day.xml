@@ -127,4 +127,9 @@
 		<result prettyDate="Friday 8 January 2010" />
 		<result prettyDate="Saturday 9 January 2010" />
 	</reportMetadata>
+	<reportTotal>
+		<nb_visits>11</nb_visits>
+		<nb_uniq_visitors>11</nb_uniq_visitors>
+		<nb_actions>14</nb_actions>
+	</reportTotal>
 </result>

@@ -110,6 +110,17 @@ abstract class QuickForm2 extends HTML_QuickForm2
         return isset($value[$elementName]) ? $value[$elementName] : null;
     }
 
+    public function getErrorMessages()
+    {
+        $messages = array();
+
+        foreach ($this as $element) {
+            $messages[] = $element->getError();
+        }
+
+        return array_filter($messages);
+    }
+
     /**
      * Returns the rendered form as an array.
      *

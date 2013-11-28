@@ -13,12 +13,14 @@ namespace Piwik\Plugins\Provider;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Db;
+use Piwik\Config;
 
+use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\WidgetsList;
 
 /**
@@ -33,14 +35,12 @@ class Provider extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'Tracker.newVisitorInformation'            => 'logProviderInfo',
-            'WidgetsList.addWidgets'                   => 'addWidget',
-            'Menu.Reporting.addItems'                  => 'addMenu',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
+            'WidgetsList.addWidgets'          => 'addWidget',
+            'Menu.Reporting.addItems'         => 'addMenu',
+            'API.getReportMetadata'           => 'getReportMetadata',
+            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
+            'ViewDataTable.configure'         => 'configureViewDataTable',
         );
         return $hooks;
     }
@@ -111,14 +111,14 @@ class Provider extends \Piwik\Plugin
     /**
      * Logs the provider in the log_visit table
      */
-    public function logProviderInfo(&$visitorInfo)
+    public function enrichVisitWithProviderInfo(&$visitorInfo, \Piwik\Tracker\Request $request)
     {
         // if provider info has already been set, abort
         if (!empty($visitorInfo['location_provider'])) {
             return;
         }
 
-        $ip = IP::N2P($visitorInfo['location_ip']);
+        $ip = IP::N2P(Config::getInstance()->Tracker['use_anonymized_ip_for_visit_enrichment'] == 1 ? $visitorInfo['location_ip'] : $request->getIp());
 
         // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
         if (substr($ip, -2, 2) == '.0') {
@@ -166,11 +166,13 @@ class Provider extends \Piwik\Plugin
             $cleanHostname = null;
 
             /**
-             * This event is triggered to get a clean hostname depending on a given hostname. For instance it is used
-             * to return `site.co.jp` in `fvae.VARG.ceaga.site.co.jp`. Use this event to customize the way a hostname
-             * is cleaned.
+             * Triggered when prettifying a hostname string. depending on a given hostname.
+             * 
+             * This event can be used to customize the way a hostname is displayed in the 
+             * Providers report.
              *
-             * Example:
+             * **Example**
+             * 
              * ```
              * public function getCleanHostname(&$cleanHostname, $hostname)
              * {
@@ -216,35 +218,18 @@ class Provider extends \Piwik\Plugin
         $out .= '</div>';
     }
 
-    /**
-     * Daily archive: processes the report Visits by Provider
-     */
-    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+    public function configureViewDataTable(ViewDataTable $view)
     {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->archiveDay();
+        switch ($view->requestConfig->apiMethodToRequestDataTable) {
+            case 'Provider.getProvider':
+                $this->configureViewForGetProvider($view);
+                break;
         }
     }
 
-    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+    private function configureViewForGetProvider(ViewDataTable $view)
     {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->archivePeriod();
-        }
-    }
-
-    public function getReportDisplayProperties(&$properties)
-    {
-        $properties['Provider.getProvider'] = $this->getDisplayPropertiesForGetProvider();
-    }
-
-    private function getDisplayPropertiesForGetProvider()
-    {
-        return array(
-            'translations' => array('label' => Piwik::translate('Provider_ColumnProvider')),
-            'filter_limit' => 5
-        );
+        $view->requestConfig->filter_limit = 5;
+        $view->config->addTranslation('label', Piwik::translate('Provider_ColumnProvider'));
     }
 }

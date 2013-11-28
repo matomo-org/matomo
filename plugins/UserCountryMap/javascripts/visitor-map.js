@@ -28,7 +28,46 @@
          */
         run: function () {
             var self = this,
-                config = self.config;
+                config = self.config,
+                colorManager = piwik.ColorManager,
+                colorNames = ['no-data-color', 'one-country-color', 'color-range-start-choropleth',
+                              'color-range-start-normal', 'color-range-end-choropleth', 'color-range-end-normal',
+                              'country-highlight-color', 'unknown-region-fill-color', 'unknown-region-stroke-color',
+                              'region-stroke-color', 'invisible-region-background', 'city-label-color',
+                              'city-stroke-color', 'city-highlight-stroke-color', 'city-highlight-fill-color',
+                              'city-highlight-label-color', 'city-label-fill-color', 'city-selected-color',
+                              'city-selected-label-color', 'region-layer-stroke-color', 'country-selected-color',
+                              'region-selected-color', 'region-highlight-color'],
+                colors = colorManager.getColors('visitor-map', colorNames),
+                noDataColor = colors['no-data-color'],
+                oneCountryColor = colors['one-country-color'],
+                colorRangeStartChoropleth = colors['color-range-start-choropleth'],
+                colorRangeStartNormal = colors['color-range-start-normal'],
+                colorRangeEndChoropleth = colors['color-range-end-choropleth'],
+                colorRangeEndNormal = colors['color-range-end-normal'],
+                specialMetricsColorScale = colorManager.getColors(
+                    'visitor-map',
+                    ['special-metrics-color-scale-1', 'special-metrics-color-scale-2', 'special-metrics-color-scale-3',
+                     'special-metrics-color-scale-4']
+                ),
+                countryHighlightColor = colors['country-highlight-color'],
+                countrySelectedColor = colors['country-selected-color'],
+                unknownRegionFillColor = colors['unknown-region-fill-color'],
+                unknownRegionStrokeColor = colors['unknown-region-stroke-color'],
+                regionStrokeColor = colors['region-stroke-color'],
+                regionSelectedColor = colors['region-selected-color'],
+                regionHighlightColor = colors['region-highlight-color'],
+                invisibleRegionBackgroundColor = colors['invisible-region-background'],
+                cityLabelColor = colors['city-label-color'],
+                cityLabelFillColor = colors['city-label-fill-color'],
+                cityStrokeColor = colors['city-stroke-color'],
+                cityHighlightStrokeColor = colors['city-highlight-stroke-color'],
+                cityHighlightFillColor = colors['city-highlight-fill-color'],
+                cityHighlightLabelColor = colors['city-highlight-label-color'],
+                citySelectedColor = colors['city-selected-color'],
+                citySelectedLabelColor = colors['city-selected-label-color'],
+                regionLayerStrokeColor = colors['region-layer-stroke-color']
+                ;
 
             /*
              * our own custom selector to only select stuff of this widget
@@ -44,7 +83,7 @@
                 width = main.width(),
                 _ = config._;
 
-            config.noDataColor = '#E4E2D7';
+            config.noDataColor = noDataColor;
             self.widget = $$('.widgetUserCountryMapvisitorMap').parent();
 
             //window.__mapInstances = window.__mapInstances || [];
@@ -136,7 +175,7 @@
                         v += ' (' + formatPercentage(data[metric] / total) + ')';
                     }
                 } else if (metric == 'avg_time_on_site') {
-                    v += '<br/> (over ' + data.nb_visits + ' visits)';
+                    v += '<br/> (' + _.nb_visits.replace('%s', data.nb_visits) + ')';
                 }
                 return v;
             }
@@ -168,7 +207,7 @@
                 stats = minmax(values);
 
                 if (stats.min == stats.max) {
-                    colscale = function () { return chroma.hex('#CDDAEF'); };
+                    colscale = function () { return chroma.hex(oneCountryColor); };
                     if (choropleth) {
                         $('.UserCountryMap-legend .content').html('').show();
                         addLegendItem(stats.min, true);
@@ -177,14 +216,15 @@
                 }
 
                 colscale = chroma.scale()
-                    .range([choropleth ? '#CDDAEF' : '#385993', '#385993'])
+                    .range([choropleth ? colorRangeStartChoropleth : colorRangeStartNormal,
+                            choropleth ? colorRangeEndChoropleth : colorRangeEndNormal])
                     .domain(values, 4, 'c')
                     .mode('lch');
 
                 if (metric == 'avg_time_on_site' || metric == 'nb_actions_per_visit' || metric == 'bounce_rate') {
                     if (id.length == 3) {
                         c = (stats.p90 - stats.min) / (stats.max - stats.min);
-                        colscale = chroma.scale(['#385993', '#385993', '#E87500', '#E87500'], [0, c, c + 0.001, 1])
+                        colscale = chroma.scale(specialMetricsColorScale, [0, c, c + 0.001, 1])
                             .domain(chroma.limits(rows, 'c', 5, 'curMetric', filter))
                             .mode('hsl');
                     }
@@ -444,7 +484,7 @@
                         .style('fill', countryFill)
                         .on('mouseenter', function (d, path, evt) {
                             if (evt.shiftKey) { // highlight on mouseover with shift pressed
-                                path.attr('fill', '#f4f45b');
+                                path.attr('fill', countryHighlightColor);
                             }
                         })
                         .on('mouseleave', function (d, path, evt) {
@@ -499,7 +539,7 @@
                             evt.stopPropagation();
                             if (evt.shiftKey || _rowEvolution.labels.length) {
                                 if (evt.altKey) {
-                                    path.attr('fill', '#f4f45b');
+                                    path.attr('fill', countrySelectedColor);
                                     addMultipleRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
                                 } else {
                                     showRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
@@ -694,14 +734,14 @@
 
                             function regionFill(data) {
                                 var code = regionCode(data);
-                                return regionDict[code] === undefined ? '#fff' : colscale(regionDict[code].curMetric);
+                                return regionDict[code] === undefined ? unknownRegionFillColor : colscale(regionDict[code].curMetric);
                             }
 
                             // apply colors to map
                             map.getLayer('regions')
                                 .style('fill', regionFill)
                                 .style('stroke',function (data) {
-                                    return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
+                                    return regionDict[regionCode(data)] === undefined ? unknownRegionStrokeColor : regionStrokeColor;
                                 }).sort(function (data) {
                                     var code = regionCode(data);
                                     return regionDict[code] === undefined ? -1 : regionDict[code].curMetric;
@@ -717,7 +757,7 @@
                                     var region = regionDict[regionCode(d)];
                                     if (region && region.label) {
                                         if (evt.shiftKey) {
-                                            path.attr('fill', '#f4f45b');
+                                            path.attr('fill', regionSelectedColor);
                                             addMultipleRowEvolution('getRegion', region.label);
                                         } else {
                                             map.getLayer('regions').style('fill', regionFill);
@@ -728,7 +768,7 @@
                                     var region = regionDict[regionCode(d)];
                                     if (region && region.label) {
                                         if (evt.shiftKey) {
-                                            path.attr('fill', '#f4f45b');
+                                            path.attr('fill', regionHighlightColor);
                                         }
                                     }
                                 }).on('mouseleave',function (d, path, evt) {
@@ -759,7 +799,7 @@
                  */
                 function updateCitySymbols() {
                     // color regions in white as background for symbols
-                    if (map.getLayer('regions')) map.getLayer('regions').style('fill', '#fff');
+                    if (map.getLayer('regions')) map.getLayer('regions').style('fill', invisibleRegionBackgroundColor);
 
                     indicateLoading();
 
@@ -825,7 +865,7 @@
                                     return radscale(d.curMetric) > 10 ? formatNumber(d.curMetric) : '';
                                 },
                                 labelattrs: {
-                                    fill: '#fff',
+                                    fill: cityLabelColor,
                                     'font-size': 11,
                                     stroke: false,
                                     cursor: 'pointer'
@@ -856,20 +896,20 @@
                                     return {
                                         fill: colscale(city.curMetric).hex(),
                                         'fill-opacity': 0.7,
-                                        stroke: '#fff',
+                                        stroke: cityStrokeColor,
                                         cursor: 'pointer'
                                     };
                                 },
                                 mouseenter: function (city, symbol, evt) {
                                     symbol.path.attr({
                                         'fill-opacity': 1,
-                                        'stroke': '#000000',
+                                        'stroke': cityHighlightStrokeColor,
                                         'stroke-opacity': 1,
                                         'stroke-width': 2
                                     });
                                     if (evt.shiftKey) {
-                                        symbol.path.attr({ fill: '#f4f45b' });
-                                        if (symbol.label) symbol.label.attr({ fill: '#000' });
+                                        symbol.path.attr({ fill: cityHighlightFillColor });
+                                        if (symbol.label) symbol.label.attr({ fill: cityHighlightLabelColor });
                                     }
                                 },
                                 mouseleave: function (city, symbol) {
@@ -877,18 +917,18 @@
                                         'fill-opacity': 0.7,
                                         'stroke-opacity': 1,
                                         'stroke-width': 1,
-                                        'stroke': '#ffffff'
+                                        'stroke': cityLabelColor
                                     });
                                     if ($.inArray(city.label, _rowEvolution.labels) == -1) {
                                         symbol.path.attr({ fill: colscale(city.curMetric) });
-                                        if (symbol.label) symbol.label.attr({ fill: '#fff' });
+                                        if (symbol.label) symbol.label.attr({ fill: cityLabelFillColor });
                                     }
                                 },
                                 click: function (city, symbol, evt) {
                                     if (evt.shiftKey) {
                                         addMultipleRowEvolution('getCity', city.label);
-                                        symbol.path.attr('fill', '#f4f45b');
-                                        if (symbol.label) symbol.label.attr('fill', '#000');
+                                        symbol.path.attr('fill', citySelectedColor);
+                                        if (symbol.label) symbol.label.attr('fill', citySelectedLabelColor);
                                     } else {
                                         showRowEvolution('getCity', city.label);
                                         citySymbols.update({
@@ -946,7 +986,7 @@
                         key: 'fips',
                         name: self.mode != "region" ? "regions2" : "regions",
                         styles: {
-                            stroke: '#aaa'
+                            stroke: regionLayerStrokeColor
                         },
                         click: function (d, p, evt) {
                             evt.stopPropagation();

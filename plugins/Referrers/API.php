@@ -29,19 +29,10 @@ use Piwik\Piwik;
  * The methods "getKeywordsForPageUrl" and "getKeywordsForPageTitle" are used to output the top keywords used to find a page.
  * Check out the widget <a href='http://demo.piwik.org/index.php?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&actionToWidgetize=getKeywordsForPage&idSite=7&period=day&date=2011-02-15&disableLink=1' target='_blank'>"Top keywords used to find this page"</a> that you can easily re-use on your website.
  * @package Referrers
+ * @method static \Piwik\Plugins\Referrers\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * @param string $name
      * @param int $idSite
@@ -329,7 +320,7 @@ class API
 
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
-        $dataTable->filter('ColumnCallbackDeleteRow', array('label', __NAMESPACE__ . '\isSocialUrl'));
+        $dataTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) { return !isSocialUrl($url); }));
 
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\cleanSocialUrl'));
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getSocialNetworkFromDomain'));
@@ -376,7 +367,12 @@ class API
         }
 
         // filter out everything but social network indicated by $idSubtable
-        $dataTable->filter('ColumnCallbackDeleteRow', array('label', __NAMESPACE__ . '\isSocialUrl', array($social)));
+        $dataTable->filter(
+            'ColumnCallbackDeleteRow',
+            array('label',
+                  function ($url) use ($social) { return !isSocialUrl($url, $social); }
+            )
+        );
 
         // merge the datatable's subtables which contain the individual URLs
         $dataTable = $dataTable->mergeSubtables();

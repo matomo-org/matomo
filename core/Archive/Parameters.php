@@ -12,6 +12,7 @@
 namespace Piwik\Archive;
 
 use Exception;
+use Piwik\Period;
 use Piwik\Segment;
 
 class Parameters
@@ -26,7 +27,7 @@ class Parameters
     /**
      * The list of Period's to query archive data for.
      *
-     * @var array
+     * @var Period[]
      */
     private $periods = array();
 
@@ -42,8 +43,10 @@ class Parameters
         return $this->segment;
     }
 
-    public function setSegment(Segment $segment)
+    public function __construct($idSites, $periods, Segment $segment)
     {
+        $this->idSites = $idSites;
+        $this->periods = $periods;
         $this->segment = $segment;
     }
 
@@ -52,32 +55,10 @@ class Parameters
         return $this->periods;
     }
 
-    public function setPeriods($periods)
-    {
-        $this->periods = $this->getAsNonEmptyArray($periods, 'periods');
-    }
-
     public function getIdSites()
     {
         return $this->idSites;
     }
 
-    public function setIdSites($idSites)
-    {
-        $this->idSites = $this->getAsNonEmptyArray($idSites, 'idSites');
-    }
-
-    private function getAsNonEmptyArray($array, $paramName)
-    {
-        if (!is_array($array)) {
-            $array = array($array);
-        }
-
-        if (empty($array)) {
-            throw new Exception("Archive::__construct: \$$paramName is empty.");
-        }
-
-        return $array;
-    }
 }
 

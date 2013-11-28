@@ -15,10 +15,16 @@
             {% for name,plugin in pluginsHavingUpdate %}
                 <tr {% if plugin.isActivated %}class="highlighted"{% endif %}>
                     <td class="name">
-                        {{ plugin.name }}
+                        <a href="javascript:void(0);" data-pluginName="{{ plugin.name|e('html_attr') }}">
+                            {{ plugin.name }}
+                        </a>
                     </td>
                     <td class="vers">
-                        {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
+                        {% if plugin.repositoryChangelogUrl %}
+                            <a href="javascript:void(0);" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" data-activePluginTab="changelog" data-pluginName="{{ plugin.name|e('html_attr') }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
+                        {% else %}
+                            {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
+                        {% endif %}
                     </td>
                     <td class="desc">
                         {{ plugin.description }}
@@ -41,7 +47,48 @@
 
 {% endmacro %}
 
-{% macro tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, isTheme) %}
+{% macro pluginDeveloper(owner) %}
+    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="/plugins/Zeitgeist/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
+{% endmacro %}
+
+{% macro featuredIcon(align='') %}
+    <img class="featuredIcon"
+         title="{{ 'CorePluginsAdmin_FeaturedPlugin'|translate }}"
+         src="/plugins/CorePluginsAdmin/images/rating_important.png"
+         align="{{ align }}" />
+{% endmacro %}
+
+{% macro pluginsFilter(isTheme, isMarketplaceEnabled) %}
+
+    <p class="pluginsFilter entityContainer">
+        <span class="origin">
+            <strong>{{ 'CorePluginsAdmin_Origin'|translate }}</strong>
+            <a data-filter-origin="all" href="#" class="active">{{ 'General_All'|translate }}<span class="counter"></span></a> |
+            <a data-filter-origin="core" href="#">{{ 'CorePluginsAdmin_OriginCore'|translate }}<span class="counter"></span></a> |
+            <a data-filter-origin="noncore" href="#">{{ 'CorePluginsAdmin_OriginThirdParty'|translate }}<span class="counter"></span></a>
+        </span>
+
+        <span class="status">
+            <strong>{{ 'CorePluginsAdmin_Status'|translate }}</strong>
+            <a data-filter-status="all" href="#" class="active">{{ 'General_All'|translate }}<span class="counter"></span></a> |
+            <a data-filter-status="active" href="#">{{ 'CorePluginsAdmin_Active'|translate }}<span class="counter"></span></a> |
+            <a data-filter-status="inactive" href="#">{{ 'CorePluginsAdmin_Inactive'|translate }}<span class="counter"></span></a>
+        </span>
+
+        {% if isMarketplaceEnabled %}
+            <span class="getNewPlugins">
+                {% if isTheme %}
+                    <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">{{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
+                {% else %}
+                    <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">{{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
+                {% endif %}
+            </span>
+        {% endif %}
+    </p>
+
+{% endmacro %}
+
+{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames) %}
 
 <div id="confirmUninstallPlugin" class="ui-confirm">
 
@@ -65,13 +112,20 @@
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
-                <tr {% if plugin.activated %}class="highlighted"{% endif %}>
+                <tr {% if plugin.activated %}class="highlighted"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
-                        {% if plugin.info.homepage is defined %}
-                        <a title="{{ 'CorePluginsAdmin_PluginHomepage'|translate }}" href="{{ plugin.info.homepage }}" target="_blank">
-                            {% endif %}
+                        {% if not plugin.isCorePlugin and name in marketplacePluginNames -%}
+                            <a href="javascript:void(0);"
+                               data-pluginName="{{ name|e('html_attr') }}"
+                               >{{ name }}</a>
+                        {%- else %}
                             {{ name }}
-                            {% if plugin.info.homepage is defined %}</a>{% endif %}
+                        {% endif %}
+
+                        {% if name in pluginNamesHavingSettings %}
+                            <br /><br />
+                            <a href="{{ linkTo({'module':'CoreAdminHome', 'action': 'pluginSettings'}) }}#{{ name|e('html_attr') }}" class="settingsLink">{{ 'General_Settings'|translate }}</a>
+                        {% endif %}
                     </td>
                     <td class="vers">{{ plugin.info.version }}</td>
                     <td class="desc">
@@ -92,8 +146,7 @@
                             {{ 'CorePluginsAdmin_Active'|translate }}
                         {% else %}
                             {{ 'CorePluginsAdmin_Inactive'|translate }} <br/>
-                            - {% if plugin.uninstallable %}<a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{
-                        uninstallNonce }}'>uninstall</a>{% endif %}
+                            - {% if plugin.uninstallable %}<a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{ uninstallNonce }}'>{{ 'CorePluginsAdmin_ActionUninstall'|translate }}</a>{% endif %}
                         {% endif %}
                     </td>
 

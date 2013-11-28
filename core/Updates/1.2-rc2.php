@@ -21,7 +21,7 @@ class Updates_1_2_rc2 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('CustomVariables');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('CustomVariables');
         } catch (\Exception $e) {
         }
     }

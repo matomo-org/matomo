@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\Period;
@@ -32,8 +33,9 @@ use Piwik\Translate;
  * See also <a href='http://piwik.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
  *
  * @package ImageGraph
+ * @method static \Piwik\Plugins\ImageGraph\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const FILENAME_KEY = 'filename';
     const TRUNCATE_KEY = 'truncate';
@@ -104,20 +106,6 @@ class API
     const DEFAULT_NB_ROW_EVOLUTIONS = 5;
     const MAX_NB_ROW_LABELS = 10;
 
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\ImageGraph\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            $c = __CLASS__;
-            self::$instance = new $c();
-        }
-        return self::$instance;
-    }
-
     public function get(
         $idSite,
         $period,
@@ -155,7 +143,7 @@ class API
         $useUnicodeFont = array(
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
-        $languageLoaded = Translate::getInstance()->getLanguageLoaded();
+        $languageLoaded = Translate::getLanguageLoaded();
         $font = self::getFontPath(self::DEFAULT_FONT);
         if (in_array($languageLoaded, $useUnicodeFont)) {
             $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
@@ -210,7 +198,7 @@ class API
                 $availableGraphTypes = StaticGraph::getAvailableStaticGraphTypes();
                 if (!in_array($graphType, $availableGraphTypes)) {
                     throw new Exception(
-                        Piwik::translateException(
+                        Piwik::translate(
                             'General_ExceptionInvalidStaticGraphType',
                             array($graphType, implode(', ', $availableGraphTypes))
                         )
@@ -452,7 +440,7 @@ class API
                         }
                     }
 
-                    $rowId = $periodsData[$i]->metadata['period']->getLocalizedShortString();
+                    $rowId = $periodsData[$i]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
                 }
             }

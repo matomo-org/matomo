@@ -11,6 +11,7 @@
 namespace Piwik\API;
 
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Period\Range;
@@ -55,7 +56,7 @@ abstract class DataTableManipulator
 
     /**
      * This method can be used by subclasses to iterate over data tables that might be
-     * data table arrays. It calls back the template method self::doManipulate for each table.
+     * data table maps. It calls back the template method self::doManipulate for each table.
      * This way, data table arrays can be handled in a transparent fashion.
      *
      * @param DataTable\Map|DataTable $dataTable
@@ -119,7 +120,7 @@ abstract class DataTableManipulator
 
         $request['idSubtable'] = $idSubTable;
         if ($dataTable) {
-            $period = $dataTable->metadata['period'];
+            $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
             if ($period instanceof Range) {
                 $request['date'] = $period->getDateStart() . ',' . $period->getDateEnd();
             } else {
@@ -127,10 +128,51 @@ abstract class DataTableManipulator
             }
         }
 
-        $class = Request::getClassNameAPI($this->apiModule);
         $method = $this->getApiMethodForSubtable();
+        return $this->callApiAndReturnDataTable($this->apiModule, $method, $request);
+    }
 
-        $this->manipulateSubtableRequest($request);
+    /**
+     * In this method, subclasses can clean up the request array for loading subtables
+     * in order to make ResponseBuilder behave correctly (e.g. not trigger the
+     * manipulator again).
+     *
+     * @param $request
+     * @return
+     */
+    protected abstract function manipulateSubtableRequest($request);
+
+    /**
+     * Extract the API method for loading subtables from the meta data
+     *
+     * @return string
+     */
+    private function getApiMethodForSubtable()
+    {
+        if (!$this->apiMethodForSubtable) {
+            $meta = API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
+
+            if(empty($meta)) {
+                throw new Exception(sprintf(
+                    "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: http://developer.piwik.org/api-reference/hooks#apigetreportmetadata",
+                    $this->apiModule, $this->apiMethod
+                ));
+            }
+
+            if (isset($meta[0]['actionToLoadSubTables'])) {
+                $this->apiMethodForSubtable = $meta[0]['actionToLoadSubTables'];
+            } else {
+                $this->apiMethodForSubtable = $this->apiMethod;
+            }
+        }
+        return $this->apiMethodForSubtable;
+    }
+
+    protected function callApiAndReturnDataTable($apiModule, $method, $request)
+    {
+        $class = Request::getClassNameAPI($apiModule);
+
+        $request = $this->manipulateSubtableRequest($request);
         $request['serialize'] = 0;
         $request['expanded'] = 0;
 
@@ -147,33 +189,5 @@ abstract class DataTableManipulator
         }
 
         return $dataTable;
-    }
-
-    /**
-     * In this method, subclasses can clean up the request array for loading subtables
-     * in order to make ResponseBuilder behave correctly (e.g. not trigger the
-     * manipulator again).
-     *
-     * @param $request
-     * @return
-     */
-    protected abstract function manipulateSubtableRequest(&$request);
-
-    /**
-     * Extract the API method for loading subtables from the meta data
-     *
-     * @return string
-     */
-    private function getApiMethodForSubtable()
-    {
-        if (!$this->apiMethodForSubtable) {
-            $meta = API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
-            if (isset($meta[0]['actionToLoadSubTables'])) {
-                $this->apiMethodForSubtable = $meta[0]['actionToLoadSubTables'];
-            } else {
-                $this->apiMethodForSubtable = $this->apiMethod;
-            }
-        }
-        return $this->apiMethodForSubtable;
     }
 }

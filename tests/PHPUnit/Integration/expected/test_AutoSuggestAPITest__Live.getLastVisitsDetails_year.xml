@@ -12,6 +12,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -19,7 +20,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>44</goalPageId>
+				<goalPageId>61</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -29,8 +30,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>44</pageId>
 				
+				<pageId>61</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -117,35 +118,36 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
-		<actions>2</actions>
+		<events>1</events>
+		<actions>3</actions>
 		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageTitle>Space Quest XII</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				<pageId>22</pageId>
-				
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-			</row>
 			<row>
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>22</goalPageId>
+				<goalPageId>30</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>30</pageId>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
 				<type>search</type>
 				<url />
 				<pageIdAction />
-				<pageId>23</pageId>
 				
+				<pageId>31</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -153,6 +155,8 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -164,6 +168,18 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>32</pageId>
+				<eventCategory>Cat8</eventCategory>
+				<eventAction>Action8</eventAction>
+				<eventName>Name8</eventName>
+				<eventValue>353.678</eventValue>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -186,8 +202,8 @@
 		
 		
 		
-		<visitDuration>1085</visitDuration>
-		<visitDurationPretty>18 min 5s</visitDurationPretty>
+		<visitDuration>1262</visitDuration>
+		<visitDurationPretty>21 min 2s</visitDurationPretty>
 		<visitCount>5</visitCount>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -257,6 +273,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -264,7 +281,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>21</goalPageId>
+				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -274,8 +291,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>21</pageId>
 				
+				<pageId>29</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -380,26 +397,29 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
-		<actions>1</actions>
+		<events>1</events>
+		<actions>2</actions>
 		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageTitle>Space Quest XII</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				<pageId>20</pageId>
-				
-				<icon />
-			</row>
 			<row>
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>20</goalPageId>
+				<goalPageId>27</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>27</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
 			</row>
 			<row>
 				<type>goal</type>
@@ -410,6 +430,18 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>28</pageId>
+				<eventCategory>Cat7</eventCategory>
+				<eventAction>Action7</eventAction>
+				<eventName>Name7</eventName>
+				<eventValue>352.678</eventValue>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -432,8 +464,8 @@
 		
 		
 		
-		<visitDuration>725</visitDuration>
-		<visitDurationPretty>12 min 5s</visitDurationPretty>
+		<visitDuration>1262</visitDuration>
+		<visitDurationPretty>21 min 2s</visitDurationPretty>
 		<visitCount>5</visitCount>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -503,6 +535,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -510,7 +543,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>19</goalPageId>
+				<goalPageId>26</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -520,8 +553,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>19</pageId>
 				
+				<pageId>26</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -626,35 +659,36 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
-		<actions>2</actions>
+		<events>1</events>
+		<actions>3</actions>
 		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageTitle>Space Quest XII</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				<pageId>17</pageId>
-				
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-			</row>
 			<row>
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>17</goalPageId>
+				<goalPageId>23</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>23</pageId>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
 				<type>search</type>
 				<url />
 				<pageIdAction />
-				<pageId>18</pageId>
 				
+				<pageId>24</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -662,6 +696,8 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -673,6 +709,18 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>25</pageId>
+				<eventCategory>Cat6</eventCategory>
+				<eventAction>Action6</eventAction>
+				<eventName>Name6</eventName>
+				<eventValue>351.678</eventValue>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -695,8 +743,8 @@
 		
 		
 		
-		<visitDuration>1085</visitDuration>
-		<visitDurationPretty>18 min 5s</visitDurationPretty>
+		<visitDuration>1262</visitDuration>
+		<visitDurationPretty>21 min 2s</visitDurationPretty>
 		<visitCount>5</visitCount>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -766,6 +814,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -773,7 +822,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>16</goalPageId>
+				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -783,8 +832,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>16</pageId>
 				
+				<pageId>22</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -889,26 +938,29 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
-		<actions>1</actions>
+		<events>1</events>
+		<actions>2</actions>
 		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageTitle>Space Quest XII</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				<pageId>15</pageId>
-				
-				<icon />
-			</row>
 			<row>
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>15</goalPageId>
+				<goalPageId>20</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>20</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
 			</row>
 			<row>
 				<type>goal</type>
@@ -919,6 +971,18 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>21</pageId>
+				<eventCategory>Cat5</eventCategory>
+				<eventAction>Action5</eventAction>
+				<eventName>Name5</eventName>
+				<eventValue>350.678</eventValue>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -941,8 +1005,8 @@
 		
 		
 		
-		<visitDuration>725</visitDuration>
-		<visitDurationPretty>12 min 5s</visitDurationPretty>
+		<visitDuration>1262</visitDuration>
+		<visitDurationPretty>21 min 2s</visitDurationPretty>
 		<visitCount>5</visitCount>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -1012,6 +1076,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -1019,7 +1084,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>14</goalPageId>
+				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -1029,8 +1094,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>14</pageId>
 				
+				<pageId>19</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -1135,35 +1200,36 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
-		<actions>2</actions>
+		<events>1</events>
+		<actions>3</actions>
 		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageTitle>Space Quest XII</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				<pageId>12</pageId>
-				
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-			</row>
 			<row>
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>12</goalPageId>
+				<goalPageId>16</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>16</pageId>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
 				<type>search</type>
 				<url />
 				<pageIdAction />
-				<pageId>13</pageId>
 				
+				<pageId>17</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -1171,6 +1237,8 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -1182,6 +1250,18 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>18</pageId>
+				<eventCategory>Cat4</eventCategory>
+				<eventAction>Action4</eventAction>
+				<eventName>Name4</eventName>
+				<eventValue>349.678</eventValue>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1204,8 +1284,8 @@
 		
 		
 		
-		<visitDuration>1085</visitDuration>
-		<visitDurationPretty>18 min 5s</visitDurationPretty>
+		<visitDuration>1262</visitDuration>
+		<visitDurationPretty>21 min 2s</visitDurationPretty>
 		<visitCount>5</visitCount>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>

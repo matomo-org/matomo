@@ -15,79 +15,79 @@ class ActionsTests extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
     }
 
     public function tearDown()
     {
-        Translate::getInstance()->unloadEnglishTranslation();
+        Translate::unloadEnglishTranslation();
     }
 
     public function getActionNameTestData()
     {
         return array(
             array(
-                'params'   => array('name' => 'http://example.org/', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => null),
+                'params'   => array('name' => 'http://example.org/', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => null),
                 'expected' => array('/index'),
             ),
             array(
-                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => 1),
+                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => 1),
                 'expected' => array('/index'),
             ),
             array(
-                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => 2),
+                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => 2),
                 'expected' => array('/index'),
             ),
             array(
-                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => 3),
+                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => 3),
                 'expected' => array('/index'),
             ),
             array(
-                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => 4),
+                'params'   => array('name' => 'example.org/', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => 4),
                 'expected' => array('/index'),
             ),
             array(
-                'params'   => array('name' => 'example.org/path/', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => 4),
+                'params'   => array('name' => 'example.org/path/', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => 4),
                 'expected' => array('path', '/index'),
             ),
             array(
-                'params'   => array('name' => 'example.org/test/path', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => 1),
+                'params'   => array('name' => 'example.org/test/path', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => 1),
                 'expected' => array('test', '/path'),
             ),
             array(
-                'params'   => array('name' => 'http://example.org/path/', 'type' => Action::TYPE_ACTION_URL),
+                'params'   => array('name' => 'http://example.org/path/', 'type' => Action::TYPE_PAGE_URL),
                 'expected' => array('path', '/index'),
             ),
             array(
-                'params'   => array('name' => 'example.org/test/path', 'type' => Action::TYPE_ACTION_URL, 'urlPrefix' => 1),
+                'params'   => array('name' => 'example.org/test/path', 'type' => Action::TYPE_PAGE_URL, 'urlPrefix' => 1),
                 'expected' => array('test', '/path'),
             ),
             array(
-                'params'   => array('name' => 'Test / Path', 'type' => Action::TYPE_ACTION_URL),
+                'params'   => array('name' => 'Test / Path', 'type' => Action::TYPE_PAGE_URL),
                 'expected' => array('Test', '/Path'),
             ),
             array(
-                'params'   => array('name' => '    Test trim   ', 'type' => Action::TYPE_ACTION_URL),
+                'params'   => array('name' => '    Test trim   ', 'type' => Action::TYPE_PAGE_URL),
                 'expected' => array('/Test trim'),
             ),
             array(
-                'params'   => array('name' => 'Category / Subcategory', 'type' => Action::TYPE_ACTION_NAME),
+                'params'   => array('name' => 'Category / Subcategory', 'type' => Action::TYPE_PAGE_TITLE),
                 'expected' => array('Category', ' Subcategory'),
             ),
             array(
-                'params'   => array('name' => '/path/index.php?var=test', 'type' => Action::TYPE_ACTION_NAME),
+                'params'   => array('name' => '/path/index.php?var=test', 'type' => Action::TYPE_PAGE_TITLE),
                 'expected' => array('path', ' index.php?var=test'),
             ),
             array(
-                'params'   => array('name' => 'http://example.org/path/Default.aspx#anchor', 'type' => Action::TYPE_ACTION_NAME),
+                'params'   => array('name' => 'http://example.org/path/Default.aspx#anchor', 'type' => Action::TYPE_PAGE_TITLE),
                 'expected' => array('path', ' Default.aspx#anchor'),
             ),
             array(
-                'params'   => array('name' => '', 'type' => Action::TYPE_ACTION_NAME),
+                'params'   => array('name' => '', 'type' => Action::TYPE_PAGE_TITLE),
                 'expected' => array('Page Name not defined'),
             ),
             array(
-                'params'   => array('name' => '', 'type' => Action::TYPE_ACTION_URL),
+                'params'   => array('name' => '', 'type' => Action::TYPE_PAGE_URL),
                 'expected' => array('Page URL not defined'),
             ),
             array(
@@ -112,7 +112,6 @@ class ActionsTests extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getActionNameTestData
      * @group        Plugins
-     * @group        Actions
      */
     public function testGetActionExplodedNames($params, $expected)
     {

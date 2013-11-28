@@ -18,6 +18,9 @@ use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
+use Piwik\ScheduledTime;
+use Piwik\Settings\Manager as SettingsManager;
+use Piwik\Settings\UserSetting;
 
 /**
  *
@@ -35,7 +38,13 @@ class CoreAdminHome extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'UsersManager.deleteUser'         => 'cleanupUser'
         );
+    }
+
+    public function cleanupUser($userLogin)
+    {
+        UserSetting::removeAllUserSettingsForUser($userLogin);
     }
 
     public function getScheduledTasks(&$tasks)
@@ -44,7 +53,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $purgeArchiveTablesTask = new ScheduledTask ($this,
             'purgeOutdatedArchives',
             null,
-            new Daily(),
+            ScheduledTime::factory('daily'),
             ScheduledTask::HIGH_PRIORITY);
         $tasks[] = $purgeArchiveTablesTask;
 
@@ -52,7 +61,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $optimizeArchiveTableTask = new ScheduledTask ($this,
             'optimizeArchiveTable',
             null,
-            new Daily(),
+            ScheduledTime::factory('daily'),
             ScheduledTask::LOWEST_PRIORITY);
         $tasks[] = $optimizeArchiveTableTask;
     }
@@ -63,6 +72,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
+        $stylesheets[] = "plugins/CoreAdminHome/stylesheets/pluginSettings.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -77,6 +87,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/generalSettings.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
+        $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
     }
 
     function addMenu()
@@ -92,6 +103,12 @@ class CoreAdminHome extends \Piwik\Plugin
             array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 4);
+
+        MenuAdmin::getInstance()->add('General_Settings', 'General_Plugins',
+            array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
+            SettingsManager::hasPluginsSettingsForCurrentUser(),
+            $order = 7);
+
     }
 
     function purgeOutdatedArchives()
@@ -99,7 +116,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
-            list($month, $year) = explode('_', $date);
+            list($year, $month) = explode('_', $date);
             ArchiveSelector::purgeOutdatedArchives(Date::factory("$year-$month-15"));
         }
     }

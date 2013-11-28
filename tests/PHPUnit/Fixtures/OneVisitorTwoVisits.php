@@ -15,6 +15,8 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
 {
     public $idSite = 1;
+    public $idSiteEmptyBis;
+    public $idSiteEmptyTer;
     public $dateTime = '2010-03-06 11:22:33';
 
     public $useThirdPartyCookies = false;
@@ -35,6 +37,9 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime);
+
+        $this->idSiteEmptyBis = $this->createWebsite($this->dateTime);
+        $this->idSiteEmptyTer = $this->createWebsite($this->dateTime);
     }
 
     private function trackVisits()

@@ -362,10 +362,28 @@ function ajaxHelper() {
                 }
 
                 if (response && response.result == 'error' && !that.useRegularCallbackInCaseOfError) {
+
+                    var placeAt = null;
+                    var type    = 'toast';
                     if ($(that.errorElement).length && response.message) {
-                        $(that.errorElement).html(response.message).fadeIn();
-                        piwikHelper.lazyScrollTo(that.errorElement, 250);
+                        $(that.errorElement).show();
+                        placeAt = that.errorElement;
+                        type    = null;
                     }
+
+                    if (response.message) {
+
+                        var UI = require('piwik/UI');
+                        var notification = new UI.Notification();
+                        notification.show(response.message, {
+                            placeat: placeAt,
+                            context: 'error',
+                            type: type,
+                            id: 'ajaxHelper'
+                        });
+                        notification.scrollToNotification();
+                    }
+
                 } else {
                     that.callback(response);
                 }

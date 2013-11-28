@@ -18,13 +18,12 @@ use Piwik\Piwik;
 use Piwik\Plugins\Actions\API as APIActions;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\ViewDataTable;
 
 /**
  *
  * @package VisitsSummary
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
@@ -32,7 +31,7 @@ class Controller extends \Piwik\Controller
         $this->setPeriodVariablesView($view);
         $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(true, array('nb_visits'));
         $this->setSparklinesAndNumbers($view);
-        echo $view->render();
+        return $view->render();
     }
 
     public function getSparklines()
@@ -40,7 +39,7 @@ class Controller extends \Piwik\Controller
         $view = new View('@VisitsSummary/getSparklines');
         $this->setPeriodVariablesView($view);
         $this->setSparklinesAndNumbers($view);
-        echo $view->render();
+        return $view->render();
     }
 
     public function getEvolutionGraph($fetch = false, array $columns = array())
@@ -91,10 +90,11 @@ class Controller extends \Piwik\Controller
             $selectableColumns[] = 'nb_searches';
             $selectableColumns[] = 'nb_keywords';
         }
+
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
             $selectableColumns, $documentation);
 
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
     static public function getVisitsSummary()

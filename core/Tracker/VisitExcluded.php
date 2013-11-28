@@ -73,8 +73,13 @@ class VisitExcluded
         }
 
         /**
-         * At every page view, this event will be called. It is useful for plugins that want to exclude specific visits
-         * (ie. IP excluding, Cookie excluding). If you set `$excluded` to `true`, the visit will be excluded.
+         * Triggered on every pageview of a visitor.
+         * 
+         * This event can be used to tell the Tracker not to record this particular pageview.
+         * 
+         * @param bool &$excluded Whether the pageview should be excluded or not. Initialized
+         *                        to `false`. Event subscribers should set it to `true` in
+         *                        order to exclude the pageview.
          */
         Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded));
 

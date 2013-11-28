@@ -12,7 +12,6 @@ namespace Piwik\Plugins\UserCountry;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Controller\Admin;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Http;
 use Piwik\IP;
@@ -23,13 +22,13 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\ServerBased;
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  *
  * @package UserCountry
  */
-class Controller extends Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     public function index()
     {
@@ -43,7 +42,7 @@ class Controller extends Admin
         $view->dataTableRegion = $this->getRegion(true);
         $view->dataTableCity = $this->getCity(true);
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function adminIndex()
@@ -87,7 +86,7 @@ class Controller extends Admin
         $this->setBasicVariablesView($view);
         $this->setBasicVariablesAdminView($view);
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -135,9 +134,9 @@ class Controller extends Admin
                     $result['next_screen'] = $this->getGeoIpUpdaterManageScreen();
                 }
 
-                echo Common::json_encode($result);
+                return Common::json_encode($result);
             } catch (Exception $ex) {
-                echo Common::json_encode(array('error' => $ex->getMessage()));
+                return Common::json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -204,13 +203,12 @@ class Controller extends Admin
                 // the browser so it can download it next
                 $info = $this->getNextMissingDbUrlInfo();
                 if ($info !== false) {
-                    echo Common::json_encode($info);
-                    return;
+                    return Common::json_encode($info);
                 } else {
-                    echo 1;
+                    return 1;
                 }
             } catch (Exception $ex) {
-                echo Common::json_encode(array('error' => $ex->getMessage()));
+                return Common::json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -264,14 +262,13 @@ class Controller extends Admin
 
                     $info = $this->getNextMissingDbUrlInfo();
                     if ($info !== false) {
-                        echo Common::json_encode($info);
-                        return;
+                        return Common::json_encode($info);
                     }
                 }
 
-                echo Common::json_encode($result);
+                return Common::json_encode($result);
             } catch (Exception $ex) {
-                echo Common::json_encode(array('error' => $ex->getMessage()));
+                return Common::json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -296,7 +293,7 @@ class Controller extends Admin
             if ($provider === false) {
                 throw new Exception("Invalid provider ID: '$providerId'.");
             }
-            echo 1;
+            return 1;
         }
     }
 
@@ -323,51 +320,49 @@ class Controller extends Admin
         $location = LocationProvider::prettyFormatLocation(
             $location, $newline = '<br/>', $includeExtra = true);
 
-        echo $location;
+        return $location;
     }
 
-    public function getCountry($fetch = false)
+    public function getCountry()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getContinent($fetch = false)
+    public function getContinent()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Echo's or returns an HTML view of the visits by region report.
      *
-     * @param bool $fetch If true, returns the HTML as a string, otherwise it is echo'd.
      * @return string
      */
-    public function getRegion($fetch = false)
+    public function getRegion()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Echo's or returns an HTML view of the visits by city report.
      *
-     * @param bool $fetch If true, returns the HTML as a string, otherwise it is echo'd.
      * @return string
      */
-    public function getCity($fetch = false)
+    public function getCity()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getNumberOfDistinctCountries($fetch = false)
+    public function getNumberOfDistinctCountries()
     {
         return $this->getNumericValue('UserCountry.getNumberOfDistinctCountries');
     }
 
-    public function getLastDistinctCountriesGraph($fetch = false)
+    public function getLastDistinctCountriesGraph()
     {
         $view = $this->getLastUnitGraph('UserCountry', __FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
-        $view->columns_to_display = array('UserCountry_distinctCountries');
-        return $this->renderView($view, $fetch);
+        $view->config->columns_to_display = array('UserCountry_distinctCountries');
+        return $this->renderView($view);
     }
 
     /**

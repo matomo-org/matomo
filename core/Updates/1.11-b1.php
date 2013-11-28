@@ -26,7 +26,7 @@ class Updates_1_11_b1 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('UserCountryMap');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('UserCountryMap');
         } catch (\Exception $e) {
             // pass
         }

@@ -64,7 +64,10 @@ class Twig
         $this->addFilter_sumTime();
         $this->addFilter_money();
         $this->addFilter_truncate();
+        $this->addFilter_notificiation();
+        $this->addFilter_percentage();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
+        $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
@@ -78,7 +81,7 @@ class Twig
     {
         $getJavascriptTranslations = new Twig_SimpleFunction(
             'getJavascriptTranslations',
-            array(Translate::getInstance(), 'getJavascriptTranslations')
+            array('Piwik\\Translate', 'getJavascriptTranslations')
         );
         $this->twig->addFunction($getJavascriptTranslations);
     }
@@ -86,7 +89,7 @@ class Twig
     protected function addFunction_isPluginLoaded()
     {
         $isPluginLoadedFunction = new Twig_SimpleFunction('isPluginLoaded', function ($pluginName) {
-            return PluginsManager::getInstance()->isPluginLoaded($pluginName);
+            return \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($pluginName);
         });
         $this->twig->addFunction($isPluginLoadedFunction);
     }
@@ -145,7 +148,7 @@ class Twig
     private function getDefaultThemeLoader()
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
-                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, PluginsManager::DEFAULT_THEME)
+                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\Plugin\Manager::DEFAULT_THEME)
                                                   ));
 
         return $themeLoader;
@@ -154,6 +157,43 @@ class Twig
     public function getTwigEnvironment()
     {
         return $this->twig;
+    }
+
+    protected function addFilter_notificiation()
+    {
+        $twigEnv = $this->getTwigEnvironment();
+        $notificationFunction = new Twig_SimpleFilter('notification', function ($message, $options) use ($twigEnv) {
+
+            $template = '<div style="display:none" data-role="notification" ';
+
+            foreach ($options as $key => $value) {
+                if (ctype_alpha($key)) {
+                    $template .= sprintf('data-%s="%s" ', $key, twig_escape_filter($twigEnv, $value, 'html_attr'));
+                }
+            }
+
+            $template .= '>';
+
+            if (!empty($options['raw'])) {
+                $template .= $message;
+            } else {
+                $template .= twig_escape_filter($twigEnv, $message, 'html');
+            }
+
+            $template .= '</div>';
+
+            return $template;
+
+        }, array('is_safe' => array('html')));
+        $this->twig->addFilter($notificationFunction);
+    }
+
+    protected function addFilter_percentage()
+    {
+        $percentage = new Twig_SimpleFilter('percentage', function ($string, $totalValue, $precision = 1) {
+            return Piwik::getPercentageSafe($string, $totalValue, $precision) . '%';
+        });
+        $this->twig->addFilter($percentage);
     }
 
     protected function addFilter_truncate()
@@ -222,7 +262,7 @@ class Twig
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $name) {
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {

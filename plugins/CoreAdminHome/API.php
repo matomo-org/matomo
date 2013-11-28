@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
@@ -20,28 +19,17 @@ use Piwik\Option;
 use Piwik\Period;
 use Piwik\Period\Week;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\TaskScheduler;
 
 /**
  * @package CoreAdminHome
+ * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\CoreAdminHome\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Will run all scheduled tasks due to run at this time.
      *
@@ -155,7 +143,6 @@ class API
         }
 
         // In each table, invalidate day/week/month/year containing this date
-        $sqlIdSites = implode(",", $idSites);
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
             // Extract Y_m from table name
@@ -178,18 +165,10 @@ class API
 
             $query = "DELETE FROM $table " .
                 " WHERE ( $sql ) " .
-                " AND idsite IN (" . $sqlIdSites . ")";
+                " AND idsite IN (" . implode(",", $idSites) . ")";
             Db::query($query, $bind);
         }
-
-        // Update piwik_site.ts_created
-        $query = "UPDATE " . Common::prefixTable("site") .
-            " SET ts_created = ?" .
-            " WHERE idsite IN ( $sqlIdSites )
-					AND ts_created > ?";
-        $minDateSql = $minDate->subDay(1)->getDatetime();
-        $bind = array($minDateSql, $minDateSql);
-        Db::query($query, $bind);
+        \Piwik\Plugins\SitesManager\API::getInstance()->updateSiteCreatedTime($idSites, $minDate);
 
         // Force to re-process data for these websites in the next archive.php cron run
         $invalidatedIdSites = self::getWebsiteIdsToInvalidate();
@@ -231,4 +210,5 @@ class API
         }
         return array();
     }
+
 }

@@ -15,28 +15,16 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Tracker\Action;
+use Piwik\Tracker\ActionSiteSearch;
 
 /**
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.
  *
  * @package CustomVariables
+ * @method static \Piwik\Plugins\CustomVariables\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\CustomVariables\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * @param int $idSite
      * @param string $period
@@ -90,7 +78,7 @@ class API
      */
     public static function getReservedCustomVariableKeys()
     {
-        return array('_pks', '_pkn', '_pkc', '_pkp', Action::CVAR_KEY_SEARCH_COUNT, Action::CVAR_KEY_SEARCH_CATEGORY);
+        return array('_pks', '_pkn', '_pkc', '_pkp', ActionSiteSearch::CVAR_KEY_SEARCH_COUNT, ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY);
     }
 
     /**

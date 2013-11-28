@@ -14,15 +14,20 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
 
 /**
- * The DataTable Map is a way to store an array of dataTable.
- * The Map implements some of the features of the DataTable such as queueFilter, getRowsCount.
+ * Stores an array of DataTables indexed by one type of DataTable metadata (such as site ID
+ * or period).
+ * 
+ * DataTable Maps are returned on all queries that involve multiple sites and/or multiple
+ * periods. The Maps will contain a DataTable for each site and period combination.
+ * 
+ * The Map implements some of the features of the DataTable such as queueFilter and getRowsCount.
  *
  * @package Piwik
  * @subpackage DataTable
  *
  * @api
  */
-class Map
+class Map implements DataTableInterface
 {
     /**
      * Array containing the DataTable withing this Set
@@ -32,21 +37,17 @@ class Map
     protected $array = array();
 
     /**
-     * This is the label used to index the tables.
-     * For example if the tables are indexed using the timestamp of each period
-     * eg. $this->array[1045886960] = new DataTable();
-     * the keyName would be 'timestamp'.
-     *
-     * This label is used in the Renderer (it becomes a column name or the XML description tag)
-     *
+     * @see self::getKeyName()
      * @var string
      */
     protected $keyName = 'defaultKeyName';
 
     /**
-     * Returns the keyName string @see self::$keyName
+     * Returns a string description of the data used to index the DataTables.
      *
-     * @return string
+     * This label is used by DataTable Renderers (it becomes a column name or the XML description tag).
+     *
+     * @return string eg, `'idSite'`, `'period'`
      */
     public function getKeyName()
     {
@@ -54,7 +55,7 @@ class Map
     }
 
     /**
-     * Set the keyName @see self::$keyName
+     * Set the keyName. See [getKeyName](#getKeyName).
      *
      * @param string $name
      */
@@ -64,7 +65,7 @@ class Map
     }
 
     /**
-     * Returns the number of DataTable in this DataTable\Map
+     * Returns the number of DataTables in this DataTable\Map.
      *
      * @return int
      */
@@ -74,10 +75,12 @@ class Map
     }
 
     /**
-     * Queue a filter to the DataTable\Map will queue this filter to every DataTable of the DataTable\Map.
+     * Queue a filter to DataTable child of contained by this instance.
+     * 
+     * See [DataTable::queueFilter](#) for more information..
      *
-     * @param string $className Filter name, eg. Limit
-     * @param array $parameters Filter parameters, eg. array( 50, 10 )
+     * @param string|Closure $className Filter name, eg. `'Limit'` or a Closure.
+     * @param array $parameters Filter parameters, eg. `array(50, 10)`.
      */
     public function queueFilter($className, $parameters = array())
     {
@@ -87,7 +90,7 @@ class Map
     }
 
     /**
-     * Apply the filters previously queued to each of the DataTable of this DataTable\Map.
+     * Apply the filters previously queued to each DataTable contained by this DataTable\Map.
      */
     public function applyQueuedFilters()
     {
@@ -97,10 +100,10 @@ class Map
     }
 
     /**
-     * Apply a filter to all tables in the array
+     * Apply a filter to all tables contained by this instance.
      *
-     * @param string $className Name of filter class
-     * @param array $parameters Filter parameters
+     * @param string|Closure $className Name of filter class or a Closure.
+     * @param array $parameters Parameters to pass to the filter.
      */
     public function filter($className, $parameters = array())
     {
@@ -110,9 +113,9 @@ class Map
     }
 
     /**
-     * Returns the array of DataTable
+     * Returns the array of DataTables contained by this class.
      *
-     * @return DataTable[]
+     * @return DataTable[]|Map[]
      */
     public function getDataTables()
     {
@@ -120,10 +123,10 @@ class Map
     }
 
     /**
-     * Returns the table with the specified label.
+     * Returns the table with the specific label.
      *
      * @param string $label
-     * @return DataTable
+     * @return DataTable|Map
      */
     public function getTable($label)
     {
@@ -131,27 +134,30 @@ class Map
     }
 
     /**
-     * Returns the first row
-     * This method can be used to treat DataTable and DataTable\Map in the same way
+     * Returns the first DataTable in the DataTable array.
      *
-     * @return Row
+     * @return DataTable|Map|false
      */
     public function getFirstRow()
     {
-        foreach ($this->getDataTables() as $table) {
-            $row = $table->getFirstRow();
-            if ($row !== false) {
-                return $row;
-            }
-        }
-        return false;
+        return reset($this->array);
     }
 
     /**
-     * Adds a new DataTable to the DataTable\Map
+     * Returns the last DataTable in the DataTable array.
+     * 
+     * @return DataTable|Map|false
+     */
+    public function getLastRow()
+    {
+        return end($this->array);
+    }
+
+    /**
+     * Adds a new DataTable to the DataTable\Map.
      *
      * @param DataTable $table
-     * @param string $label Label used to index this table in the array
+     * @param string $label Label used to index this table in the array.
      */
     public function addTable($table, $label)
     {
@@ -182,7 +188,7 @@ class Map
     }
 
     /**
-     * Renames the given column
+     * Renames the given column in each contained DataTable.
      *
      * @see DataTable::renameColumn
      * @param string $oldName
@@ -196,42 +202,46 @@ class Map
     }
 
     /**
-     * Deletes the given columns
+     * Deletes the specified columns in each contained DataTable.
      *
      * @see DataTable::deleteColumns
-     * @param array $columns
+     * @param array $columns The columns to delete.
+     * @param bool $deleteRecursiveInSubtables This param is currently not used.
      */
-    public function deleteColumns($columns)
+    public function deleteColumns($columns, $deleteRecursiveInSubtables = false)
     {
         foreach ($this->getDataTables() as $table) {
             $table->deleteColumns($columns);
         }
     }
 
+    /**
+     * Deletes a table from the array of DataTables.
+     * 
+     * @param string $id The label associated with DataTable.
+     */
     public function deleteRow($id)
     {
-        foreach ($this->getDataTables() as $table) {
-            $table->deleteRow($id);
-        }
+        unset($this->array[$id]);
     }
 
     /**
-     * Deletes the given column
+     * Deletes the given column in every contained DataTable.
      *
      * @see DataTable::deleteColumn
-     * @param string $column
+     * @param string $name
      */
-    public function deleteColumn($column)
+    public function deleteColumn($name)
     {
         foreach ($this->getDataTables() as $table) {
-            $table->deleteColumn($column);
+            $table->deleteColumn($name);
         }
     }
 
     /**
-     * Returns the array containing all rows values in all data tables for the requested column
+     * Returns the array containing all row values in all data tables for the requested column.
      *
-     * @param string $name
+     * @param string $name The column name.
      * @return array
      */
     public function getColumn($name)
@@ -254,38 +264,36 @@ class Map
      * The result of this function is determined by the type of DataTable
      * this instance holds. If this DataTable\Map instance holds an array
      * of DataTables, this function will transform it from:
-     * <code>
-     * Label 0:
-     *   DataTable(row1)
-     * Label 1:
-     *   DataTable(row2)
-     * </code>
+     * 
+     *     Label 0:
+     *       DataTable(row1)
+     *     Label 1:
+     *       DataTable(row2)
+     * 
      * to:
-     * <code>
-     * DataTable(row1[label = 'Label 0'], row2[label = 'Label 1'])
-     * </code>
+     * 
+     *     DataTable(row1[label = 'Label 0'], row2[label = 'Label 1'])
      *
      * If this instance holds an array of DataTable\Maps, this function will
      * transform it from:
-     * <code>
-     * Outer Label 0:            // the outer DataTable\Map
-     *   Inner Label 0:            // one of the inner DataTable\Maps
-     *     DataTable(row1)
-     *   Inner Label 1:
-     *     DataTable(row2)
-     * Outer Label 1:
-     *   Inner Label 0:
-     *     DataTable(row3)
-     *   Inner Label 1:
-     *     DataTable(row4)
-     * </code>
+     * 
+     *     Outer Label 0:            // the outer DataTable\Map
+     *       Inner Label 0:            // one of the inner DataTable\Maps
+     *         DataTable(row1)
+     *       Inner Label 1:
+     *         DataTable(row2)
+     *     Outer Label 1:
+     *       Inner Label 0:
+     *         DataTable(row3)
+     *       Inner Label 1:
+     *         DataTable(row4)
+     * 
      * to:
-     * <code>
-     * Inner Label 0:
-     *   DataTable(row1[label = 'Outer Label 0'], row3[label = 'Outer Label 1'])
-     * Inner Label 1:
-     *   DataTable(row2[label = 'Outer Label 0'], row4[label = 'Outer Label 1'])
-     * </code>
+     * 
+     *     Inner Label 0:
+     *       DataTable(row1[label = 'Outer Label 0'], row3[label = 'Outer Label 1'])
+     *     Inner Label 1:
+     *       DataTable(row2[label = 'Outer Label 0'], row4[label = 'Outer Label 1'])
      *
      * In addition, if this instance holds an array of DataTable\Maps, the
      * metadata of the first child is used as the metadata of the result.
@@ -307,7 +315,7 @@ class Map
                 foreach ($subDataTableMap->getDataTables() as $innerLabel => $subTable) {
                     if (!isset($result->array[$innerLabel])) {
                         $dataTable = new DataTable();
-                        $dataTable->metadata = $subTable->metadata;
+                        $dataTable->setMetadataValues($subTable->getAllTableMetadata());
 
                         $result->addTable($dataTable, $innerLabel);
                     }
@@ -351,17 +359,17 @@ class Map
     }
 
     /**
-     * Adds a DataTable to all the tables in this array
-     * NOTE: Will only add $tableToSum if the childTable has some rows
+     * Adds a DataTable to all the tables in this array.
+     * NOTE: Will only add `$tableToSum` if the childTable has some rows
      *
+     * See [DataTable::addDataTable()](#).
+     * 
      * @param DataTable $tableToSum
      */
     public function addDataTable(DataTable $tableToSum)
     {
         foreach ($this->getDataTables() as $childTable) {
-            if ($childTable->getRowsCount() > 0) {
-                $childTable->addDataTable($tableToSum);
-            }
+            $childTable->addDataTable($tableToSum);
         }
     }
 
@@ -396,7 +404,7 @@ class Map
     }
 
     /**
-     * Returns the intersection of children's meta data arrays
+     * Returns the intersection of children's metadata arrays (what they all have in common).
      *
      * @param string $name The metadata name.
      * @return mixed

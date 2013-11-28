@@ -17,8 +17,8 @@
 
 $piwik_errorMessage = '';
 
-// Minimum requirement: Namespaces in 5.3
-$piwik_minimumPHPVersion = '5.3';
+// Minimum requirement: stream_resolve_include_path in 5.3.2, namespaces in 5.3
+$piwik_minimumPHPVersion = '5.3.2';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
@@ -49,18 +49,18 @@ if ($minimumPhpInvalid) {
     $autoloadPath = '/vendor/autoload.php';
     $autoloader = PIWIK_INCLUDE_PATH . $autoloadPath;
     if (!file_exists($autoloader)) {
-        $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): "
-            . "<pre> curl -sS https://getcomposer.org/installer | php \n php composer.phar install</pre> ";
+        $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): \n\n"
+            . "<pre> curl -sS https://getcomposer.org/installer | php \n\n php composer.phar install\n\n</pre> ";
         if (DIRECTORY_SEPARATOR === '\\' /* ::isWindows() */) {
             $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line. "
                 . " <br>Then run this command in a terminal in the piwik directory: <br> $ php composer update ";
         }
-        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:
-                    <br/>" . $composerInstall
-            . " This will initialize composer for Piwik and download libraries we use in vendor/* directory.
-                    <br/><br/>Then reload this page to access your analytics reports.
-                    <br/><br/>Note: if for some reasons you cannot installer composer, instead install the latest Piwik release from <a
-                    href='http://builds.piwik.org/latest.zip'>builds.piwik.org</a>.</p>";
+        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
+                    "<br/>" . $composerInstall.
+                    " This will initialize composer for Piwik and download libraries we use in vendor/* directory.".
+                    "\n\n<br/><br/>Then reload this page to access your analytics reports." .
+                    "\n\n<br/><br/>Note: if for some reasons you cannot installer composer, instead install the latest Piwik release from ".
+                    "<a href='http://builds.piwik.org/latest.zip'>builds.piwik.org</a>.</p>";
     }
 }
 
@@ -93,6 +93,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         if ($optionalTrace) {
             $optionalTrace = '<span class="exception-backtrace">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
         }
+        $isCli = PHP_SAPI == 'cli';
         if ($optionalLinks) {
             $optionalLinks = '<ul>
                             <li><a target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
@@ -109,6 +110,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
 
         $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+
         $content = '<p>' . $message . '</p>
                     <p>'
             . $optionalLinkBack
@@ -118,7 +120,14 @@ if (!function_exists('Piwik_ExitWithMessage')) {
             . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;
 
-        echo $headerPage . $content . $footerPage;
+        if($isCli) {
+            $message = str_replace(array("<br />", "<br>", "<br/>", "</p>"), "\n", $message);
+            $message = str_replace("\t", "", $message);
+            echo strip_tags($message);
+        } else {
+            echo $headerPage . $content . $footerPage;
+        }
+        echo "\n";
         exit;
     }
 }

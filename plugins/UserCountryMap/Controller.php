@@ -18,13 +18,12 @@ use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\ViewDataTable;
 
 /**
  *
  * @package UserCountryMap
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
@@ -96,11 +95,7 @@ class Controller extends \Piwik\Controller
         $view->config = Common::json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
-        if ($fetch) {
-            return $view->render();
-        } else {
-            echo $view->render();
-        }
+        return $view->render();
     }
 
     /**
@@ -190,11 +185,7 @@ class Controller extends \Piwik\Controller
             'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int')
         );
 
-        if ($fetch) {
-            return $view->render();
-        } else {
-            echo $view->render();
-        }
+        return $view->render();
     }
 
     private function getEnrichedRequest($params, $encode = true)
@@ -216,7 +207,7 @@ class Controller extends \Piwik\Controller
 
     private function checkUserCountryPluginEnabled()
     {
-        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry')) {
             throw new Exception(Piwik::translate('General_Required', 'Plugin UserCountry'));
         }
     }

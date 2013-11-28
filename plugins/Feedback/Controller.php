@@ -25,13 +25,13 @@ use Piwik\View;
  *
  * @package Feedback
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {
         $view = new View('@Feedback/index');
         $view->nonce = Nonce::getNonce('Feedback.sendFeedback', 3600);
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -54,16 +54,16 @@ class Controller extends \Piwik\Controller
                 || strpos($email, 'probe@') !== false
                 || strpos($body, '&lt;probe') !== false
             ) {
-                throw new Exception(Piwik::translateException('Feedback_ExceptionBodyLength', array($minimumBodyLength)));
+                throw new Exception(Piwik::translate('Feedback_ExceptionBodyLength', array($minimumBodyLength)));
             }
             if (!Piwik::isValidEmailString($email)) {
-                throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidEmail'));
+                throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail'));
             }
             if (preg_match('/https?:/i', $body)) {
-                throw new Exception(Piwik::translateException('Feedback_ExceptionNoUrls'));
+                throw new Exception(Piwik::translate('Feedback_ExceptionNoUrls'));
             }
             if (!Nonce::verifyNonce('Feedback.sendFeedback', $nonce)) {
-                throw new Exception(Piwik::translateException('General_ExceptionNonceMismatch'));
+                throw new Exception(Piwik::translate('General_ExceptionNonceMismatch'));
             }
             Nonce::discardNonce('Feedback.sendFeedback');
 
@@ -81,6 +81,6 @@ class Controller extends \Piwik\Controller
             $view->message = $body;
         }
 
-        echo $view->render();
+        return $view->render();
     }
 }

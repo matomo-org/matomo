@@ -25,7 +25,7 @@ use Piwik\View;
  *
  * @package MultiSites
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     protected $orderBy = 'visits';
     protected $order = 'desc';
@@ -44,12 +44,12 @@ class Controller extends \Piwik\Controller
 
     function index()
     {
-        $this->getSitesInfo($isWidgetized = false);
+        return $this->getSitesInfo($isWidgetized = false);
     }
 
     function standalone()
     {
-        $this->getSitesInfo($isWidgetized = true);
+        return $this->getSitesInfo($isWidgetized = true);
     }
 
     public function getSitesInfo($isWidgetized = false)
@@ -60,7 +60,7 @@ class Controller extends \Piwik\Controller
         $date = Common::getRequestVar('date', 'today');
         $period = Common::getRequestVar('period', 'day');
         $siteIds = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
-        list($minDate, $maxDate) = $this->getMinMaxDateAcrossWebsites($siteIds);
+        list($minDate, $maxDate) = Site::getMinMaxDateAcrossWebsites($siteIds);
 
         // overwrites the default Date set in the parent controller
         // Instead of the default current website's local date,
@@ -169,39 +169,7 @@ class Controller extends \Piwik\Controller
         $this->setMaxDateView($maxDate, $view);
         $view->show_sparklines = Config::getInstance()->General['show_multisites_sparklines'];
 
-        echo $view->render();
-    }
-
-    /**
-     * The Multisites reports displays the first calendar date as the earliest day available for all websites.
-     * Also, today is the later "today" available across all timezones.
-     * @param array $siteIds Array of IDs for each site being displayed.
-     * @return array of two Date instances. First is the min-date & the second
-     *               is the max date.
-     */
-    private function getMinMaxDateAcrossWebsites($siteIds)
-    {
-        $now = Date::now();
-
-        $minDate = null;
-        $maxDate = $now->subDay(1)->getTimestamp();
-        foreach ($siteIds as $idsite) {
-            // look for 'now' in the website's timezone
-            $timezone = Site::getTimezoneFor($idsite);
-            $date = Date::adjustForTimezone($now->getTimestamp(), $timezone);
-            if ($date > $maxDate) {
-                $maxDate = $date;
-            }
-
-            // look for the absolute minimum date
-            $creationDate = Site::getCreationDateFor($idsite);
-            $date = Date::adjustForTimezone(strtotime($creationDate), $timezone);
-            if (is_null($minDate) || $date < $minDate) {
-                $minDate = $date;
-            }
-        }
-
-        return array(Date::factory($minDate), Date::factory($maxDate));
+        return $view->render();
     }
 
     protected function applyPrettyMoney(&$sites)
@@ -226,6 +194,6 @@ class Controller extends \Piwik\Controller
             $api = "Goals.get";
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 }

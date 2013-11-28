@@ -9,6 +9,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
@@ -18,7 +19,6 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Url;
-use Piwik\Db;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -39,6 +39,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
     const IMAGES_GENERATED_FOR_PHP = '5.5';
     const IMAGES_GENERATED_FOR_GD = '2.1.1';
+    const DEFAULT_SITE_NAME = 'Piwik test';
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public abstract function setUp();
@@ -60,10 +61,13 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      * @param null|string $searchCategoryParameters
      * @return int    idSite of website created
      */
-    public static function createWebsite($dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false,
+    public static function createWebsite($dateTime, $ecommerce = 0, $siteName = false, $siteUrl = false,
                                          $siteSearch = 1, $searchKeywordParameters = null,
                                          $searchCategoryParameters = null)
     {
+        if($siteName === false) {
+            $siteName = self::DEFAULT_SITE_NAME;
+        }
         $idSite = APISitesManager::getInstance()->addSite(
             $siteName,
             $siteUrl === false ? "http://piwik.net/" : $siteUrl,
@@ -141,6 +145,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         $t->setForceVisitDateTime($dateTime);
 
         if ($defaultInit) {
+            $t->setTokenAuth(self::getTokenAuth());
             $t->setIp('156.5.3.2');
 
             // Optional tracking
@@ -164,10 +169,13 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     {
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
+
+        $url = "\n =========================== \n URL was: " . PiwikTracker::$DEBUG_LAST_REQUESTED_URL;
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
             . var_export($response, true)
             . "\n If you are stuck, you can enable \$GLOBALS['PIWIK_TRACKER_DEBUG']=true; in piwik.php to get more debug info."
             . base64_encode($response)
+            . $url
         );
     }
 
@@ -179,8 +187,11 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function checkBulkTrackingResponse($response) {
         $data = json_decode($response, true);
-        if (!is_array($data)) {
-            echo "Bulk tracking response is not an array: " . var_export($data, true) . "\n";
+        if (!is_array($data) || empty($response)) {
+            throw new Exception("Bulk tracking response (".$response.") is not an array: " . var_export($data, true) . "\n");
+        }
+        if(!isset($data['status'])) {
+            throw new Exception("Returned data didn't have a status: " . var_export($data,true));
         }
         self::assertArrayHasKey('status', $data);
         self::assertEquals('success', $data['status']);

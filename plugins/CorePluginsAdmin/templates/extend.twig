@@ -6,9 +6,9 @@
     <div class="extendPlatform">
 
         <div class="ui-confirm" id="installPluginByUpload">
-            <h2>Extend Piwik by uploading a ZIP file</h2>
+            <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByUpload'|translate }}</h2>
 
-            <p class="description"> You may upload a plugin or theme in .zip format via this page. </p>
+            <p class="description"> {{ 'CorePluginsAdmin_AllowedUploadFormats'|translate }} </p>
 
             <form enctype="multipart/form-data"
                   method="post"
@@ -16,51 +16,50 @@
                   action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
                 <input type="file" name="pluginZip">
                 <br />
-                <input class="startUpload" type="submit" value="Upload ZIP file">
+                <input class="startUpload" type="submit" value="{{ 'CorePluginsAdmin_UploadZipFile'|translate }}">
             </form>
         </div>
 
         <div class="introduction">
 
-            <h2>Extend Piwik with Plugins and Themes</h2>
+            <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwik'|translate }}</h2>
 
-            <p>You may automatically download and install new Plugins from the <a href='?module=Proxy&action=redirect&url=http://plugins.piwik.org/' target='_blank'>Marketplace</a>. </p>
+            <p>{{ 'CorePluginsAdmin_DownloadAndInstallPluginsFromMarketplace'|translate("<a href='?module=Proxy&action=redirect&url=http://plugins.piwik.org/' target='_blank'>", "</a>")|raw }}</p>
 
-            <em>Note: all plugins are available for free at present; in the future we will enable Paid Plugins in the Marketplace
-                (<a href='mailto:hello@piwik.org?subject=Marketplace - Sell Plugin'>contact us</a> for early access).
-            </em>
+            {% set marketplaceSellPluginSubject = 'CorePluginsAdmin_MarketplaceSellPluginSubject'|translate %}
+            <em>{{ 'CorePluginsAdmin_GetEarlyAccessForPaidPlugins'|translate("<a href='mailto:hello@piwik.org?subject=" ~ marketplaceSellPluginSubject ~ "'>", "</a>")|raw }}</em>
         </div>
 
         <div>
             <div class="byPlugins">
-                <h3 class="header">Get new functionality</h3>
-                <span class="callToAction">by <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">installing a new plugin from the Marketplace</a></span>
+                <h3 class="header">{{ 'CorePluginsAdmin_GetNewFunctionality'|translate }}</h3>
+                <span class="callToAction">{{ 'CorePluginsAdmin_ByInstallingNewPluginFromMarketplace'|translate("<a href=" ~ linkTo({'action':'browsePlugins', 'sort': ''}) ~ ">", "</a>")|raw }}</span>
 
                 <p>
-                    <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><img class="teaserImage" alt="Install a new plugin" src=""/></a>
+                    <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><img class="teaserImage" title="{{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}" alt="{{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}" src="plugins/CorePluginsAdmin/images/plugins.png"/></a>
                 </p>
 
                 <span class="callToAction">
-                    by <a href="#">writing your own plugin</a>
+                    {{ 'CorePluginsAdmin_ByWritingOwnPlugin'|translate('<a href="http://developer.piwik.org/guides/plugins" target="_blank">', '</a>')|raw }}
                     {% if isSuperUser %}
-                        <br/> or by <a href="#" class="uploadPlugin">uploading a plugin</a>
+                        <br/>{{ 'CorePluginsAdmin_OrByUploadingAPlugin'|translate('<a href="#" class="uploadPlugin">', '</a>')|raw }}
                     {% endif %}
                 </span>
 
             </div>
 
             <div class="byThemes">
-                <h3 class="header">Enjoy another look & feel</h3>
-                <span class="callToAction">by <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">installing a new theme from the Marketplace</a></span>
+                <h3 class="header">{{ 'CorePluginsAdmin_EnjoyAnotherLookAndFeelOfThemes'|translate }}</h3>
+                <span class="callToAction">{{ 'CorePluginsAdmin_ByInstallingNewThemeFromMarketplace'|translate("<a href=" ~ linkTo({'action':'browseThemes', 'sort': ''}) ~ ">", "</a>")|raw }}</span>
 
                 <p>
-                    <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><img class="teaserImage" alt="Install a new theme" src=""/></a>
+                    <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><img class="teaserImage" alt="{{ 'CorePluginsAdmin_InstallNewThemes'|translate }}" title="{{ 'CorePluginsAdmin_InstallNewThemes'|translate }}" src="plugins/CorePluginsAdmin/images/themes.png"/></a>
                 </p>
 
                 <span class="callToAction">
-                    by <a href="#">design your own theme</a><br />
+                    {{ 'CorePluginsAdmin_ByDesigningOwnTheme'|translate('<a href="http://developer.piwik.org/guides/themes" target="_blank">', '</a>')|raw }}
                     {% if isSuperUser %}
-                        or by <a href="#" class="uploadPlugin">uploading a theme</a>
+                        <br />{{ 'CorePluginsAdmin_OrByUploadingATheme'|translate('<a href="#" class="uploadPlugin">', '</a>')|raw }}
                     {% endif %}
                 </span>
             </div>

@@ -17,11 +17,13 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Integ
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorTwoVisits_WithCookieSupport
+     *
      */
     public function testApi($api, $params)
     {
+        //var_dump(\Piwik\Db::get()->fetchAll('select * from piwiktests_log_action' ));
         $this->runApiTests($api, $params);
+
     }
 
     public function getApiForTesting()

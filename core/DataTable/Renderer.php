@@ -125,7 +125,7 @@ abstract class Renderer
     protected function getExceptionMessage()
     {
         $message = $this->exception->getMessage();
-        if (Piwik_ShouldPrintBackTraceWithMessage()) {
+        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
             $message .= "\n" . $this->exception->getTraceAsString();
         }
         return self::renderHtmlEntities($message);
@@ -209,7 +209,7 @@ abstract class Renderer
         } catch (Exception $e) {
             $availableRenderers = implode(', ', self::getRenderers());
             @header('Content-Type: text/plain; charset=utf-8');
-            throw new Exception(Piwik::translateException('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
+            throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
         }
     }
 

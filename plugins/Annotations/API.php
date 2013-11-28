@@ -11,13 +11,12 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
-use Piwik\Date;
 
+use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
-use Piwik\ViewDataTable;
 
 /**
  * @see plugins/Annotations/AnnotationList.php
@@ -29,24 +28,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Annotations/AnnotationList.php';
  * annotations.
  *
  * @package Annotations
+ * @method static \Piwik\Plugins\Annotations\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * Returns this API's singleton instance.
-     *
-     * @return \Piwik\Plugins\Annotations\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Create a new annotation for a site.
      *

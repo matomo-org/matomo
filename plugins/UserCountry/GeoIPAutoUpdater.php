@@ -103,6 +103,8 @@ class GeoIPAutoUpdater
     protected function downloadFile($dbType, $url)
     {
         $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
+
+        // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity
         $zippedFilename = GeoIp::$dbNames[$dbType][0] . '.' . $ext;
 
         $zippedOutputPath = GeoIp::getPathForGeoIpDatabase($zippedFilename);
@@ -475,6 +477,7 @@ class GeoIPAutoUpdater
     {
         if ($ext != 'tar.gz'
             && $ext != 'gz'
+            && $ext != 'dat.gz'
         ) {
             throw new \Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }

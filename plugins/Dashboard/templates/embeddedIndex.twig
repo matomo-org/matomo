@@ -1,6 +1,6 @@
 <script type="text/javascript">
     widgetsHelper.availableWidgets = {{ availableWidgets|raw }};
-    $(document).ready(function () {
+    $(function() {
         initDashboard({{ dashboardId }}, {{ dashboardLayout|raw }});
     });
 </script>
@@ -90,36 +90,6 @@
         <div class="popoverSubMessage">{{ 'Dashboard_NotUndo'|translate(resetDashboard) }}</div>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
-    </div>
-
-    <div id="dashboardSettings">
-        <span>{{ 'Dashboard_WidgetsAndDashboard'|translate }}</span>
-        <ul class="submenu">
-            <li>
-                <div id="addWidget">{{ 'Dashboard_AddAWidget'|translate }} &darr;</div>
-                <ul class="widgetpreview-categorylist"></ul>
-            </li>
-            <li>
-                <div id="manageDashboard">{{ 'Dashboard_ManageDashboard'|translate }} &darr;</div>
-                <ul>
-                    <li onclick="resetDashboard();">{{ 'Dashboard_ResetDashboard'|translate }}</li>
-                    <li onclick="showChangeDashboardLayoutDialog();">{{ 'Dashboard_ChangeDashboardLayout'|translate }}</li>
-                    {% if userLogin and userLogin != 'anonymous' %}
-                        <li onclick="renameDashboard();">{{ 'Dashboard_RenameDashboard'|translate }}</li>
-                        <li onclick="removeDashboard();" id="removeDashboardLink">{{ 'Dashboard_RemoveDashboard'|translate }}</li>
-                        {% if isSuperUser %}
-                            <li onclick="setAsDefaultWidgets();">{{ 'Dashboard_SetAsDefaultWidgets'|translate }}</li>
-                            <li onclick="copyDashboardToUser();">{{ 'Dashboard_CopyDashboardToUser'|translate }}</li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-            </li>
-            {% if (userLogin and 'anonymous' != userLogin) %}
-                <li onclick="createDashboard();">{{ 'Dashboard_CreateNewDashboard'|translate }}</li>
-            {% endif %}
-        </ul>
-        <ul class="widgetpreview-widgetlist"></ul>
-        <div class="widgetpreview-preview"></div>
     </div>
 
     <div id="dashboardWidgetsArea"></div>

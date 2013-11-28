@@ -1,23 +1,26 @@
+{% import '@CorePluginsAdmin/macros.twig' as plugins %}
+
 {% if isSuperUser %}
     {% if plugin.canBeUpdated %}
         <a class="update"
            href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
-           >Update</a>
+           >{{ 'CoreUpdater_UpdateTitle'|translate }}</a>
     {% elseif plugin.isInstalled %}
-        <span class="install">Installed</span>
+        <span class="install">{{ 'General_Installed'|translate }}</span>
     {% else %}
         <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
-           class="install">Install</a>
+           class="install">{{ 'CorePluginsAdmin_ActionInstall'|translate }}</a>
     {% endif %}
 {% endif %}
 
-<h3 class="header" title="Click for more details">
-    <a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more">{{ plugin.name }}</a>
+
+<h3 class="header" title="{{ 'General_MoreDetails'|translate }}">
+    <a href="javascript:void(0);" class="more">{{ plugin.name }}</a>
 </h3>
 <p class="description">{{ plugin.description }}
     <br />
-    <a href="javascript:return;" title="Click for more details" data-pluginName="{{ plugin.name }}" class="more">&gt;&gt; more</a>
+    <a href="javascript:void(0);" title="{{ 'General_MoreDetails'|translate }}" class="more">&gt;&gt; {{ 'General_MoreLowerCase'|translate }}</a>
 </p>
 {% if plugin.canBeUpdated %}
-    <p class="updateAvailableNotice">You can update this plugin to version {{ plugin.latestVersion }}</p>
+    <p class="updateAvailableNotice" data-activePluginTab="changelog">{{ 'CorePluginsAdmin_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}</p>
 {% endif %}

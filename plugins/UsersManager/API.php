@@ -34,7 +34,7 @@ use Piwik\Tracker\Cache;
  * See also the documentation about <a href='http://piwik.org/docs/manage-users/' target='_blank'>Managing Users</a> in Piwik.
  * @package UsersManager
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
@@ -179,7 +179,6 @@ class API
      *                        login2 => array(idsite2),
      *                        ...
      *                    )
-     *
      */
     public function getUsersSitesFromAccess($access)
     {
@@ -327,7 +326,7 @@ class API
     private function checkLogin($userLogin)
     {
         if ($this->userExists($userLogin)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionLoginExists', $userLogin));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $userLogin));
         }
 
         Piwik::checkValidLoginString($userLogin);
@@ -336,11 +335,11 @@ class API
     private function checkEmail($email)
     {
         if ($this->userEmailExists($email)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionEmailExists', $email));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
         }
 
         if (!Piwik::isValidEmailString($email)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidEmail'));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail'));
         }
     }
 
@@ -400,8 +399,9 @@ class API
         Cache::deleteTrackerCache();
 
         /**
-         * This event is triggered after a new user is created and saved in the database. `$userLogin` contains all
-         * relevant user information like login name, alias, email and transformed password.
+         * Triggered after a new user is created.
+         * 
+         * @param string $userLogin The new user's login handle.
          */
         Piwik::postEvent('UsersManager.addUser.end', array($userLogin));
     }
@@ -461,8 +461,9 @@ class API
         Cache::deleteTrackerCache();
 
         /**
-         * This event is triggered after an existing user has been updated. `$userLogin` contains the updated user
-         * information like login name, alias and email.
+         * Triggered after an existing user has been updated.
+         * 
+         * @param string $userLogin The user's login handle.
          */
         Piwik::postEvent('UsersManager.updateUser.end', array($userLogin));
     }
@@ -482,7 +483,7 @@ class API
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserIsNotSuperUser($userLogin);
         if (!$this->userExists($userLogin)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
         }
 
         $this->deleteUserOnly($userLogin);
@@ -546,7 +547,7 @@ class API
         if ($userLogin == 'anonymous'
             && $access == 'admin'
         ) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionAdminAnonymous"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
         }
 
         // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
@@ -595,7 +596,7 @@ class API
     private function checkUserExists($userLogin)
     {
         if (!$this->userExists($userLogin)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionUserDoesNotExist", $userLogin));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
         }
     }
 
@@ -608,21 +609,21 @@ class API
     private function checkUserEmailExists($userEmail)
     {
         if (!$this->userEmailExists($userEmail)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionUserDoesNotExist", $userEmail));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userEmail));
         }
     }
 
     private function checkUserIsNotAnonymous($userLogin)
     {
         if ($userLogin == 'anonymous') {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionEditAnonymous"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionEditAnonymous"));
         }
     }
 
     private function checkUserIsNotSuperUser($userLogin)
     {
         if ($userLogin == Piwik::getSuperUserLogin()) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionSuperUser"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUser"));
         }
     }
 
@@ -634,7 +635,7 @@ class API
         unset($accessList[array_search("superuser", $accessList)]);
 
         if (!in_array($access, $accessList)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionAccessValues", implode(", ", $accessList)));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $accessList)));
         }
     }
 
@@ -643,7 +644,6 @@ class API
      * The user's access are not deleted.
      *
      * @param string $userLogin the user login.
-     *
      */
     private function deleteUserOnly($userLogin)
     {
@@ -651,9 +651,12 @@ class API
         $db->query("DELETE FROM " . Common::prefixTable("user") . " WHERE login = ?", $userLogin);
 
         /**
-         * This event is triggered after a user has been deleted. Plugins can use this event to remove user specific
-         * values or settings. For instance removing all created dashboards that belong to a specific user.
-         * If you store any data related to a user, you may want to clean up that information.
+         * Triggered after a user has been deleted.
+         * 
+         * This event should be used to clean up any data that is related to the user that was
+         * deleted. For example, the Dashboard plugin uses this event to remove the user's dashboards.
+         * 
+         * @param string $userLogin The login handle of the deleted user.
          */
         Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
     }
@@ -696,7 +699,7 @@ class API
     public function getTokenAuth($userLogin, $md5Password)
     {
         if (strlen($md5Password) != 32) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionPasswordMD5HashExpected'));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
         }
         return md5($userLogin . $md5Password);
     }

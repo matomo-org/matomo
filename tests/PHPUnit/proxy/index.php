@@ -17,13 +17,24 @@ Piwik_TestingEnvironment::addHooks();
 \Piwik\Tracker::setTestEnvironment();
 Cache::deleteTrackerCache();
 
+\Piwik\Profiler::setupProfilerXHProf();
+
+
 // Disable index.php dispatch since we do it manually below
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-$controller = new \Piwik\FrontController;
+$controller = \Piwik\FrontController::getInstance();
+
+// Load all plugins that are found so UI tests are really testing real world use case
+\Piwik\Config::getInstance()->Plugins['Plugins'] = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+
 $controller->init();
-$controller->dispatch();
+$response = $controller->dispatch();
+
+if (!is_null($response)) {
+    echo $response;
+}
 
 ob_flush();
 

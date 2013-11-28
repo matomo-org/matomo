@@ -21,7 +21,7 @@ use Piwik\View;
  *
  * @package ScheduledReports
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
 
@@ -89,6 +89,6 @@ class Controller extends \Piwik\Controller
             $view->segmentEditorActivated = true;
         }
 
-        echo $view->render();
+        return $view->render();
     }
 }

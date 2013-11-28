@@ -284,6 +284,9 @@
          * for each selectable column/row.
          */
         _createPopover: function () {
+            var hasColumns = $.isArray(this.selectableColumns) && this.selectableColumns.length;
+            var hasRows    = $.isArray(this.selectableRows) && this.selectableRows.length;
+
             var popover = $('<div/>')
                 .addClass('jqplot-seriespicker-popover');
 
@@ -292,7 +295,7 @@
             popover.append($('<p/>').addClass('headline').html(title));
 
             // create selectable columns list
-            if (this.selectableColumns) {
+            if (hasColumns) {
                 for (var i = 0; i < this.selectableColumns.length; i++) {
                     var column = this.selectableColumns[i];
                     popover.append(this._createPickerPopupItem(column, 'column'));
@@ -300,7 +303,7 @@
             }
 
             // create selectable rows list
-            if (this.selectableRows) {
+            if (hasRows) {
                 // "records to plot" subheadline
                 var header = $('<p/>').addClass('headline').addClass('recordsToPlot').html(this.lang.recordsToPlot);
                 popover.append(header);

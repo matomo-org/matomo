@@ -11,10 +11,8 @@
 
 namespace Piwik\Tracker;
 
-use Exception;
 use Piwik\Common;
 use Piwik\Config;
-
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Tracker;
@@ -33,7 +31,6 @@ use UserAgentParser;
  *
  * @package Piwik
  * @subpackage Tracker
- * @api
  */
 class Visit implements VisitInterface
 {
@@ -107,7 +104,6 @@ class Visit implements VisitInterface
         $this->goalManager = new GoalManager($this->request);
 
         $visitIsConverted = false;
-        $idActionUrl = $idActionName = $actionType = false;
         $action = null;
 
         $requestIsManualGoalConversion = ($this->goalManager->idGoal > 0);
@@ -125,33 +121,18 @@ class Visit implements VisitInterface
             $visitIsConverted = $someGoalsConverted;
             // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
             if (!$someGoalsConverted) {
-                Common::printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
-                unset($this->goalManager);
-                return;
+                throw new \Exception('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
             }
         } // normal page view, potentially triggering a URL matching goal
         else {
-            $action = $this->newAction();
+            $action = Action::factory($this->request);
 
-            if ($this->detectActionIsOutlinkOnAliasHost($action)) {
-                Common::printDebug("INFO: The outlink URL host is one of the known host for this website. ");
-            }
-            if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-                $type = Action::getActionTypeName($action->getActionType());
-                Common::printDebug("Action is a $type,
-                    Action name =  " . $action->getActionName() . ",
-                    Action URL = " . $action->getActionUrl());
-            }
+            $action->writeDebugInfo();
+
             $someGoalsConverted = $this->goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
             $visitIsConverted = $someGoalsConverted;
 
-            $action->loadIdActionNameAndUrl();
-            $idActionUrl = $action->getIdActionUrl();
-            if ($idActionUrl !== null) {
-                $idActionUrl = (int)$idActionUrl;
-            }
-            $idActionName = (int)$action->getIdActionName();
-            $actionType = $action->getActionType();
+            $action->loadIdsFromLogActionTable();
         }
 
         // the visitor and session
@@ -175,7 +156,7 @@ class Visit implements VisitInterface
             $idReferrerActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
             try {
-                $this->handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted);
+                $this->handleExistingVisit($action, $visitIsConverted);
                 if (!is_null($action)) {
                     $action->record($this->visitorInfo['idvisit'],
                         $this->visitorInfo['idvisitor'],
@@ -188,7 +169,7 @@ class Visit implements VisitInterface
 
                 // There is an edge case when:
                 // - two manual goal conversions happen in the same second
-                // - which result in handleKnownVisit throwing the exception
+                // - which result in handleExistingVisit throwing the exception
                 //   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
                 // - the exception is caught here and will result in a new visit incorrectly
                 // In this case, we cancel the current conversion to be recorded:
@@ -211,7 +192,7 @@ class Visit implements VisitInterface
         if (!$this->isVisitorKnown()
             || !$isLastActionInTheSameVisit
         ) {
-            $this->handleNewVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted);
+            $this->handleNewVisit($action, $visitIsConverted);
             if (!is_null($action)) {
                 $action->record($this->visitorInfo['idvisit'], $this->visitorInfo['idvisitor'], 0, 0, 0);
             }
@@ -239,78 +220,15 @@ class Visit implements VisitInterface
      * 1) Insert the new action
      * 2) Update the visit information
      *
-     * This method triggers two events:
-     *
-     * Tracker.knownVisitorUpdate is triggered before the visit information is updated
-     * Event data is an array with the values to be updated (could be changed by plugins)
-     *
-     * Tracker.knownVisitorInformation is triggered after saving the new visit data
-     * Even data is an array with updated information about the visit
-     * @param $idActionUrl
-     * @param $idActionName
-     * @param $actionType
+     * @param Action $action
      * @param $visitIsConverted
      * @throws VisitorNotFoundInDb
      */
-    protected function handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
+    protected function handleExistingVisit($action, $visitIsConverted)
     {
-        // gather information that needs to be updated
-        $valuesToUpdate = array();
-        $incrementActions = false;
-        $sqlActionUpdate = '';
-
-        if (!empty($idActionName)) {
-            $valuesToUpdate['visit_exit_idaction_name'] = (int)$idActionName;
-        }
-        if ($idActionUrl !== false) {
-            $valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
-            $incrementActions = true;
-        }
-        if ($actionType == Action::TYPE_SITE_SEARCH) {
-            $sqlActionUpdate .= "visit_total_searches = visit_total_searches + 1, ";
-            $incrementActions = true;
-        }
-        if ($incrementActions) {
-            $sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
-        }
         Common::printDebug("Visit is known (IP = " . IP::N2P($this->getVisitorIp()) . ")");
 
-        $datetimeServer = Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp());
-        $valuesToUpdate['visit_last_action_time'] = $datetimeServer;
-
-        // Add 1 so it's always > 0
-        $visitTotalTime = 1 + $this->request->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
-        $valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime($visitTotalTime);
-
-        // Goal conversion
-        if ($visitIsConverted) {
-            $valuesToUpdate['visit_goal_converted'] = 1;
-            // If a pageview and goal conversion in the same second, with previously a goal conversion recorded
-            // the request would not "update" the row since all values are the same as previous
-            // therefore the request below throws exception, instead we make sure the UPDATE will affect the row
-            $valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime(
-                $valuesToUpdate['visit_total_time']
-                + $this->goalManager->idGoal
-                // +2 to offset idgoal=-1 and idgoal=0
-                + 2);
-        }
-
-        // Might update the idvisitor when it was forced or overwritten for this visit
-        if (strlen($this->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
-            $valuesToUpdate['idvisitor'] = $this->visitorInfo['idvisitor'];
-        }
-
-        // Ecommerce buyer status
-        $valuesToUpdate['visit_goal_buyer'] = $this->goalManager->getBuyerType($this->visitorInfo['visit_goal_buyer']);
-
-        // Custom Variables overwrite previous values on each page view
-        $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
-
-        /**
-         * This event is triggered before saving a known visitor. Use it to change any visitor information before
-         * the visitor is saved.
-         */
-        Piwik::postEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
+        $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($action, $visitIsConverted);
 
         $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentReferrerAction();
 
@@ -319,43 +237,13 @@ class Visit implements VisitInterface
             $this->visitorInfo[$name] = $value;
         }
 
-        // build sql query
-        $updateParts = $sqlBind = array();
-
-        foreach ($valuesToUpdate AS $name => $value) {
-            $updateParts[] = $name . " = ?";
-            $sqlBind[] = $value;
-        }
-        $sqlQuery = "UPDATE " . Common::prefixTable('log_visit') . "
-                    SET $sqlActionUpdate " . implode($updateParts, ', ') . "
-                    WHERE idsite = ?
-                        AND idvisit = ?";
-        array_push($sqlBind, $this->request->getIdSite(), (int)$this->visitorInfo['idvisit']);
-
-        $result = Tracker::getDatabase()->query($sqlQuery, $sqlBind);
-
-        $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
-
-        // Debug output
-        if (isset($valuesToUpdate['idvisitor'])) {
-            $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
-        }
-        Common::printDebug('Updating existing visit: ' . var_export($valuesToUpdate, true));
-
-        if (Tracker::getDatabase()->rowCount($result) == 0) {
-            Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
-            Common::printDebug("$sqlQuery --- ");
-            Common::printDebug($sqlBind);
-            throw new VisitorNotFoundInDb(
-                "The visitor with idvisitor=" . bin2hex($this->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitorInfo['idvisit']
-                . " wasn't found in the DB, we fallback to a new visitor");
-        }
-
         /**
-         * After a known visitor is saved and updated by Piwik, this event is called. Useful for plugins that want to
-         * register information about a returning visitor, or filter the existing information.
+         * This event is triggered before updating an existing visit's row. Use it to change any visitor information before
+         * the visitor is saved, or register information about an existing visitor.
          */
-        Piwik::postEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
+        Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitorInfo));
+
+        $this->updateExistingVisit($valuesToUpdate);
     }
 
     /**
@@ -378,115 +266,46 @@ class Visit implements VisitInterface
      * 1) Insert the new action
      *
      * 2) Insert the visit information
-     * @param $idActionUrl
-     * @param $idActionName
-     * @param $actionType
-     * @param $visitIsConverted
+     *
+     * @param Action $action
+     * @param bool $visitIsConverted
      */
-    protected function handleNewVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
+    protected function handleNewVisit($action, $visitIsConverted)
     {
         Common::printDebug("New Visit (IP = " . IP::N2P($this->getVisitorIp()) . ")");
 
-        $daysSinceFirstVisit = $this->request->getDaysSinceFirstVisit();
-        $visitCount = $this->request->getVisitCount();
-        $daysSinceLastVisit = $this->request->getDaysSinceLastVisit();
-
-        $daysSinceLastOrder = $this->request->getDaysSinceLastOrder();
-        $isReturningCustomer = ($daysSinceLastOrder !== false);
-
-        if ($daysSinceLastOrder === false) {
-            $daysSinceLastOrder = 0;
-        }
-
-        // User settings
-        $userInfo = $this->getUserSettingsInformation();
-
-        // Referrer data
-        $referrer = new Referrer();
-        $referrerUrl = $this->request->getParam('urlref');
-        $currentUrl = $this->request->getParam('url');
-        $referrerInfo = $referrer->getReferrerInformation($referrerUrl, $currentUrl, $this->request->getIdSite());
-
-        $visitorReturning = $isReturningCustomer
-            ? 2 /* Returning customer */
-            : ($visitCount > 1 || $this->isVisitorKnown() || $daysSinceLastVisit > 0
-                ? 1 /* Returning */
-                : 0 /* New */);
-        $defaultTimeOnePageVisit = Config::getInstance()->Tracker['default_time_one_page_visit'];
-
-        /**
-         * Save the visitor
-         */
-        $this->visitorInfo = array(
-            'idsite'                    => $this->request->getIdSite(),
-            'visitor_localtime'         => $this->request->getLocalTime(),
-            'idvisitor'                 => $this->getVisitorIdcookie(),
-            'visitor_returning'         => $visitorReturning,
-            'visitor_count_visits'      => $visitCount,
-            'visitor_days_since_last'   => $daysSinceLastVisit,
-            'visitor_days_since_order'  => $daysSinceLastOrder,
-            'visitor_days_since_first'  => $daysSinceFirstVisit,
-            'visit_first_action_time'   => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
-            'visit_last_action_time'    => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
-            'visit_entry_idaction_url'  => (int)$idActionUrl,
-            'visit_entry_idaction_name' => (int)$idActionName,
-            'visit_exit_idaction_url'   => (int)$idActionUrl,
-            'visit_exit_idaction_name'  => (int)$idActionName,
-            'visit_total_actions'       => in_array($actionType,
-                    array(Action::TYPE_ACTION_URL,
-                          Action::TYPE_DOWNLOAD,
-                          Action::TYPE_OUTLINK,
-                          Action::TYPE_SITE_SEARCH))
-                    ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
-            'visit_total_searches'      => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
-            'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
-            'visit_goal_converted'      => $visitIsConverted ? 1 : 0,
-            'visit_goal_buyer'          => $this->goalManager->getBuyerType(),
-            'referer_type'              => $referrerInfo['referer_type'],
-            'referer_name'              => $referrerInfo['referer_name'],
-            'referer_url'               => $referrerInfo['referer_url'],
-            'referer_keyword'           => $referrerInfo['referer_keyword'],
-            'config_id'                 => $userInfo['config_id'],
-            'config_os'                 => $userInfo['config_os'],
-            'config_browser_name'       => $userInfo['config_browser_name'],
-            'config_browser_version'    => $userInfo['config_browser_version'],
-            'config_resolution'         => $userInfo['config_resolution'],
-            'config_pdf'                => $userInfo['config_pdf'],
-            'config_flash'              => $userInfo['config_flash'],
-            'config_java'               => $userInfo['config_java'],
-            'config_director'           => $userInfo['config_director'],
-            'config_quicktime'          => $userInfo['config_quicktime'],
-            'config_realplayer'         => $userInfo['config_realplayer'],
-            'config_windowsmedia'       => $userInfo['config_windowsmedia'],
-            'config_gears'              => $userInfo['config_gears'],
-            'config_silverlight'        => $userInfo['config_silverlight'],
-            'config_cookie'             => $userInfo['config_cookie'],
-            'location_ip'               => $this->getVisitorIp(),
-            'location_browser_lang'     => $userInfo['location_browser_lang'],
-        );
+        $this->visitorInfo = $this->getNewVisitorInformation($action);
 
         // Add Custom variable key,value to the visitor array
         $this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
 
-        $extraInfo = array(
-            'UserAgent' => $this->request->getUserAgent(),
-        );
+        $this->visitorInfo['visit_goal_converted'] = $visitIsConverted ? 1 : 0;
+
+        $this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
+        $this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);
+        $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
         /**
-         * Before a new visitor is saved by Piwik, this event is called. Useful for plugins that want to register
-         * new information about a visitor, or filter the existing information. `$extraInfo` contains the UserAgent.
-         * You can for instance change the user's location country depending on the User Agent.
+         * This event can be used to determine and set new visit information before the visit is
+         * logged. The UserCountry plugin, for example, uses this event to inject location information
+         * into the visit log table.
+         *
+         * @param array $visitInfo Information regarding the visit. This is information that
+         * persisted to the database.
+         * @param \Piwik\Tracker\Request $request Request object, contains many useful methods
+         *               such as getUserAgent() or getIp() to get the original IP.
          */
-        Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
+        Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $this->request));
 
         $this->request->overrideLocation($this->visitorInfo);
+        $this->printVisitorInformation();
 
-        $debugVisitInfo = $this->visitorInfo;
-        $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
-        $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
-        Common::printDebug($debugVisitInfo);
+        $idVisit = $this->insertNewVisit( $this->visitorInfo );
 
-        $this->saveVisitorInformation();
+        $this->visitorInfo['idvisit'] = $idVisit;
+        $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
+        $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
+
     }
 
     static private function cleanupVisitTotalTime($t)
@@ -500,31 +319,6 @@ class Visit implements VisitInterface
             $t = $smallintMysqlLimit;
         }
         return $t;
-    }
-
-    /**
-     * Save new visitor information to log_visit table.
-     * Provides pre- and post- event hooks (Tracker.visitorInformation) for plugins
-     */
-    protected function saveVisitorInformation()
-    {
-        $this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
-        $this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
-        $this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);
-        $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
-
-        $fields = implode(", ", array_keys($this->visitorInfo));
-        $values = Common::getSqlStringFieldsArray($this->visitorInfo);
-
-        $sql = "INSERT INTO " . Common::prefixTable('log_visit') . " ($fields) VALUES ($values)";
-        $bind = array_values($this->visitorInfo);
-        Tracker::getDatabase()->query($sql, $bind);
-
-        $idVisit = Tracker::getDatabase()->lastInsertId();
-        $this->visitorInfo['idvisit'] = $idVisit;
-
-        $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
-        $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
     }
 
     /**
@@ -600,25 +394,14 @@ class Visit implements VisitInterface
             custom_var_k5, custom_var_v5';
         }
 
-        $select = "SELECT  	idvisitor,
+        $persistedVisitAttributes = $this->getVisitFieldsPersist();
+
+        $selectFields = implode(", ", $persistedVisitAttributes);
+
+        $select = "SELECT
                         visit_last_action_time,
                         visit_first_action_time,
-                        idvisit,
-                        visit_exit_idaction_url,
-                        visit_exit_idaction_name,
-                        visitor_returning,
-                        visitor_days_since_first,
-                        visitor_days_since_order,
-                        location_country,
-                        location_region,
-                        location_city,
-                        location_latitude,
-                        location_longitude,
-                        referer_name,
-                        referer_keyword,
-                        referer_type,
-                        visitor_count_visits,
-                        visit_goal_buyer
+                        $selectFields
                         $selectCustomVariables
     ";
         $from = "FROM " . Common::prefixTable('log_visit');
@@ -631,7 +414,7 @@ class Visit implements VisitInterface
         // 1) there is no visitor ID so we try to match only on config_id (heuristics)
         // 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
         //        importing server access logs with import_logs.py, etc.
-        // 		In this case we use config_id heuristics to try find the visitor in the past. There is a risk to assign
+        // 		In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
         // 		this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
@@ -714,26 +497,9 @@ class Visit implements VisitInterface
             $this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
             $this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 
-            // We always keep the first idvisitor seen for this visit (so that all page views for this visit have the same idvisitor)
-            $this->visitorInfo['idvisitor'] = $visitRow['idvisitor'];
-            $this->visitorInfo['idvisit'] = $visitRow['idvisit'];
-            $this->visitorInfo['visit_exit_idaction_url'] = $visitRow['visit_exit_idaction_url'];
-            $this->visitorInfo['visit_exit_idaction_name'] = $visitRow['visit_exit_idaction_name'];
-            $this->visitorInfo['visitor_returning'] = $visitRow['visitor_returning'];
-            $this->visitorInfo['visitor_days_since_first'] = $visitRow['visitor_days_since_first'];
-            $this->visitorInfo['visitor_days_since_order'] = $visitRow['visitor_days_since_order'];
-            $this->visitorInfo['visitor_count_visits'] = $visitRow['visitor_count_visits'];
-            $this->visitorInfo['visit_goal_buyer'] = $visitRow['visit_goal_buyer'];
-            $this->visitorInfo['location_country'] = $visitRow['location_country'];
-            $this->visitorInfo['location_region'] = $visitRow['location_region'];
-            $this->visitorInfo['location_city'] = $visitRow['location_city'];
-            $this->visitorInfo['location_latitude'] = $visitRow['location_latitude'];
-            $this->visitorInfo['location_longitude'] = $visitRow['location_longitude'];
-
-            // Referrer information will be potentially used for Goal Conversion attribution
-            $this->visitorInfo['referer_name'] = $visitRow['referer_name'];
-            $this->visitorInfo['referer_keyword'] = $visitRow['referer_keyword'];
-            $this->visitorInfo['referer_type'] = $visitRow['referer_type'];
+            foreach($persistedVisitAttributes as $field) {
+                $this->visitorInfo[$field] = $visitRow[$field];
+            }
 
             // Custom Variables copied from Visit in potential later conversion
             if (!empty($selectCustomVariables)) {
@@ -758,6 +524,7 @@ class Visit implements VisitInterface
                     last action = " . date("r", $this->visitorInfo['visit_last_action_time']) . ",
                     first action = " . date("r", $this->visitorInfo['visit_first_action_time']) . ",
                     visit_goal_buyer' = " . $this->visitorInfo['visit_goal_buyer'] . ")");
+            //Common::printDebug($this->visitorInfo);
         } else {
             Common::printDebug("The visitor was not matched with an existing visitor...");
         }
@@ -770,10 +537,7 @@ class Visit implements VisitInterface
      *
      * The returned value is the window range (Min, max) that the matched visitor should fall within
      *
-     * Note: we must restrict in the future in case we import old data after having imported new data.
-     *
      * @return array( datetimeMin, datetimeMax )
-     *
      */
     protected function getWindowLookupThisVisit()
     {
@@ -869,7 +633,6 @@ class Visit implements VisitInterface
             'config_cookie'          => $plugin_Cookie,
             'location_browser_lang'  => $browserLang,
         );
-
         return $this->userSettingsInformation;
     }
 
@@ -894,38 +657,6 @@ class Visit implements VisitInterface
     }
 
     /**
-     * Returns an object able to handle the current action
-     * Plugins can return an override Action that for example, does not record the action in the DB
-     *
-     * @throws Exception
-     * @return Action child or fake but with same public interface
-     */
-    protected function newAction()
-    {
-        $action = new Action($this->request);
-        return $action;
-    }
-
-    /**
-     * Detect whether action is an outlink given host aliases
-     *
-     * @param ActionInterface $action
-     * @return bool true if the outlink the visitor clicked on points to one of the known hosts for this website
-     */
-    protected function detectActionIsOutlinkOnAliasHost(ActionInterface $action)
-    {
-        if ($action->getActionType() != ActionInterface::TYPE_OUTLINK) {
-            return false;
-        }
-        $decodedActionUrl = $action->getActionUrl();
-        $actionUrlParsed = @parse_url($decodedActionUrl);
-        if (!isset($actionUrlParsed['host'])) {
-            return false;
-        }
-        return Tracker\Visit::isHostKnownAliasHost($actionUrlParsed['host'], $this->request->getIdSite());
-    }
-
-    /**
      * Returns a 64-bit hash of all the configuration settings
      * @param $os
      * @param $browserName
@@ -947,7 +678,7 @@ class Visit implements VisitInterface
     protected function getConfigHash($os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
     {
         $hash = md5($os . $browserName . $browserVersion . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true);
-        return Common::substr($hash, 0, Tracker::LENGTH_BINARY_ID);
+        return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
 
     /**
@@ -980,4 +711,270 @@ class Visit implements VisitInterface
         }
         return false;
     }
+
+    /**
+     * @return mixed
+     */
+    protected function insertNewVisit($visit)
+    {
+        $fields = implode(", ", array_keys($visit));
+        $values = Common::getSqlStringFieldsArray($visit);
+
+        $sql = "INSERT INTO " . Common::prefixTable('log_visit') . " ($fields) VALUES ($values)";
+        $bind = array_values($visit);
+        Tracker::getDatabase()->query($sql, $bind);
+
+        $idVisit = Tracker::getDatabase()->lastInsertId();
+        return $idVisit;
+    }
+
+    /**
+     * @param $valuesToUpdate
+     * @throws VisitorNotFoundInDb
+     */
+    protected function updateExistingVisit($valuesToUpdate)
+    {
+        $sqlQuery = "UPDATE " . Common::prefixTable('log_visit') . "
+                    SET %s
+                    WHERE idsite = ?
+                        AND idvisit = ?";
+        // build sql query
+        $updateParts = $sqlBind = array();
+        foreach ($valuesToUpdate AS $name => $value) {
+            // Case where bind parameters don't work
+            if(strpos($value, $name) !== false) {
+                //$name = 'visit_total_events'
+                //$value = 'visit_total_events + 1';
+                $updateParts[] = " $name = $value ";
+            } else {
+                $updateParts[] = $name . " = ?";
+                $sqlBind[] = $value;
+            }
+        }
+        $sqlQuery = sprintf($sqlQuery, implode($updateParts, ', ') );
+        array_push($sqlBind, $this->request->getIdSite(), (int)$this->visitorInfo['idvisit']);
+
+        $result = Tracker::getDatabase()->query($sqlQuery, $sqlBind);
+
+        $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
+
+        // Debug output
+        if (isset($valuesToUpdate['idvisitor'])) {
+            $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
+        }
+        Common::printDebug('Updating existing visit: ' . var_export($valuesToUpdate, true));
+
+        if (Tracker::getDatabase()->rowCount($result) == 0) {
+            Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
+            Common::printDebug("$sqlQuery --- ");
+            Common::printDebug($sqlBind);
+            throw new VisitorNotFoundInDb(
+                "The visitor with idvisitor=" . bin2hex($this->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitorInfo['idvisit']
+                . " wasn't found in the DB, we fallback to a new visitor");
+        }
+    }
+
+    protected function printVisitorInformation()
+    {
+        $debugVisitInfo = $this->visitorInfo;
+        $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
+        $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
+        Common::printDebug($debugVisitInfo);
+    }
+
+    protected function getNewVisitorInformation($action)
+    {
+        $actionType = $idActionName = $idActionUrl = false;
+        if($action) {
+            $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
+            $idActionName = $action->getIdActionNameForEntryAndExitIds();
+            $actionType = $action->getActionType();
+        }
+
+        $daysSinceFirstVisit = $this->request->getDaysSinceFirstVisit();
+        $visitCount = $this->request->getVisitCount();
+        $daysSinceLastVisit = $this->request->getDaysSinceLastVisit();
+
+        $daysSinceLastOrder = $this->request->getDaysSinceLastOrder();
+        $isReturningCustomer = ($daysSinceLastOrder !== false);
+
+        if ($daysSinceLastOrder === false) {
+            $daysSinceLastOrder = 0;
+        }
+
+        // User settings
+        $userInfo = $this->getUserSettingsInformation();
+
+        // Referrer data
+        $referrer = new Referrer();
+        $referrerUrl = $this->request->getParam('urlref');
+        $currentUrl = $this->request->getParam('url');
+        $referrerInfo = $referrer->getReferrerInformation($referrerUrl, $currentUrl, $this->request->getIdSite());
+
+        $visitorReturning = $isReturningCustomer
+            ? 2 /* Returning customer */
+            : ($visitCount > 1 || $this->isVisitorKnown() || $daysSinceLastVisit > 0
+                ? 1 /* Returning */
+                : 0 /* New */);
+        $defaultTimeOnePageVisit = Config::getInstance()->Tracker['default_time_one_page_visit'];
+
+        return array(
+            'idsite'                    => $this->request->getIdSite(),
+            'visitor_localtime'         => $this->request->getLocalTime(),
+            'idvisitor'                 => $this->getVisitorIdcookie(),
+            'visitor_returning'         => $visitorReturning,
+            'visitor_count_visits'      => $visitCount,
+            'visitor_days_since_last'   => $daysSinceLastVisit,
+            'visitor_days_since_order'  => $daysSinceLastOrder,
+            'visitor_days_since_first'  => $daysSinceFirstVisit,
+            'visit_first_action_time'   => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
+            'visit_last_action_time'    => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
+            'visit_entry_idaction_url'  => (int)$idActionUrl,
+            'visit_entry_idaction_name' => (int)$idActionName,
+            'visit_exit_idaction_url'   => (int)$idActionUrl,
+            'visit_exit_idaction_name'  => (int)$idActionName,
+            'visit_total_actions'       => in_array($actionType,
+                    array(Action::TYPE_PAGE_URL,
+                          Action::TYPE_DOWNLOAD,
+                          Action::TYPE_OUTLINK,
+                          Action::TYPE_SITE_SEARCH,
+                          Action::TYPE_EVENT))
+                    ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
+            'visit_total_searches'      => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
+            'visit_total_events'        => $actionType == Action::TYPE_EVENT ? 1 : 0,
+            'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
+            'visit_goal_buyer'          => $this->goalManager->getBuyerType(),
+            'referer_type'              => $referrerInfo['referer_type'],
+            'referer_name'              => $referrerInfo['referer_name'],
+            'referer_url'               => $referrerInfo['referer_url'],
+            'referer_keyword'           => $referrerInfo['referer_keyword'],
+            'config_id'                 => $userInfo['config_id'],
+            'config_os'                 => $userInfo['config_os'],
+            'config_browser_name'       => $userInfo['config_browser_name'],
+            'config_browser_version'    => $userInfo['config_browser_version'],
+            'config_resolution'         => $userInfo['config_resolution'],
+            'config_pdf'                => $userInfo['config_pdf'],
+            'config_flash'              => $userInfo['config_flash'],
+            'config_java'               => $userInfo['config_java'],
+            'config_director'           => $userInfo['config_director'],
+            'config_quicktime'          => $userInfo['config_quicktime'],
+            'config_realplayer'         => $userInfo['config_realplayer'],
+            'config_windowsmedia'       => $userInfo['config_windowsmedia'],
+            'config_gears'              => $userInfo['config_gears'],
+            'config_silverlight'        => $userInfo['config_silverlight'],
+            'config_cookie'             => $userInfo['config_cookie'],
+            'location_ip'               => $this->getVisitorIp(),
+            'location_browser_lang'     => $userInfo['location_browser_lang'],
+        );
+    }
+
+    /**
+     * Gather fields=>values that needs to be updated for the existing visit in log_visit
+     *
+     * @param $action
+     * @param $visitIsConverted
+     * @return array
+     */
+    protected function getExistingVisitFieldsToUpdate($action, $visitIsConverted)
+    {
+        $valuesToUpdate = array();
+
+        if ($action) {
+            $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
+            $idActionName = $action->getIdActionNameForEntryAndExitIds();
+            $actionType = $action->getActionType();
+
+            if ($idActionName !== false) {
+                $valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
+            }
+
+            $incrementActions = false;
+            if ($idActionUrl !== false) {
+                $valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
+                $incrementActions = true;
+            }
+            if ($actionType == Action::TYPE_SITE_SEARCH) {
+                $valuesToUpdate['visit_total_searches'] = 'visit_total_searches + 1';
+                $incrementActions = true;
+            } else if ($actionType == Action::TYPE_EVENT) {
+                $valuesToUpdate['visit_total_events'] = 'visit_total_events + 1';
+                $incrementActions = true;
+            }
+
+            if ($incrementActions) {
+                $valuesToUpdate['visit_total_actions'] = 'visit_total_actions + 1';
+            }
+        }
+
+        $datetimeServer = Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp());
+        $valuesToUpdate['visit_last_action_time'] = $datetimeServer;
+
+        // Add 1 so it's always > 0
+        $visitTotalTime = 1 + $this->request->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
+        $valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime($visitTotalTime);
+
+        // Goal conversion
+        if ($visitIsConverted) {
+            $valuesToUpdate['visit_goal_converted'] = 1;
+            // If a pageview and goal conversion in the same second, with previously a goal conversion recorded
+            // the request would not "update" the row since all values are the same as previous
+            // therefore the request below throws exception, instead we make sure the UPDATE will affect the row
+            $valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime(
+                $valuesToUpdate['visit_total_time']
+                + $this->goalManager->idGoal
+                // +2 to offset idgoal=-1 and idgoal=0
+                + 2);
+        }
+
+        // Might update the idvisitor when it was forced or overwritten for this visit
+        if (strlen($this->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
+            $valuesToUpdate['idvisitor'] = $this->visitorInfo['idvisitor'];
+        }
+
+        // Ecommerce buyer status
+        $valuesToUpdate['visit_goal_buyer'] = $this->goalManager->getBuyerType($this->visitorInfo['visit_goal_buyer']);
+
+        // Custom Variables overwrite previous values on each page view
+        $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
+        return $valuesToUpdate;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getVisitFieldsPersist()
+    {
+        $fields = array(
+            'idvisitor',
+            'idvisit',
+            'visit_exit_idaction_url',
+            'visit_exit_idaction_name',
+            'visitor_returning',
+            'visitor_days_since_first',
+            'visitor_days_since_order',
+            'visitor_count_visits',
+            'visit_goal_buyer',
+
+            'location_country',
+            'location_region',
+            'location_city',
+            'location_latitude',
+            'location_longitude',
+
+            'referer_name',
+            'referer_keyword',
+            'referer_type',
+        );
+
+        /**
+         * Use this event to load additional fields from the log_visit table into the visitor array for later use.
+         * When you add fields to this $fields array, they will be later available in Tracker.newConversionInformation
+         * or Tracker.newVisitorInformation.
+         */
+        Piwik::postEvent('Tracker.getVisitFieldsToPersist', array( &$fields ));
+
+        return $fields;
+
+    }
+
 }

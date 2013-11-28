@@ -1,13 +1,14 @@
 {% extends 'admin.twig' %}
+{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% block content %}
 
     <div class="pluginslistActionBar">
 
-        <h2>Extend Piwik by installing a new plugin</h2>
+        <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate }}</h2>
 
         <div class="infoBox">
-            Plugins that are not authored by Piwik team must be used with care: we did not review them.
+            {{ 'CorePluginsAdmin_BeCarefulUsingPlugins'|translate }}
         </div>
 
         {% include "@CorePluginsAdmin/browsePluginsActions.twig" %}
@@ -15,22 +16,25 @@
 
     {% if not isSuperUser %}
         <div class="pluginslistNonSuperUserHint">
-            You can browse the list of plugins that can be installed to customize or extend your Piwik platform. Please
-            contact your administrator if you need any of these installed.
+            {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplacePlugins'|translate }}
         </div>
     {% endif %}
 
     <div class="pluginslist">
 
         {% if plugins|length %}
+
             {% for plugin in plugins %}
 
                 <div class="plugin">
-                    <div class="content">
+                    <div class="content" data-pluginName="{{ plugin.name }}">
                         {% include "@CorePluginsAdmin/pluginOverview.twig" %}
                     </div>
 
-                    <div class="footer">
+                    <div class="footer" data-pluginName="{{ plugin.name }}">
+                        {% if plugin.featured %}
+                            {{ pluginsMacro.featuredIcon('right') }}
+                        {% endif %}
                         {% include "@CorePluginsAdmin/pluginMetadata.twig" %}
                     </div>
                 </div>
@@ -38,7 +42,7 @@
             {% endfor %}
 
         {% else %}
-            No plugins found
+            {{ 'CorePluginsAdmin_NoPluginsFound'|translate }}
         {% endif %}
     </div>
 {% endblock %}

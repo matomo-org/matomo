@@ -1,15 +1,6 @@
 {
-    "name": "ExamplePlugin",
-    "description": "Example Plugin: This plugin shows how to create a simple plugin that creates three new widgets that can be added in the Dashboard.",
-    "version": "1.0",
-    "keywords": ["example", "widget"],
-    "homepage": "http://piwik.org",
-    "license": "GPL-3.0+",
-    "authors": [
-        {
-            "name": "Piwik",
-            "email": "hello@piwik.org",
-            "homepage": "http://piwik.org"
-        }
-    ]
+ "name": "ExamplePlugin",
+ "version": "0.1.0",
+ "description": "ExampleDescription",
+ "theme": false
 }

@@ -27,7 +27,7 @@ use Piwik\View;
  *
  * @package SitesManager
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
      * Main view showing listing of websites and settings
@@ -36,13 +36,16 @@ class Controller extends \Piwik\Controller\Admin
     {
         $view = new View('@SitesManager/index');
 
+        Site::clearCache();
         if (Piwik::isUserIsSuperUser()) {
-            $sites = API::getInstance()->getAllSites();
-            Site::setSites($sites);
-            $sites = array_values($sites);
+            $sitesRaw = API::getInstance()->getAllSites();
         } else {
-            $sites = API::getInstance()->getSitesWithAdminAccess();
-            Site::setSitesFromArray($sites);
+            $sitesRaw = API::getInstance()->getSitesWithAdminAccess();
+        }
+        // Gets sites after Site.setSite hook was called
+        $sites = array_values( Site::getSites() );
+        if(count($sites) != count($sitesRaw)) {
+            throw new Exception("One or more website are missing or invalid.");
         }
 
         foreach ($sites as &$site) {
@@ -73,7 +76,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $view->globalSearchKeywordParameters = API::getInstance()->getSearchKeywordParametersGlobal();
         $view->globalSearchCategoryParameters = API::getInstance()->getSearchCategoryParametersGlobal();
-        $view->isSearchCategoryTrackingEnabled = \Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        $view->isSearchCategoryTrackingEnabled = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
         $view->allowSiteSpecificUserAgentExclude =
             API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
 
@@ -84,7 +87,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->showAddSite = (boolean)Common::getRequestVar('showaddsite', false);
 
         $this->setBasicVariablesView($view);
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -120,7 +123,8 @@ class Controller extends \Piwik\Controller\Admin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 
     /**
@@ -138,7 +142,8 @@ class Controller extends \Piwik\Controller\Admin
         $site = new Site($idSite);
         $view->displaySiteName = $site->getName();
         $view->jsTag = $jsTag;
-        echo $view->render();
+
+        return $view->render();
     }
 
     /**
@@ -150,7 +155,7 @@ class Controller extends \Piwik\Controller\Admin
         $filename = 'PiwikTracker.php';
         header('Content-type: text/php');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
-        echo file_get_contents($path . $filename);
+        return file_get_contents($path . $filename);
     }
 
     /**
@@ -168,7 +173,7 @@ class Controller extends \Piwik\Controller\Admin
         }
         $view->piwikUrlRequest = $url;
         $view->calledExternally = true;
-        echo $view->render();
+        return $view->render();
     }
 
     function getSitesForAutocompleter()
@@ -185,16 +190,17 @@ class Controller extends \Piwik\Controller\Admin
                 $pattern = str_replace('/', '\\/', $pattern);
             }
             foreach ($sites as $s) {
-                $hl_name = $s['name'];
+                $siteName = Site::getNameFor($s['idsite']);
+                $label = $siteName;
                 if (strlen($pattern) > 0) {
-                    @preg_match_all("/$pattern+/i", $hl_name, $matches);
+                    @preg_match_all("/$pattern+/i", $label, $matches);
                     if (is_array($matches[0]) && count($matches[0]) >= 1) {
                         foreach ($matches[0] as $match) {
-                            $hl_name = str_replace($match, '<span class="autocompleteMatched">' . $match . '</span>', $s['name']);
+                            $label = str_replace($match, '<span class="autocompleteMatched">' . $match . '</span>', $siteName);
                         }
                     }
                 }
-                $results[] = array('label' => $hl_name, 'id' => $s['idsite'], 'name' => $s['name']);
+                $results[] = array('label' => $label, 'id' => $s['idsite'], 'name' => $siteName);
             }
         }
 

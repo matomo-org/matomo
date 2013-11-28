@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\CacheFile;
 use Piwik\Http;
-use Piwik\PluginsManager;
 use Piwik\Version;
 
 /**
@@ -22,7 +21,7 @@ use Piwik\Version;
 class MarketplaceApiClient
 {
     const CACHE_TIMEOUT_IN_SECONDS = 1200;
-    const HTTP_REQUEST_TIMEOUT = 30;
+    const HTTP_REQUEST_TIMEOUT = 3;
 
     private $domain = 'http://plugins.piwik.org';
 
@@ -72,7 +71,7 @@ class MarketplaceApiClient
 
         foreach ($plugins as $plugin) {
             $pluginName = $plugin->getPluginName();
-            if (!PluginsManager::getInstance()->isPluginBundledWithCore($pluginName)) {
+            if (!\Piwik\Plugin\Manager::getInstance()->isPluginBundledWithCore($pluginName)) {
                 $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion());
             }
         }
@@ -101,6 +100,7 @@ class MarketplaceApiClient
 
         foreach ($hasUpdates as $pluginHavingUpdate) {
             $plugin = $this->getPluginInfo($pluginHavingUpdate['name']);
+            $plugin['repositoryChangelogUrl'] = $pluginHavingUpdate['repositoryChangelogUrl'];
 
             if (!empty($plugin['isTheme']) == $themesOnly) {
                 $pluginDetails[] = $plugin;

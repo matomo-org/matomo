@@ -5,8 +5,8 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\Piwik;
 
 /**
  * Tests API methods after ecommerce orders are tracked.
@@ -17,7 +17,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        EcommerceOrderWithItems
+     * *
      */
     public function testImagesIncludedInTests()
     {
@@ -27,7 +27,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        EcommerceOrderWithItems
+     * *
      */
     public function testApi($api, $params)
     {
@@ -171,7 +171,9 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                                 array($goalWeekApi, array('idSite'     => $idSite2, 'date' => $dateTime, 'periods' => array('week'),
                                                           'testSuffix' => '_Website2')),
 
-                           ), self::getApiForTestingScheduledReports($dateTime, 'week'));
+                           ),
+                            self::getApiForTestingScheduledReports($dateTime, 'week')
+        );
     }
 
     public static function getOutputPrefix()

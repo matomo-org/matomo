@@ -17,8 +17,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between 2 years
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekBetween2years()
     {
@@ -38,8 +36,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between 2 months Week Mai 29 To Mai 31 2006
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekBetween2month()
     {
@@ -59,8 +55,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between feb and march for leap year
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekFebLeapyear()
     {
@@ -84,8 +78,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between feb and march for no leap year
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekFebnonLeapyear()
     {
@@ -109,8 +101,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week normal middle of the month
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekMiddleofmonth()
     {
@@ -130,12 +120,10 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testGetLocalizedShortString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $week = new Week(Date::factory('2024-10-09'));
         $shouldBe = '7 Oct - 13 Oct 24';
         $this->assertEquals($shouldBe, $week->getLocalizedShortString());
@@ -143,12 +131,10 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testGetLocalizedLongString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $week = new Week(Date::factory('2024-10-09'));
         $shouldBe = 'Week 7 October - 13 October 2024';
         $this->assertEquals($shouldBe, $week->getLocalizedLongString());
@@ -156,12 +142,10 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testGetPrettyString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $week = new Week(Date::factory('2024-10-09'));
         $shouldBe = 'From 2024-10-07 to 2024-10-13';
         $this->assertEquals($shouldBe, $week->getPrettyString());

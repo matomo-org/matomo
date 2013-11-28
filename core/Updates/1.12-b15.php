@@ -21,7 +21,7 @@ class Updates_1_12_b15 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('SegmentEditor');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('SegmentEditor');
         } catch (\Exception $e) {
             // pass
         }

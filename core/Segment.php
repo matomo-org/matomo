@@ -14,8 +14,47 @@ use Exception;
 use Piwik\Plugins\API\API;
 
 /**
- *
+ * Limits the set of visits Piwik uses when aggregating analytics data.
+ * 
+ * A segment is a condition used to filter visits. They can, for example,
+ * select visits that have a specific browser or come from a specific
+ * country, or both.
+ * 
+ * Individual segment parameters (such as `browserCode` and `countryCode`)
+ * are defined by individual plugins. Read about the [API.getSegmentDimensionMetadataactionToLoadSubtab
+*](#)
+ * event to learn more.
+ * 
+ * Plugins that aggregate data stored in Piwik can support segments by
+ * using this class when generating aggregation SQL queries.
+ * 
+ * ### Examples
+ * 
+ * **Basic usage**
+ * 
+ *     $idSites = array(1,2,3);
+ *     $segmentStr = "browserCode==ff;countryCode==CA";
+ *     $segment = new Segment($segmentStr, $idSites);
+ * 
+ *     $query = $segment->getSelectQuery(
+ *         $select = "table.col1, table2.col2",
+ *         $from = array("table", "table2"),
+ *         $where = "table.col3 = ?",
+ *         $bind = array(5),
+ *         $orderBy = "table.col1 DESC",
+ *         $groupBy = "table2.col2"
+ *     );
+ *     
+ *     Db::fetchAll($query['sql'], $query['bind']);
+ * 
+ * **Creating a 'null' segment**
+ * 
+ *     $idSites = array(1,2,3);
+ *     $segment = new Segment('', $idSites);
+ *     // $segment->getSelectQuery will return a query that selects all visits
+ * 
  * @package Piwik
+ * @api
  */
 class Segment
 {
@@ -25,15 +64,22 @@ class Segment
     protected $segment = null;
 
     /**
-     * Truncate the Segments to 4k
+     * Truncate the Segments to 8k
      */
     const SEGMENT_TRUNCATE_LIMIT = 8192;
 
-    public function __construct($string, $idSites)
+    /**
+     * Constructor.
+     * 
+     * @param string $segmentCondition The segment condition, eg, `'browserCode=ff;countryCode=CA'`.
+     * @param array $idSites The list of sites the segment will be used with. Some segments are
+     *                       dependent on the site, such as goal segments.
+     */
+    public function __construct($segmentCondition, $idSites)
     {
-        $string = trim($string);
+        $segmentCondition = trim($segmentCondition);
         if (!SettingsPiwik::isSegmentationEnabled()
-            && !empty($string)
+            && !empty($segmentCondition)
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");
         }
@@ -41,9 +87,9 @@ class Segment
         // First try with url decoded value. If that fails, try with raw value.
         // If that also fails, it will throw the exception
         try {
-            $this->initializeSegment(urldecode($string), $idSites);
+            $this->initializeSegment(urldecode($segmentCondition), $idSites);
         } catch (Exception $e) {
-            $this->initializeSegment($string, $idSites);
+            $this->initializeSegment($segmentCondition, $idSites);
         }
     }
 
@@ -78,6 +124,9 @@ class Segment
         $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
     }
 
+    /**
+     * Returns true if the segment is empty, false if otherwise.
+     */
     public function isEmpty()
     {
         return empty($this->string);
@@ -110,21 +159,23 @@ class Segment
                 throw new Exception("You do not have enough permission to access the segment " . $name);
             }
 
-            // apply presentation filter
-            if (isset($segment['sqlFilter'])
-                && !empty($segment['sqlFilter'])
-                && $matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
-                && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY
-            ) {
-                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
+            if($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+                && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
 
-                // sqlFilter-callbacks might return arrays for more complex cases
-                // e.g. see Actions::getIdActionFromSegment()
-                if (is_array($value)
-                    && isset($value['SQL'])
-                ) {
-                    // Special case: returned value is a sub sql expression!
-                    $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
+                if(isset($segment['sqlFilterValue'])) {
+                    $value = call_user_func($segment['sqlFilterValue'], $value);
+                }
+
+                // apply presentation filter
+                if (isset($segment['sqlFilter'])) {
+                    $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
+
+                    // sqlFilter-callbacks might return arrays for more complex cases
+                    // e.g. see TableLogAction::getIdActionFromSegment()
+                    if (is_array($value) && isset($value['SQL'])) {
+                        // Special case: returned value is a sub sql expression!
+                        $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
+                    }
                 }
             }
             break;
@@ -137,11 +188,22 @@ class Segment
         return array($sqlName, $matchType, $value);
     }
 
+    /**
+     * Returns the segment condition.
+     * 
+     * @return string
+     */
     public function getString()
     {
         return $this->string;
     }
 
+    /**
+     * Returns a hash of the segment condition, or the empty string if the segment
+     * condition is empty.
+     * 
+     * @return string
+     */
     public function getHash()
     {
         if (empty($this->string)) {
@@ -153,15 +215,16 @@ class Segment
     }
 
     /**
-     * Extend SQL query with segment expressions
+     * Extend an SQL query that aggregates data over one of the 'log_' tables with segment expressions.
      *
-     * @param string $select select clause
-     * @param array $from array of table names (without prefix)
-     * @param bool|string $where (optional )where clause
-     * @param array|string $bind (optional) params to bind
-     * @param bool|string $orderBy (optional) order by clause
-     * @param bool|string $groupBy (optional) group by clause
-     * @return string entire select query
+     * @param string $select The select clause. Should NOT include the **SELECT** just the columns, eg,
+     *                       `'t1.col1 as col1, t2.col2 as col2'`.
+     * @param array $from Array of table names (without prefix), eg, `array('log_visit', 'log_conversion')`.
+     * @param false|string $where (optional) Where clause, eg, `'t1.col1 = ? AND t2.col2 = ?'`.
+     * @param array|string $bind (optional) Bind parameters, eg, `array($col1Value, $col2Value)`.
+     * @param false|string $orderBy (optional) Order by clause, eg, `"t1.col1 ASC"`.
+     * @param false|string $groupBy (optional) Group by clause, eg, `"t2.col2"`.
+     * @return string The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false)
     {

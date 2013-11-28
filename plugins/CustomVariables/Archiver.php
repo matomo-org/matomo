@@ -13,14 +13,14 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-
 use Piwik\DataArray;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
 use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
 
-class Archiver extends PluginsArchiver
+require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
+
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
@@ -40,7 +40,14 @@ class Archiver extends PluginsArchiver
         $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
     }
 
-    public function archiveDay()
+    public function aggregateMultipleReports()
+    {
+        $this->getProcessor()->aggregateDataTableRecords(
+            self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
+            $columnToSort = Metrics::INDEX_NB_VISITS);
+    }
+
+    public function aggregateDayReport()
     {
         $this->dataArray = new DataArray();
 
@@ -50,7 +57,7 @@ class Archiver extends PluginsArchiver
 
         $this->removeVisitsMetricsFromActionsAggregate();
         $this->dataArray->enrichMetricsWithConversions();
-        $table = $this->getProcessor()->getDataTableFromDataArray($this->dataArray);
+        $table = $this->dataArray->asDataTable();
         $blob = $table->getSerialized(
             $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
             $columnToSort = Metrics::INDEX_NB_VISITS
@@ -72,8 +79,8 @@ class Archiver extends PluginsArchiver
         // IF we query Custom Variables scope "page" either: Product SKU, Product Name,
         // then we also query the "Product page view" price which was possibly recorded.
         $additionalSelects = false;
-        // FIXMEA
-        if (in_array($slot, array(3, 4, 5))) {
+
+        if (in_array($slot, array(\PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_SKU, \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_NAME, \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY))) {
             $additionalSelects = array($this->getSelectAveragePrice());
         }
         $query = $this->getLogAggregator()->queryActionsByDimension($dimensions, $where, $additionalSelects);
@@ -85,8 +92,8 @@ class Archiver extends PluginsArchiver
 
     protected function getSelectAveragePrice()
     {
-        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
-        . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
+        $field = "custom_var_v" . \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_PRICE;
+        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action." . $field . ")") . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 
     protected function aggregateFromVisits($query, $keyField, $valueField)
@@ -201,10 +208,4 @@ class Archiver extends PluginsArchiver
         }
     }
 
-    public function archivePeriod()
-    {
-        $nameToCount = $this->getProcessor()->aggregateDataTableReports(
-            self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Metrics::INDEX_NB_VISITS);
-    }
 }

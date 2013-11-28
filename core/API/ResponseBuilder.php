@@ -11,15 +11,14 @@
 namespace Piwik\API;
 
 use Exception;
-
 use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
+use Piwik\API\DataTableManipulator\ReportTotalsCalculator;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
-use Piwik\Piwik;
 
 /**
  * @package Piwik
@@ -156,7 +155,7 @@ class ResponseBuilder
         // If we are in tests, show full backtrace
         if (defined('PIWIK_PATH_TEST_TO_ROOT')) {
             if (self::DISPLAY_BACKTRACE_DEBUG
-                || Piwik_ShouldPrintBackTraceWithMessage()
+                || \Piwik_ShouldPrintBackTraceWithMessage()
             ) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
@@ -301,6 +300,11 @@ class ResponseBuilder
             $datatable = $flattener->flatten($datatable);
         }
 
+        if (1 == Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+            $genericFilter = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request);
+            $datatable     = $genericFilter->calculate($datatable);
+        }
+
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $genericFilter = new DataTableGenericFilter($this->request);
@@ -352,6 +356,7 @@ class ResponseBuilder
             }
             return $array;
         }
+
         $multiDimensional = $this->handleMultiDimensionalArray($array);
         if ($multiDimensional !== false) {
             return $multiDimensional;
@@ -431,54 +436,10 @@ class ResponseBuilder
      */
     public static function convertMultiDimensionalArrayToJson($array)
     {
-        $isAssociative = Piwik::isAssociativeArray($array);
-
-        if ($isAssociative) {
-            $json = "{";
-        } else {
-            $json = "[";
-        }
-
-        foreach ($array as $key => $value) {
-            if ($isAssociative) {
-                $json .= "\"" . $key . "\":";
-            }
-
-            switch (true) {
-                // Case dimension is a PHP array
-                case (is_array($value)):
-
-                    $json .= Common::json_encode($value);
-                    break;
-
-                // Case dimension is a Set or a DataTable
-                case ($value instanceof DataTable\Map || $value instanceof DataTable):
-
-                    $XMLRenderer = new Json();
-                    $XMLRenderer->setTable($value);
-                    $renderedReport = $XMLRenderer->render();
-                    $json .= $renderedReport;
-                    break;
-
-                // Case scalar
-                default:
-
-                    $json .= Common::json_encode($value);
-                    break;
-            }
-
-            $json .= ",";
-        }
-
-        // Remove trailing ","
-        $json = substr($json, 0, strlen($json) - 1);
-
-        if ($isAssociative) {
-            $json .= "}";
-        } else {
-            $json .= "]";
-        }
-        return $json;
+        $jsonRenderer = new Json();
+        $jsonRenderer->setTable($array);
+        $renderedReport = $jsonRenderer->render();
+        return $renderedReport;
     }
 
     /**

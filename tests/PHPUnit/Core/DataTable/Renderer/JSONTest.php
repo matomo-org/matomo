@@ -5,11 +5,11 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Json;
-use Piwik\DataTable\Simple;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
+use Piwik\DataTable\Simple;
 
 class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 {
@@ -93,9 +93,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONTest1()
     {
@@ -111,9 +108,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONTest2()
     {
@@ -127,9 +121,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONTest3()
     {
@@ -142,9 +133,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONTest4()
     {
@@ -157,9 +145,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONTest5()
     {
@@ -172,9 +157,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONTest6()
     {
@@ -295,9 +277,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONArrayTest1()
     {
@@ -312,9 +291,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONMapTest2()
     {
@@ -330,9 +306,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONMapTest3()
     {
@@ -347,9 +320,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONMapIsMadeOfMapTest1()
     {
@@ -363,9 +333,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONMapIsMadeOfMapTest2()
     {
@@ -381,9 +348,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testJSONMapIsMadeOfMapTest3()
     {
@@ -398,9 +362,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray1()
     {
@@ -415,9 +376,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testRenderArray2()
     {
@@ -432,9 +390,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testRenderArray3()
     {
@@ -449,9 +404,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testRenderArray4()
     {
@@ -466,9 +418,6 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_JSON
      */
     public function testRenderArray5()
     {

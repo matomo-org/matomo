@@ -18,7 +18,7 @@ use Piwik\View;
 /**
  * @package SegmentEditor
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     public function getSelector()
@@ -31,7 +31,7 @@ class Controller extends \Piwik\Controller
         $segmentsByCategory = $customVariablesSegments = array();
         foreach ($segments as $segment) {
             if ($segment['category'] == Piwik::translate('General_Visit')
-                && $segment['type'] == 'metric'
+                && ($segment['type'] == 'metric' && $segment['segment'] != 'visitIp')
             ) {
                 $metricsLabel = Piwik::translate('General_Metrics');
                 $metricsLabel[0] = strtolower($metricsLabel[0]);
@@ -52,7 +52,7 @@ class Controller extends \Piwik\Controller
 
         $view->segmentTranslations = Common::json_encode($this->getTranslations());
         $out = $view->render();
-        echo $out;
+        return $out;
     }
 
     public function sortSegmentCategories($a, $b)

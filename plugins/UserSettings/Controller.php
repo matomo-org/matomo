@@ -11,13 +11,13 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  *
  * @package UserSettings
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
@@ -32,61 +32,61 @@ class Controller extends \Piwik\Controller
         $view->dataTableMobileVsDesktop = $this->getMobileVsDesktop(true);
         $view->dataTableBrowserLanguage = $this->getLanguage(true);
 
-        echo $view->render();
+        return $view->render();
     }
 
-    public function getResolution($fetch = false)
+    public function getResolution()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getConfiguration($fetch = false)
+    public function getConfiguration()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getOS($fetch = false)
+    public function getOS()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getOSFamily($fetch = false)
+    public function getOSFamily()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getMobileVsDesktop($fetch = false)
+    public function getMobileVsDesktop()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getBrowserVersion($fetch = false)
+    public function getBrowserVersion()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getBrowser($fetch = false)
+    public function getBrowser()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getBrowserType($fetch = false)
+    public function getBrowserType()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getWideScreen($fetch = false)
+    public function getWideScreen()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getPlugin($fetch = false)
+    public function getPlugin()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getLanguage($fetch = false)
+    public function getLanguage()
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 }

@@ -9,3 +9,6 @@
 .visitor-profile-important-visits>div>div>p:first-child>span {
     display:none;
 }
+tr .vers {
+    visibility:hidden;
+}

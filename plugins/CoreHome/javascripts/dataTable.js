@@ -17,17 +17,17 @@ var exports = require('piwik/UI'),
 /**
  * This class contains the client side logic for viewing and interacting with
  * Piwik datatables.
- * 
+ *
  * The id attribute for DataTables is set dynamically by the initNewDataTables
  * method, and this class instance is stored using the jQuery $.data function
  * with the 'uiControlObject' key.
- * 
+ *
  * To find a datatable element by report (ie, 'UserSettings.getBrowser'),
  * use piwik.DataTable.getDataTableByReport.
- * 
+ *
  * To get the dataTable JS instance (an instance of this class) for a
  * datatable HTML element, use $(element).data('uiControlObject').
- * 
+ *
  * @constructor
  */
 function DataTable(element) {
@@ -277,6 +277,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 		self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
+        self.handleColumnHighlighting(domElem);
     },
 
     handleLimit: function (domElem) {
@@ -399,23 +400,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     self.onClickSort(this);
                 }
             );
+        }
 
-            if (self.param.filter_sort_column != '') {
-                // are we in a subdatatable?
-                var currentIsSubDataTable = $(domElem).parent().hasClass('cellSubDataTable');
-                var imageSortSrc = getSortImageSrc();
-                var imageSortWidth = 16;
-                var imageSortHeight = 16;
+        if (self.param.filter_sort_column) {
+            // are we in a subdatatable?
+            var currentIsSubDataTable = $(domElem).parent().hasClass('cellSubDataTable');
+            var imageSortSrc = getSortImageSrc();
+            var imageSortWidth = 16;
+            var imageSortHeight = 16;
 
-                var sortOrder = self.param.filter_sort_order;
-                var ImageSortClass = sortOrder.charAt(0).toUpperCase() + sortOrder.substr(1);
+            var sortOrder = self.param.filter_sort_order || 'desc';
+            var ImageSortClass = sortOrder.charAt(0).toUpperCase() + sortOrder.substr(1);
 
-                // we change the style of the column currently used as sort column
-                // adding an image and the class columnSorted to the TD
-                $(".sortable#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
-                    .addClass('columnSorted')
-                    .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + '"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
-            }
+            // we change the style of the column currently used as sort column
+            // adding an image and the class columnSorted to the TD
+            $("th#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
+                .addClass('columnSorted')
+                .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + '"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
         }
     },
 
@@ -465,9 +466,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                             self.param.filter_column = 'label';
                             self.param.filter_pattern = keyword;
                         }
-						
+
 						delete self.param.totalRows;
-						
+
                         self.reloadAjaxDataTable(true, callbackSuccess);
                     }
                 );
@@ -504,7 +505,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var totalRows = Number(self.param.totalRows);
                 var offsetEndDisp = offsetEnd;
 
-                if (self.props.keep_summary_row == 1) --totalRows;
+                if (self.param.keep_summary_row == 1) --totalRows;
 
                 if (offsetEnd > totalRows) offsetEndDisp = totalRows;
 
@@ -522,7 +523,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var offsetEnd = Number(self.param.filter_offset)
                     + Number(self.param.filter_limit);
                 var totalRows = Number(self.param.totalRows);
-                if (self.props.keep_summary_row == 1) --totalRows;
+                if (self.param.keep_summary_row == 1) --totalRows;
                 if (offsetEnd < totalRows) {
                     $(this).css('display', 'inline');
                 }
@@ -758,7 +759,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             if (!id) {
                 return;
             }
-            
+
             var handler = DataTable._footerIconHandlers[id];
             if (!handler) {
                 handler = DataTable._footerIconHandlers['table'];
@@ -841,7 +842,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     var url = $(this).attr('href') + '&token_auth=' + piwik.token_auth;
 
                     var limit = $('.limitSelection>div>span', domElem).text();
-                    url += '&filter_limit=' + (limit || $(this).attr('filter_limit'));
+                    if (!limit || 'undefined' === limit) {
+                        limit = $(this).attr('filter_limit');
+                    }
+                    url += '&filter_limit=' + limit;
 
                     return url;
                 })
@@ -897,7 +901,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
                 if (label) {
                     label = label.split(',');
-                    
+
                     if (label.length > 1) {
                         for (var i = 0; i != label.length; ++i) {
                             str += '&label[]=' + encodeURIComponent(label[i]);
@@ -1142,7 +1146,61 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $("tr:even td", domElem).slice(1).addClass('column columneven');
 
         $('td span.label', domElem).each(function () { self.truncate($(this)); });
+    },
 
+    handleColumnHighlighting: function (domElem) {
+
+        var maxWidth = {};
+        var currentNthChild = null;
+        var self = this;
+
+        // higlight all columns on hover
+        $('td', domElem).hover(
+            function() {
+                var table    = $(this).closest('table');
+                var nthChild = $(this).parent('tr').children().index($(this)) + 1;
+                var rows     = $('> tbody > tr', table);
+
+                if (!maxWidth[nthChild]) {
+                    maxWidth[nthChild] = 0;
+                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                        var width    = $(element).width();
+                        if (width > maxWidth[nthChild]) {
+                            maxWidth[nthChild] = width;
+                        }
+                    });
+                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                        $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
+                    });
+                }
+
+                if (currentNthChild === nthChild) {
+                    return;
+                }
+
+                currentNthChild = nthChild;
+
+                rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
+                self.repositionRowActions($(this).parent('tr'));
+            },
+            function(event) {
+
+                var table    = $(this).closest('table');
+                var tr       = $(this).parent('tr').children();
+                var nthChild = $(this).parent('tr').children().index($(this));
+                var targetTd = $(event.relatedTarget).closest('td');
+                var nthChildTarget = targetTd.parent('tr').children().index(targetTd);
+
+                if (nthChild == nthChildTarget) {
+                    return;
+                }
+
+                currentNthChild = null;
+
+                var rows     = $('tr', table);
+                rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
+            }
+        );
     },
 
     //behaviour for 'nested DataTable' (DataTable loaded on a click on a row)
@@ -1181,9 +1239,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     self.param.idSubtable = idSubTable;
                     self.param.action = self.props.subtable_controller_action;
-					
+
 					delete self.param.totalRows;
-					
+
                     self.reloadAjaxDataTable(false, function(response) {
                         self.dataTableLoaded(response, divIdToReplaceWithSubTable);
                     });
@@ -1316,7 +1374,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     handleRowActions: function (domElem) {
         this.doHandleRowActions(domElem.find('table > tbody > tr'));
     },
-	
+
 	handleCellTooltips: function(domElem) {
 		domElem.find('span.cell-tooltip').tooltip({
 			track: true,
@@ -1444,6 +1502,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             // show actions that are available for the row on hover
             var actionsDom = null;
+
             tr.hover(function () {
                     if (actionsDom === null) {
                         // create dom nodes on the fly
@@ -1528,8 +1587,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     repositionRowActions: function (tr) {
+        if (!tr) {
+            return;
+        }
+
         var td = tr.find('td:first');
         var actions = tr.find('div.dataTableRowActions');
+
+        if (!actions) {
+            return;
+        }
+
         actions.height(tr.innerHeight() - 2);
         actions.css('marginLeft', (td.width() + 5 - actions.outerWidth()) + 'px');
     },

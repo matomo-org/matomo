@@ -14,7 +14,7 @@
 {% endif %}
 
 {% if can_auto_update %}
-<form action="index.php">
+<form id="oneclickupdate" action="index.php">
     <input type="hidden" name="module" value="CoreUpdater"/>
     <input type="hidden" name="action" value="oneClickUpdate"/>
     <input type="submit" class="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>

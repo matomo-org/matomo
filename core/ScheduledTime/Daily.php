@@ -19,14 +19,13 @@ use Piwik\ScheduledTime;
  * @see ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
- *
- * @api
  */
 class Daily extends ScheduledTime
 {
     /**
      * @see ScheduledTime::getRescheduledTime
      * @return int
+     *
      */
     public function getRescheduledTime()
     {
@@ -51,6 +50,7 @@ class Daily extends ScheduledTime
      * @see ScheduledTime::setDay
      * @param int $_day
      * @throws \Exception
+     * @ignore
      */
     public function setDay($_day)
     {

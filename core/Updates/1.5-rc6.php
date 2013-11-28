@@ -21,7 +21,7 @@ class Updates_1_5_rc6 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('PrivacyManager');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('PrivacyManager');
         } catch (\Exception $e) {
         }
     }

@@ -5,11 +5,11 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Xml;
-use Piwik\DataTable\Simple;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
+use Piwik\DataTable\Simple;
 
 class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 {
@@ -93,9 +93,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLTest1()
     {
@@ -155,9 +152,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLTest2()
     {
@@ -178,9 +172,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLTest3()
     {
@@ -194,9 +185,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLTest4()
     {
@@ -210,9 +198,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLTest5()
     {
@@ -226,9 +211,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLTest6()
     {
@@ -350,9 +332,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLMapTest1()
     {
@@ -400,9 +379,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLArrayIsMadeOfMapTest1()
     {
@@ -454,9 +430,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLMapTest2()
     {
@@ -481,9 +454,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLArrayIsMadeOfMapTest2()
     {
@@ -510,9 +480,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLMapTest3()
     {
@@ -532,9 +499,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testXMLArrayIsMadeOfMapTest3()
     {
@@ -555,9 +519,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray1()
     {
@@ -573,9 +534,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray2()
     {
@@ -601,9 +559,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray3()
     {
@@ -626,9 +581,6 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray4()
     {

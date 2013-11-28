@@ -18,21 +18,12 @@ use Piwik\SegmentExpression;
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
  * @package VisitFrequency
+ * @method static \Piwik\Plugins\VisitFrequency\API getInstance()
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    const RETURNING_VISITOR_SEGMENT = "visitorType==returning";
+    const RETURNING_VISITOR_SEGMENT = "visitorType==returning,visitorType==returningCustomer";
     const COLUMN_SUFFIX = "_returning";
-
-    static private $instance = null;
-
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * @param int $idSite

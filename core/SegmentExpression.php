@@ -124,15 +124,6 @@ class SegmentExpression
     }
 
     /**
-     * Returns the current sub expression
-     * @return array
-     */
-    public function getSubExpressions()
-    {
-        return $this->parsedSubExpressions;
-    }
-
-    /**
      * @param array $availableTables
      */
     public function parseSubExpressionsIntoSqlExpressions(&$availableTables = array())

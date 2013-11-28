@@ -11,10 +11,8 @@
 namespace Piwik\API;
 
 use Exception;
-
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\PluginsManager;
 use Piwik\Url;
 
 /**
@@ -31,7 +29,7 @@ class DocumentationGenerator
      */
     public function __construct()
     {
-        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $plugin) {
             try {
                 $className = Request::getClassNameAPI($plugin);
@@ -140,6 +138,7 @@ class DocumentationGenerator
             'apiAction'      => 'getCountry',
             'lastMinutes'    => '30',
             'abandonedCarts' => '0',
+            'segmentName'    => 'pageTitle',
             'ip'             => '194.57.91.215',
 //            'segmentName'    => 'browserCode',
         );

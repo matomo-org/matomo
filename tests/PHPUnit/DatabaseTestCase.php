@@ -8,8 +8,8 @@
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
-use Piwik\DbHelper;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Site;
@@ -48,7 +48,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             Db::createDatabaseObject();
             DbHelper::createTables();
 
-//            \Piwik\PluginsManager::getInstance()->loadPlugins(array());
+//            \Piwik\Manager::getInstance()->loadPlugins(array());
             IntegrationTestCase::loadAllPlugins();
 
         } catch (Exception $e) {

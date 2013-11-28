@@ -46,9 +46,10 @@ class Json extends Renderer
 
         $exceptionMessage = $this->getExceptionMessage();
         $exceptionMessage = str_replace(array("\r\n", "\n"), "", $exceptionMessage);
-        $exceptionMessage = '{"result":"error", "message":"' . $exceptionMessage . '"}';
 
-        return $this->jsonpWrap($exceptionMessage);
+        $result = json_encode(array('result' => 'error', 'message' => $exceptionMessage));
+
+        return $this->jsonpWrap($result);
     }
 
     /**
@@ -64,13 +65,21 @@ class Json extends Renderer
             if (self::shouldWrapArrayBeforeRendering($array, $wrapSingleValues = true)) {
                 $array = array($array);
             }
+
+            foreach ($array as $key => $tab) {
+                if ($tab instanceof DataTable\Map
+                    || $tab instanceof DataTable
+                    || $tab instanceof DataTable\Simple) {
+                    $array[$key] = $this->convertDataTableToArray($tab);
+
+                    if (!is_array($array[$key])) {
+                        $array[$key] = array('value' => $array[$key]);
+                    }
+                }
+            }
+
         } else {
-            $renderer = new Php();
-            $renderer->setTable($table);
-            $renderer->setRenderSubTables($this->isRenderSubtables());
-            $renderer->setSerialize(false);
-            $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
-            $array = $renderer->flatRender();
+            $array = $this->convertDataTableToArray($table);
         }
 
         if (!is_array($array)) {
@@ -85,7 +94,7 @@ class Json extends Renderer
         };
         array_walk_recursive($array, $callback);
 
-        $str = Common::json_encode($array);
+        $str = json_encode($array);
 
         return $this->jsonpWrap($str);
     }
@@ -119,5 +128,17 @@ class Json extends Renderer
     public static function sendHeaderJSON()
     {
         @header('Content-Type: application/json; charset=utf-8');
+    }
+
+    private function convertDataTableToArray($table)
+    {
+        $renderer = new Php();
+        $renderer->setTable($table);
+        $renderer->setRenderSubTables($this->isRenderSubtables());
+        $renderer->setSerialize(false);
+        $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
+        $array = $renderer->flatRender();
+
+        return $array;
     }
 }

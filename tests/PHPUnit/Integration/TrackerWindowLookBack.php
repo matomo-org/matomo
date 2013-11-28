@@ -18,7 +18,6 @@ class Test_Piwik_Integration_TrackerWindowLookBack extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorOneWebsite_SeveralDaysDateRange
      */
     public function testApi($api, $params)
     {

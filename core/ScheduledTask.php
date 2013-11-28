@@ -15,8 +15,11 @@ use Exception;
 use Piwik\ScheduledTime;
 
 /**
- * ScheduledTask is used by the task scheduler and by plugins to configure runnable tasks.
- *
+ * Contains metadata describing a chunk of PHP code that should be executed at regular
+ * intervals.
+ * 
+ * See the [TaskScheduler](#) docs to learn more about scheduled tasks.
+ * 
  * @package Piwik
  * @subpackage ScheduledTask
  *
@@ -34,51 +37,66 @@ class ScheduledTask
      * Object instance on which the method will be executed by the task scheduler
      * @var string
      */
-    var $objectInstance;
+    private $objectInstance;
 
     /**
      * Class name where the specified method is located
      * @var string
      */
-    var $className;
+    private $className;
 
     /**
      * Class method to run when task is scheduled
      * @var string
      */
-    var $methodName;
+    private $methodName;
 
     /**
      * Parameter to pass to the executed method
      * @var string
      */
-    var $methodParameter;
+    private $methodParameter;
 
     /**
      * The scheduled time policy
      * @var ScheduledTime
      */
-    var $scheduledTime;
+    private $scheduledTime;
 
     /**
      * The priority of a task. Affects the order in which this task will be run.
      * @var int
      */
-    var $priority;
+    private $priority;
 
-    function __construct($_objectInstance, $_methodName, $_methodParameter, $_scheduledTime, $_priority = self::NORMAL_PRIORITY)
+    /**
+     * Constructor.
+     * 
+     * @param mixed $objectInstance The object or class name for the class that contains the method to
+     *                              regularly execute. Usually this will be a [Plugin](#) instance.
+     * @param string $methodName The name of the method of `$objectInstance` that will be regularly
+     *                           executed.
+     * @param mixed|null $methodParameter An optional parameter to pass to the method when executed.
+     *                                    Must be convertible to string.
+     * @param ScheduledTime|null $scheduledTime A [ScheduledTime](#) instance that describes when the method
+     *                                          should be executed and how long before the next execution.
+     * @param int $priority The priority of the task. Tasks with a higher priority will be executed first.
+     *                      Tasks with low priority will be executed last.
+     */
+    public function __construct($objectInstance, $methodName, $methodParameter, $scheduledTime,
+                                $priority = self::NORMAL_PRIORITY)
     {
-        $this->className = $this->getClassNameFromInstance($_objectInstance);
+        $this->className = $this->getClassNameFromInstance($objectInstance);
 
-        if ($_priority < self::HIGHEST_PRIORITY || $_priority > self::LOWEST_PRIORITY) {
-            throw new Exception("Invalid priority for ScheduledTask '$this->className.$_methodName': $_priority");
+        if ($priority < self::HIGHEST_PRIORITY || $priority > self::LOWEST_PRIORITY) {
+            throw new Exception("Invalid priority for ScheduledTask '$this->className.$methodName': $priority");
         }
 
-        $this->objectInstance = $_objectInstance;
-        $this->methodName = $_methodName;
-        $this->scheduledTime = $_scheduledTime;
-        $this->methodParameter = $_methodParameter;
-        $this->priority = $_priority;
+        $this->objectInstance = $objectInstance;
+        $this->methodName = $methodName;
+        $this->scheduledTime = $scheduledTime;
+        $this->methodParameter = $methodParameter;
+        $this->priority = $priority;
     }
 
     protected function getClassNameFromInstance($_objectInstance)
@@ -93,8 +111,10 @@ class ScheduledTask
     }
 
     /**
-     * Return the object instance on which the method should be executed
-     * @return string
+     * Returns the object instance on which the method should be executed. Returns a class
+     * name if the method is static.
+     * 
+     * @return mixed
      */
     public function getObjectInstance()
     {
@@ -102,7 +122,8 @@ class ScheduledTask
     }
 
     /**
-     * Return class name
+     * Returns the class name that contains the method to execute regularly.
+     * 
      * @return string
      */
     public function getClassName()
@@ -111,7 +132,8 @@ class ScheduledTask
     }
 
     /**
-     * Return method name
+     * Returns the method name that will be regularly executed.
+     * 
      * @return string
      */
     public function getMethodName()
@@ -120,8 +142,10 @@ class ScheduledTask
     }
 
     /**
-     * Return method parameter
-     * @return string
+     * Returns the a value that will be passed to the method when executed, or `null` if
+     * no value will be supplied.
+     * 
+     * @return string|null
      */
     public function getMethodParameter()
     {
@@ -129,7 +153,9 @@ class ScheduledTask
     }
 
     /**
-     * Return scheduled time
+     * Returns a [ScheduledTime](#) instance that describes when the method should be executed
+     * and how long before the next execution.
+     *
      * @return ScheduledTime
      */
     public function getScheduledTime()
@@ -138,7 +164,8 @@ class ScheduledTask
     }
 
     /**
-     * Return the rescheduled time in milliseconds
+     * Returns the time in milliseconds when this task will be executed next.
+     * 
      * @return int
      */
     public function getRescheduledTime()
@@ -147,8 +174,8 @@ class ScheduledTask
     }
 
     /**
-     * Return the task priority. The priority will be an integer whose value is
-     * between ScheduledTask::HIGH_PRIORITY and ScheduledTask::LOW_PRIORITY.
+     * Returns the task priority. The priority will be an integer whose value is
+     * between [ScheduledTask::HIGH_PRIORITY](#) and [ScheduledTask::LOW_PRIORITY](#).
      *
      * @return int
      */
@@ -157,12 +184,25 @@ class ScheduledTask
         return $this->priority;
     }
 
+    /**
+     * Returns a unique name for this scheduled task. The name is stored in the DB and is used
+     * to store when tasks were last executed. The name is created using:
+     * 
+     * - the class name that contains the method to execute,
+     * - the name of the method to regularly execute,
+     * - and the value that is passed to the executed task.
+     * 
+     * @return string
+     */
     public function getName()
     {
         return self::getTaskName($this->getClassName(), $this->getMethodName(), $this->getMethodParameter());
     }
 
-    static public function getTaskName($className, $methodName, $methodParameter = null)
+    /**
+     * @ignore
+     */
+    public static function getTaskName($className, $methodName, $methodParameter = null)
     {
         return $className . '.' . $methodName . ($methodParameter == null ? '' : '_' . $methodParameter);
     }

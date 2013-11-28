@@ -12,11 +12,19 @@ namespace Piwik\Menu;
 
 use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Singleton;
 
 /**
+ * Base class for classes that manage one of Piwik's menus.
+ * 
+ * There are three menus in Piwik, the main menu, the top menu and the admin menu.
+ * Each menu has a class that manages the rendering of it. Each class invokes
+ * a different event to allow plugins to add new menu items.
+ * 
  * @package Piwik_Menu
+ * @static \Piwik\Menu\MenuAbstract getInstance()
  */
-abstract class MenuAbstract
+abstract class MenuAbstract extends Singleton
 {
 
     protected $menu = null;
@@ -24,11 +32,6 @@ abstract class MenuAbstract
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
-
-    /*
-     * Can't enforce static function in 5.2.
-     */
-    //abstract static public function getInstance();
 
     /**
      * Builds the menu, applies edits, renames
@@ -48,12 +51,15 @@ abstract class MenuAbstract
     /**
      * Adds a new entry to the menu.
      *
-     * @param string $menuName
-     * @param string $subMenuName
-     * @param string $url
-     * @param bool $displayedForCurrentUser
-     * @param int $order
-     * @param bool|string $tooltip Tooltip to display.
+     * @param string $menuName The menu's category name. Can be a translation token.
+     * @param string $subMenuName The menu item's name. Can be a translation token.
+     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     *                          that can be used to build the URL.
+     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
+     *                                         current user. If false, the entry will not be added.
+     * @param int $order The order hint.
+     * @param false|string $tooltip An optional tooltip to display.
+     * @api
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
     {

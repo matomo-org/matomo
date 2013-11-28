@@ -28,3 +28,11 @@ li {
     margin-top: 10px;
     margin-left: 30px;
 }
+
+#oneclickupdate .submit {
+    clear:none;
+    float:left;
+}
+form#oneclickupdate {
+    min-height: 50px;
+}

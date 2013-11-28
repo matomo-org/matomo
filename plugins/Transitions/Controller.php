@@ -16,7 +16,7 @@ use Piwik\View;
 /**
  * @package Transitions
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     /**
@@ -80,7 +80,7 @@ class Controller extends \Piwik\Controller
     {
         $view = new View('@Transitions/renderPopover');
         $view->translations = $this->getTranslations();
-        echo $view->render();
+        return $view->render();
     }
 
     public function getTranslations()

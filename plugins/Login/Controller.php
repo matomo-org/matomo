@@ -34,7 +34,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  *
  * @package Login
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * Generate hash on user info and password
@@ -62,7 +62,7 @@ class Controller extends \Piwik\Controller
      */
     function index()
     {
-        $this->login();
+        return $this->login();
     }
 
     /**
@@ -71,7 +71,7 @@ class Controller extends \Piwik\Controller
      * @param string $messageNoAccess Access error message
      * @param bool $infoMessage
      * @internal param string $currentUrl Current URL
-     * @return void
+     * @return string
      */
     function login($messageNoAccess = null, $infoMessage = false)
     {
@@ -101,7 +101,8 @@ class Controller extends \Piwik\Controller
         $view->addForm($form);
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
-        echo $view->render();
+
+        return $view->render();
     }
 
     /**
@@ -133,12 +134,12 @@ class Controller extends \Piwik\Controller
 
         $password = Common::getRequestVar('password', null, 'string');
         if (strlen($password) != 32) {
-            throw new Exception(Piwik::translateException('Login_ExceptionPasswordMD5HashExpected'));
+            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
         }
 
         $login = Common::getRequestVar('login', null, 'string');
         if ($login == Config::getInstance()->superuser['login']) {
-            throw new Exception(Piwik::translateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
+            throw new Exception(Piwik::translate('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
         }
 
         $currentUrl = 'index.php';
@@ -164,27 +165,10 @@ class Controller extends \Piwik\Controller
      */
     protected function authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect = 'index.php')
     {
-        $info = array('login'       => $login,
-                      'md5Password' => $md5Password,
-                      'rememberMe'  => $rememberMe,
-        );
         Nonce::discardNonce('Login.login');
 
-        /**
-         * This event is triggered to initialize a user session. You can use this event to authenticate user against
-         * third party systems.
-         *
-         * Example:
-         * ```
-         * public function initSession($info)
-         * {
-         *     $login = $info['login'];
-         *     $md5Password = $info['md5Password'];
-         *     $rememberMe = $info['rememberMe'];
-         * }
-         * ```
-         */
-        Piwik::postEvent('Login.initSession', array(&$info));
+        \Piwik\Registry::get('auth')->initSession($login, $md5Password, $rememberMe);
+        
         Url::redirectToUrl($urlToRedirect);
     }
 
@@ -229,7 +213,8 @@ class Controller extends \Piwik\Controller
         $view = new View('@Login/resetPassword');
         $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
-        echo $view->render();
+
+        return $view->render();
     }
 
     /**
@@ -273,7 +258,7 @@ class Controller extends \Piwik\Controller
             // remove password reset info
             Login::removePasswordResetInfo($login);
 
-            return array($ex->getMessage() . '<br/>' . Piwik::translate('Login_ContactAdmin'));
+            return array($ex->getMessage() . Piwik::translate('Login_ContactAdmin'));
         }
 
         return null;
@@ -350,8 +335,7 @@ class Controller extends \Piwik\Controller
             return;
         } else {
             // show login page w/ error. this will keep the token in the URL
-            $this->login($errorMessage);
-            return;
+            return $this->login($errorMessage);
         }
     }
 
@@ -387,7 +371,7 @@ class Controller extends \Piwik\Controller
      */
     public function resetPasswordSuccess()
     {
-        $this->login($errorMessage = null, $infoMessage = Piwik::translate('Login_PasswordChanged'));
+        return $this->login($errorMessage = null, $infoMessage = Piwik::translate('Login_PasswordChanged'));
     }
 
     /**

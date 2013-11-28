@@ -19,41 +19,30 @@
          verbose="true">
 
 <php>
-    <server name="HTTP_HOST" value="localhost"/>
     <!--
         When copying this file to phpunit.xml, replace with the path to Piwik on localhost.
         If Piwik is available at http://localhost/dev/piwik/ replace @REQUEST_URI@ with /dev/piwik/
         NOTE: the REQUEST_URI should not contain "plugins" or "tests" in the PATH
     -->
+    <server name="HTTP_HOST" value="localhost"/>
     <server name="REQUEST_URI" value="@REQUEST_URI@"/>
     <server name="REMOTE_ADDR" value="127.0.0.1"/>
 </php>
 
 <testsuites>
+  <testsuite name="IntegrationTests">
+      <directory>./Integration</directory>
+  </testsuite>
   <testsuite name="PluginTests">
       <directory>./Plugins</directory>
+      <directory>../../plugins/*/tests</directory>
   </testsuite>
   <testsuite name="CoreTests">
       <directory>./Core</directory>
   </testsuite>
-  <testsuite name="IntegrationTests">
-      <directory>./Integration</directory>
+  <testsuite name="UITests">
+      <directory>./UI</directory>
   </testsuite>
-  <!-- NOTE: UI Tests are not included here since they significantly add to the test run time. -->
 </testsuites>
-
-<logging>
-  <log type="coverage-html" target="../results/codecoverage" charset="UTF-8"
-       yui="true" highlight="false"
-       lowUpperBound="35" highLowerBound="70"/>
-  <log type="junit" target="../results/logs/junit.xml" logIncompleteSkipped="true" />
-</logging>
-
-<filter>
-  <whitelist addUncoveredFilesFromWhitelist="true">
-    <directory suffix=".php">../../core</directory>
-    <directory suffix=".php">../../plugins</directory>
-  </whitelist>
-</filter>
 
 </phpunit>

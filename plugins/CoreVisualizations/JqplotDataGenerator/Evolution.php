@@ -11,13 +11,13 @@
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Menu\MenuMain;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
-use Piwik\ViewDataTable;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.
@@ -41,13 +41,13 @@ class Evolution extends JqplotDataGenerator
         // the X label is extracted from the 'period' object in the table's metadata
         $xLabels = array();
         foreach ($dataTable->getDataTables() as $metadataDataTable) {
-            $xLabels[] = $metadataDataTable->getMetadata('period')->getLocalizedShortString(); // eg. "Aug 2009"
+            $xLabels[] = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString(); // eg. "Aug 2009"
         }
 
         $units = $this->getUnitsForColumnsToDisplay();
 
         // if rows to display are not specified, default to all rows (TODO: perhaps this should be done elsewhere?)
-        $rowsToDisplay = $this->properties['visualization_properties']->rows_to_display
+        $rowsToDisplay = $this->properties['rows_to_display']
             ? : array_unique($dataTable->getColumn('label'))
                 ? : array(false) // make sure that a series is plotted even if there is no data
         ;
@@ -76,12 +76,12 @@ class Evolution extends JqplotDataGenerator
 
         if ($this->isLinkEnabled()) {
             $idSite = Common::getRequestVar('idSite', null, 'int');
-            $periodLabel = reset($dataTables)->getMetadata('period')->getLabel();
+            $periodLabel = reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLabel();
 
             $axisXOnClick = array();
             $queryStringAsHash = $this->getQueryStringAsHash();
             foreach ($dataTable->getDataTables() as $idDataTable => $metadataDataTable) {
-                $dateInUrl = $metadataDataTable->getMetadata('period')->getDateStart();
+                $dateInUrl = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart();
                 $parameters = array(
                     'idSite'  => $idSite,
                     'period'  => $periodLabel,

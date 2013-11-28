@@ -15,6 +15,8 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\MetricsFormatter;
+use Piwik\Nonce;
+use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
@@ -26,7 +28,7 @@ use Piwik\View;
  *
  * @package PrivacyManager
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
 
     const ANONYMIZE_IP_PLUGIN_NAME = "AnonymizeIP";
@@ -42,6 +44,7 @@ class Controller extends \Piwik\Controller\Admin
                     $this->handlePluginState(Common::getRequestVar("anonymizeIPEnable", 0));
                     $trackerConfig = Config::getInstance()->Tracker;
                     $trackerConfig['ip_address_mask_length'] = Common::getRequestVar("maskLength", 1);
+                    $trackerConfig['use_anonymized_ip_for_visit_enrichment'] = Common::getRequestVar("useAnonymizedIpForVisitEnrichment", 1);
                     Config::getInstance()->Tracker = $trackerConfig;
                     Config::getInstance()->forceSave();
                     break;
@@ -55,6 +58,10 @@ class Controller extends \Piwik\Controller\Admin
                     break;
             }
         }
+
+        $notification = new Notification(Piwik::translate('General_YourChangesHaveBeenSaved'));
+        $notification->context = Notification::CONTEXT_SUCCESS;
+        Notification\Manager::notify('PrivacyManager_ChangesHaveBeenSaved', $notification);
 
         $this->redirectToIndex('PrivacyManager', 'privacySettings', null, null, null, array('updated' => 1));
     }
@@ -105,7 +112,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -115,7 +122,7 @@ class Controller extends \Piwik\Controller\Admin
      */
     public static function isDntSupported()
     {
-        return \Piwik\PluginsManager::getInstance()->isPluginActivated('DoNotTrack');
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('DoNotTrack');
     }
 
     public function privacySettings()
@@ -129,11 +136,13 @@ class Controller extends \Piwik\Controller\Admin
             $view->dntSupport = self::isDntSupported();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = Config::getInstance()->database['username'];
+            $view->deactivateNonce = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::DEACTIVATE_NONCE);
+            $view->activateNonce   = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::ACTIVATE_NONCE);
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
-        $this->displayWarningIfConfigFileNotWritable($view);
+        $this->displayWarningIfConfigFileNotWritable();
         $this->setBasicVariablesView($view);
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -159,8 +168,7 @@ class Controller extends \Piwik\Controller\Admin
             $logDataPurger->purgeData();
         }
         if ($settings['delete_reports_enable']) {
-            $reportsPurger = ReportsPurger::make(
-                $settings, PrivacyManager::getAllMetricsToKeep());
+            $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
             $reportsPurger->purgeData(true);
         }
     }
@@ -225,12 +233,14 @@ class Controller extends \Piwik\Controller\Admin
         Piwik::checkUserIsSuperUser();
         $anonymizeIP = array();
 
-        \Piwik\PluginsManager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
+        \Piwik\Plugin\Manager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
 
+        $trackerConfig = Config::getInstance()->Tracker;
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
-        $anonymizeIP["enabled"] = \Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
-        $anonymizeIP["maskLength"] = Config::getInstance()->Tracker['ip_address_mask_length'];
-        $anonymizeIP["info"] = \Piwik\PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
+        $anonymizeIP["enabled"] = \Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
+        $anonymizeIP["maskLength"] = $trackerConfig['ip_address_mask_length'];
+        $anonymizeIP["info"] = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
+        $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $trackerConfig['use_anonymized_ip_for_visit_enrichment'];
 
         return $anonymizeIP;
     }
@@ -265,7 +275,7 @@ class Controller extends \Piwik\Controller\Admin
             $deleteDataInfos["nextScheduleTime"] = $nextPossibleSchedule;
         } else {
             $deleteDataInfos["lastRun"] = $optionTable;
-            $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
+                $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
 
             //Calculate next run based on last run + interval
             $nextScheduleRun = (int)($deleteDataInfos["lastRun"] + $deleteDataInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60);
@@ -287,9 +297,9 @@ class Controller extends \Piwik\Controller\Admin
     {
         $pluginController = new \Piwik\Plugins\CorePluginsAdmin\Controller();
 
-        if ($state == 1 && !\Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
+        if ($state == 1 && !\Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
             $pluginController->activate($redirectAfter = false);
-        } elseif ($state == 0 && \Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
+        } elseif ($state == 0 && \Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
             $pluginController->deactivate($redirectAfter = false);
         } else {
             //nothing to do

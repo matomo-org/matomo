@@ -13,41 +13,49 @@ use Piwik\Piwik;
 
 
 /**
+ * Contains menu entries for the Top menu (the menu at the very top of the page).
+ * Plugins can subscribe to the [Menu.Top.addItems](#) event to add new pages to
+ * the top menu.
+ * 
+ * **Example**
+ * 
+ *     // add a new page in an observer to Menu.Admin.addItems
+ *     public function addTopMenuItem()
+ *     {
+ *         MenuTop::getInstance()->add(
+ *             'MyPlugin_MyTranslatedMenuCategory',
+ *             'MyPlugin_MyTranslatedMenuName',
+ *             array('module' => 'MyPlugin', 'action' => 'index'),
+ *             Piwik::isUserHasSomeAdminAccess(),
+ *             $order = 2
+ *         );
+ *     }
+ * 
  * @package Piwik_Menu
+ * @method static \Piwik\Menu\MenuTop getInstance()
  */
 class MenuTop extends MenuAbstract
 {
-    static private $instance = null;
-
-    /**
-     * @return MenuTop
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
-
     /**
      * Adds a new entry to the TopMenu.
      *
-     * @param string $topMenuName
-     * @param string $data
-     * @param boolean $displayedForCurrentUser
-     * @param int $order
-     * @param bool $isHTML
-     * @param bool|string $tooltip Tooltip to display.
+     * @param string $topMenuName The menu item name. Can be a translation token.
+     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     *                          that can be used to build the URL. If `$isHTML` is true, this can be a string with
+     *                          HTML that is simply embedded.
+     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
+     *                                         current user. If false, the entry will not be added.
+     * @param int $order The order hint.
+     * @param bool $isHTML Whether `$url` is an HTML string or a URL that will be rendered as a link.
+     * @param bool|string $tooltip Optional tooltip to display.
      * @api
      */
-    public static function addEntry($topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
+    public static function addEntry($topMenuName, $url, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
     {
         if ($isHTML) {
-            MenuTop::getInstance()->addHtml($topMenuName, $data, $displayedForCurrentUser, $order, $tooltip);
+            MenuTop::getInstance()->addHtml($topMenuName, $url, $displayedForCurrentUser, $order, $tooltip);
         } else {
-            MenuTop::getInstance()->add($topMenuName, null, $data, $displayedForCurrentUser, $order, $tooltip);
+            MenuTop::getInstance()->add($topMenuName, null, $url, $displayedForCurrentUser, $order, $tooltip);
         }
     }
 
@@ -83,24 +91,25 @@ class MenuTop extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * This event is triggered to collect all available menu items that should be displayed on the very top next
-             * to login/logout, API and other menu items. Subscribe to this event if you want to add one or more items.
-             * It's fairly easy. Just define the name of your menu item as well as a controller and an action that
-             * should be executed once a user selects your menu item. It is also possible to display the item only for
-             * users having a specific role.
+             * Triggered when collecting all available menu items that are be displayed on the very top of every
+             * page, next to the login/logout links. Subscribe to this event if you want to add one or more items
+             * to the top menu.
+             * 
+             * Menu items should be added via the [MenuTop::addEntry](#addEntry) method.
              *
-             * Example:
-             * ```
-             * public function addMenuItems()
-             * {
-             *     MenuTop::addEntry(
-             *         'TopMenuName',
-             *         array('module' => 'MyPlugin', 'action' => 'index'),
-             *         Piwik::isUserIsSuperUser(),
-             *         $order = 6
-             *     );
-             * }
-             * ```
+             * **Example**
+             * 
+             *     use Piwik\Menu\MenuTop;
+             *
+             *     public function addMenuItems()
+             *     {
+             *         MenuTop::addEntry(
+             *             'TopMenuName',
+             *             array('module' => 'MyPlugin', 'action' => 'index'),
+             *             $showOnlyIf = Piwik::isUserIsSuperUser(),
+             *             $order = 6
+             *         );
+             *     }
              */
             Piwik::postEvent('Menu.Top.addItems');
         }

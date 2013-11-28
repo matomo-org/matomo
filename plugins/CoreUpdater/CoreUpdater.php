@@ -40,7 +40,7 @@ class CoreUpdater extends \Piwik\Plugin
     public static function getComponentUpdates(Updater $updater)
     {
         $updater->addComponentToCheck('core', Version::VERSION);
-        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
             $updater->addComponentToCheck($pluginName, $plugin->getVersion());
         }

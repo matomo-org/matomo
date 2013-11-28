@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Esse plugin relata o banco de dados MySQL usado pelas tabelas Piwik.",
         "DatabaseUsage": "Uso do banco de dados",
-        "MainDescription": "O Piwik está armazenando todos os dados de análise de tráfego no banco de dados MySQL. Atualmente, as tabelas do Piwik estão usando %s.",
-        "LearnMore": "Apara aprender mais sobre como o Piwik processa os dados e como fazer o Piwik trabalhar bem para sites de médio e alto tráfego, confira a documentação %s.",
-        "Table": "Tabela",
-        "RowCount": "Contagem de linhas",
         "DataSize": "Tamanho dos dados",
-        "IndexSize": "Tamanho do índice",
-        "TotalSize": "Tamanho total",
         "DBSize": "tamanho DB",
-        "ReportDataByYear": "Relatório Quadros por Ano",
-        "MetricDataByYear": "Tabelas métricas Por Ano",
         "EstimatedSize": "Tamanho estimado",
-        "TrackerTables": "Tabelas do Rastreador",
-        "ReportTables": "Tabelas de relatórios",
+        "IndexSize": "Tamanho do índice",
+        "LearnMore": "Apara aprender mais sobre como o Piwik processa os dados e como fazer o Piwik trabalhar bem para sites de médio e alto tráfego, confira a documentação %s.",
+        "MainDescription": "O Piwik está armazenando todos os dados de análise de tráfego no banco de dados MySQL. Atualmente, as tabelas do Piwik estão usando %s.",
+        "MetricDataByYear": "Tabelas métricas Por Ano",
         "MetricTables": "Tabelas métricas",
-        "OtherTables": "Outras tabelas"
+        "OtherTables": "Outras tabelas",
+        "PluginDescription": "Esse plugin relata o banco de dados MySQL usado pelas tabelas Piwik.",
+        "ReportDataByYear": "Relatório Quadros por Ano",
+        "ReportTables": "Tabelas de relatórios",
+        "RowCount": "Contagem de linhas",
+        "Table": "Tabela",
+        "TotalSize": "Tamanho total",
+        "TrackerTables": "Tabelas do Rastreador"
     }
 }

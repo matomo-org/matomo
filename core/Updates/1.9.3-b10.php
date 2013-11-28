@@ -26,7 +26,7 @@ class Updates_1_9_3_b10 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('Annotations');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('Annotations');
         } catch (\Exception $e) {
             // pass
         }
