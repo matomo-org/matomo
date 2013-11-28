@@ -35,3 +35,4 @@ mkdir ./tmp/sessions
 mkdir ./tmp/templates_c
 mkdir ./tmp/tcpdf
 chmod a+rw ./tests/lib/geoip-files
+chmod a+rw ./plugins/ExamplePlugin/tests/processed
