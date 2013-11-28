@@ -50,7 +50,7 @@ class UserCountry extends \Piwik\Plugin
             'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Tracker.newVisitorInformation'          => 'getVisitorLocation',
+            'Tracker.newVisitorInformation'          => 'enrichVisitWithLocation',
             'TaskScheduler.getScheduledTasks'        => 'getScheduledTasks',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
@@ -80,7 +80,7 @@ class UserCountry extends \Piwik\Plugin
         $jsFiles[] = "plugins/UserCountry/javascripts/userCountry.js";
     }
 
-    public function getVisitorLocation(&$visitorInfo, \Piwik\Tracker\Request $request)
+    public function enrichVisitWithLocation(&$visitorInfo, \Piwik\Tracker\Request $request)
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
