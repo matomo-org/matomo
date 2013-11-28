@@ -337,6 +337,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->plugins         = Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
+        $view->emailSuperUser  = Piwik::getSuperUserEmail();
         $view->pluginCausesIssue = '';
 
         if (!empty($lastError['file'])) {
