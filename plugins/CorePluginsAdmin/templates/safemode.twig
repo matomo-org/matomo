@@ -1,0 +1,61 @@
+<h1>An error occurred</h1>
+
+<div style="width: 640px">
+
+{% if not isAnonymousUser %}
+    <p>
+        The following error just broke Piwik:
+        <pre>{{ lastError.message }}</pre>
+
+        in
+        <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
+    </p>
+{% endif %}
+
+{% if isSuperUser %}
+    <p>
+        If this error continues to happen, there is a good chance to fix this issue by disabling one or more of
+        the Third-Party plugins. You can enable them again in the
+        <a target="_blank" href="#">Plugins</a> or <a target="_blank" href="#">Themes</a> page under
+        settings at any time.
+
+        {% if pluginCausesIssue %}
+            Based on the error message, the issue is probably caused by the plugin <strong>{{ pluginCausesIssue }}</strong>.
+        {% endif %}
+    </p>
+
+    <table border="1">
+        {% for pluginName, plugin in plugins if plugin.uninstallable %}
+            <tr>
+                <td style="min-width:200px">
+                    {{ pluginName }}
+                </td>
+                <td>
+                    {% if plugin.activated %}
+                        <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}"
+                           target="_blank">deactivate</a>
+                    {% else %}
+                        <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
+                           target="_blank">uninstall</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        We appreciate if you send the
+        <a href="mailto:xxx?subject=Fatal%20Error20%in%20Piwik&body=MESSAGE.FILE.LINE">error report</a>
+        to the Piwik team.
+    </p>
+
+{% elseif isAnonymousUser %}
+
+    <p>Please contact the system administrator.</p>
+
+{% else %}
+    <p>If this error continues to happen you may want to inform your system administrator
+        about this incident: <a href="mailto: xxx?subject=Fatal%20Error20%in%20Piwik&body=MESSAGE.FILE.LINE"></a></p>
+{% endif %}
+
+</div>

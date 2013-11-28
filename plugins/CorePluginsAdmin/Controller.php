@@ -21,6 +21,7 @@ use Piwik\Plugin;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Url;
 use Piwik\View;
+use Exception;
 
 /**
  * @package CorePluginsAdmin
@@ -308,6 +309,45 @@ class Controller extends Plugin\ControllerAdmin
             }
         }
         return $pluginsFiltered;
+    }
+
+    public function safemode($lastError)
+    {
+        $outputFormat = Common::getRequestVar('format', 'html', 'string');
+        $outputFormat = strtolower($outputFormat);
+
+        if (!empty($outputFormat) && 'html' !== $outputFormat) {
+
+            $errorMessage = $lastError['message'];
+
+            if (Piwik::isUserIsAnonymous()) {
+                $errorMessage = 'A fatal error occurred.';
+            }
+
+            $response = new \Piwik\API\ResponseBuilder($outputFormat);
+            $message  = $response->getResponseException(new Exception($errorMessage));
+
+            return $message;
+        }
+
+        $view = new View('@CorePluginsAdmin/safemode');
+        $view->lastError   = $lastError;
+        $view->isSuperUser = Piwik::isUserIsSuperUser();
+        $view->isAnonymousUser = Piwik::isUserIsAnonymous();
+        $view->plugins         = Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
+        $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
+        $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
+        $view->pluginCausesIssue = '';
+
+        if (!empty($lastError['file'])) {
+            preg_match('/piwik\/plugins\/(.*)\//', $lastError['file'], $matches);
+
+            if (!empty($matches[1])) {
+                $view->pluginCausesIssue = $matches[1];
+            }
+        }
+
+        return $view->render();
     }
 
     public function deactivate($redirectAfter = true)
