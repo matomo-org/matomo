@@ -400,11 +400,11 @@ class GoalManager
             );
             $recorded = $this->updateExistingConversion($goal, $updateWhere);
         } else {
-            $recorded = $this->insertNewConversion($goal);
+            $recorded = $this->insertNewConversion($goal, $visitorInformation);
         }
 
         if ($recorded) {
-            $this->recordEcommerceItems($goal, $items);
+            $this->recordEcommerceItems($goal, $items, $visitorInformation);
         }
 
         /**
@@ -771,7 +771,7 @@ class GoalManager
                 ? '0'
                 : $visitorInformation['visit_last_action_time'];
 
-            $this->insertNewConversion($newGoal);
+            $this->insertNewConversion($newGoal, $visitorInformation);
 
             /**
              * This hook is called after recording a standard goal. You can use it for instance to sync the recorded
@@ -785,18 +785,20 @@ class GoalManager
      * Helper function used by other record* methods which will INSERT or UPDATE the conversion in the DB
      *
      * @param array $newGoal
+     * @param array $visitorInformation
      * @return bool
      */
-    protected function insertNewConversion($newGoal)
+    protected function insertNewConversion($newGoal, $visitorInformation)
     {
         /**
          * This hook is called before inserting a new Goal Conversion.. You can use it to update the Goal
          * attributes before they are saved in the log_conversion table.
          * `$visitor` contains the current known visit information.
          * @param array $goal Array of SQL fields value for this conversion, will be inserted in the log_conversion table
+         * @param array $visitorInformation Array of log_visit field values for this visitor
          * @param \Piwik\Tracker\Request $request
          */
-        Piwik::postEvent('Tracker.newConversionInformation', array( &$newGoal, $this->request));
+        Piwik::postEvent('Tracker.newConversionInformation', array( &$newGoal, $visitorInformation, $this->request));
 
         $newGoalDebug = $newGoal;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
