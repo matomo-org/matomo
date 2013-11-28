@@ -46,9 +46,10 @@ class Json extends Renderer
 
         $exceptionMessage = $this->getExceptionMessage();
         $exceptionMessage = str_replace(array("\r\n", "\n"), "", $exceptionMessage);
-        $exceptionMessage = '{"result":"error", "message":"' . $exceptionMessage . '"}';
 
-        return $this->jsonpWrap($exceptionMessage);
+        $result = json_encode(array('result' => 'error', 'message' => $exceptionMessage));
+
+        return $this->jsonpWrap($result);
     }
 
     /**
