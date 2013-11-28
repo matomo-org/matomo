@@ -99,7 +99,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
 
-        $controller = $this->makeController($module, $action);
+        list($controller, $action) = $this->makeController($module, $action);
 
         /**
          * This event exists for convenience and is triggered directly after the [Request.dispatch](#)
@@ -182,7 +182,7 @@ class FrontController extends Singleton
         if (!is_callable(array($controller, $action))) {
             throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
         }
-        return $controller;
+        return array($controller, $action);
     }
 
     protected function getClassNameController($module)
