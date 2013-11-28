@@ -103,7 +103,7 @@
         {% else %}
             <p>
                 If this error continues to happen you may want to send an
-                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Piwik' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
+                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Piwik ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
                 to your system administrator.
             </p>
         {% endif %}
