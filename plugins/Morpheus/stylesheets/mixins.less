@@ -1,3 +1,16 @@
+.clearfix {
+  *zoom: 1;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  &:before {
+    content: "";
+    display: table;
+  }
+}
+
 .font-default(@size: 13px, @line: 16px) {
   font-family: Verdana, sans-serif;
   font-size: @size;

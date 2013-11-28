@@ -6,6 +6,10 @@
 @import "popups.less";
 @import "admin.less";
 @import "tooltip.less";
+@import "charts.less";
+@import "map.less";
+
+@root: "/plugins/Morpheus";
 
 body {
     font-family: Verdana, sans-serif;
@@ -31,6 +35,16 @@ body {
         margin-right: 0px;
         .font-default(13px, 18px);
     }
+}
+
+#leftcolumn {
+    width: 49%;
+    margin-right: 1%;
+}
+
+#rightcolumn {
+    float: left;
+    width: 50%;
 }
 
 #languageSelection .ui-autocomplete-input {
@@ -60,7 +74,8 @@ body {
 }
 
 .entityContainer {
-    width: auto !important;
+    
+    //width: auto !important;
 }
 
 .entityTable {
@@ -130,7 +145,6 @@ body {
                         a {
                             color: @silver-40;
                             .font-default(15px, 18px);
-                            padding: 14px 21px 11px;
                         }
 
                         &.sfHover {
@@ -214,6 +228,9 @@ body {
                 }
             }
             .segmentationContainer {
+                > span > strong {
+                    color: @brand-red;
+                }
                 .submenu {
                     li {
                         font-weight: normal;
@@ -441,6 +458,7 @@ div.sparkline {
     z-index: 1;
 }
 
+
 .widget {
     border: 1px solid @silver-80;
     .border-radius();
@@ -449,6 +467,14 @@ div.sparkline {
 
     h2 {
         font-weight: normal;
+    }
+
+    &.default {
+        margin-left: 0;
+        margin-right: 0;
+        .widgetTop {
+            cursor: default !important;
+        }
     }
 
     .widgetTop {
@@ -460,6 +486,10 @@ div.sparkline {
             text-shadow: none;
             padding: 15px 15px 10px;
         }
+    }
+
+    .widgetText {
+        padding: 10px;
     }
 
     .pk-emptyDataTable {
@@ -715,6 +745,10 @@ div.sparkline {
     border-top: 0px;
 }
 
+.metricValueBlock input {
+    padding: 5px !important;
+}
+
 .segment-element {
     background: @white;
     border-color: @silver-80;
@@ -735,8 +769,23 @@ div.sparkline {
             .font-default(13px, 15px);
             color: @brand-black;
         }
-    }
+        
+        .segment-add-row > div a span,
+        .segment-add-or > div a span {
+            color: @brand-red;
+            text-shadow: none;
+        }
 
+        .segment-input {
+            select, input {
+                .font-default(12px, 14px);
+                color: @brand-black;
+                font-weight: 500;
+                margin: 0px;
+                min-height: auto;
+            }
+        }
+    }
     .segment-nav {
         div > ul > li {
             padding: 5px 0;
@@ -781,7 +830,10 @@ div.sparkline {
 
         a.dropdown {
             color: @brand-black;
-            background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) 100% 3px no-repeat;
+            background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) 100% -2px no-repeat;
+            &.ui-autocomplete-input {
+                background-position: 100% -2px;
+            }
         }
     }
     .segment-footer {
