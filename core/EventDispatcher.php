@@ -66,7 +66,7 @@ class EventDispatcher extends Singleton
         }
 
         if (empty($plugins)) {
-            $plugins = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
+            $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
         }
 
         $callbacks = array();

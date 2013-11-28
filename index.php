@@ -52,6 +52,19 @@ if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
     ExceptionHandler::setUp();
 }
 
+register_shutdown_function(function () {
+
+    $lastError = error_get_last();
+
+    if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+        $controller = FrontController::getInstance();
+        $controller->init();
+        $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
+
+        echo $message;
+    }
+});
+
 if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {
     $controller = FrontController::getInstance();
     $controller->init();

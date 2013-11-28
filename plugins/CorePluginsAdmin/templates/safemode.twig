@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <style type="text/css">
+            td {
+                border: 1px solid #ccc;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+            table {
+                border-collapse: collapse;
+                border: 0px;
+            }
+            a {
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h1>A fatal error occurred</h1>
+
+        <div style="width: 640px">
+
+        {% if not isAnonymousUser %}
+            <p>
+                The following error just broke Piwik:
+                <pre>{{ lastError.message }}</pre>
+                in
+                <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
+            </p>
+        {% endif %}
+
+        {% if isSuperUser %}
+            <p>
+                If this error continues to happen, there is a good chance to fix this issue by disabling one or more of
+                the Third-Party plugins. You can enable them again in the
+                <a target="_blank" href="index.php?module=CorePluginsAdmin&action=plugins">Plugins</a> or <a target="_blank" href="index.php?module=CorePluginsAdmin&action=themes">Themes</a> page under
+                settings at any time.
+
+                {% if pluginCausesIssue %}
+                    Based on the error message, the issue is probably caused by the plugin <strong>{{ pluginCausesIssue }}</strong>.
+                {% endif %}
+            </p>
+
+            <table>
+                {% for pluginName, plugin in plugins if plugin.uninstallable %}
+                    <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
+                        <td style="min-width:200px;">
+                            {{ pluginName }}
+                        </td>
+                        <td>
+                            {% if plugin.activated %}
+                                <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}"
+                                   target="_blank">deactivate</a>
+                            {% else %}
+                                <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
+                                   target="_blank">uninstall</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <p>
+                We appreciate if you send the
+                <a href="mailto:hello@piwik.org?subject={{ 'Fatal error in Piwik'|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
+                to the Piwik team.
+            </p>
+
+        {% elseif isAnonymousUser %}
+
+            <p>Please contact the system administrator.</p>
+
+        {% else %}
+            <p>
+                If this error continues to happen you may want to send an
+                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Piwik'|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
+                to your system administrator.
+            </p>
+        {% endif %}
+
+        </div>
+
+    </body>
+</html>
