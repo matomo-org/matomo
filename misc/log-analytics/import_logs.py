@@ -238,9 +238,31 @@ class IisFormat(RegexFormat):
 
 
 _HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
+
+# http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
+_METHOD = '((?P<method>(OPTIONS|GET|HEAD|POST|PUT|DELETE|TRACE|CONNECT))\s)?'
+_HTTP_VERSION = '(\s(?P<http_version>\S+))?'
+
+# The client will not necessarily send the HTTP method and version
+# number as in "GET /index.php HTTP/1.1". It may well be that the
+# client simply connects and sends junk over the connection. In this
+# case, we want to parse all of the junk into the path.
+#
+# When the method and version *are* present, they should be separated
+# from the path by spaces.
+#
+_HTTP_PATH   = (
+    '"' +
+    _METHOD +
+    '(?P<path>.*?)' +
+    _HTTP_VERSION +
+    '"'
+)
+
 _COMMON_LOG_FORMAT = (
     '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?) (?P<timezone>.*?)\] '
-    '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+)'
+    + _HTTP_PATH +
+    ' (?P<status>\S+) (?P<length>\S+)'
 )
 _NCSA_EXTENDED_LOG_FORMAT = (_COMMON_LOG_FORMAT +
     ' "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
