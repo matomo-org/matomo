@@ -235,7 +235,6 @@
         "Activated": "已启用",
         "Active": "已启用",
         "AuthorHomepage": "作者主页",
-        "ChangeSettingsPossible": "允许修改此插件的链接<a href=\"%s\">配置<\/a>",
         "Deactivate": "停用",
         "Inactive": "已停用",
         "InstallNewPlugins": "安装新插件",
