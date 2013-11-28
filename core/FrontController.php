@@ -85,19 +85,21 @@ class FrontController extends Singleton
             return;
         }
 
-        list($module, $action, $parameters, $controller) = $this->prepareDispatch($module, $action, $parameters);
+        list($module, $action, $parameters) = $this->prepareDispatch($module, $action, $parameters);
 
         /**
          * Triggered directly before controller actions are dispatched.
-         * 
+         *
          * This event can be used to modify the parameters passed to one or more controller actions
          * and can be used to change the plugin and action that is being dispatched to.
-         * 
+         *
          * @param string &$module The name of the plugin being dispatched to.
          * @param string &$action The name of the controller method being dispatched to.
          * @param array &$parameters The arguments passed to the controller action.
          */
         Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
+
+        $controller = $this->makeController($module, $action);
 
         /**
          * This event exists for convenience and is triggered directly after the [Request.dispatch](#)
@@ -155,6 +157,32 @@ class FrontController extends Singleton
             $message = Common::sanitizeInputValue($e->getMessage());
             Piwik_ExitWithMessage($message, $debugTrace, true, true);
         }
+    }
+
+    protected function makeController($module, $action)
+    {
+        $controllerClassName = $this->getClassNameController($module);
+
+        // FrontController's autoloader
+        if (!class_exists($controllerClassName, false)) {
+            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
+            if (!is_readable($moduleController)) {
+                throw new Exception("Module controller $moduleController not found!");
+            }
+            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
+        }
+
+        $class = $this->getClassNameController($module);
+        /** @var $controller Controller */
+        $controller = new $class;
+        if ($action === false) {
+            $action = $controller->getDefaultAction();
+        }
+
+        if (!is_callable(array($controller, $action))) {
+            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
+        }
+        return $controller;
     }
 
     protected function getClassNameController($module)
@@ -409,28 +437,7 @@ class FrontController extends Singleton
             throw new PluginDeactivatedException($module);
         }
 
-        $controllerClassName = $this->getClassNameController($module);
-
-        // FrontController's autoloader
-        if (!class_exists($controllerClassName, false)) {
-            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
-            if (!is_readable($moduleController)) {
-                throw new Exception("Module controller $moduleController not found!");
-            }
-            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
-        }
-
-        $class = $this->getClassNameController($module);
-        /** @var $controller Controller */
-        $controller = new $class;
-        if ($action === false) {
-            $action = $controller->getDefaultAction();
-        }
-
-        if (!is_callable(array($controller, $action))) {
-            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
-        }
-        return array($module, $action, $parameters, $controller);
+        return array($module, $action, $parameters);
     }
 
     protected function handleMaintenanceMode()
