@@ -257,7 +257,7 @@
     {% set iframeOptOut %}
         <iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>
     {% endset %}
-    <code>{{ iframeOptOut }}</code>
+    <code>{{ iframeOptOut|escape }}</code>
     <br/>
     {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
 </p>
