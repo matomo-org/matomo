@@ -230,6 +230,7 @@ class UserAgentParser
 
         'CYGWIN_NT-6.2'                => 'WI8',
         'Windows NT 6.2'               => 'WI8',
+        'Windows NT 6.3'               => 'W81',
         'Windows 8'                    => 'WI8',
         'CYGWIN_NT-6.1'                => 'WI7',
         'Windows NT 6.1'               => 'WI7',
@@ -334,7 +335,7 @@ class UserAgentParser
     // NOTE: The keys in this array are used by plugins/UserSettings/functions.php . Any  changes
     // made here should also be made in that file.
     static protected $osType = array(
-        'Windows'               => array('WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95'),
+        'Windows'               => array('W81', 'WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95'),
         'Linux'                 => array('LIN'),
         'Mac'                   => array('MAC'),
         'iOS'                   => array('IPD', 'IPA', 'IPH'),
@@ -628,6 +629,7 @@ class UserAgentParser
             'DSI' => 'DSi',
             '3DS' => '3DS',
             'PSV' => 'PS Vita',
+            'W81' => 'Win 8.1',
             'WI8' => 'Win 8',
             'WI7' => 'Win 7',
             'WVI' => 'Win Vista',
