@@ -172,6 +172,8 @@ class UserAgentParser
 
         'webos'                       => 'WO',
         'webpro'                      => 'WP',
+
+        'maxthon'                     => 'MX',
     );
 
     // browser family (by layout engine)
@@ -179,7 +181,7 @@ class UserAgentParser
         'ie'     => array('IE'),
         'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
         'khtml'  => array('KO'),
-        'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
+        'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF', 'MX'),
         'opera'  => array('OP'),
     );
 
@@ -563,6 +565,15 @@ class UserAgentParser
                 $info['id'] = 'OP';
                 $info['major_number'] = $operaResult[1][0];
                 $info['minor_number'] = $operaResult[2][0];
+                $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
+            }
+
+            // recognize Maxthon
+            $maxthonResult = array();
+            if ($info['id'] == 'CH' && preg_match_all('/Maxthon\/(\d+)\.(\d+)/i', $userAgent, $maxthonResult)) {
+                $info['id'] = 'MX';
+                $info['major_number'] = $maxthonResult[1][0];
+                $info['minor_number'] = $maxthonResult[2][0];
                 $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
             }
 
