@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/UserAgentParser.php';
 echo "<h2>UserAgentParser php library test</h2>";
 $testUserAgent = array(
     'My User Agent'                       => '',
+    'Firefox 28.0 on Windows 8.1'         => 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0',
     'Firefox 25.0 on Linux'               => 'Mozilla/5.0 (X11; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0',
     'Firefox 25.0 on Android/Mobile'      => 'Mozilla/5.0 (Android; Mobile; rv:25.0) Gecko/25.0 Firefox/25.0',
     'Firefox 25.0 on Android/Tablet'      => 'Mozilla/5.0 (Android; Tablet; rv:25.0) Gecko/25.0 Firefox/25.0',
