@@ -557,6 +557,15 @@ class UserAgentParser
                 $info['id'] = 'SM';
             }
 
+            // if UA contains OPR, it's an Opera 15+
+            $operaResult = array();
+            if ($info['id'] == 'CH' && preg_match_all('/OPR\/(\d+)\.(\d+)/i', $userAgent, $operaResult)) {
+                $info['id'] = 'OP';
+                $info['major_number'] = $operaResult[1][0];
+                $info['minor_number'] = $operaResult[2][0];
+                $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
+            }
+
             $info['name'] = self::getBrowserNameFromId($info['id']);
             $info['short_name'] = self::getBrowserShortNameFromId($info['id']);
 
