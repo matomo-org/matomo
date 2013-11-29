@@ -278,7 +278,7 @@ class Segment
     private function generateJoins($tables)
     {
         $knownTables = array("log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
-        $visitsAvailable = $actionsAvailable = $conversionsAvailable = $conversionsAvailableItem = false;
+        $visitsAvailable = $actionsAvailable = $conversionsAvailable = $conversionItemAvailable = false;
         $joinWithSubSelect = false;
         $sql = '';
 
@@ -298,14 +298,6 @@ class Segment
         if ($actionIndex > 0 && $visitIndex > 0 && $actionIndex > $visitIndex) {
             $tables[$actionIndex] = "log_visit";
             $tables[$visitIndex] = "log_link_visit_action";
-        }
-
-        $conversionsAvailableItem = array_search("log_conversion_item", $tables);
-        if ($conversionsAvailableItem > -1) {
-            $visitIndex = array_search("log_visit", $tables);
-            if ($visitIndex > -1) {
-                unset ($tables[$visitIndex]);
-            }
         }
 
         foreach ($tables as $i => $table) {
@@ -356,8 +348,11 @@ class Segment
                     if ($table == "log_conversion") {
                         $joinWithSubSelect = true;
                     }
-                } elseif ($table === 'log_conversion_item') {
+                } elseif ($conversionItemAvailable && $table === 'log_visit') {
                     $join = "log_conversion_item.idvisit = log_visit.idvisit";
+                } elseif ($conversionItemAvailable && $table === 'log_link_visit_action') {
+                    $joinWithSubSelect = true;
+                    $join = "log_conversion_item.idvisit = log_link_visit_action.idvisit";
                 } else {
                     throw new Exception("Table '$table', can't be joined for segmentation");
                 }
@@ -371,6 +366,7 @@ class Segment
             $visitsAvailable = ($visitsAvailable || $table == "log_visit");
             $actionsAvailable = ($actionsAvailable || $table == "log_link_visit_action");
             $conversionsAvailable = ($conversionsAvailable || $table == "log_conversion");
+            $conversionItemAvailable = ($conversionItemAvailable || $table == "log_conversion_item");
         }
 
         return array(
