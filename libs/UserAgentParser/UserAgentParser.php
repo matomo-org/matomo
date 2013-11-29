@@ -629,6 +629,7 @@ class UserAgentParser
             'DSI' => 'DSi',
             '3DS' => '3DS',
             'PSV' => 'PS Vita',
+            'W81' => 'Win 8.1',
             'WI8' => 'Win 8',
             'WI7' => 'Win 7',
             'WVI' => 'Win Vista',
