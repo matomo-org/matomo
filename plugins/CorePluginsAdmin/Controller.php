@@ -21,6 +21,7 @@ use Piwik\Plugin;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Version;
 use Exception;
 
 /**
@@ -311,8 +312,16 @@ class Controller extends Plugin\ControllerAdmin
         return $pluginsFiltered;
     }
 
-    public function safemode($lastError)
+    public function safemode($lastError = array())
     {
+        if (empty($lastError)) {
+            $lastError = array(
+                'message' => Common::getRequestVar('error_message', null, 'string'),
+                'file'    => Common::getRequestVar('error_file', null, 'string'),
+                'line'    => Common::getRequestVar('error_line', null, 'integer')
+            );
+        }
+
         $outputFormat = Common::getRequestVar('format', 'html', 'string');
         $outputFormat = strtolower($outputFormat);
 
@@ -338,6 +347,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = Piwik::getSuperUserEmail();
+        $view->piwikVersion    = Version::VERSION;
         $view->pluginCausesIssue = '';
 
         if (!empty($lastError['file'])) {

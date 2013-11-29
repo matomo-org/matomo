@@ -14,6 +14,8 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package CoreConsole
@@ -109,6 +111,36 @@ class GeneratePluginBase extends ConsoleCommand
         }
 
         return $pluginNames;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return array
+     * @throws \RunTimeException
+     */
+    protected function getPluginName(InputInterface $input, OutputInterface $output, $pluginNames, $invalidArgumentException)
+    {
+        $validate = function ($pluginName) use ($pluginNames, $invalidArgumentException) {
+            if (!in_array($pluginName, $pluginNames)) {
+                throw new \InvalidArgumentException($invalidArgumentException);
+            }
+
+            return $pluginName;
+        };
+
+        $pluginName = $input->getOption('pluginname');
+
+        if (empty($pluginName)) {
+            $dialog = $this->getHelperSet()->get('dialog');
+            $pluginName = $dialog->askAndValidate($output, 'Enter the name of your plugin: ', $validate, false, null, $pluginNames);
+        } else {
+            $validate($pluginName);
+        }
+
+        $pluginName = ucfirst($pluginName);
+
+        return $pluginName;
     }
 
 }

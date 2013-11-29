@@ -16,7 +16,7 @@ abstract class UITest extends IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
-    const SCREENSHOT_GROUP_SIZE = 25;
+    const SCREENSHOT_GROUP_SIZE = 12;
     const DEBUG_IMAGE_MAGICK_COMPARE = true;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
@@ -64,6 +64,7 @@ abstract class UITest extends IntegrationTestCase
         reset($urlsToTest);
         for ($i = 0; $i < count($urlsToTest); $i += self::SCREENSHOT_GROUP_SIZE) {
             $urls = array();
+            echo "Generating screenshots...";
             for ($j = $i; $j != $i + self::SCREENSHOT_GROUP_SIZE && $j < count($urlsToTest); ++$j) {
                 $currentTest = current($urlsToTest);
 
@@ -74,13 +75,29 @@ abstract class UITest extends IntegrationTestCase
                     list($name, $urlQuery, $jsToTest) = $currentTest;
                 }
 
+                $testUrl = self::getProxyUrl() . $urlQuery;
+
+                // Screenshot Zeitgeist
                 list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
-                $urls[] = array($processedScreenshotPath, self::getProxyUrl() . $urlQuery, $jsToTest);
+                $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
+
+                // Screenshot Morpheus
+                list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name, "Morpheus/");
+                $enableMorpheus = "&morpheus=1";
+                // Add the parameter to the query string, not the hash
+                if(($hash = strpos($testUrl, '#')) !== false) {
+                    $testUrl = substr($testUrl, 0, $hash) . $enableMorpheus . substr($testUrl, $hash);
+                } else {
+                    $testUrl .= $enableMorpheus;
+                }
+
+                $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
 
                 next($urlsToTest);
+                echo ".";
             }
-            
-            echo "Generating screenshots...\n";
+            echo "\n";
+
             self::runCaptureProgram($urls);
         }
 
@@ -164,35 +181,9 @@ abstract class UITest extends IntegrationTestCase
     {
         list($processedPath, $expectedPath) = self::getProcessedAndExpectedScreenshotPaths($name);
 
-        if (!file_exists($processedPath)) {
-            $this->fail("failed to generate screenshot for '$name'.");
-            return;
-        }
+        $this->compareScreenshotAgainstExpected($name, $urlQuery, $processedPath, $expectedPath);
 
-        $processed = file_get_contents($processedPath);
-        
-        if (!file_exists($expectedPath)) {
-            $this->fail("expected screenshot for '$name' test is missing.
-Generated screenshot: $processedPath");
-            return;
-        }
-        
-        $expected = file_get_contents($expectedPath);
-        if ($expected != $processed) {
-            self::$failureScreenshotNames[] = $name;
 
-            $diffPath = self::getScreenshotDiffPath($name);
-
-            echo "\nFail: generated screenshot does not match expected for '$name'.
-Url to reproduce: $urlQuery
-Generated screenshot: $processedPath
-Expected screenshot: $expectedPath
-Screenshot diff: $diffPath\n";
-
-            $this->saveImageDiff($expectedPath, $processedPath, $diffPath);
-        }
-
-        $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
 
     private function saveImageDiff($expectedPath, $processedPath, $diffPath)
@@ -228,14 +219,14 @@ Screenshot diff: $diffPath\n";
         return $result === 0 || $result === 1;
     }
 
-    private static function getProcessedAndExpectedScreenshotPaths($name)
+    private static function getProcessedAndExpectedScreenshotPaths($name, $pathSuffix = '')
     {
         list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
 
         $outputPrefix = static::getOutputPrefix();
 
-        $processedScreenshotPath = $processedDir . $outputPrefix . '_' . "$name." . self::IMAGE_TYPE;
-        $expectedScreenshotPath = $expectedDir . $outputPrefix . '_' . "$name." . self::IMAGE_TYPE;
+        $processedScreenshotPath = $processedDir . $pathSuffix . $outputPrefix . '_' . "$name." . self::IMAGE_TYPE;
+        $expectedScreenshotPath = $expectedDir . $pathSuffix . $outputPrefix . '_' . "$name." . self::IMAGE_TYPE;
 
         return array($processedScreenshotPath, $expectedScreenshotPath);
     }
@@ -363,5 +354,44 @@ If processed screenshots are correct, you can copy the generated screenshots to 
 </html>';
         
         file_put_contents($diffDir . '/diffviewer.html', $diffViewerHtml);
+    }
+
+    /**
+     * @param $name
+     * @param $urlQuery
+     * @param $processedPath
+     * @param $expectedPath
+     */
+    protected function compareScreenshotAgainstExpected($name, $urlQuery, $processedPath, $expectedPath)
+    {
+        if (!file_exists($processedPath)) {
+            $this->fail("failed to generate screenshot for '$name'.");
+            return;
+        }
+
+        $processed = file_get_contents($processedPath);
+
+        if (!file_exists($expectedPath)) {
+            $this->fail("expected screenshot for '$name' test is missing.
+Generated screenshot: $processedPath");
+            return;
+        }
+
+        $expected = file_get_contents($expectedPath);
+        if ($expected != $processed) {
+            self::$failureScreenshotNames[] = $name;
+
+            $diffPath = self::getScreenshotDiffPath($name);
+
+            echo "\nFail: generated screenshot does not match expected for '$name'.
+Url to reproduce: $urlQuery
+Generated screenshot: $processedPath
+Expected screenshot: $expectedPath
+Screenshot diff: $diffPath\n";
+
+            $this->saveImageDiff($expectedPath, $processedPath, $diffPath);
+        }
+
+        $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
 }

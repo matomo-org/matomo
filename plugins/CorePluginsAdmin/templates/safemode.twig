@@ -1,6 +1,9 @@
 <html>
     <head>
         <style type="text/css">
+            html, body {
+                background-color: white;
+            }
             td {
                 border: 1px solid #ccc;
                 border-collapse: collapse;
@@ -46,27 +49,50 @@
             </p>
 
             <table>
-                {% for pluginName, plugin in plugins if plugin.uninstallable %}
+                {% for pluginName, plugin in plugins if plugin.uninstallable and plugin.activated %}
                     <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
                         <td style="min-width:200px;">
                             {{ pluginName }}
                         </td>
                         <td>
-                            {% if plugin.activated %}
-                                <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}"
-                                   target="_blank">deactivate</a>
-                            {% else %}
-                                <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
-                                   target="_blank">uninstall</a>
-                            {% endif %}
+                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}"
+                               target="_blank">deactivate</a>
                         </td>
                     </tr>
                 {% endfor %}
             </table>
 
+            {% set uninstalledPluginsFound = false %}
+            {% for pluginName, plugin in plugins if plugin.uninstallable and not plugin.activated %}
+                {% set uninstalledPluginsFound = true %}
+            {% endfor %}
+
+            {% if uninstalledPluginsFound %}
+
+                <p>
+                    If this error still occurs after disabling all plugins, you might want to consider uninstalling some
+                    plugins. Keep in mind: The plugin will be completely removed from your platform.
+                </p>
+
+                <table>
+                    {% for pluginName, plugin in plugins if plugin.uninstallable and not plugin.activated %}
+                        <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
+                            <td style="min-width:200px;">
+                                {{ pluginName }}
+                            </td>
+                            <td>
+                                <a href="index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ pluginName }}&nonce={{ uninstallNonce }}"
+                                   target="_blank" onclick="return confirm('{{ 'CorePluginsAdmin_UninstallConfirm'|translate(pluginName)|e('js') }}')">uninstall</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+
             <p>
+                <br />
                 We appreciate if you send the
-                <a href="mailto:hello@piwik.org?subject={{ 'Fatal error in Piwik'|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
+                <a href="mailto:hello@piwik.org?subject={{ 'Fatal error in Piwik ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
                 to the Piwik team.
             </p>
 
@@ -77,7 +103,7 @@
         {% else %}
             <p>
                 If this error continues to happen you may want to send an
-                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Piwik'|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
+                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Piwik ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}">error report</a>
                 to your system administrator.
             </p>
         {% endif %}
