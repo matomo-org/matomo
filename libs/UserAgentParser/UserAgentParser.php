@@ -172,6 +172,8 @@ class UserAgentParser
 
         'webos'                       => 'WO',
         'webpro'                      => 'WP',
+
+        'maxthon'                     => 'MX',
     );
 
     // browser family (by layout engine)
@@ -179,7 +181,7 @@ class UserAgentParser
         'ie'     => array('IE'),
         'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
         'khtml'  => array('KO'),
-        'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
+        'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF', 'MX'),
         'opera'  => array('OP'),
     );
 
@@ -444,7 +446,7 @@ class UserAgentParser
             || (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|thunderbird|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
             || preg_match_all("/(applewebkit)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
             || preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
-            || preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
+            || preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) (?:like)? gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
             || (strpos($userAgent, 'Nintendo 3DS') !== false && preg_match_all("/^(mozilla).*version\/([0-9]+)([.0-9a-z]+)?/i", $userAgent, $results))
         ) {
             // browser code (usually the first match)
@@ -547,9 +549,32 @@ class UserAgentParser
                 }
             }
 
+            // if UA contains Trident, it's an IE11+
+            if ($info['id'] == 'MO' && preg_match('/Trident\//i', $userAgent)) {
+                $info['id'] = 'IE';
+            }
+
             // SeaMonkey fix
             if ($info['id'] == 'MO' && $info['version'] == '1.9') {
                 $info['id'] = 'SM';
+            }
+
+            // if UA contains OPR, it's an Opera 15+
+            $operaResult = array();
+            if ($info['id'] == 'CH' && preg_match_all('/OPR\/(\d+)\.(\d+)/i', $userAgent, $operaResult)) {
+                $info['id'] = 'OP';
+                $info['major_number'] = $operaResult[1][0];
+                $info['minor_number'] = $operaResult[2][0];
+                $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
+            }
+
+            // recognize Maxthon
+            $maxthonResult = array();
+            if ($info['id'] == 'CH' && preg_match_all('/Maxthon\/(\d+)\.(\d+)/i', $userAgent, $maxthonResult)) {
+                $info['id'] = 'MX';
+                $info['major_number'] = $maxthonResult[1][0];
+                $info['minor_number'] = $maxthonResult[2][0];
+                $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
             }
 
             $info['name'] = self::getBrowserNameFromId($info['id']);
