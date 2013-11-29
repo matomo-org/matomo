@@ -444,7 +444,7 @@ class UserAgentParser
             || (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|thunderbird|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
             || preg_match_all("/(applewebkit)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
             || preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
-            || preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
+            || preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) (?:like)? gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
             || (strpos($userAgent, 'Nintendo 3DS') !== false && preg_match_all("/^(mozilla).*version\/([0-9]+)([.0-9a-z]+)?/i", $userAgent, $results))
         ) {
             // browser code (usually the first match)
@@ -545,6 +545,11 @@ class UserAgentParser
                         break;
                     }
                 }
+            }
+
+            // if UA contains Trident, it's an IE11+
+            if ($info['id'] == 'MO' && preg_match('/Trident\//i', $userAgent)) {
+                $info['id'] = 'IE';
             }
 
             // SeaMonkey fix
