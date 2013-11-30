@@ -234,6 +234,7 @@ class UserAgentParser
         'Windows NT 6.2'               => 'WI8',
         'Windows NT 6.3'               => 'W81',
         'Windows 8'                    => 'WI8',
+        'Windows 8.1'                  => 'W81',
         'CYGWIN_NT-6.1'                => 'WI7',
         'Windows NT 6.1'               => 'WI7',
         'Windows 7'                    => 'WI7',
