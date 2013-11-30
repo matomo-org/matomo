@@ -578,6 +578,15 @@ class UserAgentParser
                 $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
             }
 
+            // if UA contains "Avant Browser", recognize it as IE (according to Unit Tests)
+            $avResult = array();
+            if ($info['id'] == 'MX' && preg_match_all('/.*MSIE (\d+)\.(\d+).*Avant Browser/', $userAgent, $avResult)) {
+                $info['id'] = 'IE';
+                $info['major_number'] = $avResult[1][0];
+                $info['minor_number'] = $avResult[2][0];
+                $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
+            }
+
             $info['name'] = self::getBrowserNameFromId($info['id']);
             $info['short_name'] = self::getBrowserShortNameFromId($info['id']);
 
