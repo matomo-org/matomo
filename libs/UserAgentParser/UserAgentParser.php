@@ -234,6 +234,7 @@ class UserAgentParser
         'Windows NT 6.2'               => 'WI8',
         'Windows NT 6.3'               => 'W81',
         'Windows 8'                    => 'WI8',
+        'Windows 8.1'                  => 'W81',
         'CYGWIN_NT-6.1'                => 'WI7',
         'Windows NT 6.1'               => 'WI7',
         'Windows 7'                    => 'WI7',
@@ -446,7 +447,7 @@ class UserAgentParser
             || (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|thunderbird|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
             || preg_match_all("/(applewebkit)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
             || preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
-            || preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) (?:like)? gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
+            || preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) (?:like )?gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
             || (strpos($userAgent, 'Nintendo 3DS') !== false && preg_match_all("/^(mozilla).*version\/([0-9]+)([.0-9a-z]+)?/i", $userAgent, $results))
         ) {
             // browser code (usually the first match)
@@ -574,6 +575,15 @@ class UserAgentParser
                 $info['id'] = 'MX';
                 $info['major_number'] = $maxthonResult[1][0];
                 $info['minor_number'] = $maxthonResult[2][0];
+                $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
+            }
+
+            // if UA contains "Avant Browser", recognize it as IE (according to Unit Tests)
+            $avResult = array();
+            if ($info['id'] == 'MX' && preg_match_all('/.*MSIE (\d+)\.(\d+).*Avant Browser/', $userAgent, $avResult)) {
+                $info['id'] = 'IE';
+                $info['major_number'] = $avResult[1][0];
+                $info['minor_number'] = $avResult[2][0];
                 $info['version'] = $info['major_number'] . '.' . $info['minor_number'];
             }
 

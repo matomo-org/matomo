@@ -26,6 +26,9 @@ $testUserAgent = array(
     'IE 9.0 on Windows 7'                 => 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
     'IE 8.0 on Windows 7'                 => 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)',
     'Maxthon 4.1.3 on Windows 8'          => 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Maxthon/4.1.3.5000 Chrome/26.0.1410.43 Safari/537.1',
+    'Mozilla 1.7 on SunOS'                => 'Mozilla/5.0 (X11; U; SunOS sun4u; en-US; rv:1.7) Gecko/20070606',
+    'Avant Browser'                       => 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Avant Browser; .NET CLR 2.0.50727; MAXTHON 2.0',
+    'SeaMonkey 1.9 on WinXP'              => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9) Gecko',
 );
 echo "Test with another user agent: ";
 foreach ($testUserAgent as $name => $userAgent) {
