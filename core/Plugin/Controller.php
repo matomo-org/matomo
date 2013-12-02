@@ -435,7 +435,7 @@ abstract class Controller
     }
 
     /**
-     * Assigns variables to {@link Piwik\View) instances that display an entire page.
+     * Assigns variables to {@link Piwik\View} instances that display an entire page.
      * 
      * The following variables assigned:
      * 
@@ -452,7 +452,7 @@ abstract class Controller
      *                                            INI config option.
      * **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
      * 
-     * As well as the variables set by [setPeriodVariablesView](#setPeriodVariablesView).
+     * As well as the variables set by {@link setPeriodVariablesView()}.
      * 
      * Will exit on error.
      * 
@@ -522,7 +522,7 @@ abstract class Controller
     }
 
     /**
-     * Assigns a set of generally useful variables to a {@link Piwik\View) instance.
+     * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
      * 
      * The following variables assigned:
      * 
@@ -539,7 +539,7 @@ abstract class Controller
      * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
      *                    true, [View::setXFrameOptions](#) is called on the view.
      * 
-     * Also calls [setHostValidationVariablesView](#setHostValidationVariablesView).
+     * Also calls {@link setHostValidationVariablesView()}.
      *
      * @param View $view
      * @api
