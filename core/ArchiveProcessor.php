@@ -27,13 +27,13 @@ use Piwik\Period;
  * During the Archiving process an instance of this class is used by plugins
  * to cache aggregated analytics statistics.
  * 
- * When the [Archive](#) class is used to query for archive data and that archive
+ * When the {@link Archive} class is used to query for archive data and that archive
  * data is found to be absent, the archiving process is launched. Instances of the
  * [Archiver](#) classes for every plugin that supplies one are then used to
  * execute archiving logic.
  * 
- * Plugins access ArchiveProcessor instances through the [Archiver](#) class. Read
- * the docs for [Archiver](#) to learn more about the process.
+ * Plugins access ArchiveProcessor instances through the {@link Piwik\Plugin\Archiver Archiver} class.
+ * Read the docs for {@link Piwik\Plugin\Archiver Archiver} to learn more about the process.
  * 
  * ### Limitations
  * 
@@ -43,10 +43,10 @@ use Piwik\Period;
  * 
  * ### See also
  * 
- * - **[Archiver](#)** - to learn how plugins should implement their own analytics
- *                       aggregation logic.
- * - **[LogAggregator](#)** - to learn how plugins can perform data aggregation
- *                            across Piwik's log tables.
+ * - **{@link Piwik\Plugin\Archiver Archiver}** - to learn how plugins should implement their own analytics
+ *                                                aggregation logic.
+ * - **{@link Piwik\DataAccess\LogAggregator LogAggregator}** - to learn how plugins can perform data aggregation
+ *                                                              across Piwik's log tables.
  * 
  * ### Examples
  * 
