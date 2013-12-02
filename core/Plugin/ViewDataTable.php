@@ -123,7 +123,7 @@ abstract class ViewDataTable implements ViewInterface
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
         /**
-         * Triggered during [ViewDataTable](#) construction. Subscribers should customize
+         * Triggered during {@link ViewDataTable} construction. Subscribers should customize
          * the view based on the report that it is displaying.
          * 
          * Plugins that define their own reports must subscribe to this event in order to

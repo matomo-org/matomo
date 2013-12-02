@@ -64,7 +64,7 @@ class MenuAdmin extends MenuAbstract
              * Triggered when collecting all available admin menu items. Subscribe to this event if you want
              * to add one or more items to the Piwik admin menu.
              *
-             * Menu items should be added via the [Menu::add](#) method.
+             * Menu items should be added via the {@link Menu::add()} method.
              *
              * **Example**
              * 

@@ -77,7 +77,7 @@ class WidgetsList
              * Triggered once when the widget list is first requested. Collects all available widgets.
              * 
              * Subscribe to this event to make your plugin's reports or other controller actions available
-             * as dashboard widgets. Event handlers should call the WidgetsList::add method for each
+             * as dashboard widgets. Event handlers should call the {@link WidgetsList::add()} method for each
              * new dashboard widget.
              *
              * **Example**

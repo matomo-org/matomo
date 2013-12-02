@@ -70,7 +70,7 @@ class MenuMain extends MenuAbstract
              * Triggered when collecting all available reporting menu items. Subscribe to this event if you
              * want to add one or more items to the Piwik reporting menu.
              * 
-             * Menu items should be added via the [Menu::add](#) method.
+             * Menu items should be added via the {@link add()} method.
              *
              * **Example**
              * 

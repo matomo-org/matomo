@@ -102,11 +102,11 @@ class FrontController extends Singleton
         list($controller, $action) = $this->makeController($module, $action);
 
         /**
-         * This event exists for convenience and is triggered directly after the [Request.dispatch](#)
+         * This event exists for convenience and is triggered directly after the [Request.dispatch](#requestdispatch)
          * event is triggered.
          * 
-         * It can be used to do the same things as the [Request.dispatch](#) event, but for one controller
-         * action only. Using this event will result in a little less code than [Request.dispatch](#).
+         * It can be used to do the same things as the [Request.dispatch](#requestdispatch) event, but for one controller
+         * action only. Using this event will result in a little less code than [Request.dispatch](#requestdispatch).
          * 
          * @param array &$parameters The arguments passed to the controller action.
          */
@@ -119,9 +119,9 @@ class FrontController extends Singleton
              * This event exists for convenience and is triggered immediately before the
              * [Request.dispatch.end](#) event is triggered.
              * 
-             * It can be used to do the same things as the [Request.dispatch.end](#) event, but for one
+             * It can be used to do the same things as the [Request.dispatch.end](#requestdispatchend) event, but for one
              * controller action only. Using this event will result in a little less code than
-             * [Request.dispatch.end](#).
+             * [Request.dispatch.end](#requestdispatchend).
              * 
              * @param mixed &$result The result of the controller action.
              * @param array $parameters The arguments passed to the controller action.
@@ -364,7 +364,7 @@ class FrontController extends Singleton
 
             /**
              * Triggered before the user is authenticated. You can use it to create your own
-             * authentication object which implements the [Piwik\Auth](#) interface and overrides
+             * authentication object which implements the {@link Piwik\Auth} interface and overrides
              * the default authentication logic.
              */
             Piwik::postEvent('Request.initAuthenticationObject');

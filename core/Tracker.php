@@ -588,9 +588,9 @@ class Tracker
         $visit = null;
 
         /**
-         * Triggered before a new `Piwik\Tracker\Visit` object is created. Subscribers to this
+         * Triggered before a new `{@link Piwik\Tracker\Visit}` object is created. Subscribers to this
          * event can force the use of a custom visit object that extends from
-         * [Piwik\Tracker\VisitInterface](#).
+         * {@link Piwik\Tracker\VisitInterface}.
          * 
          * @param \Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
          *                                             a created Visit object. If it isn't

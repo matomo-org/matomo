@@ -316,7 +316,7 @@ abstract class Action
          * Triggered after successfully logging an action for a visit.
          * 
          * 
-         * @param Action $trackerAction The Action tracker instance.
+         * @param Action $tracker Action The Action tracker instance.
          * @param array $info An array describing the current visit action. Includes the
          *                    following information:
          *                    - **idSite**: The ID of the site that we are tracking.
