@@ -78,7 +78,7 @@ class ExcludeLowPopulation extends Filter
     }
 
     /**
-     * See [ExcludeLowPopulation](#).
+     * See {@link ExcludeLowPopulation}.
      *
      * @param DataTable $table
      */

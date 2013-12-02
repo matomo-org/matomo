@@ -237,7 +237,7 @@ class Proxy extends Singleton
              * 
              * @param mixed &$returnedValue The value returned from the API method. This will not be
              *                              a rendered string, but an actual object. For example, it
-             *                              could be a [DataTable](#).
+             *                              could be a {@link Piwik\DataTable}.
              * @param array $extraInfo An array holding information regarding the API request. Will
              *                         contain the following data:
              * 

@@ -23,7 +23,7 @@ use Piwik\DataTable\Row;
  * - etc.
  *
  * Filters are called with a DataTable instance and extra parameters that are specified
- * in [DataTable::filter()](#) and [DataTable::queueFilter()](#).
+ * in {@link Piwik\DataTable::filter()} and {@link Piwik\DataTable::queueFilter()}.
  * 
  * To see examples of Filters look at the existing ones in the Piwik\DataTable\Filter
  * namespace.

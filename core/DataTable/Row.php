@@ -15,7 +15,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 
 /**
- * This is what a [DataTable](#) is composed of.
+ * This is what a {@link Piwik\DataTable} is composed of.
  * 
  * DataTable rows contain columns, metadata and a subtable ID. Columns and metadata
  * are stored as an array of name => value mappings.
@@ -271,7 +271,7 @@ class Row
      * Sums a DataTable to this row's subtable. If this row has no subtable a new
      * one is created.
      * 
-     * See [DataTable::addDataTable()](#) to learn how DataTables are summed.
+     * See {@link Piwik\DataTable::addDataTable()} to learn how DataTables are summed.
      * 
      * @param DataTable $subTable Table to sum to this row's subtab.e.
      */
@@ -319,7 +319,7 @@ class Row
     }
 
     /**
-     * Returns true if the subtable is currently loaded in memory via [DataTable\Manager](#).
+     * Returns true if the subtable is currently loaded in memory via {@link Piwik\DataTable\Manager}.
      *
      * @return bool
      */

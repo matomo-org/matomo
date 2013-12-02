@@ -18,7 +18,7 @@ use Piwik\ScheduledTime;
  * Contains metadata describing a chunk of PHP code that should be executed at regular
  * intervals.
  * 
- * See the [TaskScheduler](#) docs to learn more about scheduled tasks.
+ * See the {@link TaskScheduler} docs to learn more about scheduled tasks.
  * 
  * @package Piwik
  * @subpackage ScheduledTask
@@ -78,7 +78,7 @@ class ScheduledTask
      *                           executed.
      * @param mixed|null $methodParameter An optional parameter to pass to the method when executed.
      *                                    Must be convertible to string.
-     * @param ScheduledTime|null $scheduledTime A [ScheduledTime](#) instance that describes when the method
+     * @param ScheduledTime|null $scheduledTime A {@link ScheduledTime} instance that describes when the method
      *                                          should be executed and how long before the next execution.
      * @param int $priority The priority of the task. Tasks with a higher priority will be executed first.
      *                      Tasks with low priority will be executed last.
@@ -153,7 +153,7 @@ class ScheduledTask
     }
 
     /**
-     * Returns a [ScheduledTime](#) instance that describes when the method should be executed
+     * Returns a {@link ScheduledTime} instance that describes when the method should be executed
      * and how long before the next execution.
      *
      * @return ScheduledTime

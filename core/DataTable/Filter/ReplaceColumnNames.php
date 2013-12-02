@@ -25,7 +25,7 @@ use Piwik\Tracker\GoalManager;
  * (which are integers) with their string column names. In the database, reports are
  * stored with integer metric names because it results in blobs that take up less space.
  * When loading the reports, the column names must be replaced, which is handled by this
- * class. (See [Metrics](#) for more information about integer metric names.)
+ * class. (See {@link Piwik\Metrics} for more information about integer metric names.)
  * 
  * **Basic example**
  * 
@@ -55,7 +55,7 @@ class ReplaceColumnNames extends Filter
      *                                   array('OLD_COLUMN_NAME' => 'NEW_COLUMN NAME',
      *                                         'OLD_COLUMN_NAME2' => 'NEW_COLUMN NAME2')
      *                                   ```
-     *                                   If null, [Metrics::$mappingFromIdToName](#) is used.
+     *                                   If null, {@link Piwik\Metrics::$mappingFromIdToName} is used.
      */
     public function __construct($table, $mappingToApply = null)
     {
@@ -67,7 +67,7 @@ class ReplaceColumnNames extends Filter
     }
 
     /**
-     * See [ReplaceColumnNames](#).
+     * See {@link ReplaceColumnNames}.
      *
      * @param DataTable $table
      */

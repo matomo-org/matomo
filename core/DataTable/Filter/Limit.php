@@ -45,7 +45,7 @@ class Limit extends Filter
     }
 
     /**
-     * See [Limit](#).
+     * See {@link Limit}.
      *
      * @param DataTable $table
      */

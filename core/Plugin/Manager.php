@@ -394,7 +394,7 @@ class Manager extends Singleton
      *               - **invalid**: If the plugin is invalid, this property will be set to true.
      *                              If the plugin is not invalid, this property will not exist.
      *               - **info**: If the plugin was loaded, will hold the plugin information.
-     *                           See [Plugin::getInformation](#).
+     *                           See {@link Piwik\Plugin::getInformation()}.
      * @api
      */
     public function returnLoadedPluginsInfo()

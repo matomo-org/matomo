@@ -61,7 +61,7 @@ class ColumnCallbackAddMetadata extends Filter
     }
 
     /**
-     * See [ColumnCallbackAddMetadata](#).
+     * See {@link ColumnCallbackAddMetadata}.
      *
      * @param DataTable $table
      */

@@ -208,7 +208,7 @@ class RankingQuery
      * The object has to be configured first using the other methods.
      *
      * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
-     *                            has to be specified in this query. [RankingQuery](#) cannot apply ordering
+     *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
      * @param $bind array         Bindings for the inner query.
      * @return array              The format depends on which methods have been used
@@ -266,7 +266,7 @@ class RankingQuery
      * yourself, use this method.
      *
      * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
-     *                            has to be specified in this query. [RankingQuery](#) cannot apply ordering
+     *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
      * @return string             The entire ranking query SQL.
      */

@@ -29,11 +29,11 @@ use Piwik\Period;
  * 
  * When the {@link Archive} class is used to query for archive data and that archive
  * data is found to be absent, the archiving process is launched. Instances of the
- * [Archiver](#) classes for every plugin that supplies one are then used to
- * execute archiving logic.
+ * {@link Piwik\Plugin\Archiver} classes for every plugin that supplies one are
+ * then used to execute archiving logic.
  * 
- * Plugins access ArchiveProcessor instances through the {@link Piwik\Plugin\Archiver Archiver} class.
- * Read the docs for {@link Piwik\Plugin\Archiver Archiver} to learn more about the process.
+ * Plugins access ArchiveProcessor instances through the {@link Piwik\Plugin\Archiver} class.
+ * Read the docs for {@link Piwik\Plugin\Archiver} to learn more about the process.
  * 
  * ### Limitations
  * 
@@ -43,10 +43,10 @@ use Piwik\Period;
  * 
  * ### See also
  * 
- * - **{@link Piwik\Plugin\Archiver Archiver}** - to learn how plugins should implement their own analytics
- *                                                aggregation logic.
- * - **{@link Piwik\DataAccess\LogAggregator LogAggregator}** - to learn how plugins can perform data aggregation
- *                                                              across Piwik's log tables.
+ * - **{@link Piwik\Plugin\Archiver}** - to learn how plugins should implement their own analytics
+ *                                       aggregation logic.
+ * - **{@link Piwik\DataAccess\LogAggregator}** - to learn how plugins can perform data aggregation
+ *                                                across Piwik's log tables.
  * 
  * ### Examples
  * 
@@ -158,7 +158,7 @@ class ArchiveProcessor
     }
 
     /**
-     * Returns a [LogAggregator](#) instance for the site, period and segment this
+     * Returns a `{@link Piwik\DataAccess\LogAggregator}` instance for the site, period and segment this
      * ArchiveProcessor will insert archive data for.
      *
      * @return LogAggregator

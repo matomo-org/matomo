@@ -89,17 +89,17 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * 
  * ### Applying Filters
  * 
- * Filters can be applied now (via [filter](#filter)), or they can be applied later (via
- * [queueFilter](#queueFilter)).
+ * Filters can be applied now (via {@link filter()}), or they can be applied later (via
+ * {@link queueFilter()}).
  * 
  * Filters that sort rows or manipulate the number of rows should be applied right away.
  * Non-essential, presentation filters should be queued.
  * 
  * ### Learn more
  * 
- * - **[ArchiveProcessor](#)** &mdash; to learn how DataTables are persisted.
- * - **[DataTable\Renderer](#)** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
- * - **[DataTable\Filter](#)** &mdash; to see all core Filters.
+ * - **{@link ArchiveProcessor}** &mdash; to learn how DataTables are persisted.
+ * - **{@link DataTable\Renderer}** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
+ * - **{@link DataTable\Filter}** &mdash; to see all core Filters.
  * 
  * ### Examples
  * 
@@ -182,8 +182,8 @@ class DataTable implements DataTableInterface
     const TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME = 'total_rows_before_limit';
 
     /**
-     * Name for metadata that describes how individual columns should be aggregated when [addDataTable](#addDataTable)
-     * or [DataTable\Row::sumRow](#) is called.
+     * Name for metadata that describes how individual columns should be aggregated when {@link addDataTable()}
+     * or {@link Piwik\DataTable\Row::sumRow()} is called.
      * 
      * This metadata value must be an array that maps column names with valid operations. Valid aggregation operations are:
      * 
@@ -192,7 +192,7 @@ class DataTable implements DataTableInterface
      * - `'min'`: does `min($column1, $column2)`
      * - `'sum'`: does `$column1 + $column2`
      * 
-     * See [addDataTable](#addDataTable) and [DataTable\Row::sumRow](#) for more information.
+     * See {@link addDataTable()} and {@link DataTable\Row::sumRow()} for more information.
      */
     const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
 
@@ -1055,7 +1055,7 @@ class DataTable implements DataTableInterface
      * cases where DataTables can become quite large, they should be truncated before being persisted
      * in an archive.
      *
-     * The result of this method is intended for use with the [ArchiveProcessor::insertBlobRecord](#) method.
+     * The result of this method is intended for use with the {@link ArchiveProcessor::insertBlobRecord()} method.
      *
      * @throws Exception If infinite recursion detected. This will occur if a table's subtable is one of its parent tables.
      * @param int $maximumRowsInDataTable If not null, defines the maximum number of rows allowed in the serialized DataTable.

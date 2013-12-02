@@ -18,7 +18,7 @@ use Piwik\Site;
  * A DataTable filter that calculates the evolution of a metric and adds
  * it to each row as a percentage.
  *
- * **This filter cannot be used as an argument to [DataTable::filter](#)** since
+ * **This filter cannot be used as an argument to {@link Piwik\DataTable::filter()}** since
  * it requires corresponding data from another datatable. Instead, to use it,
  * you must manually perform a binary filter (see the MultiSites API for an
  * example).

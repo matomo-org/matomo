@@ -13,7 +13,7 @@ namespace Piwik\DataTable;
 use Piwik\DataTable;
 
 /**
- * A [DataTable](#) where every row has two columns: **label** and **value**.
+ * A {@link Piwik\DataTable} where every row has two columns: **label** and **value**.
  * 
  * Simple DataTables are only used to slightly alter the output of some renderers
  * (notably the XML renderer).

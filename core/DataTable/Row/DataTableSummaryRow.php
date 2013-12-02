@@ -22,7 +22,7 @@ use Piwik\DataTable\Row;
  * Non-numeric columns are bypassed during summation and do not appear in this
  * rows columns.
  *
- * See [DataTable\Row::sumRow()](#) for more information on the algorithm.
+ * See {@link Piwik\DataTable\Row::sumRow()} for more information on the algorithm.
  *
  * @package Piwik
  * @subpackage DataTable

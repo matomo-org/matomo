@@ -77,7 +77,7 @@ class Map implements DataTableInterface
     /**
      * Queue a filter to DataTable child of contained by this instance.
      * 
-     * See [DataTable::queueFilter](#) for more information..
+     * See {@link Piwik\DataTable::queueFilter()} for more information..
      *
      * @param string|Closure $className Filter name, eg. `'Limit'` or a Closure.
      * @param array $parameters Filter parameters, eg. `array(50, 10)`.
@@ -362,7 +362,7 @@ class Map implements DataTableInterface
      * Adds a DataTable to all the tables in this array.
      * NOTE: Will only add `$tableToSum` if the childTable has some rows
      *
-     * See [DataTable::addDataTable()](#).
+     * See {@link Piwik\DataTable::addDataTable()}.
      * 
      * @param DataTable $tableToSum
      */

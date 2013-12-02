@@ -24,7 +24,7 @@ abstract class Setting
      * Describes the setting's PHP data type. When saved, setting values will always be casted to this
      * type.
      * 
-     * See [Settings](#) for a list of supported data types.
+     * See {@link Piwik\Plugin\Settings} for a list of supported data types.
      *
      * @var string
      */
@@ -33,7 +33,7 @@ abstract class Setting
     /**
      * Describes how the setting should be manipulated through Piwik's UI.
      *
-     * See [Settings](#) for a list of supportted control types.
+     * See {@link Piwik\Plugin\Settings} for a list of supportted control types.
      * 
      * @var string
      */
@@ -92,7 +92,7 @@ abstract class Setting
     /**
      * A closure that does some custom validation on the setting before the setting is persisted.
      * 
-     * The closure should take two arguments: the setting value and the [Setting](#) instance being
+     * The closure should take two arguments: the setting value and the {@link Setting} instance being
      * validated. If the value is found to be invalid, the closure should throw an exception with
      * a message that describes the error.
      * 

@@ -42,7 +42,7 @@ use Piwik\Tracker\GoalManager;
  * Adding the **filter_update_columns_when_show_all_goals** query parameter to
  * an API request will trigger the execution of this Filter.
  * 
- * Note: This filter must be called before [ReplaceColumnNames](#) is called.
+ * Note: This filter must be called before {@link ReplaceColumnNames} is called.
  * 
  * **Basic usage example**
  * 

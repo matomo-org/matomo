@@ -51,7 +51,7 @@ class ReplaceSummaryRowLabel extends Filter
     }
 
     /**
-     * See [ReplaceSummaryRowLabel](#).
+     * See {@link ReplaceSummaryRowLabel}.
      *
      * @param DataTable $table
      */

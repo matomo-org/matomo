@@ -73,8 +73,8 @@ abstract class Archiver
      * aggregating individual log table rows isn't a problem. Doing this for any larger period,
      * however, would cause performance issues.
      * 
-     * Aggregate log table rows using a [LogAggregator](#) instance. Get a [LogAggregator](#) instance
-     * using the [getLogAggregator](#getLogAggregator) method.
+     * Aggregate log table rows using a {@link Piwik\DataAccess\LogAggregator} instance. Get a {@link Piwik\DataAccess\LogAggregator} instance
+     * using the {@link getLogAggregator()} method.
      */
     abstract public function aggregateDayReport();
 
@@ -85,13 +85,13 @@ abstract class Archiver
      * current period. For example, it is more efficient to aggregate reports for each day of a
      * week than to aggregate each log entry of the week.
      * 
-     * Use [ArchiveProcessor::aggregateNumericMetrics](#) and [ArchiveProcessor::aggregateDataTableRecords](#)
-     * to aggregate archived reports. Get the [ArchiveProcessor](#) instance using the [getProcessor](#getProcessor).
+     * Use {@link Piwik\ArchiveProcessor::aggregateNumericMetrics()} and {@link Piwik\ArchiveProcessor::aggregateDataTableRecords()}
+     * to aggregate archived reports. Get the {@link Piwik\ArchiveProcessor} instance using the [getProcessor](#getProcessor).
      */
     abstract public function aggregateMultipleReports();
 
     /**
-     * Returns an [ArchiveProcessor](#) instance that can be used to insert archive data for
+     * Returns an {@link Piwik\ArchiveProcessor} instance that can be used to insert archive data for
      * this period, segment and site.
      * 
      * @return \Piwik\ArchiveProcessor
@@ -102,7 +102,7 @@ abstract class Archiver
     }
 
     /**
-     * Returns a [LogAggregator](#) instance that can be used to aggregate log table rows
+     * Returns a {@link Piwik\DataAccess\LogAggregator} instance that can be used to aggregate log table rows
      * for this period, segment and site.
      * 
      * @return \Piwik\DataAccess\LogAggregator

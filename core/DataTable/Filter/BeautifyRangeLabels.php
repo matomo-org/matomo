@@ -29,7 +29,7 @@ use Piwik\Piwik;
  *
  * This filter can be extended to vary exactly how ranges are prettified based
  * on the range values found in the DataTable. To see an example of this,
- * take a look at the [BeautifyTimeRangeLabels](#) filter.
+ * take a look at the {@link BeautifyTimeRangeLabels} filter.
  * 
  * **Basic usage example**
  * 
@@ -73,7 +73,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
     }
 
     /**
-     * Beautifies a range label and returns the pretty result. See [BeautifyRangeLabels](#).
+     * Beautifies a range label and returns the pretty result. See {@link BeautifyRangeLabels}.
      *
      * @param string $value The range string. This must be in either a '$min-$max' format
      *                        a '$min+' format.

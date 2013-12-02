@@ -237,7 +237,7 @@ class Db
      *     $idVisit = // ...
      *     Db::deleteAllRows(Common::prefixTable('log_visit'), "WHERE idvisit <= ?", "idvisit ASC", 100000, array($idVisit));
      * 
-     * @param string $table The name of the table to delete from. Must be prefixed (see [Common::prefixTable](#)).
+     * @param string $table The name of the table to delete from. Must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string $where The where clause of the query. Must include the WHERE keyword.
      * @param $orderBy The column to order by and the order by direction, eg, `idvisit ASC`.
      * @param int $maxRowsPerQuery The maximum number of rows to delete per DELETE query.
@@ -265,7 +265,7 @@ class Db
 
     /**
      * Runs an OPTIMIZE TABLE query on the supplied table or tables. The table names must be prefixed
-     * (see [Common::prefixTable](#)).
+     * (see {@link Piwik\Common::prefixTable()}).
      * 
      * Tables will only be optimized if the `[General] enable_sql_optimize_queries` config option is
      * set to **1**.
@@ -306,7 +306,7 @@ class Db
     }
 
     /**
-     * Drops the supplied table or tables. The table names must be prefixed (see [Common::prefixTable](#)).
+     * Drops the supplied table or tables. The table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      *
      * @param string|array $tables The name of the table to drop or an array of table names to drop.
      * @return \Zend_Db_Statement
@@ -321,7 +321,7 @@ class Db
     }
 
     /**
-     * Locks the supplied table or tables. The table names must be prefixed (see [Common::prefixTable](#)).
+     * Locks the supplied table or tables. The table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * 
      * **NOTE:** Piwik does not require the LOCK TABLES privilege to be available. Piwik
      * should still work in case it is not granted.

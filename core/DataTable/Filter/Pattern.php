@@ -78,7 +78,7 @@ class Pattern extends Filter
     }
 
     /**
-     * See [Pattern](#).
+     * See {@link Pattern}.
      * 
      * @param DataTable $table
      */

@@ -44,7 +44,7 @@ class AddSummaryRow extends Filter
     }
 
     /**
-     * Executes the filter. See [AddSummaryRow](#).
+     * Executes the filter. See {@link AddSummaryRow}.
      *
      * @param DataTable $table
      */

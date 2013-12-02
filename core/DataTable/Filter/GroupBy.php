@@ -69,7 +69,7 @@ class GroupBy extends Filter
     }
 
     /**
-     * See [GroupBy](#).
+     * See {@link GroupBy}.
      *
      * @param DataTable $table
      */

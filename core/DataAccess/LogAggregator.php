@@ -22,7 +22,7 @@ use Piwik\Tracker\GoalManager;
 /**
  * Contains methods that aggregates log data (visits, actions, conversions, ecommerce).
  * 
- * Plugin [Archiver](#) descendants can use the methods in this class to aggregate data
+ * Plugin {@link Piwik\Plugin\Archiver} descendants can use the methods in this class to aggregate data
  * in the log tables without creating their own SQL queries.
  * 
  * ### Aggregation Principles
@@ -283,9 +283,9 @@ class LogAggregator
      *                              - [Metrics::INDEX_NB_VISITS_CONVERTED](#)
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
-     *                                   If set, the return value is the array returned by [RankingQuery::execute()](#).
+     *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
-     *               [RankingQuery::execute()](#). Read [this](#queryVisitsByDimension-result-set)
+     *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryVisitsByDimension-result-set)
      *               to see what aggregate data is calculated by the query.
      * @api
      */
@@ -556,14 +556,14 @@ class LogAggregator
      *                              - [Metrics::INDEX_NB_ACTIONS](#)
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
-     *                                   If set, the return value is the array returned by [RankingQuery::execute()](#).
+     *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
      * @param bool|string $joinLogActionOnColumn One or more columns from the **log_link_visit_action** table that
      *                                           log_action should be joined on. The table alias used for each join
      *                                           is `"log_action$i"` where `$i` is the index of the column in this
      *                                           array. If a string is used for this parameter, the table alias is not
      *                                           suffixed.
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
-     *               [RankingQuery::execute()](#). Read [this](#queryEcommerceItems-result-set)
+     *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)
      *               to see what aggregate data is calculated by the query.
      * @api
      */

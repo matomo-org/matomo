@@ -14,7 +14,7 @@ use Piwik\Notification;
 use Piwik\Session\SessionNamespace;
 
 /**
- * Posts and removes UI notifications (see [Notification](#) to learn more).
+ * Posts and removes UI notifications (see {@link Piwik\Notification} to learn more).
  * 
  * @package Piwik
  * @subpackage Notification

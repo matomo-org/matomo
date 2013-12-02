@@ -124,14 +124,14 @@ class Notification
     public $flags = self::FLAG_NO_CLEAR;
 
     /**
-     * The notification's display type. See `TYPE_*` constants in [this class](#).
+     * The notification's display type. See `TYPE_*` constants in {@link Notification}.
      * 
      * @var string
      */
     public $type = self::TYPE_TRANSIENT;
 
     /**
-     * The notification's context (message type). See `CONTEXT_*` constants in [this class](#).
+     * The notification's context (message type). See `CONTEXT_*` constants in {@link Notification}.
      * 
      * A notification's context determines how it will be styled.
      * 
@@ -141,7 +141,7 @@ class Notification
 
     /**
      * The notification's priority. The higher the priority, the higher the order. See `PRIORITY_*`
-     * constants in [this class](#) to see possible priority values.
+     * constants in {@link Notification} to see possible priority values.
      * 
      * @var int
      */

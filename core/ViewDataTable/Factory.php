@@ -16,7 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
- * Provides a means of creating [ViewDataTable](#) instances by ID.
+ * Provides a means of creating {@link Piwik\Plugin\ViewDataTable} instances by ID.
  *
  * ### Examples
  * 
@@ -70,7 +70,7 @@ class Factory
     private static $defaultViewTypes = null;
 
     /**
-     * Creates a [ViewDataTable](#) instance by ID. If the **viewDataTable** query parameter is set,
+     * Creates a {@link Piwik\Plugin\ViewDataTable} instance by ID. If the **viewDataTable** query parameter is set,
      * this parameter's value is used as the ID.
      * 
      * See [ViewDataTable docs](#) to read about the ViewDataTable implementations that are packaged with Piwik.

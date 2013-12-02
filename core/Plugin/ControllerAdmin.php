@@ -23,7 +23,7 @@ use Piwik\View;
 /**
  * Base class of plugin controllers that provide administrative functionality.
  * 
- * See [Controller](#) to learn more about Piwik controllers.
+ * See {@link Controller} to learn more about Piwik controllers.
  * 
  * @package Piwik
  *
@@ -32,7 +32,7 @@ use Piwik\View;
 abstract class ControllerAdmin extends Controller
 {
     /**
-     * Calls [Controller::setBasicVariablesView](#) and [setBasicVariablesAdminView](#setBasicVariablesAdminView)
+     * Calls {@link setBasicVariablesView()} and {@link setBasicVariablesAdminView()}
      * using the supplied view.
      *
      * @param View $view

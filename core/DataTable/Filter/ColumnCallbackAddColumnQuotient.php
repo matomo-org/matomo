@@ -68,7 +68,7 @@ class ColumnCallbackAddColumnQuotient extends Filter
     }
 
     /**
-     * See [ColumnCallbackAddColumnQuotient](#).
+     * See {@link ColumnCallbackAddColumnQuotient}.
      *
      * @param DataTable $table
      */

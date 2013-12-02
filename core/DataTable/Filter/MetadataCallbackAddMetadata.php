@@ -60,7 +60,7 @@ class MetadataCallbackAddMetadata extends Filter
     }
 
     /**
-     * See [MetadataCallbackAddMetadata](#).
+     * See {@link MetadataCallbackAddMetadata}.
      * 
      * @param DataTable $table
      */

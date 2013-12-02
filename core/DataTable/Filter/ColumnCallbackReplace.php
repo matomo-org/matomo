@@ -70,7 +70,7 @@ class ColumnCallbackReplace extends Filter
     }
 
     /**
-     * See [ColumnCallbackReplace](#).
+     * See {@link ColumnCallbackReplace}.
      *
      * @param DataTable $table
      */

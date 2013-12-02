@@ -29,7 +29,7 @@ use Piwik\Metrics;
  * Adding the **filter_add_columns_when_show_all_columns** query parameter to
  * an API request will trigger the execution of this Filter.
  * 
- * _Note: This filter must be called before [ReplaceColumnNames](#) is called._
+ * _Note: This filter must be called before {@link ReplaceColumnNames} is called._
  * 
  * **Basic usage example**
  * 

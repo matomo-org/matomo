@@ -63,8 +63,8 @@ class Nonce
      * A nonce is valid if it matches the current nonce and if the current nonce
      * has not expired.
      * 
-     * The request is valid if the referrer is a local URL (see [Url::isLocalUrl](#))
-     * and if the HTTP origin is valid (see [getAcceptableOrigins](#getAcceptableOrigins)).
+     * The request is valid if the referrer is a local URL (see {@link Url::isLocalUrl()})
+     * and if the HTTP origin is valid (see {@link getAcceptableOrigins()}).
      *
      * @param string $id Unique id
      * @param string $cnonce Nonce sent to client

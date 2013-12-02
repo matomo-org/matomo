@@ -77,7 +77,7 @@ class ColumnCallbackAddColumn extends Filter
     }
 
     /**
-     * See [ColumnCallbackAddColumn](#).
+     * See {@link ColumnCallbackAddColumn}.
      *
      * @param DataTable $table The table to filter.
      */

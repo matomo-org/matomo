@@ -51,7 +51,7 @@ class PatternRecursive extends Filter
     }
 
     /**
-     * See [PatternRecursive](#).
+     * See {@link PatternRecursive}.
      * 
      * @param DataTable $table
      * @return int The number of deleted rows.

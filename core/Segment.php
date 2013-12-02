@@ -21,8 +21,7 @@ use Piwik\Plugins\API\API;
  * country, or both.
  * 
  * Individual segment parameters (such as `browserCode` and `countryCode`)
- * are defined by individual plugins. Read about the [API.getSegmentDimensionMetadataactionToLoadSubtab
-*](#)
+ * are defined by individual plugins. Read about the [API.getSegmentDimensionMetadataactionToLoadSubtable](#)
  * event to learn more.
  * 
  * Plugins that aggregate data stored in Piwik can support segments by

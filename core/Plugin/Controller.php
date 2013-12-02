@@ -41,7 +41,7 @@ use Piwik\API\Proxy;
  * Base class of all plugin Controllers.
  * 
  * Plugins that wish to add display HTML should create a Controller that either
- * extends from this class or from [ControllerAdmin](#). Every public method in
+ * extends from this class or from {@link Piwik\Plugin\ControllerAdmin}. Every public method in
  * the controller will be exposed as a controller action.
  * 
  * Learn more about Piwik's MVC system [here](#).
@@ -379,7 +379,7 @@ abstract class Controller
      * 
      * The current site ID and period will be used.
      * 
-     * See [Sparkline](#) for more information about the Sparkline visualization.
+     * See {@link Piwik\Visualization\Sparkline} for more information about the Sparkline visualization.
      *
      * @param string $action Method name of the controller that serves the report.
      * @param array $customParameters The array of query parameter name/value pairs that
@@ -435,7 +435,7 @@ abstract class Controller
     }
 
     /**
-     * Assigns variables to [View](#) instances that display an entire page.
+     * Assigns variables to {@link Piwik\View) instances that display an entire page.
      * 
      * The following variables assigned:
      * 
@@ -445,8 +445,8 @@ abstract class Controller
      * **prettyDate** - A pretty string description of the current period.
      * **siteName** - The current site's name.
      * **siteMainUrl** - The URL of the current site.
-     * **startDate** - The start date of the current period. A [Date](#) instance.
-     * **endDate** - The end date of the current period. A [Date](#) instance.
+     * **startDate** - The start date of the current period. A {@link Piwik\Date} instance.
+     * **endDate** - The end date of the current period. A {@link Piwik\Date} instance.
      * **language** - The current language's language code.
      * **config_action_url_category_delimiter** - The value of the `[General] action_url_category_delimiter`
      *                                            INI config option.
@@ -522,7 +522,7 @@ abstract class Controller
     }
 
     /**
-     * Assigns a set of generally useful variables to a [View](#) instance.
+     * Assigns a set of generally useful variables to a {@link Piwik\View) instance.
      * 
      * The following variables assigned:
      * 
