@@ -25,16 +25,15 @@ use Piwik\Period\Range;
  * 
  * If archive data is not found, this class will initiate the archiving process. [1](#footnote-1)
  * 
- * **Archive** instances must be created using the [build](#build) factory method;
+ * **Archive** instances must be created using the {@link build()} factory method;
  * they cannot be constructed.
  * 
- * You can search for metrics (such as `nb_visits`) using the [getNumeric](#getNumeric) and
- * [getDataTableFromNumeric](#getDataTableFromNumeric) methods. You can search for
- * reports using the [getBlob](#getBlob), [getDataTable](#getDataTable) and
- * [getDataTableExpanded](#getDataTableExpanded) methods.
+ * You can search for metrics (such as `nb_visits`) using the {@link getNumeric()} and
+ * {@link getDataTableFromNumeric()} methods. You can search for
+ * reports using the {@link getBlob()}, {@link getDataTable()} and {@link getDataTableExpanded()} methods.
  * 
  * If you're creating an API that returns report data, you may want to use the
- * [getDataTableFromArchive](#getDataTableFromArchive) helper function.
+ * {@link getDataTableFromArchive()} helper function.
  * 
  * ### Learn more
  * 
@@ -183,20 +182,20 @@ class Archive
     /**
      * Returns a new Archive instance that will query archive data for the given set of
      * sites and periods, using an optional Segment.
-     * 
+     *
      * This method uses data that is found in query parameters, so the parameters to this
      * function can all be strings.
-     * 
+     *
      * If you want to create an Archive instance with an array of Period instances, use
-     * [Archive::factory](#factory).
-     * 
+     * {@link Archive::factory()}.
+     *
      * @param string|int|array $idSites A single ID (eg, `'1'`), multiple IDs (eg, `'1,2,3'` or `array(1, 2, 3)`),
      *                                  or `'all'`.
      * @param string $period 'day', `'week'`, `'month'`, `'year'` or `'range'`
-     * @param Date|string $strDate 'YYYY-MM-DD', magic keywords (ie, 'today'; @see Date::factory())
+     * @param Date|string $strDate 'YYYY-MM-DD', magic keywords (ie, 'today'; {@link Date::factory()}
      *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
-     * @param false|string $segment Segment definition or false if no segment should be used. @see Piwik\Segment
-     * @param false|string $_restrictSitesToLogin Used only when running as a scheduled task.
+     * @param bool|false|string $segment Segment definition or false if no segment should be used. {@link Piwik\Segment}
+     * @param bool|false|string $_restrictSitesToLogin Used only when running as a scheduled task.
      * @return Archive
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
@@ -222,10 +221,10 @@ class Archive
      * sites and periods, using an optional segment.
      * 
      * This method uses an array of Period instances and a Segment instance, instead of strings
-     * like [Archive::build](#build).
+     * like {@link build()}.
      * 
      * If you want to create an Archive instance using data found in query parameters,
-     * use [Archive::build](#build).
+     * use {@link build()}.
      * 
      * @param Segment $segment The segment to use. For no segment, use `new Segment('', $idSites)`.
      * @param array $periods An array of Period instances.
@@ -257,10 +256,10 @@ class Archive
     /**
      * Queries and returns metric data in an array.
      * 
-     * If multiple sites were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple sites were requested in {@link build()} or {@link factory()} the result will
      * be indexed by site ID.
      * 
-     * If multiple periods were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple periods were requested in {@link build()} or {@link factory()} the result will
      * be indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
@@ -297,10 +296,10 @@ class Archive
      * data can technically be anything. In other words, you can store whatever you want
      * as archive data blobs.
      *
-     * If multiple sites were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple sites were requested in {@link build()} or {@link factory()} the result will
      * be indexed by site ID.
      * 
-     * If multiple periods were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple periods were requested in {@link build()} or {@link factory()} the result will
      * be indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
@@ -321,10 +320,10 @@ class Archive
     /**
      * Queries and returns metric data in a DataTable instance.
      * 
-     * If multiple sites were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple sites were requested in {@link build()} or {@link factory()} the result will
      * be a DataTable\Map that is indexed by site ID.
      * 
-     * If multiple periods were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple periods were requested in {@link build()} or {@link factory()} the result will
      * be a DataTable\Map that is indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
@@ -351,10 +350,10 @@ class Archive
      * This method will query blob data that is a serialized array of of DataTable\Row's and
      * unserialize it.
      * 
-     * If multiple sites were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple sites were requested in {@link build()} or {@link factory()} the result will
      * be a DataTable\Map that is indexed by site ID.
      * 
-     * If multiple periods were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple periods were requested in {@link build()} or {@link factory()} the result will
      * be a DataTable\Map that is indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
@@ -375,10 +374,10 @@ class Archive
     /**
      * Queries and returns one report with all of its subtables loaded.
      * 
-     * If multiple sites were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple sites were requested in {@link build()} or {@link factory()} the result will
      * be a DataTable\Map that is indexed by site ID.
      * 
-     * If multiple periods were requested in [build](#build) or [factory](#factory) the result will
+     * If multiple periods were requested in {@link build()} or {@link factory()} the result will
      * be a DataTable\Map that is indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
@@ -431,15 +430,15 @@ class Archive
      * query parameter data. API methods can use this method to reduce code redundancy.
      * 
      * @param string $name The name of the report to return.
-     * @param int|string|array $idSite @see [build](#build)
-     * @param string $period @see [build](#build)
-     * @param string $date @see [build](#build)
-     * @param string $segment @see [build](#build)
-     * @param bool $expanded If true, loads all subtables. @see [getDataTableExpanded](#getDataTableExpanded)
-     * @param int|null $idSubtable @see [getDataTableExpanded](#getDataTableExpanded)
-     * @param int|null $depth @see [getDataTableExpanded](#getDataTableExpanded)
-     * @return DataTable|DataTable\Map @see [getDataTable](#getDataTable) and
-     *                                 [getDataTableExpanded](#getDataTableExpanded) for more
+     * @param int|string|array $idSite @see {@link build()}
+     * @param string $period @see {@link build()}
+     * @param string $date @see {@link build()}
+     * @param string $segment @see {@link build()}
+     * @param bool $expanded If true, loads all subtables. See {@link getDataTableExpanded()}
+     * @param int|null $idSubtable See {@link getDataTableExpanded()}
+     * @param int|null $depth See {@link getDataTableExpanded()}
+     * @return DataTable|DataTable\Map See {@link getDataTable()} and
+     *                                 {@link getDataTableExpanded()} for more
      *                                 information
      */
     public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded,

@@ -251,7 +251,7 @@ abstract class Controller
     }
 
     /**
-     * Same as [getLastUnitGraph](#getLastUnitGraph), but will set some properties of the ViewDataTable
+     * Same as {@link getLastUnitGraph()}, but will set some properties of the ViewDataTable
      * object based on the arguments supplied.
      *
      * @param string $currentModuleName The name of the current plugin.
@@ -537,7 +537,7 @@ abstract class Controller
      * **logoSVG** - The SVG logo URL to use.
      * **hasSVGLogo** - True if there is a SVG logo, false if otherwise.
      * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
-     *                    true, [View::setXFrameOptions](#) is called on the view.
+     *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
      * 
      * Also calls {@link setHostValidationVariablesView()}.
      *

@@ -86,7 +86,7 @@ abstract class Archiver
      * week than to aggregate each log entry of the week.
      * 
      * Use {@link Piwik\ArchiveProcessor::aggregateNumericMetrics()} and {@link Piwik\ArchiveProcessor::aggregateDataTableRecords()}
-     * to aggregate archived reports. Get the {@link Piwik\ArchiveProcessor} instance using the [getProcessor](#getProcessor).
+     * to aggregate archived reports. Get the {@link Piwik\ArchiveProcessor} instance using the {@link getProcessor()}.
      */
     abstract public function aggregateMultipleReports();
 

@@ -621,8 +621,7 @@ class API extends \Piwik\Plugin\API
          * Triggered when validating the parameters for a scheduled report.
          * 
          * Plugins that provide their own scheduled reports backend should use this
-         * event to validate the custom parameters defined with
-         * [ScheduledReports.getReportParameters](#ScheduledReports.getReportParameters).
+         * event to validate the custom parameters defined with {@link ScheduledReports::getReportParameters()}.
          * 
          * @param array $parameters The list of parameters for the scheduled report.
          * @param string $reportType A string ID describing how the report is sent, eg,

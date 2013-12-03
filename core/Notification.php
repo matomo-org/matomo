@@ -79,7 +79,7 @@ class Notification
      * If this flag applied, no close icon will be displayed. _Note: persistent notifications always have a close
      * icon._
      * 
-     * See [flags](#flags).
+     * See {@link $flags}.
      */
     const FLAG_NO_CLEAR   = 1;
 

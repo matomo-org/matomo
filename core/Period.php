@@ -293,7 +293,7 @@ abstract class Period
     }
 
     /**
-     * See [toString](#toString).
+     * See {@link toString()}.
      * 
      * @return string
      */

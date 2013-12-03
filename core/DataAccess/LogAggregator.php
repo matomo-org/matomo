@@ -65,20 +65,20 @@ use Piwik\Tracker\GoalManager;
  *         $uniqueVisitors = $row[Metrics::INDEX_NB_UNIQ_VISITORS];
  *         $visits = $row[Metrics::INDEX_NB_VISITS];
  *         $actions = $row[Metrics::INDEX_NB_ACTIONS];
- * 
+ *
  *         // ... do something w/ calculated metrics ...
  *     }
- * 
+ *
  * **Aggregating conversion data**
- * 
+ *
  *     $archiveProcessor = // ...
  *     $logAggregator = $archiveProcessor->getLogAggregator();
- * 
+ *
  *     // get metrics for ecommerce conversions for each country
  *     $query = $logAggregator->queryConversionsByDimension(
  *         $dimensions = array('log_conversion.location_country'),
  *         $where = 'log_conversion.idgoal = 0', // 0 is the special ecommerceOrder idGoal value in the table
- * 
+ *
  *         // also calculate average tax and max shipping per country
  *         $additionalSelects = array(
  *             'AVG(log_conversion.revenue_tax) as avg_tax',
@@ -88,14 +88,14 @@ use Piwik\Tracker\GoalManager;
  *     if ($query === false) {
  *         return;
  *     }
- * 
+ *
  *     while ($row = $query->fetch()) {
  *         $country = $row['location_country'];
  *         $numEcommerceSales = $row[Metrics::INDEX_GOAL_NB_CONVERSIONS];
  *         $numVisitsWithEcommerceSales = $row[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
  *         $avgTaxForCountry = $country['avg_tax'];
  *         $maxShippingForCountry = $country['max_shipping'];
- * 
+ *
  *         // ... do something with aggregated data ...
  *     }
  */
@@ -241,27 +241,27 @@ class LogAggregator
      *
      * <a name="queryVisitsByDimension-result-set"/>
      * **Result Set**
-     * 
+     *
      * The following columns are in each row of the result set:
-     * 
-     * - **[Metrics::INDEX_NB_UNIQ_VISITORS](#)**: The total number of unique visitors in this group
-     *                                             of aggregated visits.
-     * - **[Metrics::INDEX_NB_VISITS](#)**: The total number of visits aggregated.
-     * - **[Metrics::INDEX_NB_ACTIONS](#)**: The total number of actions performed in this group of
-     *                                       aggregated visits.
-     * - **[Metrics::INDEX_MAX_ACTIONS](#)**: The maximum actions perfomred in one visit for this group of
-     *                                        visits.
-     * - **[Metrics::INDEX_SUM_VISIT_LENGTH](#)**: The total amount of time spent on the site for this
-     *                                             group of visits.
-     * - **[Metrics::INDEX_BOUNCE_COUNT](#)**: The total number of bounced visits in this group of
-     *                                         visits.
-     * - **[Metrics::INDEX_NB_VISITS_CONVERTED](#)**: The total number of visits for which at least one
-     *                                                conversion occurred, for this group of visits.
-     * 
+     *
+     * - **{@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}**: The total number of unique visitors in this group
+     *                                                      of aggregated visits.
+     * - **{@link Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits aggregated.
+     * - **{@link Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions performed in this group of
+     *                                                aggregated visits.
+     * - **{@link Piwik\Metrics::INDEX_MAX_ACTIONS}**: The maximum actions perfomred in one visit for this group of
+     *                                                 visits.
+     * - **{@link Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}**: The total amount of time spent on the site for this
+     *                                                      group of visits.
+     * - **{@link Piwik\Metrics::INDEX_BOUNCE_COUNT}**: The total number of bounced visits in this group of
+     *                                                  visits.
+     * - **{@link Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}**: The total number of visits for which at least one
+     *                                                         conversion occurred, for this group of visits.
+     *
      * Additional data can be selected by setting the `$additionalSelects` parameter.
-     * 
+     *
      * _Note: The metrics returned by this query can be customized by the `$metrics` parameter._
-     * 
+     *
      * @param array|string $dimensions SELECT fields (or just one field) that will be grouped by,
      *                                 eg, `'referrer_name'` or `array('referrer_name', 'referrer_keyword')`.
      *                                 The metrics retrieved from the query will be specific to combinations
@@ -274,13 +274,13 @@ class LogAggregator
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
      * @param bool|array $metrics The set of metrics to calculate and return. If false, the query will select
      *                            all of them. The following values can be used:
-     *                              - [Metrics::INDEX_NB_UNIQ_VISITORS](#)
-     *                              - [Metrics::INDEX_NB_VISITS](#)
-     *                              - [Metrics::INDEX_NB_ACTIONS](#)
-     *                              - [Metrics::INDEX_MAX_ACTIONS](#)
-     *                              - [Metrics::INDEX_SUM_VISIT_LENGTH](#)
-     *                              - [Metrics::INDEX_BOUNCE_COUNT](#)
-     *                              - [Metrics::INDEX_NB_VISITS_CONVERTED](#)
+     *                              - {@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}
+     *                              - {@link Piwik\Metrics::INDEX_NB_VISITS}
+     *                              - {@link Piwik\Metrics::INDEX_NB_ACTIONS}
+     *                              - {@link Piwik\Metrics::INDEX_MAX_ACTIONS}
+     *                              - {@link Piwik\Metrics::INDEX_SUM_VISIT_LENGTH}
+     *                              - {@link Piwik\Metrics::INDEX_BOUNCE_COUNT}
+     *                              - {@link Piwik\Metrics::INDEX_NB_VISITS_CONVERTED}
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
@@ -465,29 +465,29 @@ class LogAggregator
     /**
      * Aggregates ecommerce item data (everything stored in the **log_conversion_item** table)
      * and returns a DB statement that can be used to iterate over the aggregated data.
-     * 
+     *
      * <a name="queryEcommerceItems-result-set"/>
      * **Result Set**
-     * 
+     *
      * The following columns are in each row of the result set:
-     * 
-     * - **[Metrics::INDEX_ECOMMERCE_ITEM_REVENUE](#)**: The total revenue for the group of items
-     *                                                   this row aggregated.
-     * - **[Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY](#)**: The total number of items of the group
-     *                                                    this row aggregated.
-     * - **[Metrics::INDEX_ECOMMERCE_ITEM_PRICE](#)**: The total price for the group of items this
-     *                                                 row aggregated.
-     * - **[Metrics::INDEX_ECOMMERCE_ORDERS](#)**: The total number of orders this group of items
-     *                                             belongs to. This will be <= to the total number
-     *                                             of items in this group.
-     * - **[Metrics::INDEX_NB_VISITS](#)**: The total number of visits during which each item in
-     *                                      this group of items was logged.
-     * - **ecommerceType**: Either [GoalManager::IDGOAL_CART](#) if the items in this group were
-     *                      abandoned by a visitor, or [GoalManager::IDGOAL_ORDER](#) if they
+     *
+     * - **{@link Piwik\Metrics::INDEX_ECOMMERCE_ITEM_REVENUE}**: The total revenue for the group of items
+     *                                                           this row aggregated.
+     * - **{@link Piwik\Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY}**: The total number of items of the group
+     *                                                             this row aggregated.
+     * - **{@link Piwik\Metrics::INDEX_ECOMMERCE_ITEM_PRICE}**: The total price for the group of items this
+     *                                                          row aggregated.
+     * - **{@link Piwik\Metrics::INDEX_ECOMMERCE_ORDERS}**: The total number of orders this group of items
+     *                                                      belongs to. This will be <= to the total number
+     *                                                      of items in this group.
+     * - **{@link Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits during which each item in
+     *                                               this group of items was logged.
+     * - **ecommerceType**: Either {@link Piwik\Tracker\GoalManager::IDGOAL_CART} if the items in this group were
+     *                      abandoned by a visitor, or {@link Piwik\Tracker\GoalManager::IDGOAL_ORDER} if they
      *                      were ordered by a visitor.
-     * 
+     *
      * **Limitations**
-     * 
+     *
      * Segmentation is not yet supported in this aggregation method.
      *
      * @param string $dimension One or more **log_conversion_item** column to group aggregated data by.
@@ -526,22 +526,22 @@ class LogAggregator
     /**
      * Aggregates action data (everything in the log_action table) and returns a DB
      * statement that can be used to iterate over the aggregated data.
-     * 
+     *
      * <a name="queryActionsByDimension-result-set"/>
      * **Result Set**
-     * 
+     *
      * Each row of the result set represents an aggregated group of actions. The following columns
      * are in each aggregate row:
-     * 
-     * - **[Metrics::INDEX_NB_UNIQ_VISITORS](#)**: The total number of unique visitors that performed
+     *
+     * - **{@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}**: The total number of unique visitors that performed
      *                                             the actions in this group.
-     * - **[Metrics::INDEX_NB_VISITS](#)**: The total number of visits these actions belong to.
-     * - **[Metrics::INDEX_NB_ACTIONS](#)**: The total number of actions in this aggregate group.
-     * 
+     * - **{@link Piwik\Metrics::INDEX_NB_VISITS}**: The total number of visits these actions belong to.
+     * - **{@link Piwik\Metrics::INDEX_NB_ACTIONS}**: The total number of actions in this aggregate group.
+     *
      * Additional data can be selected through the `$additionalSelects` parameter.
-     * 
+     *
      * _Note: The metrics returned by this query can be customized by the `$metrics` parameter._
-     * 
+     *
      * @param array|string $dimensions One or more SELECT fields that will be used to group the log_action
      *                                 rows by. This parameter determines which log_action rows will be
      *                                 aggregated together.
@@ -551,9 +551,9 @@ class LogAggregator
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
      * @param bool|array $metrics The set of metrics to calculate and return. If false, the query will select
      *                            all of them. The following values can be used:
-     *                              - [Metrics::INDEX_NB_UNIQ_VISITORS](#)
-     *                              - [Metrics::INDEX_NB_VISITS](#)
-     *                              - [Metrics::INDEX_NB_ACTIONS](#)
+     *                              - {@link Piwik\Metrics::INDEX_NB_UNIQ_VISITORS}
+     *                              - {@link Piwik\Metrics::INDEX_NB_VISITS}
+     *                              - {@link Piwik\Metrics::INDEX_NB_ACTIONS}
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
@@ -630,38 +630,38 @@ class LogAggregator
     /**
      * Aggregates conversion data (everything in the **log_conversion** table) and returns
      * a DB statement that can be used to iterate over the aggregated data.
-     * 
+     *
      * <a name="queryConversionsByDimension-result-set"/>
      * **Result Set**
-     * 
+     *
      * Each row of the result set represents an aggregated group of conversions. The
      * following columns are in each aggregate row:
-     * 
-     * - **[Metrics::INDEX_GOAL_NB_CONVERSIONS](#)**: The total number of conversions in this aggregate
-     *                                                group.
-     * - **[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED](#)**: The total number of visits during which these
-     *                                                     conversions were converted.
-     * - **[Metrics::INDEX_GOAL_REVENUE](#)**: The total revenue generated by these conversions. This value
-     *                                         includes the revenue from individual ecommerce items.
-     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL](#)**: The total cost of all ecommerce items sold
-     *                                                            within these conversions. This value does not
-     *                                                            include tax, shipping or any applied discount.
-     *                                                            _This metric will only be applicable to the special
-     *                                                            **ecommerce** goal (where `idGoal == 'ecommerceOrder'`)._
-     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX](#)**: The total tax applied to every transaction in these
-     *                                                       conversions. This metric is only applicable to the special
-     *                                                       **ecommerce** goal (where `idGoal == 'ecommerceOrder'`).
-     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING](#)**: The total shipping cost for every transaction
-     *                                                            in these conversions. _This metric is only applicable
-     *                                                            to the special **ecommerce** goal (where
-     *                                                            `idGoal == 'ecommerceOrder'`)._
-     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT](#)**: The total discount applied to every transaction
-     *                                                            in these conversions. _This metric is only applicable
-     *                                                            to the special **ecommerce** goal (where
-     *                                                            `idGoal == 'ecommerceOrder'`)._
-     * - **[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS](#)**: The total number of ecommerce items sold in each transaction
-     *                                                 in these conversions. _This metric is only applicable to the
-     *                                                 special **ecommerce** goal (where `idGoal =='ecommerceOrder'`).
+     *
+     * - **{@link Piwik\Metrics::INDEX_GOAL_NB_CONVERSIONS}**: The total number of conversions in this aggregate
+     *                                                         group.
+     * - **{@link Piwik\Metrics::INDEX_GOAL_NB_VISITS_CONVERTED}**: The total number of visits during which these
+     *                                                              conversions were converted.
+     * - **{@link Piwik\Metrics::INDEX_GOAL_REVENUE}**: The total revenue generated by these conversions. This value
+     *                                                  includes the revenue from individual ecommerce items.
+     * - **{@link Piwik\Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL}**: The total cost of all ecommerce items sold
+     *                                                                     within these conversions. This value does not
+     *                                                                     include tax, shipping or any applied discount.
+     *                                                                     _This metric will only be applicable to the special
+     *                                                                     **ecommerce** goal (where `idGoal == 'ecommerceOrder'`)._
+     * - **{@link Piwik\Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX}**: The total tax applied to every transaction in these
+     *                                                                conversions. This metric is only applicable to the special
+     *                                                                **ecommerce** goal (where `idGoal == 'ecommerceOrder'`).
+     * - **{@link Piwik\Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING}**: The total shipping cost for every transaction
+     *                                                                     in these conversions. _This metric is only applicable
+     *                                                                     to the special **ecommerce** goal (where
+     *                                                                     `idGoal == 'ecommerceOrder'`)._
+     * - **{@link Piwik\Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT}**: The total discount applied to every transaction
+     *                                                                     in these conversions. _This metric is only applicable
+     *                                                                     to the special **ecommerce** goal (where
+     *                                                                     `idGoal == 'ecommerceOrder'`)._
+     * - **{@link Piwik\Metrics::INDEX_GOAL_ECOMMERCE_ITEMS}**: The total number of ecommerce items sold in each transaction
+     *                                                          in these conversions. _This metric is only applicable to the
+     *                                                          special **ecommerce** goal (where `idGoal =='ecommerceOrder'`).
      * 
      * Additional data can be selected through the `$additionalSelects` parameter.
      * 
@@ -700,7 +700,7 @@ class LogAggregator
      * within each range.
      *
      * **Note:** The result of this function is meant for use in the `$additionalSelects` parameter
-     * in one of the query... methods (for example [queryVisitsByDimension](#queryVisitsByDimension)).
+     * in one of the query... methods (for example {@link queryVisitsByDimension()}).
      * 
      * **Example**
      * 
@@ -752,7 +752,7 @@ class LogAggregator
      *                                          visits of returning visitors or not. If this
      *                                          argument is true, then the SELECT expressions
      *                                          returned can only be used with the
-     *                                          [queryVisitsByDimension](#queryVisitsByDimension) method.
+     *                                          {@link queryVisitsByDimension()} method.
      * @return array An array of SQL SELECT expressions, for example,
      *               ```
      *               array(

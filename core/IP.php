@@ -141,7 +141,7 @@ class IP
     /**
      * Convert network address format to presentation format.
      *
-     * See also [prettyPreint](#prettyPrint).
+     * See also {@link prettyPrint()}.
      *
      * @param string $ip IP address in network address format.
      * @return string IP address in presentation format.
@@ -154,7 +154,7 @@ class IP
     }
 
     /**
-     * Alias for [N2P()](#N2P).
+     * Alias for {@link N2P()}.
      *
      * @param string $ip IP address in network address format.
      * @return string IP address in presentation format.

@@ -73,7 +73,7 @@ class ScheduledTask
      * Constructor.
      * 
      * @param mixed $objectInstance The object or class name for the class that contains the method to
-     *                              regularly execute. Usually this will be a [Plugin](#) instance.
+     *                              regularly execute. Usually this will be a {@link Plugin} instance.
      * @param string $methodName The name of the method of `$objectInstance` that will be regularly
      *                           executed.
      * @param mixed|null $methodParameter An optional parameter to pass to the method when executed.
@@ -175,7 +175,7 @@ class ScheduledTask
 
     /**
      * Returns the task priority. The priority will be an integer whose value is
-     * between [ScheduledTask::HIGH_PRIORITY](#) and [ScheduledTask::LOW_PRIORITY](#).
+     * between {@link HIGH_PRIORITY} and {@link LOW_PRIORITY}.
      *
      * @return int
      */

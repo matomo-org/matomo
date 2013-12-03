@@ -36,7 +36,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * DataTables consist of rows and each row consists of columns. A column value can be
  * be numeric, a string or an array.
  * 
- * Every row has an ID. The ID is either the index of the row or [ID_SUMMARY_ROW](#ID_SUMMARY_ROW).
+ * Every row has an ID. The ID is either the index of the row or {@link ID_SUMMARY_ROW}.
  * 
  * DataTables are hierarchical data structures. Each row can also contain an additional
  * nested sub-DataTable (commonly referred to as a 'subtable').
@@ -52,11 +52,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * 
  * Data can be added to DataTables in three different ways. You can either:
  * 
- * 1. create rows one by one and add them through [addRow](#addRow) then truncate if desired,
+ * 1. create rows one by one and add them through {@link addRow()} then truncate if desired,
  * 2. create an array of DataTable\Row instances or an array of arrays and add them using
- *    [addRowsFromArray](#addRowsFromArray) or [addRowsFromSimpleArray](#addRowsFromSimpleArray)
+ *    {@link addRowsFromArray()} or {@link addRowsFromSimpleArray()}
  *    then truncate if desired,
- * 3. or set the maximum number of allowed rows (with [setMaximumAllowedRows](#setMaximumAllowedRows))
+ * 3. or set the maximum number of allowed rows (with {@link setMaximumAllowedRows()})
  *    and add rows one by one.
  * 
  * If you want to eventually truncate your data (standard practice for all Piwik plugins),
@@ -364,7 +364,7 @@ class DataTable implements DataTableInterface
     /**
      * Returns the name of the column this table was sorted by (if any).
      *
-     * See [sort](#sort).
+     * See {@link sort()}.
      *
      * @return false|string The sorted column name or false if none.
      */
@@ -374,7 +374,7 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Enables recursive sorting. If this method is called [sort](#sort) will also sort all
+     * Enables recursive sorting. If this method is called {@link sort()} will also sort all
      * subtables.
      */
     public function enableRecursiveSort()
@@ -383,7 +383,7 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Enables recursive filtering. If this method is called then the [filter](#filter) method
+     * Enables recursive filtering. If this method is called then the {@link filter()} method
      * will apply filters to every subtable in addition to this instance.
      */
     public function enableRecursiveFilters()
@@ -394,7 +394,7 @@ class DataTable implements DataTableInterface
     /**
      * Applies filter to this datatable.
      * 
-     * If [enableRecursiveFilters](#enableRecursiveFilters) was called, the filter will be applied
+     * If {@link enableRecursiveFilters()} was called, the filter will be applied
      * to all subtables as well.
      *
      * @param string|Closure $className Class name, eg. "Sort" or "Sort". If no namespace is supplied,
@@ -428,7 +428,7 @@ class DataTable implements DataTableInterface
 
     /**
      * Adds a filter and a list of parameters to the list of queued filters. These filters will be
-     * executed when [applyQueuedFilters](#applyQueuedFilters) is called.
+     * executed when {@link applyQueuedFilters()} is called.
      * 
      * Filters that prettify the output or don't need the full set of rows should be queued. This
      * way they will be run after the table is truncated which will result in better performance.
@@ -445,7 +445,7 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Applies all filters that were previously queued to the table. See [queueFilter](#queueFilter)
+     * Applies all filters that were previously queued to the table. See {@link queueFilter()}
      * for more information.
      */
     public function applyQueuedFilters()
@@ -466,7 +466,7 @@ class DataTable implements DataTableInterface
      * 
      * Rows are summed together by summing individual columns. By default columns are summed by
      * adding one column value to another. Some columns cannot be aggregated this way. In these
-     * cases, the [COLUMN_AGGREGATION_OPS_METADATA_NAME](#COLUMN_AGGREGATION_OPS_METADATA_NAME)
+     * cases, the {@link COLUMN_AGGREGATION_OPS_METADATA_NAME}
      * metadata can be used to specify a different type of operation.
      * 
      * @param \Piwik\DataTable $tableToSum
@@ -572,7 +572,7 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Returns a row by ID. The ID is either the index of the row or [ID_SUMMARY_ROW](#ID_SUMMARY_ROW).
+     * Returns a row by ID. The ID is either the index of the row or {@link ID_SUMMARY_ROW}.
      *
      * @param int $id The row ID.
      * @return Row|false The Row or false if not found.
@@ -610,7 +610,7 @@ class DataTable implements DataTableInterface
     /**
      * Adds a row to this table.
      * 
-     * If [setMaximumAllowedRows](#setMaximumAllowedRows) was called and the current row count is 
+     * If {@link setMaximumAllowedRows()} was called and the current row count is
      * at the maximum, the new row will be summed to the summary row. If there is no summary row,
      * this row is set as the summary row.
      *
@@ -1128,10 +1128,10 @@ class DataTable implements DataTableInterface
     /**
      * Adds a set of rows from a serialized DataTable string.
      *
-     * See [serialize](#serialize).
+     * See {@link serialize()}.
      * 
      * @param string $stringSerialized A serialized DataTable string in the format of a string in the
-     *                                 array returned by [serialize](#serialize). This function will
+     *                                 array returned by {@link serialize()}. This function will
      *                                 successfully load DataTables serialized by Piwik 1.X.
      * @throws Exception if `$stringSerialized` is invalid.
      */
@@ -1529,7 +1529,7 @@ class DataTable implements DataTableInterface
     /**
      * Returns a new DataTable created with data from a 'simple' array.
      * 
-     * See [addRowsFromSimpleArray](#addRowsFromSimpleArray).
+     * See {@link addRowsFromSimpleArray()}.
      * 
      * @param array $array
      * @return \Piwik\DataTable
@@ -1544,7 +1544,7 @@ class DataTable implements DataTableInterface
     /**
      * Creates a new DataTable instance from a serialized DataTable string.
      * 
-     * See [getSerialized](#getSerialized) and [addRowsFromSerializedArray](#addRowsFromSerializedArray)
+     * See {@link getSerialized()} and {@link addRowsFromSerializedArray()}
      * for more information on DataTable serialization.
      *
      * @param string $data

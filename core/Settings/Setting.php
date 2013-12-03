@@ -58,7 +58,7 @@ abstract class Setting
      * The setting value will be validated if this field is set. If the value is not one of the
      * available values, an error will be triggered.
      * 
-     * _Note: If a custom validator is supplied (see [validate](#validate)), the setting value will
+     * _Note: If a custom validator is supplied (see {@link validate()}), the setting value will
      * not be validated._
      *
      * @var null|array
@@ -114,7 +114,7 @@ abstract class Setting
      * A closure that transforms the setting value. If supplied, this closure will be executed after
      * the setting has been validated.
      * 
-     * _Note: If a transform is supplied, the setting's [type](#type) has no effect. This means the
+     * _Note: If a transform is supplied, the setting's {@link type()} has no effect. This means the
      * transformation function will be responsible for casting the setting value to the appropriate
      * data type._
      *

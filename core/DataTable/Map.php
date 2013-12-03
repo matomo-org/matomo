@@ -55,7 +55,7 @@ class Map implements DataTableInterface
     }
 
     /**
-     * Set the keyName. See [getKeyName](#getKeyName).
+     * Set the keyName. See {@link getKeyName()}.
      *
      * @param string $name
      */

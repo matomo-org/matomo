@@ -92,7 +92,7 @@ class RankingQuery
     /**
      * Constructor.
      * 
-     * @param int|false $limit The result row limit. See [setLimit](#setLimit).
+     * @param int|false $limit The result row limit. See {@link setLimit()}.
      */
     public function __construct($limit = false)
     {
@@ -160,7 +160,7 @@ class RankingQuery
      * Sets a column that will be used to filter the result into two categories.
      * Rows where this column has a value > 0 will be removed from the result and put
      * into another array. Both the result and the array of excluded rows are returned
-     * by [execute](#execute).
+     * by {@link execute()}.
      *
      * @param $column string Name of the column.
      * @throws Exception if method is used more than once.
@@ -183,10 +183,11 @@ class RankingQuery
      * limited resulting in several limited result sets.
      * 
      * For example, you can run a query aggregating some data on the log_action table and
-     * partition by log_action.type with the possible values of [TYPE_ACTION_URL](#),
-     * [TYPE_OUTLINK](#), [TYPE_DOWNLOAD](#). The result will be three separate result sets
-     * that are aggregated the same ways, but for rows where `log_action.type = TYPE_OUTLINK`,
-     * for rows where `log_action.type = TYPE_ACTION_URL` and for rows `log_action.type = TYPE_DOWNLOAD`.
+     * partition by log_action.type with the possible values of {@link Piwik\Tracker\Action::TYPE_PAGE_URL},
+     * {@link Piwik\Tracker\Action::TYPE_OUTLINK}, {@link Piwik\Tracker\Action::TYPE_DOWNLOAD}.
+     * The result will be three separate result sets that are aggregated the same ways, but for rows
+     * where `log_action.type = TYPE_OUTLINK`, for rows where `log_action.type = TYPE_ACTION_URL` and for
+     * rows `log_action.type = TYPE_DOWNLOAD`.
      *
      * @param $partitionColumn string The column name to partion by.
      * @param $possibleValues Array of possible column values.

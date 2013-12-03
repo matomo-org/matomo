@@ -202,12 +202,12 @@ class Plugin
 
     /**
      * Uninstalls the plugins. Derived classes should implement this class if the changes
-     * made in [install](#install) should be undone during uninstallation.
+     * made in {@link install()} should be undone during uninstallation.
      * 
-     * In most cases, if you have an [install](#install) method, you should provide 
-     * an [uninstall](#uninstall) method.
+     * In most cases, if you have an {@link install()} method, you should provide
+     * an {@link uninstall()} method.
      * 
-     * @throws Exception if uninstallation of fails for some reason.
+     * @throws \Exception if uninstallation of fails for some reason.
      */
     public function uninstall()
     {

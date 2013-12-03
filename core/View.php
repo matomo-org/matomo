@@ -180,7 +180,7 @@ class View implements ViewInterface
 
     /**
      * Renders the current view. Also sends the stored 'Content-Type' HTML header.
-     * See [setContentType](#setContentType).
+     * See {@link setContentType()}.
      *
      * @return string Generated template.
      */

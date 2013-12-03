@@ -368,7 +368,7 @@ class Site
     /**
      * Clears the site data cache.
      * 
-     * See also [setSites](#setSites) and [setSitesFromArray](#setSitesFromArray).
+     * See also {@link setSites()} and {@link setSitesFromArray()}.
      */
     static public function clearCache()
     {

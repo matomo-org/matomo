@@ -60,7 +60,7 @@ class Db
     /**
      * Create the database object and connects to the database.
      * 
-     * Shouldn't be called directly, use [get](#get).
+     * Shouldn't be called directly, use {@link get()}.
      * 
      * @param array|null $dbInfos Connection parameters in an array. Defaults to the `[database]`
      *                            INI config section.

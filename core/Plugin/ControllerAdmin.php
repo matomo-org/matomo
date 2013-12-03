@@ -70,7 +70,7 @@ abstract class ControllerAdmin extends Controller
      * - **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
      * - **currentAdminMenuName** - The currently selected admin menu name.
      * - **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
-     *                    true, [View::setXFrameOptions](#) is called on the view.
+     *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
      * - **isSuperUser** - Whether the current user is a superuser or not.
      * - **usingOldGeoIPPlugin** - Whether this Piwik install is currently using the old GeoIP
      *                             plugin or not.

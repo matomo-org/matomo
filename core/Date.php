@@ -168,7 +168,7 @@ class Date
      * Returns a new date object with the same timestamp as `$this` but with a new
      * timezone.
      * 
-     * See [getTimestamp](#getTimestamp) to see how the timezone is used.
+     * See {@link getTimestamp()} to see how the timezone is used.
      *
      * @param string $timezone eg, `'UTC'`, `'Europe/London'`, etc.
      * @return Date
@@ -302,7 +302,7 @@ class Date
     }
 
     /**
-     * See [toString](#toString).
+     * See {@link toString()}.
      *
      * @return string The current date in `'YYYY-MM-DD'` format.
      */
@@ -383,7 +383,7 @@ class Date
     }
 
     /**
-     * Returns a date object set to now in UTC (same as [today](#today), except that the time is also set).
+     * Returns a date object set to now in UTC (same as {@link today()}, except that the time is also set).
      *
      * @return \Piwik\Date
      */
@@ -612,7 +612,7 @@ class Date
 
     /**
      * Adds N number of hours to a UNIX timestamp and returns the result. Using
-     * this static function instead of [addHour](#addHour) will be faster since a
+     * this static function instead of {@link addHour()} will be faster since a
      * Date instance does not have to be created.
      *
      * @param int $timestamp The timestamp to add to.

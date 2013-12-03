@@ -21,7 +21,7 @@ use Exception;
 class Http
 {
     /**
-     * Returns the "best" available transport method for [sendHttpRequest()](#sendHttpRequest) calls.
+     * Returns the "best" available transport method for {@link sendHttpRequest()} calls.
      * 
      * @return string Either `'curl'`, `'fopen'` or `'socket'`.
      * @api

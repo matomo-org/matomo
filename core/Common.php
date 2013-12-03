@@ -198,7 +198,7 @@ class Common
     /**
      * Sanitizes a string to help avoid XSS vulnerabilities.
      * 
-     * This function is automatically called when [getRequestVar](#getRequestVar) is called,
+     * This function is automatically called when {@link getRequestVar()} is called,
      * so you should not normally have to use it.
      * 
      * You should used it when outputting data that isn't escaped and was

@@ -67,7 +67,7 @@ class FrontController extends Singleton
     /**
      * Executes the requested plugin controller action.
      * 
-     * See also [fetchDispatch](#fetchDispatch).
+     * See also {@link fetchDispatch()}.
      * 
      * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
      *                                                     there is not enough permission, etc.

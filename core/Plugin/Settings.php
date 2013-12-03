@@ -19,8 +19,8 @@ use Piwik\Settings\StorageInterface;
  * Base class of all Settings providers. Plugins that define their own settings can extend
  * this class to easily make their settings available to Piwik users.
  * 
- * Descendants of this class should implement the [init](#init) method and call the
- * [addSetting](#addSetting) method for each of the plugin's settings.
+ * Descendants of this class should implement the {@link init()} method and call the
+ * {@link addSetting()} method for each of the plugin's settings.
  * 
  * For an example, see the {@link Piwik\Plugins\ExampleSettingsPlugin\ExampleSettingsPlugin} plugin.
  * 
@@ -75,8 +75,8 @@ abstract class Settings implements StorageInterface
 
     /**
      * Implemented by descendants. This method should define plugin settings (via the
-     * [addSetting](#addSetting)) method and set the introduction text (via the
-     * [setIntroduction](#setIntroduction)).
+     * {@link addSetting()}) method and set the introduction text (via the
+     * {@link setIntroduction()}).
      */
     abstract protected function init();
 
@@ -186,7 +186,7 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Sets (overwrites) the value of a setting in memory. To persist the change, [save](#save) must be
+     * Sets (overwrites) the value of a setting in memory. To persist the change, {@link save()} must be
      * called afterwards, otherwise the change has no effect.
      * 
      * Before the setting is changed, the {@link Piwik\Settings\Setting::validate()} and
@@ -216,7 +216,7 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Unsets a setting value in memory. To persist the change, [save](#save) must be
+     * Unsets a setting value in memory. To persist the change, {@link save()} must be
      * called afterwards, otherwise the change has no effect.
      *
      * @param Setting $setting

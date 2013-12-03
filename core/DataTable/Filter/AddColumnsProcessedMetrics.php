@@ -58,7 +58,7 @@ class AddColumnsProcessedMetrics extends Filter
     }
 
     /**
-     * Adds the processed metrics. See [AddColumnsProcessedMetrics](#AddColumnsProcessedMetrics) for
+     * Adds the processed metrics. See {@link AddColumnsProcessedMetrics} for
      * more information.
      *
      * @param DataTable $table

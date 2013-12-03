@@ -18,7 +18,7 @@ use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
 
 /**
- * Describes the interval on which a scheduled task is executed. Use the [factory](#factory) method
+ * Describes the interval on which a scheduled task is executed. Use the {@link factory()} method
  * to create ScheduledTime instances.
  *
  * @see \Piwik\ScheduledTask
