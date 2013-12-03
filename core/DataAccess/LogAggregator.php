@@ -239,7 +239,7 @@ class LogAggregator
     /**
      * Aggregates visit logs, optionally grouping by some dimension, and returns the aggregated data.
      *
-     * <a name="queryVisitsByDimension-result-set"/>
+     * <a name="queryVisitsByDimension-result-set"></a>
      * **Result Set**
      *
      * The following columns are in each row of the result set:
@@ -466,7 +466,7 @@ class LogAggregator
      * Aggregates ecommerce item data (everything stored in the **log_conversion_item** table)
      * and returns a DB statement that can be used to iterate over the aggregated data.
      *
-     * <a name="queryEcommerceItems-result-set"/>
+     * <a name="queryEcommerceItems-result-set"></a>
      * **Result Set**
      *
      * The following columns are in each row of the result set:
@@ -527,7 +527,7 @@ class LogAggregator
      * Aggregates action data (everything in the log_action table) and returns a DB
      * statement that can be used to iterate over the aggregated data.
      *
-     * <a name="queryActionsByDimension-result-set"/>
+     * <a name="queryActionsByDimension-result-set"></a>
      * **Result Set**
      *
      * Each row of the result set represents an aggregated group of actions. The following columns
@@ -631,7 +631,7 @@ class LogAggregator
      * Aggregates conversion data (everything in the **log_conversion** table) and returns
      * a DB statement that can be used to iterate over the aggregated data.
      *
-     * <a name="queryConversionsByDimension-result-set"/>
+     * <a name="queryConversionsByDimension-result-set"></a>
      * **Result Set**
      *
      * Each row of the result set represents an aggregated group of conversions. The
