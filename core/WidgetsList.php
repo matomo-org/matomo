@@ -13,7 +13,7 @@ namespace Piwik;
 /**
  * Manages the global list of reports that can be displayed as dashboard widgets.
  * 
- * Reports are added as dashboard widgets through the {@link addWidgets}
+ * Reports are added as dashboard widgets through the {@hook WidgetsList.addWidgets}
  * event. Plugins should call {@link add()} in event observers for this event.
  * 
  * @package PluginsFunctions

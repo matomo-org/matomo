@@ -19,7 +19,7 @@ use Piwik\Piwik;
  * Truncates a DataTable by merging all rows after a certain index into a new summary
  * row, unless the count of rows is less than the index.
  * 
- * The {@link ReplaceSummaryRow} filter will be queued after the table is truncated.
+ * The {@link ReplaceSummaryRowLabel} filter will be queued after the table is truncated.
  * 
  * ### Examples
  * 

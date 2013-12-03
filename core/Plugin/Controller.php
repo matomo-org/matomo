@@ -41,7 +41,7 @@ use Piwik\API\Proxy;
  * Base class of all plugin Controllers.
  * 
  * Plugins that wish to add display HTML should create a Controller that either
- * extends from this class or from {@link Piwik\Plugin\ControllerAdmin}. Every public method in
+ * extends from this class or from {@link ControllerAdmin}. Every public method in
  * the controller will be exposed as a controller action.
  * 
  * Learn more about Piwik's MVC system [here](#).
