@@ -35,7 +35,7 @@ class Sort extends Filter
      * @param DataTable $table The table to eventually filter.
      * @param string $columnToSort The name of the column to sort by.
      * @param string $order order `'asc'` or `'desc'`.
-     * @param bool $naturalSort Whether to use a natural sort or not (see [http://php.net/natsort](#http://php.net/natsort)).
+     * @param bool $naturalSort Whether to use a natural sort or not (see {@link http://php.net/natsort}).
      * @param bool $recursiveSort Whether to sort all subtables or not.
      */
     public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false)

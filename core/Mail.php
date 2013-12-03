@@ -14,7 +14,7 @@ use Zend_Mail;
 
 /**
  * Class for sending mails, for more information see:
- * [http://framework.zend.com/manual/en/zend.mail.html](#http://framework.zend.com/manual/en/zend.mail.html)
+ * {@link http://framework.zend.com/manual/en/zend.mail.html}
  *
  * @package Piwik
  * @see Zend_Mail, libs/Zend/Mail.php

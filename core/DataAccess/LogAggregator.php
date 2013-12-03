@@ -239,7 +239,6 @@ class LogAggregator
     /**
      * Aggregates visit logs, optionally grouping by some dimension, and returns the aggregated data.
      *
-     * <a name="queryVisitsByDimension-result-set"></a>
      * **Result Set**
      *
      * The following columns are in each row of the result set:
@@ -285,7 +284,7 @@ class LogAggregator
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
-     *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryVisitsByDimension-result-set)
+     *               {@link Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
      * @api
      */

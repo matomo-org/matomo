@@ -170,11 +170,11 @@ class Filesystem
 
     /**
      * Recursively find pathnames that match a pattern.
-     * See [glob](#http://php.net/manual/en/function.glob.php) for more info.
+     * See {@link #http://php.net/manual/en/function.glob.php glob} for more info.
      *
      * @param string $sDir directory The directory to glob in.
      * @param string $sPattern pattern The pattern to match paths against.
-     * @param int $nFlags `glob()` flags. See [http://php.net/manual/en/function.glob.php](#http://php.net/manual/en/function.glob.php).
+     * @param int $nFlags `glob()` flags. See {@link http://php.net/manual/en/function.glob.php}.
      * @return array The list of paths that match the pattern.
      * @api
      */
