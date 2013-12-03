@@ -200,7 +200,7 @@ class Plugins_ScheduledReportsTest extends DatabaseTestCase
     public function testGetTopMenuTranslationKeyMobileMessagingInactive()
     {
         // unload MobileMessaging plugin
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports'));
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports', 'LanguagesManager'));
 
         $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(
