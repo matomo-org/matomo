@@ -338,7 +338,7 @@ class FrontController extends Singleton
                  * options are absent. This event can be used to start the installation process or to display a
                  * custom error message.
                  * 
-                 * @param $exception Exception The exception thrown from creating and testing the database
+                 * @param Exception $exception The exception thrown from creating and testing the database
                  *                             connection.
                  */
                 Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
