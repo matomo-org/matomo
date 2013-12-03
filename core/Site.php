@@ -98,8 +98,8 @@ class Site
          * This event is called just before a Website information is stored in the memory cache.
          * It can be used to modify the data for a website, such as decorate its name or change its created datetime.
          *
-         * @param $idSite int Website ID
-         * @param $infoSite array Website information array
+         * @param int $idSite  Website ID
+         * @param array $infoSite Website information array
          */
         Piwik::postEvent('Site.setSite', array($idSite, &$infoSite));
 
