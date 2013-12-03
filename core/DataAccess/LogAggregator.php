@@ -463,7 +463,7 @@ class LogAggregator
     }
 
     /**
-     * Aggregates ecommerce item data (everything stored in the **log_conversion_item** table)
+     * Aggregates ecommerce item data (everything stored in the **log\_conversion\_item** table)
      * and returns a DB statement that can be used to iterate over the aggregated data.
      *
      * <a name="queryEcommerceItems-result-set"></a>
