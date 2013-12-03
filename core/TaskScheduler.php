@@ -21,7 +21,7 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  * 
  * A scheduled task is a callback that should be executed every so often (such as daily,
  * weekly, monthly, etc.). They are registered with **TaskScheduler** through the
- * [TaskScheduler.getScheduledTasks](#) event.
+ * {@hook TaskScheduler.getScheduledTasks} event.
  * 
  * Tasks are executed when the cron archive.php script is executed.
  * 

@@ -178,11 +178,11 @@ class Proxy extends Singleton
             Piwik::postEvent('API.Request.dispatch', array(&$finalParameters, $pluginName, $methodName));
 
             /**
-             * This event exists for convenience and is triggered directly after the [API.Request.dispatch](#apirequestdispatch)
+             * This event exists for convenience and is triggered directly after the {@hook API.Request.dispatch}
              * event is triggered.
              * 
              * It can be used to modify the input that is passed to a single API method. This is also
-             * possible with the [API.Request.dispatch](#apirequestdispatch) event, however that event requires event handlers
+             * possible with the {@hook API.Request.dispatch} event, however that event requires event handlers
              * check if the plugin name and method name are correct before modifying the parameters.
              * 
              * **Example**
@@ -208,10 +208,10 @@ class Proxy extends Singleton
 
             /**
              * This event exists for convenience and is triggered immediately before the
-             * [API.Request.dispatch.end](#apirequestdispatchend) event.
+             * {@hook API.Request.dispatch.end} event.
              * 
              * It can be used to modify the output of a single API method. This is also possible with
-             * the [API.Request.dispatch.end](#apirequestdispatchend) event, however that event requires event handlers
+             * the {@hook API.Request.dispatch.end} event, however that event requires event handlers
              * check if the plugin name and method name are correct before modifying the output.
              *
              * @param mixed &$returnedValue The value returned from the API method. This will not be

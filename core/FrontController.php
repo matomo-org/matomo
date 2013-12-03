@@ -102,11 +102,11 @@ class FrontController extends Singleton
         list($controller, $action) = $this->makeController($module, $action);
 
         /**
-         * This event exists for convenience and is triggered directly after the [Request.dispatch](#requestdispatch)
+         * This event exists for convenience and is triggered directly after the {@hook Request.dispatch}
          * event is triggered.
          * 
-         * It can be used to do the same things as the [Request.dispatch](#requestdispatch) event, but for one controller
-         * action only. Using this event will result in a little less code than [Request.dispatch](#requestdispatch).
+         * It can be used to do the same things as the {@hook Request.dispatch} event, but for one controller
+         * action only. Using this event will result in a little less code than {@hook Request.dispatch}.
          * 
          * @param array &$parameters The arguments passed to the controller action.
          */
@@ -116,12 +116,12 @@ class FrontController extends Singleton
             $result = call_user_func_array(array($controller, $action), $parameters);
 
             /**
-             * This event exists for convenience and is triggered immediately before the
-             * [Request.dispatch.end](#) event is triggered.
+             * This event exists for convenience and is triggered immediately before the {@hook Request.dispatch.end}
+             * event is triggered.
              * 
-             * It can be used to do the same things as the [Request.dispatch.end](#requestdispatchend) event, but for one
+             * It can be used to do the same things as the {@hook Request.dispatch.end} event, but for one
              * controller action only. Using this event will result in a little less code than
-             * [Request.dispatch.end](#requestdispatchend).
+             * {@hook Request.dispatch.end}.
              * 
              * @param mixed &$result The result of the controller action.
              * @param array $parameters The arguments passed to the controller action.

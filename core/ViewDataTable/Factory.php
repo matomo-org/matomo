@@ -80,7 +80,7 @@ class Factory
      *                                 the ID of the ViewDataTable to create.
      *                                 
      *                                 If a visualization type is configured for the report being displayed, it
-     *                                 is used instead of the default type. (See [ViewDataTable.getDefaultType](#)).
+     *                                 is used instead of the default type. (See {@hook ViewDataTable.getDefaultType}).
      *                                 If nothing is configured for the report and `null` is supplied for this
      *                                 argument, **table** is used.
      * @param string|false $apiAction The API method for the report that will be displayed, eg,

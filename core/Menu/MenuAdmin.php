@@ -14,7 +14,7 @@ use Piwik\Piwik;
 
 /**
  * Contains menu entries for the Admin menu. Plugins can subscribe to the 
- * [Menu.Admin.addItems](#) event to add new pages to the admin menu.
+ * {@hook Menu.Admin.addItems} event to add new pages to the admin menu.
  * 
  * **Example**
  * 

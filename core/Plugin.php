@@ -20,7 +20,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
 /**
  * Base class of all Plugin Descriptor classes.
  * 
- * Any plugin that wants to add event observers to one of Piwik's [hooks](#), 
+ * Any plugin that wants to add event observers to one of Piwik's {@hook # hooks},
  * or has special installation/uninstallation logic must implement this class.
  * Plugins that can specify everything they need to in the _plugin.json_ files,
  * such as themes, don't need to implement this class.
