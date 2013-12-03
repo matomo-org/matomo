@@ -290,7 +290,7 @@ class Date
     }
 
     /**
-     * Converts this date to the requested string format. See [http://php.net/date](http://php.net/date)
+     * Converts this date to the requested string format. See {@link http://php.net/date}
      * for the list of format strings.
      *
      * @param string $format
