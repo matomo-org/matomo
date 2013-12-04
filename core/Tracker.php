@@ -788,8 +788,7 @@ class Tracker
         self::setPluginsNotToLoad($pluginsDisabled);
 
         // we load 'DevicesDetection' in tests only (disabled by default)
-        $plugins = array_merge(array('DevicesDetection'), Config::getInstance()->Plugins['Plugins']);
-        self::setPluginsToLoad($plugins);
+        self::setPluginsToLoad(array('DevicesDetection'));
     }
 
     /**
