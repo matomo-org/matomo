@@ -578,11 +578,13 @@ class Manager extends Singleton
     public function getActivatedAndLoadedPlugins()
     {
         $activatedPlugins = $this->pluginsToLoad;
-        $loadedPlugins    = $this->loadedPlugins;
 
         $plugins = array();
         foreach ($activatedPlugins as $activatedPlugin) {
-            if (array_key_exists($activatedPlugin, $loadedPlugins)) {
+
+            if ($activatedPlugin
+                && $this->isPluginLoaded($activatedPlugin)) {
+
                 $plugins[] = $activatedPlugin;
             }
         }
