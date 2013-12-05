@@ -304,15 +304,15 @@ class Request
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
-         * Triggered when obtaining the ID of the site that is currently being tracked.
+         * Triggered when obtaining the ID of the site we are tracking a visit for.
          * 
-         * This event can be used to modify the site ID from what is specified by the **idsite**
-         * query parameter.
+         * This event can be used to change the site ID so data is tracked for a different
+         * website.
          * 
          * @param int &$idSite Initialized to the value of the **idsite** query parameter. If a
          *                     subscriber sets this variable, the value it uses must be greater
          *                     than 0.
-         * @param array $params The entire array of request parameters passed with this tracking
+         * @param array $params The entire array of request parameters in the current tracking
          *                      request.
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));

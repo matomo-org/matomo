@@ -48,18 +48,17 @@ class Console
         $commands = array();
 
         /**
-         * Triggered when gathering all available console commands. Plugins that want to expose new console commands
+         * Triggered to gather all available console commands. Plugins that want to expose new console commands
          * should subscribe to this event and add commands to the incoming array.
          *
          * **Example**
-         * ```
-         * public function addConsoleCommands(&$commands)
-         * {
-         *     $commands[] = 'Piwik\Plugins\MyPlugin\Commands\MyCommand';
-         * }
-         * ```
+         * 
+         *     public function addConsoleCommands(&$commands)
+         *     {
+         *         $commands[] = 'Piwik\Plugins\MyPlugin\Commands\MyCommand';
+         *     }
          *
-         * @param array &$commands An array containing a list of command classnames.
+         * @param array &$commands An array containing a list of command class names.
          */
         Piwik::postEvent('Console.addCommands', array(&$commands));
 

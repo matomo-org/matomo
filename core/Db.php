@@ -74,21 +74,21 @@ class Db
         }
 
         /**
-         * Triggered before a connection to the database is established.
+         * Triggered before a database connection is established.
          * 
-         * This event can be used to dynamically change the settings used to connect to the
-         * database.
+         * This event can be used to change the settings used to establish a connection.
          * 
-         * @param array $dbInfos Reference to an array containing database connection info,
-         *                       including:
-         *                       - **host**: The host name or IP address to the MySQL database.
-         *                       - **username**: The username to use when connecting to the
+         * @param array *$dbInfos Reference to an array containing database connection info,
+         *                        including:
+         * 
+         *                        - **host**: The host name or IP address to the MySQL database.
+         *                        - **username**: The username to use when connecting to the
+         *                                        database.
+         *                        - **password**: The password to use when connecting to the
          *                                       database.
-         *                       - **password**: The password to use when connecting to the
-         *                                       database.
-         *                       - **dbname**: The name of the Piwik MySQL database.
-         *                       - **port**: The MySQL database port to use.
-         *                       - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
+         *                        - **dbname**: The name of the Piwik MySQL database.
+         *                        - **port**: The MySQL database port to use.
+         *                        - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
          */
         Piwik::postEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
 

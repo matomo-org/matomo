@@ -124,13 +124,14 @@ abstract class ViewDataTable implements ViewInterface
 
         /**
          * Triggered during {@link ViewDataTable} construction. Subscribers should customize
-         * the view based on the report that it is displaying.
+         * the view based on the report that is being displayed.
          * 
          * Plugins that define their own reports must subscribe to this event in order to
-         * specify how the Piwik UI will display the report.
+         * specify how the Piwik UI should display the report.
          * 
          * **Example**
          *
+         *     // event handler
          *     public function configureViewDataTable(ViewDataTable $view)
          *     {
          *         switch ($view->requestConfig->apiMethodToRequestDataTable) {

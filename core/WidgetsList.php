@@ -74,7 +74,7 @@ class WidgetsList
             self::$hookCalled = true;
 
             /**
-             * Triggered once when the widget list is first requested. Collects all available widgets.
+             * Used to collect all available dashboard widgets.
              * 
              * Subscribe to this event to make your plugin's reports or other controller actions available
              * as dashboard widgets. Event handlers should call the {@link WidgetsList::add()} method for each
@@ -82,12 +82,10 @@ class WidgetsList
              *
              * **Example**
              * 
-             * ```
-             * public function addWidgets()
-             * {
-             *     WidgetsList::add('General_Actions', 'General_Pages', 'Actions', 'getPageUrls');
-             * }
-             * ```
+             *     public function addWidgets()
+             *     {
+             *         WidgetsList::add('General_Actions', 'General_Pages', 'Actions', 'getPageUrls');
+             *     }
              */
             Piwik::postEvent('WidgetsList.addWidgets');
         }

@@ -65,23 +65,29 @@ class SettingsPiwik
             /**
              * Triggered during the cron archiving process to collect segments that
              * should be pre-processed for all websites. The archiving process will be launched
-             * for each of these segments when archiving data for each site.
+             * for each of these segments when archiving data.
              * 
-             * This event can be used to add segments to be pre-processed. This can be provide
-             * enhanced performance if your plugin depends on data from a specific segment.
+             * This event can be used to add segments to be pre-processed. If your plugin depends
+             * on data from a specific segment, this event could be used to provide enhanced
+             * performance.
              * 
-             * Note: If you just want to add a segment that is managed by the user, you should use the
-             * SegmentEditor API.
+             * _Note: If you just want to add a segment that is managed by the user, use the
+             * SegmentEditor API._
+             * 
+             * **Example**
+             * 
+             *     Piwik::addAction('Segments.getKnownSegmentsToArchiveAllSites', function (&$segments) {
+             *         $segments[] = 'country=jp;city=Tokyo';
+             *     });
              * 
              * @param array &$segmentsToProcess List of segment definitions, eg,
-             *                                  ```
-             *                                  array(
-             *                                      'browserCode=ff;resolution=800x600',
-             *                                      'country=JP;city=Tokyo'
-             *                                  )
-             *                                  ```
-             *                                  Add segments to process to this array in your event
-             *                                  handler.
+             *                                  
+             *                                      array(
+             *                                          'browserCode=ff;resolution=800x600',
+             *                                          'country=jp;city=Tokyo'
+             *                                      )
+             *                                  
+             *                                  Add segments to this array in your event handler.
              */
             Piwik::postEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
 
@@ -107,21 +113,25 @@ class SettingsPiwik
          * should be pre-processed for one specific site. The archiving process will be launched
          * for each of these segments when archiving data for that one site.
          * 
-         * This event can be used to add segments to be pre-processed. This can be provide
-         * enhanced performance if your plugin depends on data from a specific segment.
+         * This event can be used to add segments to be pre-processed for one site.
          * 
-         * Note: If you just want to add a segment that is managed by the user, you should use the
-         * SegmentEditor API.
+         * _Note: If you just want to add a segment that is managed by the user, you should use the
+         * SegmentEditor API._
+         * 
+         * **Example**
+         * 
+         *     Piwik::addAction('Segments.getKnownSegmentsToArchiveForSite', function (&$segments, $idSite) {
+         *         $segments[] = 'country=jp;city=Tokyo';
+         *     });
          * 
          * @param array &$segmentsToProcess List of segment definitions, eg,
-         *                                  ```
-         *                                  array(
-         *                                      'browserCode=ff;resolution=800x600',
-         *                                      'country=JP;city=Tokyo'
-         *                                  )
-         *                                  ```
-         *                                  Add segments to process to this array in your event
-         *                                  handler.
+         *                                  
+         *                                      array(
+         *                                          'browserCode=ff;resolution=800x600',
+         *                                          'country=JP;city=Tokyo'
+         *                                      )
+         *                                  
+         *                                  Add segments to this array in your event handler.
          * @param int $idSite The ID of the site to get segments for.
          */
         Piwik::postEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));

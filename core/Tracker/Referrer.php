@@ -135,10 +135,10 @@ class Referrer
          *                                        - **name**: The search engine name.
          *                                        - **keywords**: The search keywords used.
          *  
-         *                                        This parameter will be defaulted to the results
+         *                                        This parameter is initialized to the results
          *                                        of Piwik's default search engine detection
          *                                        logic.
-         * @param string referrerUrl The referrer URL.
+         * @param string referrerUrl The referrer URL from the tracking request.
          */
         Piwik::postEvent('Tracker.detectReferrerSearchEngine', array(&$searchEngineInformation, $this->referrerUrl));
         if ($searchEngineInformation === false) {

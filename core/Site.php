@@ -92,14 +92,21 @@ class Site
             throw new Exception("Un unexpected website was found.");
         }
 
-
         /**
-         * Piwik core APIs and plugins use the Site object to get information about websites.
-         * This event is called just before a Website information is stored in the memory cache.
-         * It can be used to modify the data for a website, such as decorate its name or change its created datetime.
+         * Triggered so plugins can modify website entities without modifying the database.
+         * 
+         * This event should **not** be used to add data that is expensive to compute. If you
+         * need to make HTTP requests or query the database for more information, this is not
+         * the place to do it.
          *
-         * @param int $idSite  Website ID
-         * @param array $infoSite Website information array
+         * **Example**
+         * 
+         *     Piwik::addAction('Site.setSite', function ($idSite, &$info) {
+         *         $info['name'] .= " (original)";
+         *     });
+         * 
+         * @param int $idSite The ID of the website entity that will be modified.
+         * @param array $infoSite The website entity. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
          */
         Piwik::postEvent('Site.setSite', array($idSite, &$infoSite));
 

@@ -151,18 +151,22 @@ class Factory
         if (null === self::$defaultViewTypes) {
             self::$defaultViewTypes = array();
             /**
-             * Triggered when gathering the default view types for all available reports. By default the HtmlTable
-             * visualization is used. If you define your own report, you may want to subscribe to this event to
-             * make sure another Visualization is used (for example, a pie graph, bar graph, or something else).
+             * Triggered when gathering the default view types for all available reports.
+             * 
+             * If you define your own report, you may want to subscribe to this event to
+             * make sure the correct default Visualization is used (for example, a pie graph,
+             * bar graph, or something else).
              *
+             * If there is no default type associated with a report, the **table** visualization
+             * used.
+             * 
              * **Example**
-             * ```
-             * public function getDefaultTypeViewDataTable(&$defaultViewTypes)
-             * {
-             *     $defaultViewTypes['Referrers.getSocials']       = HtmlTable::ID;
-             *     $defaultViewTypes['Referrers.getUrlsForSocial'] = Pie::ID;
-             * }
-             * ```
+             * 
+             *     public function getDefaultTypeViewDataTable(&$defaultViewTypes)
+             *     {
+             *         $defaultViewTypes['Referrers.getSocials']       = HtmlTable::ID;
+             *         $defaultViewTypes['Referrers.getUrlsForSocial'] = Pie::ID;
+             *     }
              * 
              * @param array &$defaultViewTypes The array mapping report IDs with visualization IDs.
              */

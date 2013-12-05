@@ -386,16 +386,15 @@ class API extends \Piwik\Plugin\API
         /**
          * Triggered when generating the content of scheduled reports.
          *
-         * This event can be used to modify the content of processed report data or
-         * metadata, either for one specific report/report type/output format or all
-         * of them.
+         * This event can be used to modify the report data or report metadata of one or more reports
+         * in a scheduled report, before the scheduled report is rendered and delivered.
          * 
          * TODO: list data available in $report or make it a new class that can be documented (same for
          *       all other events that use a $report)
          * 
          * @param array &$processedReports The list of processed reports in the scheduled
-         *                                 report. Includes report data and metadata.
-         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                                 report. Entries includes report data and metadata for each report.
+         * @param string $reportType A string ID describing how the scheduled report will be sent, eg,
          *                           `'sms'` or `'email'`.
          * @param string $outputType The output format of the report, eg, `'html'`, `'pdf'`, etc.
          * @param array $report An array describing the scheduled report that is being
@@ -409,10 +408,10 @@ class API extends \Piwik\Plugin\API
         $reportRenderer = null;
 
         /**
-         * Triggered when obtaining a renderer instance based on the scheduled report type.
+         * Triggered when obtaining a renderer instance based on the scheduled report output format.
          * 
-         * Plugins that provide new scheduled report backends should use this event to
-         * handle their new report types.
+         * Plugins that provide new scheduled report output formats should use this event to
+         * handle their new report formats.
          * 
          * @param ReportRenderer &$reportRenderer This variable should be set to an instance that
          *                                        extends {@link Piwik\ReportRenderer} by one of the event
@@ -523,8 +522,8 @@ class API extends \Piwik\Plugin\API
         /**
          * Triggered when sending scheduled reports.
          *
-         * Plugins that provide new scheduled report backends should use this event to
-         * send the scheduled report uses their backend.
+         * Plugins that provide new scheduled report transport mediums should use this event to
+         * send the scheduled report.
          * 
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
@@ -538,7 +537,7 @@ class API extends \Piwik\Plugin\API
          *                           scheduled report.
          * @param string $reportSubject A string describing what's in the scheduled
          *                              report.
-         * @param string $reportTitle The scheduled report's given title.
+         * @param string $reportTitle The scheduled report's given title (given by a Piwik user).
          * @param array $additionalFiles The list of additional files that should be
          *                               sent with this report.
          */
@@ -591,8 +590,8 @@ class API extends \Piwik\Plugin\API
         /**
          * Triggered when gathering the available parameters for a scheduled report type.
          * 
-         * Plugins that provide their own scheduled reports backend should use this
-         * event to list the available report parameters for their backend.
+         * Plugins that provide their own scheduled report transport mediums should use this
+         * event to list the available report parameters for their transport medium.
          * 
          * @param array $availableParameters The list of available parameters for this report type.
          *                                   This is an array that maps paramater IDs with a boolean
@@ -733,13 +732,15 @@ class API extends \Piwik\Plugin\API
         $availableReportMetadata = array();
 
         /**
+         * TODO: change this event so it returns a list of API methods instead of report metadata arrays.
          * Triggered when gathering the list of Piwik reports that can be used with a certain
-         * scheduled reports backend.
+         * transport medium.
          * 
-         * Plugins that provide their own scheduled reports backend should use this
+         * Plugins that provide their own transport mediums should use this
          * event to list the Piwik reports that their backend supports.
          * 
-         * @param array &$availableReportMetadata
+         * @param array &$availableReportMetadata An array containg report metadata for each supported
+         *                                        report.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
          * @param int $idSite The ID of the site we're getting available reports for.
@@ -760,10 +761,10 @@ class API extends \Piwik\Plugin\API
         $allowMultipleReports = null;
 
         /**
-         * Triggered when we're determining if a scheduled report backend can
+         * Triggered when we're determining if a scheduled report transport medium can
          * handle sending multiple Piwik reports in one scheduled report or not.
          * 
-         * Plugins that provide their own scheduled reports backend should use this
+         * Plugins that provide their own transport mediums should use this
          * event to specify whether their backend can send more than one Piwik report
          * at a time.
          * 
@@ -787,14 +788,13 @@ class API extends \Piwik\Plugin\API
         $reportTypes = array();
 
         /**
-         * Triggered when gathering all available scheduled report backend types.
+         * Triggered when gathering all available transport mediums.
          * 
-         * Plugins that provide their own scheduled reports backend should use this
-         * event to make their backend available.
+         * Plugins that provide their own transport mediums should use this
+         * event to make their medium available.
          * 
-         * @param array &$reportTypes An array mapping string IDs for each available
-         *                            scheduled report backend with icon paths for those
-         *                            backends. Add your new backend's ID to this array.
+         * @param array &$reportTypes An array mapping transport medium IDs with the paths to those
+         *                            mediums' icons. Add your new backend's ID to this array.
          */
         Piwik::postEvent(self::GET_REPORT_TYPES_EVENT, array(&$reportTypes));
 
@@ -817,6 +817,8 @@ class API extends \Piwik\Plugin\API
          * @param array &$reportFormats An array mapping string IDs for each available
          *                              scheduled report format with icon paths for those
          *                              formats. Add your new format's ID to this array.
+         * @param string $reportType A string ID describing how the report is sent, eg,
+         *                           `'sms'` or `'email'`.
          */
         Piwik::postEvent(
             self::GET_REPORT_FORMATS_EVENT,
@@ -836,8 +838,8 @@ class API extends \Piwik\Plugin\API
         /**
          * Triggered when getting the list of recipients of a scheduled report.
          * 
-         * Plugins that provide their own scheduled report backend should use this event
-         * so the list of recipients can be extracted from their backend's specific report
+         * Plugins that provide their own scheduled report transport medium should use this event
+         * to extract the list of recipients their backend's specific scheduled report
          * format.
          * 
          * @param array &$recipients An array of strings describing each of the scheduled

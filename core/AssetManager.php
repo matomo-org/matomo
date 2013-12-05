@@ -163,7 +163,7 @@ class AssetManager
          * 
          * This event can be used to modify merged CSS.
          * 
-         * @param string &$mergedContent The merged an minified CSS.
+         * @param string &$mergedContent The merged and minified CSS.
          */
         Piwik::postEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
 
@@ -295,12 +295,12 @@ class AssetManager
          * Plugins that have stylesheets should use this event to make those stylesheets
          * load.
          * 
-         * Stylesheets should be placed within a **stylesheets** subfolder in your plugin's
+         * Stylesheets should be placed within a **stylesheets** subdirectory in your plugin's
          * root directory.
          * 
-         * Note: In case you are developing your plugin you may enable the config setting
-         * `[Debug] disable_merged_assets`. Otherwise your custom stylesheets won't be
-         * reloaded immediately after a change.
+         * _Note: While you are developing your plugin you should enable the config setting
+         * `[Debug] disable_merged_assets` so your stylesheets will be reloaded immediately
+         * after a change._
          *
          * **Example**
          * 
@@ -382,7 +382,7 @@ class AssetManager
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
 
         /**
-         * Triggered after all JavaScript files Piwik uses are minified and merged into a
+         * Triggered after all the JavaScript files Piwik uses are minified and merged into a
          * single file, but before the merged JavaScript is written to disk.
          * 
          * Plugins can use this event to modify merged JavaScript or do something else
@@ -431,19 +431,19 @@ class AssetManager
          * Plugins that have their own JavaScript should use this event to make those
          * files load in the browser.
          * 
-         * JavaScript files should be placed within a **javascripts** subfolder in your
+         * JavaScript files should be placed within a **javascripts** subdirectory in your
          * plugin's root directory.
          * 
-         * Note: In case you are developing your plugin you may enable the config setting
-         * `[Debug] disable_merged_assets`. Otherwise your JavaScript won't be reloaded
-         * immediately after a change.
+         * _Note: While you are developing your plugin you should enable the config setting
+         * `[Debug] disable_merged_assets` so JavaScript files will be reloaded immediately
+         * after every change._
          *
          * **Example**
          * 
-         *     public function getJsFiles(&jsFiles)
+         *     public function getJsFiles(&$jsFiles)
          *     {
-         *         jsFiles[] = "plugins/MyPlugin/javascripts/myfile.js";
-         *         jsFiles[] = "plugins/MyPlugin/javascripts/anotherone.js";
+         *         $jsFiles[] = "plugins/MyPlugin/javascripts/myfile.js";
+         *         $jsFiles[] = "plugins/MyPlugin/javascripts/anotherone.js";
          *     }
          * 
          * @param string[] $jsFiles The JavaScript files to load.

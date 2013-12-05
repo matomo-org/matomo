@@ -73,13 +73,13 @@ class VisitExcluded
         }
 
         /**
-         * Triggered on every pageview of a visitor.
+         * Triggered on every tracking request.
          * 
-         * This event can be used to tell the Tracker not to record this particular pageview.
+         * This event can be used to tell the Tracker not to record this particular action or visit.
          * 
-         * @param bool &$excluded Whether the pageview should be excluded or not. Initialized
+         * @param bool &$excluded Whether the request should be excluded or not. Initialized
          *                        to `false`. Event subscribers should set it to `true` in
-         *                        order to exclude the pageview.
+         *                        order to exclude the request.
          */
         Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded));
 

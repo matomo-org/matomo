@@ -91,9 +91,12 @@ class ReportsByDimension extends View
     public function render()
     {
         /**
-         * Use this hook to configure the "Report by dimension" UI controller. This controller is displayed for example
-         * in the Referrers>Overview and the Goals>Overview report. It displays a list of repotrs on the left, and when click
-         * loads the report on the right column. This hook can be used to filter this list of report. @see ReportsByDimension class for more info.
+         * Triggered before rendering {@link ReportsByDimension} views.
+         * 
+         * Plugins can use this event to configure {@link ReportsByDimension} instances by
+         * adding or removing reports to display.
+         * 
+         * @param ReportsByDimension $this The view instance.
          */
         Piwik::postEvent('View.ReportsByDimension.render', array($this));
 

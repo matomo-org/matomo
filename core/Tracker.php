@@ -523,13 +523,13 @@ class Tracker
         }
 
         /**
-         * Triggered before a connection to the database is established in the Tracker.
+         * Triggered before a connection to the database is established by the Tracker.
          * 
-         * This event can be used to dynamically change the settings used to connect to the
-         * database.
+         * This event can be used to change the database connection settings used by the Tracker.
          * 
          * @param array $dbInfos Reference to an array containing database connection info,
          *                       including:
+         * 
          *                       - **host**: The host name or IP address to the MySQL database.
          *                       - **username**: The username to use when connecting to the
          *                                       database.
@@ -588,13 +588,13 @@ class Tracker
         $visit = null;
 
         /**
-         * Triggered before a new `{@link Piwik\Tracker\Visit}` object is created. Subscribers to this
+         * Triggered before a new **visit object** is created. Subscribers to this
          * event can force the use of a custom visit object that extends from
          * {@link Piwik\Tracker\VisitInterface}.
          * 
          * @param \Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
-         *                                             a created Visit object. If it isn't
-         *                                             modified Piwik uses the default class.
+         *                                              a new visit object. If it isn't modified
+         *                                              Piwik uses the default class.
          */
         Piwik::postEvent('Tracker.makeNewVisitObject', array(&$visit));
 

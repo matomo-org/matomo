@@ -352,33 +352,33 @@ class GoalManager
      * Records an Ecommerce conversion in the DB. Deals with Items found in the request.
      * Will deal with 2 types of conversions: Ecommerce Order and Ecommerce Cart update (Add to cart, Update Cart etc).
      *
-     * @param array $goal
-     * @param array $visitorInformation
+     * @param array $conversion
+     * @param array $visitInformation
      */
-    protected function recordEcommerceGoal($goal, $visitorInformation)
+    protected function recordEcommerceGoal($conversion, $visitInformation)
     {
         if ($this->isThereExistingCartInVisit) {
             Common::printDebug("There is an existing cart for this visit");
         }
         if ($this->isGoalAnOrder) {
-            $goal['idgoal'] = self::IDGOAL_ORDER;
-            $goal['idorder'] = $this->orderId;
-            $goal['buster'] = Common::hashStringToInt($this->orderId);
-            $goal['revenue_subtotal'] = $this->getRevenue($this->request->getParam('ec_st'));
-            $goal['revenue_tax'] = $this->getRevenue($this->request->getParam('ec_tx'));
-            $goal['revenue_shipping'] = $this->getRevenue($this->request->getParam('ec_sh'));
-            $goal['revenue_discount'] = $this->getRevenue($this->request->getParam('ec_dt'));
+            $conversion['idgoal'] = self::IDGOAL_ORDER;
+            $conversion['idorder'] = $this->orderId;
+            $conversion['buster'] = Common::hashStringToInt($this->orderId);
+            $conversion['revenue_subtotal'] = $this->getRevenue($this->request->getParam('ec_st'));
+            $conversion['revenue_tax'] = $this->getRevenue($this->request->getParam('ec_tx'));
+            $conversion['revenue_shipping'] = $this->getRevenue($this->request->getParam('ec_sh'));
+            $conversion['revenue_discount'] = $this->getRevenue($this->request->getParam('ec_dt'));
 
             $debugMessage = 'The conversion is an Ecommerce order';
         } // If Cart update, select current items in the previous Cart
         else {
-            $goal['buster'] = 0;
-            $goal['idgoal'] = self::IDGOAL_CART;
+            $conversion['buster'] = 0;
+            $conversion['idgoal'] = self::IDGOAL_CART;
             $debugMessage = 'The conversion is an Ecommerce Cart Update';
         }
-        $goal['revenue'] = $this->getRevenue($this->request->getGoalRevenue($defaultRevenue = 0));
+        $conversion['revenue'] = $this->getRevenue($this->request->getGoalRevenue($defaultRevenue = 0));
 
-        Common::printDebug($debugMessage . ':' . var_export($goal, true));
+        Common::printDebug($debugMessage . ':' . var_export($conversion, true));
 
         // INSERT or Sync items in the Cart / Order for this visit & order
         $items = $this->getEcommerceItemsFromRequest();
@@ -390,29 +390,35 @@ class GoalManager
         foreach ($items as $item) {
             $itemsCount += $item[self::INTERNAL_ITEM_QUANTITY];
         }
-        $goal['items'] = $itemsCount;
+        $conversion['items'] = $itemsCount;
 
         if($this->isThereExistingCartInVisit) {
             $updateWhere = array(
-                'idvisit' => $visitorInformation['idvisit'],
+                'idvisit' => $visitInformation['idvisit'],
                 'idgoal'  => self::IDGOAL_CART,
                 'buster'  => 0,
             );
-            $recorded = $this->updateExistingConversion($goal, $updateWhere);
+            $recorded = $this->updateExistingConversion($conversion, $updateWhere);
         } else {
-            $recorded = $this->insertNewConversion($goal, $visitorInformation);
+            $recorded = $this->insertNewConversion($conversion, $visitInformation);
         }
 
         if ($recorded) {
-            $this->recordEcommerceItems($goal, $items, $visitorInformation);
+            $this->recordEcommerceItems($conversion, $items, $visitInformation);
         }
 
         /**
-         * This hook is called after recording an ecommerce goal. You can use it for instance to sync the recorded goal
-         * with third party systems. `$goal` contains all available information like `items` and `revenue`.
-         * `$visitor` contains the current known visit information.
+         * Triggered after successfully persisting an ecommerce conversion.
+         * 
+         * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
+         * the tracker down._
+         * 
+         * @param array $conversion The conversion entity that was just persisted. See what information
+         *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
+         * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
+         *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
          */
-        Piwik::postEvent('Tracker.recordEcommerceGoal', array($goal, $visitorInformation));
+        Piwik::postEvent('Tracker.recordEcommerceGoal', array($conversion, $visitInformation));
     }
 
     /**
@@ -756,59 +762,67 @@ class GoalManager
     {
         foreach ($this->convertedGoals as $convertedGoal) {
             Common::printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
-            $newGoal = $goal;
-            $newGoal['idgoal'] = $convertedGoal['idgoal'];
-            $newGoal['url'] = $convertedGoal['url'];
-            $newGoal['revenue'] = $this->getRevenue($convertedGoal['revenue']);
+            $conversion = $goal;
+            $conversion['idgoal'] = $convertedGoal['idgoal'];
+            $conversion['url'] = $convertedGoal['url'];
+            $conversion['revenue'] = $this->getRevenue($convertedGoal['revenue']);
 
             if (!is_null($action)) {
-                $newGoal['idaction_url'] = $action->getIdActionUrl();
-                $newGoal['idlink_va'] = $action->getIdLinkVisitAction();
+                $conversion['idaction_url'] = $action->getIdActionUrl();
+                $conversion['idlink_va'] = $action->getIdLinkVisitAction();
             }
 
             // If multiple Goal conversions per visit, set a cache buster
-            $newGoal['buster'] = $convertedGoal['allow_multiple'] == 0
+            $conversion['buster'] = $convertedGoal['allow_multiple'] == 0
                 ? '0'
                 : $visitorInformation['visit_last_action_time'];
 
-            $this->insertNewConversion($newGoal, $visitorInformation);
+            $this->insertNewConversion($conversion, $visitorInformation);
 
             /**
-             * This hook is called after recording a standard goal. You can use it for instance to sync the recorded
-             * goal with third party systems. `$goal` contains all available information like `url` and `revenue`.
+             * Triggered after successfully recording a non-ecommerce conversion.
+             * 
+             * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
+             * the tracker down._
+             * 
+             * @param array $conversion The conversion entity that was just persisted. See what information
+             *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
              */
-            Piwik::postEvent('Tracker.recordStandardGoals', array($newGoal));
+            Piwik::postEvent('Tracker.recordStandardGoals', array($conversion));
         }
     }
 
     /**
      * Helper function used by other record* methods which will INSERT or UPDATE the conversion in the DB
      *
-     * @param array $newGoal
-     * @param array $visitorInformation
+     * @param array $conversion
+     * @param array $visitInformation
      * @return bool
      */
-    protected function insertNewConversion($newGoal, $visitorInformation)
+    protected function insertNewConversion($conversion, $visitInformation)
     {
         /**
-         * This hook is called before inserting a new Goal Conversion.. You can use it to update the Goal
-         * attributes before they are saved in the log_conversion table.
-         * `$visitor` contains the current known visit information.
-         * @param array $goal Array of SQL fields value for this conversion, will be inserted in the log_conversion table
-         * @param array $visitorInformation Array of log_visit field values for this visitor
-         * @param \Piwik\Tracker\Request $request
+         * Triggered before persisting a new [conversion entity](/guides/persistence-and-the-mysql-backend#conversions).
+         * 
+         * This event can be used to modify conversion information or to add new information to be persisted.
+         * 
+         * @param array $conversion The conversion entity. Read [this](/guides/persistence-and-the-mysql-backend#conversions)
+         *                          to see what it contains.
+         * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
+         *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
+         * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          */
-        Piwik::postEvent('Tracker.newConversionInformation', array( &$newGoal, $visitorInformation, $this->request));
+        Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $this->request));
 
-        $newGoalDebug = $newGoal;
+        $newGoalDebug = $conversion;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);
 
-        $fields = implode(", ", array_keys($newGoal));
-        $bindFields = Common::getSqlStringFieldsArray($newGoal);
+        $fields = implode(", ", array_keys($conversion));
+        $bindFields = Common::getSqlStringFieldsArray($conversion);
         $sql = 'INSERT IGNORE INTO ' . Common::prefixTable('log_conversion') . "
                 ($fields) VALUES ($bindFields) ";
-        $bind = array_values($newGoal);
+        $bind = array_values($conversion);
         $result = Tracker::getDatabase()->query($sql, $bind);
 
         // If a record was inserted, we return true

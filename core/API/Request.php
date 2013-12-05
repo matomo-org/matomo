@@ -238,11 +238,11 @@ class Request
         if ($token_auth) {
 
             /**
-             * Triggered when authenticating an API request. Only triggered if the **token_auth**
+             * Triggered when authenticating an API request, but only if the **token_auth**
              * query parameter is found in the request.
              * 
              * Plugins that provide authentication capabilities should subscribe to this event
-             * and make sure the authentication object (the object returned by `Registry::get('auth')`)
+             * and make sure the global authentication object (the object returned by `Registry::get('auth')`)
              * is setup to use `$token_auth` when its `authenticate()` method is executed.
              * 
              * @param string $token_auth The value of the **token_auth** query parameter.

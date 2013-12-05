@@ -91,7 +91,7 @@ class FrontController extends Singleton
          * Triggered directly before controller actions are dispatched.
          *
          * This event can be used to modify the parameters passed to one or more controller actions
-         * and can be used to change the plugin and action that is being dispatched to.
+         * and can be used to change the controller action being dispatched to.
          *
          * @param string &$module The name of the plugin being dispatched to.
          * @param string &$action The name of the controller method being dispatched to.
@@ -102,6 +102,8 @@ class FrontController extends Singleton
         list($controller, $action) = $this->makeController($module, $action);
 
         /**
+         * Triggered directly before controller actions are dispatched.
+         * 
          * This event exists for convenience and is triggered directly after the {@hook Request.dispatch}
          * event is triggered.
          * 
@@ -116,6 +118,8 @@ class FrontController extends Singleton
             $result = call_user_func_array(array($controller, $action), $parameters);
 
             /**
+             * Triggered after a controller action is successfully called.
+             * 
              * This event exists for convenience and is triggered immediately before the {@hook Request.dispatch.end}
              * event is triggered.
              * 
@@ -131,10 +135,9 @@ class FrontController extends Singleton
             /**
              * Triggered after a controller action is successfully called.
              * 
-             * This event can be used to modify controller action output (if there was any) before
-             * the output is returned.
+             * This event can be used to modify controller action output (if any) before the output is returned.
              * 
-             * @param mixed &$result The result of the controller action.
+             * @param mixed &$result The controller action result.
              * @param array $parameters The arguments passed to the controller action.
              */
             Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
@@ -255,9 +258,10 @@ class FrontController extends Singleton
         } catch (Exception $exception) {
 
             /**
-             * Triggered when the configuration file cannot be found or read. This usually
-             * means Piwik is not installed yet. This event can be used to start the
-             * installation process or to display a custom error message.
+             * Triggered when the configuration file cannot be found or read, which usually
+             * means Piwik is not installed yet.
+             * 
+             * This event can be used to start the installation process or to display a custom error message.
              * 
              * @param Exception $exception The exception that was thrown by `Config::getInstance()`.
              */
@@ -335,8 +339,9 @@ class FrontController extends Singleton
 
                 /**
                  * Triggered if the INI config file has the incorrect format or if certain required configuration
-                 * options are absent. This event can be used to start the installation process or to display a
-                 * custom error message.
+                 * options are absent.
+                 * 
+                 * This event can be used to start the installation process or to display a custom error message.
                  * 
                  * @param Exception $exception The exception thrown from creating and testing the database
                  *                             connection.
@@ -350,8 +355,10 @@ class FrontController extends Singleton
 
             /**
              * Triggered just after the platform is initialized and plugins are loaded.
-             * This event can be used to do early initialization. Note: At this point the user
-             * is not authenticated yet.
+             * 
+             * This event can be used to do early initialization.
+             * 
+             * _Note: At this point the user is not authenticated yet._
              */
             Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
@@ -363,9 +370,17 @@ class FrontController extends Singleton
             }
 
             /**
-             * Triggered before the user is authenticated. You can use it to create your own
-             * authentication object which implements the {@link Piwik\Auth} interface and overrides
-             * the default authentication logic.
+             * Triggered before the user is authenticated, when the global authentication object
+             * should be created.
+             * 
+             * Plugins that provide their own authentication implementation should use this event
+             * to set the global authentication object (which must derive from {@link Piwik\Auth}).
+             * 
+             * **Example**
+             * 
+             *     Piwik::addAction('Request.initAuthenticationObject', function() {
+             *         Piwik\Registry::set('auth', new MyAuthImplementation());
+             *     });
              */
             Piwik::postEvent('Request.initAuthenticationObject');
             try {
@@ -390,7 +405,7 @@ class FrontController extends Singleton
 
             /**
              * Triggered after the platform is initialized and after the user has been authenticated, but
-             * before the platform dispatched the request.
+             * before the platform has handled the request.
              * 
              * Piwik uses this event to check for updates to Piwik.
              */

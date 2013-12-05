@@ -364,14 +364,31 @@ class Goals extends \Piwik\Plugin
 
         /**
          * Triggered when gathering all reports that contain Goal metrics. The list of reports
-         * will be displayed on the left column of the bottom of the Goals Overview page and
-         * each individual Goal page.
+         * will be displayed on the left column of the bottom of every _Goals_ page.
          * 
-         * If plugins define reports that contain Goal metrics (such as conversions or revenue),
-         * they can use this event to make sure their reports can be loaded on the relevant
-         * Goals pages.
+         * If plugins define reports that contain goal metrics (such as **conversions** or **revenue**),
+         * they can use this event to make sure their reports can be viewed on Goals pages.
          * 
-         * @param array &$reportsWithGoals The list of reports that have Goal metrics.
+         * **Example**
+         * 
+         *     public function getReportsWithGoalMetrics(&$reports)
+         *     {
+         *         $reports[] = array(
+         *             'category' => Piwik::translate('MyPlugin_myReportCategory'),
+         *             'name' => Piwik::translate('MyPlugin_myReportDimension'),
+         *             'module' => 'MyPlugin',
+         *             'action' => 'getMyReport'
+         *         );
+         *     }
+         * 
+         * @param array &$reportsWithGoals The list of arrays describing reports that have Goal metrics.
+         *                                 Each element of this array must be an array with the following
+         *                                 properties:
+         * 
+         *                                 - **category**: The report category. This should be a translated string.
+         *                                 - **name**: The report's translated name.
+         *                                 - **module**: The plugin the report is in, eg, `'UserCountry'`.
+         *                                 - **action**: The API method of the report, eg, `'getCountry'`.
          */
         Piwik::postEvent('Goals.getReportsWithGoalMetrics', array(&$reportsWithGoals));
 

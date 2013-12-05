@@ -118,7 +118,7 @@ class Translate
              *         }
              *     }
              * 
-             * @param string &$lang The language that should be used for the user. Will be
+             * @param string &$lang The language that should be used for the current user. Will be
              *                      initialized to the value of the **language** query parameter.
              */
             Piwik::postEvent('User.getLanguage', array(&$lang));
@@ -177,8 +177,10 @@ class Translate
 
         /**
          * Triggered before generating the JavaScript code that allows i18n strings to be used
-         * in the browser. Plugins should subscribe to this event to specify which translations
-         * should be available in JavaScript code.
+         * in the browser.
+         * 
+         * Plugins should subscribe to this event to specify which translations
+         * should be available to JavaScript.
          *
          * Event handlers should add whole translation keys, ie, keys that include the plugin name.
          * 

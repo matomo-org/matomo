@@ -264,7 +264,7 @@ abstract class Action
             ? (int)$this->getIdActionName()
             : null;
 
-        $insert = array(
+        $visitAction = array(
             'idvisit'               => $idVisit,
             'idsite'                => $this->request->getIdSite(),
             'idvisitor'             => $visitorIdCookie,
@@ -277,12 +277,12 @@ abstract class Action
         );
 
         foreach($this->actionIdsCached as $field => $idAction) {
-            $insert[$field] = $idAction;
+            $visitAction[$field] = $idAction;
         }
 
         $customValue = $this->getCustomFloatValue();
         if (!empty($customValue)) {
-            $insert[self::DB_COLUMN_CUSTOM_FLOAT] = $customValue;
+            $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = $customValue;
         }
 
         $customVariables = $this->getCustomVariables();
@@ -291,47 +291,27 @@ abstract class Action
             Common::printDebug($customVariables);
         }
 
-        $insert = array_merge($insert, $customVariables);
-        $fields = implode(", ", array_keys($insert));
-        $bind = array_values($insert);
-        $values = Common::getSqlStringFieldsArray($insert);
+        $visitAction = array_merge($visitAction, $customVariables);
+        $fields = implode(", ", array_keys($visitAction));
+        $bind = array_values($visitAction);
+        $values = Common::getSqlStringFieldsArray($visitAction);
 
         $sql = "INSERT INTO " . Common::prefixTable('log_link_visit_action') . " ($fields) VALUES ($values)";
         Tracker::getDatabase()->query($sql, $bind);
 
         $this->idLinkVisitAction = Tracker::getDatabase()->lastInsertId();
+        $visitAction['idlink_va'] = $this->idLinkVisitAction;
 
-        $info = array(
-            'idSite'                  => $this->request->getIdSite(),
-            'idLinkVisitAction'       => $this->idLinkVisitAction,
-            'idVisit'                 => $idVisit,
-            'idReferrerActionUrl'     => $idReferrerActionUrl,
-            'idReferrerActionName'    => $idReferrerActionName,
-            'timeSpentReferrerAction' => $timeSpentReferrerAction,
-        );
         Common::printDebug("Inserted new action:");
-        Common::printDebug($insert);
+        Common::printDebug($visitAction);
 
         /**
-         * Triggered after successfully logging an action for a visit.
-         * 
+         * Triggered after successfully persisting a [visit action entity](/guides/persistence-and-the-mysql-backend#visit-actions).
          * 
          * @param Action $tracker Action The Action tracker instance.
-         * @param array $info An array describing the current visit action. Includes the
-         *                    following information:
-         *                    - **idSite**: The ID of the site that we are tracking.
-         *                    - **idLinkVisitAction**: The ID of the row that was inserted into the
-         *                                             log_link_visit_action table.
-         *                    - **idVisit**: The visit ID.
-         *                    - **idReferrerActionUrl**: The ID referencing the row in the log_action table
-         *                                               that holds the URL of the visitor's last action.
-         *                    - **idReferrerActionName**: The ID referencing the row in the log_action table
-         *                                                that holds the name of the visitor's last action.
-         *                    - **timeSpentReferrerAction**: The number of seconds since the visitor's last
-         *                                                   action.
+         * @param array $visitAction The visit action entity that was persisted. Read
+         *                           [this](/guides/persistence-and-the-mysql-backend#visit-actions) to see what it contains.
          */
-        Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $info));
+        Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $visitAction));
     }
-
 }
-

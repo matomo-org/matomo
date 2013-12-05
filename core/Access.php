@@ -427,10 +427,11 @@ class Access
 }
 
 /**
- * Exception thrown when a user doesn't  have sufficient access.
+ * Exception thrown when a user doesn't have sufficient access to a resource.
  *
  * @package Piwik
  * @subpackage Access
+ * @api
  */
 class NoAccessException extends \Exception
 {

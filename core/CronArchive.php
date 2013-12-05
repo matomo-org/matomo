@@ -795,8 +795,13 @@ Notes:
         $websiteIds = array_intersect($websiteIds, $this->allWebsites);
 
         /**
-         * When the cron to run archive.php is executed, it fetches the list of website IDs to process.
-         * Use this hook to add, remove, or change the order of websites IDs to pre-archive.
+         * Triggered by the **archive.php** cron script so plugins can modify the list of
+         * websites that the archiving process will be launched for.
+         * 
+         * Plugins can use this hook to add websites to archive, remove websites to archive, or change
+         * the order in which websites will be archived.
+         * 
+         * @param array $websiteIds The list of website IDs to launch the archiving process for.
          */
         Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));
     }

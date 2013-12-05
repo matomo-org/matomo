@@ -166,21 +166,23 @@ class Provider extends \Piwik\Plugin
             $cleanHostname = null;
 
             /**
-             * Triggered when prettifying a hostname string. depending on a given hostname.
+             * Triggered when prettifying a hostname string.
              * 
              * This event can be used to customize the way a hostname is displayed in the 
              * Providers report.
              *
              * **Example**
              * 
-             * ```
-             * public function getCleanHostname(&$cleanHostname, $hostname)
-             * {
-             *     if ('fvae.VARG.ceaga.site.co.jp' == $hostname) {
-             *         $cleanHostname = 'site.co.jp';
+             *     public function getCleanHostname(&$cleanHostname, $hostname)
+             *     {
+             *         if ('fvae.VARG.ceaga.site.co.jp' == $hostname) {
+             *             $cleanHostname = 'site.co.jp';
+             *         }
              *     }
-             * }
-             * ```
+             * 
+             * @param string &$cleanHostname The hostname string to display. Set by the event
+             *                               handler.
+             * @param string $hostname The full hostname.
              */
             Piwik::postEvent('Provider.getCleanHostname', array(&$cleanHostname, $hostname));
             if ($cleanHostname !== null) {

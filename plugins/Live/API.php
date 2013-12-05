@@ -380,7 +380,7 @@ class API extends \Piwik\Plugin\API
          * - **visitorAvatar**: A URL to an image to display in the top left corner of the popup.
          * - **visitorDescription**: Text to be used as the tooltip of the avatar image.
          *
-         * @param array &$visitorProfile The normal visitor profile info.
+         * @param array &$visitorProfile The unaugmented visitor profile info.
          */
         Piwik::postEvent('Live.getExtraVisitorDetails', array(&$result));
 

@@ -79,26 +79,23 @@ class TaskScheduler
         $tasks = array();
 
         /**
-         * Triggered when the TaskScheduler runs scheduled tasks. Collects all the tasks that
-         * will be run.
+         * Triggered during scheduled task execution. Collects all the tasks to run.
          * 
          * Subscribe to this event to schedule code execution on an hourly, daily, weekly or monthly
          * basis.
          *
          * **Example**
          * 
-         * ```
-         * public function getScheduledTasks(&$tasks)
-         * {
-         *     $tasks[] = new ScheduledTask(
-         *         'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
-         *         'clearAllCacheEntries',
-         *         null,
-         *         ScheduledTime::factory('daily'),
-         *         ScheduledTask::LOWEST_PRIORITY
-         *     );
-         * }
-         * ```
+         *     public function getScheduledTasks(&$tasks)
+         *     {
+         *         $tasks[] = new ScheduledTask(
+         *             'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
+         *             'clearAllCacheEntries',
+         *             null,
+         *             ScheduledTime::factory('daily'),
+         *             ScheduledTask::LOWEST_PRIORITY
+         *         );
+         *     }
          * 
          * @param ScheduledTask[] &$tasks List of tasks to run periodically.
          */

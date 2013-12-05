@@ -302,17 +302,19 @@ class Log extends Singleton
          * This event is called when the Log instance is created. Plugins can use this event to
          * make new logging writers available.
          *
-         * A logging writer is a callback that takes the following arguments:
-         *   int $level, string $tag, string $datetime, string $message
-         *
-         * $level is the log level to use, $tag is the log tag used, $datetime is the date time
-         * of the logging call and $message is the formatted log message.
-         *
-         * Logging writers must be associated by name in the array passed to event handlers.
-         *
-         * ***Example**
+         * A logging writer is a callback with the following signature:
          * 
-         *     function (&$writers) {
+         *     function (int $level, string $tag, string $datetime, string $message)
+         *
+         * `$level` is the log level to use, `$tag` is the log tag used, `$datetime` is the date time
+         * of the logging call and `$message` is the formatted log message.
+         *
+         * Logging writers must be associated by name in the array passed to event handlers. The
+         * name specified can be used in Piwik's INI configuration.
+         *
+         * **Example**
+         * 
+         *     public function getAvailableWriters(&$writers) {
          *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
          *             // ...
          *         };
@@ -320,7 +322,7 @@ class Log extends Singleton
          *
          *     // 'myloggername' can now be used in the log_writers config option.
          * 
-         * @param $
+         * @param array $writers Array mapping writer names with logging writers.
          */
         Piwik::postEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
@@ -338,12 +340,20 @@ class Log extends Singleton
             $logger = $this;
 
             /**
-             * This event is called when trying to log an object to a file. Plugins can use
+             * Triggered when trying to log an object to a file. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
+             * **Example**
+             * 
+             *     public function formatFileMessage(&$message, $level, $tag, $datetime, $logger) {
+             *         if ($message instanceof MyCustomDebugInfo) {
+             *             $message = $message->formatForFile();
+             *         }
+             *     }
+             * 
              * @param mixed &$message The object that is being logged. Event handlers should
              *                        check if the object is of a certain type and if it is,
-             *                        set $message to the string that should be logged.
+             *                        set `$message` to the string that should be logged.
              * @param int $level The log level used with this log entry.
              * @param string $tag The current plugin that started logging (or if no plugin,
              *                    the current class).
@@ -387,15 +397,23 @@ class Log extends Singleton
             $logger = $this;
 
             /**
-             * This event is called when trying to log an object to the screen. Plugins can use
+             * Triggered when trying to log an object to the screen. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
              * The result of this callback can be HTML so no sanitization is done on the result.
-             * This means YOU MUST SANITIZE THE MESSAGE YOURSELF if you use this event.
+             * This means **YOU MUST SANITIZE THE MESSAGE YOURSELF** if you use this event.
              *
+             * **Example**
+             * 
+             *     public function formatScreenMessage(&$message, $level, $tag, $datetime, $logger) {
+             *         if ($message instanceof MyCustomDebugInfo) {
+             *             $message = Common::sanitizeInputValue($message->formatForScreen());
+             *         }
+             *     }
+             * 
              * @param mixed &$message The object that is being logged. Event handlers should
              *                        check if the object is of a certain type and if it is,
-             *                        set $message to the string that should be logged.
+             *                        set `$message` to the string that should be logged.
              * @param int $level The log level used with this log entry.
              * @param string $tag The current plugin that started logging (or if no plugin,
              *                    the current class).
@@ -420,12 +438,20 @@ class Log extends Singleton
             $logger = $this;
 
             /**
-             * This event is called when trying to log an object to a database table. Plugins can use
+             * Triggered when trying to log an object to a database table. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
+             * **Example**
+             * 
+             *     public function formatDatabaseMessage(&$message, $level, $tag, $datetime, $logger) {
+             *         if ($message instanceof MyCustomDebugInfo) {
+             *             $message = $message->formatForDatabase();
+             *         }
+             *     }
+             * 
              * @param mixed &$message The object that is being logged. Event handlers should
              *                        check if the object is of a certain type and if it is,
-             *                        set $message to the string that should be logged.
+             *                        set `$message` to the string that should be logged.
              * @param int $level The log level used with this log entry.
              * @param string $tag The current plugin that started logging (or if no plugin,
              *                    the current class).

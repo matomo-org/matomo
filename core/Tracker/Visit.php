@@ -91,7 +91,12 @@ class Visit implements VisitInterface
         }
 
         /**
-         * This event can be used for instance to anonymize the IP (after testing for IP exclusion).
+         * Triggered after visits are tested for exclusion so plugins can modify the IP address
+         * persisted with a visit.
+         * 
+         * This event is primarily used by the **AnonymizeIP** plugin to anonymize IP addresses.
+         * 
+         * @param string &$ip The visitor's IP address.
          */
         Piwik::postEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
 
@@ -238,8 +243,15 @@ class Visit implements VisitInterface
         }
 
         /**
-         * This event is triggered before updating an existing visit's row. Use it to change any visitor information before
-         * the visitor is saved, or register information about an existing visitor.
+         * Triggered before a [visit entity](/guides/persistence-and-the-mysql-backend#visits) is updated when
+         * tracking an action for an existing visit.
+         * 
+         * This event can be used to modify the visit properties that will be updated before the changes
+         * are persisted.
+         * 
+         * @param array &$valuesToUpdate Visit entity properties that will be updated.
+         * @param array $visit The entire visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits)
+         *                     to see what it contains.
          */
         Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitorInfo));
 
@@ -286,14 +298,14 @@ class Visit implements VisitInterface
         $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
         /**
-         * This event can be used to determine and set new visit information before the visit is
-         * logged. The UserCountry plugin, for example, uses this event to inject location information
-         * into the visit log table.
+         * Triggered before a new [visit entity](/guides/persistence-and-the-mysql-backend#visits) is persisted.
+         * 
+         * This event can be used to modify the visit entity or add new information to it before it is persisted.
+         * The UserCountry plugin, for example, uses this event to add location information for each visit.
          *
-         * @param array $visitInfo Information regarding the visit. This is information that
-         * persisted to the database.
-         * @param \Piwik\Tracker\Request $request Request object, contains many useful methods
-         *               such as getUserAgent() or getIp() to get the original IP.
+         * @param array &$visit The visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits) to see
+         *                      what information it contains.
+         * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          */
         Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $this->request));
 
@@ -967,14 +979,25 @@ class Visit implements VisitInterface
         );
 
         /**
-         * Use this event to load additional fields from the log_visit table into the visitor array for later use.
+         * Triggered when checking if the current action being tracked belongs to an existing visit.
+         * 
+         * This event collects a list of [visit entity]() properties that should be loaded when reading
+         * the existing visit. Properties that appear in this list will be available in other tracking
+         * events such as {@hook Tracker.newConversionInformation} and {@hook Tracker.newVisitorInformation}.
+         * 
+         * Plugins can use this event to load additional visit entity properties for later use during tracking.
          * When you add fields to this $fields array, they will be later available in Tracker.newConversionInformation
-         * or Tracker.newVisitorInformation.
+         * 
+         * **Example**
+         * 
+         *     Piwik::addAction('Tracker.getVisitFieldsToPersist', function (&$fields) {
+         *         $fields[] = 'custom_visit_property';
+         *     });
+         * 
+         * @param array &$fields The list of visit properties to load.
          */
-        Piwik::postEvent('Tracker.getVisitFieldsToPersist', array( &$fields ));
+        Piwik::postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
 
         return $fields;
-
     }
-
 }
