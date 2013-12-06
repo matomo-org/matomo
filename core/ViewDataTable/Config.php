@@ -15,8 +15,8 @@ use Piwik\Metrics;
 use Piwik\Plugins\API\API;
 
 /**
- * Contains base display properties for ViewDataTables. Manipulating these properties
- * in a ViewDataTable instance will change how its report will be displayed.
+ * Contains base display properties for {@link Piwik\Plugin\ViewDataTable}s. Manipulating these
+ * properties in a ViewDataTable instance will change how its report will be displayed.
  * 
  * <a name="client-side-properties-desc"></a>
  * **Client Side Properties**
@@ -30,6 +30,16 @@ use Piwik\Plugins\API\API;
  * Overridable properties are properties that can be set via the query string.
  * If a request has a query parameter that matches an overridable property, the property
  * will be set to the query parameter value.
+ * 
+ * **Reusing base properties**
+ * 
+ * Many of the properties in this class only have meaning for the {@link Piwik\Plugin\Visualization}
+ * class, but can be set for other visualizations that extend {@link Piwik\Plugin\ViewDataTable} 
+ * directly.
+ * 
+ * Visualizations that extend {@link Piwik\Plugin\ViewDataTable} directly and want to re-use these
+ * properties must make sure the properties are used in the exact same way they are used in
+ * {@link Piwik\Plugin\Visualization}.
  * 
  * **Defining new display properties**
  * 
@@ -394,17 +404,17 @@ class Config
     public $export_limit = '';
 
     /**
-     * TODO
+     * @ignore
      */
     public $report_id = '';
 
     /**
-     * TODO
+     * @ignore
      */
     public $controllerName;
 
     /**
-     * TODO
+     * @ignore
      */
     public $controllerAction;
 
@@ -421,7 +431,7 @@ class Config
     }
 
     /**
-     * TODO
+     * @ignore
      */
     public function setController($controllerName, $controllerAction)
     {

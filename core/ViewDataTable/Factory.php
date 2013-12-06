@@ -28,7 +28,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  *         $view = Factory::build('table', 'MyPlugin.myReport');
  *         $view->config->show_limit_control = true;
  *         $view->config->translations['myFancyMetric'] = "My Fancy Metric";
- *         echo $view->render();
+ *         return $view->render();
  *     }
  * 
  * **Displaying a report in another way**
@@ -40,7 +40,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  *     {
  *         $view = Factory::build('table', 'MyPlugin.myReport', 'MyPlugin.myReportShownDifferently');
  *         $view->config->filters[] = array('MyMagicFilter', array('an arg', 'another arg'));
- *         echo $view->render();
+ *         return $view->render();
  *     }
  * 
  * **Force a report to be shown as a bar graph**
@@ -52,7 +52,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  *     {
  *         $view = Factory::build('graphVerticalBar', 'MyPlugin.myReport', 'MyPlugin.myReportShownAsABarGraph',
  *                                $forceDefault = true);
- *         echo $view->render();
+ *         return $view->render();
  *     }
  * 
  * @package Piwik

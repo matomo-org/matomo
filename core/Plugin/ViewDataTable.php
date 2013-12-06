@@ -23,22 +23,31 @@ use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
 
 /**
- * The base class of all analytics visualizations.
+ * The base class of all report visualizations.
  * 
  * ViewDataTable instances load analytics data via Piwik's API and then output some
  * type of visualization of that data.
  * 
- * Visualizations can be in any format. HTML-based visualizations should derive from
+ * Visualizations can be in any format. HTML-based visualizations should extend
  * {@link Visualization}. Visualizations that use other formats, such as visualizations
  * that output an image, should extend ViewDataTable directly.
+ *
+ * ### Creating ViewDataTables
+ * 
+ * ViewDataTable instances are not created via the new operator, instead the {@link Piwik\ViewDataTable\Factory}
+ * class is used.
+ * 
+ * The specific subclass to create is determined, first, by the **viewDataTable** query paramater.
+ * If this parameter is not set, then the default visualization type for the report that is being
+ * displayed is used.
  *
  * ### Configuring ViewDataTables
  * 
  * **Display properties**
  * 
  * ViewDataTable output can be customized by setting one of many available display
- * properties. Display properties are stored as fields in {@link Piwik\ViewDataTable\Config} objects. ViewDataTables
- * store a {@link Piwik\ViewDataTable\Config} object in the {@link $config} field.
+ * properties. Display properties are stored as fields in {@link Piwik\ViewDataTable\Config} objects.
+ * ViewDataTables store a {@link Piwik\ViewDataTable\Config} object in the {@link $config} field.
  * 
  * Display properties can be set at any time before rendering.
  * 
@@ -54,22 +63,81 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
  * 
  * **Customizing how reports are displayed**
  * 
- * Each individual report should be rendered in its own controller action. There are two
- * ways to render reports, you can either:
+ * Each individual report should be rendered in its own controller method. There are two
+ * ways to render a report within its controller method. You can either:
  * 
- * 1. manually create and configure a visualization instance
- * 2. 
+ * 1. manually create and configure a ViewDataTable instance
+ * 2. invoke {@link Piwik\Plugin\Controller::renderReport} and configure the ViewDataTable instance
+ *    in the {@hook ViewDataTable.configure} event.
  * 
- * **TODO**
+ * ViewDataTable instances are configured by setting and modifying display properties and request
+ * parameters.
  * 
  * ### Creating new visualizations
  * 
- * 
- * **TODO**
+ * New visualizations can be created by extending the ViewDataTable class or one of its
+ * descendants. To learn more [read our guide on creating new visualizations](/guides/visualizing-report-data#creating-new-visualizations).
  * 
  * ### Examples
  * 
- * **TODO**
+ * **Manually configuring a ViewDataTable**
+ * 
+ *     // a controller method that displays a single report
+ *     public function myReport()
+ *     {
+ *         $view = \Piwik\ViewDataTable\Factory::build('table', 'MyPlugin.myReport');
+ *         $view->config->show_limit_control = true;
+ *         $view->config->translations['myFancyMetric'] = "My Fancy Metric";
+ *         // ...
+ *         return $view->render();
+ *     }
+ * 
+ * **Using {@link Piwik\Plugin\Controller::renderReport}**
+ * 
+ * First, a controller method that displays a single report:
+ * 
+ *     public function myReport()
+ *     {
+ *         return $this->renderReport(__FUNCTION__);`
+ *     }
+ * 
+ * Then the event handler for the {@hook ViewDataTable.configure} event:
+ * 
+ *     public function configureViewDataTable(ViewDataTable $view)
+ *     {
+ *         switch ($view->requestConfig->apiMethodToRequestDataTable) {
+ *             case 'MyPlugin.myReport':
+ *                 $view->config->show_limit_control = true;
+ *                 $view->config->translations['myFancyMetric'] = "My Fancy Metric";
+ *                 // ...
+ *                 break;
+ *         }
+ *     }
+ * 
+ * **Using custom configuration objects in a new visualization**
+ * 
+ *     class MyVisualizationConfig extends Piwik\ViewDataTable\Config
+ *     {
+ *         public $my_new_property = true;
+ *     }
+ * 
+ *     class MyVisualizationRequestConfig extends Piwik\ViewDataTable\RequestConfig
+ *     {
+ *         public $my_new_property = false;
+ *     }
+ * 
+ *     class MyVisualization extends Piwik\Plugin\ViewDataTable
+ *     {
+ *         public static function getDefaultConfig()
+ *         {
+ *             return new MyVisualizationConfig();
+ *         }
+ * 
+ *         public static function getDefaultRequestConfig()
+ *         {
+ *             return new MyVisualizationRequestConfig();
+ *         }
+ *     }
  * 
  * @package Piwik
  * @subpackage ViewDataTable
