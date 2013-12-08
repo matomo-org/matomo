@@ -53,17 +53,33 @@
 	</columns>
 	<reportData>
 		<row>
+			<label>Poland</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>9</nb_actions>
+			<revenue>$ 3111</revenue>
+			<nb_actions_per_visit>4.5</nb_actions_per_visit>
+			<avg_time_on_site>00:39:01</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
+		</row>
+		<row>
 			<label>France</label>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_visits>3</nb_visits>
-			<nb_actions>13</nb_actions>
-			<revenue>$ 3121</revenue>
-			<nb_actions_per_visit>4.33</nb_actions_per_visit>
-			<avg_time_on_site>00:30:01</avg_time_on_site>
+			<nb_visits>1</nb_visits>
+			<nb_actions>4</nb_actions>
+			<revenue>$ 10</revenue>
+			<nb_actions_per_visit>4</nb_actions_per_visit>
+			<avg_time_on_site>00:12:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</row>
 	</reportData>
 	<reportMetadata>
+		<row>
+			<code>pl</code>
+			<logo>plugins/UserCountry/images/flags/pl.png</logo>
+			<logoWidth>16</logoWidth>
+			<logoHeight>11</logoHeight>
+		</row>
 		<row>
 			<code>fr</code>
 			<logo>plugins/UserCountry/images/flags/fr.png</logo>
@@ -73,7 +89,7 @@
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>3</nb_visits>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_actions>13</nb_actions>
 		<nb_conversions>3</nb_conversions>
 		<bounce_count>0</bounce_count>

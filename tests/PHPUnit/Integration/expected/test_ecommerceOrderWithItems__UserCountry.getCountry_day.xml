@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>France</label>
+		<label>Poland</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>3</nb_visits>
-		<nb_actions>13</nb_actions>
+		<nb_visits>2</nb_visits>
+		<nb_actions>9</nb_actions>
 		<max_actions>6</max_actions>
-		<sum_visit_length>5403</sum_visit_length>
+		<sum_visit_length>4682</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<goals>
 			<row idgoal='ecommerceAbandonedCart'>
@@ -25,14 +25,31 @@
 				<revenue_discount>666</revenue_discount>
 				<items>10</items>
 			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>3111</revenue>
+		<code>pl</code>
+		<logo>plugins/UserCountry/images/flags/pl.png</logo>
+		<logoWidth>16</logoWidth>
+		<logoHeight>11</logoHeight>
+	</row>
+	<row>
+		<label>France</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>4</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>721</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>10</revenue>
 			</row>
 		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>3121</revenue>
+		<nb_conversions>1</nb_conversions>
+		<revenue>10</revenue>
 		<code>fr</code>
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
 		<logoWidth>16</logoWidth>

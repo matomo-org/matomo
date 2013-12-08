@@ -159,13 +159,13 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<country>Poland</country>
+		<countryCode>pl</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>France</location>
+		<location>Poland</location>
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
@@ -488,13 +488,13 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<country>Poland</country>
+		<countryCode>pl</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>France</location>
+		<location>Poland</location>
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>

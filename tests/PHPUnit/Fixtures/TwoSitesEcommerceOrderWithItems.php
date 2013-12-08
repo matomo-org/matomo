@@ -79,6 +79,7 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
 
         // Fake the returning visit cookie
         $t->setDebugStringAppend("&_idvc=2");
+        $t->setBrowserLanguage('pl');
 
         // VIEW category page
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1.6)->getDatetime());
