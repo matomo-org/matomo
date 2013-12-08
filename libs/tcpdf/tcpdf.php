@@ -7059,20 +7059,22 @@ class TCPDF {
 				return;
 			}
 			TCPDF_STATIC::set_mqr($mqr);
-			if ($ismask) {
-				// force grayscale
-				$info['cs'] = 'DeviceGray';
-			}
-			if ($imgmask !== false) {
-				$info['masked'] = $imgmask;
-			}
-			if (!empty($exurl)) {
-				$info['exurl'] = $exurl;
-			}
-			// array of alternative images
-			$info['altimgs'] = $altimgs;
-			// add image to document
-			$info['i'] = $this->setImageBuffer($file, $info);
+            if(is_array($info)) {
+                if ($ismask) {
+                    // force grayscale
+                    $info['cs'] = 'DeviceGray';
+                }
+                if ($imgmask !== false) {
+                    $info['masked'] = $imgmask;
+                }
+                if (!empty($exurl)) {
+                    $info['exurl'] = $exurl;
+                }
+                // array of alternative images
+                $info['altimgs'] = $altimgs;
+                // add image to document
+                $info['i'] = $this->setImageBuffer($file, $info);
+            }
 		}
 		// set alignment
 		$this->img_rb_y = $y + $h;
