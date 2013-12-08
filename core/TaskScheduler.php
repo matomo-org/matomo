@@ -137,12 +137,30 @@ class TaskScheduler
                 if (self::taskShouldBeRescheduled($taskName, $timetable)) {
                     // update the scheduled time
                     $timetable[$taskName] = $task->getRescheduledTime();
-                    Option::set(self::TIMETABLE_OPTION_STRING, serialize($timetable));
+                    self::setTimetableFromOptionTable($timetable);
                 }
             }
         }
 
         return $executionResults;
+    }
+
+    /**
+     * Determines a task's scheduled time and persists it, overwriting the previous scheduled time.
+     * 
+     * Call this method if your task's scheduled time has changed due to, for example, an option that
+     * was changed.
+     * 
+     * @param ScheduledTask $task Describes the scheduled task being rescheduled.
+     * @api
+     */
+    static public function rescheduleTask(ScheduledTask $task)
+    {
+        $timetable = self::getTimetableFromOptionTable();
+
+        $timetable[$task->getname()] = $task->getRescheduledTime();
+
+        self::setTimetableFromOptionTable($timetable);
     }
 
     /**
@@ -226,6 +244,11 @@ class TaskScheduler
     static private function getTimetableFromOptionTable()
     {
         return self::getTimetableFromOptionValue(Option::get(self::TIMETABLE_OPTION_STRING));
+    }
+    
+    static private function setTimetableFromOptionTable($timetable)
+    {
+        Option::set(self::TIMETABLE_OPTION_STRING, serialize($timetable));
     }
 
     /**

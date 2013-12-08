@@ -23,6 +23,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
+use Piwik\TaskScheduler;
 use Piwik\Unzip;
 
 /**
@@ -334,6 +335,7 @@ class GeoIPAutoUpdater
         // set period option
         if (!empty($options['period'])) {
             $period = $options['period'];
+            
             if ($period != self::SCHEDULE_PERIOD_MONTHLY
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
@@ -344,6 +346,8 @@ class GeoIPAutoUpdater
             }
 
             Option::set(self::SCHEDULE_PERIOD_OPTION_NAME, $period);
+
+            TaskScheduler::rescheduleTask(self::makeScheduledTask());
         }
     }
 
