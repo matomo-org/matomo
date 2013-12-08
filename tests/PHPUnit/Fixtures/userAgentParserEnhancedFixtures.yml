@@ -10,6 +10,7 @@
     short_name: IE
     version: 11.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -25,6 +26,7 @@
     short_name: OI
     version: 5.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -40,6 +42,7 @@
     short_name: OI
     version: 7.5
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -55,6 +58,7 @@
     short_name: OM
     version: 15.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -70,6 +74,7 @@
     short_name: OP
     version: 12.10
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -85,6 +90,7 @@
     short_name: XX
     version: 2.17
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -100,6 +106,7 @@
     short_name: OV
     version: 6.2
   device: 1
+  device_name: smartphone
   brand: SA
   model: SCH-r560
   os_family: Unknown
@@ -115,6 +122,7 @@
     short_name: OV
     version: 6.2
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -130,6 +138,7 @@
     short_name: OV
     version: 6.2
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -145,6 +154,7 @@
     short_name: UC
     version: 8.4
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -160,6 +170,7 @@
     short_name: UC
     version: 8.7
   device: 1
+  device_name: smartphone
   brand: AL
   model: ot-807d
   os_family: Unknown
@@ -175,6 +186,7 @@
     short_name: NF
     version: 3.5
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T749
   os_family: Unknown
@@ -190,6 +202,7 @@
     short_name: NF
     version: 3.5
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T359
   os_family: Unknown
@@ -205,6 +218,7 @@
     short_name: NF
     version: 4.1
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T259
   os_family: Unknown
@@ -220,6 +234,7 @@
     short_name: OP
     version: 9.70
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -235,6 +250,7 @@
     short_name: MF
     version:
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPod Touch
   os_family: Unknown
@@ -250,6 +266,7 @@
     short_name: MF
     version:
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPod Touch
   os_family: Unknown
@@ -265,6 +282,7 @@
     short_name: MF
     version:
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPhone
   os_family: Unknown
@@ -280,6 +298,7 @@
     short_name: MF
     version:
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPhone
   os_family: Unknown
@@ -295,6 +314,7 @@
     short_name: MF
     version:
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPhone
   os_family: Unknown
@@ -310,6 +330,7 @@
     short_name: MF
     version:
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPhone
   os_family: Unknown
@@ -325,6 +346,7 @@
     short_name: MF
     version: 6.0
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPhone
   os_family: Unknown
@@ -340,6 +362,7 @@
     short_name: MF
     version: 5.1
   device: 1
+  device_name: smartphone
   brand: AP
   model: iPhone
   os_family: Unknown
@@ -355,6 +378,7 @@
     short_name: MF
     version:
   device: 2
+  device_name: tablet
   brand: AP
   model: iPad
   os_family: Unknown
@@ -370,6 +394,7 @@
     short_name: MF
     version:
   device: 2
+  device_name: tablet
   brand: AP
   model: iPad
   os_family: Unknown
@@ -385,6 +410,7 @@
     short_name: IM
     version: 9.0
   device: 1
+  device_name: smartphone
   brand: NK
   model: Lumia 900
   os_family: Unknown
@@ -400,6 +426,7 @@
     short_name: IE
     version: 9.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -415,6 +442,7 @@
     short_name: IE
     version: 10.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -430,6 +458,7 @@
     short_name: CH
     version: 24.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -445,6 +474,7 @@
     short_name: CH
     version: 26.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -460,6 +490,7 @@
     short_name: FF
     version: 18.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -475,6 +506,7 @@
     short_name: CH
     version: 23.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -490,6 +522,7 @@
     short_name: SF
     version: 5.0
   device: 0
+  device_name: desktop
   brand:
   model:
   os_family: Unknown
@@ -505,6 +538,7 @@
     short_name: MS
     version: 1.0
   device: 2
+  device_name: tablet
   brand: KN
   model: Fire
   os_family: Unknown
@@ -520,6 +554,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -535,6 +570,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: GO
   model: Nexus 7
   os_family: Unknown
@@ -550,6 +586,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: GO
   model: Nexus 7
   os_family: Unknown
@@ -565,6 +602,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: GO
   model: Nexus 7
   os_family: Unknown
@@ -580,6 +618,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5360
   os_family: Unknown
@@ -595,6 +634,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Galaxy Nexus
   os_family: Unknown
@@ -610,6 +650,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Nexus 4
   os_family: Unknown
@@ -625,6 +666,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: GO
   model: Nexus 7
   os_family: Unknown
@@ -640,6 +682,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Nexus 4
   os_family: Unknown
@@ -655,6 +698,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -670,6 +714,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -685,6 +730,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100
   os_family: Unknown
@@ -700,6 +746,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Nexus 4
   os_family: Unknown
@@ -715,6 +762,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I927
   os_family: Unknown
@@ -730,6 +778,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I747
   os_family: Unknown
@@ -745,6 +794,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I747
   os_family: Unknown
@@ -760,6 +810,7 @@
     short_name: MF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: KN
   model: Fire
   os_family: Unknown
@@ -775,6 +826,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: GO
   model: Nexus 10
   os_family: Unknown
@@ -790,6 +842,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -805,6 +858,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Galaxy Nexus
   os_family: Unknown
@@ -820,6 +874,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7100
   os_family: Unknown
@@ -835,6 +890,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -850,6 +906,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Galaxy Nexus
   os_family: Unknown
@@ -865,6 +922,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9082L
   os_family: Unknown
@@ -880,6 +938,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -895,6 +954,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9082
   os_family: Unknown
@@ -910,6 +970,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9070
   os_family: Unknown
@@ -925,6 +986,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9000
   os_family: Unknown
@@ -940,6 +1002,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I8190
   os_family: Unknown
@@ -955,6 +1018,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -970,6 +1034,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9070
   os_family: Unknown
@@ -985,6 +1050,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I8190N
   os_family: Unknown
@@ -1000,6 +1066,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SPH-P500
   os_family: Unknown
@@ -1015,6 +1082,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SPH-D700
   os_family: Unknown
@@ -1030,6 +1098,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1045,6 +1114,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1060,6 +1130,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SCH-I535
   os_family: Unknown
@@ -1075,6 +1146,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Nexus S
   os_family: Unknown
@@ -1090,6 +1162,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P990
   os_family: Unknown
@@ -1105,6 +1178,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: F160S
   os_family: Unknown
@@ -1120,6 +1194,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Galaxy Nexus
   os_family: Unknown
@@ -1135,6 +1210,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Galaxy Nexus
   os_family: Unknown
@@ -1150,6 +1226,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P1000
   os_family: Unknown
@@ -1165,6 +1242,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1180,6 +1258,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model:
   os_family: Unknown
@@ -1195,6 +1274,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1210,6 +1290,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7100
   os_family: Unknown
@@ -1225,6 +1306,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100
   os_family: Unknown
@@ -1240,6 +1322,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7100
   os_family: Unknown
@@ -1255,6 +1338,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1270,6 +1354,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5110
   os_family: Unknown
@@ -1285,6 +1370,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1300,6 +1386,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1315,6 +1402,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1330,6 +1418,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1345,6 +1434,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7105T
   os_family: Unknown
@@ -1360,6 +1450,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1375,6 +1466,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1390,6 +1482,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1405,6 +1498,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3100
   os_family: Unknown
@@ -1420,6 +1514,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AU
   model:
   os_family: Unknown
@@ -1435,6 +1530,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AU
   model:
   os_family: Unknown
@@ -1450,6 +1546,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7100
   os_family: Unknown
@@ -1465,6 +1562,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1480,6 +1578,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1495,6 +1594,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1510,6 +1610,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1525,6 +1626,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5113
   os_family: Unknown
@@ -1540,6 +1642,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3110
   os_family: Unknown
@@ -1555,6 +1658,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-pt
   os_family: Unknown
@@ -1570,6 +1674,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5100
   os_family: Unknown
@@ -1585,6 +1690,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AU
   model:
   os_family: Unknown
@@ -1600,6 +1706,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -1615,6 +1722,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3113
   os_family: Unknown
@@ -1630,6 +1738,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1645,6 +1754,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1660,6 +1770,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One S
   os_family: Unknown
@@ -1675,6 +1786,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Galaxy Nexus
   os_family: Unknown
@@ -1690,6 +1802,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I8190
   os_family: Unknown
@@ -1705,6 +1818,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -1720,6 +1834,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5113
   os_family: Unknown
@@ -1735,6 +1850,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7100
   os_family: Unknown
@@ -1750,6 +1866,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9300
   os_family: Unknown
@@ -1765,6 +1882,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1780,6 +1898,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1795,6 +1914,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1810,6 +1930,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3100
   os_family: Unknown
@@ -1825,6 +1946,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1840,6 +1962,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7100
   os_family: Unknown
@@ -1855,6 +1978,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9300
   os_family: Unknown
@@ -1870,6 +1994,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I8190
   os_family: Unknown
@@ -1885,6 +2010,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-H
   os_family: Unknown
@@ -1900,6 +2026,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I547
   os_family: Unknown
@@ -1915,6 +2042,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: MR
   model: DROID RAZR
   os_family: Unknown
@@ -1930,6 +2058,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1945,6 +2074,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -1960,6 +2090,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SPH-L900
   os_family: Unknown
@@ -1975,6 +2106,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T999
   os_family: Unknown
@@ -1990,6 +2122,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T959
   os_family: Unknown
@@ -2005,6 +2138,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SCH-R530U
   os_family: Unknown
@@ -2020,6 +2154,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2035,6 +2170,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2050,6 +2186,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P999
   os_family: Unknown
@@ -2065,6 +2202,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2080,6 +2218,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2095,6 +2234,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3113
   os_family: Unknown
@@ -2110,6 +2250,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3100B
   os_family: Unknown
@@ -2125,6 +2266,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2140,6 +2282,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2155,6 +2298,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7100
   os_family: Unknown
@@ -2170,6 +2314,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -2185,6 +2330,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2200,6 +2346,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830i
   os_family: Unknown
@@ -2215,6 +2362,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9003
   os_family: Unknown
@@ -2230,6 +2378,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -2245,6 +2394,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T889V
   os_family: Unknown
@@ -2260,6 +2410,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I317
   os_family: Unknown
@@ -2275,6 +2426,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: AU
   model: Transformer Pad TF300T
   os_family: Unknown
@@ -2290,6 +2442,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I8190
   os_family: Unknown
@@ -2305,6 +2458,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -2320,6 +2474,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N8020
   os_family: Unknown
@@ -2335,6 +2490,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One S
   os_family: Unknown
@@ -2350,6 +2506,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N8000
   os_family: Unknown
@@ -2365,6 +2522,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -2380,6 +2538,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5100
   os_family: Unknown
@@ -2395,6 +2554,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: en
   os_family: Unknown
@@ -2410,6 +2570,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2425,6 +2586,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100
   os_family: Unknown
@@ -2440,6 +2602,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2455,6 +2618,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2470,6 +2634,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2485,6 +2650,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2500,6 +2666,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2515,6 +2682,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One S
   os_family: Unknown
@@ -2530,6 +2698,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2545,6 +2714,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2560,6 +2730,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2575,6 +2746,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2590,6 +2762,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2605,6 +2778,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2620,6 +2794,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-H
   os_family: Unknown
@@ -2635,6 +2810,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2650,6 +2826,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2665,6 +2842,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2680,6 +2858,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T999
   os_family: Unknown
@@ -2695,6 +2874,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2710,6 +2890,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2725,6 +2906,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2740,6 +2922,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2755,6 +2938,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2770,6 +2954,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2785,6 +2970,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2800,6 +2986,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2815,6 +3002,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2830,6 +3018,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One XL
   os_family: Unknown
@@ -2845,6 +3034,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P6200
   os_family: Unknown
@@ -2860,6 +3050,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5100
   os_family: Unknown
@@ -2875,6 +3066,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N8010
   os_family: Unknown
@@ -2890,6 +3082,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: 5
   os_family: Unknown
@@ -2905,6 +3098,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2920,6 +3114,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2935,6 +3130,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2950,6 +3146,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2965,6 +3162,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2980,6 +3178,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -2995,6 +3194,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3010,6 +3210,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3025,6 +3226,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3040,6 +3242,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3055,6 +3258,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3070,6 +3274,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3085,6 +3290,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3100,6 +3306,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -3115,6 +3322,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -3130,6 +3338,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S7562
   os_family: Unknown
@@ -3145,6 +3354,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Incredible S
   os_family: Unknown
@@ -3160,6 +3370,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P760
   os_family: Unknown
@@ -3175,6 +3386,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3190,6 +3402,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3205,6 +3418,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -3220,6 +3434,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3235,6 +3450,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3250,6 +3466,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3265,6 +3482,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3280,6 +3498,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3295,6 +3514,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3310,6 +3530,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P6200
   os_family: Unknown
@@ -3325,6 +3546,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3340,6 +3562,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3355,6 +3578,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire X
   os_family: Unknown
@@ -3370,6 +3594,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3385,6 +3610,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3400,6 +3626,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3415,6 +3642,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One S
   os_family: Unknown
@@ -3430,6 +3658,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-pt
   os_family: Unknown
@@ -3445,6 +3674,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-pt
   os_family: Unknown
@@ -3460,6 +3690,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-pt
   os_family: Unknown
@@ -3475,6 +3706,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-pt
   os_family: Unknown
@@ -3490,6 +3722,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-br
   os_family: Unknown
@@ -3505,6 +3738,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-br
   os_family: Unknown
@@ -3520,6 +3754,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3535,6 +3770,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3550,6 +3786,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3565,6 +3802,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S7562
   os_family: Unknown
@@ -3580,6 +3818,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3595,6 +3834,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3610,6 +3850,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3625,6 +3866,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3640,6 +3882,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3655,6 +3898,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -3670,6 +3914,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3685,6 +3930,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3700,6 +3946,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: SU870
   os_family: Unknown
@@ -3715,6 +3962,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: F120K
   os_family: Unknown
@@ -3730,6 +3978,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E615
   os_family: Unknown
@@ -3745,6 +3994,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -3760,6 +4010,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3775,6 +4026,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3790,6 +4042,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3805,6 +4058,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3820,6 +4074,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3835,6 +4090,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3850,6 +4106,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3865,6 +4122,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3880,6 +4138,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ONE
   os_family: Unknown
@@ -3895,6 +4154,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3910,6 +4170,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3925,6 +4186,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3940,6 +4202,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P1000
   os_family: Unknown
@@ -3955,6 +4218,7 @@
     short_name: SF
     version: 4.0
   device: 3
+  device_name: feature phone
   brand: IO
   model: i
   os_family: Unknown
@@ -3970,6 +4234,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -3985,6 +4250,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4000,6 +4266,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4015,6 +4282,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4030,6 +4298,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: ZT
   model: Blade
   os_family: Unknown
@@ -4045,6 +4314,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4060,6 +4330,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4075,6 +4346,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4090,6 +4362,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4105,6 +4378,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4120,6 +4394,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4135,6 +4410,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P760
   os_family: Unknown
@@ -4150,6 +4426,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S7562
   os_family: Unknown
@@ -4165,6 +4442,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -4180,6 +4458,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4195,6 +4474,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4210,6 +4490,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5110
   os_family: Unknown
@@ -4225,6 +4506,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T989D
   os_family: Unknown
@@ -4240,6 +4522,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4255,6 +4538,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4270,6 +4554,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4285,6 +4570,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100
   os_family: Unknown
@@ -4300,6 +4586,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4315,6 +4602,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4330,6 +4618,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4345,6 +4634,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SPH-L300
   os_family: Unknown
@@ -4360,6 +4650,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SCH-I200
   os_family: Unknown
@@ -4375,6 +4666,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4390,6 +4682,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I437
   os_family: Unknown
@@ -4405,6 +4698,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4420,6 +4714,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4435,6 +4730,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4450,6 +4746,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -4465,6 +4762,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4480,6 +4778,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4495,6 +4794,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4510,6 +4810,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4525,6 +4826,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4540,6 +4842,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4555,6 +4858,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4570,6 +4874,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4585,6 +4890,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4600,6 +4906,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4615,6 +4922,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4630,6 +4938,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P990
   os_family: Unknown
@@ -4645,6 +4954,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4660,6 +4970,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7100
   os_family: Unknown
@@ -4675,6 +4986,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N8010
   os_family: Unknown
@@ -4690,6 +5002,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4705,6 +5018,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4720,6 +5034,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -4735,6 +5050,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -4750,6 +5066,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4765,6 +5082,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4780,6 +5098,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4795,6 +5114,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4810,6 +5130,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4825,6 +5146,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4840,6 +5162,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4855,6 +5178,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4870,6 +5194,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4885,6 +5210,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4900,6 +5226,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: NX
   model: Mi430
   os_family: Unknown
@@ -4915,6 +5242,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4930,6 +5258,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -4945,6 +5274,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T959V
   os_family: Unknown
@@ -4960,6 +5290,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I997
   os_family: Unknown
@@ -4975,6 +5306,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I897
   os_family: Unknown
@@ -4990,6 +5322,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SCH-I200
   os_family: Unknown
@@ -5005,6 +5338,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I717
   os_family: Unknown
@@ -5020,6 +5354,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5035,6 +5370,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5050,6 +5386,7 @@
     short_name: MX
     version:
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5065,6 +5402,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5080,6 +5418,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5095,6 +5434,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5110,6 +5450,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: MI
   model: Micromax
   os_family: Unknown
@@ -5125,6 +5466,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5140,6 +5482,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5155,6 +5498,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5170,6 +5514,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5185,6 +5530,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P999
   os_family: Unknown
@@ -5200,6 +5546,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P500
   os_family: Unknown
@@ -5215,6 +5562,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5230,6 +5578,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5245,6 +5594,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5260,6 +5610,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5275,6 +5626,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5290,6 +5642,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -5305,6 +5658,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Galaxy Nexus
   os_family: Unknown
@@ -5320,6 +5674,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5335,6 +5690,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100
   os_family: Unknown
@@ -5350,6 +5706,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5365,6 +5722,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5380,6 +5738,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5395,6 +5754,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5410,6 +5770,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ONE
   os_family: Unknown
@@ -5425,6 +5786,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5440,6 +5802,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5455,6 +5818,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5470,6 +5834,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5485,6 +5850,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N8010
   os_family: Unknown
@@ -5500,6 +5866,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8950
   os_family: Unknown
@@ -5515,6 +5882,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5530,6 +5898,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5545,6 +5914,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5560,6 +5930,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5575,6 +5946,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire X
   os_family: Unknown
@@ -5590,6 +5962,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5605,6 +5978,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5620,6 +5994,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5635,6 +6010,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5650,6 +6026,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5665,6 +6042,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HP
   model:
   os_family: Unknown
@@ -5680,6 +6058,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5695,6 +6074,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5710,6 +6090,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5725,6 +6106,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5740,6 +6122,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5755,6 +6138,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5770,6 +6154,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5785,6 +6170,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E973
   os_family: Unknown
@@ -5800,6 +6186,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -5815,6 +6202,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5830,6 +6218,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S7562
   os_family: Unknown
@@ -5845,6 +6234,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: MR
   model: DROID RAZR
   os_family: Unknown
@@ -5860,6 +6250,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -5875,6 +6266,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5890,6 +6282,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S7562
   os_family: Unknown
@@ -5905,6 +6298,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -5920,6 +6314,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5935,6 +6330,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5950,6 +6346,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5965,6 +6362,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5980,6 +6378,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -5995,6 +6394,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6010,6 +6410,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6025,6 +6426,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6040,6 +6442,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6055,6 +6458,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S7562
   os_family: Unknown
@@ -6070,6 +6474,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6085,6 +6490,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6100,6 +6506,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6115,6 +6522,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6130,6 +6538,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P895
   os_family: Unknown
@@ -6145,6 +6554,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6160,6 +6570,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6175,6 +6586,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6190,6 +6602,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6205,6 +6618,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6220,6 +6634,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6235,6 +6650,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P705
   os_family: Unknown
@@ -6250,6 +6666,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6265,6 +6682,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6280,6 +6698,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6295,6 +6714,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: X515m
   os_family: Unknown
@@ -6310,6 +6730,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6325,6 +6746,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6340,6 +6762,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6355,6 +6778,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6370,6 +6794,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6385,6 +6810,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6400,6 +6826,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -6415,6 +6842,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ore
   os_family: Unknown
@@ -6430,6 +6858,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6445,6 +6874,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -6460,6 +6890,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6475,6 +6906,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6490,6 +6922,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6505,6 +6938,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6520,6 +6954,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6535,6 +6970,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6550,6 +6986,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -6565,6 +7002,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire C
   os_family: Unknown
@@ -6580,6 +7018,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation Z710e
   os_family: Unknown
@@ -6595,6 +7034,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One S
   os_family: Unknown
@@ -6610,6 +7050,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire C
   os_family: Unknown
@@ -6625,6 +7066,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6640,6 +7082,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: PT
   model: pt-pt
   os_family: Unknown
@@ -6655,6 +7098,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5100
   os_family: Unknown
@@ -6670,6 +7114,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SO
   model: Tablet
   os_family: Unknown
@@ -6685,6 +7130,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XL
   os_family: Unknown
@@ -6700,6 +7146,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: AU
   model: Transformer Pad TF300T
   os_family: Unknown
@@ -6715,6 +7162,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6730,6 +7178,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6745,6 +7194,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6760,6 +7210,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6775,6 +7226,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire C
   os_family: Unknown
@@ -6790,6 +7242,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -6805,6 +7258,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100P
   os_family: Unknown
@@ -6820,6 +7274,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: AU
   model: Transformer Pad TF300T
   os_family: Unknown
@@ -6835,6 +7290,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -6850,6 +7306,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6865,6 +7322,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6880,6 +7338,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6895,6 +7354,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire V
   os_family: Unknown
@@ -6910,6 +7370,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6925,6 +7386,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -6940,6 +7402,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P700
   os_family: Unknown
@@ -6955,6 +7418,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire V
   os_family: Unknown
@@ -6970,6 +7434,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8860
   os_family: Unknown
@@ -6985,6 +7450,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7000,6 +7466,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7015,6 +7482,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P880
   os_family: Unknown
@@ -7030,6 +7498,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3110
   os_family: Unknown
@@ -7045,6 +7514,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: MediaPad
   os_family: Unknown
@@ -7060,6 +7530,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: AU
   model: Transformer Pad TF300T
   os_family: Unknown
@@ -7075,6 +7546,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P5100
   os_family: Unknown
@@ -7090,6 +7562,7 @@
     short_name: SF
     version: 4.0
   device: 2
+  device_name: tablet
   brand: AU
   model: Transformer Pad TF300T
   os_family: Unknown
@@ -7105,6 +7578,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: ADR910L
   os_family: Unknown
@@ -7120,6 +7594,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E612g
   os_family: Unknown
@@ -7135,6 +7610,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P705g
   os_family: Unknown
@@ -7150,6 +7626,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7165,6 +7642,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7180,6 +7658,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7195,6 +7674,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7210,6 +7690,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: MediaPad
   os_family: Unknown
@@ -7225,6 +7706,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7240,6 +7722,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7255,6 +7738,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P705g
   os_family: Unknown
@@ -7270,6 +7754,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7285,6 +7770,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7300,6 +7786,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SO
   model: Tablet
   os_family: Unknown
@@ -7315,6 +7802,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7330,6 +7818,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7345,6 +7834,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7360,6 +7850,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7375,6 +7866,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: OP
   model: X9017
   os_family: Unknown
@@ -7390,6 +7882,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7405,6 +7898,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7420,6 +7914,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7435,6 +7930,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7450,6 +7946,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7465,6 +7962,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7480,6 +7978,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7495,6 +7994,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7510,6 +8010,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7525,6 +8026,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7540,6 +8042,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: ADR6425LVW
   os_family: Unknown
@@ -7555,6 +8058,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: ADR6410LRA
   os_family: Unknown
@@ -7570,6 +8074,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7585,6 +8090,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation Z710e
   os_family: Unknown
@@ -7600,6 +8106,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -7615,6 +8122,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One X
   os_family: Unknown
@@ -7630,6 +8138,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: EVO 3D
   os_family: Unknown
@@ -7645,6 +8154,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One V
   os_family: Unknown
@@ -7660,6 +8170,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -7675,6 +8186,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire V
   os_family: Unknown
@@ -7690,6 +8202,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire V
   os_family: Unknown
@@ -7705,6 +8218,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XL
   os_family: Unknown
@@ -7720,6 +8234,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100G
   os_family: Unknown
@@ -7735,6 +8250,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3110
   os_family: Unknown
@@ -7750,6 +8266,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: EVO 3D
   os_family: Unknown
@@ -7765,6 +8282,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XL
   os_family: Unknown
@@ -7780,6 +8298,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8860
   os_family: Unknown
@@ -7795,6 +8314,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E610v
   os_family: Unknown
@@ -7810,6 +8330,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815
   os_family: Unknown
@@ -7825,6 +8346,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: EVO 3D
   os_family: Unknown
@@ -7840,6 +8362,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7855,6 +8378,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XL
   os_family: Unknown
@@ -7870,6 +8394,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -7885,6 +8410,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XL
   os_family: Unknown
@@ -7900,6 +8426,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E617G
   os_family: Unknown
@@ -7915,6 +8442,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -7930,6 +8458,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7945,6 +8474,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -7960,6 +8490,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Sensation XE
   os_family: Unknown
@@ -7975,6 +8506,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Desire C
   os_family: Unknown
@@ -7990,6 +8522,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8860
   os_family: Unknown
@@ -8005,6 +8538,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8020,6 +8554,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model:
   os_family: Unknown
@@ -8035,6 +8570,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P3100
   os_family: Unknown
@@ -8050,6 +8586,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P700
   os_family: Unknown
@@ -8065,6 +8602,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P700
   os_family: Unknown
@@ -8080,6 +8618,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8095,6 +8634,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8110,6 +8650,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: One V
   os_family: Unknown
@@ -8125,6 +8666,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -8140,6 +8682,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7511
   os_family: Unknown
@@ -8155,6 +8698,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P6200
   os_family: Unknown
@@ -8170,6 +8714,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7310
   os_family: Unknown
@@ -8185,6 +8730,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7320
   os_family: Unknown
@@ -8200,6 +8746,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7320
   os_family: Unknown
@@ -8215,6 +8762,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8230,6 +8778,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8245,6 +8794,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7310
   os_family: Unknown
@@ -8260,6 +8810,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8275,6 +8826,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8290,6 +8842,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8305,6 +8858,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P6810
   os_family: Unknown
@@ -8320,6 +8874,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8335,6 +8890,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -8350,6 +8906,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7510
   os_family: Unknown
@@ -8365,6 +8922,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -8380,6 +8938,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8395,6 +8954,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8410,6 +8970,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8425,6 +8986,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8440,6 +9002,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8455,6 +9018,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8470,6 +9034,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8485,6 +9050,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8500,6 +9066,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8515,6 +9082,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8530,6 +9098,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8545,6 +9114,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8560,6 +9130,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -8575,6 +9146,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7510
   os_family: Unknown
@@ -8590,6 +9162,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8605,6 +9178,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7300
   os_family: Unknown
@@ -8620,6 +9194,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -8635,6 +9210,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SO
   model: Tablet
   os_family: Unknown
@@ -8650,6 +9226,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8665,6 +9242,7 @@
     short_name: SF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-P7500
   os_family: Unknown
@@ -8680,6 +9258,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8695,6 +9274,7 @@
     short_name: SF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8710,6 +9290,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8725,6 +9306,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8740,6 +9322,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8755,6 +9338,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8770,6 +9354,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8785,6 +9370,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8800,6 +9386,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8815,6 +9402,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8830,6 +9418,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8845,6 +9434,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8860,6 +9450,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8875,6 +9466,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8890,6 +9482,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8905,6 +9498,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8920,6 +9514,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830
   os_family: Unknown
@@ -8935,6 +9530,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830
   os_family: Unknown
@@ -8950,6 +9546,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -8965,6 +9562,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I5500
   os_family: Unknown
@@ -8980,6 +9578,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830
   os_family: Unknown
@@ -8995,6 +9594,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9010,6 +9610,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830
   os_family: Unknown
@@ -9025,6 +9626,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9040,6 +9642,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9055,6 +9658,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9070,6 +9674,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P940
   os_family: Unknown
@@ -9085,6 +9690,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9100,6 +9706,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P350
   os_family: Unknown
@@ -9115,6 +9722,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9130,6 +9738,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9145,6 +9754,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9160,6 +9770,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9175,6 +9786,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9190,6 +9802,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9205,6 +9818,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9220,6 +9834,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9235,6 +9850,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: Wildfire
   os_family: Unknown
@@ -9250,6 +9866,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HT
   model: HD2
   os_family: Unknown
@@ -9265,6 +9882,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: MR
   model: DROID
   os_family: Unknown
@@ -9280,6 +9898,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9295,6 +9914,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9310,6 +9930,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9325,6 +9946,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9340,6 +9962,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9355,6 +9978,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9370,6 +9994,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9385,6 +10010,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9400,6 +10026,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S7500
   os_family: Unknown
@@ -9415,6 +10042,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: OP
   model: R805
   os_family: Unknown
@@ -9430,6 +10058,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E400
   os_family: Unknown
@@ -9445,6 +10074,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9460,6 +10090,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9475,6 +10106,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: MR
   model: DROID
   os_family: Unknown
@@ -9490,6 +10122,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9505,6 +10138,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SCH-i919
   os_family: Unknown
@@ -9520,6 +10154,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SCH-I519
   os_family: Unknown
@@ -9535,6 +10170,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9550,6 +10186,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830i
   os_family: Unknown
@@ -9565,6 +10202,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830
   os_family: Unknown
@@ -9580,6 +10218,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9000
   os_family: Unknown
@@ -9595,6 +10234,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9610,6 +10250,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9625,6 +10266,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9640,6 +10282,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9655,6 +10298,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9670,6 +10314,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830
   os_family: Unknown
@@ -9685,6 +10330,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -9700,6 +10346,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E400
   os_family: Unknown
@@ -9715,6 +10362,7 @@
     short_name: MF
     version: 4.0
   device: 3
+  device_name: feature phone
   brand: IO
   model: i
   os_family: Unknown
@@ -9730,6 +10378,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9001
   os_family: Unknown
@@ -9745,6 +10394,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E400
   os_family: Unknown
@@ -9760,6 +10410,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830i
   os_family: Unknown
@@ -9775,6 +10426,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: one touch 995
   os_family: Unknown
@@ -9790,6 +10442,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P725
   os_family: Unknown
@@ -9805,6 +10458,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815C02B895
   os_family: Unknown
@@ -9820,6 +10474,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5830i
   os_family: Unknown
@@ -9835,6 +10490,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5660
   os_family: Unknown
@@ -9850,6 +10506,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9070P
   os_family: Unknown
@@ -9865,6 +10522,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I8160
   os_family: Unknown
@@ -9880,6 +10538,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-N7000
   os_family: Unknown
@@ -9895,6 +10554,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ONE
   os_family: Unknown
@@ -9910,6 +10570,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I8150
   os_family: Unknown
@@ -9925,6 +10586,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9001
   os_family: Unknown
@@ -9940,6 +10602,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5660
   os_family: Unknown
@@ -9955,6 +10618,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -9970,6 +10634,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S6500
   os_family: Unknown
@@ -9985,6 +10650,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10000,6 +10666,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10015,6 +10682,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10030,6 +10698,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815C02B895
   os_family: Unknown
@@ -10045,6 +10714,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: MR
   model: DROID
   os_family: Unknown
@@ -10060,6 +10730,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10075,6 +10746,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8655
   os_family: Unknown
@@ -10090,6 +10762,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10105,6 +10778,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9070
   os_family: Unknown
@@ -10120,6 +10794,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815
   os_family: Unknown
@@ -10135,6 +10810,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5660
   os_family: Unknown
@@ -10150,6 +10826,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: E510
   os_family: Unknown
@@ -10165,6 +10842,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10180,6 +10858,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10195,6 +10874,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8655
   os_family: Unknown
@@ -10210,6 +10890,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SPH-M930BST
   os_family: Unknown
@@ -10225,6 +10906,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: LG
   model: P920h
   os_family: Unknown
@@ -10240,6 +10922,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8185
   os_family: Unknown
@@ -10255,6 +10938,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-I577
   os_family: Unknown
@@ -10270,6 +10954,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: GO
   model: Nexus One
   os_family: Unknown
@@ -10285,6 +10970,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100G
   os_family: Unknown
@@ -10300,6 +10986,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ONE
   os_family: Unknown
@@ -10315,6 +11002,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10330,6 +11018,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10345,6 +11034,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8655
   os_family: Unknown
@@ -10360,6 +11050,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8655
   os_family: Unknown
@@ -10375,6 +11066,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10390,6 +11082,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10405,6 +11098,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10420,6 +11114,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10435,6 +11130,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-I9100T
   os_family: Unknown
@@ -10450,6 +11146,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ONE
   os_family: Unknown
@@ -10465,6 +11162,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ONE
   os_family: Unknown
@@ -10480,6 +11178,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: AL
   model: ONE
   os_family: Unknown
@@ -10495,6 +11194,7 @@
     short_name: MF
     version: 4.0
   device:
+  device_name:
   brand:
   model:
   os_family: Unknown
@@ -10510,6 +11210,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815
   os_family: Unknown
@@ -10525,6 +11226,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: Y210
   os_family: Unknown
@@ -10540,6 +11242,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S6500D
   os_family: Unknown
@@ -10555,6 +11258,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S6802
   os_family: Unknown
@@ -10570,6 +11274,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5300
   os_family: Unknown
@@ -10585,6 +11290,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815C02B885
   os_family: Unknown
@@ -10600,6 +11306,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815
   os_family: Unknown
@@ -10615,6 +11322,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5360B
   os_family: Unknown
@@ -10630,6 +11338,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: HU
   model: U8815
   os_family: Unknown
@@ -10645,6 +11354,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: SGH-T589W
   os_family: Unknown
@@ -10660,6 +11370,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S6500
   os_family: Unknown
@@ -10675,6 +11386,7 @@
     short_name: MF
     version: 4.0
   device: 1
+  device_name: smartphone
   brand: SA
   model: GT-S5839i
   os_family: Unknown

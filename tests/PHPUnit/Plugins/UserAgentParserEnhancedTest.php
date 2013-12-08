@@ -16,18 +16,22 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
             $uaInfo = $this->getInfoFromUserAgent($ua);
             $parsed[] = $uaInfo;
         }
-        $processed = Spyc::YAMLDump($parsed, false, $wordWrap = 0);
-        $processedPath = $fixturesPath . '.new';
-        file_put_contents($processedPath, $processed);
         if($fixtures != $parsed) {
+            $processed = Spyc::YAMLDump($parsed, false, $wordWrap = 0);
+            $processedPath = $fixturesPath . '.new';
+            file_put_contents($processedPath, $processed);
+            $diffCommand = "diff";
+//            $diffCommand = "meld";
+            echo shell_exec("{$diffCommand} $processedPath $fixturesPath ");
+
             echo "\nThe processed data was stored in: $processedPath ".
                 "\n $ cp $processedPath $fixturesPath ".
                 "\n to copy the file over if it is valid.";
-            echo shell_exec("diff $processedPath $fixturesPath ");
 
             $this->assertTrue(false);
 
         }
+        $this->assertTrue(true);
     }
 
     private function getInfoFromUserAgent($ua)
@@ -53,7 +57,7 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
                 'version'    => $userAgentParserEnhanced->getBrowser('version'),
             ),
             'device'         => $device,
-//            'device_name'    => $deviceName,
+            'device_name'    => $deviceName,
             'brand'          => $userAgentParserEnhanced->getBrand(),
             'model'          => $userAgentParserEnhanced->getModel(),
             'os_family'      => $osFamily !== false ? $osFamily : 'Unknown',
