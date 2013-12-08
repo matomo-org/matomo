@@ -15,22 +15,18 @@ ob_start();
 Piwik_TestingEnvironment::addHooks();
 
 \Piwik\Tracker::setTestEnvironment();
-
-
 \Piwik\Profiler::setupProfilerXHProf();
-
 
 // Disable index.php dispatch since we do it manually below
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-$controller = \Piwik\FrontController::getInstance();
 /**
  * @return bool
  */
 function loadAllPluginsButOneTheme()
 {
-// Load all plugins that are found so UI tests are really testing real world use case
+    // Load all plugins that are found so UI tests are really testing real world use case
     $pluginsToEnable = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
 
     $themesNotToEnable = array('ExampleTheme', 'LeftMenu', 'PleineLune');
@@ -47,6 +43,7 @@ function loadAllPluginsButOneTheme()
 
 $enableMorpheus = loadAllPluginsButOneTheme();
 
+$controller = \Piwik\FrontController::getInstance();
 $controller->init();
 \Piwik\Filesystem::deleteAllCacheOnUpdate();
 

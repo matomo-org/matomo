@@ -88,9 +88,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function installAndLoadPlugins($installPlugins)
     {
+        $plugins = self::getPluginsToLoadDuringTests();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
-        $plugins = $pluginsManager->readPluginsDirectory();
-
         $pluginsManager->loadPlugins($plugins);
         if ($installPlugins)
         {
@@ -103,9 +102,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function loadAllPlugins()
     {
-        $pluginsManager = \Piwik\Plugin\Manager::getInstance();
-        $pluginsToLoad = $pluginsManager->getAllPluginsNames();
-        $pluginsManager->loadPlugins($pluginsToLoad);
+        $pluginsToLoad = self::getPluginsToLoadDuringTests();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins($pluginsToLoad);
     }
 
     public static function unloadAllPlugins()
@@ -235,6 +233,18 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         $_GET = $_REQUEST = array();
         Translate::unloadEnglishTranslation();
+    }
+
+    private static function getPluginsToLoadDuringTests()
+    {
+        $manager = \Piwik\Plugin\Manager::getInstance();
+        $toLoad = array();
+        foreach($manager->readPluginsDirectory() as $plugin) {
+            if($manager->isPluginBundledWithCore($plugin)) {
+                $toLoad[] = $plugin;
+            }
+        }
+        return $toLoad;
     }
 
     public function setUp()

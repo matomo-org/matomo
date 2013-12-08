@@ -20,7 +20,6 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        // Load and install plugins
         IntegrationTestCase::loadAllPlugins();
     }
 

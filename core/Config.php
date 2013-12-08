@@ -91,6 +91,8 @@ class Config extends Singleton
 
         $this->init();
 
+        // this proxy will not record any data in the production database.
+        // this provides security for Piwik installs and tests were setup.
         if (isset($this->configGlobal['database_tests'])
             || isset($this->configLocal['database_tests'])
         ) {
@@ -113,9 +115,14 @@ class Config extends Singleton
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
         $this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
 
+        // DevicesDetection plugin is not yet enabled by default
         if (isset($configGlobal['Plugins'])) {
             $this->configCache['Plugins'] = $this->configGlobal['Plugins'];
             $this->configCache['Plugins']['Plugins'][] = 'DevicesDetection';
+        }
+        if (isset($configGlobal['Plugins_Tracker'])) {
+            $this->configCache['Plugins_Tracker'] = $this->configGlobal['Plugins_Tracker'];
+            $this->configCache['Plugins_Tracker']['Plugins_Tracker'][] = 'DevicesDetection';
         }
 
         // to avoid weird session error in travis
