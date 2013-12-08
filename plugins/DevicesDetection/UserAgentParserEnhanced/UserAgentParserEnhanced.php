@@ -357,7 +357,9 @@ class UserAgentParserEnhanced
         $this->parseBrowser();
 
         if ($this->isMobile()) {
-            $this->parseMobile();
+            $mobileDef = $this->getMobileRegexes();
+            $this->parseBrand($mobileDef);
+            $this->parseModel($mobileDef);
         } else {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
@@ -418,13 +420,6 @@ class UserAgentParserEnhanced
         );
     }
 
-    protected function parseMobile()
-    {
-        $mobileRegexes = $this->getMobileRegexes();
-        $this->parseBrand($mobileRegexes);
-        $this->parseModel($mobileRegexes);
-    }
-
     protected function parseBrand($mobileRegexes)
     {
         foreach ($mobileRegexes as $brand => $mobileRegex) {
@@ -435,7 +430,12 @@ class UserAgentParserEnhanced
 
         if (!$matches)
             return;
-        $this->brand = array_search($brand, self::$deviceBrands);
+
+        $brandId = array_search($brand, self::$deviceBrands);
+        if($brandId === false) {
+            throw new Exception("The brand with name '$brand' should be listed in the deviceBrands array.");
+        }
+        $this->brand = $brandId;
         $this->fullName = $brand;
 
         if (isset($mobileRegex['device'])) {
@@ -692,28 +692,32 @@ class UserAgentParserEnhanced
         return $this->userAgent;
     }
 
+    /**
+     * @param $osLabel
+     * @return bool|string If false, "Unknown"
+     */
     public static function getOsFamily($osLabel)
     {
-        $osShortName = substr($osLabel, 0, 3);
-
-        foreach (self::$osFamilies as $osFamily => $osShortNames) {
-            if (in_array($osShortName, $osShortNames)) {
-                return $osFamily;
+        foreach (self::$osFamilies as $family => $labels) {
+            if (in_array($osLabel, $labels)) {
+                return $family;
             }
         }
-
-        return 'Other';
+        return false;
     }
 
+    /**
+     * @param $browserLabel
+     * @return bool|string If false, "Unknown"
+     */
     public static function getBrowserFamily($browserLabel)
     {
-        foreach (self::$browserFamilies as $browserFamily => $browserShortNames) {
-            if (in_array($browserLabel, $browserShortNames)) {
+        foreach (self::$browserFamilies as $browserFamily => $browserLabels) {
+            if (in_array($browserLabel, $browserLabels)) {
                 return $browserFamily;
             }
         }
-
-        return 'Other';
+        return false;
     }
 
     public static function getOsNameFromId($os, $ver = false)

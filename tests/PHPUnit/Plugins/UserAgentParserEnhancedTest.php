@@ -4,48 +4,43 @@ require_once 'DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.p
 
 class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Plugins
-     * @dataProvider getUserAgents_asParsed
-     */
-    public function testParse($expected)
+    public function testParse()
     {
-        $ua = $expected['user_agent'];
+        $fixtures = Spyc::YAMLLoad(dirname(__FILE__) . '/../Fixtures/userAgentParserEnhancedFixtures.yml');
+        foreach ($fixtures as $fixtureData) {
+            $ua = $fixtureData['user_agent'];
+            $uaInfo = $this->getInfoFromUserAgent($ua);
+            $parsed[] = $uaInfo;
+        }
+        $this->assertEquals($fixtures, $parsed);
+    }
 
+    private function getInfoFromUserAgent($ua)
+    {
         $userAgentParserEnhanced = new UserAgentParserEnhanced($ua);
         $userAgentParserEnhanced->parse();
 
-        $processed =  array(
-            'user_agent' => $userAgentParserEnhanced->getUserAgent(),
-            'os' => array(
-                'name' => $userAgentParserEnhanced->getOs('name'),
+        $osFamily = $userAgentParserEnhanced->getOsFamily($userAgentParserEnhanced->getOs('name'));
+        $browserFamily = $userAgentParserEnhanced->getBrowserFamily($userAgentParserEnhanced->getBrowser('name'));
+        $processed = array(
+            'user_agent'     => $userAgentParserEnhanced->getUserAgent(),
+            'os'             => array(
+                'name'       => $userAgentParserEnhanced->getOs('name'),
                 'short_name' => $userAgentParserEnhanced->getOs('short_name'),
-                'version' => $userAgentParserEnhanced->getOs('version'),
+                'version'    => $userAgentParserEnhanced->getOs('version'),
             ),
-            'browser' => array(
-                'name' => $userAgentParserEnhanced->getBrowser('name'),
+            'browser'        => array(
+                'name'       => $userAgentParserEnhanced->getBrowser('name'),
                 'short_name' => $userAgentParserEnhanced->getBrowser('short_name'),
-                'version' => $userAgentParserEnhanced->getBrowser('version'),
+                'version'    => $userAgentParserEnhanced->getBrowser('version'),
             ),
-            'device' => $userAgentParserEnhanced->getDevice(),
-            'brand' => $userAgentParserEnhanced->getBrand(),
-            'model' => $userAgentParserEnhanced->getModel(),
-            'os_family' => $userAgentParserEnhanced->getOsFamily($userAgentParserEnhanced->getOs('name')),
-            'browser_family' => $userAgentParserEnhanced->getBrowserFamily($userAgentParserEnhanced->getBrowser('name')),
+            'device'         => $userAgentParserEnhanced->getDevice(),
+            'brand'          => $userAgentParserEnhanced->getBrand(),
+            'model'          => $userAgentParserEnhanced->getModel(),
+            'os_family'      => $osFamily !== false ? $osFamily : 'Other',
+            'browser_family' => $browserFamily !== false ? $browserFamily : 'Other',
         );
-
-        $this->assertEquals($expected, $processed);
+        return $processed;
     }
 
-    public function getUserAgents_asParsed()
-    {
-        $expected = array();
-
-        $fixtures = Spyc::YAMLLoad(dirname(__FILE__) . '/../Fixtures/userAgentParserEnhancedFixtures.yml');
-        foreach ($fixtures as $fixtureData) {
-            $expected[] = array($fixtureData);
-        }
-
-        return $expected;
-    }
 }

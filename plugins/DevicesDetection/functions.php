@@ -113,10 +113,9 @@ function getModelName($label)
 
 function getOSFamilyFullNameExtended($label)
 {
-    foreach (UserAgentParserEnhanced::$osFamilies as $name => $family) {
-        if (in_array($label, $family)) {
-            return $name;
-        }
+    $label = UserAgentParserEnhanced::getOsFamily($label);
+    if($label !== false) {
+        return $label;
     }
     return Piwik::translate('General_Unknown');
 }
