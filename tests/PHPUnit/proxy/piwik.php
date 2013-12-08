@@ -22,6 +22,15 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 ob_start();
 
 Config::getInstance()->setTestEnvironment();
+
+try {
+    $trackerPlugins = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+}catch(Exception $e) {
+    $trackerPlugins = array();
+}
+$trackerPlugins[] = 'DevicesDetection';
+Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
+
 GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Tracker::setTestEnvironment();
