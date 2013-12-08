@@ -65,7 +65,7 @@
                                 <br/>
                                 <span class="loadingPiwik" style="display:none;position:absolute;">
                                     <img src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_Loading'|translate }}</span>
-                                <span class="location"><strong><em>{{ provider.location }}</em></strong></span>
+                                <span class="location"><strong><em>{{ provider.location|raw }}</em></strong></span>
                             </div>
                             <div style="text-align:right;">
                                 <a href="#" class="refresh-loc" data-impl-id="{{ id }}"><em>{{ 'General_Refresh'|translate }}</em></a>
