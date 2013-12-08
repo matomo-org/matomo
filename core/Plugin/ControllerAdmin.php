@@ -26,8 +26,6 @@ use Piwik\View;
  * See {@link Controller} to learn more about Piwik controllers.
  * 
  * @package Piwik
- *
- * @api
  */
 abstract class ControllerAdmin extends Controller
 {
@@ -45,6 +43,9 @@ abstract class ControllerAdmin extends Controller
         self::setBasicVariablesAdminView($view);
     }
 
+    /**
+     * @ignore
+     */
     static public function displayWarningIfConfigFileNotWritable()
     {
         $isConfigFileWritable = PiwikConfig::getInstance()->isFileWritable();
@@ -61,7 +62,7 @@ abstract class ControllerAdmin extends Controller
     }
 
     /**
-     * Assigns a set of variables to a view that would be useful to an Admin controller.
+     * Assigns view properties that would be useful to views that render admin pages.
      * 
      * Assigns the following variables:
      * 

@@ -47,9 +47,11 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
  * - The report is loaded through Piwik's Reporting API.
  * - The display and request properties that require report data in order to determine a default
  *   value are defaulted. These properties are:
+ * 
  *   - {@link Piwik\ViewDataTable\Config::$columns_to_display}
  *   - {@link Piwik\ViewDataTable\RequestConfig::$filter_sort_column}
  *   - {@link Piwik\ViewDataTable\RequestConfig::$filter_sort_order}
+ * 
  * - Priority filters are applied to the report (see {@link Piwik\ViewDataTable\Config::$filters}).
  * - The filters that are applied to every report in the Reporting API (called **generic filters**)
  *   are applied. (see {@link Piwik\API\Request})
@@ -122,17 +124,22 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
  *         public function beforeRender()
  *         {
  *             $this->config->max_graph_elements = false;
- *             $this->config->datatable_js_type  = 'TreemapDataTable';
+ *             $this->config->datatable_js_type  = 'MyVisualization';
  *             $this->config->show_flatten_table = false;
  *             $this->config->show_pagination_control = false;
  *             $this->config->show_offset_information = false;
  *         }
  *     }
- * 
- * @api
  */
 class Visualization extends ViewDataTable
 {
+    /**
+     * The Twig template file to use when rendering, eg, `"@MyPlugin/_myVisualization.twig"`.
+     * 
+     * Must be defined by classes that extend Visualization.
+     * 
+     * @api
+     */
     const TEMPLATE_FILE = '';
 
     private $templateVars = array();
@@ -223,11 +230,12 @@ class Visualization extends ViewDataTable
     }
 
     /**
-     * Assigns a template variable. All assigned variables are available in the twig view template afterwards. You can
-     * assign either one variable by setting $vars and $value or an array of key/value pairs.
+     * Assigns a template variable making it available in the Twig template specified by
+     * {@link TEMPLATE_FILE}.
      *
-     * @param array|string $vars
-     * @param mixed  $value
+     * @param array|string $vars One or more variable names to set.
+     * @param mixed $value The value to set each variable to.
+     * @api
      */
     public function assignTemplateVar($vars, $value = null)
     {
@@ -240,6 +248,13 @@ class Visualization extends ViewDataTable
         }
     }
 
+    /**
+     * Returns `true` if there is data to display, `false` if otherwise.
+     * 
+     * Derived classes should override this method if they change the amount of data that is loaded.
+     * 
+     * @api
+     */
     protected function isThereDataToDisplay()
     {
         return true;
@@ -483,39 +498,43 @@ class Visualization extends ViewDataTable
     }
 
     /**
-     * Hook that is intended to change the request config that is sent to the API.
+     * Hook that is called before loading report data from the API.
+     * 
+     * Use this method to change the request parameters that is sent to the API when requesting
+     * data.
      */
     public function beforeLoadDataTable()
     {
     }
 
     /**
-     * Hook that is executed before generic filters like "filter_limit" and "filter_offset" are applied
+     * Hook that is executed before generic filters are applied.
+     * 
+     * Use this method if you need access to the entire dataset (since generic filters will
+     * limit and truncate reports).
      */
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
-
     }
 
     /**
-     * This hook is executed after generic filters like "filter_limit" and "filter_offset" are applied
+     * Hook that is executed after generic filters are applied.
      */
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
-
     }
 
     /**
-     * This hook is executed after the data table is loaded and after all filteres are applied.
-     * Format the data that you want to pass to the view here.
+     * Hook that is executed after the report data is loaded and after all filters have been applied.
+     * Use this method to format the report data before the view is rendered.
      */
     public function afterAllFiltersAreApplied()
     {
     }
 
     /**
-     * Hook to make sure config properties have a specific value because the default config can be changed by a
-     * report or by request ($_GET and $_POST) params.
+     * Hook that is executed directly before rendering. Use this hook to force display properties to
+     * be a certain value, despite changes from plugins and query parameters.
      */
     public function beforeRender()
     {

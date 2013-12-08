@@ -20,16 +20,15 @@ use Piwik\Period\Year;
 /**
  * Date range representation.
  * 
- * Piwik allows users to view aggregated statistics for each day and for date
- * ranges consisting of several days. When requesting data, a _date_ string and
- * a _period_ string must be used to specify the date range to view statistics
- * for. This is the class that Piwik uses to represent and manipulate those
- * date ranges.
+ * Piwik allows users to view aggregated statistics for single days and for date
+ * ranges consisting of several days. When requesting data, a **date** string and
+ * a **period** string must be used to specify the date range that the data regards.
+ * This is the class Piwik uses to represent and manipulate those date ranges.
  * 
  * There are five types of periods in Piwik: day, week, month, year and range,
  * where **range** is any date range. The reason the other periods exist instead
- * of just **range** is that Piwik will archive for days, weeks, months and years
- * periodically, while every other date range is archived on-demand.
+ * of just **range** is that Piwik will pre-archive reports for days, weeks, months
+ * and years, while every other date range is archived on-demand.
  * 
  * ### Examples
  * 
@@ -74,9 +73,9 @@ abstract class Period
     }
 
     /**
-     * Creates a new Period instance with a period ID and Date instance.
+     * Creates a new Period instance with a period ID and {@link Date} instance.
      * 
-     * Note: This method cannot create Range periods.
+     * _Note: This method cannot create {@link Period\Range} periods._
      * 
      * @param string $strPeriod `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
@@ -119,11 +118,20 @@ abstract class Period
     }
 
     /**
-     * Returns true $dateString and $period correspond to multiple periods.
-     *
+     * Returns true if `$dateString` and `$period` represent multiple periods.
+     * 
+     * Will return true for date/period combinations where date references multiple
+     * dates and period is not `'range'`. For example, will return true for:
+     * 
+     * - **date** = `2012-01-01,2012-02-01` and **period** = `'day'`
+     * - **date** = `2012-01-01,2012-02-01` and **period** = `'week'`
+     * - **date** = `last7` and **period** = `'month'`
+     * 
+     * etc.
+     * 
      * @static
-     * @param  $dateString The `'date'` query parameter value.
-     * @param  $period The `'period'` query parameter value.
+     * @param  $dateString The **date** query parameter value.
+     * @param  $period The **period** query parameter value.
      * @return boolean
      */
     public static function isMultiplePeriod($dateString, $period)
@@ -135,11 +143,11 @@ abstract class Period
     }
 
     /**
-     * Creates a period instance using a Site instance and two strings describing
-     * the period & date.
+     * Creates a Period instance using a period, date and timezone.
      *
-     * @param string $timezone
-     * @param string $period The period string: day, week, month, year, range
+     * @param string $timezone The timezone of the date. Only used if `$date` is `'now'`, `'today'`,
+     *                         `'yesterday'` or `'yesterdaySameTime'`.
+     * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param string $date The date or date range string. Can be a special value including
      *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
      * @return \Piwik\Period
@@ -211,7 +219,7 @@ abstract class Period
     /**
      * Returns the period ID.
      * 
-     * @return int A integer unique to this type of period.
+     * @return int A unique integer for this type of period.
      */
     public function getId()
     {
@@ -267,9 +275,10 @@ abstract class Period
     /**
      * Add a date to the period.
      *
-     * Protected because it not yet supported to add periods after the initialization
+     * Protected because adding periods after initialization is not supported.
      *
      * @param \Piwik\Period $period Valid Period object
+     * @ignore
      */
     protected function addSubperiod($period)
     {

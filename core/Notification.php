@@ -17,10 +17,11 @@ namespace Piwik;
  * Notifications consist of a message, a context (the message type), a priority
  * and a display type.
  * 
- * A notification's context will affect the way the message looks, but not how it
- * is displayed. A notification's display type will determine how the message is
- * displayed. The priority determines where it is shown in the list of
- * all displayed notifications.
+ * **The context** affects the way the message looks, but not how it is displayed.
+ * 
+ * **The display type** determines how the message is displayed.
+ * 
+ * **The priority** determines where it is shown in the list of all displayed notifications.
  * 
  * ### Examples
  * 
@@ -76,7 +77,7 @@ class Notification
     const PRIORITY_MAX    = 100;
 
     /**
-     * If this flag applied, no close icon will be displayed. _Note: persistent notifications always have a close
+     * If this flag is applied, no close icon will be displayed. _Note: persistent notifications always have a close
      * icon._
      * 
      * See {@link $flags}.
@@ -149,7 +150,7 @@ class Notification
 
     /**
      * If true, the message will not be escaped before being outputted as HTML. If you set this to
-     * true, make sure you escape text yourself in order to avoid any possible XSS vulnerabilities.
+     * `true`, make sure you escape text yourself in order to avoid XSS vulnerabilities.
      * 
      * @var bool
      */

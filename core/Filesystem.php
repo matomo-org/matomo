@@ -14,7 +14,7 @@ use Exception;
 use Piwik\Tracker\Cache;
 
 /**
- * Contains helper functions that involve the filesystem.
+ * Contains helper functions that deal with the filesystem.
  * 
  * @package Piwik
  */
@@ -92,11 +92,11 @@ class Filesystem
     /**
      * Attempts to create a new directory. All errors are silenced.
      * 
-     * Note: This function does not create directories recursively.
+     * _Note: This function does **not** create directories recursively._
      *
      * @param string $path The path of the directory to create.
      * @param bool $denyAccess Whether to deny browser access to this new folder by
-     *                         creating a .htaccess file.
+     *                         creating an **.htaccess** file.
      * @api
      */
     public static function mkdir($path, $denyAccess = true)
@@ -170,11 +170,12 @@ class Filesystem
 
     /**
      * Recursively find pathnames that match a pattern.
+     * 
      * See {@link http://php.net/manual/en/function.glob.php glob} for more info.
      *
      * @param string $sDir directory The directory to glob in.
      * @param string $sPattern pattern The pattern to match paths against.
-     * @param int $nFlags `glob()` flags. See {@link http://php.net/manual/en/function.glob.php}.
+     * @param int $nFlags `glob()` . See {@link http://php.net/manual/en/function.glob.php glob()}.
      * @return array The list of paths that match the pattern.
      * @api
      */
@@ -200,7 +201,7 @@ class Filesystem
      * Recursively deletes a directory.
      *
      * @param string $dir Path of the directory to delete.
-     * @param boolean $deleteRootToo Whether to delete `$dir` or just its contents.
+     * @param boolean $deleteRootToo If true, `$dir` is deleted, otherwise just its contents.
      * @param \Closure|false $beforeUnlink An optional closure to execute on a file path before unlinking.
      * @api
      */
@@ -238,7 +239,7 @@ class Filesystem
      * @param bool $excludePhp Whether to avoid copying files if the file is related to PHP
      *                         (includes .php, .tpl, .twig files).
      * @throws Exception If the file cannot be copied.
-     * @return bool
+     * @return true
      * @api
      */
     public static function copy($source, $dest, $excludePhp = false)

@@ -45,7 +45,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * regarding all the data, such as the site or period that the data is for. _Row metadata_
  * is information regarding that row, such as a browser logo or website URL.
  * 
- * Finally, DataTables all contain a special _summary_ row. This row, if it exists, is
+ * Finally, all DataTables contain a special _summary_ row. This row, if it exists, is
  * always at the end of the DataTable.
  * 
  * ### Populating DataTables
@@ -68,9 +68,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * There are two ways to manipulate a DataTable. You can either:
  * 
  * 1. manually iterate through each row and manipulate the data,
- * 2. or you can use predefined Filters.
+ * 2. or you can use predefined filters.
  * 
- * A Filter is a class that has a 'filter' method which will manipulate a DataTable in
+ * A filter is a class that has a 'filter' method which will manipulate a DataTable in
  * some way. There are several predefined Filters that allow you to do common things,
  * such as,
  * 
@@ -80,12 +80,15 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * - sort an entire DataTable,
  * - and more.
  * 
- * Using these Filters instead of writing your own code will increase code clarity and
- * reduce code redundancy. Additionally, Filters have the advantage that they can be
- * applied to DataTable\Map instances. So you can visit every DataTable in a DataTable\Map
+ * Using these filters instead of writing your own code will increase code clarity and
+ * reduce code redundancy. Additionally, filters have the advantage that they can be
+ * applied to DataTable\Map instances. So you can visit every DataTable in a {@link DataTable\Map}
  * without having to write a recursive visiting function.
  * 
- * Note: Anonymous functions can be used as DataTable Filters.
+ * All predefined filters exist in the **Piwik\DataTable\Filter** namespace.
+ * 
+ * _Note: For convenience, [anonymous functions](http://www.php.net/manual/en/functions.anonymous.php)
+ * can be used as DataTable filters._
  * 
  * ### Applying Filters
  * 
@@ -97,9 +100,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * 
  * ### Learn more
  * 
- * - **{@link ArchiveProcessor}** &mdash; to learn how DataTables are persisted.
- * - **{@link DataTable\Renderer}** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
- * - **{@link DataTable\Filter}** &mdash; to see all core Filters.
+ * - See **{@link ArchiveProcessor}** to learn how DataTables are persisted.
  * 
  * ### Examples
  * 
@@ -340,9 +341,9 @@ class DataTable implements DataTableInterface
     /**
      * Sorts the DataTable rows using the supplied callback function.
      *
-     * @param string $functionCallback A comparison callback compatible with `usort`.
+     * @param string $functionCallback A comparison callback compatible with {@link usort}.
      * @param string $columnSortedBy The column name `$functionCallback` sorts by. This is stored
-     *                               so we can determine how the DataTable is sorted in the future.
+     *                               so we can determine how the DataTable was sorted in the future.
      */
     public function sort($functionCallback, $columnSortedBy)
     {
@@ -392,15 +393,15 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Applies filter to this datatable.
+     * Applies a filter to this datatable.
      * 
      * If {@link enableRecursiveFilters()} was called, the filter will be applied
      * to all subtables as well.
      *
-     * @param string|Closure $className Class name, eg. "Sort" or "Sort". If no namespace is supplied,
-     *                                  `Piwik\DataTable\Filter` is assumed. This parameter can also be
-     *                                  a closure that takes a DataTable as its first parameter.
-     * @param array $parameters Array of parameters pass to the filter in addition to the table.
+     * @param string|Closure $className Class name, eg. `"Sort"` or "Piwik\DataTable\Filters\Sort"`. If no
+     *                                  namespace is supplied, `Piwik\DataTable\Filter` is assumed. This parameter
+     *                                  can also be a closure that takes a DataTable as its first parameter.
+     * @param array $parameters Array of extra parameters to pass to the filter.
      */
     public function filter($className, $parameters = array())
     {
@@ -430,11 +431,11 @@ class DataTable implements DataTableInterface
      * Adds a filter and a list of parameters to the list of queued filters. These filters will be
      * executed when {@link applyQueuedFilters()} is called.
      * 
-     * Filters that prettify the output or don't need the full set of rows should be queued. This
+     * Filters that prettify the column values or don't need the full set of rows should be queued. This
      * way they will be run after the table is truncated which will result in better performance.
      *
-     * @param string|Closure $className The class name of the filter, eg. Limit
-     * @param array $parameters The parameters to give to the filter, eg. array( $offset, $limit) for the filter Limit
+     * @param string|Closure $className The class name of the filter, eg. `'Limit'`.
+     * @param array $parameters The parameters to give to the filter, eg. `array($offset, $limit)` for the Limit filter.
      */
     public function queueFilter($className, $parameters = array())
     {
@@ -460,7 +461,7 @@ class DataTable implements DataTableInterface
      * Sums a DataTable to this one.
      * 
      * This method will sum rows that have the same label. If a row is found in `$tableToSum` whose
-     * label is not found in `$this`, the row will be added to `$this` DataTable.
+     * label is not found in `$this`, the row will be added to `$this`.
      * 
      * If the subtables for this table are loaded, they will be summed as well.
      * 
@@ -493,7 +494,7 @@ class DataTable implements DataTableInterface
      * label => row ID mappings.
      * 
      * @param string $label `'label'` column value to look for.
-     * @return Row|false The row if found, false if otherwise.
+     * @return Row|false The row if found, `false` if otherwise.
      */
     public function getRowFromLabel($label)
     {
@@ -650,7 +651,7 @@ class DataTable implements DataTableInterface
     /**
      * Sets the summary row.
      * 
-     * Note: A dataTable can have only one summary row.
+     * _Note: A DataTable can have only one summary row._
      *
      * @param Row $row
      * @return Row Returns `$row`.
@@ -685,10 +686,10 @@ class DataTable implements DataTableInterface
     /**
      * Adds a new row from an array.
      * 
-     * You can add Row metadata with this method.
+     * You can add row metadata with this method.
      *
-     * @param array $row eg. array(Row::COLUMNS => array('visits' => 13, 'test' => 'toto'),
-     *                             Row::METADATA => array('mymetadata' => 'myvalue'))
+     * @param array $row eg. `array(Row::COLUMNS => array('visits' => 13, 'test' => 'toto'),
+     *                              Row::METADATA => array('mymetadata' => 'myvalue'))`
      */
     public function addRowFromArray($row)
     {
@@ -700,7 +701,7 @@ class DataTable implements DataTableInterface
      * 
      * Row metadata cannot be added with this method.
      *
-     * @param array $row eg. array('name' => 'google analytics', 'license' => 'commercial')
+     * @param array $row eg. `array('name' => 'google analytics', 'license' => 'commercial')`
      */
     public function addRowFromSimpleArray($row)
     {
@@ -757,11 +758,11 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Returns the list of columns the rows in this datatable contain. This will return the
-     * columns of the first row with data and assume they occur in every other row as well.
+     * Returns the names of every column this DataTable contains. This method will return the
+     * columns of the first row with data and will assume they occur in every other row as well.
      * 
-     * Note: If column names still use their in-database INDEX values (@see Metrics), they
-     *       will be converted to their string name in the array result.
+     *_ Note: If column names still use their in-database INDEX values (@see Metrics), they
+     *        will be converted to their string name in the array result._
      * 
      * @return array Array of string column names.
      */
@@ -851,8 +852,8 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Returns the number of rows in this DataTable summed with the row count of each subtable
-     * in the DataTable hierarchy. This includes the subtables of subtables and further descendants.
+     * Returns the number of rows in the entire DataTable hierarchy. This is the number of rows in this DataTable
+     * summed with the row count of each descendant subtable.
      *
      * @return int
      */
@@ -998,7 +999,7 @@ class DataTable implements DataTableInterface
     /**
      * Returns a string representation of this DataTable for convenient viewing.
      * 
-     * Note: This uses the Html DataTable renderer.
+     * _Note: This uses the **html** DataTable renderer._
      *
      * @return string
      */
@@ -1062,6 +1063,7 @@ class DataTable implements DataTableInterface
      * @param int $maximumRowsInSubDataTable If not null, defines the maximum number of rows allowed in serialized subtables.
      * @param string $columnToSortByBeforeTruncation The column to sort by before truncating, eg, `Metrics::INDEX_NB_VISITS`.
      * @return array The array of serialized DataTables:
+     * 
      *                   array(
      *                       // this DataTable (the root)
      *                       0 => 'eghuighahgaueytae78yaet7yaetae',
@@ -1130,9 +1132,10 @@ class DataTable implements DataTableInterface
      *
      * See {@link serialize()}.
      * 
-     * @param string $stringSerialized A serialized DataTable string in the format of a string in the
-     *                                 array returned by {@link serialize()}. This function will
-     *                                 successfully load DataTables serialized by Piwik 1.X.
+     * _Note: This function will successfully load DataTables serialized by Piwik 1.X._
+     * 
+     * @param string $stringSerialized A string with the format of a string in the array returned by
+     *                                 {@link serialize()}.
      * @throws Exception if `$stringSerialized` is invalid.
      */
     public function addRowsFromSerializedArray($stringSerialized)
@@ -1147,11 +1150,12 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Adds many rows from an array.
+     * Adds multiple rows from an array.
      * 
-     * You can add Row metadata with this method.
+     * You can add row metadata with this method.
      *
      * @param array $array Array with the following structure
+     * 
      *                         array(
      *                             // row1
      *                             array(
@@ -1177,16 +1181,17 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Adds many rows from an array containing arrays of column values.
+     * Adds multiple rows from an array containing arrays of column values.
      * 
      * Row metadata cannot be added with this method.
      *
-     * @param array $array Array with the simple structure:
+     * @param array $array Array with the following structure:
+     * 
      *                       array(
      *                             array( col1_name => valueA, col2_name => valueC, ...),
      *                             array( col1_name => valueB, col2_name => valueD, ...),
      *                       )
-     * @throws Exception
+     * @throws Exception if `$array` is in an incorrect format.
      */
     public function addRowsFromSimpleArray($array)
     {
@@ -1257,30 +1262,36 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Rewrites the input $array
-     * array (
-     *     LABEL => array(col1 => X, col2 => Y),
-     *     LABEL2 => array(col1 => X, col2 => Y),
-     * )
-     * to a DataTable, ie. with the internal structure
-     * array (
-     *     array( Row::COLUMNS => array('label' => LABEL, col1 => X, col2 => Y)),
-     *     array( Row::COLUMNS => array('label' => LABEL2, col1 => X, col2 => Y)),
-     * )
+     * Rewrites the input `$array`
+     * 
+     *     array (
+     *         LABEL => array(col1 => X, col2 => Y),
+     *         LABEL2 => array(col1 => X, col2 => Y),
+     *     )
+     * 
+     * to a DataTable with rows that look like:
+     * 
+     *     array (
+     *         array( Row::COLUMNS => array('label' => LABEL, col1 => X, col2 => Y)),
+     *         array( Row::COLUMNS => array('label' => LABEL2, col1 => X, col2 => Y)),
+     *     )
      *
-     * It also works with array having only one value per row, eg.
-     * array (
-     *     LABEL => X,
-     *     LABEL2 => Y,
-     * )
-     * would be converted to:
-     * array (
-     *     array( Row::COLUMNS => array('label' => LABEL, 'value' => X)),
-     *     array( Row::COLUMNS => array('label' => LABEL2, 'value' => Y)),
-     * )
+     * Will also convert arrays like: 
+     * 
+     *     array (
+     *         LABEL => X,
+     *         LABEL2 => Y,
+     *     )
+     * 
+     * to:
+     * 
+     *     array (
+     *         array( Row::COLUMNS => array('label' => LABEL, 'value' => X)),
+     *         array( Row::COLUMNS => array('label' => LABEL2, 'value' => Y)),
+     *     )
      *
-     * @param array $array Indexed array, two formats are supported
-     * @param array|null $subtablePerLabel An indexed array of up to one DataTable to associate as a sub table
+     * @param array $array Indexed array, two formats supported, see above.
+     * @param array|null $subtablePerLabel An array mapping label values with DataTable instances to associate as a subtable.
      * @return \Piwik\DataTable
      */
     public static function makeFromIndexedArray($array, $subtablePerLabel = null)
@@ -1305,7 +1316,7 @@ class DataTable implements DataTableInterface
 
     /**
      * Sets the maximum depth level to at least a certain value. If the current value is
-     * greater than the supplied level, the maximum nesting level is not changed.
+     * greater than `$atLeastLevel`, the maximum nesting level is not changed.
      * 
      * The maximum depth level determines the maximum number of subtable levels in the
      * DataTable tree. For example, if it is set to `2`, this DataTable is allowed to
@@ -1325,7 +1336,7 @@ class DataTable implements DataTableInterface
      * Returns metadata by name.
      *
      * @param string $name The metadata name.
-     * @return mixed|false The metadata value or false if it cannot be found.
+     * @return mixed|false The metadata value or `false` if it cannot be found.
      */
     public function getMetadata($name)
     {
@@ -1369,7 +1380,7 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Sets metadata erasing existing values.
+     * Sets metadata, erasing existing values.
      * 
      * @param array $values Array mapping metadata names with metadata values.
      */
@@ -1392,12 +1403,12 @@ class DataTable implements DataTableInterface
 
     /**
      * Traverses a DataTable tree using an array of labels and returns the row
-     * it finds or false if it cannot find one. The number of path segments that
+     * it finds or `false` if it cannot find one. The number of path segments that
      * were successfully walked is also returned.
      * 
-     * If $missingRowColumns is supplied, the specified path is created. When
-     * a subtable is encountered w/o the queried label, a new row is created
-     * with the label, and a subtable is added to the row.
+     * If `$missingRowColumns` is supplied, the specified path is created. When
+     * a subtable is encountered w/o the required label, a new row is created
+     * with the label, and a new subtable is added to the row.
      *
      * Read [http://en.wikipedia.org/wiki/Tree_(data_structure)#Traversal_methods](http://en.wikipedia.org/wiki/Tree_(data_structure)#Traversal_methods)
      * for more information about tree walking.
@@ -1410,9 +1421,9 @@ class DataTable implements DataTableInterface
      *                                      created for path labels that cannot be found.
      * @param int $maxSubtableRows The maximum number of allowed rows in new subtables. New
      *                             subtables are only created if `$missingRowColumns` is provided.
-     * @return array First element is the found row or false. Second element is
+     * @return array First element is the found row or `false`. Second element is
      *               the number of path segments walked. If a row is found, this
-     *               will be == to count($path). Otherwise, it will be the index
+     *               will be == to `count($path)`. Otherwise, it will be the index
      *               of the path segment that we could not find.
      */
     public function walkPath($path, $missingRowColumns = false, $maxSubtableRows = 0)
@@ -1468,15 +1479,15 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Returns a new DataTable in which the rows of this table are replaced with the aggregatated rows of all its subtable's.
+     * Returns a new DataTable in which the rows of this table are replaced with the aggregatated rows of all its subtables.
      *
      * @param string|bool $labelColumn If supplied the label of the parent row will be added to
      *                                 a new column in each subtable row.
      * 
-     *                                 If set to, 'label' each subtable row's label will be prepended
+     *                                 If set to, `'label'` each subtable row's label will be prepended
      *                                 w/ the parent row's label. So `'child_label'` becomes
      *                                 `'parent_label - child_label'`.
-     * @param bool $useMetadataColumn If true and if $labelColumn is supplied, the parent row's
+     * @param bool $useMetadataColumn If true and if `$labelColumn` is supplied, the parent row's
      *                                label will be added as metadata and not a new column.
      * @return \Piwik\DataTable
      */

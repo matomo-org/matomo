@@ -14,7 +14,7 @@ namespace Piwik;
  * Manages the global list of reports that can be displayed as dashboard widgets.
  * 
  * Reports are added as dashboard widgets through the {@hook WidgetsList.addWidgets}
- * event. Plugins should call {@link add()} in event observers for this event.
+ * event. Observers for this event should call the {@link add()} method to add reports.
  * 
  * @package PluginsFunctions
  * @api
@@ -38,12 +38,12 @@ class WidgetsList
     /**
      * Returns all available widgets.
      *
-     * @return array Maps widget categories with an array of widget information, eg,
+     * @return array Array Mapping widget categories with an array of widget information, eg,
      *               ```
      *               array(
      *                   'Visitors' => array(
-     *                       array(...),
-     *                       array(...)
+     *                       array(...), // info about first widget in this category
+     *                       array(...) // info about second widget in this category, etc.
      *                   ),
      *                   'Visits' => array(
      *                       array(...),
@@ -157,11 +157,11 @@ class WidgetsList
     }
 
     /**
-     * Removes one more widgets from the widget list.
+     * Removes one or more widgets from the widget list.
      * 
      * @param string $widgetCategory The widget category. Can be a translation token.
      * @param string|false $widgetName The name of the widget to remove. Cannot be a 
-     *                                 translation token. If not supplied, entire category
+     *                                 translation token. If not supplied, the entire category
      *                                 will be removed.
      */
     static public function remove($widgetCategory, $widgetName = false)
@@ -179,11 +179,10 @@ class WidgetsList
     }
 
     /**
-     * Returns true if the widget with the given parameters exists in the widget list,
-     * false if otherwise.
+     * Returns `true` if a report exists in the widget list, `false` if otherwise.
      *
-     * @param string $controllerName The controller name of the widget's report.
-     * @param string $controllerAction The controller action of the widget's report.
+     * @param string $controllerName The controller name of the report.
+     * @param string $controllerAction The controller action of the report.
      * @return bool
      */
     static public function isDefined($controllerName, $controllerAction)

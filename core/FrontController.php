@@ -152,7 +152,7 @@ class FrontController extends Singleton
              * This event can be used to customize the error that occurs when a user is denied access
              * (for example, displaying an error message, redirecting to a page other than login, etc.).
              * 
-             * @param NoAccessException $exception The exception that was caught.
+             * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
         } catch (Exception $e) {

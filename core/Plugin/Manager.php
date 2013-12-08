@@ -144,7 +144,7 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns true if a plugin has been activated.
+     * Returns `true` if a plugin has been activated.
      *
      * @param string $name Name of plugin, eg, `'Actions'`.
      * @return bool
@@ -157,7 +157,7 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns true if plugin is loaded (in memory).
+     * Returns `true` if plugin is loaded (in memory).
      *
      * @param string $name Name of plugin, eg, `'Acions'`.
      * @return bool
@@ -343,8 +343,9 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns the theme currently enabled.
-     * If no theme is enabled, Zeitgeist is returned (default theme)
+     * Returns the currently enabled theme.
+     * 
+     * If no theme is enabled, the **Zeitgeist** plugin is returned (this is the base and default theme).
      *
      * @return Plugin
      * @api
@@ -385,8 +386,9 @@ class Manager extends Singleton
     /**
      * Returns info regarding all plugins. Loads plugins that can be loaded.
      *
-     * @return array An array that maps plugin names with arrays of plugin info. Plugin
-     *               info arrays will contain the following entries:
+     * @return array An array that maps plugin names with arrays of plugin information. Plugin
+     *               information consists of the following entries:
+     * 
      *               - **activated**: Whether the plugin is activated.
      *               - **alwaysActivated**: Whether the plugin should always be activated,
      *                                      or not.
@@ -443,7 +445,7 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns true if the plugin is bundled with core or false if it is third party.
+     * Returns `true` if the plugin is bundled with core or `false` if it is third party.
      *
      * @param string $name The name of the plugin, eg, `'Actions'`.
      * @return bool
@@ -481,9 +483,9 @@ class Manager extends Singleton
 
 
     /**
-     * Load the specified plugins
+     * Load the specified plugins.
      *
-     * @param array $pluginsToLoad Array of plugins to load
+     * @param array $pluginsToLoad Array of plugins to load.
      */
     public function loadPlugins(array $pluginsToLoad)
     {
@@ -497,7 +499,7 @@ class Manager extends Singleton
     }
 
     /**
-     * Disable plugin loading
+     * Disable plugin loading.
      */
     public function doNotLoadPlugins()
     {
@@ -505,7 +507,7 @@ class Manager extends Singleton
     }
 
     /**
-     * Disable loading of "always activated" plugins
+     * Disable loading of "always activated" plugins.
      */
     public function doNotLoadAlwaysActivatedPlugins()
     {
@@ -824,7 +826,7 @@ class Manager extends Singleton
     }
 
     /**
-     * Return list of names of installed plugins.
+     * Return names of all installed plugins.
      *
      * @return array
      * @api

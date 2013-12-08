@@ -25,7 +25,7 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
 /**
  * The base class of all report visualizations.
  * 
- * ViewDataTable instances load analytics data via Piwik's API and then output some
+ * ViewDataTable instances load analytics data via Piwik's Reporting API and then output some
  * type of visualization of that data.
  * 
  * Visualizations can be in any format. HTML-based visualizations should extend
@@ -38,7 +38,7 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
  * class is used.
  * 
  * The specific subclass to create is determined, first, by the **viewDataTable** query paramater.
- * If this parameter is not set, then the default visualization type for the report that is being
+ * If this parameter is not set, then the default visualization type for the report being
  * displayed is used.
  *
  * ### Configuring ViewDataTables
@@ -51,13 +51,13 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
  * 
  * Display properties can be set at any time before rendering.
  * 
- * **Request parameters**
+ * **Request properties**
  * 
- * Request parameters are similar to display properties in the way they are set. They are,
+ * Request properties are similar to display properties in the way they are set. They are,
  * however, not used to customize ViewDataTable instances, but in the request to Piwik's
  * API when loading analytics data.
  * 
- * Request parameters are set by setting the fields of a {@link Piwik\ViewDataTable\RequestConfig} object stored in
+ * Request properties are set by setting the fields of a {@link Piwik\ViewDataTable\RequestConfig} object stored in
  * the {@link $requestConfig} field. They can be set at any time before rendering.
  * Setting them after data is loaded will have no effect.
  * 
@@ -71,7 +71,7 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
  *    in the {@hook ViewDataTable.configure} event.
  * 
  * ViewDataTable instances are configured by setting and modifying display properties and request
- * parameters.
+ * properties.
  * 
  * ### Creating new visualizations
  * 
@@ -156,11 +156,15 @@ abstract class ViewDataTable implements ViewInterface
     protected $dataTable = null;
 
     /**
+     * Contains display properties for this visualization.
+     * 
      * @var \Piwik\ViewDataTable\Config
      */
     public $config;
 
     /**
+     * Contains request properties for this visualization.
+     * 
      * @var \Piwik\ViewDataTable\RequestConfig
      */
     public $requestConfig;
@@ -171,8 +175,9 @@ abstract class ViewDataTable implements ViewInterface
     protected $request;
 
     /**
-     * Constructor. Initializes the default config, requestConfig and the request itself. After configuring some
-     * mandatory properties reports can modify the view by listening to the hook 'ViewDataTable.configure'.
+     * Constructor. Initializes display and request properties to their default values.
+     * Posts the {@hook ViewDataTable.configure} event which plugins can use to configure the
+     * way reports are displayed.
      */
     public function __construct($controllerAction, $apiMethodToRequestDataTable)
     {
@@ -230,9 +235,13 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the default config. Custom viewDataTables can change the default config to their needs by either
-     * modifying this config or creating an own Config class that extends the default Config.
+     * Returns the default config instance.
+     * 
+     * Visualizations that define their own display properties should override this method and
+     * return an instance of their new {@link Piwik\ViewDataTable\Config} descendant.
      *
+     * See the last example {@link ViewDataTable here} for more information.
+     * 
      * @return \Piwik\ViewDataTable\Config
      */
     public static function getDefaultConfig()
@@ -241,9 +250,13 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the default request config. Custom viewDataTables can change the default config to their needs by either
-     * modifying this config or creating an own RequestConfig class that extends the default RequestConfig.
+     * Returns the default request config instance.
+     * 
+     * Visualizations that define their own request properties should override this method and
+     * return an instance of their new {@link Piwik\ViewDataTable\RequestConfig} descendant.
      *
+     * See the last example {@link ViewDataTable here} for more information.
+     * 
      * @return \Piwik\ViewDataTable\RequestConfig
      */
     public static function getDefaultRequestConfig()
@@ -265,7 +278,9 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the viewDataTable ID for this DataTable visualization. Derived classes  should declare a const ID field
+     * Returns the viewDataTable ID for this DataTable visualization.
+     * 
+     * Derived classes should not override this method. They should instead declare a const ID field
      * with the viewDataTable ID.
      *
      * @throws \Exception
@@ -284,10 +299,13 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Detects whether the viewDataTable or one of its ancestors has the given id.
+     * Returns `true` if this instance's or any of its ancestors' viewDataTable IDs equals the supplied ID,
+     * `false` if otherwise.
+     * 
+     * Can be used to test whether a ViewDataTable object is an instance of a certain visualization or not,
+     * without having to know where that visualization is.
      *
-     * @param  string $viewDataTableId
-     *
+     * @param  string $viewDataTableId The viewDataTable ID to check for, eg, `'table'`.
      * @return bool
      */
     public function isViewDataTableId($viewDataTableId)
@@ -298,10 +316,10 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the DataTable loaded from the API
+     * Returns the DataTable loaded from the API.
      *
      * @return DataTable
-     * @throws \Exception if not yet defined
+     * @throws \Exception if not yet loaded.
      */
     public function getDataTable()
     {
@@ -314,10 +332,10 @@ abstract class ViewDataTable implements ViewInterface
 
     /**
      * To prevent calling an API multiple times, the DataTable can be set directly.
-     * It won't be loaded again from the API in this case
+     * It won't be loaded from the API in this case.
      *
-     * @param $dataTable
-     * @return void $dataTable DataTable
+     * @param DataTable $dataTable The DataTable to use.
+     * @return void
      */
     public function setDataTable($dataTable)
     {
@@ -390,7 +408,8 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Determine if the view data table requests a single data table or not.
+     * Returns `true` if this instance will request a single DataTable, `false` if requesting
+     * more than one.
      *
      * @return bool
      */
@@ -412,11 +431,14 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Here you can define whether your visualization can display a specific data table or not. For instance you may
-     * only display your visualization in case a single data table is requested. If the method returns true, the footer
-     * icon will be displayed.
+     * Returns `true` if this visualization can display some type of data or not.
+     * 
+     * New visualization classes should override this method if they can only visualize certain
+     * types of data. The evolution graph visualization, for example, can only visualize
+     * sets of DataTables. If the API method used results in a single DataTable, the evolution
+     * graph footer icon should not be displayed.
      *
-     * @param  ViewDataTable $view
+     * @param  ViewDataTable $view Contains the API request being checked.
      * @return bool
      */
     public static function canDisplayViewDataTable(ViewDataTable $view)

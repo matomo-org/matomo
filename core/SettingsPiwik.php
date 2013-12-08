@@ -51,10 +51,9 @@ class SettingsPiwik
     public static $cachedKnownSegmentsToArchive = null;
 
     /**
-     * Returns the list of stored segments to pre-process for all sites when executing cron archiving.
+     * Returns every stored segment to pre-process for each site during cron archiving.
      *
      * @return array The list of stored segments that apply to all sites.
-     * @api
      */
     public static function getKnownSegmentsToArchive()
     {
@@ -159,7 +158,7 @@ class SettingsPiwik
     static public $piwikUrlCache = null;
 
     /**
-     * Returns the URL to this Piwik instance, eg. http://demo.piwik.org/ or http://example.org/piwik/.
+     * Returns the URL to this Piwik instance, eg. **http://demo.piwik.org/** or **http://example.org/piwik/**.
      *
      * @return string
      * @api
@@ -196,7 +195,7 @@ class SettingsPiwik
     }
 
     /**
-     * Returns true if segmentation is allowed for this user, false if otherwise.
+     * Returns `true` if segmentation is allowed for this user, `false` if otherwise.
      *
      * @return bool
      * @api
@@ -210,9 +209,8 @@ class SettingsPiwik
     /**
      * Returns true if unique visitors should be processed for the given period type.
      * 
-     * Unique visitor processing is controlled by the **[General] enable_processing_unique_visitors_...**
-     * INI config options. By default, day/week/month periods always process unique visitors and
-     * year/range are not.
+     * Unique visitor processing is controlled by the `[General] enable_processing_unique_visitors_...`
+     * INI config options. By default, unique visitors are processed only for day/week/month periods.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
      * @return bool

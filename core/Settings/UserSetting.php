@@ -14,8 +14,8 @@ use Piwik\Common;
 use Piwik\Piwik;
 
 /**
- * Describes a per user setting. Each user will be able to change this setting but each user
- * can set a different value. Changes from one user will not affect other users.
+ * Describes a per user setting. Each user will be able to change this setting for themselves,
+ * but not for other users.
  *
  * @package Piwik
  * @subpackage Settings
@@ -39,7 +39,7 @@ class UserSetting extends Setting
 
         $this->setUserLogin($userLogin);
 
-        $this->displayedForCurrentUser = !Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess();
+        $this->displayedForCurrentUser = Piwik::isUserHasSomeViewAccess();
     }
 
     /**

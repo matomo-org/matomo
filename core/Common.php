@@ -18,7 +18,7 @@ use Piwik\Tracker\Cache;
 /**
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
  *
- * This is the only external class loaded by the /piwik.php file.
+ * This is the only non-Tracker class loaded by the **\/piwik.php** file.
  *
  * @package Piwik
  */
@@ -201,24 +201,24 @@ class Common
      * This function is automatically called when {@link getRequestVar()} is called,
      * so you should not normally have to use it.
      * 
-     * You should used it when outputting data that isn't escaped and was
+     * This function should be used when outputting data that isn't escaped and was
      * obtained from the user (for example when using the `|raw` twig filter on goal names).
      * 
-     * NOTE: Sanitized input should not be used directly in an SQL query; SQL placeholders
-     *       should still be used.
+     * _NOTE: Sanitized input should not be used directly in an SQL query; SQL placeholders
+     * should still be used._
      * 
      * **Implementation Details**
      * 
-     * - `htmlspecialchars` is used to escape text.
-     * - Single quotes are not escaped so "Piwik's amazing community" will still be
-     *   "Piwik's amazing community".
+     * - [htmlspecialchars](http://php.net/manual/en/function.htmlspecialchars.php) is used to escape text.
+     * - Single quotes are not escaped so **Piwik's amazing community** will still be
+     *   **Piwik's amazing community**.
      * - Use of the `magic_quotes` setting will not break this method.
-     * - Boolean, numeric and null values are simply returned.
+     * - Boolean, numeric and null values are not modified.
      *
-     * @param mixed $value The variable to be cleaned. If an array is supplied, the contents
+     * @param mixed $value The variable to be sanitized. If an array is supplied, the contents
      *                     of the array will be sanitized recursively. The keys of the array
      *                     will also be sanitized.
-     * @param bool $alreadyStripslashed
+     * @param bool $alreadyStripslashed Implementation detail, ignore.
      * @throws Exception If `$value` is of an incorrect type.
      * @return mixed  The sanitized value.
      * @api
@@ -299,10 +299,10 @@ class Common
      * the user.
      * 
      * Some data in Piwik is stored sanitized (such as site name). In this case you may
-     * have to use this method to unsanitize it after it is retrieved.
+     * have to use this method to unsanitize it in order to, for example, output it in JSON.
      * 
-     * @param string|array $value The data to unsanitize. If an array is passed the
-     *                            array is sanitized recursively. Keys are not unsanitized.
+     * @param string|array $value The data to unsanitize. If an array is passed, the
+     *                            array is sanitized recursively. Key values are not unsanitized.
      * @return string|array The unsanitized data.
      * @api
      */
@@ -349,18 +349,19 @@ class Common
      * 
      * Use this function to get request parameter values. **_NEVER use `$_GET` and `$_POST` directly._**
      * 
-     * If the variable doesn't have neither a value nor a default value provided, an exception is raised.
+     * If the variable cannot be found, and a default value was not provided, an exception is raised.
      *
-     * @see sanitizeInputValues() for the applied sanitization
+     * _See {@link sanitizeInputValues()} to learn more about sanitization._
      *
-     * @param string $varName Name of the request parameter to get. We look in `$_GET[$varName]` and `$_POST[$varName]`
-     *                        for the value.
-     * @param string|null $varDefault The value to return if the request parameter doesn't exist or has an empty value.
-     * @param string|null $varType Expected type, the value must be one of the following: `'array'`, `'int'`, `'integer'`,
-     *                             `'string'`, `'json'`. If `'json'`, the string value will be `json_decode`-d and all of
-     *                             entries sanitized.
-     * @param array|null $requestArrayToUse The array to use instead of $_GET and $_POST.
-     * @throws Exception If the request parameter doesn't exist and there is no default value or if the request parameter
+     * @param string $varName Name of the request parameter to get. By default, we look in `$_GET[$varName]`
+     *                        and `$_POST[$varName]` for the value.
+     * @param string|null $varDefault The value to return if the request parameter cannot be found or has an empty value.
+     * @param string|null $varType Expected type of the request variable. This parameters value must be one of the following:
+     *                             `'array'`, `'int'`, `'integer'`, `'string'`, `'json'`.
+     *                             
+     *                             If `'json'`, the string value will be `json_decode`-d and then sanitized.
+     * @param array|null $requestArrayToUse The array to use instead of `$_GET` and `$_POST`.
+     * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
      *                   exists but has an incorrect type.
      * @return mixed The sanitized request parameter.
      * @api
@@ -687,10 +688,10 @@ class Common
     /**
      * Returns the list of valid language codes.
      *
-     * @see core/DataFiles/Languages.php
+     * See [core/DataFiles/Languages.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/Languages.php).
      *
-     * @return array Array of two letter ISO codes mapped with language name (in English). E.g.
-     *               `array('en' => 'English')`.
+     * @return array Array of two letter ISO codes mapped with their associated language names (in English). E.g.
+     *               `array('en' => 'English', 'ja' => 'Japanese')`.
      * @api
      */
     public static function getLanguagesList()
@@ -702,12 +703,12 @@ class Common
     }
 
     /**
-     * Returns list of language to country mappings.
+     * Returns a list of language to country mappings.
      *
-     * @see core/DataFiles/LanguageToCountry.php
+     * See [core/DataFiles/LanguageToCountry.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/LanguageToCountry.php).
      *
      * @return array Array of two letter ISO language codes mapped with two letter ISO country codes:
-     *               `array('fr' => 'fr'), // French => France`
+     *               `array('fr' => 'fr') // French => France`
      * @api
      */
     public static function getLanguageToCountryList()
@@ -947,11 +948,13 @@ class Common
      */
 
     /**
-     * Returns a string with a comma separated list of placeholders for use in an SQL query based
-     * on the list of fields we're referencing. Used mainly to fill the `IN (...)` part of a query.
+     * Returns a string with a comma separated list of placeholders for use in an SQL query. Used mainly
+     * to fill the `IN (...)` part of a query.
      * 
      * @param array|string $fields The names of the mysql table fields to bind, e.g.
      *                             `array(fieldName1, fieldName2, fieldName3)`.
+     * 
+     *                             _Note: The content of the array isn't important, just its length._
      * @return string The placeholder string, e.g. `"?, ?, ?"`.
      * @api
      */
@@ -995,10 +998,10 @@ class Common
     }
 
     /**
-     * Mark orphaned object for garbage collection.
+     * Marks an orphaned object for garbage collection.
      *
-     * For more information: @link http://dev.piwik.org/trac/ticket/374
-     * @param $var
+     * For more information: {@link http://dev.piwik.org/trac/ticket/374}
+     * @param $var The object to destroy.
      * @api
      */
     static public function destroy(&$var)

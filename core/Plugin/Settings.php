@@ -16,8 +16,8 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\StorageInterface;
 
 /**
- * Base class of all Settings providers. Plugins that define their own settings can extend
- * this class to easily make their settings available to Piwik users.
+ * Base class of all plugin settings providers. Plugins that define their own configuration settings
+ * can extend this class to easily make their settings available to Piwik users.
  * 
  * Descendants of this class should implement the {@link init()} method and call the
  * {@link addSetting()} method for each of the plugin's settings.

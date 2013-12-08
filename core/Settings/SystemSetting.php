@@ -16,6 +16,8 @@ use Piwik\Piwik;
 /**
  * Describes a system wide setting. Only the super user can change this type of setting and
  * the value of this setting will affect all users.
+ * 
+ * See {@link \Piwik\Plugin\Settings}.
  *
  * @package Piwik
  * @subpackage Settings
@@ -38,7 +40,7 @@ class SystemSetting extends Setting
     }
 
     /**
-     * Returns the display order. User settings are displayed after system settings.
+     * Returns the display order. System settings are displayed before user settings.
      * 
      * @return int
      */

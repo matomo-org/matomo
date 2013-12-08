@@ -19,9 +19,9 @@ use Piwik\Segment;
 use Piwik\Site;
 
 /**
- * An ArchiveProcessor processes data for an Archive determined by these Parameters: website, period and segment.
- *
- * @api
+ * Contains the analytics parameters for the reports that are currently being archived. The analytics
+ * parameters include the **website** the reports describe, the **period** of time the reports describe
+ * and the **segment** used to limit the visit set.
  */
 class Parameters
 {
@@ -45,6 +45,11 @@ class Parameters
      */
     private $requestedPlugin = false;
 
+    /**
+     * Constructor.
+     * 
+     * @ignore
+     */
     public function __construct(Site $site, Period $period, Segment $segment)
     {
         $this->site = $site;
@@ -69,7 +74,7 @@ class Parameters
     }
 
     /**
-     * Returns the period we computing statistics for.
+     * Returns the period we are computing statistics for.
      *
      * @return Period
      * @api
@@ -83,6 +88,7 @@ class Parameters
      * Returns the array of Period which make up this archive.
      *
      * @return \Piwik\Period[]
+     * @ignore
      */
     public function getSubPeriods()
     {
@@ -94,6 +100,7 @@ class Parameters
 
     /**
      * @return array
+     * @ignore
      */
     public function getIdSites()
     {
@@ -129,7 +136,7 @@ class Parameters
     }
 
     /**
-     * Returns the Date end of this period.
+     * Returns the end day of the period in the site's timezone.
      *
      * @return Date
      */
@@ -139,7 +146,7 @@ class Parameters
     }
 
     /**
-     * Returns the Date start of this period.
+     * Returns the start day of the period in the site's timezone.
      *
      * @return Date
      */
@@ -180,5 +187,4 @@ class Parameters
             $this->getDateEnd()->getDateEndUTC()
         );
     }
-
 }

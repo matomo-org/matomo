@@ -16,9 +16,11 @@ use Piwik\Singleton;
 /**
  * The base class of all API singletons.
  * 
- * Plugins that want to expose functionality through an API should create a class
- * that derives from this one. Every public method in that class will be callable
- * through Piwik's API.
+ * Plugins that want to expose functionality through the Reporting API should create a class
+ * that extends this one. Every public method in that class that is not annotated with **@ignore**
+ * will be callable through Piwik's Web API.
+ * 
+ * _Note: If your plugin calculates and stores reports, they should be made available through the API._
  * 
  * ### Examples
  * 

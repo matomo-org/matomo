@@ -22,24 +22,7 @@ use Piwik\Db;
 use Piwik\Period;
 
 /**
- * Used to insert numeric and blob archive data, and to aggregate archive data.
- *
- * During the Archiving process an instance of this class is used by plugins
- * to cache aggregated analytics statistics.
- * 
- * When the {@link Archive} class is used to query for archive data and that archive
- * data is found to be absent, the archiving process is launched. Instances of the
- * {@link Piwik\Plugin\Archiver} classes for every plugin that supplies one are
- * then used to execute archiving logic.
- * 
- * Plugins access ArchiveProcessor instances through the {@link Piwik\Plugin\Archiver} class.
- * Read the docs for {@link Piwik\Plugin\Archiver} to learn more about the process.
- * 
- * ### Limitations
- * 
- * - It is currently only possible to aggregate statistics for one site and period
- * at a time. The archive.php cron script does, however, issue asynchronous HTTP
- * requests that initiate archiving, so statistics can be calculated in parallel.
+ * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  * 
  * ### See also
  * 
@@ -52,7 +35,7 @@ use Piwik\Period;
  * 
  * **Inserting numeric data**
  * 
- *     // function in an Archiver descendent
+ *     // function in an Archiver descendant
  *     public function aggregateDayReport()
  *     {
  *         $archiveProcessor = $this->getProcessor();
@@ -63,7 +46,7 @@ use Piwik\Period;
  * 
  * **Inserting serialized DataTables**
  * 
- *     // function in an Archiver descendent
+ *     // function in an Archiver descendant
  *     public function aggregateDayReport()
  *     {
  *         $archiveProcessor = $this->getProcessor();
@@ -79,7 +62,7 @@ use Piwik\Period;
  * 
  * **Aggregating archive data**
  * 
- *     // function in Archiver descendent
+ *     // function in Archiver descendant
  *     public function aggregateMultipleReports()
  *     {
  *         $archiveProcessor = $this->getProcessor();
@@ -147,7 +130,8 @@ class ArchiveProcessor
     }
 
     /**
-     * Returns the Parameters object containing the site, period and segment used with this archive.
+     * Returns the {@link Parameters} object containing the site, period and segment we're archiving
+     * data for.
      *
      * @return Parameters
      * @api
@@ -188,20 +172,19 @@ class ArchiveProcessor
      * @param int $maximumRowsInDataTableLevelZero Maximum number of rows allowed in the top level DataTable.
      * @param int $maximumRowsInSubDataTable Maximum number of rows allowed in each subtable.
      * @param string $columnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
-     * @param array $columnsAggregationOperation Operations for aggregating columns, @see Row::sumRow().
-     * @param array $columnsToRenameAfterAggregation For columns that must change names when summed because they
-     *                                                    cannot be summed, eg,
-     *                                                    `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
+     * @param array $columnsAggregationOperation Operations for aggregating columns, see {@link Row::sumRow()}.
+     * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
+     *                                               when summed because they cannot be summed, eg,
+     *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
-     *               ```
-     *               array(
-     *                   'report1' => array('level0' => $report1->getRowsCount,
-     *                                      'recursive' => $report1->getRowsCountRecursive()),
-     *                   'report2' => array('level0' => $report2->getRowsCount,
-     *                                      'recursive' => $report2->getRowsCountRecursive()),
-     *                   ...
-     *               )
-     *               ```
+     *               
+     *                   array(
+     *                       'report1' => array('level0' => $report1->getRowsCount,
+     *                                          'recursive' => $report1->getRowsCountRecursive()),
+     *                       'report2' => array('level0' => $report2->getRowsCount,
+     *                                          'recursive' => $report2->getRowsCountRecursive()),
+     *                       ...
+     *                   )
      * @api
      */
     public function aggregateDataTableRecords($recordNames,
@@ -241,12 +224,12 @@ class ArchiveProcessor
      * @return array|int Returns the array of aggregate values. If only one metric was aggregated,
      *                   the aggregate value will be returned as is, not in an array.
      *                   For example, if `array('nb_visits', 'nb_hits')` is supplied for `$columns`,
-     *                   ```
-     *                   array(
-     *                       'nb_visits' => 3040,
-     *                       'nb_hits' => 405
-     *                   )
-     *                   ```
+     *                   
+     *                       array(
+     *                           'nb_visits' => 3040,
+     *                           'nb_hits' => 405
+     *                       )
+     *                   
      *                   could be returned. If `array('nb_visits')` or `'nb_visits'` is used for `$columns`,
      *                   then `3040` would be returned.
      * @api
@@ -286,9 +269,8 @@ class ArchiveProcessor
      *
      * @param array $numericRecords A name-value mapping of numeric values that should be
      *                              archived, eg,
-     *                              ```
-     *                              array('Referrers_distinctKeywords' => 23, 'Referrers_distinctCampaigns' => 234)
-     *                              ```
+     *                              
+     *                                  array('Referrers_distinctKeywords' => 23, 'Referrers_distinctCampaigns' => 234)
      * @api
      */
     public function insertNumericRecords($numericRecords)
@@ -302,7 +284,7 @@ class ArchiveProcessor
      * Caches a single numeric record in the archive for this processor's site, period and
      * segment.
      *
-     * Numeric values are not inserted if they equal 0.
+     * Numeric values are not inserted if they equal `0`.
      *
      * @param string $name The name of the numeric value, eg, `'Referrers_distinctKeywords'`.
      * @param float $value The numeric value.

@@ -16,11 +16,11 @@ namespace Piwik;
  *
  * As of Piwik 1.3, IP addresses are stored in the DB has VARBINARY(16),
  * and passed around in network address format which has the advantage of
- * being in big-endian byte order, allowing for binary-safe string
+ * being in big-endian byte order. This allows for binary-safe string
  * comparison of addresses (of the same length), even on Intel x86.
  *
- * As a matter of naming convention, we use $ip for the network address format
- * and $ipString for the presentation format (i.e., human-readable form).
+ * As a matter of naming convention, we use `$ip` for the network address format
+ * and `$ipString` for the presentation format (i.e., human-readable form).
  *
  * We're not using the network address format (in_addr) for socket functions,
  * so we don't have to worry about incompatibility with Windows UNICODE
@@ -126,7 +126,7 @@ class IP
     }
 
     /**
-     * Convert presentation format IP address to network address format.
+     * Converts an IP address in presentation format to network address format.
      *
      * @param string $ipString IP address, either IPv4 or IPv6, e.g., `"127.0.0.1"`.
      * @return string Binary-safe string, e.g., `"\x7F\x00\x00\x01"`.
@@ -195,7 +195,7 @@ class IP
     }
 
     /**
-     * Convert IP address (in network address format) to presentation format.
+     * Converts an IP address (in network address format) to presentation format.
      * This is a backward compatibility function for code that only expects
      * IPv4 addresses (i.e., doesn't support IPv6).
      *
@@ -419,7 +419,7 @@ class IP
     }
 
     /**
-     * Get hostname for a given IP address.
+     * Retirms the hostname for a given IP address.
      *
      * @param string $ipStr Human-readable IP address.
      * @return string The hostname or unmodified $ipStr on failure.

@@ -31,9 +31,9 @@ abstract class Setting
     public $type = null;
 
     /**
-     * Describes how the setting should be manipulated through Piwik's UI.
+     * Describes what HTML element should be used to manipulate the setting through Piwik's UI.
      *
-     * See {@link Piwik\Plugin\Settings} for a list of supportted control types.
+     * See {@link Piwik\Plugin\Settings} for a list of supported control types.
      * 
      * @var string
      */
@@ -73,7 +73,7 @@ abstract class Setting
     public $introduction    = null;
 
     /**
-     * Text that will be appear directly underneath the setting title in the _Plugin Settings_ admin
+     * Text that will appear directly underneath the setting title in the _Plugin Settings_ admin
      * page. If set, should be a short description of the setting.
      * 
      * @var null|string
@@ -98,13 +98,11 @@ abstract class Setting
      * 
      * **Example**
      * 
-     * ```
-     * $setting->validate = function ($value, Setting $setting) {
-     *     if ($value > 60) {
-     *         throw new \Exception('The time limit is not allowed to be greater than 60 minutes.');
+     *     $setting->validate = function ($value, Setting $setting) {
+     *         if ($value > 60) {
+     *             throw new \Exception('The time limit is not allowed to be greater than 60 minutes.');
+     *         }
      *     }
-     * }
-     * ```
      *
      * @var null|\Closure
      */
@@ -120,15 +118,13 @@ abstract class Setting
      *
      * **Example**
      * 
-     * ```
-     * $setting->transform = function ($value, Setting $setting) {
-     *     if ($value > 30) {
-     *         $value = 30;
-     *     }
+     *     $setting->transform = function ($value, Setting $setting) {
+     *         if ($value > 30) {
+     *             $value = 30;
+     *         }
      *
-     *     return (int) $value;
-     * }
-     * ```
+     *         return (int) $value;
+     *     }
      *
      * @var null|\Closure
      */
@@ -185,7 +181,7 @@ abstract class Setting
     }
 
     /**
-     * Returns true if this setting can be displayed for the current user, false if otherwise.
+     * Returns `true` if this setting can be displayed for the current user, `false` if otherwise.
      * 
      * @return bool
      */

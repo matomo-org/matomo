@@ -25,14 +25,24 @@ use Piwik\UrlHelper;
  * 
  * The Request class is used throughout Piwik to call API methods. The difference
  * between using Request and calling API methods directly is that Request
- * will do more after calling the API including: apply generic filters, apply queued filters,
- * and handle the **flat** and **label** query parameters.
+ * will do more after calling the API including: applying generic filters, applying queued filters,
+ * and handling the **flat** and **label** query parameters.
  * 
  * Additionally, the Request class will **forward current query parameters** to the request
  * which is more convenient than calling {@link Piwik\Common::getRequestVar()} many times over.
  * 
- * In most cases, using a Request object to query the API is the right way to go.
+ * In most cases, using a Request object to query the API is the correct approach.
  *
+ * ### Post-processing
+ * 
+ * The return value of API methods undergo some extra processing before being returned by Request.
+ * To learn more about what happens to API results, read [this](/guides/piwiks-web-api#extra-report-processing).
+ *
+ * ### Output Formats
+ * 
+ * The value returned by Request will be serialized to a certain format before being returned.
+ * To see the list of supported output formats, read [this](/guides/piwiks-web-api#output-formats).
+ * 
  * ### Examples
  * 
  * **Basic Usage**
@@ -44,14 +54,15 @@ use Piwik\UrlHelper;
  * 
  * **Getting a unrendered DataTable**
  * 
- *     // use convenience the convenience method 'processRequest'
+ *     // use the convenience method 'processRequest'
  *     $dataTable = Request::processRequest('UserSettings.getWideScreen', array(
  *         'idSite' => 1,
  *         'date' => 'yesterday',
  *         'period' => 'week',
- *         'format' => 'original', // this is the important bit
  *         'filter_limit' => 5,
  *         'filter_offset' => 0
+ * 
+ *         'format' => 'original', // this is the important bit
  *     ));
  *     echo "This DataTable has " . $dataTable->getRowsCount() . " rows.";
  *
@@ -112,10 +123,10 @@ class Request
     /**
      * Constructor.
      *
-     * @param string $request GET request that defines the API call (must at least contain a **method** parameter),
-     *                        eg, `'method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml'`
-     *                        If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
-     *                        the values directly from the HTTP GET query.
+     * @param string|array $request Query string that defines the API call (must at least contain a **method** parameter),
+     *                              eg, `'method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml'`
+     *                              If a request is not provided, then we use the values in the `$_GET` and `$_POST`
+     *                              superglobals.
      */
     public function __construct($request = null)
     {
@@ -169,8 +180,12 @@ class Request
      * - running generic filters unless **disable_generic_filters** is set to 1
      * - URL decoding label column values
      * - running queued filters unless **disable_queued_filters** is set to 1
-     * - removes columns based on the values of the **hideColumns** and **showColumns** query parameters
-     * - filters rows if the **label** query parameter is set
+     * - removing columns based on the values of the **hideColumns** and **showColumns** query parameters
+     * - filtering rows if the **label** query parameter is set
+     * - converting the result to the appropriate format (ie, XML, JSON, etc.)
+     * 
+     * If `'original'` is supplied for the output format, the result is returned as a PHP
+     * object.
      * 
      * @throws PluginDeactivatedException if the module plugin is not activated.
      * @throws Exception if the requested API method cannot be called, if required parameters for the
@@ -212,10 +227,10 @@ class Request
     }
 
     /**
-     * Returns the class name of a plugin's API given the plugin name.
+     * Returns the name of a plugin's API class by plugin name.
      * 
-     * @param string $plugin The plugin name.
-     * @return string
+     * @param string $plugin The plugin name, eg, `'Referrers'`.
+     * @return string The fully qualified API class name, eg, `'\Piwik\Plugins\Referrers\API'`.
      */
     static public function getClassNameAPI($plugin)
     {
@@ -254,7 +269,7 @@ class Request
     }
 
     /**
-     * Returns array( $class, $method) from the given string $class.$method
+     * Returns array($class, $method) from the given string $class.$method
      *
      * @param string $parameter
      * @throws Exception
@@ -273,10 +288,10 @@ class Request
      * Helper method that processes an API request in one line using the variables in `$_GET`
      * and `$_POST`.
      *
-     * @param string $method The API method to call, ie, Actions.getPageTitles
+     * @param string $method The API method to call, ie, `'Actions.getPageTitles'`.
      * @param array $paramOverride The parameter name-value pairs to use instead of what's
-     *                             in $_GET & $_POST.
-     * @return mixed The result of the API request.
+     *                             in `$_GET` & `$_POST`.
+     * @return mixed The result of the API request. See {@link process()}.
      */
     public static function processRequest($method, $paramOverride = array())
     {
@@ -293,7 +308,7 @@ class Request
 
     /**
      * Returns the original request parameters in the current query string as an array mapping
-     * query parameter names with values. This result of this function will not be affected
+     * query parameter names with values. The result of this function will not be affected
      * by any modifications to `$_GET` and will not include parameters in `$_POST`.
      * 
      * @return array
@@ -308,7 +323,7 @@ class Request
     }
 
     /**
-     * Returns URL for the current requested report w/o any filter parameters.
+     * Returns the URL for the current requested report w/o any filter parameters.
      *
      * @param string $module The API module.
      * @param string $action The API action.
@@ -360,7 +375,7 @@ class Request
     }
 
     /**
-     * Returns the unmodified segment from the original request.
+     * Returns the segment query parameter from the original request, without modifications.
      * 
      * @return array|bool
      */

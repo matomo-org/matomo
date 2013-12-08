@@ -23,6 +23,11 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class ConsoleCommand extends SymfonyCommand
 {
+    /**
+     * Constructor.
+     * 
+     * @param string|null $name The name of the command, eg, `'generate:api'`.
+     */
     public function __construct($name = null)
     {
         if (!Common::isPhpCliMode()) {

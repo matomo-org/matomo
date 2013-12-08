@@ -42,7 +42,7 @@ class Option
      * Returns the option value for the requested option `$name`.
      * 
      * @param string $name The option name.
-     * @return string|bool The value or false, if not found.
+     * @return string|false The value or `false`, if not found.
      */
     public static function get($name)
     {
@@ -78,7 +78,7 @@ class Option
      *
      * @param string $namePattern Pattern of key to match. `'%'` characters should be used as wildcards, and literal
      *                            `'_'` characters should be escaped.
-     * @param string $value If supplied options will be deleted only if their value matches this value.
+     * @param string $value If supplied, options will be deleted only if their value matches this value.
      */
     public static function deleteLike($namePattern, $value = null)
     {
