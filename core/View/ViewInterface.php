@@ -20,9 +20,9 @@ namespace Piwik\View;
 interface ViewInterface
 {
     /**
-     * Outputs data.
+     * Returns data.
      *
-     * @return mixed (image, array, html...)
+     * @return string Serialized data, eg, (image, array, html...).
      */
     function render();
 }

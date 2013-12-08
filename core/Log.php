@@ -25,14 +25,15 @@ use Piwik\Db;
  * screen writer.
  *
  * Currently, Piwik supports the following logging backends:
- * - logging to the screen
- * - logging to a file
- * - logging to a database
+ * 
+ * - **screen**: logging to the screen
+ * - **file**: logging to a file
+ * - **database**: logging to Piwik's MySQL database
  *
  * ### Logging configuration
  * 
  * The logging utility can be configured by manipulating the INI config options in the
- * [log] section.
+ * `[log]` section.
  * 
  * The following configuration options can be set:
  * 
@@ -56,13 +57,18 @@ use Piwik\Db;
  * ### Custom message formatting
  * 
  * If you'd like to format log messages differently for different backends, you can use
- * one of the `'Log.format...Message'` events. These events are fired when an object is
- * logged. You can create your own custom class containing the information to log and
- * listen to this event.
+ * one of the `'Log.format...Message'` events.
+ * 
+ * These events are fired when an object is logged. You can create your own custom class
+ * containing the information to log and listen to these events to format it correctly for
+ * different backends.
+ * 
+ * If you don't care about the backend when formatting an object, implement a `__toString()`
+ * in the custom class.
  * 
  * ### Custom log writers
  * 
- * New logging backends can be added via the `'Log.getAvailableWriters'` event. A log
+ * New logging backends can be added via the {@hook Log.getAvailableWriters}` event. A log
  * writer is just a callback that accepts log entry information (such as the message,
  * level, etc.), so any backend could conceivably be used (including existing PSR3
  * backends).
@@ -74,6 +80,25 @@ use Piwik\Db;
  *     Log::error("This log message will end up on the screen and in a file.")
  *     Log::verbose("This log message uses %s params, but %s will only be called if the"
  *                . " configured log level includes %s.", "sprintf", "sprintf", "verbose");
+ * 
+ * **Logging objects**
+ * 
+ *     class MyDebugInfo
+ *     {
+ *         // ...
+ * 
+ *         public function __toString()
+ *         {
+ *             return // ...
+ *         }
+ *     }
+ * 
+ *     try {
+ *         $myThirdPartyServiceClient->doSomething();
+ *     } catch (Exception $unexpectedError) {
+ *         $debugInfo = new MyDebugInfo($unexpectedError, $myThirdPartyServiceClient);
+ *         Log::debug($debugInfo);
+ *     }
  * 
  * @method static \Piwik\Log getInstance()
  */
@@ -155,8 +180,8 @@ class Log extends Singleton
     /**
      * Logs a message using the ERROR log level.
      *
-     * Note: Messages logged with the ERROR level are always logged to the screen in addition
-     * to configured writers.
+     * _Note: Messages logged with the ERROR level are always logged to the screen in addition
+     * to configured writers._
      *
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
@@ -217,11 +242,11 @@ class Log extends Singleton
 
     /**
      * Creates log message combining logging info including a log level, tag name,
-     * date time, and caller provided log message. The log message can be set through
-     * the string_message_format ini option in the [log] section. By default it will
+     * date time, and caller-provided log message. The log message can be set through
+     * the `[log] string_message_format` INI config option. By default it will
      * create log messages like:
      *
-     * [tag:datetime] log message
+     * **LEVEL [tag:datetime] log message**
      *
      * @param int $level
      * @param string $tag

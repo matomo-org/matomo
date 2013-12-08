@@ -196,7 +196,7 @@ class RequestConfig
     /**
      * Whether to run ViewDataTable's list of queued filters or not.
      *
-     * NOTE: Priority queued filters are always run.
+     * _NOTE: Priority queued filters are always run._
      *
      * Default value: false
      */
@@ -216,6 +216,12 @@ class RequestConfig
         return get_object_vars($this);
     }
 
+    /**
+     * Marks request properties as client side properties. [Read this](#client-side-properties-desc)
+     * to learn more.
+     * 
+     * @param array $propertyNames List of property names, eg, `array('disable_queued_filters', 'filter_column')`.
+     */
     public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
     {
         foreach ($propertyNames as $propertyName) {
@@ -223,6 +229,12 @@ class RequestConfig
         }
     }
 
+    /**
+     * Marks display properties as overridable. [Read this](#overridable-properties-desc) to
+     * learn more.
+     * 
+     * @param array $propertyNames List of property names, eg, `array('disable_queued_filters', 'filter_column')`.
+     */
     public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)
     {
         foreach ($propertyNames as $propertyName) {
@@ -243,7 +255,7 @@ class RequestConfig
     }
 
     /**
-     * Returns true if queued filters have been disabled, false if otherwise.
+     * Returns `true` if queued filters have been disabled, `false` if otherwise.
      *
      * @return bool
      */
@@ -253,7 +265,7 @@ class RequestConfig
     }
 
     /**
-     * Returns true if generic filters have been disabled, false if otherwise.
+     * Returns `true` if generic filters have been disabled, `false` if otherwise.
      *
      * @return bool
      */

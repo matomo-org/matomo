@@ -16,8 +16,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 
 /**
- * Deletes rows for which a specific column in both the row and all subtables that
- * descend from the row do not match a supplied regex pattern.
+ * Deletes rows that do not contain a column that matches a regex pattern and do not contain a
+ * subtable that contains a column that matches a regex pattern.
  * 
  * **Example**
  * 

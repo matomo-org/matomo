@@ -14,10 +14,10 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
- * DataTable filter that will group DataTable rows together based on the results
+ * DataTable filter that will group {@link DataTable} rows together based on the results
  * of a reduce function. Rows with the same reduce result will be summed and merged.
  *
- * NOTE: This filter should never be queued, it must be applied directly on a DataTable.
+ * _NOTE: This filter should never be queued, it must be applied directly on a {@link DataTable}._
  *
  * **Basic usage example**
  * 

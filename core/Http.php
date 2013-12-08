@@ -13,7 +13,9 @@ namespace Piwik;
 use Exception;
 
 /**
- * Server-side http client to retrieve content from remote servers, and optionally save to a local file.
+ * Contains HTTP client related helper methods that can retrieve content from remote servers
+ * and optionally save to a local file.
+ * 
  * Used to check for the latest Piwik version and download updates.
  *
  * @package Piwik
@@ -71,9 +73,11 @@ class Http
      *                     is returned on failure.
      *                     If `$getExtendedInfo` is `true` and `$destinationPath` is not specified an array with
      *                     the following information is returned on success:
-     *                       - status => the HTTP status code
-     *                       - headers => the HTTP headers
-     *                       - data => the HTTP response data
+     * 
+     *                     - **status**: the HTTP status code
+     *                     - **headers**: the HTTP headers
+     *                     - **data**: the HTTP response data
+     * 
      *                     `false` is still returned on failure.
      * @api
      */
@@ -94,7 +98,7 @@ class Http
     }
 
     /**
-     * Sends http request using the specified transport method
+     * Sends an HTTP request using the specified transport method.
      *
      * @param string $method
      * @param string $aUrl
@@ -543,8 +547,8 @@ class Http
      * is stored in the piwik_option table before starting a download. The expected
      * file size is obtained through a `HEAD` HTTP request.
      * 
-     * Note: this function uses the `Range` HTTP header to accomplish downloading in
-     * parts.
+     * _Note: this function uses the **Range** HTTP header to accomplish downloading in
+     * parts. Not every server supports this header._
      * 
      * The proper use of this function is to call it once per request. The browser
      * should continue to send requests to Piwik which will in turn call this method
@@ -553,40 +557,40 @@ class Http
      * 
      * **Example Usage**
      * 
-     *     ```
-     *     // browser JavaScript
-     *     var downloadFile = function (isStart) {
-     *         var ajax = new ajaxHelper();
-     *         ajax.addParams({
-     *             module: 'MyPlugin',
-     *             action: 'myAction',
-     *             isStart: isStart ? 1 : 0
-     *         }, 'post');
-     *         ajax.setCallback(function (response) {
-     *             var progress = response.progress
-     *             // ...update progress...
+     * ```
+     * // browser JavaScript
+     * var downloadFile = function (isStart) {
+     *     var ajax = new ajaxHelper();
+     *     ajax.addParams({
+     *         module: 'MyPlugin',
+     *         action: 'myAction',
+     *         isStart: isStart ? 1 : 0
+     *     }, 'post');
+     *     ajax.setCallback(function (response) {
+     *         var progress = response.progress
+     *         // ...update progress...
      *
-     *             downloadFile(false);
-     *         });
-     *         ajax.send();
-     *     }
+     *         downloadFile(false);
+     *     });
+     *     ajax.send();
+     * }
      * 
-     *     downloadFile(true);
-     *     ```
+     * downloadFile(true);
+     * ```
      * 
-     *     ```
-     *     // PHP controller action
-     *     public function myAction()
-     *     {
-     *         $outputPath = PIWIK_INCLUDE_PATH . '/tmp/averybigfile.zip';
-     *         $isStart = Common::getRequestVar('isStart', 1, 'int');
-     *         Http::downloadChunk("http://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
-     *     }
-     *     ```
+     * ```
+     * // PHP controller action
+     * public function myAction()
+     * {
+     *     $outputPath = PIWIK_INCLUDE_PATH . '/tmp/averybigfile.zip';
+     *     $isStart = Common::getRequestVar('isStart', 1, 'int');
+     *     Http::downloadChunk("http://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
+     * }
+     * ```
      * 
      * @param string $url The url to download from.
      * @param string $outputPath The path to the file to save/append to.
-     * @param bool $isContinuation True if this is the continuation of a download,
+     * @param bool $isContinuation `true` if this is the continuation of a download,
      *                             or if we're starting a fresh one.
      * @throws Exception if the file already exists and we're starting a new download,
      *                   if we're trying to continue a download that never started
@@ -708,7 +712,7 @@ class Http
      * @param int $timeout The amount of seconds to wait before aborting the HTTP request.
      * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
      *                   if there are more than 5 redirects or if the request times out.
-     * @return bool true on success, throws Exception on failure
+     * @return bool `true` on success, throws Exception on failure
      * @api
      */
     public static function fetchRemoteFile($url, $destinationPath = null, $tries = 0, $timeout = 10)

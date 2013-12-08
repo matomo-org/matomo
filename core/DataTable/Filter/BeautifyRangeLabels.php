@@ -14,15 +14,15 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
- * A DataTable filter that replaces range label columns with prettier,
+ * A {@link DataTable} filter that replaces range label columns with prettier,
  * human-friendlier versions.
  *
  * When reports that summarize data over a set of ranges (such as the
- * reports in the VisitorInterest plugin) are archived, they are
+ * reports in the **VisitorInterest** plugin) are archived, they are
  * archived with labels that read as: '$min-$max' or '$min+'. These labels
  * have no units and can look like '1-1'.
  *
- * This filter can be used to clean up and add units those range labels. To
+ * This filter can be used to clean up and add units to those range labels. To
  * do this, you supply a string to use when the range specifies only
  * one unit (ie '1-1') and another format string when the range specifies
  * more than one unit (ie '2-2', '3-5' or '6+').

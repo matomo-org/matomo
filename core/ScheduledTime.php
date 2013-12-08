@@ -94,8 +94,10 @@ abstract class ScheduledTime
     abstract public function getRescheduledTime();
 
     /**
+     * Sets the day of the period to execute the scheduled task. Not a valid operation for all period types.
+     * 
      * @abstract
-     * @param  int $_day the day to set
+     * @param  int $_day a number describing the day to set. Its meaning depends on the ScheduledTime's period type.
      * @throws Exception if method not supported by subclass or parameter _day is invalid
      */
     abstract public function setDay($_day);

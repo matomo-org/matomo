@@ -20,8 +20,8 @@ use Piwik\Plugins\API\API;
  * select visits that have a specific browser or come from a specific
  * country, or both.
  * 
- * Individual segment parameters (such as `browserCode` and `countryCode`)
- * are defined by individual plugins. Read about the {@hook API.getSegmentDimensionMetadata}
+ * Individual segment dimensions (such as `browserCode` and `countryCode`)
+ * are defined by plugins. Read about the {@hook API.getSegmentDimensionMetadata}
  * event to learn more.
  * 
  * Plugins that aggregate data stored in Piwik can support segments by
@@ -46,7 +46,7 @@ use Piwik\Plugins\API\API;
  *     
  *     Db::fetchAll($query['sql'], $query['bind']);
  * 
- * **Creating a 'null' segment**
+ * **Creating a _null_ segment**
  * 
  *     $idSites = array(1,2,3);
  *     $segment = new Segment('', $idSites);
@@ -124,7 +124,7 @@ class Segment
     }
 
     /**
-     * Returns true if the segment is empty, false if otherwise.
+     * Returns `true` if the segment is empty, `false` if otherwise.
      */
     public function isEmpty()
     {

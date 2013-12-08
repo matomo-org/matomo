@@ -73,7 +73,7 @@ class Factory
      * Creates a {@link Piwik\Plugin\ViewDataTable} instance by ID. If the **viewDataTable** query parameter is set,
      * this parameter's value is used as the ID.
      * 
-     * See [ViewDataTable docs](#) to read about the ViewDataTable implementations that are packaged with Piwik.
+     * See {@link Piwik\Plugin\ViewDataTable} to read about the visualizations that are packaged with Piwik.
      * 
      * @param string|null $defaultType A ViewDataTable ID representing the default ViewDataTable type to use. If
      *                                 the **viewDataTable** query parameter is not found, this value is used as

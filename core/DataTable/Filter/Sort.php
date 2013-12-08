@@ -17,8 +17,9 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 
 /**
- * Sorts a DataTable based on the value of a specific column.
- * Possible to specify a natural sorting (see php.net/natsort for details)
+ * Sorts a {@link DataTable} based on the value of a specific column.
+ * 
+ * It is possible to specify a natural sorting (see [php.net/natsort](http://php.net/natsort) for details).
  *
  * @package Piwik
  * @subpackage DataTable
@@ -186,7 +187,7 @@ class Sort extends Filter
     }
 
     /**
-     * Sorts the given data table by defined column and sorting method
+     * See {@link Sort}.
      *
      * @param DataTable $table
      * @return mixed

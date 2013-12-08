@@ -19,10 +19,10 @@ use Piwik\Piwik;
  * Replaces the label of the summary row with a supplied label.
  * 
  * This filter is only used to prettify the summary row label and so it should
- * always be queued on a DataTable.
+ * always be queued on a {@link DataTable}.
  * 
- * This filter always recurses. In other words, this filter will apply itself to
- * all subtables in the given DataTable's hierarchy.
+ * This filter always recurses. In other words, this filter will always apply itself to
+ * all subtables in the given {@link DataTable}'s table hierarchy.
  * 
  * **Basic example**
  * 

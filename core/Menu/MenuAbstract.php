@@ -18,7 +18,7 @@ use Piwik\Singleton;
  * Base class for classes that manage one of Piwik's menus.
  * 
  * There are three menus in Piwik, the main menu, the top menu and the admin menu.
- * Each menu has a class that manages the rendering of it. Each class invokes
+ * Each menu has a class that manages the menu's content. Each class invokes
  * a different event to allow plugins to add new menu items.
  * 
  * @package Piwik_Menu

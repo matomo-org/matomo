@@ -51,10 +51,10 @@ class ReplaceColumnNames extends Filter
      * @param DataTable $table The table that will be eventually filtered.
      * @param array|null $mappingToApply The name mapping to apply. Must map old column names
      *                                   with new ones, eg,
-     *                                   ```
-     *                                   array('OLD_COLUMN_NAME' => 'NEW_COLUMN NAME',
-     *                                         'OLD_COLUMN_NAME2' => 'NEW_COLUMN NAME2')
-     *                                   ```
+     *                                   
+     *                                       array('OLD_COLUMN_NAME' => 'NEW_COLUMN NAME',
+     *                                             'OLD_COLUMN_NAME2' => 'NEW_COLUMN NAME2')
+     *                                   
      *                                   If null, {@link Piwik\Metrics::$mappingFromIdToName} is used.
      */
     public function __construct($table, $mappingToApply = null)

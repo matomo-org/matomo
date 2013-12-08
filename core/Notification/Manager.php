@@ -27,7 +27,7 @@ class Manager
     private static $session = null;
 
     /**
-     * Posts a notification that will be shown in Piwik's status bar. If a notification with the same id
+     * Posts a notification that will be shown in Piwik's status bar. If a notification with the same ID
      * has been posted and has not been closed/removed, it will be replaced with `$notification`.
      *
      * @param string       $id   A unique identifier for this notification. The ID must be a valid HTML
@@ -44,8 +44,9 @@ class Manager
     }
 
     /**
-     * Cancel a previously registered (or persistent) notification.
-     * @param $id
+     * Removes a posted notification by ID.
+     * 
+     * @param $id The notification ID, see {@link notify()}.
      */
     public static function cancel($id)
     {
@@ -55,8 +56,10 @@ class Manager
     }
 
     /**
-     * Cancels all previously registered non-persist notification. Call this method after the notifications have been
-     * displayed to make sure all non-persistent notifications won't be displayed multiple times.
+     * Removes all temporary notifications.
+     * 
+     * Call this method after the notifications have been
+     * displayed to make sure temporary notifications won't be displayed twice.
      */
     public static function cancelAllNonPersistent()
     {

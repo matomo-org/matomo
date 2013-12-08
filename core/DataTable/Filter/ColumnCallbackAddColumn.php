@@ -14,7 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
- * Adds a new column to every row of a DataTable based on the result of callback.
+ * Adds a new column to every row of a {@link DataTable} based on the result of callback.
  * 
  * **Basic usage example**
  * 

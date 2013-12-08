@@ -18,7 +18,7 @@ require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
  * related helper functions.
  * 
  * Of note are the `INDEX_...` constants. In the database, metric column names
- * are stored in DataTable rows are stored as integers to save space. The integer
+ * in {@link DataTable} rows are stored as integers to save space. The integer
  * values used are determined by these constants.
  *
  * @api

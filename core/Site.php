@@ -15,7 +15,17 @@ use Exception;
 use Piwik\Plugins\SitesManager\API;
 
 /**
- * Provides access to individual site data (such as name, URL, etc.).
+ * Provides access to individual [site entity](/guides/persistence-and-the-mysql-backend#websites-aka-sites) data
+ * (including name, URL, etc.).
+ * 
+ * **Data Cache**
+ * 
+ * Site data can be cached in order to avoid performing too many queries.
+ * If a method needs many site entities, it is more efficient to query all of what
+ * you need beforehand via the **SitesManager** API, then cache it using {@link setSites()} or
+ * {@link setSitesFromArray()}.
+ * 
+ * Subsequent calls to `new Site($id)` will use the data in the cache instead of querying the database.
  * 
  * ### Examples
  * 
@@ -64,10 +74,9 @@ class Site
      * individual site data.
      *
      * @param array $sites The array of sites data. Indexed by site ID. eg,
-     *                     ```
-     *                     array('1' => array('name' => 'Site 1', ...),
-     *                           '2' => array('name' => 'Site 2', ...))`
-     *                     ```
+     *                     
+     *                         array('1' => array('name' => 'Site 1', ...),
+     *                               '2' => array('name' => 'Site 2', ...))`
      */
     public static function setSites($sites)
     {
@@ -117,12 +126,11 @@ class Site
      * Sets the cached Site data with a non-associated array of site data.
      * 
      * @param array $sites The array of sites data. eg,
-     *                     ```
-     *                     array(
-     *                         array('idsite' => '1', 'name' => 'Site 1', ...),
-     *                         array('idsite' => '2', 'name' => 'Site 2', ...),
-     *                     )
-     *                     ```
+     *                     
+     *                         array(
+     *                             array('idsite' => '1', 'name' => 'Site 1', ...),
+     *                             array('idsite' => '2', 'name' => 'Site 2', ...),
+     *                         )
      */
     public static function setSitesFromArray($sites)
     {
@@ -137,6 +145,7 @@ class Site
      * @param array $siteIds Array of IDs for each site being displayed.
      * @return Date[] of two Date instances. First is the min-date & the second
      *               is the max date.
+     * @ignore
      */
     public static function getMinMaxDateAcrossWebsites($siteIds)
     {
@@ -231,7 +240,8 @@ class Site
     }
 
     /**
-     * Returns the type of the website (by default "website")
+     * Returns the website type (by default `"website"`, which means it is a single website).
+     * 
      * @return string
      */
     public function getType()
@@ -341,10 +351,11 @@ class Site
     }
 
     /**
-     * Checks the given string for valid site ids and returns them as an array.
+     * Checks the given string for valid site IDs and returns them as an array.
      *
-     * @param string $ids Comma separated idSite list, eg, `'1,2,3,4'`.
-     * @param bool|string $_restrictSitesToLogin Used only when running as a scheduled task.
+     * @param string|array $ids Comma separated idSite list, eg, `'1,2,3,4'` or an array of IDs, eg,
+     *                          `array(1, 2, 3, 4)`.
+     * @param bool|string $_restrictSitesToLogin Implementation detail. Used only when running as a scheduled task.
      * @return array An array of valid, unique integers.
      */
     static public function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
@@ -414,6 +425,9 @@ class Site
         return self::$infoSites;
     }
 
+    /**
+     * @ignore
+     */
     static public function getSite($id)
     {
         return self::getFor($id);
@@ -475,7 +489,7 @@ class Site
     }
 
     /**
-     * Returns whether the site with the specified ID is ecommerce enabled
+     * Returns whether the site with the specified ID is ecommerce enabled or not.
      *
      * @param int $idsite The site ID.
      * @return string
@@ -486,7 +500,7 @@ class Site
     }
 
     /**
-     * Returns whether the site with the specified ID is Site Search enabled
+     * Returns whether the site with the specified ID is Site Search enabled.
      *
      * @param int $idsite The site ID.
      * @return string

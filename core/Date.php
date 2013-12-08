@@ -80,7 +80,7 @@ class Date
      * @param string|int $dateString `'today'`, `'yesterday'`, `'now'`, `'yesterdaySameTime'`, a string with
      *                               `'YYYY-MM-DD HH:MM:SS'` format or a unix timestamp.
      * @param string $timezone The timezone of `$dateString`. If specified, `$dateString` will be converted
-     *                         from UTC to this timezone before being used in the Date return value.
+     *                         from this timezone to UTC before being used in the Date return value.
      * @throws Exception If `$dateString` is in an invalid format or if the time is before
      *                   Tue, 06 Aug 1991.
      * @return Date
@@ -268,7 +268,7 @@ class Date
     }
 
     /**
-     * Returns true if the current date is older than the given `$date`.
+     * Returns `true` if the current date is older than the given `$date`.
      *
      * @param Date $date
      * @return bool
@@ -279,7 +279,7 @@ class Date
     }
 
     /**
-     * Returns true if the current date is earlier than the given `$date`.
+     * Returns `true` if the current date is earlier than the given `$date`.
      *
      * @param Date $date
      * @return bool
@@ -373,7 +373,7 @@ class Date
     }
 
     /**
-     * Returns true if current date is today.
+     * Returns `true` if current date is today.
      * 
      * @return bool
      */

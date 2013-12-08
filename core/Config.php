@@ -194,9 +194,9 @@ class Config extends Singleton
      * If set, Piwik will use the hostname config no matter if it exists or not. Useful for instance if you want to
      * create a new hostname config:
      *
-     * $config = Config::getInstance();
-     * $config->forceUsageOfHostnameConfig('piwik.example.com');
-     * $config->save();
+     *     $config = Config::getInstance();
+     *     $config->forceUsageOfHostnameConfig('piwik.example.com');
+     *     $config->save();
      *
      * @param string $hostname eg piwik.example.com
      *
@@ -217,7 +217,7 @@ class Config extends Singleton
     }
 
     /**
-     * Is local configuration file writable?
+     * Returns `true` if the local configuration file is writable.
      *
      * @return bool
      */
@@ -542,7 +542,8 @@ class Config extends Singleton
     }
 
     /**
-     * Writes the current configuration to `config.ini.php`.
+     * Writes the current configuration to the **config.ini.php** file. Only writes options whose
+     * values are different from the default.
      * 
      * @api
      */

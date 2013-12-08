@@ -25,8 +25,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  * Plugins that can specify everything they need to in the _plugin.json_ files,
  * such as themes, don't need to implement this class.
  *
- * The name of the implementation of this class should be the same name as the
- * plugin they are a part of (eg, `class UserCountry extends Plugin`).
+ * Class implementations should be named after the plugin they are a part of
+ * (eg, `class UserCountry extends Plugin`).
  * 
  * ### Plugin Metadata
  * 
@@ -60,10 +60,10 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  *         public function getListHooksRegistered()
  *         {
  *             return array(
- *                 'API.getReportMetadata' => 'myPluginFunction',
+ *                 'API.getReportMetadata' => 'getReportMetadata',
  *                 'Another.event'         => array(
  *                                                'function' => 'myOtherPluginFunction',
- *                                                'after'    => true // execute after callbacks w/o ordering
+ *                                                'after'    => true // executes this callback after others
  *                                            )
  *             );
  *         }
@@ -76,6 +76,16 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  *         public function uninstall()
  *         {
  *             Db::exec("DROP TABLE IF EXISTS " . Common::prefixTable('mytable'));
+ *         }
+ *         
+ *         public function getReportMetadata(&$metadata)
+ *         {
+ *             // ...
+ *         }
+ *
+ *         public function myOtherPluginFunction()
+ *         {
+ *             // ...
  *         }
  *     }
  * 
@@ -104,7 +114,7 @@ class Plugin
      * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
      *                                to the last part of the class name.
      * @throws \Exception If plugin metadata is defined in both the getInformation() method
-     *                    and the plugin.json file.
+     *                    and the **plugin.json** file.
      */
     public function __construct($pluginName = false)
     {
@@ -139,7 +149,8 @@ class Plugin
     }
 
     /**
-     * Returns the plugin details
+     * Returns plugin information, including:
+     * 
      * - 'description' => string        // 1-2 sentence description of the plugin
      * - 'author' => string             // plugin author
      * - 'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
@@ -159,8 +170,12 @@ class Plugin
 
     /**
      * Returns a list of hooks with associated event observers.
+     * 
+     * Derived classes should use this method to associate callbacks with events.
      *
-     * @return array eg, array(
+     * @return array eg,
+     * 
+     *                   array(
      *                       'API.getReportMetadata' => 'myPluginFunction',
      *                       'Another.event'         => array(
      *                                                      'function' => 'myOtherPluginFunction',
@@ -179,7 +194,7 @@ class Plugin
 
     /**
      * This method is executed after a plugin is loaded and translations are registered.
-     * Useful for initialization code that uses translated strings from the plugin.
+     * Useful for initialization code that uses translated strings.
      */
     public function postLoad()
     {
@@ -189,6 +204,7 @@ class Plugin
     /**
      * Installs the plugin. Derived classes should implement this class if the plugin
      * needs to:
+     * 
      * - create tables
      * - update existing tables
      * - etc.
@@ -201,8 +217,8 @@ class Plugin
     }
 
     /**
-     * Uninstalls the plugins. Derived classes should implement this class if the changes
-     * made in {@link install()} should be undone during uninstallation.
+     * Uninstalls the plugins. Derived classes should implement this method if the changes
+     * made in {@link install()} need to be undone during uninstallation.
      * 
      * In most cases, if you have an {@link install()} method, you should provide
      * an {@link uninstall()} method.
@@ -242,7 +258,7 @@ class Plugin
     }
 
     /**
-     * Returns true if this plugin is a theme, false if otherwise.
+     * Returns `true` if this plugin is a theme, `false` if otherwise.
      *
      * @return bool
      */
@@ -254,7 +270,7 @@ class Plugin
 
     /**
      * Returns the plugin's base class name without the namespace,
-     * e.g., "UserCountry" when the plugin class is "Piwik\Plugins\UserCountry\UserCountry".
+     * e.g., `"UserCountry"` when the plugin class is `"Piwik\Plugins\UserCountry\UserCountry"`.
      *
      * @return string
      */
@@ -264,9 +280,10 @@ class Plugin
     }
 
     /**
-     * Extracts the plugin name from a backtrace array. Returns false if we can't find one.
+     * Extracts the plugin name from a backtrace array. Returns `false` if we can't find one.
      *
-     * @param array $backtrace The result of the debug_backtrace() or Exception::getTrace().
+     * @param array $backtrace The result of {@link debug_backtrace()} or
+     *                         [Exception::getTrace()](http://www.php.net/manual/en/exception.gettrace.php).
      * @return string|false
      */
     public static function getPluginNameFromBacktrace($backtrace)
