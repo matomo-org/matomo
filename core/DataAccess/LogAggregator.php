@@ -518,11 +518,11 @@ class LogAggregator
                         Metrics::INDEX_ECOMMERCE_ITEM_PRICE
                     ),
                     sprintf(
-                        'COUNT(DISTINCT log_conversion_item.idorder) AS `%d`',
+                        'COUNT(distinct log_conversion_item.idorder) AS `%d`',
                         Metrics::INDEX_ECOMMERCE_ORDERS
                     ),
                     sprintf(
-                        'COUNT(log_conversion_item.idvisit) AS `%d`',
+                        'COUNT(distinct log_conversion_item.idvisit) AS `%d`',
                         Metrics::INDEX_NB_VISITS
                     ),
                     sprintf(
