@@ -204,6 +204,9 @@ class Profiler
             return;
         }
 
+        if(!is_writable(ini_get("xhprof.output_dir"))) {
+            throw new \Exception("The profiler output dir '" .ini_get("xhprof.output_dir"). "' should exist and be writable.");
+        }
         require_once $path;
         require_once PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.4/xhprof_lib/utils/xhprof_lib.php';
 
@@ -230,6 +233,9 @@ class Profiler
             $xhprofRuns = new \XHProfRuns_Default();
             $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
 
+            if(empty($runId)) {
+                die('could not write profiler run');
+            }
             $runs = self::getProfilingRunIds();
             $runs[] = $runId;
 //            $weights = array_fill(0, count($runs), 1);

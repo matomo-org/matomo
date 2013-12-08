@@ -27,8 +27,8 @@ third-party libraries:
    - in r1296, remove require_once
    - empty sparklines with floats, off-by-one errors, and locale conflict
  * tcpdf/
-   - in r6786 fixed a notice to avoid Strict Notice when using Imagick #3322
-   - in r5540 and r5598, fix a temp file bug when embedding images in PDF
+   - in 6f945465fe40021d579bc2b4b8876468da69b062 fixed a bug reported in the forums
+
  * Zend/
    - strip require_once (to support autoloading)
    - in r3694, fix ZF-10888 and ZF-10835
