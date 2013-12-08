@@ -329,11 +329,11 @@ class UserAgentParserEnhanced
     protected static $browserRegexesFile = 'browsers.yml';
     protected static $mobileRegexesFile = 'mobiles.yml';
     protected $userAgent;
-    protected $os;
-    protected $browser;
-    protected $device;
-    protected $brand;
-    protected $model;
+    protected $os = '';
+    protected $browser = '';
+    protected $device = '';
+    protected $brand = '';
+    protected $model = '';
     protected $debug = false;
 
     public function __construct($userAgent)

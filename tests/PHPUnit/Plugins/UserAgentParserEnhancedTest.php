@@ -9,13 +9,25 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
      */
     public function testParse()
     {
-        $fixtures = Spyc::YAMLLoad(dirname(__FILE__) . '/../Fixtures/userAgentParserEnhancedFixtures.yml');
+        $fixturesPath = realpath(dirname(__FILE__) . '/../Fixtures/userAgentParserEnhancedFixtures.yml');
+        $fixtures = Spyc::YAMLLoad($fixturesPath);
         foreach ($fixtures as $fixtureData) {
             $ua = $fixtureData['user_agent'];
             $uaInfo = $this->getInfoFromUserAgent($ua);
             $parsed[] = $uaInfo;
         }
-        $this->assertEquals($fixtures, $parsed);
+        $processed = Spyc::YAMLDump($parsed, false, $wordWrap = 0);
+        $processedPath = $fixturesPath . '.new';
+        file_put_contents($processedPath, $processed);
+        if($fixtures != $parsed) {
+            echo "\nThe processed data was stored in: $processedPath ".
+                "\n $ cp $processedPath $fixturesPath ".
+                "\n to copy the file over if it is valid.";
+            echo shell_exec("diff $processedPath $fixturesPath ");
+
+            $this->assertTrue(false);
+
+        }
     }
 
     private function getInfoFromUserAgent($ua)
@@ -25,6 +37,9 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
 
         $osFamily = $userAgentParserEnhanced->getOsFamily($userAgentParserEnhanced->getOs('name'));
         $browserFamily = $userAgentParserEnhanced->getBrowserFamily($userAgentParserEnhanced->getBrowser('name'));
+        $device = $userAgentParserEnhanced->getDevice();
+
+        $deviceName = $device === '' ? '' : UserAgentParserEnhanced::$deviceTypes[$device];
         $processed = array(
             'user_agent'     => $userAgentParserEnhanced->getUserAgent(),
             'os'             => array(
@@ -37,7 +52,8 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
                 'short_name' => $userAgentParserEnhanced->getBrowser('short_name'),
                 'version'    => $userAgentParserEnhanced->getBrowser('version'),
             ),
-            'device'         => $userAgentParserEnhanced->getDevice(),
+            'device'         => $device,
+//            'device_name'    => $deviceName,
             'brand'          => $userAgentParserEnhanced->getBrand(),
             'model'          => $userAgentParserEnhanced->getModel(),
             'os_family'      => $osFamily !== false ? $osFamily : 'Unknown',
