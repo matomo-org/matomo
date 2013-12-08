@@ -37,8 +37,8 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
             'device'         => $userAgentParserEnhanced->getDevice(),
             'brand'          => $userAgentParserEnhanced->getBrand(),
             'model'          => $userAgentParserEnhanced->getModel(),
-            'os_family'      => $osFamily !== false ? $osFamily : 'Other',
-            'browser_family' => $browserFamily !== false ? $browserFamily : 'Other',
+            'os_family'      => $osFamily !== false ? $osFamily : 'Unknown',
+            'browser_family' => $browserFamily !== false ? $browserFamily : 'Unknown',
         );
         return $processed;
     }
