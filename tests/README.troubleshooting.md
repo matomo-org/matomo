@@ -31,6 +31,8 @@ On your dev server, give your user permissions to write to the directory:
 
     $ sudo chmod 777 -R piwik/tmp/
 
+**If you get the MySQL error number `2002`**, try changing the `[database_tests] host` config option to `"127.0.0.1"`.
+
 ## Troubleshooting SLOW tests
 
 If the tests are running incredibly slow on your machine, maybe you are running mysql DB on an ext4 partition?
