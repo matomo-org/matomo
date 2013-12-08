@@ -14,7 +14,15 @@ require_once(PIWIK_INCLUDE_PATH . '/libs/spyc.php');
 
 class UserAgentParserEnhanced
 {
-    public static $deviceTypes = array('desktop', 'smartphone', 'tablet', 'feature phone', 'console', 'tv', 'car browser');
+    public static $deviceTypes = array(
+        'desktop',
+        'smartphone',
+        'tablet',
+        'feature phone',
+        'console',
+        'tv',
+        'car browser'
+    );
 
     public static $deviceBrands = array(
         'AC' => 'Acer',
@@ -335,17 +343,29 @@ class UserAgentParserEnhanced
 
     protected function getOsRegexes()
     {
-        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$osRegexesFile);
+        static $regexOs = null;
+        if(empty($regexOs)) {
+            $regexOs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$osRegexesFile);
+        }
+        return $regexOs;
     }
 
     protected function getBrowserRegexes()
     {
-        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$browserRegexesFile);
+        static $regexBrowser = null;
+        if(empty($regexBrowser)) {
+            $regexBrowser = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$browserRegexesFile);
+        }
+        return $regexBrowser;
     }
 
     protected function getMobileRegexes()
     {
-        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$mobileRegexesFile);
+        static $regexMobile = null;
+        if(empty($regexMobile)) {
+            $regexMobile = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$mobileRegexesFile);
+        }
+        return $regexMobile;
     }
 
     public function parse()
