@@ -535,7 +535,7 @@
         "CustomLogoFeedbackInfo": "If you customize the Piwik logo, you might also be interested to hide the %s link in the top menu. To do so, you can disable the Feedback plugin in the %sManage Plugins%s page.",
         "UseCustomLogo": "Use a custom logo",
         "LogoUpload": "Select a Logo to upload",
-        "LogoUploadDescription": "Please upload a file in %s formats, no transparent background, with a minimum height of %s pixels.",
+        "LogoUploadHelp": "Please upload a file in %s formats with a minimum height of %s pixels.",
         "LogoNotWriteable": "To use a custom logo Piwik requires write access to the logo files within the \"misc\" directory: %s",
         "TrustedHostSettings": "Trusted Piwik Hostname",
         "TrustedHostConfirm": "Are you sure you want to change the trusted Piwik hostname?",
