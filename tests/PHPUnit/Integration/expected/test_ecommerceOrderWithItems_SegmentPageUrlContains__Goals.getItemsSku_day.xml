@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>SKU VERY nice indeed</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>3</nb_visits>
+		<nb_actions>8</nb_actions>
+		<avg_price>697.71</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+	<row>
+		<label>SKU IN ABANDONED CART TWO</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<avg_price>0</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+	<row>
+		<label>SKU2</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<avg_price>1111.11</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+</result>
