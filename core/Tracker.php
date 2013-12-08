@@ -787,8 +787,6 @@ class Tracker
         // Disable provider plugin, because it is so slow to do many reverse ip lookups
         self::setPluginsNotToLoad($pluginsDisabled);
 
-        // we load 'DevicesDetection' in tests only (disabled by default)
-        self::setPluginsToLoad(array('DevicesDetection'));
     }
 
     /**
