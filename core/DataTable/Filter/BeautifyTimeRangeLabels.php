@@ -13,7 +13,7 @@ namespace Piwik\DataTable\Filter;
 use Piwik\DataTable;
 
 /**
- * A DataTable filter that replaces range labels whose values are in seconds with
+ * A {@link DataTable} filter that replaces range labels whose values are in seconds with
  * prettier, human-friendlier versions.
  *
  * This filter customizes the behavior of the {@link BeautifyRangeLabels} filter

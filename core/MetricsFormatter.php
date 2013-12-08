@@ -22,7 +22,8 @@ class MetricsFormatter
 {
     /**
      * Returns a prettified string representation of a number. The result will have
-     * thousands separators and a decimal point specific to the current locale.
+     * thousands separators and a decimal point specific to the current locale, eg,
+     * `'1,000,000.05'` or `'1.000.000,05'`.
      *
      * @param number $value
      * @return string

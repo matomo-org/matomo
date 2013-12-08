@@ -63,17 +63,16 @@ class Row
      * Constructor.
      *
      * @param array $row An array with the following structure:
-     *                   ```
-     *                   array(
-     *                       Row::COLUMNS => array('label' => 'Piwik',
-     *                                             'column1' => 42,
-     *                                             'visits' => 657,
-     *                                             'time_spent' => 155744),
-     *                       Row::METADATA => array('logo' => 'test.png'),
-     *                       Row::DATATABLE_ASSOCIATED => $subtable // DataTable object
-     *                                                              // (but in the row only the ID will be stored)
-     *                   )
-     *                   ```
+     *                   
+     *                       array(
+     *                           Row::COLUMNS => array('label' => 'Piwik',
+     *                                                 'column1' => 42,
+     *                                                 'visits' => 657,
+     *                                                 'time_spent' => 155744),
+     *                           Row::METADATA => array('logo' => 'test.png'),
+     *                           Row::DATATABLE_ASSOCIATED => $subtable // DataTable object
+     *                                                                  // (but in the row only the ID will be stored)
+     *                       )
      */
     public function __construct($row = array())
     {
@@ -125,7 +124,7 @@ class Row
     }
 
     /**
-     * When destroyed, a row destroys its associated subTable if there is one
+     * When destroyed, a row destroys its associated subtable if there is one.
      * @ignore
      */
     public function __destruct()
@@ -166,7 +165,7 @@ class Row
      * Deletes the given column.
      *
      * @param string $name The column name.
-     * @return bool True on success, false if the column does not exist.
+     * @return bool `true` on success, `false` if the column does not exist.
      */
     public function deleteColumn($name)
     {
@@ -227,13 +226,12 @@ class Row
      * Returns the array containing all the columns.
      *
      * @return array  Example:
-     *                ```
-     *                array(
-     *                    'column1'   => VALUE,
-     *                    'label'     => 'www.php.net'
-     *                    'nb_visits' => 15894,
-     *                )
-     *                ```
+     *                
+     *                    array(
+     *                        'column1'   => VALUE,
+     *                        'label'     => 'www.php.net'
+     *                        'nb_visits' => 15894,
+     *                    )
      */
     public function getColumns()
     {
@@ -273,7 +271,7 @@ class Row
      * 
      * See {@link Piwik\DataTable::addDataTable()} to learn how DataTables are summed.
      * 
-     * @param DataTable $subTable Table to sum to this row's subtab.e.
+     * @param DataTable $subTable Table to sum to this row's subtable.
      */
     public function sumSubtable(DataTable $subTable)
     {
@@ -319,7 +317,7 @@ class Row
     }
 
     /**
-     * Returns true if the subtable is currently loaded in memory via {@link Piwik\DataTable\Manager}.
+     * Returns `true` if the subtable is currently loaded in memory via {@link Piwik\DataTable\Manager}.
      *
      * @return bool
      */
@@ -340,7 +338,7 @@ class Row
     }
 
     /**
-     * Set all the columns at once. Overwrites previously set columns.
+     * Set all the columns at once. Overwrites **all** previously set columns.
      *
      * @param array eg, `array('label' => 'www.php.net', 'nb_visits' => 15894)`
      */
@@ -375,7 +373,7 @@ class Row
      * Deletes one metadata value or all metadata values.
      *
      * @param bool|string $name Metadata name (omit to delete entire metadata).
-     * @return bool true on success, false if the column didn't exist
+     * @return bool `true` on success, `false` if the column didn't exist
      */
     public function deleteMetadata($name = false)
     {
@@ -536,7 +534,7 @@ class Row
     }
 
     /**
-     * Returns true if this row is the summary row, false if otherwise. This function
+     * Returns `true` if this row is the summary row, `false` if otherwise. This function
      * depends on the label of the row, and so, is not 100% accurate.
      * 
      * @return bool
@@ -624,6 +622,8 @@ class Row
      * 
      * - they have exactly the same columns / metadata
      * - they have a subDataTable associated, then we check that both of them are the same.
+     * 
+     * Column order is not important.
      *
      * @param \Piwik\DataTable\Row $row1 first to compare
      * @param \Piwik\DataTable\Row $row2 second to compare

@@ -24,23 +24,29 @@ use Exception;
  * 
  * **Redirect to a different controller action**
  * 
- *     $url = Url::getCurrentQueryStringWithParametersModified(array(
- *         'module' => 'UserSettings',
- *         'action' => 'index'
- *     ));
- *     Url::redirectToUrl($url);
+ *     public function myControllerAction()
+ *     {
+ *         $url = Url::getCurrentQueryStringWithParametersModified(array(
+ *             'module' => 'UserSettings',
+ *             'action' => 'index'
+ *         ));
+ *         Url::redirectToUrl($url);
+ *     }
  * 
  * **Link to a different controller action in a template**
  * 
- *     $url = Url::getCurrentQueryStringWithParametersModified(array(
- *         'module' => 'UserCountryMap',
- *         'action' => 'realtimeMap',
- *         'changeVisitAlpha' => 0,
- *         'removeOldVisits' => 0
- *     ));
- *     $view = new View("@MyPlugin/myPopup");
- *     $view->realtimeMapUrl = $url;
- *     echo $view->render();
+ *     public function myControllerAction()
+ *     {
+ *         $url = Url::getCurrentQueryStringWithParametersModified(array(
+ *             'module' => 'UserCountryMap',
+ *             'action' => 'realtimeMap',
+ *             'changeVisitAlpha' => 0,
+ *             'removeOldVisits' => 0
+ *         ));
+ *         $view = new View("@MyPlugin/myPopup");
+ *         $view->realtimeMapUrl = $url;
+ *         return $view->render();
+ *     }
  * 
  * @package Piwik
  */
@@ -69,7 +75,7 @@ class Url
      * Returns the current URL without the query string.
      * 
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
-     *                               except in Controller.
+     *                               except in {@link Piwik\Plugin\Controller}.
      * @return string eg, `"http://example.org/dir1/dir2/index.php"` if the current URL is
      *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
      * @api
@@ -192,11 +198,12 @@ class Url
     }
 
     /**
-     * Validates the "Host" header (untrusted user input).
+     * Validates the **Host** HTTP header (untrusted user input). Used to prevent Host header
+     * attacks.
      *
-     * @param string|bool $host Contents of Host: header from Request. If false, gets the
+     * @param string|bool $host Contents of Host: header from the HTTP request. If `false`, gets the
      *                          value from the request.
-     * @return bool True if valid; false otherwise.
+     * @return bool `true` if valid; `false` otherwise.
      */
     static public function isValidHost($host = false)
     {
@@ -360,12 +367,11 @@ class Url
      *
      * @return array If current URL is `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      *               this will return:
-     *               ```
-     *               array(
-     *                   'param1' => string 'value1',
-     *                   'param2' => string 'value2'
-     *               )
-     *               ```
+     *               
+     *                   array(
+     *                       'param1' => string 'value1',
+     *                       'param2' => string 'value2'
+     *                   )
      * @api
      */
     static public function getArrayFromCurrentQueryString()
@@ -400,7 +406,7 @@ class Url
     }
 
     /**
-     * Converts an an array of parameters name => value mappings to a query
+     * Converts an array of parameters name => value mappings to a query
      * string.
      * 
      * @param array $parameters eg. `array('param1' => 10, 'param2' => array(1,2))`
@@ -460,7 +466,7 @@ class Url
     }
 
     /**
-     * Returns the HTTP_REFERER header, or false if not found.
+     * Returns the **HTTP_REFERER** `$_SERVER` variable, or `false` if not found.
      *
      * @return string|false
      * @api
@@ -474,7 +480,7 @@ class Url
     }
 
     /**
-     * Returns true if the URL points to something on the same host, false if otherwise.
+     * Returns `true` if the URL points to something on the same host, `false` if otherwise.
      *
      * @param string $url
      * @return bool True if local; false otherwise.

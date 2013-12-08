@@ -13,27 +13,25 @@ namespace Piwik;
 use Piwik\Db;
 
 /**
- * Class to handle User Access:
- * - loads user access from the AuthResult object
- * - provides easy to use API to check the permissions for the current (check* methods)
+ * Singleton that manages user access to Piwik resources.
+ * 
+ * To check whether a user has access to a resource, use one of the {@link Piwik Piwik::checkUser...}
+ * methods.
  *
- * In Piwik there are mainly 4 access levels
- * - no access
- * - VIEW access
- * - ADMIN access
- * - Super admin access
+ * In Piwik there are four different access levels:
+ * 
+ * - **no access**: Users with this access level cannot view the resource.
+ * - **view access**: Users with this access level can view the resource, but cannot modify it.
+ * - **admin access**: Users with this access level can view and modify the resource.
+ * - **super user access**: Only the super user has this access level. It means the user can do
+ *                          whatever he/she wants.
+ * 
+ *                          Super user access is required to set some configuration options.
+ *                          All other options are specific to the user or to a website.
  *
- * An access level is on a per website basis.
- * A given user has a given access level for a given website.
- * For example:
- * User Noemie has
- *    - VIEW access on the website 1,
- *  - ADMIN on the website 2 and 4, and
- *  - NO access on the website 3 and 5
- *
- * There is only one Super User. He has ADMIN access to all the websites
- * and he only can change the main configuration settings.
- *
+ * Access is granted per website. Uses with access for a website can view all
+ * data associated with that website.
+ * 
  * @package Piwik
  * @subpackage Access
  */

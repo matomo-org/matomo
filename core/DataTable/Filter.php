@@ -50,7 +50,7 @@ abstract class Filter
     }
 
     /**
-     * Filters the supplied DataTable.
+     * Manipulates a {@link DataTable} in some way.
      *
      * @param DataTable $table
      */

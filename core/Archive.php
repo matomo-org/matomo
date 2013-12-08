@@ -20,7 +20,7 @@ use Piwik\Period\Range;
  * The **Archive** class is used to query cached analytics statistics
  * (termed "archive data").
  * 
- * You can use **Archive** instances to get archive data for one or more sites,
+ * You can use **Archive** instances to get data that was archived for one or more sites,
  * for one or more periods and one optional segment.
  * 
  * If archive data is not found, this class will initiate the archiving process. [1](#footnote-1)
@@ -37,7 +37,7 @@ use Piwik\Period\Range;
  * 
  * ### Learn more
  * 
- * Learn more about _archiving_ [here](#).
+ * Learn more about _archiving_ [here](/guides/all-about-analytics-data).
  * 
  * ### Limitations
  * 
@@ -103,7 +103,7 @@ use Piwik\Period\Range;
  * 
  * <a name="footnote-1"></a>
  * [1]: The archiving process will not be launched if browser archiving is disabled
- *      and the current request came from a browser (and not the archive.php cron
+ *      and the current request came from a browser (and not the **archive.php** cron
  *      script).
  *
  * @package Piwik
@@ -184,7 +184,7 @@ class Archive
      * sites and periods, using an optional Segment.
      *
      * This method uses data that is found in query parameters, so the parameters to this
-     * function can all be strings.
+     * function can be string values.
      *
      * If you want to create an Archive instance with an array of Period instances, use
      * {@link Archive::factory()}.
@@ -267,9 +267,9 @@ class Archive
      * 
      * @param string|array $names One or more archive names, eg, `'nb_visits'`, `'Referrers_distinctKeywords'`,
      *                            etc.
-     * @return mixed              False if there is no data to return, a numeric if only we're not querying
-     *                            for multiple sites/dates, or an array if multiple sites, dates or names are
-     *                            queried for.
+     * @return false|numeric|array `false` if there is no data to return, a single numeric value if we're not querying
+     *                             for multiple sites/periods, or an array if multiple sites, periods or names are
+     *                             queried for.
      */
     public function getNumeric($names)
     {
@@ -292,7 +292,7 @@ class Archive
     /**
      * Queries and returns blob data in an array.
      * 
-     * Reports are stored in blobs as serialized arrays of DataTable\Row instances, but this
+     * Reports are stored in blobs as serialized arrays of {@link DataTable\Row} instances, but this
      * data can technically be anything. In other words, you can store whatever you want
      * as archive data blobs.
      *
@@ -324,14 +324,14 @@ class Archive
      * be a DataTable\Map that is indexed by site ID.
      * 
      * If multiple periods were requested in {@link build()} or {@link factory()} the result will
-     * be a DataTable\Map that is indexed by period.
+     * be a {@link DataTable\Map} that is indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
-     * will be a DataTable\Map indexed by site ID which contains DataTable\Map instances that are
+     * will be a {@link DataTable\Map} indexed by site ID which contains {@link DataTable\Map} instances that are
      * indexed by period.
      * 
-     * Note: Every DataTable instance returned will have at most one row in it. The contents of each
-     *       row will be the requested metrics for the appropriate site and period.
+     * _Note: Every DataTable instance returned will have at most one row in it. The contents of each
+     *        row will be the requested metrics for the appropriate site and period._
      * 
      * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referrers_distinctKeywords',
      *                            etc.
@@ -345,25 +345,25 @@ class Archive
     }
 
     /**
-     * Queries and returns a single report as a DataTable instance.
+     * Queries and returns one or more reports as DataTable instances.
      * 
-     * This method will query blob data that is a serialized array of of DataTable\Row's and
+     * This method will query blob data that is a serialized array of of {@link DataTable\Row}'s and
      * unserialize it.
      * 
      * If multiple sites were requested in {@link build()} or {@link factory()} the result will
-     * be a DataTable\Map that is indexed by site ID.
+     * be a {@link DataTable\Map} that is indexed by site ID.
      * 
      * If multiple periods were requested in {@link build()} or {@link factory()} the result will
      * be a DataTable\Map that is indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
-     * will be a DataTable\Map indexed by site ID which contains DataTable\Map instances that are
+     * will be a {@link DataTable\Map} indexed by site ID which contains {@link DataTable\Map} instances that are
      * indexed by period.
      * 
      * @param string $name The name of the record to get. This method can only query one record at a time.
      * @param int|string|null $idSubtable The ID of the subtable to get (if any).
      * @return DataTable|DataTable\Map A DataTable if multiple sites and periods were not requested.
-     *                                 An appropriately indexed DataTable\Map if otherwise.
+     *                                 An appropriately indexed {@link DataTable\Map} if otherwise.
      */
     public function getDataTable($name, $idSubtable = null)
     {
@@ -381,7 +381,7 @@ class Archive
      * be a DataTable\Map that is indexed by period.
      * 
      * The site ID index is always first, so if multiple sites & periods were requested, the result
-     * will be a DataTable\Map indexed by site ID which contains DataTable\Map instances that are
+     * will be a {@link DataTable\Map indexed} by site ID which contains {@link DataTable\Map} instances that are
      * indexed by period.
      *
      * @param string $name The name of the record to get.

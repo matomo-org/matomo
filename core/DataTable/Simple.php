@@ -29,12 +29,11 @@ class Simple extends DataTable
      * values.
      *
      * @param array $array Array containing the rows, eg,
-     *                     ```
-     *                     array(
-     *                         'Label row 1' => $value1,
-     *                         'Label row 2' => $value2,
-     *                     )
-     *                     ```
+     *                     
+     *                         array(
+     *                             'Label row 1' => $value1,
+     *                             'Label row 2' => $value2,
+     *                         )
      */
     public function addRowsFromArray($array)
     {

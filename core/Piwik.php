@@ -31,7 +31,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
  * Main piwik helper class.
  * 
  * Contains helper methods for a variety of common tasks. Plugin developers are
- * encouraged to reuse these methods.
+ * encouraged to reuse these methods as much as possible.
  *
  * @package Piwik
  */
@@ -49,10 +49,18 @@ class Piwik
         'range' => 5,
     );
 
-    /** The idGoal query parameter value for the special 'abandoned carts' goal. */
+    /**
+     * The idGoal query parameter value for the special 'abandoned carts' goal.
+     * 
+     * @api
+     */
     const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
 
-    /** The idGoal query parameter value for the special 'ecommerce' goal. */
+    /**
+     * The idGoal query parameter value for the special 'ecommerce' goal.
+     * 
+     * @api
+     */
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
     /**
@@ -259,7 +267,7 @@ class Piwik
     }
 
     /**
-     * Returns true if the current user is either the super user or the user specified by
+     * Returns `true` if the current user is either the super user or the user specified by
      * `$theUser`.
      *
      * @param string $theUser A username.
@@ -312,7 +320,7 @@ class Piwik
     }
 
     /**
-     * Returns true if the current user is the special anonymous user or not.
+     * Returns true if the current user is the special **anonymous** user or not.
      *
      * @return bool
      * @api
@@ -358,7 +366,7 @@ class Piwik
     }
 
     /**
-     * Returns true if the user has admin access to the requested sites, false if otherwise.
+     * Returns `true` if the user has admin access to the requested sites, `false` if otherwise.
      *
      * @param int|array $idSites The list of site IDs to check access for.
      * @return bool
@@ -377,7 +385,7 @@ class Piwik
     /**
      * Checks that the current user has admin access to the requested list of sites.
      *
-     * @param int|array $idSites The list of site IDs to check access for.
+     * @param int|array $idSites One or more site IDs to check access for.
      * @throws Exception If user doesn't have admin access.
      * @api
      */
@@ -387,7 +395,7 @@ class Piwik
     }
 
     /**
-     * Returns true if the current user has admin access to at least one site.
+     * Returns `true` if the current user has admin access to at least one site.
      *
      * @return bool
      * @api
@@ -414,9 +422,9 @@ class Piwik
     }
 
     /**
-     * Returns true if the user has view access to the requested list of sites.
+     * Returns `true` if the user has view access to the requested list of sites.
      *
-     * @param int|array $idSites The list of site IDs to check access for.
+     * @param int|array $idSites One or more site IDs to check access for.
      * @return bool
      * @api
      */
@@ -443,7 +451,7 @@ class Piwik
     }
 
     /**
-     * Returns true if the current user has view access to at least one site.
+     * Returns `true` if the current user has view access to at least one site.
      *
      * @return bool
      * @api
@@ -559,7 +567,7 @@ class Piwik
      */
 
     /**
-     * Returns true if the email address is a valid.
+     * Returns `true` if supplied the email address is a valid.
      *
      * @param string $emailAddress
      * @return bool
@@ -571,8 +579,9 @@ class Piwik
     }
 
     /**
-     * Returns true if the login is valid.
-     * Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well.
+     * Returns `true` if the login is valid.
+     * 
+     * _Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well._
      *
      * @param string $userLogin
      * @throws Exception
@@ -676,7 +685,6 @@ class Piwik
      *                      have their observers for this event executed.
      * @param array|null $plugins The list of plugins to execute observers for. If null, all
      *                            plugin observers will be executed.
-     * @return void
      * @api
      */
     public static function postEvent($eventName, $params = array(), $pending = false, $plugins = null)
@@ -687,8 +695,8 @@ class Piwik
     /**
      * Register an observer to an event.
      * 
-     * Observers should normally be defined in plugin objects. It is unlikely that you will
-     * need to use this function.
+     * **_Note: Observers should normally be defined in plugin objects. It is unlikely that you will
+     * need to use this function._**
      *
      * @param string $eventName The event name.
      * @param callable|array $function The observer.
@@ -711,13 +719,13 @@ class Piwik
     }
 
     /**
-     * Returns an internationalized string using a translation ID. If a translation
-     * cannot be found for the ID, the ID is returned.
+     * Returns an internationalized string using a translation token. If a translation
+     * cannot be found for the toke, the token is returned.
      *
      * @param string $translationId Translation ID, eg, `'General_Date'`.
      * @param array|string|int $args `sprintf` arguments to be applied to the internationalized
      *                               string.
-     * @return string
+     * @return string The translated string or `$translationId`.
      * @api
      */
     public static function translate($translationId, $args = array())

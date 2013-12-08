@@ -14,7 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
- * Delete all rows for which a callback returns true. // TODO: modify
+ * Deletes all rows for which a callback returns true.
  *
  * **Basic usage example**
  * 

@@ -14,7 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
- * Delete all rows from the table that are not in the given offset -> offset+limit range.
+ * Delete all rows from the table that are not in the given [offset, offset+limit) range.
  * 
  * **Basic example usage**
  * 

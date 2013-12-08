@@ -16,8 +16,8 @@ use Piwik\DataTable\Row;
 use Piwik\Piwik;
 
 /**
- * Truncates a DataTable by merging all rows after a certain index into a new summary
- * row, unless the count of rows is less than the index.
+ * Truncates a {@link DataTable} by merging all rows after a certain index into a new summary
+ * row. If the count of rows is less than the index, nothing happens.
  * 
  * The {@link ReplaceSummaryRowLabel} filter will be queued after the table is truncated.
  * 
@@ -85,7 +85,7 @@ class Truncate extends Filter
         }
     }
 
-    public function addSummaryRow($table)
+    private function addSummaryRow($table)
     {
         $table->filter('Sort', array($this->columnToSortByBeforeTruncating, 'desc'));
 

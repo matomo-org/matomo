@@ -20,7 +20,7 @@ use Piwik\Session;
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
  * 
- * Piwik uses this class for all requests that go through index.php. Plugins can
+ * Piwik uses this class for all requests that go through **index.php**. Plugins can
  * use it to call controller actions of other plugins.
  * 
  * ### Examples
@@ -32,7 +32,7 @@ use Piwik\Session;
  *         $_GET['changeVisitAlpha'] = false;
  *         $_GET['removeOldVisits'] = false;
  *         $_GET['showFooterMessage'] = false;
- *         FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
+ *         return FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
  *     }
  * 
  * **Using other plugin controller actions**
@@ -46,7 +46,7 @@ use Piwik\Session;
  *         
  *         $view = new View('@MyPlugin/myPopupWithRealtimeMap.twig');
  *         $view->realtimeMap = $realtimeMap;
- *         echo $realtimeMap->render();
+ *         return $realtimeMap->render();
  *     }
  *
  * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
@@ -65,7 +65,7 @@ class FrontController extends Singleton
     public static $enableDispatch = true;
 
     /**
-     * Executes the requested plugin controller action.
+     * Executes the requested plugin controller method.
      * 
      * See also {@link fetchDispatch()}.
      * 
@@ -73,10 +73,9 @@ class FrontController extends Singleton
      *                                                     there is not enough permission, etc.
      *
      * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
-     * @param string $action The controller action name, eg, `'realtimeMap'`.
-     * @param array $parameters Array of parameters to pass to the controller action method.
-     * @return void|mixed The returned value of the call. Often nothing as most controller actions echo, but do not
-     *                    return data.
+     * @param string $action The controller method name, eg, `'realtimeMap'`.
+     * @param array $parameters Array of parameters to pass to the controller method.
+     * @return void|mixed The returned value of the call. This is the output of the controller method.
      * @api
      */
     public function dispatch($module = null, $action = null, $parameters = null)
@@ -194,16 +193,17 @@ class FrontController extends Singleton
     }
 
     /**
-     * Executes the requested plugin controller action and returns the data the action echos.
+     * Executes the requested plugin controller method and returns the data, capturing anything the
+     * method `echo`s.
      * 
-     * Note: If the plugin controller returns something, the return value is returned instead
-     * of whatever is in the output buffer.
+     * _Note: If the plugin controller returns something, the return value is returned instead
+     * of whatever is in the output buffer._
      * 
      * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
      * @param string $action The controller action name, eg, `'realtimeMap'`.
      * @param array $parameters Array of parameters to pass to the controller action method.
      * @return string The `echo`'d data or the return value of the controller action.
-     * @api
+     * @deprecated
      */
     public function fetchDispatch($module = null, $actionName = null, $parameters = null)
     {

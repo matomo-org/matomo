@@ -12,7 +12,7 @@
 namespace Piwik;
 
 /**
- * The singleton class restricts the instantiation of a class to one object only.
+ * The singleton base class restricts the instantiation of derived classes to one object only.
  * 
  * All plugin APIs are singletons and thus extend this class.
  *
