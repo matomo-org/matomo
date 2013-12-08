@@ -144,7 +144,7 @@
         "LatestStableRelease": "Ultima release stabile",
         "LogoNotWriteable": "Per usare un logo personalizzato Piwik richiede i permessi di scrittura della cartella dei temi: %s",
         "LogoUpload": "Seleziona un logo da caricare",
-        "LogoUploadDescription": "Per favore carica un file in formato %s, senza trasparenza, con un minimo di %s pixel.",
+        "LogoUploadDescription": "Per favore carica un file in formato %s con un minimo di %s pixel.",
         "MenuDiagnostic": "Diagnostica",
         "MenuGeneralSettings": "Impostazioni generali",
         "MenuManage": "Gestione",
