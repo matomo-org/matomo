@@ -22,7 +22,7 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
             file_put_contents($processedPath, $processed);
             $diffCommand = "diff";
 //            $diffCommand = "meld";
-            echo shell_exec("{$diffCommand} $processedPath $fixturesPath ");
+            echo shell_exec("{$diffCommand} $fixturesPath $processedPath");
 
             echo "\nThe processed data was stored in: $processedPath ".
                 "\n $ cp $processedPath $fixturesPath ".
@@ -56,10 +56,11 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
                 'short_name' => $userAgentParserEnhanced->getBrowser('short_name'),
                 'version'    => $userAgentParserEnhanced->getBrowser('version'),
             ),
-            'device'         => $device,
-            'device_name'    => $deviceName,
-            'brand'          => $userAgentParserEnhanced->getBrand(),
-            'model'          => $userAgentParserEnhanced->getModel(),
+            'device'         => array(
+                'type'       => $deviceName,
+                'brand'      => $userAgentParserEnhanced->getBrand(),
+                'model'      => $userAgentParserEnhanced->getModel(),
+            ),
             'os_family'      => $osFamily !== false ? $osFamily : 'Unknown',
             'browser_family' => $browserFamily !== false ? $browserFamily : 'Unknown',
         );

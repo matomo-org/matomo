@@ -9,10 +9,10 @@
     name: Internet Explorer
     short_name: IE
     version: 11.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -26,9 +26,9 @@
     short_name: OI
     version: 5.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -42,9 +42,9 @@
     short_name: OI
     version: 7.5
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -57,10 +57,10 @@
     name: Opera Mobile
     short_name: OM
     version: 15.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -73,10 +73,10 @@
     name: Opera
     short_name: OP
     version: 12.10
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -89,10 +89,10 @@
     name: SeaMonkey
     short_name: XX
     version: 2.17
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -105,10 +105,10 @@
     name: Openwave Mobile Browser
     short_name: OV
     version: 6.2
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SCH-r560
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-r560
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -122,9 +122,9 @@
     short_name: OV
     version: 6.2
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -138,9 +138,9 @@
     short_name: OV
     version: 6.2
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -154,9 +154,9 @@
     short_name: UC
     version: 8.4
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -169,10 +169,10 @@
     name: UC Browser
     short_name: UC
     version: 8.7
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ot-807d
+  device:
+    type: smartphone
+    brand: AL
+    model: ot-807d
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -185,10 +185,10 @@
     name: NetFront
     short_name: NF
     version: 3.5
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T749
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T749
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -201,10 +201,10 @@
     name: NetFront
     short_name: NF
     version: 3.5
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T359
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T359
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -217,10 +217,10 @@
     name: NetFront
     short_name: NF
     version: 4.1
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T259
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T259
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -233,10 +233,10 @@
     name: Opera
     short_name: OP
     version: 9.70
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -249,10 +249,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPod Touch
+  device:
+    type: smartphone
+    brand: AP
+    model: iPod Touch
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -265,10 +265,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPod Touch
+  device:
+    type: smartphone
+    brand: AP
+    model: iPod Touch
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -281,10 +281,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPhone
+  device:
+    type: smartphone
+    brand: AP
+    model: iPhone
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -297,10 +297,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPhone
+  device:
+    type: smartphone
+    brand: AP
+    model: iPhone
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -313,10 +313,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPhone
+  device:
+    type: smartphone
+    brand: AP
+    model: iPhone
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -329,10 +329,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPhone
+  device:
+    type: smartphone
+    brand: AP
+    model: iPhone
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -345,10 +345,10 @@
     name: Mobile Safari
     short_name: MF
     version: 6.0
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPhone
+  device:
+    type: smartphone
+    brand: AP
+    model: iPhone
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -361,10 +361,10 @@
     name: Mobile Safari
     short_name: MF
     version: 5.1
-  device: 1
-  device_name: smartphone
-  brand: AP
-  model: iPhone
+  device:
+    type: smartphone
+    brand: AP
+    model: iPhone
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -377,10 +377,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 2
-  device_name: tablet
-  brand: AP
-  model: iPad
+  device:
+    type: tablet
+    brand: AP
+    model: iPad
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -393,10 +393,10 @@
     name: Mobile Safari
     short_name: MF
     version:
-  device: 2
-  device_name: tablet
-  brand: AP
-  model: iPad
+  device:
+    type: tablet
+    brand: AP
+    model: iPad
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -409,10 +409,10 @@
     name: IE Mobile
     short_name: IM
     version: 9.0
-  device: 1
-  device_name: smartphone
-  brand: NK
-  model: Lumia 900
+  device:
+    type: smartphone
+    brand: NK
+    model: Lumia 900
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -425,10 +425,10 @@
     name: Internet Explorer
     short_name: IE
     version: 9.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -441,10 +441,10 @@
     name: Internet Explorer
     short_name: IE
     version: 10.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -457,10 +457,10 @@
     name: Chrome
     short_name: CH
     version: 24.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -473,10 +473,10 @@
     name: Chrome
     short_name: CH
     version: 26.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -489,10 +489,10 @@
     name: Firefox
     short_name: FF
     version: 18.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -505,10 +505,10 @@
     name: Chrome
     short_name: CH
     version: 23.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -521,10 +521,10 @@
     name: Safari
     short_name: SF
     version: 5.0
-  device: 0
-  device_name: desktop
-  brand:
-  model:
+  device:
+    type: desktop
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -537,10 +537,10 @@
     name: Mobile Silk
     short_name: MS
     version: 1.0
-  device: 2
-  device_name: tablet
-  brand: KN
-  model: Fire
+  device:
+    type: tablet
+    brand: KN
+    model: Fire
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -554,9 +554,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -569,10 +569,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: GO
-  model: Nexus 7
+  device:
+    type: tablet
+    brand: GO
+    model: Nexus 7
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -585,10 +585,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: GO
-  model: Nexus 7
+  device:
+    type: tablet
+    brand: GO
+    model: Nexus 7
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -601,10 +601,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: GO
-  model: Nexus 7
+  device:
+    type: tablet
+    brand: GO
+    model: Nexus 7
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -617,10 +617,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5360
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5360
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -633,10 +633,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Galaxy Nexus
+  device:
+    type: smartphone
+    brand: GO
+    model: Galaxy Nexus
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -649,10 +649,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Nexus 4
+  device:
+    type: smartphone
+    brand: GO
+    model: Nexus 4
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -665,10 +665,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: GO
-  model: Nexus 7
+  device:
+    type: tablet
+    brand: GO
+    model: Nexus 7
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -681,10 +681,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Nexus 4
+  device:
+    type: smartphone
+    brand: GO
+    model: Nexus 4
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -697,10 +697,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -713,10 +713,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -729,10 +729,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -745,10 +745,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Nexus 4
+  device:
+    type: smartphone
+    brand: GO
+    model: Nexus 4
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -761,10 +761,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I927
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I927
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -777,10 +777,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I747
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I747
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -793,10 +793,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I747
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I747
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -809,10 +809,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: KN
-  model: Fire
+  device:
+    type: tablet
+    brand: KN
+    model: Fire
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -825,10 +825,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: GO
-  model: Nexus 10
+  device:
+    type: tablet
+    brand: GO
+    model: Nexus 10
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -842,9 +842,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -857,10 +857,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Galaxy Nexus
+  device:
+    type: smartphone
+    brand: GO
+    model: Galaxy Nexus
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -873,10 +873,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -890,9 +890,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -905,10 +905,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Galaxy Nexus
+  device:
+    type: smartphone
+    brand: GO
+    model: Galaxy Nexus
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -921,10 +921,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9082L
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9082L
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -937,10 +937,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -953,10 +953,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9082
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9082
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -969,10 +969,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9070
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9070
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -985,10 +985,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1001,10 +1001,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I8190
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I8190
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1018,9 +1018,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1033,10 +1033,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9070
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9070
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1049,10 +1049,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I8190N
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I8190N
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1065,10 +1065,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SPH-P500
+  device:
+    type: smartphone
+    brand: SA
+    model: SPH-P500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1081,10 +1081,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SPH-D700
+  device:
+    type: smartphone
+    brand: SA
+    model: SPH-D700
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1098,9 +1098,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1114,9 +1114,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1129,10 +1129,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SCH-I535
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-I535
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1145,10 +1145,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Nexus S
+  device:
+    type: smartphone
+    brand: GO
+    model: Nexus S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1161,10 +1161,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P990
+  device:
+    type: smartphone
+    brand: LG
+    model: P990
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1177,10 +1177,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: F160S
+  device:
+    type: smartphone
+    brand: LG
+    model: F160S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1193,10 +1193,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Galaxy Nexus
+  device:
+    type: smartphone
+    brand: GO
+    model: Galaxy Nexus
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1209,10 +1209,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Galaxy Nexus
+  device:
+    type: smartphone
+    brand: GO
+    model: Galaxy Nexus
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1225,10 +1225,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P1000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P1000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1242,9 +1242,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1257,10 +1257,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model:
+  device:
+    type: smartphone
+    brand: GO
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1274,9 +1274,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1289,10 +1289,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1305,10 +1305,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1321,10 +1321,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1338,9 +1338,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1353,10 +1353,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5110
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5110
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1370,9 +1370,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1386,9 +1386,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1402,9 +1402,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1418,9 +1418,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1433,10 +1433,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7105T
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7105T
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1450,9 +1450,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1466,9 +1466,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1482,9 +1482,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1497,10 +1497,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1513,10 +1513,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AU
-  model:
+  device:
+    type: smartphone
+    brand: AU
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1529,10 +1529,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AU
-  model:
+  device:
+    type: smartphone
+    brand: AU
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1545,10 +1545,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1562,9 +1562,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1578,9 +1578,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1594,9 +1594,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1610,9 +1610,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1625,10 +1625,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5113
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5113
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1641,10 +1641,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3110
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3110
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1657,10 +1657,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-pt
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-pt
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1673,10 +1673,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1689,10 +1689,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AU
-  model:
+  device:
+    type: smartphone
+    brand: AU
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1705,10 +1705,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1721,10 +1721,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3113
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3113
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1738,9 +1738,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1754,9 +1754,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1769,10 +1769,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One S
+  device:
+    type: smartphone
+    brand: HT
+    model: One S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1785,10 +1785,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Galaxy Nexus
+  device:
+    type: smartphone
+    brand: GO
+    model: Galaxy Nexus
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1801,10 +1801,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I8190
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I8190
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1817,10 +1817,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1833,10 +1833,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5113
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5113
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1849,10 +1849,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1865,10 +1865,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9300
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9300
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1882,9 +1882,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1898,9 +1898,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1914,9 +1914,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1929,10 +1929,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1946,9 +1946,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1961,10 +1961,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1977,10 +1977,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9300
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9300
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -1993,10 +1993,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I8190
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I8190
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2009,10 +2009,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-H
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-H
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2025,10 +2025,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I547
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I547
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2041,10 +2041,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: MR
-  model: DROID RAZR
+  device:
+    type: smartphone
+    brand: MR
+    model: DROID RAZR
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2058,9 +2058,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2074,9 +2074,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2089,10 +2089,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SPH-L900
+  device:
+    type: smartphone
+    brand: SA
+    model: SPH-L900
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2105,10 +2105,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T999
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T999
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2121,10 +2121,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T959
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T959
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2137,10 +2137,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SCH-R530U
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-R530U
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2154,9 +2154,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2170,9 +2170,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2185,10 +2185,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P999
+  device:
+    type: smartphone
+    brand: LG
+    model: P999
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2202,9 +2202,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2218,9 +2218,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2233,10 +2233,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3113
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3113
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2249,10 +2249,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3100B
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3100B
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2266,9 +2266,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2282,9 +2282,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2297,10 +2297,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2313,10 +2313,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2330,9 +2330,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2345,10 +2345,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830i
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830i
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2361,10 +2361,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9003
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9003
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2377,10 +2377,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2393,10 +2393,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T889V
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T889V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2409,10 +2409,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I317
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I317
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2425,10 +2425,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: AU
-  model: Transformer Pad TF300T
+  device:
+    type: tablet
+    brand: AU
+    model: Transformer Pad TF300T
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2441,10 +2441,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I8190
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I8190
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2457,10 +2457,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2473,10 +2473,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N8020
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N8020
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2489,10 +2489,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One S
+  device:
+    type: smartphone
+    brand: HT
+    model: One S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2505,10 +2505,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N8000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N8000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2521,10 +2521,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2537,10 +2537,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2553,10 +2553,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: en
+  device:
+    type: smartphone
+    brand: LG
+    model: en
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2570,9 +2570,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2585,10 +2585,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2602,9 +2602,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2618,9 +2618,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2634,9 +2634,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2650,9 +2650,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2666,9 +2666,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2681,10 +2681,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One S
+  device:
+    type: smartphone
+    brand: HT
+    model: One S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2698,9 +2698,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2714,9 +2714,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2730,9 +2730,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2746,9 +2746,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2762,9 +2762,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2778,9 +2778,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2793,10 +2793,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-H
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-H
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2810,9 +2810,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2826,9 +2826,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2842,9 +2842,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2857,10 +2857,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T999
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T999
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2874,9 +2874,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2890,9 +2890,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2906,9 +2906,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2922,9 +2922,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2938,9 +2938,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2954,9 +2954,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2970,9 +2970,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -2986,9 +2986,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3002,9 +3002,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3017,10 +3017,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One XL
+  device:
+    type: smartphone
+    brand: HT
+    model: One XL
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3033,10 +3033,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P6200
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P6200
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3049,10 +3049,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3065,10 +3065,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N8010
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N8010
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3081,10 +3081,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: 5
+  device:
+    type: smartphone
+    brand: LG
+    model: 5
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3098,9 +3098,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3114,9 +3114,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3130,9 +3130,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3146,9 +3146,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3162,9 +3162,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3178,9 +3178,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3194,9 +3194,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3210,9 +3210,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3226,9 +3226,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3242,9 +3242,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3258,9 +3258,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3274,9 +3274,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3290,9 +3290,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3305,10 +3305,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3321,10 +3321,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3337,10 +3337,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S7562
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S7562
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3353,10 +3353,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Incredible S
+  device:
+    type: smartphone
+    brand: HT
+    model: Incredible S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3369,10 +3369,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P760
+  device:
+    type: smartphone
+    brand: LG
+    model: P760
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3386,9 +3386,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3402,9 +3402,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3417,10 +3417,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3434,9 +3434,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3450,9 +3450,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3466,9 +3466,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3482,9 +3482,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3498,9 +3498,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3514,9 +3514,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3529,10 +3529,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P6200
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P6200
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3546,9 +3546,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3562,9 +3562,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3577,10 +3577,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire X
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3594,9 +3594,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3610,9 +3610,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3626,9 +3626,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3641,10 +3641,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One S
+  device:
+    type: smartphone
+    brand: HT
+    model: One S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3657,10 +3657,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-pt
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-pt
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3673,10 +3673,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-pt
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-pt
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3689,10 +3689,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-pt
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-pt
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3705,10 +3705,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-pt
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-pt
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3721,10 +3721,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-br
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-br
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3737,10 +3737,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-br
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-br
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3754,9 +3754,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3770,9 +3770,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3786,9 +3786,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3801,10 +3801,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S7562
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S7562
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3818,9 +3818,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3834,9 +3834,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3850,9 +3850,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3866,9 +3866,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3882,9 +3882,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3897,10 +3897,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3914,9 +3914,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3930,9 +3930,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3945,10 +3945,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: SU870
+  device:
+    type: smartphone
+    brand: LG
+    model: SU870
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3961,10 +3961,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: F120K
+  device:
+    type: smartphone
+    brand: LG
+    model: F120K
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3977,10 +3977,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E615
+  device:
+    type: smartphone
+    brand: LG
+    model: E615
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -3993,10 +3993,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4010,9 +4010,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4026,9 +4026,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4042,9 +4042,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4058,9 +4058,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4074,9 +4074,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4090,9 +4090,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4106,9 +4106,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4122,9 +4122,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4137,10 +4137,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ONE
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4154,9 +4154,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4170,9 +4170,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4186,9 +4186,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4201,10 +4201,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P1000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P1000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4217,10 +4217,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 3
-  device_name: feature phone
-  brand: IO
-  model: i
+  device:
+    type: feature phone
+    brand: IO
+    model: i
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4234,9 +4234,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4250,9 +4250,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4266,9 +4266,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4282,9 +4282,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4297,10 +4297,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: ZT
-  model: Blade
+  device:
+    type: smartphone
+    brand: ZT
+    model: Blade
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4314,9 +4314,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4330,9 +4330,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4346,9 +4346,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4362,9 +4362,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4378,9 +4378,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4394,9 +4394,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4409,10 +4409,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P760
+  device:
+    type: smartphone
+    brand: LG
+    model: P760
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4425,10 +4425,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S7562
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S7562
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4441,10 +4441,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4458,9 +4458,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4474,9 +4474,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4489,10 +4489,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5110
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5110
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4505,10 +4505,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T989D
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T989D
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4522,9 +4522,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4538,9 +4538,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4554,9 +4554,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4569,10 +4569,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4586,9 +4586,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4602,9 +4602,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4618,9 +4618,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4633,10 +4633,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SPH-L300
+  device:
+    type: smartphone
+    brand: SA
+    model: SPH-L300
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4649,10 +4649,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SCH-I200
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-I200
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4666,9 +4666,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4681,10 +4681,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I437
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I437
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4698,9 +4698,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4714,9 +4714,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4730,9 +4730,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4745,10 +4745,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4762,9 +4762,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4778,9 +4778,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4794,9 +4794,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4810,9 +4810,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4826,9 +4826,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4842,9 +4842,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4858,9 +4858,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4874,9 +4874,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4890,9 +4890,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4906,9 +4906,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4922,9 +4922,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4937,10 +4937,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P990
+  device:
+    type: smartphone
+    brand: LG
+    model: P990
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4954,9 +4954,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4969,10 +4969,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -4985,10 +4985,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N8010
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N8010
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5002,9 +5002,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5018,9 +5018,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5033,10 +5033,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5049,10 +5049,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5066,9 +5066,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5082,9 +5082,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5098,9 +5098,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5114,9 +5114,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5130,9 +5130,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5146,9 +5146,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5162,9 +5162,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5178,9 +5178,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5194,9 +5194,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5210,9 +5210,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5225,10 +5225,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: NX
-  model: Mi430
+  device:
+    type: smartphone
+    brand: NX
+    model: Mi430
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5242,9 +5242,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5258,9 +5258,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5273,10 +5273,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T959V
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T959V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5289,10 +5289,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I997
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I997
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5305,10 +5305,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I897
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I897
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5321,10 +5321,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SCH-I200
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-I200
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5337,10 +5337,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I717
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I717
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5354,9 +5354,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5370,9 +5370,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5386,9 +5386,9 @@
     short_name: MX
     version:
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5402,9 +5402,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5418,9 +5418,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5434,9 +5434,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5449,10 +5449,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: MI
-  model: Micromax
+  device:
+    type: smartphone
+    brand: MI
+    model: Micromax
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5466,9 +5466,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5482,9 +5482,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5498,9 +5498,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5514,9 +5514,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5529,10 +5529,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P999
+  device:
+    type: smartphone
+    brand: LG
+    model: P999
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5545,10 +5545,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P500
+  device:
+    type: smartphone
+    brand: LG
+    model: P500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5562,9 +5562,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5578,9 +5578,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5594,9 +5594,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5610,9 +5610,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5626,9 +5626,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5641,10 +5641,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5657,10 +5657,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Galaxy Nexus
+  device:
+    type: smartphone
+    brand: GO
+    model: Galaxy Nexus
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5674,9 +5674,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5689,10 +5689,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5706,9 +5706,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5722,9 +5722,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5738,9 +5738,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5754,9 +5754,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5769,10 +5769,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ONE
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5786,9 +5786,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5802,9 +5802,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5818,9 +5818,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5834,9 +5834,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5849,10 +5849,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N8010
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N8010
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5865,10 +5865,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8950
+  device:
+    type: smartphone
+    brand: HU
+    model: U8950
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5882,9 +5882,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5898,9 +5898,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5914,9 +5914,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5930,9 +5930,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5945,10 +5945,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire X
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5962,9 +5962,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5978,9 +5978,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -5994,9 +5994,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6010,9 +6010,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6026,9 +6026,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6041,10 +6041,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HP
-  model:
+  device:
+    type: smartphone
+    brand: HP
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6058,9 +6058,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6074,9 +6074,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6090,9 +6090,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6106,9 +6106,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6122,9 +6122,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6138,9 +6138,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6154,9 +6154,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6169,10 +6169,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E973
+  device:
+    type: smartphone
+    brand: LG
+    model: E973
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6185,10 +6185,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6202,9 +6202,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6217,10 +6217,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S7562
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S7562
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6233,10 +6233,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: MR
-  model: DROID RAZR
+  device:
+    type: smartphone
+    brand: MR
+    model: DROID RAZR
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6249,10 +6249,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6266,9 +6266,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6281,10 +6281,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S7562
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S7562
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6297,10 +6297,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6314,9 +6314,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6330,9 +6330,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6346,9 +6346,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6362,9 +6362,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6378,9 +6378,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6394,9 +6394,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6410,9 +6410,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6426,9 +6426,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6442,9 +6442,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6457,10 +6457,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S7562
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S7562
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6474,9 +6474,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6490,9 +6490,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6506,9 +6506,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6522,9 +6522,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6537,10 +6537,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P895
+  device:
+    type: smartphone
+    brand: LG
+    model: P895
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6554,9 +6554,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6570,9 +6570,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6586,9 +6586,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6602,9 +6602,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6618,9 +6618,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6634,9 +6634,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6649,10 +6649,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P705
+  device:
+    type: smartphone
+    brand: LG
+    model: P705
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6666,9 +6666,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6682,9 +6682,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6698,9 +6698,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6713,10 +6713,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: X515m
+  device:
+    type: smartphone
+    brand: HT
+    model: X515m
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6730,9 +6730,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6746,9 +6746,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6762,9 +6762,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6778,9 +6778,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6794,9 +6794,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6810,9 +6810,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6825,10 +6825,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6841,10 +6841,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ore
+  device:
+    type: smartphone
+    brand: AL
+    model: ore
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6858,9 +6858,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6873,10 +6873,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6890,9 +6890,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6906,9 +6906,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6922,9 +6922,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6938,9 +6938,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6954,9 +6954,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6970,9 +6970,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -6985,10 +6985,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7001,10 +7001,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire C
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire C
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7017,10 +7017,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation Z710e
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation Z710e
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7033,10 +7033,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One S
+  device:
+    type: smartphone
+    brand: HT
+    model: One S
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7049,10 +7049,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire C
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire C
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7066,9 +7066,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7081,10 +7081,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: PT
-  model: pt-pt
+  device:
+    type: smartphone
+    brand: PT
+    model: pt-pt
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7097,10 +7097,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7113,10 +7113,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SO
-  model: Tablet
+  device:
+    type: smartphone
+    brand: SO
+    model: Tablet
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7129,10 +7129,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XL
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XL
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7145,10 +7145,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: AU
-  model: Transformer Pad TF300T
+  device:
+    type: tablet
+    brand: AU
+    model: Transformer Pad TF300T
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7162,9 +7162,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7178,9 +7178,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7194,9 +7194,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7210,9 +7210,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7225,10 +7225,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire C
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire C
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7241,10 +7241,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7257,10 +7257,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100P
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100P
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7273,10 +7273,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: AU
-  model: Transformer Pad TF300T
+  device:
+    type: tablet
+    brand: AU
+    model: Transformer Pad TF300T
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7289,10 +7289,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7306,9 +7306,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7322,9 +7322,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7338,9 +7338,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7353,10 +7353,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire V
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7370,9 +7370,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7386,9 +7386,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7401,10 +7401,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P700
+  device:
+    type: smartphone
+    brand: LG
+    model: P700
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7417,10 +7417,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire V
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7433,10 +7433,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8860
+  device:
+    type: smartphone
+    brand: HU
+    model: U8860
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7450,9 +7450,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7466,9 +7466,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7481,10 +7481,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P880
+  device:
+    type: smartphone
+    brand: LG
+    model: P880
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7497,10 +7497,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3110
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3110
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7513,10 +7513,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: MediaPad
+  device:
+    type: smartphone
+    brand: HU
+    model: MediaPad
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7529,10 +7529,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: AU
-  model: Transformer Pad TF300T
+  device:
+    type: tablet
+    brand: AU
+    model: Transformer Pad TF300T
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7545,10 +7545,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P5100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P5100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7561,10 +7561,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 2
-  device_name: tablet
-  brand: AU
-  model: Transformer Pad TF300T
+  device:
+    type: tablet
+    brand: AU
+    model: Transformer Pad TF300T
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7577,10 +7577,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: ADR910L
+  device:
+    type: smartphone
+    brand: HT
+    model: ADR910L
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7593,10 +7593,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E612g
+  device:
+    type: smartphone
+    brand: LG
+    model: E612g
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7609,10 +7609,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P705g
+  device:
+    type: smartphone
+    brand: LG
+    model: P705g
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7626,9 +7626,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7642,9 +7642,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7658,9 +7658,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7674,9 +7674,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7689,10 +7689,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: MediaPad
+  device:
+    type: smartphone
+    brand: HU
+    model: MediaPad
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7706,9 +7706,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7722,9 +7722,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7737,10 +7737,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P705g
+  device:
+    type: smartphone
+    brand: LG
+    model: P705g
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7754,9 +7754,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7770,9 +7770,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7785,10 +7785,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SO
-  model: Tablet
+  device:
+    type: smartphone
+    brand: SO
+    model: Tablet
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7802,9 +7802,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7818,9 +7818,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7834,9 +7834,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7850,9 +7850,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7865,10 +7865,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: OP
-  model: X9017
+  device:
+    type: smartphone
+    brand: OP
+    model: X9017
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7882,9 +7882,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7898,9 +7898,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7914,9 +7914,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7930,9 +7930,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7946,9 +7946,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7962,9 +7962,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7978,9 +7978,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -7994,9 +7994,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8010,9 +8010,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8026,9 +8026,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8041,10 +8041,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: ADR6425LVW
+  device:
+    type: smartphone
+    brand: HT
+    model: ADR6425LVW
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8057,10 +8057,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: ADR6410LRA
+  device:
+    type: smartphone
+    brand: HT
+    model: ADR6410LRA
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8074,9 +8074,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8089,10 +8089,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation Z710e
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation Z710e
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8105,10 +8105,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8121,10 +8121,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One X
+  device:
+    type: smartphone
+    brand: HT
+    model: One X
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8137,10 +8137,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: EVO 3D
+  device:
+    type: smartphone
+    brand: HT
+    model: EVO 3D
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8153,10 +8153,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One V
+  device:
+    type: smartphone
+    brand: HT
+    model: One V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8169,10 +8169,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8185,10 +8185,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire V
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8201,10 +8201,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire V
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8217,10 +8217,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XL
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XL
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8233,10 +8233,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100G
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100G
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8249,10 +8249,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3110
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3110
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8265,10 +8265,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: EVO 3D
+  device:
+    type: smartphone
+    brand: HT
+    model: EVO 3D
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8281,10 +8281,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XL
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XL
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8297,10 +8297,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8860
+  device:
+    type: smartphone
+    brand: HU
+    model: U8860
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8313,10 +8313,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E610v
+  device:
+    type: smartphone
+    brand: LG
+    model: E610v
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8329,10 +8329,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8345,10 +8345,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: EVO 3D
+  device:
+    type: smartphone
+    brand: HT
+    model: EVO 3D
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8362,9 +8362,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8377,10 +8377,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XL
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XL
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8393,10 +8393,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8409,10 +8409,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XL
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XL
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8425,10 +8425,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E617G
+  device:
+    type: smartphone
+    brand: LG
+    model: E617G
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8441,10 +8441,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8458,9 +8458,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8474,9 +8474,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8489,10 +8489,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Sensation XE
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation XE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8505,10 +8505,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Desire C
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire C
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8521,10 +8521,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8860
+  device:
+    type: smartphone
+    brand: HU
+    model: U8860
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8538,9 +8538,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8553,10 +8553,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model:
+  device:
+    type: smartphone
+    brand: GO
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8569,10 +8569,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P3100
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P3100
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8585,10 +8585,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P700
+  device:
+    type: smartphone
+    brand: LG
+    model: P700
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8601,10 +8601,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P700
+  device:
+    type: smartphone
+    brand: LG
+    model: P700
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8618,9 +8618,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8634,9 +8634,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8649,10 +8649,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: One V
+  device:
+    type: smartphone
+    brand: HT
+    model: One V
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8665,10 +8665,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8681,10 +8681,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7511
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7511
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8697,10 +8697,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P6200
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P6200
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8713,10 +8713,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7310
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7310
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8729,10 +8729,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7320
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7320
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8745,10 +8745,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7320
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7320
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8762,9 +8762,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8778,9 +8778,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8793,10 +8793,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7310
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7310
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8810,9 +8810,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8826,9 +8826,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8842,9 +8842,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8857,10 +8857,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P6810
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P6810
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8874,9 +8874,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8889,10 +8889,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8905,10 +8905,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7510
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7510
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8921,10 +8921,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8938,9 +8938,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8954,9 +8954,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8970,9 +8970,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -8986,9 +8986,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9002,9 +9002,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9018,9 +9018,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9034,9 +9034,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9050,9 +9050,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9066,9 +9066,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9082,9 +9082,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9098,9 +9098,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9114,9 +9114,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9129,10 +9129,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9145,10 +9145,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7510
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7510
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9162,9 +9162,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9177,10 +9177,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7300
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7300
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9193,10 +9193,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9209,10 +9209,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SO
-  model: Tablet
+  device:
+    type: smartphone
+    brand: SO
+    model: Tablet
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9226,9 +9226,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9241,10 +9241,10 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-P7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-P7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9258,9 +9258,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9274,9 +9274,9 @@
     short_name: SF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9290,9 +9290,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9306,9 +9306,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9322,9 +9322,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9338,9 +9338,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9354,9 +9354,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9370,9 +9370,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9386,9 +9386,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9402,9 +9402,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9418,9 +9418,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9434,9 +9434,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9450,9 +9450,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9466,9 +9466,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9482,9 +9482,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9498,9 +9498,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9513,10 +9513,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9529,10 +9529,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9546,9 +9546,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9561,10 +9561,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I5500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I5500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9577,10 +9577,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9594,9 +9594,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9609,10 +9609,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9626,9 +9626,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9642,9 +9642,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9658,9 +9658,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9673,10 +9673,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P940
+  device:
+    type: smartphone
+    brand: LG
+    model: P940
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9690,9 +9690,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9705,10 +9705,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P350
+  device:
+    type: smartphone
+    brand: LG
+    model: P350
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9722,9 +9722,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9738,9 +9738,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9754,9 +9754,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9770,9 +9770,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9786,9 +9786,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9802,9 +9802,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9818,9 +9818,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9834,9 +9834,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9849,10 +9849,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: Wildfire
+  device:
+    type: smartphone
+    brand: HT
+    model: Wildfire
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9865,10 +9865,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HT
-  model: HD2
+  device:
+    type: smartphone
+    brand: HT
+    model: HD2
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9881,10 +9881,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: MR
-  model: DROID
+  device:
+    type: smartphone
+    brand: MR
+    model: DROID
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9898,9 +9898,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9914,9 +9914,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9930,9 +9930,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9946,9 +9946,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9962,9 +9962,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9978,9 +9978,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -9994,9 +9994,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10010,9 +10010,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10025,10 +10025,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S7500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S7500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10041,10 +10041,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: OP
-  model: R805
+  device:
+    type: smartphone
+    brand: OP
+    model: R805
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10057,10 +10057,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E400
+  device:
+    type: smartphone
+    brand: LG
+    model: E400
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10074,9 +10074,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10090,9 +10090,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10105,10 +10105,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: MR
-  model: DROID
+  device:
+    type: smartphone
+    brand: MR
+    model: DROID
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10122,9 +10122,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10137,10 +10137,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SCH-i919
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-i919
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10153,10 +10153,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SCH-I519
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-I519
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10170,9 +10170,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10185,10 +10185,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830i
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830i
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10201,10 +10201,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10217,10 +10217,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10234,9 +10234,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10250,9 +10250,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10266,9 +10266,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10282,9 +10282,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10298,9 +10298,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10313,10 +10313,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10329,10 +10329,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10345,10 +10345,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E400
+  device:
+    type: smartphone
+    brand: LG
+    model: E400
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10361,10 +10361,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 3
-  device_name: feature phone
-  brand: IO
-  model: i
+  device:
+    type: feature phone
+    brand: IO
+    model: i
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10377,10 +10377,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9001
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9001
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10393,10 +10393,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E400
+  device:
+    type: smartphone
+    brand: LG
+    model: E400
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10409,10 +10409,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830i
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830i
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10425,10 +10425,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: one touch 995
+  device:
+    type: smartphone
+    brand: AL
+    model: one touch 995
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10441,10 +10441,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P725
+  device:
+    type: smartphone
+    brand: LG
+    model: P725
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10457,10 +10457,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815C02B895
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815C02B895
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10473,10 +10473,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5830i
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5830i
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10489,10 +10489,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5660
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5660
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10505,10 +10505,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9070P
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9070P
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10521,10 +10521,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I8160
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I8160
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10537,10 +10537,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-N7000
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-N7000
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10553,10 +10553,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ONE
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10569,10 +10569,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I8150
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I8150
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10585,10 +10585,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9001
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9001
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10601,10 +10601,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5660
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5660
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10618,9 +10618,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10633,10 +10633,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S6500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S6500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10650,9 +10650,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10666,9 +10666,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10682,9 +10682,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10697,10 +10697,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815C02B895
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815C02B895
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10713,10 +10713,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: MR
-  model: DROID
+  device:
+    type: smartphone
+    brand: MR
+    model: DROID
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10730,9 +10730,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10745,10 +10745,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8655
+  device:
+    type: smartphone
+    brand: HU
+    model: U8655
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10762,9 +10762,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10777,10 +10777,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9070
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9070
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10793,10 +10793,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10809,10 +10809,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5660
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5660
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10825,10 +10825,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: E510
+  device:
+    type: smartphone
+    brand: LG
+    model: E510
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10842,9 +10842,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10858,9 +10858,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10873,10 +10873,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8655
+  device:
+    type: smartphone
+    brand: HU
+    model: U8655
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10889,10 +10889,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SPH-M930BST
+  device:
+    type: smartphone
+    brand: SA
+    model: SPH-M930BST
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10905,10 +10905,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: LG
-  model: P920h
+  device:
+    type: smartphone
+    brand: LG
+    model: P920h
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10921,10 +10921,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8185
+  device:
+    type: smartphone
+    brand: HU
+    model: U8185
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10937,10 +10937,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-I577
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-I577
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10953,10 +10953,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: GO
-  model: Nexus One
+  device:
+    type: smartphone
+    brand: GO
+    model: Nexus One
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10969,10 +10969,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100G
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100G
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -10985,10 +10985,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ONE
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11002,9 +11002,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11018,9 +11018,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11033,10 +11033,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8655
+  device:
+    type: smartphone
+    brand: HU
+    model: U8655
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11049,10 +11049,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8655
+  device:
+    type: smartphone
+    brand: HU
+    model: U8655
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11066,9 +11066,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11082,9 +11082,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11098,9 +11098,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11114,9 +11114,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11129,10 +11129,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-I9100T
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-I9100T
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11145,10 +11145,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ONE
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11161,10 +11161,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ONE
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11177,10 +11177,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: AL
-  model: ONE
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11194,9 +11194,9 @@
     short_name: MF
     version: 4.0
   device:
-  device_name:
-  brand:
-  model:
+    type:
+    brand:
+    model:
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11209,10 +11209,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11225,10 +11225,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: Y210
+  device:
+    type: smartphone
+    brand: HU
+    model: Y210
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11241,10 +11241,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S6500D
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S6500D
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11257,10 +11257,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S6802
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S6802
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11273,10 +11273,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5300
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5300
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11289,10 +11289,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815C02B885
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815C02B885
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11305,10 +11305,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11321,10 +11321,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5360B
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5360B
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11337,10 +11337,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: HU
-  model: U8815
+  device:
+    type: smartphone
+    brand: HU
+    model: U8815
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11353,10 +11353,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: SGH-T589W
+  device:
+    type: smartphone
+    brand: SA
+    model: SGH-T589W
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11369,10 +11369,10 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S6500
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S6500
   os_family: Unknown
   browser_family: Unknown
 - 
@@ -11385,9 +11385,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 1
-  device_name: smartphone
-  brand: SA
-  model: GT-S5839i
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5839i
   os_family: Unknown
   browser_family: Unknown
