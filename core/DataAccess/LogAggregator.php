@@ -496,28 +496,74 @@ class LogAggregator
      */
     public function queryEcommerceItems($dimension)
     {
-        $query = "SELECT
-						name as label,
-						" . self::getSqlRevenue('SUM(quantity * price)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_REVENUE . "`,
-						" . self::getSqlRevenue('SUM(quantity)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY . "`,
-						" . self::getSqlRevenue('SUM(price)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE . "`,
-						count(distinct idorder) as `" . Metrics::INDEX_ECOMMERCE_ORDERS . "`,
-						count(distinct idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
-						case idorder when '0' then " . GoalManager::IDGOAL_CART . " else " . GoalManager::IDGOAL_ORDER . " end as ecommerceType
-			 	FROM " . Common::prefixTable('log_conversion_item') . "
-			 		LEFT JOIN " . Common::prefixTable('log_action') . "
-			 		ON $dimension = idaction
-			 	WHERE server_time >= ?
-						AND server_time <= ?
-			 			AND idsite = ?
-			 			AND deleted = 0
-			 	GROUP BY ecommerceType, $dimension
-				ORDER BY null";
-        // Segment not supported yet
-        // $query = $this->query($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->generateQuery(
+            // SELECT ...
+            implode(
+                ', ',
+                array(
+                    "log_action.name AS label",
+                    sprintf(
+                        '%s AS `%d`',
+                        self::getSqlRevenue('SUM(log_conversion_item.quantity * log_conversion_item.price)'),
+                        Metrics::INDEX_ECOMMERCE_ITEM_REVENUE
+                    ),
+                    sprintf(
+                        '%s AS `%d`',
+                        self::getSqlRevenue('SUM(log_conversion_item.quantity)'),
+                        Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY
+                    ),
+                    sprintf(
+                        '%s AS `%d`',
+                        self::getSqlRevenue('SUM(log_conversion_item.price)'),
+                        Metrics::INDEX_ECOMMERCE_ITEM_PRICE
+                    ),
+                    sprintf(
+                        'COUNT(DISTINCT log_conversion_item.idorder) AS `%d`',
+                        Metrics::INDEX_ECOMMERCE_ORDERS
+                    ),
+                    sprintf(
+                        'COUNT(log_conversion_item.idvisit) AS `%d`',
+                        Metrics::INDEX_NB_VISITS
+                    ),
+                    sprintf(
+                        'CASE log_conversion_item.idorder WHEN \'0\' THEN %d ELSE %d END AS ecommerceType',
+                        GoalManager::IDGOAL_CART,
+                        GoalManager::IDGOAL_ORDER
+                    )
+                )
+            ),
 
-        $bind = $this->getBindDatetimeSite();
-        return $this->getDb()->query($query, $bind);
+            // FROM ...
+            array(
+                "log_conversion_item",
+                array(
+                    "table" => "log_action",
+                    "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $dimension)
+                )
+            ),
+
+            // WHERE ... AND ...
+            implode(
+                ' AND ',
+                array(
+                    'log_conversion_item.server_time >= ?',
+                    'log_conversion_item.server_time <= ?',
+                    'log_conversion_item.idsite = ?',
+                    'log_conversion_item.deleted = 0'
+                )
+            ),
+
+            // GROUP BY ...
+            sprintf(
+                "ecommerceType, log_conversion_item.%s",
+                $dimension
+            ),
+
+            // ORDER ...
+            false
+        );
+
+        return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
     /**

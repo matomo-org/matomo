@@ -15,6 +15,8 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\PluginsArchiver;
+use Piwik\PluginsManager;
 use Piwik\Tracker\GoalManager;
 
 class Archiver extends \Piwik\Plugin\Archiver
@@ -231,9 +233,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateEcommerceItems()
     {
-        if (!$this->shouldArchiveEcommerceItems()) {
-            return false;
-        }
         $this->initItemReports();
         foreach ($this->getItemsDimensions() as $dimension) {
             $query = $this->getLogAggregator()->queryEcommerceItems($dimension);
@@ -268,17 +267,6 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized());
             }
         }
-    }
-
-    protected function shouldArchiveEcommerceItems()
-    {
-        // Per item doesn't support segment
-        // Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request
-        // event if it did support segment
-        if (!$this->getProcessor()->getParams()->getSegment()->isEmpty()) {
-            return false;
-        }
-        return true;
     }
 
     protected function getItemsDimensions()
@@ -384,13 +372,11 @@ class Archiver extends \Piwik\Plugin\Archiver
         /*
          * Archive Ecommerce Items
          */
-        if ($this->shouldArchiveEcommerceItems()) {
-            $dataTableToSum = $this->dimensionRecord;
-            foreach ($this->dimensionRecord as $recordName) {
-                $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
-            }
-            $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
+        $dataTableToSum = $this->dimensionRecord;
+        foreach ($this->dimensionRecord as $recordName) {
+            $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
         }
+        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
 
         /*
          *  Archive General Goal metrics

@@ -50,8 +50,36 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
 
         $processedReportApi = array('API.getProcessedReport');
 
+        $apiWithSegments = array(
+            'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'
+        );
+
         // Normal standard goal
         return array_merge(array(
+
+                array(
+                    $apiWithSegments,
+                    array(
+                        'idSite' => $idSite,
+                        'date' => $dateTime,
+                        'periods' => array('day', 'week'),
+                        'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1),
+                        'segment' => 'pageUrl=@RODUCT THREE LEFT in cart',
+                        'compareAgainst' => 'ecommerceOrderWithItemsAndSegments'
+                    )
+                ),
+
+                array(
+                    $apiWithSegments,
+                    array(
+                        'idSite' => $idSite,
+                        'date' => $dateTime,
+                        'periods' => array('day', 'week'),
+                        'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1),
+                        'segment' => 'countryCode==fr',
+                        'compareAgainst' => 'ecommerceOrderWithItemsAndSegmentsAndCountryCodeFr'
+                    )
+                ),
 
                                 // day tests
                                 array($dayApi, array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('day'), 'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1))),

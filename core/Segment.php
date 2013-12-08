@@ -276,8 +276,8 @@ class Segment
      */
     private function generateJoins($tables)
     {
-        $knownTables = array("log_visit", "log_link_visit_action", "log_conversion");
-        $visitsAvailable = $actionsAvailable = $conversionsAvailable = false;
+        $knownTables = array("log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
+        $visitsAvailable = $actionsAvailable = $conversionsAvailable = $conversionItemAvailable = false;
         $joinWithSubSelect = false;
         $sql = '';
 
@@ -347,6 +347,10 @@ class Segment
                     if ($table == "log_conversion") {
                         $joinWithSubSelect = true;
                     }
+                } elseif ($conversionItemAvailable && $table === 'log_visit') {
+                    $join = "log_conversion_item.idvisit = log_visit.idvisit";
+                } elseif ($conversionItemAvailable && $table === 'log_link_visit_action') {
+                    $join = "log_conversion_item.idvisit = log_link_visit_action.idvisit";
                 } else {
                     throw new Exception("Table '$table', can't be joined for segmentation");
                 }
@@ -360,6 +364,7 @@ class Segment
             $visitsAvailable = ($visitsAvailable || $table == "log_visit");
             $actionsAvailable = ($actionsAvailable || $table == "log_link_visit_action");
             $conversionsAvailable = ($conversionsAvailable || $table == "log_conversion");
+            $conversionItemAvailable = ($conversionItemAvailable || $table == "log_conversion_item");
         }
 
         return array(
