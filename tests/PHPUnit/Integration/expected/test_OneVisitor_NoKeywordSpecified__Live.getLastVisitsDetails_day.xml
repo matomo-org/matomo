@@ -76,7 +76,7 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Inconnu</deviceType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -182,7 +182,7 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
-		<deviceType>Inconnu</deviceType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
