@@ -34,7 +34,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * ### The Basics
  * 
  * DataTables consist of rows and each row consists of columns. A column value can be
- * be numeric, a string or an array.
+ * a numeric, a string or an array.
  * 
  * Every row has an ID. The ID is either the index of the row or {@link ID_SUMMARY_ROW}.
  * 
