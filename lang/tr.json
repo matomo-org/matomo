@@ -131,7 +131,6 @@
         "LatestStableRelease": "En son kararlı sürüm",
         "LogoNotWriteable": "Logoyu değiştirmek için, Piwik için tema dizinindeki logo dosyalarına yazma hakkı gerekir: %s",
         "LogoUpload": "Yüklemek için logo seçiniz",
-        "LogoUploadDescription": "Arka planı transparan olmayan dosyalarınızı %s formatlarında ve minimum yüksekliği %s olarak yükleyiniz.",
         "MenuDiagnostic": "tehşis",
         "MenuGeneralSettings": "Genel Ayarlar",
         "MenuManage": "yönetmek",

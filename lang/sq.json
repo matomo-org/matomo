@@ -99,7 +99,6 @@
         "EmailServerSettings": "Rregullime shërbyesi email",
         "LogoNotWriteable": "Që të përdorni një logo Piwik të përshtatur ju nevojitet të keni leje shkrimi te kartelat e logos brenda drejtorisë së temës: %s",
         "LogoUpload": "Përzgjidhni një Logo për ta ngarkuar",
-        "LogoUploadDescription": "Ju lutem, ngarkoni një kartelë në format %s, pa sfond të tejdukshëm, me një lartësi minimale %s piksela.",
         "MenuDiagnostic": "Diagnostikim",
         "MenuGeneralSettings": "Rregullime të përgjithshme",
         "MenuManage": "Administroni",

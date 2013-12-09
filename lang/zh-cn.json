@@ -144,7 +144,6 @@
         "LatestStableRelease": "最新稳定版",
         "LogoNotWriteable": "Piwik需要主题文件夹内%s的写权限去自定义您的logo",
         "LogoUpload": "选择一个图标上传",
-        "LogoUploadDescription": "请上传 %s 格式的文件，不要透明背景，最低高度 %s 像素。",
         "MenuDiagnostic": "检测",
         "MenuGeneralSettings": "一般设置",
         "MenuManage": "管理",

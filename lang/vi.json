@@ -143,7 +143,6 @@
         "LatestStableRelease": "Phiên bản ổn định mới nhất",
         "LogoNotWriteable": "Để sử dụng một biểu tượng Piwik tùy chỉnh yêu cầu ghi vào các tập tin logo trong thư mục \"misc\": %s",
         "LogoUpload": "Chọn một logo để tải lên",
-        "LogoUploadDescription": "Xin vui lòng tải lên một tập tin trong %s định dạng, không có nền trong suốt, với chiều cao tối thiểu của %s pixels.",
         "MenuDiagnostic": "chẩn đoán",
         "MenuGeneralSettings": "cài đặt chung",
         "MenuManage": "Quản lý",

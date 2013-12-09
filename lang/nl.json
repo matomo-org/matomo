@@ -141,7 +141,6 @@
         "LatestStableRelease": "De laatste stabiele versie",
         "LogoNotWriteable": "Voor het gebruik van een aangepast logo heeft Piwik schrijfrechten nodig in de map met de logo-bestanden in de themes map: %s",
         "LogoUpload": "Selecteer een logo om te uploaden",
-        "LogoUploadDescription": "Upload een bestand in de formaten %s, geen transparante achtergrond, met een minimum hoogte van %s pixels.",
         "MenuDiagnostic": "Diagnose",
         "MenuGeneralSettings": "Algemene instellingen",
         "MenuManage": "Beheer",

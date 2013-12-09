@@ -59,7 +59,6 @@
         "EmailServerSettings": "E-mail szerver beállítások",
         "LogoNotWriteable": "Egyéni logó használatához a Piwiknek írási jogra van szüksége a 'themes' mappában a logó fájlokhoz: %s",
         "LogoUpload": "Feltölteni kívánt logó:",
-        "LogoUploadDescription": "Kérlek %s formátumú, nem átlátszó hátterű és legfeljebb %s pixel magas képet tölts fel.",
         "MenuGeneralSettings": "Alapbeállítások",
         "PluginDescription": "Piwik adminisztrációs felület"
     },

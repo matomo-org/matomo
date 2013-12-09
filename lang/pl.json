@@ -55,7 +55,6 @@
         "EmailServerSettings": "Konfiguracja serwera poczty",
         "LogoNotWriteable": "Aby użyć niestandardowego logo Piwik wymagany jest dostępu do zapisu plików logo w katalogu temat: %s",
         "LogoUpload": "Wybierz logo",
-        "LogoUploadDescription": "Proszę przesłać plik w formacie %s, nie zawierający przezroczystego tła, o minimalnej wysokości %s pikseli.",
         "MenuGeneralSettings": "Konfiguracja ogólna",
         "OptOutComplete": "Pełna dezaktywacja. Nie będziesz odnotowywany przez narzędzie statystyk i analityki.",
         "OptOutCompleteBis": "Prosimy zauważyć, że jeśli usuniesz swoje pliki ciasteczek cookies, zostaną skasowane ciasteczka wyłączające śledzenie, lub jeśli zmienisz komputer czy przeglądarkę, będziesz musiał powtórzyć procedurę wyłączenia analizy statystycznej raz jeszcze.",

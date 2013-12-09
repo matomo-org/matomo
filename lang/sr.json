@@ -144,7 +144,6 @@
         "LatestStableRelease": "Poslednja stabilna verzija",
         "LogoNotWriteable": "Da biste koristili svoj logo za Piwik, potrebno je da omogućite prava za pisanje logo fajlovima u okviru foldera za teme: %s",
         "LogoUpload": "Izaberite logo za kačenje",
-        "LogoUploadDescription": "Molimo vas da datoteka bude u formatima %s, bez transparencije i sa minimalnom visinom od %s piksela.",
         "MenuDiagnostic": "Dijagnostika",
         "MenuGeneralSettings": "Osnovna podešavanja",
         "MenuManage": "Upravljanje",

@@ -140,7 +140,6 @@
         "LatestStableRelease": "最新の安定版リリース",
         "LogoNotWriteable": "カスタムロゴを使用するにはthemesディレクトリ：%s の中のロゴファイルへの書き込み権限が必要です。",
         "LogoUpload": "アップロードするロゴを選択",
-        "LogoUploadDescription": "ファイルは %s フォーマット、透明背景なし、最小高さ %s ピクセルでアップロードしてください。",
         "MenuDiagnostic": "診断",
         "MenuGeneralSettings": "全般の設定",
         "MenuManage": "管理",

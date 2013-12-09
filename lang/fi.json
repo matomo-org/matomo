@@ -73,7 +73,6 @@
         "EmailServerSettings": "Sähköpostipalvelimen asetukset",
         "LogoNotWriteable": "Piwik ei voi tallentaa uutta logoa. Piwik tarvitsee kirjoitusoikeuden kansioon %s",
         "LogoUpload": "Valitse tallennettava logo",
-        "LogoUploadDescription": "Tallenna tiedosto %s formaatissa, ei läpinäkyvää taustaa ja korkeus vähintään %s pikseliä.",
         "MenuGeneralSettings": "Yleiset asetukset",
         "OptOutComplete": "Olet poistanut itsesi seurannasta; käyntejä tälle sivulle ei seurata.",
         "OptOutCompleteBis": "Huomioi, että jos poistat evästeet, poistat tämän sivun asettaman evästeen, vaihdat tietokonetta tai selainta, sinun täytyy suorittaa tämä uudelleen.",

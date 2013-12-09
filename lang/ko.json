@@ -107,7 +107,6 @@
         "JavaScriptTracking": "자바스크립트 추적",
         "LogoNotWriteable": "로고를 변경하려면 themes 디렉토리의 로고 파일에 쓰기 권한이 있어야합니다: %s",
         "LogoUpload": "업로드 할 로고 선택",
-        "LogoUploadDescription": "파일을 업로드합니다. %s 포맷이며 투명 배경이 없고 최소 높이가 %s 픽셀이어야 합니다.",
         "MenuDiagnostic": "진단",
         "MenuGeneralSettings": "일반 설정",
         "MenuManage": "관리",

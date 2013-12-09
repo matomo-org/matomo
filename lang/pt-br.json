@@ -144,7 +144,6 @@
         "LatestStableRelease": "O último release estável",
         "LogoNotWriteable": "Para usar um logo personalizado o Piwik requer permissão de gravação ao diretório dos arquivos de temas: %s",
         "LogoUpload": "Selecione um logotipo para carregar",
-        "LogoUploadDescription": "Faça upload de um arquivo no formato %s, sem nenhum fundo transparente e com uma altura mínima de %s pixels.",
         "MenuDiagnostic": "Diagnostico",
         "MenuGeneralSettings": "Configurações Gerais",
         "MenuManage": "Gerenciar",

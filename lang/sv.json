@@ -122,7 +122,6 @@
         "LatestStableRelease": "Senaste stabila versionen",
         "LogoNotWriteable": "För att kunna använda en anpassad logotyp för Piwik krävs skrivrättigheter till logotypfilerna i temakatalogen: %s",
         "LogoUpload": "Välj en logotyp att ladda upp",
-        "LogoUploadDescription": "Vänligen ladda upp en fil i %s formatet, ingen transparent bakgrund, med en minsta höjd av %s pixlar.",
         "MenuDiagnostic": "Diagnostik",
         "MenuGeneralSettings": "Allmänna inställningar",
         "MenuManage": "Hantera",

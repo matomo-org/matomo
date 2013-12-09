@@ -46,7 +46,6 @@
         "EmailServerSettings": "Innstillingar for e-posttenar",
         "LogoNotWriteable": "For å bruka ein tilpassa logo, krev Piwik skrivetilgang til logofilene i bunad-katalogen: %s",
         "LogoUpload": "Last opp ein logo",
-        "LogoUploadDescription": "Last opp ei fil i %s format, ikkje gjennomsynleg bakgrunn, og minimum %s pikslar høg.",
         "MenuGeneralSettings": "Generelle innstillingar",
         "OptOutComplete": "Avmelding fullførd. Vitjingane dine til denne nettsida vil ikkje loggførast av nettstatistikkverktøyet.",
         "OptOutCompleteBis": "Dersom du slettar infokapslane dine eller byter datamaskin eller nettlesar, må du avmelda deg på nytt.",
