@@ -1447,9 +1447,10 @@ class Parser(object):
         # check the format using the file (for formats like the IIS one)
         format = Parser.check_format(file)
 
-        # check the format using the first 1000 lines (to avoid irregular ones)
+        # check the format using the first N lines (to avoid irregular ones)
         lineno = 0
-        while not format and lineno < 1000:
+        limit = 100000
+        while not format and lineno < limit:
             line = file.readline()
             lineno = lineno + 1
 
@@ -1459,8 +1460,8 @@ class Parser(object):
         file.seek(0)
 
         if not format:
-            fatal_error("cannot determine the log format using the first 1000 lines of the log file. Try " +
-                        "specifying the format with the --log-format-name command line argument.")
+            fatal_error("cannot automatically determine the log format using the first %d lines of the log file. " % limit +
+                        "\Maybe try specifying the format with the --log-format-name command line argument." )
             return
 
         logging.debug('Format %s is the best match', format.name)
