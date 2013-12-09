@@ -568,7 +568,7 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns a list of all names of currently activated plugin eg,
+     * Returns a list of all names of currently activated and loaded plugin eg,
      *
      *     array(
      *         'UserCountry'
@@ -577,9 +577,21 @@ class Manager extends Singleton
      *
      * @return string[]
      */
-    public function getActivatedPlugins()
+    public function getActivatedAndLoadedPlugins()
     {
-        return $this->pluginsToLoad;
+        $activatedPlugins = $this->pluginsToLoad;
+
+        $plugins = array();
+        foreach ($activatedPlugins as $activatedPlugin) {
+
+            if ($activatedPlugin
+                && $this->isPluginLoaded($activatedPlugin)) {
+
+                $plugins[] = $activatedPlugin;
+            }
+        }
+
+        return $plugins;
     }
 
     /**

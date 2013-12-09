@@ -153,6 +153,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 static::createTestConfig();
             }
 
+            self::loadAllPlugins();
+
             if ($dbName === false) // must be after test config is created
             {
                 $dbName = Config::getInstance()->database['dbname'];

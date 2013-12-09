@@ -35,6 +35,9 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         try {
             Config::getInstance()->setTestEnvironment();
 
+//            \Piwik\Manager::getInstance()->loadPlugins(array());
+            IntegrationTestCase::loadAllPlugins();
+
             $dbConfig = Config::getInstance()->database;
             $dbName = $dbConfig['dbname'];
             $dbConfig['dbname'] = null;
@@ -47,9 +50,6 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
 
             Db::createDatabaseObject();
             DbHelper::createTables();
-
-//            \Piwik\Manager::getInstance()->loadPlugins(array());
-            IntegrationTestCase::loadAllPlugins();
 
         } catch (Exception $e) {
             $this->fail("TEST INITIALIZATION FAILED: " . $e->getMessage());
