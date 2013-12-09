@@ -183,4 +183,17 @@ class Controller extends \Piwik\Plugin\Controller
 
         return $view->render();
     }
+
+    public function treemap()
+    {
+        $view = ViewDataTableFactory::build(
+            'infoviz-treemap', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.treemap');
+
+        $view->config->translations['value'] = "Temperature";
+        $view->config->columns_to_display = array("value");
+        $view->config->selectable_columns = array("value");
+        $view->config->show_evolution_values = 0;
+
+        return $view->render();
+    }
 }
