@@ -122,6 +122,7 @@
         "JSTracking_CodeNote": "Asegúrate de que este código se encuentre en cada página de tu sitio web antes de la etiqueta %1$s.",
         "JSTracking_CustomCampaignQueryParamDesc": "Nota: %1$sPiwik detectara automáticamente los parámetros de Google Analytics.%2$s",
         "JSTracking_EnableDoNotTrack": "Habilitar detección por parte del cliente de DoNotTrack",
+        "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Nota: Soporte del lado del servidor para DoNotTrack ha sido activado, por lo que esta opción no tendrá ningún efecto.",
         "JSTracking_GroupPageTitlesByDomain": "Anteponer el dominio del sitio para el título al rastrear",
         "JSTracking_MergeSubdomains": "Rastrear visitantes a través de todos los subdominios de",
         "JSTracking_MergeSubdomainsDesc": "Entones si un visitante visita %1$s y %2$s, estos serán contados como un único visitante.",
