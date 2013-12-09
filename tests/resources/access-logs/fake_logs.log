@@ -1,3 +1,4 @@
+70.117.169.113 - - [26/Nov/2013:01:41:01 -0500] "\x80w\x01\x03\x01" 400 226 "-" "-"
 175.41.192.40 - - [09/Aug/2012:10:10:38 +0200] "GET http://piwik.net/blog/category/meta/ HTTP/1.1" 200 3574 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24"
 175.41.192.40 - - [09/Aug/2012:10:11:30 +0200] "GET http://piwik.net/faq/ HTTP/1.1" 200 3574 "-" "Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1"
 175.41.192.40 - - [09/Aug/2012:10:11:56 +0200] "GET /blog/category/community/ HTTP/1.1" 200 3574 "-" "Mozilla/5.0 (X11; U; Linux x86_64; ca-ad) AppleWebKit/531.2+ (KHTML, like Gecko) Safari/531.2+ Epiphany/2.30.6"

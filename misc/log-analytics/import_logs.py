@@ -1402,17 +1402,21 @@ class Parser(object):
         return True
 
     @staticmethod
-    def detect_format(file):
-        """
-        Return the best matching format for this file, or None if none was found.
-        """
-        logging.debug('Detecting the log format')
-
-        format = None
+    def check_format(lineOrFile):
+        format = False
         format_groups = 0
         for name, candidate_format in FORMATS.iteritems():
             logging.debug("Check format %s", name)
-            match = candidate_format.check_format(file)
+
+            match = None
+            try:
+                if isinstance(lineOrFile, basestring):
+                    match = candidate_format.check_format_line(lineOrFile)
+                else:
+                    match = candidate_format.check_format(lineOrFile)
+            except:
+                pass
+
             if match:
                 logging.debug('Format %s matches', name)
 
@@ -1428,10 +1432,35 @@ class Parser(object):
 
             else:
                 logging.debug('Format %s does not match', name)
+        
+        return format
+
+    @staticmethod
+    def detect_format(file):
+        """
+        Return the best matching format for this file, or None if none was found.
+        """
+        logging.debug('Detecting the log format')
+
+        format = False
+
+        # check the format using the file (for formats like the IIS one)
+        format = Parser.check_format(file)
+
+        # check the format using the first 1000 lines (to avoid irregular ones)
+        lineno = 0
+        while not format and lineno < 1000:
+            line = file.readline()
+            lineno = lineno + 1
+
+            logging.debug("Detecting format against line %i" % lineno)
+            format = Parser.check_format(line)
+
+        file.seek(0)
 
         if not format:
-            fatal_error("cannot determine the log format using the first line of the log file. Try removing it" +
-                        " or specifying the format with the --log-format-name command line argument.")
+            fatal_error("cannot determine the log format using the first 1000 lines of the log file. Try " +
+                        "specifying the format with the --log-format-name command line argument.")
             return
 
         logging.debug('Format %s is the best match', format.name)
