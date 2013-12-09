@@ -1,7 +1,7 @@
 {% macro tablePluginUpdates(pluginsHavingUpdate, nonce, isTheme) %}
 
     <div class='entityContainer'>
-        <table class="dataTable entityTable">
+        <table class="entityTable">
             <thead>
             <tr>
                 <th>{% if isTheme %}{{ 'CorePluginsAdmin_Theme'|translate }}{% else %}{{ 'General_Plugin'|translate }}{% endif %}</th>
@@ -13,7 +13,7 @@
             </thead>
             <tbody id="plugins">
             {% for name,plugin in pluginsHavingUpdate %}
-                <tr {% if plugin.isActivated %}class="highlighted"{% endif %}>
+                <tr {% if plugin.isActivated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                     <td class="name">
                         <a href="javascript:void(0);" data-pluginName="{{ plugin.name|e('html_attr') }}">
                             {{ plugin.name }}
@@ -112,7 +112,7 @@
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
-                <tr {% if plugin.activated %}class="highlighted"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
+                <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
                         {% if not plugin.isCorePlugin and name in marketplacePluginNames -%}
                             <a href="javascript:void(0);"
