@@ -15,6 +15,8 @@ misc/user/logo.svg
 php_errors.log
 piwik-min.js
 plugins/*.zip
+plugins/ImageGraph/fonts/unifont.ttf
+plugins/ImageGraph/fonts/unifont.ttf.zip
 robots.txt
 tmp
 tmp/*
@@ -33,6 +35,8 @@ tests/javascript/enable_sqlite
 tests/javascript/unittest.dbf
 tests/lib/geoip-files/*.dat*
 tests/lib/visualphpunit/app/resource/cache/
+tests/lib/visualphpunit/app/resource/cache/
+tests/lib/xhprof*
 tests/PHPUnit/Fixtures/userAgentParserEnhancedFixtures.yml.new
 tests/PHPUnit/Integration/processed/
 tests/PHPUnit/phpunit.xml
