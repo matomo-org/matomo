@@ -88,7 +88,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function installAndLoadPlugins($installPlugins)
     {
-        $plugins = self::getPluginsToLoadDuringTests();
+        $plugins = static::getPluginsToLoadDuringTests();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
         $pluginsManager->loadPlugins($plugins);
         if ($installPlugins)
@@ -98,12 +98,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 echo implode("  ----  ", $messages);
             }
         }
+        foreach($plugins as $name) {
+            if(!$pluginsManager->isPluginActivated($name)) {
+                $pluginsManager->activatePlugin($name);
+            }
+        }
     }
 
     public static function loadAllPlugins()
     {
-        $pluginsToLoad = self::getPluginsToLoadDuringTests();
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins($pluginsToLoad);
+        self::installAndLoadPlugins(false);
     }
 
     public static function unloadAllPlugins()
@@ -235,7 +239,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Translate::unloadEnglishTranslation();
     }
 
-    private static function getPluginsToLoadDuringTests()
+    protected static function getPluginsToLoadDuringTests()
     {
         $manager = \Piwik\Plugin\Manager::getInstance();
         $toLoad = array();
