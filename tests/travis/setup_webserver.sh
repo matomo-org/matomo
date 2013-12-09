@@ -22,7 +22,7 @@ elif [ -d "$TRAVIS_BUILD_DIR/piwik/tmp/" ]; then
 elif [ -d "$TRAVIS_BUILD_DIR" ]; then
     PHP_FPM_LOG="$TRAVIS_BUILD_DIR/php-fpm.log"
 else
-    PHP_FPM_LOG = "$HOME/php-fpm.log"
+    PHP_FPM_LOG="$HOME/php-fpm.log"
 fi
 
 USER=$(whoami)
