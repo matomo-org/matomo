@@ -22,6 +22,7 @@ use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Url;
+use Piwik\Site;
 
 /**
  * This class generates a Row evolution dataset, from input request
@@ -30,6 +31,13 @@ use Piwik\Url;
  */
 class RowEvolution
 {
+    private static $actionsUrlReports = array(
+        'getPageUrls',
+        'getPageUrlsFollowingSiteSearch',
+        'getEntryPageUrls',
+        'getExitPageUrls',
+        'getPageUrl'
+    );
 
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
@@ -67,6 +75,7 @@ class RowEvolution
             );
         } else {
             $data = $this->getSingleRowEvolution(
+                $idSite,
                 $dataTable,
                 $metadata,
                 $apiModule,
@@ -132,7 +141,7 @@ class RowEvolution
      * @param bool $labelUseAbsoluteUrl
      * @return array containing  report data, metadata, label, logo
      */
-    private function getSingleRowEvolution($dataTable, $metadata, $apiModule, $apiAction, $label, $labelUseAbsoluteUrl = true)
+    private function getSingleRowEvolution($idSite, $dataTable, $metadata, $apiModule, $apiAction, $label, $labelUseAbsoluteUrl = true)
     {
         $metricNames = array_keys($metadata['metrics']);
 
@@ -171,7 +180,7 @@ class RowEvolution
 
         // if we have a recursive label and no url, use the path
         if (!$urlFound) {
-            $actualLabel = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+            $actualLabel = $this->formatQueryLabelForDisplay($idSite, $apiModule, $apiAction, $label);
         }
 
         $return = array(
@@ -183,6 +192,25 @@ class RowEvolution
             $return['logo'] = $logo;
         }
         return $return;
+    }
+
+    private function formatQueryLabelForDisplay($idSite, $apiModule, $apiAction, $label)
+    {
+        // rows with subtables do not contain URL metadata. this hack makes sure the label titles in row
+        // evolution popovers look like URLs.
+        if ($apiModule == 'Actions'
+            && in_array($apiAction, self::$actionsUrlReports)
+        ) {
+            $mainUrl = Site::getMainUrlFor($idSite);
+            $mainUrlHost = @parse_url($mainUrl, PHP_URL_HOST);
+
+            $replaceRegex = "/\\s*" . preg_quote(LabelFilter::SEPARATOR_RECURSIVE_LABEL) . "\\s*/";
+            $cleanLabel = preg_replace($replaceRegex, '/', $label);
+
+            return $mainUrlHost . '/' . $cleanLabel . '/';
+        } else {
+            return str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+        }
     }
 
     /**

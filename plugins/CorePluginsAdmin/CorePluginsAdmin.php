@@ -54,6 +54,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
     }
 
     function addMenu()

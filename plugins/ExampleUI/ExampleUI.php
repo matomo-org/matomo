@@ -39,6 +39,10 @@ class ExampleUI extends \Piwik\Plugin
         $this->addSubMenu('Tag clouds', 'tagClouds', 4);
         $this->addSubMenu('Sparklines', 'sparklines', 5);
         $this->addSubMenu('Evolution Graph', 'evolutionGraph', 6);
+
+        if (class_exists("Piwik\\Plugins\\TreemapVisualization\\Treemap")) {
+            $this->addSubMenu('Treemap', 'treemap', 7);
+        }
     }
 
     function addTopMenuItems()

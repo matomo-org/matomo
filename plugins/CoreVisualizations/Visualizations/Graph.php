@@ -112,28 +112,32 @@ abstract class Graph extends Visualization
 
         $this->config->selectable_rows = array_values($this->selectableRows);
 
-        $selectableColumns = $this->config->selectable_columns;
-
-        // set default selectable columns, if none specified
-        if (false === $selectableColumns) {
-            $selectableColumns = array('nb_visits', 'nb_actions');
-
-            if (in_array('nb_uniq_visitors', $this->dataTable->getColumns())) {
-                $selectableColumns[] = 'nb_uniq_visitors';
-            }
-        }
-
         if ($this->config->show_goals) {
-            $goalMetrics       = array('nb_conversions', 'revenue');
-            $selectableColumns = array_merge($selectableColumns, $goalMetrics);
             $this->config->addTranslations(array(
                 'nb_conversions' => Piwik::translate('Goals_ColumnConversions'),
                 'revenue'        => Piwik::translate('General_TotalRevenue')
             ));
         }
 
+        // set default selectable columns, if none specified
+        $selectableColumns = $this->config->selectable_columns;
+        if (false === $selectableColumns) {
+            $selectableColumns = array('nb_visits', 'nb_actions', 'nb_uniq_visitors');
+
+            if ($this->config->show_goals) {
+                $goalMetrics       = array('nb_conversions', 'revenue');
+                $selectableColumns = array_merge($selectableColumns, $goalMetrics);
+            }
+        }
+
+        $availableColumns = $this->dataTable->getColumns();
+
         $transformed = array();
         foreach ($selectableColumns as $column) {
+            if (!in_array($column, $availableColumns)) {
+                continue;
+            }
+
             $transformed[] = array(
                 'column'      => $column,
                 'translation' => @$this->config->translations[$column],
