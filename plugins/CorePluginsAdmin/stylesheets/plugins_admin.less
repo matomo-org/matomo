@@ -1,7 +1,48 @@
+table.dataTable tr.active-plugin > td {
+    background-color:#fff !important;
+}
+
+table.dataTable tr.active-plugin:hover > td {
+    background-color:#fff !important;
+}
+
 table.dataTable tr.inactive-plugin > td {
-    background-color:#ddd;
+    background-color:#ddd !important;
 }
 
 table.dataTable tr.inactive-plugin:hover > td {
     background-color:#ddd !important;
+}
+
+.plugin-desc-text {
+    margin-top:0em;
+    margin-bottom:1.5em;
+}
+
+.plugin-author {
+    float:left;
+}
+
+.plugin-license {
+    float:right;
+    font-style:italic;
+}
+
+.plugin-homepage {
+    font-size:.8em;
+    font-style:italic;
+}
+
+table.entityTable tr td .plugin-homepage a {
+    text-decoration:none;
+}
+
+table.entityTable tr td .plugin-homepage a:hover {
+    text-decoration:underline;
+}
+
+table.entityTable tr td a.uninstall {
+    color:red;
+    text-decoration:none;
+    font-weight:bold;
 }
