@@ -154,7 +154,7 @@
                         </div>
                         {% endif %}
                     </td>
-                    <td class="status">
+                    <td class="status" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
                         {% if not isZeitgeist -%}
 
                         {% if plugin.activated %}
