@@ -405,7 +405,7 @@ class Controller extends Plugin\ControllerAdmin
                 $actionToRedirect = 'themes';
             }
 
-            $message = Piwik::translate('CorePluginsAdmin_PluginSuccessfullyActicated', array($pluginName));
+            $message = Piwik::translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
             if (SettingsManager::hasPluginSettingsForCurrentUser($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
                                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'pluginSettings')),
