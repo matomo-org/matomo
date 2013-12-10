@@ -730,7 +730,7 @@
         "MenuPlatform": "Platform",
         "Marketplace": "Marketplace",
         "PluginNotCompatibleWith": "%1$s plugin is not compatible with %2$s.",
-        "PluginAskDevToUpdate": "If you enjoyed this plugin, maybe you can ask the developers to update it to work on the latest Piwik. ",
+        "PluginNotWorkingAlternative": "If you enjoyed this plugin, maybe you can find a more recent version in the Marketplace. If not, you may uninstall it. ",
         "UninstallConfirm": "You are about to uninstall a plugin %s. The plugin will be completely removed from your platform and it won't be recoverable. Are you sure you want to do this?",
         "NoZipFileSelected": "Please select a ZIP file.",
         "PluginSuccessfullyActicated": "You have successfully activated plugin <strong>%s</strong>.",
