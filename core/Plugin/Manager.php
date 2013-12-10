@@ -401,6 +401,8 @@ class Manager extends Singleton
      */
     public function returnLoadedPluginsInfo()
     {
+        $language = Translate::getLanguageToLoad();
+
         $plugins = array();
 
         $listPlugins = array_merge(
@@ -418,6 +420,7 @@ class Manager extends Singleton
                     'uninstallable'   => true,
                 );
             } else {
+                $this->loadTranslation($pluginName, $language);
                 $this->loadPlugin($pluginName);
                 $info = array(
                     'activated'       => $this->isPluginActivated($pluginName),
@@ -803,7 +806,11 @@ class Manager extends Singleton
             return false;
         }
 
-        $pluginName = $plugin->getPluginName();
+        if (is_string($plugin)) {
+            $pluginName = $plugin;
+        } else {
+            $pluginName = $plugin->getPluginName();
+        }
 
         $path = self::getPluginsDirectory() . $pluginName . '/lang/%s.json';
 
