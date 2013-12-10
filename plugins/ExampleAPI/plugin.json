@@ -4,7 +4,7 @@
     "version": "1.0",
     "keywords": ["example", "api"],
     "homepage": "http://piwik.org",
-    "license": "GPL-3.0+",
+    "license": "GPL v3+",
     "authors": [
         {
             "name": "Piwik",

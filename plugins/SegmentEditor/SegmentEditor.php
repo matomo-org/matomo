@@ -30,6 +30,8 @@ class SegmentEditor extends \Piwik\Plugin
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
             'version'         => Version::VERSION,
+            'license'          => 'GPL v3+',
+            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
         );
     }
 
