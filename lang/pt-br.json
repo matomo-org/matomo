@@ -238,7 +238,6 @@
         "MainDescription": "Plugins estendem e expandem a funcionalidade do Piwik. Uma vez que um plugin for instalado, você pode ativá-lo ou desativá-lo aqui.",
         "MenuPlatform": "Plataforma",
         "NoZipFileSelected": "Por favor, selecione um arquivo ZIP.",
-        "PluginAskDevToUpdate": "Se você curtiu este plugin, talvez você possa pedir aos desenvolvedores para atualizá-lo para funcionar no Piwik mais recente.",
         "PluginDescription": "Interface de Administração de Plugins",
         "PluginHomepage": "Página do Plugin",
         "PluginNotCompatibleWith": "O plugin %1$s não é compatível com %2$s.",

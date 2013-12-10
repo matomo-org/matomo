@@ -238,7 +238,6 @@
         "MainDescription": "Dodaci proširuju funkcionalnost Piwik-a. Jednom instaliran dodatak se ovde može aktivirati ili deaktivirati.",
         "MenuPlatform": "Platforma",
         "NoZipFileSelected": "Molimo vas da izaberete ZIP datoteku.",
-        "PluginAskDevToUpdate": "Ukoliko ste uživali koristeći ovaj dodatak, možda možete da zamolite razvojni tim da ga nadograde kako bi radio sa najnovijim Piwik-om.",
         "PluginDescription": "Interfejs za upravljanje dodacima",
         "PluginHomepage": "Sajt dodatka",
         "PluginNotCompatibleWith": "%1$s dodatak nije kompatibilan sa %2$s.",

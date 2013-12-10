@@ -11,6 +11,7 @@
         "ColumnNoResultKeyword": "Ključna beseda brez zadetka",
         "ColumnPageName": "Ime spletne strani",
         "ColumnPageURL": "URL spletne strani",
+        "ColumnSearchCategory": "Kategorija iskanja",
         "ColumnSearches": "Iskanja",
         "ColumnSearchExits": "Izhodov pri iskanju",
         "ColumnSearchResultsCount": "Število zadetkov pri iskanju",
@@ -26,6 +27,7 @@
         "ExitPagesReportDocumentation": "To poročilo vsebuje informacije o izhodnih straneh, ki so bile obiskane v izbranem časovnem obdobju. izhodna stran je zadnja stran, ki si jo je obiskovalec ogledal med svojim obiskom. %s Izhodni URL naslovi so prikazani kot struktura mape.",
         "ExitPageTitles": "Nazivi izhodnih strani",
         "ExitPageTitlesReportDocumentation": "To poročilo vsebuje informacije o nazivih izhodnih strani, ki so bile obiskane v izbranem časovnam obdobju.",
+        "OneSearch": "Eno iskanje",
         "OutlinkDocumentation": "Zunanja povezava je povezava, ki vodi obiskovalca stran od vaše splete strani (na drugo domeno).",
         "OutlinksReportDocumentation": "To poročilo prikazuje hierarhični seznam URL-jev zunanjih povezav na katere so uporabniki kliknili.",
         "PagesReportDocumentation": "To poročilo vsebuje informacije o URL-jih strani, ki so bile obiskane. %s Tabela je hierarhično organizirana. URL-ji so prikazani kot struktura mape.",
@@ -41,7 +43,9 @@
         "WidgetExitPageTitles": "Naslovi izhodnih strani",
         "WidgetPagesEntry": "Vstopne strani",
         "WidgetPagesExit": "Izhodne strani",
-        "WidgetPageTitles": "Naslovi strani"
+        "WidgetPageTitles": "Naslovi strani",
+        "WidgetSearchCategories": "Kategorije za iskanje",
+        "WidgetSearchKeywords": "Ključne besede"
     },
     "Annotations": {
         "Annotations": "Beležke",
@@ -71,6 +75,9 @@
         "ClickHereToOptOut": "Kliknite tu, če želite odstopiti.",
         "CustomLogoHelpText": "Piwik-ov logo lahko prilagodite po vaših željah. Spremembe bodo vidne tako v uporabniškem vmesniku, kot v email poročilih.",
         "EmailServerSettings": "Nastavitev strežnika za email",
+        "ImageTracking": "Sledenje s pomočjo slike",
+        "LatestBetaRelease": "Zadnja beta različica",
+        "LatestStableRelease": "Zadnja stabilna različica",
         "LogoUpload": "Izberite Logo za nalaganje",
         "MenuDiagnostic": "Diagnostika",
         "MenuGeneralSettings": "Splošne nastavitve",
