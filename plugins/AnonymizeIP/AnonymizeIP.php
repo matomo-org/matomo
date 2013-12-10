@@ -28,10 +28,12 @@ class AnonymizeIP extends \Piwik\Plugin
     public function getInformation()
     {
         return array(
-            'description'     => Piwik::translate('AnonymizeIP_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Version::VERSION,
+            'description'      => Piwik::translate('AnonymizeIP_PluginDescription'),
+            'author'           => 'Piwik',
+            'author_homepage'  => 'http://piwik.org/',
+            'version'          => Version::VERSION,
+            'license'          => 'GPL v3+',
+            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
         );
     }
 

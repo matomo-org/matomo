@@ -103,7 +103,6 @@
         <thead>
         <tr>
             <th>{% if isTheme %}{{ 'CorePluginsAdmin_Theme'|translate }}{% else %}{{ 'General_Plugin'|translate }}{% endif %}</th>
-            <th class="num">{{ 'CorePluginsAdmin_Version'|translate }}</th>
             <th>{{ 'General_Description'|translate }}</th>
             <th class="status">{{ 'CorePluginsAdmin_Status'|translate }}</th>
             <th class="action-links">{{ 'General_Action'|translate }}</th>
@@ -111,6 +110,7 @@
         </thead>
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
+            {% set isZeitgeist = isTheme and name == 'Zeitgeist' %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
@@ -121,17 +121,19 @@
                         {%- else %}
                             {{ name }}
                         {% endif %}
+                        <span class="plugin-version" {% if plugin.isCorePlugin %}title="{{ 'CorePluginsAdmin_CorePluginTooltip'|translate }}"{% endif %}>({% if plugin.isCorePlugin %}{{ 'CorePluginsAdmin_OriginCore'|translate }}{% else %}v{{ plugin.info.version }}{% endif %})</span>
 
                         {% if name in pluginNamesHavingSettings %}
                             <br /><br />
                             <a href="{{ linkTo({'module':'CoreAdminHome', 'action': 'pluginSettings'}) }}#{{ name|e('html_attr') }}" class="settingsLink">{{ 'General_Settings'|translate }}</a>
                         {% endif %}
                     </td>
-                    <td class="vers">{{ plugin.info.version }}</td>
                     <td class="desc">
                         <div class="plugin-desc-text">
                             {{ plugin.info.description|raw|nl2br }}
-                            {% if plugin.info.homepage|default is not empty %}
+                            {% if plugin.info.homepage|default is not empty and plugin.info.homepage not in [
+                                  'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/'
+                            ] %}
                             <span class="plugin-homepage">
                                 <a href="{{ plugin.info.homepage }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
                             </span>
@@ -152,16 +154,22 @@
                         </div>
                         {% endif %}
                     </td>
-                    <td class="status">
+                    <td class="status" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
+                        {% if not isZeitgeist -%}
+
                         {% if plugin.activated %}
                             {{ 'CorePluginsAdmin_Active'|translate }}
                         {% else %}
-                            {{ 'CorePluginsAdmin_Inactive'|translate }} <br/>
-                            - {% if plugin.uninstallable %}<a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{ uninstallNonce }}'>{{ 'CorePluginsAdmin_ActionUninstall'|translate }}</a>{% endif %}
+                            {{ 'CorePluginsAdmin_Inactive'|translate }}
+                            {% if plugin.uninstallable %} <br/> - <a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{ uninstallNonce }}'>{{ 'CorePluginsAdmin_ActionUninstall'|translate }}</a>{% endif %}
                         {% endif %}
+
+                        {%- endif %}
                     </td>
 
-                    <td class="togl action-links">
+                    <td class="togl action-links" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
+                        {% if not isZeitgeist -%}
+
                         {% if plugin.invalid is defined or plugin.alwaysActivated %}
                             -
                         {% else %}
@@ -171,6 +179,8 @@
                                 <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&nonce={{  activateNonce }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
                             {% endif %}
                         {% endif %}
+
+                        {%- endif %}
                     </td>
                 </tr>
             {% endif %}

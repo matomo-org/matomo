@@ -73,7 +73,7 @@ class MetadataLoader
             'homepage'         => 'http://piwik.org/',
             'author'           => 'Piwik',
             'author_homepage'  => 'http://piwik.org/',
-            'license'          => 'GPL v3 or later',
+            'license'          => 'GPL v3+',
             'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
             'version'          => Version::VERSION,
             'theme'            => false,

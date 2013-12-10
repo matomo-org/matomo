@@ -31,7 +31,9 @@ class UserCountryMap extends \Piwik\Plugin
             'description'     => 'This plugin provides the widgets Visitor Map and Real-time Map. Note: Requires the UserCountry plugin enabled.',
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version'         => Version::VERSION
+            'version'         => Version::VERSION,
+            'license'          => 'GPL v3+',
+            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
         );
     }
 

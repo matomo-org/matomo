@@ -730,7 +730,7 @@
         "MenuPlatform": "Platform",
         "Marketplace": "Marketplace",
         "PluginNotCompatibleWith": "%1$s plugin is not compatible with %2$s.",
-        "PluginNotWorkingAlternative": "If you enjoyed this plugin, maybe you can find a more recent version in the Marketplace. If not, you may uninstall it. ",
+        "PluginNotWorkingAlternative": "If you've been using this plugin, maybe you can find a more recent version in the Marketplace. If not, you may want to uninstall it.",
         "UninstallConfirm": "You are about to uninstall a plugin %s. The plugin will be completely removed from your platform and it won't be recoverable. Are you sure you want to do this?",
         "NoZipFileSelected": "Please select a ZIP file.",
         "SuccessfullyActicated": "You have successfully activated <strong>%s</strong>.",
@@ -806,7 +806,8 @@
         "ByWritingOwnPlugin": "by %swriting your own plugin%s",
         "OrByUploadingAPlugin": "or by %suploading a plugin%s",
         "ByDesigningOwnTheme": "by %sdesign your own theme%s",
-        "OrByUploadingATheme": "or by %suploading a theme%s"
+        "OrByUploadingATheme": "or by %suploading a theme%s",
+        "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik."
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",
