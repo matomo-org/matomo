@@ -20,6 +20,78 @@
 /**
  * PiwikTracker implements the Piwik Tracking API.
  *
+ * The PHP Tracking Client provides all features of the Javascript Tracker, such as Ecommerce Tracking, Custom Variable, Event tracking and more.
+ * Functions are named the same as the Javascript functions.
+ *
+ * ### Examples of how to use the PHP PiwikTracker class
+ *
+ * The following code snippet is an advanced example of how to track a Page View using the Tracking API PHP client.
+ *
+ *      $t = new PiwikTracker( $idSite = 1, 'http://example.org/piwik/');
+ *
+ *      // Optional function calls
+ *      $t->setUserAgent( "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB) Firefox/3.6.6");
+ *      $t->setBrowserLanguage('fr');
+ *      $t->setLocalTime( '12:34:06' );
+ *      $t->setResolution( 1024, 768 );
+ *      $t->setBrowserHasCookies(true);
+ *      $t->setPlugins($flash = true, $java = true, $director = false);
+ *
+ *      // set a Custom Variable called 'Gender'
+ *      $t->setCustomVariable( 1, 'gender', 'male' );
+ *
+ *      // If you want to force the visitor IP, or force the server date time to a date in the past,
+ *      // it is required to authenticate the Tracking request by calling setTokenAuth
+ *      // You can pass the Super User token_auth or any user with 'admin' privilege on the website $idSite
+ *      $t->setTokenAuth( $token_auth );
+ *      $t->setIp( "134.10.22.1" );
+ *      $t->setForceVisitDateTime( '2011-04-05 23:55:02' );
+ *
+ *      // if you wanted to force to record the page view or conversion to a specific visitorId
+ *      // $t->setVisitorId( "33c31e01394bdc63" );
+ *      // Mandatory: set the URL being tracked
+ *      $t->setUrl( $url = 'http://example.org/store/list-category-toys/' );
+ *
+ *      // Finally, track the page view with a Custom Page Title
+ *      // In the standard JS API, the content of the <title> tag would be set as the page title
+ *      $t->doTrackPageView('This is the page title');
+ *
+ * ### Example of tracking Ecommerce interactions
+ *
+ * Here is an example showing how to track Ecommerce interactions on your website, using the PHP Tracking API.
+ * Usually, Ecommerce tracking is done using standard Javascript code,
+ * but it is very common to record Ecommerce interactions after the fact
+ * (for example, when payment is done with Paypal and user doesn't come back on the website after purchase).
+ * For more information about Ecommerce tracking in Piwik, check out the documentation: Tracking Ecommerce in Piwik.
+ *
+ *      $t = new PiwikTracker( $idSite = 1, 'http://example.org/piwik/');
+ *
+ *      // Force IP to the actual visitor IP
+ *      $t->setTokenAuth( $token_auth );
+ *      $t->setIp( "134.10.22.1" );
+ *
+ *      // Example 1: on a Product page, track an "Ecommerce Product view"
+ *      $t->setUrl( $url = 'http://www.mystore.com/Endurance-Shackletons-Legendary-Antarctic-Expedition' );
+ *      $t->setEcommerceView($sku = 'SKU0011', $name = 'Endurance - Shackleton', $category = 'Books');
+ *      $t->doTrackPageView( 'Endurance Shackletons Legendary Antarctic Expedition - Mystore.com');
+ *
+ *      // Example 2: Tracking Ecommerce Cart containing 2 products
+ *      $t->addEcommerceItem($sku = 'SKU0011', $name = 'Endurance - Shackleton' , $category = 'Books', $price = 17, $quantity = 1);
+ *      // Note that when setting a product category, you can specify an array of up to 5 categories to track for this product
+ *      $t->addEcommerceItem($sku = 'SKU0321', $name = 'Amélie' , $categories = array('DVD Foreign','Best sellers','Our pick'), $price = 25, $quantity = 1);
+ *      $t->doTrackEcommerceCartUpdate($grandTotal = 42);
+ *
+ *      // Example 3: Tracking Ecommerce Order
+ *      $t->addEcommerceItem($sku = 'SKU0011', $name = 'Endurance - Shackleton' , $category = 'Books', $price = 17, $quantity = 1);
+ *      $t->addEcommerceItem($sku = 'SKU0321', $name = 'Amélie' , $categories = array('DVD Foreign','Best sellers','Our pick'), $price = 25, $quantity = 1);
+ *      $t->doTrackEcommerceOrder($orderId = 'B000111387', $grandTotal = 55.5, $subTotal = 42, $tax = 8, $shipping = 5.5, $discount = 10);
+ *
+ * ### Note about authentication via token_auth
+ *
+ * To set the visitor IP, or the date and time of the visit, or to force to record the visit (or page, or goal conversion) to a specific Visitor ID,
+ * you must call setTokenAuth( $token_auth ). The token_auth must be either the Super User token_auth,
+ * or the token_auth of any user with 'admin' permission for the website you are recording data against.
+ *
  * @package PiwikTracker
  * @api
  */
