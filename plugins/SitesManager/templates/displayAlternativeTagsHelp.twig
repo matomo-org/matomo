@@ -41,18 +41,7 @@ It is also possible to call the Piwik Tracking API using your favorite programmi
 <br/>
 <div class="toggleHelp" id="trackingAPI" style="display:none;"><a name="image">› Display Piwik Tracking API documentation </a></div>
 <div class="trackingAPI">
-    <p>
-        The Piwik Tracking API allows to trigger visits (page views and Goal conversions) from any environment (Desktop App, iPhone or Android app, Mobile
-        website, etc.).
-    </p>
-
-    <p>We currently provide a <strong>PHP client</strong> to call the API from your PHP projects.
-        If you would like to contribute a version of the client in another programming language (Python, Java, Ruby, Perl, etc.) please <a target='_blank'
-                                                                                                                                           href='http://dev.piwik.org/'>create
-            a ticket</a> in our developer area (please attach the client code to the ticket).
-    </p>
-
-    <p>Follow these instructions to get started with the Tracking API:</p>
+    <p>Follow these instructions to get started with the PHP Tracking Web API client:</p>
     <ul style='list-style-type:decimal;'>
         <li>
             <a href='{% if piwikUrlRequest is defined %}{{ piwikUrlRequest }}{% else %}{{ piwikUrl }}{% endif %}{{ linkTo({'action':'downloadPiwikTracker'}) }}' target='_blank'>
