@@ -18,12 +18,14 @@
  */
 
 /**
- * PiwikTracker implements the Piwik Tracking API.
+ * PiwikTracker implements the Piwik Tracking Web API.
  *
  * The PHP Tracking Client provides all features of the Javascript Tracker, such as Ecommerce Tracking, Custom Variable, Event tracking and more.
  * Functions are named the same as the Javascript functions.
  *
- * ### Examples of how to use the PHP PiwikTracker class
+ * See introduction docs at: {@link http://piwik.org/docs/tracking-api/}
+ *
+ * ### Example: using the PHP PiwikTracker class
  *
  * The following code snippet is an advanced example of how to track a Page View using the Tracking API PHP client.
  *
@@ -56,7 +58,7 @@
  *      // In the standard JS API, the content of the <title> tag would be set as the page title
  *      $t->doTrackPageView('This is the page title');
  *
- * ### Example of tracking Ecommerce interactions
+ * ### Example: tracking Ecommerce interactions
  *
  * Here is an example showing how to track Ecommerce interactions on your website, using the PHP Tracking API.
  * Usually, Ecommerce tracking is done using standard Javascript code,
@@ -86,7 +88,7 @@
  *      $t->addEcommerceItem($sku = 'SKU0321', $name = 'Amélie' , $categories = array('DVD Foreign','Best sellers','Our pick'), $price = 25, $quantity = 1);
  *      $t->doTrackEcommerceOrder($orderId = 'B000111387', $grandTotal = 55.5, $subTotal = 42, $tax = 8, $shipping = 5.5, $discount = 10);
  *
- * ### Note about authentication via token_auth
+ * ### Note: authenticating with the token_auth
  *
  * To set the visitor IP, or the date and time of the visit, or to force to record the visit (or page, or goal conversion) to a specific Visitor ID,
  * you must call setTokenAuth( $token_auth ). The token_auth must be either the Super User token_auth,
