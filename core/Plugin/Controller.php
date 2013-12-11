@@ -699,13 +699,13 @@ abstract class Controller
     public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null,
                                     $defaultDate = null, $parameters = array())
     {
-        if (is_null($websiteId)) {
+        if (empty($websiteId)) {
             $websiteId = $this->getDefaultWebsiteId();
         }
-        if (is_null($defaultDate)) {
+        if (empty($defaultDate)) {
             $defaultDate = $this->getDefaultDate();
         }
-        if (is_null($defaultPeriod)) {
+        if (empty($defaultPeriod)) {
             $defaultPeriod = $this->getDefaultPeriod();
         }
         $parametersString = '';
