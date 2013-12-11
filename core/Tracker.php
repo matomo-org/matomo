@@ -193,7 +193,7 @@ class Tracker
         }
         $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $jsonData);
         if (empty($tokenAuth)) {
-            throw new Exception("token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
+            throw new Exception("token_auth must be specified when using Bulk Tracking Import. See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
         }
         if (!empty($this->requests)) {
             $idSitesForAuthentication = array();
