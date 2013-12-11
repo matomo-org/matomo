@@ -190,7 +190,7 @@ class Controller extends \Piwik\Plugin\Controller
             'infoviz-treemap', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.treemap');
 
         $view->config->translations['value'] = "Temperature";
-        $view->config->columns_to_display = array("value");
+        $view->config->columns_to_display = array("label", "value");
         $view->config->selectable_columns = array("value");
         $view->config->show_evolution_values = 0;
 
