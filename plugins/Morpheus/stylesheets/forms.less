@@ -162,7 +162,11 @@ button[type="button"],
     float:left;
     display:inline-block;
 
-    + br {
+    + .form-description {
+        margin-left:1em;
+    }
+
+    + br, + .form-description + br {
         clear:both;
     }
 
@@ -213,7 +217,6 @@ label {
     }
 }
 
-
 .prettycheckbox a:focus, .prettyradio a:focus {
     outline: 0 none;
 }
@@ -263,7 +266,17 @@ label {
     background-position: -205px 0;
 }
 
-// specific form control overrides
+// specific form control overrides (for iCheck)
 #useCustomLogo-0 {
   margin:0;
+}
+
+.listReports > li:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
+.small-form-description { // for tracking code generator
+  clear:both;
 }

@@ -94,6 +94,7 @@
                                 {% for key, value in setting.availableValues %}
 
                                     <input
+                                        id="name-value-{{ loop.index }}"
                                         {% for attr, val in setting.uiControlAttributes %}
                                             {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                         {% endfor %}
@@ -104,9 +105,10 @@
                                         value="{{ key|e('html_attr') }}"
                                         name="{{ setting.getKey|e('html_attr') }}" />
 
-                                    {{ value }}
+                                    <label for="name-value-{{ loop.index }}">{{ value }}</label>
 
                                     <br />
+
                                 {% endfor %}
 
                             {% else %}

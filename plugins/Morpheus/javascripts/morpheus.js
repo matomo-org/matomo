@@ -7,8 +7,8 @@ $(document).ready(function () {
     });
 
     $('body').on('ifClicked', 'input', function () {
-        $(this).triggerHandler('click');
+        $(this).trigger('click');
     }).on('ifChanged', 'input', function () {
-        $(this).triggerHandler('change');
+        $(this).trigger('change');
     });
 });
