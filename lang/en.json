@@ -2398,7 +2398,6 @@
         "EventAction": "Event Action",
         "EventName": "Event Name",
         "EventValue": "Event Value",
-        "NbEvents": "Number of Events",
-        "": ""
+        "NbEvents": "Number of Events"
     }
 }
