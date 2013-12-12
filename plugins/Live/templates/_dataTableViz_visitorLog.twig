@@ -193,7 +193,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
         </tr>
     {% endset %}
 
-    {% if not clientSideParameters.filterEcommerce or visitorHasSomeEcommerceActivity|default(false) %}
+    {% if not clientSideParameters.filterEcommerce or visitor.getMetadata('hasEcommerce') %}
         {{ visitorRow }}
     {% endif %}
 {% endfor %}

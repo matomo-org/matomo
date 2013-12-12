@@ -576,8 +576,6 @@ class API extends \Piwik\Plugin\API
 
                 $visitorDetailRow->setColumns($visitorDetailsArray);
             }
-
-            return $table;
         });
     }
 
