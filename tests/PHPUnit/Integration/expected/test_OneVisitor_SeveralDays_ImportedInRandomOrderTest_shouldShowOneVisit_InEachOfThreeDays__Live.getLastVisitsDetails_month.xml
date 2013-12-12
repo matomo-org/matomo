@@ -3,7 +3,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
-		<visitIp>74.125.31.147</visitIp>
+		<visitIp>74.125.31.0</visitIp>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -89,7 +89,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
-		<visitIp>74.125.31.147</visitIp>
+		<visitIp>74.125.31.0</visitIp>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -175,7 +175,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
-		<visitIp>74.125.31.147</visitIp>
+		<visitIp>74.125.31.0</visitIp>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
