@@ -54,8 +54,7 @@ class Controller extends \Piwik\Plugin\Controller
             $module = Piwik::getLoginPluginName();
         }
         $idSite = Common::getRequestVar('idSite', false, 'int');
-
-        parent::redirectToIndex($module, $action, !empty($idSite) ? $idSite : null);
+        parent::redirectToIndex($module, $action, $idSite);
     }
 
     public function showInContext()
