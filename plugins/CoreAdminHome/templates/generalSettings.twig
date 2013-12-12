@@ -193,8 +193,8 @@
                 <td style="width:200px;">
                     <input id="useCustomLogo-1" type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
                     <label for="useCustomLogo-1">{{ 'General_Yes'|translate }}</label>
-                    <input id="useCustomLogo-0" type="radio" name="useCustomLogo" value="0" {% if branding.use_custom_logo == 0 %} checked {% endif %} />
-                    <label for="useCustomLogo-0">{{ 'General_No'|translate }}</label>
+                    <input class="indented-radio-button" id="useCustomLogo-0" type="radio" name="useCustomLogo" value="0" {% if branding.use_custom_logo == 0 %} checked {% endif %} />
+                    <label for="useCustomLogo-0" class>{{ 'General_No'|translate }}</label>
                 </td>
                 <td>
                     {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
