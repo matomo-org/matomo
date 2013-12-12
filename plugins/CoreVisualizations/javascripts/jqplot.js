@@ -622,6 +622,8 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
         el.click(function (e) {
             if (e.shiftKey) {
                 self.toggleSeries(i);
+
+                document.getSelection().removeAllRanges(); // make sure chrome doesn't select text
             } else {
                 self.showSeries(i);
             }
