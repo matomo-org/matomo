@@ -58,8 +58,8 @@
 
         _initStandaloneMap: function () {
             $('.top_controls').hide();
-            $('.nav').on('piwikSwitchPage', function (event, item) {
-                var clickedMenuIsNotMap = ($(item).text() != "{{ 'UserCountryMap_RealTimeMap'|translate|e('js') }}");
+            $('.Menu--dashboard').on('piwikSwitchPage', function (event, item) {
+                var clickedMenuIsNotMap = ($(item).attr('href').indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
                 if (clickedMenuIsNotMap) {
                     $('.top_controls').show();
                 }
