@@ -8,7 +8,7 @@
     {%- set rowMetrics=row.columns -%}
     {%- set rowMetadata=reportRowsMetadata[rowId].columns -%}
 
-    {%- if displaySiteName -%}{{ rowMetrics.label }}: {% endif -%}
+    {%- if displaySiteName -%}{{ rowMetrics.label|raw }}: {% endif -%}
     
     {# visits #}
     {{- rowMetrics.nb_visits }} {{ 'General_ColumnNbVisits'|translate }}
@@ -23,7 +23,7 @@
 
             {# goal metrics #}
             {%- if rowMetrics.nb_conversions != 0 -%}
-                , {{ 'General_ColumnRevenue'|translate }}: {{ rowMetrics.revenue }}
+                , {{ 'General_ColumnRevenue'|translate }}: {{ rowMetrics.revenue|raw }}
                 {%- if rowMetrics.revenue_evolution != 0 %} ({{ rowMetrics.revenue_evolution }}%){%- endif -%}
 
                 , {{ rowMetrics.nb_conversions }} {{ 'Goals_GoalConversions'|translate }}
@@ -33,7 +33,7 @@
             {# eCommerce metrics #}
             {%- if siteHasECommerce[rowMetadata.idsite] -%}
 
-                , {{ 'General_ProductRevenue'|translate }}: {{ rowMetrics.ecommerce_revenue }}
+                , {{ 'General_ProductRevenue'|translate }}: {{ rowMetrics.ecommerce_revenue|raw }}
                 {%- if rowMetrics.ecommerce_revenue_evolution != 0 %} ({{ rowMetrics.ecommerce_revenue_evolution }}%){%- endif -%}
 
                 , {{ rowMetrics.orders }} {{ 'General_EcommerceOrders'|translate }}
