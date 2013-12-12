@@ -83,31 +83,26 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @param bool $installPlugins
-     */
-    protected static function installAndLoadPlugins($installPlugins)
+    public static function loadAllPlugins()
     {
         $plugins = static::getPluginsToLoadDuringTests();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
+
+        // Load all plugins
         $pluginsManager->loadPlugins($plugins);
-        if ($installPlugins)
-        {
-            $messages = $pluginsManager->installLoadedPlugins();
-            if(!empty($messages)) {
-                echo implode("  ----  ", $messages);
-            }
+
+        // Install plugins
+        $messages = $pluginsManager->installLoadedPlugins();
+        if(!empty($messages)) {
+            echo implode("  ----  ", $messages);
         }
+
+        // Activate them
         foreach($plugins as $name) {
             if(!$pluginsManager->isPluginActivated($name)) {
                 $pluginsManager->activatePlugin($name);
             }
         }
-    }
-
-    public static function loadAllPlugins()
-    {
-        self::installAndLoadPlugins(false);
     }
 
     public static function unloadAllPlugins()
@@ -189,10 +184,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik::setUserIsSuperUser();
 
         Cache::deleteTrackerCache();
-        if ($installPlugins === null) {
-            $installPlugins = $createEmptyDatabase;
-        }
-        static::installAndLoadPlugins( $installPlugins);
+
+        static::loadAllPlugins();
 
 
         $_GET = $_REQUEST = array();
