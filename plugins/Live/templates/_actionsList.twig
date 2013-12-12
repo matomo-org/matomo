@@ -1,4 +1,3 @@
-{% set visitorHasSomeEcommerceActivity %}0{% endset %}
 {% for action in actionDetails %}
     {% set customVariablesTooltip %}
         {% if action.customVariables is defined %}
@@ -28,16 +27,12 @@
             {# Ecommerce Abandoned Cart / Ecommerce Order #}
                 <img src="{{ action.icon }}"/>
                 {% if action.type == 'ecommerceOrder' %}
-                    {% set visitorHasSomeEcommerceActivity %}1{% endset %}
                     <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
                     <span style='color:#666;'>({{ action.orderId }})</span>
                 {% else %}
                     <strong>{{'Goals_AbandonedCart'|translate}}</strong>
 
                     {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
-                    {% if clientSideParameters.filterEcommerce == 2 %}
-                        {% set visitorHasSomeEcommerceActivity %}1{% endset %}
-                    {% endif %}
                 {% endif %}
                 <p>
                 <span {% if not isWidget %}style='margin-left:20px;'{% endif %}>
