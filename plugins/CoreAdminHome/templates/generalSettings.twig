@@ -90,8 +90,8 @@
                 <td style="width:200px;">
                     <input id="mailUseSmtp-1" type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %} checked {% endif %}/>
                     <label for="mailUseSmtp-1">{{ 'General_Yes'|translate }}</label>
-                    <input id="mailUseSmtp-0" type="radio" name="mailUseSmtp" value="0"
-                           style="margin-left:20px;" {% if mail.transport == '' %} checked {% endif %}/>
+                    <input class="indented-radio-button" id="mailUseSmtp-0" type="radio" name="mailUseSmtp" value="0"
+                           {% if mail.transport == '' %} checked {% endif %}/>
                     <label for="mailUseSmtp-0">{{ 'General_No'|translate }}</label>
                 </td>
             </tr>

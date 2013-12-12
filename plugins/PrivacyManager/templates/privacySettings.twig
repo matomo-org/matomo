@@ -17,7 +17,7 @@
                     <td width='500'>
                         <input id="anonymizeIPEnable-1" type="radio" name="anonymizeIPEnable" value="1" {% if anonymizeIP.enabled == '1' %}checked {% endif %}/>
                         <label for="anonymizeIPEnable-1">{{ 'General_Yes'|translate }}</label>
-                        <input id="anonymizeIPEnable-0" type="radio" name="anonymizeIPEnable" value="0" style="margin-left:20px;" {% if anonymizeIP.enabled == '0' %} checked {% endif %}/>
+                        <input class="indented-radio-button" id="anonymizeIPEnable-0" type="radio" name="anonymizeIPEnable" value="0" {% if anonymizeIP.enabled == '0' %} checked {% endif %}/>
                         <label for="anonymizeIPEnable-0">{{ 'General_No'|translate }}</label>
                         <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
                         <input type="hidden" name="pluginName" value="{{ anonymizeIP.name }}"/>
@@ -109,8 +109,8 @@
                     <input id="deleteEnable-1" type="radio" name="deleteEnable" value="1" {% if deleteData.config.delete_logs_enable == '1' %}
                         checked {% endif %}/>
                     <label for="deleteEnable-1">{{ 'General_Yes'|translate }}</label>
-                    <input id="deleteEnable-2" type="radio" name="deleteEnable" value="0"
-                                  style="margin-left:20px;" {% if deleteData.config.delete_logs_enable == '0' %}
+                    <input class="indented-radio-button" id="deleteEnable-2" type="radio" name="deleteEnable" value="0"
+                                  {% if deleteData.config.delete_logs_enable == '0' %}
                         checked {% endif %}/>
                     <label for="deleteEnable-2">{{ 'General_No'|translate }}</label>
 				<span id="privacyManagerDeleteLogDescription" style="margin-top: 10px;display:inline-block;">
@@ -154,7 +154,7 @@
                 <td width="500">
                     <input id="deleteReportsEnable-1" type="radio" name="deleteReportsEnable" value="1" {% if deleteData.config.delete_reports_enable == '1' %}checked="true"{% endif %} />
                     <label for="deleteReportsEnable-1">{{ 'General_Yes'|translate }}</label>
-                    <input id="deleteReportsEnable-2" type="radio" name="deleteReportsEnable" value="0" {% if deleteData.config.delete_reports_enable == '0' %}checked="true"{% endif %} style="margin-left:20px;"/>
+                    <input class="indented-radio-button" id="deleteReportsEnable-2" type="radio" name="deleteReportsEnable" value="0" {% if deleteData.config.delete_reports_enable == '0' %}checked="true"{% endif %}/>
                     <label for="deleteReportsEnable-2">{{ 'General_No'|translate }}</label>
 
                     {% set useDeleteLog %}
