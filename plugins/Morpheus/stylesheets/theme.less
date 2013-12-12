@@ -703,12 +703,23 @@ div.sparkline {
         } 
     }  
 
+    .visitor-profile-avatar > div:nth-child(2n) {
+        min-width: 360px;
+    }
+
     .visitor-profile-latest-visit {
         .visitor-profile-latest-visit-column {
-            width: 100%;
-            display: block;
+            display: inline-block;
             margin-left: 0;
         }      
+
+        .visitor-profile-latest-visit-column:first-child {
+            width: 48%;
+        }
+
+        .visitor-profile-latest-visit-column:last-child {
+            width: 50%;
+        }
     }
 }
 
