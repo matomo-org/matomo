@@ -11,7 +11,6 @@
 
 namespace Piwik\Tracker;
 
-use Piwik\Common;
 use Piwik\Tracker;
 
 /**
