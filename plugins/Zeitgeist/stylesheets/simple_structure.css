@@ -94,3 +94,6 @@ a { color: #006; }
 	font-size: 100%;
 	padding: 10px;
 }
+.indented-radio-button {
+  margin-left:20px;
+}

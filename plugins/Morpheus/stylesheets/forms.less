@@ -152,11 +152,32 @@ button[type="button"],
 .form-radio, .form-checkbox {
     height: 15px;
     width: 15px;
-    display: block;
     float: left;
     cursor: pointer;
     background: url('plugins/Morpheus/images/forms-sprite.png');
     margin: 2px 5px 2px 0;
+}
+
+.form-radio + label, .form-checkbox + label {
+    float:left;
+    display:inline-block;
+
+    + .form-description {
+        margin-left:1em;
+    }
+
+    + br, + .form-description + br {
+        clear:both;
+    }
+
+    + .form-radio, + .form-checkbox {
+        margin-left:32px;
+    }
+}
+
+fieldset > .form-radio + label { // assumes <br/> after the label
+  display: inline-block;
+  margin-bottom: -.5em;
 }
 
 label {
@@ -195,7 +216,6 @@ label {
         }
     }
 }
-
 
 .prettycheckbox a:focus, .prettyradio a:focus {
     outline: 0 none;
@@ -246,4 +266,17 @@ label {
     background-position: -205px 0;
 }
 
+// specific form control overrides (for iCheck)
+.indented-radio-button {
+  margin:0;
+}
 
+.listReports > li:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
+.small-form-description { // for tracking code generator
+  clear:both;
+}

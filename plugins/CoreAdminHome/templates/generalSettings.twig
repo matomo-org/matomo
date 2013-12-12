@@ -14,17 +14,14 @@
             <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
             <td style="width:220px;">
                 <fieldset>
-                    <label>
-                        <input type="radio" value="1" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
-                        {{ 'General_Yes'|translate }} <br/>
-                        <span class="form-description">{{ 'General_Default'|translate }}</span>
-                    </label><br/><br/>
+                    <input id="enableBrowserTriggerArchiving-yes" type="radio" value="1" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
+                    <label for="enableBrowserTriggerArchiving-yes">{{ 'General_Yes'|translate }}</label><br/>
+                    <span class="form-description">{{ 'General_Default'|translate }}</span>
+                    <br/><br/>
 
-                    <label>
-                        <input type="radio" value="0" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
-                        {{ 'General_No'|translate }} <br/>
-                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
-                    </label>
+                    <input id="enableBrowserTriggerArchiving-no" type="radio" value="0" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
+                    <label for="enableBrowserTriggerArchiving-no">{{ 'General_No'|translate }}</label><br/>
+                    <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
                 </fieldset>
             <td>
                 {% set browserArchivingHelp %}
@@ -64,15 +61,14 @@
             <td style="width:400px;">{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
             <td style="width:220px;">
                 <fieldset>
-                    <label><input type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
-                        {{ 'CoreAdminHome_LatestStableRelease'|translate }} <br/>
-                        <span class="form-description">{{ 'General_Recommended'|translate }}</span>
-                    </label><br/><br/>
+                    <input id="enableBetaReleaseCheck-0" type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
+                    <label for="enableBetaReleaseCheck-0">{{ 'CoreAdminHome_LatestStableRelease'|translate }}</label><br/>
+                    <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+                    <br/><br/>
 
-                    <label><input type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
-                        {{ 'CoreAdminHome_LatestBetaRelease'|translate }} <br/>
-                        <span class="form-description">{{ 'CoreAdminHome_ForBetaTestersOnly'|translate }}</span>
-                    </label>
+                    <input id="enableBetaReleaseCheck-1" type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
+                    <label for="enableBetaReleaseCheck-1">{{ 'CoreAdminHome_LatestBetaRelease'|translate }}</label><br/>
+                    <span class="form-description">{{ 'CoreAdminHome_ForBetaTestersOnly'|translate }}</span>
                 </fieldset>
             <td>
                 {% set checkReleaseHelp %}
@@ -92,9 +88,11 @@
                     <span class="form-description">{{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate }}</span>
                 </td>
                 <td style="width:200px;">
-                    <label><input type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %} checked {% endif %}/> {{ 'General_Yes'|translate }}</label>
-                    <label><input type="radio" name="mailUseSmtp" value="0"
-                                  style="margin-left:20px;" {% if mail.transport == '' %} checked {% endif %}/>  {{ 'General_No'|translate }}</label>
+                    <input id="mailUseSmtp-1" type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %} checked {% endif %}/>
+                    <label for="mailUseSmtp-1">{{ 'General_Yes'|translate }}</label>
+                    <input class="indented-radio-button" id="mailUseSmtp-0" type="radio" name="mailUseSmtp" value="0"
+                           {% if mail.transport == '' %} checked {% endif %}/>
+                    <label for="mailUseSmtp-0">{{ 'General_No'|translate }}</label>
                 </td>
             </tr>
         </table>
@@ -193,14 +191,10 @@
             <tr>
                 <td style="width:200px;">{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
                 <td style="width:200px;">
-                    <label>
-                        <input type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
-                        {{ 'General_Yes'|translate }}
-                    </label>
-                    <label>
-                        <input type="radio" name="useCustomLogo" value="0" style="margin-left:20px;" {% if branding.use_custom_logo == 0 %} checked {% endif %} />
-                        {{ 'General_No'|translate }}
-                    </label>
+                    <input id="useCustomLogo-1" type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
+                    <label for="useCustomLogo-1">{{ 'General_Yes'|translate }}</label>
+                    <input class="indented-radio-button" id="useCustomLogo-0" type="radio" name="useCustomLogo" value="0" {% if branding.use_custom_logo == 0 %} checked {% endif %} />
+                    <label for="useCustomLogo-0" class>{{ 'General_No'|translate }}</label>
                 </td>
                 <td>
                     {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
