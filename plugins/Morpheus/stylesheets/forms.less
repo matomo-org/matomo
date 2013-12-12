@@ -152,11 +152,28 @@ button[type="button"],
 .form-radio, .form-checkbox {
     height: 15px;
     width: 15px;
-    display: block;
     float: left;
     cursor: pointer;
     background: url('plugins/Morpheus/images/forms-sprite.png');
     margin: 2px 5px 2px 0;
+}
+
+.form-radio + label, .form-checkbox + label {
+    float:left;
+    display:inline-block;
+
+    + br {
+        clear:both;
+    }
+
+    + .form-radio, + .form-checkbox {
+        margin-left:32px;
+    }
+}
+
+fieldset > .form-radio + label { // assumes <br/> after the label
+  display: inline-block;
+  margin-bottom: -.5em;
 }
 
 label {
@@ -246,4 +263,7 @@ label {
     background-position: -205px 0;
 }
 
-
+// specific form control overrides
+#useCustomLogo-0 {
+  margin:0;
+}

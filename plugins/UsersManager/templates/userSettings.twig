@@ -38,11 +38,12 @@
         <td>{{ 'UsersManager_ReportToLoadByDefault'|translate }}</td>
         <td>
             <fieldset>
-                <label><input type="radio" value="MultiSites"
-                              name="defaultReport"{% if defaultReport=='MultiSites' %} checked="checked"{% endif %} /> {{ 'General_AllWebsitesDashboard'|translate }}</label><br/>
-                <label style="padding-right:12px;"><input type="radio" value="1"
-                                                          name="defaultReport"{% if defaultReport != 'MultiSites' %} checked="checked"{% endif %} /> {{ 'General_DashboardForASpecificWebsite'|translate }}
-                </label>
+                <input id="defaultReportRadioAll" type="radio" value="MultiSites"
+                      name="defaultReport"{% if defaultReport=='MultiSites' %} checked="checked"{% endif %} />
+                <label for="defaultReportRadioAll">{{ 'General_AllWebsitesDashboard'|translate }}</label><br/>
+                <input id="defaultReportSpecific" type="radio" value="1"
+                       name="defaultReport"{% if defaultReport != 'MultiSites' %} checked="checked"{% endif %} />
+                <label for="defaultReportSpecific" style="padding-right:12px;">{{ 'General_DashboardForASpecificWebsite'|translate }}</label>
                 {% if defaultReport=='MultiSites' %}
                     {% set defaultReportIdSite=1 %}
                 {% else %}
@@ -64,7 +65,8 @@
         <td>
             <fieldset>
                 {% for value,description in availableDefaultDates %}
-                    <label><input type="radio"{% if defaultDate==value %} checked="checked"{% endif %} value="{{ value }}" name="defaultDate"/> {{ description }}</label>
+                    <input id="defaultDate-{{ loop.index }}" type="radio"{% if defaultDate==value %} checked="checked"{% endif %} value="{{ value }}" name="defaultDate"/>
+                    <label for="defaultDate-{{ loop.index }}">{{ description }}</label>
                     <br/>
                 {% endfor %}
             </fieldset>
@@ -129,16 +131,16 @@
                 <td style="width:400px;">{{ 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate }}</td>
                 <td>
                     <fieldset>
-                        <label><input type="radio" value="Login"
-                                      name="anonymousDefaultReport"{% if anonymousDefaultReport==loginModule %} checked="checked"{% endif %} /> {{ 'UsersManager_TheLoginScreen'|translate }}
-                        </label><br/>
-                        <label><input {% if anonymousSites is empty %}disabled="disabled" {% endif %}type="radio" value="MultiSites"
-                                      name="anonymousDefaultReport"{% if anonymousDefaultReport=='MultiSites' %} checked="checked"{% endif %} /> {{ 'General_AllWebsitesDashboard'|translate }}
-                        </label><br/>
+                        <input id="anonymousDefaultReport-login" type="radio" value="Login"
+                               name="anonymousDefaultReport"{% if anonymousDefaultReport==loginModule %} checked="checked"{% endif %} />
+                        <label for="anonymousDefaultReport-login">{{ 'UsersManager_TheLoginScreen'|translate }}</label><br/>
+                        <input id="anonymousDefaultReport-multisites" {% if anonymousSites is empty %}disabled="disabled" {% endif %}type="radio" value="MultiSites"
+                               name="anonymousDefaultReport"{% if anonymousDefaultReport=='MultiSites' %} checked="checked"{% endif %} />
+                        <label for="anonymousDefaultReport-multisites">{{ 'General_AllWebsitesDashboard'|translate }}</label><br/>
 
-                        <label><input {% if anonymousSites is empty %}disabled="disabled" {% endif %}type="radio" value="1"
-                                      name="anonymousDefaultReport"{% if anonymousDefaultReport>0 %} checked="checked"{% endif %} /> {{ 'General_DashboardForASpecificWebsite'|translate }}
-                        </label>
+                        <input id="anonymousDefaultReport-specific" {% if anonymousSites is empty %}disabled="disabled" {% endif %}type="radio" value="1"
+                               name="anonymousDefaultReport"{% if anonymousDefaultReport>0 %} checked="checked"{% endif %} />
+                        <label for="anonymousDefaultReport-specific">{{ 'General_DashboardForASpecificWebsite'|translate }}</label>
                         {% if anonymousSites is not empty %}
                             <select id="anonymousDefaultReportWebsite">
                                 {% for info in anonymousSites %}
@@ -154,8 +156,9 @@
                 <td>
                     <fieldset>
                         {% for value,description in availableDefaultDates %}
-                            <label><input type="radio" {% if anonymousDefaultDate==value %}checked="checked" {% endif %}value="{{ value }}"
-                                          name="anonymousDefaultDate"/> {{ description }}</label>
+                            <input id="anonymousDefaultDate-{{ loop.index }}" type="radio" {% if anonymousDefaultDate==value %}checked="checked" {% endif %}value="{{ value }}"
+                                   name="anonymousDefaultDate"/>
+                            <label for="anonymousDefaultDate-{{ loop.index }}">{{ description }}</label>
                             <br/>
                         {% endfor %}
                     </fieldset>
