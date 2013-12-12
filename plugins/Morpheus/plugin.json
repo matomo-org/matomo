@@ -3,5 +3,5 @@
     "description": "Morpheus is the default theme of Piwik 2 designed to help you focus on your analytics. In Greek mythology, Morpheus is the God of dreams. In the Matrix movie, Morpheus is the leader of the rebel forces who fight to awaken humans from a dreamlike reality called The Matrix. ",
     "theme": true,
     "stylesheet": "stylesheets/theme.less",
-    "javascript": ["javascripts/morpheus.js"]
+    "javascript": ["javascripts/jquery.icheck.min.js", "javascripts/morpheus.js"]
 }
