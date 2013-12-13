@@ -113,7 +113,7 @@
             {% set isZeitgeist = isTheme and name == 'Zeitgeist' %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
-                    <td class="name">
+                    <td class="name" style="white-space:nowrap;">
                         {% if not plugin.isCorePlugin and name in marketplacePluginNames -%}
                             <a href="javascript:void(0);"
                                data-pluginName="{{ name|e('html_attr') }}"
