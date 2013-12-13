@@ -40,7 +40,7 @@ class ExampleUI extends \Piwik\Plugin
         $this->addSubMenu('Sparklines', 'sparklines', 5);
         $this->addSubMenu('Evolution Graph', 'evolutionGraph', 6);
 
-        if (class_exists("Piwik\\Plugins\\TreemapVisualization\\Treemap")) {
+        if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('TreemapVisualization')) {
             $this->addSubMenu('Treemap', 'treemap', 7);
         }
     }
