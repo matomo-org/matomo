@@ -36,7 +36,7 @@ class Nonce
      *                 the nonce will no longer be valid).
      * @return string
      */
-    static public function getNonce($id, $ttl = 300)
+    static public function getNonce($id, $ttl = 600)
     {
         // save session-dependent nonce
         $ns = new SessionNamespace($id);
