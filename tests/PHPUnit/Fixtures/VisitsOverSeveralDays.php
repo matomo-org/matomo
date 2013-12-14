@@ -52,8 +52,13 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTimes[0], $ecommerce = 0, $siteName = 'Site AAAAAA');
-        self::createWebsite($this->dateTimes[0], $ecommerce = 0, $siteName = 'SITE BBbbBB');
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTimes[0], $ecommerce = 0, $siteName = 'Site AAAAAA');
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTimes[0], $ecommerce = 0, $siteName = 'SITE BBbbBB');
+        }
     }
 
     private function trackVisits()

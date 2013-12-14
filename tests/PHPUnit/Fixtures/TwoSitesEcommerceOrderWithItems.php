@@ -34,12 +34,20 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
 
     private function setUpWebsitesAndGoals()
     {
-        $this->idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
-        $this->idSite2 = self::createWebsite($this->dateTime);
-        API::getInstance()->addGoal(
-            $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
-            $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
-        );
+        if (!self::siteCreated($idSite = 1)) {
+            $this->idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            $this->idSite2 = self::createWebsite($this->dateTime);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            API::getInstance()->addGoal(
+                $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
+                $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+            );
+        }
     }
 
     protected function trackVisitsSite1($url, $orderId = '937nsjusu 3894', $orderId2 = '1037nsjusu4s3894', $orderId3 = '666', $orderId4 = '777')

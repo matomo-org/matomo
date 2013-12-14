@@ -47,10 +47,18 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
     public function setUpWebsitesAndGoals()
     {
         // for conversion testing
-        self::createWebsite($this->dateTime);
-        APIGoals::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
-        self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
-            $siteUrl = 'http://example-site-two.com');
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            APIGoals::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
+                $siteUrl = 'http://example-site-two.com');
+        }
     }
     
     public function getDefaultSegments()

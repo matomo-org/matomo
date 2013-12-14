@@ -65,9 +65,17 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime, 0, "Site 1");
-        $this->idGoal = API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
-        $this->idGoal2 = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime, 0, "Site 1");
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            $this->idGoal = API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+            $this->idGoal2 = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5);
+        }
     }
 
     private function trackVisits($visitorCount, $setIp = false, $useLocal = true, $doBulk = false)

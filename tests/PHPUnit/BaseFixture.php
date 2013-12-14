@@ -400,4 +400,14 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         return $output;
     }
+
+    public static function siteCreated($idSite)
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('site') . " WHERE idsite = ?", array($idSite)) != 0;
+    }
+
+    public static function goalExists($idSite, $idGoal)
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", array($idGoal, $idSite)) != 0;
+    }
 }

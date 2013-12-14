@@ -49,13 +49,20 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
     public function setUpWebsitesAndGoals()
     {
         // for conversion testing
-        $siteName = self::makeXssContent("site name", $sanitize = true);
-        self::createWebsite($this->dateTime, $ecommerce = 1, $siteName);
-        APIGoals::getInstance()->addGoal(
-            $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5);
-        
-        self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
-            $siteUrl = 'http://example-site-two.com');
+        if (!self::siteCreated($idSite = 1)) {
+            $siteName = self::makeXssContent("site name", $sanitize = true);
+            self::createWebsite($this->dateTime, $ecommerce = 1, $siteName);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            APIGoals::getInstance()->addGoal(
+                $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5);
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
+                $siteUrl = 'http://example-site-two.com');
+        }
     }
     
     /** Creates two dashboards that split the widgets up into different groups. */

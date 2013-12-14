@@ -26,8 +26,13 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
     private function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
-        self::createWebsite($this->dateTime);
-        APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        }
     }
 
     public function trackVisits()

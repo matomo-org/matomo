@@ -67,7 +67,12 @@ class Test_Piwik_Fixture_TwoSitesWithAnnotations extends Test_Piwik_BaseFixture
     private function setUpWebsitesAndGoals()
     {
         // add two websites
-        self::createWebsite($this->dateTime, $ecommerce = 1);
-        self::createWebsite($this->dateTime, $ecommerce = 1);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime, $ecommerce = 1);
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTime, $ecommerce = 1);
+        }
     }
 }

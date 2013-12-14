@@ -30,7 +30,9 @@ class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Test_Piwik_BaseFixtur
     private function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
-        self::createWebsite($this->dateTime);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
     }
 
     private function trackVisits()

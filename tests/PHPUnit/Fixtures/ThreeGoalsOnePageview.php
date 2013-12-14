@@ -33,18 +33,27 @@ class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Test_Piwik_BaseFixture
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime, $ecommerce = 1);
-        API::getInstance()->addGoal(
-            $this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
-            $revenue = 10, $allowMultipleConversions = 1
-        );
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime, $ecommerce = 1);
+        }
 
-        API::getInstance()->addGoal(
-            $this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false,
-            $revenue = 10, $allowMultipleConversions = 0
-        );
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            API::getInstance()->addGoal(
+                $this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
+                $revenue = 10, $allowMultipleConversions = 1
+            );
+        }
 
-        API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+            API::getInstance()->addGoal(
+                $this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false,
+                $revenue = 10, $allowMultipleConversions = 0
+            );
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 3)) {
+            API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        }
     }
 
     private function trackVisits()

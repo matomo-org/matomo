@@ -31,8 +31,10 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false,
-                            $siteSearch = 1);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false,
+                                $siteSearch = 1);
+        }
     }
 
     private function trackVisits()

@@ -11,6 +11,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugins\VisitsSummary\API;
+use Piwik\ArchiveProcessor\Rules;
 
 abstract class UITest extends IntegrationTestCase
 {
@@ -51,6 +52,7 @@ abstract class UITest extends IntegrationTestCase
         AssetManager::removeMergedAssets();
         
         // launch archiving so tests don't run out of time
+        Rules::$purgeDisabledByTests = true;
         $date = Date::factory(static::$fixture->dateTime)->toString();
         API::getInstance()->get(static::$fixture->idSite, 'year', $date);
 
