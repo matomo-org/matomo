@@ -46,15 +46,18 @@ class Loader
             return $class;
         }
 
-        $class = self::removePrefix($class, 'Piwik/');
-        $class = self::removePrefix($class, 'Plugins/');
+        $class = self::removeFirstMatchingPrefix($class, array('/Piwik/', 'Piwik/'));
+        $class = self::removeFirstMatchingPrefix($class, array('/Plugins/', 'Plugins/'));
+
         return $class;
     }
 
-    protected static function removePrefix($class, $vendorPrefixToRemove)
+    protected static function removeFirstMatchingPrefix($class, $vendorPrefixesToRemove)
     {
-        if (strpos($class, $vendorPrefixToRemove) === 0) {
-            return substr($class, strlen($vendorPrefixToRemove));
+        foreach ($vendorPrefixesToRemove as $prefix) {
+            if (strpos($class, $prefix) === 0) {
+                return substr($class, strlen($prefix));
+            }
         }
 
         return $class;
