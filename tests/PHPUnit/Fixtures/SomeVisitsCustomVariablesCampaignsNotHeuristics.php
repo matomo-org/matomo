@@ -31,8 +31,13 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime);
-        API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        }
     }
 
     private function trackVisits()

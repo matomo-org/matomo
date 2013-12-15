@@ -16,7 +16,7 @@ $(document).ready(function () {
 
         var $nodesToEnable = getMatchingNodes(filterOrigin, filterStatus);
 
-        $('#plugins tr').css('display', 'none');
+        $('#plugins tr[data-filter-origin][data-filter-status]').css('display', 'none');
         $nodesToEnable.css('display', 'table-row');
 
         updateAllNumbersOfMatchingPluginsInFilter();

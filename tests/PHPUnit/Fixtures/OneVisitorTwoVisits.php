@@ -36,10 +36,17 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
 
-        $this->idSiteEmptyBis = $this->createWebsite($this->dateTime);
-        $this->idSiteEmptyTer = $this->createWebsite($this->dateTime);
+        if (!self::siteCreated($idSite = 2)) {
+            $this->idSiteEmptyBis = $this->createWebsite($this->dateTime);
+        }
+
+        if (!self::siteCreated($idStie = 3)) {
+            $this->idSiteEmptyTer = $this->createWebsite($this->dateTime);
+        }
     }
 
     private function trackVisits()
@@ -109,7 +116,11 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
 
         // Create Goal 1: Triggered by JS, after 18 minutes
-        $idGoal = APIGoals::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $idGoal = 1;
+        if (!self::goalExists($idSite, $idGoal)) {
+            $idGoal = APIGoals::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        }
+
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
 
         // Change to Thai  browser to ensure the conversion is credited to FR instead (the visitor initial country)
@@ -146,7 +157,9 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         // End of first visit: 24min
 
         // Create Goal 2: Matching on URL
-        APIGoals::getInstance()->addGoal($idSite, 'matching purchase.htm', 'url', '(.*)store\/purchase\.(.*)', 'regex', false, $revenue = 1);
+        if (!self::goalExists($idSite, $idGoal = 2)) {
+            APIGoals::getInstance()->addGoal($idSite, 'matching purchase.htm', 'url', '(.*)store\/purchase\.(.*)', 'regex', false, $revenue = 1);
+        }
 
         // -
         // Start of returning visit, 1 hour after first page view

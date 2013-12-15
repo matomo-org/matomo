@@ -31,19 +31,25 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
 
         // First, a goal that is only recorded once per visit
-        API::getInstance()->addGoal(
-            $this->idSite, 'triggered js ONCE', 'title', 'Thank you', 'contains', $caseSensitive = false,
-            $revenue = 10, $allowMultipleConversions = false
-        );
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            API::getInstance()->addGoal(
+                $this->idSite, 'triggered js ONCE', 'title', 'Thank you', 'contains', $caseSensitive = false,
+                $revenue = 10, $allowMultipleConversions = false
+            );
+        }
 
         // Second, a goal allowing multiple conversions
-        API::getInstance()->addGoal(
-            $this->idSite, 'triggered js MULTIPLE ALLOWED', 'manually', '', '', $caseSensitive = false,
-            $revenue = 10, $allowMultipleConversions = true
-        );
+        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+            API::getInstance()->addGoal(
+                $this->idSite, 'triggered js MULTIPLE ALLOWED', 'manually', '', '', $caseSensitive = false,
+                $revenue = 10, $allowMultipleConversions = true
+            );
+        }
     }
 
     private function trackVisits()

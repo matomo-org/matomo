@@ -14,7 +14,7 @@ use Piwik\Plugins\Goals\API;
  */
 class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Test_Piwik_BaseFixture
 {
-    public $today = '2010-03-06 11:22:33';
+    public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
     public $idSite2 = 2;
     public $keywords = array(
@@ -36,19 +36,29 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
 
     private function setUpWebsitesAndGoals()
     {
-        $siteCreated = '2010-02-01 11:22:33';
+        $siteCreated = $this->dateTime;
 
-        self::createWebsite($siteCreated);
-        API::getInstance()->addGoal($this->idSite, 'triggered php', 'manually', '', '');
-        API::getInstance()->addGoal(
-            $this->idSite, 'another triggered php', 'manually', '', '', false, false, true);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($siteCreated);
+        }
 
-        self::createWebsite($siteCreated);
+        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+            API::getInstance()->addGoal($this->idSite, 'triggered php', 'manually', '', '');
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+            API::getInstance()->addGoal(
+                $this->idSite, 'another triggered php', 'manually', '', '', false, false, true);
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($siteCreated);
+        }
     }
 
     private function trackVisits()
     {
-        $dateTime = $this->today;
+        $dateTime = Date::factory($this->dateTime)->addPeriod(1, 'MONTH')->addDay(5)->getDatetime();
         $idSite = $this->idSite;
         $idSite2 = $this->idSite2;
 

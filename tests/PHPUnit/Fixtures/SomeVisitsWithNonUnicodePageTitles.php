@@ -35,7 +35,10 @@ class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_B
     private function setUpWebsites()
     {
         API::getInstance()->setGlobalSearchParameters($searchKeywordParameters = 'gkwd', $searchCategoryParameters = 'gcat');
-        self::createWebsite(Date::factory($this->dateTime)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
+
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite(Date::factory($this->dateTime)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
+        }
     }
 
     private function trackVisits()

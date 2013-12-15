@@ -30,7 +30,9 @@ class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Test_Piwik_BaseFixtur
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime);
+        }
     }
 
     private function trackVisits()
@@ -50,7 +52,10 @@ class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Test_Piwik_BaseFixtur
         $t->setUrlReferrer('http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg=');
         $t->setUrl('http://example.org/this%20is%20cool!');
         self::checkResponse($t->doTrackPageView('incredible title!'));
-        $idGoal = API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $idGoal = 1;
+        if (!self::goalExists($idSite, $idGoal)) {
+            $idGoal = API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        }
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 

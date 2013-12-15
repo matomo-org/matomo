@@ -798,7 +798,7 @@
         "NumDownloadsLatestVersion": "Latest version: %s Downloads",
         "EnjoyAnotherLookAndFeelOfThemes": "Enjoy another look & feel",
         "MarketplaceSellPluginSubject": "Marketplace - Sell Plugin",
-        "DownloadAndInstallPluginsFromMarketplace": "You may automatically download and install new Plugins from the %sMarketplace%s</a>.",
+        "DownloadAndInstallPluginsFromMarketplace": "You may automatically download and install new Plugins from the %sMarketplace%s.",
         "GetEarlyAccessForPaidPlugins": "Note: all plugins are available for free at present; in the future we will enable Paid Plugins in the Marketplace (%scontact us%s for early access).",
         "GetNewFunctionality": "Get new functionality",
         "ByInstallingNewPluginFromMarketplace": "by %sinstalling a new plugin from the Marketplace%s",

@@ -32,8 +32,13 @@ class Test_Piwik_Fixture_TwoSitesVisitsInPast extends Test_Piwik_BaseFixture
 
     public function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTimeFirstDateWebsite1);
-        self::createWebsite($this->dateTimeFirstDateWebsite2);
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTimeFirstDateWebsite1);
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTimeFirstDateWebsite2);
+        }
     }
 
     protected function trackVisits()

@@ -38,9 +38,18 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
     protected function setUpWebsites()
     {
         API::getInstance()->setGlobalSearchParameters($searchKeywordParameters = 'gkwd', $searchCategoryParameters = 'gcat');
-        self::createWebsite(Date::factory($this->dateTime)->subHour(200)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
-        self::createWebsite(Date::factory($this->dateTime)->subHour(400)->getDatetime(), 0, "Site 2 - Site search use default", $siteurl = false, $search = 1, $searchKwd = '', $searchCat = '');
-        self::createWebsite(Date::factory($this->dateTime)->subHour(600)->getDatetime(), 0, "Site 3 - No site search", $siteurl = false, $search = 0);
+
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite(Date::factory($this->dateTime)->subHour(200)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite(Date::factory($this->dateTime)->subHour(400)->getDatetime(), 0, "Site 2 - Site search use default", $siteurl = false, $search = 1, $searchKwd = '', $searchCat = '');
+        }
+
+        if (!self::siteCreated($idSite = 3)) {
+            self::createWebsite(Date::factory($this->dateTime)->subHour(600)->getDatetime(), 0, "Site 3 - No site search", $siteurl = false, $search = 0);
+        }
     }
 
     protected function trackVisits()

@@ -39,12 +39,22 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $ecommerce = $this->allowConversions ? 1 : 0;
 
         // tests run in UTC, the Tracker in UTC
-        self::createWebsite($this->dateTime, $ecommerce, "Site 1");
-        self::createWebsite($this->dateTime, 0, "Site 2");
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite($this->dateTime, $ecommerce, "Site 1");
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTime, 0, "Site 2");
+        }
 
         if ($this->allowConversions) {
-            APIGoals::getInstance()->addGoal($this->idSite1, 'all', 'url', 'http', 'contains', false, 5);
-            APIGoals::getInstance()->addGoal($this->idSite2, 'all', 'url', 'http', 'contains');
+            if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+                APIGoals::getInstance()->addGoal($this->idSite1, 'all', 'url', 'http', 'contains', false, 5);
+            }
+
+            if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+                APIGoals::getInstance()->addGoal($this->idSite2, 'all', 'url', 'http', 'contains');
+            }
         }
 
         APISitesManager::getInstance()->updateSite(
