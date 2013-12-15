@@ -1,7 +1,7 @@
 {% macro tablePluginUpdates(pluginsHavingUpdate, nonce, isTheme) %}
 
     <div class='entityContainer'>
-        <table class="entityTable">
+        <table class="dataTable entityTable">
             <thead>
             <tr>
                 <th>{% if isTheme %}{{ 'CorePluginsAdmin_Theme'|translate }}{% else %}{{ 'General_Plugin'|translate }}{% endif %}</th>
