@@ -20,6 +20,9 @@ class Updates_2_0_rc1 extends Updates
 {
     public static function update()
     {
-        \Piwik\Plugin\Manager::getInstance()->activatePlugin('Morpheus');
+        try {
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('Morpheus');
+        } catch(\Exception $e) {
+        }
     }
 }
