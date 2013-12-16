@@ -65,6 +65,7 @@ class GeneratePlugin extends GeneratePluginBase
                 '/ExamplePlugin.php',
                 '/plugin.json',
                 '/README.md',
+                '/.travis.yml',
                 '/screenshots',
                 '/screenshots/.gitkeep',
                 '/javascripts',
