@@ -282,7 +282,7 @@ class SettingsPiwik
                                                 $followDepth = 0,
                                                 $acceptLanguage = false,
 
-                                                // Accept self signed certificates for now
+                                                // Accept self signed certificates for developers
                                                 $acceptInvalidSslCertificate = true
         );
 
