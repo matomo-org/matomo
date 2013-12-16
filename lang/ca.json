@@ -129,7 +129,7 @@
         "YouMayOptOutBis": "Per prendre aquesta decisió, feu click a continuació per rebre una cookie de baixa."
     },
     "CoreHome": {
-        "CategoryNoData": "No hi ha dades en aquesta categoria. Proveu d'<em>incloure tota la població<\/em>.",
+        "CategoryNoData": "No hi ha dades en aquesta categoria. Proveu d'incloure tota la població.",
         "CheckForUpdates": "Cerca actualitzacions",
         "DataForThisReportHasBeenPurged": "La informació d'aquest informés és anterior a %s mesos d'antiguitat i s'ha purgat.",
         "DataTableExcludeAggregateRows": "Es mostren les files aggrupades %s Amaga-ho",
