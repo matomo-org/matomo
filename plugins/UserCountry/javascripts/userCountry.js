@@ -12,7 +12,7 @@ $(document).ready(function () {
     $('.location-provider').change(function () {
         if (!$(this).is(':checked')) return; // only handle radio buttons that get checked
 
-        var parent = $(this).parent(),
+        var parent = $(this).closest('p'),
             loading = $('.loadingPiwik', parent),
             ajaxSuccess = $('.success', parent);
 
@@ -25,7 +25,6 @@ $(document).ready(function () {
         }, 'get');
         ajaxRequest.setCallback(
             function () {
-
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
                 notification.show(_pk_translate('General_Done'), {
