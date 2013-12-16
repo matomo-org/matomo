@@ -5,7 +5,7 @@ config/config.ini.php
 crossdomain.xml
 documentation
 docs/
-favicon.ico
+/favicon.ico
 js/yui*
 logs
 misc/*.dat
