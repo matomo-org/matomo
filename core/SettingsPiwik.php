@@ -273,7 +273,19 @@ class SettingsPiwik
     {
         // Now testing if the webserver is running
         try {
-            $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 45);
+            $fetched = Http::sendHttpRequestBy('curl',
+                                                $piwikServerUrl,
+                                                $timeout = 45,
+                                                $userAgent = null,
+                                                $destinationPath = null,
+                                                $file = null,
+                                                $followDepth = 0,
+                                                $acceptLanguage = false,
+
+                                                // Accept self signed certificates for now
+                                                $acceptInvalidSslCertificate = true
+        );
+
         } catch (Exception $e) {
             $fetched = "ERROR fetching: " . $e->getMessage();
         }
