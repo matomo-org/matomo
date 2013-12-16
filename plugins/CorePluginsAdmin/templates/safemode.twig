@@ -29,7 +29,7 @@
 
         {% if not isAnonymousUser %}
             <p>
-                The following error just broke Piwik {% if showVersion %}(v{{ piwikVersion }}){%  endif %}:
+                The following error just broke Piwik{% if showVersion %} (v{{ piwikVersion }}){%  endif %}:
                 <pre>{{ lastError.message }}</pre>
                 in
                 <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
