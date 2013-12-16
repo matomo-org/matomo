@@ -181,26 +181,33 @@
                         {{ 'CoreHome_PeriodMonths'|translate }}
                     </label><br/>
                     <span class="form-description">{{ 'PrivacyManager_LeastMonthsInput'|translate("3") }}</span><br/><br/>
-                    <label><input type="checkbox" name="deleteReportsKeepBasic" value="1"
-                                  {% if deleteData.config.delete_reports_keep_basic_metrics %}checked="true"{% endif %}>{{ 'PrivacyManager_KeepBasicMetrics'|translate }}
+                    <input id="deleteReportsKeepBasic" type="checkbox" name="deleteReportsKeepBasic" value="1"
+                                  {% if deleteData.config.delete_reports_keep_basic_metrics %}checked="true"{% endif %}>
+                    <label for="deleteReportsKeepBasic">{{ 'PrivacyManager_KeepBasicMetrics'|translate }}
                         <span class="form-description">{{ 'General_Recommended'|translate }}</span>
                     </label><br/><br/>
-                    {{ 'PrivacyManager_KeepDataFor'|translate }}<br/>
-                    <label><input type="checkbox" name="deleteReportsKeepDay" value="1"
-                                  {% if deleteData.config.delete_reports_keep_day_reports %}checked="true"{% endif %}>{{ 'General_DailyReports'|translate }}</label><br/>
-                    <label><input type="checkbox" name="deleteReportsKeepWeek" value="1"
-                                  {% if deleteData.config.delete_reports_keep_week_reports %}checked="true"{% endif %}>{{ 'General_WeeklyReports'|translate }}</label><br/>
-                    <label><input type="checkbox" name="deleteReportsKeepMonth" value="1"
-                                  {% if deleteData.config.delete_reports_keep_month_reports %}checked="true"{% endif %}>{{ 'General_MonthlyReports'|translate }}<span
+                    {{ 'PrivacyManager_KeepDataFor'|translate }}<br/><br/>
+                    <input id="deleteReportsKeepDay" type="checkbox" name="deleteReportsKeepDay" value="1"
+                                  {% if deleteData.config.delete_reports_keep_day_reports %}checked="true"{% endif %}>
+                    <label for="deleteReportsKeepDay">{{ 'General_DailyReports'|translate }}</label><br/>
+                    <input type="checkbox" name="deleteReportsKeepWeek" value="1" id="deleteReportsKeepWeek"
+                                  {% if deleteData.config.delete_reports_keep_week_reports %}checked="true"{% endif %}>
+                    <label for="deleteReportsKeepWeek">{{ 'General_WeeklyReports'|translate }}</label><br/>
+                    <input type="checkbox" name="deleteReportsKeepMonth" value="1" id="deleteReportsKeepMonth"
+                                  {% if deleteData.config.delete_reports_keep_month_reports %}checked="true"{% endif %}>
+                    <label for="deleteReportsKeepMonth">{{ 'General_MonthlyReports'|translate }}<span
                                 class="form-description">{{ 'General_Recommended'|translate }}</span></label><br/>
-                    <label><input type="checkbox" name="deleteReportsKeepYear" value="1"
-                                  {% if deleteData.config.delete_reports_keep_year_reports %}checked="true"{% endif %}>{{ 'General_YearlyReports'|translate }}<span
+                    <input type="checkbox" name="deleteReportsKeepYear" value="1" id="deleteReportsKeepYear"
+                                  {% if deleteData.config.delete_reports_keep_year_reports %}checked="true"{% endif %}>
+                    <label for="deleteReportsKeepYear">{{ 'General_YearlyReports'|translate }}<span
                                 class="form-description">{{ 'General_Recommended'|translate }}</span></label><br/>
-                    <label><input type="checkbox" name="deleteReportsKeepRange" value="1"
-                                  {% if deleteData.config.delete_reports_keep_range_reports %}checked="true"{% endif %}>{{ 'General_RangeReports'|translate }}
+                    <input type="checkbox" name="deleteReportsKeepRange" value="1" id="deleteReportsKeepRange"
+                                  {% if deleteData.config.delete_reports_keep_range_reports %}checked="true"{% endif %}>
+                    <label for="deleteReportsKeepRange">{{ 'General_RangeReports'|translate }}
                     </label><br/><br/>
-                    <label><input type="checkbox" name="deleteReportsKeepSegments" value="1"
-                                  {% if deleteData.config.delete_reports_keep_segment_reports %}checked="true"{% endif %}>{{ 'PrivacyManager_KeepReportSegments'|translate }}</label><br/>
+                    <input type="checkbox" name="deleteReportsKeepSegments" value="1" id="deleteReportsKeepSegments"
+                                  {% if deleteData.config.delete_reports_keep_segment_reports %}checked="true"{% endif %}>
+                    <label for="deleteReportsKeepSegments">{{ 'PrivacyManager_KeepReportSegments'|translate }}</label><br/>
                 </td>
                 <td width="200">
 

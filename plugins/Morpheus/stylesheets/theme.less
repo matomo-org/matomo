@@ -85,6 +85,10 @@ body {
     }
 }
 
+table.entityTable tr td a:hover {
+    text-decoration: underline !important;
+}
+
 #root {
     margin: 0;
     padding: 0;
@@ -771,4 +775,18 @@ div.sparkline {
 
 tr:hover #token_auth {
   background: #FFFFF7;
+}
+
+table#users {
+    .deleteuser:hover > span,
+    .edituser:hover > span {
+        text-decoration:underline;
+    }
+}
+
+table#editSites {
+    .editSite:hover > span,
+    .deleteSite:hover > span {
+        text-decoration:underline;
+    }
 }

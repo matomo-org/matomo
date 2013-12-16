@@ -130,14 +130,8 @@ abstract class Graph extends Visualization
             }
         }
 
-        $availableColumns = $this->dataTable->getColumns();
-
         $transformed = array();
         foreach ($selectableColumns as $column) {
-            if (!in_array($column, $availableColumns)) {
-                continue;
-            }
-
             $transformed[] = array(
                 'column'      => $column,
                 'translation' => @$this->config->translations[$column],
