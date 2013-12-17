@@ -11,6 +11,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
@@ -259,7 +260,7 @@ class View implements ViewInterface
 
     protected function applyFilter_cacheBuster($output)
     {
-        $cacheBuster = AssetManager::generateAssetsCacheBuster();
+        $cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
         $tag = 'cb=' . $cacheBuster;
 
         $pattern = array(

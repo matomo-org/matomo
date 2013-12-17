@@ -61,7 +61,7 @@ class BatchInsert
      */
     public static function tableInsertBatch($tableName, $fields, $values, $throwException = false)
     {
-        $filePath = PIWIK_USER_PATH . '/' . AssetManager::MERGED_FILE_DIR . $tableName . '-' . Common::generateUniqId() . '.csv';
+        $filePath = PIWIK_USER_PATH . '/tmp/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
         $filePath = SettingsPiwik::rewriteTmpPathWithHostname($filePath);
 
         if (Db::get()->hasBulkLoader()) {

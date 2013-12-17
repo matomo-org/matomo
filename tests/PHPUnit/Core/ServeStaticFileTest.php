@@ -477,8 +477,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
 
     private function getCompressedFileLocation()
     {
-        $path = PIWIK_PATH_TEST_TO_ROOT . \Piwik\AssetManager::COMPRESSED_FILE_LOCATION . basename(TEST_FILE_LOCATION);
-        return \Piwik\SettingsPiwik::rewriteTmpPathWithHostname($path);
+        return \Piwik\AssetManager::getInstance()->getAssetDirectory() . '/' . basename(TEST_FILE_LOCATION);
     }
 
     private function removeCompressedFiles()

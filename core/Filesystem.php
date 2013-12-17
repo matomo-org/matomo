@@ -24,9 +24,9 @@ class Filesystem
      * Called on Core install, update, plugin enable/disable
      * Will clear all cache that could be affected by the change in configuration being made
      */
-    public static function deleteAllCacheOnUpdate()
+    public static function deleteAllCacheOnUpdate($pluginName = false)
     {
-        AssetManager::removeMergedAssets();
+        AssetManager::getInstance()->removeMergedAssets($pluginName);
         View::clearCompiledTemplates();
         Cache::deleteTrackerCache();
     }

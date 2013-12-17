@@ -10,6 +10,8 @@
  */
 namespace Piwik;
 
+use Piwik\Plugin\Manager;
+
 /**
  * This class contains logic to make Themes work beautifully.
  *
@@ -23,10 +25,21 @@ class Theme
     /** @var \Piwik\Plugin  */
     private $theme;
 
-    public function __construct()
+    /**
+     * @var Plugin $plugin
+     */
+    public function __construct($plugin = false)
     {
-        $this->theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
-        $this->themeName = $this->theme->getPluginName();
+        $this->createThemeFromPlugin($plugin ? $plugin : Manager::getInstance()->getThemeEnabled());
+    }
+
+    /**
+     * @param Plugin $plugin
+     */
+    private function createThemeFromPlugin($plugin)
+    {
+        $this->theme = $plugin;
+        $this->themeName = $plugin->getPluginName();
     }
 
     public function getStylesheet()
@@ -123,4 +136,11 @@ class Theme
         return $source;
     }
 
+    /**
+     * @return string
+     */
+    public function getThemeName()
+    {
+        return $this->themeName;
+    }
 }

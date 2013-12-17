@@ -104,9 +104,9 @@ class Twig
             $assetType = strtolower($params['type']);
             switch ($assetType) {
                 case 'css':
-                    return AssetManager::getCssAssets();
+                    return AssetManager::getInstance()->getCssInclusionDirective();
                 case 'js':
-                    return AssetManager::getJsAssets();
+                    return AssetManager::getInstance()->getJsInclusionDirective();
                 default:
                     throw new Exception("The twig function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
             }

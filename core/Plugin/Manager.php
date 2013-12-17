@@ -20,6 +20,7 @@ use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Translate;
 use Piwik\Updater;
+use Piwik\Theme;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -219,13 +220,21 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->forceSave();
         \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
 
-        Filesystem::deleteAllCacheOnUpdate();
+        $this->clearCache($pluginName);
 
         self::deletePluginFromFilesystem($pluginName);
         if ($this->isPluginInFilesystem($pluginName)) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param string $pluginName
+     */
+    private function clearCache($pluginName)
+    {
+        Filesystem::deleteAllCacheOnUpdate($pluginName);
     }
 
     public static function deletePluginFromFilesystem($plugin)
@@ -255,7 +264,7 @@ class Manager extends Singleton
         $this->removePluginFromTrackerConfig($pluginName);
 
         PiwikConfig::getInstance()->forceSave();
-        Filesystem::deleteAllCacheOnUpdate();
+        $this->clearCache($pluginName);
 
         return $plugins;
     }
@@ -329,7 +338,7 @@ class Manager extends Singleton
         $this->updatePluginsConfig($plugins);
         PiwikConfig::getInstance()->forceSave();
 
-        Filesystem::deleteAllCacheOnUpdate();
+        $this->clearCache($pluginName);
 
         $this->pluginsToLoad[] = $pluginName;
     }
@@ -367,6 +376,22 @@ class Manager extends Singleton
             }
         }
         return $theme;
+    }
+
+    /**
+     * @param string $themeName
+     * @throws \Exception
+     * @return Theme
+     */
+    public function getTheme($themeName)
+    {
+        $plugins = $this->getLoadedPlugins();
+
+        foreach ($plugins as $plugin)
+            if ($plugin->isTheme() && $plugin->getPluginName() == $themeName)
+                return new Theme($plugin);
+
+        throw new \Exception('Theme not found : ' . $themeName);
     }
 
     public function getNumberOfActivatedPlugins()

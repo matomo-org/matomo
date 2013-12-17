@@ -262,7 +262,7 @@ class Plugin
      *
      * @return bool
      */
-    final public function isTheme()
+    public function isTheme()
     {
         $info = $this->getInformation();
         return !empty($info['theme']) && (bool)$info['theme'];
