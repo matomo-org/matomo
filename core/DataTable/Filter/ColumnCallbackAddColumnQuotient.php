@@ -10,7 +10,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
@@ -29,7 +29,7 @@ use Piwik\DataTable\Row;
  * @subpackage DataTable
  * @api
  */
-class ColumnCallbackAddColumnQuotient extends Filter
+class ColumnCallbackAddColumnQuotient extends BaseFilter
 {
     protected $table;
     protected $columnValueToRead;

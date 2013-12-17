@@ -25,14 +25,14 @@ use Piwik\DataTable\Row;
  * Filters are called with a DataTable instance and extra parameters that are specified
  * in {@link Piwik\DataTable::filter()} and {@link Piwik\DataTable::queueFilter()}.
  * 
- * To see examples of Filters look at the existing ones in the Piwik\DataTable\Filter
+ * To see examples of Filters look at the existing ones in the Piwik\DataTable\BaseFilter
  * namespace.
  * 
  * @package Piwik
  * @subpackage DataTable
  * @api
  */
-abstract class Filter
+abstract class BaseFilter
 {
     /**
      * @var bool
@@ -58,7 +58,7 @@ abstract class Filter
 
     /**
      * Enables/Disables recursive filtering. Whether this property is actually used
-     * is up to the derived Filter class.
+     * is up to the derived BaseFilter class.
      *
      * @param bool $enable
      */

@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Delete all rows from the table that are not in the given [offset, offset+limit) range.
@@ -25,7 +25,7 @@ use Piwik\DataTable\Filter;
  * @subpackage DataTable
  * @api
  */
-class Limit extends Filter
+class Limit extends BaseFilter
 {
     /**
      * Constructor.

@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Exception;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 
@@ -28,7 +28,7 @@ use Piwik\DataTable\Manager;
  * @subpackage DataTable
  * @api
  */
-class PatternRecursive extends Filter
+class PatternRecursive extends BaseFilter
 {
     private $columnToFilter;
     private $patternToSearch;

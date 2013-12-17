@@ -10,7 +10,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -41,7 +41,7 @@ use Piwik\Tracker\GoalManager;
  * @subpackage DataTable
  * @api
  */
-class ReplaceColumnNames extends Filter
+class ReplaceColumnNames extends BaseFilter
 {
     protected $mappingToApply;
 

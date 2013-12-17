@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Executes a callback for each row of a {@link DataTable} and adds the result as a new
@@ -25,7 +25,7 @@ use Piwik\DataTable\Filter;
  * @subpackage DataTable
  * @api
  */
-class ColumnCallbackAddMetadata extends Filter
+class ColumnCallbackAddMetadata extends BaseFilter
 {
     private $columnsToRead;
     private $functionToApply;

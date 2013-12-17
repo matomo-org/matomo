@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Sanitizes DataTable labels as an extra precaution. Called internally by Piwik.
@@ -19,7 +19,7 @@ use Piwik\DataTable\Filter;
  * @package Piwik
  * @subpackage DataTable
  */
-class SafeDecodeLabel extends Filter
+class SafeDecodeLabel extends BaseFilter
 {
     private $columnToDecode;
 

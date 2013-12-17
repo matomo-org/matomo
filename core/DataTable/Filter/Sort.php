@@ -10,7 +10,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
@@ -25,7 +25,7 @@ use Piwik\Metrics;
  * @subpackage DataTable
  * @api
  */
-class Sort extends Filter
+class Sort extends BaseFilter
 {
     protected $columnToSort;
     protected $order;

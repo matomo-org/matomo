@@ -10,7 +10,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 
@@ -28,7 +28,7 @@ use Piwik\DataTable\Row\DataTableSummaryRow;
  * @subpackage DataTable
  * @api
  */
-class AddSummaryRow extends Filter
+class AddSummaryRow extends BaseFilter
 {
     /**
      * Constructor.

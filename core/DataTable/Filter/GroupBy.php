@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * DataTable filter that will group {@link DataTable} rows together based on the results
@@ -30,7 +30,7 @@ use Piwik\DataTable\Filter;
  * @subpackage DataTable
  * @api
  */
-class GroupBy extends Filter
+class GroupBy extends BaseFilter
 {
     /**
      * The name of the columns to reduce.

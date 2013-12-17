@@ -13,7 +13,7 @@ namespace Piwik\API\DataTableManipulator;
 use Piwik\API\DataTableManipulator;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\Period\Range;
 use Piwik\Period;
 use Piwik\Piwik;

@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Deletes every row for which a specific column does not match a supplied regex pattern.
@@ -25,7 +25,7 @@ use Piwik\DataTable\Filter;
  * @subpackage DataTable
  * @api
  */
-class Pattern extends Filter
+class Pattern extends BaseFilter
 {
     private $columnToFilter;
     private $patternToSearch;

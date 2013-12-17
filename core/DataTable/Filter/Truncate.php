@@ -10,7 +10,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
@@ -35,7 +35,7 @@ use Piwik\Piwik;
  * @subpackage DataTable
  * @api
  */
-class Truncate extends Filter
+class Truncate extends BaseFilter
 {
     /**
      * Constructor.

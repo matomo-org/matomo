@@ -14,7 +14,7 @@ namespace Piwik;
 use Closure;
 use Exception;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;
@@ -85,7 +85,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * applied to DataTable\Map instances. So you can visit every DataTable in a {@link DataTable\Map}
  * without having to write a recursive visiting function.
  * 
- * All predefined filters exist in the **Piwik\DataTable\Filter** namespace.
+ * All predefined filters exist in the **Piwik\DataTable\BaseFilter** namespace.
  * 
  * _Note: For convenience, [anonymous functions](http://www.php.net/manual/en/functions.anonymous.php)
  * can be used as DataTable filters._
@@ -255,7 +255,7 @@ class DataTable implements DataTableInterface
     protected $tableSortedBy = false;
 
     /**
-     * List of Filter queued to this table
+     * List of BaseFilter queued to this table
      *
      * @var array
      */
@@ -399,7 +399,7 @@ class DataTable implements DataTableInterface
      * to all subtables as well.
      *
      * @param string|Closure $className Class name, eg. `"Sort"` or "Piwik\DataTable\Filters\Sort"`. If no
-     *                                  namespace is supplied, `Piwik\DataTable\Filter` is assumed. This parameter
+     *                                  namespace is supplied, `Piwik\DataTable\BaseFilter` is assumed. This parameter
      *                                  can also be a closure that takes a DataTable as its first parameter.
      * @param array $parameters Array of extra parameters to pass to the filter.
      */

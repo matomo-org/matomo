@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Deletes all rows for which a callback returns true.
@@ -27,7 +27,7 @@ use Piwik\DataTable\Filter;
  * @subpackage DataTable
  * @api
  */
-class ColumnCallbackDeleteRow extends Filter
+class ColumnCallbackDeleteRow extends BaseFilter
 {
     private $columnToFilter;
     private $function;

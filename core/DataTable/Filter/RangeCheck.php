@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Check range
@@ -19,7 +19,7 @@ use Piwik\DataTable\Filter;
  * @package Piwik
  * @subpackage DataTable
  */
-class RangeCheck extends Filter
+class RangeCheck extends BaseFilter
 {
     static public $minimumValue = 0.00;
     static public $maximumValue = 100.0;

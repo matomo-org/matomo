@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Filter that will remove columns from a {@link DataTable} using either a blacklist,
@@ -31,7 +31,7 @@ use Piwik\DataTable\Filter;
  * @subpackage DataTable
  * @api
  */
-class ColumnDelete extends Filter
+class ColumnDelete extends BaseFilter
 {
     /**
      * The columns that should be removed from DataTable rows.

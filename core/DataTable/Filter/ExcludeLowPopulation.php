@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * Deletes all rows for which a specific column has a value that is lower than
@@ -35,7 +35,7 @@ use Piwik\DataTable\Filter;
  * @subpackage DataTable
  * @api
  */
-class ExcludeLowPopulation extends Filter
+class ExcludeLowPopulation extends BaseFilter
 {
     const MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD = 0.02;
 

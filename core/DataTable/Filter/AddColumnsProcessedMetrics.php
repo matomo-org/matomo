@@ -10,7 +10,7 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Piwik\DataTable\Filter;
+use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -39,7 +39,7 @@ use Piwik\Metrics;
  * @subpackage DataTable
  * @api
  */
-class AddColumnsProcessedMetrics extends Filter
+class AddColumnsProcessedMetrics extends BaseFilter
 {
     protected $invalidDivision = 0;
     protected $roundPrecision = 2;
