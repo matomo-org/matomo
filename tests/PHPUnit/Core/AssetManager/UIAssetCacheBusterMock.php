@@ -20,7 +20,7 @@ class UIAssetCacheBusterMock extends UIAssetCacheBuster
      */
     private $md5BasedCacheBuster;
 
-    public function piwikVersionBasedCacheBuster()
+    public function piwikVersionBasedCacheBuster($pluginNames = false)
     {
         return $this->piwikVersionBasedCacheBuster;
     }
