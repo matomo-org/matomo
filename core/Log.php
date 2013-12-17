@@ -189,7 +189,7 @@ class Log extends Singleton
      */
     public static function error($message /* ... */)
     {
-        self::log(self::ERROR, $message, array_slice(func_get_args(), 1));
+        self::logMessage(self::ERROR, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -201,7 +201,7 @@ class Log extends Singleton
      */
     public static function warning($message /* ... */)
     {
-        self::log(self::WARN, $message, array_slice(func_get_args(), 1));
+        self::logMessage(self::WARN, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -213,7 +213,7 @@ class Log extends Singleton
      */
     public static function info($message /* ... */)
     {
-        self::log(self::INFO, $message, array_slice(func_get_args(), 1));
+        self::logMessage(self::INFO, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -225,7 +225,7 @@ class Log extends Singleton
      */
     public static function debug($message /* ... */)
     {
-        self::log(self::DEBUG, $message, array_slice(func_get_args(), 1));
+        self::logMessage(self::DEBUG, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -237,7 +237,7 @@ class Log extends Singleton
      */
     public static function verbose($message /* ... */)
     {
-        self::log(self::VERBOSE, $message, array_slice(func_get_args(), 1));
+        self::logMessage(self::VERBOSE, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -536,7 +536,7 @@ class Log extends Singleton
         }
     }
 
-    private static function log($level, $message, $sprintfParams)
+    private static function logMessage($level, $message, $sprintfParams)
     {
         self::getInstance()->doLog($level, $message, $sprintfParams);
     }
