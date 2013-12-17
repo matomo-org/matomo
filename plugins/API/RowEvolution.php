@@ -184,7 +184,7 @@ class RowEvolution
         }
 
         $return = array(
-            'label'      => SafeDecodeLabel::safeDecodeLabel($actualLabel),
+            'label'      => SafeDecodeLabel::decodeLabelSafe($actualLabel),
             'reportData' => $dataTable,
             'metadata'   => $metadata
         );
@@ -480,7 +480,7 @@ class RowEvolution
                 $label .= ' (' . $metadata['columns'][$column] . ')';
             }
             $metricName = $column . '_' . $labelIndex;
-            $metadata['metrics'][$metricName] = SafeDecodeLabel::safeDecodeLabel($label);
+            $metadata['metrics'][$metricName] = SafeDecodeLabel::decodeLabelSafe($label);
 
             if (!empty($logos[$labelIndex])) {
                 $metadata['logos'][$metricName] = $logos[$labelIndex];

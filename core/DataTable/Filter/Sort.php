@@ -73,7 +73,7 @@ class Sort extends BaseFilter
      * @param number $b
      * @return int
      */
-    public function sort($a, $b)
+    public function numberSort($a, $b)
     {
         return !isset($a->c[Row::COLUMNS][$this->columnToSort])
         && !isset($b->c[Row::COLUMNS][$this->columnToSort])
@@ -212,7 +212,7 @@ class Sort extends BaseFilter
 
         $value = $row->getColumn($this->columnToSort);
         if (is_numeric($value)) {
-            $methodToUse = "sort";
+            $methodToUse = "numberSort";
         } else {
             if ($this->naturalSort) {
                 $methodToUse = "naturalSort";

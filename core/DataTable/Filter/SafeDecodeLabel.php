@@ -38,7 +38,7 @@ class SafeDecodeLabel extends BaseFilter
      * @param string $value
      * @return mixed|string
      */
-    public static function safeDecodeLabel($value)
+    public static function decodeLabelSafe($value)
     {
         if (empty($value)) {
             return $value;
@@ -66,7 +66,7 @@ class SafeDecodeLabel extends BaseFilter
         foreach ($table->getRows() as $row) {
             $value = $row->getColumn($this->columnToDecode);
             if ($value !== false) {
-                $value = self::safeDecodeLabel($value);
+                $value = self::decodeLabelSafe($value);
                 $row->setColumn($this->columnToDecode, $value);
 
                 $this->filterSubTable($row);
