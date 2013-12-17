@@ -11,14 +11,19 @@
 namespace Piwik;
 
 use Exception;
-use JSMin;
-use lessc;
+use Piwik\AssetManager\UIAsset;
+use Piwik\AssetManager\UIAsset\InMemoryUIAsset;
+use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
+use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
+use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
+use Piwik\AssetManager\UIAssetFetcher\StylesheetUIAssetFetcher;
+use Piwik\AssetManager\UIAssetFetcher;
+use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
+use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
+use Piwik\Plugin\Manager;
 use Piwik\Translate;
-
-/**
- * @see libs/jsmin/jsmin.php
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
+use Piwik\Config as PiwikConfig;
 
 /**
  * AssetManager is the class used to manage the inclusion of UI assets:
@@ -36,567 +41,209 @@ require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
  * When set to 0, files will be included within a pair of files: 1 JavaScript
  * and 1 css file.
  *
+ * @method static \Piwik\AssetManager getInstance()
  * @package Piwik
  */
-class AssetManager
+class AssetManager extends Singleton
 {
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
-    const MERGED_JS_FILE = "asset_manager_global_js.js";
-    const STYLESHEET_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
-    const JAVASCRIPT_IMPORT_EVENT = "AssetManager.getJavaScriptFiles";
-    const MERGED_FILE_DIR = "tmp/assets/";
-    const COMPRESSED_FILE_LOCATION = "/tmp/assets/";
+    const MERGED_CORE_JS_FILE = "asset_manager_core_js.js";
+    const MERGED_NON_CORE_JS_FILE = "asset_manager_non_core_js.js";
 
     const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
     const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
     const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
-    const GET_JS_MODULE_ACTION = "index.php?module=Proxy&action=getJs";
-    const MINIFIED_JS_RATIO = 100;
+    const GET_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getCoreJs";
+    const GET_NON_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getNonCoreJs";
 
     /**
-     * @param $file
-     * @param $less
-     * @internal param $mergedContent
-     * @return string
+     * @var UIAssetCacheBuster
      */
-    protected static function getCssContentFromFile($file, $less)
+    private $cacheBuster;
+
+    /**
+     * @var UIAssetFetcher
+     */
+    private $minimalStylesheetFetcher;
+
+    /**
+     * @var Theme
+     */
+    private $theme;
+
+    function __construct()
     {
-        self::validateCssFile($file);
+        $this->cacheBuster = UIAssetCacheBuster::getInstance();
+        $this->minimalStylesheetFetcher =  new StaticUIAssetFetcher(array('plugins/Zeitgeist/stylesheets/base.less'), array(), $this->theme);
 
-        $fileLocation = self::getAbsoluteLocation($file);
-        $less->addImportDir(dirname($fileLocation));
-
-        $content = file_get_contents($fileLocation);
-        $content = self::rewriteCssPathsDirectives($file, $content);
-
-        return $content;
+        if(Manager::getInstance()->getThemeEnabled() != null)
+            $this->theme = new Theme();
     }
 
     /**
-     * Returns CSS file inclusion directive(s) using the markup <link>
+     * @param UIAssetCacheBuster $cacheBuster
+     */
+    public function setCacheBuster($cacheBuster)
+    {
+        $this->cacheBuster = $cacheBuster;
+    }
+
+    /**
+     * @param UIAssetFetcher $minimalStylesheetFetcher
+     */
+    public function setMinimalStylesheetFetcher($minimalStylesheetFetcher)
+    {
+        $this->minimalStylesheetFetcher = $minimalStylesheetFetcher;
+    }
+
+    /**
+     * @param Theme $theme
+     */
+    public function setTheme($theme)
+    {
+        $this->theme = $theme;
+    }
+
+    /**
+     * Return CSS file inclusion directive(s) using the markup <link>
      *
      * @return string
      */
-    public static function getCssAssets()
+    public function getCssInclusionDirective()
     {
         return sprintf(self::CSS_IMPORT_DIRECTIVE, self::GET_CSS_MODULE_ACTION);
     }
 
     /**
-     * Returns JS file inclusion directive(s) using the markup <script>
+     * Return JS file inclusion directive(s) using the markup <script>
      *
      * @return string
      */
-    public static function getJsAssets()
+    public function getJsInclusionDirective()
     {
         $result = "<script type=\"text/javascript\">\n" . Translate::getJavascriptTranslations() . "\n</script>";
 
-        if (self::isMergedAssetsDisabled()) {
-            // Individual includes mode
-            self::removeMergedAsset(self::MERGED_JS_FILE);
-            $result .= self::getIndividualJsIncludes();
+        if ($this->isMergedAssetsDisabled()) {
+
+            $this->getMergedCoreJSAsset()->delete();
+            $this->getMergedNonCoreJSAsset()->delete();
+
+            $result .= $this->getIndividualJsIncludes();
+
         } else {
-            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_JS_MODULE_ACTION);
+
+            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_CORE_JS_MODULE_ACTION);
+            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_NON_CORE_JS_MODULE_ACTION);
         }
 
         return $result;
     }
 
     /**
-     * Assets are cached in the browser and Piwik server returns 304 after initial download.
-     * when the Cache buster string changes, the assets will be re-generated
+     * Return the base.less compiled to css
      *
-     * @return string
+     * @return UIAsset
      */
-    public static function generateAssetsCacheBuster()
+    public function getCompiledBaseCss()
     {
-        $currentGitHash = @file_get_contents(PIWIK_INCLUDE_PATH . '/.git/refs/heads/master');
-        $pluginList = md5(implode(",", \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName()));
-        $cacheBuster = md5(SettingsPiwik::getSalt() . $pluginList . PHP_VERSION . Version::VERSION . trim($currentGitHash));
-        return $cacheBuster;
+        $mergedAsset = new InMemoryUIAsset();
+
+        $assetMerger = new StylesheetUIAssetMerger($mergedAsset, $this->minimalStylesheetFetcher, $this->cacheBuster);
+
+        $assetMerger->generateFile();
+
+        return $mergedAsset;
     }
 
     /**
-     * Generate the merged css file.
-     *
-     * @throws Exception if a file can not be opened in write mode
-     */
-    private static function prepareMergedCssFile()
-    {
-        $mergedCssAlreadyGenerated = self::isGenerated(self::MERGED_CSS_FILE);
-        $isDevelopingPiwik = self::isMergedAssetsDisabled();
-
-        if ($mergedCssAlreadyGenerated && !$isDevelopingPiwik) {
-            return;
-        }
-
-        $files = self::getStylesheetFiles();
-        $less = self::makeLess();
-
-        // Loop through each css file
-        $mergedContent = "";
-        foreach ($files as $file) {
-            $mergedContent .= self::getCssContentFromFile($file, $less, $mergedContent);
-        }
-
-        $fileHash = md5($mergedContent);
-        $firstLineCompileHash = "/* compile_me_once=$fileHash */";
-
-        // Disable Merged Assets ==> Check on each request if file needs re-compiling
-        if ($mergedCssAlreadyGenerated
-            && !$isDevelopingPiwik
-        ) {
-            $mergedFile = self::MERGED_CSS_FILE;
-            $cacheIsValid = self::isFirstLineMatching($mergedFile, $firstLineCompileHash);
-            if($cacheIsValid) {
-                return;
-            }
-            // Some CSS file in the merge, has changed since last merged asset was generated
-            // Note: we do not detect changes in @import'ed LESS files
-        }
-
-        $mergedContent = $less->compile($mergedContent);
-
-        /**
-         * Triggered after all less stylesheets are compiled to CSS, minified and merged into
-         * one file, but before the generated CSS is written to disk.
-         * 
-         * This event can be used to modify merged CSS.
-         * 
-         * @param string &$mergedContent The merged and minified CSS.
-         */
-        Piwik::postEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
-
-        $theme = new Theme;
-        $mergedContent = $theme->rewriteAssetsPathToTheme($mergedContent);
-
-        $mergedContent =
-            $firstLineCompileHash . "\n"
-            . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
-            . $mergedContent;
-
-        self::writeAssetToFile($mergedContent, self::MERGED_CSS_FILE);
-    }
-
-    protected static function makeLess()
-    {
-        if (!class_exists("lessc")) {
-            throw new Exception("Less was added to composer during 2.0. ==> Execute this command to update composer packages: \$ php composer.phar install");
-        }
-        $less = new lessc;
-        return $less;
-    }
-
-    /**
-     * Returns the base.less compiled to css
-     *
-     * @return string
-     */
-    public static function getCompiledBaseCss()
-    {
-        $file = '/plugins/Zeitgeist/stylesheets/base.less';
-        $less = self::makeLess();
-        $lessContent = self::getCssContentFromFile($file, $less);
-        $css = $less->compile($lessContent);
-        return $css;
-    }
-
-    /*
-     * Rewrite css url directives
-     * - rewrites relative paths
-     * - rewrite windows directory separator \\ to /
-     */
-    protected static function rewriteCssPathsDirectives($relativePath, $content)
-    {
-        static $rootDirectoryLength = null;
-        if (is_null($rootDirectoryLength)) {
-            $rootDirectoryLength = self::countDirectoriesInPathToRoot();
-        }
-
-        $baseDirectory = dirname($relativePath);
-        $content = preg_replace_callback(
-            "/(url\(['\"]?)([^'\")]*)/",
-            function ($matches) use ($rootDirectoryLength, $baseDirectory) {
-                $absolutePath = substr(realpath(PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2]), $rootDirectoryLength);
-                $rewritten = str_replace('\\', '/', $absolutePath);
-
-                if (is_file($rewritten)) { // only rewrite the URL if transforming it points to a valid file
-                    return $matches[1] . $rewritten;
-                } else {
-                    return $matches[1] . $matches[2];
-                }
-            },
-            $content
-        );
-        return $content;
-    }
-
-    protected static function countDirectoriesInPathToRoot()
-    {
-        $rootDirectory = realpath(PIWIK_DOCUMENT_ROOT);
-        if ($rootDirectory != '/' && substr_compare($rootDirectory, '/', -1)) {
-            $rootDirectory .= '/';
-        }
-        $rootDirectoryLen = strlen($rootDirectory);
-        return $rootDirectoryLen;
-    }
-
-    private static function writeAssetToFile($mergedContent, $name)
-    {
-        // Remove the previous file
-        self::removeMergedAsset($name);
-
-        // Tries to open the new file
-        $newFilePath = self::getAbsoluteMergedFileLocation($name);
-        $newFile = @fopen($newFilePath, "w");
-
-        if (!$newFile) {
-            throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
-        }
-
-        // Write the content in the new file
-        fwrite($newFile, $mergedContent);
-        fclose($newFile);
-    }
-
-    /**
-     * Returns individual CSS file inclusion directive(s) using the markup <link>
-     *
-     * @return string
-     */
-    private static function getIndividualCssIncludes()
-    {
-        $cssIncludeString = '';
-
-        $stylesheets = self::getStylesheetFiles();
-
-        foreach ($stylesheets as $cssFile) {
-
-            self::validateCssFile($cssFile);
-            $cssIncludeString = $cssIncludeString . sprintf(self::CSS_IMPORT_DIRECTIVE, $cssFile);
-        }
-
-        return $cssIncludeString;
-    }
-
-    /**
-     * Returns required CSS files
-     *
-     * @return Array
-     */
-    private static function getStylesheetFiles()
-    {
-        $stylesheets = array();
-
-        /**
-         * Triggered when gathering the list of all stylesheets (CSS and LESS) needed by
-         * Piwik and its plugins.
-         * 
-         * Plugins that have stylesheets should use this event to make those stylesheets
-         * load.
-         * 
-         * Stylesheets should be placed within a **stylesheets** subdirectory in your plugin's
-         * root directory.
-         * 
-         * _Note: While you are developing your plugin you should enable the config setting
-         * `[Debug] disable_merged_assets` so your stylesheets will be reloaded immediately
-         * after a change._
-         *
-         * **Example**
-         * 
-         *     public function getStylesheetFiles(&$stylesheets)
-         *     {
-         *         $stylesheets[] = "plugins/MyPlugin/stylesheets/myfile.less";
-         *         $stylesheets[] = "plugins/MyPlugin/stylesheets/myotherfile.css";
-         *     }
-         * 
-         * @param string[] &$stylesheets The list of stylesheet paths.
-         */
-        Piwik::postEvent(self::STYLESHEET_IMPORT_EVENT, array(&$stylesheets));
-
-        $stylesheets = self::sortCssFiles($stylesheets);
-
-        $theme = new Theme;
-        $themeStylesheet = $theme->getStylesheet();
-        if($themeStylesheet) {
-            $stylesheets[] = $themeStylesheet;
-        }
-
-        return $stylesheets;
-    }
-
-    /**
-     * Ensure CSS stylesheets are loaded in a particular order regardless of the order that plugins are loaded.
-     *
-     * @param array $stylesheets Array of CSS stylesheet files
-     * @return array
-     */
-    private static function sortCssFiles($stylesheets)
-    {
-        $priorityCssOrdered = array(
-            'libs/',
-            'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
-            'plugins/Zeitgeist/stylesheets/base.less',
-            'plugins/Zeitgeist/stylesheets/',
-            'plugins/',
-            'plugins/Dashboard/stylesheets/dashboard.less',
-            'tests/',
-        );
-
-        return self::prioritySort($priorityCssOrdered, $stylesheets);
-    }
-
-    /**
-     * Check the validity of the css file
-     *
-     * @param string $cssFile CSS file name
-     * @return boolean
-     * @throws Exception if a file can not be opened in write mode
-     */
-    private static function validateCssFile($cssFile)
-    {
-        if (!self::assetIsReadable($cssFile)) {
-            throw new Exception("The css asset with 'href' = " . $cssFile . " is not readable");
-        }
-    }
-
-    /**
-     * Generate the merged js file.
-     *
-     * @throws Exception if a file can not be opened in write mode
-     */
-    private static function generateMergedJsFile()
-    {
-        $mergedContent = self::getFirstLineOfMergedJs();
-
-        $files = self::getJsFiles();
-        foreach ($files as $file) {
-            self::validateJsFile($file);
-            $fileLocation = self::getAbsoluteLocation($file);
-            $content = file_get_contents($fileLocation);
-            if (!self::isMinifiedJs($content)) {
-                $content = JSMin::minify($content);
-            }
-            $mergedContent = $mergedContent . PHP_EOL . $content;
-        }
-        $mergedContent = str_replace("\n", "\r\n", $mergedContent);
-
-        /**
-         * Triggered after all the JavaScript files Piwik uses are minified and merged into a
-         * single file, but before the merged JavaScript is written to disk.
-         * 
-         * Plugins can use this event to modify merged JavaScript or do something else
-         * with it.
-         * 
-         * @param string &$mergedContent The minified and merged JavaScript.
-         */
-        Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
-
-        $theme = new Theme;
-        $mergedContent = $theme->rewriteAssetsPathToTheme($mergedContent);
-
-        self::writeAssetToFile($mergedContent, self::MERGED_JS_FILE);
-    }
-
-    /**
-     * Returns individual JS file inclusion directive(s) using the markup <script>
-     *
-     * @return string
-     */
-    private static function getIndividualJsIncludes()
-    {
-        $jsIncludeString = '';
-
-        $jsFiles = self::getJsFiles();
-        foreach ($jsFiles as $jsFile) {
-            self::validateJsFile($jsFile);
-            $jsIncludeString = $jsIncludeString . sprintf(self::JS_IMPORT_DIRECTIVE, $jsFile);
-        }
-        return $jsIncludeString;
-    }
-
-    /**
-     * Returns required JS files
-     *
-     * @return Array
-     */
-    private static function getJsFiles()
-    {
-        $jsFiles = array();
-
-        /**
-         * Triggered when gathering the list of all JavaScript files needed by Piwik
-         * and its plugins.
-         * 
-         * Plugins that have their own JavaScript should use this event to make those
-         * files load in the browser.
-         * 
-         * JavaScript files should be placed within a **javascripts** subdirectory in your
-         * plugin's root directory.
-         * 
-         * _Note: While you are developing your plugin you should enable the config setting
-         * `[Debug] disable_merged_assets` so JavaScript files will be reloaded immediately
-         * after every change._
-         *
-         * **Example**
-         * 
-         *     public function getJsFiles(&$jsFiles)
-         *     {
-         *         $jsFiles[] = "plugins/MyPlugin/javascripts/myfile.js";
-         *         $jsFiles[] = "plugins/MyPlugin/javascripts/anotherone.js";
-         *     }
-         * 
-         * @param string[] $jsFiles The JavaScript files to load.
-         */
-        Piwik::postEvent(self::JAVASCRIPT_IMPORT_EVENT, array(&$jsFiles));
-
-        $theme = new Theme;
-        $jsInThemes = $theme->getJavaScriptFiles();
-        if(!empty($jsInThemes)) {
-            $jsFiles = array_merge($jsFiles, $jsInThemes);
-        }
-
-        $jsFiles = self::sortJsFiles($jsFiles);
-        return $jsFiles;
-    }
-
-    /**
-     * Ensure core JS (jQuery etc.) are loaded in a particular order regardless of the order that plugins are loaded.
-     *
-     * @param array $jsFiles Arry of JavaScript files
-     * @return array
-     */
-    private static function sortJsFiles($jsFiles)
-    {
-        $priorityJsOrdered = array(
-            'libs/jquery/jquery.js',
-            'libs/jquery/jquery-ui.js',
-            'libs/jquery/jquery.browser.js',
-            'libs/',
-            'plugins/Zeitgeist/javascripts/piwikHelper.js',
-            'plugins/Zeitgeist/javascripts/',
-            'plugins/CoreHome/javascripts/broadcast.js',
-            'plugins/',
-            'tests/',
-        );
-
-        return self::prioritySort($priorityJsOrdered, $jsFiles);
-    }
-
-    /**
-     * Check the validity of the js file
-     *
-     * @param string $jsFile JavaScript file name
-     * @return boolean
-     * @throws Exception if js file is not valid
-     */
-    private static function validateJsFile($jsFile)
-    {
-        if (!self::assetIsReadable($jsFile)) {
-            throw new Exception("The js asset with 'src' = " . $jsFile . " is not readable");
-        }
-    }
-
-    /**
-     * Returns the global option disable_merged_assets
-     *
-     * @return string
-     */
-    public static function isMergedAssetsDisabled()
-    {
-        return Config::getInstance()->Debug['disable_merged_assets'];
-    }
-
-    /**
-     * Returns the css merged file absolute location.
+     * Return the css merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
-     * @return string The absolute location of the css merged file
+     * @return UIAsset
      */
-    public static function getMergedCssFileLocation()
+    public function getMergedStylesheet()
     {
-        self::prepareMergedCssFile();
-        return self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
+        $mergedAsset = $this->getMergedStylesheetAsset();
+
+        $assetFetcher = new StylesheetUIAssetFetcher(Manager::getInstance()->getLoadedPluginsName(), $this->theme);
+
+        $assetMerger = new StylesheetUIAssetMerger($mergedAsset, $assetFetcher, $this->cacheBuster);
+
+        $assetMerger->generateFile();
+
+        return $mergedAsset;
     }
 
     /**
-     * Returns the js merged file absolute location.
+     * Return the core js merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
-     * @return string The absolute location of the js merged file
+     * @return UIAsset
      */
-    public static function getMergedJsFileLocation()
+    public function getMergedCoreJavaScript()
     {
-        $isGenerated = self::isGenerated(self::MERGED_JS_FILE);
-
-        // Make sure the merged JS is re-generated if there are new commits
-        if($isGenerated) {
-            $expectedFirstLine = self::getFirstLineOfMergedJs();
-            $isGenerated = self::isFirstLineMatching(self::MERGED_JS_FILE, $expectedFirstLine);
-        }
-        if (!$isGenerated) {
-            self::generateMergedJsFile();
-        }
-
-        return self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
+        return $this->getMergedJavascript($this->getCoreJScriptFetcher(), $this->getMergedCoreJSAsset());
     }
 
     /**
-     * Check if the provided merged file is generated
+     * Return the non core js merged file absolute location.
+     * If there is none, the generation process will be triggered.
      *
-     * @param string $filename filename of the merged asset
-     * @return boolean true is file exists and is readable, false otherwise
+     * @return UIAsset
      */
-    private static function isGenerated($filename)
+    public function getMergedNonCoreJavaScript()
     {
-        return is_readable(self::getAbsoluteMergedFileLocation($filename));
+        return $this->getMergedJavascript($this->getNonCoreJScriptFetcher(), $this->getMergedNonCoreJSAsset());
     }
 
     /**
-     * Removes the previous merged file if it exists.
-     * Also tries to remove compressed version of the merged file.
-     *
-     * @param string $filename filename of the merged asset
-     * @see ProxyStaticFile::serveStaticFile(serveFile
-     * @throws Exception if the file couldn't be deleted
+     * @param boolean $core
+     * @return string[]
      */
-    private static function removeMergedAsset($filename)
+    public function getLoadedPlugins($core)
     {
-        $isGenerated = self::isGenerated($filename);
+        $loadedPlugins = array();
 
-        if ($isGenerated) {
-            if (!unlink(self::getAbsoluteMergedFileLocation($filename))) {
-                throw new Exception("Unable to delete merged file : " . $filename . ". Please delete the file and refresh");
-            }
+        foreach(Manager::getInstance()->getLoadedPluginsName() as $pluginName) {
 
-            // Tries to remove compressed version of the merged file.
-            // See ProxyHttp::serverStaticFile() for more info on static file compression
-            $compressedFileLocation = PIWIK_USER_PATH . self::COMPRESSED_FILE_LOCATION . $filename;
-            $compressedFileLocation = SettingsPiwik::rewriteTmpPathWithHostname($compressedFileLocation);
+            $pluginIsCore = Manager::getInstance()->isPluginBundledWithCore($pluginName);
 
-            @unlink($compressedFileLocation . ".deflate");
-            @unlink($compressedFileLocation . ".gz");
+            if(($pluginIsCore && $core) || (!$pluginIsCore && !$core))
+                $loadedPlugins[] = $pluginName;
         }
+
+        return $loadedPlugins;
     }
 
     /**
      * Remove previous merged assets
      */
-    public static function removeMergedAssets()
+    public function removeMergedAssets($pluginName = false)
     {
-        self::removeMergedAsset(self::MERGED_CSS_FILE);
-        self::removeMergedAsset(self::MERGED_JS_FILE);
-    }
+        $assetsToRemove = array($this->getMergedStylesheetAsset());
 
-    /**
-     * Check if asset is readable
-     *
-     * @param string $relativePath Relative path to file
-     * @return boolean
-     */
-    private static function assetIsReadable($relativePath)
-    {
-        return is_readable(self::getAbsoluteLocation($relativePath));
+        if($pluginName) {
+
+            if($this->pluginContainsJScriptAssets($pluginName)) {
+
+                PiwikConfig::getInstance()->init();
+                if(Manager::getInstance()->isPluginBundledWithCore($pluginName)) {
+
+                    $assetsToRemove[] = $this->getMergedCoreJSAsset();
+
+                } else {
+
+                    $assetsToRemove[] = $this->getMergedNonCoreJSAsset();
+                }
+            }
+
+        } else {
+
+            $assetsToRemove[] = $this->getMergedCoreJSAsset();
+            $assetsToRemove[] = $this->getMergedNonCoreJSAsset();
+        }
+
+        $this->removeAssets($assetsToRemove);
     }
 
     /**
@@ -605,9 +252,9 @@ class AssetManager
      * @return string The directory location
      * @throws Exception if directory is not writable.
      */
-    private static function getMergedFileDirectory()
+    public function getAssetDirectory()
     {
-        $mergedFileDirectory = PIWIK_USER_PATH . '/' . self::MERGED_FILE_DIR;
+        $mergedFileDirectory = PIWIK_USER_PATH . "/tmp/assets";
         $mergedFileDirectory = SettingsPiwik::rewriteTmpPathWithHostname($mergedFileDirectory);
 
         if (!is_dir($mergedFileDirectory)) {
@@ -622,92 +269,133 @@ class AssetManager
     }
 
     /**
-     * Builds the absolute location of the requested merged file
+     * Return the global option disable_merged_assets
      *
-     * @param string $mergedFile Name of the merge file
-     * @return string absolute location of the merged file
-     */
-    private static function getAbsoluteMergedFileLocation($mergedFile)
-    {
-        return self::getMergedFileDirectory() . $mergedFile;
-    }
-
-    /**
-     * Returns the full path of an asset file
-     *
-     * @param string $relativePath Relative path to file
-     * @return string
-     */
-    private static function getAbsoluteLocation($relativePath)
-    {
-        // served by web server directly, so must be a public path
-        return PIWIK_DOCUMENT_ROOT . "/" . $relativePath;
-    }
-
-    /**
-     * Indicates if the provided JavaScript content has already been minified or not.
-     * The heuristic is based on a custom ratio : (size of file) / (number of lines).
-     * The threshold (100) has been found empirically on existing files :
-     * - the ratio never exceeds 50 for non-minified content and
-     * - it never goes under 150 for minified content.
-     *
-     * @param string $content Contents of the JavaScript file
      * @return boolean
      */
-    private static function isMinifiedJs($content)
+    public function isMergedAssetsDisabled()
     {
-        $lineCount = substr_count($content, "\n");
-        if ($lineCount == 0) {
-            return true;
-        }
-
-        $contentSize = strlen($content);
-
-        $ratio = $contentSize / $lineCount;
-
-        return $ratio > self::MINIFIED_JS_RATIO;
+        return Config::getInstance()->Debug['disable_merged_assets'];
     }
 
     /**
-     * Sort files according to priority order. Duplicates are also removed.
+     * @param UIAssetFetcher $assetFetcher
+     * @param UIAsset $mergedAsset
+     * @return UIAsset
+     */
+    private function getMergedJavascript($assetFetcher, $mergedAsset)
+    {
+        $assetMerger = new JScriptUIAssetMerger($mergedAsset, $assetFetcher, $this->cacheBuster);
+
+        $assetMerger->generateFile();
+
+        return $mergedAsset;
+    }
+
+    /**
+     * Return individual JS file inclusion directive(s) using the markup <script>
      *
-     * @param array $priorityOrder Ordered array of paths (first to last) serving as buckets
-     * @param array $files Unsorted array of files
-     * @return array
-     */
-    public static function prioritySort($priorityOrder, $files)
-    {
-        $newFiles = array();
-        foreach ($priorityOrder as $filePattern) {
-            $newFiles = array_merge($newFiles, preg_grep('~^' . $filePattern . '~', $files));
-        }
-        return array_keys(array_flip($newFiles));
-    }
-
-    /**
-     * @param $mergedFile
-     * @param $firstLineCompileHash
-     * @return bool
-     */
-    private static function isFirstLineMatching($mergedFile, $firstLineCompileHash)
-    {
-        $pathMerged = self::getAbsoluteMergedFileLocation($mergedFile);
-        $f = fopen($pathMerged, 'r');
-        $firstLine = fgets($f);
-        fclose($f);
-        if (!empty($firstLine)
-            && trim($firstLine) == trim($firstLineCompileHash)
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * @return string
      */
-    private static function getFirstLineOfMergedJs()
+    private function getIndividualJsIncludes()
     {
-        return "/* Piwik Javascript - cb=" . self::generateAssetsCacheBuster() . "*/\n";
+        return
+            $this->getIndividualJsIncludesFromAssetFetcher($this->getCoreJScriptFetcher()) .
+            $this->getIndividualJsIncludesFromAssetFetcher($this->getNonCoreJScriptFetcher());
+    }
+
+    /**
+     * @param UIAssetFetcher $assetFetcher
+     * @return string
+     */
+    private function getIndividualJsIncludesFromAssetFetcher($assetFetcher)
+    {
+        $jsIncludeString = '';
+
+        foreach ($assetFetcher->getCatalog()->getAssets() as $jsFile) {
+
+            $jsFile->validateFile();
+            $jsIncludeString = $jsIncludeString . sprintf(self::JS_IMPORT_DIRECTIVE, $jsFile->getRelativeLocation());
+        }
+
+        return $jsIncludeString;
+    }
+
+    private function getCoreJScriptFetcher()
+    {
+        return new JScriptUIAssetFetcher($this->getLoadedPlugins(true), $this->theme);
+    }
+
+    private function getNonCoreJScriptFetcher()
+    {
+        return new JScriptUIAssetFetcher($this->getLoadedPlugins(false), $this->theme);
+    }
+
+    /**
+     * @param string $pluginName
+     * @return boolean
+     */
+    private function pluginContainsJScriptAssets($pluginName)
+    {
+        $fetcher = new JScriptUIAssetFetcher(array($pluginName), $this->theme);
+
+        $assets = $fetcher->getCatalog()->getAssets();
+
+        $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
+
+        if($plugin->isTheme()) {
+
+            $theme = Manager::getInstance()->getTheme($pluginName);
+
+            $javaScriptFiles = $theme->getJavaScriptFiles();
+
+            if(!empty($javaScriptFiles))
+                $assets = array_merge($assets, $javaScriptFiles);
+        }
+
+        return !empty($assets);
+    }
+
+    /**
+     * @param UIAsset[] $uiAssets
+     */
+    private function removeAssets($uiAssets)
+    {
+        foreach($uiAssets as $uiAsset) {
+            $uiAsset->delete();
+        }
+    }
+
+    /**
+     * @return UIAsset
+     */
+    private function getMergedStylesheetAsset()
+    {
+        return $this->getMergedUIAsset(self::MERGED_CSS_FILE);
+    }
+
+    /**
+     * @return UIAsset
+     */
+    private function getMergedCoreJSAsset()
+    {
+        return $this->getMergedUIAsset(self::MERGED_CORE_JS_FILE);
+    }
+
+    /**
+     * @return UIAsset
+     */
+    private function getMergedNonCoreJSAsset()
+    {
+        return $this->getMergedUIAsset(self::MERGED_NON_CORE_JS_FILE);
+    }
+
+    /**
+     * @param string $fileName
+     * @return UIAsset
+     */
+    private function getMergedUIAsset($fileName)
+    {
+        return new OnDiskUIAsset($this->getAssetDirectory(), $fileName);
     }
 }

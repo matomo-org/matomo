@@ -1,0 +1,12 @@
+h1 {
+    color: orange;
+    text-align: center;
+    /* url relative to root: must not be rewritten*/
+    background: url(tests/PHPUnit/Core/AssetManager/stylesheets/images/test-image.png);
+}
+
+p {
+    font-size: 20px;
+    /* url relative to file: must be rewritten*/
+    background: url(images/test-image.png);
+}

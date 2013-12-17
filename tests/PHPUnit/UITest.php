@@ -49,7 +49,7 @@ abstract class UITest extends IntegrationTestCase
 
         DbHelper::createAnonymousUser();
         
-        AssetManager::removeMergedAssets();
+        AssetManager::getInstance()->removeMergedAssets();
         
         // launch archiving so tests don't run out of time
         Rules::$purgeDisabledByTests = true;

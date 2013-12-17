@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\Proxy;
 
 use Piwik\AssetManager;
+use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
@@ -35,20 +36,40 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getCss()
     {
-        $cssMergedFile = AssetManager::getMergedCssFileLocation();
-        ProxyHttp::serverStaticFile($cssMergedFile, "text/css");
+        $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        ProxyHttp::serverStaticFile($cssMergedFile->getAbsoluteLocation(), "text/css");
     }
 
     /**
-     * Output the merged JavaScript file.
+     * Output the merged core JavaScript file.
      * This method is called when the asset manager is enabled.
      *
      * @see core/AssetManager.php
      */
-    public function getJs()
+    public function getCoreJs()
     {
-        $jsMergedFile = AssetManager::getMergedJsFileLocation();
-        ProxyHttp::serverStaticFile($jsMergedFile, self::JS_MIME_TYPE);
+        $jsMergedFile = AssetManager::getInstance()->getMergedCoreJavaScript();
+        $this->serveJsFile($jsMergedFile);
+    }
+
+    /**
+     * Output the merged non core JavaScript file.
+     * This method is called when the asset manager is enabled.
+     *
+     * @see core/AssetManager.php
+     */
+    public function getNonCoreJs()
+    {
+        $jsMergedFile = AssetManager::getInstance()->getMergedNonCoreJavaScript();
+        $this->serveJsFile($jsMergedFile);
+    }
+
+    /**
+     * @param UIAsset $uiAsset
+     */
+    private function serveJsFile($uiAsset)
+    {
+        ProxyHttp::serverStaticFile($uiAsset->getAbsoluteLocation(), self::JS_MIME_TYPE);
     }
 
     /**

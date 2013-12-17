@@ -114,16 +114,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Notes:
 	- reference implementation
 
-	Name:  cssmin
-	Link:  http://code.google.com/p/cssmin/
-	License:  MIT
-
-	Name:  jsmin
-	Link:  http://code.google.com/p/jsmin-php/
-	License:  MIT
-	Notes:
-	- contains additional clause "The Software shall be used for Good, not Evil."
-
 	Name:  sparkline
 	Link:  https//sourceforge.net/projects/sparkline/
 	License:  Dual-licensed: New BSD or GPL v2
