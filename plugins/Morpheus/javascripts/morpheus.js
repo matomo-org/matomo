@@ -1,10 +1,17 @@
 $(document).ready(function () {
-    $('input').iCheck({
-        checkboxClass: 'form-checkbox',
-        radioClass: 'form-radio',
-        checkedClass: 'checked',
-        hoverClass: 'form-hover',
-    });
+
+    function initICheck()
+    {
+        $('input').iCheck({
+            checkboxClass: 'form-checkbox',
+            radioClass: 'form-radio',
+            checkedClass: 'checked',
+            hoverClass: 'form-hover',
+        });
+    }
+
+    initICheck();
+    $(document).bind('ScheduledRepot.edit', initICheck);
 
     $('body').on('ifClicked', 'input', function () {
         $(this).trigger('click');
