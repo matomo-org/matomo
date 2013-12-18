@@ -114,6 +114,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Notes:
 	- reference implementation
 
+	Name:  jshrink
+	Link: https://github.com/tedivm/jshrink
+	License: BSD-3-Clause
+
 	Name:  sparkline
 	Link:  https//sourceforge.net/projects/sparkline/
 	License:  Dual-licensed: New BSD or GPL v2
