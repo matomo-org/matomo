@@ -10,6 +10,8 @@
  */
 namespace Piwik;
 
+require_once 'Log.php';
+
 /**
  * Holds PHP error information (non-exception errors). Also contains log formatting logic
  * for PHP errors and Piwik's error handler function.
