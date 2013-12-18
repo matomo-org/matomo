@@ -75,6 +75,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->assetManager->removeMergedAssets();
+        Manager::unsetInstance();
     }
 
     private function activateMergedAssets()
