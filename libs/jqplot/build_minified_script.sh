@@ -21,6 +21,6 @@ cat plugins/jqplot.categoryAxisRenderer.js >> jqplot-custom.min.js-temp
 cat plugins/jqplot.canvasTextRenderer.js >> jqplot-custom.min.js-temp
 cat plugins/jqplot.canvasAxisTickRenderer.js >> jqplot-custom.min.js-temp
 
-java -jar ../../js/yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 jqplot-custom.min.js-temp > jqplot-custom.min.js 
+java -jar ../../js/yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 jqplot-custom.min.js-temp > jqplot-custom.min.js 
 
 rm ./jqplot-custom.min.js-temp
