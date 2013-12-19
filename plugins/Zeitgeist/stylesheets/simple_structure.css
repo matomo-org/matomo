@@ -17,9 +17,10 @@ body#simple  {
 	font-weight: lighter;
 }
 #subh1 {
-	margin-left:15px;
-	color: #6B320B;
-    font-size: 15pt;
+	color: #444444;
+    font-size: 17pt;
+    margin-left: 15px;
+    vertical-align: bottom;
 }
 
 #titleUpdate {
