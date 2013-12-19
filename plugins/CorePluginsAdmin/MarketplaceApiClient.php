@@ -76,6 +76,10 @@ class MarketplaceApiClient
             }
         }
 
+        if (empty($params)) {
+            return array();
+        }
+
         $params = array('plugins' => $params);
 
         $hasUpdates = $this->fetch('plugins/checkUpdates', array('plugins' => json_encode($params)));
