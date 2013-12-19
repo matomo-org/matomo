@@ -7,7 +7,7 @@
     <div class="error">
         <img src="plugins/Zeitgeist/images/error_medium.png"/>
         {{ 'Installation_DatabaseErrorConnect'|translate }}:
-        <br/>{{ errorMessage }}
+        <br/>{{ errorMessage|raw }}
 
     </div>
 {% endif %}

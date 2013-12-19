@@ -14,7 +14,7 @@
     <div class="error">
         <img src="plugins/Zeitgeist/images/error_medium.png"/>
         {{ 'Installation_SetupWebsiteError'|translate }}:
-        <br/>- {{ errorMessage }}
+        <br/>- {{ errorMessage|raw }}
 
     </div>
 {% endif %}

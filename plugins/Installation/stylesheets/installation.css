@@ -18,11 +18,14 @@ p {
     font-size: 50px;
     color: #284F92;
     vertical-align: text-bottom;
+    width:130px;
 }
 
 #subtitle {
-    color: #6B320B;
+    color: #666;
     font-size: 27px;
+    padding-left: 20px;
+    vertical-align: sub;
 }
 
 #logo {
@@ -31,6 +34,7 @@ p {
 
 #installationPage #logo {
     height: auto;
+
 }
 
 h2 {
@@ -164,13 +168,14 @@ p.nextStep a {
 td {
     border: 1px solid rgb(198, 205, 216);
     border-top-color: #FFF;
-    color: #203276;
+    color: #444;
     padding: 0.5em 0.5em 0.5em 0.8em;
 }
 
 .submit {
     text-align: center;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .submit input {
