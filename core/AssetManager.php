@@ -339,7 +339,13 @@ class AssetManager extends Singleton
     {
         $fetcher = new JScriptUIAssetFetcher(array($pluginName), $this->theme);
 
-        $assets = $fetcher->getCatalog()->getAssets();
+        try {
+            $assets = $fetcher->getCatalog()->getAssets();
+        } catch(\Exception $e) {
+            // This can happen when a plugin is not valid (eg. Piwik 1.x format)
+            // When posting the event to the plugin, it returns an exception "Plugin has not been loaded"
+            return false;
+        }
 
         $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
 
