@@ -120,7 +120,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     //Reset DataTable filters (used before a reload or view change)
     resetAllFilters: function () {
         var self = this;
-        var FiltersToRestore = [];
+        var FiltersToRestore = {};
         var filters = [
             'filter_column',
             'filter_pattern',
@@ -138,7 +138,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'totalRows'
         ];
 
-        for (var key in filters) {
+        for (var key = 0; key < filters.length; key++) {
             var value = filters[key];
             FiltersToRestore[value] = self.param[value];
             delete self.param[value];
@@ -150,6 +150,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     //Restores the filters to the values given in the array in parameters
     restoreAllFilters: function (FiltersToRestore) {
         var self = this;
+
         for (var key in FiltersToRestore) {
             self.param[key] = FiltersToRestore[key];
         }
@@ -194,6 +195,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var container = $('#' + self.workingDivId + ' .piwik-graph');
 
+
         var params = {};
         for (var key in self.param) {
             if (typeof self.param[key] != "undefined" && self.param[key] != '')
@@ -201,7 +203,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         var ajaxRequest = new ajaxHelper();
+
         ajaxRequest.addParams(params, 'get');
+
         ajaxRequest.setCallback(
             function (response) {
                 container.trigger('piwikDestroyPlot');
@@ -210,7 +214,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         );
         ajaxRequest.setFormat('html');
+
         ajaxRequest.send(false);
+
     },
 
     // Function called when the AJAX request is successful
@@ -1425,6 +1431,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // modify parameters
                 self.resetAllFilters();
                 var newParams = broadcast.getValuesFromUrl(url);
+
                 for (var key in newParams) {
                     self.param[key] = decodeURIComponent(newParams[key]);
                 }
