@@ -542,6 +542,8 @@ Plugins[] = MobileMessaging
 Plugins[] = Overlay
 Plugins[] = SegmentEditor
 
+Plugins[] = Morpheus
+
 [PluginsInstalled]
 PluginsInstalled[] = Login
 PluginsInstalled[] = CoreAdminHome
