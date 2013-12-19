@@ -44,7 +44,7 @@ class Mysql extends Db
     {
         if (isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['unix_socket'];
-        } else if ($dbInfo['port'][0] == '/') {
+        } else if (!empty($dbInfo['port']) && $dbInfo['port'][0] == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['port'];
         } else {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
