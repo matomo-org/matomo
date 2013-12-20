@@ -1,0 +1,26 @@
+<table>
+{% for alert in triggeredAlerts %}
+
+    {% if loop.first %}
+        <thead>
+        <tr bgcolor='#c0c0c0'>
+            {% for key,value in alert %}
+            <td>{{ key }}</td>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+    {% endif %}
+
+    <tr>
+        {% for key,row in alert %}
+        <td>{{ row }}</td>
+        {% endfor %}
+    </tr>
+
+    {% if loop.first %}
+        </tbody>
+    {% endif %}
+
+{% endfor %}
+</table>

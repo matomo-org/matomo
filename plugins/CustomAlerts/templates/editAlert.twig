@@ -1,0 +1,255 @@
+{% extends 'dashboard.twig' %}
+
+{% block content %}
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#idSites").dropdownchecklist({ width: 150, maxDropHeight: 200, textFormatFunction: function(options) {
+        var selectedOptions = options.filter(":selected");
+        var countOfSelected = selectedOptions.size();
+        var size = options.size();
+        switch(countOfSelected) {
+            case 0: return "0 other Websites";
+            case 1: return selectedOptions.text();
+            case size: return "all other Websites";
+            default: return countOfSelected + " Websites";
+        }
+    }});    
+});
+</script>
+
+<style type="text/css">
+.inp {
+    -moz-border-radius:4px 4px 4px 4px;
+    background:url("../../../themes/default/images/inp_bg.png") repeat-x scroll 0 0 #FFFFFF;
+    border:1px solid #D4D4D4;
+    color:#255792;
+    padding:3px 10px;
+}
+</style>
+
+<div class="centerLargeDiv">
+<div class="entityEditContainer">
+    <div class="entityCancel">
+        Cancel and <a class="entityCancelLink" href="{{ linkTo({'module': 'CustomAlerts', 'action': 'index'}) }}">return to the list of alerts</a>
+    </div>
+    <form method="POST" onSubmit="onSubmit(event)">
+        <h2>{{ 'CustomAlerts_EditAlert'|translate }}</h2>
+        <table class="tableForm dataTable entityTable">
+        <tr>
+            <td><label for="alertName">{{ 'CustomAlerts_AlertName'|translate }}</label></td>
+            <td><input class="inp" type="text" name="alertName" id="alertName" value="{{ alert.name }}"/></td>
+        </tr>
+        <tr>
+            <td><label for="applyTo">{{ 'CustomAlerts_ApplyTo'|translate }}</label></td>
+            <td><select id="idSites" class="multiselect inp" multiple="multiple" name="idSites[]">
+            {%  for site in sitesList %}
+                <option value="{{ site.idsite }}" {% if site.idsite in sitesDefined %}selected="selected"{% endif %}>{{ site.name }}</option>
+            {% endfor %}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="period">{{ 'CustomAlerts_Period'|translate }}</label></td>
+            <td><select class="period inp" name="period" id="period">
+                <option value="day" {% if alert.period == 'day' %}selected="selected"{% endif %}>{{ 'CustomAlerts_Day'|translate }}</option>
+                <option value="week" {% if alert.period == 'week' %}selected="selected"{% endif %}>{{ 'CustomAlerts_Week'|translate }}</option>
+                <option value="month" {% if alert.period == 'month' %}selected="selected"{% endif %}>{{ 'CustomAlerts_Month'|translate }}</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input class="inp" type="checkbox" name="email" id="email" value="yes" {% if alert.enable_mail %}checked="checked"{% endif %}/> <label for="email">{{ 'CustomAlerts_SendEmail'|translate }}</label></td>
+        </tr>
+        </table>
+        <br />
+
+        <h2>{{ 'CustomAlerts_AlertConditions'|translate }}</h2>
+        <table class="tableForm dataTable entityTable">
+        <tr>
+            <td>
+                {{ 'CustomAlerts_ThisAppliesTo'|translate }} <br />
+                <select class="reports inp" name="report" id="report">
+                {% for report in alerts %}
+                    {% set module=report.module %}
+                    {% set action=report.action %}
+                    {% set reportName=module ~ '.' ~ action %}
+                    <option value="{{ reportName}}" {% if reportName == alert.report %}selected="selected"{% endif %}>{{ report.name }}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td class='reportConditionField'>
+                {{ 'CustomAlerts_Condition'|translate }} <br />
+                <select class="reportCondition inp" name="reportCondition" id="reportCondition">
+                {% for condName, condValue in alertGroupConditions %}
+                    <option value="{{ condValue }}" {% if condValue == alert.report_condition %}selected="selected"{% endif %}>{{ condName|translate }}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td class='reportValueField'>
+                {{ 'CustomAlerts_Value'|translate }} <span id="reportInfo"></span><br />
+                <input class="reportValue inp" type="text" name="reportValue" id="reportValue" value="{{ alert.report_matched }}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ 'CustomAlerts_AlertMeWhen'|translate }} <br />
+                <select name="metric" id="metric" class="metrics inp">
+			{% for report in alerts %}
+                {% set module=report.module %}
+                {% set action=report.action %}
+                {% set reportName=module ~ '.' ~ action %}
+				{% if reportName == alert.report %}
+				{% for metricName, metricValue in report.metrics %}
+					<option value="{$metricName}" {%  if metricName == alert.metric %}selected="selected"{% endif %}>{{ metricValue }}</option>
+				{% endfor %}
+				{% endif %}
+			{% endfor %}
+                </select>
+            </td>
+            <td>
+                {{ 'CustomAlerts_Condition'|translate }} <br />
+                <select name="metricCondition" id="metricCondition" class="inp">
+                {% for condName, condValue in alertMetricConditions %}
+                    <option value="{{ condValue }}" {% if condValue == alert.metric_condition %}selected="selected"{% endif %}>{{ condName|translate }}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td>
+                {{ 'CustomAlerts_Value'|translate }}<br />
+                <input type="text" class="inp" name="metricValue" id="metricValue" value="{{ alert.metric_matched }}" />
+            </td>
+        </tr>
+        </table>        
+        
+        <br />
+        <!-- TODO: replace with nonce -->
+        <input type="hidden" value="{{ token_auth }}" name="token_auth" />
+        <input type="submit" value="{{ 'General_Save'|translate }}" name="submit" class="submit" />
+    </form>
+</div>
+</div>
+<script type="text/javascript">
+function updateMetrics() {
+    var idSites = "";
+    $("#idSites :selected").each(function(i,selected) {
+        idSites = idSites + "&idSites[]=" + $(selected).val();
+    });
+
+    $.ajax({
+        type: "GET",
+        url: piwik.piwik_url,
+        data: 'module=API&method=API.getReportMetadata'
+            + '&idSite=' + piwik.idSite
+            + '&period=' + $(".period").val()
+            + '&date=' + piwik.currentDateString
+            + '&token_auth=' + piwik.token_auth
+            + '&format=JSON' + idSites,
+        dataType: "json",
+        success: function(data) {
+            updateForm(data);
+        }
+    });
+}
+
+$('.period').change(function() {
+  updateMetrics();
+});
+
+$('.reports').change(function() {
+    updateMetrics();
+});
+
+$('#idSites').change(function() {
+    updateMetrics();
+});
+
+function updateForm(data) {
+    currentGroup = $('.reports').val();
+    options = "";
+    for(var i = 0; i < data.length; i++)
+    {
+        value = data[i].module + '.' + data[i].action;
+	if(currentGroup == undefined) {
+		options += '<option selected="selected" value="' + value + '">' + data[i].name + '</option>';
+		currentGroup = value;
+	}
+	else {
+		options += '<option value="' + value + '">' + data[i].name + '</option>';
+	}
+
+        if(value == currentGroup)
+        {
+            metrics = data[i].metrics;
+
+            mOptions = "";
+            for(var metric in metrics)
+            {
+                mOptions += '<option value="' + metric + '">' + metrics[metric] + '</option>';
+            }
+            $('.metrics').html(mOptions);
+
+            if(data[i].dimension != undefined)
+            {
+                $('#reportInfo').text("("+ data[i].dimension + ")");
+                $('.reportCondition').removeAttr('disabled');
+                $('.reportValue').removeAttr('disabled');
+		$('td.reportConditionField').show();
+		$('td.reportValueField').show();
+            }
+            else
+            {
+                $('#reportInfo').text("");
+                $('.reportCondition').attr('disabled', 'disabled');
+                $('.reportValue').attr('disabled', 'disabled');
+		$('td.reportConditionField').hide();
+		$('td.reportValueField').hide();
+            }
+        }
+    }
+    $('.reports').html(options);
+    $('.reports').val(currentGroup);
+}
+
+function onSubmit(event)
+{
+    event.preventDefault();
+    event.stopPropagation();
+
+    var idReport = $('#report_idreport').val();
+    var apiParameters = {};
+    apiParameters.format = 'json';
+    apiParameters.name  = $('#alertName').val();
+    apiParameters.idAlert  =  {{ alert.idalert }};
+    apiParameters.email  = $('#email').val();
+    apiParameters.metric  = $('#metric').find('option:selected').val();
+    apiParameters.metricCondition  = $('#metricCondition').find('option:selected').val();
+    apiParameters.metricValue  = $('#metricValue').val();
+    apiParameters.report  = $('#report').find('option:selected').val();
+    apiParameters.reportCondition  = $('#reportCondition').find('option:selected').val();
+    apiParameters.reportValue  = $('#reportValue').val();
+    var idSites  = [];
+
+    var selectedSites = $('#idSites').find('option:selected');
+
+    for (var index = 0; index < selectedSites.length; index++) {
+        idSites.push($(selectedSites[index]).val());
+    }
+
+    apiParameters.idSites = idSites;
+
+    var ajaxHandler = new ajaxHelper();
+    ajaxHandler.addParams(apiParameters, 'POST');
+    ajaxHandler.addParams({period: $('#period').find('option:selected').val(), module: 'API', method: 'CustomAlerts.editAlert'}, 'GET');
+    ajaxHandler.redirectOnSuccess({module: 'CustomAlerts', action: 'index'});
+    ajaxHandler.send(true);
+    return false;
+}
+
+
+$(document).ready(function() {
+	updateMetrics();
+});
+</script>
+
+{% endblock %}

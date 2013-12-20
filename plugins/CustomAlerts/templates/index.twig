@@ -1,0 +1,19 @@
+{% extends 'dashboard.twig' %}
+{% set showSitesSelection=true %}
+
+{% block content %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+
+    <div class="top_controls_inner">
+        {% include "@CoreHome/_periodSelect.twig" %}
+    </div>
+
+    <div class="centerLargeDiv">
+        <p>{{ 'CustomAlerts_PluginDescription'|translate }}</p><br />
+
+        <div id="entityContainer">
+            {% include "@CustomAlerts/list.twig" %}
+            <a id='bottom'></a>
+        </div>
+    </div>
+{% endblock %}
