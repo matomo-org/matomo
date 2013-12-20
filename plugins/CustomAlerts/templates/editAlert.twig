@@ -220,7 +220,7 @@ function onSubmit(event)
     var apiParameters = {};
     apiParameters.format = 'json';
     apiParameters.name  = $('#alertName').val();
-    apiParameters.idAlert  =  {{ alert.idalert }};
+    apiParameters.idAlert = {{ alert.idalert }};
     apiParameters.email  = $('#email').val();
     apiParameters.metric  = $('#metric').find('option:selected').val();
     apiParameters.metricCondition  = $('#metricCondition').find('option:selected').val();
