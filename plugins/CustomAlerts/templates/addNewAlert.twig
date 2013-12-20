@@ -121,8 +121,6 @@ $(document).ready(function() {
         </table>
 
         <br />
-        <!-- TODO: use nonce instead of token-->
-        <input type="hidden" value="{{ token_auth }}" name="token_auth" />
         <input type="hidden" value="{{ idSite }}" name="defaultSiteId" id="defaultSiteId" />
 	    {% set url="<a href='module=CustomAlerts'>" %}
         <input type="submit" value="{{ 'CustomAlerts_CreateNewAlert'|translate }}" name="submit" class="submit" />
@@ -181,6 +179,7 @@ function onSubmit(event)
     apiParameters.report  = $('#report').find('option:selected').val();
     apiParameters.reportCondition  = $('#reportCondition').find('option:selected').val();
     apiParameters.reportValue  = $('#reportValue').val();
+    apiParameters.token_auth   = piwik.token_auth;
     var idSites  = [$('#defaultSiteId').val()];
 
     var selectedSites = $('#idSites').find('option:selected');

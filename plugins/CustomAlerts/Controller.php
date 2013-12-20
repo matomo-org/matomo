@@ -36,10 +36,29 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@CustomAlerts/index');
         $this->setGeneralVariablesView($view);
 
-        $view->alerts = API::getInstance()->getAlerts(array($idSite));
+        $alerts = API::getInstance()->getAlerts(array($idSite));
+
+        foreach ($alerts as &$alert) {
+            $alert['reportName'] = $this->findReportName($idSite, $alert);
+        }
+
+        $view->alerts = $alerts;
 
 		return $view->render();
 	}
+
+    private function findReportName($idSite, $alert)
+    {
+        list($module, $action) = explode('.', $alert['report']);
+        $metadata = MetadataApi::getInstance()->getMetadata($idSite, $module, $action);
+
+        if (!empty($metadata)) {
+            $report = array_shift($metadata);
+            return $report['name'];
+        }
+
+        return $alert['report'];
+    }
 
 	public function addNewAlert()
 	{

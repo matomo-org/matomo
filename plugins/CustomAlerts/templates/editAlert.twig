@@ -123,8 +123,6 @@ $(document).ready(function() {
         </table>        
         
         <br />
-        <!-- TODO: replace with nonce -->
-        <input type="hidden" value="{{ token_auth }}" name="token_auth" />
         <input type="submit" value="{{ 'General_Save'|translate }}" name="submit" class="submit" />
     </form>
 </div>
@@ -228,6 +226,7 @@ function onSubmit(event)
     apiParameters.report  = $('#report').find('option:selected').val();
     apiParameters.reportCondition  = $('#reportCondition').find('option:selected').val();
     apiParameters.reportValue  = $('#reportValue').val();
+    apiParameters.token_auth   = piwik.token_auth;
     var idSites  = [];
 
     var selectedSites = $('#idSites').find('option:selected');
