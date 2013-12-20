@@ -14,10 +14,7 @@
 namespace Piwik\Plugins\CustomAlerts;
 
 use Piwik;
-use Piwik\Common;
-use Piwik\Date;
 use Piwik\Db;
-use Exception;
 use Piwik\Menu\MenuTop;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;
@@ -51,54 +48,12 @@ class CustomAlerts extends \Piwik\Plugin
 
 	public function install()
 	{
-		$tableAlert = "CREATE TABLE " . Common::prefixTable('alert') . " (
-			`idalert` INT NOT NULL PRIMARY KEY ,
-			`name` VARCHAR(100) NOT NULL ,
-			`login` VARCHAR(100) NOT NULL ,
-			`period` VARCHAR(5) NOT NULL ,
-			`report` VARCHAR(150) NOT NULL ,
-			`report_condition` VARCHAR(50) ,
-			`report_matched` VARCHAR(255) ,
-			`metric` VARCHAR(150) NOT NULL ,
-			`metric_condition` VARCHAR(50) NOT NULL ,
-			`metric_matched` FLOAT NOT NULL ,
-			`enable_mail` BOOLEAN NOT NULL ,
-			`deleted` BOOLEAN NOT NULL
-		) DEFAULT CHARSET=utf8 ;";
-
-		$tableAlertSite = "CREATE TABLE " . Common::prefixTable('alert_site') . "(
-			`idalert` INT( 11 ) NOT NULL ,
-			`idsite` INT( 11 ) NOT NULL ,
-			PRIMARY KEY ( idalert, idsite )
-		) DEFAULT CHARSET=utf8 ;";
-
-		$tableAlertLog = "CREATE TABLE " . Common::prefixTable('alert_log') . " (
-			`idalert` INT( 11 ) NOT NULL ,
-			`idsite` INT( 11 ) NOT NULL ,
-			`ts_triggered` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-			KEY `ts_triggered` (`ts_triggered`)
-		)";
-
-		try {
-			Db::exec($tableAlert);
-            Db::exec($tableAlertLog);
-            Db::exec($tableAlertSite);
-		} catch (Exception $e) {
-			// mysql code error 1050:table already exists
-			// see bug #153 http://dev.piwik.org/trac/ticket/153
-			if (!Db::get()->isErrNo($e, '1050')) {
-				throw $e;
-			}
-		}
+		Model::install();
 	}
 
 	public function uninstall()
 	{
-		$tables = array('alert', 'alert_log', 'alert_site');
-		foreach ($tables as $table) {
-			$sql = "DROP TABLE " . Common::prefixTable($table);
-			Db::exec($sql);
-		}
+		Model::uninstall();
 	}
 
 	public function addTopMenu()
@@ -109,24 +64,24 @@ class CustomAlerts extends \Piwik\Plugin
 	public function getScheduledTasks(&$tasks)
 	{
 		$tasks[] = new ScheduledTask(
-				'Piwik\Plugins\CustomAlerts\Processor',
-				'processDailyAlerts',
-                null,
-				ScheduledTime::factory('daily')
+		    'Piwik\Plugins\CustomAlerts\Processor',
+		    'processDailyAlerts',
+            null,
+		    ScheduledTime::factory('daily')
 		);
 
 		$tasks[] = new ScheduledTask(
-                'Piwik\Plugins\CustomAlerts\Processor',
-				'processWeeklyAlerts',
-                null,
-                ScheduledTime::factory('weekly')
+            'Piwik\Plugins\CustomAlerts\Processor',
+		    'processWeeklyAlerts',
+            null,
+            ScheduledTime::factory('weekly')
 		);
 
 		$tasks[] = new ScheduledTask(
-                'Piwik\Plugins\CustomAlerts\Processor',
-				'processMonthlyAlerts',
-                null,
-                ScheduledTime::factory('monthly')
+            'Piwik\Plugins\CustomAlerts\Processor',
+		    'processMonthlyAlerts',
+            null,
+            ScheduledTime::factory('monthly')
 		);
 	}
 }

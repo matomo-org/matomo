@@ -48,9 +48,9 @@ class Processor extends \Piwik\Plugin
 		$alerts = API::getInstance()->getAllAlerts($period);
 
 		foreach ($alerts as $alert) {
-			$report = $alert['report'];
-			$metric = $alert['metric'];
-			$idSite = $alert['idsite'];
+			$report  = $alert['report'];
+			$metric  = $alert['metric'];
+			$idSite  = $alert['idsite'];
 			$idAlert = $alert['idalert'];
 
 			$params = array(
@@ -65,7 +65,7 @@ class Processor extends \Piwik\Plugin
 			$request = new Piwik\API\Request($params);
 			$result  = $request->process();
 
-			$metricOne = $this->getMetricFromTable($result, $alert['metric'], $alert['report_condition'], $alert['report_matched']);
+			$metricOne = $this->getMetricFromTable($result, $metric, $alert['report_condition'], $alert['report_matched']);
 
 			// Do we have data? Continue otherwise.
 			if (is_null($metricOne)) {
@@ -122,20 +122,13 @@ class Processor extends \Piwik\Plugin
 			}
 		}
 
-		//$this->sendNewAlerts($period);
+		$this->sendNewAlerts($period);
 	}
 
 	private function triggerAlert($idAlert, $idSite)
 	{
-        $db = Db::get();
-		$db->insert(
-			Common::prefixTable('alert_log'),
-			array(
-			    'idalert' => $idAlert,
-			    'idsite' => $idSite,
-			    'ts_triggered' => Date::now()->getDatetime()
-			)
-		);
+        $model = new Model();
+        $model->triggerAlert($idAlert, $idSite);
 	}
 
 	/**

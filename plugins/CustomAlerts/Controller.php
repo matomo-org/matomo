@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->alertGroups = array();
 		$view->alerts = $availableReports;
-		$view->alertGroupConditions = $this->alertGroupConditions;
+		$view->alertGroupConditions  = $this->alertGroupConditions;
 		$view->alertMetricConditions = $this->alertMetricConditions;
 
 		return $view->render();
@@ -97,19 +97,13 @@ class Controller extends \Piwik\Plugin\Controller
 		$sitesList = SitesManagerApi::getInstance()->getSitesWithAtLeastViewAccess();
 		$view->sitesList = $sitesList;
 
-		// Fetch sites that the alert was defined on.
-		$sql = "SELECT idsite FROM ".Common::prefixTable('alert_site')." WHERE idalert = ?";		
-		$sites = Db::fetchAll($sql, $idAlert, \PDO::FETCH_COLUMN);
-        $idSites = array();
-        foreach ($sites as $site) {
-            $idSites[] = $site['idsite'];
-        }
-		$view->sitesDefined = $idSites;
+        $model = new Model();
+		$view->sitesDefined = $model->fetchSiteIdsTheAlertWasDefinedOn($idAlert);
 
 		$availableReports = MetadataApi::getInstance()->getReportMetadata();
 
 		$view->alerts = $availableReports;
-		$view->alertGroupConditions = $this->alertGroupConditions;
+		$view->alertGroupConditions  = $this->alertGroupConditions;
 		$view->alertMetricConditions = $this->alertMetricConditions;
 
 		return $view->render();
