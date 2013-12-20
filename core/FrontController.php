@@ -302,11 +302,8 @@ class FrontController extends Singleton
                 '/tmp/templates_c/',
             );
 
-            libxml_disable_entity_loader(); // prevent remote file inclusion
-
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
             self::assignCliParametersToRequest();
-
 
             Translate::loadEnglishTranslation();
 
