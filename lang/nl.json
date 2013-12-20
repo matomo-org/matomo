@@ -1541,6 +1541,7 @@
         "YourCurrentIpAddressIs": "Uw huidig IP-adres is %s"
     },
     "Transitions": {
+        "BouncesInline": "%s bounces",
         "ErrorBack": "Ga terug naar de vorige actie",
         "FromPreviousPages": "Van Interne Pagina's",
         "FromPreviousPagesInline": "%s van interne pagina's",
