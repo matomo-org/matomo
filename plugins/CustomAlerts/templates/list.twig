@@ -11,7 +11,7 @@
             </tr>
         </thead>
 
-        {% if not alertList %}
+        {% if not alerts %}
         <tr>
             <td colspan="6">
                 <br/>
@@ -20,7 +20,7 @@
             </td>
         </tr>
         {% else %}
-            {% for alert in alertList %}
+            {% for alert in alerts %}
                 <tr>
                     <td>{{ alert.idalert }}</td>
                     <td>{{ alert.name }}</td>
@@ -28,7 +28,7 @@
                     <td>{{ alert.report }}</td>
                     <td>{% if alert.enable_mail %}Yes{% else %}No{% endif %}</td>
                     {% set idalert=alert.idalert %}
-                    <td><a href="{{ linkTo({'module': 'CustomAlerts', 'action': 'editAlert', 'idalert': alert.idalert}) }}">Edit</a></td>
+                    <td><a href="{{ linkTo({'module': 'CustomAlerts', 'action': 'editAlert', 'idAlert': alert.idalert}) }}">Edit</a></td>
                 </tr>
             {% endfor %}
         {% endif %}

@@ -83,35 +83,28 @@ class Model
 
 
     /**
-	 * Returns a single Alert
-	 *
-	 * @param int $idAlert
-	 */
+     * Returns a single Alert
+     *
+     * @param int $idAlert
+     *
+     * @return array
+     */
 	public function getAlert($idAlert)
 	{
-		$alert = Db::fetchAll("SELECT * FROM "
-						. Common::prefixTable('alert')
-						. " WHERE idalert = ?",
-						intval($idAlert)
-		);
+        $query = sprintf('SELECT * FROM %s WHERE idalert = ?', Common::prefixTable('alert'), intval($idAlert));
+		$alert = Db::fetchAll($query);
 
-		if (!$alert) {
+		if (empty($alert)) {
 			throw new Exception(Piwik::translate('CustomAlerts_AlertDoesNotExist', $idAlert));
 		}
 
-		$alert = $alert[0];
+		$alert = array_shift($alert);
 
 		if (!Piwik::isUserIsSuperUserOrTheUser($alert['login'])) {
 			throw new Exception(Piwik::translate('CustomAlerts_AccessException', $idAlert));
 		}
 
-//		$idSites = Piwik_FetchAll("SELECT * FROM "
-//				. Common::prefixTable('alert_site')
-//				. " WHERE idalert = ?",
-//				intval($idAlert)
-//		);
-//
-//		$alert['idsites'] = $idSites;
+        $alert['idSites'] = $this->fetchSiteIdsTheAlertWasDefinedOn($idAlert);
 
 		return $alert;
 	}
@@ -132,6 +125,8 @@ class Model
 			$idSites = SitesManagerApi::getInstance()->getSitesIdWithAtLeastViewAccess();
 		}
 
+        $idSites = array_map('intval', $idSites);
+
 		$alerts = Db::fetchAll(("SELECT * FROM "
 						. Common::prefixTable('alert')
 						. " WHERE idalert IN (
@@ -149,7 +144,7 @@ class Model
 
 		$this->checkPeriod($period);
 		$piwikDate = Date::factory($date);
-		$date = Period::factory($period, $piwikDate);
+		$date      = Period::factory($period, $piwikDate);
 
         $db = Db::get();
 
@@ -173,15 +168,18 @@ class Model
 			WHERE  period = ?
 				AND ts_triggered BETWEEN ? AND ?";
 
+        $values = array(
+            $period,
+            $date->getDateStart()->getDateStartUTC(),
+            $date->getDateEnd()->getDateEndUTC()
+        );
+
 		if ($login !== false) {
-			$sql .= " AND login = \"" . $login . "\"";
+			$sql     .= " AND login = ?";
+            $values[] = $login;
 		}
 
-		return $db->fetchAll($sql, array(
-			$period,
-			$date->getDateStart()->getDateStartUTC(),
-			$date->getDateEnd()->getDateEndUTC())
-		);
+		return $db->fetchAll($sql, $values);
 
 	}
 
@@ -204,21 +202,24 @@ class Model
 		return Db::fetchAll($sql);
 	}
 
-	/**
-	 * Creates an Alert for given website(s).
-	 *
-	 * @param string $name
-	 * @param mixed $idSites
-	 * @param string $period
-	 * @param bool $email
-	 * @param string $metric (nb_uniq_visits, sum_visit_length, ..)
-	 * @param string $metricCondition
-	 * @param float $metricValue
-	 * @param string $report
-	 * @param string $reportCondition
-	 * @param string $reportValue
-	 * @return int ID of new Alert
-	 */
+    /**
+     * Creates an Alert for given website(s).
+     *
+     * @param string $name
+     * @param mixed $idSites
+     * @param string $period
+     * @param bool $email
+     * @param string $metric (nb_uniq_visits, sum_visit_length, ..)
+     * @param string $metricCondition
+     * @param float $metricValue
+     * @param string $report
+     * @param string $reportCondition
+     * @param string $reportValue
+     *
+     * @throws \Exception
+     *
+     * @return int ID of new Alert
+     */
 	public function addAlert($name, $idSites, $period, $email, $metric, $metricCondition, $metricValue, $report, $reportCondition, $reportValue)
 	{
 		if (!is_array($idSites)) {
@@ -230,30 +231,31 @@ class Model
 		$name = $this->checkName($name);
 		$this->checkPeriod($period);
 
-		// save in db
-		$db = Db::get();
-		$idAlert = Db::fetchOne("SELECT max(idalert) + 1 FROM " . Common::prefixTable('alert'));
-		if ($idAlert == false) {
+        $idAlert = $this->getNextAlertId();
+        if (empty($idAlert)) {
 			$idAlert = 1;
 		}
 
 		$newAlert = array(
-			'idalert' => $idAlert,
-			'name' => $name,
-			'period' => $period,
-			'login' => Piwik::getCurrentUserLogin(),
-			'enable_mail' => (int) $email,
-			'metric' => $metric,
+			'idalert'          => $idAlert,
+			'name'             => $name,
+			'period'           => $period,
+			'login'            => Piwik::getCurrentUserLogin(),
+			'enable_mail'      => (int) $email,
+			'metric'           => $metric,
 			'metric_condition' => $metricCondition,
-			'metric_matched' => (float) $metricValue,
-			'report' => $report,
-			'deleted' => 0,
+			'metric_matched'   => (float) $metricValue,
+			'report'           => $report,
+			'deleted'          => 0,
 		);
 
 		if (!empty($reportCondition) && !empty($reportCondition)) {
 			$newAlert['report_condition'] = $reportCondition;
-			$newAlert['report_matched'] = $reportValue;
-		}
+			$newAlert['report_matched']   = $reportValue;
+		} else {
+            $alert['report_condition'] = null;
+            $alert['report_matched']   = null;
+        }
 
 		// Do we have a valid alert for all given idSites?
 		foreach ($idSites as $idSite) {
@@ -262,32 +264,37 @@ class Model
 			}
 		}
 
+        // save in db
+        $db = Db::get();
 		$db->insert(Common::prefixTable('alert'), $newAlert);
 		foreach ($idSites as $idSite) {
 			$db->insert(Common::prefixTable('alert_site'), array(
-				'idalert' => $idAlert,
-				'idsite' => $idSite
+				'idalert' => intval($idAlert),
+				'idsite'  => intval($idSite)
 			));
 		}
 		return $idAlert;
 	}
 
-	/**
-	 * Edits an Alert for given website(s).
-	 *
-	 * @param string $idalert ID of the Alert to edit.
-	 * @param string $name Name of Alert
-	 * @param mixed $idSites Single int or array of ints of idSites.
-	 * @param string $period Period the alert is defined on.
-	 * @param bool $email
-	 * @param string $metric (nb_uniq_visits, sum_visit_length, ..)
-	 * @param string $metricCondition
-	 * @param float $metricValue
-	 * @param string $report
-	 * @param string $reportCondition
-	 * @param string $reportValue
-	 * @return boolean
-	 */
+    /**
+     * Edits an Alert for given website(s).
+     *
+     * @param $idAlert
+     * @param string $name Name of Alert
+     * @param mixed $idSites Single int or array of ints of idSites.
+     * @param string $period Period the alert is defined on.
+     * @param bool $email
+     * @param string $metric (nb_uniq_visits, sum_visit_length, ..)
+     * @param string $metricCondition
+     * @param float $metricValue
+     * @param string $report
+     * @param string $reportCondition
+     * @param string $reportValue
+     *
+     * @throws \Exception
+     *
+     * @return boolean
+     */
 	public function editAlert($idAlert, $name, $idSites, $period, $email, $metric, $metricCondition, $metricValue, $report, $reportCondition, $reportValue)
 	{
 		if (!is_array($idSites)) {
@@ -296,67 +303,65 @@ class Model
 
 		Piwik::checkUserHasViewAccess($idSites);
 
-		// Is the name in a valid format?
 		$name = $this->checkName($name);
-
-		// Is the period valid?
 		$this->checkPeriod($period);
 
-		// Save in DB
-        $db = Db::get();
-
 		$alert = array(
-			'name' => $name,
-			'period' => $period,
-			'login' => 'admin', //Piwik::getCurrentUserLogin(),
-			'enable_mail' => (boolean) $email,
-			'metric' => $metric,
+			'name'             => $name,
+			'period'           => $period,
+			'login'            => 'admin', //Piwik::getCurrentUserLogin(),
+			'enable_mail'      => (boolean) $email,
+			'metric'           => $metric,
 			'metric_condition' => $metricCondition,
-			'metric_matched' => (float) $metricValue,
-			'report' => $report,
-			'deleted' => 0,
+			'metric_matched'   => (float) $metricValue,
+			'report'           => $report,
+			'deleted'          => 0,
 		);
 
-		//
 		if (!empty($reportCondition) && !empty($reportCondition)) {
 			$alert['report_condition'] = $reportCondition;
-			$alert['report_matched'] = $reportValue;
+			$alert['report_matched']  = $reportValue;
 		} else {
 			$alert['report_condition'] = null;
-			$alert['report_matched'] = null;
+			$alert['report_matched']   = null;
 		}
 
 		// Do we have a valid alert for all given idSites?
 		foreach ($idSites as $idSite) {
-			if (!$this->isValidAlert($alert, $idSites)) {
+			if (!$this->isValidAlert($alert, $idSite)) {
 				throw new Exception(Piwik::translate('CustomAlerts_ReportOrMetricIsInvalid'));
 			}
 		}
 
-		$db->update(Common::prefixTable('alert'), $alert, "idalert = " . $idAlert);
+        // Save in DB
+        $db = Db::get();
+		$db->update(Common::prefixTable('alert'), $alert, "idalert = " . intval($idAlert));
 
 		$db->query("DELETE FROM " . Common::prefixTable("alert_site") . "
 					WHERE idalert = ?", $idAlert);
 
 		foreach ($idSites as $idSite) {
 			$db->insert(Common::prefixTable('alert_site'), array(
-				'idalert' => $idAlert,
-				'idsite' => $idSite
+				'idalert' => intval($idAlert),
+				'idsite'  => intval($idSite)
 			));
 		}
+
 		return $idAlert;
 	}
 
-	/**
-	 * Delete alert by id.
-	 *
-	 * @param int $idAlert
-	 */
+    /**
+     * Delete alert by id.
+     *
+     * @param int $idAlert
+     *
+     * @throws \Exception In case alert does not exist or not enough permission
+     */
 	public function deleteAlert($idAlert)
 	{
 		$alert = $this->getAlert($idAlert);
 
-		if (!$alert) {
+		if (empty($alert)) {
 			throw new Exception(Piwik::translate('CustomAlerts_AlertDoesNotExist', $idAlert));
 		}
 
@@ -366,18 +371,26 @@ class Model
 		$db->update(
 				Common::prefixTable('alert'),
 				array("deleted" => 1),
-				"idalert = " . $idAlert
+				"idalert = " . intval($idAlert)
 		);
 	}
 
     public function triggerAlert($idAlert, $idSite)
     {
+        $alert = $this->getAlert($idAlert);
+
+        if (empty($alert)) {
+            throw new Exception(Piwik::translate('CustomAlerts_AlertDoesNotExist', $idAlert));
+        }
+
+        Piwik::checkUserIsSuperUserOrTheUser($alert['login']);
+
         $db = Db::get();
         $db->insert(
             Common::prefixTable('alert_log'),
             array(
-                'idalert' => $idAlert,
-                'idsite' => $idSite,
+                'idalert' => intval($idAlert),
+                'idsite'  => intval($idSite),
                 'ts_triggered' => Date::now()->getDatetime()
             )
         );
@@ -401,7 +414,7 @@ class Model
 	 * the given idSites and if the a dimension is
 	 * given (requires report_condition, report_matched)
 	 *
-	 * @param array alert
+	 * @param array $alert
 	 * @param int $idSite
 	 * @return boolean
 	 */
@@ -437,11 +450,9 @@ class Model
 		if (isset($report[0]['dimension'])
 				&& (!isset($alert['report_condition']) || !isset($alert['report_matched']))) {
 			return false;
-		} else {
-			return true;
 		}
 
-		return false;
+        return true;
 	}
 
 	private function checkName($name)
@@ -460,6 +471,12 @@ class Model
 	{
 		return in_array($period, array('day', 'week', 'month', 'year'));
 	}
+
+    private function getNextAlertId()
+    {
+        $idAlert = Db::fetchOne("SELECT max(idalert) + 1 FROM " . Common::prefixTable('alert'));
+        return $idAlert;
+    }
 
 }
 ?>

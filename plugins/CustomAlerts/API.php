@@ -22,32 +22,29 @@ use Piwik\Db;
  */
 class API extends \Piwik\Plugin\API
 {
-
-    private function getModel()
-    {
-        return new Model();
-    }
-
-	/**
-	 * Returns a single Alert
-	 *
-	 * @param int $idAlert
-	 */
+    /**
+     * Returns a single Alert
+     *
+     * @param int $idAlert
+     *
+     * @return array
+     */
 	public function getAlert($idAlert)
 	{
         return $this->getModel()->getAlert($idAlert);
 	}
 
-	/**
-	 * Returns the Alerts that are defined on the idSites given.
-	 * If no value is given, all Alerts for the current user will
-	 * be returned.
-	 *
-	 * @param array $idSites
-	 */
+    /**
+     * Returns the Alerts that are defined on the idSites given.
+     * If no value is given, all Alerts for the current user will
+     * be returned.
+     *
+     * @param array $idSites
+     * @return array
+     */
 	public function getAlerts($idSites = array())
 	{
-        return $this->getModel()->getAlert($idSites);
+        return $this->getModel()->getAlerts($idSites);
 	}
 
 	public function getTriggeredAlerts($period, $date, $login = false)
@@ -80,22 +77,23 @@ class API extends \Piwik\Plugin\API
         return $this->getModel()->addAlert($name, $idSites, $period, $email, $metric, $metricCondition, $metricValue, $report, $reportCondition, $reportValue);
 	}
 
-	/**
-	 * Edits an Alert for given website(s).
-	 *
-	 * @param string $idalert ID of the Alert to edit.
-	 * @param string $name Name of Alert
-	 * @param mixed $idSites Single int or array of ints of idSites.
-	 * @param string $period Period the alert is defined on.
-	 * @param bool $email
-	 * @param string $metric (nb_uniq_visits, sum_visit_length, ..)
-	 * @param string $metricCondition
-	 * @param float $metricValue
-	 * @param string $report
-	 * @param string $reportCondition
-	 * @param string $reportValue
-	 * @return boolean
-	 */
+    /**
+     * Edits an Alert for given website(s).
+     *
+     * @param $idAlert
+     * @param string $name Name of Alert
+     * @param mixed $idSites Single int or array of ints of idSites.
+     * @param string $period Period the alert is defined on.
+     * @param bool $email
+     * @param string $metric (nb_uniq_visits, sum_visit_length, ..)
+     * @param string $metricCondition
+     * @param float $metricValue
+     * @param string $report
+     * @param string $reportCondition
+     * @param string $reportValue
+     *
+     * @return boolean
+     */
 	public function editAlert($idAlert, $name, $idSites, $period, $email, $metric, $metricCondition, $metricValue, $report, $reportCondition = '', $reportValue = '')
 	{
         return $this->getModel()->editAlert($idAlert, $name, $idSites, $period, $email, $metric, $metricCondition, $metricValue, $report, $reportCondition, $reportValue);
@@ -110,5 +108,11 @@ class API extends \Piwik\Plugin\API
 	{
         $this->getModel()->deleteAlert($idAlert);
 	}
+
+    private function getModel()
+    {
+        return new Model();
+    }
+
 }
 ?>
