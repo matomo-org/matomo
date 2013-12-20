@@ -52,7 +52,6 @@ abstract class UITest extends IntegrationTestCase
         AssetManager::getInstance()->removeMergedAssets();
         
         // launch archiving so tests don't run out of time
-        Rules::$purgeDisabledByTests = true;
         $date = Date::factory(static::$fixture->dateTime)->toString();
         API::getInstance()->get(static::$fixture->idSite, 'year', $date);
 
@@ -184,8 +183,6 @@ abstract class UITest extends IntegrationTestCase
         list($processedPath, $expectedPath) = self::getProcessedAndExpectedScreenshotPaths($name);
 
         $this->compareScreenshotAgainstExpected($name, $urlQuery, $processedPath, $expectedPath);
-
-
     }
 
     private function saveImageDiff($expectedPath, $processedPath, $diffPath)
