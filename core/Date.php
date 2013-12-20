@@ -79,8 +79,8 @@ class Date
      *
      * @param string|int $dateString `'today'`, `'yesterday'`, `'now'`, `'yesterdaySameTime'`, a string with
      *                               `'YYYY-MM-DD HH:MM:SS'` format or a unix timestamp.
-     * @param string $timezone The timezone of `$dateString`. If specified, `$dateString` will be converted
-     *                         from this timezone to UTC before being used in the Date return value.
+     * @param string $timezone The timezone of the result. If specified, `$dateString` will be converted
+     *                         from UTC to this timezone before being used in the Date return value.
      * @throws Exception If `$dateString` is in an invalid format or if the time is before
      *                   Tue, 06 Aug 1991.
      * @return Date
@@ -204,10 +204,10 @@ class Date
     }
 
     /**
-     * Converts a timestamp in a timezone to UTC.
+     * Converts a timestamp in a from UTC to a timezone.
      *
      * @param int $timestamp The UNIX timestamp to adjust.
-     * @param string $timezone The timezone to adjust from.
+     * @param string $timezone The timezone to adjust to.
      * @return int The adjusted time as seconds from EPOCH.
      */
     public static function adjustForTimezone($timestamp, $timezone)

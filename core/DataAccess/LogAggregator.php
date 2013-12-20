@@ -146,8 +146,8 @@ class LogAggregator
      */
     public function __construct(Parameters $params)
     {
-        $this->dateStart = $params->getPeriod()->getDateStart();
-        $this->dateEnd = $params->getPeriod()->getDateEnd();
+        $this->dateStart = $params->getDateStart();
+        $this->dateEnd = $params->getDateEnd();
         $this->segment = $params->getSegment();
         $this->site = $params->getSite();
     }

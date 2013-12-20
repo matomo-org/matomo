@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<events>0</events>
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>incredible title!</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>1</pageId>
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+</result>

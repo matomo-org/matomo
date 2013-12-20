@@ -44,7 +44,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
             $this->idSiteEmptyBis = $this->createWebsite($this->dateTime);
         }
 
-        if (!self::siteCreated($idStie = 3)) {
+        if (!self::siteCreated($idSite = 3)) {
             $this->idSiteEmptyTer = $this->createWebsite($this->dateTime);
         }
     }
