@@ -98,10 +98,6 @@ class PluginsArchiver
                 }
             }
         }
-
-        if (!$this->isSingleSiteDayArchive && $visits) {
-            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
-        }
     }
 
     public function finalizeArchive()

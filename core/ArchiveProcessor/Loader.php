@@ -120,7 +120,12 @@ class Loader
             $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
         }
         $idArchive = $pluginsArchiver->finalizeArchive();
-        return array( $idArchive, $visits);
+
+        if (!$this->params->isSingleSiteDayArchive() && $visits) {
+            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
+        }
+
+        return array($idArchive, $visits);
     }
 
     protected function doesRequestedPluginIncludeVisitsSummary()
