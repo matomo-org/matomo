@@ -23,11 +23,6 @@ class UIAssetCatalog
     private $catalogSorter;
 
     /**
-     * @var string
-     */
-    private $concatenatedAssets;
-
-    /**
      * @param UIAssetCatalogSorter $catalogSorter
      */
     function __construct($catalogSorter)
@@ -43,7 +38,6 @@ class UIAssetCatalog
         if(!$this->assetAlreadyInCatalog($uiAsset)) {
 
             $this->uiAssets[] = $uiAsset;
-            $this->resetConcatenatedAssets();
         }
     }
 
@@ -61,11 +55,6 @@ class UIAssetCatalog
     public function getSortedCatalog()
     {
         return $this->catalogSorter->sortUIAssetCatalog($this);
-    }
-
-    private function resetConcatenatedAssets()
-    {
-        $this->concatenatedAssets = null;
     }
 
     /**
