@@ -301,7 +301,11 @@ class SettingsPiwik
 
     public static function getCurrentGitBranch()
     {
-        $firstLineOfGitHead = file(PIWIK_INCLUDE_PATH . '/.git/HEAD');
+        $file = PIWIK_INCLUDE_PATH . '/.git/HEAD';
+        if(!file_exists($file)) {
+            return '';
+        }
+        $firstLineOfGitHead = file($file);
         if (empty($firstLineOfGitHead)) {
             return '';
         }
