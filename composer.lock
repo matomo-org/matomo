@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9cda7a1da5e9a1ba22e90f744c9318f3",
+    "hash": "f6da1c587c222e87513460ce21c9aefe",
     "packages": [
         {
             "name": "leafo/lessphp",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/lessphp.git",
-                "reference": "v0.3.9"
+                "reference": "a11a6141b5715162b933c405379765d817891c5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/v0.3.9",
-                "reference": "v0.3.9",
+                "url": "https://api.github.com/repos/leafo/lessphp/zipball/a11a6141b5715162b933c405379765d817891c5d",
+                "reference": "a11a6141b5715162b933c405379765d817891c5d",
                 "shasum": ""
             },
             "type": "library",
@@ -201,7 +201,7 @@
 
     ],
     "platform": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.2"
     },
     "platform-dev": [
 
