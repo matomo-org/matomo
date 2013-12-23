@@ -306,7 +306,10 @@ class SettingsPiwik
             return '';
         }
         $firstLineOfGitHead = $firstLineOfGitHead[0];
-        $parts = explode("/", $firstLineOfGitHead);
+        $parts = explode('/', $firstLineOfGitHead);
+        if (empty($parts[2])) {
+            return '';
+        }
         $currentGitBranch = trim($parts[2]);
         return $currentGitBranch;
     }

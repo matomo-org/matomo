@@ -290,7 +290,9 @@ function setTranslationsForLanguage() {
 
         require_once PIWIK_INCLUDE_PATH . "/libs/upgradephp/upgrade.php";
         require_once PIWIK_INCLUDE_PATH . "/core/Loader.php";
-        require_once PIWIK_INCLUDE_PATH . "/vendor/autoload.php";
+        require_once file_exists(PIWIK_INCLUDE_PATH . "/vendor/autoload.php")
+            ? PIWIK_INCLUDE_PATH . "/vendor/autoload.php" // Piwik is the main project
+            : PIWIK_INCLUDE_PATH . "/../../autoload.php"; // Piwik is installed as a dependency
 
         use Piwik\Translate\Writer;
         use Piwik\Translate\Validate\NoScripts;

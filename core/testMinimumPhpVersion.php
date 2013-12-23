@@ -46,9 +46,7 @@ if ($minimumPhpInvalid) {
 					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
 
-    $autoloadPath = '/vendor/autoload.php';
-    $autoloader = PIWIK_INCLUDE_PATH . $autoloadPath;
-    if (!file_exists($autoloader)) {
+    if (!file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php') && !file_exists(PIWIK_INCLUDE_PATH . '/../../autoload.php')) {
         $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): \n\n"
             . "<pre> curl -sS https://getcomposer.org/installer | php \n\n php composer.phar install\n\n</pre> ";
         if (DIRECTORY_SEPARATOR === '\\' /* ::isWindows() */) {
