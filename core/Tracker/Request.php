@@ -397,7 +397,8 @@ class Request
         $cookie = new Cookie(
             $this->getCookieName(),
             $this->getCookieExpire(),
-            $this->getCookiePath());
+            $this->getCookiePath(),
+            $this->getCookieDomain());
         Common::printDebug($cookie);
         return $cookie;
     }
@@ -412,6 +413,15 @@ class Request
         return $this->getCurrentTimestamp() + Config::getInstance()->Tracker['cookie_expire'];
     }
 
+     /**
+     * Returns cookie domain
+     * @return string
+     */
+    protected function getCookieDomain()
+    {
+        return Piwik_Config::getInstance()->Tracker['cookie_domain'];
+    }
+    
     protected function getCookiePath()
     {
         return Config::getInstance()->Tracker['cookie_path'];
