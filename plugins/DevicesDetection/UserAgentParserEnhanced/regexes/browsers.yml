@@ -8,6 +8,11 @@
 # @package DevicesDetection
 ###############
 
+#SailfishBrowser
+- regex: 'SailfishBrowser/(\d+\.\d+)'
+  name: Sailfish Browser
+  version: '$1'
+
 # SeaMonkey
 - regex: '(Iceape|SeaMonkey|gnuzilla)/(\d+\.\d+)'
   name: $1
@@ -416,7 +421,7 @@
 - regex: 'Version/(\d+\.\d+).*Safari/|Safari/\d+'
   name: Safari
   version: '$1'
-  
+
 #Android Browser
 - regex: 'Android'
   name: Android Browser

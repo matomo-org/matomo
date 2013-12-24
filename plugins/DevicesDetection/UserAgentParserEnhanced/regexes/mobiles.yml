@@ -432,6 +432,12 @@ iKoMo:
   device: 'feature phone'
   model: '$1'
 
+# Jolla
+Jolla:
+  regex: 'Jolla'
+  device: 'smartphone'
+  model: ''
+
 # kddi
 KDDI:
   regex: 'kddi-([A-Za-z0-9]+)'
