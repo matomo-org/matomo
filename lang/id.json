@@ -960,7 +960,6 @@
         "SystemCheckExtensions": "Ekstensi lain dibutuhkan",
         "SystemCheckFileIntegrity": "Integritas berkas",
         "SystemCheckFunctions": "Fungsi yang dibutuhkan",
-        "SystemCheckGD": "GD > 2.x (grafik)",
         "SystemCheckGDHelp": "Bagan garis (grafik kecil) tak bekerja.",
         "SystemCheckGlobHelp": "Fungsi bawaan ini telah dimatikan dalam inang Anda. Piwik akan mencoba untuk meniru fungsi ini namun mungkin menghadapi pembatasan keamanan lebih lanjut. Fungsionalitas mungkin terkena dampak.",
         "SystemCheckGzcompressHelp": "Anda dapat mengaktifkan ekstensi zlib dan fungsi gzcompress.",

@@ -634,7 +634,6 @@
         "SystemCheckExtensions": "Pozostałe wymagane rozszerzenia",
         "SystemCheckFileIntegrity": "Integralność pliku",
         "SystemCheckFunctions": "Wymagane funkcje",
-        "SystemCheckGD": "GD > 2.x (grafiki)",
         "SystemCheckGDHelp": "Linie przerywane (mała grafika sparklines) nie będzie wyświetlana.",
         "SystemCheckGlobHelp": "Ta wbudowana funkcja została wyłączona przez twój hosting. Piwik może podjąć próbę jej emulowania, ale może napotkać kolejne ograniczenia związane z bezpieczeństwem. Będzie to miało również wpływ na wydajność funkcjonowania systemu.",
         "SystemCheckGzcompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzcompress.",

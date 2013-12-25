@@ -712,7 +712,6 @@
         "SystemCheckExtensions": "ส่วนขยายอื่น ๆ จำเป็นต้องใช้",
         "SystemCheckFileIntegrity": "ความสมบูรณ์ของไฟล์",
         "SystemCheckFunctions": "จำเป็นต้องใช้ฟังก์ชัน",
-        "SystemCheckGD": "GD > 2.x (กราฟิก)",
         "SystemCheckGDHelp": "sparklines (กราฟเล็กๆ)จะไม่ทำงาน",
         "SystemCheckGlobHelp": "ฟังก์ชันที่มีอยู่ภายในนี้ได้ถูกปิดการใช้งานบนโฮสต์ของคุณ Piwik จะพยายามทำการจำลองฟังก์ชันนี้ แต่อาจพบเพิ่มเติมข้อบังคับด้านความปลอดภัย ฟังก์ชันการทำงานอาจจะโดนผลกระทบ",
         "SystemCheckGzcompressHelp": "คุณต้องเปิดใช้ส่วนขยาย zlib และฟังก์ชั่น gzcompress",

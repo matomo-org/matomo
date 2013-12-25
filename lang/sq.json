@@ -738,7 +738,6 @@
         "SystemCheckExtensions": "Të tjera zgjerime të domosdoshme",
         "SystemCheckFileIntegrity": "Pacënueshmëri kartele",
         "SystemCheckFunctions": "Funksione të domosdoshëm",
-        "SystemCheckGD": "GD > 2.x (grafikë)",
         "SystemCheckGDHelp": "\"Sparklines\" (grafikë të veckël) nuk do të funksionojnë.",
         "SystemCheckGlobHelp": "Ky funksion i trupëzuar është i çaktivizuar te streha juaj. Piwik-u do të përpiqet ta emulojë këtë funksion por mund të hasë kufizime të mëtejshme sigurie. Kjo mund të ketë ndikim te funksionimi.",
         "SystemCheckGzcompressHelp": "Lypset të aktivizoni zgjerimin zlib dhe funksionin gzcompress.",

@@ -211,7 +211,6 @@
         "SetupWebsiteError": "Houbo un erro ao engadir o sitio",
         "SystemCheck": "Comprobación do sitio",
         "SystemCheckError": "Houbo un erro - Debe arranxarse antes de continuar",
-        "SystemCheckGD": "GD > 2.x (gráficos)",
         "SystemCheckGDHelp": "Os sparklines (gráficos pequenos) non funcionarán.",
         "SystemCheckMemoryLimit": "Límite de memoria",
         "SystemCheckMemoryLimitHelp": "Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire o apartado memory_limit no seu ficheiro php.ini se é necesario.",

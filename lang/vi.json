@@ -997,7 +997,6 @@
         "SystemCheckExtensions": "Các bổ sung cần thiết khác",
         "SystemCheckFileIntegrity": "File nguyên vẹn",
         "SystemCheckFunctions": "Các hàm yêu cầu",
-        "SystemCheckGD": "GD > 2.x (graphics)",
         "SystemCheckGDHelp": "Các Sparkline (đồ thị nhỏ) và đồ thị hình ảnh (trong ứng dụng Piwik trên di động và báo cáo Email) sẽ không làm việc.",
         "SystemCheckGlobHelp": "Các hàm nội tại đã bị vô hiệu hóa trên máy chủ của bạn. Piwik sẽ cố gắng để giả lập hàm này nhưng có thể gặp phải những hạn chế bảo mật cao hơn. Chức năng có thể bị ảnh hưởng.",
         "SystemCheckGzcompressHelp": "Bạn cần bật zlib extension and gzcompress function.",

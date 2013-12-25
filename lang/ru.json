@@ -943,7 +943,6 @@
         "SystemCheckExtensions": "Необходимые модули",
         "SystemCheckFileIntegrity": "Целостность файла",
         "SystemCheckFunctions": "Необходимые функции",
-        "SystemCheckGD": "GD > 2.x (графика)",
         "SystemCheckGDHelp": "Отображение тонких (нитчатых) графиков не будет работать.",
         "SystemCheckGlobHelp": "Эта встроенная функция отключена на сервере. Piwik попытается сэмулировать ее вызов, но могут возникнуть ограничения безопасности. Это также может нанести вред общей функциональности системы.",
         "SystemCheckGzcompressHelp": "Вам необходимо разрешить модуль zlib и функцию gzcompress.",

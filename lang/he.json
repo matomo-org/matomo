@@ -480,7 +480,6 @@
         "SetupWebSiteURL": "כתובת האתר",
         "SuperUserLogin": "כניסת משתמש-על",
         "SystemCheck": "בדיקת מערכת",
-        "SystemCheckGD": "GD > 2.x (גרפיקה)",
         "SystemCheckPhp": "גרסת PHP",
         "Welcome": "ברוכים הבאים!"
     },

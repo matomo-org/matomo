@@ -784,7 +784,6 @@
         "SystemCheckExtensions": "Další požadovaná rozšíření",
         "SystemCheckFileIntegrity": "Integrita souborů",
         "SystemCheckFunctions": "Vyžadované funkce",
-        "SystemCheckGD": "GD > 2.x (graphics)",
         "SystemCheckGDHelp": "Sparkliny (malé grafy) nebudou fungovat.",
         "SystemCheckGlobHelp": "Tato vestavěná funkce byla na vašem hostiteli zakázaná. Piwik se pokusí tuto funkci emulovat, ale můžete zaznamenat další bezpečnostní omezení. Toto bude mít vliv na funčnost",
         "SystemCheckIconvHelp": "Musíte nakonfigurovat a překompilovat PHP s podporou pro \"icont\", --with-iconv",

@@ -877,7 +877,6 @@
         "SystemCheckExtensions": "Muut vaaditut lisäosat",
         "SystemCheckFileIntegrity": "Tiedoston eheys",
         "SystemCheckFunctions": "Vaaditut funktiot",
-        "SystemCheckGD": "GD > 2.x (grafiikat)",
         "SystemCheckGDHelp": "Pienet graafit eivät toimi.",
         "SystemCheckGlobHelp": "Tämä sisäänrakennettu toiminnallisuus on poistettu käytöstä palvelimellasi. Piwik yrittää emuloida toimintoa, mutta saattaa törmätä uusiin turvallisuusrajoituksiin. Suorituskyky heikkenee.",
         "SystemCheckGzcompressHelp": "zlib-laajennus ja gzcompress-funktio täytyy olla käytössä.",

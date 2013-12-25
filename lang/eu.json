@@ -352,7 +352,6 @@
         "SystemCheckError": "Errorea gertatu da - aurrera jarraitu aurretik konpondu behar da",
         "SystemCheckExtensions": "Beharrezko bestelako hedapenak",
         "SystemCheckFunctions": "Beharrezko funtzioak",
-        "SystemCheckGD": "GD > 2.x (grafikak)",
         "SystemCheckGDHelp": "Grafika txikiek ez dute funtzionatuko.",
         "SystemCheckIconvHelp": "\"iconv\" gaituta duela konfiguratu eta birkonpilatu behar duzu PHP, --with-iconv aukerarekin.",
         "SystemCheckMailHelp": "Erreakzioak eta galdutako pasahitzen mezuak ezingo dira bidali mail() gabe.",

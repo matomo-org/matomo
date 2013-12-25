@@ -647,7 +647,6 @@
         "SystemCheckExtensions": "Andre påkravde utvidingar",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckFunctions": "Påkravde funksjonar",
-        "SystemCheckGD": "GD > 2.x (biletehandsaming)",
         "SystemCheckGDHelp": "Gnistlinjene (små bilete) og biletgrafane (i e-postrapportar og i mobilappen til Piwik) vil ikkje fungera.",
         "SystemCheckIconvHelp": "Du må konfigurera og byggja PHP med \"iconv\"-støtte påslegen, --with-iconv.",
         "SystemCheckMailHelp": "Attendemeldingar og 'Tapt Passord'-meldingar vil ikkje sendast uten mail().",

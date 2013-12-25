@@ -533,7 +533,6 @@
         "SystemCheckExtensions": "其他需要的擴充元件",
         "SystemCheckFileIntegrity": "檔案完整性",
         "SystemCheckFunctions": "必須函式",
-        "SystemCheckGD": "GD > 2.x (繪圖函式庫)",
         "SystemCheckGDHelp": "Sparklines (小圖) 將無法運作。",
         "SystemCheckGlobHelp": "這個內建的函式已被你的主機商停用。Piwik 將嘗試模擬這個功能，但可能會遇到更多安全限制。功能可能受到影響。",
         "SystemCheckIconvHelp": "你需要設定及重建 PHP, 然後啟用\"iconv\"支援, --with-iconv.",

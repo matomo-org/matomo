@@ -281,7 +281,6 @@
         "SetupWebsiteError": "Veebilehe lisamisel tekkis viga",
         "SystemCheck": "Süsteemi kontroll",
         "SystemCheckError": "Ilmnes viga - Enne jätkamist tuleb see parandada.",
-        "SystemCheckGD": "GD > 2.x (graphics)",
         "SystemCheckGDHelp": "The sparklines (small graphs) will not work.",
         "SystemCheckMemoryLimit": "Mälu limiit",
         "SystemCheckMemoryLimitHelp": "Suure liiklusega veebileht võib vajada arhiveerimiseks rohkem mälu, kui hetkel lubatud.<br \/>Vaata üle oma memory_limit oma php.ini failis, kui see osutub vajalikuks.",

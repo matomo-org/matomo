@@ -617,7 +617,6 @@
         "SystemCheckExtensions": "Andre nødvendige utvidelser",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckFunctions": "Nødvendige funksjoner",
-        "SystemCheckGD": "GD > 2.x (grafikk)",
         "SystemCheckGDHelp": "Mindre grafiske elementer vil ikke fungere som ønsket.",
         "SystemCheckGzcompressHelp": "Du må aktivere zlib utvidelsen og gzcompress-funksjonen.",
         "SystemCheckGzuncompressHelp": "Du må aktivere zlib utvidelsen og gzuncompress-funksjonen.",

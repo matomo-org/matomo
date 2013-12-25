@@ -821,7 +821,6 @@
         "SystemCheckExtensions": "その他の必須エクステンション",
         "SystemCheckFileIntegrity": "ファイルの整合性",
         "SystemCheckFunctions": "必須関数",
-        "SystemCheckGD": "GD > 2.x （グラフィック）",
         "SystemCheckGDHelp": "スパークライン（小さなグラフ）は動作しません。",
         "SystemCheckGlobHelp": "この組み込み関数はホストで無効化されています。 Piwik はこの関数のエミュレートを試みますが、さらなるセキュリティ制限に遭遇する場合があります。 また、機能性にも影響を与える場合があります。",
         "SystemCheckGzcompressHelp": "zlib エクステンションと gzcompress() 関数を有効にする必要があります。",

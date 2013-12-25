@@ -937,7 +937,6 @@
         "SystemCheckExtensions": "Övriga nödvändiga tillägg",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckFunctions": "Funktioner som krävs",
-        "SystemCheckGD": "GD > 2.x (grafik)",
         "SystemCheckGDHelp": "Graflinjerna kommer inte fungera.",
         "SystemCheckGlobHelp": "Denna inbyggda funktionen har inaktiverats på din värd. Piwik försöker emulera denna funktion men kan stöta på ytterligare säkerhetsrestriktioner. Funktionalitet kan påverkas.",
         "SystemCheckGzcompressHelp": "Du behöver aktivera tillägget zlib och gzcompress funktionen.",

@@ -546,7 +546,6 @@
         "SystemCheckExtensions": "Citi vajadzīgie paplašinājumi",
         "SystemCheckFileIntegrity": "Datņu integritāte",
         "SystemCheckFunctions": "Nepieciešamās metodes",
-        "SystemCheckGD": "GD > 2.x (grafika)",
         "SystemCheckIconvHelp": "Jums jāiestata un jāpārbūvē PHP ar ieslēgtu \"iconv\" atbalstu, --with-iconv.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Atmiņas limits",

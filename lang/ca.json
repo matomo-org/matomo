@@ -862,7 +862,6 @@
         "SystemCheckExtensions": "Altres extensions necessàries",
         "SystemCheckFileIntegrity": "Integritat dels fitxers",
         "SystemCheckFunctions": "Funcions necessàries",
-        "SystemCheckGD": "GD > 2.x (gràfics)",
         "SystemCheckGDHelp": "Els gràfics petits no funcionaran.",
         "SystemCheckGlobHelp": "Aquesta funció s'ha deshabilitat al vostre host. El Piwik probarà d'emular aquesta funció però pot trobar-se amb altres restriccions de seguretat. Això impactarà a la funcionalitat.",
         "SystemCheckGzcompressHelp": "Heu d'activar l'extensió zlib i la funció gzcompress.",

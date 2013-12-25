@@ -1074,7 +1074,6 @@
         "SystemCheckExtensions": "Weitere erforderliche Anforderungen",
         "SystemCheckFileIntegrity": "Dateiintegrität",
         "SystemCheckFunctions": "Erforderliche Funktionen",
-        "SystemCheckGD": "GD > 2.x (graphics)",
         "SystemCheckGDHelp": "Die Sparklines (kleine Graphen) werden nicht funktionieren.",
         "SystemCheckGlobHelp": "Diese eingebaute Funktion ist auf ihrem System deaktiviert. Piwik wird versuchen, diese Funktion zu emulieren, aber dabei möglicherweise auf weitere Sicherheitseinschränkungen stoßen. Die Funktionalität kann beeinträchtigt werden.",
         "SystemCheckGzcompressHelp": "Sie müssen die zlib Erweiterung und die gzcompress Funktion aktivieren.",

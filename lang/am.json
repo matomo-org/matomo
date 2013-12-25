@@ -216,7 +216,6 @@
         "SuperUserLogin": "ሊቀ ተገልጋይ ግባ",
         "SystemCheck": "ስርዓት አረጋግጥ",
         "SystemCheckError": "ስህተት ተከስቷል - ከመቀጠልዎ በፊት መጠገን አለበት",
-        "SystemCheckGD": "ጂዲ > 2.x (ንድፋንድፍ)",
         "SystemCheckGDHelp": "የብልጭታ መስመሮቹ (ትናንሽ ግራፎች)አይሰሩም",
         "SystemCheckMemoryLimit": "የማህደረ ትውስታ ገደብ",
         "SystemCheckMemoryLimitHelp": "ከፍተኛ የጎብኚ መጨናነቅ ባለባችው ድር ጣቢያዎች ላይ የምዝገባ ሂድት በወቅቱ ከተፈቀደው ብላይ ብዙ ማህደረ ትውስታ ሊያስፈልገው ይችላል።<br \/>የማህደረ ትውስታውን ገደብ መመሪያ በ php.ini ፋይል ውስጥ አስፈላጊ ከሆነ መመልከት ትችላለህ።",

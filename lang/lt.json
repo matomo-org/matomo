@@ -527,7 +527,6 @@
         "SystemCheckExtensions": "Kiti reikalingi plėtiniai",
         "SystemCheckFileIntegrity": "Failo vientisumas",
         "SystemCheckFunctions": "Reikalingos funkcijos",
-        "SystemCheckGD": "GD > 2.x (grafika)",
         "SystemCheckGDHelp": "Mažos diagramos neveiks.",
         "SystemCheckIconvHelp": "Jums reikia sukonfigūruoti ir perdaryti PHP su įjungtu \"iconv\" palaikymu, --with-iconv.",
         "SystemCheckMailHelp": "Atsiliepimų ir prarastų slpatažodžių pranešimai nebus siunčiami be mail() funkcijos.",

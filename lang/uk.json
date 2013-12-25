@@ -493,7 +493,6 @@
         "SystemCheckExtensions": "Інші необхідні розширення",
         "SystemCheckFileIntegrity": "Цілісність файлу",
         "SystemCheckFunctions": "Необхідні функції",
-        "SystemCheckGD": "GD > 2.x (графіка)",
         "SystemCheckGDHelp": "Міні-графіки не будуть відображатися.",
         "SystemCheckGlobHelp": "Ця вбудована функція було заблокована на вашому хостингу. Piwik спробує емулювати цю функцію але може зістикнутися з подальшими обмеженнями по безпеці. Функціональність може бути обмежена.",
         "SystemCheckGzcompressHelp": "Необхідно увімкнути розширення zlib та функцію gzcompress.",

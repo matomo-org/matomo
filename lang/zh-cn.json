@@ -1049,7 +1049,6 @@
         "SystemCheckExtensions": "其他需要的扩展组件",
         "SystemCheckFileIntegrity": "文件完整性",
         "SystemCheckFunctions": "必需的函数",
-        "SystemCheckGD": "GD > 2.x (图形库)",
         "SystemCheckGDHelp": "波形图 (小图) 将无法显示！",
         "SystemCheckGlobHelp": "这个内置函数在您的主机上已停用。Piwik 会尝试模拟这个功能，但可能会遇到其它的安全限制，功能可能受到影响。",
         "SystemCheckGzcompressHelp": "需要启用 zlib 扩展和 gzcompress 函数。",

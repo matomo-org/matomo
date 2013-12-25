@@ -711,7 +711,6 @@
         "SystemCheckExtensions": "الإضافات الأخرى المطلوبة",
         "SystemCheckFileIntegrity": "سلامة الملفات",
         "SystemCheckFunctions": "الدوال المطلوبة",
-        "SystemCheckGD": "GD > 2.x (رسوميات)",
         "SystemCheckGDHelp": "لن تعمل خاصية sparklines (الرسومات المصغرة).",
         "SystemCheckGlobHelp": "تم تعطيل هذه الدالة المبنية ضمنياً، وسيحاول Piwik تقليدها ولكنه قد يواجه اعتبارات أمنية أخرى. قد يتأثر عدد من الوظائف أيضاً.",
         "SystemCheckGzcompressHelp": "تحتاج إلى تفعيل إضافة zlib ودالة gzcompress.",

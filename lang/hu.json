@@ -600,7 +600,6 @@
         "SystemCheckExtensions": "Egyéb szükséges kiterjesztések",
         "SystemCheckFileIntegrity": "Fájlitegritás",
         "SystemCheckFunctions": "Szükséges funkciók",
-        "SystemCheckGD": "GD > 2.x (grafika)",
         "SystemCheckGDHelp": "A szikravonalak (mini grafikonok) nem fognak működni.",
         "SystemCheckGlobHelp": "Ez a beépített funkció le van tiltva a szervereden. Piwik megpróbálja emulálni ezt a funkciót, de további biztonsági korlátozások akadályozhatják ezt. A Piwik működésére kihatással lehet mindez.",
         "SystemCheckGzcompressHelp": "Engedélyezned kell a zlib kiterjesztést és a gzcompress funkciót.",

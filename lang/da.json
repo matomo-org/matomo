@@ -997,7 +997,6 @@
         "SystemCheckExtensions": "Andre nødvendige udvidelser",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckFunctions": "Nødvendige funktioner",
-        "SystemCheckGD": "GD > 2.x (grafik)",
         "SystemCheckGDHelp": "Mindre grafiske elementer (i Piwik Mobile app og e-mail-rapporter) vil ikke fungere som ønsket.",
         "SystemCheckGlobHelp": "Den indbyggede funktion er blevet deaktiveret på din vært. Piwik vil forsøge at efterligne funktionen, men kan støde yderligere sikkerhedsrestriktioner. Funktionaliteten kan blive påvirket.",
         "SystemCheckGzcompressHelp": "zlib udvidelsen og gzcompress funktionen skal aktiveres.",
