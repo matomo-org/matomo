@@ -14,9 +14,18 @@
 - regex: 'Tizen'
   name: 'Tizen'
   version: ''
-  
-  
-  
+
+
+
+##########
+## Sailfish OS
+###########
+- regex: 'Sailfish|Jolla'
+  name: 'Sailfish OS'
+  version: ''
+
+
+
 ##########
 # Android
 ##########
@@ -264,7 +273,7 @@
   name: 'Symbian'
   version: ''
 
-  
+
 
 ##########
 # Firefox OS

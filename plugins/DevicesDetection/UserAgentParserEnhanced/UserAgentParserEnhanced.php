@@ -65,6 +65,7 @@ class UserAgentParserEnhanced
         'IN' => 'Innostream',
         'IO' => 'i-mobile',
         'IQ' => 'INQ',
+        'JO' => 'Jolla',
         'KA' => 'Karbonn',
         'KD' => 'KDDI',
         'KN' => 'Kindle',
@@ -173,6 +174,7 @@ class UserAgentParserEnhanced
         'Puppy'                => 'PPY',
         'Red Hat'              => 'RHT',
         'SUSE'                 => 'SSE',
+        'Sailfish OS'          => 'SAF',
         'Slackware'            => 'SLW',
         'Solaris'              => 'SOS',
         'Syllable'             => 'SYL',
@@ -226,6 +228,7 @@ class UserAgentParserEnhanced
         'Mac'                   => array('MAC'),
         'Mobile Gaming Console' => array('PSP', 'NDS', 'XBX'),
         'Other Mobile'          => array('WOS', 'POS', 'QNX', 'SBA', 'TIZ'),
+        'Sailfish'              => array('SAF'),
         'Simulator'             => array('TKT', 'WWP'),
         'Symbian'               => array('SYM', 'SYS', 'SY3', 'S60', 'S40', 'SMG'),
         'Unix'                  => array('SOS', 'AIX', 'HPX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
@@ -243,7 +246,8 @@ class UserAgentParserEnhanced
         'NetFront'           => array('NF'),
         'Nokia Browser'      => array('NB'),
         'Opera'              => array('OP', 'OM', 'OI'),
-        'Safari'             => array('SF', 'MF')
+        'Safari'             => array('SF', 'MF'),
+        'Sailfish Browser'   => array('SA')
     );
     public static $browsers = array(
         'AB' => 'ABrowse',
@@ -313,6 +317,7 @@ class UserAgentParserEnhanced
         'PX' => 'Phoenix',
         'RK' => 'Rekonq',
         'RM' => 'RockMelt',
+        'SA' => 'Sailfish Browser',
         'SF' => 'Safari',
         'SM' => 'SeaMonkey',
         'SN' => 'Snowshoe',
