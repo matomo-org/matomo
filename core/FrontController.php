@@ -53,7 +53,7 @@ use Piwik\Session;
  *
  * @package Piwik
  * @subpackage FrontController
- * @static method \Piwik\FrontController getInstance()
+ * @method static \Piwik\FrontController getInstance()
  */
 class FrontController extends Singleton
 {
@@ -242,6 +242,23 @@ class FrontController extends Singleton
         return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
         || Common::isPhpCliMode()
         || SettingsServer::isArchivePhpTriggered();
+    }
+
+    static public function setUpSafeMode()
+    {
+        register_shutdown_function(array('\\Piwik\\FrontController','triggerSafeModeWhenError'));
+    }
+
+    static public function triggerSafeModeWhenError()
+    {
+        $lastError = error_get_last();
+        if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+            $controller = FrontController::getInstance();
+            $controller->init();
+            $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
+
+            echo $message;
+        }
     }
 
     /**
