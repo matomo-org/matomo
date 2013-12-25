@@ -43,7 +43,7 @@ If you do not have a server, consider our Piwik Hosting partner: http://piwik.or
 
 ## Changelog
 
-For the list of all tickets closed in the current and past relases, see http://piwik.org/changelog/
+For the list of all tickets closed in the current and past releases, see http://piwik.org/changelog/
 
 ## Participate!
 

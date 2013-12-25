@@ -1218,7 +1218,7 @@
         "ClickHereToSetTheCookieOnDomain": "點擊這裡設定一個 cookie 讓 %s 的 Piwik 排除你的訪問紀錄",
         "DeleteConfirm": "你確定要刪除使用者 %s 嗎？",
         "Email": "E-mail",
-        "ExceptionAccessValues": "參數存取必須有一個以下的值： [ %s ]",
+        "ExceptionAccessValues": "參數存取必須有一個以下的值：[ %s ]",
         "ExceptionAdminAnonymous": "你不能把'管理員'存取權限給匿名用戶。",
         "ExceptionDeleteDoesNotExist": "使用者 '%s' 並不存在，所以無法刪除它。",
         "ExceptionEditAnonymous": "匿名用戶不能修改或刪除。因為 Piwik 用來定義一個還未登入的使用者。舉例來說，你可以把'檢視'權限給匿名用戶來公開你的統計資料。",

@@ -176,8 +176,10 @@ class ProxyHttp
         });
 
         // user defined handler via wrapper
-        $autoPrependFile = ini_get('auto_prepend_file');
-        $autoAppendFile = ini_get('auto_append_file');
+        if (!defined('PIWIK_TEST_MODE')) {
+            $autoPrependFile = ini_get('auto_prepend_file');
+            $autoAppendFile = ini_get('auto_append_file');
+        }
 
         return !empty($zlibOutputCompression) ||
         !empty($outputHandler) ||

@@ -10,10 +10,8 @@ use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\Config;
-use Piwik\EventDispatcher;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin;
-use Piwik\Theme;
 
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/UIAssetCacheBusterMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/PluginManagerMock.php";

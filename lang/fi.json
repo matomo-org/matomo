@@ -788,7 +788,7 @@
         "ManuallyTriggeredUsingJavascriptFunction": "Tavoite on manuaalisesti asetettu JavaScript-API:n trackGoal():lla",
         "MatchesExpression": "täsmää lausekkeseen %s",
         "NewVisitorsConversionRateIs": "Uusien kävijöiden siirtymäaste on %s",
-        "NoGoalsNeedAccess": "Vain ylläpitäjä voi lisätä tavoitteita tälle sivulle. Pyydä Piwik-sivusi ylläpitäjää luomaan tavoite sivulle.<br\/> Tavoitteet ovat hyvä tapa ymmärtää ja maksimoida verkkosivujesi tehokkuus!",
+        "NoGoalsNeedAccess": "Vain ylläpitäjä voi lisätä tavoitteita tälle sivulle. Pyydä Piwik-sivusi ylläpitäjää luomaan tavoite sivulle.<br\/>Tavoitteet ovat hyvä tapa ymmärtää ja maksimoida verkkosivujesi tehokkuus!",
         "Optional": "(vapaavalintainen)",
         "OverallConversionRate": "%s yleinen siirtymisaste (käynti jossa täytetään tavoite)",
         "OverallRevenue": "%s yleistuotto",
