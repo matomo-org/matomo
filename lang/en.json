@@ -1099,7 +1099,7 @@
         "SystemCheckMemoryLimitHelp": "On a high traffic website, the archiving process may require more memory than currently allowed.  If necessary, change the memory_limit directive in your php.ini file.",
         "SystemCheckOpenURL": "Open URL",
         "SystemCheckOpenURLHelp": "Newsletter subscriptions, update notifications, and one-click updates requires the \"curl\" extension, allow_url_fopen=On, or fsockopen() enabled.",
-        "SystemCheckGD": "GD > 2.x (graphics)",
+        "SystemCheckGDFreeType": "GD > 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "The sparklines (small graphs) and image graphs (in Piwik Mobile app and Email reports) will not work.",
         "SystemCheckFunctions": "Required functions",
         "SystemCheckOtherFunctions": "Other functions",
