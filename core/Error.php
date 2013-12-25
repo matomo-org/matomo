@@ -10,7 +10,7 @@
  */
 namespace Piwik;
 
-require_once 'Log.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Log.php';
 
 /**
  * Holds PHP error information (non-exception errors). Also contains log formatting logic
