@@ -204,6 +204,15 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: http://raphaeljs.com/
 	License: MIT
 
+	Name: lessphp
+	Link: http://leafo.net/lessphp
+	License: GPL3/MIT
+
+	Name: Symfony Console Component
+	Link: https://github.com/symfony/Console
+	License: MIT
+
+
 THIRD-PARTY CONTENT
 
 	Name:  FamFamFam icons - Mark James
