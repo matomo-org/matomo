@@ -2394,6 +2394,7 @@
     },
     "Events": {
         "Events": "Events",
+        "Event": "Event",
         "EventCategory": "Event Category",
         "EventAction": "Event Action",
         "EventName": "Event Name",
