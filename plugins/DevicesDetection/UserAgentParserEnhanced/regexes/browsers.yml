@@ -278,7 +278,7 @@
 - regex: 'MSIE.*Trident/6.0'
   name: Internet Explorer
   version: 10.0
-- regex: 'MSIE.*Trident/7.0'
+- regex: 'Trident/7.0'
   name: Internet Explorer
   version: 11.0
 - regex: 'MSIE (\d+\.\d+).*XBLWP7'
