@@ -148,6 +148,7 @@ class VisitExcluded
         return !$allowBots
         && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
             || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
+            || strpos($this->userAgent, 'AdsBot-Google') !== false // Google Adwords landing pages
             || strpos($this->userAgent, 'Google Page Speed Insights') !== false // #4049
             || strpos($this->userAgent, 'Google (+https://developers.google.com') !== false // Google Snippet https://developers.google.com/+/web/snippet/
             || strpos($this->userAgent, 'facebookexternalhit') !== false // http://www.facebook.com/externalhit_uatext.php
