@@ -340,9 +340,6 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         static $skippedOnce = false;
         if ($didWeUseBulk !== true
             && $skippedOnce === false
-            // HACK: Only alert for MysqlI since PDO is often failing and Jenkins should always run MYSQLI + PDO
-            // This helps "hiding" the warning on PDO Mysql but we have to make sure mysqli tests are always executed!
-            && Config::getInstance()->database['adapter'] == 'MYSQLI'
         ) {
             $skippedOnce = true;
             $this->fail(
