@@ -40,7 +40,7 @@
         {% if visitor.getColumn('visitorTypeIcon') %}
             &nbsp;-
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
-                 title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitorId') is not empty %}{% endif %}"/>
+                 title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>
         {% endif %}
         {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}<br/><br />{% endif %}
         {% if visitor.getColumn('visitConverted') %}
