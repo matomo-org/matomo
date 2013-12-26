@@ -121,6 +121,12 @@ class BatchInsert
      */
     public static function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
     {
+        // Chroot environment: prefix the path with the absolute chroot path
+        $chrootPath = Config::getInstance()->General['absolute_chroot_path'];
+        if(!empty($chrootPath)) {
+            $filePath = $chrootPath . $filePath;
+        }
+
         // On Windows, MySQL expects forward slashes as directory separators
         if (SettingsServer::isWindows()) {
             $filePath = str_replace('\\', '/', $filePath);

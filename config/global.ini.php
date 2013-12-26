@@ -352,6 +352,11 @@ overlay_disable_framed_mode = 0
 ; the access to disk and install custom PHP code (Piwik plugins).
 enable_marketplace = 1
 
+; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
+; Mysql will try to load the chrooted path (which is imcomplete). To prevent an error, here you can specify the
+; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
+absolute_chroot_path =
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
