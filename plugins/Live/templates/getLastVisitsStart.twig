@@ -103,16 +103,14 @@
                             {% endif %}
                             <a href="{{ action.url }}" target="_blank">
                                 {% if action.type == 'action' %}
-                                    {% set title %}
-                                        {% if action.pageTitle is not empty %}
-                                            {{ action.pageTitle }}
-                                        {% endif %}
-                                        - {{ action.serverTimePretty }}
-                                        {% if action.timeSpentPretty is defined %}
-                                            - {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty }}
-                                        {% endif %}
-                                    {% endset %}
-                                    <img src="plugins/Live/images/file{{ col }}.png" title="{{ title }}"/>
+{# white spacing matters as Chrome tooltip display whitespaces #}
+{% set title %}
+{% if action.pageTitle is not empty %}{{ action.pageTitle }}{% endif %}
+
+{{ action.serverTimePretty }}
+{% if action.timeSpentPretty is defined %}{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}
+{%- endset %}
+                                    <img src="plugins/Live/images/file{{ col }}.png" title="{{- title -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{{ action.url }} - {{ action.serverTimePretty }}"/>
