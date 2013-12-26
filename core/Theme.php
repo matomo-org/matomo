@@ -130,7 +130,14 @@ class Theme
         $newThemePath = "plugins/" . $this->themeName;
         $overridingAsset = str_replace($defaultThemePath, $newThemePath, $pathAsset);
 
-        if(file_exists($overridingAsset)) {
+        // Strip trailing query string
+        $fileToCheck = $overridingAsset;
+        $queryStringPos = strpos($fileToCheck, '?');
+        if( $queryStringPos !== 0) {
+            $fileToCheck = substr($fileToCheck, 0, $queryStringPos);
+        }
+
+        if(file_exists($fileToCheck)) {
             return str_replace($pathAsset, $overridingAsset, $source);
         }
         return $source;
