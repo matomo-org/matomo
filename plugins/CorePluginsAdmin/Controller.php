@@ -223,13 +223,17 @@ class Controller extends Plugin\ControllerAdmin
         $view->pluginNamesHavingSettings = $this->getPluginNamesHavingSettingsForCurrentUser();
         $view->isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
 
+        $view->pluginsHavingUpdate    = array();
+        $view->marketplacePluginNames = array();
+
         if (CorePluginsAdmin::isMarketplaceEnabled()) {
-            $marketplace = new Marketplace();
-            $view->marketplacePluginNames = $marketplace->getAvailablePluginNames($themesOnly);
-            $view->pluginsHavingUpdate    = $marketplace->getPluginsHavingUpdate($themesOnly);
-        } else {
-            $view->pluginsHavingUpdate    = array();
-            $view->marketplacePluginNames = array();
+            try {
+                $marketplace = new Marketplace();
+                $view->marketplacePluginNames = $marketplace->getAvailablePluginNames($themesOnly);
+                $view->pluginsHavingUpdate    = $marketplace->getPluginsHavingUpdate($themesOnly);
+            } catch(Exception $e) {
+                // curl exec connection error (ie. server not connected to internet)
+            }
         }
 
         return $view;
