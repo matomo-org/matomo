@@ -357,7 +357,7 @@ class DevicesDetection extends \Piwik\Plugin
     {
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelBrowserVersion"));
+        $view->config->addTranslation('label', Piwik::translate("UserSettings_ColumnBrowserVersion"));
         $view->config->addRelatedReports($this->getBrowserRelatedReports());
     }
 

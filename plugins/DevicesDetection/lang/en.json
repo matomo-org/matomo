@@ -8,7 +8,6 @@
         "dataTableLabelModels": "Model",
         "dataTableLabelSystemVersion": "Operating System version",
         "dataTableLabelBrowserFamily": "Browser family",
-        "dataTableLabelBrowserVersion": "Browser version",
         "OperatingSystemVersions": "Operating System versions",
         "OperatingSystemFamilies": "Operating System families",
         "BrowserVersions": "Browser versions",
