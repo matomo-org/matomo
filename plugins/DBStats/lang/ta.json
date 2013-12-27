@@ -1,0 +1,15 @@
+{
+    "DBStats": {
+        "DatabaseUsage": "தரவுத்தளத்தின் பயன்பாடு",
+        "DataSize": "தரவின் அளவு",
+        "DBSize": "தரவுத்தளத்தின் அளவு",
+        "EstimatedSize": "மதிப்பிட்டு அளவு",
+        "IndexSize": "குறியீட்டு அளவு",
+        "MetricDataByYear": "ஆண்டு அடிப்படையில் பதின்மான அட்டவணைகள்",
+        "MetricTables": "அளவியல் அட்டவணைகள்",
+        "PluginDescription": "இந்த சொருகி Piwk அட்டவனைகளின் MySQL தரவு தள பாவனை பற்றிய அறிக்கையை தரும்",
+        "ReportTables": "அட்டவணை அறிக்கை",
+        "Table": "அட்டவணை",
+        "TotalSize": "மொத்த அளவு"
+    }
+}

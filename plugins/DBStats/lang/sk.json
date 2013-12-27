@@ -3,6 +3,7 @@
         "DatabaseUsage": "Využitie databázy",
         "DataSize": "Veľkosť dát",
         "DBSize": "Veľkosť databázy",
+        "EstimatedSize": "Odhadovaná veľkosť",
         "IndexSize": "Veľkosť indexu",
         "MainDescription": "Piwik ukladá všetky vaše web analýzy do Mysql databázy. Aktuálne Piwik tabuľky používajú %s.",
         "RowCount": "Počet riadkov",
