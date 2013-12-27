@@ -1959,7 +1959,6 @@
         "WidgetBrowserVersion": "نسخه مرورگر",
         "WidgetGlobalVisitors": "پیکربندی بازدیدکنندگان جهانی",
         "WidgetGlobalVisitorsDocumentation": "این گزارش نشان می دهد پیکربندی کلی شایع ترین است که بازدید کنندگان شما است. پیکربندی ترکیبی از سیستم عامل، نوع مرورگر و صفحه نمایش با وضوح است.",
-        "WidgetOperatingSystemFamily": "خانواده سیستم عامل",
         "WidgetOperatingSystems": "سیستم عامل ها",
         "WidgetPlugins": "لیست افزونه ها",
         "WidgetPluginsDocumentation": "این گزارش نشان می دهد که پلاگین مرورگر بازدید کننده خود را فعال کرده بود. این اطلاعات ممکن است مهم برای انتخاب راه درست برای ارائه محتوای خود را.",

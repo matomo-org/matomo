@@ -2245,7 +2245,6 @@
         "WidgetBrowserVersion": "Browser-Version",
         "WidgetGlobalVisitors": "Globale Besucherkonfiguration",
         "WidgetGlobalVisitorsDocumentation": "Dieser Bericht zeigt Ihnen die häufigsten Gesamtkonfigurationen der Besucher. Eine Konfiguration ist die Kombination aus Betriebssystem, Browsertyp und Bildschirmauflösung.",
-        "WidgetOperatingSystemFamily": "Betriebssystem-Familie",
         "WidgetOperatingSystems": "Betriebssysteme",
         "WidgetPlugins": "Liste der Plugins",
         "WidgetPluginsDocumentation": "Dieser Bericht zeigt Ihnen, welche Plugins Ihre Besucher in Ihren Browser aktiviert haben. Diese Informationen kann Ihnen dabei helfen, die beste Art zu finden, Ihre Inhalte auszuliefern.",

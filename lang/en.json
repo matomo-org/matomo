@@ -1882,7 +1882,6 @@
         "WidgetPluginsDocumentation": "This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.",
         "OperatingSystems": "Operating systems",
         "OperatingSystemFamily": "Operating system family",
-        "WidgetOperatingSystemFamily": "Operating System Family",
         "Resolutions": "Resolutions",
         "WideScreen": "Wide Screen",
         "ColumnBrowserFamily": "Browser family",

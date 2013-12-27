@@ -1859,7 +1859,6 @@
         "WidgetBrowserVersion": "Selaimen versio",
         "WidgetGlobalVisitors": "Kaikkien kävijöiden asetukset",
         "WidgetGlobalVisitorsDocumentation": "Tämä raportti näyttää yleiskuvan eri käyttäjien asetuksista. Asetukset on yhdistelmä käyttöjärjestelmästä, selaimen tyypistä ja näytön resoluutiosta.",
-        "WidgetOperatingSystemFamily": "Käyttöjärjestelmä",
         "WidgetOperatingSystems": "Käyttöjärjestelmät",
         "WidgetPlugins": "Lista lisäosista",
         "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainlisäosia vierailijoillasi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään vierailijoille.",

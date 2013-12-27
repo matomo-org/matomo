@@ -331,7 +331,7 @@ class DevicesDetection extends \Piwik\Plugin
         $view->config->title = Piwik::translate('DevicesDetection_OperatingSystemFamilies');
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelSystemFamily"));
+        $view->config->addTranslation('label', Piwik::translate("UserSettings_OperatingSystemFamily"));
         $view->config->addRelatedReports($this->getOsRelatedReports());
     }
 

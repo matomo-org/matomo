@@ -2116,7 +2116,6 @@
         "WidgetBrowserVersion": "Versión del navegador",
         "WidgetGlobalVisitors": "Configuración global de visitantes",
         "WidgetGlobalVisitorsDocumentation": "Este informe muestra las más usuales configuraciones que poseen sus visitantes. Una configuración es una combinación de un sistema operativo, un tipo de navegador de internet y una resolución de pantalla.",
-        "WidgetOperatingSystemFamily": "Familia de sistema operativo",
         "WidgetOperatingSystems": "Sistemas operativos",
         "WidgetPlugins": "Lista de Plugins",
         "WidgetPluginsDocumentation": "Este informe muestra que extensiones del navegador sus visitantes han habilitado. Esta información puede ser importante sea para elegir el método eficiente de enviar su contenido.",

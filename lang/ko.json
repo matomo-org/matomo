@@ -1967,7 +1967,6 @@
         "WidgetBrowserVersion": "브라우저 버전",
         "WidgetGlobalVisitors": "글로벌 방문자 구성",
         "WidgetGlobalVisitorsDocumentation": "방문자의 가장 일반적인 사용 환경에 대한 보고서입니다. 운영 체제, 브라우저 종류와 화면 해상도의 조합으로 표시합니다.",
-        "WidgetOperatingSystemFamily": "운영 체제 제품군",
         "WidgetOperatingSystems": "운영체제",
         "WidgetPlugins": "플러그인 목록",
         "WidgetPluginsDocumentation": "방문자가 사용하는 브라우저의 플러그인에 대한 보고서입니다. 컨텐츠에 대한 최적의 표시 방법을 선택하는 데 중요한 정보입니다.",

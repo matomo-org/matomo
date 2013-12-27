@@ -2166,7 +2166,6 @@
         "WidgetBrowserVersion": "Phiên bản trình duyệt",
         "WidgetGlobalVisitors": "Cấu hình khách truy cập",
         "WidgetGlobalVisitorsDocumentation": "Báo cáo này cho thấy các cấu hình tổng thể phổ biến nhất mà khách truy cập của bạn đã có. Một cấu hình là sự kết hợp của một hệ điều hành, một loại trình duyệt và độ phân giải màn hình.",
-        "WidgetOperatingSystemFamily": "Hệ điều hành gia đình",
         "WidgetOperatingSystems": "Hệ điều hành",
         "WidgetPlugins": "Các Plugin trình duyệt",
         "WidgetPluginsDocumentation": "Báo cáo này cho thấy các plugin trình duyệt mà khách truy cập của bạn đã kích hoạt. Thông tin này có thể là quan trọng cho việc lựa chọn cách đúng để cung cấp nội dung của bạn.",

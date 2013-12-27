@@ -131,7 +131,7 @@ class UserSettings extends \Piwik\Plugin
 
         // operating system family
         array('UserSettings_VisitorSettings',
-              'UserSettings_WidgetOperatingSystemFamily',
+              'UserSettings_OperatingSystemFamily',
               'UserSettings',
               'getOSFamily',
               'UserSettings_OperatingSystemFamily',

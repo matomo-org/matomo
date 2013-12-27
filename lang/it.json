@@ -2245,7 +2245,6 @@
         "WidgetBrowserVersion": "Versione del Browser",
         "WidgetGlobalVisitors": "Riepilogo config. visitatori",
         "WidgetGlobalVisitorsDocumentation": "Questo report mostra le configurazioni globali più comuni che i visitatori avevano. Una configurazione è la combinazione di un sistema operativo, un tipo browser e una risoluzione di schermo.",
-        "WidgetOperatingSystemFamily": "Famiglia Sistema Operativo",
         "WidgetOperatingSystems": "Sistemi Operativi",
         "WidgetPlugins": "Lista dei Plugin",
         "WidgetPluginsDocumentation": "Questo report mostra quali plugin del browser i visitatori avevano abilitato. Questa informazione potrebbe essere importante per la scelta del giusto modo di inviare i tuoi contenuti.",

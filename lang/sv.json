@@ -2027,7 +2027,6 @@
         "WidgetBrowserVersion": "Webbläsarversion",
         "WidgetGlobalVisitors": "Global besökarkonfiguration",
         "WidgetGlobalVisitorsDocumentation": "Denna rapport visar de vanligaste övergripande konfigurationer som besökarna hade. En konfiguration är en kombination av ett operativsystem, en webbläsare och en skärmupplösning.",
-        "WidgetOperatingSystemFamily": "OS-familj",
         "WidgetOperatingSystems": "Operativsystem",
         "WidgetPlugins": "Lista över plugins",
         "WidgetPluginsDocumentation": "Denna rapport visar vilka plugins i webbläsaren som besökarna hade aktiverat. Denna information kan vara viktig för att välja rätt sätt att leverera ditt innehåll.",

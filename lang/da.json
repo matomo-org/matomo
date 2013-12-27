@@ -2167,7 +2167,6 @@
         "WidgetBrowserVersion": "Browserversion",
         "WidgetGlobalVisitors": "Besøgendes konfiguration",
         "WidgetGlobalVisitorsDocumentation": "Rapporten viser de mest almindelige samlede konfigurationer, som de besøgende havde. En konfiguration er en kombination af et styresystem, en browsertype og en skærmopløsning.",
-        "WidgetOperatingSystemFamily": "Operativsystemsfamilie",
         "WidgetOperatingSystems": "Operativsystem",
         "WidgetPlugins": "Udvidelsesmoduler",
         "WidgetPluginsDocumentation": "Rapporten viser, hvilke browserudvidelser de besøgende havde aktiveret. Oplysningerne kan være vigtigt for at vælge den rigtige måde at levere indholdet på.",

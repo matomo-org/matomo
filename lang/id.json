@@ -2080,7 +2080,6 @@
         "WidgetBrowserVersion": "Versi Peramban",
         "WidgetGlobalVisitors": "Pengaturan pengunjung umum",
         "WidgetGlobalVisitorsDocumentation": "Laporan ini menunjukkan pengaturan paling umum yang pengunjung miliki. Subuah pengaturan terdiri atas sistem operasi, jenis peramban, dan resolusi layar.",
-        "WidgetOperatingSystemFamily": "Keluarga Sistem Operasi",
         "WidgetOperatingSystems": "Sistem Operasi",
         "WidgetPlugins": "Daftar Pengaya",
         "WidgetPluginsDocumentation": "Laporan ini menunjukkan pengaya peramban yang diaktifkan oleh pengunjung. Informasi yang tersedia kemungkinan penting untuk memilih cara terbaik untuk menyampaikan konten Anda.",

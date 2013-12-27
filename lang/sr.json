@@ -2139,7 +2139,6 @@
         "WidgetBrowserVersion": "Verzija brauzera",
         "WidgetGlobalVisitors": "Globalna podešavanja posetilaca",
         "WidgetGlobalVisitorsDocumentation": "Ovaj izveštaj prikazuje najčešća podešavanja vaših posetilaca. Pod podešavanjem podrazumevamo kombinaciju operativnog sistema, tipa brauzera i ekranske rezolucije.",
-        "WidgetOperatingSystemFamily": "Porodica operativnih sistema",
         "WidgetOperatingSystems": "Operativni sistemi",
         "WidgetPlugins": "Lista dodataka",
         "WidgetPluginsDocumentation": "Ovaj izveštaj prikazuje koje dodatke za brauzere vaši posetioci imaju uključene. Ova informacija može biti od značaja prilikom odabira pravog načina prikaza sadržaja na vašem sajtu.",

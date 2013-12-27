@@ -6,7 +6,6 @@
         "dataTableLabelBrands": "Brand",
         "dataTableLabelTypes": "Type",
         "dataTableLabelModels": "Model",
-        "dataTableLabelSystemFamily": "Operating System family",
         "dataTableLabelSystemVersion": "Operating System version",
         "dataTableLabelBrowserFamily": "Browser family",
         "dataTableLabelBrowserVersion": "Browser version",

@@ -1201,7 +1201,6 @@
         "WidgetBrowserVersion": "瀏覽器版本",
         "WidgetGlobalVisitors": "全域訪客配置",
         "WidgetGlobalVisitorsDocumentation": "此報表列出貴站訪客最常見的設定配置。設定配置包含作業系統、瀏覽器、螢幕解析度等資訊。",
-        "WidgetOperatingSystemFamily": "作業系統家族",
         "WidgetOperatingSystems": "作業系統",
         "WidgetPlugins": "瀏覽器外掛清單",
         "WidgetResolutions": "畫面解析度",

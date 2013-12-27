@@ -2219,7 +2219,6 @@
         "WidgetBrowserVersion": "浏览器版本",
         "WidgetGlobalVisitors": "访客设置",
         "WidgetGlobalVisitorsDocumentation": "本报表显示您的访客最常用的系统配置。系统配置是操作系统、浏览器类型及显示器分辨率的组合。",
-        "WidgetOperatingSystemFamily": "操作系统种类",
         "WidgetOperatingSystems": "操作系统",
         "WidgetPlugins": "浏览器插件清单",
         "WidgetPluginsDocumentation": "本报表显示访客使用的浏览器插件，这可能对如何发布您的内容很重要。",
