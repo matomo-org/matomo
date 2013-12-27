@@ -133,7 +133,7 @@ class Theme
         // Strip trailing query string
         $fileToCheck = $overridingAsset;
         $queryStringPos = strpos($fileToCheck, '?');
-        if( $queryStringPos !== 0) {
+        if( $queryStringPos !== false) {
             $fileToCheck = substr($fileToCheck, 0, $queryStringPos);
         }
 
