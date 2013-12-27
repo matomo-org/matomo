@@ -16,18 +16,33 @@
         "ColumnUniqueClicks": "Unikaalseid Klikke",
         "ColumnUniqueDownloads": "Unikaalseid Allalaadimisi",
         "OneSearch": "1 otsing",
+        "SiteSearchKeyword": "Märksõna (lehe otsing)",
+        "SubmenuPagesEntry": "Sisenetud lehed",
+        "SubmenuPagesExit": "Väljutud lehed",
+        "SubmenuPageTitles": "Lehe pealkirjad",
+        "SubmenuSitesearch": "Lehe otsing",
         "WidgetSearchCategories": "Otsingu Kategooriad"
     },
+    "Annotations": {
+        "EnterAnnotationText": "Sisesta oma märkmed..."
+    },
     "API": {
-        "LoadedAPIs": "Edukalt laetud %s API-id"
+        "LoadedAPIs": "Edukalt laetud %s API-id",
+        "QuickDocumentationTitle": "API kiire dokumentatsioon",
+        "UserAuthentication": "Kasutaja autentimine"
     },
     "CoreAdminHome": {
         "Administration": "Administreerimine",
+        "BrandingSettings": "Brändingu seaded",
+        "EmailServerSettings": "E-posti serveri seaded",
+        "ForBetaTestersOnly": "Ainult beta testijatele",
         "LatestBetaRelease": "Kõige uuem beta versioon",
         "LatestStableRelease": "Kõige uuem stabiilne versioon",
         "LogoUpload": "Vali üleslaadimiseks Logo",
         "MenuDiagnostic": "Diagnostika",
-        "MenuGeneralSettings": "Põhiseaded"
+        "MenuGeneralSettings": "Põhiseaded",
+        "MenuManage": "Halda",
+        "PiwikIsInstalledAt": "Piwik on paigaldatud"
     },
     "CoreHome": {
         "CategoryNoData": "Informatsioon puudub selles kategoorias. Proovi \"Include all population\".",
