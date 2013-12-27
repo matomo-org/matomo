@@ -55,7 +55,7 @@ class DevicesDetection extends \Piwik\Plugin
             'DevicesDetection.getOsVersions' => Piwik::translate('DevicesDetection_OperatingSystemVersions')
         );
         $this->browserRelatedReports = array(
-            'DevicesDetection.getBrowserFamilies' => Piwik::translate('DevicesDetection_BrowsersFamily'),
+            'DevicesDetection.getBrowserFamilies' => Piwik::translate('UserSettings_BrowserFamilies'),
             'DevicesDetection.getBrowserVersions' => Piwik::translate('DevicesDetection_BrowserVersions')
         );
     }
@@ -150,10 +150,10 @@ class DevicesDetection extends \Piwik\Plugin
             // Browser family report
             array(
                 'DevicesDetection_DevicesDetection',
-                'DevicesDetection_BrowsersFamily',
+                'UserSettings_BrowserFamilies',
                 'DevicesDetection',
                 'getBrowserFamilies',
-                'DevicesDetection_BrowsersFamily',
+                'UserSettings_BrowserFamilies',
             ),
             // Browser versions report
             array(
@@ -346,7 +346,7 @@ class DevicesDetection extends \Piwik\Plugin
 
     private function configureViewForGetBrowserFamilies(ViewDataTable $view)
     {
-        $view->config->title = Piwik::translate('DevicesDetection_BrowsersFamily');
+        $view->config->title = Piwik::translate('UserSettings_BrowserFamilies');
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelBrowserFamily"));
@@ -372,7 +372,7 @@ class DevicesDetection extends \Piwik\Plugin
     private function getBrowserRelatedReports()
     {
         return array(
-            'DevicesDetection.getBrowserFamilies' => Piwik::translate('DevicesDetection_BrowsersFamily'),
+            'DevicesDetection.getBrowserFamilies' => Piwik::translate('UserSettings_BrowserFamilies'),
             'DevicesDetection.getBrowserVersions' => Piwik::translate('DevicesDetection_BrowserVersions')
         );
     }
