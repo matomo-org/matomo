@@ -1,0 +1,18 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Versioni browser",
+        "dataTableLabelBrands": "Marca",
+        "dataTableLabelBrowserFamily": "Famiglia browser",
+        "dataTableLabelModels": "Modello",
+        "dataTableLabelSystemVersion": "Versione Sistema Operativo",
+        "dataTableLabelTypes": "Tipo",
+        "DeviceBrand": "Marca dispositivo",
+        "DeviceModel": "Modello dispositivo",
+        "DevicesDetection": "Dispositivi visitatore",
+        "DeviceType": "Tipo dispositivo",
+        "OperatingSystemFamilies": "Famiglie Sistema Operativo",
+        "OperatingSystemVersions": "Versioni Sistema Operativo",
+        "PluginDescription": "Questo plugin fornisce informazioni estese sui dispositivi mobili, come Marca (costruttore), Modello (versione dispositivo), una migliore individuazione del dispositivo (tv, console, smartphone, desktop, ecc) e altro. Questo plugin aggiunge un nuovo report in 'Visitatori > Dispositivi'.",
+        "submenu": "Dispositivi"
+    }
+}

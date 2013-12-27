@@ -1,0 +1,11 @@
+{
+    "DevicesDetection": {
+        "dataTableLabelBrands": "Marke",
+        "dataTableLabelModels": "Modell",
+        "dataTableLabelTypes": "Typ",
+        "DeviceBrand": "Gerätemarke",
+        "DeviceModel": "Gerätemodell",
+        "DeviceType": "Gerätetyp",
+        "submenu": "Geräte"
+    }
+}

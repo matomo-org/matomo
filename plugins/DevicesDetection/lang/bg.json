@@ -1,0 +1,15 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Версии на браузъра",
+        "dataTableLabelBrowserFamily": "Вид браузър",
+        "dataTableLabelModels": "Модел",
+        "dataTableLabelSystemVersion": "Версия на операционната система",
+        "dataTableLabelTypes": "Тип",
+        "DeviceBrand": "Марка на устройството",
+        "DeviceModel": "Модел на устройството",
+        "DevicesDetection": "Устройства, които използва посетителят",
+        "OperatingSystemFamilies": "Вид операционна система",
+        "OperatingSystemVersions": "Версия на операционната система",
+        "submenu": "Устройства"
+    }
+}
