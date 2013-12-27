@@ -609,7 +609,7 @@ class Visit implements VisitInterface
         $os = UserAgentParser::getOperatingSystem($userAgent);
         $os = $os === false ? 'UNK' : $os['id'];
 
-        $browserLang = $this->request->getBrowserLanguage();
+        $browserLang = substr($this->request->getBrowserLanguage(), 20); // limit the length of this string to match db
         $configurationHash = $this->getConfigHash(
             $os,
             $browserName,
