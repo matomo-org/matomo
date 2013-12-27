@@ -357,6 +357,10 @@ enable_marketplace = 1
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
 absolute_chroot_path =
 
+; In some rare cases it may be useful to explicitely tell Piwik not to use LOAD DATA INFILE
+; This may for example be useful when doing Mysql AWS replication
+enable_load_data_infile = 1
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well

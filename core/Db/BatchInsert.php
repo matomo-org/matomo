@@ -64,7 +64,10 @@ class BatchInsert
         $filePath = PIWIK_USER_PATH . '/tmp/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
         $filePath = SettingsPiwik::rewriteTmpPathWithHostname($filePath);
 
-        if (Db::get()->hasBulkLoader()) {
+        $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
+
+        if ($loadDataInfileEnabled
+            && Db::get()->hasBulkLoader()) {
             try {
                 $fileSpec = array(
                     'delim'            => "\t",
