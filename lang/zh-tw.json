@@ -1190,6 +1190,7 @@
         "Language_zh": "中文",
         "Language_zu": "祖鲁文",
         "LanguageCode": "語系代碼",
+        "OperatingSystemFamily": "作業系統家族",
         "OperatingSystems": "作業系統",
         "PluginDescription": "各個用戶設定報表：瀏覽器、瀏覽器家族、作業系統、外掛、解析度、全域設定。",
         "PluginDetectionDoesNotWorkInIE": "注意：外掛偵測無法在 Internet Explorer 上運作。這個報告僅提供非 IE 瀏覽器。",
