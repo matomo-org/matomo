@@ -1,0 +1,8 @@
+{
+    "DBStats": {
+        "DataSize": "Veličina podataka",
+        "DBSize": "Veličina baze podataka",
+        "Table": "Tabla",
+        "TotalSize": "Ukupna velična"
+    }
+}

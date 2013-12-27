@@ -10,7 +10,7 @@
         "MetricDataByYear": "Πίνακες Μετρήσεων Κατά Έτος",
         "MetricTables": "Πίνακες Μετρήσεων",
         "OtherTables": "Άλλοι Πίνακες",
-        "PluginDescription": "Αυτό το πρόσθετο αναφέρει της βάσης δεδομένων MySQL από τους πίνακες του Piwik.",
+        "PluginDescription": "Αυτό το πρόσθετο δίνει αναφορά για τη χρήση της βάσης δεδομένων MySQL από τους πίνακες του Piwik.",
         "ReportDataByYear": "Πίνακες αναφοράς Κατά Έτος",
         "ReportTables": "Πίνακες Αναφοράς",
         "RowCount": "Αριθμός σειρών",
