@@ -158,24 +158,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return file_get_contents($path . $filename);
     }
 
-    /**
-     * Used to generate the doc at http://piwik.org/docs/tracking-api/
-     */
-    function displayAlternativeTagsHelp()
-    {
-        $view = new View('@SitesManager/displayAlternativeTagsHelp');
-        $view->idSite = Common::getRequestVar('idSite');
-        $url = Common::getRequestVar('piwikUrl', '', 'string');
-        if (empty($url)
-            || !UrlHelper::isLookLikeUrl($url)
-        ) {
-            $url = $view->piwikUrl;
-        }
-        $view->piwikUrlRequest = $url;
-        $view->calledExternally = true;
-        return $view->render();
-    }
-
     function getSitesForAutocompleter()
     {
         $pattern = Common::getRequestVar('term');
