@@ -2,8 +2,19 @@
     "DBStats": {
         "DatabaseUsage": "Andmebaasi kasutus",
         "DataSize": "Andmemaht",
+        "DBSize": "Andmebaasi suurus",
+        "EstimatedSize": "Ennustatud maht",
         "IndexSize": "Indeksi maht",
         "MainDescription": "Piwik salvestab kõik veebianalüütika andmed Mysql andmebaasi. Hetkel, Piwiki tabelid kasutavad %s.",
-        "Table": "Tabel"
+        "MetricDataByYear": "Mõõttabelid aasta järgi",
+        "MetricTables": "Mõõttabelid",
+        "OtherTables": "Muud tabelid",
+        "PluginDescription": "Antud plugin raporteerib Piwiku tabelite MySQL andmebaasi kasutuse.",
+        "ReportDataByYear": "Raporti tabelid aasta järgi",
+        "ReportTables": "Raporti tabelid",
+        "RowCount": "Ridade arv",
+        "Table": "Tabel",
+        "TotalSize": "Kogusuurus",
+        "TrackerTables": "Jälitustabelid"
     }
 }
