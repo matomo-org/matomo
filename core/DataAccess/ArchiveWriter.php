@@ -152,7 +152,7 @@ class ArchiveWriter
     {
         $dbLockName = $this->getArchiveLockName();
         if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("allocateNewArchiveId: Cannot get named lock for table $numericTable.");
+            throw new Exception("allocateNewArchiveId: Cannot get named lock $dbLockName.");
         }
     }
 
