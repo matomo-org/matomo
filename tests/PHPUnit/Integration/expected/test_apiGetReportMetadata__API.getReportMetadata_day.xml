@@ -1601,10 +1601,10 @@
 	</row>
 	<row>
 		<category>Visitor Devices</category>
-		<name>Browsers families</name>
+		<name>Browser families</name>
 		<module>DevicesDetection</module>
 		<action>getBrowserFamilies</action>
-		<dimension>Browsers families</dimension>
+		<dimension>Browser families</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1928,7 +1928,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Operating System Family</name>
+		<name>Operating system family</name>
 		<module>UserSettings</module>
 		<action>getOSFamily</action>
 		<dimension>Operating system family</dimension>
