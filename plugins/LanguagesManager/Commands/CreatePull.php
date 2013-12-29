@@ -115,12 +115,11 @@ class CreatePull extends ConsoleCommand
         }
 
         $fileCount = 0;
-        $message   = '';
         API::unsetInstance(); // reset languagemanager api (to force refresh of data)
 
-        $stats = shell_exec('git diff --numstat HEAD lang');
+        $stats = shell_exec('git diff --numstat HEAD');
 
-        preg_match_all('/([0-9]+)\t([0-9]+)\tlang\/([a-z]{2,3})\.json/', $stats, $lineChanges);
+        preg_match_all('/([0-9]+)\t([0-9]+)\t[a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $stats, $lineChanges);
 
         $addedLinesSum = 0;
         if (!empty($lineChanges[1])) {
@@ -129,30 +128,34 @@ class CreatePull extends ConsoleCommand
 
         $linesSumByLang = array();
         for($i=0; $i<count($lineChanges[0]); $i++) {
-            $linesSumByLang[$lineChanges[3][$i]] = $lineChanges[1][$i];
+            @$linesSumByLang[$lineChanges[3][$i]] += $lineChanges[1][$i];
         }
 
-        preg_match_all('/M  lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
-        preg_match_all('/A  lang\/([a-z]{2,3})\.json/', $changes, $addedFiles);
+        preg_match_all('/M  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
+        preg_match_all('/A  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $addedFiles);
+
+        $messages = array();
 
         $lnaguageCodesTouched = array();
-        if (!empty($modifiedFiles[1])) {
-            foreach ($modifiedFiles[1] AS $modifiedFile) {
-                $fileCount++;
-                $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
-                $message .= sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
-            }
-            $lnaguageCodesTouched = $modifiedFiles[1];
-        }
-
         if (!empty($addedFiles[1])) {
             foreach ($addedFiles[1] AS $addedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($addedFile);
-                $message .= sprintf('- Added %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$addedFile], $languageInfo['percentage_complete']);
+                $messages[$addedFile] = sprintf('- Added %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$addedFile], $languageInfo['percentage_complete']);
             }
             $lnaguageCodesTouched = array_merge($lnaguageCodesTouched, $addedFiles[1]);
         }
+
+        if (!empty($modifiedFiles[1])) {
+            foreach ($modifiedFiles[1] AS $modifiedFile) {
+                $fileCount++;
+                $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
+                $messages[$modifiedFile] = sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
+            }
+            $lnaguageCodesTouched = $modifiedFiles[1];
+        }
+
+        $message = implode('', $messages);
 
         $title = sprintf(
             'Updated %s strings in %u languages (%s)',
