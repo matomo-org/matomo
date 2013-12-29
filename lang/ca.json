@@ -32,6 +32,7 @@
         "ExitPageTitles": "Títols de les pàgines de sortida",
         "ExitPageTitlesReportDocumentation": "Aquest informe conté els títols de les pàgins de sortida que s'han utiltizat durant el període especificat.",
         "LearnMoreAboutSiteSearchLink": "Apren més sobre com els teus visitants utiltizent el motor de cerca del teu lloc web.",
+        "OneSearch": "1 cerca",
         "OutlinkDocumentation": "Un enllaç de sortida es un enllaç que porta el visitant fora del teu lloc web (a un altre domini)",
         "OutlinksReportDocumentation": "Aquest informe mostra una lista jeràrquica de les URL de sortida que han estat clicades pels vostres visitants.",
         "PagesReportDocumentation": "Aquest informe conté les URL de les pàgines que s'han visitat. %s La taula s'organitza jerarquicament, i les URL es mostren amb estructura de directoris.",
@@ -173,10 +174,13 @@
         "YouAreUsingTheLatestVersion": "Esteu fent servir l'última versió de Piwik!"
     },
     "CorePluginsAdmin": {
+        "ActionInstall": "Instal·la",
         "Activate": "Activa",
         "Activated": "Actiu",
         "Active": "Actiu",
+        "Activity": "Activitat",
         "AuthorHomepage": "Pàgina de l'autor",
+        "Authors": "Autors",
         "Deactivate": "Desactiva",
         "Inactive": "Inactiu",
         "LicenseHomepage": "Pàgina de la llicència",

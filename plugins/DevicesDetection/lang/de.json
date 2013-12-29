@@ -6,6 +6,7 @@
         "DeviceBrand": "Gerätemarke",
         "DeviceModel": "Gerätemodell",
         "DeviceType": "Gerätetyp",
+        "PluginDescription": "Dieses Plugin stellt erweiterte Informationen über mobile Geräte, wie Marke (Hersteller), Modell (Geräteversion), bessere Gerätetyperkennung (TV, Konsolen, Smartphones, Desktop, etc) und mehr bereit. Dieses Plugin fügt einen neuen Bericht unter 'Besucher > Geräte' hinzu.",
         "submenu": "Geräte"
     }
 }
