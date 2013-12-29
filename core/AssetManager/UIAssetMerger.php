@@ -178,7 +178,11 @@ abstract class UIAssetMerger
 
     private function adjustPaths()
     {
-        $this->mergedContent = $this->assetFetcher->getTheme()->rewriteAssetsPathToTheme($this->mergedContent);
+        $theme = $this->assetFetcher->getTheme();
+        // During installation theme is not yet ready
+        if($theme) {
+            $this->mergedContent = $this->assetFetcher->getTheme()->rewriteAssetsPathToTheme($this->mergedContent);
+        }
     }
 
     private function writeContentToFile()
