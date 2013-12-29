@@ -105,9 +105,54 @@ class Update extends ConsoleCommand
             $inputObject = new ArrayInput($arguments);
             $inputObject->setInteractive($input->isInteractive());
             $command->run($inputObject, new NullOutput());
+
+            // update core modules that aren't in their own repo
+            if (empty($plugin)) {
+
+                foreach (self::getPluginsInCore() AS $pluginName) {
+
+                    // update translation files
+                    $command = $this->getApplication()->find('translations:set');
+                    $arguments = array(
+                        'command'  => 'translations:set',
+                        '--code'   => $code,
+                        '--file'   => $filename,
+                        '--plugin' => $pluginName
+                    );
+                    $inputObject = new ArrayInput($arguments);
+                    $inputObject->setInteractive($input->isInteractive());
+                    $command->run($inputObject, new NullOutput());
+                }
+            }
         }
 
         $progress->finish();
         $output->writeln("Finished.");
+    }
+
+    /**
+     * Returns all plugins having their own translations that are bundled in core
+     * @return array
+     */
+    public static function getPluginsInCore()
+    {
+        static $pluginsInCore;
+
+        if (!empty($pluginsInCore)) {
+            return $pluginsInCore;
+        }
+
+        $submodules = shell_exec('git submodule status');
+        preg_match_all('/plugins\/([a-zA-z]+) /', $submodules, $matches);
+        $submodulePlugins = $matches[1];
+
+        $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginsWithTranslations = array_map(function($elem){
+            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+        }, $pluginsWithTranslations);
+
+        $pluginsInCore = array_diff($pluginsWithTranslations, $submodulePlugins);
+
+        return $pluginsInCore;
     }
 }
