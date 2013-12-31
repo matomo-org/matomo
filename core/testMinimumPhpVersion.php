@@ -57,7 +57,7 @@ if ($minimumPhpInvalid) {
                     "<br/>" . $composerInstall.
                     " This will initialize composer for Piwik and download libraries we use in vendor/* directory.".
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>Note: if for some reasons you cannot installer composer, instead install the latest Piwik release from ".
+                    "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Piwik release from ".
                     "<a href='http://builds.piwik.org/latest.zip'>builds.piwik.org</a>.</p>";
     }
 }
