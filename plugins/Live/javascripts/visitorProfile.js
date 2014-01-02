@@ -74,7 +74,7 @@
                 return false;
             });
 
-            $element.on('click', '.visitor-profile-pages-visited,.visitor-profile-more-info', function (e) {
+            $element.on('click', '.visitor-profile-more-info>a', function (e) {
                 e.preventDefault();
                 self._loadMoreVisits();
                 return false;
