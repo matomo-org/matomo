@@ -75,6 +75,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'libs/jquery/jquery-ui.js',
             'libs/jquery/jquery.browser.js',
             'libs/',
+            'plugins/CoreHome/javascripts/require.js',
             'plugins/Zeitgeist/javascripts/piwikHelper.js',
             'plugins/Zeitgeist/javascripts/',
             'plugins/CoreHome/javascripts/broadcast.js',
