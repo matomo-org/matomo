@@ -127,10 +127,10 @@
             // on hover, show export link (chrome won't let me do this via css :( )
             $element.on('mouseenter mouseleave', '.visitor-profile-id', function (e) {
                 var $exportLink = $(this).find('.visitor-profile-export');
-                if ($exportLink.is(':hidden')) {
-                    $exportLink.css('display', 'inline-block');
+                if ($exportLink.css('visibility') == 'hidden') {
+                    $exportLink.css('visibility', 'visible');
                 } else {
-                    $exportLink.hide();
+                    $exportLink.css('visibility', 'hidden');
                 }
             });
         },
