@@ -486,8 +486,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // in the case there is a searched keyword we display the RESET image
                 if (currentPattern) {
                     var target = this;
-                    var clearImg = $('<span style="position: relative;">\
-							<img src="plugins/CoreHome/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear" />\
+                    var clearImg = $('<span class="searchReset">\
+							<img src="plugins/CoreHome/images/reset_search.png" title="Clear" />\
 							</span>')
                         .click(function () {
                             $('.searchInput', target).val('');
