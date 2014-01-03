@@ -100,7 +100,7 @@ class Request
             if (is_array($request)) {
                 $url = array();
                 foreach ($request as $key => $value) {
-                    $url[] = $key . "=" . $value;
+                    $url[] = $key . "=" . urlencode($value);
                 }
                 $request = implode("&", $url);
             }
