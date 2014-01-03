@@ -5,7 +5,7 @@
         "DBSize": "Velikost databáze",
         "EstimatedSize": "Odhadovaná velikost",
         "IndexSize": "Velikost indexu",
-        "LearnMore": "Abyste lépe zjistili, jak Piwik zpracovává data a jak jej nastavit pro sídla se středním a velkým provozem, podívejte se do dokumentace %s.",
+        "LearnMore": "Abyste lépe zjistili, jak Piwik zpracovává data a jak jej nastavit pro weby se středním a velkým provozem, podívejte se do dokumentace %s.",
         "MainDescription": "Piwik ukládá všechny vaše data webové analýzy v MySQL databázi. Nyní tabulky Piwiku využívají %s.",
         "MetricDataByYear": "Měření tabulek za rok",
         "MetricTables": "Měřené tabulky",
