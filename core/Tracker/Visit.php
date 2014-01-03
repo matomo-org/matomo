@@ -946,6 +946,20 @@ class Visit implements VisitInterface
         // Ecommerce buyer status
         $valuesToUpdate['visit_goal_buyer'] = $this->goalManager->getBuyerType($this->visitorInfo['visit_goal_buyer']);
 
+        //check if request is authorized to overwrite latitude/longitude.
+        //if so - update visit with values from request
+        if ($this->request->isAuthenticated()) {
+            $latitude = Common::getRequestVar("lat", false);
+            if ($latitude) {
+                $valuesToUpdate['location_latitude'] = $latitude;
+            }
+            $longitude = Common::getRequestVar("long", false);
+            if ($longitude) {
+                $valuesToUpdate['location_longitude'] = $longitude;
+            }
+        }
+
+
         // Custom Variables overwrite previous values on each page view
         $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
         return $valuesToUpdate;
