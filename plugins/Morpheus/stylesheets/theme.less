@@ -593,7 +593,7 @@ div.sparkline {
 
     ol.visitor-profile-visits {
         > li {
-            padding: 10px 0 0 !important;
+            padding: 0 0 0 !important;
             span {
                 color: @silver-40;
                 .font-default(13px, 18px);
@@ -622,6 +622,14 @@ div.sparkline {
             }
         }
     } 
+}
+
+.visitor-profile-visit-title-row {
+  padding-top:10px;
+
+  &:hover {
+    background-color: @silver-90;
+  }
 }
 
 .widget .visitor-profile .visitor-profile-info > div > div {
