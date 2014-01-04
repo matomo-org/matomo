@@ -248,7 +248,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
             }
 
-            $cached = $segment . 'visitorId==' . $idVisitor;
+            $cached = urlencode($segment . 'visitorId==' . $idVisitor);
         }
         return $cached;
     }
