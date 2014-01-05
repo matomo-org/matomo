@@ -56,7 +56,11 @@ class RssRenderer
         $output = '<div style="padding:10px 15px;"><ul class="rss">';
         $i = 0;
 
-        foreach ($rss->channel->item as $post) {
+        $items = array();
+        if(is_array($items)) {
+            $items = $rss->channel->item;
+        }
+        foreach ($items as $post) {
             $title = $post->title;
             $date = @strftime("%B %e, %Y", strtotime($post->pubDate));
             $link = $post->link;
