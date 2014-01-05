@@ -24,7 +24,7 @@
                 </span>
                 {% endif %}
                 {% if visitor.visitorTypeIcon %}
-                    &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }} - {{ 'Live_ViewVisitorProfile'|translate }}"/>
+                    &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }}"/>
                 {% endif %}
                 {% if visitor.visitorId is defined %}
                 <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.visitorId }}">
