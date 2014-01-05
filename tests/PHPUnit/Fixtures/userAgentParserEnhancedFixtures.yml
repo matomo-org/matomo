@@ -1,5 +1,22 @@
 ---
-- 
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 11.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unknown
+  browser_family: Unknown
+
+-
   user_agent: Mozilla/5.0 (IE 11.0; Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv:11.0) like Gecko
   os:
     name: Windows 8
