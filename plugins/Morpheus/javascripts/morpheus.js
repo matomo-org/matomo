@@ -6,7 +6,7 @@ $(document).ready(function () {
             checkboxClass: 'form-checkbox',
             radioClass: 'form-radio',
             checkedClass: 'checked',
-            hoverClass: 'form-hover',
+            hoverClass: 'form-hover'
         });
     }
 
