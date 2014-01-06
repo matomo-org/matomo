@@ -20,6 +20,8 @@
                     $('#\\' + phoneNumber).prop('checked', 'checked');
                 });
 
+                $(document).trigger('ScheduledReport.edit', {});
+
             };
 
         getReportParametersFunctions['{{ reportType }}'] =
