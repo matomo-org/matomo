@@ -42,6 +42,8 @@
                     $('#report_additional_emails').text(reportParameters.additionalEmails.join('\n'));
                 else
                     $('#report_additional_emails').html('');
+
+                $(document).trigger('ScheduledReport.edit', {});
             };
 
         getReportParametersFunctions['{{ reportType }}'] =
@@ -73,24 +75,5 @@
         <br/><br/>
         {{ 'ScheduledReports_AlsoSendReportToTheseEmails'|translate }}<br/>
         <textarea cols="30" rows="3" id="report_additional_emails" class="inp"></textarea>
-    </td>
-</tr>
-<tr class='{{ reportType }}'>
-    <td class="first">
-        {# ScheduledReports_AggregateReportsFormat should be named ScheduledReports_DisplayFormat #}
-        {{ 'ScheduledReports_AggregateReportsFormat'|translate }}
-    </td>
-    <td>
-        <select id="display_format">
-            {% for formatValue, formatLabel in displayFormats %}
-                <option {% if formatValue==1 %}selected{% endif %} value="{{ formatValue }}">{{ formatLabel }}</option>
-            {% endfor %}
-        </select>
-
-        <div class='report_evolution_graph'>
-            <br/>
-            <input type="checkbox" id="report_evolution_graph"/>
-            <label for="report_evolution_graph"><em>{{ 'ScheduledReports_EvolutionGraph'|translate(5) }}</em></label>
-        </div>
     </td>
 </tr>
