@@ -140,6 +140,8 @@ class DocumentationGenerator
             'abandonedCarts' => '0',
             'segmentName'    => 'pageTitle',
             'ip'             => '194.57.91.215',
+            'idSites'             => '1,2',
+            'idAlert'             => '1',
 //            'segmentName'    => 'browserCode',
         );
 
