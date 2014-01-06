@@ -60,7 +60,7 @@
             {% endfor %}
             {{ 'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate }}
         {% endif %}
-            <a href='{{ linkTo({'module':"MobileMessaging",'updated':null}) }}'>{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a>
+            <a href='{{ linkTo({'module':"MobileMessaging", 'action': 'index', 'updated':null}) }}'>{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a>
         </div>
     </td>
 </tr>
