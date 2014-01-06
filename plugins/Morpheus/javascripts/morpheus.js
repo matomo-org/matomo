@@ -11,7 +11,7 @@ $(document).ready(function () {
     }
 
     initICheck();
-    $(document).bind('ScheduledRepot.edit', initICheck);
+    $(document).bind('ScheduledReport.edit', initICheck);
 
     $('body').on('ifClicked', 'input', function () {
         $(this).trigger('click');

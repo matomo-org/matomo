@@ -37,6 +37,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->reportTypes = $reportTypes;
         $view->defaultReportType = self::DEFAULT_REPORT_TYPE;
         $view->defaultReportFormat = ScheduledReports::DEFAULT_REPORT_FORMAT;
+        $view->displayFormats = ScheduledReports::getDisplayFormats();
 
         $reportsByCategoryByType = array();
         $reportFormatsByReportType = array();

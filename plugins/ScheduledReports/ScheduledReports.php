@@ -403,7 +403,6 @@ class ScheduledReports extends \Piwik\Plugin
     {
         $view = new View('@ScheduledReports/reportParametersScheduledReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
-        $view->displayFormats = self::getDisplayFormats();
         $view->reportType = self::EMAIL_TYPE;
         $view->defaultDisplayFormat = self::DEFAULT_DISPLAY_FORMAT;
         $view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
@@ -562,7 +561,7 @@ class ScheduledReports extends \Piwik\Plugin
         return $additionalEmails;
     }
 
-    private static function getDisplayFormats()
+    public static function getDisplayFormats()
     {
         $displayFormats = array(
             // ScheduledReports_AggregateReportsFormat_TablesOnly should be named ScheduledReports_DisplayFormat_GraphsOnlyForKeyMetrics
