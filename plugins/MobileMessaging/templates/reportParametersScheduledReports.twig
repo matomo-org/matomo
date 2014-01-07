@@ -49,7 +49,9 @@
 
                             var selectedPhoneNumbers =
                                     $.map(
-                                            $('[name=phoneNumbers]:checked'),
+                                            $('[name=phoneNumbers]').filter(function() {
+                                                return !this.disabled && this.checked;
+                                            }),
                                             function (phoneNumber) {
                                                 return $(phoneNumber).attr('id');
 
