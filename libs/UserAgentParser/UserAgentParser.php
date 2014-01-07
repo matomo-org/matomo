@@ -126,6 +126,7 @@ class UserAgentParser
 
         // IE (including shells: Acoo, AOL, Avant, Crazy Browser, Green Browser, KKMAN, Maxathon)
         'msie'                        => 'IE',
+        'trident'                     => 'IE',
         'microsoft internet explorer' => 'IE',
         'internet explorer'           => 'IE',
 
