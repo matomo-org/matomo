@@ -27,7 +27,7 @@
 
     {{ plugins.pluginsFilter(true, isMarketplaceEnabled) }}
 
-    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames, true ) }}
+    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames, isPluginsAdminEnabled ) }}
 
 </div>
 {% endblock %}
