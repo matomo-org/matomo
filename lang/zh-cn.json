@@ -1963,7 +1963,6 @@
         "Longitude": "经度",
         "NoDataForGeoIPReport1": "本报表没有数据，因为没有地理位置的数据或者无法定位访客的IP地址。",
         "NoDataForGeoIPReport2": "要启用精确的地理位置统计，在%1$s这里%2$s修改设置并使用 %3$s城市级数据库%4$s。",
-        "OldGeoIPWarning": "检测到旧的 GeoIP 插件. GeoIP 现在已经集成到 Piwik 核心代码，不再需要旧的插件。如果使用旧的插件，新的地区和城市报表将不会显示。%1$s请禁用旧的插件%2$s 并且 %3$s设置 GeoIP%4$s。如果您希望保留原有的地理数据，请使用 %5$s这里%6$s的脚本然后 %7$s重新处理您的报表%8$s.",
         "Organization": "组织",
         "OrgDatabase": "组织数据库",
         "PeclGeoIPNoDBDir": "PECL 模块在 %1$s 中查找数据库，但这个目录不存在，请改正并把 GeoIP 数据库加入。另外，您也可以在 php.ini 文件中设置 %2$s 为正确的目录。",

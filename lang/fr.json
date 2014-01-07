@@ -1946,7 +1946,6 @@
         "Longitude": "Longitude",
         "NoDataForGeoIPReport1": "Il n'y a aucune données pour ce rapport parce qu'il n'y a pas de base de données de localisation de disponible ou bien l'adresse IP du visiteur ne peut être géolocalisée.",
         "NoDataForGeoIPReport2": "Pour activer une géolocalisation précise, modifiez les paramètres %1$sici%2$s et utilisez une %3$sbase de données de niveau ville%4$s.",
-        "OldGeoIPWarning": "Nous avons détecté l'ancien module GeoIP. L'intégration de GeoIP dans Piwik est maintenant native et ce plugin est déprécié. Les nouveaux rapports de région et de ville ne seront pas affichés tant que ce module sera chargé. %1$sVeuillez désactiver le module%2$s et %3$sconfigurer GeoIP%4$s. Si vous vous souhaitez conserver les données de localisation de l'ancien module utilisez le script décrit %5$sici%6$s puis %7$sregénérez tous vos rapports%8$s.",
         "Organization": "Organisation",
         "OrgDatabase": "Base de données des Organisation",
         "PeclGeoIPNoDBDir": "Le module PECL s'attend à trouver les bases de données dans %1$s, mais ce répertoire n'existe pas. Veuillez le créer et ajoutez-y les bases de données GéoIP. Autrement vous pouvez paramétrer %2$s pour corriger le répertoire dans votre fichier php.ini.",

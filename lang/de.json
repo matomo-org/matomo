@@ -1991,7 +1991,6 @@
         "Longitude": "Längengrad",
         "NoDataForGeoIPReport1": "Es sind keine Daten für diesen Bericht vorhanden, da entweder keine Lokalisierungsdaten vorhanden sind oder die Besucher IP-Adresse nicht geortet werden kann.",
         "NoDataForGeoIPReport2": "Um die vollständige Ortungsmöglichkeit zu aktivieren ändern Sie bitte %1$shier%2$s die Einstellungen und benutzen eine %3$sStädtebasierte Datenbank%4$s.",
-        "OldGeoIPWarning": "Es wurde das alte GeoIP-Plugin erkannt. Dieses Plugin ist veraltet, da GeoIP nun fest in Piwik integriert wurde. Die neuen Berichte für Regionen und Städte werden nicht angezeigt solange dieses Plugin geladen ist. %1$sBitte deaktivieren Sie dieses Plugin%2$s und %3$skonfigurieren Sie GeoIP%4$s. Fall Sie Standortdaten für alte Besuche wünschen führen Sie das %5$shier%6$s beschriebene Skript aus und %7$slassen Sie die Berichte neu erstellen%8$s.",
         "Organization": "Organisation",
         "OrgDatabase": "Organisationsdatenbank",
         "PeclGeoIPNoDBDir": "Das PECL Modul hat im Verzeichnis %1$s keine Datenbank gefunden. Bitte erstellen Sie das Verzeichnis und fügen die GeoIP Datenbanken hinzu. Alternativ ist es möglich %2$s auf das richtige Verzeichnis in der php.ini zu konfigurieren.",

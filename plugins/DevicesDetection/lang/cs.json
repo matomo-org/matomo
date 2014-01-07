@@ -1,5 +1,10 @@
 {
     "DevicesDetection": {
+        "dataTableLabelBrands": "Značka",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelTypes": "Typ",
+        "DeviceBrand": "Značka zařízení",
+        "DeviceModel": "Model zařízení",
         "DevicesDetection": "Zařízení návštěvníků",
         "submenu": "Zařízení"
     }

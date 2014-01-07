@@ -1911,7 +1911,6 @@
         "Longitude": "Længdegrad",
         "NoDataForGeoIPReport1": "Der er ingen data for rapporten, fordi der enten ikke er lokaliseringsdata til rådighed, eller besøgendes IP-adresser ikke kan geografisk placeres.",
         "NoDataForGeoIPReport2": "For at aktivere nøjagtig geolokalisering skal indstillingerne ændres %1$sher%2$s og bruge en %3$sbyniveaudatabase%4$s.",
-        "OldGeoIPWarning": "Vi har opdaget det gamle GeoIP udvidelsesmodul. GeoIP integration er nu i Piwik kernen og udvidelsesmodulet anses for forældet. Nye region og by rapporter vil ikke blive vist, mens dette udvidelsesmodul er indlæst. %1$sdeaktivere udvidelsesmodulet%2$s og %3$skonfigurere GeoIP%4$s. Hvis du vil have lokaliseringsdata fra gamle besøg brug scriptet beskrevet %5$sher%6$s og %7$sombearbejd rapporterne%8$s.",
         "Organization": "Organisation",
         "OrgDatabase": "Organisationsdatabase",
         "PeclGeoIPNoDBDir": "PECL-modulet søger efter databaser i %1$s, men denne mappe eksisterer ikke. Opret mappen og tilføj GeoIP databasen. Alternativt kan du indstille %2$s til den rigtige mappe i din php.ini fil.",

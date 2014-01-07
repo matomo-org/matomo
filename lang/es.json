@@ -1860,7 +1860,6 @@
         "Longitude": "Longitud",
         "NoDataForGeoIPReport1": "No hay datos para este informe debido a que no existe información o las direcciones IP de los visitantes no puede ser geolocalizada.",
         "NoDataForGeoIPReport2": "Para habilitar una geolocalización precisa, cambie la opción %1$saquí%2$s y utilice una %3$sbase de datos a nivel ciudad%4$s.",
-        "OldGeoIPWarning": "Hemos detectado una extensión antigua GeoIP. La integración GeoIP es parte actualmente del corazón en Piwik y esta extensión está considerada obsoleta. Mientras esta extensión esté activa, las nuevas regiones y ciudades no serán visualizadas. %1$sPor favor deshabilite las extensiones%2$s y %3$sconfigure GeoIP%4$s. Si busca información de ubicación de sus antiguas visitas, utilize este información descripta %5$saquí%6$s después %7$sreprocese sus informes%8$s.",
         "Organization": "Organización",
         "OrgDatabase": "Base de datos de la organización",
         "PeclGeoIPNoDBDir": "El módulo PECL está buscando base de datos en %1$s, pero esta carpeta no existe. Por favor, créela y agreguéle una base de datos GeoIP a la misma. Alternativamente, puede disponer %2$s una determinada carpeta en su archivo php.ini",

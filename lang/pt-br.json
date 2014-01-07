@@ -1880,7 +1880,6 @@
         "Longitude": "Longitude",
         "NoDataForGeoIPReport1": "Não há dados para este relatório porque não há nenhum dado de localização disponível ou o endereço IP do visitante não pode ser geolocalizado.",
         "NoDataForGeoIPReport2": "Para ativar ageolocalização mais precisa, mudar a configuração %1$s aqui%2$s e usar um %3$s banco de dados no nível de cidade %4$s.",
-        "OldGeoIPWarning": "Detectamos um plugin GeoIP antigo. A integração GeoIP está agora no núcleo Piwik e este plugin é considerado obsoleto. Regiões novas e relatórios municipais não serão exibido durante este o carregamento deste plugin. %1$s Por favor, desative um plugin %2$s e %3$s configure o GeoIP %4$s. Se você deseja os dados de localização para suas visitas antigas, use o script descrito %5$s aqui%6$s então%7$s reprocesse seus relatórios %8$s.",
         "Organization": "Organização",
         "OrgDatabase": "Banco de dados da organização",
         "PeclGeoIPNoDBDir": "O módulo PECL está à procura de bancos de dados em %1$s mas este diretório não existe. Por favor, crie-o e adicione as bases de dados GeoIP a ele. Como alternativa, você pode definir %2$s para o diretório correto em seu arquivo php.ini.",

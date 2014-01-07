@@ -1824,7 +1824,6 @@
         "Longitude": "Bujur",
         "NoDataForGeoIPReport1": "Tidak ada data untuk laporan ini sebab tidak ada data lokasi yang tersedia atau alamat IP tidak dikenali lokasi-geo.",
         "NoDataForGeoIPReport2": "Untuk mengaktifkan lokasi-geo teliti, ganti pengaturan %1$sdi sini%2$s dan gunakan sebuah %3$sbasisdata tingkat kota%4$s.",
-        "OldGeoIPWarning": "Kami mendeteksi pengaya GeoIP lama. Pemaduan GeoIP sekarang di inti Piwik dan pengaya ini dianggap usang. Laporan kota dan wilayah tidak akan tampil ketika pengaya ini dimuat. %1$sHarap mematika pengaya tersebut%2$s dan %3$smengatur GeoIP%4$s. Bila Anda ingin data lokasi untuk kunjungan lama Anda, gunakan sekrip yang dijelaskan %5$sdi sini%6$s lalu %7$sproses ulang laporan Anda%8$s.",
         "Organization": "Organisasi",
         "OrgDatabase": "Basisdata Organisasi",
         "PeclGeoIPNoDBDir": "Modul PECL sedang mencari basisdata di %1$s, tapi direktori ini tidak tersedia. Harap memperbaiki ini dan menambah basisdata GeoIP di dalamnya. Atau Anda dapat mengatur %2$s ke direktori yang sesuai dalam berkas php.ini Anda.",

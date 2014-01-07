@@ -1883,7 +1883,6 @@
         "Longitude": "Geografska dužina",
         "NoDataForGeoIPReport1": "Nema podataka za ovaj izveštaj zato što ili podaci o lokaciji nisu dostupni ili IP adresu posetioca nije moguće geolocirati.",
         "NoDataForGeoIPReport2": "Da biste omogućili preciznu geolokaciju, promenite podešavanja %1$sovde%2$s i koristite %3$sbazu gradova%4$s.",
-        "OldGeoIPWarning": "Otrili smo stari GeoIP dodatak. GeoIP integracija je sada deo srži Piwik-a i ovaj dodatak se smatra zastarelim. Novi izveštaji o gradovima i regionima neće biti prikazani sve dok je ovaj dodatak učitan. %1$sMolimo vas da isključite dodatak%2$s i da %3$spodesite GeoIP%4$s. Ukoliko su vam potrebni podaci o lokacijama starih poseta, upotrebite skript %5$ssa ove adrese%6$s i %7$sponovo isprocesirajte podatke%8$s.",
         "Organization": "Organizacija",
         "OrgDatabase": "Baza organizacija",
         "PeclGeoIPNoDBDir": "PECL modul traži bazu u %1$s ali ovaj direktorijum ne postoji. Molimo vas da ga kreirate i da mu dodate GeoIP bazu. Takođe možete postaviti %2$s za pravi direktorijum u php.ini datoteci.",

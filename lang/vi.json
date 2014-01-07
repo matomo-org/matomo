@@ -1910,7 +1910,6 @@
         "Longitude": "Kinh độ",
         "NoDataForGeoIPReport1": "Không có dữ liệu cho báo cáo này bởi vì ở đó không có dữ liệu vị trí có sẵn hoặc địa chỉ IP khách truy cập không thể định vị.",
         "NoDataForGeoIPReport2": "Để cho phép định vị chính xác, thay đổi thiết lập %1$s tại đây %2$s và sử dụng một cơ sở dữ liệu %4$s mức thành phố %3$s.",
-        "OldGeoIPWarning": "Chúng tôi đã phát hiện các plugin Geoip cũ. bây giờ Geoip Tích hợp ở trong Piwik lõi và plugin này bị coi là phản đối. Vùng mới và các báo cáo thành phố sẽ không được hiển thị trong khi plugin này được nạp. %1$s hãy vô hiệu plugin %2$s và %3$s cấu hình GeoIP %4$s. Nếu bạn muốn dữ liệu vị trí lượt truy cập cũ của bạn, sử dụng mô tả đoạn mã %5$s tại đây %6$s sau đó %7$s xử lý lại các báo cáo của bạn %8$s.",
         "Organization": "Cơ quan",
         "OrgDatabase": "Cơ sở dữ liệu cơ quan",
         "PeclGeoIPNoDBDir": "Module PECL đang tìm kiếm cơ sở dữ liệu trong %1$s, nhưng thư mục này không tồn tại. Hãy tạo ra nó và thêm cơ sở dữ liệu Geoip vào đó. Ngoài ra, bạn có thể thiết lập %2$s vào đúng thư mục trong tập tin php.ini của bạn.",
