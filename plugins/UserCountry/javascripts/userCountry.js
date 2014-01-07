@@ -186,14 +186,13 @@ $(document).ready(function () {
                         id: 'userCountryGeoIpUpdate'
                     });
 
-                    $('#geoip-updater-next-run-time').text(response.nextRunTime);
+                    $('#geoip-updater-next-run-time').html(response.nextRunTime).parent().effect('highlight', {color: '#FFFFCB'}, 2000);
                 }
             };
 
             // setup the auto-updater
             var ajaxRequest = new ajaxHelper();
             var periodSelected = $('#geoip-update-period-cell').find('input:checked').val();
-            console.log(periodSelected);
             ajaxRequest.addParams({
                 period: periodSelected
             }, 'get');

@@ -49,11 +49,9 @@
 					{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}
 				{% endif %}
         <br/><br/>
-        {% if nextTimeUpdaterRun|default is not empty %}
-          {{ 'UserCountry_UpdaterWillRunNext'|translate(nextTimeUpdaterRun)|raw }}
-        {% else %}
-          {{ 'UserCountry_UpdaterIsNotScheduledToRun'|translate }}
-        {% endif %}
+        <div id="geoip-updater-next-run-time">
+        {% include "@UserCountry/_updaterNextRunTime.twig" %}
+        </div>
 			{% endset %}
 			{{ piwik.inlineHelp(lastTimeRunNote) }}
 			</td>

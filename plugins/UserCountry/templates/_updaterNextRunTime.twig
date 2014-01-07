@@ -1,0 +1,9 @@
+{% if nextRunTime|default is not empty %}
+  {% if date(nextRunTime.getTimestamp()) <= date() %}
+      {{ 'UserCountry_UpdaterScheduledForNextRun'|translate }}
+  {% else %}
+      {{ 'UserCountry_UpdaterWillRunNext'|translate('<strong><em>' ~ nextRunTime.toString() ~ '</em></strong>')|raw }}
+  {% endif %}
+{% else %}
+  {{ 'UserCountry_UpdaterIsNotScheduledToRun'|translate }}
+{% endif %}

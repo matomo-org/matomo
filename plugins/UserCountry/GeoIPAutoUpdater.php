@@ -632,4 +632,53 @@ class GeoIPAutoUpdater extends ScheduledTask
         $timetable = new ScheduledTaskTimetable();
         return $timetable->getScheduledTaskTime($task->getName());
     }
+
+    /**
+     * See {@link Piwik\ScheduledTime::getRescheduledTime()}.
+     */
+    public function getRescheduledTime()
+    {
+        $nextScheduledTime = parent::getRescheduledTime();
+
+        // if a geoip database is out of date, run the updater as soon as possible
+        if ($this->isAtLeastOneGeoIpDbOutOfDate($nextScheduledTime)) {
+            return time();
+        }
+
+        return $nextScheduledTime;
+    }
+
+    private function isAtLeastOneGeoIpDbOutOfDate($rescheduledTime)
+    {
+        $previousScheduledRuntime = $this->getPreviousScheduledTime($rescheduledTime);
+
+        foreach (GeoIp::$dbNames as $type => $dbNames) {
+            $dbUrl = Option::get(self::$urlOptions[$type]);
+            $dbPath = GeoIp::getPathToGeoIpDatabase($dbNames);
+
+            // if there is a URL for this DB type and the GeoIP DB file's last modified time is before
+            // the time the updater should have been previously run, then **the file is out of date**
+            if ($dbUrl !== false
+                && filemtime($dbPath) < $previousScheduledRuntime
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getPreviousScheduledTime($rescheduledTime)
+    {
+        $updaterPeriod = Option::get(self::SCHEDULE_PERIOD_OPTION_NAME);
+
+        if ($updaterPeriod == 'week') {
+            return Date::factory($rescheduledTime)->subWeek(1)->getTimestamp();
+        } else if ($updaterPeriod == 'month') {
+            return Date::factory($rescheduledTime)->subMonth(1)->getTimestamp();
+        } else {
+            Log::warning("Unknown GeoIP updater period found in database: %s", $updaterPeriod);
+            return 0;
+        }
+    }
 }
