@@ -66,33 +66,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderReport(__FUNCTION__);
     }
 
-    /**
-     * You may manually call this controller action to force re-processing of past user agents
-     */
-    public function refreshParsedUserAgents()
-    {
-        Piwik::checkUserIsSuperUser();
-        $q = "SELECT idvisit, config_debug_ua FROM " . Common::prefixTable("log_visit");
-        $res = Db::fetchAll($q);
-
-        $output = '';
-
-        foreach ($res as $rec) {
-            $UAParser = new UserAgentParserEnhanced($rec['config_debug_ua']);
-            $UAParser->parse();
-            $output .= "Processing idvisit = " . $rec['idvisit'] . "<br/>";
-            $output .= "UserAgent string: " . $rec['config_debug_ua'] . "<br/> Decoded values:";
-            $uaDetails = $this->getArray($UAParser);
-            var_export($uaDetails);
-            $output .= "<hr/>";
-            $this->updateVisit($rec['idvisit'], $uaDetails);
-            unset($UAParser);
-        }
-        $output .=  "Please remember to truncate your archives !";
-
-        return $output;
-    }
-
     private function getArray(UserAgentParserEnhanced $UAParser)
     {
         $UADetails['config_browser_name'] = $UAParser->getBrowser("short_name");
