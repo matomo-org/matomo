@@ -171,7 +171,7 @@ class WidgetsList
             return;
         }
         foreach (self::$widgets[$widgetCategory] as $id => $widget) {
-            if ($widget['name'] == $widgetName) {
+            if ($widget['name'] == $widgetName || $widget['name'] == Piwik::translate($widgetName)) {
                 unset(self::$widgets[$widgetCategory][$id]);
                 return;
             }
