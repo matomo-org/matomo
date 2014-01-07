@@ -175,6 +175,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($lastRunTime !== false) {
             $view->lastTimeUpdaterRun = '<strong><em>' . $lastRunTime->toString() . '</em></strong>';
         }
+
+        $view->nextRunTime = GeoIPAutoUpdater::getNextRunTime();
     }
 
     /**
@@ -207,7 +209,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 if ($info !== false) {
                     return Common::json_encode($info);
                 } else {
-                    return 1;
+                    $view = new View("@UserCountry/_updaterNextRunTime");
+                    $view->nextRunTime = GeoIPAutoUpdater::getNextRunTime();
+                    $nextRunTimeHtml = $view->render();
+                    return Common::json_encode(array('nextRunTime' => $nextRunTimeHtml));
                 }
             } catch (Exception $ex) {
                 return Common::json_encode(array('error' => $ex->getMessage()));

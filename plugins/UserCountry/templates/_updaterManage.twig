@@ -48,6 +48,10 @@
 				{% else %}
 					{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}
 				{% endif %}
+        <br/><br/>
+        <div id="geoip-updater-next-run-time">
+        {% include "@UserCountry/_updaterNextRunTime.twig" %}
+        </div>
 			{% endset %}
 			{{ piwik.inlineHelp(lastTimeRunNote) }}
 			</td>
@@ -57,8 +61,8 @@
 		<input type="button" class="submit" value="{% if not geoIPDatabasesInstalled %}{{ 'General_Continue'|translate }}{% else %}{{ 'General_Save'|translate }}{% endif %}" id="update-geoip-links"/>
 	</p>
 	<div style="display:inline-block;width:700px;">
-		<span id="done-updating-updater"></span>
-		<span id="geoipdb-update-info-error"></span>
+		<div id="done-updating-updater"></div>
+		<div id="geoipdb-update-info-error"></div>
 		<div id="geoip-progressbar-container" style="display:none;">
 			<div id="geoip-updater-progressbar"></div>
 			<span id="geoip-updater-progressbar-label"></span>

@@ -31,29 +31,28 @@ class Weekly extends ScheduledTime
     {
         $currentTime = $this->getTime();
 
-        // Adds 7 days
+        $daysFromNow = 7;
+
+        // Adjusts the scheduled day
+        if ($this->day !== null) {
+            $daysFromNow = ($this->day - date('N', $currentTime) + 7) % 7;
+
+            if ($daysFromNow == 0) {
+                $daysFromNow = 7;
+            }
+        }
+
+        // Adds correct number of days
         $rescheduledTime = mktime(date('H', $currentTime),
             date('i', $currentTime),
             date('s', $currentTime),
             date('n', $currentTime),
-            date('j', $currentTime) + 7,
+            date('j', $currentTime) + $daysFromNow,
             date('Y', $currentTime)
         );
-
+ 
         // Adjusts the scheduled hour
         $rescheduledTime = $this->adjustHour($rescheduledTime);
-
-        // Adjusts the scheduled day
-        if ($this->day !== null) {
-            // Removes or adds a number of days to set the scheduled day to the one specified with setDay()
-            $rescheduledTime = mktime(date('H', $rescheduledTime),
-                date('i', $rescheduledTime),
-                date('s', $rescheduledTime),
-                date('n', $rescheduledTime),
-                date('j', $rescheduledTime) - (date('N', $rescheduledTime) - $this->day),
-                date('Y', $rescheduledTime)
-            );
-        }
 
         return $rescheduledTime;
     }
