@@ -219,8 +219,6 @@ class PrivacyManager extends \Piwik\Plugin
      */
     public static function savePurgeDataSettings($settings)
     {
-        $plugin = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin('PrivacyManager');
-
         foreach (self::$defaultPurgeDataOptions as $optionName => $defaultValue) {
             if (isset($settings[$optionName])) {
                 Option::set($optionName, $settings[$optionName]);
