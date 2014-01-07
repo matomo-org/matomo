@@ -10,6 +10,8 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
+require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker which doesn't include this file
+
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
@@ -678,7 +680,7 @@ class GeoIPAutoUpdater extends ScheduledTask
             return Date::factory($rescheduledTime)->subMonth(1);
         } else {
             Log::warning("Unknown GeoIP updater period found in database: %s", $updaterPeriod);
-            return 0;
+            return Date::factory(0);
         }
     }
 }
