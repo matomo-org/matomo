@@ -47,11 +47,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function adminIndex()
     {
+        $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserIsSuperUser();
         $view = new View('@UserCountry/adminIndex');
 
-        $allProviderInfo = LocationProvider::getAllProviderInfo(
-            $newline = '<br/>', $includeExtra = true);
+        $allProviderInfo = LocationProvider::getAllProviderInfo($newline = '<br/>', $includeExtra = true);
         $view->locationProviders = $allProviderInfo;
         $view->currentProviderId = LocationProvider::getCurrentProviderId();
         $view->thisIP = IP::getIpFromHeader();
@@ -108,6 +108,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function downloadFreeGeoIPDB()
     {
+        $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserIsSuperUser();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
@@ -191,6 +192,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function updateGeoIPLinks()
     {
+        $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserIsSuperUser();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Json::sendHeaderJSON();
@@ -232,6 +234,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function downloadMissingGeoIpDb()
     {
+        $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserIsSuperUser();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
@@ -284,6 +287,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function setCurrentLocationProvider()
     {
+        $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserIsSuperUser();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
@@ -386,5 +390,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             );
         }
         return false;
+    }
+
+    private function dieIfGeolocationAdminIsDisabled()
+    {
+        if(!UserCountry::isGeoLocationAdminEnabled()) {
+            throw new \Exception('Geo location setting page has been disabled.');
+        }
     }
 }
