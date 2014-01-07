@@ -267,60 +267,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
-            $alias = Common::getRequestVar('alias');
-            $email = Common::getRequestVar('email');
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
-
-            $newPassword = false;
-            $password = Common::getRequestvar('password', false);
-            $passwordBis = Common::getRequestvar('passwordBis', false);
-            if (!empty($password)
-                || !empty($passwordBis)
-            ) {
-                if ($password != $passwordBis) {
-                    throw new Exception(Piwik::translate('Login_PasswordsDoNotMatch'));
-                }
-                $newPassword = $password;
-            }
-
-            // UI disables password change on invalid host, but check here anyway
-            if (!Url::isValidHost()
-                && $newPassword !== false
-            ) {
-                throw new Exception("Cannot change password with untrusted hostname!");
-            }
-
             $userLogin = Piwik::getCurrentUserLogin();
-            if (Piwik::isUserIsSuperUser()) {
-                $superUser = Config::getInstance()->superuser;
-                $updatedSuperUser = false;
 
-                if ($newPassword !== false) {
-                    $newPassword = Common::unsanitizeInputValue($newPassword);
-                    $md5PasswordSuperUser = md5($newPassword);
-                    $superUser['password'] = $md5PasswordSuperUser;
-                    $updatedSuperUser = true;
-                }
-                if ($superUser['email'] != $email) {
-                    $superUser['email'] = $email;
-                    $updatedSuperUser = true;
-                }
-                if ($updatedSuperUser) {
-                    Config::getInstance()->superuser = $superUser;
-                    Config::getInstance()->forceSave();
-                }
-            } else {
-                APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
-                if ($newPassword !== false) {
-                    $newPassword = Common::unsanitizeInputValue($newPassword);
-                }
-            }
-
-            // logs the user in with the new password
-            if ($newPassword !== false) {
-                \Piwik\Registry::get('auth')->initSession($userLogin, md5($newPassword), $rememberMe = false);
-            }
+            $this->processPasswordChange($userLogin);
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -334,5 +285,59 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $toReturn;
+    }
+
+    private function processPasswordChange($userLogin)
+    {
+        $alias = Common::getRequestVar('alias');
+        $email = Common::getRequestVar('email');
+        $newPassword = false;
+        $password = Common::getRequestvar('password', false);
+        $passwordBis = Common::getRequestvar('passwordBis', false);
+        if (!empty($password)
+            || !empty($passwordBis)
+        ) {
+            if ($password != $passwordBis) {
+                throw new Exception(Piwik::translate('Login_PasswordsDoNotMatch'));
+            }
+            $newPassword = $password;
+        }
+
+        // UI disables password change on invalid host, but check here anyway
+        if (!Url::isValidHost()
+            && $newPassword !== false
+        ) {
+            throw new Exception("Cannot change password with untrusted hostname!");
+        }
+
+        if (Piwik::isUserIsSuperUser()) {
+            $superUser = Config::getInstance()->superuser;
+            $updatedSuperUser = false;
+
+            if ($newPassword !== false) {
+                $newPassword = Common::unsanitizeInputValue($newPassword);
+                $md5PasswordSuperUser = md5($newPassword);
+                $superUser['password'] = $md5PasswordSuperUser;
+                $updatedSuperUser = true;
+            }
+            if ($superUser['email'] != $email) {
+                $superUser['email'] = $email;
+                $updatedSuperUser = true;
+            }
+            if ($updatedSuperUser) {
+                Config::getInstance()->superuser = $superUser;
+                Config::getInstance()->forceSave();
+            }
+        } else {
+            APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+            if ($newPassword !== false) {
+                $newPassword = Common::unsanitizeInputValue($newPassword);
+            }
+        }
+
+        // logs the user in with the new password
+        if ($newPassword !== false) {
+            \Piwik\Registry::get('auth')->initSession($userLogin, md5($newPassword), $rememberMe = false);
+        }
     }
 }
