@@ -515,7 +515,7 @@ class UserAgentParser
 
             // IE compatibility mode
             if ($info['id'] == 'IE'
-                && strncmp($userAgent, 'Mozilla/4.0', 11) == 0
+                && (strncmp($userAgent, 'Mozilla/4.0', 11) == 0 || strncmp($userAgent, 'Mozilla/5.0', 11) == 0)
                 && preg_match('~ Trident/([0-9]+)\.[0-9]+~', $userAgent, $tridentVersion)
             ) {
                 $info['major_number'] = $tridentVersion[1] + 4;
