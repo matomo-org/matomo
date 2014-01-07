@@ -100,6 +100,11 @@ class CorePluginsAdmin extends \Piwik\Plugin
         return (bool) Config::getInstance()->General['enable_marketplace'];
     }
 
+    public static function isPluginsAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_plugins_admin'];
+    }
+
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";

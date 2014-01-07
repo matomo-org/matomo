@@ -716,6 +716,7 @@
         "ThemesManagement": "Manage Themes",
         "MainDescription": "Plugins extend and expand the functionality of Piwik. Once a plugin is installed, you may activate it or deactivate it here.",
         "ThemesDescription": "Themes can change the appearance of Piwik user interface,\n    and provide a completely new visual experience to enjoy your analytics reports.",
+        "DoMoreContactPiwikAdmins": "To install a new plugin or a new theme, please get in touch with your Piwik admins.",
         "Theme": "Theme",
         "Version": "Version",
         "Status": "Status",

@@ -88,7 +88,7 @@
 
 {% endmacro %}
 
-{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames) %}
+{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames, displayAdminLinks) %}
 
 <div id="confirmUninstallPlugin" class="ui-confirm">
 
@@ -105,7 +105,9 @@
             <th>{% if isTheme %}{{ 'CorePluginsAdmin_Theme'|translate }}{% else %}{{ 'General_Plugin'|translate }}{% endif %}</th>
             <th>{{ 'General_Description'|translate }}</th>
             <th class="status">{{ 'CorePluginsAdmin_Status'|translate }}</th>
+            {% if displayAdminLinks %}
             <th class="action-links">{{ 'General_Action'|translate }}</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody id="plugins">
@@ -161,12 +163,13 @@
                             {{ 'CorePluginsAdmin_Active'|translate }}
                         {% else %}
                             {{ 'CorePluginsAdmin_Inactive'|translate }}
-                            {% if plugin.uninstallable %} <br/> - <a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{ uninstallNonce }}'>{{ 'CorePluginsAdmin_ActionUninstall'|translate }}</a>{% endif %}
+                            {% if plugin.uninstallable and displayAdminLinks %} <br/> - <a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{ uninstallNonce }}'>{{ 'CorePluginsAdmin_ActionUninstall'|translate }}</a>{% endif %}
                         {% endif %}
 
                         {%- endif %}
                     </td>
 
+                    {% if displayAdminLinks %}
                     <td class="togl action-links" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
                         {% if not isZeitgeist -%}
 
@@ -182,6 +185,7 @@
 
                         {%- endif %}
                     </td>
+                    {% endif %}
                 </tr>
             {% endif %}
         {% endfor %}

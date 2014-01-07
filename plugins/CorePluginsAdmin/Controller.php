@@ -43,6 +43,7 @@ class Controller extends Plugin\ControllerAdmin
         static::dieIfMarketplaceIsDisabled();
 
         $pluginName = $this->initPluginModification($nonceName);
+        $this->dieIfPluginAdminDisabledAndIsPlugin($pluginName);
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
@@ -84,6 +85,7 @@ class Controller extends Plugin\ControllerAdmin
 
     public function uploadPlugin()
     {
+        static::dieIfPluginsAdminIsDisabled();
         Piwik::checkUserIsSuperUser();
 
         $nonce = Common::getRequestVar('nonce', null, 'string');
@@ -152,7 +154,19 @@ class Controller extends Plugin\ControllerAdmin
     private function dieIfMarketplaceIsDisabled()
     {
         if (!CorePluginsAdmin::isMarketplaceEnabled()) {
-            throw new \Exception('The Marketplace is disabled. Enable the Marketplace by changing the config entry "enable_marketplace" to 1.');
+            throw new \Exception('The Marketplace feature has been disabled.
+            You may enable the Marketplace by changing the config entry "enable_marketplace" to 1.
+            Please contact your Piwik admins with your request so they can assist.');
+        }
+
+        $this->dieIfPluginsAdminIsDisabled();
+    }
+
+    private function dieIfPluginsAdminIsDisabled()
+    {
+        if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
+            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
+            Please contact your Piwik admins with your request so they can assist you.');
         }
     }
 
@@ -193,7 +207,7 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
-    function extend()
+    public function extend()
     {
         static::dieIfMarketplaceIsDisabled();
 
@@ -222,6 +236,7 @@ class Controller extends Plugin\ControllerAdmin
 
         $view->pluginNamesHavingSettings = $this->getPluginNamesHavingSettingsForCurrentUser();
         $view->isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
+        $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
 
         $view->pluginsHavingUpdate    = array();
         $view->marketplacePluginNames = array();
@@ -239,13 +254,13 @@ class Controller extends Plugin\ControllerAdmin
         return $view;
     }
 
-    function plugins()
+    public function plugins()
     {
         $view = $this->createPluginsOrThemesView('plugins', $themesOnly = false);
         return $view->render();
     }
 
-    function themes()
+    public function themes()
     {
         $view = $this->createPluginsOrThemesView('themes', $themesOnly = true);
         return $view->render();
@@ -366,39 +381,10 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
-    public function deactivate($redirectAfter = true)
-    {
-        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
-        \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($pluginName);
-        $this->redirectAfterModification($redirectAfter);
-    }
-
-    protected function redirectAfterModification($redirectAfter)
-    {
-        if ($redirectAfter) {
-            Url::redirectToReferrer();
-        }
-    }
-
-    protected function initPluginModification($nonceName)
-    {
-        Piwik::checkUserIsSuperUser();
-
-        $nonce = Common::getRequestVar('nonce', null, 'string');
-
-        if (!Nonce::verifyNonce($nonceName, $nonce)) {
-            throw new \Exception(Piwik::translate('General_ExceptionNonceMismatch'));
-        }
-
-        Nonce::discardNonce($nonceName);
-
-        $pluginName = Common::getRequestVar('pluginName', null, 'string');
-        return $pluginName;
-    }
-
     public function activate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
+        $this->dieIfPluginAdminDisabledAndIsPlugin($pluginName);
 
         \Piwik\Plugin\Manager::getInstance()->activatePlugin($pluginName);
 
@@ -413,8 +399,8 @@ class Controller extends Plugin\ControllerAdmin
             $message = Piwik::translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
             if (SettingsManager::hasPluginSettingsForCurrentUser($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
-                                    Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'pluginSettings')),
-                                    $pluginName);
+                    Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'pluginSettings')),
+                    $pluginName);
                 $message .= ' ' . Piwik::translate('CorePluginsAdmin_ChangeSettingsPossible', array($target, '</a>'));
             }
 
@@ -428,9 +414,20 @@ class Controller extends Plugin\ControllerAdmin
         }
     }
 
+    public function deactivate($redirectAfter = true)
+    {
+        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
+        $this->dieIfPluginAdminDisabledAndIsPlugin($pluginName);
+
+        \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($pluginName);
+        $this->redirectAfterModification($redirectAfter);
+    }
+
     public function uninstall($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
+        // Uninstall is disabled in all cases (even for themes) - we do not use dieIfPluginAdminDisabledAndIsPlugin
+        $this->dieIfPluginsAdminIsDisabled();
 
         $uninstalled = \Piwik\Plugin\Manager::getInstance()->uninstallPlugin($pluginName);
 
@@ -448,9 +445,47 @@ class Controller extends Plugin\ControllerAdmin
         $this->redirectAfterModification($redirectAfter);
     }
 
+    protected function initPluginModification($nonceName)
+    {
+        Piwik::checkUserIsSuperUser();
+
+        $nonce = Common::getRequestVar('nonce', null, 'string');
+
+        if (!Nonce::verifyNonce($nonceName, $nonce)) {
+            throw new \Exception(Piwik::translate('General_ExceptionNonceMismatch'));
+        }
+
+        Nonce::discardNonce($nonceName);
+
+        $pluginName = Common::getRequestVar('pluginName', null, 'string');
+
+        return $pluginName;
+    }
+
+    protected function redirectAfterModification($redirectAfter)
+    {
+        if ($redirectAfter) {
+            Url::redirectToReferrer();
+        }
+    }
+
     private function getPluginNamesHavingSettingsForCurrentUser()
     {
         return array_keys(SettingsManager::getPluginSettingsForCurrentUser());
+    }
+
+    protected function dieIfPluginAdminDisabledAndIsPlugin($pluginName)
+    {
+        $isTheme = false;
+        try {
+            $plugin = Plugin\Manager::getInstance()->loadPlugin($pluginName);
+            $isTheme = $plugin->isTheme();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        if (!$isTheme) {
+            $this->dieIfPluginsAdminIsDisabled();
+        }
     }
 
 }

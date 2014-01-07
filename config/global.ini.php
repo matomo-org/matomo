@@ -348,13 +348,6 @@ overlay_following_pages_limit = 300
 ; With this option, you can disable the framed mode of the Overlay plugin. Use it if your website contains a framebuster.
 overlay_disable_framed_mode = 0
 
-; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
-; the access to disk and install custom PHP code (Piwik plugins).
-enable_marketplace = 1
-
-; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
-enable_geolocation_admin = 1
-
 ; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
 ; Mysql will try to load the chrooted path (which is imcomplete). To prevent an error, here you can specify the
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
@@ -363,6 +356,20 @@ absolute_chroot_path =
 ; In some rare cases it may be useful to explicitely tell Piwik not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
+
+; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
+; the access to disk and install custom PHP code (Piwik plugins).
+enable_marketplace = 1
+
+; By setting this option to 0:
+; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
+; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
+; - as well as disabling plugins admin actions (such as "Upload new plugin"), setting this to 1 will have same effect as setting enable_marketplace=1
+enable_plugins_admin = 1
+
+; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
+enable_geolocation_admin = 1
+
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
