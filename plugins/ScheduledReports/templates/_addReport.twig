@@ -34,7 +34,7 @@
                     <select id='report_segment'>
                         <option value="">{{ 'SegmentEditor_DefaultAllVisits'|translate }}</option>
                         {% for savedSegmentId, savedSegmentName in savedSegmentsById %}
-                            <option value="{{ savedSegmentId }}">{{ savedSegmentName }}</option>
+                            <option value="{{ savedSegmentId }}">{{ savedSegmentName[:50] }}</option>
                         {% endfor %}
                     </select>
 
