@@ -82,6 +82,7 @@ class ScheduledReports extends \Piwik\Plugin
             'Menu.Top.addItems'                         => 'addTopMenu',
             'TaskScheduler.getScheduledTasks'           => 'getScheduledTasks',
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
+            'MobileMessaging.deletePhoneNumber'         => 'deletePhoneNumber',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
             'ScheduledReports.getReportMetadata'        => 'getReportMetadata',
@@ -377,6 +378,48 @@ class ScheduledReports extends \Piwik\Plugin
                     }
                 }
                 $mail->clearRecipients();
+            }
+        }
+    }
+
+    public function deletePhoneNumber($phoneNumber)
+    {
+        $api = API::getInstance();
+
+        $reports = $api->getReports(
+            $idSite = false,
+            $period = false,
+            $idReport = false,
+            $ifSuperUserReturnOnlySuperUserReports = APIMobileMessaging::getInstance()->getDelegatedManagement()
+        );
+
+        foreach ($reports as $report) {
+            if ($report['type'] == MobileMessaging::MOBILE_TYPE) {
+                $reportParameters = $report['parameters'];
+                $reportPhoneNumbers = $reportParameters[MobileMessaging::PHONE_NUMBERS_PARAMETER];
+                $updatedPhoneNumbers = array();
+                foreach ($reportPhoneNumbers as $reportPhoneNumber) {
+                    if ($reportPhoneNumber != $phoneNumber) {
+                        $updatedPhoneNumbers[] = $reportPhoneNumber;
+                    }
+                }
+
+                if (count($updatedPhoneNumbers) != count($reportPhoneNumbers)) {
+                    $reportParameters[MobileMessaging::PHONE_NUMBERS_PARAMETER] = $updatedPhoneNumbers;
+
+                    // note: reports can end up without any recipients
+                    $api->updateReport(
+                        $report['idreport'],
+                        $report['idsite'],
+                        $report['description'],
+                        $report['period'],
+                        $report['hour'],
+                        $report['type'],
+                        $report['format'],
+                        $report['reports'],
+                        $reportParameters
+                    );
+                }
             }
         }
     }
