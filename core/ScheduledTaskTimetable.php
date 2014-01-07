@@ -88,14 +88,12 @@ class ScheduledTaskTimetable
      *  - the task has to be executed
      *  - the task has never been scheduled before
      *
-     * @param ScheduledTask $task
+     * @param string $taskName
      *
      * @return boolean
      */
-    public function taskShouldBeRescheduled($task)
+    public function taskShouldBeRescheduled($taskName)
     {
-        $taskName = $task->getName();
-
         return !$this->taskHasBeenScheduledOnce($taskName) || $this->shouldExecuteTask($taskName);
     }
 

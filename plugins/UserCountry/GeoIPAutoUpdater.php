@@ -650,7 +650,7 @@ class GeoIPAutoUpdater extends ScheduledTask
 
     private function isAtLeastOneGeoIpDbOutOfDate($rescheduledTime)
     {
-        $previousScheduledRuntime = $this->getPreviousScheduledTime($rescheduledTime);
+        $previousScheduledRuntime = $this->getPreviousScheduledTime($rescheduledTime)->setTime("00:00:00")->getTimestamp();
 
         foreach (GeoIp::$dbNames as $type => $dbNames) {
             $dbUrl = Option::get(self::$urlOptions[$type]);
@@ -658,7 +658,7 @@ class GeoIPAutoUpdater extends ScheduledTask
 
             // if there is a URL for this DB type and the GeoIP DB file's last modified time is before
             // the time the updater should have been previously run, then **the file is out of date**
-            if ($dbUrl !== false
+            if (!empty($dbUrl)
                 && filemtime($dbPath) < $previousScheduledRuntime
             ) {
                 return true;
@@ -673,9 +673,9 @@ class GeoIPAutoUpdater extends ScheduledTask
         $updaterPeriod = Option::get(self::SCHEDULE_PERIOD_OPTION_NAME);
 
         if ($updaterPeriod == 'week') {
-            return Date::factory($rescheduledTime)->subWeek(1)->getTimestamp();
+            return Date::factory($rescheduledTime)->subWeek(1);
         } else if ($updaterPeriod == 'month') {
-            return Date::factory($rescheduledTime)->subMonth(1)->getTimestamp();
+            return Date::factory($rescheduledTime)->subMonth(1);
         } else {
             Log::warning("Unknown GeoIP updater period found in database: %s", $updaterPeriod);
             return 0;

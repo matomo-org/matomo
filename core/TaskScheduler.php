@@ -136,7 +136,7 @@ class TaskScheduler extends Singleton
                     $executionResults[] = array('task' => $taskName, 'output' => $message);
                 }
 
-                if ($this->timetable->taskShouldBeRescheduled($task)) {
+                if ($this->timetable->taskShouldBeRescheduled($taskName)) {
                     $this->timetable->rescheduleTask($task);
                 }
             }
