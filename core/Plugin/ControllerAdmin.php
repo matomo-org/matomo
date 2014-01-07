@@ -29,6 +29,44 @@ use Piwik\View;
  */
 abstract class ControllerAdmin extends Controller
 {
+    private static function notifyWhenTrackingStatisticsDisabled()
+    {
+        $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
+        if ($statsEnabled == "0") {
+            $notification = new Notification(Piwik::translate('General_StatisticsAreNotRecorded'));
+            $notification->context = Notification::CONTEXT_INFO;
+            Notification\Manager::notify('ControllerAdmin_StatsAreNotRecorded', $notification);
+        }
+    }
+
+    private static function notifyAnyInvalidPlugin()
+    {
+        $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();
+        if (empty($missingPlugins)) {
+            return;
+        }
+
+        if (!Piwik::isUserIsSuperUser()) {
+            return;
+        }
+        $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
+            'module' => 'CorePluginsAdmin', 'action' => 'plugins'
+        ));
+        $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
+                self::getPiwikVersion(),
+                '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
+            . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
+                '<a href="' . $pluginsLink . '"/>',
+                '</a>'
+        ));
+
+        $notification = new Notification($invalidPluginsWarning);
+        $notification->raw = true;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->title = Piwik::translate('General_Warning') . ':';
+        Notification\Manager::notify('ControllerAdmin_InvalidPluginsWarning', $notification);
+    }
+
     /**
      * Calls {@link setBasicVariablesView()} and {@link setBasicVariablesAdminView()}
      * using the supplied view.
@@ -63,9 +101,9 @@ abstract class ControllerAdmin extends Controller
 
     /**
      * Assigns view properties that would be useful to views that render admin pages.
-     * 
+     *
      * Assigns the following variables:
-     * 
+     *
      * - **statisticsNotRecorded** - Set to true if the `[Tracker] record_statistics` INI
      *                               config is `0`. If not `0`, this variable will not be defined.
      * - **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
@@ -80,18 +118,13 @@ abstract class ControllerAdmin extends Controller
      * - **phpVersion** - The current PHP version.
      * - **phpIsNewEnough** - Whether the current PHP version is new enough to run Piwik.
      * - **adminMenu** - The result of `MenuAdmin::getInstance()->getMenu()`.
-     * 
+     *
      * @param View $view
      * @api
      */
     static public function setBasicVariablesAdminView(View $view)
     {
-        $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
-        if ($statsEnabled == "0") {
-            $notification = new Notification(Piwik::translate('General_StatisticsAreNotRecorded'));
-            $notification->context = Notification::CONTEXT_INFO;
-            Notification\Manager::notify('ControllerAdmin_StatsAreNotRecorded', $notification);
-        }
+        self::notifyWhenTrackingStatisticsDisabled();
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
@@ -103,41 +136,7 @@ abstract class ControllerAdmin extends Controller
 
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
-        // for old geoip plugin warning
-        $usingOldGeoIPPlugin = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('GeoIP');
-
-        if (!empty($usingOldGeoIPPlugin) && Piwik::isUserIsSuperUser()) {
-            $message = Piwik::translate('UserCountry_OldGeoIPWarning', array('<a href="index.php?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday">','</a>','<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">','</a>','<a href="http://piwik.org/faq/how-to/#faq_167">','</a>','<a href="http://piwik.org/faq/how-to/#faq_59">','</a>'));
-            $notification = new Notification($message);
-            $notification->title   = Piwik::translate('General_Warning');
-            $notification->raw     = true;
-            $notification->context = Notification::CONTEXT_WARNING;
-            Notification\Manager::notify('ControllerAdmin_UsingOldGeoIpPlugin', $notification);
-
-        }
-
-        // for cannot find installed plugin warning
-        $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();
-        if (!empty($missingPlugins)) {
-            $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
-                                                                                 'module' => 'CorePluginsAdmin', 'action' => 'plugins'
-                                                                            ));
-            $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
-                                                                                                       self::getPiwikVersion(),
-                                                                                                       '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
-                . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
-                                                                                      '<a href="' . $pluginsLink . '"/>',
-                                                                                      '</a>'
-                                                                                 ));
-
-            if (Piwik::isUserIsSuperUser()) {
-                $notification = new Notification($invalidPluginsWarning);
-                $notification->raw     = true;
-                $notification->context = Notification::CONTEXT_WARNING;
-                $notification->title   = Piwik::translate('General_Warning') . ':';
-                Notification\Manager::notify('ControllerAdmin_InvalidPluginsWarning', $notification);
-            }
-        }
+        self::notifyAnyInvalidPlugin();
 
         self::checkPhpVersion($view);
 
@@ -147,6 +146,7 @@ abstract class ControllerAdmin extends Controller
         $view->notifications = NotificationManager::getAllNotificationsToDisplay();
         NotificationManager::cancelAllNonPersistent();
     }
+
 
     static protected function getPiwikVersion()
     {
