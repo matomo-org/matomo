@@ -40,8 +40,9 @@ class DoNotTrack extends \Piwik\Plugin
         ) {
             $request = new Request($_REQUEST);
             $ua = $request->getUserAgent();
-            if (strpos($ua, 'MSIE 10') !== false) {
-                Common::printDebug("INTERNET EXPLORER 10 Enables DNT by default, so Piwik ignores DNT for all IE10 browsers...");
+            if (strpos($ua, 'MSIE 10') !== false
+                || strpos($ua, 'Trident/7') !== false) {
+                Common::printDebug("INTERNET EXPLORER 10 and 11 enable DoNotTrack by default; so Piwik ignores DNT for all IE10 + IE11 browsers...");
                 return;
             }
 
