@@ -7,7 +7,7 @@
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
         See also our official guide <strong><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></strong></p>
     <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
-    <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength" name="formMaskLength">
+    <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength">
         <div id='anonymizeIpSettings'>
             <table class="adminTable" style='width:800px;'>
                 <tr>
@@ -79,6 +79,8 @@
 
         <input type="submit" value="{{ 'General_Save'|translate }}" id="privacySettingsSubmit" class="submit"/>
     </form>
+
+    {% if isDataPurgeSettingsEnabled %}
     <div class="ui-confirm" id="confirmDeleteSettings">
         <h2 id="deleteLogsConfirm">{{ 'PrivacyManager_DeleteLogsConfirm'|translate }}</h2>
 
@@ -99,7 +101,7 @@
     </div>
     <h2 id="deleteLogsAnchor">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
     <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
-    <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings" name="formMaskLength">
+    <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings">
         <table class="adminTable" style='width:800px;'>
             <tr id='deleteLogSettingEnabled'>
                 <td width="250">{{ 'PrivacyManager_UseDeleteLog'|translate }}<br/>
@@ -139,7 +141,7 @@
                 <td width="250">&nbsp;</td>
                 <td width="500">
                     <label>{{ 'PrivacyManager_DeleteLogsOlderThan'|translate }}
-                        <input type="text" id="deleteOlderThan" value="{{ deleteData.config.delete_logs_older_than }}" style="width:35px;"
+                        <input type="text" id="deleteOlderThan" value="{{ deleteData.config.delete_logs_older_than }}" style="width:55px;"
                                name="deleteOlderThan"/>
                         {{ 'CoreHome_PeriodDays'|translate }}</label><br/>
                     <span class="form-description">{{ 'PrivacyManager_LeastDaysInput'|translate("1") }}</span>
@@ -265,6 +267,10 @@
         </table>
         <input type="button" value="{{ 'General_Save'|translate }}" id="deleteLogSettingsSubmit" class="submit"/>
     </form>
+
+    {% endif %}
+
+
     <h2 id="DNT">{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate }}</h2>
     <table class="adminTable" style='width:800px;'>
         <tr>

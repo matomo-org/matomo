@@ -50,6 +50,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     break;
 
                 case("formDeleteSettings"):
+                    $this->checkDataPurgeAdminSettingsIsEnabled();
                     $settings = $this->getPurgeSettingsFromRequest();
                     PrivacyManager::savePurgeDataSettings($settings);
                     break;
@@ -64,6 +65,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Notification\Manager::notify('PrivacyManager_ChangesHaveBeenSaved', $notification);
 
         $this->redirectToIndex('PrivacyManager', 'privacySettings', null, null, null, array('updated' => 1));
+    }
+
+    private function checkDataPurgeAdminSettingsIsEnabled()
+    {
+        if (!$this->isDataPurgeSettingsEnabled()) {
+            throw new \Exception("Configuring deleting log data and report data has been disabled by Piwik admins.");
+        }
+    }
+
+    private function isDataPurgeSettingsEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_delete_old_data_settings_admin'];
     }
 
     /**
@@ -131,6 +144,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@PrivacyManager/privacySettings');
 
         if (Piwik::isUserIsSuperUser()) {
+            $view->isDataPurgeSettingsEnabled = $this->isDataPurgeSettingsEnabled();
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
             $view->dntSupport = self::isDntSupported();
@@ -305,4 +319,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             //nothing to do
         }
     }
+
 }
