@@ -66,8 +66,10 @@ class UserCountry extends \Piwik\Plugin
 
     public function getScheduledTasks(&$tasks)
     {
-        // add the auto updater task
-        $tasks[] = GeoIPAutoUpdater::makeScheduledTask();
+        // add the auto updater task if GeoIP admin is enabled
+        if($this->isGeoLocationAdminEnabled()) {
+            $tasks[] = GeoIPAutoUpdater::makeScheduledTask();
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)
