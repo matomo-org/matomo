@@ -1845,7 +1845,9 @@
         "HowToInstallNginxModule": "How do I install the GeoIP module for Nginx?",
         "HowToInstallGeoIpPecl": "How do I install the GeoIP PECL extension?",
         "GeoIPIncorrectDatabaseFormat": "Your GeoIP database does not seem to have the correct format. It may be corrupt. Make sure you are using the binary version and try replacing it with another copy.",
-        "DefaultLocationProviderExplanation": "You are using the default location provider, which means Piwik will guess the visitor's location based on the language they use. %1$sRead this%2$s to learn how to setup more accurate geolocation."
+        "DefaultLocationProviderExplanation": "You are using the default location provider, which means Piwik will guess the visitor's location based on the language they use. %1$sRead this%2$s to learn how to setup more accurate geolocation.",
+        "UpdaterWillRunNext": "It is next scheduled to run on %s.",
+        "UpdaterIsNotScheduledToRun": "It is not scheduled to run in the future."
     },
     "UserCountryMap": {
         "map": "map",

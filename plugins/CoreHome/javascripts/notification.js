@@ -155,7 +155,7 @@
         } else {
             $notificationNode.fadeIn(1000);
         }
-        
+
         return $notificationNode;
     }
 
