@@ -61,7 +61,7 @@ class UIAssetMinifier extends Singleton
 
     private static function validateDependency()
     {
-        if (!class_exists("JShrink\Minifier"))
-            throw new Exception("JShrink dependency is managed using Composer. <br> $ php composer.phar update  ");
+        if (!class_exists("JShrink\\Minifier"))
+            throw new Exception("JShrink dependency is managed using Composer. <br>php composer.phar update  ");
     }
 }

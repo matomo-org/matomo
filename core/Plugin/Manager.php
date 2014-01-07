@@ -826,7 +826,7 @@ class Manager extends Singleton
     private function loadTranslation($plugin, $langCode)
     {
         // we are in Tracker mode if Loader is not (yet) loaded
-        if (!class_exists('Piwik\Loader', false)) {
+        if (!class_exists('Piwik\\Loader', false)) {
             return false;
         }
 
