@@ -11,6 +11,7 @@
 namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
+use Piwik\Config;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Notification;
@@ -129,6 +130,7 @@ abstract class ControllerAdmin extends Controller
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
+        $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
         $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
         if (!$view->enableFrames) {
             $view->setXFrameOptions('sameorigin');
@@ -147,6 +149,10 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::cancelAllNonPersistent();
     }
 
+    static protected function isDataPurgeSettingsEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_delete_old_data_settings_admin'];
+    }
 
     static protected function getPiwikVersion()
     {

@@ -234,6 +234,8 @@
     <input type="submit" value="{{ 'General_Save'|translate }}" id="generalSettingsSubmit" class="submit"/>
     <br/>
     <br/>
+
+    {% if isDataPurgeSettingsEnabled %}
     {% set clickDeleteLogSettings %}{{ 'PrivacyManager_DeleteDataSettings'|translate }}{% endset %}
     <h2>{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
     <p>
@@ -243,6 +245,7 @@
             {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ clickDeleteLogSettings ~ "'") }}
         </a>
     </p>
+    {% endif %}
 {% endif %}
 <h2>{{ 'CoreAdminHome_OptOutForYourVisitors'|translate }}</h2>
 
