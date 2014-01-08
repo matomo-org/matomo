@@ -687,7 +687,7 @@
 
                             function regionCode(region) {
                                 var key = UserCountryMap.keys[iso] || 'fips';
-                                return key.substr(0, 4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
+                                return key.substr(0, 4) == "fips" ? (region[key] || "").substr(2) : region[key];  // cut first two letters from fips code (=country code)
                             }
 
                             function regionExistsInMap(code) {
