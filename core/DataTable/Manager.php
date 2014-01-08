@@ -65,7 +65,7 @@ class Manager extends Singleton
     public function getTable($idTable)
     {
         if (!isset($this->tables[$idTable])) {
-            throw new Exception(sprintf("This report has been reprocessed since your last click. To see this error less often, please increase the timeout value in seconds in Settings > General Settings. (error: id %s not found).", $idTable));
+            throw new TableNotFoundException(sprintf("This report has been reprocessed since your last click. To see this error less often, please increase the timeout value in seconds in Settings > General Settings. (error: id %s not found).", $idTable));
         }
         return $this->tables[$idTable];
     }
