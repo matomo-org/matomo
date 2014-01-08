@@ -238,4 +238,31 @@ class DateTest extends PHPUnit_Framework_TestCase
         $date = $date->subPeriod(5, 'year');
         $this->assertEquals($dateExpected->getTimestamp(), $date->getTimestamp());
     }
+
+    /**
+     * @group Core
+     */
+    public function testIsLeapYear()
+    {
+        $date = Date::factory('2011-03-01');
+        $this->assertFalse($date->isLeapYear());
+        $date = Date::factory('2011-01-01');
+        $this->assertFalse($date->isLeapYear());
+        $date = Date::factory('2011-01-31');
+        $this->assertFalse($date->isLeapYear());
+
+        $date = Date::factory('2012-01-01');
+        $this->assertTrue($date->isLeapYear());
+        $date = Date::factory('2012-12-31');
+        $this->assertTrue($date->isLeapYear());
+
+        $date = Date::factory('2013-01-01');
+        $this->assertFalse($date->isLeapYear());
+        $date = Date::factory('2013-12-31');
+        $this->assertFalse($date->isLeapYear());
+
+        $date = Date::factory('2052-01-01');
+        $this->assertTrue($date->isLeapYear());
+
+    }
 }
