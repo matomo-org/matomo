@@ -34,9 +34,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    const LOGO_HEIGHT = 300;
-    const LOGO_SMALL_HEIGHT = 100;
-
     const SET_PLUGIN_SETTINGS_NONCE = 'CoreAdminHome.setPluginSettings';
 
     public function index()
@@ -60,12 +57,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->trustedHosts = $trustedHosts;
 
             $view->branding = Config::getInstance()->branding;
-            $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/misc/user/');
-            $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png')
-                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.svg')
-                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');;
-            $view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 
+            $logo = new CustomLogo();
+            $view->logosWriteable = $logo->isCustomLogoWritable();
+            $view->pathUserLogo = CustomLogo::getPathUserLogo();
+            $view->pathUserLogoSmall = CustomLogo::getPathUserLogoSmall();
+            $view->pathUserLogoSVG = CustomLogo::getPathUserSvgLogo();
+            $view->pathUserLogoDirectory = dirname($view->pathUserLogo) . '/';
         }
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
@@ -271,57 +269,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function uploadCustomLogo()
     {
         Piwik::checkUserIsSuperUser();
-        if (empty($_FILES['customLogo'])
-            || !empty($_FILES['customLogo']['error'])
-        ) {
-            return '0';
+
+        $logo = new CustomLogo();
+        $success = $logo->copyUploadedLogoToFilesystem();
+
+        if($success) {
+            return '1';
         }
-
-        $file = $_FILES['customLogo']['tmp_name'];
-        if (!file_exists($file)) {
-            return '0';
-        }
-
-        list($width, $height) = getimagesize($file);
-        switch ($_FILES['customLogo']['type']) {
-            case 'image/jpeg':
-                $image = imagecreatefromjpeg($file);
-                break;
-            case 'image/png':
-                $image = imagecreatefrompng($file);
-                break;
-            case 'image/gif':
-                $image = imagecreatefromgif($file);
-                break;
-            default:
-                return '0';
-        }
-
-        $widthExpected = round($width * self::LOGO_HEIGHT / $height);
-        $smallWidthExpected = round($width * self::LOGO_SMALL_HEIGHT / $height);
-
-        $logo = imagecreatetruecolor($widthExpected, self::LOGO_HEIGHT);
-        $logoSmall = imagecreatetruecolor($smallWidthExpected, self::LOGO_SMALL_HEIGHT);
-
-        // Handle transparency
-        $background = imagecolorallocate($logo, 0, 0, 0);
-        $backgroundSmall = imagecolorallocate($logoSmall, 0, 0, 0);
-        imagecolortransparent($logo, $background);
-        imagecolortransparent($logoSmall, $backgroundSmall);
-
-        if ($_FILES['customLogo']['type'] == 'image/png') {
-            imagealphablending($logo, false);
-            imagealphablending($logoSmall, false);
-            imagesavealpha($logo, true);
-            imagesavealpha($logoSmall, true);
-        }
-
-        imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
-        imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
-
-        imagepng($logo, PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png', 3);
-        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png', 3);
-        return '1';
+        return '0';
     }
 
     private function isGeneralSettingsAdminEnabled()
@@ -382,4 +337,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->mail = Config::getInstance()->mail;
         $this->displayWarningIfConfigFileNotWritable();
     }
+
+
 }

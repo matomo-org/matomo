@@ -12,6 +12,7 @@ namespace Piwik\Plugin;
 
 use Exception;
 use Piwik\Access;
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
@@ -35,7 +36,6 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
-use Piwik\API\Proxy;
 
 /**
  * Base class of all plugin Controllers.
@@ -550,6 +550,7 @@ abstract class Controller
         $view->isSuperUser = Access::getInstance()->isSuperUser();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->isCustomLogo = PiwikConfig::getInstance()->branding['use_custom_logo'];
+
         $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
         $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
         $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();

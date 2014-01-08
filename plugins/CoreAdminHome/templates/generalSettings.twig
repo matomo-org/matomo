@@ -203,12 +203,12 @@
                         </td>
                         <td style="width:200px;">
                             <input name="customLogo" type="file" id="customLogo"/>
-                            <img src="misc/user/logo.png?r={{ random() }}" id="currentLogo" height="150"/>
+                            <img src="{{ pathUserLogo }}?r={{ random() }}" id="currentLogo" height="150"/>
                         </td>
                     {% else %}
                         <td>
                             <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_LogoNotWriteable">
-                                {{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
+                                {{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>"~ pathUserLogoDirectory ~"</li><li>"~ pathUserLogo ~"</li><li>"~ pathUserLogoSmall ~"</li><li>"~ pathUserLogoSVG ~"</li></ul>")|notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
                             </div>
                         </td>
                     {% endif %}
