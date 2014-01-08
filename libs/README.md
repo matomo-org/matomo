@@ -28,6 +28,7 @@ third-party libraries:
    - empty sparklines with floats, off-by-one errors, and locale conflict
  * tcpdf/
    - in 6f945465fe40021d579bc2b4b8876468da69b062 fixed a bug reported in the forums
+   - in 566c63a52e31b2b2d3e1a83f8f63e74e8d661b21 fixed another couple bugs with fopen throwing warnings
 
  * Zend/
    - strip require_once (to support autoloading)
