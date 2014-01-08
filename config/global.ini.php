@@ -372,7 +372,7 @@ enable_geolocation_admin = 1
 
 ; By setting this option to 0, the old log data and old report data features will be hidden from the UI
 ; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.
-enable_delete_old_data_admin = 1
+enable_delete_old_data_settings_admin = 1
 
 ; By setting this option to 0, the following settings will be hidden and disabled from being set in the UI:
 ; - "General Settings"
