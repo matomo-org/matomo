@@ -51,40 +51,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@CoreAdminHome/generalSettings');
 
         if (Piwik::isUserIsSuperUser()) {
-            $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
-            $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
-            $showWarningCron = false;
-            if (!$enableBrowserTriggerArchiving
-                && $todayArchiveTimeToLive < 3600
-            ) {
-                $showWarningCron = true;
+            $this->handleGeneralSettingsAdmin($view);
+
+            $trustedHosts = array();
+            if (isset(Config::getInstance()->General['trusted_hosts'])) {
+                $trustedHosts = Config::getInstance()->General['trusted_hosts'];
             }
-            $view->showWarningCron = $showWarningCron;
-            $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
-            $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
+            $view->trustedHosts = $trustedHosts;
 
-            $this->displayWarningIfConfigFileNotWritable();
-
-            $config = Config::getInstance();
-
-            $debug = $config->Debug;
-            $view->enableBetaReleaseCheck = $debug['allow_upgrades_to_beta'];
-
-            $view->mail = $config->mail;
-
-            $view->branding = $config->branding;
-
+            $view->branding = Config::getInstance()->branding;
             $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/misc/user/');
             $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png')
                 && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.svg')
                 && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');;
             $view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 
-            $trustedHosts = array();
-            if (isset($config->General['trusted_hosts'])) {
-                $trustedHosts = $config->General['trusted_hosts'];
-            }
-            $view->trustedHosts = $trustedHosts;
         }
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
@@ -202,41 +183,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $response = new ResponseBuilder(Common::getRequestVar('format'));
         try {
             $this->checkTokenInUrl();
-            $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
-            $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
 
-            Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-            Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+            $this->saveGeneralSettings();
 
-            // Update email settings
-            $mail = array();
-            $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-            $mail['port'] = Common::getRequestVar('mailPort', '');
-            $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
-            $mail['type'] = Common::getRequestVar('mailType', '');
-            $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
-            $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
-            $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
-
-            $config = Config::getInstance();
-            $config->mail = $mail;
-
-            // update branding settings
-            $branding = $config->branding;
-            $branding['use_custom_logo'] = Common::getRequestVar('useCustomLogo', '0');
-            $config->branding = $branding;
-
-            // update beta channel setting
-            $debug = $config->Debug;
-            $debug['allow_upgrades_to_beta'] = Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
-            $config->Debug = $debug;
             // update trusted host settings
             $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
             if ($trustedHosts !== false) {
                 Url::saveTrustedHostnameInConfig($trustedHosts);
             }
 
-            $config->forceSave();
+            // update branding settings
+            $branding = Config::getInstance()->branding;
+            $branding['use_custom_logo'] = Common::getRequestVar('useCustomLogo', '0');
+            Config::getInstance()->branding = $branding;
+
+            Config::getInstance()->forceSave();
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -361,5 +322,64 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         imagepng($logo, PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png', 3);
         imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png', 3);
         return '1';
+    }
+
+    private function isGeneralSettingsAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_general_settings_admin'];
+    }
+
+    private function saveGeneralSettings()
+    {
+        if(!$this->isGeneralSettingsAdminEnabled()) {
+            // General settings + Beta channel + SMTP settings is disabled
+            return;
+        }
+
+        // General Setting
+        $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
+        $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
+        Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+        Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+
+        // update beta channel setting
+        $debug = Config::getInstance()->Debug;
+        $debug['allow_upgrades_to_beta'] = Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
+        Config::getInstance()->Debug = $debug;
+
+        // Update email settings
+        $mail = array();
+        $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
+        $mail['port'] = Common::getRequestVar('mailPort', '');
+        $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
+        $mail['type'] = Common::getRequestVar('mailType', '');
+        $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
+        $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
+        $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
+
+        Config::getInstance()->mail = $mail;
+    }
+
+    private function handleGeneralSettingsAdmin($view)
+    {
+        // Whether to display or not the general settings (cron, beta, smtp)
+        $view->isGeneralSettingsAdminEnabled = $this->isGeneralSettingsAdminEnabled();
+
+        $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
+        $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
+        $showWarningCron = false;
+        if (!$enableBrowserTriggerArchiving
+            && $todayArchiveTimeToLive < 3600
+        ) {
+            $showWarningCron = true;
+        }
+        $view->showWarningCron = $showWarningCron;
+        $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
+        $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
+
+
+        $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];
+        $view->mail = Config::getInstance()->mail;
+        $this->displayWarningIfConfigFileNotWritable();
     }
 }
