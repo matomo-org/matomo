@@ -9,79 +9,94 @@
     {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
 
+    <h2>{{ 'General_GeneralSettings'|translate }}</h2>
+    <table class="adminTable" style='width:900px;'>
+
     {% if isGeneralSettingsAdminEnabled %}
-        <h2>{{ 'General_GeneralSettings'|translate }}</h2>
-        <table class="adminTable" style='width:900px;'>
-            <tr>
-                <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
-                <td style="width:220px;">
-                    <fieldset>
-                        <input id="enableBrowserTriggerArchiving-yes" type="radio" value="1" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
-                        <label for="enableBrowserTriggerArchiving-yes">{{ 'General_Yes'|translate }}</label><br/>
-                        <span class="form-description">{{ 'General_Default'|translate }}</span>
-                        <br/><br/>
+        <tr>
+            <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
+            <td style="width:220px;">
+                <fieldset>
+                    <input id="enableBrowserTriggerArchiving-yes" type="radio" value="1" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
+                    <label for="enableBrowserTriggerArchiving-yes">{{ 'General_Yes'|translate }}</label><br/>
+                    <span class="form-description">{{ 'General_Default'|translate }}</span>
+                    <br/><br/>
 
-                        <input id="enableBrowserTriggerArchiving-no" type="radio" value="0" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
-                        <label for="enableBrowserTriggerArchiving-no">{{ 'General_No'|translate }}</label><br/>
-                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
-                    </fieldset>
-                <td>
-                    {% set browserArchivingHelp %}
-                        {{ 'General_ArchivingInlineHelp'|translate }}
-                        <br/>
-                        {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
-                    {% endset %}
-                    {{ piwik.inlineHelp(browserArchivingHelp) }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="todayArchiveTimeToLive">
-                        {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
-                    </label>
-                </td>
-                <td>
-                    {{ 'General_NSeconds'|translate("<input size='3' value='" ~ todayArchiveTimeToLive ~ "' id='todayArchiveTimeToLive' />")|raw }}
-                </td>
-                <td width='450px'>
-                    {% set archiveTodayTTLHelp %}
-                        {% if showWarningCron %}
-                            <strong>
-                                {{ 'General_NewReportsWillBeProcessedByCron'|translate }}<br/>
-                                {{ 'General_ReportsWillBeProcessedAtMostEveryHour'|translate }}
-                                {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
-                            </strong>
-                        {% endif %}
-                        {{ 'General_SmallTrafficYouCanLeaveDefault'|translate(10) }}
-                        <br/>
-                        {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
-                    {% endset %}
-                    {{ piwik.inlineHelp(archiveTodayTTLHelp) }}
-                </td>
-            </tr>
-            <tr>
-                <td style="width:400px;">{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
-                <td style="width:220px;">
-                    <fieldset>
-                        <input id="enableBetaReleaseCheck-0" type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
-                        <label for="enableBetaReleaseCheck-0">{{ 'CoreAdminHome_LatestStableRelease'|translate }}</label><br/>
-                        <span class="form-description">{{ 'General_Recommended'|translate }}</span>
-                        <br/><br/>
+                    <input id="enableBrowserTriggerArchiving-no" type="radio" value="0" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
+                    <label for="enableBrowserTriggerArchiving-no">{{ 'General_No'|translate }}</label><br/>
+                    <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
+                </fieldset>
+            <td>
+                {% set browserArchivingHelp %}
+                    {{ 'General_ArchivingInlineHelp'|translate }}
+                    <br/>
+                    {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
+                {% endset %}
+                {{ piwik.inlineHelp(browserArchivingHelp) }}
+            </td>
+        </tr>
+    {% endif %}
 
-                        <input id="enableBetaReleaseCheck-1" type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
-                        <label for="enableBetaReleaseCheck-1">{{ 'CoreAdminHome_LatestBetaRelease'|translate }}</label><br/>
-                        <span class="form-description">{{ 'CoreAdminHome_ForBetaTestersOnly'|translate }}</span>
-                    </fieldset>
-                <td>
-                    {% set checkReleaseHelp %}
-                        {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>")|raw }}
-                        <br/>
-                        {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>","</a>")|raw }}
-                    {% endset %}
-                    {{ piwik.inlineHelp(checkReleaseHelp) }}
-                </td>
-            </tr>
-        </table>
+    <tr>
+        <td width="400px">
+            <label for="todayArchiveTimeToLive">
+                {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
+            </label>
+        </td>
+        <td>
+            {% set timeOutInput %}
+            <input size='3' value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %}/>
+            {% endset %}
+
+            {{ 'General_NSeconds'|translate(timeOutInput)|raw }}
+        </td>
+
+        {% if isGeneralSettingsAdminEnabled %}
+            <td width='450px'>
+                {% set archiveTodayTTLHelp %}
+                    {% if showWarningCron %}
+                        <strong>
+                            {{ 'General_NewReportsWillBeProcessedByCron'|translate }}<br/>
+                            {{ 'General_ReportsWillBeProcessedAtMostEveryHour'|translate }}
+                            {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
+                        </strong>
+                    {% endif %}
+                    {{ 'General_SmallTrafficYouCanLeaveDefault'|translate(10) }}
+                    <br/>
+                    {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
+                {% endset %}
+                {{ piwik.inlineHelp(archiveTodayTTLHelp) }}
+            </td>
+        {% endif %}
+    </tr>
+
+    {% if isGeneralSettingsAdminEnabled %}
+        <tr>
+            <td style="width:400px;">{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
+            <td style="width:220px;">
+                <fieldset>
+                    <input id="enableBetaReleaseCheck-0" type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
+                    <label for="enableBetaReleaseCheck-0">{{ 'CoreAdminHome_LatestStableRelease'|translate }}</label><br/>
+                    <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+                    <br/><br/>
+
+                    <input id="enableBetaReleaseCheck-1" type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
+                    <label for="enableBetaReleaseCheck-1">{{ 'CoreAdminHome_LatestBetaRelease'|translate }}</label><br/>
+                    <span class="form-description">{{ 'CoreAdminHome_ForBetaTestersOnly'|translate }}</span>
+                </fieldset>
+            <td>
+                {% set checkReleaseHelp %}
+                    {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>")|raw }}
+                    <br/>
+                    {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>","</a>")|raw }}
+                {% endset %}
+                {{ piwik.inlineHelp(checkReleaseHelp) }}
+            </td>
+        </tr>
+    {% endif %}
+    </table>
+
+    {% if isGeneralSettingsAdminEnabled %}
         <h2>{{ 'CoreAdminHome_EmailServerSettings'|translate }}</h2>
         <div id='emailSettings'>
             <table class="adminTable" style='width:600px;'>
