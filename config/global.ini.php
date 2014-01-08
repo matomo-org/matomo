@@ -379,6 +379,9 @@ enable_delete_old_data_admin = 1
 ; - "Email server settings"
 enable_general_settings_admin = 1
 
+; By setting this option to 0, it will disable the "Auto update" feature
+enable_auto_update = 1
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
