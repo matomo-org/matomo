@@ -189,11 +189,13 @@ $(function () {
                             name = $(this).text(),
                             mainLinkElem = $(".custom_select_main_link", selector),
                             mainLinkSpan = $('span', mainLinkElem),
-                            oldName = mainLinkSpan.text();
+                            oldName = mainLinkSpan.text(),
+                            oldIdSite = mainLinkElem.attr('data-siteid');
 
                         mainLinkElem.attr('data-siteid', idsite);
                         mainLinkSpan.text(name);
                         $(this).text(oldName);
+                        $(this).attr('data-siteid', oldIdSite);
 
                         selector.trigger('piwik:siteSelected', {id: idsite, name: name});
 
