@@ -357,7 +357,10 @@ class Config extends Singleton
 
         $section = $this->getFromGlobalConfig($name);
         $sectionCommon = $this->getFromCommonConfig($name);
-        if(empty($section)) {
+
+        if (empty($section)
+            && !empty($sectionCommon)
+        ) {
             $section = $sectionCommon;
         } elseif(!empty($section) && !empty($sectionCommon)) {
             $section = $this->array_merge_recursive_distinct($section, $sectionCommon);

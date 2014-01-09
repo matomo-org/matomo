@@ -179,7 +179,7 @@ class Visualization extends ViewDataTable
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::warning("Failed to get data from API: " . $e->getMessage());
+            Log::warning("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 
             $loadingError = array('message' => $e->getMessage());
         }
