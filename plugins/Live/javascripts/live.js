@@ -255,7 +255,8 @@ $(function() {
         ajaxRequest.send(true);
     };
 
-    var initSimpleRealtimeVisitorWidget = function () {
+    var exports = require("piwik/Live");
+    exports.initSimpleRealtimeVisitorWidget = function () {
         $('.simple-realtime-visitor-widget').each(function() {
             var $this = $(this),
               refreshAfterXSecs = $this.attr('data-refreshAfterXSecs');
@@ -265,11 +266,9 @@ $(function() {
 
             $this.attr('data-inited', 1);
 
-            setTimeout(function() { refreshWidget(this, refreshAfterXSecs ) }, refreshAfterXSecs * 1000);
+            setTimeout(function() { refreshWidget($this, refreshAfterXSecs ); }, refreshAfterXSecs * 1000);
         });
     };
-
-    initSimpleRealtimeVisitorWidget();
 });
 
 
