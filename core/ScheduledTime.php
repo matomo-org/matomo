@@ -83,7 +83,7 @@ abstract class ScheduledTime
      */
     static public function getScheduledTimeForSite($idSite, $period)
     {
-        $arbitraryDateInUTC    = Date::factory('2011-01-01');
+        $arbitraryDateInUTC     = Date::factory('2011-01-01');
         $midnightInSiteTimezone = date(
                                       'H',
                                       Date::factory(

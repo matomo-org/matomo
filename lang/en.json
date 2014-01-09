@@ -777,8 +777,7 @@
         "Changelog": "Changelog",
         "Screenshots": "Screenshots",
         "Support": "Support",
-        "PluginUpdateAvailable": "You can update this plugin from version %s to %s.",
-        "ThemeUpdateAvailable": "You can update this theme from version %s to %s.",
+        "PluginUpdateAvailable": "You are using version %s and a new version %s is available.",
         "ViewRepositoryChangelog": "View the changes",
         "History": "History",
         "PluginVersionInfo": "%1$s from %2$s",
@@ -808,7 +807,8 @@
         "OrByUploadingAPlugin": "or by %suploading a plugin%s",
         "ByDesigningOwnTheme": "by %sdesign your own theme%s",
         "OrByUploadingATheme": "or by %suploading a theme%s",
-        "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik."
+        "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik.",
+        "MissingRequirementsNotice": " Please update %1$s %2$s to a newer version, %1$s %3$s is required."
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",

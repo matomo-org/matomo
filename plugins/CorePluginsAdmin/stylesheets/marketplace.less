@@ -9,11 +9,18 @@
   .callToAction { font-size: 1.1em;line-height: 2em; }
 }
 
-#plugins .settingsLink {
-  text-align: right;
-  width: 100%;
-  display: inline-block;
-  font-style: italic;
+#plugins {
+
+  .desc .missingRequirementsNotice {
+     color: red;
+  }
+
+  .settingsLink {
+    text-align: right;
+    width: 100%;
+    display: inline-block;
+    font-style: italic;
+  }
 }
 
 .admin .pluginsFilter {
@@ -73,6 +80,7 @@
     margin-bottom: 15px;
     position: relative;
 
+    .missingRequirementsNotice,
     .updateAvailableNotice {
       font-size: 14px;
       padding: 10px;
@@ -224,7 +232,7 @@
   text-align: left;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 20px;
-  
+
   h3, h4, h5, h6 {
     margin: 20px 0px 10px 0px;
     color: #000000;
@@ -235,6 +243,7 @@
     padding-left: 20px;
   }
 
+  .content .missingRequirementsNotice,
   .content .updateAvailableNotice {
     font-size: 14px;
     padding: 10px;
@@ -257,23 +266,23 @@
     text-align: left;
     line-height: 20px;
   }
-  
+
   .header .intro {
     margin-bottom: 15px;
   }
-  
+
   .content p {
     margin: 0 0 10px;
   }
-  
+
   .description {
     padding-right: 25px;
   }
-  
+
   .ui-tabs {
     padding: 0em;
   }
-  
+
   .ui-tabs .ui-tabs-nav {
     padding: 0em;
     border-bottom: 1px solid #cccccc;
@@ -281,40 +290,40 @@
     border-radius: 0px;
     font-size: 15px;
   }
-  
+
   .ui-tabs .ui-tabs-panel {
     padding: 1.4em 3em 0em 0em;
   }
-  
+
   .content a {
     color: #255792;
     text-decoration: none;
   }
-  
+
   .metadata dl {
     padding-right: 25px;
   }
-  
+
   .metadata a:hover {
     text-decoration: underline;
   }
-  
+
   .ui-state-default {
     border: 0px !important;
   }
-  
+
   .ui-state-active {
     padding-bottom: 0px !important;
   }
-  
+
   .ui-state-active.ui-state-default {
     border: 1px solid #cccccc !important;
   }
-  
+
   .ui-state-default:hover {
     background-color: #eeeeee !important;
   }
-  
+
   .install {
     padding: 11px 19px;
     font-size: 17.5px;
@@ -340,7 +349,7 @@
     margin-left: 10px;
     line-height: 20px;
   }
-  
+
   .featuredIcon {
     height: 16px;
     width: 16px;
