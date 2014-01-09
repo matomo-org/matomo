@@ -391,14 +391,32 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             )),
 
             // Same as above but without trusted_hosts default value in global.ini.php
-            array('[General] trusted_hosts has been updated and not found in global.ini', array(
-                array('General' => array('trusted_hosts' => 'someRandomHostToOverwrite')),  // local
-                array('General' => array('settingGlobal' => 'global',   // global
+            // Also, settingCommon3 is the same in the local file as in common, so it is not written out
+            array('trusted_hosts and settingCommon3 changed ', array(
+                array('General' => array('trusted_hosts' => 'someRandomHostToOverwrite')), // local
+                array('General' => array('settingGlobal' => 'global',                   // global
                                          'settingCommon' => 'global')),
-                array('General' => array('settingCommon' => 'common',       // common
-                                         'settingCommon2' => 'common')),
-                array('General' => array('trusted_hosts' => 'works')),
-                $header . "[General]\ntrusted_hosts = \"works\"\n\n",
+                array('General' => array('settingCommon' => 'common',                   // common
+                                         'settingCommon2' => 'common',
+                                         'settingCommon3' => 'common3')),
+                array('General' => array('trusted_hosts' => 'works',               // common
+                                         'settingCommon2' => 'common', // will be cleared since it's same as in common
+                                         'settingCommon3' => 'commonOverridenByLocal')),
+                $header . "[General]\ntrusted_hosts = \"works\"\nsettingCommon3 = \"commonOverridenByLocal\"\n\n",
+            )),
+
+            // the value in [General]->key has changed
+            // the value in [CommonCategory]->newSetting has changed,
+            //         but  [CommonCategory]->settingCommon2 hasn't so it is not written
+            array('Common tests file', array(
+                array('General' => array('key' => 'value')),                            // local
+                array('General' => array('key' => 'global'),                            // global
+                      'CommonCategory' => array('settingGlobal' => 'valueGlobal')),
+                array('CommonCategory' => array('settingCommon' => 'common',            // common
+                                                'settingCommon2' => 'common2')),
+                array('CommonCategory' => array('settingCommon2' => 'common2',
+                                                'newSetting' => 'newValue')),
+                $header . "[General]\nkey = \"value\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
         );
 
