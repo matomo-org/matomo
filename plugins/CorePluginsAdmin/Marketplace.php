@@ -184,42 +184,9 @@ class Marketplace
 
         $requires = $latestVersion['requires'];
 
-        foreach ($requires as $name => $requiredVersion) {
-            $currentVersion = $this->getCurrentVersion($name);
-            $comparison     = '>=';
-
-            if (preg_match('{^(<>|!=|>=?|<=?|==?)\s*(.*)}', $requiredVersion, $matches)) {
-                $requiredVersion = $matches[2];
-                $comparison      = $matches[1];
-            }
-
-            if (false === version_compare($currentVersion, $requiredVersion, $comparison)) {
-                $plugin['missingRequirements'][] = array(
-                    'requirement'     => (strtolower($name) === 'php') ? 'PHP' : ucfirst($name),
-                    'actualVersion'   => $currentVersion,
-                    'requiredVersion' => $comparison . $requiredVersion
-                );
-            }
-        }
+        $dependency = new PluginDependency();
+        $plugin['missingRequirements'] = $dependency->getMissingDependencies($requires);
 
         return $plugin;
-    }
-
-    private function getCurrentVersion($name)
-    {
-        switch (strtolower($name)) {
-            case 'piwik':
-                return Version::VERSION;
-            case 'php':
-                return PHP_VERSION;
-            default:
-                try {
-                    $plugin = \Piwik\Plugin\Manager::getInstance()->loadPlugin(ucfirst($name));
-
-                    if (!empty($plugin)) {
-                        return $plugin->getVersion();
-                    }
-                } catch (\Exception $e) {}
-        }
     }
 }

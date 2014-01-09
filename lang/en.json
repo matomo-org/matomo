@@ -808,7 +808,7 @@
         "ByDesigningOwnTheme": "by %sdesign your own theme%s",
         "OrByUploadingATheme": "or by %suploading a theme%s",
         "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik.",
-        "MissingRequirementsNotice": " Please update %1$s %2$s to a newer version, %1$s %3$s is required."
+        "MissingRequirementsNotice": "Please update %1$s %2$s to a newer version, %1$s %3$s is required."
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",

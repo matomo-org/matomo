@@ -97,7 +97,11 @@
     {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
         {% for req in plugin.missingRequirements -%}
             <p class="missingRequirementsNotice">
-                {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(req.requirement, req.actualVersion, req.requiredVersion) }}
+                {% set requirement = req.requirement|capitalize %}
+                {% if 'Php' == requirement %}
+                    {% set requirement = 'PHP' %}
+                {% endif %}
+                {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(requirement, req.actualVersion, req.requiredVersion) }}
             </p>
         {%- endfor %}
     {% endif %}
