@@ -10,7 +10,6 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
-use Composer\Plugin\PluginManager;
 use Piwik\Version;
 use Piwik\Plugin\Manager as PluginManager;
 /**
