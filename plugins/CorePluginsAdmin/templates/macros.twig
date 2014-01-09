@@ -28,6 +28,7 @@
                     </td>
                     <td class="desc">
                         {{ plugin.description }}
+                        {{ _self.missingRequirementsNotice(plugin) }}
                     </td>
                     <td class="status">
                         {% if plugin.isActivated %}
@@ -37,7 +38,11 @@
                         {% endif %}
                     </td>
                     <td class="togl action-links">
-                        <a href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Update</a>
+                        {% if 0 == plugin.missingRequirements|length %}
+                            <a href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Update</a>
+                        {% else %}
+                            -
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -86,6 +91,16 @@
         {% endif %}
     </p>
 
+{% endmacro %}
+
+{% macro missingRequirementsNotice(plugin) %}
+    {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
+        {% for req in plugin.missingRequirements -%}
+            <p class="missingRequirementsNotice">
+                {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(req.requirement, req.actualVersion, req.requiredVersion) }}
+            </p>
+        {%- endfor %}
+    {% endif %}
 {% endmacro %}
 
 {% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames, displayAdminLinks) %}
