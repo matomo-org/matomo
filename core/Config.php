@@ -147,11 +147,11 @@ class Config extends Singleton
     }
 
     /**
-     * Returns absolute path to the common configuration file
+     * Returns absolute path to the common configuration file.
      *
      * @return string
      */
-    protected static function getCommonConfigPath()
+    public static function getCommonConfigPath()
     {
         return PIWIK_USER_PATH . '/config/common.config.ini.php';
     }
@@ -357,10 +357,7 @@ class Config extends Singleton
 
         $section = $this->getFromGlobalConfig($name);
         $sectionCommon = $this->getFromCommonConfig($name);
-
-        if (empty($section)
-            && !empty($sectionCommon)
-        ) {
+        if(empty($section) && !empty($sectionCommon)) {
             $section = $sectionCommon;
         } elseif(!empty($section) && !empty($sectionCommon)) {
             $section = $this->array_merge_recursive_distinct($section, $sectionCommon);
