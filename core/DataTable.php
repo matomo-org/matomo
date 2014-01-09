@@ -316,7 +316,7 @@ class DataTable implements DataTableInterface
     public function __construct()
     {
         // registers this instance to the manager
-        $this->currentId = Manager::getInstance()-> addTable($this);
+        $this->currentId = Manager::getInstance()->addTable($this);
     }
 
     /**
