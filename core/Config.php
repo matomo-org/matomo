@@ -463,7 +463,7 @@ class Config extends Singleton
      * @param array $configCache
      * @return string
      */
-    public function dumpConfig($configLocal, $configGlobal, $configCache)
+    public function dumpConfig($configLocal, $configGlobal, $configCommon, $configCache)
     {
         $dirty = false;
 
@@ -473,6 +473,12 @@ class Config extends Singleton
         if (!$configCache) {
             return false;
         }
+
+        // If there is a common.config.ini.php, this will ensure config.ini.php does not duplicate its values
+        if(!empty($configCommon)) {
+            $configGlobal = $this->array_merge_recursive_distinct($configGlobal, $configCommon);
+        }
+
         if ($configLocal) {
             foreach ($configLocal as $name => $section) {
                 if (!isset($configCache[$name])) {
@@ -557,13 +563,13 @@ class Config extends Singleton
      *
      * @throws Exception if config file not writable
      */
-    protected function writeConfig($configLocal, $configGlobal, $configCache, $pathLocal)
+    protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal)
     {
         if ($this->isTest) {
             return;
         }
 
-        $output = $this->dumpConfig($configLocal, $configGlobal, $configCache);
+        $output = $this->dumpConfig($configLocal, $configGlobal, $configCommon, $configCache);
         if ($output !== false) {
             $success = @file_put_contents($pathLocal, $output);
             if (!$success) {
@@ -582,11 +588,7 @@ class Config extends Singleton
      */
     public function forceSave()
     {
-        $configUsedAsDefault = $this->configGlobal;
-        if(!empty($this->configCommon)) {
-            $configUsedAsDefault = $this->array_merge_recursive_distinct($this->configGlobal, $this->configCommon);
-        }
-        $this->writeConfig($this->configLocal, $configUsedAsDefault, $this->configCache, $this->pathLocal);
+        $this->writeConfig($this->configLocal, $this->configGlobal, $this->configCommon, $this->configCache, $this->pathLocal);
     }
 
     /**
