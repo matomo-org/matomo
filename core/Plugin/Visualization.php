@@ -165,7 +165,7 @@ class Visualization extends ViewDataTable
 
             $this->beforeLoadDataTable();
 
-            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1, 'disable_queued_filters' => 1));
+            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1));
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
