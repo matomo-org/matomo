@@ -52,8 +52,10 @@ class Config extends Singleton
     protected $initialized = false;
     protected $configGlobal = array();
     protected $configLocal = array();
+    protected $configCommon = array();
     protected $configCache = array();
     protected $pathGlobal = null;
+    protected $pathCommon = null;
     protected $pathLocal = null;
 
     /**
@@ -75,7 +77,7 @@ class Config extends Singleton
      * @param string $pathLocal
      * @param string $pathGlobal
      */
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null)
+    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
         $this->isTest = true;
 
@@ -87,6 +89,10 @@ class Config extends Singleton
 
         if ($pathGlobal) {
             $this->pathGlobal = $pathGlobal;
+        }
+
+        if ($pathCommon) {
+            $this->pathCommon = $pathCommon;
         }
 
         $this->init();
@@ -141,6 +147,16 @@ class Config extends Singleton
     }
 
     /**
+     * Returns absolute path to the common configuration file
+     *
+     * @return string
+     */
+    protected static function getCommonConfigPath()
+    {
+        return PIWIK_USER_PATH . '/config/common.config.ini.php';
+    }
+
+    /**
      * Returns absolute path to the local configuration file
      *
      * @return string
@@ -151,7 +167,6 @@ class Config extends Singleton
         if ($path) {
             return $path;
         }
-
         return PIWIK_USER_PATH . '/config/config.ini.php';
     }
 
@@ -237,6 +252,7 @@ class Config extends Singleton
         $this->initialized = false;
 
         $this->pathGlobal = self::getGlobalConfigPath();
+        $this->pathCommon = self::getCommonConfigPath();
         $this->pathLocal = self::getLocalConfigPath();
     }
 
@@ -256,9 +272,12 @@ class Config extends Singleton
         }
 
         $this->configGlobal = _parse_ini_file($this->pathGlobal, true);
+
         if (empty($this->configGlobal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
         }
+
+        $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
         if ($reportError) {
             $this->checkLocalConfigFound();
@@ -336,7 +355,13 @@ class Config extends Singleton
             return $tmp;
         }
 
-        $section = $this->getFromDefaultConfig($name);
+        $section = $this->getFromGlobalConfig($name);
+        $sectionCommon = $this->getFromCommonConfig($name);
+        if(empty($section)) {
+            $section = $sectionCommon;
+        } elseif(!empty($section) && !empty($sectionCommon)) {
+            $section = $this->array_merge_recursive_distinct($section, $sectionCommon);
+        }
 
         if (isset($this->configLocal[$name])) {
             // local settings override the global defaults
@@ -356,10 +381,18 @@ class Config extends Singleton
         return $tmp;
     }
 
-    public function getFromDefaultConfig($name)
+    public function getFromGlobalConfig($name)
     {
         if (isset($this->configGlobal[$name])) {
             return $this->configGlobal[$name];
+        }
+        return null;
+    }
+
+    public function getFromCommonConfig($name)
+    {
+        if (isset($this->configCommon[$name])) {
+            return $this->configCommon[$name];
         }
         return null;
     }
@@ -549,7 +582,11 @@ class Config extends Singleton
      */
     public function forceSave()
     {
-        $this->writeConfig($this->configLocal, $this->configGlobal, $this->configCache, $this->pathLocal);
+        $configUsedAsDefault = $this->configGlobal;
+        if(!empty($this->configCommon)) {
+            $configUsedAsDefault = $this->array_merge_recursive_distinct($this->configGlobal, $this->configCommon);
+        }
+        $this->writeConfig($this->configLocal, $configUsedAsDefault, $this->configCache, $this->pathLocal);
     }
 
     /**
@@ -560,4 +597,43 @@ class Config extends Singleton
         $path = "config/" . basename($this->pathLocal);
         return new Exception(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
     }
+
+    /**
+     * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
+     * keys to arrays rather than overwriting the value in the first array with the duplicate
+     * value in the second array, as array_merge does. I.e., with array_merge_recursive,
+     * this happens (documented behavior):
+     *
+     * array_merge_recursive(array('key' => 'org value'), array('key' => 'new value'));
+     *     => array('key' => array('org value', 'new value'));
+     *
+     * array_merge_recursive_distinct does not change the datatypes of the values in the arrays.
+     * Matching keys' values in the second array overwrite those in the first array, as is the
+     * case with array_merge, i.e.:
+     *
+     * array_merge_recursive_distinct(array('key' => 'org value'), array('key' => 'new value'));
+     *     => array('key' => array('new value'));
+     *
+     * Parameters are passed by reference, though only for performance reasons. They're not
+     * altered by this function.
+     *
+     * @param array $array1
+     * @param array $array2
+     * @return array
+     * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
+     * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
+     */
+    function array_merge_recursive_distinct ( array &$array1, array &$array2 )
+    {
+        $merged = $array1;
+        foreach ( $array2 as $key => &$value ) {
+            if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) ) {
+                $merged [$key] = $this->array_merge_recursive_distinct ( $merged [$key], $value );
+            } else {
+                $merged [$key] = $value;
+            }
+        }
+        return $merged;
+    }
+
 }

@@ -173,7 +173,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      */
     public function test_DirectoriesInPluginsFolder_areKnown()
     {
-        $pluginsBundledWithPiwik = \Piwik\Config::getInstance()->getFromDefaultConfig('Plugins');
+        $pluginsBundledWithPiwik = \Piwik\Config::getInstance()->getFromGlobalConfig('Plugins');
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
         $magicPlugins = 42;
         $this->assertTrue(count($pluginsBundledWithPiwik) > $magicPlugins);

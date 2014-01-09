@@ -10,7 +10,6 @@
  */
 namespace Piwik\Updates;
 
-use Piwik\Filesystem;
 use Piwik\Updates;
 
 /**
