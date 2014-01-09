@@ -777,6 +777,9 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         Common::destroy($rowBeingDestructed);
     }
 
+    /**
+     * @group Core
+     */
     public function test_serializeFails_onSubTableNotFound()
     {
         // create a simple table with a subtable
