@@ -9,8 +9,10 @@
  * @package CorePluginsAdmin
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
-use Piwik\Version;
 
+use Composer\Plugin\PluginManager;
+use Piwik\Version;
+use Piwik\Plugin\Manager as PluginManager;
 /**
  *
  * @package CorePluginsAdmin
@@ -56,12 +58,20 @@ class PluginDependency
                 return PHP_VERSION;
             default:
                 try {
-                    $plugin = \Piwik\Plugin\Manager::getInstance()->loadPlugin(ucfirst($name));
+                    $pluginNames = PluginManager::getAllPluginsNames();
+
+                    if (!in_array($name, $pluginNames) || !PluginManager::getInstance()->isPluginLoaded($name)) {
+                        return '';
+                    }
+
+                    $plugin = PluginManager::getInstance()->loadPlugin(ucfirst($name));
 
                     if (!empty($plugin)) {
                         return $plugin->getVersion();
                     }
                 } catch (\Exception $e) {}
         }
+
+        return '';
     }
 }
