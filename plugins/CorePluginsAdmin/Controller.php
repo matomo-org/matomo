@@ -43,7 +43,7 @@ class Controller extends Plugin\ControllerAdmin
         static::dieIfMarketplaceIsDisabled();
 
         $pluginName = $this->initPluginModification($nonceName);
-        $this->dieIfPluginAdminDisabledAndIsPlugin($pluginName);
+        $this->dieIfPluginsAdminIsDisabled();
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
@@ -384,7 +384,7 @@ class Controller extends Plugin\ControllerAdmin
     public function activate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
-        $this->dieIfPluginAdminDisabledAndIsPlugin($pluginName);
+        $this->dieIfPluginsAdminIsDisabled();
 
         \Piwik\Plugin\Manager::getInstance()->activatePlugin($pluginName);
 
@@ -417,7 +417,7 @@ class Controller extends Plugin\ControllerAdmin
     public function deactivate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
-        $this->dieIfPluginAdminDisabledAndIsPlugin($pluginName);
+        $this->dieIfPluginsAdminIsDisabled();
 
         \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
@@ -426,7 +426,6 @@ class Controller extends Plugin\ControllerAdmin
     public function uninstall($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
-        // Uninstall is disabled in all cases (even for themes) - we do not use dieIfPluginAdminDisabledAndIsPlugin
         $this->dieIfPluginsAdminIsDisabled();
 
         $uninstalled = \Piwik\Plugin\Manager::getInstance()->uninstallPlugin($pluginName);
@@ -472,20 +471,6 @@ class Controller extends Plugin\ControllerAdmin
     private function getPluginNamesHavingSettingsForCurrentUser()
     {
         return array_keys(SettingsManager::getPluginSettingsForCurrentUser());
-    }
-
-    protected function dieIfPluginAdminDisabledAndIsPlugin($pluginName)
-    {
-        $isTheme = false;
-        try {
-            $plugin = Plugin\Manager::getInstance()->loadPlugin($pluginName);
-            $isTheme = $plugin->isTheme();
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-        if (!$isTheme) {
-            $this->dieIfPluginsAdminIsDisabled();
-        }
     }
 
 }

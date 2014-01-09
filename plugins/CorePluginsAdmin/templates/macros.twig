@@ -124,7 +124,7 @@
             <th>{% if isTheme %}{{ 'CorePluginsAdmin_Theme'|translate }}{% else %}{{ 'General_Plugin'|translate }}{% endif %}</th>
             <th>{{ 'General_Description'|translate }}</th>
             <th class="status">{{ 'CorePluginsAdmin_Status'|translate }}</th>
-            {% if (displayAdminLinks or isTheme) %}
+            {% if (displayAdminLinks) %}
             <th class="action-links">{{ 'General_Action'|translate }}</th>
             {% endif %}
         </tr>
@@ -188,7 +188,7 @@
                         {%- endif %}
                     </td>
 
-                    {% if displayAdminLinks or isTheme %}
+                    {% if displayAdminLinks %}
                     <td class="togl action-links" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
                         {% if not isZeitgeist -%}
 
