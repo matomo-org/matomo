@@ -883,7 +883,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // check if filesystem is NFS, if it is file based sessions won't work properly
         $infos['is_nfs'] = Filesystem::checkIfFileSystemIsNFS();
+        $infos = self::enrichSystemChecks($infos);
 
+        return $infos;
+    }
+
+
+    /**
+     * @param $infos
+     * @return mixed
+     */
+    public static function enrichSystemChecks($infos)
+    {
         // determine whether there are any errors/warnings from the checks done above
         $infos['has_errors'] = false;
         $infos['has_warnings'] = false;
@@ -909,7 +920,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ) {
             $infos['has_warnings'] = true;
         }
-
         return $infos;
     }
 
