@@ -106,6 +106,7 @@ class DoNotTrackHeaderChecker
      */
     public static function isActive()
     {
-        return !empty(Option::get(self::OPTION_NAME));
+        $active = Option::get(self::OPTION_NAME);
+        return !empty($active);
     }
 }
