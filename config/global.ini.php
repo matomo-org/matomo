@@ -458,7 +458,7 @@ campaign_keyword_var_name = "pk_kwd,piwik_kwd,pk_keyword,utm_term"
 page_maximum_length = 1024;
 
 ; Anonymize a visitor's IP address after testing for "Ip exclude"
-; This value is the level of anonymization Piwik will use; if the AnonymizeIP plugin is deactivated, this value is ignored.
+; This value is the level of anonymization Piwik will use; if the IP anonymization is deactivated, this value is ignored.
 ; For IPv4/IPv6 addresses, valid values are the number of octets in IP address to mask (from 0 to 4).
 ; For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
 ip_address_mask_length = 1
@@ -566,7 +566,6 @@ Plugins[] = Live
 Plugins[] = CustomVariables
 Plugins[] = PrivacyManager
 Plugins[] = ImageGraph
-Plugins[] = DoNotTrack
 Plugins[] = Annotations
 Plugins[] = MobileMessaging
 Plugins[] = Overlay
@@ -584,7 +583,7 @@ PluginsInstalled[] = Installation
 [Plugins_Tracker]
 Plugins_Tracker[] = Provider
 Plugins_Tracker[] = Goals
-Plugins_Tracker[] = DoNotTrack
+Plugins_Tracker[] = PrivacyManager
 Plugins_Tracker[] = UserCountry
 
 [APISettings]

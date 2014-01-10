@@ -67,6 +67,20 @@ class PrivacyManager extends \Piwik\Plugin
         'delete_reports_keep_segment_reports'  => 0,
     );
 
+    private $dntChecker = null;
+    private $ipAnonymizer = null;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->dntChecker = new DoNotTrackHeaderChecker();
+        $this->ipAnonymizer = new IPAnonymizer();
+    }
+
     /**
      * Returns true if it is likely that the data for this report has been purged and if the
      * user should be told about that.
@@ -133,6 +147,9 @@ class PrivacyManager extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
+            'Tracker.setTrackerCacheGeneral'  => array($this->dntChecker, 'setTrackerCacheGeneral'),
+            'Tracker.setVisitorIp'            => array($this->ipAnonymizer, 'setVisitorIpAddress')
         );
     }
 
@@ -465,4 +482,3 @@ class PrivacyManager extends \Piwik\Plugin
         return Db::fetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
     }
 }
-

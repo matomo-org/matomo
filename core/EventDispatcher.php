@@ -82,7 +82,7 @@ class EventDispatcher extends Singleton
             if (isset($hooks[$eventName])) {
                 list($pluginFunction, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($hooks[$eventName]);
 
-                $callbacks[$callbackGroup][] = array($plugin, $pluginFunction);
+                $callbacks[$callbackGroup][] = is_string($pluginFunction) ? array($plugin, $pluginFunction) : $pluginFunction;
             }
         }
 

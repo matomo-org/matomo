@@ -6,46 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package AnonymizeIP
+ * @package PrivacyManager
  */
-namespace Piwik\Plugins\AnonymizeIP;
+namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Config;
 use Piwik\IP;
-use Piwik\Piwik;
-use Piwik\Version;
+use Piwik\Tracker\Cache;
+use Piwik\Option;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
  *
- * @package AnonymizeIP
+ * @package PrivacyManager
  */
-class AnonymizeIP extends \Piwik\Plugin
+class IPAnonymizer
 {
-    /**
-     * @see Piwik_Plugin::getInformation
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'      => Piwik::translate('AnonymizeIP_PluginDescription'),
-            'author'           => 'Piwik',
-            'author_homepage'  => 'http://piwik.org/',
-            'version'          => Version::VERSION,
-            'license'          => 'GPL v3+',
-            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
-        );
-    }
-
-    /**
-     * @see Piwik_Plugin::getListHooksRegistered
-     */
-    public function getListHooksRegistered()
-    {
-        return array(
-            'Tracker.setVisitorIp' => 'setVisitorIpAddress',
-        );
-    }
+    const OPTION_NAME = "PrivacyManager.ipAnonymizerEnabled";
 
     /**
      * Internal function to mask portions of the visitor IP address
@@ -83,6 +60,56 @@ class AnonymizeIP extends \Piwik\Plugin
      */
     public function setVisitorIpAddress(&$ip)
     {
+        if (!$this->isActiveInTracker()) {
+            return;
+        }
+
         $ip = self::applyIPMask($ip, Config::getInstance()->Tracker['ip_address_mask_length']);
+    }
+
+    /**
+     * Returns true if IP anonymization is enabled. This function is called by the
+     * Tracker.
+     */
+    private function isActiveInTracker()
+    {
+        $cache = Cache::getCacheGeneral();
+        return !empty($cache[self::OPTION_NAME]);
+    }
+
+    /**
+     * Caches the status of IP anonymization (whether it is enabled or not).
+     */
+    public function setTrackerCacheGeneral(&$cacheContent)
+    {
+        $cacheContent[self::OPTION_NAME] = Option::get(self::OPTION_NAME);
+    }
+
+    /**
+     * Deactivates IP anonymization. This function will not be called by the Tracker.
+     */
+    public static function deactivate()
+    {
+        Option::set(self::OPTION_NAME, 0);
+        Cache::clearCacheGeneral();
+    }
+
+    /**
+     * Activates IP anonymization. This function will not be called by the Tracker.
+     */
+    public static function activate()
+    {
+        Option::set(self::OPTION_NAME, 1);
+        Cache::clearCacheGeneral();
+    }
+
+    /**
+     * Returns true if IP anonymization support is enabled, false if otherwise.
+     *
+     * @return bool
+     */
+    public static function isActive()
+    {
+        return !empty(Option::get(self::OPTION_NAME));
     }
 }

@@ -52,13 +52,13 @@ class Piwik_TestingEnvironment
                 "SEO", "UserCountry", "VisitsSummary", "VisitFrequency", "VisitTime", "VisitorInterest",
                 "ExampleAPI", "ExamplePlugin", "ExampleRssWidget", "Provider", "Feedback", "Login", "UsersManager",
                 "SitesManager", "Installation", "CoreUpdater", "ScheduledReports", "UserCountryMap", "Live",
-                "CustomVariables", "PrivacyManager", "ImageGraph", "DoNotTrack", "Annotations", "MobileMessaging",
-                "Overlay", "SegmentEditor", "DevicesDetection", "DBStats", 'ExampleUI', 'AnonymizeIP'
+                "CustomVariables", "PrivacyManager", "ImageGraph", "Annotations", "MobileMessaging",
+                "Overlay", "SegmentEditor", "DevicesDetection", "DBStats", 'ExampleUI'
             );
             $config->Plugins = array('Plugins' => $pluginsToLoad);
 
             $trackerPluginsToLoad = array(
-                'Provider', 'Goals', 'DoNotTrack', 'UserCountry', 'AnonymizeIP', 'DevicesDetection'
+                'Provider', 'Goals', 'PrivacyManager', 'UserCountry', 'DevicesDetection'
             );
             $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
 
