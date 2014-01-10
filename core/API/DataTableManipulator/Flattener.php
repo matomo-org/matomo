@@ -11,6 +11,7 @@
 namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
@@ -69,7 +70,9 @@ class Flattener extends DataTableManipulator
         // apply filters now since subtables have their filters applied before generic filters. if we don't do this
         // now, we'll try to apply filters to rows that have already been manipulated. this results in errors like
         // 'column ... already exists'.
-        $dataTable->applyQueuedFilters();
+        if (Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) == 0) {
+            $dataTable->applyQueuedFilters();
+        }
 
         $newDataTable = $dataTable->getEmptyClone($keepFilters = false);
         foreach ($dataTable->getRows() as $row) {
