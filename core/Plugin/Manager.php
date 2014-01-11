@@ -841,19 +841,29 @@ class Manager extends Singleton
         $defaultLangPath = sprintf($path, $langCode);
         $defaultEnglishLangPath = sprintf($path, 'en');
 
-        if (file_exists($defaultLangPath)) {
-            $translations = $this->getTranslationsFromFile($defaultLangPath);
-        } elseif (file_exists($defaultEnglishLangPath)) {
+        $translationsLoaded = false;
+
+        // merge in english translations as default first
+        if (file_exists($defaultEnglishLangPath)) {
             $translations = $this->getTranslationsFromFile($defaultEnglishLangPath);
-        } else {
-            return false;
+            $translationsLoaded = true;
+            if (isset($translations[$pluginName])) {
+                // only merge translations of plugin - prevents overwritten strings
+                Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+            }
         }
 
-        if (isset($translations[$pluginName])) {
-            // only merge translations of plugin - prevents overwritten strings
-            Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+        // merge in specific language translations (to overwrite english defaults)
+        if (file_exists($defaultLangPath)) {
+            $translations = $this->getTranslationsFromFile($defaultLangPath);
+            $translationsLoaded = true;
+            if (isset($translations[$pluginName])) {
+                // only merge translations of plugin - prevents overwritten strings
+                Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+            }
         }
-        return true;
+
+        return $translationsLoaded;
     }
 
     /**
