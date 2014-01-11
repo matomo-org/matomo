@@ -498,9 +498,6 @@
         "AvgGenerationTimeTooltip": "Average based on %s hit(s) %s between %s and %s",
         "OneSearch": "1 search"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonymize the last byte(s) of visitors IP addresses to comply with your local privacy laws\/guidelines."
-    },
     "API": {
         "PluginDescription": "All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc.",
         "QuickDocumentationTitle": "API quick documentation",
@@ -654,6 +651,7 @@
         "MenuPrivacySettings": "Privacy",
         "PluginDescription": "Customize Piwik to make it privacy compliant with existing legislations.",
         "UseAnonymizeIp": "Anonymize Visitors' IP addresses",
+        "AnonymizeIpInlineHelp": "Anonymize the last byte(s) of visitors IP addresses to comply with your local privacy laws\/guidelines.",
         "AnonymizeIpDescription": "Select \"Yes\" if you want Piwik not to track fully qualified IP-Addresses.",
         "AnonymizeIpMaskLengtDescription": "Select how many bytes of the visitors' IPs should be masked.",
         "AnonymizeIpMaskLength": "%s byte(s) - e.g. %s",
