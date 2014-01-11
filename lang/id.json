@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Tampilkan dan tambahkan penjelasan untuk %s...",
         "YouCannotModifyThisNote": "Anda tidak dapat mengubah penjelasan ini, sebab Anda bukan yang membuat ini, atau Anda tidak memiliki akses pengelola untuk situs ini."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimasi bita terakhir dari alamat IP pengunjung sesuai dengan peraturan privasi\/panduan setempat Anda."
-    },
     "API": {
         "GenerateVisits": "Bila Anda tidak memiliki data untuk hari ini, Anda dapat membuat beberapa menggunakan pengaya %s. Anda dapat mengaktifkan pengaya %s, lalu klik menu 'Pembangkit Kunjungan' di halaman Pengurus Piwik.",
         "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama-id dan sandi Anda, %s sehingga jangan memberitahukannya%s!",
@@ -1166,6 +1163,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Pilih \"Ya\" jika Anda ingin Piwik tidak melacak Alamat IP sepenuhnya.",
+        "AnonymizeIpInlineHelp": "Anonimasi bita terakhir dari alamat IP pengunjung sesuai dengan peraturan privasi\/panduan setempat Anda.",
         "AnonymizeIpMaskLengtDescription": "Pilih berapa banyak bita dari IP pengunjung harus ditutupi.",
         "AnonymizeIpMaskLength": "%s bita - misalnya %s",
         "CannotLockSoDeleteLogActions": "Tabel log_action tidak akan dibersihakan: harap memberi hak LOCK TABLES terhadap pengguna MySQL '%s'.",

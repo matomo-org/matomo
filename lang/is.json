@@ -12,9 +12,6 @@
         "SubmenuPagesExit": "Útgangssíður",
         "SubmenuPageTitles": "Síðu titlar"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Hylja síðusta bæti gesta IP-tölu til samræðis við persónuverndarlaga þíns lands."
-    },
     "API": {
         "GenerateVisits": "Ef þú hefur ekki gögn dagsins í dag verður þú fyrst að búa til gögn með að nota %s íbótina. Virkjaðu %s íbótina og smelltu síðan á valmyndinni 'Gesta framleiðni' í Piwik umsjónarmanns svæðinu.",
         "KeepTokenSecret": "Þessi tókar auðkenning er eins leynd og þitt notendanafn og lykilorð %s deilið því ekki%s!",
@@ -349,6 +346,9 @@
         "PasswordRepeat": "Lykilorð (endurtekið)",
         "PasswordsDoNotMatch": "Lykilorðin stemma ekki.",
         "RememberMe": "Mundu mig"
+    },
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Hylja síðusta bæti gesta IP-tölu til samræðis við persónuverndarlaga þíns lands."
     },
     "Provider": {
         "ColumnProvider": "Veitandi",

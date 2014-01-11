@@ -81,9 +81,6 @@
         "ViewAndAddAnnotations": "Bekijk en voeg annotaties toe voor %s...",
         "YouCannotModifyThisNote": "Je kunt deze notitie niet wijzigen omdat deze niet door jou is gemaakt of heb je ook geen admin rechten op deze site."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimiseer de laatste byte van bezoekers IP adressen om te voldoen aan lokale privacy wetten\/richtlijnen."
-    },
     "API": {
         "GenerateVisits": "Als u geen data hebt voor vandaag, kunt u eerst wat data genereren met de %s plugin. U kunt de %s plugin inschakelen, en dan klikken op het Bezoekers generator menu in het Piwik beheer gedeelte.",
         "KeepTokenSecret": "Deze token_auth is even geheim als uw gebruikersnaam en wachtwoord. %s Deel het met niemand! %s!",
@@ -282,7 +279,6 @@
         "PluginDescription": "Plugin admin interface",
         "PluginHomepage": "Plugins",
         "PluginsManagement": "Plugin manager",
-        "PluginUpdateAvailable": "U kunt deze plugin updaten van versie %s naar %s.",
         "PluginVersionInfo": "%1$s van %2$s",
         "Screenshots": "Schermafbeeldingen",
         "SortByNewest": "nieuwste",
@@ -299,7 +295,6 @@
         "Themes": "Thema's",
         "ThemesDescription": "Thema's kunnen de weergave van de Piwik interface aanpassen, en bieden je een compleet nieuwe visuele ervaring voor je analyse rapporten",
         "ThemesManagement": "Beheer thema's",
-        "ThemeUpdateAvailable": "U kunt dit thema updaten van versie %s naar %s.",
         "Updated": "Bijgewerkt",
         "UpdatingPlugin": "Bijwerken %s",
         "Version": "Versie",
@@ -1285,6 +1280,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Selecteer \"Ja\" als u wilt dat Piwik niet de volledige IP-adressen registreert.",
+        "AnonymizeIpInlineHelp": "Anonimiseer de laatste byte van bezoekers IP adressen om te voldoen aan lokale privacy wetten\/richtlijnen.",
         "AnonymizeIpMaskLengtDescription": "Geef aan hoeveel cijfers van het IP-adres moeten worden gemaskeerd.",
         "AnonymizeIpMaskLength": "%s byte(s) - bijvoorbeeld %s",
         "ClickHereSettings": "Klik hier om de%s-instellingen te openen.",

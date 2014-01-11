@@ -33,9 +33,6 @@
         "AddAnnotationsFor": "Dodaj adnotacje dla %s...",
         "Annotations": "Adnotacje"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimizacja ostatniego bajtu w adresie IP odwiedzających, by dostosować się do być może lokalnego prawa do prywatności\/wytycznych o prywatności."
-    },
     "API": {
         "GenerateVisits": "Jeżeli nie posiadasz żadnych danych do dnia dzisiejszego, możesz na początek wygenerować trochę symulowanych danych testowych używając wtyczki o nazwie %s. Możesz aktywować i uruchomić wtyczkę %s, a następnie kliknąć w menu przycisk Potwierdź w 'generatorze odwiedzin', w strefie menu Konfiguracja administratora systemu Piwik.",
         "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %s nie upowszechniaj go%s!",
@@ -727,6 +724,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Wybierz \"Tak\" jeśli chcesz aby nie śledzić w pełni wykwalifikowanych adresów IP.",
+        "AnonymizeIpInlineHelp": "Anonimizacja ostatniego bajtu w adresie IP odwiedzających, by dostosować się do być może lokalnego prawa do prywatności\/wytycznych o prywatności.",
         "AnonymizeIpMaskLengtDescription": "Wybierz ile bajtów z odwiedzających' adresów IP powinny być zamaskowane.",
         "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
         "DeleteLogDescription2": "Po włączeniu automatycznego usuwania logów należy się upewnić, że wszystkie poprzednie raporty dzienne zostały przetworzone, tak że żadne dane nie zostaną utracone.",

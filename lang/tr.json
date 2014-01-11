@@ -79,9 +79,6 @@
         "ViewAndAddAnnotations": "%s için notları göster ve yeni not ekle...",
         "YouCannotModifyThisNote": "Bunu değiştiremezsiniz. Bunun için bu siteye yönetici erişiminiz olması gerekli."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Yerel gizlilik kurallarına uymak için ziyaretçi IP adreslerini gizleyin."
-    },
     "API": {
         "GenerateVisits": "Eğer bugün için bir veri yoksa öncelikle %s eklentisiyle biraz veri oluşturabilirsiniz. %s eklentisini aktifleştirin, sonrasında Piwik Yönetim alanından 'Ziyaretçi Oluşturucu' menüsüne tıklayınız.",
         "KeepTokenSecret": "token_auth kullanıcı adı ve şifreniz kadar gizlidir, %s kimseyle paylaşmayınız%s!",
@@ -701,6 +698,7 @@
         "LoginUseHttps": "https kullan"
     },
     "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Yerel gizlilik kurallarına uymak için ziyaretçi IP adreslerini gizleyin.",
         "TeaserHeadline": "Gizlilik Ayarları"
     },
     "Provider": {

@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Ver y añadir anotaciones para %s...",
         "YouCannotModifyThisNote": "No puedes modificar esta anotación debido a que ni la creaste tú mismo ni tienes privilegios de administrador a este sitio."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Ocultar la dirección IP del visitante para cumplir las leyes\/directrices de privacidad de su localidad."
-    },
     "API": {
         "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el plugin %s. Puede habilitar el plugin %s, a continuación, haga clic en el menú 'Generador de Visitas' del zona Administrativa de Piwik.",
         "KeepTokenSecret": "Esta token_auth es tan secreta como su nombre de usuario y contraseña, %s no lo comparta %s!",
@@ -1207,6 +1204,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Seleccione \"Si\" si que Piwik no registre direcciones IP completas.",
+        "AnonymizeIpInlineHelp": "Ocultar la dirección IP del visitante para cumplir las leyes\/directrices de privacidad de su localidad.",
         "AnonymizeIpMaskLengtDescription": "Seleccione cuantos bytes de las direcciones IP de los visitantes deben ser ocultados.",
         "AnonymizeIpMaskLength": "%s byte(s) - ej. %s",
         "CannotLockSoDeleteLogActions": "La tabla log_action no será purgada: por favor, conceda el privilegio LOCK TABLES al usuario MYSQL '%s'.",

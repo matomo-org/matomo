@@ -80,9 +80,6 @@
         "ViewAndAddAnnotations": "Mostra i afegeix anotacions per %s...",
         "YouCannotModifyThisNote": "No podeu modificar aquesta nota perquè o bé no l'heu creada vosatres, o no teni accès d'administrador per aquest lloc web."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimitzar el(s) últim(s) de la IP de les adreces dels visitants per complir amb la vostra política de privacitat\/llei."
-    },
     "API": {
         "GenerateVisits": "Si no disposeu d'informació d'avui podeu generar informació utilitzant l'extensió: %s. Heu d'activar l'extensió %s i desprès anar al menú 'Generador de visites' de l'espai d'administració del Piwik.",
         "KeepTokenSecret": "El token_auth es tan secret com el vostre usuari i la vostra contrasenya, %s no compartiu el seu %s!",
@@ -1052,6 +1049,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Seleccioneu \"Sí\" si voleu que el Piwik no registri l'adreça IP complerta.",
+        "AnonymizeIpInlineHelp": "Anonimitzar el(s) últim(s) de la IP de les adreces dels visitants per complir amb la vostra política de privacitat\/llei.",
         "AnonymizeIpMaskLengtDescription": "Seleccioneu quans bytes de l'adreça IP del visitant voleu enmascarar.",
         "AnonymizeIpMaskLength": "%s byte(s) - p.e. %s",
         "CannotLockSoDeleteLogActions": "La taula log_action no es purgarà: siusplau doneu el privilegi LOCK TABLES a l'ususair de MySQL '%s'.",

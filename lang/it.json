@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Visualizza ed aggiungi note per %s...",
         "YouCannotModifyThisNote": "Non potete modificare questa annotazione perché non l'avete creata voi, e non avete i privilegi di amministratore per questo sito."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Rende anonimi gli ip dei tuoi visitatori per conformarsi alle leggi o alle linee guida locali."
-    },
     "API": {
         "GenerateVisits": "Se oggi non hai ricevuto visite, le puoi generare usando il plugin %s. Abilita il plugin %s, quindi clicca su \"Generatore di Visite\" nell'area amministrazione Piwik.",
         "KeepTokenSecret": "Questo token_auth è segreto come il tuo login e la tua password, %s non condividerlo %s!",
@@ -257,6 +254,7 @@
         "CorePluginTooltip": "I plugins di base non hanno versione dato che sono distribuiti con Piweik.",
         "Deactivate": "Disattiva",
         "Developer": "Sviluppatore",
+        "DoMoreContactPiwikAdmins": "Per installare un nuovo plugin o un nuovo tema, rimani in contatto con il tuo amministratore di Piwik.",
         "DownloadAndInstallPluginsFromMarketplace": "Puoi scaricare automaticamente e installare nuovi Plugins dal %sMercato%s",
         "EnjoyAnotherLookAndFeelOfThemes": "Prova un altro aspetto",
         "FeaturedPlugin": "Plugin rappresentativo",
@@ -277,6 +275,7 @@
         "Marketplace": "Mercato",
         "MarketplaceSellPluginSubject": "Mercato - Plugin di Vendita",
         "MenuPlatform": "Piattaforma",
+        "MissingRequirementsNotice": "Aggiorna %1$s %2$s a una versione più recente, è richiesto %1$s %3$s.",
         "NoPluginsFound": "Non sono stati trovati plugins",
         "NotAllowedToBrowseMarketplacePlugins": "Puoi esplorare la lista dei plugins che possono essere installati per personalizzare o espandere la tua piattaforma Piwik. Contatta il tuo amministratore se desideri installarne qualcuno.",
         "NotAllowedToBrowseMarketplaceThemes": "Puoi esplorare la lista dei temi che possono essere installati per personalizzare l'aspetto della tua piattaforma Piwik. Contatta il tuo amministratore se desideri che ne installi qualcuno.",
@@ -295,7 +294,7 @@
         "PluginNotCompatibleWith": "Il plugin %1$s non è compatibile con %2$s.",
         "PluginNotWorkingAlternative": "Se hai utilizzato questo plugin puoi trovare una versione più recente nel Mercato. Se no, puoi volere installarlo.",
         "PluginsManagement": "Amministra Plugin",
-        "PluginUpdateAvailable": "Puoi aggiornare questo plugin dalla versione %s alla versione %s.",
+        "PluginUpdateAvailable": "Stai utilizzando la versione %s ed è disponibile la nuova versione %s.",
         "PluginVersionInfo": "%1$s da %2$s",
         "PluginWebsite": "Sito Plugins",
         "Screenshots": "Screenshots",
@@ -323,7 +322,6 @@
         "Themes": "Temi",
         "ThemesDescription": "I temi possono cambiare l'aspetto dell'interfaccia utente Piwik e fornire una nuova esperienza visiva per godere i tuoi reports statistici.",
         "ThemesManagement": "Gestisci i temi",
-        "ThemeUpdateAvailable": "Puoi aggiornare questo tema dalla versione %s alla versione %s.",
         "UninstallConfirm": "State per disinstallare un plugin %s. Questo verrà completamente rimosso dalla vostra piattaforma e non potrà essere recuperato. Siete sicuri di volerlo fare?",
         "Updated": "Aggiornato",
         "UpdatingPlugin": "Aggiornamento di %s",
@@ -1322,6 +1320,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Seleziona \"Si\" se vuoi che Piwik non mostri gli indirizzi IP completi dei visitatori.",
+        "AnonymizeIpInlineHelp": "Rende anonimi gli ip dei tuoi visitatori per conformarsi alle leggi o alle linee guida locali.",
         "AnonymizeIpMaskLengtDescription": "Seleziona quanti byte degli indirizzi IP dei visitatori devono essere nascosti.",
         "AnonymizeIpMaskLength": "%s byte - e.s. %s",
         "CannotLockSoDeleteLogActions": "La tabella log_action non verrà pulita: assicura il privilegio LOCK TABLES a '%s' utente MYSQL.",
@@ -2005,7 +2004,10 @@
         "ToGeolocateOldVisits": "Per avere i dati di localizzazione delle tue vecchie visite, usa lo script descritto %1$squi%2$s.",
         "UnsupportedArchiveType": "Si è incontrato un archivio di tipo non supportato %1$s.",
         "UpdaterHasNotBeenRun": "Il programma di aggiornamento non è mai stato eseguito.",
+        "UpdaterIsNotScheduledToRun": "Non è programmato per essere avviato in futuro.",
+        "UpdaterScheduledForNextRun": "E' programmato per essere avviato durante la prossima esecuzione del cron-job archive.php",
         "UpdaterWasLastRun": "Il programma di aggiornamento è stato eseguito per l'ultima volta il %s.",
+        "UpdaterWillRunNext": "E' programmato per essere eseguito il %s.",
         "WidgetLocation": "Posizione Visitatore"
     },
     "UserCountryMap": {
@@ -2021,7 +2023,7 @@
         "MinutesAgo": "%s minuti fa",
         "None": "Nessuno",
         "NoVisit": "Nessuna visita",
-        "RealTimeMap": "Mappa in tempo reale",
+        "RealTimeMap": "Mappa Real Time",
         "Regions": "Regioni",
         "Searches": "%s ricerche",
         "Seconds": "secondi",
