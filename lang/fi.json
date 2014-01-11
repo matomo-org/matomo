@@ -56,9 +56,6 @@
         "WidgetSearchKeywords": "Sivuhaun hakusanat",
         "WidgetSearchNoResultKeywords": "Hakusanat ilman tuloksia"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Poistaa viimeisen tavun vierailijoiden IP-osoitteista, mikäli paikalliset yksityiseensuojalait\/-ohjeistukset vaativat."
-    },
     "API": {
         "GenerateVisits": "Jos sinulla ei ole yhtään tietoja tälle päivälle, voit generoida satunnaisia tietoja käyttämällä lisäosaa %s. Voit ottaa käyttöön %s-lisäosan ja painaa 'Vierailijoiden luominen'-linkkiä Piwikin ylläpitosivulla.",
         "KeepTokenSecret": "Tämä token_auth on yhtä salainen kuin salasanasi, %s älä jaa sitä%s!",
@@ -1064,6 +1061,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Valitse \"Kyllä\", jos et halua, että Piwik seuraa kokonaisia IP-osoitteita.",
+        "AnonymizeIpInlineHelp": "Poistaa viimeisen tavun vierailijoiden IP-osoitteista, mikäli paikalliset yksityiseensuojalait\/-ohjeistukset vaativat.",
         "AnonymizeIpMaskLengtDescription": "Valitse, montako tavua käyttäjien IP-osoitteista piilotetaan.",
         "AnonymizeIpMaskLength": "%s tavua - esim. %s",
         "CannotLockSoDeleteLogActions": "log_action-taulua ei ole tyhjätty. Lisää \"LOCK TABLES\"-oikeus käyttäjälle %s.",

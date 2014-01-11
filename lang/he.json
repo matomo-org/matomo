@@ -11,6 +11,7 @@
         "ColumnNoResultKeyword": "מילת\/ות מפתח ללא תוצאות חיפוש",
         "ColumnPageName": "שם הדף",
         "ColumnPagesPerSearch": "עמודי תוצאות חיפוש",
+        "ColumnPagesPerSearchDocumentation": "מבקרים באתר לפעמים הלחצו על \"המשך\" על מנת לראות תוצאות נוספות , זהו ממוצע הדפי התוצאות למילה המסוימת",
         "ColumnPageURL": "כתובת הדף",
         "ColumnSearchCategory": "חיפוש קטגוריה",
         "ColumnSearches": "חיפושים",
@@ -25,6 +26,7 @@
         "EntryPageTitles": "כותרות עמוד כניסה",
         "ExitPageTitles": "כותרות עמוד יציאה",
         "LearnMoreAboutSiteSearchLink": "למד עוד אודות המעקב איך מבקרי האתר משתמשים במנוע החיפוש שלך",
+        "OneSearch": "חיפוש 1",
         "PageUrls": "כתובות עמוד",
         "PluginDescription": "מדווח על מספר צפיות, קישורים יוצאים והורדות. מעקב אחרי קישורים יוצאים והורדות הינו אוטומטי.",
         "SiteSearchCategories1": "זהו דו\"ח רשימה של הקטגוריות שהמבקרים בחרו כאשר הם חיפשו באתר שלך",
@@ -55,9 +57,6 @@
         "IconDescHideNotes": "הסתר הערות של טווח תאריכים זה",
         "LoginToAnnotate": "יש להתחבר כדי ליצור הערה.",
         "NoAnnotations": "אין הסברים על טווח תאריכים זה"
-    },
-    "AnonymizeIP": {
-        "PluginDescription": "הסתרת הספרות האחרונות של כתובת הIP של המבקרים בכדי להתיישר עם החוקים \/ תקנות המקומיים."
     },
     "API": {
         "GenerateVisits": "אם אין לך מידע להיום ניתן קודם כל לחולל מידע בעזרת התוסף %s. ניתן להפעיל את התוסף %s, ולאחר מכן לחולל מידע על מבקרים דרך פאנל הניהול של Piwik.",
@@ -530,6 +529,9 @@
         "Account": "חשבון",
         "Accounts": "חשבונות",
         "AddAccount": "הוספת חשבון"
+    },
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "הסתרת הספרות האחרונות של כתובת הIP של המבקרים בכדי להתיישר עם החוקים \/ תקנות המקומיים."
     },
     "Referrers": {
         "Campaigns": "קמפיינים",

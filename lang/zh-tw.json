@@ -38,9 +38,6 @@
         "Annotations": "註解",
         "CreateNewAnnotation": "建立新註解"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "隱藏訪客IP位址最後一個字元以符合你的當地隱私條例\/政策。"
-    },
     "API": {
         "GenerateVisits": "如果你今天還沒有任何資料，你可以先使用 %s 外掛來產生一些數據。你可以啟用 %s 外掛，然後點擊在 Piwik 管理員區域裡的'產生訪客'選單。",
         "KeepTokenSecret": "token_auth 如你的帳號和密碼般重要，%s請不要公開它%s！",
@@ -606,6 +603,9 @@
     "MultiSites": {
         "Evolution": "發展趨勢",
         "PluginDescription": "顯示多個網站的摘要 \/ 統計。目前為 Piwik 的核心外掛。"
+    },
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "隱藏訪客IP位址最後一個字元以符合你的當地隱私條例\/政策。"
     },
     "Provider": {
         "ColumnProvider": "供應商",

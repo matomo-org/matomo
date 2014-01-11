@@ -63,9 +63,6 @@
         "NoAnnotations": "Nejsou zde žádné anotace k tomuto časovému rozpětí.",
         "ViewAndAddAnnotations": "Zobrazit a přidat anotace k %s..."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Skryje poslední byte IP adresy návštěvníka, aby souhlasila se zákony vaší země."
-    },
     "API": {
         "GenerateVisits": "Pokud pro dnešek nemáte data, můžete je nejprve vygenerovat pomocí zásuvného modulu %s. Můžete povolit zásuvný modul %s a poté kliknout na 'Generátor návštěv' v menu v administrační části Piwiku",
         "KeepTokenSecret": "Tento token_auth je tajný jako vaše uživatelské jméno a heslo, %s neříkejte jej nikomu jinému %s!",
@@ -918,6 +915,7 @@
         "OneClick": "1 kliknutí"
     },
     "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Skryje poslední byte IP adresy návštěvníka, aby souhlasila se zákony vaší země.",
         "DeleteLogsOlderThan": "Vymazat logy starší než",
         "DeleteMaxRowsNoLimit": "bez limitu",
         "KeepBasicMetrics": "Uchovat základní měření (návštěvy, zobrazení stránek, odchody, cíle, atd.)",

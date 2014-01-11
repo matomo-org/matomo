@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Visa och lägg till anteckningar för %s...",
         "YouCannotModifyThisNote": "Du kan inte ändra den här anteckningen eftersom du inte har skapat den, eller har admin-behörighet för den här webbplasten."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonymisera den sista byten av besökarnas IP-adress för att följa lokala lagar om personlig integritet\/riktlinjer."
-    },
     "API": {
         "GenerateVisits": "Om du inte har data för idag så kan du först skapa några data med hjälp av %s plugin. Du kan aktivera %s plugin, klicka sedan på 'Besöksgeneratorn'-menyn i Piwik administrationsområdet.",
         "KeepTokenSecret": "Detta token_auth är lika hemligt som ditt användarnamn och lösenord, %s dela inte med dig av detta! %s!",
@@ -1134,6 +1131,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Välj \"Ja\" om du vill att Piwik inte ska spåra fullständiga IP-adresser.",
+        "AnonymizeIpInlineHelp": "Anonymisera den sista byten av besökarnas IP-adress för att följa lokala lagar om personlig integritet\/riktlinjer.",
         "AnonymizeIpMaskLengtDescription": "Välj hur många bytes av besökares IP-adresser som ska döljas.",
         "AnonymizeIpMaskLength": "%s byte(s) - t.ex. %s",
         "CannotLockSoDeleteLogActions": "Tabellen log_action kommer inte att rensas: vänligen lägg till behörigheten LOCK TABLES till MYSQL-användaren '%s'",

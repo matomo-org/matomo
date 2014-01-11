@@ -55,9 +55,6 @@
         "IconDescHideNotes": "Skrij opombe za ta časovni razpon.",
         "ViewAndAddAnnotations": "Preglej in dodaj opombe za %s..."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimiziraj zadnji bajt IP naslova obiskovalca, da se s tem izpolnijo zahteve lokalnih zakonov\/smernic o zasebnosti."
-    },
     "API": {
         "GenerateVisits": "Če nimate današnjih podatkov, potem lahko najprej ustvarite nekaj podatkov s %s vtičnikom. Vtičnik %s lahko omogočite in nato kliknete na 'Visitor Generator' meni v Piwik administraciji.",
         "KeepTokenSecret": "Ta žeton je skriven, kot vaše uporabniško ime in geslo, %s ne delite ga z drugimi %s!",
@@ -695,6 +692,7 @@
         "Evolution": "Evolucija"
     },
     "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Anonimiziraj zadnji bajt IP naslova obiskovalca, da se s tem izpolnijo zahteve lokalnih zakonov\/smernic o zasebnosti.",
         "ClickHereSettings": "Kliknite tu za dostop do %s nastavitev.",
         "DeleteLogInfo": "Dnevniki iz sledečih tabel bodo izbrizani: %s",
         "DeleteLogsOlderThan": "Izbriši dnevnike, starejše od",

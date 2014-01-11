@@ -12,9 +12,6 @@
         "SubmenuPagesExit": "Išėjimo puslapiai",
         "SubmenuPageTitles": "Puslapių antraštės"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Paslėpkite savo lankytojų IP adresus, jei to reikalauja Jūsų vidaus taisyklės ar įstatymai."
-    },
     "API": {
         "GenerateVisits": "Jei neturite duomenų šiandienai , galite sugeneruoti jų pasinaudoję %s papildiniu. Įjunkite šį %s papildinį, tada spauskite ant 'Apsilankymų generatorius' meniu Piwik administratoriaus srityje.",
         "KeepTokenSecret": "Šis token_auth yra slaptas kaip ir naudotojo vardas bei slaptažodis, %s neviešinkite jo%s!",
@@ -595,6 +592,7 @@
         "Evolution": "Raida"
     },
     "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Paslėpkite savo lankytojų IP adresus, jei to reikalauja Jūsų vidaus taisyklės ar įstatymai.",
         "DeleteLogsOlderThan": "Ištrinti įrašus senesnius nei",
         "DeleteMaxRows": "Maksimalus vienu metu trinamų eilučių kiekis:",
         "LastDelete": "Paskutinis išvalymas atliktas",

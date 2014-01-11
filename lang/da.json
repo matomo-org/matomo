@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Vis og tilføj annotationer for %s...",
         "YouCannotModifyThisNote": "Du kan ikke ændre denne annotation, da du ikke har oprettet den eller har administrator adgang."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer."
-    },
     "API": {
         "GenerateVisits": "Hvis du ikke har data for i dag ,kan du generere nogle data ved hjælp af %s programudvidelsen. Aktiver %s programudvidelsen, og klik derefter på 'Besøgsgenerator' i menuen under indstillinger.",
         "KeepTokenSecret": "Token_auth er ligeså hemmeligt som brugernavn og adgangskode, %sdel det ikke ud%s!",
@@ -1243,6 +1240,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Vælg \"Ja\", hvis Piwik ikke skal spore fuldt kvalificerede IP-adresser.",
+        "AnonymizeIpInlineHelp": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer.",
         "AnonymizeIpMaskLengtDescription": "Vælg hvor mange bytes af de besøgendes IP-adresser der skal maskeres.",
         "AnonymizeIpMaskLength": "%s bytes - f.eks %s",
         "CannotLockSoDeleteLogActions": "log_action tabellen vil ikke blive slettet: giv LOCK TABELLER privilegium til '%s' MYSQL brugeren.",

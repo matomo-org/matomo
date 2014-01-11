@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Prikaži i dodaj beleške za %s...",
         "YouCannotModifyThisNote": "Ovu belešku ne možete da izmenite zato što je niste vi kreirali i nemate nivo administratorskog pristupa sajtu."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Maskiranje poslednjeg bajta IP adresa posetioca kako bi sve bilo u skladu sa vašim lokalnim zakonima i preporukama o zaštiti privatnosti."
-    },
     "API": {
         "GenerateVisits": "Ukoliko nema podataka za danas, onda ih prvo generišite pomoću dodatka %s. Aktivirajte dodatak %s a onda kliknite na 'Generator posetilaca' na stranici za Piwik administraciju.",
         "KeepTokenSecret": "token_auth je poverljivi podatak poput vašeg korisničkog imena i lozinke, stoga ga %s nemojte nikome pokazivati%s!",
@@ -1221,6 +1218,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Kliknite na \"Da\" ako želite da Piwik ne beleži pune IP adrese",
+        "AnonymizeIpInlineHelp": "Maskiranje poslednjeg bajta IP adresa posetioca kako bi sve bilo u skladu sa vašim lokalnim zakonima i preporukama o zaštiti privatnosti.",
         "AnonymizeIpMaskLengtDescription": "Izaberite koliko bajtova IP adrese treba da bude maskirano",
         "AnonymizeIpMaskLength": "%s bajt(ova) - npr. %s",
         "CannotLockSoDeleteLogActions": "Tabela log_action ne može biti očišćena. Potrebno je da MYSQL korisnik '%s' ima privilegiju LOCK TABLES",

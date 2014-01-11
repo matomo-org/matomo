@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Hiện thị và thêm chú thích cho %s...",
         "YouCannotModifyThisNote": "Bạn không thể sửa đổi chú thích này, bởi vì bạn đã không tạo ra nó, bạn cũng không có quyền quản trị trang web này."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Làm ẩn danh những byte(s) cuối trên địa chỉ IP của khách để tuân thủ quy định\/luật nội bộ về quyền riêng tư."
-    },
     "API": {
         "GenerateVisits": "Nếu bạn không có dữ liệu cho ngày hôm nay, bạn có thể sinh một số dữ liệu (về người thăm website) bằng cách sử dụng plugin %s. Bạn có thể khởi động plugin %s, sau đó click vào menu \"Visitor Generator\" trên khu vực quản trị Piwik.",
         "KeepTokenSecret": "token_auth này chặt chẽ như mật khẩu đăng nhập của bạn, %s không thể chia sẻ nó %s!",
@@ -1243,6 +1240,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Chọn \"Đồng ý\" nếu bạn muốn Piwik không theo dõi toàn bộ địa chỉ IP.",
+        "AnonymizeIpInlineHelp": "Làm ẩn danh những byte(s) cuối trên địa chỉ IP của khách để tuân thủ quy định\/luật nội bộ về quyền riêng tư.",
         "AnonymizeIpMaskLengtDescription": "Chọn bao nhiêu byte IPs của khách truy cập nên giấu.",
         "AnonymizeIpMaskLength": "%s byte(s) - ví dụ %s.",
         "CannotLockSoDeleteLogActions": "Bảng log_action sẽ không được thanh lọc: xin cấp đặc quyền LOCK TABLES cho '%s' người sử dụng MySQL.",

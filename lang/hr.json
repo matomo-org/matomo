@@ -32,6 +32,7 @@
         "ExitPageTitles": "Naslovi odlaznih stranica",
         "ExitPageTitlesReportDocumentation": "Ovo izvješće sadrži podatke o naslovima odlaznih stranica koje su zabilježene u određenom razdoblju.",
         "LearnMoreAboutSiteSearchLink": "Saznajte više o načinima praćenja načina na koji vaši posjetitelji koriste tražilicu na vašoj stranici.",
+        "OneSearch": "1 pretraga",
         "OutlinkDocumentation": "Odlazna poveznica je poveznica koja odvodi vašeg posjetitelja sa vaše stranice (na drugu domenu).",
         "OutlinksReportDocumentation": "Ovo izvješće prikazuje hijerarhijski popis odlaznih URL adresa na koje su kliknuli vaši posjetitelji.",
         "PagesReportDocumentation": "Ovo izvješće sadrži informacije o linkovima stranica koje su posjećene. %s Tablica je organizirana hijerarhijski, URL-ovi su prikazani kao struktura mapa.",
@@ -39,9 +40,12 @@
         "PluginDescription": "Izvješća o pregledima stranica, vanjskim poveznicama i preuzimanjima. Praćenje vanjskih poveznica i preuzimanja je automatsko! Također, možete pratiti pretraživanja vaše vlastite tražilice.",
         "SiteSearchCategories1": "Ovo izvješće prikazuje kategorije koje su posjetitelji odabrali kod pretraživanja vaše web-stranice",
         "SiteSearchCategories2": "Web-stranice kataloške prodaje najčešće imaju omogućen odabir \"kategorija\" kako bi posjetitelji pretraživali proizvode u željenoj kategoriji.",
+        "SiteSearchKeyword": "Ključne riječi",
         "SubmenuPagesEntry": "Ulazne na stranice",
         "SubmenuPagesExit": "Izlazne stranice",
         "SubmenuPageTitles": "Naslovi stranica",
+        "SubmenuSitesearch": "Pretraga stranice",
+        "WidgetExitPageTitles": "Izlazni naslovi stranica",
         "WidgetPagesExit": "Izlazne stranice",
         "WidgetPageTitles": "Naslovi stranica",
         "WidgetPageTitlesFollowingSearch": "Naslovi stranica kod pretraživanja"
@@ -56,7 +60,8 @@
         "EmailServerSettings": "Postavke email servera",
         "LogoUpload": "Odaberi logo za upload",
         "MenuGeneralSettings": "Opće postavke",
-        "PluginDescription": "Administratorsko područje PIWIK."
+        "PluginDescription": "Administratorsko područje PIWIK.",
+        "TrackingCode": "Kod za praćenje"
     },
     "CoreHome": {
         "PeriodDay": "dan",
