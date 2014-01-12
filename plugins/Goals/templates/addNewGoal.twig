@@ -3,7 +3,7 @@
 {% else %}
     <h2>{{ 'Goals_CreateNewGOal'|translate }}</h2>
     <p>
-        {{ 'Goals_NoGoalsNeedAccess'|translate }}
+        {{ 'Goals_NoGoalsNeedAccess'|translate|raw }}
     </p>
     <p>
         {{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
