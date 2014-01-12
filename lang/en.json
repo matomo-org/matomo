@@ -705,7 +705,8 @@
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
         "UseAnonymizedIpForVisitEnrichment": "Also use the Anonymized IP addresses when enriching visits.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",
-        "RecommendedForPrivacy": "(recommended for privacy)"
+        "RecommendedForPrivacy": "(recommended for privacy)",
+        "SeeAlsoOurOfficialGuidePrivacy": "See also our official guide: %sWeb Analytics Privacy%s"
     },
     "CorePluginsAdmin": {
         "PluginDescription": "Plugins Administration Interface.",

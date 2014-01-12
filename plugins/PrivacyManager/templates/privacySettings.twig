@@ -5,7 +5,7 @@
 {% if isSuperUser %}
     <h2>{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
-        See also our official guide <strong><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></strong></p>
+        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<strong><a href="http://piwik.org/privacy/" target="_blank">','</a></strong>')|raw }}</p>
     <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
     <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength">
         <div id='anonymizeIpSettings'>
