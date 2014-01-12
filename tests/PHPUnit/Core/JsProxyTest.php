@@ -39,7 +39,7 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
-            base64_encode($fullResponse),
+            base64_encode($fullResponse) . "\n\n\n\nRaw content: \n\n\n" . $fullResponse,
             'checking for image content'
         );
     }
