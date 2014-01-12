@@ -817,6 +817,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik database will be upgraded from version %1$s to the new version %2$s.",
         "TheFollowingPluginsWillBeUpgradedX": "The following plugins will be updated: %s.",
         "NoteForLargePiwikInstances": "Important notes for large Piwik installations",
+        "HighTrafficPiwikServerEnableMaintenance": "If you manage a high traffic Piwik server, we recommend to %smomentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode%s.",
         "TheUpgradeProcessMayFailExecuteCommand": "If you have a large Piwik database, updates might take too long to run in the browser. In this situation, you can execute the updates from your command line: %s",
         "YouCouldManuallyExecuteSqlQueries": "If you are not able to use the command line updater and if Piwik fails to upgrade (due to a timeout of the database, a browser timeout, or any other issue), you could manually execute the SQL queries to update Piwik.",
         "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries that will get executed",
