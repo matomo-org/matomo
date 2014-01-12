@@ -30,15 +30,15 @@ use Piwik\ScheduledTime;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
-/**
- * @see plugins/PrivacyManager/LogDataPurger.php
- */
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/LogDataPurger.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
 
 /**
- * @see plugins/PrivacyManager/ReportsPurger.php
+ * Specifically include this for Tracker API (which does not use autoloader)
  */
-require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/DoNotTrackHeaderChecker.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
 /**
  * @package PrivacyManager
@@ -147,9 +147,9 @@ class PrivacyManager extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
-            'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setTrackerCacheGeneral'  => array($this->dntChecker, 'setTrackerCacheGeneral'),
-            'Tracker.setVisitorIp'            => array($this->ipAnonymizer, 'setVisitorIpAddress')
+            'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
+            'Tracker.setVisitorIp'            => array($this->ipAnonymizer, 'setVisitorIpAddress'),
         );
     }
 
