@@ -154,7 +154,7 @@ abstract class DataTableManipulator
 
             if(empty($meta)) {
                 throw new Exception(sprintf(
-                    "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: http://developer.piwik.org/api-reference/hooks#apigetreportmetadata",
+                    "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: http://developer.piwik.org/api-reference/events#apigetreportmetadata",
                     $this->apiModule, $this->apiMethod
                 ));
             }
