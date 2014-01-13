@@ -81,9 +81,10 @@ function isSocialUrl($url, $socialName = false)
     return false;
 }
 
-/* Return social network logo path by URL
+/**
+ * Return social network logo path by URL
  *
- * @param string $url
+ * @param string $domain
  * @return string path
  * @see plugins/Referrers/images/socials/
  */
@@ -135,7 +136,9 @@ function getSearchEngineUrlFromName($name)
  */
 function getSearchEngineHostFromUrl($url)
 {
-    $url = substr($url, strpos($url, '//') + 2);
+    if (strpos($url, '//')) {
+        $url = substr($url, strpos($url, '//') + 2);
+    }
     if (($p = strpos($url, '/')) !== false) {
         $url = substr($url, 0, $p);
     }
