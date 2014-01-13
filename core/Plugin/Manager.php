@@ -253,9 +253,11 @@ class Manager extends Singleton
             $plugins = $this->pluginsToLoad;
         }
 
-        $plugin = $this->loadPlugin($pluginName);
-        if ($plugin !== null) {
-            $plugin->deactivate();
+        if(!$this->isPluginBogus($pluginName)) {
+            $plugin = $this->loadPlugin($pluginName);
+            if ($plugin !== null) {
+                $plugin->deactivate();
+            }
         }
 
         $plugins = $this->removePluginFromPluginsConfig($pluginName, $plugins);
