@@ -37,13 +37,17 @@
                 <p>
                 <span {% if not isWidget %}style='margin-left:20px;'{% endif %}>
                     {% if action.type == 'ecommerceOrder' %}
-                    <abbr title="
-                        {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(clientSideParameters.idSite)|raw }}
-                        {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(clientSideParameters.idSite)|raw }}{% endif %}
-                        {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(clientSideParameters.idSite)|raw }}{% endif %}
-                        {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(clientSideParameters.idSite)|raw }}{% endif %}
-                        {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(clientSideParameters.idSite)|raw }}{% endif %}
-                        ">{{ 'General_ColumnRevenue'|translate }}:
+{# spacing is important for tooltip to look nice #}
+{% set ecommerceOrderTooltip %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(clientSideParameters.idSite)|raw }}
+{% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(clientSideParameters.idSite)|raw }}{% endif %}
+
+{% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(clientSideParameters.idSite)|raw }}{% endif %}
+
+{% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(clientSideParameters.idSite)|raw }}{% endif %}
+
+{% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(clientSideParameters.idSite)|raw }}{% endif %}
+{% endset %}
+                    <abbr title="{{ ecommerceOrderTooltip }}">{{ 'General_ColumnRevenue'|translate }}:
                     {% else %}
                         {% set revenueLeft %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
                         {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
