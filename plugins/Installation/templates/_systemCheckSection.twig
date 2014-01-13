@@ -285,6 +285,7 @@
             {% endif %}
         </td>
     </tr>
+    {% if duringInstall is empty %}
     <tr>
         <td class="label">{{ 'UserCountry_Geolocation'|translate }}</td>
         <td>
@@ -304,6 +305,7 @@
             {% endif %}
         </td>
     </tr>
+    {% endif %}
     {% if infos.general_infos.assume_secure_protocol is defined %}
         <tr>
             <td class="label">{{ 'Installation_SystemCheckSecureProtocol'|translate }}</td>
