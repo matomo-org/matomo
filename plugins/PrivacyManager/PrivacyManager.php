@@ -147,10 +147,16 @@ class PrivacyManager extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
-            'Tracker.setTrackerCacheGeneral'  => array($this->dntChecker, 'setTrackerCacheGeneral'),
+            'Tracker.setTrackerCacheGeneral'  => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'            => array($this->ipAnonymizer, 'setVisitorIpAddress'),
         );
+    }
+
+    public function setTrackerCacheGeneral(&$cacheContent)
+    {
+        $this->ipAnonymizer->setTrackerCacheGeneral($cacheContent);
+        $this->dntChecker->setTrackerCacheGeneral($cacheContent);
     }
 
     public function getScheduledTasks(&$tasks)

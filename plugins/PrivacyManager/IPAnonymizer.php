@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Tracker\Cache;
@@ -50,7 +51,7 @@ class IPAnonymizer
                 'ffff:ffff:ffff:0000::',
                 'ffff:ff00:0000:0000::'
             );
-            return $ip & pack('a16', inet_pton($masks[$maskLength]));
+            $ip = $ip & pack('a16', inet_pton($masks[$maskLength]));
         }
         return $ip;
     }
@@ -60,11 +61,15 @@ class IPAnonymizer
      */
     public function setVisitorIpAddress(&$ip)
     {
+
         if (!$this->isActiveInTracker()) {
+            Common::printDebug("Visitor IP was _not_ anonymized: ". IP::N2P($ip));
             return;
         }
 
+        $originalIp = $ip;
         $ip = self::applyIPMask($ip, Config::getInstance()->Tracker['ip_address_mask_length']);
+        Common::printDebug("Visitor IP (was: ". IP::N2P($originalIp) .") has been anonymized: ". IP::N2P($ip));
     }
 
     /**
