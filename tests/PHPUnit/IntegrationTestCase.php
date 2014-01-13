@@ -204,6 +204,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         
         \Piwik\SettingsPiwik::$cachedKnownSegmentsToArchive = null;
         \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+
+        \Piwik\Plugins\PrivacyManager\IPAnonymizer::deactivate();
+        \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::deactivate();
     }
 
     public static function tearDownAfterClass()
