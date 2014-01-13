@@ -667,7 +667,7 @@
         "Live": "Echtzeit",
         "Loading": "Laden ...",
         "LoadingData": "Lade Daten ...",
-        "LoadingPopover": "%s wird geladen...",
+        "LoadingPopover": "Lade %s...",
         "LoadingPopoverFor": "Lade %s für",
         "Locale": "de_DE.UTF-8",
         "Logout": "Abmelden",
