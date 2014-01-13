@@ -92,9 +92,11 @@ class VisitorLog extends Visualization
                     'hasEcommerce',
                     function ($actionDetails) use ($filterEcommerce) {
                         foreach ($actionDetails as $action) {
-                            if ($action['type'] == 'ecommerceOrder'
-                                || $filterEcommerce == 2
-                            ) {
+                            $isEcommerceOrder = $action['type'] == 'ecommerceOrder'
+                                       && $filterEcommerce == \Piwik\Plugins\Goals\Controller::ECOMMERCE_LOG_SHOW_ORDERS;
+                            $isAbandonedCart = $action['type'] == 'ecommerceAbandonedCart'
+                                       && $filterEcommerce == \Piwik\Plugins\Goals\Controller::ECOMMERCE_LOG_SHOW_ABANDONED_CARTS;
+                            if($isAbandonedCart || $isEcommerceOrder) {
                                 return true;
                             }
                         }
