@@ -2,112 +2,6 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>35</idVisit>
-		<visitIp>194.57.91.215</visitIp>
-		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<searches>0</searches>
-		<events>0</events>
-		<actions>1</actions>
-		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>61</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
-				<pageIdAction>2</pageIdAction>
-				
-				<pageId>61</pageId>
-				<icon />
-			</row>
-		</actionDetails>
-		<customVariables>
-		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>not a city</city>
-		<location>not a city, California, United States</location>
-		<latitude>1</latitude>
-		<longitude>2</longitude>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
-		<referrerType>search</referrerType>
-		<referrerTypeName>Search Engines</referrerTypeName>
-		<referrerName>Google</referrerName>
-		<referrerKeyword>wikileaks ftw</referrerKeyword>
-		<referrerKeywordPosition />
-		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
-		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<screenType>normal</screenType>
-		<deviceType>desktop</deviceType>
-		<resolution>1024x768</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
 		<idVisit>18</idVisit>
 		<visitIp>1.2.4.8</visitIp>
 		
@@ -1290,6 +1184,130 @@
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Kent</region>
+		<regionCode>G5</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<provider>awesomeisp.com</provider>
+		<providerName>Awesomeisp</providerName>
+		<providerUrl>http://www.awesomeisp.com/</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>9</idVisit>
+		<visitIp>1.2.4.4</visitIp>
+		
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<events>0</events>
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>15</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>15</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
+						<customVariablePageValue2>Cvar2 PAGE value is 4</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName5>Cvar 5 PAGE name</customVariablePageName5>
+						<customVariablePageValue5>Cvar5 PAGE value is 4</customVariablePageValue5>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
+			</row>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>5</visitCount>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<daysSinceFirstVisit>101</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
