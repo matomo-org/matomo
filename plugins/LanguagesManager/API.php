@@ -224,8 +224,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getLanguageForUser($login)
     {
+        if($login == 'anonymous') {
+            return false;
+        }
         Piwik::checkUserIsSuperUserOrTheUser($login);
-        Piwik::checkUserIsNotAnonymous();
         return Db::fetchOne('SELECT language FROM ' . Common::prefixTable('user_language') .
             ' WHERE login = ? ', array($login));
     }

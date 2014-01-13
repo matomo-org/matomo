@@ -164,6 +164,9 @@ class API extends \Piwik\Plugin\API
     {
         $allWebsitesRequested = ($idSitesOrIdSite == 'all');
         if ($allWebsitesRequested) {
+            // First clear cache
+            Site::clearCache();
+            // Then, warm the cache with only the data we should have access to
             if (Piwik::isUserIsSuperUser()
                 // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
                 // This means this function would return ALL websites in all cases.
@@ -174,6 +177,7 @@ class API extends \Piwik\Plugin\API
             } else {
                 $sites = APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
+            // Both calls above have called Site::setSitesFromArray. We now get these sites:
             $sitesToProblablyAdd = Site::getSites();
         } else {
             $sitesToProblablyAdd = array(APISitesManager::getInstance()->getSiteFromId($idSitesOrIdSite));

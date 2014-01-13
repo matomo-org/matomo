@@ -499,6 +499,9 @@ class API extends \Piwik\Plugin\API
      */
     public function userExists($userLogin)
     {
+        if($userLogin == 'anonymous') {
+            return true;
+        }
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
