@@ -896,7 +896,9 @@ class Manager extends Singleton
             $plugins = PiwikConfig::getInstance()->Plugins['Plugins'];
             foreach ($plugins as $pluginName) {
                 // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-                if (!self::getInstance()->isPluginLoaded($pluginName)) {
+                if (!self::getInstance()->isPluginLoaded($pluginName)
+                    && !$this->isPluginBogus($pluginName)
+                ) {
                     $missingPlugins[] = $pluginName;
                 }
             }
