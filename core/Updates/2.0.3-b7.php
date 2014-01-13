@@ -39,7 +39,7 @@ class Updates_2_0_3_b7 extends Updates
             if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('AnonymizeIP')) {
                 IPAnonymizer::activate();
             }
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             // pass
         }
 
