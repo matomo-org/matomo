@@ -65,7 +65,6 @@ class Manager extends Singleton
     );
 
     protected $corePluginsDisabledByDefault = array(
-        'AnonymizeIP',
         'DBStats',
         'DevicesDetection',
         'ExampleCommand',

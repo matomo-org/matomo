@@ -755,9 +755,8 @@ class Tracker
         if (Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
             self::updateTrackerConfig('ip_address_mask_length', 2);
 
-            $section = Config::getInstance()->Plugins_Tracker;
-            $section['Plugins_Tracker'][] = "AnonymizeIP";
-            Config::getInstance()->Plugins_Tracker = $section;
+            self::connectDatabaseIfNotConnected();
+            \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
 
             $forceIpAnonymization = true;
         }
@@ -780,9 +779,6 @@ class Tracker
             self::setForceVisitorId($customVisitorId);
         }
         $pluginsDisabled = array('Provider');
-        if (!$forceIpAnonymization) {
-            $pluginsDisabled[] = 'AnonymizeIP';
-        }
 
         // Disable provider plugin, because it is so slow to do many reverse ip lookups
         self::setPluginsNotToLoad($pluginsDisabled);

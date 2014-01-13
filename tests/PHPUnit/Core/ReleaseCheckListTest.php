@@ -122,7 +122,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
         $pluginsShouldBeDisabled = array(
-            'AnonymizeIP',
             'DBStats'
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
