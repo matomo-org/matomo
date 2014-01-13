@@ -434,6 +434,12 @@ class Manager extends Singleton
         );
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
+
+            // Hide plugins that are never going to be used
+            if($this->isPluginBogus($pluginName)) {
+                continue;
+            }
+
             // If the plugin is not core and looks bogus, do not load
             if ($this->isPluginThirdPartyAndBogus($pluginName)) {
                 $info = array(
@@ -493,11 +499,8 @@ class Manager extends Singleton
         if($this->isPluginBundledWithCore($pluginName)) {
             return false;
         }
-        $bogusPlugins = array(
-            'PluginMarketplace' //defines a plugin.json but 1.x Piwik plugin
-        );
-        if(in_array($pluginName, $bogusPlugins)) {
-           return true;
+        if($this->isPluginBogus($pluginName)) {
+            return true;
         }
 
         $path = $this->getPluginsDirectory() . $pluginName;
@@ -1026,6 +1029,20 @@ class Manager extends Singleton
         }
 
         return $translations;
+    }
+
+    /**
+     * @param $pluginName
+     * @return bool
+     */
+    private function isPluginBogus($pluginName)
+    {
+        $bogusPlugins = array(
+            'PluginMarketplace', //defines a plugin.json but 1.x Piwik plugin
+            'DoNotTrack', // Removed in 2.0.3
+            'AnonymizeIP', // Removed in 2.0.3
+        );
+        return in_array($pluginName, $bogusPlugins);
     }
 }
 
