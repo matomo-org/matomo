@@ -91,8 +91,11 @@ class Theme
             // Images as well
             '~(src|href)=[\'"]([^\'"]+)[\'"]~',
 
-            // rewrite images in CSS files, i.e. url(plugins/Morpheus/overrides/themes/default/images/help.png);
+            // rewrite images in CSS files
             '~(url\()[\'"]([^\)]?[plugins]+[^\)]+[.jpg|png|gif|svg]?)[\'"][\)]~',
+
+            // url(plugins/....)
+            '~(url\()([^\)]?[plugins]+[^\)]+[.jpg|png|gif|svg]?)[\)]~',
 
             // rewrites images in JS files
             '~(=)[\s]?[\'"]([^\'"]+[.jpg|.png|.gif|svg]?)[\'"]~',
