@@ -103,13 +103,13 @@ class Controller extends \Piwik\Plugin\Controller
         $saveGET = $_GET;
         $filterEcommerce = Common::getRequestVar('filterEcommerce', self::ECOMMERCE_LOG_SHOW_ORDERS, 'int');
         if($filterEcommerce == self::ECOMMERCE_LOG_SHOW_ORDERS) {
-            $segment = 'visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart';
+            $segment = urlencode('visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart');
         } else {
-            $segment = 'visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart';
+            $segment = urlencode('visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart');
         }
+        $_GET['segment'] = $segment;
         $_GET['filterEcommerce'] = $filterEcommerce;
         $_GET['widget'] = 1;
-        $_GET['segment'] = $segment;
         $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
         $_GET = $saveGET;
         return $output;
