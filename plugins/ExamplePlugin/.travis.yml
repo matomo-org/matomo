@@ -18,6 +18,8 @@ install:
   - git clone https://github.com/piwik/piwik.git piwik
   - cd piwik
   - git checkout "$TEST_PIWIK_VERSION"
+  - git submodule init
+  - git submodule update
   - composer install
   - rm -rf plugins/ExamplePlugin
   - cd ../
