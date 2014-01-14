@@ -1343,7 +1343,7 @@
         "Referrers": "Referrers",
         "ReferrersOverview": "Referrers Overview",
         "EvolutionDocumentation": "This is an overview of the referrers that led visitors to your website.",
-        "EvolutionDocumentationMoreInfo": "For more information about the different refferrer types, see the documentation of the %s table.",
+        "EvolutionDocumentationMoreInfo": "For more information about the different referrer types, see the documentation of the %s table.",
         "SearchEngines": "Search Engines",
         "SearchEnginesReportDocumentation": "This report shows which search engines referred users to your website. %s By clicking on a row in the table, you can see what users were searching for using a specific search engine.",
         "Keywords": "Keywords",
