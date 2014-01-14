@@ -1084,7 +1084,7 @@
         "SystemCheckExtensions": "Other required extensions",
         "SystemCheckDatabaseHelp": "Piwik requires either the mysqli extension or both the PDO and pdo_mysql extensions.",
         "SystemCheckPdoAndMysqliHelp": "On a Linux server you can compile php with the following options: %1$s In your php.ini, add the following lines: %2$s",
-        "SystemCheckPhpPdoAndMysqliSite": "More information on: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> and <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "More information on: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
         "SystemCheckWinPdoAndMysqliHelp": "On a Windows server you can add the following lines to your php.ini: %s",
         "SystemCheckSplHelp": "You need to configure and rebuild PHP with the Standard PHP Library (SPL) enabled (by default).",
         "SystemCheckZlibHelp": "You need to configure and rebuild PHP with \"zlib\" support enabled, --with-zlib.",
