@@ -4,13 +4,14 @@
 <!--[if (gte IE 9)|!(IE)]><!-->
 <html><!--<![endif]-->
     <head>
-        {% block head %}
+        {% block head %}            
             <meta charset="utf-8">
             <title>{{ siteName|raw }} - {% if isCustomLogo == false %}Piwik &rsaquo; {% endif %} {{ 'CoreHome_WebAnalyticsReports'|translate }}</title>
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
             <meta name="viewport" content="initial-scale=1.0" />
             <meta name="generator" content="Piwik - Open Source Web Analytics"/>
             <meta name="description" content="Web Analytics report for '{{ siteName|escape("html_attr") }}' - Piwik"/>
+            <meta name="apple-itunes-app" content="app-id=737216887" />
             <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
             {% include "_jsGlobalVariables.twig" %}
             <!--[if lt IE 9]>
