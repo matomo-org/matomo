@@ -242,7 +242,7 @@
         "Status": "Status",
         "Theme": "Tema",
         "Themes": "Temas",
-        "ThemesDescription": "Os temas podem alterar a aparência da interface do usuário do Piwik,\ne fornecer uma experiência completamente nova visual para desfrutar dos seus relatórios de análise.",
+        "ThemesDescription": "Os temas podem alterar a aparência da interface do usuário do Piwik, e fornecer uma experiência completamente nova visual para desfrutar dos seus relatórios de análise.",
         "ThemesManagement": "Gerenciar Temas",
         "UninstallConfirm": "Você está prestes a desinstalar um plugin %s. O plugin será completamente removido da sua plataforma e isso não poderá ser desfeito. Tem certeza que deseja fazer isso?",
         "Version": "Versão"
@@ -995,7 +995,7 @@
         "SystemCheckParseIniFileHelp": "Essa função built-in foi desabilitada em seu host. Piwik tentará simular essa função mas poderá encontrar algumas restrições de segurança. Rastreador de performance também será impactado.",
         "SystemCheckPdoAndMysqliHelp": "Num servidor Linux você poderá compilar o php com as seguintes opções: %1$s No seu php.ini, adicione as seguintes linhas: %2$s",
         "SystemCheckPhp": "Versão do PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "Mais informações em: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> e <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Mais informações em: %1$sPHP PDO%2$s e %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Protocolo seguro",
         "SystemCheckSecureProtocolHelp": "Parece que você esta usando https com o seu servidor web. Estas linhas serão adicionados à config \/ config.ini.php:",
         "SystemCheckSplHelp": "Você precisa configurar e remontar o PHP com a Standard PHP Library (SPL) habilitada (por padrão).",

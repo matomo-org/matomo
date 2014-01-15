@@ -361,7 +361,7 @@
         "SystemCheckOpenURLHelp": "Buletinen harpidetzek, eguneraketen jakinarazpenek eta klik bakarreko eguneraketek \"curl\" hedapena, allow_url_fopen=On edo fsockopen() gaituta egotea behar dute.",
         "SystemCheckPdoAndMysqliHelp": "Linux zerbitzari batean ondorengo aukerekin konpila dezakezu php:: %1$s Gehitu ondorengo lerroak zure php.ini fitxategian: %2$s",
         "SystemCheckPhp": "PHP bertsioa",
-        "SystemCheckPhpPdoAndMysqliSite": "Argibide gehiago: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> eta <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Argibide gehiago: %1$sPHP PDO%2$s eta %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "Standard PHP Library (SPL) lehenetsita gaituta duela konfiguratu eta birkonpilatu behar duzu PHP.",
         "SystemCheckTimeLimitHelp": "Trafiko handiko webgune batean, artxibatzeko prozesuak onartutako denbora baino gehiago har lezake. Beharrezkoa bada, aldatu max_execution_time direktiba zure php.ini fitxategian.",
         "SystemCheckWarning": "Piwik ondo ibiliko da baina zenbait ezaugarri falta litezke",

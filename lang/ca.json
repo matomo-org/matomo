@@ -883,7 +883,7 @@
         "SystemCheckParseIniFileHelp": "Aquesta funció ha estat deshabilitada al vostre host. El Piwik intentarà emular la seva funcionalitat però pot trobar altres restriccions de seguretat. El rendiment del seguiment es veurà impactat.",
         "SystemCheckPdoAndMysqliHelp": "En un servidor Linux podeu compilar el php amb les següents opcions: %1$s Al fitxer php.ini, afegiu les línies: %2$s",
         "SystemCheckPhp": "Versió del PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "Trobareu més informació a <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> i <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Trobareu més informació a %1$sPHP PDO%2$s i %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Protocol segur",
         "SystemCheckSecureProtocolHelp": "Sembla que esteu fen servir https amb el vostre servidor web. S'afegiran les següents línies al fitxer config\/config.ini.php:",
         "SystemCheckSplHelp": "Heu de configurar i recompilar el PHP amb la biblioteca Standard PHP Library (SPL) activada (per defecte).",

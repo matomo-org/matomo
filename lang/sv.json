@@ -954,7 +954,7 @@
         "SystemCheckParseIniFileHelp": "Denna inbyggda funktionen har inaktiverats på din värd. Piwik försöker emulera denna funktion men den kan stöta på ytterligare säkerhetsrestriktioner. Spårningens resultat kommer också att påverkas.",
         "SystemCheckPdoAndMysqliHelp": "På en Linux server kan du kompilera php med följande alternativ: %1$s I din php.ini, lägg till följande rader: %2$s",
         "SystemCheckPhp": "PHP version",
-        "SystemCheckPhpPdoAndMysqliSite": "Mer information finner du på: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> och <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Mer information finner du på: %1$sPHP PDO%2$s och %3$sYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Säkert protokoll",
         "SystemCheckSecureProtocolHelp": "Det verkar som att du använder https med din webbserver. Dessa rader kommer att läggas till i config\/config.ini.php:",
         "SystemCheckSplHelp": "Du måste konfigurera och installera PHP på nytt med Standard PHP Bibliotek (SPL) aktiverat (som standard).",

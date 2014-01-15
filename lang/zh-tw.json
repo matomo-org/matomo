@@ -542,7 +542,7 @@
         "SystemCheckParseIniFileHelp": "內建的函式在你的空間內已被停用。Piwik 將會嘗試模擬這些功能，但可能會造成更多安全性問題。追蹤的表現也會受到影響。",
         "SystemCheckPdoAndMysqliHelp": "在 Linux 伺服器上你可以使用以下選項編譯 PHP: 在你的php.ini 中 %1$s, 加入以下幾行: %2$s",
         "SystemCheckPhp": "PHP 版本",
-        "SystemCheckPhpPdoAndMysqliSite": "更多資訊：<a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> 和 <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "更多資訊：%1$sPHP PDO%2$s 和 %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "你需要設定及重建 PHP, 然後啟用 Standard PHP Library (SPL)。",
         "SystemCheckTimeLimitHelp": "在一個高流量的網站，執行資料彙整歸檔過程可能超過目前所允許使用的時間。<br \/>假如必要，試著變更在你的 php.ini 檔案裡的 max_execution_time.",
         "SystemCheckWarning": "Piwik 能正常運作，但部份功能可能會失效",

@@ -673,7 +673,7 @@
         "SystemCheckParseIniFileHelp": "Гэтая убудаваная функцыя адключана на вашым хосце. Piwik паспрабуе эмуляваць гэтую функцыю, але могуць паўстаць дадатковыя абмежаванні бяспекі. Трэкер прадукцыйнасці таксама будзе закрануты.",
         "SystemCheckPdoAndMysqliHelp": "На Linux серверы вы можаце скампіляваць php з наступнымі параметрамі:%1$s у вашым php.ini, дадаць наступныя радкі: %2$s",
         "SystemCheckPhp": "Версія PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "Больш падрабязная інфармацыя па: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> and <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Больш падрабязная інфармацыя па: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Бяспечны пратакол",
         "SystemCheckSecureProtocolHelp": "Падобна, што вы выкарыстоўваеце https на вэб-серверы. Гэтыя радкі будуць дададзеныя ў config\/config.ini.php:",
         "SystemCheckSplHelp": "Вам неабходна сканфігураваць і перасабраць PHP з уключанай стандартнай бібліятэкай (значэнне па змаўчанні).",

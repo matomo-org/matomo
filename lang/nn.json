@@ -655,7 +655,7 @@
         "SystemCheckOtherFunctions": "Andre funksjonar",
         "SystemCheckPdoAndMysqliHelp": "På ein Linux-tenar kan du kompilera php med følgjande val: %1$s Legg til følgjande linjer i di php.ini-fil: %2$s",
         "SystemCheckPhp": "PHP-versjon",
-        "SystemCheckPhpPdoAndMysqliSite": "Meir informasjon om: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> og <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Meir informasjon om: %1$sPHP PDO%2$s og %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "Du må konfigurera og byggja PHP med Standard PHP Library (SPL) påslegen (standard).",
         "SystemCheckTimeLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir tid enn den hev lov til.<br \/>Viss det trengs, endre innstillinga max_execution_time i php.ini-fila di.",
         "SystemCheckWarnDomHelp": "Du bør slå på \"dom\"-utvidinga (t.d. installer \"php-dom\"- og\/eller \"php-xml\"-pakken).",

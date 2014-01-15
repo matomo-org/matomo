@@ -1092,7 +1092,7 @@
         "SystemCheckParseIniFileHelp": "Diese Funktion wird von Ihrem System nicht unterstützt. Piwik wird versuchen, diese Funktion zu emulieren, aber es könnte sein, dass dadurch Sicherheitseinstellungen gelockert werden müssen. Die Geschwindigkeit des Tracker könnte auch beeinflußt werden.",
         "SystemCheckPdoAndMysqliHelp": "Auf einem Linux-Server können Sie PHP mit den folgenden Optionen kompilieren: %1$s In Ihrer php.ini fügen Sie dann die folgenden Zeilen ein: %2$s",
         "SystemCheckPhp": "PHP-Version",
-        "SystemCheckPhpPdoAndMysqliSite": "Weitere Informationen unter: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> und <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Weitere Informationen unter: %1$sPHP PDO%2$s und %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Sicherheitsprotokoll",
         "SystemCheckSecureProtocolHelp": "Es scheint so, als ob Sie https auf Ihrem Webserver verwenden. Diese Zeilen werden der Datei config\/config.ini.php hinzugefügt:",
         "SystemCheckSplHelp": "Sie müssen PHP mit standardmäßig aktivierter Standard PHP Bibliothek (SPL) konfigurieren und neu übersetzen.",

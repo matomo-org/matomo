@@ -538,7 +538,7 @@
         "SystemCheckParseIniFileHelp": "Ši integruota funkcija yra išjungta Jūsų serveryje. Piwik pabandys emuliuoti šią funkciją, tačiau galimi saugumo suvaržymai ateityje. Stebėjimo sparta taip pat gali būti paveikta.",
         "SystemCheckPdoAndMysqliHelp": "Linux serveryje galite sukompiliuoti php su šiais nustatymais: %1$s į Jūsų php.ini failą įterpkite šias eilutes: %2$s",
         "SystemCheckPhp": "PHP versija",
-        "SystemCheckPhpPdoAndMysqliSite": "Daugiau informacijos: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> and <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Daugiau informacijos: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Saugus protokolas",
         "SystemCheckSplHelp": "Jums reikia sukonfigūruoti ir perdaryti PHP su įjungtu Standard PHP Library (SPL) (pagal nutylėjimą).",
         "SystemCheckTimeLimitHelp": "Didelio lankytojų srauto svetainėse archyvavimo proceso aktyvavimas gali reikalauti daugiau laiko nei šiuo metu leidžiama.<br \/>Pasitikrinkite reikšmę max_execution_time savo php.ini faile, jeigu būtina.",

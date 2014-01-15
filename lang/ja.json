@@ -837,7 +837,7 @@
         "SystemCheckParseIniFileHelp": "この組み込み関数はホストで無効化されています。 Piwik はこの関数のエミュレートを試みますが、さらなるセキュリティ制限に遭遇する場合があります。 また、トラッカーのパフォーマンスにも影響を与えます。",
         "SystemCheckPdoAndMysqliHelp": "Linux サーバーでは、次のオプションで PHP をコンパイルします：%1$sphp.ini に次の行を追加します：%2$s",
         "SystemCheckPhp": "PHP バージョン",
-        "SystemCheckPhpPdoAndMysqliSite": "詳細ドキュメント：<a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a>、<a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>",
+        "SystemCheckPhpPdoAndMysqli": "詳細ドキュメント：%1$sPHP PDO%2$s、%3$sMYSQLI%4$s",
         "SystemCheckSecureProtocol": "セキュアプロトコル",
         "SystemCheckSecureProtocolHelp": "あなたのWebサーバーではHTTPSを使用しているようです。これらの行はconfig\/ config.ini.phpに追加されます。",
         "SystemCheckSplHelp": "Standard PHP Library (SPL) を有効にして、PHP の再構築と設定を行う必要があります（通常はデフォルト）。",

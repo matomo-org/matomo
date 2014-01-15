@@ -1009,7 +1009,7 @@
         "SystemCheckPackHelp": "بسته تابع () موظف است نسبت به ردیابی بازدید کننده در Piwik.",
         "SystemCheckParseIniFileHelp": "این تابع ساخته شده در میزبان خود را غیر فعال شده است. Piwik تلاش خواهد کرد این تابع برای شبیه سازی است اما ممکن است محدودیت های امنیتی بیشتر روبرو می شوند. عملکرد نرم افزار نیز نهفته است.",
         "SystemCheckPhp": "نسخه php",
-        "SystemCheckPhpPdoAndMysqliSite": "اطلاعات بیشتر: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> and <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "اطلاعات بیشتر: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "پروتکل امن",
         "SystemCheckSecureProtocolHelp": "به نظر می رسد شما در حال استفاده از https به وب سرور را وارد کنید. این خطوط می شود به پیکربندی \/ config.ini.php اضافه شده:",
         "SystemCheckSplHelp": "شما نیاز به تنظیم و بازسازی PHP با کتابخانه استاندارد PHP (SPL) را فعال کنید (به طور پیش فرض).",

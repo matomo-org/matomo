@@ -1065,7 +1065,7 @@
         "SystemCheckParseIniFileHelp": "这个内置函数在您的主机上已停用。Piwik 将会尝试模拟这个功能，但可能会遇到其它的安全限制，也会影响跟踪性能。",
         "SystemCheckPdoAndMysqliHelp": "在 Linux 服务器上您可以使用以下选项编译 PHP: 在您的php.ini 中 %1$s, 加入以下几行: %2$s",
         "SystemCheckPhp": "PHP 版本",
-        "SystemCheckPhpPdoAndMysqliSite": "更多资讯: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> 和 <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "更多资讯: %1$sPHP PDO%2$s 和 %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "安全协议",
         "SystemCheckSecureProtocolHelp": "您的服务器正使用 https，config\/config.ini.php 文件中将加入这些行:",
         "SystemCheckSplHelp": "您需要设定及重建 PHP, 然后启用 Standard PHP Library (SPL)。",
