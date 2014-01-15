@@ -1,5 +1,5 @@
 ---
--
+- 
   user_agent: Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko
   os:
     name: Windows 7
@@ -15,8 +15,7 @@
     model:
   os_family: Unknown
   browser_family: Unknown
-
--
+- 
   user_agent: Mozilla/5.0 (IE 11.0; Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv:11.0) like Gecko
   os:
     name: Windows 8
@@ -567,9 +566,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -583,9 +582,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: GO
@@ -599,9 +598,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: GO
@@ -615,9 +614,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: GO
@@ -631,9 +630,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -647,9 +646,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -663,9 +662,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -679,9 +678,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: GO
@@ -695,9 +694,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -711,9 +710,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -727,9 +726,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -743,9 +742,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -759,9 +758,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -775,9 +774,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -791,9 +790,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -807,9 +806,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -823,9 +822,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: KN
@@ -839,9 +838,9 @@
     short_name: AND
     version: 4.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: GO
@@ -855,9 +854,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -871,9 +870,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -887,9 +886,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -903,9 +902,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -919,9 +918,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -935,9 +934,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -951,9 +950,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -967,9 +966,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -983,9 +982,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -999,9 +998,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1015,9 +1014,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1031,9 +1030,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1047,9 +1046,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1063,9 +1062,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1079,9 +1078,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1095,9 +1094,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1111,9 +1110,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1127,9 +1126,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1143,9 +1142,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1159,9 +1158,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -1175,9 +1174,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -1191,9 +1190,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -1207,9 +1206,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -1223,9 +1222,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -1239,9 +1238,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1255,9 +1254,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1271,9 +1270,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -1287,9 +1286,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1303,9 +1302,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1319,9 +1318,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1335,9 +1334,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1351,9 +1350,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1367,9 +1366,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1383,9 +1382,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1399,9 +1398,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1415,9 +1414,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1431,9 +1430,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1447,9 +1446,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1463,9 +1462,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1479,9 +1478,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1495,9 +1494,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1511,9 +1510,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1527,9 +1526,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AU
@@ -1543,9 +1542,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AU
@@ -1559,9 +1558,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1575,9 +1574,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1591,9 +1590,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1607,9 +1606,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1623,9 +1622,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1639,9 +1638,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1655,9 +1654,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1671,9 +1670,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -1687,9 +1686,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1703,9 +1702,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AU
@@ -1719,9 +1718,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -1735,9 +1734,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1751,9 +1750,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1767,9 +1766,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1783,9 +1782,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -1799,9 +1798,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -1815,9 +1814,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1831,9 +1830,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -1847,9 +1846,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1863,9 +1862,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1879,9 +1878,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1895,9 +1894,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1911,9 +1910,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1927,9 +1926,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1943,9 +1942,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1959,9 +1958,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -1975,9 +1974,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -1991,9 +1990,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2007,9 +2006,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2023,9 +2022,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2039,9 +2038,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2055,9 +2054,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: MR
@@ -2071,9 +2070,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2087,9 +2086,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2103,9 +2102,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2119,9 +2118,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2135,9 +2134,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2151,9 +2150,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2167,9 +2166,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2183,9 +2182,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2199,9 +2198,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -2215,9 +2214,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2231,9 +2230,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2247,9 +2246,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2263,9 +2262,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2279,9 +2278,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2295,9 +2294,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2311,9 +2310,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2327,9 +2326,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -2343,9 +2342,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2359,9 +2358,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2375,9 +2374,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2391,9 +2390,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -2407,9 +2406,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2423,9 +2422,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2439,9 +2438,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: AU
@@ -2455,9 +2454,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2471,9 +2470,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -2487,9 +2486,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2503,9 +2502,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -2519,9 +2518,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2535,9 +2534,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -2551,9 +2550,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2567,9 +2566,9 @@
     short_name: AND
     version: 4.1
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -2583,9 +2582,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2599,9 +2598,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2615,9 +2614,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2631,9 +2630,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2647,9 +2646,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2663,9 +2662,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2679,9 +2678,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2695,9 +2694,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -2711,9 +2710,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2727,9 +2726,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2743,9 +2742,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2759,9 +2758,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2775,9 +2774,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2791,9 +2790,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2807,9 +2806,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2823,9 +2822,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2839,9 +2838,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2855,9 +2854,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2871,9 +2870,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -2887,9 +2886,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2903,9 +2902,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2919,9 +2918,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2935,9 +2934,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2951,9 +2950,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2967,9 +2966,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2983,9 +2982,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -2999,9 +2998,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3015,9 +3014,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3031,9 +3030,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -3047,9 +3046,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3063,9 +3062,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3079,9 +3078,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3095,9 +3094,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -3111,9 +3110,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3127,9 +3126,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3143,9 +3142,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3159,9 +3158,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3175,9 +3174,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3191,9 +3190,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3207,9 +3206,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3223,9 +3222,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3239,9 +3238,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3255,9 +3254,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3271,9 +3270,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3287,9 +3286,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3303,9 +3302,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3319,9 +3318,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3335,9 +3334,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3351,9 +3350,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3367,9 +3366,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -3383,9 +3382,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -3399,9 +3398,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3415,9 +3414,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3431,9 +3430,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3447,9 +3446,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3463,9 +3462,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3479,9 +3478,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3495,9 +3494,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3511,9 +3510,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3527,9 +3526,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3543,9 +3542,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3559,9 +3558,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3575,9 +3574,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3591,9 +3590,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -3607,9 +3606,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3623,9 +3622,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3639,9 +3638,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3655,9 +3654,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -3671,9 +3670,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -3687,9 +3686,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -3703,9 +3702,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -3719,9 +3718,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -3735,9 +3734,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -3751,9 +3750,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -3767,9 +3766,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3783,9 +3782,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3799,9 +3798,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3815,9 +3814,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3831,9 +3830,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3847,9 +3846,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3863,9 +3862,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3879,9 +3878,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3895,9 +3894,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3911,9 +3910,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -3927,9 +3926,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3943,9 +3942,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -3959,9 +3958,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -3975,9 +3974,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -3991,9 +3990,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -4007,9 +4006,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4023,9 +4022,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4039,9 +4038,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4055,9 +4054,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4071,9 +4070,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4087,9 +4086,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4103,9 +4102,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4119,9 +4118,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4135,9 +4134,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4151,9 +4150,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -4167,9 +4166,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4183,9 +4182,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4199,9 +4198,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4215,9 +4214,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4231,9 +4230,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: feature phone
     brand: IO
@@ -4247,9 +4246,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4263,9 +4262,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4279,9 +4278,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4295,9 +4294,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4311,9 +4310,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: ZT
@@ -4327,9 +4326,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4343,9 +4342,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4359,9 +4358,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4375,9 +4374,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4391,9 +4390,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4407,9 +4406,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4423,9 +4422,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -4439,9 +4438,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4455,9 +4454,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4471,9 +4470,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4487,9 +4486,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4503,9 +4502,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4519,9 +4518,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4535,9 +4534,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4551,9 +4550,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4567,9 +4566,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4583,9 +4582,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4599,9 +4598,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4615,9 +4614,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4631,9 +4630,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4647,9 +4646,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4663,9 +4662,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4679,9 +4678,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4695,9 +4694,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4711,9 +4710,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4727,9 +4726,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4743,9 +4742,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4759,9 +4758,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -4775,9 +4774,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4791,9 +4790,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4807,9 +4806,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4823,9 +4822,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4839,9 +4838,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4855,9 +4854,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4871,9 +4870,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4887,9 +4886,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4903,9 +4902,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4919,9 +4918,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4935,9 +4934,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4951,9 +4950,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -4967,9 +4966,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -4983,9 +4982,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -4999,9 +4998,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5015,9 +5014,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5031,9 +5030,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5047,9 +5046,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -5063,9 +5062,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -5079,9 +5078,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5095,9 +5094,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5111,9 +5110,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5127,9 +5126,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5143,9 +5142,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5159,9 +5158,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5175,9 +5174,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5191,9 +5190,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5207,9 +5206,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5223,9 +5222,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5239,9 +5238,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: NX
@@ -5255,9 +5254,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5271,9 +5270,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5287,9 +5286,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5303,9 +5302,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5319,9 +5318,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5335,9 +5334,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5351,9 +5350,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5367,9 +5366,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5383,9 +5382,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5415,9 +5414,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5431,9 +5430,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5447,9 +5446,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5463,9 +5462,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: MI
@@ -5479,9 +5478,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5495,9 +5494,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5511,9 +5510,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5527,9 +5526,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5543,9 +5542,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -5559,9 +5558,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -5575,9 +5574,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5591,9 +5590,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5607,9 +5606,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5623,9 +5622,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5639,9 +5638,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5655,9 +5654,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -5671,9 +5670,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -5687,9 +5686,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5703,9 +5702,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5719,9 +5718,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5735,9 +5734,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5751,9 +5750,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5767,9 +5766,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5783,9 +5782,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -5799,9 +5798,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5815,9 +5814,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5831,9 +5830,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5847,9 +5846,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5863,9 +5862,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -5879,9 +5878,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -5895,9 +5894,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5911,9 +5910,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5927,9 +5926,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5943,9 +5942,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5959,9 +5958,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -5975,9 +5974,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -5991,9 +5990,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6007,9 +6006,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6023,9 +6022,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6039,9 +6038,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6055,9 +6054,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HP
@@ -6071,9 +6070,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6087,9 +6086,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6103,9 +6102,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6119,9 +6118,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6135,9 +6134,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6151,9 +6150,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6167,9 +6166,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6183,9 +6182,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -6199,9 +6198,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -6215,9 +6214,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6231,9 +6230,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -6247,9 +6246,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: MR
@@ -6263,9 +6262,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -6279,9 +6278,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6295,9 +6294,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -6311,9 +6310,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -6327,9 +6326,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6343,9 +6342,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6359,9 +6358,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6375,9 +6374,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6391,9 +6390,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6407,9 +6406,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6423,9 +6422,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6439,9 +6438,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6455,9 +6454,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6471,9 +6470,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -6487,9 +6486,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6503,9 +6502,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6519,9 +6518,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6535,9 +6534,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6551,9 +6550,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -6567,9 +6566,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6583,9 +6582,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6599,9 +6598,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6615,9 +6614,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6631,9 +6630,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6647,9 +6646,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6663,9 +6662,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -6679,9 +6678,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6695,9 +6694,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6711,9 +6710,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6727,9 +6726,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -6743,9 +6742,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6759,9 +6758,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6775,9 +6774,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6791,9 +6790,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6807,9 +6806,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6823,9 +6822,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6839,9 +6838,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -6855,9 +6854,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -6871,9 +6870,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6887,9 +6886,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -6903,9 +6902,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6919,9 +6918,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6935,9 +6934,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6951,9 +6950,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6967,9 +6966,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6983,9 +6982,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -6999,9 +6998,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7015,9 +7014,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7031,9 +7030,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7047,9 +7046,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7063,9 +7062,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7079,9 +7078,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7095,9 +7094,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: PT
@@ -7111,9 +7110,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -7127,9 +7126,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SO
@@ -7143,9 +7142,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7159,9 +7158,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: AU
@@ -7175,9 +7174,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7191,9 +7190,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7207,9 +7206,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7223,9 +7222,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7239,9 +7238,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7255,9 +7254,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -7271,9 +7270,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -7287,9 +7286,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: AU
@@ -7303,9 +7302,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7319,9 +7318,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7335,9 +7334,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7351,9 +7350,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7367,9 +7366,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7383,9 +7382,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7399,9 +7398,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7415,9 +7414,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -7431,9 +7430,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7447,9 +7446,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -7463,9 +7462,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7479,9 +7478,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7495,9 +7494,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -7511,9 +7510,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -7527,9 +7526,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -7543,9 +7542,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: AU
@@ -7559,9 +7558,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -7575,9 +7574,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: tablet
     brand: AU
@@ -7591,9 +7590,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -7607,9 +7606,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -7623,9 +7622,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -7639,9 +7638,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7655,9 +7654,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7671,9 +7670,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7687,9 +7686,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7703,9 +7702,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -7719,9 +7718,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7735,9 +7734,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7751,9 +7750,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -7767,9 +7766,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7783,9 +7782,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7799,9 +7798,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SO
@@ -7815,9 +7814,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7831,9 +7830,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7847,9 +7846,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7863,9 +7862,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7879,9 +7878,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: OP
@@ -7895,9 +7894,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7911,9 +7910,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7927,9 +7926,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7943,9 +7942,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7959,9 +7958,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7975,9 +7974,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -7991,9 +7990,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8007,9 +8006,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8023,9 +8022,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8039,9 +8038,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8055,9 +8054,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8071,9 +8070,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8087,9 +8086,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8103,9 +8102,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8119,9 +8118,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8135,9 +8134,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8151,9 +8150,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8167,9 +8166,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8183,9 +8182,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8199,9 +8198,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8215,9 +8214,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8231,9 +8230,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8247,9 +8246,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8263,9 +8262,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8279,9 +8278,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8295,9 +8294,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8311,9 +8310,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -8327,9 +8326,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -8343,9 +8342,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -8359,9 +8358,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8375,9 +8374,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8391,9 +8390,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8407,9 +8406,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8423,9 +8422,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8439,9 +8438,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -8455,9 +8454,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8471,9 +8470,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8487,9 +8486,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8503,9 +8502,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8519,9 +8518,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8535,9 +8534,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -8551,9 +8550,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8567,9 +8566,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -8583,9 +8582,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8599,9 +8598,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -8615,9 +8614,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -8631,9 +8630,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8647,9 +8646,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8663,9 +8662,9 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -8679,9 +8678,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8695,9 +8694,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8711,9 +8710,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8727,9 +8726,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8743,9 +8742,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8759,9 +8758,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8775,9 +8774,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8791,9 +8790,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8807,9 +8806,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8823,9 +8822,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8839,9 +8838,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8855,9 +8854,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8871,9 +8870,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8887,9 +8886,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8903,9 +8902,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8919,9 +8918,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8935,9 +8934,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -8951,9 +8950,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8967,9 +8966,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8983,9 +8982,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -8999,9 +8998,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9015,9 +9014,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9031,9 +9030,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9047,9 +9046,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9063,9 +9062,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9079,9 +9078,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9095,9 +9094,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9111,9 +9110,9 @@
     short_name: AND
     version: 3.2
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9127,9 +9126,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9143,9 +9142,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9159,9 +9158,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9175,9 +9174,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9191,9 +9190,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9207,9 +9206,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9223,9 +9222,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SO
@@ -9239,9 +9238,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9255,9 +9254,9 @@
     short_name: AND
     version: 3.1
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9271,9 +9270,9 @@
     short_name: AND
     version: 3.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9287,9 +9286,9 @@
     short_name: AND
     version: 3.0
   browser:
-    name: Safari
-    short_name: SF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9303,9 +9302,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9319,9 +9318,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9335,9 +9334,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9351,9 +9350,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9367,9 +9366,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9383,9 +9382,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9399,9 +9398,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9415,9 +9414,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9431,9 +9430,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9447,9 +9446,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9463,9 +9462,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9479,9 +9478,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9495,9 +9494,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9511,9 +9510,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9527,9 +9526,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9543,9 +9542,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9559,9 +9558,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9575,9 +9574,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9591,9 +9590,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9607,9 +9606,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9623,9 +9622,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -9639,9 +9638,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9655,9 +9654,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9671,9 +9670,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9687,9 +9686,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -9703,9 +9702,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9719,9 +9718,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -9735,9 +9734,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9751,9 +9750,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9767,9 +9766,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9783,9 +9782,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9799,9 +9798,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9815,9 +9814,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9831,9 +9830,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9847,9 +9846,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9863,9 +9862,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -9879,9 +9878,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HT
@@ -9895,9 +9894,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: MR
@@ -9911,9 +9910,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9927,9 +9926,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9943,9 +9942,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9959,9 +9958,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9975,9 +9974,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -9991,9 +9990,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10007,9 +10006,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10023,9 +10022,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10039,9 +10038,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10055,9 +10054,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: OP
@@ -10071,9 +10070,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -10087,9 +10086,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10103,9 +10102,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10119,9 +10118,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: MR
@@ -10135,9 +10134,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10151,9 +10150,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10167,9 +10166,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10183,9 +10182,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10199,9 +10198,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10215,9 +10214,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10231,9 +10230,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10247,9 +10246,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10263,9 +10262,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10279,9 +10278,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10295,9 +10294,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10311,9 +10310,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10327,9 +10326,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10343,9 +10342,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10359,9 +10358,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -10375,9 +10374,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: feature phone
     brand: IO
@@ -10391,9 +10390,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10407,9 +10406,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -10423,9 +10422,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10439,9 +10438,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -10455,9 +10454,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -10471,9 +10470,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -10487,9 +10486,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10503,9 +10502,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10519,9 +10518,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10535,9 +10534,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10551,9 +10550,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10567,9 +10566,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -10583,9 +10582,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10599,9 +10598,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10615,9 +10614,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10631,9 +10630,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10647,9 +10646,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10663,9 +10662,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10679,9 +10678,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10695,9 +10694,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10711,9 +10710,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -10727,9 +10726,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: MR
@@ -10743,9 +10742,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10759,9 +10758,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -10775,9 +10774,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10791,9 +10790,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10807,9 +10806,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -10823,9 +10822,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10839,9 +10838,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -10855,9 +10854,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10871,9 +10870,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -10887,9 +10886,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -10903,9 +10902,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10919,9 +10918,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: LG
@@ -10935,9 +10934,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -10951,9 +10950,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10967,9 +10966,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: GO
@@ -10983,9 +10982,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -10999,9 +10998,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -11015,9 +11014,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -11031,9 +11030,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -11047,9 +11046,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -11063,9 +11062,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -11079,9 +11078,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -11095,9 +11094,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -11111,9 +11110,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -11127,9 +11126,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -11143,9 +11142,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -11159,9 +11158,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -11175,9 +11174,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -11191,9 +11190,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: AL
@@ -11207,9 +11206,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type:
     brand:
@@ -11223,9 +11222,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -11239,9 +11238,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -11255,9 +11254,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -11271,9 +11270,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -11287,9 +11286,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -11303,9 +11302,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -11319,9 +11318,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -11335,9 +11334,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -11351,9 +11350,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: HU
@@ -11367,9 +11366,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -11383,9 +11382,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
@@ -11399,9 +11398,9 @@
     short_name: AND
     version: 2.3
   browser:
-    name: Mobile Safari
-    short_name: MF
-    version: 4.0
+    name: Android Browser
+    short_name: AN
+    version:
   device:
     type: smartphone
     brand: SA
