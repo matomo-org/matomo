@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Piwik - Open source web analytics
  *
@@ -756,6 +755,39 @@ class UserAgentParserEnhanced
             }
         }
         return false;
+    }
+
+    static public function getInfoFromUserAgent($ua)
+    {
+        $userAgentParserEnhanced = new UserAgentParserEnhanced($ua);
+        $userAgentParserEnhanced->parse();
+
+        $osFamily = $userAgentParserEnhanced->getOsFamily($userAgentParserEnhanced->getOs('name'));
+        $browserFamily = $userAgentParserEnhanced->getBrowserFamily($userAgentParserEnhanced->getBrowser('name'));
+        $device = $userAgentParserEnhanced->getDevice();
+
+        $deviceName = $device === '' ? '' : UserAgentParserEnhanced::$deviceTypes[$device];
+        $processed = array(
+            'user_agent'     => $userAgentParserEnhanced->getUserAgent(),
+            'os'             => array(
+                'name'       => $userAgentParserEnhanced->getOs('name'),
+                'short_name' => $userAgentParserEnhanced->getOs('short_name'),
+                'version'    => $userAgentParserEnhanced->getOs('version'),
+            ),
+            'browser'        => array(
+                'name'       => $userAgentParserEnhanced->getBrowser('name'),
+                'short_name' => $userAgentParserEnhanced->getBrowser('short_name'),
+                'version'    => $userAgentParserEnhanced->getBrowser('version'),
+            ),
+            'device'         => array(
+                'type'       => $deviceName,
+                'brand'      => $userAgentParserEnhanced->getBrand(),
+                'model'      => $userAgentParserEnhanced->getModel(),
+            ),
+            'os_family'      => $osFamily !== false ? $osFamily : 'Unknown',
+            'browser_family' => $browserFamily !== false ? $browserFamily : 'Unknown',
+        );
+        return $processed;
     }
 
 }
