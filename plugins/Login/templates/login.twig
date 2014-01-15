@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="plugins/Login/stylesheets/login.css"/>
     <meta name="description" content="{{ 'General_OpenSourceWebAnalytics'|translate }}"/>
     <meta name="apple-itunes-app" content="app-id=737216887" />
+    <meta name="google-play-app" content="app-id=org.piwik.mobile2">
     <!--[if lt IE 9]>
     <script src="libs/html5shiv/html5shiv.js"></script>
     <![endif]-->
@@ -22,6 +23,8 @@
     <script type="text/javascript" src="plugins/CoreHome/javascripts/require.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/notification.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/notification_parser.js"></script>
+    <script type="text/javascript" src="plugins/CoreHome/javascripts/jasny-jquery.smartbanner-26a74cb/jquery.smartbanner.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/templates/jquery.smartbanner.css" />
     {% if (forceSslLogin is defined and forceSslLogin) %}
         <script type="text/javascript">
             if (window.location.protocol !== 'https:') {
@@ -30,19 +33,31 @@
                 window.location.replace(url);
             }
         </script>
+	
     {% endif %}
     <script type="text/javascript">
         $(function () {
             $('#form_login').focus();
             $('input').placeholder();
+            $.smartbanner({
+  title: "Piwik Mobile 2", // What the title of the app should be in the banner (defaults to <title>)
+  author: "Piwik team", // What the author of the app should be in the banner (defaults to <meta name="author"> or hostname)
+  inWindowsStore: 'In the Windows Store', // Text of price for Windows
+  icon: "plugins/CoreHome/images/googleplay.png", // The URL of the icon (defaults to <meta name="apple-touch-icon">)
+  iconGloss: "true", // Force gloss effect for iOS even for precomposed
+  button: 'VIEW', // Text for the install button
+  scale: 'auto', // Scale based on viewport size (set to 1 to disable)
+  daysHidden: '0', // Duration to hide the banner after being closed (0 = always show banner)
+  daysReminder: '0'// Duration to hide the banner after "VIEW" is clicked *separate from when the clos button is clicked* (0 = always show banner)
+})    
         });
-    </script>
-    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
-    {% if 'General_LayoutDirection'|translate =='rtl' %}
-        <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
-    {% endif %}
-</head>
-<body id="loginPage">
+	</script>
+	    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
+	    {% if 'General_LayoutDirection'|translate =='rtl' %}
+		<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
+	    {% endif %}
+	</head>
+	<body id="loginPage">
 
     {% include "_iframeBuster.twig" %}
 
