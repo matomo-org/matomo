@@ -297,6 +297,7 @@
         "YearlyReports": "Yearly reports",
         "RangeReports": "Custom date ranges",
         "ContinueToPiwik": "Continue to Piwik",
+        "HelpTranslatePiwik": "%1$sWould you like to help us translate Piwik into other languages?%2$s",
         "ConfigFileIsNotWritable": "The Piwik configuration file %s is not writable, some of your changes might not be saved. %s Please change permissions of the config file to make it writable.",
         "StatisticsAreNotRecorded": "Piwik Visitor Tracking is currently disabled! Re-enable tracking by setting record_statistics = 1 in your config\/config.ini.php file.",
         "ExceptionDatabaseVersion": "Your %1$s version is %2$s but Piwik requires at least %3$s.",
