@@ -14,7 +14,7 @@
 
 #smartbanner .sb-icon.gloss:after { content:''; position:absolute; left:0; top:-1px; border-top:1px solid rgba(255,255,255,0.8); width:100%; height:50%; background:-webkit-linear-gradient(top, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0.2) 100%); border-radius:10px 10px 12px 12px; }
 
-#smartbanner.android { border-color:#212228; background: #3d3d3d url('dark_background_stripes.gif'); border-top: 5px solid #88B131; box-shadow: none; }
+#smartbanner.android { border-color:#212228; background: #3d3d3d url('plugins/CoreHome/images/dark_background_stripes.gif'); border-top: 5px solid #88B131; box-shadow: none; }
 #smartbanner.android .sb-close { border:0; width:17px; height:17px; line-height:17px; color:#b1b1b3; background:#1c1e21; text-shadow:0 1px 1px #000; box-shadow:0 1px 2px rgba(0,0,0,0.8) inset,0 1px 1px rgba(255,255,255,0.3); }
 #smartbanner.android .sb-close:active { color:#eee; }
 #smartbanner.android .sb-info { color:#ccc; text-shadow:0 1px 2px #000; }
