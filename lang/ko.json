@@ -900,7 +900,7 @@
         "SystemCheckParseIniFileHelp": "이 내장 함수는 호스트에서 비활성화되어 있습니다. Piwik이 함수의 에뮬레이션을 시도하지만, 새로운 보안 제한으로 발생하는 경우가 있습니다. 또한 트래커 성능에도 영향을 미칩니다.",
         "SystemCheckPdoAndMysqliHelp": "Linux 서버는 다음 옵션으로 PHP를 컴파일합니다: %1$sphp.ini에 다음 줄을 추가합니다: %2$s",
         "SystemCheckPhp": "PHP 버전",
-        "SystemCheckPhpPdoAndMysqliSite": "자세한 문서: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> and <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "자세한 문서: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "보안 프로토콜",
         "SystemCheckSecureProtocolHelp": "당신의 Web 서버에서 HTTPS를 사용하는 것 같습니다. 이러한 행은 config\/config.ini.php에 추가됩니다.",
         "SystemCheckSplHelp": "스탠다드 PHP 라이브러리가 활성화된 상태로 PHP를 설정하고 리빌딩해야 합니다. (기본).",

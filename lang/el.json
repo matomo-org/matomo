@@ -1093,7 +1093,7 @@
         "SystemCheckParseIniFileHelp": "Αυτή η εσωτερική συνάρτηση έχει απενεργοποιηθεί στον διακομιστή σας. Το Piwik θα προσπαθήσει να εξομοιώσει αυτή τη συνάρτηση αλλά ίσως προκύψουν περαιτέρω περιορισμοί ασφάλειας. Η απόδοση της ανίχνευσης θα επηρεαστεί.",
         "SystemCheckPdoAndMysqliHelp": "Σε διακομιστή Linux μπορείτε να ρυθμίσετε την php με τις ακόλουθες επιλογές: %1$s στο αρχείο php.ini, προσθέστε τις ακόλουθες γραμμές: %2$s",
         "SystemCheckPhp": "Έκδοση PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "Περισσότερες πληροφορίες στο: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> και <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Περισσότερες πληροφορίες στο: %1$sPHP PDO%2$s και %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Ασφαλές πρωτόκολλο",
         "SystemCheckSecureProtocolHelp": "Φαίνεται ότι χρησιμοποιείται https με τον διακομιστή σας. Αυτές οι γραμμές θα προστεθούν στο αρχείο config\/config.ini.php;",
         "SystemCheckSplHelp": "Πρέπει να ρυθμίσετε και ξαναεγκαταστήσετε την PHP με τη Βασική Βιβλιοθήκη PHP (SPL) ενεργοποιήμένη (ως προεπιλογή).",

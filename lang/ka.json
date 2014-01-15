@@ -507,7 +507,7 @@
         "SystemCheckParseIniFileHelp": "თქვენს ჰოსტ სერვერზე სტანდარტული ფუნქცია გამორთულია. Piwik ცდის ამ ფუნქციის ემულირებას, მაგრამ შესაძლოა წარმოიშვას შემდგომი უსაფრთხოების შეზღუდვები. ეს ასევე იმოქმედებს ტრეკერის ეფექტიანობაზე.",
         "SystemCheckPdoAndMysqliHelp": "Linux სერვერზე თქვენ შეგიძლიათ გააკეთოთ php–ს კომპილაცია შემდეგი პარამეტრებით: %1$s თქვენს php.ini ფაილში, დაამატეთ შემდეგი სტრიქონები: %2$s",
         "SystemCheckPhp": "PHP ვერსია",
-        "SystemCheckPhpPdoAndMysqliSite": "დამატებითი ინფორმაცია საკითხებზე: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> და <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "დამატებითი ინფორმაცია საკითხებზე: %1$sPHP PDO%2$s და %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "საჭირო იქნება PHP კონფიგურირება და აღდგენა სტანდარტული PHP ბიბლიოთეკის (SPL) ჩართვით (ნაგულისხმევი).",
         "SystemCheckTimeLimitHelp": "მაღალი ტრაფიკის ვებ საიტებზე არქივირების პროცესის განხორციელებას შეიძლება ბევრი დრო დაჭირდეს ვიდრე დაშვებულია ახლა. თუ საჭირო იქნება, შეცვალეთ max_execution_time მნიშვნელობა თქვენს php.ini ფაილში.",
         "SystemCheckTracker": "ტრეკერის სტატუსი",

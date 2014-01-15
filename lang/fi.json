@@ -893,7 +893,7 @@
         "SystemCheckParseIniFileHelp": "Tämä sisäänrakennettu toiminnallisuus on poistettu käytöstä palvelimellasi. Piwik yrittää emuloida tätä toiminnallisuutta, mutta saattaa törmätä muihin turvallisuusrajoituksiin. Myös suorituskyky laskee.",
         "SystemCheckPdoAndMysqliHelp": "Linux-palvelimella voit kääntää PHP:n seuraavilla asetuksilla: %1$s Lisää php.ini-tiedostoon seuraavat rivit: %2$s",
         "SystemCheckPhp": "PHP:n versio",
-        "SystemCheckPhpPdoAndMysqliSite": "Lisätietoa: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> ja <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Lisätietoa: %1$sPHP PDO%2$s ja %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Salattu protokolla",
         "SystemCheckSecureProtocolHelp": "www-palvelimesi käyttää https:ää. Lisää nämä rivit config\/config.ini.php:hen:",
         "SystemCheckSplHelp": "PHP pitää olla asennettuna \"Standard PHP Library (SPL)\"-asetuksen kanssa.",

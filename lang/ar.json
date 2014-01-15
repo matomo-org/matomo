@@ -727,7 +727,7 @@
         "SystemCheckParseIniFileHelp": "تم تعطيل الدالة المبنية ضمناً من طرف مزود الخدمة لديك. Piwik سيحاول أن يقلد هذه الدالة ذاتياً ولكنه قد يواجه عدداً من الاعتبارات الأمنية الأخرى. سيتأثر أيضاً أداء عملية التتبع.",
         "SystemCheckPdoAndMysqliHelp": "على ملقم لينوكس يمكنك ضبط PHP بالإعدادات التالية: %1$s في ملف php.ini أضف السطور التالية: %2$s",
         "SystemCheckPhp": "إصدار PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "لمزيد من المعلومات عن: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> و <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "لمزيد من المعلومات عن: %1$sPHP PDO%2$s و %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "بروتوكول الأمان",
         "SystemCheckSecureProtocolHelp": "يبدو أنك تستخدم https في ملقمك. هذه السطور سيتم إضافة إلى ملف config\/config.ini.php:",
         "SystemCheckSplHelp": "ستحتاج لضبط وإعادة بناء PHP وتكون مكتبة PHP القياسية SPL فيها مفعلة (افتراضياً).",

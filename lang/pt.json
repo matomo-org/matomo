@@ -681,7 +681,7 @@
         "SystemCheckParseIniFileHelp": "Esta função embutida foi desactivada pelo seu servidor. Piwik irá tentar emular esta função mas pode encontrar restrições de segurança adicionais. Performance de monitorização também será afectada.",
         "SystemCheckPdoAndMysqliHelp": "Num servidor Linux pode compilar php com as seguintes opções: %1$s No seu ficheiro php.ini, adicione as seguintes linhas: %2$s",
         "SystemCheckPhp": "Versão de PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "Mais detalhes em: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> e <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Mais detalhes em: %1$sPHP PDO%2$s e %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Protocolo seguro",
         "SystemCheckSecureProtocolHelp": "Parece que você está usando https com o seu servidor web. Estas linhas serão adicionados ao config \/ config.ini.php:",
         "SystemCheckSplHelp": "Tem de configurar e reconstruir PHP com a Standard PHP Library (SPL) activada (por pré-definição).",

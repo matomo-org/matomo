@@ -650,7 +650,7 @@
         "SystemCheckParseIniFileHelp": "Ta wbudowana funkcja została wyłączona przez twój hosting. Piwik może podjąć próbę jej emulowania, ale może napotkać kolejne ograniczenia związane z bezpieczeństwem. Będzie to miało również wpływ na wydajność śledzenia.",
         "SystemCheckPdoAndMysqliHelp": "Na serwerach pracujących w oparciu o system Linux możesz skompilować PHP z użyciem następującej opcji: %1$s W pliku php.ini, dodaj następujące linie: %2$s",
         "SystemCheckPhp": "wersja PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "Więcej informacji znajdziesz na: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> i <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Więcej informacji znajdziesz na: %1$sPHP PDO%2$s i %3$sMYSQLI%4$s.",
         "SystemCheckSecureProtocol": "Protokół bezpieczeństwa",
         "SystemCheckSecureProtocolHelp": "Wygląda na to, że używasz bezpiecznego https w czasie komunikowania się ze swoim serwerem stron. Następujące linie zostaną dodane do config\/config.ini.php:",
         "SystemCheckSplHelp": "Potrzebujesz skonfigurować i przebudować środowisko PHP z włączoną (domyślnie) Standardową Biblioteką PHP (SPL).",

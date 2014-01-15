@@ -508,7 +508,7 @@
         "SystemCheckParseIniFileHelp": "Ця вбудована функція було заблокована на вашому хостингу. Piwik спробує емулювати цю функцію але може зістикнутися з подальшими обмеженнями по безпеці. Також це вплине на загальну швидкість роботи системи.",
         "SystemCheckPdoAndMysqliHelp": "На Linux-сервері ви можете cкомпілювати PHP з наступними опціями: %1$s В php.ini, додати наступні рядки: %2$s",
         "SystemCheckPhp": "Версія PHP",
-        "SystemCheckPhpPdoAndMysqliSite": "Детальніша інформація: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> та <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
+        "SystemCheckPhpPdoAndMysqli": "Детальніша інформація: %1$sPHP PDO%2$s та %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "Необхідно переконфігурувати та перезібрати PHP з Standard PHP Library (SPL) топово увімкненою (by default).",
         "SystemCheckTimeLimitHelp": "На сайті з високим трафіком процес стистення даних може потребувати більше часу ніж доступно зараз в налаштуваннях PHP.<br\/>Дивіться детальніше про директиву max_execution_time у Вашому файлі php.ini.",
         "SystemCheckTracker": "Статус відслідковувача",
