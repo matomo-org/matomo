@@ -50,7 +50,7 @@ For the list of all tickets closed in the current and past releases, see http://
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Piwik was built by dozens of people like you,
 and we need your help to make Piwik better… Why not participate in a useful project today?
 
-You will find pointers on how you can participate in Piwik at http://piwik.org/contribute/
+You will find pointers on how you can participate in Piwik at http://piwik.org/get-involved/
 
 ## Contact
 
