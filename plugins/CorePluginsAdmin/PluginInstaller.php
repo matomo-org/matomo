@@ -152,7 +152,10 @@ class PluginInstaller
 
     private function makeSureThereAreNoMissingRequirements($metadata)
     {
-        $requires = (array) $metadata->require;
+        $requires = array();
+        if(!empty($metadata->require)) {
+            $requires = (array) $metadata->require;
+        }
 
         $dependency = new PluginDependency();
         $missingDependencies = $dependency->getMissingDependencies($requires);
