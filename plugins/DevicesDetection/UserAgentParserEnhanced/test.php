@@ -20,5 +20,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php';
 
 $result = UserAgentParserEnhanced::getInfoFromUserAgent($userAgent);
+echo "<pre>";
 
-var_dump($result);
+var_export($result);
+echo "</pre>";
