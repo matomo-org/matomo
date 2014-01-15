@@ -165,6 +165,9 @@ class UserAgentParser
 
         'rekonq'                      => 'RK',
 
+        // Sailfish
+        'sailfishbrowser'             => 'SA',
+
         // Safari
         'safari'                      => 'SF',
         'applewebkit'                 => 'SF',
@@ -178,7 +181,7 @@ class UserAgentParser
     // browser family (by layout engine)
     static protected $browserType = array(
         'ie'     => array('IE'),
-        'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
+        'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB', 'SA'),
         'khtml'  => array('KO'),
         'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
         'opera'  => array('OP'),
@@ -330,6 +333,8 @@ class UserAgentParser
         'BEOS'                         => 'BEO',
         'Amiga'                        => 'AMI',
         'AmigaOS'                      => 'AMI',
+
+        'Sailfish'                     => 'SAF',
     );
 
     // os family
@@ -345,7 +350,7 @@ class UserAgentParser
         'Gaming Console'        => array('WII', 'WIU', 'PS3', 'XBX'),
         'Mobile Gaming Console' => array('PSP', 'PSV', 'NDS', 'DSI', '3DS'),
         'Unix'                  => array('SOS', 'AIX', 'HP-UX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
-        'Other Mobile'          => array('MAE', 'WOS', 'POS', 'BLB', 'QNX', 'SYM', 'SBA'),
+        'Other Mobile'          => array('MAE', 'WOS', 'POS', 'BLB', 'QNX', 'SYM', 'SBA', 'SAF'),
         'Other'                 => array('VMS', 'OS2', 'BEOS', 'AMI')
     );
 
@@ -589,6 +594,7 @@ class UserAgentParser
         self::$browserIdToName['MC'] = 'NCSA Mosaic';
         self::$browserIdToName['NF'] = 'NetFront';
         self::$browserIdToName['OW'] = 'OmniWeb';
+        self::$browserIdToName['SA'] = 'Sailfish Browser';
         self::$browserIdToName['SF'] = 'Safari';
         self::$browserIdToName['SM'] = 'SeaMonkey';
         self::$browserIdToName['WO'] = 'Palm webOS';
@@ -612,6 +618,7 @@ class UserAgentParser
             'NDS' => 'Nintendo DS',
             'WIU' => 'Nintendo Wii U',
             '3DS' => 'Nintendo 3DS',
+            'SAF' => 'Sailfish OS',
 
             // These are for BC purposes only
             'W75' => 'WinPhone 7.5',
