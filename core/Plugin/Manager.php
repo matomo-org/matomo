@@ -289,7 +289,6 @@ class Manager extends Singleton
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
-            //Piwik::log(sprintf("Unable to find the plugin '%s' in activatePlugin.", $pluginName));
             return;
         }
         $this->deactivateThemeIfTheme($pluginName);
@@ -753,29 +752,18 @@ class Manager extends Singleton
     }
 
     /**
-     * Install loaded plugins
-     */
-    private function installPlugins()
-    {
-        foreach ($this->getLoadedPlugins() as $plugin) {
-            $this->installPlugin($plugin);
-        }
-    }
-
-    /**
      * Install a specific plugin
      *
      * @param Plugin $plugin
-     * @throws \Piwik\Plugin\Manager_PluginException if installation fails
+     * @throws \Piwik\Plugin\PluginException if installation fails
      */
-    private function installPlugin(Plugin $plugin)
+    private function executePluginInstall(Plugin $plugin)
     {
         try {
             $plugin->install();
         } catch (\Exception $e) {
             throw new \Piwik\Plugin\PluginException($plugin->getPluginName(), $e->getMessage());
         }
-        Updater::recordComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
     }
 
     /**
@@ -891,9 +879,10 @@ class Manager extends Singleton
         $pluginsInstalled = $this->getInstalledPluginsName();
 
         if (!in_array($pluginName, $pluginsInstalled)) {
-            $this->installPlugin($plugin);
+            $this->executePluginInstall($plugin);
             $pluginsInstalled[] = $pluginName;
             $this->updatePluginsInstalledConfig($pluginsInstalled);
+            Updater::recordComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
             $saveConfig = true;
         }
 
