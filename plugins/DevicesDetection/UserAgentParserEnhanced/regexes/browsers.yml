@@ -407,6 +407,11 @@
 - regex: 'Snowshoe/(\d+\.\d+)'
   name: Snowshoe
   version: '$1'
+
+  #Android Browser
+- regex: 'Android'
+  name: Android Browser
+  version: ''
   
 #Safari
 - regex: '(?:iPod|iPad|iPhone).+Version/(\d+\.\d+)'
@@ -422,7 +427,4 @@
   name: Safari
   version: '$1'
 
-#Android Browser
-- regex: 'Android'
-  name: Android Browser
-  version: ''
+
