@@ -23,7 +23,7 @@
     <script type="text/javascript" src="plugins/CoreHome/javascripts/require.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/notification.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/notification_parser.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/jasny-jquery.smartbanner-26a74cb/jquery.smartbanner.js"></script>
+    <script type="text/javascript" src="plugins/CoreHome/javascripts/jquery.smartbanner.js"></script>
     <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/templates/jquery.smartbanner.css" />
     {% if (forceSslLogin is defined and forceSslLogin) %}
         <script type="text/javascript">
@@ -40,14 +40,8 @@
             $('#form_login').focus();
             $('input').placeholder();
             $.smartbanner({
-  title: "Piwik Mobile 2", // What the title of the app should be in the banner (defaults to <title>)
-  author: "Piwik team", // What the author of the app should be in the banner (defaults to <meta name="author"> or hostname)
-  inWindowsStore: 'In the Windows Store', // Text of price for Windows
-  icon: "plugins/CoreHome/images/googleplay.png", // The URL of the icon (defaults to <meta name="apple-touch-icon">)
-  iconGloss: "true", // Force gloss effect for iOS even for precomposed
-  button: 'VIEW', // Text for the install button
-  scale: 'auto', // Scale based on viewport size (set to 1 to disable)
-  })    
+  title: "Piwik Mobile 2", author: "Piwik team", icon: "plugins/CoreHome/images/googleplay.png"
+  });    
         });
 	</script>
 	    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
