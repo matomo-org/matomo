@@ -31,10 +31,6 @@ input[type=checkbox], input[type=radio] {
     background: transparent none;
 }
 
-.jqplot-seriespicker {
-	background: url(../images/chart_line_edit_bg.png) no-repeat center center;
-}
-
 .jqplot-seriespicker-popover p input {
 	width: 15px;
 	margin: 0;
