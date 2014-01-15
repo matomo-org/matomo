@@ -89,10 +89,10 @@ class Manager extends Singleton
      *
      * @param array $plugins Plugins
      */
-    private function updatePluginsConfig($plugins)
+    private function updatePluginsConfig()
     {
         $section = PiwikConfig::getInstance()->Plugins;
-        $section['Plugins'] = $plugins;
+        $section['Plugins'] = $this->pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
     }
 
@@ -192,6 +192,24 @@ class Manager extends Singleton
     }
 
     /**
+     * Deactivate plugin
+     *
+     * @param string $pluginName Name of plugin
+     */
+    public function deactivatePlugin($pluginName)
+    {
+        // execute deactivate() to let the plugin do cleanups
+        $this->executePluginDeactivate($pluginName);
+
+        $this->unloadPluginFromMemory($pluginName);
+
+        $this->removePluginFromConfig($pluginName);
+
+        $this->clearCache($pluginName);
+    }
+
+
+    /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled
      *
@@ -205,19 +223,18 @@ class Manager extends Singleton
             throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
         }
         $this->returnLoadedPluginsInfo();
-        try {
-            $plugin = $this->getLoadedPlugin($pluginName);
-            $plugin->uninstall();
-        } catch(\Exception $e) {
-        }
-        Option::delete('version_' . $pluginName);
 
-        $this->removePluginFromPluginsConfig($pluginName);
+        $this->executePluginDeactivate($pluginName);
+        $this->executePluginUninstall($pluginName);
+
         $this->removePluginFromPluginsInstalledConfig($pluginName);
-        $this->removePluginFromTrackerConfig($pluginName);
-        PiwikConfig::getInstance()->forceSave();
-        \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
 
+        $this->unloadPluginFromMemory($pluginName);
+
+        $this->removePluginFromConfig($pluginName);
+
+        Option::delete('version_' . $pluginName);
+        \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
         $this->clearCache($pluginName);
 
         self::deletePluginFromFilesystem($pluginName);
@@ -238,35 +255,6 @@ class Manager extends Singleton
     public static function deletePluginFromFilesystem($plugin)
     {
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin, $deleteRootToo = true);
-    }
-
-    /**
-     * Deactivate plugin
-     *
-     * @param string $pluginName Name of plugin
-     * @param array|bool $plugins Array of plugin names
-     * @return array|bool
-     */
-    public function deactivatePlugin($pluginName, $plugins = false)
-    {
-        if (empty($plugins)) {
-            $plugins = $this->pluginsToLoad;
-        }
-
-        if(!$this->isPluginBogus($pluginName)) {
-            $plugin = $this->loadPlugin($pluginName);
-            if ($plugin !== null) {
-                $plugin->deactivate();
-            }
-        }
-
-        $plugins = $this->removePluginFromPluginsConfig($pluginName, $plugins);
-        $this->removePluginFromTrackerConfig($pluginName);
-
-        PiwikConfig::getInstance()->forceSave();
-        $this->clearCache($pluginName);
-
-        return $plugins;
     }
 
     /**
@@ -304,17 +292,7 @@ class Manager extends Singleton
             //Piwik::log(sprintf("Unable to find the plugin '%s' in activatePlugin.", $pluginName));
             return;
         }
-
-        // Only one theme enabled at a time
-        $themeEnabled = $this->getThemeEnabled();
-        if ($themeEnabled->getPluginName() != self::DEFAULT_THEME) {
-            $themeAlreadyEnabled = $themeEnabled->getPluginName();
-
-            $plugin = $this->loadPlugin($pluginName);
-            if ($plugin->isTheme()) {
-                $plugins = $this->deactivatePlugin($themeAlreadyEnabled, $plugins);
-            }
-        }
+        $this->deactivateThemeIfTheme($pluginName);
 
         // Load plugin
         $plugin = $this->loadPlugin($pluginName);
@@ -326,21 +304,13 @@ class Manager extends Singleton
 
         EventDispatcher::getInstance()->postPendingEventsTo($plugin);
 
+        $this->pluginsToLoad[] = $pluginName;
 
-        // we add the plugin to the list of activated plugins
-        if (!in_array($pluginName, $plugins)) {
-            $plugins[] = $pluginName;
-        }
-        $plugins = array_unique($plugins);
-
-
-        // the config file will automatically be saved with the new plugin
-        $this->updatePluginsConfig($plugins);
+        $this->updatePluginsConfig();
         PiwikConfig::getInstance()->forceSave();
 
         $this->clearCache($pluginName);
 
-        $this->pluginsToLoad[] = $pluginName;
     }
 
     protected function isPluginInFilesystem($pluginName)
@@ -977,31 +947,6 @@ class Manager extends Singleton
         $this->updatePluginsInstalledConfig($pluginsInstalled);
     }
 
-    /**
-     * @param $pluginName
-     * @param $plugins
-     * @return mixed
-     */
-    private function removePluginFromPluginsConfig($pluginName, $plugins = false)
-    {
-        if (empty($plugins)) {
-            $plugins = $this->pluginsToLoad;
-        }
-
-        $key = array_search($pluginName, $plugins);
-
-        if ($key !== false) {
-            unset($plugins[$key]);
-        }
-
-        $this->updatePluginsConfig($plugins);
-
-        return $plugins;
-    }
-
-    /**
-     * @param $pluginName
-     */
     private function removePluginFromTrackerConfig($pluginName)
     {
         $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
@@ -1047,6 +992,66 @@ class Manager extends Singleton
             'AnonymizeIP', // Removed in 2.0.3
         );
         return in_array($pluginName, $bogusPlugins);
+    }
+
+    private function deactivateThemeIfTheme($pluginName)
+    {
+        // Only one theme enabled at a time
+        $themeEnabled = $this->getThemeEnabled();
+        if ($themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+            $themeAlreadyEnabled = $themeEnabled->getPluginName();
+
+            $plugin = $this->loadPlugin($pluginName);
+            if ($plugin->isTheme()) {
+                $this->deactivatePlugin($themeAlreadyEnabled);
+            }
+        }
+    }
+
+    /**
+     * @param $pluginName
+     */
+    private function executePluginDeactivate($pluginName)
+    {
+        if (!$this->isPluginBogus($pluginName)) {
+            $plugin = $this->loadPlugin($pluginName);
+            if ($plugin !== null) {
+                $plugin->deactivate();
+            }
+        }
+    }
+
+    /**
+     * @param $pluginName
+     */
+    private function unloadPluginFromMemory($pluginName)
+    {
+        $key = array_search($pluginName, $this->pluginsToLoad);
+        if ($key !== false) {
+            unset($this->pluginsToLoad[$key]);
+        }
+    }
+
+    /**
+     * @param $pluginName
+     */
+    private function removePluginFromConfig($pluginName)
+    {
+        $this->updatePluginsConfig();
+        $this->removePluginFromTrackerConfig($pluginName);
+        PiwikConfig::getInstance()->forceSave();
+    }
+
+    /**
+     * @param $pluginName
+     */
+    private function executePluginUninstall($pluginName)
+    {
+        try {
+            $plugin = $this->getLoadedPlugin($pluginName);
+            $plugin->uninstall();
+        } catch (\Exception $e) {
+        }
     }
 }
 
