@@ -16,7 +16,6 @@ if(isset($_GET['ua'])) {
     $userAgent = $_SERVER['HTTP_USER_AGENT'];
 }
 
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php';
 
 $result = UserAgentParserEnhanced::getInfoFromUserAgent($userAgent);
