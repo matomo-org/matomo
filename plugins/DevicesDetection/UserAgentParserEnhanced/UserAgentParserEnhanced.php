@@ -762,8 +762,8 @@ class UserAgentParserEnhanced
         $userAgentParserEnhanced = new UserAgentParserEnhanced($ua);
         $userAgentParserEnhanced->parse();
 
-        $osFamily = $userAgentParserEnhanced->getOsFamily($userAgentParserEnhanced->getOs('name'));
-        $browserFamily = $userAgentParserEnhanced->getBrowserFamily($userAgentParserEnhanced->getBrowser('name'));
+        $osFamily = $userAgentParserEnhanced->getOsFamily($userAgentParserEnhanced->getOs('short_name'));
+        $browserFamily = $userAgentParserEnhanced->getBrowserFamily($userAgentParserEnhanced->getBrowser('short_name'));
         $device = $userAgentParserEnhanced->getDevice();
 
         $deviceName = $device === '' ? '' : UserAgentParserEnhanced::$deviceTypes[$device];
