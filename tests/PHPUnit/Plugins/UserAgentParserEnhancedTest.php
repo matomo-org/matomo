@@ -21,8 +21,9 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
             $processedPath = $fixturesPath . '.new';
             file_put_contents($processedPath, $processed);
             $diffCommand = "diff";
-//            $diffCommand = "meld";
-            echo shell_exec("{$diffCommand} $fixturesPath $processedPath");
+            $command = "{$diffCommand} $fixturesPath $processedPath";
+            echo $command . "\n";
+            echo shell_exec($command);
 
             echo "\nThe processed data was stored in: $processedPath ".
                 "\n $ cp $processedPath $fixturesPath ".
