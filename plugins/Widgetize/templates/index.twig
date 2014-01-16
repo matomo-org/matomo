@@ -2,7 +2,14 @@
 
 {% block content %}
 
-<script type="text/javascript">
+
+<div class="pageWrap">
+    <div class="top_controls">
+        {% include "@CoreHome/_siteSelectHeader.twig" %}
+        {% include "@CoreHome/_periodSelect.twig" %}
+    </div>
+
+    <script type="text/javascript">
     $(function () {
         var widgetized = new widgetize();
         var urlPath = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname;
@@ -24,11 +31,6 @@
     });
 </script>
 
-{% include "@CoreHome/_siteSelectHeader.twig" %}
-
-<div class="top_controls_inner">
-    {% include "@CoreHome/_periodSelect.twig" %}
-</div>
 
 <div class="widgetize">
     <p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.
@@ -59,5 +61,6 @@
     <div id="widgetPreview"></div>
 
     <div id='iframeDivToExport' style='display:none;'></div>
+</div>
 </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-<div class="top_bar_sites_selector">
+<div class="top_bar_sites_selector {% if currentModule == 'CoreHome' %}sites_selector_in_dashboard{% endif %}">
     <label>{{ 'General_Website'|translate }}</label>
     {% include "@CoreHome/_siteSelect.twig" %}
 </div>
