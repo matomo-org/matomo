@@ -52,6 +52,10 @@ foreach (glob(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/*.php') as $file) {
     require_once $file;
 }
 
+foreach (glob(PIWIK_INCLUDE_PATH . '/plugins/*/tests/Fixtures/*.php') as $file) {
+    require_once $file;
+}
+
 // General requirement checks & help: a webserver must be running for tests to work!
 checkPiwikSetupForTests();
 
