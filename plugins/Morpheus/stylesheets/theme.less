@@ -320,19 +320,33 @@ table.entityTable tr td a:hover {
 
 /* Iframed Embed dashboard style */
 #standalone {
-  #Dashboard > ul {
-    background: #fff;
-    border: 1px solid @silver-80;
-    padding: 8px 10px 8px 10px;
-    color: #444;
-    height: 12px;
-    line-height:1em;
-    .border-radius(0px);
-  }
 
   #Dashboard:hover ul {
     background: #f1f0eb;
     border-color: #a9a399;
+  }
+
+  #Dashboard {
+    ul {
+
+      background: #fff;
+      border: 1px solid @silver-80;
+      padding: 8px 10px 8px 10px;
+      color: #444;
+      height: 12px;
+      line-height:0.5em;
+      .border-radius(0px);
+    }
+    > ul > li:hover,
+    > ul > li:hover a,
+    > ul > li.sfHover,
+    > ul > li.sfHover a {
+      color: @brand-red;
+    }
+    > ul > li.sfHover,
+    > ul > li.sfHover a {
+      font-weight: normal;
+    }
   }
 }
 
