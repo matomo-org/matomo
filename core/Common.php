@@ -731,6 +731,9 @@ class Common
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
         $searchEngines = $GLOBALS['Piwik_SearchEngines'];
+
+        Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$searchEngines));
+
         return $searchEngines;
     }
 
@@ -743,10 +746,16 @@ class Common
      */
     public static function getSearchEngineNames()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
+        $searchEngines = self::getSearchEngineUrls();
 
-        $searchEngines = $GLOBALS['Piwik_SearchEngines_NameToUrl'];
-        return $searchEngines;
+        $nameToUrl = array();
+        foreach ($searchEngines as $url => $info) {
+            if (!isset($nameToUrl[$info[0]])) {
+                $nameToUrl[$info[0]] = $url;
+            }
+        }
+
+        return $nameToUrl;
     }
 
     /**
@@ -760,8 +769,11 @@ class Common
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
 
-        $searchEngines = $GLOBALS['Piwik_socialUrl'];
-        return $searchEngines;
+        $socialUrls = $GLOBALS['Piwik_socialUrl'];
+
+        Piwik::postEvent('Referrer.addSocialUrls', array(&$socialUrls));
+
+        return $socialUrls;
     }
 
     /**
