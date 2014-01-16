@@ -316,8 +316,6 @@ class API extends \Piwik\Plugin\API
      */
     public function getSocials($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        require PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
-
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
         $dataTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) { return !isSocialUrl($url); }));
@@ -349,21 +347,21 @@ class API extends \Piwik\Plugin\API
      */
     public function getUrlsForSocial($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
-        require PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
-
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
 
         // get the social network domain referred to by $idSubtable
+        $socialNetworks = Common::getSocialUrls();
+
         $social = false;
         if ($idSubtable !== false) {
             --$idSubtable;
 
-            reset($GLOBALS['Piwik_socialUrl']);
+            reset($socialNetworks);
             for ($i = 0; $i != (int)$idSubtable; ++$i) {
-                next($GLOBALS['Piwik_socialUrl']);
+                next($socialNetworks);
             }
 
-            $social = current($GLOBALS['Piwik_socialUrl']);
+            $social = current($socialNetworks);
         }
 
         // filter out everything but social network indicated by $idSubtable
@@ -457,7 +455,7 @@ class API extends \Piwik\Plugin\API
                 $socialName = $row->getColumn('label');
 
                 $i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
-                foreach ($GLOBALS['Piwik_socialUrl'] as $domain => $name) {
+                foreach (Common::getSocialUrls() as $domain => $name) {
                     if ($name == $socialName) {
                         $row->c[Row::DATATABLE_ASSOCIATED] = $i;
                         break;

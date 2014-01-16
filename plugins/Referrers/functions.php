@@ -37,7 +37,7 @@ function getPathFromUrl($url)
  */
 function getSocialNetworkFromDomain($url)
 {
-    foreach ($GLOBALS['Piwik_socialUrl'] AS $domain => $name) {
+    foreach (Common::getSocialUrls() AS $domain => $name) {
 
         if(preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url)) {
 
@@ -58,7 +58,7 @@ function getSocialNetworkFromDomain($url)
  */
 function isSocialUrl($url, $socialName = false)
 {
-    foreach ($GLOBALS['Piwik_socialUrl'] AS $domain => $name) {
+    foreach (Common::getSocialUrls() AS $domain => $name) {
 
         if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
 
@@ -79,11 +79,12 @@ function isSocialUrl($url, $socialName = false)
 function getSocialsLogoFromUrl($domain)
 {
     $social = getSocialNetworkFromDomain($domain);
+    $socialNetworks = Common::getSocialUrls();
 
     $filePattern = 'plugins/Referrers/images/socials/%s.png';
 
-    foreach ($GLOBALS['Piwik_socialUrl'] as $domainKey => $name) {
-        if ($social == $GLOBALS['Piwik_socialUrl'][$domainKey] && file_exists(PIWIK_DOCUMENT_ROOT . '/' . sprintf($filePattern, $domainKey))) {
+    foreach ($socialNetworks as $domainKey => $name) {
+        if ($social == $socialNetworks[$domainKey] && file_exists(PIWIK_DOCUMENT_ROOT . '/' . sprintf($filePattern, $domainKey))) {
             return sprintf($filePattern, $domainKey);
         }
     }

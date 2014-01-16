@@ -750,6 +750,21 @@ class Common
     }
 
     /**
+     * Returns list of social networks by URL
+     *
+     * @see core/DataFiles/Socials.php
+     *
+     * @return array  Array of ( URL => Social Network Name )
+     */
+    public static function getSocialUrls()
+    {
+        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
+
+        $searchEngines = $GLOBALS['Piwik_socialUrl'];
+        return $searchEngines;
+    }
+
+    /**
      * Returns list of provider names
      *
      * @see core/DataFiles/Providers.php
