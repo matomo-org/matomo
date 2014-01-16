@@ -23,3 +23,6 @@
 	url = https://github.com/piwik/plugin-CustomAlerts.git
 	branch = master
 
+[submodule "plugins/TasksTimetable"]
+	path = plugins/TasksTimetable
+	url = https://github.com/piwik/plugin-TasksTimetable.git

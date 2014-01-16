@@ -33,8 +33,10 @@ class SimpleFixtureTrackFewVisits extends \Test_Piwik_BaseFixture
 
     private function setUpWebsite()
     {
-        $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
-        $this->assertTrue($idSite === $this->idSite);
+        if (!self::siteCreated($this->idSite)) {
+            $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+            $this->assertSame($this->idSite, $idSite);
+        }
     }
 
     protected function trackFirstVisit()
