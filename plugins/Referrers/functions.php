@@ -103,10 +103,13 @@ function getSocialsLogoFromUrl($domain)
         }
 
         $pathWithCode = 'plugins/Referrers/images/socials/' . $firstDomain . '.png';
-        return $pathWithCode;
-    } else {
-        return 'plugins/Referrers/images/socials/xx.png';
+
+        if (file_exists($pathWithCode)) {
+            return $pathWithCode;
+        }
     }
+
+    return 'plugins/Referrers/images/socials/xx.png';
 }
 
 /**
