@@ -378,6 +378,14 @@ class Configuration(object):
             help="Each line from this file is a path to exclude"
         )
         option_parser.add_option(
+            '--include-path', dest='included_paths', action='append', default=[],
+            help="Paths to include. Can be specified multiple times. If not specified, all paths are included."
+        )
+        option_parser.add_option(
+            '--include-path-from', dest='include_path_from',
+            help="Each line from this file is a path to include"
+        )
+        option_parser.add_option(
             '--useragent-exclude', dest='excluded_useragents',
             action='append', default=[],
             help="User agents to exclude (in addition to the standard excluded "
@@ -509,6 +517,12 @@ class Configuration(object):
             self.options.excluded_paths.extend(path for path in paths if len(path) > 0)
         if self.options.excluded_paths:
             logging.debug('Excluded paths: %s', ' '.join(self.options.excluded_paths))
+
+        if self.options.include_path_from:
+            paths = [path.strip() for path in open(self.options.include_path_from).readlines()]
+            self.options.included_paths.extend(path for path in paths if len(path) > 0)
+        if self.options.included_paths:
+            logging.debug('Included paths: %s', ' '.join(self.options.included_paths))
 
         if self.options.hostnames:
             logging.debug('Accepted hostnames: %s', ', '.join(self.options.hostnames))
@@ -1399,6 +1413,12 @@ class Parser(object):
         for excluded_path in config.options.excluded_paths:
             if fnmatch.fnmatch(hit.path, excluded_path):
                 return False
+        # By default, all paths are included.
+        if config.options.included_paths:
+           for included_path in config.options.included_paths:
+               if fnmatch.fnmatch(hit.path, included_path):
+                   return True
+           return False
         return True
 
     @staticmethod

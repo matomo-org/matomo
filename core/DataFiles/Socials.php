@@ -77,7 +77,7 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
         'github.com'           => 'Github',
 
         // Google+
-        'url.google.com'       => 'Google%2B',
+        'url.google.com'       => 'Google+',
 
         // douban
         'douban.com'           => 'douban',
@@ -105,7 +105,7 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
         'lastfm.pl'            => 'Last.fm',
         'lastfm.com.br'        => 'Last.fm',
         'lastfm.se'            => 'Last.fm',
-        'lastfm.com.tr'            => 'Last.fm',
+        'lastfm.com.tr'        => 'Last.fm',
 
         // MyHeritage
         'myheritage.com'       => 'MyHeritage',
@@ -200,7 +200,7 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
         'my.mail.ru'           => 'my.mail.ru',
 
         //MoiKrug.ru
-        'moikrug.ru'           => 'my.mail.ru',
+        'moikrug.ru'           => 'moikrug.ru',
 
         // Reddit
         'reddit.com'           => 'reddit',
@@ -216,8 +216,8 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
         't.cn'                 => 'Weibo',
 
         // YouTube
-        'youtu.be'             => 'YouTube',
         'youtube.com'          => 'YouTube',
+        'youtu.be'             => 'YouTube',
 
         // Vimeo
         'vimeo.com'            => 'Vimeo',
