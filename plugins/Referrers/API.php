@@ -322,7 +322,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) { return !isSocialUrl($url); }));
 
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\cleanSocialUrl'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url'));
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getSocialNetworkFromDomain'));
 
         $this->setSocialIdSubtables($dataTable);
