@@ -98,7 +98,7 @@ class Site
     protected static function setSite($idSite, $infoSite)
     {
         if(empty($idSite) || empty($infoSite)) {
-            throw new Exception("Un unexpected website was found.");
+            throw new Exception("An unexpected website was found, check idSite in the request.");
         }
 
         /**
