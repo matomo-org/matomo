@@ -1078,7 +1078,13 @@ $(document).ready( function(){
         ajaxHandler.send(true);
     };
 
-    var segmentFromHash = broadcast.getParamValue('segment', location.hash);
+    var segmentFromRequest = broadcast.getValueFromHash('segment');
+    if(segmentFromRequest.length == 0) {
+        segmentFromRequest = broadcast.getValueFromUrl('segment');
+    }
+    if($.browser.mozilla) {
+        segmentFromRequest = decodeURIComponent(segmentFromRequest);
+    }
     var segmentationFtw = new Segmentation({
         "targetId"   : "segmentList",
         "segmentAccess" : "write",
@@ -1087,7 +1093,7 @@ $(document).ready( function(){
         "updateMethod": updateSegment,
         "deleteMethod": deleteSegment,
         "segmentSelectMethod": changeSegment,
-        "currentSegmentStr": segmentFromHash,
+        "currentSegmentStr": segmentFromRequest,
         "translations": segmentTranslations
     });
 
