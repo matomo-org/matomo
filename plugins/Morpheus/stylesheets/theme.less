@@ -198,125 +198,124 @@ table.entityTable tr td a:hover {
     .widgetize {
         width: auto;
     }
+}
 
-
-    .top_controls {
-        #segmentEditorPanel {
-            border: 1px solid @silver-80;
-            background: #fff;
-            padding: 8px 10px 8px 10px;
-            .border-radius(0px);
-            .segmentationTitle {
-                background: none;
-                text-transform: uppercase;
-                .font-default(10px, 12px);
-                position: relative;
-                &:after {
-                    content: '';
-                    border-left: 4px solid transparent;
-                    border-right: 4px solid transparent;
-                    border-top: 5px solid @brand-red;
-                    position: absolute;
-                    top: 3px;
-                    right: 0;
-                }
-            }
-            .segmentationContainer {
-                > span > strong {
-                    color: @brand-red;
-                }
-                .submenu {
-                    li {
-                        font-weight: normal;
-                        .font-default(12px, 14px) !important;
-                        color: @silver-30;
-                    }
-                    
-                    ul li:hover  {
-                        color: @brand-black;
-                    }
-
-                }
-
-                .add_new_segment {
-                    .submit();
-                    .font-default(12px, 16px) !important;
-                    width: auto;
-                    padding: 7px 10px !important;
-                }
-            } 
-
-            #segmentList {
-                .segmentationContainer {
-                    &.visible {
-                        .submenu {
-                            li {
-                                .font-default(13px, 16px);
-                                color: #444;
-                                &:hover {
-                                    border-color: @silver-80 !important;
-                                    background: #fff !important;
-                                    .border-radius(0px);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        #dashboardSettings {
-            border: 1px solid @silver-80;
-            background: #fff;
-            z-index: 10;
-            padding: 8px 10px 8px 10px;
-            .border-radius(0px);
-            .font-default(10px, 12px);
-            > span {
-                position: relative;
-                background: none;
-                text-transform: uppercase;
-                &:after {
-                    content: '';
-                    border-left: 4px solid transparent;
-                    border-right: 4px solid transparent;
-                    border-top: 5px solid @brand-red;
-                    position: absolute;
-                    top: 3px;
-                    right: 0;
-                }
-            }
-
-            ul.submenu {
-                margin-left: 0;
-                li {
-                    list-style-type: none;
-                    > div {
-                        .font-default(11px, 14px);
-                        color: @brand-black;
-                    }
-                    text-transform: none;
-                    color: @silver-20;
-                    &.widgetpreview-choosen {
-                        color: @brand-black;
-                        font-weight: normal;
-                        background: @silver-95;
-                        position: relative;
-                        &:after {
-                            position: absolute;
-                            content: '';
-                            top: 6px;
-                            right: 10px;
-                            border-top: 4px solid transparent;
-                            border-bottom: 4px solid transparent;
-                            border-left: 5px solid @brand-red;
-
-                        }
-                    }
-                }
-            }
-        }
+.top_controls {
+  #segmentEditorPanel {
+    border: 1px solid @silver-80;
+    background: #fff;
+    padding: 8px 10px 8px 10px;
+    .border-radius(0px);
+    .segmentationTitle {
+      background: none;
+      text-transform: uppercase;
+      .font-default(10px, 12px);
+      position: relative;
+      &:after {
+        content: '';
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid @brand-red;
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
     }
+    .segmentationContainer {
+      > span > strong {
+        color: @brand-red;
+      }
+      .submenu {
+        li {
+          font-weight: normal;
+          .font-default(12px, 14px) !important;
+          color: @silver-30;
+        }
+
+        ul li:hover  {
+          color: @brand-black;
+        }
+
+      }
+
+      .add_new_segment {
+        .submit();
+        .font-default(12px, 16px) !important;
+        width: auto;
+        padding: 7px 10px !important;
+      }
+    }
+
+    #segmentList {
+      .segmentationContainer {
+        &.visible {
+          .submenu {
+            li {
+              .font-default(13px, 16px);
+              color: #444;
+              &:hover {
+                border-color: @silver-80 !important;
+                background: #fff !important;
+                .border-radius(0px);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #dashboardSettings {
+    border: 1px solid @silver-80;
+    background: #fff;
+    z-index: 10;
+    padding: 8px 10px 8px 10px;
+    .border-radius(0px);
+    .font-default(10px, 12px);
+    > span {
+      position: relative;
+      background: none;
+      text-transform: uppercase;
+      &:after {
+        content: '';
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid @brand-red;
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
+    }
+
+    ul.submenu {
+      margin-left: 0;
+      li {
+        list-style-type: none;
+        > div {
+          .font-default(11px, 14px);
+          color: @brand-black;
+        }
+        text-transform: none;
+        color: @silver-20;
+        &.widgetpreview-choosen {
+          color: @brand-black;
+          font-weight: normal;
+          background: @silver-95;
+          position: relative;
+          &:after {
+            position: absolute;
+            content: '';
+            top: 6px;
+            right: 10px;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 5px solid @brand-red;
+
+          }
+        }
+      }
+    }
+  }
 }
 
 .rss-title {
