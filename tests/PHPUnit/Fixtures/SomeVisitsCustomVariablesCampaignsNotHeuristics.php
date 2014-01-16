@@ -17,16 +17,19 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;
     public $idGoal = 1;
+    private $tmpHost = '';
 
     public function setUp()
     {
+        $this->tmpHost = $_SERVER['HTTP_HOST'];
+        $_SERVER['HTTP_HOST'] = 'localhost';
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
     public function tearDown()
     {
-        // empty
+        $_SERVER['HTTP_HOST'] = $this->tmpHost;
     }
 
     private function setUpWebsitesAndGoals()
