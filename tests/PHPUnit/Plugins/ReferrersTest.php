@@ -142,4 +142,38 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
         include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
         $this->assertEquals($expected, \Piwik\Plugins\Referrers\getSearchEngineUrlFromUrlAndKeyword($url, $keyword));
     }
+
+    /**
+     * Dataprovider for getSocialNetworkFromDomainTestData
+     */
+    public function getSocialNetworkFromDomainTestData()
+    {
+        return array(
+            array('http://www.facebook.com', 'Facebook'),
+            array('http://www.facebook.com/piwik', 'Facebook'),
+            array('http://m.facebook.com', 'Facebook'),
+            array('https://m.facebook.com', 'Facebook'),
+            array('m.facebook.com', 'Facebook'),
+            array('http://lastfm.com.tr', 'Last.fm'),
+            array('http://t.co/test', 'Twitter'),
+            array('http://xxt.co/test', \Piwik\Piwik::translate('General_Unknown')),
+            array('asdfasdfadsf.com', \Piwik\Piwik::translate('General_Unknown')),
+            array('http://xwayn.com', \Piwik\Piwik::translate('General_Unknown')),
+            array('http://live.com/test', \Piwik\Piwik::translate('General_Unknown')),
+        );
+    }
+
+    /**
+     * get search engine url from name and keyword
+     *
+     * @group Plugins
+     * @group Social
+     *
+     * @dataProvider getSocialNetworkFromDomainTestData
+     */
+    public function testGetSocialNetworkFromDomain($url, $expected)
+    {
+        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
+        $this->assertEquals($expected, \Piwik\Plugins\Referrers\getSocialNetworkFromDomain($url));
+    }
 }
