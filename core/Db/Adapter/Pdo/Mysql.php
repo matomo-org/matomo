@@ -64,7 +64,9 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
          * @see http://framework.zend.com/issues/browse/ZF-1398
          */
         $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-        $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+
+        // MYSQL_ATTR_USE_BUFFERED_QUERY will use more memory when enabled
+        // $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
         return $this->_connection;
     }
