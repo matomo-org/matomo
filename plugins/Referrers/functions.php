@@ -84,7 +84,7 @@ function getSocialsLogoFromUrl($domain)
     $filePattern = 'plugins/Referrers/images/socials/%s.png';
 
     foreach ($socialNetworks as $domainKey => $name) {
-        if ($social == $socialNetworks[$domainKey] && file_exists(PIWIK_DOCUMENT_ROOT . '/' . sprintf($filePattern, $domainKey))) {
+        if ($social == $socialNetworks[$domainKey] && file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($filePattern, $domainKey))) {
             return sprintf($filePattern, $domainKey);
         }
     }
