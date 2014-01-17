@@ -9,10 +9,15 @@ php:
 # Separate different test suites
 env:
   matrix:
+    # PDO Mysql
     - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=CoreTests MYSQL_ADAPTER=PDO_MYSQL
+    # Mysqli
     - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
+    - TEST_SUITE=PluginTests MYSQL_ADAPTER=MYSQLI
+    - TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
+    # Javascript tests
     - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
   global:
     - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
@@ -22,8 +27,12 @@ matrix:
   exclude:
   - php: 5.4
     env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
+    env: TEST_SUITE=PluginTests MYSQL_ADAPTER=MYSQLI
+    env: TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
   - php: 5.5
     env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
+    env: TEST_SUITE=PluginTests MYSQL_ADAPTER=MYSQLI
+    env: TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
   - php: 5.4
     env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
   - php: 5.5
