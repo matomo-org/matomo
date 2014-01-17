@@ -56,6 +56,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         }
 
         include "DataFiles/SearchEngines.php";
+        include "DataFiles/Socials.php";
         include "DataFiles/Languages.php";
         include "DataFiles/Countries.php";
         include "DataFiles/Currencies.php";
