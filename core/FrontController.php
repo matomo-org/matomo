@@ -84,65 +84,9 @@ class FrontController extends Singleton
             return;
         }
 
-        list($module, $action, $parameters) = $this->prepareDispatch($module, $action, $parameters);
-
-        /**
-         * Triggered directly before controller actions are dispatched.
-         *
-         * This event can be used to modify the parameters passed to one or more controller actions
-         * and can be used to change the controller action being dispatched to.
-         *
-         * @param string &$module The name of the plugin being dispatched to.
-         * @param string &$action The name of the controller method being dispatched to.
-         * @param array &$parameters The arguments passed to the controller action.
-         */
-        Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
-
-        list($controller, $action) = $this->makeController($module, $action);
-
-        /**
-         * Triggered directly before controller actions are dispatched.
-         * 
-         * This event exists for convenience and is triggered directly after the {@hook Request.dispatch}
-         * event is triggered.
-         * 
-         * It can be used to do the same things as the {@hook Request.dispatch} event, but for one controller
-         * action only. Using this event will result in a little less code than {@hook Request.dispatch}.
-         * 
-         * @param array &$parameters The arguments passed to the controller action.
-         */
-        Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
-
         try {
-            $result = call_user_func_array(array($controller, $action), $parameters);
-
-            /**
-             * Triggered after a controller action is successfully called.
-             * 
-             * This event exists for convenience and is triggered immediately before the {@hook Request.dispatch.end}
-             * event is triggered.
-             * 
-             * It can be used to do the same things as the {@hook Request.dispatch.end} event, but for one
-             * controller action only. Using this event will result in a little less code than
-             * {@hook Request.dispatch.end}.
-             * 
-             * @param mixed &$result The result of the controller action.
-             * @param array $parameters The arguments passed to the controller action.
-             */
-            Piwik::postEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
-
-            /**
-             * Triggered after a controller action is successfully called.
-             * 
-             * This event can be used to modify controller action output (if any) before the output is returned.
-             * 
-             * @param mixed &$result The controller action result.
-             * @param array $parameters The arguments passed to the controller action.
-             */
-            Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
-
+            $result = $this->doDispatch($module, $action, $parameters);
             return $result;
-
         } catch (NoAccessException $exception) {
 
             /**
@@ -533,6 +477,72 @@ class FrontController extends Singleton
             $mainRun = $_GET['xhprof'] == 1; // archive.php sets xhprof=2
             Profiler::setupProfilerXHProf($mainRun);
         }
+    }
+
+    /**
+     * @param $module
+     * @param $action
+     * @param $parameters
+     * @return mixed
+     */
+    private function doDispatch($module, $action, $parameters)
+    {
+        list($module, $action, $parameters) = $this->prepareDispatch($module, $action, $parameters);
+
+        /**
+         * Triggered directly before controller actions are dispatched.
+         *
+         * This event can be used to modify the parameters passed to one or more controller actions
+         * and can be used to change the controller action being dispatched to.
+         *
+         * @param string &$module The name of the plugin being dispatched to.
+         * @param string &$action The name of the controller method being dispatched to.
+         * @param array &$parameters The arguments passed to the controller action.
+         */
+        Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
+
+        list($controller, $action) = $this->makeController($module, $action);
+
+        /**
+         * Triggered directly before controller actions are dispatched.
+         *
+         * This event exists for convenience and is triggered directly after the {@hook Request.dispatch}
+         * event is triggered.
+         *
+         * It can be used to do the same things as the {@hook Request.dispatch} event, but for one controller
+         * action only. Using this event will result in a little less code than {@hook Request.dispatch}.
+         *
+         * @param array &$parameters The arguments passed to the controller action.
+         */
+        Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
+
+        $result = call_user_func_array(array($controller, $action), $parameters);
+
+        /**
+         * Triggered after a controller action is successfully called.
+         *
+         * This event exists for convenience and is triggered immediately before the {@hook Request.dispatch.end}
+         * event is triggered.
+         *
+         * It can be used to do the same things as the {@hook Request.dispatch.end} event, but for one
+         * controller action only. Using this event will result in a little less code than
+         * {@hook Request.dispatch.end}.
+         *
+         * @param mixed &$result The result of the controller action.
+         * @param array $parameters The arguments passed to the controller action.
+         */
+        Piwik::postEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
+
+        /**
+         * Triggered after a controller action is successfully called.
+         *
+         * This event can be used to modify controller action output (if any) before the output is returned.
+         *
+         * @param mixed &$result The controller action result.
+         * @param array $parameters The arguments passed to the controller action.
+         */
+        Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
+        return $result;
     }
 }
 
