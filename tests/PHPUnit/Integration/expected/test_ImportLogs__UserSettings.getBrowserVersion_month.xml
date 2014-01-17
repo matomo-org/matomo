@@ -37,6 +37,18 @@
 		<shortLabel>RockMelt 0.9</shortLabel>
 	</row>
 	<row>
+		<label>Android Browser </label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
+		<shortLabel>Android Browser </shortLabel>
+	</row>
+	<row>
 		<label>Chrome 19.0</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
@@ -71,18 +83,6 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
 		<shortLabel>Firefox 6.0</shortLabel>
-	</row>
-	<row>
-		<label>Mobile Safari 4.0</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<nb_visits_converted>2</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
-		<shortLabel>Mobile Safari 4.0</shortLabel>
 	</row>
 	<row>
 		<label>Chrome 11.0</label>
