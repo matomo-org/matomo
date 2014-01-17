@@ -87,6 +87,9 @@ class Translate
         if (!isset($GLOBALS['Piwik_translations'])) {
             $GLOBALS['Piwik_translations'] = array();
         }
+        if (empty($translation)) {
+            return;
+        }
         // we could check that no string overlap here
         $GLOBALS['Piwik_translations'] = array_replace_recursive($GLOBALS['Piwik_translations'], $translation);
     }
