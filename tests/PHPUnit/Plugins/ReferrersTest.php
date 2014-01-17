@@ -187,7 +187,6 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Plugins
-     * @group Social
      *
      * @dataProvider getSocialsLogoFromUrlTestData
      */

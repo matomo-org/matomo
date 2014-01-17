@@ -30,6 +30,26 @@ function getPathFromUrl($url)
 }
 
 /**
+ * Returns the main url of the social network the given url matches
+ *
+ * @param string  $url
+ *
+ * @return string
+ */
+function getSocialMainUrl($url)
+{
+    $social  = getSocialNetworkFromDomain($url);
+    foreach (Common::getSocialUrls() AS $domain => $name) {
+
+        if($name == $social) {
+
+            return $domain;
+        }
+    }
+    return $url;
+}
+
+/**
  * Get's social network name from URL.
  *
  * @param string $url
