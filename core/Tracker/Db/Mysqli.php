@@ -267,7 +267,7 @@ class Mysqli extends Db
      */
     public function isErrNo($e, $errno)
     {
-        return mysqli_errno($this->_connection) == $errno;
+        return mysqli_errno($this->connection) == $errno;
     }
 
     /**
