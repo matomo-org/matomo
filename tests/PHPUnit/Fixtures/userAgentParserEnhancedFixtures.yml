@@ -11407,3 +11407,19 @@
     model: GT-S5839i
   os_family: Android
   browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (X11; Linux) AppleWebKit/538.1 (KHTML, like Gecko) Chrome/18.0.1025.133 Safari/538.1 Midori/0.5
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Midori
+    short_name: MI
+    version: 0.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
