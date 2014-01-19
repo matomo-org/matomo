@@ -11423,3 +11423,19 @@
     model:
   os_family: Linux
   browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.4.2; Nexus 5 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.99 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.4
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 32
+  device:
+    type: smartphone
+    brand: GO
+    model: Nexus 5
+  os_family: Android
+  browser_family: Chrome
