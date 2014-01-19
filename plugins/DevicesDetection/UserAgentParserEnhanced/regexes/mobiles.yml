@@ -811,7 +811,7 @@ Sony:
   models: 
     - regex: 'Sony[ ]?([A-Za-z0-9\-]+)'
       model: '$1'
-    - regex: '(PlayStation (?:3|Portable|Vita))'
+    - regex: '(PlayStation (?:3|4|Portable|Vita))'
       device: 'console'
       model: '$1'
 

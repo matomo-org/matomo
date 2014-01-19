@@ -11439,3 +11439,19 @@
     model: Nexus 5
   os_family: Android
   browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (PlayStation 4 1.52) AppleWebKit/536.26 (KHTML, like Gecko)
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: NetFront
+    short_name: NF
+    version:
+  device:
+    type: console
+    brand: SO
+    model: PlayStation 4
+  os_family: Unknown
+  browser_family: NetFront
