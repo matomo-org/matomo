@@ -357,7 +357,7 @@ Google:
   models:
     - regex: '(Galaxy Nexus)'
       model: '$1'
-    - regex: '(Nexus (?:S|4|One))'
+    - regex: '(Nexus (?:S|4|5|One))'
       model: '$1'
     - regex: '(Nexus (?:7|10))'
       device: 'tablet'
