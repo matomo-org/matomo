@@ -7,7 +7,7 @@ use Piwik\Translate;
  *
  * @group Core
  */
-class TravisEnvironmentTest extends PHPUnit_Framework_TestCase
+class TravisEnvironmentTest extends DatabaseTestCase
 {
     public function testUsageOfCorrectMysqlAdapter()
     {
