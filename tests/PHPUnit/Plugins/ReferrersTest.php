@@ -164,10 +164,7 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * get search engine url from name and keyword
-     *
      * @group Plugins
-     * @group Social
      *
      * @dataProvider getSocialNetworkFromDomainTestData
      */
@@ -175,5 +172,73 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
     {
         include PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
         $this->assertEquals($expected, \Piwik\Plugins\Referrers\getSocialNetworkFromDomain($url));
+    }
+
+    public function getSocialsLogoFromUrlTestData()
+    {
+        return array(
+            array('http://www.facebook.com', 'facebook.com.png'),
+            array('www.facebook.com', 'facebook.com.png',),
+            array('http://lastfm.com.tr', 'last.fm.png'),
+            array('http://asdfasdf.org/test', 'xx.png'),
+            array('http://www.google.com', 'xx.png'),
+        );
+    }
+
+    /**
+     * @group Plugins
+     *
+     * @dataProvider getSocialsLogoFromUrlTestData
+     */
+    public function testGetSocialsLogoFromUrl($url, $expected)
+    {
+        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
+        $this->assertContains($expected, \Piwik\Plugins\Referrers\getSocialsLogoFromUrl($url));
+    }
+
+
+    public function isSocialUrlTestData()
+    {
+        return array(
+            array('http://www.facebook.com', 'Facebook', true),
+            array('http://www.facebook.com', 'Twitter', false),
+            array('http://m.facebook.com', false, true),
+            array('http://lastfm.com.tr', 'Last.fm', true),
+            array('http://asdfasdf.org/test', false, false),
+            array('http://asdfasdf.com/test', 'Facebook', false),
+        );
+    }
+
+    /**
+     * @group Plugins
+     *
+     * @dataProvider isSocialUrlTestData
+     */
+    public function testIsSocialUrl($url, $assumedSocial, $expected)
+    {
+        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
+        $this->assertEquals($expected, \Piwik\Plugins\Referrers\isSocialUrl($url, $assumedSocial));
+    }
+
+    public function removeUrlProtocolTestData()
+    {
+        return array(
+            array('http://www.facebook.com', 'www.facebook.com'),
+            array('https://bla.fr', 'bla.fr'),
+            array('ftp://bla.fr', 'bla.fr'),
+            array('udp://bla.fr', 'bla.fr'),
+            array('bla.fr', 'bla.fr'),
+            array('ASDasdASDDasd', 'ASDasdASDDasd'),
+        );
+    }
+
+    /**
+     * @group Plugins
+     *
+     * @dataProvider removeUrlProtocolTestData
+     */
+    public function testRemoveUrlProtocol($url, $expected)
+    {
+        $this->assertEquals($expected, \Piwik\Plugins\Referrers\removeUrlProtocol($url));
     }
 }

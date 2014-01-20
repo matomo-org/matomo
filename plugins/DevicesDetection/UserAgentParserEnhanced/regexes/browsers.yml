@@ -22,7 +22,7 @@
 - regex: 'Camino/(\d+\.\d+)'
   name: Camino
   version: '$1'
-  
+
 #Fennec (Firefox for mobile)
 - regex: 'Fennec/(\d+\.\d+)'
   name: Fennec
@@ -102,6 +102,11 @@
   name: Yandex Browser
   version: '$1'
   
+#Midori
+- regex: 'Midori/(\d+\.\d+)'
+  name: Midori
+  version: '$1'
+
 #Chrome
 - regex: 'CrMo/(\d+\.\d+)'
   name: Chrome Mobile
@@ -153,11 +158,6 @@
 #Lynx
 - regex: 'Lynx/(\d+\.\d+)'
   name: Lynx
-  version: '$1'
-  
-#Midori
-- regex: 'Midori/(\d+\.\d+)'
-  name: Midori
   version: '$1'
   
 #NCSA Mosaic

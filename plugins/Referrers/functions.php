@@ -30,6 +30,26 @@ function getPathFromUrl($url)
 }
 
 /**
+ * Returns the main url of the social network the given url matches
+ *
+ * @param string  $url
+ *
+ * @return string
+ */
+function getSocialMainUrl($url)
+{
+    $social  = getSocialNetworkFromDomain($url);
+    foreach (Common::getSocialUrls() AS $domain => $name) {
+
+        if($name == $social) {
+
+            return $domain;
+        }
+    }
+    return $url;
+}
+
+/**
  * Get's social network name from URL.
  *
  * @param string $url
@@ -84,7 +104,7 @@ function getSocialsLogoFromUrl($domain)
     $filePattern = 'plugins/Referrers/images/socials/%s.png';
 
     foreach ($socialNetworks as $domainKey => $name) {
-        if ($social == $socialNetworks[$domainKey] && file_exists(PIWIK_DOCUMENT_ROOT . '/' . sprintf($filePattern, $domainKey))) {
+        if ($social == $socialNetworks[$domainKey] && file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($filePattern, $domainKey))) {
             return sprintf($filePattern, $domainKey);
         }
     }
