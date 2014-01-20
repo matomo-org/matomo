@@ -613,17 +613,12 @@ class API extends \Piwik\Plugin\API
         $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
 
-        // remove false values (while keeping zeros)
-        $values = array_filter($values, 'strlen');
+        $values = $this->getMostFrequentValues($values);
 
-        // we have a list of all values. let's show the most frequently used first.
-        $values = array_count_values($values);
-        arsort($values);
-        $values = array_keys($values);
+        $values = array_slice($values, 0, $maxSuggestionsToReturn);
 
         $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
-        $values = array_slice($values, 0, $maxSuggestionsToReturn);
         return $values;
     }
 
@@ -641,6 +636,30 @@ class API extends \Piwik\Plugin\API
         $isEventSegment = stripos($segmentName, 'event') !== false;
         $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage || $isEventSegment;
         return $doesSegmentNeedActionsInfo;
+    }
+
+    /**
+     * @param $values
+     * @param $value
+     * @return array
+     */
+    private function getMostFrequentValues($values)
+    {
+        // remove false values (while keeping zeros)
+        $values = array_filter($values, 'strlen');
+
+        // array_count_values requires strings or integer, convert floats to string (mysqli)
+        foreach ($values as &$value) {
+            if (is_numeric($value)) {
+                $value = (string)round($value, 3);
+            }
+        }
+        // we have a list of all values. let's show the most frequently used first.
+        $values = array_count_values($values);
+
+        arsort($values);
+        $values = array_keys($values);
+        return $values;
     }
 }
 
