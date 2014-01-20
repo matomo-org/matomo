@@ -85,8 +85,8 @@
     short_name: WI8
     version: 8
   browser:
-    name: Opera Mobile
-    short_name: OM
+    name: Opera
+    short_name: OP
     version: 15.0
   device:
     type: desktop
@@ -11486,3 +11486,35 @@
     model: PlayStation 4
   os_family: Mobile Gaming Console
   browser_family: NetFront
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.0.3; HTC EVO 3D X515m Build/IML74K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.63 Mobile Safari/537.36 OPR/15.0.1162.61541
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Opera Mobile
+    short_name: OM
+    version: 15.0
+  device:
+    type: smartphone
+    brand: HT
+    model: EVO 3D
+  os_family: Android
+  browser_family: Opera
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 OPR/18.0.1284.68
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: Opera
+    short_name: OP
+    version: 18.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Opera
