@@ -93,9 +93,9 @@ class Visit implements VisitInterface
         /**
          * Triggered after visits are tested for exclusion so plugins can modify the IP address
          * persisted with a visit.
-         * 
+         *
          * This event is primarily used by the **PrivacyManager** plugin to anonymize IP addresses.
-         * 
+         *
          * @param string &$ip The visitor's IP address.
          */
         Piwik::postEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
@@ -245,10 +245,10 @@ class Visit implements VisitInterface
         /**
          * Triggered before a [visit entity](/guides/persistence-and-the-mysql-backend#visits) is updated when
          * tracking an action for an existing visit.
-         * 
+         *
          * This event can be used to modify the visit properties that will be updated before the changes
          * are persisted.
-         * 
+         *
          * @param array &$valuesToUpdate Visit entity properties that will be updated.
          * @param array $visit The entire visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits)
          *                     to see what it contains.
@@ -299,7 +299,7 @@ class Visit implements VisitInterface
 
         /**
          * Triggered before a new [visit entity](/guides/persistence-and-the-mysql-backend#visits) is persisted.
-         * 
+         *
          * This event can be used to modify the visit entity or add new information to it before it is persisted.
          * The UserCountry plugin, for example, uses this event to add location information for each visit.
          *
@@ -312,7 +312,7 @@ class Visit implements VisitInterface
         $this->request->overrideLocation($this->visitorInfo);
         $this->printVisitorInformation();
 
-        $idVisit = $this->insertNewVisit( $this->visitorInfo );
+        $idVisit = $this->insertNewVisit($this->visitorInfo);
 
         $this->visitorInfo['idvisit'] = $idVisit;
         $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
@@ -509,7 +509,7 @@ class Visit implements VisitInterface
             $this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
             $this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 
-            foreach($persistedVisitAttributes as $field) {
+            foreach ($persistedVisitAttributes as $field) {
                 $this->visitorInfo[$field] = $visitRow[$field];
             }
 
@@ -628,22 +628,22 @@ class Visit implements VisitInterface
             $browserLang);
 
         $this->userSettingsInformation = array(
-            'config_id'              => $configurationHash,
-            'config_os'              => $os,
-            'config_browser_name'    => $browserName,
+            'config_id' => $configurationHash,
+            'config_os' => $os,
+            'config_browser_name' => $browserName,
             'config_browser_version' => $browserVersion,
-            'config_resolution'      => $resolution,
-            'config_pdf'             => $plugin_PDF,
-            'config_flash'           => $plugin_Flash,
-            'config_java'            => $plugin_Java,
-            'config_director'        => $plugin_Director,
-            'config_quicktime'       => $plugin_Quicktime,
-            'config_realplayer'      => $plugin_RealPlayer,
-            'config_windowsmedia'    => $plugin_WindowsMedia,
-            'config_gears'           => $plugin_Gears,
-            'config_silverlight'     => $plugin_Silverlight,
-            'config_cookie'          => $plugin_Cookie,
-            'location_browser_lang'  => $browserLang,
+            'config_resolution' => $resolution,
+            'config_pdf' => $plugin_PDF,
+            'config_flash' => $plugin_Flash,
+            'config_java' => $plugin_Java,
+            'config_director' => $plugin_Director,
+            'config_quicktime' => $plugin_Quicktime,
+            'config_realplayer' => $plugin_RealPlayer,
+            'config_windowsmedia' => $plugin_WindowsMedia,
+            'config_gears' => $plugin_Gears,
+            'config_silverlight' => $plugin_Silverlight,
+            'config_cookie' => $plugin_Cookie,
+            'location_browser_lang' => $browserLang,
         );
         return $this->userSettingsInformation;
     }
@@ -754,7 +754,7 @@ class Visit implements VisitInterface
         $updateParts = $sqlBind = array();
         foreach ($valuesToUpdate AS $name => $value) {
             // Case where bind parameters don't work
-            if(strpos($value, $name) !== false) {
+            if (strpos($value, $name) !== false) {
                 //$name = 'visit_total_events'
                 //$value = 'visit_total_events + 1';
                 $updateParts[] = " $name = $value ";
@@ -763,7 +763,7 @@ class Visit implements VisitInterface
                 $sqlBind[] = $value;
             }
         }
-        $sqlQuery = sprintf($sqlQuery, implode($updateParts, ', ') );
+        $sqlQuery = sprintf($sqlQuery, implode($updateParts, ', '));
         array_push($sqlBind, $this->request->getIdSite(), (int)$this->visitorInfo['idvisit']);
 
         $result = Tracker::getDatabase()->query($sqlQuery, $sqlBind);
@@ -797,7 +797,7 @@ class Visit implements VisitInterface
     protected function getNewVisitorInformation($action)
     {
         $actionType = $idActionName = $idActionUrl = false;
-        if($action) {
+        if ($action) {
             $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
             $idActionName = $action->getIdActionNameForEntryAndExitIds();
             $actionType = $action->getActionType();
@@ -831,52 +831,52 @@ class Visit implements VisitInterface
         $defaultTimeOnePageVisit = Config::getInstance()->Tracker['default_time_one_page_visit'];
 
         return array(
-            'idsite'                    => $this->request->getIdSite(),
-            'visitor_localtime'         => $this->request->getLocalTime(),
-            'idvisitor'                 => $this->getVisitorIdcookie(),
-            'visitor_returning'         => $visitorReturning,
-            'visitor_count_visits'      => $visitCount,
-            'visitor_days_since_last'   => $daysSinceLastVisit,
-            'visitor_days_since_order'  => $daysSinceLastOrder,
-            'visitor_days_since_first'  => $daysSinceFirstVisit,
-            'visit_first_action_time'   => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
-            'visit_last_action_time'    => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
-            'visit_entry_idaction_url'  => (int)$idActionUrl,
+            'idsite' => $this->request->getIdSite(),
+            'visitor_localtime' => $this->request->getLocalTime(),
+            'idvisitor' => $this->getVisitorIdcookie(),
+            'visitor_returning' => $visitorReturning,
+            'visitor_count_visits' => $visitCount,
+            'visitor_days_since_last' => $daysSinceLastVisit,
+            'visitor_days_since_order' => $daysSinceLastOrder,
+            'visitor_days_since_first' => $daysSinceFirstVisit,
+            'visit_first_action_time' => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
+            'visit_last_action_time' => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
+            'visit_entry_idaction_url' => (int)$idActionUrl,
             'visit_entry_idaction_name' => (int)$idActionName,
-            'visit_exit_idaction_url'   => (int)$idActionUrl,
-            'visit_exit_idaction_name'  => (int)$idActionName,
-            'visit_total_actions'       => in_array($actionType,
+            'visit_exit_idaction_url' => (int)$idActionUrl,
+            'visit_exit_idaction_name' => (int)$idActionName,
+            'visit_total_actions' => in_array($actionType,
                     array(Action::TYPE_PAGE_URL,
-                          Action::TYPE_DOWNLOAD,
-                          Action::TYPE_OUTLINK,
-                          Action::TYPE_SITE_SEARCH,
-                          Action::TYPE_EVENT))
+                        Action::TYPE_DOWNLOAD,
+                        Action::TYPE_OUTLINK,
+                        Action::TYPE_SITE_SEARCH,
+                        Action::TYPE_EVENT))
                     ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
-            'visit_total_searches'      => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
-            'visit_total_events'        => $actionType == Action::TYPE_EVENT ? 1 : 0,
-            'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
-            'visit_goal_buyer'          => $this->goalManager->getBuyerType(),
-            'referer_type'              => $referrerInfo['referer_type'],
-            'referer_name'              => $referrerInfo['referer_name'],
-            'referer_url'               => $referrerInfo['referer_url'],
-            'referer_keyword'           => $referrerInfo['referer_keyword'],
-            'config_id'                 => $userInfo['config_id'],
-            'config_os'                 => $userInfo['config_os'],
-            'config_browser_name'       => $userInfo['config_browser_name'],
-            'config_browser_version'    => $userInfo['config_browser_version'],
-            'config_resolution'         => $userInfo['config_resolution'],
-            'config_pdf'                => $userInfo['config_pdf'],
-            'config_flash'              => $userInfo['config_flash'],
-            'config_java'               => $userInfo['config_java'],
-            'config_director'           => $userInfo['config_director'],
-            'config_quicktime'          => $userInfo['config_quicktime'],
-            'config_realplayer'         => $userInfo['config_realplayer'],
-            'config_windowsmedia'       => $userInfo['config_windowsmedia'],
-            'config_gears'              => $userInfo['config_gears'],
-            'config_silverlight'        => $userInfo['config_silverlight'],
-            'config_cookie'             => $userInfo['config_cookie'],
-            'location_ip'               => $this->getVisitorIp(),
-            'location_browser_lang'     => $userInfo['location_browser_lang'],
+            'visit_total_searches' => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
+            'visit_total_events' => $actionType == Action::TYPE_EVENT ? 1 : 0,
+            'visit_total_time' => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
+            'visit_goal_buyer' => $this->goalManager->getBuyerType(),
+            'referer_type' => $referrerInfo['referer_type'],
+            'referer_name' => $referrerInfo['referer_name'],
+            'referer_url' => $referrerInfo['referer_url'],
+            'referer_keyword' => $referrerInfo['referer_keyword'],
+            'config_id' => $userInfo['config_id'],
+            'config_os' => $userInfo['config_os'],
+            'config_browser_name' => $userInfo['config_browser_name'],
+            'config_browser_version' => $userInfo['config_browser_version'],
+            'config_resolution' => $userInfo['config_resolution'],
+            'config_pdf' => $userInfo['config_pdf'],
+            'config_flash' => $userInfo['config_flash'],
+            'config_java' => $userInfo['config_java'],
+            'config_director' => $userInfo['config_director'],
+            'config_quicktime' => $userInfo['config_quicktime'],
+            'config_realplayer' => $userInfo['config_realplayer'],
+            'config_windowsmedia' => $userInfo['config_windowsmedia'],
+            'config_gears' => $userInfo['config_gears'],
+            'config_silverlight' => $userInfo['config_silverlight'],
+            'config_cookie' => $userInfo['config_cookie'],
+            'location_ip' => $this->getVisitorIp(),
+            'location_browser_lang' => $userInfo['location_browser_lang'],
         );
     }
 
@@ -946,6 +946,10 @@ class Visit implements VisitInterface
         // Ecommerce buyer status
         $valuesToUpdate['visit_goal_buyer'] = $this->goalManager->getBuyerType($this->visitorInfo['visit_goal_buyer']);
 
+        $this->request->overrideLocation($this->visitorInfo);
+        $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorInfo);
+
+
         // Custom Variables overwrite previous values on each page view
         $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
         return $valuesToUpdate;
@@ -980,20 +984,20 @@ class Visit implements VisitInterface
 
         /**
          * Triggered when checking if the current action being tracked belongs to an existing visit.
-         * 
+         *
          * This event collects a list of [visit entity]() properties that should be loaded when reading
          * the existing visit. Properties that appear in this list will be available in other tracking
          * events such as {@hook Tracker.newConversionInformation} and {@hook Tracker.newVisitorInformation}.
-         * 
+         *
          * Plugins can use this event to load additional visit entity properties for later use during tracking.
          * When you add fields to this $fields array, they will be later available in Tracker.newConversionInformation
-         * 
+         *
          * **Example**
-         * 
+         *
          *     Piwik::addAction('Tracker.getVisitFieldsToPersist', function (&$fields) {
          *         $fields[] = 'custom_visit_property';
          *     });
-         * 
+         *
          * @param array &$fields The list of visit properties to load.
          */
         Piwik::postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
