@@ -82,14 +82,14 @@ abstract class UITest extends IntegrationTestCase
                 list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
                 $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
 
-                // Screenshot Morpheus
-                list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name, "Morpheus/");
-                $enableMorpheus = "&morpheus=1";
+                // Screenshot Zeitgeist
+                list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name, "Zeitgeist/");
+                $enableZeitgeist = "&zeitgeist=1";
                 // Add the parameter to the query string, not the hash
                 if(($hash = strpos($testUrl, '#')) !== false) {
-                    $testUrl = substr($testUrl, 0, $hash) . $enableMorpheus . substr($testUrl, $hash);
+                    $testUrl = substr($testUrl, 0, $hash) . $enableZeitgeist . substr($testUrl, $hash);
                 } else {
-                    $testUrl .= $enableMorpheus;
+                    $testUrl .= $enableZeitgeist;
                 }
 
                 $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
