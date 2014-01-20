@@ -9,6 +9,9 @@ use Piwik\Translate;
  */
 class TravisEnvironmentTest extends DatabaseTestCase
 {
+    /**
+     * @group Core
+     */
     public function testUsageOfCorrectMysqlAdapter()
     {
         $mysqlAdapter = getenv('MYSQL_ADAPTER');
