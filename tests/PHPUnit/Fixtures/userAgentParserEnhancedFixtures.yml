@@ -1689,24 +1689,23 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: DE
     model: TAD-97052
   os_family: Android
   browser_family: Android Browser
 - 
--
   user_agent: Android 4.0.3;AppleWebKit/534.30;Build/IML74K;TAC-7028 Build/IML74K
   os:
     name: Android
     short_name: AND
-    version: 4.1
+    version: 4.0
   browser:
     name: Android Browser
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: DE
     model: TAC-7028
   os_family: Android
