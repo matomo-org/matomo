@@ -20,7 +20,7 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
             $processed = Spyc::YAMLDump($parsed, false, $wordWrap = 0);
             $processedPath = $fixturesPath . '.new';
             file_put_contents($processedPath, $processed);
-            $diffCommand = "diff";
+            $diffCommand = "diff -a1 -b1";
             $command = "{$diffCommand} $fixturesPath $processedPath";
             echo $command . "\n";
             echo shell_exec($command);

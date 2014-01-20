@@ -48,7 +48,7 @@
   version: '$2'
   
   
-- regex: '((?:Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs|Presto));.*Linux'
+- regex: '((?:Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs))'
   name: '$1'
   version: ''
   

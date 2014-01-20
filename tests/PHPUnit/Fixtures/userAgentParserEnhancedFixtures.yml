@@ -1,5 +1,20 @@
----
-- 
+-
+  user_agent: Mozilla/5.0 (X11; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 Debian/unstable (3.8.2-5) Epiphany/3.8.2
+  os:
+    name: Debian
+    short_name: DEB
+    version:
+  browser:
+    name: Epiphany
+    short_name: EP
+    version: 3.8
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
   user_agent: Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko
   os:
     name: Windows 7
