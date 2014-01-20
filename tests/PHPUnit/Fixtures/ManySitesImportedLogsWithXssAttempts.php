@@ -23,7 +23,6 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs
 class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik_Fixture_ManySitesImportedLogs
 {
     public $now = null;
-    public $visitorIdForDeterministicDate = null;
 
     public function __construct()
     {
@@ -35,10 +34,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         parent::setUp();
 
         $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);
-
-        $this->visitorIdForDeterministicDate = bin2hex(Db::fetchOne(
-            "SELECT idvisitor FROM " . Common::prefixTable('log_visit')
-          . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
 
         $this->setupDashboards();
         $this->setupXssSegment();

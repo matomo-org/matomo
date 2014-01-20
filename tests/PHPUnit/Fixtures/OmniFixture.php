@@ -20,6 +20,9 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
     public $dateTime = '2012-02-01';
     public $now = null;
 
+    // Visitor profile screenshot test needs visitor id
+    public $visitorIdDeterministic = null;
+
     public $fixtures = array();
 
     /**
@@ -70,6 +73,11 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
         foreach ($this->fixtures as $name => $fixture) {
             $fixture->setUp();
         }
+
+        $this->visitorIdDeterministic = bin2hex(\Piwik\Db::fetchOne(
+            "SELECT idvisitor FROM " . \Piwik\Common::prefixTable('log_visit')
+            . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
+
     }
 
     public function tearDown()
