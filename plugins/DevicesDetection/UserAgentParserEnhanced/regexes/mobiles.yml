@@ -262,6 +262,12 @@ Cricket:
   device: 'feature phone'
   model: '$1'
 
+# Denver Electronics
+Denver:
+  regex: '(TA[CDQ]-[0-9]+)'
+  device: 'tablet'
+  model: '$1'
+
 # Dell
 Dell:
   regex: 'Dell ([A-Za-z0-9]+)'
