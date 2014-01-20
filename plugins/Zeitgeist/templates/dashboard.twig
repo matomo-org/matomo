@@ -10,7 +10,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
             <meta name="viewport" content="initial-scale=1.0" />
             <meta name="generator" content="Piwik - Open Source Web Analytics"/>
-            <meta name="description" content="Web Analytics report for '{{ siteName }}' - Piwik"/>
+            <meta name="description" content="Web Analytics report for '{{ siteName|escape("html_attr") }}' - Piwik"/>
             <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
             {% include "_jsGlobalVariables.twig" %}
             <!--[if lt IE 9]>

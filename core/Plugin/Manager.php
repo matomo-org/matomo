@@ -65,7 +65,6 @@ class Manager extends Singleton
     );
 
     protected $corePluginsDisabledByDefault = array(
-        'AnonymizeIP',
         'DBStats',
         'DevicesDetection',
         'ExampleCommand',
@@ -254,9 +253,11 @@ class Manager extends Singleton
             $plugins = $this->pluginsToLoad;
         }
 
-        $plugin = $this->loadPlugin($pluginName);
-        if ($plugin !== null) {
-            $plugin->deactivate();
+        if(!$this->isPluginBogus($pluginName)) {
+            $plugin = $this->loadPlugin($pluginName);
+            if ($plugin !== null) {
+                $plugin->deactivate();
+            }
         }
 
         $plugins = $this->removePluginFromPluginsConfig($pluginName, $plugins);
@@ -435,6 +436,12 @@ class Manager extends Singleton
         );
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
+
+            // Hide plugins that are never going to be used
+            if($this->isPluginBogus($pluginName)) {
+                continue;
+            }
+
             // If the plugin is not core and looks bogus, do not load
             if ($this->isPluginThirdPartyAndBogus($pluginName)) {
                 $info = array(
@@ -480,7 +487,7 @@ class Manager extends Singleton
     public function isPluginBundledWithCore($name)
     {
         // Reading the plugins from the global.ini.php config file
-        $pluginsBundledWithPiwik = PiwikConfig::getInstance()->getFromDefaultConfig('Plugins');
+        $pluginsBundledWithPiwik = PiwikConfig::getInstance()->getFromGlobalConfig('Plugins');
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
 
         return (!empty($pluginsBundledWithPiwik)
@@ -494,11 +501,8 @@ class Manager extends Singleton
         if($this->isPluginBundledWithCore($pluginName)) {
             return false;
         }
-        $bogusPlugins = array(
-            'PluginMarketplace' //defines a plugin.json but 1.x Piwik plugin
-        );
-        if(in_array($pluginName, $bogusPlugins)) {
-           return true;
+        if($this->isPluginBogus($pluginName)) {
+            return true;
         }
 
         $path = $this->getPluginsDirectory() . $pluginName;
@@ -826,7 +830,7 @@ class Manager extends Singleton
     private function loadTranslation($plugin, $langCode)
     {
         // we are in Tracker mode if Loader is not (yet) loaded
-        if (!class_exists('Piwik\Loader', false)) {
+        if (!class_exists('Piwik\\Loader', false)) {
             return false;
         }
 
@@ -841,19 +845,29 @@ class Manager extends Singleton
         $defaultLangPath = sprintf($path, $langCode);
         $defaultEnglishLangPath = sprintf($path, 'en');
 
-        if (file_exists($defaultLangPath)) {
-            $translations = $this->getTranslationsFromFile($defaultLangPath);
-        } elseif (file_exists($defaultEnglishLangPath)) {
+        $translationsLoaded = false;
+
+        // merge in english translations as default first
+        if (file_exists($defaultEnglishLangPath)) {
             $translations = $this->getTranslationsFromFile($defaultEnglishLangPath);
-        } else {
-            return false;
+            $translationsLoaded = true;
+            if (isset($translations[$pluginName])) {
+                // only merge translations of plugin - prevents overwritten strings
+                Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+            }
         }
 
-        if (isset($translations[$pluginName])) {
-            // only merge translations of plugin - prevents overwritten strings
-            Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+        // merge in specific language translations (to overwrite english defaults)
+        if (file_exists($defaultLangPath)) {
+            $translations = $this->getTranslationsFromFile($defaultLangPath);
+            $translationsLoaded = true;
+            if (isset($translations[$pluginName])) {
+                // only merge translations of plugin - prevents overwritten strings
+                Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+            }
         }
-        return true;
+
+        return $translationsLoaded;
     }
 
     /**
@@ -882,7 +896,9 @@ class Manager extends Singleton
             $plugins = PiwikConfig::getInstance()->Plugins['Plugins'];
             foreach ($plugins as $pluginName) {
                 // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-                if (!self::getInstance()->isPluginLoaded($pluginName)) {
+                if (!self::getInstance()->isPluginLoaded($pluginName)
+                    && !$this->isPluginBogus($pluginName)
+                ) {
                     $missingPlugins[] = $pluginName;
                 }
             }
@@ -1017,6 +1033,20 @@ class Manager extends Singleton
         }
 
         return $translations;
+    }
+
+    /**
+     * @param $pluginName
+     * @return bool
+     */
+    private function isPluginBogus($pluginName)
+    {
+        $bogusPlugins = array(
+            'PluginMarketplace', //defines a plugin.json but 1.x Piwik plugin
+            'DoNotTrack', // Removed in 2.0.3
+            'AnonymizeIP', // Removed in 2.0.3
+        );
+        return in_array($pluginName, $bogusPlugins);
     }
 }
 

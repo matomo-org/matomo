@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Anmerkungen zu %s ansehen und hinzufügen...",
         "YouCannotModifyThisNote": "Sie können diesen Hinweis nicht modifizieren, da Sie ihn nicht erstellt haben oder keinen Administrativen Zugang für diese Seite besitzen."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Um den Datenschutzbestimmungen Ihres Landes gerecht zu werden, können Sie mit diesem Plugin die letzten Bytes der IP-Adresse Ihrer Besucher anonymisieren."
-    },
     "API": {
         "GenerateVisits": "Sollten für heute keine Daten verfügbar sein, so können Sie mit dem %s Plugin Testdaten erzeugen. Aktivieren Sie das %s Plugin und klicken dann auf das 'Besuchergenerator' Menu in der Piwik-Administration.",
         "KeepTokenSecret": "Der token_auth ist so geheim wie Ihr Login und Passwort, %s teilen Sie es niemandem mit%s!",
@@ -257,6 +254,7 @@
         "CorePluginTooltip": "Core-Plugins haben keine Version, da diese mit ausgeliefert werden.",
         "Deactivate": "Deaktivieren",
         "Developer": "Entwickler",
+        "DoMoreContactPiwikAdmins": "Um ein neues Plugin oder Theme zu installieren, treten Sie bitte in Kontakt mit Ihren Piwik-Admins.",
         "DownloadAndInstallPluginsFromMarketplace": "Sie können neue Plugins automatisch aus dem %sMarketplace%s herunterladen und installieren.",
         "EnjoyAnotherLookAndFeelOfThemes": "Verändern Sie das Erscheinungsbild",
         "FeaturedPlugin": "Top-Plugin",
@@ -295,7 +293,6 @@
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
         "PluginsManagement": "Pluginverwaltung",
-        "PluginUpdateAvailable": "Sie können dieses Plugin von Version %s auf %s aktualisieren.",
         "PluginVersionInfo": "%1$s vom %2$s",
         "PluginWebsite": "Plugin Webseite",
         "Screenshots": "Screenshots",
@@ -323,7 +320,6 @@
         "Themes": "Themes",
         "ThemesDescription": "Themes können das Aussehen der Benutzeroberfläche für Piwik Anwender ändern, und bringen so ein komplett neues visuelles Erlebnis, das Ihnen die Analyse Ihrer Berichte angenehm gestaltet.",
         "ThemesManagement": "Themes verwalten",
-        "ThemeUpdateAvailable": "Sie können dieses Theme von Version %s auf %s aktualisieren.",
         "UninstallConfirm": "Sie sind gerade dabei das Plugin %s zu deinstallieren. Das Plugin wird komplett und endgültig von ihrer Plattform entfernt. Sind sie sicher, dass sie das wollen?",
         "Updated": "Aktualisiert",
         "UpdatingPlugin": "Aktualisiere %s",
@@ -1151,7 +1147,7 @@
         "NbVisitor": "1 Besucher",
         "NbVisitors": "%s Besucher",
         "NextVisitor": "Nächster Besucher",
-        "NoMoreVisits": "Für diesen Besucher sind keine weiteren Besucher vorhanden.",
+        "NoMoreVisits": "Für diesen Besucher sind keine weiteren Besuche vorhanden.",
         "PageRefreshed": "Die Anzahl wie oft diese Seite hintereinander angeschaut\/aktualisiert worden ist.",
         "PluginDescription": "Überwacht Ihre Besucher, live und in Echtzeit können Sie die Besucher auf Ihrer Webseite beobachten",
         "PreviousVisitor": "Vorheriger Besucher",
@@ -1322,6 +1318,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Wählen Sie \"Ja\", wenn Piwik nicht die komplette IP-Adresse speichern soll.",
+        "AnonymizeIpInlineHelp": "Um den Datenschutzbestimmungen Ihres Landes gerecht zu werden, können Sie mit diesem Plugin die letzten Bytes der IP-Adresse Ihrer Besucher anonymisieren.",
         "AnonymizeIpMaskLengtDescription": "Wählen Sie aus, wieviele Bytes der Besucher-IP maskiert werden sollen.",
         "AnonymizeIpMaskLength": "%s byte(s) - z.B. %s",
         "CannotLockSoDeleteLogActions": "Die log_action Tabelle wird nicht geleert: bitte geben Sie dem MySQL User '%s' das LOCK TABLES Privileg.",
@@ -1991,7 +1988,6 @@
         "Longitude": "Längengrad",
         "NoDataForGeoIPReport1": "Es sind keine Daten für diesen Bericht vorhanden, da entweder keine Lokalisierungsdaten vorhanden sind oder die Besucher IP-Adresse nicht geortet werden kann.",
         "NoDataForGeoIPReport2": "Um die vollständige Ortungsmöglichkeit zu aktivieren ändern Sie bitte %1$shier%2$s die Einstellungen und benutzen eine %3$sStädtebasierte Datenbank%4$s.",
-        "OldGeoIPWarning": "Es wurde das alte GeoIP-Plugin erkannt. Dieses Plugin ist veraltet, da GeoIP nun fest in Piwik integriert wurde. Die neuen Berichte für Regionen und Städte werden nicht angezeigt solange dieses Plugin geladen ist. %1$sBitte deaktivieren Sie dieses Plugin%2$s und %3$skonfigurieren Sie GeoIP%4$s. Fall Sie Standortdaten für alte Besuche wünschen führen Sie das %5$shier%6$s beschriebene Skript aus und %7$slassen Sie die Berichte neu erstellen%8$s.",
         "Organization": "Organisation",
         "OrgDatabase": "Organisationsdatenbank",
         "PeclGeoIPNoDBDir": "Das PECL Modul hat im Verzeichnis %1$s keine Datenbank gefunden. Bitte erstellen Sie das Verzeichnis und fügen die GeoIP Datenbanken hinzu. Alternativ ist es möglich %2$s auf das richtige Verzeichnis in der php.ini zu konfigurieren.",
@@ -2006,7 +2002,9 @@
         "ToGeolocateOldVisits": "Für Standortdaten für vergangene Besuche verwenden Sie bitte das %1$shier beschriebene Skript%2$s.",
         "UnsupportedArchiveType": "Nicht unterstützter Archivtyp erkannt: %1$s",
         "UpdaterHasNotBeenRun": "Es hat noch keine Aktualisierung stattgefunden.",
+        "UpdaterIsNotScheduledToRun": "Keine zukünftige Ausführung geplant.",
         "UpdaterWasLastRun": "Die Aktualisierung wurde zuletzt ausgeführt am %s.",
+        "UpdaterWillRunNext": "Nächste Ausführung geplant für %s.",
         "WidgetLocation": "Besucherstandort"
     },
     "UserCountryMap": {

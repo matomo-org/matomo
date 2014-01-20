@@ -290,6 +290,18 @@ class Date
     }
 
     /**
+     * Returns `true` if the current year is a leap year, false otherwise.
+     *
+     * @return bool
+     */
+    public function isLeapYear()
+    {
+        $currentYear = date('Y', $this->getTimestamp());
+
+        return ($currentYear % 400) == 0 || (($currentYear % 4) == 0 && ($currentYear % 100) != 0);
+    }
+
+    /**
      * Converts this date to the requested string format. See {@link http://php.net/date}
      * for the list of format strings.
      *

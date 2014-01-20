@@ -777,6 +777,53 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         Common::destroy($rowBeingDestructed);
     }
 
+    /**
+     * @group Core
+     */
+    public function test_serializeFails_onSubTableNotFound()
+    {
+        // create a simple table with a subtable
+        $table1 = $this->_getDataTable1ForTest();
+        $table2 = $this->_getDataTable2ForTest();
+        $table2->getFirstRow()->addSubtable($table1);
+        $idSubtable = $table1->getId();
+
+
+        /* Check it looks good:
+        $renderer = DataTable\Renderer::factory('xml');
+        $renderer->setTable($table2);
+        $renderer->setRenderSubTables(true);
+        echo $renderer->render();
+        */
+
+        // test serialize:
+        // - subtable is serialized as expected
+        $serializedStrings = $table2->getSerialized();
+
+        // both the main table and the sub table are serialized
+        $this->assertEquals(sizeof($serializedStrings), 2);
+        $serialized = implode(",", $serializedStrings);
+
+        // the serialized string references the id subtable
+        $this->assertTrue( false !== strpos($serialized, 'i:' . $idSubtable), "not found the id sub table in the serialized, not expected");
+
+        // KABOOM, we delete the subtable, reproducing a "random data issue"
+        Manager::getInstance()->deleteTable($idSubtable);
+
+        // Now we will serialize this "broken datatable" and check it works.
+
+        // - it does not throw an exception
+        $serializedStrings = $table2->getSerialized();
+
+        // - the serialized table does NOT contain the sub table
+        $this->assertEquals(sizeof($serializedStrings), 1); // main table only is serialized
+        $serialized = implode(",", $serializedStrings);
+
+        // - the serialized string does NOT contain the id subtable (the row was cleaned up as expected)
+        $this->assertTrue( false === strpos($serialized, 'i:' . $idSubtable), "found the id sub table in the serialized, not expected");
+
+    }
+
     protected function _getDataTable1ForTest()
     {
         $rows = $this->_getRowsDataTable1ForTest();

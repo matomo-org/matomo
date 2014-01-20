@@ -241,25 +241,20 @@ class SettingsPiwik
      */
     public static function rewriteTmpPathWithHostname($path)
     {
-        try {
-            $configByHost = Config::getInstance()->getConfigHostnameIfSet();
-        } catch (Exception $e) {
-            // Config file not found
-        }
-        if (empty($configByHost)) {
-            return $path;
-        }
-
         $tmp = '/tmp/';
-        if (($posTmp = strrpos($path, $tmp)) === false) {
-            throw new Exception("The path $path was expected to contain the string /tmp/ ");
-        }
+        $path = self::rewritePathAppendHostname($path, $tmp);
+        return $path;
+    }
 
-        $tmpToReplace = $tmp . $configByHost . '/';
-
-        // replace only the latest occurrence (in case path contains twice /tmp)
-        $path = substr_replace($path, $tmpToReplace, $posTmp, strlen($tmp));
-
+    /**
+     * If Piwik uses per-domain config file, make sure CustomLogo is unique
+     * @param $path
+     * @return mixed
+     */
+    public static function rewriteMiscUserPathWithHostname($path)
+    {
+        $tmp = 'misc/user/';
+        $path = self::rewritePathAppendHostname($path, $tmp);
         return $path;
     }
 
@@ -316,6 +311,46 @@ class SettingsPiwik
         }
         $currentGitBranch = trim($parts[2]);
         return $currentGitBranch;
+    }
+
+    /**
+     * @param $pathToRewrite
+     * @param $leadingPathToAppendHostnameTo
+     * @param $hostname
+     * @return mixed
+     * @throws \Exception
+     */
+    protected static function rewritePathAppendHostname($pathToRewrite, $leadingPathToAppendHostnameTo)
+    {
+        $hostname = self::getConfigHostname();
+        if (empty($hostname)) {
+            return $pathToRewrite;
+        }
+
+        if (($posTmp = strrpos($pathToRewrite, $leadingPathToAppendHostnameTo)) === false) {
+            throw new Exception("The path $pathToRewrite was expected to contain the string  $leadingPathToAppendHostnameTo");
+        }
+
+        $tmpToReplace = $leadingPathToAppendHostnameTo . $hostname . '/';
+
+        // replace only the latest occurrence (in case path contains twice /tmp)
+        $pathToRewrite = substr_replace($pathToRewrite, $tmpToReplace, $posTmp, strlen($leadingPathToAppendHostnameTo));
+        return $pathToRewrite;
+    }
+
+    /**
+     * @return bool|string
+     */
+    protected static function getConfigHostname()
+    {
+        $configByHost = false;
+        try {
+            $configByHost = Config::getInstance()->getConfigHostnameIfSet();
+            return $configByHost;
+        } catch (Exception $e) {
+            // Config file not found
+        }
+        return $configByHost;
     }
 
 }

@@ -348,10 +348,6 @@ overlay_following_pages_limit = 300
 ; With this option, you can disable the framed mode of the Overlay plugin. Use it if your website contains a framebuster.
 overlay_disable_framed_mode = 0
 
-; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
-; the access to disk and install custom PHP code (Piwik plugins).
-enable_marketplace = 1
-
 ; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
 ; Mysql will try to load the chrooted path (which is imcomplete). To prevent an error, here you can specify the
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
@@ -360,6 +356,31 @@ absolute_chroot_path =
 ; In some rare cases it may be useful to explicitely tell Piwik not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
+
+; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
+; the access to disk and install custom PHP code (Piwik plugins).
+enable_marketplace = 1
+
+; By setting this option to 0:
+; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
+; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
+; - as well as disabling plugins admin actions (such as "Upload new plugin"), setting this to 1 will have same effect as setting enable_marketplace=1
+enable_plugins_admin = 1
+
+; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
+enable_geolocation_admin = 1
+
+; By setting this option to 0, the old log data and old report data features will be hidden from the UI
+; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.
+enable_delete_old_data_settings_admin = 1
+
+; By setting this option to 0, the following settings will be hidden and disabled from being set in the UI:
+; - "General Settings"
+; - "Email server settings"
+enable_general_settings_admin = 1
+
+; By setting this option to 0, it will disable the "Auto update" feature
+enable_auto_update = 1
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
@@ -437,7 +458,7 @@ campaign_keyword_var_name = "pk_kwd,piwik_kwd,pk_keyword,utm_term"
 page_maximum_length = 1024;
 
 ; Anonymize a visitor's IP address after testing for "Ip exclude"
-; This value is the level of anonymization Piwik will use; if the AnonymizeIP plugin is deactivated, this value is ignored.
+; This value is the level of anonymization Piwik will use; if the IP anonymization is deactivated, this value is ignored.
 ; For IPv4/IPv6 addresses, valid values are the number of octets in IP address to mask (from 0 to 4).
 ; For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
 ip_address_mask_length = 1
@@ -545,7 +566,6 @@ Plugins[] = Live
 Plugins[] = CustomVariables
 Plugins[] = PrivacyManager
 Plugins[] = ImageGraph
-Plugins[] = DoNotTrack
 Plugins[] = Annotations
 Plugins[] = MobileMessaging
 Plugins[] = Overlay
@@ -563,7 +583,7 @@ PluginsInstalled[] = Installation
 [Plugins_Tracker]
 Plugins_Tracker[] = Provider
 Plugins_Tracker[] = Goals
-Plugins_Tracker[] = DoNotTrack
+Plugins_Tracker[] = PrivacyManager
 Plugins_Tracker[] = UserCountry
 
 [APISettings]

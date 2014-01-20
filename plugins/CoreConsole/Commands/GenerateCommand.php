@@ -50,7 +50,7 @@ class GenerateCommand extends GeneratePluginBase
         $this->writeSuccessMessage($output, array(
             sprintf('Command %s for plugin %s generated but you are not done!', $commandName, $pluginName),
             'You have to register the command by using the hook: Console.addCommands',
-            'Read more here: http://developer.piwik.org/api-reference/hooks#consoleaddcommands'
+            'Read more here: http://developer.piwik.org/api-reference/events#consoleaddcommands'
         ));
     }
 

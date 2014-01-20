@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "为%s查看和添加备注",
         "YouCannotModifyThisNote": "您不能修改这个备注。此备注不是您创建的或您没有管理员赋予的权限。"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "隐藏访客IP位址最后一个字符以符合您当地的隐私条例\/政策。"
-    },
     "API": {
         "GenerateVisits": "如果您今天还沒有任何资料，可以先用 %s 插件来产生一些数据。您可以启用 %s 插件，然后点击在 Piwik 管理菜单下的'生成访客'选项。",
         "KeepTokenSecret": "授权号 token_auth 与您的帐号和密码一样重要，%s请不要公开%s！",
@@ -278,7 +275,6 @@
         "PluginNotCompatibleWith": "插件 %1$s 与 %2$s 不兼容。",
         "PluginNotWorkingAlternative": "如果您使用这个插件，可以到商城查找更新的版本。如果没有用，可以卸载。",
         "PluginsManagement": "插件管理",
-        "PluginUpdateAvailable": "您可以更新这个插件从版本 %s 到 %s。",
         "PluginVersionInfo": "%1$s 从 %2$s",
         "PluginWebsite": "插件网站",
         "Screenshots": "截屏",
@@ -1295,6 +1291,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "如果希望 Piwik 不要统计完整的 IP 地址，请选择 \"是\"",
+        "AnonymizeIpInlineHelp": "隐藏访客IP位址最后一个字符以符合您当地的隐私条例\/政策。",
         "AnonymizeIpMaskLengtDescription": "隐藏的访客IP的字节数",
         "AnonymizeIpMaskLength": "%s 字节 - 例如 %s",
         "CannotLockSoDeleteLogActions": "log_action 表将不会被清空: 请设置 LOCK TABLES 的权限给 '%s' MYSQL 用户。",
@@ -1963,7 +1960,6 @@
         "Longitude": "经度",
         "NoDataForGeoIPReport1": "本报表没有数据，因为没有地理位置的数据或者无法定位访客的IP地址。",
         "NoDataForGeoIPReport2": "要启用精确的地理位置统计，在%1$s这里%2$s修改设置并使用 %3$s城市级数据库%4$s。",
-        "OldGeoIPWarning": "检测到旧的 GeoIP 插件. GeoIP 现在已经集成到 Piwik 核心代码，不再需要旧的插件。如果使用旧的插件，新的地区和城市报表将不会显示。%1$s请禁用旧的插件%2$s 并且 %3$s设置 GeoIP%4$s。如果您希望保留原有的地理数据，请使用 %5$s这里%6$s的脚本然后 %7$s重新处理您的报表%8$s.",
         "Organization": "组织",
         "OrgDatabase": "组织数据库",
         "PeclGeoIPNoDBDir": "PECL 模块在 %1$s 中查找数据库，但这个目录不存在，请改正并把 GeoIP 数据库加入。另外，您也可以在 php.ini 文件中设置 %2$s 为正确的目录。",

@@ -10,6 +10,8 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
+require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker which doesn't include this file
+
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
@@ -21,6 +23,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 use Piwik\ScheduledTask;
+use Piwik\ScheduledTaskTimetable;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
 use Piwik\TaskScheduler;
@@ -30,7 +33,7 @@ use Piwik\Unzip;
  * Used to automatically update installed GeoIP databases, and manages the updater's
  * scheduled task.
  */
-class GeoIPAutoUpdater
+class GeoIPAutoUpdater extends ScheduledTask
 {
     const SCHEDULE_PERIOD_MONTHLY = 'month';
     const SCHEDULE_PERIOD_WEEKLY = 'week';
@@ -55,6 +58,30 @@ class GeoIPAutoUpdater
      * @var array
      */
     private static $unzipPhpError = null;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $schedulePeriodStr = self::getSchedulePeriod();
+
+        // created the scheduledtime instance, also, since GeoIP updates are done on tuesdays,
+        // get new DBs on Wednesday
+        switch ($schedulePeriodStr) {
+            case self::SCHEDULE_PERIOD_WEEKLY:
+                $schedulePeriod = new Weekly();
+                $schedulePeriod->setDay(3);
+                break;
+            case self::SCHEDULE_PERIOD_MONTHLY:
+            default:
+                $schedulePeriod = new Monthly();
+                $schedulePeriod->setDayOfWeek(3, 0);
+                break;
+        }
+
+        parent::__construct($this, 'update', null, $schedulePeriod, ScheduledTask::LOWEST_PRIORITY);
+    }
 
     /**
      * Attempts to download new location, ISP & organization GeoIP databases and
@@ -258,34 +285,6 @@ class GeoIPAutoUpdater
     }
 
     /**
-     * Creates a ScheduledTask instance based on set option values.
-     *
-     * @return ScheduledTask
-     */
-    public static function makeScheduledTask()
-    {
-        $instance = new GeoIPAutoUpdater();
-
-        $schedulePeriodStr = self::getSchedulePeriod();
-
-        // created the scheduledtime instance, also, since GeoIP updates are done on tuesdays,
-        // get new DBs on Wednesday
-        switch ($schedulePeriodStr) {
-            case self::SCHEDULE_PERIOD_WEEKLY:
-                $schedulePeriod = new Weekly();
-                $schedulePeriod->setDay(3);
-                break;
-            case self::SCHEDULE_PERIOD_MONTHLY:
-            default:
-                $schedulePeriod = new Monthly();
-                $schedulePeriod->setDayOfWeek(3, 0);
-                break;
-        }
-
-        return new ScheduledTask($instance, 'update', null, $schedulePeriod, ScheduledTask::LOWEST_PRIORITY);
-    }
-
-    /**
      * Sets the options used by this class based on query parameter values.
      *
      * See setUpdaterOptions for query params used.
@@ -347,7 +346,7 @@ class GeoIPAutoUpdater
 
             Option::set(self::SCHEDULE_PERIOD_OPTION_NAME, $period);
 
-            TaskScheduler::rescheduleTask(self::makeScheduledTask());
+            TaskScheduler::rescheduleTask(new GeoIPAutoUpdater());
         }
     }
 
@@ -621,5 +620,67 @@ class GeoIPAutoUpdater
     private static function removeDateFromUrl($url)
     {
         return preg_replace("/&date=[^&#]*/", '', $url);
+    }
+
+    /**
+     * Returns the next scheduled time for the auto updater.
+     * 
+     * @return Date|false
+     */
+    public static function getNextRunTime()
+    {
+        $task = new GeoIPAutoUpdater();
+
+        $timetable = new ScheduledTaskTimetable();
+        return $timetable->getScheduledTaskTime($task->getName());
+    }
+
+    /**
+     * See {@link Piwik\ScheduledTime::getRescheduledTime()}.
+     */
+    public function getRescheduledTime()
+    {
+        $nextScheduledTime = parent::getRescheduledTime();
+
+        // if a geoip database is out of date, run the updater as soon as possible
+        if ($this->isAtLeastOneGeoIpDbOutOfDate($nextScheduledTime)) {
+            return time();
+        }
+
+        return $nextScheduledTime;
+    }
+
+    private function isAtLeastOneGeoIpDbOutOfDate($rescheduledTime)
+    {
+        $previousScheduledRuntime = $this->getPreviousScheduledTime($rescheduledTime)->setTime("00:00:00")->getTimestamp();
+
+        foreach (GeoIp::$dbNames as $type => $dbNames) {
+            $dbUrl = Option::get(self::$urlOptions[$type]);
+            $dbPath = GeoIp::getPathToGeoIpDatabase($dbNames);
+
+            // if there is a URL for this DB type and the GeoIP DB file's last modified time is before
+            // the time the updater should have been previously run, then **the file is out of date**
+            if (!empty($dbUrl)
+                && filemtime($dbPath) < $previousScheduledRuntime
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getPreviousScheduledTime($rescheduledTime)
+    {
+        $updaterPeriod = Option::get(self::SCHEDULE_PERIOD_OPTION_NAME);
+
+        if ($updaterPeriod == 'week') {
+            return Date::factory($rescheduledTime)->subWeek(1);
+        } else if ($updaterPeriod == 'month') {
+            return Date::factory($rescheduledTime)->subMonth(1);
+        } else {
+            Log::warning("Unknown GeoIP updater period found in database: %s", $updaterPeriod);
+            return Date::factory(0);
+        }
     }
 }

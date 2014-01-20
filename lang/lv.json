@@ -18,9 +18,6 @@
         "SubmenuPagesExit": "Izejas lapas",
         "SubmenuPageTitles": "Lapas virsraksti"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimizē apmeklētāju IP adrešu pēdējo baitu(s). Nepieciešamību nosaka Jūsu vietējie privātuma likumi\/pavadlīnijas."
-    },
     "API": {
         "PluginDescription": "Visi Piwik dati ir pieejami caur vienkāršiem API. Šis spraudnis ir tīkla servisa pieejas punkts, kuru varat izsaukt, lai iegūtu savus tīkla analīzes datus xml, json, php, csv un citos formātos.",
         "QuickDocumentationTitle": "Ātra API dokumentācija",
@@ -622,6 +619,7 @@
         "YouAreOffline": "Atvainojiet, bet Jūs paļaik atrodaties bezsaistē"
     },
     "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Anonimizē apmeklētāju IP adrešu pēdējo baitu(s). Nepieciešamību nosaka Jūsu vietējie privātuma likumi\/pavadlīnijas.",
         "ClickHereSettings": "Klikšķiniet šeit lai piekļūtu %s iestatījumiem.",
         "DeleteLogInfo": "Tiks dzēsti žurnāli no sekojošām tabulām: %s",
         "DeleteLogsOlderThan": "Dzēst vecākus žurnālus par",

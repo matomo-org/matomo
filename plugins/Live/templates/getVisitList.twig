@@ -1,7 +1,7 @@
 {% for visitInfo in visits.getRows() %}
 <li>
     <div>
-        <h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}" title="{{ 'Live_ClickToViewMoreAboutVisit'|translate }}">{{ 'General_Visit'|translate }} #{{ startCounter }}</h2>{% if visitInfo.getColumn('visitDuration') != 0 %}<span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>{% endif %}<span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDateTimePrettyFirstAction') }}">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
+        <div class="visitor-profile-visit-title-row"><h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}" title="{{ 'Live_ClickToViewMoreAboutVisit'|translate }}">{{ 'General_Visit'|translate }} #{{ startCounter }}</h2>{% if visitInfo.getColumn('visitDuration') != 0 %}<span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>{% endif %}<span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDateTimePrettyFirstAction') }}">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span></div>
         <ol class="visitor-profile-actions">
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
                                                        'clientSideParameters': {

@@ -59,6 +59,11 @@ class MenuTop extends MenuAbstract
         }
     }
 
+    public static function removeEntry($menuName, $subMenuName = false)
+    {
+        MenuTop::getInstance()->remove($menuName, $subMenuName);
+    }
+
 
     /**
      * Directly adds a menu entry containing html.

@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Visa och lägg till anteckningar för %s...",
         "YouCannotModifyThisNote": "Du kan inte ändra den här anteckningen eftersom du inte har skapat den, eller har admin-behörighet för den här webbplasten."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonymisera den sista byten av besökarnas IP-adress för att följa lokala lagar om personlig integritet\/riktlinjer."
-    },
     "API": {
         "GenerateVisits": "Om du inte har data för idag så kan du först skapa några data med hjälp av %s plugin. Du kan aktivera %s plugin, klicka sedan på 'Besöksgeneratorn'-menyn i Piwik administrationsområdet.",
         "KeepTokenSecret": "Detta token_auth är lika hemligt som ditt användarnamn och lösenord, %s dela inte med dig av detta! %s!",
@@ -1134,6 +1131,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Välj \"Ja\" om du vill att Piwik inte ska spåra fullständiga IP-adresser.",
+        "AnonymizeIpInlineHelp": "Anonymisera den sista byten av besökarnas IP-adress för att följa lokala lagar om personlig integritet\/riktlinjer.",
         "AnonymizeIpMaskLengtDescription": "Välj hur många bytes av besökares IP-adresser som ska döljas.",
         "AnonymizeIpMaskLength": "%s byte(s) - t.ex. %s",
         "CannotLockSoDeleteLogActions": "Tabellen log_action kommer inte att rensas: vänligen lägg till behörigheten LOCK TABLES till MYSQL-användaren '%s'",
@@ -1774,7 +1772,6 @@
         "Longitude": "Longitud",
         "NoDataForGeoIPReport1": "Det finns ingen data för den här rapporten. Antingen finns det ingen platsdata tillgänglig, eller så kan inte besökarnas IP-adresser lokaliseras.",
         "NoDataForGeoIPReport2": "Ändra inställningarna %1$shär%2$s och använd en %3$sdatabas på stadsnivå%4$s om du vill aktivera Geolocation.",
-        "OldGeoIPWarning": "Vi har hittat en gammal plugin för GeoIP. Integrering av GeoIP finns numera integrerat i Piwik's kärna vilket gör den gamla föråldrad. Nya rapporter för regioner och städer kommer inte att visas medans denna plugin finns kvar. %1$sVanligen avaktivera denna plugin%2$s och %3$skonfigurera GeoIP%4$s. Om du vill ha platsdata för gamla besök, använd skriptet som beskrivs %5$shär%6$s och %7$sanalysera om dina rapporter%8$s.",
         "Organization": "Organisation",
         "OrgDatabase": "Organisationsdatabas",
         "PeclGeoIPNoDBDir": "PECL-modulen letar efter databaser i %1$s, men den här mappen finns inte. Var vänlig skapa den och lägg till GeoIP-databaser i den. Alternativt, ändra inställningen %2$s till den rätta mappen i din php.ini.",

@@ -165,7 +165,7 @@ class Visualization extends ViewDataTable
 
             $this->beforeLoadDataTable();
 
-            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1, 'disable_queued_filters' => 1));
+            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1));
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
@@ -179,7 +179,7 @@ class Visualization extends ViewDataTable
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::warning("Failed to get data from API: " . $e->getMessage());
+            Log::warning("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 
             $loadingError = array('message' => $e->getMessage());
         }

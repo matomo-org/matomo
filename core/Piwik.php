@@ -187,6 +187,7 @@ class Piwik
     {
         static $titles = array(
             'Web analytics',
+            'Open analytics platform',
             'Real Time Web Analytics',
             'Analytics',
             'Real Time Analytics',

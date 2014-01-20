@@ -70,9 +70,6 @@
         "NoAnnotations": "Nu există notiţe pentru acest interval",
         "ViewAndAddAnnotations": "Vezi şi adaugă notiţe pentru %s..."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Ascunde ultimele cifre ale IP-ului vizitatorilor pentru a fi în conformitate cu legile privind protecţia datelor personale."
-    },
     "API": {
         "LoadedAPIs": "%s API-uri încarcate cu succes",
         "QuickDocumentationTitle": "Demonstrare rapida API",
@@ -793,6 +790,7 @@
         "OneClick": "1 click"
     },
     "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Ascunde ultimele cifre ale IP-ului vizitatorilor pentru a fi în conformitate cu legile privind protecţia datelor personale.",
         "ClickHereSettings": "Dă click aici pentru a accesa setările %s.",
         "DeleteDataInterval": "Şterge datele vechi fiecare",
         "DeleteDataSettings": "Şterge înregistrări şi raportare vechi",

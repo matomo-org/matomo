@@ -22,7 +22,7 @@
             <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
         {% else %}
             <span class="loadingPiwik">
-                <img src="{{ piwikUrl }}plugins/Zeitgeist/images/loading-blue.gif" />
+                <img src="plugins/Zeitgeist/images/loading-blue.gif" />
                 {{ 'General_LoadingData'|translate }}...
             </span>
         {% endif %}
@@ -30,7 +30,7 @@
     <div class="dataTableFeatures" style="padding-top:0;">
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
-                <img class="UserCountryMap-activeItem dataTableFooterActiveItem" src="{{ piwikUrl }}plugins/Zeitgeist/images/data_table_footer_active_item.png" style="left: 25px;" />
+                <img class="UserCountryMap-activeItem dataTableFooterActiveItem" src="plugins/Zeitgeist/images/data_table_footer_active_item.png" style="left: 25px;" />
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
@@ -43,11 +43,11 @@
                     <span class="tableAllColumnsSwitch">
                         <a var="tableAllColumns" class="UserCountryMap-btn-region tableIcon activeIcon" format="tableAllColumns"
                            data-region="{{ 'UserCountryMap_Regions'|translate }}" data-country="{{ 'UserCountryMap_Countries'|translate }}">
-                            <img src="{{ piwikUrl }}plugins/UserCountryMap/images/regions.png" title="Show visitors per region/country" />
+                            <img src="plugins/UserCountryMap/images/regions.png" title="Show visitors per region/country" />
                             <span style="margin:0;">{{ 'UserCountryMap_Countries'|translate }}</span>&nbsp;
                         </a>
                         <a var="tableGoals" class="UserCountryMap-btn-city tableIcon inactiveIco" format="tableGoals">
-                            <img src="{{ piwikUrl }}plugins/UserCountryMap/images/cities.png" title="Show visitors per city" />
+                            <img src="plugins/UserCountryMap/images/cities.png" title="Show visitors per city" />
                             <span style="margin:0;">{{ 'UserCountryMap_Cities'|translate }}</span>&nbsp;
                         </a>
                     </span>

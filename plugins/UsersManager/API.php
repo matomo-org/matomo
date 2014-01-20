@@ -499,6 +499,12 @@ class API extends \Piwik\Plugin\API
      */
     public function userExists($userLogin)
     {
+        if($userLogin == 'anonymous') {
+            return true;
+        }
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
         $count = Db::fetchOne("SELECT count(*)
 													FROM " . Common::prefixTable("user") . "
 													WHERE login = ?", $userLogin);

@@ -16,9 +16,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
-
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.ini.php';
         $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile);
+        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
         $config->init();
 
         $this->assertEquals("value_overwritten", $config->Category['key1']);
@@ -34,6 +34,30 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $expectedArray = array('value1', 'value2');
         $array = $config->TestArrayOnlyInGlobalFile;
         $this->assertEquals($expectedArray, $array['my_array']);
+
+        $expectedArray = array('value1', 'value2');
+        $array = $config->TestArrayOnlyInGlobalFile;
+        $this->assertEquals($expectedArray, $array['my_array']);
+
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_CommonConfig_Overrides()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+
+        $config = Config::getInstance();
+        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
+        $config->init();
+
+        $this->assertEquals("valueCommon", $config->Category['key2'], var_export($config->Category['key2'], true));
+        $this->assertEquals("test", $config->GeneralSection['password']);
+        $this->assertEquals("commonValue", $config->TestOnlyInCommon['value']);
+
     }
 
     /**
@@ -51,7 +75,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $stringWritten = '&6^ geagea\'\'\'";;&';
         $config->Category = array('test' => $stringWritten);
         $this->assertEquals($stringWritten, $config->Category['test']);
-        unset($config);
+
+        // This will write the file
+        $config->forceSave();
 
         $config = Config::getInstance();
         $config->setTestEnvironment($userFile, $globalFile);
@@ -214,121 +240,183 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
 
         return array(
+            // Test name, array(
+            //   LOCAL
+            //   GLOBAL
+            //   COMMON
+            //   CACHE
+            //   --> EXPECTED <--
             array('global only, not cached', array(
-                array(),
-                array('General' => array('debug' => '1')),
+                array(),                                    // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array(),
                 false,
             )),
 
             array('global only, cached get', array(
-                array(),
-                array('General' => array('debug' => '1')),
+                array(),                                    // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array('General' => array('debug' => '1')),
                 false,
             )),
 
             array('global only, cached set', array(
-                array(),
-                array('General' => array('debug' => '1')),
+                array(),                                    // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array('General' => array('debug' => '2')),
                 $header . "[General]\ndebug = 2\n\n",
             )),
 
             array('local copy (same), not cached', array(
-                array('General' => array('debug' => '1')),
-                array('General' => array('debug' => '1')),
+                array('General' => array('debug' => '1')),  // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array(),
                 false,
             )),
 
             array('local copy (same), cached get', array(
-                array('General' => array('debug' => '1')),
-                array('General' => array('debug' => '1')),
+                array('General' => array('debug' => '1')),  // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array('General' => array('debug' => '1')),
                 false,
             )),
 
             array('local copy (same), cached set', array(
-                array('General' => array('debug' => '1')),
-                array('General' => array('debug' => '1')),
+                array('General' => array('debug' => '1')),  // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array('General' => array('debug' => '2')),
                 $header . "[General]\ndebug = 2\n\n",
             )),
 
             array('local copy (different), not cached', array(
-                array('General' => array('debug' => '2')),
-                array('General' => array('debug' => '1')),
+                array('General' => array('debug' => '2')),  // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array(),
                 false,
             )),
 
             array('local copy (different), cached get', array(
-                array('General' => array('debug' => '2')),
-                array('General' => array('debug' => '1')),
+                array('General' => array('debug' => '2')),  // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array('General' => array('debug' => '2')),
                 false,
             )),
 
             array('local copy (different), cached set', array(
-                array('General' => array('debug' => '2')),
-                array('General' => array('debug' => '1')),
+                array('General' => array('debug' => '2')),  // local
+                array('General' => array('debug' => '1')),  // global
+                array(),                                    // common
                 array('General' => array('debug' => '3')),
                 $header . "[General]\ndebug = 3\n\n",
             )),
 
             array('local copy, not cached, new section', array(
-                array('Tracker' => array('anonymize' => '1')),
-                array('General' => array('debug' => '1')),
+                array('Tracker' => array('anonymize' => '1')),  // local
+                array('General' => array('debug' => '1')),      // global
+                array(),                                        // common
                 array(),
                 false,
             )),
 
             array('local copy, cached get, new section', array(
-                array('Tracker' => array('anonymize' => '1')),
-                array('General' => array('debug' => '1')),
+                array('Tracker' => array('anonymize' => '1')),  // local
+                array('General' => array('debug' => '1')),      // global
+                array(),                                        // common
                 array('Tracker' => array('anonymize' => '1')),
                 false,
             )),
 
             array('local copy, cached set local, new section', array(
-                array('Tracker' => array('anonymize' => '1')),
-                array('General' => array('debug' => '1')),
+                array('Tracker' => array('anonymize' => '1')),  // local
+                array('General' => array('debug' => '1')),      // global
+                array(),                                        // common
                 array('Tracker' => array('anonymize' => '2')),
                 $header . "[Tracker]\nanonymize = 2\n\n",
             )),
 
             array('local copy, cached set global, new section', array(
-                array('Tracker' => array('anonymize' => '1')),
-                array('General' => array('debug' => '1')),
+                array('Tracker' => array('anonymize' => '1')),  // local
+                array('General' => array('debug' => '1')),      // global
+                array(),                                        // common
                 array('General' => array('debug' => '2')),
                 $header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 1\n\n",
             )),
 
             array('sort, common sections', array(
-                array('Tracker' => array('anonymize' => '1'),
+                array('Tracker' => array('anonymize' => '1'),   // local
                       'General' => array('debug' => '1')),
-                array('General' => array('debug' => '0'),
+                array('General' => array('debug' => '0'),       // global
                       'Tracker' => array('anonymize' => '0')),
+                array(),                                        // common
                 array('Tracker' => array('anonymize' => '2')),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
             )),
 
             array('sort, common sections before new section', array(
-                array('Tracker' => array('anonymize' => '1'),
+                array('Tracker' => array('anonymize' => '1'),   // local
                       'General' => array('debug' => '1')),
-                array('General' => array('debug' => '0'),
+                array('General' => array('debug' => '0'),       // global
                       'Tracker' => array('anonymize' => '0')),
+                array(),                                        // common
                 array('Segment' => array('dimension' => 'foo')),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
             )),
 
             array('change back to default', array(
-                array('Tracker' => array('anonymize' => '1')),
-                array('Tracker' => array('anonymize' => '0'),
+                array('Tracker' => array('anonymize' => '1')),  // local
+                array('Tracker' => array('anonymize' => '0'),   // global
                       'General' => array('debug' => '1')),
+                array(),                                        // common
                 array('Tracker' => array('anonymize' => '0')),
                 $header
+            )),
+
+            array('[General] trusted_hosts has been updated and only this one is written', array(
+                array('General' => array('trusted_hosts' => 'someRandomHostToOverwrite')),  // local
+                array('General' => array('settingGlobal' => 'global',   // global
+                                         'settingCommon' => 'global',
+                                         'trusted_hosts' => 'none')),
+                array('General' => array('settingCommon' => 'common',       // common
+                                         'settingCommon2' => 'common')),
+                array('General' => array('trusted_hosts' => 'works')),
+                $header . "[General]\ntrusted_hosts = \"works\"\n\n",
+            )),
+
+            // Same as above but without trusted_hosts default value in global.ini.php
+            // Also, settingCommon3 is the same in the local file as in common, so it is not written out
+            array('trusted_hosts and settingCommon3 changed ', array(
+                array('General' => array('trusted_hosts' => 'someRandomHostToOverwrite')), // local
+                array('General' => array('settingGlobal' => 'global',                   // global
+                                         'settingCommon' => 'global')),
+                array('General' => array('settingCommon' => 'common',                   // common
+                                         'settingCommon2' => 'common',
+                                         'settingCommon3' => 'common3')),
+                array('General' => array('trusted_hosts' => 'works',               // common
+                                         'settingCommon2' => 'common', // will be cleared since it's same as in common
+                                         'settingCommon3' => 'commonOverridenByLocal')),
+                $header . "[General]\ntrusted_hosts = \"works\"\nsettingCommon3 = \"commonOverridenByLocal\"\n\n",
+            )),
+
+            // the value in [General]->key has changed
+            // the value in [CommonCategory]->newSetting has changed,
+            //         but  [CommonCategory]->settingCommon2 hasn't so it is not written
+            array('Common tests file', array(
+                array('General' => array('key' => 'value')),                            // local
+                array('General' => array('key' => 'global'),                            // global
+                      'CommonCategory' => array('settingGlobal' => 'valueGlobal')),
+                array('CommonCategory' => array('settingCommon' => 'common',            // common
+                                                'settingCommon2' => 'common2')),
+                array('CommonCategory' => array('settingCommon2' => 'common2',
+                                                'newSetting' => 'newValue')),
+                $header . "[General]\nkey = \"value\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
         );
 
@@ -343,10 +431,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     {
         $config = Config::getInstance();
 
-        list($configLocal, $configGlobal, $configCache, $expected) = $test;
+        list($configLocal, $configGlobal, $configCommon, $configCache, $expected) = $test;
 
-        $output = $config->dumpConfig($configLocal, $configGlobal, $configCache);
-
+        $output = $config->dumpConfig($configLocal, $configGlobal, $configCommon, $configCache);
         $this->assertEquals($expected, $output, $description);
     }
 }

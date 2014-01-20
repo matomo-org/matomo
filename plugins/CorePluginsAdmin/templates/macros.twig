@@ -28,6 +28,7 @@
                     </td>
                     <td class="desc">
                         {{ plugin.description }}
+                        {{ _self.missingRequirementsNotice(plugin) }}
                     </td>
                     <td class="status">
                         {% if plugin.isActivated %}
@@ -37,7 +38,11 @@
                         {% endif %}
                     </td>
                     <td class="togl action-links">
-                        <a href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Update</a>
+                        {% if 0 == plugin.missingRequirements|length %}
+                            <a href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Update</a>
+                        {% else %}
+                            -
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -48,13 +53,13 @@
 {% endmacro %}
 
 {% macro pluginDeveloper(owner) %}
-    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="/plugins/Zeitgeist/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
+    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="plugins/Zeitgeist/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
 {% endmacro %}
 
 {% macro featuredIcon(align='') %}
     <img class="featuredIcon"
          title="{{ 'CorePluginsAdmin_FeaturedPlugin'|translate }}"
-         src="/plugins/CorePluginsAdmin/images/rating_important.png"
+         src="plugins/CorePluginsAdmin/images/rating_important.png"
          align="{{ align }}" />
 {% endmacro %}
 
@@ -88,7 +93,21 @@
 
 {% endmacro %}
 
-{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames) %}
+{% macro missingRequirementsNotice(plugin) %}
+    {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
+        {% for req in plugin.missingRequirements -%}
+            <p class="missingRequirementsNotice">
+                {% set requirement = req.requirement|capitalize %}
+                {% if 'Php' == requirement %}
+                    {% set requirement = 'PHP' %}
+                {% endif %}
+                {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(requirement, req.actualVersion, req.requiredVersion) }}
+            </p>
+        {%- endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames, displayAdminLinks) %}
 
 <div id="confirmUninstallPlugin" class="ui-confirm">
 
@@ -105,7 +124,9 @@
             <th>{% if isTheme %}{{ 'CorePluginsAdmin_Theme'|translate }}{% else %}{{ 'General_Plugin'|translate }}{% endif %}</th>
             <th>{{ 'General_Description'|translate }}</th>
             <th class="status">{{ 'CorePluginsAdmin_Status'|translate }}</th>
+            {% if (displayAdminLinks) %}
             <th class="action-links">{{ 'General_Action'|translate }}</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody id="plugins">
@@ -114,6 +135,7 @@
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name" style="white-space:nowrap;">
+                        <a name="{{ name|e('html_attr') }}"></a>
                         {% if not plugin.isCorePlugin and name in marketplacePluginNames -%}
                             <a href="javascript:void(0);"
                                data-pluginName="{{ name|e('html_attr') }}"
@@ -161,12 +183,13 @@
                             {{ 'CorePluginsAdmin_Active'|translate }}
                         {% else %}
                             {{ 'CorePluginsAdmin_Inactive'|translate }}
-                            {% if plugin.uninstallable %} <br/> - <a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{ uninstallNonce }}'>{{ 'CorePluginsAdmin_ActionUninstall'|translate }}</a>{% endif %}
+                            {% if plugin.uninstallable and displayAdminLinks %} <br/> - <a data-pluginName="{{ name|escape('html_attr') }}" class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{ uninstallNonce }}'>{{ 'CorePluginsAdmin_ActionUninstall'|translate }}</a>{% endif %}
                         {% endif %}
 
                         {%- endif %}
                     </td>
 
+                    {% if displayAdminLinks %}
                     <td class="togl action-links" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
                         {% if not isZeitgeist -%}
 
@@ -182,6 +205,7 @@
 
                         {%- endif %}
                     </td>
+                    {% endif %}
                 </tr>
             {% endif %}
         {% endfor %}

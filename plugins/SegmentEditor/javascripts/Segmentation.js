@@ -56,7 +56,7 @@ Segmentation = (function($) {
 
         segmentation.prototype.shortenSegmentName = function(name, length){
 
-            if(typeof length === "undefined") length = 26;
+            if(typeof length === "undefined") length = 16;
             if(typeof name === "undefined") name = "";
             var i;
             

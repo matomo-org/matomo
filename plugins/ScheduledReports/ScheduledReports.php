@@ -82,6 +82,7 @@ class ScheduledReports extends \Piwik\Plugin
             'Menu.Top.addItems'                         => 'addTopMenu',
             'TaskScheduler.getScheduledTasks'           => 'getScheduledTasks',
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
+            'MobileMessaging.deletePhoneNumber'         => 'deletePhoneNumber',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
             'ScheduledReports.getReportMetadata'        => 'getReportMetadata',
@@ -381,6 +382,48 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
+    public function deletePhoneNumber($phoneNumber)
+    {
+        $api = API::getInstance();
+
+        $reports = $api->getReports(
+            $idSite = false,
+            $period = false,
+            $idReport = false,
+            $ifSuperUserReturnOnlySuperUserReports = APIMobileMessaging::getInstance()->getDelegatedManagement()
+        );
+
+        foreach ($reports as $report) {
+            if ($report['type'] == MobileMessaging::MOBILE_TYPE) {
+                $reportParameters = $report['parameters'];
+                $reportPhoneNumbers = $reportParameters[MobileMessaging::PHONE_NUMBERS_PARAMETER];
+                $updatedPhoneNumbers = array();
+                foreach ($reportPhoneNumbers as $reportPhoneNumber) {
+                    if ($reportPhoneNumber != $phoneNumber) {
+                        $updatedPhoneNumbers[] = $reportPhoneNumber;
+                    }
+                }
+
+                if (count($updatedPhoneNumbers) != count($reportPhoneNumbers)) {
+                    $reportParameters[MobileMessaging::PHONE_NUMBERS_PARAMETER] = $updatedPhoneNumbers;
+
+                    // note: reports can end up without any recipients
+                    $api->updateReport(
+                        $report['idreport'],
+                        $report['idsite'],
+                        $report['description'],
+                        $report['period'],
+                        $report['hour'],
+                        $report['type'],
+                        $report['format'],
+                        $report['reports'],
+                        $reportParameters
+                    );
+                }
+            }
+        }
+    }
+
     public function getReportRecipients(&$recipients, $reportType, $report)
     {
         if (self::manageEvent($reportType)) {
@@ -403,7 +446,6 @@ class ScheduledReports extends \Piwik\Plugin
     {
         $view = new View('@ScheduledReports/reportParametersScheduledReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
-        $view->displayFormats = self::getDisplayFormats();
         $view->reportType = self::EMAIL_TYPE;
         $view->defaultDisplayFormat = self::DEFAULT_DISPLAY_FORMAT;
         $view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
@@ -562,7 +604,7 @@ class ScheduledReports extends \Piwik\Plugin
         return $additionalEmails;
     }
 
-    private static function getDisplayFormats()
+    public static function getDisplayFormats()
     {
         $displayFormats = array(
             // ScheduledReports_AggregateReportsFormat_TablesOnly should be named ScheduledReports_DisplayFormat_GraphsOnlyForKeyMetrics

@@ -19,11 +19,15 @@
     {% if otherUsersCount > 0 %}
         <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
     {% endif %}
+    {% if not isPluginsAdminEnabled %}
+        <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
+    {% endif %}
+
     </p>
 
     {{ plugins.pluginsFilter(true, isMarketplaceEnabled) }}
 
-    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames) }}
+    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames, isPluginsAdminEnabled ) }}
 
 </div>
 {% endblock %}

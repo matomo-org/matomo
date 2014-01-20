@@ -25,9 +25,6 @@
         "SubmenuPagesExit": "Páginas de saída",
         "SubmenuPageTitles": "Títulos das páginas"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Torna o último byte dos endereços IP de visitantes anónimo para obedecer às suas leis\/regulamentos de privacidade locais."
-    },
     "API": {
         "GenerateVisits": "Se não tiver dados para hoje pode gerar alguns através do plugin %s. Pode activar o plugin %s, e depois clicar no menu 'Gerador de Visitantes' na área de Administração do Piwik.",
         "KeepTokenSecret": "Este token_auth é tão secreto como o seu nome de utilizador e palavra-passe. %s não o partilhe%s!",
@@ -760,6 +757,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Selecione \"Sim\" para o Piwik não rastrear totalmente endereços IP qualificados.",
+        "AnonymizeIpInlineHelp": "Torna o último byte dos endereços IP de visitantes anónimo para obedecer às suas leis\/regulamentos de privacidade locais.",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes dos IPs dos visitantes devem ser mascarados.",
         "AnonymizeIpMaskLength": "%s byte(s) - por exemplo %s",
         "ClickHereSettings": "Clique aqui para aceder às %s definições",

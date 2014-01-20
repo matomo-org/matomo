@@ -94,7 +94,7 @@ class Visit implements VisitInterface
          * Triggered after visits are tested for exclusion so plugins can modify the IP address
          * persisted with a visit.
          * 
-         * This event is primarily used by the **AnonymizeIP** plugin to anonymize IP addresses.
+         * This event is primarily used by the **PrivacyManager** plugin to anonymize IP addresses.
          * 
          * @param string &$ip The visitor's IP address.
          */

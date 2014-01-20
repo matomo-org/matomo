@@ -79,9 +79,6 @@
         "ViewAndAddAnnotations": "%s을(를) 조회하고 주석을 추가합니다...",
         "YouCannotModifyThisNote": "주석을 수정할 수 없습니다. 직접 생성한 주석이 아니거나 이 사이트의 관리 권한이 없기 때문입니다."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "개인이 설정한 내부 규칙 및 지침에 따라 방문자의 IP주소의 마지막 바이트를 숨깁니다."
-    },
     "API": {
         "GenerateVisits": "오늘에 해당하는 데이터가 없는 경우는 %s 플러그인을 사용하여 처음 약간의 데이터를 생성할 수 있습니다. %s 플러그인을 활성화하고 관리 영역에서 '방문자 생성기'메뉴를 클릭하세요.",
         "KeepTokenSecret": "token_auth는 외부 로그인을 위한 비밀키입니다. %s 절대로 공유하지 마세요 %s!",
@@ -1085,6 +1082,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "완전히 확인 된 IP 주소를 추적하지 않도록하려면 \"예\"를 선택합니다.",
+        "AnonymizeIpInlineHelp": "개인이 설정한 내부 규칙 및 지침에 따라 방문자의 IP주소의 마지막 바이트를 숨깁니다.",
         "AnonymizeIpMaskLengtDescription": "방문자의 IP 주소에서 몇 바이트를 숨기려면 선택하세요.",
         "AnonymizeIpMaskLength": "%s 바이트 - 예) %s",
         "CannotLockSoDeleteLogActions": "log_action 테이블을 비울 수 없습니다: '%s' MYSQL 사용자에게 LOCK 테이블 권한을 부여하세요.",
@@ -1714,7 +1712,6 @@
         "Longitude": "경도",
         "NoDataForGeoIPReport1": "이 보고서에 대한 데이터가 없습니다. 어떠한 위치 데이터도 사용할 수 없거나, 방문자의 IP 주소에서 지역정보를 찾을 수 없기 때문입니다.",
         "NoDataForGeoIPReport2": "더 정확한 위치 정보를 활성화시키려면 %1$s이 곳%2$s의 설정을 %3$s도시 수준의 데이터베이스%4$s로 사용해야 합니다.",
-        "OldGeoIPWarning": "우리는 오래된 GeoIP 플러그인을 발견했습니다. GeoIP가 통합된 Piwik 코어는 이제 이 플러그인을 사용 만료된 것으로 간주됩니다. 이 플러그인이 사용되는 동안 새로운 지역 및 도시 보고서가 표시되지 않습니다. %1$s플러그인을 사용을 중지%2$s하고 %3$sGeoIP를 설정%4$s하세요. 기존의 방문의 위치 데이터를 얻으려면, %5$s이 곳%6$s에 있는 스크립트 설명을 읽고 %7$s보고서를 다시 처리%8$s해야 합니다.",
         "Organization": "조직",
         "OrgDatabase": "조직 데이터베이스",
         "PeclGeoIPNoDBDir": "PECL 모듈이 %1$s 경로에서 데이터베이스를 찾았지만, 디렉토리가 존재하지 않습니다. 디렉토리를 만들고 여기에 GeoIP 데이터베이스를 추가하세요. 대안으로, php.ini 파일에 올바른 디렉토리를 %2$s 경로를 설정할 수 있습니다.",

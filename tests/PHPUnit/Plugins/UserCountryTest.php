@@ -165,6 +165,11 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
 class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends GeoIPAutoUpdater
 {
+    public function __construct()
+    {
+        // empty
+    }
+    
     public function performRedundantDbChecks()
     {
         parent::performRedundantDbChecks();

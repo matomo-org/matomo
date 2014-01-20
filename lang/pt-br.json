@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Ver e adicionar notas para %s...",
         "YouCannotModifyThisNote": "Você não pode modificar essa anotação, porque você não possui permição, nem possui acesso de administrador para este site."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimize o último byte do endereço IP dos visitantes para obedecer suas leis\/guias locais de privacidade."
-    },
     "API": {
         "GenerateVisits": "Se você não tem nenhum dado hoje, você pode gerar alguns dados usando o plugin %s. Você pode habilitar o plugin %s, então clique no menu \"Gerador de Visitantes\" na área Piwik Admin.",
         "KeepTokenSecret": "Esse token_auth é tão secreto quanto seu login e sua senha, %s não compartilhe isso %s!",
@@ -1220,6 +1217,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Selecione \"Sim\" se você quer que o Piwik não restreie os IPs totalmente.",
+        "AnonymizeIpInlineHelp": "Anonimize o último byte do endereço IP dos visitantes para obedecer suas leis\/guias locais de privacidade.",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes de IPs dos visitantes deve ser mascarado.",
         "AnonymizeIpMaskLength": "%s byte(s) - e.g. %s",
         "CannotLockSoDeleteLogActions": "A tabela log_action não será purgada: por favor, conceder o privilégio LOCK TABLES para o usuário MYSQL '%s'.",
@@ -1880,7 +1878,6 @@
         "Longitude": "Longitude",
         "NoDataForGeoIPReport1": "Não há dados para este relatório porque não há nenhum dado de localização disponível ou o endereço IP do visitante não pode ser geolocalizado.",
         "NoDataForGeoIPReport2": "Para ativar ageolocalização mais precisa, mudar a configuração %1$s aqui%2$s e usar um %3$s banco de dados no nível de cidade %4$s.",
-        "OldGeoIPWarning": "Detectamos um plugin GeoIP antigo. A integração GeoIP está agora no núcleo Piwik e este plugin é considerado obsoleto. Regiões novas e relatórios municipais não serão exibido durante este o carregamento deste plugin. %1$s Por favor, desative um plugin %2$s e %3$s configure o GeoIP %4$s. Se você deseja os dados de localização para suas visitas antigas, use o script descrito %5$s aqui%6$s então%7$s reprocesse seus relatórios %8$s.",
         "Organization": "Organização",
         "OrgDatabase": "Banco de dados da organização",
         "PeclGeoIPNoDBDir": "O módulo PECL está à procura de bancos de dados em %1$s mas este diretório não existe. Por favor, crie-o e adicione as bases de dados GeoIP a ele. Como alternativa, você pode definir %2$s para o diretório correto em seu arquivo php.ini.",

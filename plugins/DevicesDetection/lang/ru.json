@@ -1,0 +1,18 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Версии браузеров",
+        "dataTableLabelBrands": "Фирма-производитель",
+        "dataTableLabelBrowserFamily": "Семейство браузеров",
+        "dataTableLabelModels": "Модель",
+        "dataTableLabelSystemVersion": "Версия операционной системы",
+        "dataTableLabelTypes": "Тип",
+        "DeviceBrand": "Фирма-производитель устройства",
+        "DeviceModel": "Модель устройства",
+        "DevicesDetection": "Устройства посетителей",
+        "DeviceType": "Тип устройства",
+        "OperatingSystemFamilies": "Семейства операционных систем",
+        "OperatingSystemVersions": "Версии операционных систем",
+        "PluginDescription": "Этот плагин предоставляет расширенную информацию о мобильных устройствах, таких как фирма-производитель, модель устройства, улучшенное обнаружение типов устройств (телевизор, консоль, смартфон, стационарный компьютер и т.д.) и другое. Этот плагин добавляет новый отчет в 'Посетители > Устройства'.",
+        "submenu": "Устройства"
+    }
+}

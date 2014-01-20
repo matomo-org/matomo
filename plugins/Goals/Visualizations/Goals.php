@@ -33,7 +33,7 @@ class Goals extends HtmlTable
     {
         parent::beforeLoadDataTable();
 
-        if (!$this->config->disable_subtable_when_show_goals) {
+        if($this->config->disable_subtable_when_show_goals) {
             $this->config->subtable_controller_action = null;
         }
 

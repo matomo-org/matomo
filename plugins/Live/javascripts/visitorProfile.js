@@ -86,8 +86,8 @@
                 return false;
             });
 
-            $element.on('click', '.visitor-profile-visit-title', function () {
-                self._loadIndividualVisitDetails($(this));
+            $element.on('click', '.visitor-profile-visit-title-row', function () {
+                self._loadIndividualVisitDetails($('h2', this));
             });
 
             $element.on('click', '.visitor-profile-prev-visitor', function (e) {

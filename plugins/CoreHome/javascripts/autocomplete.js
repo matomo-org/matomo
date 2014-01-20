@@ -50,6 +50,14 @@ $(function () {
 
             selector.attr('data-inited', 1);
 
+            var setSelectedWebsiteAndName = function (idSite, name) {
+                var mainLinkElem = $(".custom_select_main_link", selector),
+                    mainLinkSpan = $('span', mainLinkElem);
+
+                mainLinkElem.attr('data-siteid', idSite);
+                mainLinkSpan.text(name);
+            };
+
             var websiteSearch = $('.websiteSearch', selector);
 
             // when the search input is clicked, clear the input
@@ -186,14 +194,9 @@ $(function () {
                 $('.custom_select_ul_list li a', selector).each(function() {
                     $(this).click(function (e) {
                         var idsite = $(this).attr('data-siteid'),
-                            name = $(this).text(),
-                            mainLinkElem = $(".custom_select_main_link", selector),
-                            mainLinkSpan = $('span', mainLinkElem),
-                            oldName = mainLinkSpan.text();
+                            name = $(this).text();
 
-                        mainLinkElem.attr('data-siteid', idsite);
-                        mainLinkSpan.text(name);
-                        $(this).text(oldName);
+                        setSelectedWebsiteAndName(idsite, name);
 
                         selector.trigger('piwik:siteSelected', {id: idsite, name: name});
 
@@ -207,6 +210,9 @@ $(function () {
 
             // handle multi-sites link click (triggers site selected event w/ id=all)
             $('.custom_select_all', selector).click(function () {
+
+                setSelectedWebsiteAndName('all', $(this).text());
+
                 $(".custom_select_block", selector).toggleClass("custom_select_block_show");
 
                 selector.trigger('piwik:siteSelected', {id: 'all', name: $('.custom_select_all>a', selector).text()});

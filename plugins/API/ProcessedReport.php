@@ -65,6 +65,77 @@ class ProcessedReport
     }
 
     /**
+     * Verfies whether the given report exists for the given site.
+     *
+     * @param int $idSite
+     * @param string $apiModule  For example 'MultiSites'
+     * @param string $apiAction  For example 'getAll'
+     *
+     * @return bool
+     */
+    public function isValidReportForSite($idSite, $apiModule, $apiAction)
+    {
+        $report = $this->getSingleReportMetadata($idSite, $apiModule, $apiAction);
+
+        return !empty($report);
+    }
+
+    /**
+     * Verfies whether the given metric belongs to the given report.
+     *
+     * @param int $idSite
+     * @param string $metric     For example 'nb_visits'
+     * @param string $apiModule  For example 'MultiSites'
+     * @param string $apiAction  For example 'getAll'
+     *
+     * @return bool
+     */
+    public function isValidMetricForReport($metric, $idSite, $apiModule, $apiAction)
+    {
+        $translation = $this->translateMetric($metric, $idSite, $apiModule, $apiAction);
+
+        return !empty($translation);
+    }
+
+    private function getSingleReportMetadata($idSite, $apiModule, $apiAction)
+    {
+        $metadata = $this->getMetadata($idSite, $apiModule, $apiAction);
+
+        if (empty($metadata)) {
+            return false;
+        }
+
+        return array_shift($metadata);
+    }
+
+    /**
+     * Translates the given metric in case the report exists and in case the metric acutally belongs to the report.
+     *
+     * @param string $metric     For example 'nb_visits'
+     * @param int    $idSite
+     * @param string $apiModule  For example 'MultiSites'
+     * @param string $apiAction  For example 'getAll'
+     *
+     * @return null|string
+     */
+    public function translateMetric($metric, $idSite, $apiModule, $apiAction)
+    {
+        $report = $this->getSingleReportMetadata($idSite, $apiModule, $apiAction);
+
+        if (empty($report)) {
+            return;
+        }
+
+        $properties = array('metrics', 'processedMetrics', 'processedMetricsGoal');
+
+        foreach ($properties as $prop) {
+            if (!empty($report[$prop]) && is_array($report[$prop]) && array_key_exists($metric, $report[$prop])) {
+                return $report[$prop][$metric];
+            }
+        }
+    }
+
+    /**
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *

@@ -38,9 +38,6 @@
         "WidgetPagesExit": "Kilépési lapok",
         "WidgetPageTitles": "Oldalak címe"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "A látogatók IP címeinek utolsó bájtját törölve megakadályozza a látogatók beazonosítását, hogy megfelelhess a helyi adatvédelmi törvényeknek és ajánlásoknak."
-    },
     "API": {
         "GenerateVisits": "Ha nem volt még ma látogató, automatikusan generálhatsz mintaadatokat a %s kiegészítő segítségével. A %s kiegészítőt a Piwik adminisztrációs felületén megjelenő Látogatógenerálás menüpontra kattintva engedélyezheted.",
         "KeepTokenSecret": "Ez a token_auth nevű kód pontosan annyira érzékeny adat mint a felhasználói neved és jelszavad, ezért %s ne oszd meg mindenkivel%s!",
@@ -681,6 +678,9 @@
     "MultiSites": {
         "Evolution": "Trendek",
         "PluginDescription": "Összefoglaló statisztikákat jelenít meg több weboldal látogatottságáról. A kiegészítő jelenleg a Piwik magjához tartozik."
+    },
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "A látogatók IP címeinek utolsó bájtját törölve megakadályozza a látogatók beazonosítását, hogy megfelelhess a helyi adatvédelmi törvényeknek és ajánlásoknak."
     },
     "Provider": {
         "ColumnProvider": "Internetszolgáltató",

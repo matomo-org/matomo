@@ -29,6 +29,7 @@ abstract class MenuAbstract extends Singleton
 
     protected $menu = null;
     protected $menuEntries = array();
+    protected $menuEntriesToRemove = array();
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
@@ -44,6 +45,7 @@ abstract class MenuAbstract extends Singleton
         $this->buildMenu();
         $this->applyEdits();
         $this->applyRenames();
+        $this->applyRemoves();
         $this->applyOrdering();
         return $this->menu;
     }
@@ -63,21 +65,31 @@ abstract class MenuAbstract extends Singleton
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
     {
-        if ($displayedForCurrentUser) {
-            // make sure the idSite value used is numeric (hack-y fix for #3426)
-            if (!is_numeric(Common::getRequestVar('idSite', false))) {
-                $idSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
-                $url['idSite'] = reset($idSites);
-            }
-
-            $this->menuEntries[] = array(
-                $menuName,
-                $subMenuName,
-                $url,
-                $order,
-                $tooltip
-            );
+        if (!$displayedForCurrentUser) {
+            return;
         }
+
+        // make sure the idSite value used is numeric (hack-y fix for #3426)
+        if (!is_numeric(Common::getRequestVar('idSite', false))) {
+            $idSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
+            $url['idSite'] = reset($idSites);
+        }
+
+        $this->menuEntries[] = array(
+            $menuName,
+            $subMenuName,
+            $url,
+            $order,
+            $tooltip
+        );
+    }
+
+    public function remove($menuName, $subMenuName = false)
+    {
+        $this->menuEntriesToRemove[] = array(
+            $menuName,
+            $subMenuName
+        );
     }
 
     /**
@@ -162,6 +174,23 @@ abstract class MenuAbstract extends Singleton
         }
     }
 
+    private function applyRemoves()
+    {
+        foreach($this->menuEntriesToRemove as $menuToDelete) {
+
+            if(empty($menuToDelete[1])) {
+                // Delete Main Menu
+                if(isset($this->menu[$menuToDelete[0]])) {
+                    unset($this->menu[$menuToDelete[0]]);
+                }
+            } else {
+                // Delete Sub Menu
+                if(isset($this->menu[$menuToDelete[0]][$menuToDelete[1]])) {
+                    unset($this->menu[$menuToDelete[0]][$menuToDelete[1]]);
+                }
+            }
+        }
+    }
     /**
      * Applies renames to the menu.
      */

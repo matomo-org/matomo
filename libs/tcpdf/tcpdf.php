@@ -6973,7 +6973,7 @@ class TCPDF {
 			if (($info === false) AND function_exists($gdfunction)) {
 				try {
 					// GD library
-					$img = $gdfunction($file);
+					$img = @$gdfunction($file);
 					if ($img !== false) {
 						if ($resize) {
 							$imgr = imagecreatetruecolor($neww, $newh);

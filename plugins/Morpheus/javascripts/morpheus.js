@@ -6,12 +6,12 @@ $(document).ready(function () {
             checkboxClass: 'form-checkbox',
             radioClass: 'form-radio',
             checkedClass: 'checked',
-            hoverClass: 'form-hover',
+            hoverClass: 'form-hover'
         });
     }
 
     initICheck();
-    $(document).bind('ScheduledRepot.edit', initICheck);
+    $(document).bind('ScheduledReport.edit', initICheck);
 
     $('body').on('ifClicked', 'input', function () {
         $(this).trigger('click');

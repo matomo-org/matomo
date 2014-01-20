@@ -285,6 +285,27 @@
             {% endif %}
         </td>
     </tr>
+    {% if duringInstall is empty %}
+    <tr>
+        <td class="label">{{ 'UserCountry_Geolocation'|translate }}</td>
+        <td>
+            {% if infos.extra.geolocation_ok %}
+                {{ ok }} {{ 'General_Ok'|translate }}
+                <br/>
+            {% elseif infos.extra.geolocation_using_non_recommended %}
+                {{ warning }}
+                <span class="warn">Geolocation works, but you are not using one of the recommended providers.
+                    {{ 'UserCountry_GeoIpLocationProviderDesc_ServerBased2'|translate('<a href="http://piwik.org/docs/geo-locate/" target="_blank">', '', '', '</a>')|raw }}</span>
+                <br/>
+            {% else %}
+                {{ warning }}
+                <span class="warn">{{ 'UserCountry_DefaultLocationProviderDesc1'|translate }}
+                    {{ 'UserCountry_DefaultLocationProviderDesc2'|translate('<a href="http://piwik.org/docs/geo-locate/" target="_blank">', '', '', '</a>')|raw }} </span>
+                </span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
     {% if infos.general_infos.assume_secure_protocol is defined %}
         <tr>
             <td class="label">{{ 'Installation_SystemCheckSecureProtocol'|translate }}</td>

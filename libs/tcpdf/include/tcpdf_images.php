@@ -235,7 +235,7 @@ class TCPDF_IMAGES {
 	 * @public static
 	 */
 	public static function _parsepng($file) {
-		$f = fopen($file, 'rb');
+		$f = @fopen($file, 'rb');
 		if ($f === false) {
 			// Can't open image file
 			return false;

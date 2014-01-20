@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Ver y añadir anotaciones para %s...",
         "YouCannotModifyThisNote": "No puedes modificar esta anotación debido a que ni la creaste tú mismo ni tienes privilegios de administrador a este sitio."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Ocultar la dirección IP del visitante para cumplir las leyes\/directrices de privacidad de su localidad."
-    },
     "API": {
         "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el plugin %s. Puede habilitar el plugin %s, a continuación, haga clic en el menú 'Generador de Visitas' del zona Administrativa de Piwik.",
         "KeepTokenSecret": "Esta token_auth es tan secreta como su nombre de usuario y contraseña, %s no lo comparta %s!",
@@ -1207,6 +1204,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Seleccione \"Si\" si que Piwik no registre direcciones IP completas.",
+        "AnonymizeIpInlineHelp": "Ocultar la dirección IP del visitante para cumplir las leyes\/directrices de privacidad de su localidad.",
         "AnonymizeIpMaskLengtDescription": "Seleccione cuantos bytes de las direcciones IP de los visitantes deben ser ocultados.",
         "AnonymizeIpMaskLength": "%s byte(s) - ej. %s",
         "CannotLockSoDeleteLogActions": "La tabla log_action no será purgada: por favor, conceda el privilegio LOCK TABLES al usuario MYSQL '%s'.",
@@ -1860,7 +1858,6 @@
         "Longitude": "Longitud",
         "NoDataForGeoIPReport1": "No hay datos para este informe debido a que no existe información o las direcciones IP de los visitantes no puede ser geolocalizada.",
         "NoDataForGeoIPReport2": "Para habilitar una geolocalización precisa, cambie la opción %1$saquí%2$s y utilice una %3$sbase de datos a nivel ciudad%4$s.",
-        "OldGeoIPWarning": "Hemos detectado una extensión antigua GeoIP. La integración GeoIP es parte actualmente del corazón en Piwik y esta extensión está considerada obsoleta. Mientras esta extensión esté activa, las nuevas regiones y ciudades no serán visualizadas. %1$sPor favor deshabilite las extensiones%2$s y %3$sconfigure GeoIP%4$s. Si busca información de ubicación de sus antiguas visitas, utilize este información descripta %5$saquí%6$s después %7$sreprocese sus informes%8$s.",
         "Organization": "Organización",
         "OrgDatabase": "Base de datos de la organización",
         "PeclGeoIPNoDBDir": "El módulo PECL está buscando base de datos en %1$s, pero esta carpeta no existe. Por favor, créela y agreguéle una base de datos GeoIP a la misma. Alternativamente, puede disponer %2$s una determinada carpeta en su archivo php.ini",

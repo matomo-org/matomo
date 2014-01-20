@@ -15,11 +15,17 @@
 
     <h2>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
 
-    <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}</p>
+    <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}
+
+    {% if not isPluginsAdminEnabled %}
+        <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
+    {% endif %}
+
+    </p>
 
     {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}
 
-    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false, marketplacePluginNames) }}
+    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false, marketplacePluginNames, isPluginsAdminEnabled) }}
 
 </div>
 {% endblock %}

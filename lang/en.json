@@ -498,9 +498,6 @@
         "AvgGenerationTimeTooltip": "Average based on %s hit(s) %s between %s and %s",
         "OneSearch": "1 search"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonymize the last byte(s) of visitors IP addresses to comply with your local privacy laws\/guidelines."
-    },
     "API": {
         "PluginDescription": "All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc.",
         "QuickDocumentationTitle": "API quick documentation",
@@ -654,6 +651,7 @@
         "MenuPrivacySettings": "Privacy",
         "PluginDescription": "Customize Piwik to make it privacy compliant with existing legislations.",
         "UseAnonymizeIp": "Anonymize Visitors' IP addresses",
+        "AnonymizeIpInlineHelp": "Anonymize the last byte(s) of visitors IP addresses to comply with your local privacy laws\/guidelines.",
         "AnonymizeIpDescription": "Select \"Yes\" if you want Piwik not to track fully qualified IP-Addresses.",
         "AnonymizeIpMaskLengtDescription": "Select how many bytes of the visitors' IPs should be masked.",
         "AnonymizeIpMaskLength": "%s byte(s) - e.g. %s",
@@ -707,7 +705,8 @@
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
         "UseAnonymizedIpForVisitEnrichment": "Also use the Anonymized IP addresses when enriching visits.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",
-        "RecommendedForPrivacy": "(recommended for privacy)"
+        "RecommendedForPrivacy": "(recommended for privacy)",
+        "SeeAlsoOurOfficialGuidePrivacy": "See also our official guide: %sWeb Analytics Privacy%s"
     },
     "CorePluginsAdmin": {
         "PluginDescription": "Plugins Administration Interface.",
@@ -716,6 +715,7 @@
         "ThemesManagement": "Manage Themes",
         "MainDescription": "Plugins extend and expand the functionality of Piwik. Once a plugin is installed, you may activate it or deactivate it here.",
         "ThemesDescription": "Themes can change the appearance of Piwik user interface,\n    and provide a completely new visual experience to enjoy your analytics reports.",
+        "DoMoreContactPiwikAdmins": "To install a new plugin or a new theme, please get in touch with your Piwik admins.",
         "Theme": "Theme",
         "Version": "Version",
         "Status": "Status",
@@ -776,8 +776,7 @@
         "Changelog": "Changelog",
         "Screenshots": "Screenshots",
         "Support": "Support",
-        "PluginUpdateAvailable": "You can update this plugin from version %s to %s.",
-        "ThemeUpdateAvailable": "You can update this theme from version %s to %s.",
+        "PluginUpdateAvailable": "You are using version %s and a new version %s is available.",
         "ViewRepositoryChangelog": "View the changes",
         "History": "History",
         "PluginVersionInfo": "%1$s from %2$s",
@@ -807,7 +806,8 @@
         "OrByUploadingAPlugin": "or by %suploading a plugin%s",
         "ByDesigningOwnTheme": "by %sdesign your own theme%s",
         "OrByUploadingATheme": "or by %suploading a theme%s",
-        "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik."
+        "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik.",
+        "MissingRequirementsNotice": "Please update %1$s %2$s to a newer version, %1$s %3$s is required."
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",
@@ -817,6 +817,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik database will be upgraded from version %1$s to the new version %2$s.",
         "TheFollowingPluginsWillBeUpgradedX": "The following plugins will be updated: %s.",
         "NoteForLargePiwikInstances": "Important notes for large Piwik installations",
+        "HighTrafficPiwikServerEnableMaintenance": "If you manage a high traffic Piwik server, we recommend to %smomentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode%s.",
         "TheUpgradeProcessMayFailExecuteCommand": "If you have a large Piwik database, updates might take too long to run in the browser. In this situation, you can execute the updates from your command line: %s",
         "YouCouldManuallyExecuteSqlQueries": "If you are not able to use the command line updater and if Piwik fails to upgrade (due to a timeout of the database, a browser timeout, or any other issue), you could manually execute the SQL queries to update Piwik.",
         "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries that will get executed",
@@ -1812,7 +1813,6 @@
         "getRegionDocumentation": "This report shows which region your visitors were in when they accessed your website.",
         "getCityDocumentation": "This report shows the cities your visitors were in when they accessed your website.",
         "GeoIPDocumentationSuffix": "In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial %1$sMaxmind%2$s GeoIP databases are more accurate than the free ones. To see how accurate they are, click %3$shere%4$s.",
-        "OldGeoIPWarning": "We've detected the old GeoIP plugin. GeoIP integration is now in Piwik core and this plugin is considered deprecated. New region and city reports will not be shown while this plugin is loaded. %1$sPlease disable the plugin%2$s and %3$sconfigure GeoIP%4$s. If you want location data for your old visits, use the script described %5$shere%6$s then %7$sreprocess your reports%8$s.",
         "NoDataForGeoIPReport1": "There is no data for this report because there is either no location data available or visitor IP addresses cannot be geolocated.",
         "NoDataForGeoIPReport2": "To enable accurate geolocation, change the settings %1$shere%2$s and use a %3$scity level database%4$s.",
         "ToGeolocateOldVisits": "To get location data for your old visits, use the script described %1$shere%2$s.",
@@ -1845,7 +1845,10 @@
         "HowToInstallNginxModule": "How do I install the GeoIP module for Nginx?",
         "HowToInstallGeoIpPecl": "How do I install the GeoIP PECL extension?",
         "GeoIPIncorrectDatabaseFormat": "Your GeoIP database does not seem to have the correct format. It may be corrupt. Make sure you are using the binary version and try replacing it with another copy.",
-        "DefaultLocationProviderExplanation": "You are using the default location provider, which means Piwik will guess the visitor's location based on the language they use. %1$sRead this%2$s to learn how to setup more accurate geolocation."
+        "DefaultLocationProviderExplanation": "You are using the default location provider, which means Piwik will guess the visitor's location based on the language they use. %1$sRead this%2$s to learn how to setup more accurate geolocation.",
+        "UpdaterWillRunNext": "It is next scheduled to run on %s.",
+        "UpdaterIsNotScheduledToRun": "It is not scheduled to run in the future.",
+        "UpdaterScheduledForNextRun": "It is scheduled to run during the next archive.php cron execution."
     },
     "UserCountryMap": {
         "map": "map",

@@ -6,10 +6,13 @@
 {% import 'ajaxMacros.twig' as ajax %}
 
 {% if isSuperUser %}
-    <h2>{{ 'General_GeneralSettings'|translate }}</h2>
     {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
+
+    <h2>{{ 'General_GeneralSettings'|translate }}</h2>
     <table class="adminTable" style='width:900px;'>
+
+    {% if isGeneralSettingsAdminEnabled %}
         <tr>
             <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
             <td style="width:220px;">
@@ -32,15 +35,23 @@
                 {{ piwik.inlineHelp(browserArchivingHelp) }}
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="todayArchiveTimeToLive">
-                    {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
-                </label>
-            </td>
-            <td>
-                {{ 'General_NSeconds'|translate("<input size='3' value='" ~ todayArchiveTimeToLive ~ "' id='todayArchiveTimeToLive' />")|raw }}
-            </td>
+    {% endif %}
+
+    <tr>
+        <td width="400px">
+            <label for="todayArchiveTimeToLive">
+                {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
+            </label>
+        </td>
+        <td>
+            {% set timeOutInput %}
+            <input size='3' value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %}/>
+            {% endset %}
+
+            {{ 'General_NSeconds'|translate(timeOutInput)|raw }}
+        </td>
+
+        {% if isGeneralSettingsAdminEnabled %}
             <td width='450px'>
                 {% set archiveTodayTTLHelp %}
                     {% if showWarningCron %}
@@ -56,7 +67,10 @@
                 {% endset %}
                 {{ piwik.inlineHelp(archiveTodayTTLHelp) }}
             </td>
-        </tr>
+        {% endif %}
+    </tr>
+
+    {% if isGeneralSettingsAdminEnabled %}
         <tr>
             <td style="width:400px;">{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
             <td style="width:220px;">
@@ -79,77 +93,130 @@
                 {{ piwik.inlineHelp(checkReleaseHelp) }}
             </td>
         </tr>
+    {% endif %}
     </table>
-    <h2>{{ 'CoreAdminHome_EmailServerSettings'|translate }}</h2>
-    <div id='emailSettings'>
-        <table class="adminTable" style='width:600px;'>
+
+    {% if isGeneralSettingsAdminEnabled %}
+        <h2>{{ 'CoreAdminHome_EmailServerSettings'|translate }}</h2>
+        <div id='emailSettings'>
+            <table class="adminTable" style='width:600px;'>
+                <tr>
+                    <td>{{ 'General_UseSMTPServerForEmail'|translate }}<br/>
+                        <span class="form-description">{{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate }}</span>
+                    </td>
+                    <td style="width:200px;">
+                        <input id="mailUseSmtp-1" type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %} checked {% endif %}/>
+                        <label for="mailUseSmtp-1">{{ 'General_Yes'|translate }}</label>
+                        <input class="indented-radio-button" id="mailUseSmtp-0" type="radio" name="mailUseSmtp" value="0"
+                               {% if mail.transport == '' %} checked {% endif %}/>
+                        <label for="mailUseSmtp-0">{{ 'General_No'|translate }}</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id='smtpSettings'>
+            <table class="adminTable" style='width:550px;'>
+                <tr>
+                    <td><label for="mailHost">{{ 'General_SmtpServerAddress'|translate }}</label></td>
+                    <td style="width:200px;"><input type="text" id="mailHost" value="{{ mail.host }}"></td>
+                </tr>
+                <tr>
+                    <td><label for="mailPort">{{ 'General_SmtpPort'|translate }}</label><br/>
+                        <span class="form-description">{{ 'General_OptionalSmtpPort'|translate }}</span></td>
+                    <td><input type="text" id="mailPort" value="{{ mail.port }}"></td>
+                </tr>
+                <tr>
+                    <td><label for="mailType">{{ 'General_AuthenticationMethodSmtp'|translate }}</label><br/>
+                        <span class="form-description">{{ 'General_OnlyUsedIfUserPwdIsSet'|translate }}</span>
+                    </td>
+                    <td>
+                        <select id="mailType">
+                            <option value="" {% if mail.type == '' %} selected="selected" {% endif %}></option>
+                            <option id="plain" {% if mail.type == 'Plain' %} selected="selected" {% endif %} value="Plain">Plain</option>
+                            <option id="login" {% if mail.type == 'Login' %} selected="selected" {% endif %} value="Login"> Login</option>
+                            <option id="cram-md5" {% if mail.type == 'Crammd5' %} selected="selected" {% endif %} value="Crammd5"> Crammd5</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="mailUsername">{{ 'General_SmtpUsername'|translate }}</label><br/>
+                        <span class="form-description">{{ 'General_OnlyEnterIfRequired'|translate }}</span></td>
+                    <td>
+                        <input type="text" id="mailUsername" value="{{ mail.username }}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="mailPassword">{{ 'General_SmtpPassword'|translate }}</label><br/>
+                    <span class="form-description">{{ 'General_OnlyEnterIfRequiredPassword'|translate }}<br/>
+                        {{ 'General_WarningPasswordStored'|translate("<strong>","</strong>")|raw }}</span>
+                    </td>
+                    <td>
+                        <input type="password" id="mailPassword" value="{{ mail.password }}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="mailEncryption">{{ 'General_SmtpEncryption'|translate }}</label><br/>
+                        <span class="form-description">{{ 'General_EncryptedSmtpTransport'|translate }}</span></td>
+                    <td>
+                        <select id="mailEncryption">
+                            <option value="" {% if mail.encryption == '' %} selected="selected" {% endif %}></option>
+                            <option id="ssl" {% if mail.encryption == 'ssl' %} selected="selected" {% endif %} value="ssl">SSL</option>
+                            <option id="tls" {% if mail.encryption == 'tls' %} selected="selected" {% endif %} value="tls">TLS</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    {% endif %}
+
+    <h2>{{ 'CoreAdminHome_BrandingSettings'|translate }}</h2>
+    <div id='brandSettings'>
+        {{ 'CoreAdminHome_CustomLogoHelpText'|translate }}
+        <table class="adminTable" style="width:900px;">
             <tr>
-                <td>{{ 'General_UseSMTPServerForEmail'|translate }}<br/>
-                    <span class="form-description">{{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate }}</span>
-                </td>
+                <td style="width:200px;">{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
                 <td style="width:200px;">
-                    <input id="mailUseSmtp-1" type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %} checked {% endif %}/>
-                    <label for="mailUseSmtp-1">{{ 'General_Yes'|translate }}</label>
-                    <input class="indented-radio-button" id="mailUseSmtp-0" type="radio" name="mailUseSmtp" value="0"
-                           {% if mail.transport == '' %} checked {% endif %}/>
-                    <label for="mailUseSmtp-0">{{ 'General_No'|translate }}</label>
+                    <input id="useCustomLogo-1" type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
+                    <label for="useCustomLogo-1">{{ 'General_Yes'|translate }}</label>
+                    <input class="indented-radio-button" id="useCustomLogo-0" type="radio" name="useCustomLogo" value="0" {% if branding.use_custom_logo == 0 %} checked {% endif %} />
+                    <label for="useCustomLogo-0" class>{{ 'General_No'|translate }}</label>
+                </td>
+                <td id="inlineHelpCustomLogo">
+                    {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
+                    {% set customLogoHelp %}
+                    {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
+                    {% endset %}
+                    {{ piwik.inlineHelp(customLogoHelp) }}
                 </td>
             </tr>
         </table>
     </div>
-    <div id='smtpSettings'>
-        <table class="adminTable" style='width:550px;'>
-            <tr>
-                <td><label for="mailHost">{{ 'General_SmtpServerAddress'|translate }}</label></td>
-                <td style="width:200px;"><input type="text" id="mailHost" value="{{ mail.host }}"></td>
-            </tr>
-            <tr>
-                <td><label for="mailPort">{{ 'General_SmtpPort'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_OptionalSmtpPort'|translate }}</span></td>
-                <td><input type="text" id="mailPort" value="{{ mail.port }}"></td>
-            </tr>
-            <tr>
-                <td><label for="mailType">{{ 'General_AuthenticationMethodSmtp'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_OnlyUsedIfUserPwdIsSet'|translate }}</span>
-                </td>
-                <td>
-                    <select id="mailType">
-                        <option value="" {% if mail.type == '' %} selected="selected" {% endif %}></option>
-                        <option id="plain" {% if mail.type == 'Plain' %} selected="selected" {% endif %} value="Plain">Plain</option>
-                        <option id="login" {% if mail.type == 'Login' %} selected="selected" {% endif %} value="Login"> Login</option>
-                        <option id="cram-md5" {% if mail.type == 'Crammd5' %} selected="selected" {% endif %} value="Crammd5"> Crammd5</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="mailUsername">{{ 'General_SmtpUsername'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_OnlyEnterIfRequired'|translate }}</span></td>
-                <td>
-                    <input type="text" id="mailUsername" value="{{ mail.username }}"/>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="mailPassword">{{ 'General_SmtpPassword'|translate }}</label><br/>
-				<span class="form-description">{{ 'General_OnlyEnterIfRequiredPassword'|translate }}<br/>
-                    {{ 'General_WarningPasswordStored'|translate("<strong>","</strong>")|raw }}</span>
-                </td>
-                <td>
-                    <input type="password" id="mailPassword" value="{{ mail.password }}"/>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="mailEncryption">{{ 'General_SmtpEncryption'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_EncryptedSmtpTransport'|translate }}</span></td>
-                <td>
-                    <select id="mailEncryption">
-                        <option value="" {% if mail.encryption == '' %} selected="selected" {% endif %}></option>
-                        <option id="ssl" {% if mail.encryption == 'ssl' %} selected="selected" {% endif %} value="ssl">SSL</option>
-                        <option id="tls" {% if mail.encryption == 'tls' %} selected="selected" {% endif %} value="tls">TLS</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+    <div id='logoSettings'>
+        <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
+            <table class="adminTable" style='width:550px;'>
+                <tr>
+                    {% if logosWriteable %}
+                        <td>
+                            <label for="customLogo">{{ 'CoreAdminHome_LogoUpload'|translate }}:<br/>
+                                <span class="form-description">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF",110) }}</span>
+                            </label>
+                        </td>
+                        <td style="width:200px;">
+                            <input name="customLogo" type="file" id="customLogo"/>
+                            <img src="{{ pathUserLogo }}?r={{ random() }}" id="currentLogo" height="150"/>
+                        </td>
+                    {% else %}
+                        <td>
+                            <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_LogoNotWriteable">
+                                {{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>"~ pathUserLogoDirectory ~"</li><li>"~ pathUserLogo ~"</li><li>"~ pathUserLogoSmall ~"</li><li>"~ pathUserLogoSVG ~"</li></ul>")|notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
+                            </div>
+                        </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </form>
     </div>
+
     <div class="ui-confirm" id="confirmTrustedHostChange">
         <h2>{{ 'CoreAdminHome_TrustedHostConfirm'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
@@ -184,56 +251,12 @@
             </div>
         {% endif %}
     </div>
-    <h2>{{ 'CoreAdminHome_BrandingSettings'|translate }}</h2>
-    <div id='brandSettings'>
-        {{ 'CoreAdminHome_CustomLogoHelpText'|translate }}
-        <table class="adminTable" style="width:900px;">
-            <tr>
-                <td style="width:200px;">{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
-                <td style="width:200px;">
-                    <input id="useCustomLogo-1" type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
-                    <label for="useCustomLogo-1">{{ 'General_Yes'|translate }}</label>
-                    <input class="indented-radio-button" id="useCustomLogo-0" type="radio" name="useCustomLogo" value="0" {% if branding.use_custom_logo == 0 %} checked {% endif %} />
-                    <label for="useCustomLogo-0" class>{{ 'General_No'|translate }}</label>
-                </td>
-                <td>
-                    {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
-                    {% set customLogoHelp %}
-                    {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
-                    {% endset %}
-                    {{ piwik.inlineHelp(customLogoHelp) }}
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id='logoSettings'>
-        <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
-            <table class="adminTable" style='width:550px;'>
-                <tr>
-                    {% if logosWriteable %}
-                        <td>
-                            <label for="customLogo">{{ 'CoreAdminHome_LogoUpload'|translate }}:<br/>
-                                <span class="form-description">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF",110) }}</span>
-                            </label>
-                        </td>
-                        <td style="width:200px;">
-                            <input name="customLogo" type="file" id="customLogo"/>
-                            <img src="misc/user/logo.png?r={{ random() }}" id="currentLogo" height="150"/>
-                        </td>
-                    {% else %}
-                        <td>
-                            <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_LogoNotWriteable">
-                                {{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
-                            </div>
-                        </td>
-                    {% endif %}
-                </tr>
-            </table>
-        </form>
-    </div>
+
     <input type="submit" value="{{ 'General_Save'|translate }}" id="generalSettingsSubmit" class="submit"/>
     <br/>
     <br/>
+
+    {% if isDataPurgeSettingsEnabled %}
     {% set clickDeleteLogSettings %}{{ 'PrivacyManager_DeleteDataSettings'|translate }}{% endset %}
     <h2>{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
     <p>
@@ -243,6 +266,7 @@
             {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ clickDeleteLogSettings ~ "'") }}
         </a>
     </p>
+    {% endif %}
 {% endif %}
 <h2>{{ 'CoreAdminHome_OptOutForYourVisitors'|translate }}</h2>
 

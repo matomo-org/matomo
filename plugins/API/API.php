@@ -17,11 +17,10 @@ use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Filesystem;
 use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\SettingsPiwik;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
 use Piwik\Version;
@@ -315,6 +314,7 @@ class API extends \Piwik\Plugin\API
         return $compare;
     }
 
+
     /**
      * Returns the url to application logo (~280x110px)
      *
@@ -323,10 +323,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo.png';
-        $themeLogo = 'plugins/%s/images/logo.png';
-        $userLogo = 'misc/user/logo.png';
-        return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $userLogo);
+        $logo = new CustomLogo();
+        return $logo->getLogoUrl($pathOnly);
     }
 
     /**
@@ -337,10 +335,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo-header.png';
-        $themeLogo = 'plugins/%s/images/logo-header.png';
-        $customLogo = 'misc/user/logo-header.png';
-        return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
+        $logo = new CustomLogo();
+        return $logo->getHeaderLogoUrl($pathOnly);
     }
 
     /**
@@ -352,36 +348,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo.svg';
-        $themeLogo = 'plugins/%s/images/logo.svg';
-        $customLogo = 'misc/user/logo.svg';
-        $svg = $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
-        return $svg;
+        $logo = new CustomLogo();
+        return $logo->getSVGLogoUrl($pathOnly);
     }
 
-    protected function getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo)
-    {
-        $pathToPiwikRoot = Filesystem::getPathToPiwikRoot();
-
-        $logo = $defaultLogo;
-
-        $themeName = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
-        $themeLogo = sprintf($themeLogo, $themeName);
-
-        if (file_exists($pathToPiwikRoot . '/' . $themeLogo)) {
-            $logo = $themeLogo;
-        }
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists($pathToPiwikRoot . '/' . $customLogo)
-        ) {
-            $logo = $customLogo;
-        }
-
-        if (!$pathOnly) {
-            return SettingsPiwik::getPiwikUrl() . $logo;
-        }
-        return $pathToPiwikRoot . '/' . $logo;
-    }
 
     /**
      * Returns whether there is an SVG Logo available.
@@ -390,19 +360,10 @@ class API extends \Piwik\Plugin\API
      */
     public function hasSVGLogo()
     {
-        if (Config::getInstance()->branding['use_custom_logo'] == 0) {
-            /* We always have our application logo */
-            return true;
-        }
-
-        if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.svg')
-        ) {
-            return true;
-        }
-
-        return false;
+        $logo = new CustomLogo();
+        return $logo->hasSVGLogo();
     }
+
 
     /**
      * Loads reports metadata, then return the requested one,

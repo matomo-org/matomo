@@ -34,9 +34,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    const LOGO_HEIGHT = 300;
-    const LOGO_SMALL_HEIGHT = 100;
-
     const SET_PLUGIN_SETTINGS_NONCE = 'CoreAdminHome.setPluginSettings';
 
     public function index()
@@ -51,40 +48,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@CoreAdminHome/generalSettings');
 
         if (Piwik::isUserIsSuperUser()) {
-            $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
-            $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
-            $showWarningCron = false;
-            if (!$enableBrowserTriggerArchiving
-                && $todayArchiveTimeToLive < 3600
-            ) {
-                $showWarningCron = true;
-            }
-            $view->showWarningCron = $showWarningCron;
-            $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
-            $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
-
-            $this->displayWarningIfConfigFileNotWritable();
-
-            $config = Config::getInstance();
-
-            $debug = $config->Debug;
-            $view->enableBetaReleaseCheck = $debug['allow_upgrades_to_beta'];
-
-            $view->mail = $config->mail;
-
-            $view->branding = $config->branding;
-
-            $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/misc/user/');
-            $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png')
-                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.svg')
-                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');;
-            $view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
+            $this->handleGeneralSettingsAdmin($view);
 
             $trustedHosts = array();
-            if (isset($config->General['trusted_hosts'])) {
-                $trustedHosts = $config->General['trusted_hosts'];
+            if (isset(Config::getInstance()->General['trusted_hosts'])) {
+                $trustedHosts = Config::getInstance()->General['trusted_hosts'];
             }
             $view->trustedHosts = $trustedHosts;
+
+            $view->branding = Config::getInstance()->branding;
+
+            $logo = new CustomLogo();
+            $view->logosWriteable = $logo->isCustomLogoWritable();
+            $view->pathUserLogo = CustomLogo::getPathUserLogo();
+            $view->pathUserLogoSmall = CustomLogo::getPathUserLogoSmall();
+            $view->pathUserLogoSVG = CustomLogo::getPathUserSvgLogo();
+            $view->pathUserLogoDirectory = dirname($view->pathUserLogo) . '/';
         }
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
@@ -202,41 +181,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $response = new ResponseBuilder(Common::getRequestVar('format'));
         try {
             $this->checkTokenInUrl();
-            $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
-            $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
 
-            Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-            Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+            $this->saveGeneralSettings();
 
-            // Update email settings
-            $mail = array();
-            $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-            $mail['port'] = Common::getRequestVar('mailPort', '');
-            $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
-            $mail['type'] = Common::getRequestVar('mailType', '');
-            $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
-            $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
-            $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
-
-            $config = Config::getInstance();
-            $config->mail = $mail;
-
-            // update branding settings
-            $branding = $config->branding;
-            $branding['use_custom_logo'] = Common::getRequestVar('useCustomLogo', '0');
-            $config->branding = $branding;
-
-            // update beta channel setting
-            $debug = $config->Debug;
-            $debug['allow_upgrades_to_beta'] = Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
-            $config->Debug = $debug;
             // update trusted host settings
             $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
             if ($trustedHosts !== false) {
                 Url::saveTrustedHostnameInConfig($trustedHosts);
             }
 
-            $config->forceSave();
+            // update branding settings
+            $branding = Config::getInstance()->branding;
+            $branding['use_custom_logo'] = Common::getRequestVar('useCustomLogo', '0');
+            Config::getInstance()->branding = $branding;
+
+            Config::getInstance()->forceSave();
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -278,7 +237,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // get currencies for each viewable site
         $view->currencySymbols = APISitesManager::getInstance()->getCurrencySymbols();
 
-        $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\Controller::isDntSupported();
+        $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::isActive();
 
         return $view->render();
     }
@@ -310,56 +269,74 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function uploadCustomLogo()
     {
         Piwik::checkUserIsSuperUser();
-        if (empty($_FILES['customLogo'])
-            || !empty($_FILES['customLogo']['error'])
-        ) {
-            return '0';
+
+        $logo = new CustomLogo();
+        $success = $logo->copyUploadedLogoToFilesystem();
+
+        if($success) {
+            return '1';
         }
-
-        $file = $_FILES['customLogo']['tmp_name'];
-        if (!file_exists($file)) {
-            return '0';
-        }
-
-        list($width, $height) = getimagesize($file);
-        switch ($_FILES['customLogo']['type']) {
-            case 'image/jpeg':
-                $image = imagecreatefromjpeg($file);
-                break;
-            case 'image/png':
-                $image = imagecreatefrompng($file);
-                break;
-            case 'image/gif':
-                $image = imagecreatefromgif($file);
-                break;
-            default:
-                return '0';
-        }
-
-        $widthExpected = round($width * self::LOGO_HEIGHT / $height);
-        $smallWidthExpected = round($width * self::LOGO_SMALL_HEIGHT / $height);
-
-        $logo = imagecreatetruecolor($widthExpected, self::LOGO_HEIGHT);
-        $logoSmall = imagecreatetruecolor($smallWidthExpected, self::LOGO_SMALL_HEIGHT);
-
-        // Handle transparency
-        $background = imagecolorallocate($logo, 0, 0, 0);
-        $backgroundSmall = imagecolorallocate($logoSmall, 0, 0, 0);
-        imagecolortransparent($logo, $background);
-        imagecolortransparent($logoSmall, $backgroundSmall);
-
-        if ($_FILES['customLogo']['type'] == 'image/png') {
-            imagealphablending($logo, false);
-            imagealphablending($logoSmall, false);
-            imagesavealpha($logo, true);
-            imagesavealpha($logoSmall, true);
-        }
-
-        imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
-        imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
-
-        imagepng($logo, PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png', 3);
-        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png', 3);
-        return '1';
+        return '0';
     }
+
+    private function isGeneralSettingsAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_general_settings_admin'];
+    }
+
+    private function saveGeneralSettings()
+    {
+        if(!$this->isGeneralSettingsAdminEnabled()) {
+            // General settings + Beta channel + SMTP settings is disabled
+            return;
+        }
+
+        // General Setting
+        $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
+        $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
+        Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+        Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+
+        // update beta channel setting
+        $debug = Config::getInstance()->Debug;
+        $debug['allow_upgrades_to_beta'] = Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
+        Config::getInstance()->Debug = $debug;
+
+        // Update email settings
+        $mail = array();
+        $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
+        $mail['port'] = Common::getRequestVar('mailPort', '');
+        $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
+        $mail['type'] = Common::getRequestVar('mailType', '');
+        $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
+        $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
+        $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
+
+        Config::getInstance()->mail = $mail;
+    }
+
+    private function handleGeneralSettingsAdmin($view)
+    {
+        // Whether to display or not the general settings (cron, beta, smtp)
+        $view->isGeneralSettingsAdminEnabled = $this->isGeneralSettingsAdminEnabled();
+
+        $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
+        $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
+        $showWarningCron = false;
+        if (!$enableBrowserTriggerArchiving
+            && $todayArchiveTimeToLive < 3600
+        ) {
+            $showWarningCron = true;
+        }
+        $view->showWarningCron = $showWarningCron;
+        $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
+        $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
+
+
+        $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];
+        $view->mail = Config::getInstance()->mail;
+        $this->displayWarningIfConfigFileNotWritable();
+    }
+
+
 }

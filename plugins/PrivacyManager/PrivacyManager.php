@@ -30,15 +30,15 @@ use Piwik\ScheduledTime;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
-/**
- * @see plugins/PrivacyManager/LogDataPurger.php
- */
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/LogDataPurger.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
 
 /**
- * @see plugins/PrivacyManager/ReportsPurger.php
+ * Specifically include this for Tracker API (which does not use autoloader)
  */
-require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/DoNotTrackHeaderChecker.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
 /**
  * @package PrivacyManager
@@ -66,6 +66,20 @@ class PrivacyManager extends \Piwik\Plugin
         'delete_reports_keep_range_reports'    => 0,
         'delete_reports_keep_segment_reports'  => 0,
     );
+
+    private $dntChecker = null;
+    private $ipAnonymizer = null;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->dntChecker = new DoNotTrackHeaderChecker();
+        $this->ipAnonymizer = new IPAnonymizer();
+    }
 
     /**
      * Returns true if it is likely that the data for this report has been purged and if the
@@ -133,7 +147,16 @@ class PrivacyManager extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'Tracker.setTrackerCacheGeneral'  => 'setTrackerCacheGeneral',
+            'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
+            'Tracker.setVisitorIp'            => array($this->ipAnonymizer, 'setVisitorIpAddress'),
         );
+    }
+
+    public function setTrackerCacheGeneral(&$cacheContent)
+    {
+        $this->ipAnonymizer->setTrackerCacheGeneral($cacheContent);
+        $this->dntChecker->setTrackerCacheGeneral($cacheContent);
     }
 
     public function getScheduledTasks(&$tasks)
@@ -219,8 +242,6 @@ class PrivacyManager extends \Piwik\Plugin
      */
     public static function savePurgeDataSettings($settings)
     {
-        $plugin = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin('PrivacyManager');
-
         foreach (self::$defaultPurgeDataOptions as $optionName => $defaultValue) {
             if (isset($settings[$optionName])) {
                 Option::set($optionName, $settings[$optionName]);
@@ -467,4 +488,3 @@ class PrivacyManager extends \Piwik\Plugin
         return Db::fetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
     }
 }
-

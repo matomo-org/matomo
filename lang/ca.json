@@ -80,9 +80,6 @@
         "ViewAndAddAnnotations": "Mostra i afegeix anotacions per %s...",
         "YouCannotModifyThisNote": "No podeu modificar aquesta nota perquè o bé no l'heu creada vosatres, o no teni accès d'administrador per aquest lloc web."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonimitzar el(s) últim(s) de la IP de les adreces dels visitants per complir amb la vostra política de privacitat\/llei."
-    },
     "API": {
         "GenerateVisits": "Si no disposeu d'informació d'avui podeu generar informació utilitzant l'extensió: %s. Heu d'activar l'extensió %s i desprès anar al menú 'Generador de visites' de l'espai d'administració del Piwik.",
         "KeepTokenSecret": "El token_auth es tan secret com el vostre usuari i la vostra contrasenya, %s no compartiu el seu %s!",
@@ -1052,6 +1049,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Seleccioneu \"Sí\" si voleu que el Piwik no registri l'adreça IP complerta.",
+        "AnonymizeIpInlineHelp": "Anonimitzar el(s) últim(s) de la IP de les adreces dels visitants per complir amb la vostra política de privacitat\/llei.",
         "AnonymizeIpMaskLengtDescription": "Seleccioneu quans bytes de l'adreça IP del visitant voleu enmascarar.",
         "AnonymizeIpMaskLength": "%s byte(s) - p.e. %s",
         "CannotLockSoDeleteLogActions": "La taula log_action no es purgarà: siusplau doneu el privilegi LOCK TABLES a l'ususair de MySQL '%s'.",
@@ -1668,7 +1666,6 @@
         "Longitude": "Longitud",
         "NoDataForGeoIPReport1": "No hi ha informació per aquest informe perquè la informació de localització no esta disponible o l'adreça IP del visitant no pot ser geolocalitzada.",
         "NoDataForGeoIPReport2": "Per activar la geolocalització acurada, canvieu les preferències %1$saquí%2$s i utilitzeu una %3$sbase de dades a nivell de ciutat%4$s.",
-        "OldGeoIPWarning": "Em detectat la extensió antiga de Geolocalització. La integració amb GeoIP es ara una funcionalitat del nucli de Piwik i aquesta extensió es considera obsoleta. Els nous informes de ciutat i regió no es mostraran mentre aquesta extensió estigui carregada. %1$sDeshabiliteu la extensió%2$s i %3$sconfigureu la Geolocalització%4$s. Si voleu la inforamció de localització de les vistes anterior, utilizeu el script descrit %5$saquí%6$s i desprès %7$sreproseseu els vostres informes%8$s.",
         "Organization": "Organització",
         "OrgDatabase": "Base de dades d'Organització",
         "PeclGeoIPNoDBDir": "El mòdul de PECL està cercant la base de dades a %1$s, però aquest directori no existeix. Sisplau, creu-lo i afegiu bases de dades de Geolocalització allí. Alternativament, podeu modificar el paràmetre %2$s del vostre fitxer php.ini per utilizar el directori correcte.",

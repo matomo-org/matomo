@@ -66,8 +66,10 @@ class UserCountry extends \Piwik\Plugin
 
     public function getScheduledTasks(&$tasks)
     {
-        // add the auto updater task
-        $tasks[] = GeoIPAutoUpdater::makeScheduledTask();
+        // add the auto updater task if GeoIP admin is enabled
+        if($this->isGeoLocationAdminEnabled()) {
+            $tasks[] = new GeoIPAutoUpdater();
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -195,10 +197,12 @@ class UserCountry extends \Piwik\Plugin
      */
     public function addAdminMenu()
     {
-        MenuAdmin::getInstance()->add('General_Settings', 'UserCountry_Geolocation',
-            array('module' => 'UserCountry', 'action' => 'adminIndex'),
-            Piwik::isUserIsSuperUser(),
-            $order = 8);
+        if($this->isGeoLocationAdminEnabled()) {
+            MenuAdmin::getInstance()->add('General_Settings', 'UserCountry_Geolocation',
+                array('module' => 'UserCountry', 'action' => 'adminIndex'),
+                Piwik::isUserIsSuperUser(),
+                $order = 8);
+        }
     }
 
     public function getSegmentsMetadata(&$segments)
@@ -480,4 +484,10 @@ class UserCountry extends \Piwik\Plugin
         $translationKeys[] = "UserCountry_SetupAutomaticUpdatesOfGeoIP";
         $translationKeys[] = "General_Done";
     }
+
+    public static function isGeoLocationAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_geolocation_admin'];
+    }
+
 }

@@ -30,9 +30,9 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-
-    const ANONYMIZE_IP_PLUGIN_NAME = "AnonymizeIP";
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
+    const ACTIVATE_DNT_NONCE = 'PrivacyManager.activateDnt';
+    const DEACTIVATE_DNT_NONCE = 'PrivacyManager.deactivateDnt';
 
     public function saveSettings()
     {
@@ -50,6 +50,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     break;
 
                 case("formDeleteSettings"):
+                    $this->checkDataPurgeAdminSettingsIsEnabled();
                     $settings = $this->getPurgeSettingsFromRequest();
                     PrivacyManager::savePurgeDataSettings($settings);
                     break;
@@ -64,6 +65,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Notification\Manager::notify('PrivacyManager_ChangesHaveBeenSaved', $notification);
 
         $this->redirectToIndex('PrivacyManager', 'privacySettings', null, null, null, array('updated' => 1));
+    }
+
+    private function checkDataPurgeAdminSettingsIsEnabled()
+    {
+        if (!self::isDataPurgeSettingsEnabled()) {
+            throw new \Exception("Configuring deleting log data and report data has been disabled by Piwik admins.");
+        }
     }
 
     /**
@@ -115,16 +123,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    /**
-     * Returns true if server side DoNotTrack support is enabled, false if otherwise.
-     *
-     * @return bool
-     */
-    public static function isDntSupported()
-    {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('DoNotTrack');
-    }
-
     public function privacySettings()
     {
         Piwik::checkUserHasSomeAdminAccess();
@@ -133,11 +131,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Piwik::isUserIsSuperUser()) {
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
-            $view->dntSupport = self::isDntSupported();
+            $view->dntSupport = DoNotTrackHeaderChecker::isActive();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = Config::getInstance()->database['username'];
-            $view->deactivateNonce = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::DEACTIVATE_NONCE);
-            $view->activateNonce   = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::ACTIVATE_NONCE);
+            $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
+            $view->activateNonce   = Nonce::getNonce(self::ACTIVATE_DNT_NONCE);
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->displayWarningIfConfigFileNotWritable();
@@ -175,6 +173,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     protected function getDeleteDBSizeEstimate($getSettingsFromQuery = false, $forceEstimate = false)
     {
+        $this->checkDataPurgeAdminSettingsIsEnabled();
+
         // get the purging settings & create two purger instances
         if ($getSettingsFromQuery) {
             $settings = $this->getPurgeSettingsFromRequest();
@@ -233,13 +233,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserIsSuperUser();
         $anonymizeIP = array();
 
-        \Piwik\Plugin\Manager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
-
         $trackerConfig = Config::getInstance()->Tracker;
-        $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
-        $anonymizeIP["enabled"] = \Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
+        $anonymizeIP["enabled"] = IpAnonymizer::isActive();
         $anonymizeIP["maskLength"] = $trackerConfig['ip_address_mask_length'];
-        $anonymizeIP["info"] = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
         $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $trackerConfig['use_anonymized_ip_for_visit_enrichment'];
 
         return $anonymizeIP;
@@ -295,14 +291,32 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     protected function handlePluginState($state = 0)
     {
-        $pluginController = new \Piwik\Plugins\CorePluginsAdmin\Controller();
-
-        if ($state == 1 && !\Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
-            $pluginController->activate($redirectAfter = false);
-        } elseif ($state == 0 && \Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
-            $pluginController->deactivate($redirectAfter = false);
+        if ($state == 1) {
+            IPAnonymizer::activate();
+        } else if ($state == 0) {
+            IPAnonymizer::deactivate();
         } else {
-            //nothing to do
+            // pass
         }
+    }
+
+    public function deactivateDoNotTrack()
+    {
+        Piwik::checkUserIsSuperUser();
+        Nonce::checkNonce(self::DEACTIVATE_DNT_NONCE);
+
+        DoNotTrackHeaderChecker::deactivate();
+
+        $this->redirectToIndex('PrivacyManager', 'privacySettings');
+    }
+
+    public function activateDoNotTrack()
+    {
+        Piwik::checkUserIsSuperUser();
+        Nonce::checkNonce(self::ACTIVATE_DNT_NONCE);
+
+        DoNotTrackHeaderChecker::activate();
+
+        $this->redirectToIndex('PrivacyManager', 'privacySettings');
     }
 }

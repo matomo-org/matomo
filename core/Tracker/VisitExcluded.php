@@ -145,20 +145,29 @@ class VisitExcluded
     protected function isNonHumanBot()
     {
         $allowBots = $this->request->getParam('bots');
+
         return !$allowBots
+            // Seen in the wild
         && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
             || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
             || strpos($this->userAgent, 'AdsBot-Google') !== false // Google Adwords landing pages
             || strpos($this->userAgent, 'Google Page Speed Insights') !== false // #4049
             || strpos($this->userAgent, 'Google (+https://developers.google.com') !== false // Google Snippet https://developers.google.com/+/web/snippet/
             || strpos($this->userAgent, 'facebookexternalhit') !== false // http://www.facebook.com/externalhit_uatext.php
+            || strpos($this->userAgent, 'baidu') !== false // Baidu
             || strpos($this->userAgent, 'bingbot') !== false // Bingbot
             || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
             || strpos($this->userAgent, 'CloudFlare') !== false // CloudFlare-AlwaysOnline
+
+            // Added as they are popular bots
+            || strpos($this->userAgent, 'yandex') !== false // yandex
+            || strpos($this->userAgent, 'exabot') !== false // Exabot
+            || strpos($this->userAgent, 'sogou') !== false // Sogou
+            || strpos($this->userAgent, 'soso') !== false // Soso
             || IP::isIpInRange($this->ip, $this->getBotIpRanges()));
     }
 
-    protected function getBotIpRanges()
+    protected function  getBotIpRanges()
     {
         return array(
             // Live/Bing/MSN

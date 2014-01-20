@@ -74,6 +74,33 @@ abstract class ScheduledTime
     }
 
     /**
+     * This method takes the websites timezone into consideration when scheduling a task.
+     * @param int $idSite
+     * @param string $period  Eg 'day', 'week', 'month'
+     * @return Daily|Monthly|Weekly
+     * @throws \Exception
+     * @ignore
+     */
+    static public function getScheduledTimeForSite($idSite, $period)
+    {
+        $arbitraryDateInUTC     = Date::factory('2011-01-01');
+        $midnightInSiteTimezone = date(
+                                      'H',
+                                      Date::factory(
+                                          $arbitraryDateInUTC,
+                                          Site::getTimezoneFor($idSite)
+                                      )->getTimestamp()
+                                  );
+
+        $hourInUTC = (24 - $midnightInSiteTimezone) % 24;
+
+        $schedule = self::getScheduledTimeForPeriod($period);
+        $schedule->setHour($hourInUTC);
+
+        return $schedule;
+    }
+
+    /**
      * Returns the system time used by subclasses to compute schedulings.
      * This method has been introduced so unit tests can override the current system time.
      * @return int

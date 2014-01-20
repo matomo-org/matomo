@@ -82,9 +82,6 @@
         "ViewAndAddAnnotations": "Vis og tilføj annotationer for %s...",
         "YouCannotModifyThisNote": "Du kan ikke ændre denne annotation, da du ikke har oprettet den eller har administrator adgang."
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer."
-    },
     "API": {
         "GenerateVisits": "Hvis du ikke har data for i dag ,kan du generere nogle data ved hjælp af %s programudvidelsen. Aktiver %s programudvidelsen, og klik derefter på 'Besøgsgenerator' i menuen under indstillinger.",
         "KeepTokenSecret": "Token_auth er ligeså hemmeligt som brugernavn og adgangskode, %sdel det ikke ud%s!",
@@ -1243,6 +1240,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Vælg \"Ja\", hvis Piwik ikke skal spore fuldt kvalificerede IP-adresser.",
+        "AnonymizeIpInlineHelp": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer.",
         "AnonymizeIpMaskLengtDescription": "Vælg hvor mange bytes af de besøgendes IP-adresser der skal maskeres.",
         "AnonymizeIpMaskLength": "%s bytes - f.eks %s",
         "CannotLockSoDeleteLogActions": "log_action tabellen vil ikke blive slettet: giv LOCK TABELLER privilegium til '%s' MYSQL brugeren.",
@@ -1911,7 +1909,6 @@
         "Longitude": "Længdegrad",
         "NoDataForGeoIPReport1": "Der er ingen data for rapporten, fordi der enten ikke er lokaliseringsdata til rådighed, eller besøgendes IP-adresser ikke kan geografisk placeres.",
         "NoDataForGeoIPReport2": "For at aktivere nøjagtig geolokalisering skal indstillingerne ændres %1$sher%2$s og bruge en %3$sbyniveaudatabase%4$s.",
-        "OldGeoIPWarning": "Vi har opdaget det gamle GeoIP udvidelsesmodul. GeoIP integration er nu i Piwik kernen og udvidelsesmodulet anses for forældet. Nye region og by rapporter vil ikke blive vist, mens dette udvidelsesmodul er indlæst. %1$sdeaktivere udvidelsesmodulet%2$s og %3$skonfigurere GeoIP%4$s. Hvis du vil have lokaliseringsdata fra gamle besøg brug scriptet beskrevet %5$sher%6$s og %7$sombearbejd rapporterne%8$s.",
         "Organization": "Organisation",
         "OrgDatabase": "Organisationsdatabase",
         "PeclGeoIPNoDBDir": "PECL-modulet søger efter databaser i %1$s, men denne mappe eksisterer ikke. Opret mappen og tilføj GeoIP databasen. Alternativt kan du indstille %2$s til den rigtige mappe i din php.ini fil.",

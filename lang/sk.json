@@ -38,9 +38,6 @@
         "WidgetSearchCategories": "Kategórie hľadania",
         "WidgetSearchKeywords": "Kľúčové slová vyhladávania"
     },
-    "AnonymizeIP": {
-        "PluginDescription": "Anonymnosť posledný bajt IP adresy návštevníkov v súlade s miestnymi zákonmi na ochranu súkromia."
-    },
     "API": {
         "LoadedAPIs": "Úspešne načítané %s API",
         "QuickDocumentationTitle": "Rýchla dokumentácia k API",
@@ -698,6 +695,7 @@
     },
     "PrivacyManager": {
         "AnonymizeIpDescription": "Vyberte \"Áno\" ak chcete aby Piwik nesledoval plne kvalifikované IP adresy",
+        "AnonymizeIpInlineHelp": "Anonymnosť posledný bajt IP adresy návštevníkov v súlade s miestnymi zákonmi na ochranu súkromia.",
         "AnonymizeIpMaskLengtDescription": "Vyberte koľko bajtov IP adresy návštevníkov by malo byť maskovaných.",
         "AnonymizeIpMaskLength": "%s bajt(y) - napr. %s",
         "ClickHereSettings": "Kliknite sem pre prístup k %s nastaveniam.",

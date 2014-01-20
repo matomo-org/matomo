@@ -15,6 +15,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     public static $_JANUARY_05_1971_09_00_00;
     public static $_JANUARY_11_1971_00_00_00;
     public static $_JANUARY_15_1971_00_00_00;
+    public static $_JANUARY_08_1971_00_00_00;
 
     public static function setUpBeforeClass()
     {
@@ -137,11 +138,11 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(1, self::$_JANUARY_11_1971_00_00_00),
-            array(5, self::$_JANUARY_15_1971_00_00_00),
+            array(5, self::$_JANUARY_08_1971_00_00_00),
             array('monday', self::$_JANUARY_11_1971_00_00_00),
             array('Monday', self::$_JANUARY_11_1971_00_00_00),
-            array('FRIDAY', self::$_JANUARY_15_1971_00_00_00),
-            array('FrIdAy', self::$_JANUARY_15_1971_00_00_00)
+            array('FRIDAY', self::$_JANUARY_08_1971_00_00_00),
+            array('FrIdAy', self::$_JANUARY_08_1971_00_00_00)
         );
     }
 
@@ -173,3 +174,4 @@ ScheduledTime_WeeklyTest::$_JANUARY_04_1971_09_00_00 = mktime(9, 00, 00, 1, 4, 1
 ScheduledTime_WeeklyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
 ScheduledTime_WeeklyTest::$_JANUARY_11_1971_00_00_00 = mktime(0, 00, 00, 1, 11, 1971);
 ScheduledTime_WeeklyTest::$_JANUARY_15_1971_00_00_00 = mktime(0, 00, 00, 1, 15, 1971);
+ScheduledTime_WeeklyTest::$_JANUARY_08_1971_00_00_00 = mktime(0, 00, 00, 1, 8, 1971);

@@ -41,15 +41,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Forces the next table status request to issue a query by reseting the table status cache.
-     */
-    public function resetTableStatuses()
-    {
-        Piwik::checkUserIsSuperUser();
-        self::getInstance()->metadataProvider = new MySQLMetadataProvider();
-    }
-
-    /**
      * Gets some general information about this Piwik installation, including the count of
      * websites tracked, the count of users and the total space used by the database.
      *

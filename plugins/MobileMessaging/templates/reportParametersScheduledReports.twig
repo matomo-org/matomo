@@ -1,49 +1,3 @@
-<script>
-    $(function () {
-        resetReportParametersFunctions ['{{ reportType }}'] =
-            function () {
-
-                var reportParameters = {
-                    'phoneNumbers': []
-                };
-
-                updateReportParametersFunctions['{{ reportType }}'](reportParameters);
-            };
-
-        updateReportParametersFunctions['{{ reportType }}'] =
-            function (reportParameters) {
-
-                if (reportParameters == null) return;
-
-                $('[name=phoneNumbers]').removeProp('checked');
-                $(reportParameters.phoneNumbers).each(function (index, phoneNumber) {
-                    $('#\\' + phoneNumber).prop('checked', 'checked');
-                });
-
-            };
-
-        getReportParametersFunctions['{{ reportType }}'] =
-            function () {
-
-                var parameters = Object();
-
-                var selectedPhoneNumbers =
-                        $.map(
-                                $('[name=phoneNumbers]:checked'),
-                                function (phoneNumber) {
-                                    return $(phoneNumber).attr('id');
-
-                                }
-                        );
-
-                // returning [''] when no phone numbers are selected avoids the "please provide a value for 'parameters'" error message
-                parameters.phoneNumbers =
-                        selectedPhoneNumbers.length > 0 ? selectedPhoneNumbers : [''];
-
-                return parameters;
-            };
-    });
-</script>
 
 <tr class='{{ reportType }}'>
     <td class="first">
@@ -60,7 +14,58 @@
             {% endfor %}
             {{ 'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate }}
         {% endif %}
-            <a href='{{ linkTo({'module':"MobileMessaging",'updated':null}) }}'>{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a>
+            <a href='{{ linkTo({'module':"MobileMessaging", 'action': 'index', 'updated':null}) }}'>{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a>
         </div>
+        <script>
+            $(function () {
+                resetReportParametersFunctions ['{{ reportType }}'] =
+                        function () {
+
+                            var reportParameters = {
+                                'phoneNumbers': []
+                            };
+
+                            updateReportParametersFunctions['{{ reportType }}'](reportParameters);
+                        };
+
+                updateReportParametersFunctions['{{ reportType }}'] =
+                        function (reportParameters) {
+
+                            if (reportParameters == null) return;
+
+                            $('[name=phoneNumbers]').removeProp('checked');
+                            $(reportParameters.phoneNumbers).each(function (index, phoneNumber) {
+                                $('#\\' + phoneNumber).prop('checked', 'checked');
+                            });
+
+                            $(document).trigger('ScheduledReport.edit', {});
+
+                        };
+
+                getReportParametersFunctions['{{ reportType }}'] =
+                        function () {
+
+                            var parameters = Object();
+
+                            var selectedPhoneNumbers =
+                                    $.map(
+                                            $('[name=phoneNumbers]').filter(function() {
+                                                return !this.disabled && this.checked;
+                                            }),
+                                            function (phoneNumber) {
+                                                return $(phoneNumber).attr('id');
+
+                                            }
+                                    );
+
+                            // returning [''] when no phone numbers are selected avoids the "please provide a value for 'parameters'" error message
+                            parameters.phoneNumbers =
+                                    selectedPhoneNumbers.length > 0 ? selectedPhoneNumbers : [''];
+
+                            return parameters;
+                        };
+            });
+        </script>
+
     </td>
 </tr>
