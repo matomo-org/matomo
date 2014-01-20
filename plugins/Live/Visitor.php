@@ -45,6 +45,8 @@ class Visitor
 {
     const DELIMITER_PLUGIN_NAME = ", ";
 
+    const EVENT_VALUE_PRECISION = 3;
+
     function __construct($visitorRawData)
     {
         $this->details = $visitorRawData;
@@ -796,7 +798,7 @@ class Visitor
             // Event value / Generation time
             if($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
                 if(strlen($actionDetail['custom_float']) > 0) {
-                    $actionDetail['eventValue'] = $actionDetail['custom_float'];
+                    $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
                 }
             } elseif ($actionDetail['custom_float'] > 0) {
                 $actionDetail['generationTime'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
