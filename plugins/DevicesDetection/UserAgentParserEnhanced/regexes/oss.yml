@@ -383,9 +383,9 @@
   version: 'Wii'
   
   
-- regex: 'PlayStation 3|PlayStation3'
+- regex: 'PlayStation ?([3|4])'
   name: 'PlayStation'
-  version: '3'
+  version: '$1'
   
   
 - regex: 'Xbox|KIN\.(?:One|Two)'

@@ -11447,7 +11447,7 @@
   browser:
     name: Chrome Mobile
     short_name: CM
-    version: 32
+    version: 32.0
   device:
     type: smartphone
     brand: GO
@@ -11457,9 +11457,9 @@
 -
   user_agent: Mozilla/5.0 (PlayStation 4 1.52) AppleWebKit/536.26 (KHTML, like Gecko)
   os:
-    name: UNK
-    short_name: UNK
-    version: UNK
+    name: PlayStation
+    short_name: PSP
+    version: 4
   browser:
     name: NetFront
     short_name: NF
@@ -11468,5 +11468,5 @@
     type: console
     brand: SO
     model: PlayStation 4
-  os_family: Unknown
+  os_family: Mobile Gaming Console
   browser_family: NetFront
