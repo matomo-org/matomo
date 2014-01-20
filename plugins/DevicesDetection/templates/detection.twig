@@ -1,0 +1,72 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+    <style type="text/css">
+
+        textarea {
+            width: 700px;
+            display: block;
+        }
+
+        .detection td {
+            width: 50%;
+        }
+
+    </style>
+    <h1>{{ 'DevicesDetection_DeviceDetection'|translate }}</h1>
+
+    <h2>{{ 'DevicesDetection_UserAgent'|translate }}</h2>
+    <form action="{{ linkTo({}) }}" method="POST">
+        <textarea name="ua">{{ userAgent }}</textarea>
+        <input type="submit" value="{{ 'General_Refresh'|translate }}" />
+    </form>
+
+    <h2>{{ 'UserSettings_ColumnOperatingSystem'|translate }}</h2>
+    <table class="dataTable detection">
+        <tr>
+            <td>{{ 'General_Name'|translate }}</td>
+            <td><img src="{{ os_logo }}" />{{ os_name }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
+            <td>{{ os_version }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'UserSettings_OperatingSystemFamily'|translate }}</td>
+            <td><img src="{{ os_family_logo }}" />{{ os_family }}</td>
+        </tr>
+    </table>
+
+    <h2>{{ 'UserSettings_ColumnBrowser'|translate }}</h2>
+    <table class="dataTable detection">
+        <tr>
+            <td>{{ 'General_Name'|translate }}</td>
+            <td><img src="{{ browser_logo }}" />{{ browser_name }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
+            <td>{{ browser_version }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'UserSettings_ColumnBrowserFamily'|translate }}</td>
+            <td><img src="{{ browser_family_logo }}" />{{ browser_family }}</td>
+        </tr>
+    </table>
+
+    <h2>{{ 'DevicesDetection_Device'|translate }}</h2>
+    <table class="dataTable detection">
+        <tr>
+            <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }}</td>
+            <td><img src="{{ device_type_logo }}" />{{ device_type }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'DevicesDetection_dataTableLabelBrands'|translate }}</td>
+            <td><img src="{{ device_brand_logo }}" />{{ device_brand }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'DevicesDetection_dataTableLabelModels'|translate }}</td>
+            <td>{{ device_model }}</td>
+        </tr>
+    </table>
+
+{% endblock %}

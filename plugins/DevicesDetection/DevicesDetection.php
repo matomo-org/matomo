@@ -17,6 +17,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -94,11 +95,22 @@ class DevicesDetection extends \Piwik\Plugin
     {
         return array(
             'Menu.Reporting.addItems'         => 'addMenu',
+            'Menu.Admin.addItems'             => 'addAdminMenu',
             'Tracker.newVisitorInformation'   => 'parseMobileVisitData',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
+        );
+    }
+
+    public function addAdminMenu()
+    {
+        MenuAdmin::getInstance()->add(
+            'CoreAdminHome_MenuDiagnostic', 'DevicesDetection_DeviceDetection',
+            array('module' => 'DevicesDetection', 'action' => 'deviceDetection'),
+            Piwik::isUserHasSomeAdminAccess(),
+            $order = 40
         );
     }
 
