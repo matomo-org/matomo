@@ -237,6 +237,8 @@ class Visit implements VisitInterface
 
         $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentReferrerAction();
 
+        $this->request->overrideLocation($valuesToUpdate);
+
         // update visitorInfo
         foreach ($valuesToUpdate AS $name => $value) {
             $this->visitorInfo[$name] = $value;
