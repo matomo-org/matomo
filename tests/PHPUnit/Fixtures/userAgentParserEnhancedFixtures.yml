@@ -6825,9 +6825,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AU
+    model: Transformer TF101G
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7129,9 +7129,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
-    brand: PT
-    model: pt-pt
+    type: tablet
+    brand: AU
+    model: Transformer TF101G
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7225,9 +7225,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AU
+    model: Transformer TF101
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7433,9 +7433,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AU
+    model: Transformer TF101
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7705,9 +7705,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AU
+    model: Transformer Prime TF201
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7801,9 +7801,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AU
+    model: Transformer TF101G
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8585,9 +8585,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AU
+    model: Transformer TF101G
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9081,9 +9081,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AU
+    model: Transformer TF101
   os_family: Android
   browser_family: Android Browser
 - 

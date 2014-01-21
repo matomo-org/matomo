@@ -197,15 +197,14 @@ Archos:
     - regex: 'ARCHOS ([A-Z0-9]+)'
       model: '$1'
 
-
 # Asus
 Asus:
-  regex: 'Asus'
+  regex: 'Asus|Transformer'
   device: 'smartphone'
   models:
     - regex: 'Asus(?:-|;)?([A-Za-z0-9]+)'
       model: '$1'
-    - regex: 'ASUS (Transformer Pad TF[0-9A-Z]+)'
+    - regex: '(Transformer (Pad |Prime )?TF[0-9A-Z]+)'
       device: 'tablet'
       model: '$1'
 
