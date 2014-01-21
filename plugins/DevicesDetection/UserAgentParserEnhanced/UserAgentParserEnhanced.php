@@ -113,6 +113,7 @@ class UserAgentParserEnhanced
         'SO' => 'Sony',
         'SP' => 'Spice',
         'SY' => 'Sanyo',
+        'SM' => 'Symphony',
         'TA' => 'Tesla',
         'TC' => 'TCL',
         'TE' => 'Telit',

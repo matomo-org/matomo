@@ -853,6 +853,12 @@ Sony:
       device: 'console'
       model: '$1'
 
+# Symphony
+Symphony:
+  regex: 'SYMPHONY[ \_]([a-z0-9]+)'
+  device: 'smartphone'
+  model: '$1'
+
 # Qtek
 Qtek:
   regex: 'Qtek[ _]?([A-Za-z0-9]+)'
