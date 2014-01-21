@@ -2601,9 +2601,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
-    brand: LG
-    model: en
+    type:
+    brand:
+    model:
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3130,8 +3130,8 @@
     version:
   device:
     type: smartphone
-    brand: LG
-    model: 5
+    brand: SA
+    model: GT-I9300
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6889,9 +6889,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
-    brand: AL
-    model: ore
+    type:
+    brand:
+    model:
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10153,9 +10153,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
-    brand: MR
-    model: DROID
+    type:
+    brand:
+    model:
   os_family: Android
   browser_family: Android Browser
 - 

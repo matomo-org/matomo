@@ -633,12 +633,12 @@ NGM:
   
 # nexian
 Nexian:
-  regex: 'Nexian'
+  regex: 'S?Nexian'
   device: 'smartphone'
   models:
-    - regex: 'Nexian[ ]?([A-Za-z0-9\-]+)'
+    - regex: 'S?Nexian[ ]?([A-Za-z0-9\-]+)'
       model: '$1'
-    - regex: 'Nexian-([A-Za-z0-9]+)'
+    - regex: 'S?Nexian-([A-Za-z0-9]+)'
       model: '$1'
   
 # o2

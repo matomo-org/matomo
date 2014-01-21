@@ -498,7 +498,7 @@ class UserAgentParserEnhanced
 
     protected function matchUserAgent($regex)
     {
-        $regex = '/' . str_replace('/', '\/', $regex) . '/i';
+        $regex = '/(?:^|[^A-Z])(?:' . str_replace('/', '\/', $regex) . ')/i';
 
         if (preg_match($regex, $this->userAgent, $matches)) {
             return $matches;
