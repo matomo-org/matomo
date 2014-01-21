@@ -568,7 +568,7 @@ Sagem:
 
 # micromax
 MicroMax:
-  regex: 'MicroMax(?:[ \-])?([A-Za-z0-9]+)'
+  regex: 'MicroMax(?:[ \-\_])?([A-Za-z0-9]+)'
   device: 'smartphone'
   model: '$1'
 
