@@ -108,7 +108,7 @@ class Json extends Renderer
         if (($jsonCallback = Common::getRequestVar('callback', false)) === false)
             $jsonCallback = Common::getRequestVar('jsoncallback', false);
         if ($jsonCallback !== false) {
-            if (preg_match('/^[0-9a-zA-Z_]*$/D', $jsonCallback) > 0) {
+            if (preg_match('/^[0-9a-zA-Z_.]*$/D', $jsonCallback) > 0) {
                 $str = $jsonCallback . "(" . $str . ")";
             }
         }
