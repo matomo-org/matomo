@@ -720,7 +720,7 @@ Siemens:
 
 # Samsung
 Samsung:
-  regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]'
+  regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM|HV)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]'
   device: 'smartphone'
   models:
     - regex: '(GT-(P|N8|N5)[0-9]+[A-Z]?)'
@@ -732,7 +732,7 @@ Samsung:
       model: '$1'
     - regex: 'SAMSUNG;[ ]?([A-Za-z0-9 ]+)'
       model: '$1'
-    - regex: '((?:SCH|SGH|SPH|GT)-[A-Za-z0-9]+)'
+    - regex: '((?:SCH|SGH|SPH|SHV|GT)-[A-Za-z0-9]+)'
       model: '$1'
     - regex: 'SEC-([A-Za-z0-9]+)'
       model: '$1'

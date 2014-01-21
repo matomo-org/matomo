@@ -1129,9 +1129,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E250K
   os_family: Android
   browser_family: Android Browser
 - 
@@ -1145,9 +1145,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E210S
   os_family: Android
   browser_family: Android Browser
 - 
@@ -1625,9 +1625,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E250K
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2649,9 +2649,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E210K
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2889,9 +2889,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E210S
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3241,9 +3241,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E210K
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3961,9 +3961,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E140L
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7849,9 +7849,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E110S
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10169,9 +10169,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHV-E160L
   os_family: Android
   browser_family: Android Browser
 - 
