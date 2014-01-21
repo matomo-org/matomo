@@ -2057,9 +2057,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
-    brand: SA
-    model: GT-H
+    type: tablet
+    brand: CU
+    model: U30GT-H
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2841,9 +2841,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
-    brand: SA
-    model: GT-H
+    type: tablet
+    brand: CU
+    model: U30GT-H
   os_family: Android
   browser_family: Android Browser
 - 

@@ -40,6 +40,7 @@ class UserAgentParserEnhanced
         'CK' => 'Cricket',
         'CL' => 'Compal',
         'CT' => 'Capitel',
+        'CU' => 'Cube',
         'DE' => 'Denver',
         'DB' => 'Dbtel',
         'DC' => 'DoCoMo',

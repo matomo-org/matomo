@@ -262,6 +262,16 @@ Cricket:
   device: 'feature phone'
   model: '$1'
 
+# Cube
+Cube:
+  regex: 'Cube|(U[0-9]+GT(?:[0-9]|[\-_][A-Z])|K8GT)'
+  device: 'tablet'
+  models:
+    - regex: '(U[0-9]+GT(?:[0-9]|[\-_][A-Z]))'
+      model: '$1'
+    - regex: '(K8GT)'
+      model: '$1'
+
 # Denver Electronics
 Denver:
   regex: '(TA[CDQ]-[0-9]+)'
