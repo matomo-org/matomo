@@ -947,7 +947,7 @@ Vertu:
 
 # Videocon
 Videocon:
-  regex: 'Videocon_([A-Za-z0-9]+)'
+  regex: 'Videocon[_ ]([A-Za-z0-9]+)'
   device: 'smartphone'
   model: '$1'
 
