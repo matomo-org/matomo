@@ -70,11 +70,13 @@ class Flattener extends DataTableManipulator
         // apply filters now since subtables have their filters applied before generic filters. if we don't do this
         // now, we'll try to apply filters to rows that have already been manipulated. this results in errors like
         // 'column ... already exists'.
+        $keepFilters = true;
         if (Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) == 0) {
             $dataTable->applyQueuedFilters();
+            $keepFilters = false;
         }
 
-        $newDataTable = $dataTable->getEmptyClone($keepFilters = false);
+        $newDataTable = $dataTable->getEmptyClone($keepFilters);
         foreach ($dataTable->getRows() as $row) {
             $this->flattenRow($row, $newDataTable);
         }
