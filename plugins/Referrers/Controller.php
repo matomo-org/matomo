@@ -30,7 +30,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Referrers/index');
 
-        $view->graphEvolutionReferrers = $this->getEvolutionGraph(true, Common::REFERRER_TYPE_DIRECT_ENTRY, array('nb_visits'));
+        $view->graphEvolutionReferrers = $this->getEvolutionGraph(Common::REFERRER_TYPE_DIRECT_ENTRY, array('nb_visits'));
         $view->nameGraphEvolutionReferrers = 'Referrers.getEvolutionGraph';
 
         // building the referrers summary report
@@ -256,7 +256,7 @@ class Controller extends \Piwik\Plugin\Controller
         Common::REFERRER_TYPE_CAMPAIGN      => 'Referrers_Campaigns',
     );
 
-    public function getEvolutionGraph($fetch = false, $typeReferrer = false, array $columns = array())
+    public function getEvolutionGraph($typeReferrer = false, array $columns = array())
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referrers.getReferrerType');
 

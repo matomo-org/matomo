@@ -29,7 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@VisitsSummary/index');
         $this->setPeriodVariablesView($view);
-        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(true, array('nb_visits'));
+        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(array('nb_visits'));
         $this->setSparklinesAndNumbers($view);
         return $view->render();
     }
@@ -42,7 +42,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph($fetch = false, array $columns = array())
+    public function getEvolutionGraph(array $columns = array())
     {
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns');

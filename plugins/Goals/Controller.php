@@ -143,7 +143,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idGoal = $idGoal;
         $view->goalName = $goalDefinition['name'];
         $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
-        $view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
+        $view->graphEvolution = $this->getEvolutionGraph(array('nb_conversions'), $idGoal);
         $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
@@ -192,7 +192,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/getOverviewView');
         $this->setGeneralVariablesView($view);
 
-        $view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'));
+        $view->graphEvolution = $this->getEvolutionGraph(array('nb_conversions'));
         $view->nameGraphEvolution = 'GoalsgetEvolutionGraph';
 
         // sparkline for the historical data of the above values
@@ -250,7 +250,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph($fetch = false, array $columns = array(), $idGoal = false)
+    public function getEvolutionGraph(array $columns = array(), $idGoal = false)
     {
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns');
