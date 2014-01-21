@@ -4633,9 +4633,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: LE
+    model: IdeaTab S2109A
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5001,9 +5001,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: LE
+    model: IdeaTab A2109A
   os_family: Android
   browser_family: Android Browser
 - 

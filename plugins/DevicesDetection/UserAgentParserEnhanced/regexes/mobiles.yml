@@ -500,9 +500,14 @@ LCT:
 
 # lenovo
 Lenovo:
-  regex: 'Lenovo[ \-_]([A-Za-z0-9]+)'
+  regex: 'Lenovo|IdeaTab'
   device: 'smartphone'
-  model: '$1'
+  models:
+    - regex: 'Lenovo[ \-_]([A-Za-z0-9]+)'
+      model: '$1'
+    - regex: 'IdeaTab[ \-_]?([A-Za-z0-9]+)'
+      model: 'IdeaTab $1'
+      device: 'tablet'
 
 # lguplus
 LGUPlus:
