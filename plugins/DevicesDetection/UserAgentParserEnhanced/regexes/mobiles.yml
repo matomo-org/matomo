@@ -10,7 +10,7 @@
 
 # HTC
 HTC:
-  regex: 'HTC|Sprint APA|ADR[A-Za-z0-9]+'
+  regex: 'HTC|Sprint APA|ADR[A-Za-z0-9]+|Desire [A-Z]+ Build'
   device: 'smartphone'
   models:
     - regex: 'HTC ([A-Za-z0-9]+) Build'
@@ -26,6 +26,8 @@ HTC:
     - regex: 'HTC(?:[\-/ ])?([A-Za-z0-9]+)'
       model: '$1'
     - regex: 'HTC;(?: )?([A-Za-z0-9 ]+)'
+      model: '$1'
+    - regex: '(Desire [A-Z]+) Build'
       model: '$1'
     - regex: '(ADR[A-Za-z0-9]+)'
       model: '$1'
