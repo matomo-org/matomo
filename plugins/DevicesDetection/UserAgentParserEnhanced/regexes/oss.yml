@@ -220,7 +220,7 @@
   version: ''
   
   
-- regex: 'Black[Bb]erry'
+- regex: 'BlackBerry'
   name: 'BlackBerry OS'
   version: ''
   
@@ -229,7 +229,7 @@
 ##########
 # Symbian
 ##########
-- regex: 'Symbian[Oo][Ss]/(\d+\.\d+)'
+- regex: 'SymbianOS/(\d+\.\d+)'
   name: 'Symbian OS'
   version: '$1'
   
@@ -264,7 +264,7 @@
   version: ''
   
   
-- regex: 'Symbian [Oo][Ss]|SymbOS'
+- regex: 'Symbian OS|SymbOS'
   name: 'Symbian OS'
   version: ''
   
@@ -432,5 +432,3 @@
 - regex: '(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves/Teoma|ia_archiver|ScoutJet|Gulper Web Bot|EmailWolf|grub-client|Download Demon|OmniWeb|SearchExpress|Microsoft URL Control|bot|borg|yahoo|slurp|msnbot|msrbot|openbot|archiver|netresearch|transcoder|crawler|lycos|scooter|altavista|teoma|gigabot|baiduspider|blitzbot|oegp|charlotte|furlbot|http%20client|polybot|htdig|ichiro|mogimogi|larbin|pompos|scrubby|searchsight|seekbot|semanticdiscovery|silk|snappy|speedy|spider|voila|vortex|voyager|zao|zeal|fast-webcrawler|converacrawler|dataparksearch|findlinksYottaaMonitor|BrowserMob|HttpMonitor|YandexBot|Slurp|BingPreview|PagePeeker|ThumbShotsBot|WebThumb|URL2PNG|ZooShot|GomezA|Catchpoint bot|Willow Internet Crawler|Google SketchUp|Read%20Later|Minimo|Pingdom.com|facebookexternalhit|Twitterbot|RackspaceBot)'
   name: 'Bot  '
   version: ''
-  
-  

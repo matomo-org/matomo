@@ -383,7 +383,7 @@
   version: ''
   
 #Obigo
-- regex: 'Obigo[ ]?(?:InternetBrowser|Browser)?[ /]([A-Za-z0-9]*)'
+- regex: 'Obigo[ ]?(?:InternetBrowser|Browser)?[ /]([a-z0-9]*)'
   name: Obigo
   version: '$1'
 - regex: 'Obigo|Teleca'
