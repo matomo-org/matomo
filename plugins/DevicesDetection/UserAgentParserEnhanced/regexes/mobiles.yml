@@ -183,9 +183,20 @@ Amoi:
   device: 'smartphone'
   models:
     - regex: 'Amoi[\- /](A-Za-z0-9]+)'
-      mobile: '$1'
+      model: '$1'
     - regex: 'Amoisonic-([A-Za-z0-9]+)'
       model: '$1'
+
+# Archos
+Archos:
+  regex: 'Archos'
+  device: 'tablet'
+  models:
+    - regex: 'ARCHOS ([A-Z0-9 ]+) Build'
+      model: '$1'
+    - regex: 'ARCHOS ([A-Z0-9]+)'
+      model: '$1'
+
 
 # Asus
 Asus:

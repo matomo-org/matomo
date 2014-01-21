@@ -6105,9 +6105,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AR
+    model: 101G9
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7209,9 +7209,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AR
+    model: 101G9
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8521,9 +8521,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AR
+    model: 101G9
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8681,9 +8681,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AR
+    model: 97 CARBON
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9049,9 +9049,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AR
+    model: 80G9
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9065,9 +9065,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AR
+    model: 101G9
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9113,9 +9113,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AR
+    model: 80G9
   os_family: Android
   browser_family: Android Browser
 - 

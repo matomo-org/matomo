@@ -29,6 +29,7 @@ class UserAgentParserEnhanced
         'AL' => 'Alcatel',
         'AO' => 'Amoi',
         'AP' => 'Apple',
+        'AR' => 'Archos',
         'AU' => 'Asus',
         'AV' => 'Avvio',
         'AX' => 'Audiovox',
