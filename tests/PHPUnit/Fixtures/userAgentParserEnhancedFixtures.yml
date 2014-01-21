@@ -2091,7 +2091,7 @@
   device:
     type: smartphone
     brand: MR
-    model: DROID RAZR
+    model: DROID RAZR HD
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5769,9 +5769,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: DROID 4 4G
   os_family: Android
   browser_family: Android Browser
 - 

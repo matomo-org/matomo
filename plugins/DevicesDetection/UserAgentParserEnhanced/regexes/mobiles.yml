@@ -592,7 +592,7 @@ Mitsubishi:
 
 # motorola
 Motorola:
-  regex: 'MOT|(?<!AN)DROID (?:Build|([A-Za-z0-9]+))|portalmmm/2.0 (?:E378i|L6|L7|v3)'
+  regex: 'MOT|(?<!AN)DROID ?(?:Build|([A-Za-z0-9]+))|portalmmm/2.0 (?:E378i|L6|L7|v3)'
   device: 'smartphone'
   models:
     - regex: 'Motorola[ \-]([A-Za-z0-9]+)'
@@ -603,7 +603,9 @@ Motorola:
       model: 'RIZR $1'
     - regex: 'MOT[O]?[\-]?([A-Za-z0-9.]+)'
       model: '$1'
-    - regex: '(?<!AN)DROID (?:Build|([A-Za-z0-9]+))'
+    - regex: '(?<!AN)DROID ?([A-Za-z0-9 ]*) Build'
+      model: 'DROID $1'
+    - regex: '(?<!AN)DROID ?([A-Za-z0-9]+)'
       model: 'DROID $1'
     - regex: 'portalmmm/2.0 ((?:E378i|L6|L7|V3)[A-Za-z0-9]+)'
       model: '$1'
