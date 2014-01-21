@@ -707,6 +707,11 @@ Piwik_Transitions.prototype.unHighlightGroup = function (groupName, side) {
 
 /** Open a link in a new tab */
 Piwik_Transitions.prototype.openExternalUrl = function (url) {
+    if (url.substring(0, 4) != 'http') {
+        // internal pages don't have the protocol
+        // external links / downloads have the protocol
+        url = 'http://' + url;
+    }
     url = piwik.piwik_url + '?module=Proxy&action=redirect&url=' + encodeURIComponent(url);
     window.open(url, '_newtab');
 };
