@@ -168,6 +168,8 @@ Alcatel:
   models:
     - regex: 'Alcatel UP'
       model: ''
+    - regex: 'ALCATEL ([A-Za-z0-9\- ]+) Build'
+      model: '$1'
     - regex: 'ALCATEL[ \-]([A-Za-z0-9\-]+)'
       model: '$1'
     - regex: 'ALCATEL_([A-Za-z0-9_]+)'

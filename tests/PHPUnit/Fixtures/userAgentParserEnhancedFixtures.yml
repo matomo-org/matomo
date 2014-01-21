@@ -4187,7 +4187,7 @@
   device:
     type: smartphone
     brand: AL
-    model: ONE
+    model: ONE TOUCH 993D
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5819,7 +5819,7 @@
   device:
     type: smartphone
     brand: AL
-    model: ONE
+    model: ONE TOUCH 997D
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10603,7 +10603,7 @@
   device:
     type: smartphone
     brand: AL
-    model: ONE
+    model: ONE TOUCH 991D
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11035,7 +11035,7 @@
   device:
     type: smartphone
     brand: AL
-    model: ONE
+    model: ONE TOUCH 991
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11195,7 +11195,7 @@
   device:
     type: smartphone
     brand: AL
-    model: ONE
+    model: ONE TOUCH 985
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11211,7 +11211,7 @@
   device:
     type: smartphone
     brand: AL
-    model: ONE
+    model: ONE TOUCH 918A
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11227,7 +11227,7 @@
   device:
     type: smartphone
     brand: AL
-    model: ONE
+    model: ONE TOUCH 918
   os_family: Android
   browser_family: Android Browser
 - 
