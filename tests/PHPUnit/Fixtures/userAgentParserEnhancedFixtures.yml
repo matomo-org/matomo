@@ -2201,9 +2201,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ601
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2937,9 +2937,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ601
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6537,9 +6537,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ601
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8857,9 +8857,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ604
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8889,9 +8889,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ601
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9001,9 +9001,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ617
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9273,9 +9273,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ601
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9321,9 +9321,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: MR
+    model: MZ601
   os_family: Android
   browser_family: Android Browser
 - 
