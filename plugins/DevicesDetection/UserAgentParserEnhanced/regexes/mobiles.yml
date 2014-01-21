@@ -190,7 +190,7 @@ Asus:
   models:
     - regex: 'Asus(?:-|;)?([A-Za-z0-9]+)'
       model: '$1'
-    - regex: 'ASUS (Transformer Pad TF300T)'
+    - regex: 'ASUS (Transformer Pad TF[0-9A-Z]+)'
       device: 'tablet'
       model: '$1'
 

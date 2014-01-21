@@ -1545,9 +1545,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: AU
-    model:
+    model: Transformer Pad TF700T
   os_family: Android
   browser_family: Android Browser
 - 
@@ -1561,9 +1561,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: AU
-    model:
+    model: Transformer Pad TF700T
   os_family: Android
   browser_family: Android Browser
 - 
@@ -1737,9 +1737,9 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: AU
-    model:
+    model: Transformer Pad TF700T
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7323,7 +7323,7 @@
   device:
     type: tablet
     brand: AU
-    model: Transformer Pad TF300T
+    model: Transformer Pad TF300TG
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7579,7 +7579,7 @@
   device:
     type: tablet
     brand: AU
-    model: Transformer Pad TF300T
+    model: Transformer Pad TF300TG
   os_family: Android
   browser_family: Android Browser
 - 
