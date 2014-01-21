@@ -450,6 +450,12 @@ KDDI:
   device: 'feature phone'
   model: '$1'
 
+#k-touch
+K-Touch:
+  regex: 'K-Touch[ _]([A-Za-z0-9]+)'
+  device: 'smartphone'
+  model: '$1'
+
 # kyocera
 Kyocera:
   regex: 'Kyocera|KWC-|QC-'

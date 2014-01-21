@@ -585,9 +585,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: KT
+    model: W688
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3017,9 +3017,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: KT
+    model: W619
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3033,9 +3033,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: KT
+    model: E780
   os_family: Android
   browser_family: Android Browser
 - 
