@@ -785,7 +785,7 @@ Samsung:
 
 # pantech
 Pantech:
-  regex: 'Pantech|P[GTN]-|TX[T]?[0-9]+'
+  regex: 'Pantech|P[GN]-|PT-[A-Z0-9]{3,}|TX[T]?[0-9]+'
   device: 'smartphone'
   models:
     - regex: 'Pantech[ \-]?([A-Za-z0-9]+)'
