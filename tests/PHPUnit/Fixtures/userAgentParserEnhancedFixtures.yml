@@ -1273,9 +1273,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT890
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2825,9 +2825,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT910
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4665,9 +4665,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT910
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6025,9 +6025,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT890
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6169,9 +6169,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT885
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9593,9 +9593,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT615
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9673,9 +9673,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT615
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9737,9 +9737,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT535
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9817,9 +9817,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT535
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10889,9 +10889,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT860
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10905,9 +10905,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT303
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11241,9 +11241,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: XT910
   os_family: Android
   browser_family: Android Browser
 - 
