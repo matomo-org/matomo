@@ -717,6 +717,9 @@ Samsung:
   regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]'
   device: 'smartphone'
   models:
+    - regex: '(GT-(P|N8|N5)[0-9]+[A-Z]?)'
+      device: 'tablet'
+      model: '$1'
     - regex: 'SAMSUNG[\-;][ ]?([A-Za-z0-9]+[\-_][A-Za-z0-9]+)'
       model: '$1'
     - regex: 'SAMSUNG[ _/]?([A-Za-z0-9\-]+)'

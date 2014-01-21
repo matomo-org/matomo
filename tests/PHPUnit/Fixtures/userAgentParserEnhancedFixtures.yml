@@ -729,7 +729,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -1257,7 +1257,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P1000
   os_family: Android
@@ -1385,7 +1385,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5110
   os_family: Android
@@ -1529,7 +1529,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3100
   os_family: Android
@@ -1657,7 +1657,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5113
   os_family: Android
@@ -1673,7 +1673,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3110
   os_family: Android
@@ -1721,7 +1721,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5100
   os_family: Android
@@ -1769,7 +1769,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3113
   os_family: Android
@@ -1881,7 +1881,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5113
   os_family: Android
@@ -1977,7 +1977,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3100
   os_family: Android
@@ -2281,7 +2281,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3113
   os_family: Android
@@ -2297,7 +2297,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3100B
   os_family: Android
@@ -2521,7 +2521,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-N8020
   os_family: Android
@@ -2553,7 +2553,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-N8000
   os_family: Android
@@ -2585,7 +2585,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5100
   os_family: Android
@@ -3081,7 +3081,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P6200
   os_family: Android
@@ -3097,7 +3097,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5100
   os_family: Android
@@ -3113,7 +3113,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-N8010
   os_family: Android
@@ -3353,7 +3353,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -3577,7 +3577,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P6200
   os_family: Android
@@ -4249,7 +4249,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P1000
   os_family: Android
@@ -4489,7 +4489,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -4537,7 +4537,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5110
   os_family: Android
@@ -5017,7 +5017,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7100
   os_family: Android
@@ -5033,7 +5033,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-N8010
   os_family: Android
@@ -5897,7 +5897,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-N8010
   os_family: Android
@@ -6233,7 +6233,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -7145,7 +7145,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5100
   os_family: Android
@@ -7545,7 +7545,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3110
   os_family: Android
@@ -7593,7 +7593,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P5100
   os_family: Android
@@ -8297,7 +8297,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3110
   os_family: Android
@@ -8617,7 +8617,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P3100
   os_family: Android
@@ -8713,7 +8713,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -8729,7 +8729,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7511
   os_family: Android
@@ -8745,7 +8745,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P6200
   os_family: Android
@@ -8761,7 +8761,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7310
   os_family: Android
@@ -8777,7 +8777,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7320
   os_family: Android
@@ -8793,7 +8793,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7320
   os_family: Android
@@ -8841,7 +8841,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7310
   os_family: Android
@@ -8905,7 +8905,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P6810
   os_family: Android
@@ -8937,7 +8937,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -8953,7 +8953,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7510
   os_family: Android
@@ -8969,7 +8969,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -9177,7 +9177,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -9193,7 +9193,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7510
   os_family: Android
@@ -9225,7 +9225,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7300
   os_family: Android
@@ -9241,7 +9241,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
@@ -9289,7 +9289,7 @@
     short_name: AN
     version:
   device:
-    type: smartphone
+    type: tablet
     brand: SA
     model: GT-P7500
   os_family: Android
