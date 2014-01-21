@@ -450,6 +450,12 @@ KDDI:
   device: 'feature phone'
   model: '$1'
 
+#k-touch
+K-Touch:
+  regex: 'K-Touch[ _]([A-Za-z0-9]+)'
+  device: 'smartphone'
+  model: '$1'
+
 # kyocera
 Kyocera:
   regex: 'Kyocera|KWC-|QC-'
@@ -717,6 +723,9 @@ Samsung:
   regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]'
   device: 'smartphone'
   models:
+    - regex: '(GT-(P|N8|N5)[0-9]+[A-Z]?)'
+      device: 'tablet'
+      model: '$1'
     - regex: 'SAMSUNG[\-;][ ]?([A-Za-z0-9]+[\-_][A-Za-z0-9]+)'
       model: '$1'
     - regex: 'SAMSUNG[ _/]?([A-Za-z0-9\-]+)'
