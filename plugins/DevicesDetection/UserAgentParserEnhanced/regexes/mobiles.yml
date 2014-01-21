@@ -482,7 +482,7 @@ LCT:
 
 # lenovo
 Lenovo:
-  regex: 'Lenovo[\-_]([A-Za-z0-9]+)'
+  regex: 'Lenovo[ \-_]([A-Za-z0-9]+)'
   device: 'smartphone'
   model: '$1'
 
