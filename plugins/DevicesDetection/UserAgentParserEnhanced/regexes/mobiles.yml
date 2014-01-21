@@ -82,7 +82,15 @@ Nokia:
     - regex: 'Symbian.*\s([a-zA-Z0-9]+)$'
       device: 'feature phone'
       model: '$1'
-  
+
+# CnM
+CnM:
+  regex: 'CnM'
+  device: 'tablet'
+  models:
+    - regex: 'CnM[ \-](?:Touchpad|TP)[ \-]([0-9]+)'
+      model: 'Touchpad $1'
+
 # RIM/BlackBerry
 RIM:
   regex: 'BB10;|BlackBerry|rim[0-9]+|PlayBook'

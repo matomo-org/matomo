@@ -40,6 +40,7 @@ class UserAgentParserEnhanced
         'BS' => 'BenQ-Siemens',
         'CK' => 'Cricket',
         'CL' => 'Compal',
+        'CN' => 'CnM',
         'CT' => 'Capitel',
         'CU' => 'Cube',
         'DE' => 'Denver',
