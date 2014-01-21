@@ -40,6 +40,7 @@
 				</goals>
 				<nb_conversions>2</nb_conversions>
 				<revenue>0</revenue>
+				<nb_visits>0</nb_visits>
 				<subtable>
 					<row>
 						<label>Google</label>

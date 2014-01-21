@@ -148,6 +148,7 @@
 						</goals>
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
+						<nb_visits>0</nb_visits>
 					</row>
 				</subtable>
 			</row>
