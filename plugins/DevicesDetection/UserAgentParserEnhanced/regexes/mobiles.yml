@@ -444,7 +444,11 @@ i-mate:
 i-mobile:
   regex: 'i-mobile(?: )?([A-Za-z0-9]+)'
   device: 'feature phone'
-  model: '$1'
+  models:
+    - regex: 'i-mobile(?: )?([A-Za-z0-9\- ]+) Build'
+      model: '$1'
+    - regex: 'i-mobile(?: )?([A-Za-z0-9]+)'
+      model: '$1'
 
 # ikomo
 iKoMo:
@@ -981,11 +985,13 @@ ZTE:
   models:
     - regex: '(Z331)'
       model: '$1'
+    - regex: 'ZTE[\- ]([A-Za-z0-9\- ]+) Build'
+      model: '$1'
     - regex: 'ZTE-(?:G |G-)?([A-Za-z0-9 _]+)'
       model: '$1'
     - regex: 'ZTE ([A-Za-z0-9]+)'
       model: '$1'
-  
+
 # Symbian to Nokia ??
 # Change name from Nokia to other to not change above Nokia element
 #Nokia:
