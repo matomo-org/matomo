@@ -6649,9 +6649,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: ME171
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9449,9 +9449,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: MR
+    model: ME525(Defy)
   os_family: Android
   browser_family: Android Browser
 - 
