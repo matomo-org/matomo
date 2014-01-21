@@ -135,7 +135,7 @@ class Filechecks
         foreach ($files as $path => $props) {
             $file = PIWIK_INCLUDE_PATH . '/' . $path;
 
-            if (!file_exists($file)) {
+            if (!file_exists($file) || !is_readable($file)) {
                 $messages[] = Piwik::translate('General_ExceptionMissingFile', $file);
             } else if (filesize($file) != $props[0]) {
                 if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
