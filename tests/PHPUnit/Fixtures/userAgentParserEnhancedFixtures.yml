@@ -2873,9 +2873,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHW-M440S
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8809,9 +8809,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHW-M380S
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10313,9 +10313,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHW-M110S
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10713,9 +10713,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SA
+    model: SHW-M130L
   os_family: Android
   browser_family: Android Browser
 - 
