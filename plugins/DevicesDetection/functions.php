@@ -60,6 +60,12 @@ function getBrowserLogoExtended($label)
 {
     $short = substr($label, 0, 2);
 
+    $path = 'plugins/UserSettings/images/browsers/%s.gif';
+
+    if (array_key_exists($label, UserAgentParserEnhanced::$browsers) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $label))) {
+        return sprintf($path, $label);
+    }
+
     $familyName = getBrowserFamilyFullNameExtended($short);
     $path = getBrowserFamilyLogoExtended($familyName);
 
