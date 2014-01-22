@@ -6,13 +6,16 @@
         "dataTableLabelModels": "Modell",
         "dataTableLabelSystemVersion": "Betriebssystem Version",
         "dataTableLabelTypes": "Typ",
+        "Device": "Gerät",
         "DeviceBrand": "Gerätemarke",
+        "DeviceDetection": "Geräteerkennung",
         "DeviceModel": "Gerätemodell",
         "DevicesDetection": "Geräte der Besucher",
         "DeviceType": "Gerätetyp",
         "OperatingSystemFamilies": "Betriebssystem Familie",
         "OperatingSystemVersions": "Betriebssystem Familien",
         "PluginDescription": "Dieses Plugin stellt erweiterte Informationen über mobile Geräte, wie Marke (Hersteller), Modell (Geräteversion), bessere Gerätetyperkennung (TV, Konsolen, Smartphones, Desktop, etc) und mehr bereit. Dieses Plugin fügt einen neuen Bericht unter 'Besucher > Geräte' hinzu.",
-        "submenu": "Geräte"
+        "submenu": "Geräte",
+        "UserAgent": "User-Agent"
     }
 }
