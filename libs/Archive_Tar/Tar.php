@@ -39,7 +39,7 @@
  * @link      http://pear.php.net/package/Archive_Tar
  */
 
-require_once 'PEAR.php';
+require_once __DIR__ . "/../PEAR.php";
 
 define('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 define('ARCHIVE_TAR_END_BLOCK', pack("a512", ''));
