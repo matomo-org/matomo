@@ -138,7 +138,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $login = Common::getRequestVar('login', null, 'string');
-        if ($login == Config::getInstance()->superuser['login']) {
+        if ($login == Piwik::getConfigSuperUserLogin()) {
             throw new Exception(Piwik::translate('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
         }
 
@@ -354,7 +354,7 @@ class Controller extends \Piwik\Plugin\Controller
                 "setNewUserPassword called w/ incorrect password hash. Something has gone terribly wrong.");
         }
 
-        if ($user['email'] == Piwik::getSuperUserEmail()) {
+        if ($user['email'] == Piwik::getConfigSuperUserEmail()) {
             $user['password'] = $passwordHash;
             Config::getInstance()->superuser = $user;
             Config::getInstance()->forceSave();
@@ -385,12 +385,12 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::setUserIsSuperUser();
 
         $user = null;
-        if ($loginMail == Piwik::getSuperUserEmail()
-            || $loginMail == Config::getInstance()->superuser['login']
+        if ($loginMail == Piwik::getConfigSuperUserEmail()
+            || $loginMail == Piwik::getConfigSuperUserLogin()
         ) {
             $user = array(
-                'login'    => Config::getInstance()->superuser['login'],
-                'email'    => Piwik::getSuperUserEmail(),
+                'login'    => Piwik::getConfigSuperUserLogin(),
+                'email'    => Piwik::getConfigSuperUserEmail(),
                 'password' => Config::getInstance()->superuser['password'],
             );
         } else if (API::getInstance()->userExists($loginMail)) {

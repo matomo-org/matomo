@@ -353,7 +353,7 @@ class API extends \Piwik\Plugin\API
                     // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
                     $userLogin = $report['login'];
                     if (!empty($userLogin)
-                        && $userLogin != Piwik::getSuperUserLogin()
+                        && $userLogin != Piwik::getConfigSuperUserLogin()
                     ) {
                         $_GET['_restrictSitesToLogin'] = $userLogin;
                     }

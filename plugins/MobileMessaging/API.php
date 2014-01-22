@@ -384,7 +384,7 @@ class API extends \Piwik\Plugin\API
 
     private function getCredentialManagerLogin()
     {
-        return $this->getDelegatedManagement() ? Piwik::getCurrentUserLogin() : Piwik::getSuperUserLogin();
+        return $this->getDelegatedManagement() ? Piwik::getCurrentUserLogin() : Piwik::getConfigSuperUserLogin();
     }
 
     private function getUserSettings($user)

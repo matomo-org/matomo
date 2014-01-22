@@ -215,11 +215,11 @@ class Piwik
      */
     static public function getCurrentUserEmail()
     {
-        if (!Piwik::isUserIsSuperUser()) {
+        if (!Piwik::isUserIsConfigSuperUser()) {
             $user = API::getInstance()->getUser(Piwik::getCurrentUserLogin());
             return $user['email'];
         }
-        return self::getSuperUserEmail();
+        return self::getConfigSuperUserEmail();
     }
 
     /**
@@ -228,7 +228,7 @@ class Piwik
      * @return string
      * @api
      */
-    static public function getSuperUserLogin()
+    static public function getConfigSuperUserLogin()
     {
         return Access::getInstance()->getSuperUserLogin();
     }
@@ -239,7 +239,7 @@ class Piwik
      * @return string
      * @api
      */
-    static public function getSuperUserEmail()
+    static public function getConfigSuperUserEmail()
     {
         $superuser = Config::getInstance()->superuser;
         return $superuser['email'];
@@ -318,6 +318,11 @@ class Piwik
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    static public function isUserIsConfigSuperUser()
+    {
+        return self::getCurrentUserLogin() === self::getConfigSuperUserLogin();
     }
 
     /**

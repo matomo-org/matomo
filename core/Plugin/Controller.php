@@ -589,7 +589,7 @@ abstract class Controller
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));
-            $superUserEmail = Piwik::getSuperUserEmail();
+            $superUserEmail = Piwik::getConfigSuperUserEmail();
 
             $mailToUrl = "mailto:$superUserEmail?subject=$emailSubject&body=$emailBody";
             $mailLinkStart = "<a href=\"$mailToUrl\">";
@@ -734,7 +734,7 @@ abstract class Controller
         if (!empty($currentLogin)
             && $currentLogin != 'anonymous'
         ) {
-            $errorMessage = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . Piwik::getSuperUserEmail() . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
+            $errorMessage = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . Piwik::getConfigSuperUserEmail() . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
             Piwik_ExitWithMessage($errorMessage, false, true);
         }

@@ -268,7 +268,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsSuperUser();
         $this->checkUserExists($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserIsNotConfigSuperUser($userLogin);
 
         $db = Db::get();
         $users = $db->fetchAll("SELECT idsite,access
@@ -295,7 +295,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
         $this->checkUserExists($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserIsNotConfigSuperUser($userLogin);
 
         $db = Db::get();
         $user = $db->fetchRow("SELECT *
@@ -371,7 +371,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsSuperUser();
 
         $this->checkLogin($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserIsNotConfigSuperUser($userLogin);
         $this->checkEmail($email);
 
         $password = Common::unsanitizeInputValue($password);
@@ -410,6 +410,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsSuperUser();
         $this->checkUserIsNotAnonymous($userLogin);
+        $this->checkUserExists($userLogin);
 
         $this->deleteUserAccess($userLogin);
 
@@ -420,6 +421,23 @@ class API extends \Piwik\Plugin\API
             ),
             "login = '$userLogin'"
         );
+    }
+
+    public function getUsersLoginHavingSuperUserAccess()
+    {
+        Piwik::checkUserIsSuperUser();
+
+        $db = Db::get();
+        $users = $db->fetchAll("SELECT login
+                                FROM " . Common::prefixTable("user") . "
+                                WHERE superuser_access = 1
+                                ORDER BY login ASC");
+        $userLogins = array();
+        foreach ($users as $login) {
+            $userLogins[] = $login['login'];
+        }
+
+        return $userLogins;
     }
 
     /**
@@ -435,7 +453,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
-        // $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserIsNotConfigSuperUser($userLogin);
         $userInfo = $this->getUser($userLogin);
 
         if (empty($password)) {
@@ -497,7 +515,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsSuperUser();
         $this->checkUserIsNotAnonymous($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserIsNotConfigSuperUser($userLogin);
         if (!$this->userExists($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
         }
@@ -564,7 +582,7 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkAccessType($access);
         $this->checkUserExists($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserIsNotConfigSuperUser($userLogin);
 
         if ($userLogin == 'anonymous'
             && $access == 'admin'
@@ -642,9 +660,9 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function checkUserIsNotSuperUser($userLogin)
+    private function checkUserIsNotConfigSuperUser($userLogin)
     {
-        if ($userLogin == Piwik::getSuperUserLogin()) {
+        if ($userLogin == Piwik::getConfigSuperUserLogin()) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUser"));
         }
     }

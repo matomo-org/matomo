@@ -212,7 +212,8 @@ class Access
             $allSitesId = array();
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
-        $this->login = Config::getInstance()->superuser['login'];
+
+        $this->setConfigUserLoginIfCurrentUserHasNotSuperUserAccess();
 
         Piwik::postTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
 
@@ -421,6 +422,19 @@ class Access
             throw new NoAccessException("The parameter 'idSite=' is missing from the request.");
         }
         return $idSites;
+    }
+
+    private function setConfigUserLoginIfCurrentUserHasNotSuperUserAccess()
+    {
+        try {
+            $superUserLogins = Plugins\UsersManager\API::getInstance()->getUsersLoginHavingSuperUserAccess();
+        } catch (\Exception $e) {
+            $superUserLogins = array();
+        }
+
+        if (empty($this->login) || !in_array($this->login, $superUserLogins)) {
+            $this->login = $this->getSuperUserLogin();
+        }
     }
 }
 

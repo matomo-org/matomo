@@ -129,6 +129,10 @@ function bindUpdateSuperUserAccess() {
     message = _pk_translate(message);
     message = message.replace('%s', login)
 
+    if (login == piwik.userLogin && hasAccess) {
+        message += _pk_translate('As_This_Is_Your_User_You_Will_Be_Logged_Out_Afterwards_And_Not_Able_To_Log_In_Again');
+    }
+
     $('#superUserAccessConfirm h2').text(message);
 
     piwikHelper.modalConfirm('#superUserAccessConfirm', {yes: function () {
