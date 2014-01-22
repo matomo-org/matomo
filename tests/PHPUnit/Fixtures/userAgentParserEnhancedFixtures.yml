@@ -11646,3 +11646,19 @@
     model:
   os_family: Windows
   browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (SAMSUNG; SAMSUNG-GT-S8500/S8500XXJF4; U; Bada/1.0; fr-fr) AppleWebKit/533.1 (KHTML, like Gecko) Dolfin/2.0 Mobile WVGA SMM-MMS/1.2.0 OPN-B
+  os:
+    name: Bada
+    short_name: SBA
+    version: 1.0
+  browser:
+    name: Dolphin
+    short_name: DF
+    version: 2.0
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S8500
+  os_family: Other Mobile
+  browser_family: Unknown
