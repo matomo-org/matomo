@@ -226,6 +226,7 @@ class VisitTime extends \Piwik\Plugin
     {
         $view->requestConfig->filter_sort_column = 'label';
         $view->requestConfig->filter_sort_order = 'asc';
+        $view->requestConfig->addPropertiesThatShouldBeAvailableClientSide(array('filter_sort_column'));
         $view->config->show_search = false;
         $view->config->show_limit_control = false;
         $view->config->show_exclude_low_population = false;

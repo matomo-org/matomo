@@ -194,8 +194,6 @@ class ArchiveProcessor
                                               &$columnsAggregationOperation = null,
                                               $columnsToRenameAfterAggregation = null)
     {
-        // We clean up below all tables created during this function call (and recursive calls)
-        $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
         }
@@ -210,7 +208,6 @@ class ArchiveProcessor
             Common::destroy($table);
             $this->insertBlobRecord($recordName, $blob);
         }
-        Manager::getInstance()->deleteAll($latestUsedTableId);
 
         return $nameToCount;
     }

@@ -15,6 +15,7 @@ use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataTable\Manager;
 use Piwik\Metrics;
 use Piwik\Plugin\Archiver;
 
@@ -87,6 +88,10 @@ class PluginsArchiver
         $archivers = $this->getPluginArchivers();
 
         foreach($archivers as $pluginName => $archiverClass) {
+
+            // We clean up below all tables created during this function call (and recursive calls)
+            $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+
             /** @var Archiver $archiver */
             $archiver = new $archiverClass($this->archiveProcessor);
 
@@ -97,6 +102,9 @@ class PluginsArchiver
                     $archiver->aggregateMultipleReports();
                 }
             }
+
+            Manager::getInstance()->deleteAll($latestUsedTableId);
+            unset($archiver);
         }
     }
 
