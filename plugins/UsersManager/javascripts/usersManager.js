@@ -98,11 +98,11 @@ function launchAjaxRequest(self, successCallback) {
     );
 }
 
-function updateSuperUserAccess(login, isSuperUser)
+function updateSuperUserAccess(login, hasSuperUserAccess)
 {
     var parameters = {};
     parameters.userLogin = login;
-    parameters.hasSuperUserAccess = isSuperUser;
+    parameters.hasSuperUserAccess = hasSuperUserAccess ? 1: 0;
 
     var ajaxHandler = new ajaxHelper();
     ajaxHandler.addParams({
@@ -115,6 +115,25 @@ function updateSuperUserAccess(login, isSuperUser)
     ajaxHandler.setLoadingElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.send(true);
+}
+
+function bindUpdateSuperUserAccess() {
+    var login     = $(this).parents('td').data('login');
+    var hasAccess = parseInt($(this).data('hasaccess'), 10);
+
+    var message = 'Do_You_Really_Want_To_Grant_%s_SuperUser_Permission?_The_User_Will_Have_Access_To_All_Websites_And_Users_...';
+    if (hasAccess) {
+        message = 'Do_You_Really_Want_To_Remove_%s_SuperUser_Permission?_The_User_Will_Lose_Access_To_All_Websites_And_Users_...';
+    }
+
+    message = _pk_translate(message);
+    message = message.replace('%s', login)
+
+    $('#superUserAccessConfirm h2').text(message);
+
+    piwikHelper.modalConfirm('#superUserAccessConfirm', {yes: function () {
+        updateSuperUserAccess(login, !hasAccess);
+    }});
 }
 
 function bindUpdateAccess() {
@@ -255,15 +274,7 @@ $(document).ready(function () {
     $('#access .updateAccess')
         .click(bindUpdateAccess);
 
-    $('#superUserAccess .accessGranted').click(function () {
-        var login = $(this).parents('td').attr('login');
-        updateSuperUserAccess(login, 0);
-    });
-
-    $('#superUserAccess .updateAccess').click(function () {
-        var login = $(this).parents('td').attr('login');
-        updateSuperUserAccess(login, 1);
-    });
+    $('#superUserAccess .accessGranted, #superUserAccess .updateAccess').click(bindUpdateSuperUserAccess);
 
     // when a site is selected, reload the page w/o showing the ajax loading element
     $('#usersManagerSiteSelect').bind('piwik:siteSelected', function (e, site) {

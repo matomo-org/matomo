@@ -172,9 +172,9 @@
             <tr>
                 <td id='login'>{{ login }}</td>
                 <td>{{ alias|raw }}</td>
-                <td id='superuser' login="{{ login|e('html_attr') }}">
-                    <img src='plugins/UsersManager/images/ok.png' class='accessGranted' {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
-                    <img src='plugins/UsersManager/images/no-access.png' class='updateAccess' {% if login in superUserLogins %}style="display:none"{% endif %} />
+                <td id='superuser' data-login="{{ login|e('html_attr') }}">
+                    <img src='plugins/UsersManager/images/ok.png' class='accessGranted' data-hasaccess="1" {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
+                    <img src='plugins/UsersManager/images/no-access.png' class='updateAccess' data-hasaccess="0" {% if login in superUserLogins %}style="display:none"{% endif %} />
                     &nbsp;
                 </td>
             </tr>
@@ -183,6 +183,12 @@
     </table>
 
     <div id="superUserAccessUpdated" style="vertical-align:top;"></div>
+
+    <div class="ui-confirm" id="superUserAccessConfirm">
+        <h2> </h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
 
 {% endif %}
 {% endblock %}
