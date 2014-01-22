@@ -127,7 +127,7 @@ class API extends \Piwik\Plugin\API
 
         $where = '';
         $bind = array();
-        if (!empty($userLogins)) {a
+        if (!empty($userLogins)) {
             $userLogins = explode(',', $userLogins);
             $where = 'WHERE login IN (' . Common::getSqlStringFieldsArray($userLogins) . ')';
             $bind = $userLogins;
