@@ -11474,7 +11474,7 @@
   user_agent: Mozilla/5.0 (PlayStation 4 1.52) AppleWebKit/536.26 (KHTML, like Gecko)
   os:
     name: PlayStation
-    short_name: PSP
+    short_name: PS3
     version: 4
   browser:
     name: NetFront
@@ -11484,7 +11484,7 @@
     type: console
     brand: SO
     model: PlayStation 4
-  os_family: Mobile Gaming Console
+  os_family: Gaming Console
   browser_family: NetFront
 -
   user_agent: Mozilla/5.0 (Linux; Android 4.0.3; HTC EVO 3D X515m Build/IML74K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.63 Mobile Safari/537.36 OPR/15.0.1162.61541
@@ -11518,3 +11518,99 @@
     model:
   os_family: Windows
   browser_family: Opera
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 6.12; es-US; KIN.Two 1.0)
+  os:
+    name: Windows CE
+    short_name: WCE
+    version:
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 6.12
+  device:
+    type: feature phone
+    brand: MS
+    model: Kin Two
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 9.0
+  device:
+    type: console
+    brand: MS
+    model: Xbox 360
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; Xbox; Xbox One)
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 10.0
+  device:
+    type: console
+    brand: MS
+    model: Xbox One
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (Nintendo WiiU) AppleWebKit/534.52 (KHTML, like Gecko) NX/2.1.0.8.21 NintendoBrowser/1.0.0.7494.US
+  os:
+    name: Nintendo
+    short_name: WII
+    version: Wii
+  browser:
+    name: NetFront
+    short_name: NF
+    version:
+  device:
+    type: console
+    brand: NI
+    model: WiiU
+  os_family: Gaming Console
+  browser_family: NetFront
+-
+  user_agent: Mozilla/5.0 (Nintendo 3DS; U; ; en) Version/1.7498.EU
+  os:
+    name: Nintendo Mobile
+    short_name: NDS
+    version: 3DS
+  browser:
+    name: NetFront
+    short_name: NF
+    version:
+  device:
+    type: console
+    brand: NI
+    model: 3DS
+  os_family: Mobile Gaming Console
+  browser_family: NetFront
+-
+  user_agent: Mozilla/4.0 (PlayStation Portable); 2.00)
+  os:
+    name: PlayStation Portable
+    short_name: PSP
+    version: Portable
+  browser:
+    name: NetFront
+    short_name: NF
+    version:
+  device:
+    type: console
+    brand: SO
+    model: PlayStation Portable
+  os_family: Mobile Gaming Console
+  browser_family: NetFront

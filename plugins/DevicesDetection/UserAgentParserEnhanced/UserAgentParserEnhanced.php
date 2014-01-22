@@ -386,11 +386,11 @@ class UserAgentParserEnhanced
 
         $this->parseBrowser();
 
-        if ($this->isMobile()) {
-            $mobileDef = $this->getMobileRegexes();
-            $this->parseBrand($mobileDef);
-            $this->parseModel($mobileDef);
-        } else {
+        $mobileDef = $this->getMobileRegexes();
+        $this->parseBrand($mobileDef);
+        $this->parseModel($mobileDef);
+
+        if (empty($this->device) && !$this->isMobile()) {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
         if ($this->debug) {
