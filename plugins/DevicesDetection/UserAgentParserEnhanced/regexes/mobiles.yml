@@ -556,9 +556,16 @@ LG:
 
 # microsoft
 Microsoft:
-  regex: 'Xbox|KIN\.(?:One|Two)'
+  regex: 'Xbox|KIN\.(One|Two)'
   device: 'console'
-  model: 'Xbox 360'
+  models:
+    - regex: 'Xbox One'
+      model: 'Xbox One'
+    - regex: 'Xbox'
+      model: 'Xbox 360'
+    - regex: 'KIN\.(One|Two)'
+      device: 'feature phone'
+      model: 'Kin $1'
 
 # Konka
 Konka:

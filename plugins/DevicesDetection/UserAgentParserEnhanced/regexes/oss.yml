@@ -403,7 +403,7 @@
   
   
 - regex: 'PlayStation ((?:Portable|Vita))'
-  name: 'PlayStation'
+  name: 'PlayStation Portable'
   version: '$1'
   
   
