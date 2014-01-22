@@ -9,7 +9,7 @@
         "MetricDataByYear": "Mõõttabelid aasta järgi",
         "MetricTables": "Mõõttabelid",
         "OtherTables": "Muud tabelid",
-        "PluginDescription": "Antud plugin raporteerib Piwiku tabelite MySQL andmebaasi kasutuse.",
+        "PluginDescription": "Antud lisatarkvara raporteerib Piwiku tabelite MySQL andmebaasi kasutust.",
         "ReportDataByYear": "Raporti tabelid aasta järgi",
         "ReportTables": "Raporti tabelid",
         "RowCount": "Ridade arv",

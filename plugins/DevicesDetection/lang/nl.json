@@ -1,0 +1,19 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Browser versies",
+        "dataTableLabelBrands": "Merk",
+        "dataTableLabelBrowserFamily": "Browser familie",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Besturingssysteem versie",
+        "dataTableLabelTypes": "Type",
+        "Device": "Apparaat",
+        "DeviceBrand": "Apparaat merk",
+        "DeviceDetection": "Apparaat detectie",
+        "DeviceModel": "Apparaat model",
+        "DevicesDetection": "Bezoeker Apparaten",
+        "DeviceType": "Apparaat type",
+        "OperatingSystemFamilies": "Besturingssysteem families",
+        "OperatingSystemVersions": "Besturingssysteem versies",
+        "submenu": "Apparaten"
+    }
+}

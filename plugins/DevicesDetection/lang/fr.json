@@ -1,0 +1,10 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Versions du Navigateur",
+        "dataTableLabelBrands": "Marque",
+        "dataTableLabelBrowserFamily": "Famille de navigateurs",
+        "dataTableLabelModels": "Modèle",
+        "dataTableLabelTypes": "Type",
+        "submenu": "Périphériques"
+    }
+}
