@@ -47,7 +47,7 @@ class Access
         if (self::$instance == null) {
             self::$instance = new self;
 
-            Piwik::postTestEvent('Access.createAccessSingleton', array(self::$instance));
+            Piwik::postEvent('Access.createAccessSingleton', array(&self::$instance));
         }
         return self::$instance;
     }
