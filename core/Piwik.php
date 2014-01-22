@@ -17,7 +17,7 @@ use Piwik\Db\Schema;
 use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Session;
 use Piwik\Tracker;
 use Piwik\View;
@@ -216,7 +216,7 @@ class Piwik
     static public function getCurrentUserEmail()
     {
         if (!Piwik::isUserIsConfigSuperUser()) {
-            $user = API::getInstance()->getUser(Piwik::getCurrentUserLogin());
+            $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
             return $user['email'];
         }
         return self::getConfigSuperUserEmail();
@@ -302,6 +302,17 @@ class Piwik
         } catch (NoAccessException $e) {
             throw new NoAccessException(Piwik::translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
         }
+    }
+
+    static public function hasTheUserSuperUserAccess($theUser)
+    {
+        try {
+            $superUserLogins = APIUsersManager::getInstance()->getUsersLoginHavingSuperUserAccess();
+        } catch (\Exception $e) {
+            $superUserLogins = array();
+        }
+
+        return !empty($theUser) && in_array($theUser, $superUserLogins);
     }
 
     /**

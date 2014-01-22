@@ -426,13 +426,7 @@ class Access
 
     private function setConfigUserLoginIfCurrentUserHasNotSuperUserAccess()
     {
-        try {
-            $superUserLogins = Plugins\UsersManager\API::getInstance()->getUsersLoginHavingSuperUserAccess();
-        } catch (\Exception $e) {
-            $superUserLogins = array();
-        }
-
-        if (empty($this->login) || !in_array($this->login, $superUserLogins)) {
+        if (!Piwik::hasTheUserSuperUserAccess($this->login)) {
             $this->login = $this->getSuperUserLogin();
         }
     }
