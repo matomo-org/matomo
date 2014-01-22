@@ -306,13 +306,21 @@ class Piwik
 
     static public function hasTheUserSuperUserAccess($theUser)
     {
+        if (empty($theUser)) {
+            return false;
+        }
+
+        if (Piwik::getConfigSuperUserLogin() === $theUser) {
+            return true;
+        }
+
         try {
             $superUserLogins = APIUsersManager::getInstance()->getUsersLoginHavingSuperUserAccess();
         } catch (\Exception $e) {
             $superUserLogins = array();
         }
 
-        return !empty($theUser) && in_array($theUser, $superUserLogins);
+        return in_array($theUser, $superUserLogins);
     }
 
     /**
