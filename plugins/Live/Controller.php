@@ -180,7 +180,6 @@ class Controller extends \Piwik\Plugin\Controller
                                                                                 'segment'                 => self::getSegmentWithVisitorId(),
                                                                                 'filter_limit'            => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
                                                                                 'filter_offset'           => $startCounter,
-                                                                                'disable_generic_filters' => 0,
                                                                                 'period'                  => false,
                                                                                 'date'                    => false
                                                                            ));
