@@ -47,7 +47,7 @@ class Auth implements \Piwik\Auth
      */
     public function authenticate()
     {
-        $rootLogin = Config::getInstance()->superuser['login'];
+        $rootLogin = Piwik::getConfigSuperUserLogin();
         $rootPassword = Config::getInstance()->superuser['password'];
         $rootToken = API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
 

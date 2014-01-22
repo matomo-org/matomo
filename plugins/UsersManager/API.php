@@ -558,7 +558,7 @@ class API extends \Piwik\Plugin\API
 								FROM " . Common::prefixTable("user") . "
 								WHERE email = ?", $userEmail);
         return $count != 0
-        || Config::getInstance()->superuser['email'] == $userEmail;
+        || Piwik::getConfigSuperUserEmail() == $userEmail;
     }
 
     /**

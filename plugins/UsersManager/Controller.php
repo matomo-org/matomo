@@ -147,7 +147,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@UsersManager/userSettings');
 
         $userLogin = Piwik::getCurrentUserLogin();
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::isUserIsConfigSuperUser()) {
             $view->userAlias = $userLogin;
             $view->userEmail = Piwik::getConfigSuperUserEmail();
             $this->displayWarningIfConfigFileNotWritable();
@@ -322,7 +322,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::isUserIsConfigSuperUser()) {
             $superUser = Config::getInstance()->superuser;
             $updatedSuperUser = false;
 

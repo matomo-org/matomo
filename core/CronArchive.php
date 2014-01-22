@@ -832,7 +832,7 @@ Notes:
 
     private function initTokenAuth()
     {
-        $login = Config::getInstance()->superuser['login'];
+        $login = Piwik::getConfigSuperUserLogin();
         $md5Password = Config::getInstance()->superuser['password'];
         $this->token_auth = md5($login . $md5Password);
         $this->login = $login;

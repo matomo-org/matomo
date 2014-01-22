@@ -322,7 +322,7 @@ class Piwik
 
     static public function isUserIsConfigSuperUser()
     {
-        return self::getCurrentUserLogin() === self::getConfigSuperUserLogin();
+        return self::isUserIsSuperUser() && self::getCurrentUserLogin() === self::getConfigSuperUserLogin();
     }
 
     /**

@@ -101,7 +101,7 @@ class Request
         if (empty($tokenAuth)) {
             return false;
         }
-        $superUserLogin = Config::getInstance()->superuser['login'];
+        $superUserLogin = Piwik::getConfigSuperUserLogin();
         $superUserPassword = Config::getInstance()->superuser['password'];
         if (md5($superUserLogin . $superUserPassword) === $tokenAuth) {
             return true;
