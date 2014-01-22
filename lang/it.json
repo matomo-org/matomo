@@ -156,6 +156,7 @@
         "PluginSettings": "Impostazioni plugin",
         "PluginSettingsIntro": "Qui puoi cambiare le impostazioni dei seguenti plugins di terze parti:",
         "PluginSettingsValueNotAllowed": "Il valore del campo \"%s\" nel plugin \"%s\" non è consentito",
+        "ScheduledTasks": "Attività pianificate",
         "StableReleases": "Se Piwik rappresenta una parte fondamentale nella vostra attività, vi raccomandiamo di utilizzare l'ultima versione stabile. Se utilizzate l'ultima versione beta e riscontrate un bug o avete dei suggerimenti, per favore %sguardate qui%s.",
         "TrackAGoal": "Traccia un obiettivo",
         "TrackingCode": "Codice di Tracciamento",
@@ -352,6 +353,7 @@
         "HelpMessageContent": "Controlla le %1$s Piwik FAQ %2$s, ti spiegheranno gli errori più comuni durante l'aggiornamento. %3$s Chiedi all'amministratore di sistema per gli errori che ti sembrano relativi alla configurazione di MySQL o al server, piuttosto che a Piwik.",
         "HelpMessageIntroductionWhenError": "Il messaggio qui sopra ti spiega l'errore occorso durante l'aggiornamento. Ti spiega cosa l'ha causato, ma se vuoi ulteriore aiuto:",
         "HelpMessageIntroductionWhenWarning": "L'aggiornamento è stato completato con successo, tuttavia si sono verificati dei piccoli problemi. Puoi leggerne qui sopra una breve descrizione. Per maggiori informazioni:",
+        "HighTrafficPiwikServerEnableMaintenance": "Se gestisci un server di Piwik ad alto traffico, raccomandiamo di %sdisabilitare temporaneamente il Tracciamento dei visitatori e di mettere l'Interfaccia Utente di Piwik in modalità manutenzione%s.",
         "InstallingTheLatestVersion": "Sto installando l'ultima versione",
         "MajorUpdateWarning1": "Si tratta di un importante aggiornamento! Ci vorrà più tempo del solito.",
         "MajorUpdateWarning2": "Il seguente consiglio è particolarmente importante per le installazioni di grandi dimensioni.",
@@ -652,6 +654,7 @@
         "GraphHelp": "Maggiori informazioni su come vedere grafici in Piwik.",
         "HelloUser": "Ciao, %s!",
         "Help": "Aiuto",
+        "HelpTranslatePiwik": "Forse vorresti %1$saiutarci a migliorare le traduzioni di Piwik%2$s?",
         "Hide": "nascondi",
         "HoursMinutes": "%1$s ore %2$s minuti",
         "Id": "Id",
@@ -1005,6 +1008,7 @@
         "PluginDescription": "Genera belle immagini PNG statiche dei grafici per qualsiasi report Piwik."
     },
     "Installation": {
+        "CollaborativeProject": "Piwik è un progetto collaborativo, costruito con amore da persone in tutto il mondo.",
         "CommunityNewsletter": "Informami via e-mail sugli aggiornamenti della community (nuovi plugins, caratteristiche, ecc.)",
         "ConfigurationHelp": "Il tuo file di configurazioni Piwik sembra essere configurato male. Puoi rimuovere il file config\/config.ini.php e ricominciare l'installazione, o correggere i dati di connessione al database.",
         "ConfirmDeleteExistingTables": "Sei sicuro di voler cancellare le tabelle %s dal tuo Database? ATTENZIONE: I DATI NON POTRANNO ESSERE RECUPERATI!",
@@ -1026,7 +1030,9 @@
         "ErrorInvalidState": "Errore: sembra che stia tentando di saltare un passaggio del processo di installazione, i tuoi Cookies sono disabilitati o il file di configurazione Piwik è stato già creato. %1$sControlla che i Cookies siano attivati%2$s e %3$s ripeti l'installazione dal primo passaggio %4$s.",
         "Extension": "estensione",
         "Filesystem": "Filesystem",
+        "GetInvolved": "Se ti piace ciò che vedi, puoi %1$sessere coinvolto%2$s.",
         "GoBackAndDefinePrefix": "Torna indietro e definisci un nuovo prefisso per le tabelle di Piwik",
+        "HappyAnalysing": "Felice analisi!",
         "Installation": "Installazione",
         "InstallationStatus": "Stato dell'installazione",
         "InsufficientPrivilegesHelp": "È possibile aggiungere questi privilegi utilizzando uno strumento come phpMyAdmin o per l'esecuzione di corrette query SQL. Se non sai come fare queste cose, chiedi al tuo amministratore di sistema di concederti questi privilegi.",
@@ -1122,8 +1128,10 @@
         "TablesWarningHelp": "Scegliere se riusare le tabelle esistenti nel Database (da una precedente installazione di Piwik) o procedere con un nuova installazione cancellando tutti i dati esistenti.",
         "TablesWithSameNamesFound": "Alcune %1$s tabelle nel tuo Database %2$s hanno lo stesso nome delle tabelle che Piwik sta cercando di creare.",
         "Timezone": "fuso orario del sito web",
+        "WeHopeYouWillEnjoyPiwik": "Noi speriamo che tu gradirai utilizzare Piwik come a noi piace realizzarlo.",
         "Welcome": "Benvenuto!",
-        "WelcomeHelp": "<p>Piwik è un software open source che ti permette di analizzare facilmente le informazioni dei visitatori che visitano i tuoi siti web.<\/p><p>Questa procedura si divide in %s semplici passaggi e si completa nel giro di 5 minuti.<\/p>"
+        "WelcomeHelp": "<p>Piwik è un software open source che ti permette di analizzare facilmente le informazioni dei visitatori che visitano i tuoi siti web.<\/p><p>Questa procedura si divide in %s semplici passaggi e si completa nel giro di 5 minuti.<\/p>",
+        "WelcomeToCommunity": "Benevenuto nella comunità di Piwik!"
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "Riguardo alle traduzioni di Piwik",
@@ -1372,6 +1380,7 @@
         "RecommendedForPrivacy": "(raccomandato per la privacy)",
         "ReportsDataSavedEstimate": "Dimensioni database",
         "SaveSettingsBeforePurge": "Hai cambiato le impostazioni per la cancellazione dei dati. Si consiglia di salvarli prima di cominciare un'eliminazione.",
+        "SeeAlsoOurOfficialGuidePrivacy": "Leggi anche la nostra guida ufficiale: %sWeb Analytics Privacy%s",
         "Teaser": "In questa pagina è possibile personalizzare Piwik per renderlo conforme alle norme vigenti sulla privacy. È possibile %s rendere anonimi gli IP dei visitatori%s, %s rimuovere automaticamente dal database i vecchi log dei visitatori%s e %s fornire un meccanismo opt-out per il sito%s.",
         "TeaserHeadline": "Impostazioni privacy",
         "UseAnonymizedIpForVisitEnrichment": "Usa anche gli indirizzi IP Anonimi quando si arricchiscono le visite",
