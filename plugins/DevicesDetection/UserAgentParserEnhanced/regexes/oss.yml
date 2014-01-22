@@ -287,12 +287,16 @@
 ##########
 # Bada
 ##########
+- regex: 'bada(?:[ /](\d+\.\d+))'
+  name: 'Bada'
+  version: '$1'
+  
+  
 - regex: 'bada'
   name: 'Bada'
   version: ''
-  
-  
-  
+
+
 ##########
 # Brew
 ##########
@@ -300,7 +304,7 @@
   name: 'Brew'
   version: '$1'
   
-  
+
   
 ##########
 # Web TV
