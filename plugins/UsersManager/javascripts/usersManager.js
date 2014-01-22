@@ -98,6 +98,38 @@ function launchAjaxRequest(self, successCallback) {
     );
 }
 
+function updateSuperUserAccess(login, isSuperUser, successCallback)
+{
+    var parameters = {};
+    parameters.userLogin = login;
+    parameters.hasSuperUserAccess = isSuperUser;
+
+    var ajaxHandler = new ajaxHelper();
+    ajaxHandler.addParams({
+        module: 'API',
+        format: 'json',
+        method: 'UsersManager.setSuperUserAccess'
+    }, 'GET');
+    ajaxHandler.addParams(parameters, 'POST');
+    ajaxHandler.setCallback(function () {
+        successCallback();
+
+        var UI = require('piwik/UI');
+        var notification = new UI.Notification();
+        notification.show(_pk_translate('General_Done'), {
+            placeat: '#superUserAccessUpdated',
+            context: 'success',
+            noclear: true,
+            type: 'toast',
+            style: {display: 'inline-block', marginTop: '10px'},
+            id: 'usersManagerSuperUserAccessUpdated'
+        });
+    });
+    ajaxHandler.setLoadingElement('#ajaxErrorSuperUsersManagement');
+    ajaxHandler.setErrorElement('#ajaxErrorSuperUsersManagement');
+    ajaxHandler.send(true);
+}
+
 function bindUpdateAccess() {
     var self = this;
     // callback called when the ajax request Update the user permissions is successful
@@ -233,8 +265,24 @@ $(document).ready(function () {
         });
     });
 
-    $('.updateAccess')
+    $('#access .updateAccess')
         .click(bindUpdateAccess);
+
+    $('#superUserAccess .accessGranted').click(function () {
+        var login = $(this).parents('td').attr('login');
+        updateSuperUserAccess(login, 0, function () {
+            $('#superUserAccess .accessGranted').hide();
+            $('#superUserAccess .updateAccess').show();
+        });
+    });
+
+    $('#superUserAccess .updateAccess').click(function () {
+        var login = $(this).parents('td').attr('login');
+        updateSuperUserAccess(login, 1, function () {
+            $('#superUserAccess .updateAccess').hide();
+            $('#superUserAccess .accessGranted').show();
+        });
+    });
 
     // when a site is selected, reload the page w/o showing the ajax loading element
     $('#usersManagerSiteSelect').bind('piwik:siteSelected', function (e, site) {

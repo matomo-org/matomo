@@ -56,14 +56,16 @@ class Auth implements \Piwik\Auth
                 return new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth);
             }
 
-            $login = Db::fetchOne(
-                'SELECT login
+            $user = Db::fetchRow(
+                'SELECT login,superuser_access
                 FROM ' . Common::prefixTable('user') . '
 					WHERE token_auth = ?',
                 array($this->token_auth)
             );
-            if (!empty($login)) {
-                return new AuthResult(AuthResult::SUCCESS, $login, $this->token_auth);
+            if (!empty($user['login'])) {
+                $code = $user['superuser_access'] ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+
+                return new AuthResult($code, $user['login'], $this->token_auth);
             }
         } else if (!empty($this->login)) {
             if ($this->login === $rootLogin
@@ -75,18 +77,21 @@ class Auth implements \Piwik\Auth
             }
 
             $login = $this->login;
-            $userToken = Db::fetchOne(
-                'SELECT token_auth
+            $user = Db::fetchRow(
+                'SELECT token_auth, superuser_access
                 FROM ' . Common::prefixTable('user') . '
 					WHERE login = ?',
                 array($login)
             );
-            if (!empty($userToken)
-                && (($this->getHashTokenAuth($login, $userToken) === $this->token_auth)
-                    || $userToken === $this->token_auth)
+
+            if (!empty($user['token_auth'])
+                && (($this->getHashTokenAuth($login, $user['token_auth']) === $this->token_auth)
+                    || $user['token_auth'] === $this->token_auth)
             ) {
-                $this->setTokenAuth($userToken);
-                return new AuthResult(AuthResult::SUCCESS, $login, $userToken);
+                $this->setTokenAuth($user['token_auth']);
+                $code = $user['superuser_access'] ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+
+                return new AuthResult($code, $login, $user['token_auth']);
             }
         }
 

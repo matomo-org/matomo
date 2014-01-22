@@ -86,10 +86,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $usersAliasByLogin[$user['login']] = $user['alias'];
             }
         }
+
+        $superUsers = array();
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            $users = APIUsersManager::getInstance()->getUsers();
+            foreach ($users as $user) {
+                if ($user['superuser_access']) {
+                    $superUsers[] = $user['login'];
+                }
+            }
+        }
+
         $view->anonymousHasViewAccess = $this->hasAnonymousUserViewAccess($usersAccessByWebsite);
         $view->idSiteSelected = $idSiteSelected;
         $view->defaultReportSiteName = $defaultReportSiteName;
         $view->users = $users;
+        $view->superUserLogins = $superUsers;
         $view->usersAliasByLogin = $usersAliasByLogin;
         $view->usersCount = count($users) - 1;
         $view->usersAccessByWebsite = $usersAccessByWebsite;

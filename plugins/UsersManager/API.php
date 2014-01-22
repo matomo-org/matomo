@@ -406,6 +406,22 @@ class API extends \Piwik\Plugin\API
         Piwik::postEvent('UsersManager.addUser.end', array($userLogin));
     }
 
+    public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
+    {
+        Piwik::checkUserIsSuperUser();
+        $this->checkUserIsNotAnonymous($userLogin);
+
+        $this->deleteUserAccess($userLogin);
+
+        $db = Db::get();
+        $db->update(Common::prefixTable("user"),
+            array(
+                'superuser_access' => $hasSuperUserAccess
+            ),
+            "login = '$userLogin'"
+        );
+    }
+
     /**
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
@@ -419,7 +435,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        // $this->checkUserIsNotSuperUser($userLogin);
         $userInfo = $this->getUser($userLogin);
 
         if (empty($password)) {
@@ -454,7 +470,7 @@ class API extends \Piwik\Plugin\API
                  'password'   => $password,
                  'alias'      => $alias,
                  'email'      => $email,
-                 'token_auth' => $token_auth,
+                 'token_auth' => $token_auth
             ),
             "login = '$userLogin'"
         );
