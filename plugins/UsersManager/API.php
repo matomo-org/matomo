@@ -127,7 +127,7 @@ class API extends \Piwik\Plugin\API
 
         $where = '';
         $bind = array();
-        if (!empty($userLogins)) {
+        if (!empty($userLogins)) {a
             $userLogins = explode(',', $userLogins);
             $where = 'WHERE login IN (' . Common::getSqlStringFieldsArray($userLogins) . ')';
             $bind = $userLogins;
@@ -358,6 +358,7 @@ class API extends \Piwik\Plugin\API
      * - a password that has to be valid
      * - an alias
      * - an email that has to be in a correct format
+     * - is password already hashed ?
      *
      * @see userExists()
      * @see isValidLoginString()
@@ -366,7 +367,7 @@ class API extends \Piwik\Plugin\API
      *
      * @exception in case of an invalid parameter
      */
-    public function addUser($userLogin, $password, $email, $alias = false)
+    public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false)
     {
         Piwik::checkUserIsSuperUser();
 
@@ -374,11 +375,15 @@ class API extends \Piwik\Plugin\API
         $this->checkUserIsNotSuperUser($userLogin);
         $this->checkEmail($email);
 
-        $password = Common::unsanitizeInputValue($password);
-        UsersManager::checkPassword($password);
+	if ($_isPasswordHashed){
+		$passwordTransformed = 	$password;
+	}else{
+        	$password = Common::unsanitizeInputValue($password);
+        	UsersManager::checkPassword($password);
+	        $passwordTransformed = UsersManager::getPasswordHash($password);
+	}
 
-        $alias = $this->getCleanAlias($alias, $userLogin);
-        $passwordTransformed = UsersManager::getPasswordHash($password);
+	$alias = $this->getCleanAlias($alias, $userLogin);
 
         $token_auth = $this->getTokenAuth($userLogin, $passwordTransformed);
 
