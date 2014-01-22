@@ -12,7 +12,6 @@
 namespace Piwik\AssetManager;
 
 use Piwik\Plugin\Manager;
-use Piwik\SettingsPiwik;
 use Piwik\Singleton;
 use Piwik\Version;
 
@@ -32,8 +31,8 @@ class UIAssetCacheBuster extends Singleton
     {
         $masterFile = PIWIK_INCLUDE_PATH . '/.git/refs/heads/master';
         $currentGitHash = file_exists($masterFile) ? @file_get_contents($masterFile) : null;
-        $pluginList = md5(implode(",", !$pluginNames ? Manager::getInstance()->getLoadedPluginsName() : $pluginNames));
-        $cacheBuster = md5(SettingsPiwik::getSalt() . $pluginList . PHP_VERSION . Version::VERSION . trim($currentGitHash));
+        $pluginList = implode(",", !$pluginNames ? Manager::getInstance()->getLoadedPluginsName() : $pluginNames);
+        $cacheBuster = md5($pluginList . PHP_VERSION . Version::VERSION . trim($currentGitHash));
         return $cacheBuster;
     }
 
