@@ -244,7 +244,7 @@ class UserAgentParserEnhanced
     public static $browserFamilies = array(
         'Android Browser'    => array('AN'),
         'BlackBerry Browser' => array('BB'),
-        'Chrome'             => array('CH', 'CM', 'CI', 'CF', 'CR', 'RM'),
+        'Chrome'             => array('CH', 'CM', 'CI', 'CF', 'CN', 'CR', 'CP', 'RM'),
         'Firefox'            => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
         'Internet Explorer'  => array('IE', 'IM'),
         'Konqueror'          => array('KO'),
@@ -271,7 +271,9 @@ class UserAgentParserEnhanced
         'CI' => 'Chrome Mobile iOS',
         'CK' => 'Conkeror',
         'CM' => 'Chrome Mobile',
+        'CN' => 'CoolNovo',
         'CO' => 'CometBird',
+        'CP' => 'ChromePlus',
         'CR' => 'Chromium',
         'CS' => 'Cheshire',
         'DF' => 'Dolphin',

@@ -81,7 +81,17 @@
 - regex: 'rekonq'
   name: Rekonq
   version: ''
-  
+
+#CoolNovo
+- regex: 'CoolNovo/(\d+\.\d+)'
+  name: 'CoolNovo'
+  version: '$1'
+
+#ChromePlus
+- regex: 'ChromePlus/(\d+\.\d+)'
+  name: 'ChromePlus'
+  version: '$1'
+
 #Conkeror
 - regex: 'Conkeror/(\d+\.\d+)'
   name: Conkeror

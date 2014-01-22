@@ -11614,3 +11614,35 @@
     model: PlayStation Portable
   os_family: Mobile Gaming Console
   browser_family: NetFront
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.98 Safari/534.13 ChromePlus/1.6.0.0
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: ChromePlus
+    short_name: CP
+    version: 1.6
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7 CoolNovo/1.6.5.28
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: CoolNovo
+    short_name: CN
+    version: 1.6
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Chrome
