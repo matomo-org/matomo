@@ -375,15 +375,15 @@ class API extends \Piwik\Plugin\API
         $this->checkUserIsNotSuperUser($userLogin);
         $this->checkEmail($email);
 
-	if ($_isPasswordHashed){
-		$passwordTransformed = 	$password;
-	}else{
-        	$password = Common::unsanitizeInputValue($password);
-        	UsersManager::checkPassword($password);
-	        $passwordTransformed = UsersManager::getPasswordHash($password);
-	}
+        if ($_isPasswordHashed){
+            $passwordTransformed = $password;
+        }else{
+            $password = Common::unsanitizeInputValue($password);
+            UsersManager::checkPassword($password);
+            $passwordTransformed = UsersManager::getPasswordHash($password);
+        }
 
-	$alias = $this->getCleanAlias($alias, $userLogin);
+        $alias = $this->getCleanAlias($alias, $userLogin);
 
         $token_auth = $this->getTokenAuth($userLogin, $passwordTransformed);
 
