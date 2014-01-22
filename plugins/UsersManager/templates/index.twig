@@ -47,24 +47,36 @@
         <tbody>
         {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />{% endset %}
         {% set accesInvalid %}<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />{% endset %}
+        {% set superUserAccess %}<span title="{{ 'This_User_Has_SuperUser_Access_And_Therefore_Access_To_All_Websites_Remove_SuperUser_Permission_To_SetPermission'|translate }}">N/A</span>{% endset %}
         {% for login,access in usersAccessByWebsite %}
             <tr>
                 <td id='login'>{{ login }}</td>
                 <td>{{ usersAliasByLogin[login]|raw }}</td>
-
-                {% if access == 'superuser' %}
-                    <td colspan="3"><span title="{{ 'Remove_SuperUser_Permission_To_ChangePermission'|translate }}">{{ 'Installation_SuperUser'|translate }}</span></td>
-                {% else %}
-                <td id='noaccess'>{% if access=='noaccess' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;</td>
-                <td id='view'>{% if access == 'view' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;</td>
+                <td id='noaccess'>
+                    {% if login in superUserLogins %}
+                        {{ superUserAccess }}
+                    {% elseif access=='noaccess' and idSiteSelected != 'all' %}
+                        {{ accesValid }}
+                    {% else %}
+                        {{ accesInvalid }}
+                    {% endif %}&nbsp;</td>
+                <td id='view'>
+                    {% if login in superUserLogins %}
+                        {{ superUserAccess }}
+                    {% elseif access == 'view' and idSiteSelected != 'all' %}
+                        {{ accesValid }}
+                    {% else %}
+                        {{ accesInvalid }}
+                    {% endif %}&nbsp;</td>
                 <td id='admin'>
-                    {% if login == 'anonymous' %}
+                    {% if login in superUserLogins %}
+                        {{ superUserAccess }}
+                    {% elseif login == 'anonymous' %}
                         N/A
                     {% else %}
                         {% if access == 'admin' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;
                     {% endif %}
                 </td>
-                {% endif %}
             </tr>
         {% endfor %}
         </tbody>

@@ -98,7 +98,7 @@ function launchAjaxRequest(self, successCallback) {
     );
 }
 
-function updateSuperUserAccess(login, isSuperUser, successCallback)
+function updateSuperUserAccess(login, isSuperUser)
 {
     var parameters = {};
     parameters.userLogin = login;
@@ -111,20 +111,7 @@ function updateSuperUserAccess(login, isSuperUser, successCallback)
         method: 'UsersManager.setSuperUserAccess'
     }, 'GET');
     ajaxHandler.addParams(parameters, 'POST');
-    ajaxHandler.setCallback(function () {
-        successCallback();
-
-        var UI = require('piwik/UI');
-        var notification = new UI.Notification();
-        notification.show(_pk_translate('General_Done'), {
-            placeat: '#superUserAccessUpdated',
-            context: 'success',
-            noclear: true,
-            type: 'toast',
-            style: {display: 'inline-block', marginTop: '10px'},
-            id: 'usersManagerSuperUserAccessUpdated'
-        });
-    });
+    ajaxHandler.redirectOnSuccess();
     ajaxHandler.setLoadingElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.send(true);
@@ -270,18 +257,12 @@ $(document).ready(function () {
 
     $('#superUserAccess .accessGranted').click(function () {
         var login = $(this).parents('td').attr('login');
-        updateSuperUserAccess(login, 0, function () {
-            $('#superUserAccess .accessGranted').hide();
-            $('#superUserAccess .updateAccess').show();
-        });
+        updateSuperUserAccess(login, 0);
     });
 
     $('#superUserAccess .updateAccess').click(function () {
         var login = $(this).parents('td').attr('login');
-        updateSuperUserAccess(login, 1, function () {
-            $('#superUserAccess .updateAccess').hide();
-            $('#superUserAccess .accessGranted').show();
-        });
+        updateSuperUserAccess(login, 1);
     });
 
     // when a site is selected, reload the page w/o showing the ajax loading element
