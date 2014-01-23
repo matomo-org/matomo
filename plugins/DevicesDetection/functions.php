@@ -118,7 +118,8 @@ function getDeviceTypeLogo($label)
         "tablet"        => "tablet.png",
         "tv"            => "tv.png",
         "feature phone" => "mobile.gif",
-        "console"       => "console.gif");
+        "console"       => "console.gif",
+        "car browser"   => "carbrowser.png");
 
     if (!array_key_exists($label, $deviceTypeLogos) || $label == "Unknown") {
         $label = 'unknown.gif';
