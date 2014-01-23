@@ -126,4 +126,80 @@ class Controller extends \Piwik\Plugin\Controller
 
         return $view->render();
     }
+
+    public function showList()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $view = new View('@DevicesDetection/list');
+
+        $type = Common::getRequestVar('type', 'brands', 'string');
+
+        $list = array();
+
+        switch ($type) {
+
+            case 'brands':
+                $availableBrands = UserAgentParserEnhanced::$deviceBrands;
+
+                foreach ($availableBrands AS $short => $name) {
+
+                    $list[$name] = getBrandLogo($name);
+                }
+                break;
+
+            case 'browsers':
+                $availableBrowsers = UserAgentParserEnhanced::$browsers;
+
+                foreach ($availableBrowsers AS $short => $name) {
+
+                    $list[$name] = getBrowserLogoExtended($short);
+                }
+                break;
+
+            case 'browserfamilies':
+                $availableBrowserFamilies = UserAgentParserEnhanced::$browserFamilies;
+
+                foreach ($availableBrowserFamilies AS $name => $browsers) {
+
+                    $list[$name] = getBrowserFamilyLogoExtended($name);
+                }
+                break;
+
+            case 'os':
+                $availableOSs = UserAgentParserEnhanced::$osShorts;
+
+                foreach ($availableOSs AS $name => $short) {
+
+                    if ($name != 'Bot') {
+                        $list[$name] = getOsLogoExtended($short);
+                    }
+                }
+                break;
+
+            case 'osfamilies':
+                $osFamilies = UserAgentParserEnhanced::$osFamilies;
+
+                foreach ($osFamilies AS $name => $oss) {
+
+                    if ($name != 'Bot') {
+                        $list[$name] = getOsFamilyLogoExtended($name);
+                    }
+                }
+                break;
+
+            case 'devicetypes':
+                $deviceTypes = UserAgentParserEnhanced::$deviceTypes;
+
+                foreach ($deviceTypes AS $name) {
+
+                    $list[$name] = getDeviceTypeLogo(ucfirst($name));
+                }
+                break;
+        }
+
+        $view->itemList = $list;
+
+        return $view->render();
+    }
 }
