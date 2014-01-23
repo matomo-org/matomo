@@ -149,7 +149,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @dataProvider getAddUserInvalidLoginData
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionInvalidLogin
@@ -160,7 +159,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * existing login => exception
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionLoginExists
      */
@@ -168,6 +166,15 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     {
         $this->api->addUser("test", "password", "email@email.com", "alias");
         $this->api->addUser("test", "password2", "em2ail@email.com", "al2ias");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     */
+    public function testAddUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
+    {
+        $this->api->addUser('superusertest', "password", "email@email.com", "alias");
     }
 
     /**
@@ -183,7 +190,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @dataProvider getWrongPasswordTestData
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionInvalidPassword
@@ -208,7 +214,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @dataProvider getWrongEmailTestData
      * @expectedException \Exception
      * @expectedExceptionMessage mail
@@ -275,7 +280,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * user doesnt exist => exception
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
      */
@@ -286,7 +290,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * empty name, doesnt exists =>exception
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
      */
@@ -296,13 +299,21 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * null user,, doesnt exists => exception
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
      */
     public function testDeleteUserNullUser()
     {
         $this->api->deleteUser(null);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     */
+    public function testDeleteUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
+    {
+        $this->api->deleteUser('superusertest');
     }
 
     /**
@@ -340,7 +351,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * no user => exception
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
@@ -413,8 +423,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case
-     *
-     * @group Plugins
      */
     public function testGetUsersLogin()
     {
@@ -428,9 +436,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * no login => exception
-     *
-     * @group Plugins
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
@@ -440,23 +445,48 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * wrong access specified  => exception
-     *
-     * @group Plugins
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionAccessValues
      */
-    public function testSetUserAccessWrongAccess()
+    public function testSetUserAccessWrongAccessSpecified()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-
         $this->api->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
     }
 
     /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
+     */
+    public function testSetUserAccess_ShouldFail_SuperUserAccessIsNotAllowed()
+    {
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->setUserAccess("gegg4564eqgeqag", "superuser", 1);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
+     */
+    public function testSetUserAccess_ShouldFail_IfLoginIsConfigSuperUserLogin()
+    {
+        $this->api->setUserAccess('superusertest', 'view', 1);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     */
+    public function testSetUserAccess_ShouldFail_IfLoginIsUserWithSuperUserAccess()
+    {
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->setSuperUserAccess('gegg4564eqgeqag', true);
+
+        $this->api->setUserAccess('gegg4564eqgeqag', 'view', 1);
+    }
+
+    /**
      * idsites = all => apply access to all websites with admin access
-     *
-     * @group Plugins
      */
     public function testSetUserAccessIdsitesIsAll()
     {
@@ -480,8 +510,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * idsites = all AND user is superuser=> apply access to all websites
-     *
-     * @group Plugins
      */
     public function testSetUserAccessIdsitesIsAllSuperuser()
     {
@@ -498,12 +526,9 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * idsites is empty => no acccess set
-     *
-     * @group Plugins
      * @expectedException \Exception
      */
-    public function testSetUserAccessIdsitesEmpty()
+    public function testSetUserAccess_ShouldNotBeAbleToSetAnyAccess_IfIdSitesIsEmpty()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
@@ -512,8 +537,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case, access set for only one site
-     *
-     * @group Plugins
      */
     public function testSetUserAccessIdsitesOneSite()
     {
@@ -529,8 +552,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case, access set for multiple sites
-     *
-     * @group Plugins
      */
     public function testSetUserAccessIdsitesMultipleSites()
     {
@@ -542,13 +563,10 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1, $id3), array_keys($access));
-
     }
 
     /**
      * normal case, string idSites comma separated access set for multiple sites
-     *
-     * @group Plugins
      */
     public function testSetUserAccessWithIdSitesIsStringCommaSeparated()
     {
@@ -564,8 +582,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case,  set different acccess to different websites for one user
-     *
-     * @group Plugins
      */
     public function testSetUserAccessMultipleCallDistinctAccessSameUser()
     {
@@ -583,8 +599,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case, set different access to different websites for multiple users
-     *
-     * @group Plugins
      */
     public function testSetUserAccessMultipleCallDistinctAccessMultipleUser()
     {
@@ -642,8 +656,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * we set access for one user for one site several times and check that it is updated
-     *
-     * @group Plugins
      */
     public function testSetUserAccessMultipleCallOverwriteSingleUserOneSite()
     {
@@ -662,9 +674,87 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * wrong user => exception
-     *
-     * @group Plugins
+     * @expectedException \Exception
+     * @expectedExceptionMessage checkUserHasSuperUserAccess Fake exception
+     */
+    public function testSetSuperUserAccess_ShouldFail_IfUserHasNotSuperUserPermission()
+    {
+        FakeAccess::setSuperUserAccess(false);
+        $this->api->setSuperUserAccess('nologin', false);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
+     */
+    public function testSetSuperUserAccess_ShouldFail_IfUserWithGivenLoginDoesNotExist()
+    {
+        $this->api->setSuperUserAccess('nologin', false);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionEditAnonymous
+     */
+    public function testSetSuperUserAccess_ShouldFail_IfUserIsAnonymous()
+    {
+        $this->api->setSuperUserAccess('anonymous', true);
+    }
+
+    public function testSetSuperUserAccess_ShouldDeleteAllExistingAccessEntries()
+    {
+        list($id1, $id2) = $this->addSites(2);
+        $this->api->addUser('login1', 'password1', 'test@example.com', false);
+        $this->api->setUserAccess('login1', 'view', array($id1));
+        $this->api->setUserAccess('login1', 'admin', array($id2));
+
+        // verify user has access before setting super user access
+        $access = $this->_flatten($this->api->getSitesAccessFromUser('login1'));
+        $this->assertEquals(array($id1 => 'view', $id2 => 'admin'), $access);
+
+        $this->api->setSuperUserAccess('login1', true);
+
+        // verify no longer any access
+        $this->assertEquals(array(), $this->api->getSitesAccessFromUser('login1'));
+    }
+
+    public function testSetSuperUserAccess_ShouldAddAndRemoveSuperUserAccessOnlyForGivenLogin()
+    {
+        $this->api->addUser('login1', 'password1', 'test1@example.com', false);
+        $this->api->addUser('login2', 'password2', 'test2@example.com', false);
+        $this->api->addUser('login3', 'password3', 'test3@example.com', false);
+
+        $this->api->setSuperUserAccess('login2', true);
+
+        // test add super user access
+        $users = $this->api->getUsers();
+
+        $this->assertEquals(0, $users[0]['superuser_access']);
+        $this->assertEquals(1, $users[1]['superuser_access']);
+        $this->assertEquals('login2', $users[1]['login']);
+        $this->assertEquals(0, $users[2]['superuser_access']);
+
+        // should also accept string '1' to add super user access
+        $this->api->setSuperUserAccess('login1', '1');
+        // test remove super user access
+        $this->api->setSuperUserAccess('login2', false);
+
+        $users = $this->api->getUsers();
+        $this->assertEquals(1, $users[0]['superuser_access']);
+        $this->assertEquals('login1', $users[0]['login']);
+        $this->assertEquals(0, $users[1]['superuser_access']);
+        $this->assertEquals(0, $users[2]['superuser_access']);
+
+        // should also accept string '0' to remove super user access
+        $this->api->setSuperUserAccess('login1', '0');
+
+        $users = $this->api->getUsers();
+        $this->assertEquals(0, $users[0]['superuser_access']);
+        $this->assertEquals(0, $users[1]['superuser_access']);
+        $this->assertEquals(0, $users[2]['superuser_access']);
+    }
+
+    /**
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
@@ -674,20 +764,14 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * wrong idsite => exception
-     *
-     * @group Plugins
      * @expectedException \Exception
      */
-    public function testGetUsersAccessFromSiteWrongSite()
+    public function testGetUsersAccessFromSiteWrongIdSite()
     {
         $this->api->getUsersAccessFromSite(1);
     }
 
     /**
-     * wrong access =>exception
-     *
-     * @group Plugins
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionAccessValues
      */
@@ -697,21 +781,16 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * non existing login => exception
-     *
-     * @group Plugins
      * @expectedException \Exception
      * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
-    public function testUpdateUserWrongLogin()
+    public function testUpdateUserNonExistingLogin()
     {
         $this->api->updateUser("lolgin", "password");
     }
 
     /**
      * no email no alias => keep old ones
-     *
-     * @group Plugins
      */
     public function testUpdateUserNoEmailNoAlias()
     {
@@ -728,9 +807,16 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     *no email => keep old ones
-     *
-     * @group Plugins
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     */
+    public function testUpdateUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
+    {
+        $this->api->updateUser('superusertest', "password", "email@email.com", "alias");
+    }
+
+    /**
+     * no email => keep old ones
      */
     public function testUpdateUserNoEmail()
     {
@@ -748,8 +834,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * no alias => keep old ones
-     *
-     * @group Plugins
      */
     public function testUpdateUserNoAlias()
     {
@@ -767,8 +851,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * check to modify as the user
-     *
-     * @group Plugins
      */
     public function testUpdateUserIAmTheUser()
     {
@@ -779,7 +861,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     /**
      * check to modify as being another user => exception
      *
-     * @group Plugins
      * @expectedException \Exception
      */
     public function testUpdateUserIAmNotTheUser()
@@ -791,8 +872,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case, reused in other tests
-     *
-     * @group Plugins
      */
     public function testUpdateUser()
     {
@@ -809,9 +888,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * test getUserByEmail invalid mail
-     *
-     * @group Plugins
      * @expectedException \Exception
      */
     public function testGetUserByEmailInvalidMail()
@@ -819,11 +895,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->api->getUserByEmail('email@test.com');
     }
 
-    /**
-     * test getUserByEmail
-     *
-     * @group Plugins
-     */
     public function testGetUserByEmail()
     {
         $user = array('login'    => "login",
@@ -840,9 +911,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($user['alias'], $userByMail['alias']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testGetUserPreferenceDefault()
     {
         $this->addSites(1);
