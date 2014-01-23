@@ -14,6 +14,11 @@ use Piwik\Plugins\UsersManager\API;
  */
 class Plugins_UsersManagerTest extends DatabaseTestCase
 {
+    /**
+     * @var API
+     */
+    private $api;
+    
     public function setUp()
     {
         parent::setUp();
@@ -37,16 +42,18 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
             'password' => 'passwordsuperusertest',
             'email'    => 'superuser@example.com'
         );
+        
+        $this->api = API::getInstance();
     }
 
     private function _flatten($sitesAccess)
     {
         $result = array();
-        ;
 
         foreach ($sitesAccess as $siteAccess) {
             $result[$siteAccess['site']] = $siteAccess['access'];
         }
+
         return $result;
     }
 
@@ -58,55 +65,44 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         if (is_null($newAlias)) {
             $newAlias = $user['alias'];
         }
-        $userAfter = API::getInstance()->getUser($user["login"]);
+        $userAfter = $this->api->getUser($user["login"]);
         unset($userAfter['date_registered']);
 
         // we now compute what the token auth should be, it should always be a hash of the login and the current password
         // if the password has changed then the token_auth has changed!
-        $user['token_auth'] = API::getInstance()->getTokenAuth($user["login"], md5($newPassword));
-
-        $user['password'] = md5($newPassword);
-        $user['email'] = $newEmail;
-        $user['alias'] = $newAlias;
+        $user['token_auth'] = $this->api->getTokenAuth($user["login"], md5($newPassword));
+        $user['password']   = md5($newPassword);
+        $user['email']      = $newEmail;
+        $user['alias']      = $newAlias;
         $user['superuser_access'] = 0;
         $this->assertEquals($user, $userAfter);
     }
 
     public function testAllSuperUserIncluded()
     {
-        Config::getInstance()->superuser = array(
-            'login'    => 'superusertest',
-            'password' => 'passwordsuperusertest',
-            'email'    => 'superuser@example.com'
-        );
-
-        $user = array('login'    => 'user',
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com",
-                      'alias'    => "alias");
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->addUser('user', 'geqgeagae', 'test@test.com', 'alias');
 
         $exceptionNotRaised = false;
         try {
-            API::getInstance()->addUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            $this->api->addUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
         }
         try {
-            API::getInstance()->updateUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            $this->api->updateUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
         }
         try {
-            API::getInstance()->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            $this->api->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
         }
         try {
-            API::getInstance()->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            $this->api->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
@@ -117,29 +113,26 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     * bad password => exception
+     * bad password => exception#
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPassword
      */
     public function testUpdateUserBadpasswd()
     {
         $login = "login";
-        $user = array('login'    => $login,
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com",
-                      'alias'    => "alias");
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
 
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
         try {
-            API::getInstance()->updateUser($login, "pas");
+            $this->api->updateUser($login, "pas");
         } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
-
             $this->_checkUserHasNotChanged($user, $user['password']);
-            return;
+            throw $expected;
         }
-        $this->fail("Exception not raised.");
-
     }
 
     /**
@@ -158,32 +151,23 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     /**
      *
      * @dataProvider getAddUserInvalidLoginData
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidLogin
      */
     public function testAddUserWrongLogin($userLogin, $password, $email, $alias)
     {
-        try {
-            API::getInstance()->addUser($userLogin, $password, $email, $alias);
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionInvalidLogin)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->addUser($userLogin, $password, $email, $alias);
     }
 
     /**
      * existing login => exception
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionLoginExists
      */
     public function testAddUserExistingLogin()
     {
-        try {
-            API::getInstance()->addUser("test", "password", "email@email.com", "alias");
-            API::getInstance()->addUser("test", "password2", "em2ail@email.com", "al2ias");
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionLoginExists)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
-
+        $this->api->addUser("test", "password", "email@email.com", "alias");
+        $this->api->addUser("test", "password2", "em2ail@email.com", "al2ias");
     }
 
     /**
@@ -201,16 +185,12 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     /**
      *
      * @dataProvider getWrongPasswordTestData
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPassword
      */
     public function testAddUserWrongPassword($userLogin, $password, $email, $alias)
     {
-        try {
-            API::getInstance()->addUser($userLogin, $password, $email, $alias);
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->addUser($userLogin, $password, $email, $alias);
     }
 
     /**
@@ -223,37 +203,19 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
             array("geggeqgeqag", "geqgeagae", "@email.com", "alias"),
             array("geggeqgeqag", "geqgeagae", "email@.com", "alias"),
             array("geggeqgeqag", "geqgeagae", "email@4.", "alias"),
+            array("geggeqgeqag", "geqgeagae", "", "alias"),
         );
     }
 
     /**
      *
      * @dataProvider getWrongEmailTestData
+     * @expectedException \Exception
+     * @expectedExceptionMessage mail
      */
     public function testAddUserWrongEmail($userLogin, $password, $email, $alias)
     {
-        try {
-            API::getInstance()->addUser($userLogin, $password, $email, $alias);
-        } catch (Exception $expected) {
-            $this->assertRegExp("(mail)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
-    }
-
-    /**
-     * empty email => exception
-     */
-    public function testAddUserEmptyEmail()
-    {
-
-        try {
-            API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "", "alias");
-        } catch (Exception $expected) {
-            $this->assertRegExp("(mail)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->addUser($userLogin, $password, $email, $alias);
     }
 
     /**
@@ -262,8 +224,8 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testAddUserEmptyAlias()
     {
         $login = "geggeqgeqag";
-        API::getInstance()->addUser($login, "geqgeagae", "mgeagi@geq.com", "");
-        $user = API::getInstance()->getUser($login);
+        $this->api->addUser($login, "geqgeagae", "mgeagi@geq.com", "");
+        $user = $this->api->getUser($login);
         $this->assertEquals($login, $user['alias']);
         $this->assertEquals($login, $user['login']);
     }
@@ -274,8 +236,8 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testAddUserNoAliasSpecified()
     {
         $login = "geggeqg455eqag";
-        API::getInstance()->addUser($login, "geqgeagae", "mgeagi@geq.com");
-        $user = API::getInstance()->getUser($login);
+        $this->api->addUser($login, "geqgeagae", "mgeagi@geq.com");
+        $user = $this->api->getUser($login);
         $this->assertEquals($login, $user['alias']);
         $this->assertEquals($login, $user['login']);
     }
@@ -291,8 +253,8 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $alias = "her is my alias )(&|\" '£%*(&%+))";
 
         $time = time();
-        API::getInstance()->addUser($login, $password, $email, $alias);
-        $user = API::getInstance()->getUser($login);
+        $this->api->addUser($login, $password, $email, $alias);
+        $user = $this->api->getUser($login);
 
         // check that the date registered is correct
         $this->assertTrue($time <= strtotime($user['date_registered']) && strtotime($user['date_registered']) <= time(),
@@ -314,46 +276,33 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * user doesnt exist => exception
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
      */
     public function testSeleteUserDoesntExist()
     {
-        API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
-
-        try {
-            API::getInstance()->deleteUser("geggeqggnew");
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        $this->api->deleteUser("geggeqggnew");
     }
 
     /**
      * empty name, doesnt exists =>exception
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
      */
     public function testDeleteUserEmptyUser()
     {
-        try {
-            API::getInstance()->deleteUser("");
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->deleteUser("");
     }
 
     /**
      * null user,, doesnt exists => exception
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
      */
     public function testDeleteUserNullUser()
     {
-        try {
-            API::getInstance()->deleteUser(null);
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->deleteUser(null);
     }
 
     /**
@@ -361,53 +310,44 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testDeleteUser()
     {
-        //create the 3 websites
-        $idsite = APISitesManager::getInstance()->addSite("site1", array("http://piwik.net", "http://piwik.com/test/"));
-        $idsite = APISitesManager::getInstance()->addSite("site2", array("http://piwik.com/test/"));
-        $idsite = APISitesManager::getInstance()->addSite("site3", array("http://piwik.org"));
+        $this->addSites(3);
 
         //add user and set some rights
-        API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
-        API::getInstance()->setUserAccess("geggeqgeqag", "view", array(1, 2));
-        API::getInstance()->setUserAccess("geggeqgeqag", "admin", array(1, 3));
+        $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        $this->api->setUserAccess("geggeqgeqag", "view", array(1, 2));
+        $this->api->setUserAccess("geggeqgeqag", "admin", array(1, 3));
 
         // check rights are set
-        $this->assertNotEquals(array(), API::getInstance()->getSitesAccessFromUser("geggeqgeqag"));
+        $this->assertNotEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
 
         // delete the user
-        API::getInstance()->deleteUser("geggeqgeqag");
+        $this->api->deleteUser("geggeqgeqag");
 
         // try to get it, it should raise an exception
         try {
-            $user = API::getInstance()->getUser("geggeqgeqag");
+            $this->api->getUser("geggeqgeqag");
             $this->fail("Exception not raised.");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
 
         // add the same user
-        API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
 
         //checks access have been deleted
         //to do so we recreate the same user login and check if the rights are still there
-        $this->assertEquals(array(), API::getInstance()->getSitesAccessFromUser("geggeqgeqag"));
+        $this->assertEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
     }
-
 
     /**
      * no user => exception
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testGetUserNoUser()
     {
         // try to get it, it should raise an exception
-        try {
-            $user = API::getInstance()->getUser("geggeqgeqag");
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
-            return;
-        }
-
-        $this->fail("Exception not raised.");
+        $this->api->getUser("geggeqgeqag");
     }
 
     /**
@@ -420,8 +360,8 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $email = "mgeag4544i@geq.com";
         $alias = "";
 
-        API::getInstance()->addUser($login, $password, $email, $alias);
-        $user = API::getInstance()->getUser($login);
+        $this->api->addUser($login, $password, $email, $alias);
+        $user = $this->api->getUser($login);
 
         // check that all fields are the same
         $this->assertEquals($login, $user['login']);
@@ -438,7 +378,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testGetUsersNoUser()
     {
-        $this->assertEquals(API::getInstance()->getUsers(), array());
+        $this->assertEquals($this->api->getUsers(), array());
     }
 
     /**
@@ -447,19 +387,19 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testGetUsers()
     {
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
-        API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+        $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        $users = API::getInstance()->getUsers();
+        $users = $this->api->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
         $user1 = array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"), 'alias' => "alias", 'email' => "tegst@tesgt.com", 'superuser_access' => 0);
         $user2 = array('login' => "geggeqge632ge56a4qag", 'password' => md5("geqgegeagae"), 'alias' => "alias", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0);
         $user3 = array('login' => "geggeqgeqagqegg", 'password' => md5("geqgeaggggae"), 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0);
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
-        $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers(API::getInstance()->getUsers('gegg4564eqgeqag')));
-        $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers(API::getInstance()->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
+        $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag')));
+        $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
     }
 
     protected function _removeNonTestableFieldsFromUsers($users)
@@ -478,51 +418,39 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testGetUsersLogin()
     {
+        $this->api->addUser('gegg4564eqgeqag', 'geqgegagae', 'tegst@tesgt.com', 'alias');
+        $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+        $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
-        API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
-
-        $logins = API::getInstance()->getUsersLogin();
+        $logins = $this->api->getUsersLogin();
 
         $this->assertEquals(array("gegg4564eqgeqag", "geggeqge632ge56a4qag", "geggeqgeqagqegg"), $logins);
     }
-
 
     /**
      * no login => exception
      *
      * @group Plugins
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testSetUserAccessNoLogin()
     {
-        // try to get it, it should raise an exception
-        try {
-            API::getInstance()->setUserAccess("nologin", "view", 1);
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->setUserAccess("nologin", "view", 1);
     }
 
     /**
      * wrong access specified  => exception
      *
      * @group Plugins
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
      */
     public function testSetUserAccessWrongAccess()
     {
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
-        // try to get it, it should raise an exception
-        try {
-            API::getInstance()->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionAccessValues)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
     }
 
     /**
@@ -532,14 +460,14 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessIdsitesIsAll()
     {
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
         FakeAccess::$superUser = false;
 
-        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "all");
+        $this->api->setUserAccess("gegg4564eqgeqag", "view", "all");
 
         FakeAccess::$superUser = true;
-        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
 
         FakeAccess::$superUser = false;
@@ -559,37 +487,27 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     {
         FakeAccess::$superUser = true;
 
-        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = APISitesManager::getInstance()->addSite("test3", array("http://piwik.net", "http://piwik.com/test/"));
-        $id4 = APISitesManager::getInstance()->addSite("test4", array("http://piwik.net", "http://piwik.com/test/"));
-        $id5 = APISitesManager::getInstance()->addSite("test5", array("http://piwik.net", "http://piwik.com/test/"));
+        $idSites = $this->addSites(5);
 
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "all");
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->setUserAccess("gegg4564eqgeqag", "view", "all");
 
-        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
-        $this->assertEquals(array($id1, $id2, $id3, $id4, $id5), array_keys($access));
-
+        $this->assertEquals($idSites, array_keys($access));
     }
 
     /**
      * idsites is empty => no acccess set
      *
      * @group Plugins
+     * @expectedException \Exception
      */
     public function testSetUserAccessIdsitesEmpty()
     {
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
-        try {
-            API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array());
-            $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->api->setUserAccess("gegg4564eqgeqag", "view", array());
     }
 
     /**
@@ -599,14 +517,14 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessIdsitesOneSite()
     {
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $idSites = $this->addSites(1);
 
-        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array(1));
+        $this->api->setUserAccess("gegg4564eqgeqag", "view", $idSites);
 
-        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
-        $this->assertEquals(array(1), array_keys($access));
+        $this->assertEquals($idSites, array_keys($access));
     }
 
     /**
@@ -616,15 +534,12 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessIdsitesMultipleSites()
     {
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        list($id1, $id2, $id3) = $this->addSites(3);
 
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $this->api->setUserAccess("gegg4564eqgeqag", "view", array($id1, $id3));
 
-        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1, $id3));
-
-        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1, $id3), array_keys($access));
 
@@ -637,14 +552,12 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessWithIdSitesIsStringCommaSeparated()
     {
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        list($id1, $id2, $id3) = $this->addSites(3);
 
-        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "1,3");
+        $this->api->setUserAccess("gegg4564eqgeqag", "view", "1,3");
 
-        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1, $id3), array_keys($access));
     }
@@ -656,14 +569,14 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessMultipleCallDistinctAccessSameUser()
     {
-        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
-        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1));
-        API::getInstance()->setUserAccess("gegg4564eqgeqag", "admin", array($id2));
+        list($id1, $id2) = $this->addSites(2);
 
-        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $this->api->setUserAccess("gegg4564eqgeqag", "view", array($id1));
+        $this->api->setUserAccess("gegg4564eqgeqag", "admin", array($id2));
+
+        $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1 => 'view', $id2 => 'admin'), $access);
     }
@@ -675,19 +588,18 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessMultipleCallDistinctAccessMultipleUser()
     {
-        API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
-        API::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
-        $id1 = APISitesManager::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $this->api->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
 
-        API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
-        API::getInstance()->setUserAccess("user2", "admin", array($id1));
-        API::getInstance()->setUserAccess("user2", "view", array($id3, $id2));
+        list($id1, $id2, $id3) = $this->addSites(3);
 
-        $access1 = API::getInstance()->getSitesAccessFromUser("user1");
+        $this->api->setUserAccess("user1", "view", array($id1, $id2));
+        $this->api->setUserAccess("user2", "admin", array($id1));
+        $this->api->setUserAccess("user2", "view", array($id3, $id2));
+
+        $access1 = $this->api->getSitesAccessFromUser("user1");
         $access1 = $this->_flatten($access1);
-        $access2 = API::getInstance()->getSitesAccessFromUser("user2");
+        $access2 = $this->api->getSitesAccessFromUser("user2");
         $access2 = $this->_flatten($access2);
         $wanted1 = array($id1 => 'view', $id2 => 'view',);
         $wanted2 = array($id1 => 'admin', $id2 => 'view', $id3 => 'view');
@@ -696,9 +608,9 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($wanted2, $access2);
 
 
-        $access1 = API::getInstance()->getUsersAccessFromSite($id1);
-        $access2 = API::getInstance()->getUsersAccessFromSite($id2);
-        $access3 = API::getInstance()->getUsersAccessFromSite($id3);
+        $access1 = $this->api->getUsersAccessFromSite($id1);
+        $access2 = $this->api->getUsersAccessFromSite($id2);
+        $access3 = $this->api->getUsersAccessFromSite($id3);
         $wanted1 = array('user1' => 'view', 'user2' => 'admin',);
         $wanted2 = array('user1' => 'view', 'user2' => 'view');
         $wanted3 = array('user2' => 'view');
@@ -707,8 +619,8 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($wanted2, $access2);
         $this->assertEquals($wanted3, $access3);
 
-        $access1 = API::getInstance()->getUsersSitesFromAccess('view');
-        $access2 = API::getInstance()->getUsersSitesFromAccess('admin');
+        $access1 = $this->api->getUsersSitesFromAccess('view');
+        $access2 = $this->api->getUsersSitesFromAccess('admin');
         $wanted1 = array('user1' => array($id1, $id2), 'user2' => array($id2, $id3));
         $wanted2 = array('user2' => array($id1));
 
@@ -716,15 +628,15 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($wanted2, $access2);
 
         // Test getUsersWithSiteAccess
-        $users = API::getInstance()->getUsersWithSiteAccess($id1, $access = 'view');
+        $users = $this->api->getUsersWithSiteAccess($id1, $access = 'view');
         $this->assertEquals(1, count($users));
         $this->assertEquals('user1', $users[0]['login']);
-        $users = API::getInstance()->getUsersWithSiteAccess($id2, $access = 'view');
+        $users = $this->api->getUsersWithSiteAccess($id2, $access = 'view');
         $this->assertEquals(2, count($users));
-        $users = API::getInstance()->getUsersWithSiteAccess($id1, $access = 'admin');
+        $users = $this->api->getUsersWithSiteAccess($id1, $access = 'admin');
         $this->assertEquals(1, count($users));
         $this->assertEquals('user2', $users[0]['login']);
-        $users = API::getInstance()->getUsersWithSiteAccess($id3, $access = 'admin');
+        $users = $this->api->getUsersWithSiteAccess($id3, $access = 'admin');
         $this->assertEquals(0, count($users));
     }
 
@@ -735,15 +647,14 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessMultipleCallOverwriteSingleUserOneSite()
     {
-        API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
 
-        $id1 = APISitesManager::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        list($id1, $id2) = $this->addSites(2);
 
-        API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
-        API::getInstance()->setUserAccess("user1", "admin", array($id1));
+        $this->api->setUserAccess("user1", "view", array($id1, $id2));
+        $this->api->setUserAccess("user1", "admin", array($id1));
 
-        $access1 = API::getInstance()->getSitesAccessFromUser("user1");
+        $access1 = $this->api->getSitesAccessFromUser("user1");
         $access1 = $this->_flatten($access1);
         $wanted1 = array($id1 => 'admin', $id2 => 'view',);
 
@@ -754,65 +665,48 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      * wrong user => exception
      *
      * @group Plugins
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testGetSitesAccessFromUserWrongUser()
     {
-        try {
-            $access1 = API::getInstance()->getSitesAccessFromUser("user1");
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->getSitesAccessFromUser("user1");
     }
 
     /**
-     *wrong idsite => exception
+     * wrong idsite => exception
      *
      * @group Plugins
+     * @expectedException \Exception
      */
     public function testGetUsersAccessFromSiteWrongSite()
     {
-        try {
-            $access1 = API::getInstance()->getUsersAccessFromSite(1);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->api->getUsersAccessFromSite(1);
     }
 
     /**
      * wrong access =>exception
      *
      * @group Plugins
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionAccessValues
      */
     public function testGetUsersSitesFromAccessWrongSite()
     {
-        try {
-            $access1 = API::getInstance()->getUsersSitesFromAccess('unknown');
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionAccessValues)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->getUsersSitesFromAccess('unknown');
     }
 
     /**
      * non existing login => exception
      *
      * @group Plugins
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testUpdateUserWrongLogin()
     {
-        try {
-            API::getInstance()->updateUser("lolgin", "password");
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
-            return;
-        }
-        $this->fail("Exception not raised.");
+        $this->api->updateUser("lolgin", "password");
     }
-
 
     /**
      * no email no alias => keep old ones
@@ -822,14 +716,13 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testUpdateUserNoEmailNoAlias()
     {
         $login = "login";
-        $user = array('login'    => $login,
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com",
-                      'alias'    => "alias");
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
 
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-
-        API::getInstance()->updateUser($login, "passowordOK");
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->updateUser($login, "passowordOK");
 
         $this->_checkUserHasNotChanged($user, "passowordOK");
     }
@@ -842,14 +735,13 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testUpdateUserNoEmail()
     {
         $login = "login";
-        $user = array('login'    => $login,
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com",
-                      'alias'    => "alias");
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
 
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-
-        API::getInstance()->updateUser($login, "passowordOK", null, "newalias");
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->updateUser($login, "passowordOK", null, "newalias");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", null, "newalias");
     }
@@ -862,14 +754,13 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testUpdateUserNoAlias()
     {
         $login = "login";
-        $user = array('login'    => $login,
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com",
-                      'alias'    => "alias");
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
 
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-
-        API::getInstance()->updateUser($login, "passowordOK", "email@geaga.com");
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->updateUser($login, "passowordOK", "email@geaga.com");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com");
     }
@@ -889,17 +780,13 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      * check to modify as being another user => exception
      *
      * @group Plugins
+     * @expectedException \Exception
      */
     public function testUpdateUserIAmNotTheUser()
     {
-        try {
-            FakeAccess::$identity = 'login2';
-            FakeAccess::$superUser = false;
-            $this->testUpdateUserNoEmailNoAlias();
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        FakeAccess::$identity = 'login2';
+        FakeAccess::$superUser = false;
+        $this->testUpdateUserNoEmailNoAlias();
     }
 
     /**
@@ -910,14 +797,13 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testUpdateUser()
     {
         $login = "login";
-        $user = array('login'    => $login,
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com",
-                      'alias'    => "alias");
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
 
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-
-        API::getInstance()->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS");
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "NEW ALIAS");
     }
@@ -926,15 +812,11 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      * test getUserByEmail invalid mail
      *
      * @group Plugins
+     * @expectedException \Exception
      */
     public function testGetUserByEmailInvalidMail()
     {
-        try {
-            $userByMail = API::getInstance()->getUserByEmail('email@test.com');
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $this->api->getUserByEmail('email@test.com');
     }
 
     /**
@@ -949,9 +831,9 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
                       'email'    => "test@test.com",
                       'alias'    => "alias");
 
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        $userByMail = API::getInstance()->getUserByEmail($user['email']);
+        $userByMail = $this->api->getUserByEmail($user['email']);
 
         $this->assertEquals($user['login'], $userByMail['login']);
         $this->assertEquals($user['email'], $userByMail['email']);
@@ -963,13 +845,23 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      */
     public function testGetUserPreferenceDefault()
     {
-        APISitesManager::getInstance()->addSite("site1", array("http://piwik.net", "http://piwik.com/test/"));
+        $this->addSites(1);
         $defaultReportPref = API::PREFERENCE_DEFAULT_REPORT;
         $defaultReportDatePref = API::PREFERENCE_DEFAULT_REPORT_DATE;
 
-        $this->assertEquals(1,
-            API::getInstance()->getUserPreference('someUser', $defaultReportPref));
-        $this->assertEquals('yesterday',
-            API::getInstance()->getUserPreference('someUser', $defaultReportDatePref));
+        $this->assertEquals(1, $this->api->getUserPreference('someUser', $defaultReportPref));
+        $this->assertEquals('yesterday', $this->api->getUserPreference('someUser', $defaultReportDatePref));
+    }
+
+    private function addSites($numberOfSites)
+    {
+        $idSites = array();
+
+        for ($index = 0; $index < $numberOfSites; $index++) {
+            $name      = "test" . ($index + 1);
+            $idSites[] = APISitesManager::getInstance()->addSite($name, array("http://piwik.net", "http://piwik.com/test/"));
+        }
+
+        return $idSites;
     }
 }
