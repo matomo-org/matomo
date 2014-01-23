@@ -417,7 +417,7 @@ class API extends \Piwik\Plugin\API
         $db = Db::get();
         $db->update(Common::prefixTable("user"),
             array(
-                'superuser_access' => $hasSuperUserAccess
+                'superuser_access' => $hasSuperUserAccess ? 1 : 0
             ),
             "login = '$userLogin'"
         );

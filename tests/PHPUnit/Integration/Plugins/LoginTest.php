@@ -168,7 +168,7 @@ class Plugins_LoginTest extends DatabaseTestCase
 
         // API authentication
         $rc = $this->authenticate($login = null, $authToken = 'anonymous');
-        $this->assertUserLogin($rc);
+        $this->assertUserLogin($rc, $login = 'anonymous', $tokenLength = 9);
     }
 
     /**
@@ -180,19 +180,7 @@ class Plugins_LoginTest extends DatabaseTestCase
 
         // valid login & token auth
         $rc = $this->authenticate($login = 'anonymous', $authToken = 'anonymous');
-        $this->assertUserLogin($rc);
-    }
-
-    protected function _setUpUser()
-    {
-        $user = array('login'    => 'user',
-                      'password' => "geqgeagae",
-                      'email'    => "test@test.com",
-                      'alias'    => "alias");
-        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $password = md5($user['password']);
-        $user['tokenAuth'] = API::getInstance()->getTokenAuth($user['login'], $password);
-        return $user;
+        $this->assertUserLogin($rc, $login = 'anonymous', $tokenLength = 9);
     }
 
     /**
@@ -246,9 +234,22 @@ class Plugins_LoginTest extends DatabaseTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserLoginTokenAuthMissmatch()
+    public function testAuthenticateFailureUserWithSuperUserAccessEmptyLogin()
     {
         $user = $this->_setUpUser();
+        $this->_setUpSuperUserAccessViaDb();
+
+        // empty login
+        $rc = $this->authenticate($login = '', $user['tokenAuth']);
+        $this->assertFailedLogin($rc);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testAuthenticateFailureUserLoginTokenAuthMissmatch()
+    {
+        $this->_setUpUser();
 
         // not equal
         $rc = $this->authenticate($login = 0, $authToken = 0);
@@ -282,6 +283,19 @@ class Plugins_LoginTest extends DatabaseTestCase
     /**
      * @group Plugins
      */
+    public function testAuthenticateFailureUserWithSuperUserAccessLoginTokenAuthMissmatch()
+    {
+        $user = $this->_setUpUser();
+        $this->_setUpSuperUserAccessViaDb();
+
+        // not equal
+        $rc = $this->authenticate($login = null, $authToken = $user['password']);
+        $this->assertFailedLogin($rc);
+    }
+
+    /**
+     * @group Plugins
+     */
     public function testAuthenticateSuccessUserTokenAuth()
     {
         $user = $this->_setUpUser();
@@ -294,6 +308,19 @@ class Plugins_LoginTest extends DatabaseTestCase
     /**
      * @group Plugins
      */
+    public function testAuthenticateSuccessUserWithSuperUserAccessByTokenAuth()
+    {
+        $user = $this->_setUpUser();
+        $this->_setUpSuperUserAccessViaDb();
+
+        // API authentication
+        $rc = $this->authenticate($login = null, $user['tokenAuth']);
+        $this->assertSuperUserLogin($rc, 'user');
+    }
+
+    /**
+     * @group Plugins
+     */
     public function testAuthenticateSuccessUserLoginAndTokenAuth()
     {
         $user = $this->_setUpUser();
@@ -301,6 +328,19 @@ class Plugins_LoginTest extends DatabaseTestCase
         // valid login & token auth
         $rc = $this->authenticate($user['login'], $user['tokenAuth']);
         $this->assertUserLogin($rc);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testAuthenticateSuccessUserWithSuperUserAccessLoginAndTokenAuth()
+    {
+        $user = $this->_setUpUser();
+        $this->_setUpSuperUserAccessViaDb();
+
+        // valid login & token auth
+        $rc = $this->authenticate($user['login'], $user['tokenAuth']);
+        $this->assertSuperUserLogin($rc, 'user');
     }
 
     /**
@@ -401,6 +441,26 @@ class Plugins_LoginTest extends DatabaseTestCase
         $this->assertSuperUserLogin($rc);
     }
 
+    protected function _setUpUser()
+    {
+        $user = array('login'    => 'user',
+                      'password' => 'geqgeagae',
+                      'email'    => 'test@test.com',
+                      'alias'    => 'alias',
+                      'superuser_access' => 0);
+
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        $user['tokenAuth'] = API::getInstance()->getTokenAuth($user['login'], md5($user['password']));
+
+        return $user;
+    }
+
+    private function _setUpSuperUserAccessViaDb()
+    {
+        API::getInstance()->setSuperUserAccess('user', true);
+    }
+
     private function authenticate($login, $tokenAuth)
     {
         $this->auth->setLogin($login);
@@ -414,14 +474,18 @@ class Plugins_LoginTest extends DatabaseTestCase
         $this->assertEquals(AuthResult::FAILURE, $authResult->getCode());
     }
 
-    private function assertSuperUserLogin(AuthResult $authResult)
+    private function assertSuperUserLogin(AuthResult $authResult, $login = 'superUserLogin', $tokenLength = 32)
     {
         $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $authResult->getCode());
+        $this->assertEquals($login, $authResult->getIdentity());
+        $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
     }
 
-    private function assertUserLogin(AuthResult $authResult)
+    private function assertUserLogin(AuthResult $authResult, $login = 'user', $tokenLength = 32)
     {
         $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode());
+        $this->assertEquals($login, $authResult->getIdentity());
+        $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
     }
 
     private function getSuperUserInfo()
