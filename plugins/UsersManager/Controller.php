@@ -88,7 +88,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $superUsers = array();
-        if (Piwik::isUserHasSomeAdminAccess()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $users = APIUsersManager::getInstance()->getUsers();
             foreach ($users as $user) {
                 if ($user['superuser_access']) {

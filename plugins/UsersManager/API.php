@@ -582,7 +582,7 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkAccessType($access);
         $this->checkUserExists($userLogin);
-        $this->checkUserIsNotConfigSuperUser($userLogin);
+        $this->checkUserHasNotSuperUserAccess($userLogin);
 
         if ($userLogin == 'anonymous'
             && $access == 'admin'
@@ -657,6 +657,13 @@ class API extends \Piwik\Plugin\API
     {
         if ($userLogin == 'anonymous') {
             throw new Exception(Piwik::translate("UsersManager_ExceptionEditAnonymous"));
+        }
+    }
+
+    private function checkUserHasNotSuperUserAccess($userLogin)
+    {
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUser"));
         }
     }
 

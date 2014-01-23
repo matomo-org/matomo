@@ -288,7 +288,6 @@ class Piwik
     /**
      * @see Piwik::hasUserSuperUserAccessOrIsTheUser()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     static public function isUserIsSuperUserOrTheUser($theUser)
     {
@@ -298,7 +297,6 @@ class Piwik
     /**
      * @see Piwik::checkUserHasSuperUserAccessOrIsTheUser()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     static public function checkUserIsSuperUserOrTheUser($theUser)
     {
@@ -354,7 +352,6 @@ class Piwik
     /**
      * @see Piwik::hasUserSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     static public function isUserIsSuperUser()
     {
@@ -420,7 +417,6 @@ class Piwik
     /**
      * @see Piwik::setUserHasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     static public function setUserIsSuperUser($bool = true)
     {
@@ -430,7 +426,6 @@ class Piwik
     /**
      * @see Piwik::checkUserHasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     static public function checkUserIsSuperUser()
     {

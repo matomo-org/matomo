@@ -54,7 +54,6 @@ class FakeAccess
     /**
      * @see FakeAccess::checkUserHasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     public function checksUserIsSuperUser()
     {

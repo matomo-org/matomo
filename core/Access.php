@@ -249,7 +249,6 @@ class Access
     /**
      * @see Access::hasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     public function isSuperUser()
     {
@@ -345,7 +344,6 @@ class Access
     /**
      * @see Access::checkUserHasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
-     * @todo To be removed from April 1st 2014.
      */
     public function checksUserIsSuperUser()
     {
