@@ -20,7 +20,7 @@
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/os/WI8.gif</logo>
+		<logo>plugins/UserSettings/images/os/WI7.gif</logo>
 	</row>
 	<row>
 		<label>Mac 10.6</label>
@@ -64,7 +64,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/os/WI8.gif</logo>
+		<logo>plugins/UserSettings/images/os/WXP.gif</logo>
 	</row>
 	<row>
 		<label>Mac 10.8</label>
