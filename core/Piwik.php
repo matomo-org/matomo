@@ -230,7 +230,7 @@ class Piwik
      */
     static public function getConfigSuperUserLogin()
     {
-        return Access::getInstance()->getSuperUserLogin();
+        return Access::getInstance()->getConfigSuperUserLogin();
     }
 
     /**

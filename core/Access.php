@@ -276,11 +276,20 @@ class Access
     }
 
     /**
+     * @see Access::getConfigSuperUserLogin()
+     * @deprecated deprecated since version 2.0.4
+     */
+    public function getSuperUserLogin()
+    {
+        return $this->getConfigSuperUserLogin();
+    }
+
+    /**
      * Returns the super user's login.
      *
      * @return string
      */
-    public function getSuperUserLogin()
+    public function getConfigSuperUserLogin()
     {
         $superuser = Config::getInstance()->superuser;
         return $superuser['login'];
@@ -445,7 +454,7 @@ class Access
     private function setConfigUserLoginIfCurrentUserHasNotSuperUserAccess()
     {
         if (!Piwik::hasTheUserSuperUserAccess($this->login)) {
-            $this->login = $this->getSuperUserLogin();
+            $this->login = $this->getConfigSuperUserLogin();
         }
     }
 }

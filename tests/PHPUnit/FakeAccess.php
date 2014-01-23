@@ -183,8 +183,17 @@ class FakeAccess
         return $result;
     }
     
-    public function getSuperUserLogin()
+    public function getConfigSuperUserLogin()
     {
         return self::$superUserLogin;
+    }
+
+    /**
+     * @see FakeAccess::getConfigSuperUserLogin()
+     * @deprecated deprecated since version 2.0.4
+     */
+    public function getSuperUserLogin()
+    {
+        return $this->getConfigSuperUserLogin();
     }
 }
