@@ -38,6 +38,7 @@ class UserAgentParserEnhanced
         'BL' => 'Beetel',
         'BQ' => 'BenQ',
         'BS' => 'BenQ-Siemens',
+        'CA' => 'Cat',
         'CK' => 'Cricket',
         'CL' => 'Compal',
         'CN' => 'CnM',

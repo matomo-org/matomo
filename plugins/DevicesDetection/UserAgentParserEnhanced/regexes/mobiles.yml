@@ -278,6 +278,16 @@ Capitel:
   device: 'feature phone'
   model: '$1'
 
+# Cat
+Cat:
+  regex: 'Cat ?(tablet|stargate|nova)'
+  device: 'tablet'
+  models:
+    - regex: 'Cat ?(?:tablet)? ?(StarGate|Nova ?8?)'
+      model: '$1'
+    - regex: 'Cat ?tablet'
+      model: 'Nova'
+
 # Compal
 Compal:
   regex: 'Compal-([a-z0-9]+)'
