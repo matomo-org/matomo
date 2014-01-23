@@ -2106,7 +2106,7 @@
         "UsersManagement": "Users Management",
         "UsersManagementMainDescription": "Create new users or update the existing users. You can then set their permissions above.",
         "SuperUserAccessManagement": "Super User Access Management",
-        "SuperUserAccessManagementMainDescription": "Super users have the highest permissions. They can perform administrative tasks such as adding new websites to monitor, adding users, changing user permissions, and enabling and disabling plugins and they have access to all websites. Beside the super user defined during the installation which always exist you can grant here super user access to additional users.",
+        "SuperUserAccessManagementMainDescription": "Super users have the highest permissions. They can perform administrative tasks such as adding new websites to monitor, adding users, changing user permissions, enabling and disabling plugins and they have access to all websites. Beside the super user defined during the installation which always exist you can grant super user access to additional users here.",
         "ConfirmGrantSuperUserAccess": "Do you really want to grant '%s' super user access? The user will have access to all websites and will be able to perform administrative tasks.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Do you really want to prohibit '%s' super user access? The user will lose all permissions and access to all websites. Make sure to add access to needed websites afterwards if necessary.",
         "ConfirmProhibitMySuperUserAccess": "Do you really want to remove your (%s) super user access? You will lose all permissions and access to all websites and therefore you will be logged out afterwards.",
