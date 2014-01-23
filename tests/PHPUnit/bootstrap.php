@@ -48,12 +48,16 @@ require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
 
 // require test fixtures
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BaseFixture.php';
-foreach (glob(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/*.php') as $file) {
-    require_once $file;
-}
 
-foreach (glob(PIWIK_INCLUDE_PATH . '/plugins/*/tests/Fixtures/*.php') as $file) {
-    require_once $file;
+$fixturesToLoad = array(
+    '/tests/PHPUnit/Fixtures/*.php',
+    '/plugins/*/tests/Fixtures/*.php',
+    '/plugins/*/Test/Fixtures/*.php',
+);
+foreach($fixturesToLoad as $fixturePath) {
+    foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
+        require_once $file;
+    }
 }
 
 // General requirement checks & help: a webserver must be running for tests to work!
