@@ -142,5 +142,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Done";
         $translationKeys[] = "UsersManager_DeleteConfirm";
+        $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
+        $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
+        $translationKeys[] = "UsersManager_ConfirmProhibitMySuperUserAccess";
     }
 }

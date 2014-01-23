@@ -121,17 +121,15 @@ function bindUpdateSuperUserAccess() {
     var login     = $(this).parents('td').data('login');
     var hasAccess = parseInt($(this).data('hasaccess'), 10);
 
-    var message = 'Do_You_Really_Want_To_Grant_%s_SuperUser_Permission?_The_User_Will_Have_Access_To_All_Websites_And_Users_...';
-    if (hasAccess) {
-        message = 'Do_You_Really_Want_To_Remove_%s_SuperUser_Permission?_The_User_Will_Lose_Access_To_All_Websites_And_Users_...';
+    var message = 'UsersManager_ConfirmGrantSuperUserAccess';
+    if (hasAccess && login == piwik.userLogin) {
+        message = 'UsersManager_ConfirmProhibitMySuperUserAccess';
+    } else if (hasAccess) {
+        message = 'UsersManager_ConfirmProhibitOtherUsersSuperUserAccess';
     }
 
     message = _pk_translate(message);
     message = message.replace('%s', login)
-
-    if (login == piwik.userLogin && hasAccess) {
-        message += _pk_translate('As_This_Is_Your_User_You_Will_Be_Logged_Out_Afterwards_And_Not_Able_To_Log_In_Again');
-    }
 
     $('#superUserAccessConfirm h2').text(message);
 
