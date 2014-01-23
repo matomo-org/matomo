@@ -398,6 +398,12 @@ Ezio:
   device: 'feature phone'
   model: '$1'
 
+# Gemini
+Gemini:
+  regex: '(GEM[0-9]+[a-z]*)'
+  device: 'tablet'
+  model: '$1'
+
 # Gionee
 Gionee:
   regex: 'GIONEE-([a-z0-9]+)'

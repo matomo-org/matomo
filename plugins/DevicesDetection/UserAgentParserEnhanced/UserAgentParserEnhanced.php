@@ -56,6 +56,7 @@ class UserAgentParserEnhanced
         'ET' => 'eTouch',
         'EZ' => 'Ezze',
         'FL' => 'Fly',
+        'GD' => 'Gemini',
         'GI' => 'Gionee',
         'GO' => 'Google',
         'GR' => 'Gradiente',
