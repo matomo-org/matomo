@@ -296,7 +296,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // remove monthly archive tables
             $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
             $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
-            $minimumCountPiwikTables = 17;
+            $minimumCountPiwikTables = 14;
 
             Access::getInstance();
             Piwik::setUserHasSuperUserAccess();

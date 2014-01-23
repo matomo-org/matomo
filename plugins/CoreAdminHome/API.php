@@ -19,6 +19,7 @@ use Piwik\Option;
 use Piwik\Period;
 use Piwik\Period\Week;
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -97,8 +98,9 @@ class API extends \Piwik\Plugin\API
         }
 
         // If using the feature "Delete logs older than N days"...
-        $logsAreDeletedBeforeThisDate = Config::getInstance()->Deletelogs['delete_logs_schedule_lowest_interval'];
-        $logsDeleteEnabled = Config::getInstance()->Deletelogs['delete_logs_enable'];
+        $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
+        $logsAreDeletedBeforeThisDate = $purgeDataSettings['delete_logs_schedule_lowest_interval'];
+        $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];
         $minimumDateWithLogs = false;
         if ($logsDeleteEnabled
             && $logsAreDeletedBeforeThisDate

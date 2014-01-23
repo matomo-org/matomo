@@ -390,7 +390,7 @@ class ScheduledReports extends \Piwik\Plugin
             $idSite = false,
             $period = false,
             $idReport = false,
-            $ifSuperUserReturnOnlySuperUserReports = APIMobileMessaging::getInstance()->getDelegatedManagement()
+            $ifSuperUserReturnOnlySuperUserReports = false
         );
 
         foreach ($reports as $report) {

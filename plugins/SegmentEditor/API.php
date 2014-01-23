@@ -66,7 +66,7 @@ class API extends \Piwik\Plugin\API
     {
         if (empty($idSite)) {
             if (!Piwik::hasUserSuperUserAccess()) {
-                throw new Exception("idSite is required, unless you are Super User and can create the segment across all websites");
+                throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
             }
         } else {
             if (!is_numeric($idSite)) {
@@ -238,8 +238,7 @@ class API extends \Piwik\Plugin\API
             }
 
         } catch (Exception $e) {
-            throw new Exception("You can only edit the custom segments you have created yourself. This segment was created and 'shared with you' by the Super User. " .
-                "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.");
+            throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
         }
 
         if ($segment['deleted']) {
@@ -321,5 +320,14 @@ class API extends \Piwik\Plugin\API
         $allWebsiteVisibilityIsDropped = !isset($segment['idSite']) && $idSiteNewValue;
 
         return $allUserVisibilityIsDropped || $allWebsiteVisibilityIsDropped;
+    }
+
+    /**
+     * @return string
+     */
+    private function getMessageCannotEditSegmentCreatedBySuperUser()
+    {
+        return "You can only edit the custom segments you have created yourself. This segment was created and 'shared with you' by the Super User. " .
+        "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.";
     }
 }
