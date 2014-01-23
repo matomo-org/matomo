@@ -69,6 +69,7 @@ class Myisam implements SchemaInterface
 						  alias VARCHAR(45) NOT NULL,
 						  email VARCHAR(100) NOT NULL,
 						  token_auth CHAR(32) NOT NULL,
+						  superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0'
 						  date_registered TIMESTAMP NULL,
 						  PRIMARY KEY(login),
 						  UNIQUE KEY uniq_keytoken(token_auth)
