@@ -11662,3 +11662,35 @@
     model: GT-S8500
   os_family: Other Mobile
   browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.2.2; HP Slate7 Extreme Build/JDQ39) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.169 Safari/537.22
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 25.0
+  device:
+    type: tablet
+    brand: HP
+    model: Slate 7 Extreme
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-us; HP Slate 8 Pro Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: HP
+    model: Slate 8 Pro
+  os_family: Android
+  browser_family: Android Browser

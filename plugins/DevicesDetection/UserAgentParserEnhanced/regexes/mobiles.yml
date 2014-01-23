@@ -123,9 +123,15 @@ Palm:
 
 # HP
 HP:
-  regex: 'TouchPad|hp-tablet|HP(?: )?iPAQ|webOS.*(P160U)'
+  regex: 'TouchPad|hp-tablet|HP(?: )?iPAQ|webOS.*(P160U)|HP Slate'
   device: 'smartphone'
   models:
+    - regex: 'HP Slate ?(.+) Build'
+      model: 'Slate $1'
+      device: 'tablet'
+    - regex: 'HP Slate ?([0-9]+)'
+      model: 'Slate $1'
+      device: 'tablet'
     - regex: 'TouchPad/(\d+\.\d+)|hp-tablet'
       model: 'TouchPad'
       device: 'tablet'
