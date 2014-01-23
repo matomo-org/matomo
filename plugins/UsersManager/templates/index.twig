@@ -47,7 +47,7 @@
         <tbody>
         {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />{% endset %}
         {% set accesInvalid %}<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />{% endset %}
-        {% set superUserAccess %}<span title="{{ 'This_User_Has_SuperUser_Access_And_Therefore_Access_To_All_Websites_Remove_SuperUser_Permission_To_SetPermission'|translate }}">N/A</span>{% endset %}
+        {% set superUserAccess %}<span title="{{ 'UsersManager_ManageAccessNotPossibleBecauseUserHasSuperUserAccess'|translate }}">N/A</span>{% endset %}
         {% for login,access in usersAccessByWebsite %}
             <tr>
                 <td id='login'>{{ login }}</td>
