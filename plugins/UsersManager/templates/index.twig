@@ -168,17 +168,25 @@
         </thead>
 
         <tbody>
-        {% for login,alias in usersAliasByLogin if login != 'anonymous' %}
+        {% if users|length > 1 %}
+            {% for login,alias in usersAliasByLogin if login != 'anonymous' %}
+                <tr>
+                    <td id='login'>{{ login }}</td>
+                    <td>{{ alias|raw }}</td>
+                    <td id='superuser' data-login="{{ login|e('html_attr') }}">
+                        <img src='plugins/UsersManager/images/ok.png' class='accessGranted' data-hasaccess="1" {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
+                        <img src='plugins/UsersManager/images/no-access.png' class='updateAccess' data-hasaccess="0" {% if login in superUserLogins %}style="display:none"{% endif %} />
+                        &nbsp;
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
             <tr>
-                <td id='login'>{{ login }}</td>
-                <td>{{ alias|raw }}</td>
-                <td id='superuser' data-login="{{ login|e('html_attr') }}">
-                    <img src='plugins/UsersManager/images/ok.png' class='accessGranted' data-hasaccess="1" {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
-                    <img src='plugins/UsersManager/images/no-access.png' class='updateAccess' data-hasaccess="0" {% if login in superUserLogins %}style="display:none"{% endif %} />
-                    &nbsp;
+                <td colspan="3">
+                    {{ 'UsersManager_NoUsersExist'|translate }}
                 </td>
             </tr>
-        {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 

@@ -78,21 +78,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         ksort($usersAccessByWebsite);
 
-        $users = array();
+        $users             = array();
+        $superUsers        = array();
         $usersAliasByLogin = array();
+
         if (Piwik::isUserHasSomeAdminAccess()) {
             $users = APIUsersManager::getInstance()->getUsers();
             foreach ($users as $user) {
                 $usersAliasByLogin[$user['login']] = $user['alias'];
             }
-        }
 
-        $superUsers = array();
-        if (Piwik::hasUserSuperUserAccess()) {
-            $users = APIUsersManager::getInstance()->getUsers();
-            foreach ($users as $user) {
-                if ($user['superuser_access']) {
-                    $superUsers[] = $user['login'];
+            if (Piwik::hasUserSuperUserAccess()) {
+                foreach ($users as $user) {
+                    if ($user['superuser_access']) {
+                        $superUsers[] = $user['login'];
+                    }
                 }
             }
         }
