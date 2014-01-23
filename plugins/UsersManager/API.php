@@ -540,8 +540,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeViewAccess();
 
         $count = Db::fetchOne("SELECT count(*)
-													FROM " . Common::prefixTable("user") . "
-													WHERE login = ?", $userLogin);
+                               FROM " . Common::prefixTable("user") . "
+                               WHERE login = ?", $userLogin);
         return $count != 0;
     }
 
