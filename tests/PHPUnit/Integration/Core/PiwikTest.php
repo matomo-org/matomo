@@ -26,7 +26,7 @@ class Core_PiwikTest extends DatabaseTestCase
 
         // we make sure the tests don't depend on the config file content
         Config::getInstance()->superuser = array(
-            'login'    => 'superusertest',
+            'login'    => 'superUserLogin',
             'password' => 'passwordsuperusertest',
             'email'    => 'superuser@example.com'
         );
@@ -300,7 +300,7 @@ class Core_PiwikTest extends DatabaseTestCase
 
     public function test_getConfigSuperUserLogin_ShouldReadSuperUserLoginFromConfig()
     {
-        $this->assertEquals('superusertest', Piwik::getConfigSuperUserLogin());
+        $this->assertEquals('superUserLogin', Piwik::getConfigSuperUserLogin());
     }
 
     public function test_getConfigSuperUserEmail_ShouldReadSuperUserEmailFromConfig()
