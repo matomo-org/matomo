@@ -141,7 +141,7 @@ Notes:
         $this->initTokenAuth();
         $this->initCheckCli();
         $this->initStateFromParameters();
-        Piwik::setUserIsSuperUser(true);
+        Piwik::setUserHasSuperUserAccess(true);
 
         $this->logInitInfo();
         $this->checkPiwikUrlIsValid();

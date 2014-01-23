@@ -44,11 +44,21 @@ class FakeAccess
         self::$idSitesView = $ids;
     }
 
-    public static function checkUserIsSuperUser()
+    public static function checkUserHasSuperUserAccess()
     {
         if (!self::$superUser) {
-            throw new Exception("checkUserIsSuperUser Fake exception // string not to be tested");
+            throw new Exception("checkUserHasSuperUserAccess Fake exception // string not to be tested");
         }
+    }
+
+    /**
+     * @see FakeAccess::checkUserHasSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
+    public function checksUserIsSuperUser()
+    {
+        self::checkUserHasSuperUserAccess();
     }
 
     public static function setSuperUser($bool = true)

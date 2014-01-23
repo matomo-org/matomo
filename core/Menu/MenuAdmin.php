@@ -76,7 +76,7 @@ class MenuAdmin extends MenuAbstract
              *             'MenuName',
              *             'SubmenuName',
              *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::isUserIsSuperUser(),
+             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
              *             $order = 6
              *         );
              *     }

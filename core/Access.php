@@ -84,11 +84,11 @@ class Access
 
     /**
      * Defines if the current user is the super user
-     * @see isSuperUser()
+     * @see hasSuperUserAccess()
      *
      * @var bool
      */
-    protected $isSuperUser = false;
+    protected $hasSuperUserAccess = false;
 
     /**
      * List of available permissions in Piwik
@@ -147,7 +147,7 @@ class Access
 
         // if the Auth wasn't set, we may be in the special case of setSuperUser(), otherwise we fail
         if (is_null($this->auth)) {
-            if ($this->isSuperUser()) {
+            if ($this->hasSuperUserAccess()) {
                 return $this->reloadAccessSuperUser();
             }
             return false;
@@ -204,7 +204,7 @@ class Access
      */
     protected function reloadAccessSuperUser()
     {
-        $this->isSuperUser = true;
+        $this->hasSuperUserAccess = true;
 
         try {
             $allSitesId = Plugins\SitesManager\API::getInstance()->getAllSitesId();
@@ -231,7 +231,7 @@ class Access
         if ($bool) {
             $this->reloadAccessSuperUser();
         } else {
-            $this->isSuperUser = false;
+            $this->hasSuperUserAccess = false;
             $this->idsitesByAccess['superuser'] = array();
         }
     }
@@ -241,9 +241,19 @@ class Access
      *
      * @return bool
      */
+    public function hasSuperUserAccess()
+    {
+        return $this->hasSuperUserAccess;
+    }
+
+    /**
+     * @see Access::hasSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
     public function isSuperUser()
     {
-        return $this->isSuperUser;
+        return $this->hasSuperUserAccess();
     }
 
     /**
@@ -325,11 +335,21 @@ class Access
      *
      * @throws \Piwik\NoAccessException
      */
-    public function checkUserIsSuperUser()
+    public function checkUserHasSuperUserAccess()
     {
-        if (!$this->isSuperUser()) {
+        if (!$this->hasSuperUserAccess()) {
             throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
         }
+    }
+
+    /**
+     * @see Access::checkUserHasSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
+    public function checksUserIsSuperUser()
+    {
+        self::checkUserHasSuperUserAccess();
     }
 
     /**
@@ -339,7 +359,7 @@ class Access
      */
     public function checkUserHasSomeAdminAccess()
     {
-        if ($this->isSuperUser()) {
+        if ($this->hasSuperUserAccess()) {
             return;
         }
         $idSitesAccessible = $this->getSitesIdWithAdminAccess();
@@ -355,7 +375,7 @@ class Access
      */
     public function checkUserHasSomeViewAccess()
     {
-        if ($this->isSuperUser()) {
+        if ($this->hasSuperUserAccess()) {
             return;
         }
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
@@ -373,7 +393,7 @@ class Access
      */
     public function checkUserHasAdminAccess($idSites)
     {
-        if ($this->isSuperUser()) {
+        if ($this->hasSuperUserAccess()) {
             return;
         }
         $idSites = $this->getIdSites($idSites);
@@ -394,7 +414,7 @@ class Access
      */
     public function checkUserHasViewAccess($idSites)
     {
-        if ($this->isSuperUser()) {
+        if ($this->hasSuperUserAccess()) {
             return;
         }
         $idSites = $this->getIdSites($idSites);

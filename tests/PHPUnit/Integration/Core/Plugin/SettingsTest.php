@@ -487,7 +487,7 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage checkUserIsSuperUser Fake exception
+     * @expectedExceptionMessage checkUserHasSuperUserAccess Fake exception
      */
     public function test_removeAllPluginSettings_shouldThrowException_InCaseUserIsNotSuperUser()
     {

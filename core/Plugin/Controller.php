@@ -547,7 +547,7 @@ abstract class Controller
     protected function setBasicVariablesView($view)
     {
         $view->debugTrackVisitsInsidePiwikUI = PiwikConfig::getInstance()->Debug['track_visits_inside_piwik_ui'];
-        $view->isSuperUser = Access::getInstance()->isSuperUser();
+        $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->isCustomLogo = PiwikConfig::getInstance()->branding['use_custom_logo'];
 

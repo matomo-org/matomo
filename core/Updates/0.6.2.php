@@ -43,7 +43,7 @@ class Updates_0_6_2 extends Updates
         }
 
         // force regeneration of cache files
-        Piwik::setUserIsSuperUser();
+        Piwik::setUserHasSuperUserAccess();
         $allSiteIds = API::getInstance()->getAllSitesId();
         Cache::regenerateCacheWebsiteAttributes($allSiteIds);
     }

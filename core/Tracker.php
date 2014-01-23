@@ -326,7 +326,7 @@ class Tracker
             $isSuperUser = Piwik::hasUserSuperUserAccess();
 
             // Scheduled tasks assume Super User is running
-            Piwik::setUserIsSuperUser();
+            Piwik::setUserHasSuperUserAccess();
 
             // While each plugins should ensure that necessary languages are loaded,
             // we ensure English translations at least are loaded
@@ -335,7 +335,7 @@ class Tracker
             $resultTasks = TaskScheduler::runTasks();
 
             // restore original user privilege
-            Piwik::setUserIsSuperUser($isSuperUser);
+            Piwik::setUserHasSuperUserAccess($isSuperUser);
 
             Common::printDebug($resultTasks);
             Common::printDebug('Finished Scheduled Tasks.');

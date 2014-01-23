@@ -292,7 +292,6 @@ class Piwik
      */
     static public function isUserIsSuperUserOrTheUser($theUser)
     {
-        Log::warning('This method is deprecated and will be removed soon. Use Piwik::hasUserSuperUserAccessOrIsTheUser instead');
         return self::hasUserSuperUserAccessOrIsTheUser($theUser);
     }
 
@@ -303,7 +302,6 @@ class Piwik
      */
     static public function checkUserIsSuperUserOrTheUser($theUser)
     {
-        Log::warning('This method is deprecated and will be removed soon. Use Piwik::checkUserHasSuperUserAccessOrIsTheUser instead');
         self::checkUserHasSuperUserAccessOrIsTheUser($theUser);
     }
 
@@ -360,7 +358,6 @@ class Piwik
      */
     static public function isUserIsSuperUser()
     {
-        Log::warning('This method is deprecated and will be removed soon. Use Piwik::hasUserSuperUserAccess instead');
         return self::hasUserSuperUserAccess();
     }
 
@@ -415,9 +412,19 @@ class Piwik
      *
      * @param bool $bool true to set current user as super user
      */
-    static public function setUserIsSuperUser($bool = true)
+    static public function setUserHasSuperUserAccess($bool = true)
     {
         Access::getInstance()->setSuperUser($bool);
+    }
+
+    /**
+     * @see Piwik::setUserHasSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
+    static public function setUserIsSuperUser($bool = true)
+    {
+        self::setUserHasSuperUserAccess($bool);
     }
 
     /**
@@ -427,7 +434,6 @@ class Piwik
      */
     static public function checkUserIsSuperUser()
     {
-        Log::warning('This method is deprecated and will be removed soon. Use Piwik::checkUserHasSuperUserAccess instead');
         self::checkUserHasSuperUserAccess();
     }
 
@@ -439,7 +445,7 @@ class Piwik
      */
     static public function checkUserHasSuperUserAccess()
     {
-        Access::getInstance()->checkUserIsSuperUser();
+        Access::getInstance()->checkUserHasSuperUserAccess();
     }
 
     /**

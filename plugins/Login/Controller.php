@@ -382,7 +382,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     protected function getUserInformation($loginMail)
     {
-        Piwik::setUserIsSuperUser();
+        Piwik::setUserHasSuperUserAccess();
 
         $user = null;
         if ($loginMail == Piwik::getConfigSuperUserEmail()

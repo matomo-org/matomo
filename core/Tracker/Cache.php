@@ -65,7 +65,7 @@ class Cache
 
         // save current user privilege and temporarily assume super user privilege
         $isSuperUser = Piwik::hasUserSuperUserAccess();
-        Piwik::setUserIsSuperUser();
+        Piwik::setUserHasSuperUserAccess();
 
         $content = array();
         
@@ -90,7 +90,7 @@ class Cache
         Piwik::postEvent('Tracker.Cache.getSiteAttributes', array(&$content, $idSite));
 
         // restore original user privilege
-        Piwik::setUserIsSuperUser($isSuperUser);
+        Piwik::setUserHasSuperUserAccess($isSuperUser);
 
         // if nothing is returned from the plugins, we don't save the content
         // this is not expected: all websites are expected to have at least one URL

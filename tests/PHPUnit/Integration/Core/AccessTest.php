@@ -55,7 +55,7 @@ class Core_AccessTest extends DatabaseTestCase
     public function testIsSuperUserWithEmptyAccess()
     {
         $access = new Access();
-        $this->assertFalse($access->isSuperUser());
+        $this->assertFalse($access->hasSuperUserAccess());
     }
 
     /**
@@ -65,7 +65,7 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $access = Access::getInstance();
         $access->setSuperUser(true);
-        $this->assertTrue($access->isSuperUser());
+        $this->assertTrue($access->hasSuperUserAccess());
     }
 
     /**
@@ -75,7 +75,7 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $access = Access::getInstance();
         $access->setSuperUser(false);
-        $this->assertFalse($access->isSuperUser());
+        $this->assertFalse($access->hasSuperUserAccess());
     }
 
     /**
@@ -113,7 +113,7 @@ class Core_AccessTest extends DatabaseTestCase
     public function testCheckUserIsSuperUserWithEmptyAccess()
     {
         $access = new Access();
-        $access->checkUserIsSuperUser();
+        $access->checkUserHasSuperUserAccess();
     }
 
     /**
@@ -123,7 +123,7 @@ class Core_AccessTest extends DatabaseTestCase
     {
         $access = Access::getInstance();
         $access->setSuperUser(true);
-        $access->checkUserIsSuperUser();
+        $access->checkUserHasSuperUserAccess();
     }
 
     /**
@@ -387,6 +387,6 @@ class Core_AccessTest extends DatabaseTestCase
 
         $access = Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
-        $this->assertFalse($access->isSuperUser());
+        $this->assertFalse($access->hasSuperUserAccess());
     }
 }

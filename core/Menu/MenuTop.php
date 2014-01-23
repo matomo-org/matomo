@@ -112,7 +112,7 @@ class MenuTop extends MenuAbstract
              *         MenuTop::addEntry(
              *             'TopMenuName',
              *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::isUserIsSuperUser(),
+             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
              *             $order = 6
              *         );
              *     }

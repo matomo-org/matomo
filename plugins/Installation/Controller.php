@@ -299,7 +299,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $minimumCountPiwikTables = 17;
 
             Access::getInstance();
-            Piwik::setUserIsSuperUser();
+            Piwik::setUserHasSuperUserAccess();
             if ($baseTablesInstalled >= $minimumCountPiwikTables &&
                 count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
                 count(APIUsersManager::getInstance()->getUsers()) > 0
@@ -535,7 +535,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // connect to the database using the DB infos currently in the session
         $this->createDbFromSessionInformation();
 
-        Piwik::setUserIsSuperUser();
+        Piwik::setUserHasSuperUserAccess();
     }
 
     /**
