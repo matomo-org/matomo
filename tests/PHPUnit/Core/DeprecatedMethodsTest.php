@@ -28,6 +28,7 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Piwik', 'isUserIsSuperUser', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Piwik', 'setUserIsSuperUser', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Piwik', 'checkUserIsSuperUser', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('\Piwik\Piwik', 'getSuperUserLogin', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Access', 'isSuperUser', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Access', 'checksUserIsSuperUser', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\FakeAccess', 'checksUserIsSuperUser', $validTill);

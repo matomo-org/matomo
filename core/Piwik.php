@@ -234,6 +234,15 @@ class Piwik
     }
 
     /**
+     * @see Piwik::getConfigSuperUserLogin()
+     * @deprecated deprecated since version 2.0.4
+     */
+    static public function getSuperUserLogin()
+    {
+        return self::getConfigSuperUserLogin();
+    }
+
+    /**
      * Returns the super user's email address.
      *
      * @return string
