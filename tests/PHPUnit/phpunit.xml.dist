@@ -36,6 +36,7 @@
   <testsuite name="PluginTests">
       <directory>./Plugins</directory>
       <directory>../../plugins/*/tests</directory>
+      <directory>../../plugins/*/Test</directory>
   </testsuite>
   <testsuite name="CoreTests">
       <directory>./Core</directory>
