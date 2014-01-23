@@ -275,14 +275,36 @@ class Piwik
      * @return bool
      * @api
      */
-    static public function isUserIsSuperUserOrTheUser($theUser)
+    static public function hasUserSuperUserAccessOrIsTheUser($theUser)
     {
         try {
-            self::checkUserIsSuperUserOrTheUser($theUser);
+            self::checkUserHasSuperUserAccessOrIsTheUser($theUser);
             return true;
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * @see Piwik::hasUserSuperUserAccessOrIsTheUser()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
+    static public function isUserIsSuperUserOrTheUser($theUser)
+    {
+        Log::warning('This method is deprecated and will be removed soon. Use Piwik::hasUserSuperUserAccessOrIsTheUser instead');
+        return self::hasUserSuperUserAccessOrIsTheUser($theUser);
+    }
+
+    /**
+     * @see Piwik::checkUserHasSuperUserAccessOrIsTheUser()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
+    static public function checkUserIsSuperUserOrTheUser($theUser)
+    {
+        Log::warning('This method is deprecated and will be removed soon. Use Piwik::checkUserHasSuperUserAccessOrIsTheUser instead');
+        self::checkUserHasSuperUserAccessOrIsTheUser($theUser);
     }
 
     /**
@@ -292,18 +314,25 @@ class Piwik
      * @throws NoAccessException If the user is neither the super user nor the user `$theUser`.
      * @api
      */
-    static public function checkUserIsSuperUserOrTheUser($theUser)
+    static public function checkUserHasSuperUserAccessOrIsTheUser($theUser)
     {
         try {
             if (Piwik::getCurrentUserLogin() !== $theUser) {
                 // or to the super user
-                Piwik::checkUserIsSuperUser();
+                Piwik::checkUserHasSuperUserAccess();
             }
         } catch (NoAccessException $e) {
             throw new NoAccessException(Piwik::translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
         }
     }
 
+    /**
+     * Check whether the given user has superuser access.
+     *
+     * @param string $theUser A username.
+     * @return bool
+     * @api
+     */
     static public function hasTheUserSuperUserAccess($theUser)
     {
         if (empty($theUser)) {
@@ -315,6 +344,7 @@ class Piwik
         }
 
         try {
+            // TODO method will always return false if current user has not superuser access
             $superUserLogins = APIUsersManager::getInstance()->getUsersLoginHavingSuperUserAccess();
         } catch (\Exception $e) {
             $superUserLogins = array();
@@ -324,15 +354,26 @@ class Piwik
     }
 
     /**
-     * Returns true if the current user is the Super User.
+     * @see Piwik::hasUserSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
+    static public function isUserIsSuperUser()
+    {
+        Log::warning('This method is deprecated and will be removed soon. Use Piwik::hasUserSuperUserAccess instead');
+        return self::hasUserSuperUserAccess();
+    }
+
+    /**
+     * Returns true if the current user has super user access.
      *
      * @return bool
      * @api
      */
-    static public function isUserIsSuperUser()
+    static public function hasUserSuperUserAccess()
     {
         try {
-            self::checkUserIsSuperUser();
+            self::checkUserHasSuperUserAccess();
             return true;
         } catch (Exception $e) {
             return false;
@@ -341,7 +382,7 @@ class Piwik
 
     static public function isUserIsConfigSuperUser()
     {
-        return self::isUserIsSuperUser() && self::getCurrentUserLogin() === self::getConfigSuperUserLogin();
+        return self::hasUserSuperUserAccess() && self::getCurrentUserLogin() === self::getConfigSuperUserLogin();
     }
 
     /**
@@ -380,12 +421,23 @@ class Piwik
     }
 
     /**
-     * Check that the current user is the superuser.
+     * @see Piwik::checkUserHasSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     * @todo To be removed from April 1st 2014.
+     */
+    static public function checkUserIsSuperUser()
+    {
+        Log::warning('This method is deprecated and will be removed soon. Use Piwik::checkUserHasSuperUserAccess instead');
+        self::checkUserHasSuperUserAccess();
+    }
+
+    /**
+     * Check that the current user has superuser access.
      *
      * @throws Exception if the current user is not the superuser.
      * @api
      */
-    static public function checkUserIsSuperUser()
+    static public function checkUserHasSuperUserAccess()
     {
         Access::getInstance()->checkUserIsSuperUser();
     }

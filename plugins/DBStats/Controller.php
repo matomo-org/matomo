@@ -29,7 +29,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function index()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $view = new View('@DBStats/index');
         $this->setBasicVariablesView($view);
 
@@ -55,7 +55,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getDatabaseUsageSummary()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -66,7 +66,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getTrackerDataSummary()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getMetricDataSummary()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -90,7 +90,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getMetricDataSummaryByYear()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -102,7 +102,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getReportDataSummary()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -114,7 +114,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getReportDataSummaryByYear()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -128,7 +128,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getIndividualReportsSummary()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -142,7 +142,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getIndividualMetricsSummary()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -157,7 +157,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getAdminDataSummary()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return $this->renderReport(__FUNCTION__);
     }
 }

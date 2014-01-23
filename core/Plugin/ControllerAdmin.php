@@ -47,7 +47,7 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        if (!Piwik::isUserIsSuperUser()) {
+        if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
         $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
@@ -136,7 +136,7 @@ abstract class ControllerAdmin extends Controller
             $view->setXFrameOptions('sameorigin');
         }
 
-        $view->isSuperUser = Piwik::isUserIsSuperUser();
+        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
         self::notifyAnyInvalidPlugin();
 

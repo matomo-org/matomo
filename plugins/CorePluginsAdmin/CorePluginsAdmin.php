@@ -62,7 +62,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
         $pluginsUpdateMessage = '';
         $themesUpdateMessage = '';
 
-        if (Piwik::isUserIsSuperUser() && static::isMarketplaceEnabled()) {
+        if (Piwik::hasUserSuperUserAccess() && static::isMarketplaceEnabled()) {
             $marketplace = new Marketplace();
             $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
             $themesHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = true);
@@ -78,11 +78,11 @@ class CorePluginsAdmin extends \Piwik\Plugin
         MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', null, "", !Piwik::isUserIsAnonymous(), $order = 7);
         MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
             array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
-            Piwik::isUserIsSuperUser(),
+            Piwik::hasUserSuperUserAccess(),
             $order = 1);
         MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
             array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
-            Piwik::isUserIsSuperUser(),
+            Piwik::hasUserSuperUserAccess(),
             $order = 3);
 
         if (static::isMarketplaceEnabled()) {

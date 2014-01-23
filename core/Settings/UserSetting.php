@@ -80,7 +80,7 @@ class UserSetting extends Setting
      */
     public function setUserLogin($userLogin)
     {
-        if (!empty($userLogin) && !Piwik::isUserIsSuperUserOrTheUser($userLogin)) {
+        if (!empty($userLogin) && !Piwik::hasUserSuperUserAccessOrIsTheUser($userLogin)) {
             throw new \Exception('You do not have the permission to read the settings of a different user');
         }
 

@@ -36,7 +36,7 @@ class SystemSetting extends Setting
     {
         parent::__construct($name, $title);
 
-        $this->displayedForCurrentUser = Piwik::isUserIsSuperUser();
+        $this->displayedForCurrentUser = Piwik::hasUserSuperUserAccess();
     }
 
     /**

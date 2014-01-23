@@ -158,7 +158,7 @@ abstract class Settings implements StorageInterface
      */
     public function removeAllPluginSettings()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         Option::delete($this->getOptionKey());
         $this->settingsValues = array();

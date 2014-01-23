@@ -82,7 +82,7 @@ class Installation extends \Piwik\Plugin
     {
         MenuAdmin::addEntry('Installation_SystemCheck',
             array('module' => 'Installation', 'action' => 'systemCheckPage'),
-            Piwik::isUserIsSuperUser(),
+            Piwik::hasUserSuperUserAccess(),
             $order = 15);
     }
 

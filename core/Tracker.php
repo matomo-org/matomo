@@ -323,7 +323,7 @@ class Tracker
             Common::printDebug('-> Scheduled Tasks: Starting...');
 
             // save current user privilege and temporarily assume super user privilege
-            $isSuperUser = Piwik::isUserIsSuperUser();
+            $isSuperUser = Piwik::hasUserSuperUserAccess();
 
             // Scheduled tasks assume Super User is running
             Piwik::setUserIsSuperUser();

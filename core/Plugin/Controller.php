@@ -612,7 +612,7 @@ abstract class Controller
                                                                                       '<strong>' . $validUrl . '</strong>'
                                                                                  )) . ' <br/>';
 
-            if (Piwik::isUserIsSuperUser()) {
+            if (Piwik::hasUserSuperUserAccess()) {
                 $view->invalidHostMessage = $warningStart . ' '
                     . Piwik::translate('CoreHome_InjectedHostSuperUserWarning', array(
                                                                                     "<a href=\"$changeTrustedHostsUrl\">",
@@ -725,7 +725,7 @@ abstract class Controller
             exit;
         }
 
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             Piwik_ExitWithMessage("Error: no website was found in this Piwik installation.
 			<br />Check the table '" . Common::prefixTable('site') . "' in your database, it should contain your Piwik websites.", false, true);
         }

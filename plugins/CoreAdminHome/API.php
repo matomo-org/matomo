@@ -37,13 +37,13 @@ class API extends \Piwik\Plugin\API
      */
     public function runScheduledTasks()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return TaskScheduler::runTasks();
     }
 
     public function getKnownSegmentsToArchive()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         return SettingsPiwik::getKnownSegmentsToArchive();
     }
 

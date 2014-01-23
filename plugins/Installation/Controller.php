@@ -507,7 +507,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function systemCheckPage()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $view = new View(
             '@Installation/systemCheckPage',

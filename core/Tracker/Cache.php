@@ -64,7 +64,7 @@ class Cache
         Tracker::initCorePiwikInTrackerMode();
 
         // save current user privilege and temporarily assume super user privilege
-        $isSuperUser = Piwik::isUserIsSuperUser();
+        $isSuperUser = Piwik::hasUserSuperUserAccess();
         Piwik::setUserIsSuperUser();
 
         $content = array();

@@ -86,7 +86,7 @@ class Controller extends Plugin\ControllerAdmin
     public function uploadPlugin()
     {
         static::dieIfPluginsAdminIsDisabled();
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
@@ -140,7 +140,7 @@ class Controller extends Plugin\ControllerAdmin
         try {
             $marketplace  = new Marketplace();
             $view->plugin = $marketplace->getPluginInfo($pluginName);
-            $view->isSuperUser  = Piwik::isUserIsSuperUser();
+            $view->isSuperUser  = Piwik::hasUserSuperUserAccess();
             $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
             $view->updateNonce  = Nonce::getNonce(static::UPDATE_NONCE);
             $view->activeTab    = $activeTab;
@@ -190,7 +190,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->sort = $sort;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
-        $view->isSuperUser = Piwik::isUserIsSuperUser();
+        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
         return $view;
     }
@@ -213,14 +213,14 @@ class Controller extends Plugin\ControllerAdmin
 
         $view = $this->configureView('@CorePluginsAdmin/extend');
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
-        $view->isSuperUser = Piwik::isUserIsSuperUser();
+        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
         return $view->render();
     }
 
     private function createPluginsOrThemesView($template, $themesOnly)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
@@ -360,7 +360,7 @@ class Controller extends Plugin\ControllerAdmin
 
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
-        $view->isSuperUser = Piwik::isUserIsSuperUser();
+        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
         $view->plugins         = Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
@@ -446,7 +446,7 @@ class Controller extends Plugin\ControllerAdmin
 
     protected function initPluginModification($nonceName)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $nonce = Common::getRequestVar('nonce', null, 'string');
 

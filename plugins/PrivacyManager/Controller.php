@@ -36,7 +36,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function saveSettings()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
             switch (Common::getRequestVar('form')) {
@@ -113,7 +113,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getDatabaseSize()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $view = new View('@PrivacyManager/getDatabaseSize');
 
         $forceEstimate = Common::getRequestVar('forceEstimate', 0);
@@ -128,7 +128,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSomeAdminAccess();
         $view = new View('@PrivacyManager/privacySettings');
 
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
             $view->dntSupport = DoNotTrackHeaderChecker::isActive();
@@ -149,7 +149,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function executeDataPurge()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkTokenInUrl();
 
         // if the request isn't a POST, redirect to index
@@ -230,7 +230,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     protected function getAnonymizeIPInfo()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $anonymizeIP = array();
 
         $trackerConfig = Config::getInstance()->Tracker;
@@ -243,7 +243,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     protected function getDeleteDataInfo()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $deleteDataInfos = array();
         $taskScheduler = new TaskScheduler();
         $deleteDataInfos["config"] = PrivacyManager::getPurgeDataSettings();
@@ -302,7 +302,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function deactivateDoNotTrack()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         Nonce::checkNonce(self::DEACTIVATE_DNT_NONCE);
 
         DoNotTrackHeaderChecker::deactivate();
@@ -312,7 +312,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function activateDoNotTrack()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         Nonce::checkNonce(self::ACTIVATE_DNT_NONCE);
 
         DoNotTrackHeaderChecker::activate();

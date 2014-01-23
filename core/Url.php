@@ -259,7 +259,7 @@ class Url
      */
     public static function saveTrustedHostnameInConfig($host)
     {
-        if (Piwik::isUserIsSuperUser()
+        if (Piwik::hasUserSuperUserAccess()
             && file_exists(Config::getLocalConfigPath())
         ) {
             $general = Config::getInstance()->General;

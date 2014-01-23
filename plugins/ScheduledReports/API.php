@@ -173,7 +173,7 @@ class API extends \Piwik\Plugin\API
     {
         $APIScheduledReports = $this->getReports($idSite = false, $periodSearch = false, $idReport);
         $report = reset($APIScheduledReports);
-        Piwik::checkUserIsSuperUserOrTheUser($report['login']);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($report['login']);
 
         Db::get()->update(Common::prefixTable('report'),
             array(
@@ -210,7 +210,7 @@ class API extends \Piwik\Plugin\API
         $bind = array();
 
         // Super user gets all reports back, other users only their own
-        if (!Piwik::isUserIsSuperUser()
+        if (!Piwik::hasUserSuperUserAccess()
             || $ifSuperUserReturnOnlySuperUserReports
         ) {
             $sqlWhere .= "AND login = ?";

@@ -76,7 +76,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
     }
 
@@ -88,7 +88,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUserPreference($userLogin, $preferenceName)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
         $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
         if ($optionValue !== false) {
@@ -138,7 +138,7 @@ class API extends \Piwik\Plugin\API
 								$where
 								ORDER BY login ASC", $bind);
         // Non Super user can only access login & alias
-        if (!Piwik::isUserIsSuperUser()) {
+        if (!Piwik::hasUserSuperUserAccess()) {
             foreach ($users as &$user) {
                 $user = array('login' => $user['login'], 'alias' => $user['alias']);
             }
@@ -182,7 +182,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUsersSitesFromAccess($access)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $this->checkAccessType($access);
 
@@ -266,7 +266,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesAccessFromUser($userLogin)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
         $this->checkUserIsNotConfigSuperUser($userLogin);
 
@@ -293,7 +293,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUser($userLogin)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserExists($userLogin);
         $this->checkUserIsNotConfigSuperUser($userLogin);
 
@@ -313,7 +313,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUserByEmail($userEmail)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkUserEmailExists($userEmail);
 
         $db = Db::get();
@@ -368,7 +368,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addUser($userLogin, $password, $email, $alias = false)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $this->checkLogin($userLogin);
         $this->checkUserIsNotConfigSuperUser($userLogin);
@@ -408,7 +408,7 @@ class API extends \Piwik\Plugin\API
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExists($userLogin);
 
@@ -425,7 +425,7 @@ class API extends \Piwik\Plugin\API
 
     public function getUsersLoginHavingSuperUserAccess()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $db = Db::get();
         $users = $db->fetchAll("SELECT login
@@ -451,7 +451,7 @@ class API extends \Piwik\Plugin\API
     public function updateUser($userLogin, $password = false, $email = false, $alias = false,
                                $_isPasswordHashed = false)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserIsNotConfigSuperUser($userLogin);
         $userInfo = $this->getUser($userLogin);
@@ -513,7 +513,7 @@ class API extends \Piwik\Plugin\API
      */
     public function deleteUser($userLogin)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserIsNotConfigSuperUser($userLogin);
         if (!$this->userExists($userLogin)) {

@@ -206,7 +206,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     protected function initViewAnonymousUserSettings($view)
     {
-        if (!Piwik::isUserIsSuperUser()) {
+        if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
         $userLogin = 'anonymous';
@@ -249,7 +249,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $response = new ResponseBuilder(Common::getRequestVar('format'));
         try {
-            Piwik::checkUserIsSuperUser();
+            Piwik::checkUserHasSuperUserAccess();
             $this->checkTokenInUrl();
 
             $anonymousDefaultReport = Common::getRequestVar('anonymousDefaultReport');
