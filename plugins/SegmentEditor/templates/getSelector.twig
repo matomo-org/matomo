@@ -102,8 +102,7 @@
             </div>
         </div>
         <div class="segment-content">
-            {% if isSuperUser %}
-            <div class="segment-top">
+            <div class="segment-top" {% if not isSuperUser %}style="display:none"{% endif %}>
                 {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <span id="enable_all_users"><strong>
                         <select id="enable_all_users_select">
                             <option selected="1" value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
@@ -125,7 +124,6 @@
                     </strong></span>
 
             </div>
-            {% endif %}
             <h3>{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
         </div>
         <div class="segment-footer">
