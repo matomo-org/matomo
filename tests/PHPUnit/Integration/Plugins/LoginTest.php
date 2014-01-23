@@ -36,7 +36,7 @@ class Plugins_LoginTest extends DatabaseTestCase
 
         // we make sure the tests don't depend on the config file content
         Config::getInstance()->superuser = array(
-            'login'    => 'superusertest',
+            'login'    => 'superUserLogin',
             'password' => md5('passwordsuperusertest'),
             'email'    => 'superuser@example.com'
         );

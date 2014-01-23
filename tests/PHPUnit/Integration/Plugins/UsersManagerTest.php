@@ -68,6 +68,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $user['password'] = md5($newPassword);
         $user['email'] = $newEmail;
         $user['alias'] = $newAlias;
+        $user['superuser_access'] = 0;
         $this->assertEquals($user, $userAfter);
     }
 
@@ -452,14 +453,13 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
         $users = API::getInstance()->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
-        $user1 = array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"), 'alias' => "alias", 'email' => "tegst@tesgt.com");
-        $user2 = array('login' => "geggeqge632ge56a4qag", 'password' => md5("geqgegeagae"), 'alias' => "alias", 'email' => "tesggt@tesgt.com");
-        $user3 = array('login' => "geggeqgeqagqegg", 'password' => md5("geqgeaggggae"), 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com");
+        $user1 = array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"), 'alias' => "alias", 'email' => "tegst@tesgt.com", 'superuser_access' => 0);
+        $user2 = array('login' => "geggeqge632ge56a4qag", 'password' => md5("geqgegeagae"), 'alias' => "alias", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0);
+        $user3 = array('login' => "geggeqgeqagqegg", 'password' => md5("geqgeaggggae"), 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0);
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
         $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers(API::getInstance()->getUsers('gegg4564eqgeqag')));
         $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers(API::getInstance()->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
-
     }
 
     protected function _removeNonTestableFieldsFromUsers($users)
