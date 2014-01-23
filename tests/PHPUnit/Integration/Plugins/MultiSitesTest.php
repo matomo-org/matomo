@@ -24,7 +24,7 @@ class Plugins_MultiSitesTest extends DatabaseTestCase
         parent::setUp();
 
         $access = Access::getInstance();
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
 
         $this->idSiteAccess = APISitesManager::getInstance()->addSite("test", "http://test");
 

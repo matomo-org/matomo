@@ -332,7 +332,8 @@ class Piwik
     }
 
     /**
-     * Check whether the given user has superuser access.
+     * Check whether the given user has superuser access. Note: This method will return false if current user
+     * has not superuser access.
      *
      * @param string $theUser A username.
      * @return bool
@@ -349,10 +350,10 @@ class Piwik
         }
 
         try {
-            // TODO method will always return false if current user has not superuser access
             $superUserLogins = APIUsersManager::getInstance()->getUsersLoginHavingSuperUserAccess();
         } catch (\Exception $e) {
-            $superUserLogins = array();
+            // not allowed to request user logins
+            return false;
         }
 
         return in_array($theUser, $superUserLogins);
@@ -420,7 +421,7 @@ class Piwik
      */
     static public function setUserHasSuperUserAccess($bool = true)
     {
-        Access::getInstance()->setSuperUser($bool);
+        Access::getInstance()->setSuperUserAccess($bool);
     }
 
     /**

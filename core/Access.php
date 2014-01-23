@@ -167,7 +167,7 @@ class Access
             return $this->reloadAccessSuperUser();
         }
         // in case multiple calls to API using different tokens, we ensure we reset it as not SU
-        $this->setSuperUser(false);
+        $this->setSuperUserAccess(false);
 
         // we join with site in case there are rows in access for an idsite that doesn't exist anymore
         // (backward compatibility ; before we deleted the site without deleting rows in _access table)
@@ -226,7 +226,7 @@ class Access
      *
      * @param bool $bool
      */
-    public function setSuperUser($bool = true)
+    public function setSuperUserAccess($bool = true)
     {
         if ($bool) {
             $this->reloadAccessSuperUser();
@@ -234,6 +234,15 @@ class Access
             $this->hasSuperUserAccess = false;
             $this->idsitesByAccess['superuser'] = array();
         }
+    }
+
+    /**
+     * @see Access::setSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     */
+    public function setSuperUser($bool = true)
+    {
+        self::setSuperUserAccess($bool);
     }
 
     /**

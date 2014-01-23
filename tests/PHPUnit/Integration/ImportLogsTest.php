@@ -62,7 +62,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
         self::$fixture->logVisitsWithDynamicResolver();
 
         // reload access so new sites are viewable
-        Access::getInstance()->setSuperUser(true);
+        Access::getInstance()->setSuperUserAccess(true);
 
         // make sure sites aren't created twice
         $piwikDotNet = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');

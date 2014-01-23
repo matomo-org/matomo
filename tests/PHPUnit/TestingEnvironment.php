@@ -11,7 +11,7 @@ class Piwik_MockAccess
     public function __construct($access)
     {
         $this->access = $access;
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
     }
 
     public function __call($name, $arguments)
