@@ -511,7 +511,6 @@
         "TopLinkTooltip": "Access your Web Analytics data programmatically through a simple API in json, xml, etc."
     },
     "CoreAdminHome": {
-        "ScheduledTasks": "Scheduled Tasks",
         "PluginDescription": "Administration area of Piwik.",
         "MenuDiagnostic": "Diagnostic",
         "MenuGeneralSettings": "General settings",
