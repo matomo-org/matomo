@@ -19,7 +19,7 @@
         "ColumnUniqueDownloads": "Unikaalseid Allalaadimisi",
         "ColumnUniqueOutlinks": "Unikaalsed väljuvad lingid",
         "EntryPageTitles": "Sisenetud lehtede pealkirjad",
-        "ExitPageTitles": "Väljumiste lehe pealkirjad",
+        "ExitPageTitles": "Väljutud lehtede pealkirjad",
         "OneSearch": "1 otsing",
         "PageUrls": "Lehe URL'id",
         "SiteSearchKeyword": "Võtmesõna (lehe otsing)",
@@ -28,7 +28,7 @@
         "SubmenuPageTitles": "Lehe pealkirjad",
         "SubmenuSitesearch": "Lehe otsing",
         "WidgetEntryPageTitles": "Sisenetud lehtede pealkirjad",
-        "WidgetExitPageTitles": "Väljumiste lehe pealkirjad",
+        "WidgetExitPageTitles": "Väljutud lehtede pealkirjad",
         "WidgetPagesEntry": "Sisenetud lehed",
         "WidgetPagesExit": "Lehed kust väljutakse",
         "WidgetPageTitles": "Lehe pealkirjad",
@@ -66,7 +66,10 @@
         "MenuGeneralSettings": "Põhiseaded",
         "MenuManage": "Halda",
         "PiwikIsInstalledAt": "Piwik on paigaldatud",
-        "PluginSettings": "Lisatarkvara seaded"
+        "PluginSettings": "Lisatarkvara seaded",
+        "TrackingCode": "Jälgimiskood",
+        "TrustedHostSettings": "Usaldatud Piwiku server",
+        "ValidPiwikHostname": "Kehtiv Piwiku server (IP\/host)"
     },
     "CoreHome": {
         "CategoryNoData": "Informatsioon puudub selles kategoorias. Proovi \"Include all population\".",
@@ -186,6 +189,7 @@
         "TrackingHelp": "Abi: %1$sPiwiku kohandatud muutujate kasutamine%2$s"
     },
     "Dashboard": {
+        "AddAWidget": "Lisa vidin",
         "AddPreviewedWidget": "Vali et lisada vidin töölauale",
         "ChangeDashboardLayout": "Muuda töölaua paigutust",
         "CopyDashboardToUser": "Kopeeri töölaud kasutajale",
@@ -201,6 +205,7 @@
         "RenameDashboard": "Nimeta töölaud ümber",
         "ResetDashboard": "Algseadista töölaud",
         "SelectWidget": "Vali töölauale lisatav moodul",
+        "SetAsDefaultWidgets": "Määra vaikimisi valitud vidinateks",
         "WidgetNotFound": "Moodulit ei leitud",
         "WidgetPreview": "Vidina eelvaade",
         "WidgetsAndDashboard": "Vidinad ja töölaud"
@@ -223,7 +228,7 @@
     "General": {
         "AboutPiwikX": "Lisainfo Piwik %s",
         "Action": "Tegevus",
-        "Actions": "Tegevust",
+        "Actions": "Tegevused",
         "Add": "Lisa",
         "All": "Kõik",
         "AllWebsitesDashboard": "Kõigi veebilehtede töölaud",
@@ -249,6 +254,7 @@
         "ColumnAvgTimeOnSiteDocumentation": "Kesmine külastuse aeg.",
         "ColumnBounceRate": "Põrkemäär",
         "ColumnBounces": "Põrked",
+        "ColumnConversionRate": "Muundamiskiirus",
         "ColumnDestinationPage": "Sihtkoha lehekülg",
         "ColumnEntrances": "Sisenemised",
         "ColumnExitRate": "Väljumiste määr",
@@ -261,12 +267,13 @@
         "ColumnNbUniqVisitors": "Unikaalsed külastajad",
         "ColumnNbVisits": "Külastused",
         "ColumnPageviews": "Lehevaatamised",
-        "ColumnPercentageVisits": "% Külastusi",
+        "ColumnPercentageVisits": "% Külastust",
         "ColumnRevenue": "Tulu",
         "ColumnTotalPageviews": "Lehe vaatamisi kokku",
         "ColumnUniqueEntrances": "Unikaalseid sisenemisi",
         "ColumnUniqueExits": "Unikaalseid väljumisi",
         "ColumnUniquePageviews": "Unikaalseid lehe vaatamisi",
+        "ColumnVisitsWithConversions": "Külastused muundamistega",
         "Continue": "Jätka",
         "ContinueToPiwik": "Jätka Piwikuga",
         "CurrentMonth": "Praegune kuu",
@@ -336,7 +343,7 @@
         "Id": "Id",
         "Installed": "Paigaldatud",
         "IP": "IP",
-        "JsTrackingTag": "Javascript tag",
+        "JsTrackingTag": "JavaScript jälgimiskood",
         "Language": "Keel",
         "LastDays": "Viimased %s päeva (sh. täna)",
         "LastDaysShort": "Viimased %s päeva",
@@ -367,6 +374,7 @@
         "LongMonth_7": "juuli",
         "LongMonth_8": "august",
         "LongMonth_9": "september",
+        "MainMetrics": "Põhimõõdikud",
         "Matches": "Vastavused",
         "Metadata": "Metaandmed",
         "MinutesSeconds": "%1$s min %2$ss",
@@ -488,6 +496,7 @@
         "Today": "täna",
         "Total": "Kokku",
         "TotalRevenue": "Kogutulu",
+        "TotalVisitsPageviewsRevenue": "(Kokku: %s külastust, %s lehe vaatamist, %s tulu)",
         "TransitionsRowActionTooltip": "Vaata mida külastajad tegid enne ja peale selle lehe vaatamist",
         "TransitionsRowActionTooltipTitle": "Ava üleminekud",
         "TranslatorEmail": "aivo.koger@gmail.com, toomingas.k@gmail.com",
@@ -506,6 +515,7 @@
         "VisitorID": "Külastaja ID",
         "VisitorIP": "Külastaja IP",
         "Visitors": "Külastajad",
+        "VisitsWith": "Külastused koos %s",
         "VisitType": "Külalise tüüp",
         "Warning": "Hoiatus",
         "Website": "Veebileht",
@@ -515,7 +525,7 @@
         "WellDone": "Hästi tehtud!",
         "Widgets": "Moodulid",
         "XComparedToY": "%1$s võrreldes %2$s",
-        "XFromY": "%1$s kuni %2$s",
+        "XFromY": "%1$s tuli: %2$s",
         "YearlyReport": "iga-aastane",
         "YearlyReports": "Iga-aastased raportid",
         "YearsDays": "%1$s aastat %2$s päeva",
@@ -530,7 +540,12 @@
     "Goals": {
         "AddGoal": "Lisa eesmärk",
         "AddNewGoal": "Lisa uus eesmärk",
+        "ColumnConversions": "Muundamised",
         "Contains": "sisaldab %s",
+        "ConversionRate": "%s muundamiskiirus",
+        "Conversions": "%s muundamist",
+        "ConversionsOverview": "Muundamiste ülevaade",
+        "DaysToConv": "Päevi muundamiseni",
         "ExternalWebsiteUrl": "välise veebilehe URL",
         "Filename": "failinimi",
         "GoalName": "Eesmärgi nimi",
@@ -540,11 +555,13 @@
         "GoalX": "Eesmärk %s",
         "Manually": "manuaalselt",
         "PageTitle": "Lehe pealkiri",
-        "URL": "URL"
+        "URL": "URL",
+        "VisitsUntilConv": "Külastusi muundamiseni"
     },
     "Installation": {
         "Congratulations": "Õnnitleme",
         "CongratulationsHelp": "<p>Õnnitlused! Sinu Piwiki Installatsioon on edukalt lõpuni viidud.<\/p><p>Sisesta javascript kood oma lehele ja jää külastusi ootama!<\/p>",
+        "Email": "e-post",
         "Installation": "Installatsioon",
         "InstallationStatus": "Installatiooni olek",
         "NoConfigFound": "Piwiki konfguratsioonifaili ei leitud, kuid sa üritasid minna Piwiki lehele.<br \/><b>  » Võid <a href='index.php'>installeerida Piwiko<\/a><\/b><br \/><small>Kui Piwik on varem installeeritud ja sul on andmebaasis tabeleid, siis ei ole põhjust muretsemiseks saad taaskasutada ja säilitada olemasolevad andmed!<\/small>",
@@ -595,7 +612,8 @@
         "VisitedPages": "Külastatud lehed",
         "VisitorLog": "Külastuste logi",
         "VisitorProfile": "Külastaja profiil",
-        "VisitorsInRealTime": "Reaalajas külastused"
+        "VisitorsInRealTime": "Reaalajas külastused",
+        "VisitsFrom": "%1$s%2$s külastust %3$s pärineb"
     },
     "Login": {
         "ContactAdmin": "Võimalik põhjus: sinu majutusel on mail() funktsioon välja lülitatud. <br \/>Palun kontakteeru administraatoriga.",
@@ -612,6 +630,10 @@
         "SearchWebsite": "Otsi veebilehti",
         "TopVisitedWebsites": "Peamised külastatud veebilehed"
     },
+    "MobileMessaging": {
+        "Settings_SuperAdmin": "Superkasutaja seaded",
+        "SettingsMenu": "Mobiilsed teenused"
+    },
     "Overlay": {
         "Clicks": "%s klikki",
         "Domain": "Domeen",
@@ -619,6 +641,11 @@
         "Location": "Asukoht",
         "OneClick": "1 klikk",
         "OpenFullScreen": "Ava täisekraani vaade (ilma külgribata)"
+    },
+    "PrivacyManager": {
+        "MenuPrivacySettings": "Privaatsus",
+        "RecommendedForPrivacy": "(soovitatav privaatsuse jaoks)",
+        "TeaserHeadline": "Privaatsusseaded"
     },
     "Provider": {
         "ColumnProvider": "Teenusepakkuja",
@@ -629,6 +656,7 @@
         "Campaigns": "Kampaaniad",
         "ColumnWebsite": "Veebileht",
         "ColumnWebsitePage": "Veebi lehekülg",
+        "DetailsByReferrerType": "Detailid viitaja tüübi alusel",
         "DirectEntry": "Otse sisenetud",
         "Keywords": "Võtmesõnad",
         "Referrer": "Viitaja",
@@ -642,8 +670,10 @@
         "Type": "Viitaja tüüp",
         "TypeCampaigns": "%s kampaaniatest",
         "TypeDirectEntries": "%s otse sisenemist",
-        "TypeSearchEngines": "%s otsomootoritest",
+        "TypeSearchEngines": "%s otsimootoritest",
         "TypeWebsites": "%s veebilehtedelt",
+        "ViewAllReferrers": "Vaata kõiki viitajaid",
+        "ViewReferrersBy": "Vaata kõiki viitajaid %s järgi",
         "Websites": "Veebilehed",
         "WidgetExternalWebsites": "Väliste viitajate nimekiri",
         "WidgetGetAll": "Kõik viitajad",
@@ -651,8 +681,20 @@
         "WidgetTopKeywordsForPages": "Lehe URL peamised võtmesõnad"
     },
     "ScheduledReports": {
+        "AggregateReportsFormat": "(valikuline) Kuvamise valikud",
+        "CreateAndScheduleReport": "Loo ja ajasta raporti käivitumine",
+        "CreateReport": "Loo raport",
         "EmailReports": "E-posti raportid",
-        "ManageEmailReports": "Halda e-posti raporteid"
+        "EmailSchedule": "E-posti ajastamine",
+        "ManageEmailReports": "Halda e-posti raporteid",
+        "Pagination": "Lehekülg %s \/ %s",
+        "ReportFormat": "Raporti formaat",
+        "ReportHour": "Raporti saatmise aeg",
+        "ReportsIncluded": "Statistika osade kaasamine",
+        "ReportType": "Raporti saatmise kanal",
+        "SendReportNow": "Saada raport kohe",
+        "SendReportTo": "Raporti saaja",
+        "ThereIsNoReportToManage": "Puuduvad olemasolevad raportid veebilehe %s kohta"
     },
     "SegmentEditor": {
         "AddNewSegment": "Lisa uus segment",
@@ -676,9 +718,11 @@
         "GlobalWebsitesSettings": "Globaalsed veebilehtede seaded",
         "MainDescription": "Sinu veebianalüütika vajab veebilehti, mida hallata! Lisa, uuenda, kustuta veebilehti, ja näita Javascript koodi mida lisada veebilehtedele.",
         "NoWebsites": "Sul pole saite mida administreerida.",
+        "ShowTrackingTag": "Kuva jälgimiskood",
         "Sites": "Veebilehed",
         "Timezone": "Ajavöönd",
         "TrackingSiteSearch": "Lehe sisemisest otsingust andmete kogumine",
+        "TrackingTags": "Jälgimiskood lehele %s",
         "Urls": "URL-id",
         "UTCTimeIs": "UTC aeg on %s.",
         "WebsitesManagement": "Veebilehe haldamine"
@@ -1228,6 +1272,7 @@
         "OperatingSystemFamily": "OP-süsteemi tüüp",
         "OperatingSystems": "Operatsioonisüsteemid",
         "Resolutions": "Ekraani resolutsioonid",
+        "VisitorSettings": "Külastajate seaded",
         "WideScreen": "Laiekraan",
         "WidgetBrowserFamilies": "Veebisirvija tüüp",
         "WidgetBrowsers": "Külastajate veebisirvijad",
@@ -1245,7 +1290,7 @@
         "ApplyToAllWebsites": "Laienda kõigile veebilehtedele",
         "ChangeAllConfirm": "Kas sa oled kindel soovis anda '%s' õigused kõigile veebilehtedele?",
         "DeleteConfirm": "Kas oled kindel, et soovid %s kustutada?",
-        "Email": "Email",
+        "Email": "E-post",
         "ExceptionAdminAnonymous": "Sa ei saa anda 'admin' õiguseid 'anonymous' kasutajale.",
         "ExceptionDeleteDoesNotExist": "Kasutajat nimega '%s' ei eksisteeri seepärast ei saa teda ka kustutada.",
         "ExceptionEditAnonymous": "Anonüümset kasutajat ei saa muuta ega kustutada. Piwik kasutab seda määratlemaks kasutajat, kes ei ole veel sisse loginud. Näiteks, saad teha statistika lubada 'view' statistikat õigused 'anonymous' kasutajale.",
@@ -1253,15 +1298,24 @@
         "ExceptionInvalidEmail": "Emaili aadress ei ole õiges formaadis.",
         "ExceptionLoginExists": "Kasutajanimi '%s' on kasutusel.",
         "ExceptionUserDoesNotExist": "Kasutaja '%s' puudub.",
+        "ExcludeVisitsViaCookie": "Arva ennast külastajate hulgast välja kasutades küpsist",
+        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Kui soovid parooli vahetada, siis sisesta siia uus. Vastasel korral jäta tühjaks.",
         "MainDescription": "Otsusta millistel kasutajatel on ligipääs analüütikale. Saad seada õigused kõigile veebilehtedele korraga.",
         "ManageAccess": "Halda ligipääsu",
+        "MenuAnonymousUserSettings": "Tundmatu kasutaja seaded",
         "MenuUsers": "Kasutajad",
+        "MenuUserSettings": "Kasutaja seaded",
         "PrivAdmin": "Admin",
         "PrivNone": "Ligipääs puudub",
         "PrivView": "Vaata",
+        "ReportDateToLoadByDefault": "Vaikimisi laetav raporti kuupäev",
+        "ReportToLoadByDefault": "Vaikimisi laetav raport",
+        "TheSuperUserAliasCannotBeChanged": "Peakasutaja aliast ei saa muuta.",
+        "TypeYourPasswordAgain": "Korda oma uut parooli.",
         "User": "Kasutaja",
         "UsersManagement": "Kasutajate haldamine",
-        "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool."
+        "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool.",
+        "YourUsernameCannotBeChanged": "Sinu kasutajanime ei saa muuta."
     },
     "VisitFrequency": {
         "ColumnActionsByReturningVisits": "Tegevused korduvate külastuste kaupa",
@@ -1286,9 +1340,9 @@
         "PlusXMin": "%s min",
         "VisitNum": "Külastuste arv",
         "VisitsByDaysSinceLast": "Külastused viimase külastusaja järgi",
-        "visitsByVisitCount": "Külastusi külastuste arvu järgi",
-        "VisitsPerDuration": "Külastusi külastuste pikkuse järgi",
-        "VisitsPerNbOfPages": "Külastusi külastatud lehtede arvu järgi",
+        "visitsByVisitCount": "Külastused külastuste arvu järgi",
+        "VisitsPerDuration": "Külastused külastuste pikkuse järgi",
+        "VisitsPerNbOfPages": "Külastused külastatud lehtede arvu järgi",
         "WidgetLengths": "Külastuste kestvus",
         "WidgetPages": "Erinevaid lehti külastuse kohta",
         "WidgetVisitsByDaysSinceLast": "Külastused viimase külastusaja järgi"
@@ -1302,6 +1356,7 @@
         "NbActionsDescription": "%s tegevust",
         "NbActionsPerVisit": "%s tegevust (lehe vaatamist, allalaadimist, väljuvat linki ja lehesisest otsingut) külastuse jooksul",
         "NbDownloadsDescription": "%s allalaadimist",
+        "NbKeywordsDescription": "%s unikaalseid võtmesõnu",
         "NbOutlinksDescription": "%s väljuvat linki",
         "NbPageviewsDescription": "%s lehevaatamist",
         "NbSearchesDescription": "%s otsingut kokku antud veebilehel",
@@ -1310,6 +1365,7 @@
         "NbUniquePageviewsDescription": "%s unikaalset lehevaatamist",
         "NbUniqueVisitors": "%s unikaalset külastajat",
         "NbVisitsBounced": "%s külastajaid põrkas (lahkus peale ühe lehe kuvamist)",
+        "VisitsSummary": "Külastuste kokkuvõte",
         "WidgetLastVisits": "Viimaste külastuste graafik",
         "WidgetOverviewGraph": "Graafikutega ülevaade",
         "WidgetVisits": "Külastuste ülevaade"
