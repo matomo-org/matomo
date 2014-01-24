@@ -46,9 +46,11 @@
         "SubmenuPageTitles": "Naslovi stranica",
         "SubmenuSitesearch": "Pretraga stranice",
         "WidgetExitPageTitles": "Izlazni naslovi stranica",
+        "WidgetPagesEntry": "Ulazne stranice",
         "WidgetPagesExit": "Izlazne stranice",
         "WidgetPageTitles": "Naslovi stranica",
-        "WidgetPageTitlesFollowingSearch": "Naslovi stranica kod pretraživanja"
+        "WidgetPageTitlesFollowingSearch": "Naslovi stranica kod pretraživanja",
+        "WidgetSearchCategories": "Pretraži kategoije"
     },
     "Annotations": {
         "AddAnnotationsFor": "Dodaj bilješke za %s...",
@@ -64,10 +66,17 @@
         "TrackingCode": "Kod za praćenje"
     },
     "CoreHome": {
+        "CheckForUpdates": "Provjeri nadogradnje",
         "PeriodDay": "dan",
+        "PeriodDays": "Dana",
         "PeriodMonth": "mjesec",
+        "PeriodMonths": "mjeseci",
         "PeriodWeek": "tjedan",
-        "PeriodYear": "godina"
+        "PeriodYear": "godina",
+        "PeriodYears": "godine"
+    },
+    "CorePluginsAdmin": {
+        "ActionInstall": "Instaliraj"
     },
     "Dashboard": {
         "Dashboard": "Upravljačka ploča"
