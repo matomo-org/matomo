@@ -20,7 +20,8 @@ class UserAgentParserEnhanced
         'feature phone',
         'console',
         'tv',
-        'car browser'
+        'car browser',
+        'smart display'
     );
 
     public static $deviceBrands = array(
@@ -131,6 +132,7 @@ class UserAgentParserEnhanced
         'VE' => 'Vertu',
         'VI' => 'Vitelcom',
         'VK' => 'VK Mobile',
+        'VS' => 'ViewSonic',
         'VO' => 'Voxtel',
         'WB' => 'Web TV',
         'WE' => 'WellcoM',

@@ -970,6 +970,12 @@ UTStarcom:
   device: 'feature phone'
   model: '$1'
 
+# ViewSonic
+ViewSonic:
+  regex: 'VSD220 Build'
+  device: 'smart display'
+  model: 'VSD220'
+
 # Vitelcom
 Vitelcom:
   regex: 'Vitelcom|portalmmm/[12].0 TSM'
