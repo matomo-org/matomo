@@ -56,6 +56,12 @@ class MetricsFormatter
     {
         $numberOfSeconds = $round ? (int)$numberOfSeconds : (float)$numberOfSeconds;
 
+        $isNegative = false;
+        if ($numberOfSeconds < 0) {
+            $numberOfSeconds = -1 * $numberOfSeconds;
+            $isNegative = true;
+        }
+
         // Display 01:45:17 time format
         if ($displayTimeAsSentence === false) {
             $hours = floor($numberOfSeconds / 3600);
@@ -66,9 +72,13 @@ class MetricsFormatter
             if ($centiSeconds) {
                 $time .= '.' . sprintf("%02s", $centiSeconds);
             }
+            if ($isNegative) {
+                $time = '-' . $time;
+            }
             return $time;
         }
         $secondsInYear = 86400 * 365.25;
+
         $years = floor($numberOfSeconds / $secondsInYear);
         $minusYears = $numberOfSeconds - $years * $secondsInYear;
         $days = floor($minusYears / 86400);
@@ -94,6 +104,11 @@ class MetricsFormatter
         } else {
             $return = sprintf(Piwik::translate('General_Seconds'), $seconds);
         }
+
+        if ($isNegative) {
+            $return = '-' . $return;
+        }
+
         if ($isHtml) {
             return str_replace(' ', '&nbsp;', $return);
         }
