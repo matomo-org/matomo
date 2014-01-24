@@ -149,7 +149,9 @@ class Core_PiwikTest extends DatabaseTestCase
             array(1.002, array('1s', '00:00:01')),
             array(1.02, array('1.02s', '00:00:01.02')),
             array(1.2, array('1.2s', '00:00:01.20')),
-            array(122.1, array('2 min 2.1s', '00:02:02.10'))
+            array(122.1, array('2 min 2.1s', '00:02:02.10')),
+            array(-122.1, array('-2 min 2.1s', '-00:02:02.10')),
+            array(86400 * -365, array('-365 days 0 hours', '-8760:00:00'))
         );
     }
 
