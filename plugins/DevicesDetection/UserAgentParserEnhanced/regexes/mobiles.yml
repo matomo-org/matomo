@@ -844,6 +844,16 @@ Pantech:
     - regex: '(TX[T]?[0-9]+)'
       model: '$1'  
 
+# PolyPad
+PolyPad:
+  regex: 'POLY ?PAD'
+  device: 'tablet'
+  models:
+    - regex: 'POLY ?PAD[_ \.]([a-z0-9]+) Build'
+      model: '$1'
+    - regex: 'POLY ?PAD[_\.]([a-z0-9]+)'
+      model: '$1'
+
 # Sanyo
 Sanyo:
   regex: 'Sanyo|MobilePhone '

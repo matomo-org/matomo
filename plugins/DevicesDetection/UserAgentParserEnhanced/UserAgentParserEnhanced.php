@@ -104,6 +104,7 @@ class UserAgentParserEnhanced
         'PM' => 'Palm',
         'PO' => 'phoneOne',
         'PT' => 'Pantech',
+        'PP' => 'PolyPad',
         'QT' => 'Qtek',
         'RM' => 'RIM',
         'RO' => 'Rover',

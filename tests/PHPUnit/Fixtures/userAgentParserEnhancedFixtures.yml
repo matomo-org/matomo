@@ -1497,9 +1497,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: PP
+    model: 8208HD
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6889,9 +6889,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: PP
+    model: 7208HD
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11822,3 +11822,19 @@
     model: GEM10313S
   os_family: Android
   browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (X11; u; Linux; C) AppleWebKit /533.3 (Khtml, like Gheko) QtCarBrowser Safari/533.3
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Safari
+    short_name: SF
+    version:
+  device:
+    type: car browser
+    brand: TA
+    model: Model S
+  os_family: Linux
+  browser_family: Safari
