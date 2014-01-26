@@ -416,14 +416,16 @@ class UserAgentParserEnhanced
         if (!$matches)
             return;
 
-        if (in_array($osRegex['name'], self::$osShorts)) {
-            $short = self::$osShorts[$osRegex['name']];
+        $name = $this->buildOsName($osRegex['name'], $matches);
+
+        if (in_array($name, self::$osShorts)) {
+            $short = self::$osShorts[$name];
         } else {
             $short = 'UNK';
         }
 
         $this->os = array(
-            'name'       => $this->buildOsName($osRegex['name'], $matches),
+            'name'       => $name,
             'short_name' => $short,
             'version'    => $this->buildOsVersion($osRegex['version'], $matches)
         );
