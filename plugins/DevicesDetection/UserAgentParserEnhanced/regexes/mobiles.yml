@@ -10,9 +10,11 @@
 
 # HTC
 HTC:
-  regex: 'HTC|Sprint APA|ADR[a-z0-9]+|Desire [a-z]+ Build'
+  regex: 'HTC|Sprint APA|ADR[a-z0-9]+|Desire [a-z]+ Build|NexusHD2'
   device: 'smartphone'
   models:
+    - regex: 'NexusHD2' # custom rom for hd2
+      model: 'HD2'
     - regex: 'HTC ([a-z0-9]+) Build'
       model: '$1'
     - regex: 'HTC ([a-z0-9]+(?: [a-z0-9]+)?)'
@@ -502,6 +504,7 @@ Jolla:
   device: 'smartphone'
   model: ''
 
+# KT-Tech
 KT-Tech:
   regex: '(KM-[a-z0-9]+|EV-[a-z0-9]+)'
   device: 'smartphone'

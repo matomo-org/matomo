@@ -1290,8 +1290,8 @@
     version:
   device:
     type: smartphone
-    brand: GO
-    model:
+    brand: HT
+    model: HD2
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8602,8 +8602,8 @@
     version:
   device:
     type: smartphone
-    brand: GO
-    model:
+    brand: HT
+    model: HD2
   os_family: Android
   browser_family: Android Browser
 - 
