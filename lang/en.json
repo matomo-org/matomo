@@ -1223,7 +1223,7 @@
         "PasswordChanged": "Your password has been changed.",
         "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Piwik administrator.",
         "ExceptionPasswordMD5HashExpected": "The password parameter is expected to be a MD5 hash of the password.",
-        "ExceptionInvalidConfigSuperUserAuthenticationMethod": "The Super User defined in the config cannot be authenticated using the '%s' mechanism.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "A user with Super User access cannot be authenticated using the '%s' mechanism.",
         "ResetPasswordInstructions": "Enter a new password for your account."
     },
     "Mobile": {

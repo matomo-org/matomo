@@ -138,8 +138,8 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $login = Common::getRequestVar('login', null, 'string');
-        if ($login == Piwik::getConfigSuperUserLogin()) {
-            throw new Exception(Piwik::translate('Login_ExceptionInvalidConfigSuperUserAuthenticationMethod', array("logme")));
+        if (Piwik::hasTheUserSuperUserAccess($login)) {
+            throw new Exception(Piwik::translate('Login_ExceptionInvalidSuperUserAccessAuthenticationMethod', array("logme")));
         }
 
         $currentUrl = 'index.php';
