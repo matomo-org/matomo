@@ -86,22 +86,26 @@ abstract class Graph extends Visualization
                     continue;
                 }
 
-                // determine whether row is visible
-                $isVisible = true;
-                if ('label' == $self->config->row_picker_match_rows_by) {
-                    $isVisible = in_array($rowLabel, $self->config->rows_to_display);
-                }
-
                 // build config
                 if (!isset($self->selectableRows[$rowLabel])) {
                     $self->selectableRows[$rowLabel] = array(
                         'label'     => $rowLabel,
                         'matcher'   => $rowLabel,
-                        'displayed' => $isVisible
+                        'displayed' => $self->isRowVisible($rowLabel)
                     );
                 }
             }
         });
+    }
+
+    public function isRowVisible($rowLabel)
+    {
+        $isVisible = true;
+        if ('label' == $this->config->row_picker_match_rows_by) {
+            $isVisible = in_array($rowLabel, $this->config->rows_to_display);
+        }
+
+        return $isVisible;
     }
 
     /**
@@ -113,6 +117,15 @@ abstract class Graph extends Visualization
         $this->determineWhichRowsAreSelectable();
 
         $this->config->selectable_rows = array_values($this->selectableRows);
+
+        if ($this->config->add_total_row) {
+            $totalTranslation = Piwik::translate('General_Total');
+            $this->config->selectable_rows[] = array(
+                'label'     => $totalTranslation,
+                'matcher'   => $totalTranslation,
+                'displayed' => $this->isRowVisible($totalTranslation)
+            );
+        }
 
         if ($this->config->show_goals) {
             $this->config->addTranslations(array(

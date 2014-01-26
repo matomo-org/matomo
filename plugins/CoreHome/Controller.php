@@ -191,7 +191,7 @@ class Controller extends \Piwik\Plugin\Controller
         if (Common::getRequestVar('widget', false)
             && Piwik::hasUserSuperUserAccess()
         ) {
-            $view->footerMessage = Piwik::translate('CoreHome_OnlyForAdmin');
+            $view->footerMessage = Piwik::translate('CoreHome_OnlyForSuperUserAccess');
         }
         return $view->render();
     }

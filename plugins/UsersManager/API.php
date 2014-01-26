@@ -663,14 +663,14 @@ class API extends \Piwik\Plugin\API
     private function checkUserHasNotSuperUserAccess($userLogin)
     {
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUser"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUserAccess"));
         }
     }
 
     private function checkUserIsNotConfigSuperUser($userLogin)
     {
         if ($userLogin == Piwik::getConfigSuperUserLogin()) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUser"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionConfigSuperUser"));
         }
     }
 

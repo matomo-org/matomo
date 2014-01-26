@@ -87,25 +87,25 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
             $this->api->addUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
         }
         try {
             $this->api->updateUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
         }
         try {
             $this->api->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
         }
         try {
             $this->api->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
         }
         if ($exceptionNotRaised) {
             $this->fail();
@@ -170,7 +170,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     * @expectedExceptionMessage UsersManager_ExceptionConfigSuperUser
      */
     public function testAddUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
     {
@@ -309,7 +309,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     * @expectedExceptionMessage UsersManager_ExceptionConfigSuperUser
      */
     public function testDeleteUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
     {
@@ -475,7 +475,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     * @expectedExceptionMessage UsersManager_ExceptionSuperUserAccess
      */
     public function testSetUserAccess_ShouldFail_IfLoginIsUserWithSuperUserAccess()
     {
@@ -808,7 +808,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionSuperUser
+     * @expectedExceptionMessage UsersManager_ExceptionConfigSuperUser
      */
     public function testUpdateUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
     {
