@@ -1049,9 +1049,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: KH
+    model: KM-E100
   os_family: Android
   browser_family: Android Browser
 - 

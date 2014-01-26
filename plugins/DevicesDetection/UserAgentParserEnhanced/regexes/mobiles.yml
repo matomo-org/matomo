@@ -502,6 +502,11 @@ Jolla:
   device: 'smartphone'
   model: ''
 
+KT-Tech:
+  regex: '(KM-[a-z0-9]+|EV-[a-z0-9]+)'
+  device: 'smartphone'
+  model: '$1'
+
 # kddi
 KDDI:
   regex: 'kddi-([a-z0-9]+)'

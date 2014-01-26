@@ -77,6 +77,7 @@ class UserAgentParserEnhanced
         'KN' => 'Kindle',
         'KO' => 'Konka',
         'KT' => 'K-Touch',
+        'KH' => 'KT-Tech',
         'KY' => 'Kyocera',
         'LA' => 'Lanix',
         'LC' => 'LCT',
