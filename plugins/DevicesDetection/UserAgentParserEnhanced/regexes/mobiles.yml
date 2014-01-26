@@ -621,6 +621,13 @@ Sagem:
     - regex: 'portalmmm/2.0 ((?:SG|my)[a-z0-9]+)'
       model: '$1'
 
+# Manta Multimedia
+Manta Multimedia:
+  regex: '(MID[0-9]+[a-z]*)'
+  device: 'tablet'
+  model: '$1'
+
+
 # micromax
 MicroMax:
   regex: 'MicroMax(?:[ \-\_])?([a-z0-9]+)'

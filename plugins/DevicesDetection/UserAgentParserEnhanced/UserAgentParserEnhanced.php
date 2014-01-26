@@ -84,6 +84,7 @@ class UserAgentParserEnhanced
         'LE' => 'Lenovo',
         'LG' => 'LG',
         'LU' => 'LGUPlus',
+        'MA' => 'Manta Multimedia',
         'MI' => 'MicroMax',
         'MO' => 'Mio',
         'MR' => 'Motorola',
