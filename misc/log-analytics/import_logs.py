@@ -66,6 +66,7 @@ DOWNLOAD_EXTENSIONS = (
 EXCLUDED_USER_AGENTS = (
     'adsbot-google',
     'ask jeeves',
+    'baidubot',
     'bot-',
     'bot/',
     'ccooter/',
