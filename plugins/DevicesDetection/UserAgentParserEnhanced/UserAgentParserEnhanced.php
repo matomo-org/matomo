@@ -444,14 +444,16 @@ class UserAgentParserEnhanced
         if (!$matches)
             return;
 
-        if (in_array($browserRegex['name'], self::$browsers)) {
-            $short = array_search($browserRegex['name'], self::$browsers);
+        $name = $this->buildBrowserName($browserRegex['name'], $matches);
+
+        if (in_array($name, self::$browsers)) {
+            $short = array_search($name, self::$browsers);
         } else {
             $short = 'XX';
         }
 
         $this->browser = array(
-            'name'       => $this->buildBrowserName($browserRegex['name'], $matches),
+            'name'       => $name,
             'short_name' => $short,
             'version'    => $this->buildBrowserVersion($browserRegex['version'], $matches)
         );

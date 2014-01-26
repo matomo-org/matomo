@@ -118,7 +118,7 @@
     version: 8
   browser:
     name: SeaMonkey
-    short_name: XX
+    short_name: SM
     version: 2.17
   device:
     type: desktop
