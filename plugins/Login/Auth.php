@@ -66,7 +66,7 @@ class Auth implements \Piwik\Auth
                     || $user['token_auth'] === $this->token_auth)
             ) {
                 $this->setTokenAuth($user['token_auth']);
-                $code = $user['superuser_access'] ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+                $code = !empty($user['superuser_access']) ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
                 return new AuthResult($code, $this->login, $user['token_auth']);
             }
