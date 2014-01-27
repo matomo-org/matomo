@@ -1072,7 +1072,7 @@
         "SetupWebsiteError": "There was an error when adding the website",
         "SetupWebsiteSetupSuccess": "Website %s created with success!",
         "SuperUser": "Super User",
-        "SuperUserSetupError": "There was an error when adding the super user",
+        "SuperUserSetupError": "There was an error when adding the Super User",
         "SuperUserSetupSuccess": "Super User created with success!",
         "SuperUserLogin": "super user login",
         "Password": "password",

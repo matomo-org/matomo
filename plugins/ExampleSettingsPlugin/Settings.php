@@ -117,7 +117,7 @@ class Settings extends \Piwik\Plugin\Settings
         $this->metric->type  = static::TYPE_STRING;
         $this->metric->uiControlType = static::CONTROL_SINGLE_SELECT;
         $this->metric->availableValues  = array('nb_visits' => 'Visits', 'nb_actions' => 'Actions', 'visitors' => 'Visitors');
-        $this->metric->introduction  = 'Only super users can change the following settings:';
+        $this->metric->introduction  = 'Only Super Users can change the following settings:';
         $this->metric->description   = 'Choose the metric that should be displayed in the browser tab';
         $this->metric->defaultValue  = 'nb_visits';
 
