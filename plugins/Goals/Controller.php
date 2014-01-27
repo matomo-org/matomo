@@ -452,10 +452,10 @@ class Controller extends \Piwik\Plugin\Controller
             foreach ($allReports as $category => $reports) {
                 $categoryText = Piwik::translate('Goals_ViewGoalsBy', $category);
                 foreach ($reports as $report) {
-                    $customParams['viewDataTable'] = 'tableGoals';
-                    if (in_array($report['action'], array('getVisitsUntilConversion', 'getDaysToConversion'))) {
-                        $customParams['viewDataTable'] = 'table';
+                    if(empty($report['viewDataTable'])) {
+                        $report['viewDataTable'] = 'tableGoals';
                     }
+                    $customParams['viewDataTable'] = $report['viewDataTable'];
 
                     $goalReportsByDimension->addReport(
                         $categoryText, $report['name'], $report['module'] . '.' . $report['action'], $customParams);
