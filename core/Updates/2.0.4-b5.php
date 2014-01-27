@@ -24,7 +24,7 @@ use Piwik\Updates;
 /**
  * @package Updates
  */
-class Updates_2_0_4_b4 extends Updates
+class Updates_2_0_4_b5 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
@@ -39,11 +39,11 @@ class Updates_2_0_4_b4 extends Updates
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
-        self::migratateExistingMobileMessagingOptions();
+        self::migrateExistingMobileMessagingOptions();
         self::migrateConfigSuperUserToDb();
     }
 
-    private static function migratateExistingMobileMessagingOptions()
+    private static function migrateExistingMobileMessagingOptions()
     {
         if (MobileMessagingApi::getInstance()->getDelegatedManagement()) {
             return;
