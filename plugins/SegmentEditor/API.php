@@ -113,6 +113,16 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    protected function checkUserCanModifySegment($segment)
+    {
+        if(Piwik::isUserIsSuperUser()) {
+            return;
+        }
+        if($segment['login'] != Piwik::getCurrentUserLogin()) {
+            throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
+        }
+    }
+
     /**
      * Deletes a stored segment.
      *
@@ -123,9 +133,11 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkUserIsNotAnonymous();
 
-        $this->sendSegmentDeactivationEvent($idSegment);
+        $segment = $this->getSegmentOrFail($idSegment);
 
-        $this->getSegmentOrFail($idSegment);
+        $this->checkUserCanModifySegment($segment);
+
+        $this->sendSegmentDeactivationEvent($idSegment);
 
         $db = Db::get();
         $db->delete(Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
@@ -148,6 +160,8 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkUserIsNotAnonymous();
         $segment = $this->getSegmentOrFail($idSegment);
+
+        $this->checkUserCanModifySegment($segment);
 
         $idSite = $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
@@ -327,7 +341,9 @@ class API extends \Piwik\Plugin\API
      */
     private function getMessageCannotEditSegmentCreatedBySuperUser()
     {
-        return "You can only edit the custom segments you have created yourself. This segment was created and 'shared with you' by the Super User. " .
-        "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.";
+        $message = "You can only edit and delete custom segments that you have created yourself. This segment was created and 'shared with you' by the Super User. " .
+            "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.";
+
+        return $message;
     }
 }

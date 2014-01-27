@@ -156,7 +156,6 @@
         "PluginSettings": "Impostazioni plugin",
         "PluginSettingsIntro": "Qui puoi cambiare le impostazioni dei seguenti plugins di terze parti:",
         "PluginSettingsValueNotAllowed": "Il valore del campo \"%s\" nel plugin \"%s\" non è consentito",
-        "ScheduledTasks": "Attività pianificate",
         "StableReleases": "Se Piwik rappresenta una parte fondamentale nella vostra attività, vi raccomandiamo di utilizzare l'ultima versione stabile. Se utilizzate l'ultima versione beta e riscontrate un bug o avete dei suggerimenti, per favore %sguardate qui%s.",
         "TrackAGoal": "Traccia un obiettivo",
         "TrackingCode": "Codice di Tracciamento",

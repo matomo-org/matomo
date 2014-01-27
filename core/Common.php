@@ -964,9 +964,9 @@ class Common
             } else {
                 $list = array($list);
             }
+            $list = array_map('trim', $list);
         }
 
-        array_walk_recursive($return, 'trim');
         return $return;
     }
 

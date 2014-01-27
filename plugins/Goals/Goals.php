@@ -419,12 +419,14 @@ class Goals extends \Piwik\Plugin
             array('category' => Piwik::translate('General_Visit'),
                   'name'     => Piwik::translate('Goals_VisitsUntilConv'),
                   'module'   => 'Goals',
-                  'action'   => 'getVisitsUntilConversion'
+                  'action'   => 'getVisitsUntilConversion',
+                  'viewDataTable' => 'table',
             ),
             array('category' => Piwik::translate('General_Visit'),
                   'name'     => Piwik::translate('Goals_DaysToConv'),
                   'module'   => 'Goals',
-                  'action'   => 'getDaysToConversion'
+                  'action'   => 'getDaysToConversion',
+                  'viewDataTable' => 'table',
             )
         );
         $dimensions = array_merge($dimensions, $reportWithGoalMetrics);

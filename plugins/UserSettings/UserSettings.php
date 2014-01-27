@@ -10,7 +10,6 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\ArchiveProcessor;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
