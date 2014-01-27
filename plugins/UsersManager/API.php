@@ -364,7 +364,10 @@ class API extends \Piwik\Plugin\API
         $this->checkUserExists($userLogin);
 
         if (!$hasSuperUserAccess && $this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser", $userLogin));
+            $message = Piwik::translate("UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser", $userLogin)
+                        . " "
+                        . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
+            throw new Exception($message);
         }
 
         $this->model->deleteUserAccess($userLogin);
@@ -453,7 +456,10 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess", $userLogin));
+            $message = Piwik::translate("UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess", $userLogin)
+                        . " "
+                        . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
+            throw new Exception($message);
         }
 
         $this->model->deleteUserOnly($userLogin);
