@@ -17,12 +17,12 @@
         "DeviceDetection": "Device detection",
         "Device": "Device",
         "UserAgent": "User-Agent",
-        "Smartphone": "smartphone",
-        "CarBrowser": "car browser",
-        "Tablet": "tablet",
-        "SmartDisplay": "smart display",
-        "FeaturePhone": "feature phone",
-        "TV": "tv",
-        "Console": "console"
+        "Smartphone": "Smartphone",
+        "CarBrowser": "Car browser",
+        "Tablet": "Tablet",
+        "SmartDisplay": "Smart display",
+        "FeaturePhone": "Feature phone",
+        "TV": "Tv",
+        "Console": "Console"
     }
 }
