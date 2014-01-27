@@ -348,6 +348,15 @@ class API extends \Piwik\Plugin\API
         Piwik::postEvent('UsersManager.addUser.end', array($userLogin));
     }
 
+    /**
+     * Enable or disable Super user access to the given user login. Note: When granting super user access all previous
+     * permissions of the user will be removed as the user gains access to everything.
+     *
+     * @param string   $userLogin          the user login.
+     * @param bool|int $hasSuperUserAccess true or '1' to grant super user access, false or '0' to remove super user
+     *                                     access.
+     * @throws \Exception
+     */
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -355,14 +364,18 @@ class API extends \Piwik\Plugin\API
         $this->checkUserExists($userLogin);
 
         if (!$hasSuperUserAccess && $this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
-            throw new Exception('You cannot remove Super User access from this user as there has to be at least one user having Super User access. You have to grant Super User access to another user first.');
+            throw new Exception(Piwik::translate("UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser", $userLogin));
         }
 
         $this->model->deleteUserAccess($userLogin);
-
         $this->model->setSuperUserAccess($userLogin, $hasSuperUserAccess);
     }
 
+    /**
+     * Returns a list of all super users containing there userLogin and email address.
+     *
+     * @return array
+     */
     public function getUsersHavingSuperUserAccess()
     {
         Piwik::checkUserIsNotAnonymous();
@@ -440,7 +453,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
-            throw new Exception('You cannot delete this user as there has to be at least one user having Super User access. To remove this user grant Super User access to another user and then you can delete this user.');
+            throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess", $userLogin));
         }
 
         $this->model->deleteUserOnly($userLogin);

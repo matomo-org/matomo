@@ -182,18 +182,26 @@ class FakeAccess
         }
         return $result;
     }
-    
-    public function getConfigSuperUserLogin()
+
+    static public function getAnyUserHavingSuperUserAccess()
+    {
+        return array(
+            'login' => self::$superUserLogin,
+            'email' => 'hello@piwik.org'
+        );
+    }
+
+    public function getAnySuperUserAccessLogin()
     {
         return self::$superUserLogin;
     }
 
     /**
-     * @see FakeAccess::getConfigSuperUserLogin()
+     * @see FakeAccess::getAnySuperUserAccessLogin()
      * @deprecated deprecated since version 2.0.4
      */
     public function getSuperUserLogin()
     {
-        return $this->getConfigSuperUserLogin();
+        return $this->getAnySuperUserAccessLogin();
     }
 }

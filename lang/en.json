@@ -2152,6 +2152,8 @@
         "ExceptionInvalidPassword": "The password length must be between %1$s and %2$s characters.",
         "ExceptionInvalidEmail": "The email doesn't have a valid format.",
         "ExceptionDeleteDoesNotExist": "User '%s' doesn't exist therefore it can't be deleted.",
+        "ExceptionDeleteOnlyUserWithSuperUserAccess": "Deleting user '%s' is not possible as there has to be at least one user having Super User access. Grant Super User access to another user first.",
+        "ExceptionRemoveSuperUserAccessOnlySuperUser": "Removing the Super User access from user '%s' is not possible as there has to be at least one user having Super User access. Grant Super User access to another user first.",
         "ExceptionAdminAnonymous": "You cannot grant 'admin' access to the 'anonymous' user.",
         "ExceptionEditAnonymous": "The anonymous user cannot be edited or deleted. It is used by Piwik to define a user that has not logged in yet. For example, you can make your statistics public by granting the 'view' access to the 'anonymous' user.",
         "ExceptionSuperUserAccess": "Requested user has Super User access and therefore already permission to all websites.",

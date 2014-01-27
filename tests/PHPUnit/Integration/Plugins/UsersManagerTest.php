@@ -264,6 +264,21 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     }
 
     /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess
+     */
+    public function testDeleteUser_ShouldFail_InCaseTheUserIsTheOnlyRemainingSuperUser()
+    {
+        //add user and set some rights
+        $this->api->addUser("regularuser", "geqgeagae1", "test1@test.com", "alias1");
+        $this->api->addUser("superuser", "geqgeagae2", "test2@test.com", "alias2");
+        $this->api->setSuperUserAccess('superuser', true);
+
+        // delete the user
+        $this->api->deleteUser("superuser");
+    }
+
+    /**
      * normal case, user deleted
      */
     public function testDeleteUser()
@@ -646,6 +661,18 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testSetSuperUserAccess_ShouldFail_IfUserIsAnonymous()
     {
         $this->api->setSuperUserAccess('anonymous', true);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser
+     */
+    public function testSetSuperUserAccess_ShouldFail_IfUserIsOnlyRemainingUserWithSuperUserAccess()
+    {
+        $this->api->addUser('login1', 'password1', 'test@example.com', false);
+        $this->api->setSuperUserAccess('login1', true);
+
+        $this->api->setSuperUserAccess('login1', false);
     }
 
     public function testSetSuperUserAccess_ShouldDeleteAllExistingAccessEntries()
