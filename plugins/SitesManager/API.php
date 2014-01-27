@@ -212,7 +212,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of all the website IDs registered.
-     * Requires super user access.
+     * Requires Super User access.
      *
      * @return array The list of website IDs
      */
@@ -229,7 +229,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of the website IDs that received some visits since the specified timestamp.
-     * Requires super user access.
+     * Requires Super User access.
      *
      * @param bool|int $timestamp
      * @return array The list of website IDs
@@ -336,7 +336,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!empty($_restrictSitesToLogin)
-            // Only super user or logged in user can see viewable sites for a specific login,
+            // Only Super User or logged in user can see viewable sites for a specific login,
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
             && (Piwik::hasUserSuperUserAccessOrIsTheUser($_restrictSitesToLogin)

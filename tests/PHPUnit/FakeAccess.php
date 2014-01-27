@@ -141,7 +141,7 @@ class FakeAccess
                 throw new Exception("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
             }
         } else {
-            return; //super user has some admin rights
+            return; //Super User has some admin rights
         }
     }
 

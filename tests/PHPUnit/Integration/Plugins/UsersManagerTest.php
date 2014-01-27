@@ -36,7 +36,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
-        //finally we set the user as a super user by default
+        //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
         Access::setSingletonInstance($pseudoMockAccess);
@@ -682,7 +682,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->api->setUserAccess('login1', 'view', array($id1));
         $this->api->setUserAccess('login1', 'admin', array($id2));
 
-        // verify user has access before setting super user access
+        // verify user has access before setting Super User access
         $access = $this->_flatten($this->api->getSitesAccessFromUser('login1'));
         $this->assertEquals(array($id1 => 'view', $id2 => 'admin'), $access);
 
@@ -700,7 +700,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
         $this->api->setSuperUserAccess('login2', true);
 
-        // test add super user access
+        // test add Super User access
         $users = $this->api->getUsers();
 
         $this->assertEquals(0, $users[0]['superuser_access']);
@@ -708,9 +708,9 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals('login2', $users[1]['login']);
         $this->assertEquals(0, $users[2]['superuser_access']);
 
-        // should also accept string '1' to add super user access
+        // should also accept string '1' to add Super User access
         $this->api->setSuperUserAccess('login1', '1');
-        // test remove super user access
+        // test remove Super User access
         $this->api->setSuperUserAccess('login2', false);
 
         $users = $this->api->getUsers();
@@ -720,7 +720,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals(0, $users[2]['superuser_access']);
 
         $this->api->setSuperUserAccess('login3', true);
-        // should also accept string '0' to remove super user access
+        // should also accept string '0' to remove Super User access
         $this->api->setSuperUserAccess('login1', '0');
 
         $users = $this->api->getUsers();

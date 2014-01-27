@@ -209,7 +209,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     }
 
     /**
-     * Returns the super user token auth that can be used in tests. Can be used to
+     * Returns the Super User token auth that can be used in tests. Can be used to
      * do bulk tracking.
      *
      * @return string

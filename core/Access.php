@@ -24,7 +24,7 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
  * - **no access**: Users with this access level cannot view the resource.
  * - **view access**: Users with this access level can view the resource, but cannot modify it.
  * - **admin access**: Users with this access level can view and modify the resource.
- * - **super user access**: Only the super user has this access level. It means the user can do
+ * - **Super User access**: Only the Super User has this access level. It means the user can do
  *                          whatever he/she wants.
  * 
  *                          Super user access is required to set some configuration options.
@@ -84,7 +84,7 @@ class Access
     protected $token_auth = null;
 
     /**
-     * Defines if the current user is the super user
+     * Defines if the current user is the Super User
      * @see hasSuperUserAccess()
      *
      * @var bool
@@ -199,7 +199,7 @@ class Access
     }
 
     /**
-     * Reload super user access
+     * Reload Super User access
      *
      * @return bool
      */
@@ -247,7 +247,7 @@ class Access
     }
 
     /**
-     * Returns true if the current user is logged in as the super user
+     * Returns true if the current user is logged in as the Super User
      *
      * @return bool
      */

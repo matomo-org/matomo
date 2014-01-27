@@ -506,7 +506,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * system check, so people can see if there are any issues w/ their running
      * Piwik installation.
      *
-     * This admin tab is only viewable by the super user.
+     * This admin tab is only viewable by the Super User.
      */
     public function systemCheckPage()
     {

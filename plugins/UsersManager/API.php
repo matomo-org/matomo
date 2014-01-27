@@ -349,11 +349,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Enable or disable Super user access to the given user login. Note: When granting super user access all previous
+     * Enable or disable Super user access to the given user login. Note: When granting Super User access all previous
      * permissions of the user will be removed as the user gains access to everything.
      *
      * @param string   $userLogin          the user login.
-     * @param bool|int $hasSuperUserAccess true or '1' to grant super user access, false or '0' to remove super user
+     * @param bool|int $hasSuperUserAccess true or '1' to grant Super User access, false or '0' to remove Super User
      *                                     access.
      * @throws \Exception
      */
@@ -375,7 +375,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns a list of all super users containing there userLogin and email address.
+     * Returns a list of all Super Users containing there userLogin and email address.
      *
      * @return array
      */
@@ -486,7 +486,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns true if user with given email (userEmail) is known in the database, or the super user
+     * Returns true if user with given email (userEmail) is known in the database, or the Super User
      *
      * @param string $userEmail
      * @return bool true if the user is known

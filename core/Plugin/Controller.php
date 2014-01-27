@@ -528,7 +528,7 @@ abstract class Controller
      * 
      * **debugTrackVisitsInsidePiwikUI** - The value of the `[Debug] track_visits_inside_piwik_ui`
      *                                     INI config option.
-     * **isSuperUser** - True if the current user is the super user, false if otherwise.
+     * **isSuperUser** - True if the current user is the Super User, false if otherwise.
      * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
      *                          false if otherwise.
      * **isCustomLogo** - The value of the `[branding] use_custom_logo` INI config option.
@@ -572,7 +572,7 @@ abstract class Controller
      * - **isValidHost** - true if host is valid, false if otherwise
      * - **invalidHostMessage** - message to display if host is invalid (only set if host is invalid)
      * - **invalidHost** - the invalid hostname (only set if host is invalid)
-     * - **mailLinkStart** - the open tag of a link to email the super user of this problem (only set
+     * - **mailLinkStart** - the open tag of a link to email the Super User of this problem (only set
      *                       if host is invalid)
      *
      * @param View $view

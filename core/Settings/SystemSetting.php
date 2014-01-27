@@ -14,7 +14,7 @@ namespace Piwik\Settings;
 use Piwik\Piwik;
 
 /**
- * Describes a system wide setting. Only the super user can change this type of setting and
+ * Describes a system wide setting. Only the Super User can change this type of setting and
  * the value of this setting will affect all users.
  * 
  * See {@link \Piwik\Plugin\Settings}.

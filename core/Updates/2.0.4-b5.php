@@ -49,7 +49,7 @@ class Updates_2_0_4_b5 extends Updates
             return;
         }
 
-        // team_MobileMessagingSettings -> _MobileMessagingSettings as it is no longer guaranteed the super user's
+        // team_MobileMessagingSettings -> _MobileMessagingSettings as it is no longer guaranteed the Super User's
         // username is always the same
 
         $optionName     = MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;

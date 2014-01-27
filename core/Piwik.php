@@ -272,7 +272,7 @@ class Piwik
     }
 
     /**
-     * Returns `true` if the current user is either the super user or the user specified by
+     * Returns `true` if the current user is either the Super User or the user specified by
      * `$theUser`.
      *
      * @param string $theUser A username.
@@ -311,14 +311,14 @@ class Piwik
      * Check that the current user is either the specified user or the superuser.
      *
      * @param string $theUser A username.
-     * @throws NoAccessException If the user is neither the super user nor the user `$theUser`.
+     * @throws NoAccessException If the user is neither the Super User nor the user `$theUser`.
      * @api
      */
     static public function checkUserHasSuperUserAccessOrIsTheUser($theUser)
     {
         try {
             if (Piwik::getCurrentUserLogin() !== $theUser) {
-                // or to the super user
+                // or to the Super User
                 Piwik::checkUserHasSuperUserAccess();
             }
         } catch (NoAccessException $e) {
@@ -364,7 +364,7 @@ class Piwik
     }
 
     /**
-     * Returns true if the current user has super user access.
+     * Returns true if the current user has Super User access.
      *
      * @return bool
      * @api
@@ -407,7 +407,7 @@ class Piwik
      * Helper method user to set the current as superuser.
      * This should be used with great care as this gives the user all permissions.
      *
-     * @param bool $bool true to set current user as super user
+     * @param bool $bool true to set current user as Super User
      */
     static public function setUserHasSuperUserAccess($bool = true)
     {
