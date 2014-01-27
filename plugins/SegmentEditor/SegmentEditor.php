@@ -26,10 +26,9 @@ class SegmentEditor extends \Piwik\Plugin
     public function getInformation()
     {
         return array(
-            'description'     => 'Create and reuse custom visitor Segments with the Segment Editor.',
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Version::VERSION,
+            'description'      => 'Create and reuse custom visitor Segments with the Segment Editor.',
+            'authors'          => array(array('name' => 'Piwik', 'homepage' => 'http://piwik.org/')),
+            'version'          => Version::VERSION,
             'license'          => 'GPL v3+',
             'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
         );

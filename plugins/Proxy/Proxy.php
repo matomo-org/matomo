@@ -30,8 +30,7 @@ class Proxy extends \Piwik\Plugin
     {
         return array(
             'description'          => 'Proxy services',
-            'author'               => 'Piwik',
-            'author_homepage'      => 'http://piwik.org/',
+            'authors'              => array(array('name' => 'Piwik', 'homepage' => 'http://piwik.org/')),
             'version'              => Version::VERSION,
             'translationAvailable' => false,
         );
