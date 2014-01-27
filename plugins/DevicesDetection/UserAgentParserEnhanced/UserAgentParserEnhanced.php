@@ -421,12 +421,14 @@ class UserAgentParserEnhanced
         if (!$matches)
             return;
 
-        $name = $this->buildOsName($osRegex['name'], $matches);
+        $name  = $this->buildOsName($osRegex['name'], $matches);
+        $short = 'UNK';
 
-        if (in_array($name, self::$osShorts)) {
-            $short = self::$osShorts[$name];
-        } else {
-            $short = 'UNK';
+        foreach (self::$osShorts AS $osName => $osShort) {
+            if (strtolower($name) == strtolower($osName)) {
+                $name  = $osName;
+                $short = $osShort;
+            }
         }
 
         $this->os = array(
@@ -451,12 +453,14 @@ class UserAgentParserEnhanced
         if (!$matches)
             return;
 
-        $name = $this->buildBrowserName($browserRegex['name'], $matches);
+        $name  = $this->buildBrowserName($browserRegex['name'], $matches);
+        $short = 'XX';
 
-        if (in_array($name, self::$browsers)) {
-            $short = array_search($name, self::$browsers);
-        } else {
-            $short = 'XX';
+        foreach (self::$browsers AS $browserShort => $browserName) {
+            if (strtolower($name) == strtolower($browserName)) {
+                $name  = $browserName;
+                $short = $browserShort;
+            }
         }
 
         $this->browser = array(

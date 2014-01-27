@@ -1,5 +1,5 @@
 -
-  user_agent: Mozilla/5.0 (X11; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 Debian/unstable (3.8.2-5) Epiphany/3.8.2
+  user_agent: Mozilla/5.0 (X11; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 debian/unstable (3.8.2-5) Epiphany/3.8.2
   os:
     name: Debian
     short_name: DEB
