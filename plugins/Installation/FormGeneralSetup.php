@@ -14,6 +14,7 @@ use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
 
 /**
@@ -40,6 +41,10 @@ class FormGeneralSetup extends QuickForm2
         $password = $this->addElement('password', 'password')
             ->setLabel(Piwik::translate('Installation_Password'));
         $password->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_Password')));
+        $pwMinLen = UsersManager::PASSWORD_MIN_LENGTH;
+        $pwMaxLen = UsersManager::PASSWORD_MAX_LENGTH;
+        $pwLenInvalidMessage = Piwik::translate('UsersManager_ExceptionInvalidPassword', array($pwMinLen, $pwMaxLen));
+        $password->addRule('length', $pwLenInvalidMessage, array('min' => $pwMinLen, 'max' => $pwMaxLen));
 
         $passwordBis = $this->addElement('password', 'password_bis')
             ->setLabel(Piwik::translate('Installation_PasswordRepeat'));

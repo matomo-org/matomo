@@ -115,7 +115,7 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanModifySegment($segment)
     {
-        if(Piwik::isUserIsSuperUser()) {
+        if(Piwik::hasUserSuperUserAccess()) {
             return;
         }
         if($segment['login'] != Piwik::getCurrentUserLogin()) {
