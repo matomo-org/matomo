@@ -997,9 +997,9 @@ UTStarcom:
 
 # ViewSonic
 ViewSonic:
-  regex: 'VSD220 Build'
+  regex: '(VSD[0-9]+) Build'
   device: 'smart display'
-  model: 'VSD220'
+  model: '$1'
 
 # Vitelcom
 Vitelcom:
