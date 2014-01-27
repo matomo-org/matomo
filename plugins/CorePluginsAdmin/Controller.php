@@ -365,7 +365,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->plugins         = Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
-        $view->emailSuperUser  = Piwik::getConfigSuperUserEmail();
+        $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         $view->piwikVersion    = Version::VERSION;
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';

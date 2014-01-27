@@ -23,13 +23,6 @@ class Core_PiwikTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-
-        // we make sure the tests don't depend on the config file content
-        Config::getInstance()->superuser = array(
-            'login'    => 'superUserLogin',
-            'password' => 'passwordsuperusertest',
-            'email'    => 'superuser@example.com'
-        );
     }
 
     /**
@@ -296,15 +289,5 @@ class Core_PiwikTest extends DatabaseTestCase
     public function testCheckIfFileSystemIsNFSOnNonNFS()
     {
         $this->assertFalse(Filesystem::checkIfFileSystemIsNFS());
-    }
-
-    public function test_getConfigSuperUserLogin_ShouldReadSuperUserLoginFromConfig()
-    {
-        $this->assertEquals('superUserLogin', Piwik::getConfigSuperUserLogin());
-    }
-
-    public function test_getConfigSuperUserEmail_ShouldReadSuperUserEmailFromConfig()
-    {
-        $this->assertEquals('superuser@example.com', Piwik::getConfigSuperUserEmail());
     }
 }

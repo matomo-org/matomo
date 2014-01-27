@@ -138,6 +138,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->setupSystemCheckView($view);
         $this->session->general_infos = $view->infos['general_infos'];
+        $this->session->general_infos['salt'] = Common::generateUniqId();
 
         // make sure DB sessions are used if the filesystem is NFS
         if ($view->infos['is_nfs']) {
@@ -342,41 +343,43 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormGeneralSetup();
 
         if ($form->validate()) {
-            $superUserInfos = array(
-                'login'    => $form->getSubmitValue('login'),
-                'password' => md5($form->getSubmitValue('password')),
-                'email'    => $form->getSubmitValue('email'),
-                'salt'     => Common::generateUniqId(),
-            );
 
-            $this->session->superuser_infos = $superUserInfos;
+            try {
+                $this->createSuperUser($form->getSubmitValue('login'),
+                                       $form->getSubmitValue('password'),
+                                       $form->getSubmitValue('email'));
 
-            $url = Config::getInstance()->General['api_service_url'];
-            $url .= '/1.0/subscribeNewsletter/';
-            $params = array(
-                'email'     => $form->getSubmitValue('email'),
-                'security'  => $form->getSubmitValue('subscribe_newsletter_security'),
-                'community' => $form->getSubmitValue('subscribe_newsletter_community'),
-                'url'       => Url::getCurrentUrlWithoutQueryString(),
-            );
-            if ($params['security'] == '1'
-                || $params['community'] == '1'
-            ) {
-                if (!isset($params['security'])) {
-                    $params['security'] = '0';
+                $url  = Config::getInstance()->General['api_service_url'];
+                $url .= '/1.0/subscribeNewsletter/';
+                $params = array(
+                    'email'     => $form->getSubmitValue('email'),
+                    'security'  => $form->getSubmitValue('subscribe_newsletter_security'),
+                    'community' => $form->getSubmitValue('subscribe_newsletter_community'),
+                    'url'       => Url::getCurrentUrlWithoutQueryString(),
+                );
+                if ($params['security'] == '1'
+                    || $params['community'] == '1'
+                ) {
+                    if (!isset($params['security'])) {
+                        $params['security'] = '0';
+                    }
+                    if (!isset($params['community'])) {
+                        $params['community'] = '0';
+                    }
+                    $url .= '?' . http_build_query($params, '', '&');
+                    try {
+                        Http::sendHttpRequest($url, $timeout = 2);
+                    } catch (Exception $e) {
+                        // e.g., disable_functions = fsockopen; allow_url_open = Off
+                    }
                 }
-                if (!isset($params['community'])) {
-                    $params['community'] = '0';
-                }
-                $url .= '?' . http_build_query($params, '', '&');
-                try {
-                    Http::sendHttpRequest($url, $timeout = 2);
-                } catch (Exception $e) {
-                    // e.g., disable_functions = fsockopen; allow_url_open = Off
-                }
+                $this->redirectToNextStep(__FUNCTION__);
+
+            } catch (Exception $e) {
+                $view->errorMessage = $e->getMessage();
             }
-            $this->redirectToNextStep(__FUNCTION__);
         }
+
         $view->addForm($form);
 
         return $view->render();
@@ -553,9 +556,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     protected function writeConfigFileFromSession()
     {
-        if (!isset($this->session->superuser_infos)
-            || !isset($this->session->db_infos)
-        ) {
+        if (!isset($this->session->db_infos)) {
             return;
         }
 
@@ -564,7 +565,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // expect exception since config.ini.php doesn't exist yet
             $config->checkLocalConfigFound();
         } catch (Exception $e) {
-            $config->superuser = $this->session->superuser_infos;
             $config->database = $this->session->db_infos;
 
             if (!empty($this->session->general_infos)) {
@@ -574,7 +574,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $config->forceSave();
         }
 
-        unset($this->session->superuser_infos);
         unset($this->session->db_infos);
         unset($this->session->general_infos);
     }
@@ -1044,6 +1043,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // delete the temporary rows that were created
         Db::exec("DELETE FROM `$optionTable` WHERE option_name IN ('" . implode("','", $testOptionNames) . "')");
+    }
+
+    private function createSuperUser($login, $password, $email)
+    {
+        $this->initObjectsToCallAPI();
+
+        $api = APIUsersManager::getInstance();
+        $api->addUser($login, $password, $email);
+        $api->setSuperUserAccess($login, true);
     }
 
 }

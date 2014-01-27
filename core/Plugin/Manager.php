@@ -911,6 +911,9 @@ class Manager extends Singleton
             if (strpos($name, self::TRACKER_EVENT_PREFIX) === 0) {
                 return true;
             }
+            if ($name === 'Request.initAuthenticationObject') {
+                return true;
+            }
         }
         return false;
     }

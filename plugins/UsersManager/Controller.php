@@ -147,15 +147,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@UsersManager/userSettings');
 
         $userLogin = Piwik::getCurrentUserLogin();
-        if (Piwik::isUserIsConfigSuperUser()) {
-            $view->userAlias = $userLogin;
-            $view->userEmail = Piwik::getConfigSuperUserEmail();
-            $this->displayWarningIfConfigFileNotWritable();
-        } else {
-            $user = APIUsersManager::getInstance()->getUser($userLogin);
-            $view->userAlias = $user['alias'];
-            $view->userEmail = $user['email'];
-        }
+        $user = APIUsersManager::getInstance()->getUser($userLogin);
+        $view->userAlias = $user['alias'];
+        $view->userEmail = $user['email'];
 
         $defaultReport = APIUsersManager::getInstance()->getUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT);
         if ($defaultReport === false) {
@@ -322,29 +316,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        if (Piwik::isUserIsConfigSuperUser()) {
-            $superUser = Config::getInstance()->superuser;
-            $updatedSuperUser = false;
-
-            if ($newPassword !== false) {
-                $newPassword = Common::unsanitizeInputValue($newPassword);
-                $md5PasswordSuperUser = md5($newPassword);
-                $superUser['password'] = $md5PasswordSuperUser;
-                $updatedSuperUser = true;
-            }
-            if ($superUser['email'] != $email) {
-                $superUser['email'] = $email;
-                $updatedSuperUser = true;
-            }
-            if ($updatedSuperUser) {
-                Config::getInstance()->superuser = $superUser;
-                Config::getInstance()->forceSave();
-            }
-        } else {
-            APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
-            if ($newPassword !== false) {
-                $newPassword = Common::unsanitizeInputValue($newPassword);
-            }
+        APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+        if ($newPassword !== false) {
+            $newPassword = Common::unsanitizeInputValue($newPassword);
         }
 
         // logs the user in with the new password

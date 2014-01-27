@@ -193,6 +193,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         if(!isset($data['status'])) {
             throw new Exception("Returned data didn't have a status: " . var_export($data,true));
         }
+
         self::assertArrayHasKey('status', $data);
         self::assertEquals('success', $data['status']);
     }
@@ -215,10 +216,23 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        return APIUsersManager::getInstance()->getTokenAuth(
-            Config::getInstance()->superuser['login'],
-            Config::getInstance()->superuser['password']
-        );
+        $login    = 'admin';
+        $password = '098f6bcd4621d373cade4e832627b4f6';
+
+        $token = APIUsersManager::getInstance()->getTokenAuth($login, $password);
+
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUserByTokenAuth($token);
+
+        if (empty($user)) {
+            $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
+        }
+
+        if (empty($user['superuser_access'])) {
+            $model->setSuperUserAccess($login, true);
+        }
+
+        return $token;
     }
 
     /**

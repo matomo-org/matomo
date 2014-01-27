@@ -354,14 +354,8 @@ class Controller extends \Piwik\Plugin\Controller
                 "setNewUserPassword called w/ incorrect password hash. Something has gone terribly wrong.");
         }
 
-        if ($user['email'] == Piwik::getConfigSuperUserEmail()) {
-            $user['password'] = $passwordHash;
-            Config::getInstance()->superuser = $user;
-            Config::getInstance()->forceSave();
-        } else {
-            API::getInstance()->updateUser(
-                $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
-        }
+        API::getInstance()->updateUser(
+            $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
     }
 
     /**
@@ -385,15 +379,7 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::setUserHasSuperUserAccess();
 
         $user = null;
-        if ($loginMail == Piwik::getConfigSuperUserEmail()
-            || $loginMail == Piwik::getConfigSuperUserLogin()
-        ) {
-            $user = array(
-                'login'    => Piwik::getConfigSuperUserLogin(),
-                'email'    => Piwik::getConfigSuperUserEmail(),
-                'password' => Config::getInstance()->superuser['password'],
-            );
-        } else if (API::getInstance()->userExists($loginMail)) {
+        if (API::getInstance()->userExists($loginMail)) {
             $user = API::getInstance()->getUser($loginMail);
         } else if (API::getInstance()->userEmailExists($loginMail)) {
             $user = API::getInstance()->getUserByEmail($loginMail);

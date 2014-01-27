@@ -215,43 +215,38 @@ class Piwik
      */
     static public function getCurrentUserEmail()
     {
-        if (!Piwik::isUserIsConfigSuperUser()) {
-            $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
-            return $user['email'];
-        }
-        return self::getConfigSuperUserEmail();
+        $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
+        return $user['email'];
     }
 
     /**
-     * Returns the super user's username.
-     *
-     * @return string
-     * @api
-     */
-    static public function getConfigSuperUserLogin()
-    {
-        return Access::getInstance()->getConfigSuperUserLogin();
-    }
-
-    /**
-     * @see Piwik::getConfigSuperUserLogin()
      * @deprecated deprecated since version 2.0.4
      */
     static public function getSuperUserLogin()
     {
-        return self::getConfigSuperUserLogin();
+        return Access::getInstance()->getSuperUserLogin();
     }
 
     /**
-     * Returns the super user's email address.
+     * Get a list of all email addresses having Super User access.
      *
-     * @return string
-     * @api
+     * @return array
      */
-    static public function getConfigSuperUserEmail()
+    static public function getAllSuperUserAccessEmailAddresses()
     {
-        $superuser = Config::getInstance()->superuser;
-        return $superuser['email'];
+        $emails = array();
+
+        try {
+            $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
+        } catch (\Exception $e) {
+            return $emails;
+        }
+
+        foreach ($superUsers as $superUser) {
+            $emails[] = $superUser['email'];
+        }
+
+        return $emails;
     }
 
     /**
@@ -332,8 +327,7 @@ class Piwik
     }
 
     /**
-     * Check whether the given user has superuser access. Note: This method will return false if current user
-     * has not superuser access.
+     * Check whether the given user has superuser access.
      *
      * @param string $theUser A username.
      * @return bool
@@ -345,18 +339,19 @@ class Piwik
             return false;
         }
 
-        if (Piwik::getConfigSuperUserLogin() === $theUser) {
-            return true;
-        }
-
         try {
-            $superUserLogins = APIUsersManager::getInstance()->getUsersLoginHavingSuperUserAccess();
+            $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
         } catch (\Exception $e) {
-            // not allowed to request user logins
             return false;
         }
 
-        return in_array($theUser, $superUserLogins);
+        foreach ($superUsers as $superUser) {
+            if ($theUser === $superUser['login']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -382,11 +377,6 @@ class Piwik
         } catch (Exception $e) {
             return false;
         }
-    }
-
-    static public function isUserIsConfigSuperUser()
-    {
-        return self::hasUserSuperUserAccess() && self::getCurrentUserLogin() === self::getConfigSuperUserLogin();
     }
 
     /**

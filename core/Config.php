@@ -370,7 +370,10 @@ class Config extends Singleton
                 : $this->configLocal[$name];
         }
 
-        if ($section === null) {
+        if ($section === null && $name = 'superuser') {
+            $user = $this->getConfigSuperUserForBackwardCompatibility();
+            return $user;
+        } else if ($section === null) {
             throw new Exception("Error while trying to read a specific config file entry <strong>'$name'</strong> from your configuration files.</b>If you just completed a Piwik upgrade, please check that the file config/global.ini.php was overwritten by the latest Piwik version.");
         }
 
@@ -379,6 +382,26 @@ class Config extends Singleton
         $tmp =& $this->configCache[$name];
 
         return $tmp;
+    }
+
+    /**
+     * @deprecated since version 2.0.4
+     */
+    public function getConfigSuperUserForBackwardCompatibility()
+    {
+        try {
+            $db   = Db::get();
+            $user = $db->fetchRow("SELECT login, email, password
+                                FROM " . Common::prefixTable("user") . "
+                                WHERE superuser_access = 1
+                                ORDER BY date_registered ASC LIMIT 1");
+
+            if (!empty($user)) {
+                return $user;
+            }
+        } catch (Exception $e) {}
+
+        return array();
     }
 
     public function getFromGlobalConfig($name)

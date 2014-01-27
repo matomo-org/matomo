@@ -1,8 +1,8 @@
 <?php
 use Piwik\Access;
-use Piwik\Config;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Model;
 
 /**
  * Piwik - Open source web analytics
@@ -18,6 +18,11 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      * @var API
      */
     private $api;
+
+    /**
+     * @var Model
+     */
+    private $model;
     
     public function setUp()
     {
@@ -36,14 +41,8 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         FakeAccess::$superUserLogin = 'superusertest';
         Access::setSingletonInstance($pseudoMockAccess);
 
-        // we make sure the tests don't depend on the config file content
-        Config::getInstance()->superuser = array(
-            'login'    => 'superusertest',
-            'password' => 'passwordsuperusertest',
-            'email'    => 'superuser@example.com'
-        );
-        
-        $this->api = API::getInstance();
+        $this->api   = API::getInstance();
+        $this->model = new Model();
     }
 
     private function _flatten($sitesAccess)
@@ -76,40 +75,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $user['alias']      = $newAlias;
         $user['superuser_access'] = 0;
         $this->assertEquals($user, $userAfter);
-    }
-
-    public function testAllSuperUserIncluded()
-    {
-        $this->api->addUser('user', 'geqgeagae', 'test@test.com', 'alias');
-
-        $exceptionNotRaised = false;
-        try {
-            $this->api->addUser('superusertest', 'te', 'fake@fale.co', 'ega');
-            $exceptionNotRaised = true;
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
-        }
-        try {
-            $this->api->updateUser('superusertest', 'te', 'fake@fale.co', 'ega');
-            $exceptionNotRaised = true;
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
-        }
-        try {
-            $this->api->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
-            $exceptionNotRaised = true;
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
-        }
-        try {
-            $this->api->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
-            $exceptionNotRaised = true;
-        } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionConfigSuperUser)", $expected->getMessage());
-        }
-        if ($exceptionNotRaised) {
-            $this->fail();
-        }
     }
 
     /**
@@ -166,15 +131,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     {
         $this->api->addUser("test", "password", "email@email.com", "alias");
         $this->api->addUser("test", "password2", "em2ail@email.com", "al2ias");
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionConfigSuperUser
-     */
-    public function testAddUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
-    {
-        $this->api->addUser('superusertest', "password", "email@email.com", "alias");
     }
 
     /**
@@ -305,15 +261,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     public function testDeleteUserNullUser()
     {
         $this->api->deleteUser(null);
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionConfigSuperUser
-     */
-    public function testDeleteUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
-    {
-        $this->api->deleteUser('superusertest');
     }
 
     /**
@@ -715,7 +662,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->api->setSuperUserAccess('login1', true);
 
         // verify no longer any access
-        $this->assertEquals(array(), $this->api->getSitesAccessFromUser('login1'));
+        $this->assertEquals(array(), $this->model->getSitesAccessFromUser('login1'));
     }
 
     public function testSetSuperUserAccess_ShouldAddAndRemoveSuperUserAccessOnlyForGivenLogin()
@@ -745,13 +692,15 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals(0, $users[1]['superuser_access']);
         $this->assertEquals(0, $users[2]['superuser_access']);
 
+        $this->api->setSuperUserAccess('login3', true);
         // should also accept string '0' to remove super user access
         $this->api->setSuperUserAccess('login1', '0');
 
         $users = $this->api->getUsers();
         $this->assertEquals(0, $users[0]['superuser_access']);
         $this->assertEquals(0, $users[1]['superuser_access']);
-        $this->assertEquals(0, $users[2]['superuser_access']);
+        $this->assertEquals('login3', $users[2]['login']);
+        $this->assertEquals(1, $users[2]['superuser_access']);
     }
 
     /**
@@ -804,15 +753,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->api->updateUser($login, "passowordOK");
 
         $this->_checkUserHasNotChanged($user, "passowordOK");
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionConfigSuperUser
-     */
-    public function testUpdateUser_ShouldFail_IfConfigSuperUserLoginIsGiven()
-    {
-        $this->api->updateUser('superusertest', "password", "email@email.com", "alias");
     }
 
     /**

@@ -11,6 +11,7 @@
 namespace Piwik;
 
 use Piwik\Db;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 
 /**
  * Singleton that manages user access to Piwik resources.
@@ -213,7 +214,7 @@ class Access
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
 
-        $this->setConfigUserLoginIfCurrentUserHasNotSuperUserAccess();
+        $this->setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess();
 
         Piwik::postTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
 
@@ -284,24 +285,37 @@ class Access
         return $this->token_auth;
     }
 
+    static public function getAnyUserHavingSuperUserAccess()
+    {
+        try {
+            $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
+        } catch (\Exception $e) {
+            return;
+        }
+
+        $firstSuperUser = array_shift($superUsers);
+
+        return $firstSuperUser;
+    }
+
+    public function getAnySuperUserAccessLogin()
+    {
+        $anySuperUser = $this->getAnyUserHavingSuperUserAccess();
+
+        if (empty($anySuperUser)) {
+            return;
+        }
+
+        return $anySuperUser['login'];
+    }
+
     /**
-     * @see Access::getConfigSuperUserLogin()
+     * @see Access::getAnySuperUserAccessLogin()
      * @deprecated deprecated since version 2.0.4
      */
     public function getSuperUserLogin()
     {
-        return $this->getConfigSuperUserLogin();
-    }
-
-    /**
-     * Returns the super user's login.
-     *
-     * @return string
-     */
-    public function getConfigSuperUserLogin()
-    {
-        $superuser = Config::getInstance()->superuser;
-        return $superuser['login'];
+        return $this->getAnySuperUserAccessLogin();
     }
 
     /**
@@ -460,10 +474,10 @@ class Access
         return $idSites;
     }
 
-    private function setConfigUserLoginIfCurrentUserHasNotSuperUserAccess()
+    private function setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess()
     {
         if (!Piwik::hasTheUserSuperUserAccess($this->login)) {
-            $this->login = $this->getConfigSuperUserLogin();
+            $this->login = $this->getAnySuperUserAccessLogin();
         }
     }
 }

@@ -61,8 +61,6 @@ class Piwik_TestingEnvironment
                 'Provider', 'Goals', 'PrivacyManager', 'UserCountry', 'DevicesDetection'
             );
             $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
-
-            $config->superuser['email'] = 'hello@example.org';
         });
         \Piwik\Piwik::addAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;

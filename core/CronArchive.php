@@ -832,10 +832,12 @@ Notes:
 
     private function initTokenAuth()
     {
-        $login = Piwik::getConfigSuperUserLogin();
-        $md5Password = Config::getInstance()->superuser['password'];
-        $this->token_auth = md5($login . $md5Password);
-        $this->login = $login;
+        $superUser = Db::get()->fetchRow("SELECT login, token_auth
+                                          FROM " . Common::prefixTable("user") . "
+                                          WHERE superuser_access = 1
+                                          ORDER BY date_registered ASC");
+        $this->login      = $superUser['login'];
+        $this->token_auth = $superUser['token_auth'];
     }
 
     private function initPiwikHost()

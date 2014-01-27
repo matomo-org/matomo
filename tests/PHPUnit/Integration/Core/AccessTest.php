@@ -295,7 +295,7 @@ class Core_AccessTest extends DatabaseTestCase
 
     public function testReloadAccessWithMockedAuthValid()
     {
-        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName', 'initSession'));
+        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName', 'initSession', 'setTokenAuth', 'setLogin'));
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));

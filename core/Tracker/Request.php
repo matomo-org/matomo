@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Registry;
 use Piwik\Tracker;
 
 /**
@@ -32,7 +33,9 @@ class Request
 
     protected $forcedVisitorId = false;
 
-    protected $isAuthenticated = false;
+    protected $isAuthenticated = null;
+
+    protected $tokenAuth;
 
     const UNKNOWN_RESOLUTION = 'unknown';
 
@@ -46,6 +49,7 @@ class Request
             $params = array();
         }
         $this->params = $params;
+        $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
         $this->enforcedIp = false;
 
@@ -60,7 +64,6 @@ class Request
                 $this->params['url'] = $url;
             }
         }
-        $this->authenticateTrackingApi($tokenAuth);
     }
 
     /**
@@ -68,6 +71,10 @@ class Request
      */
     public function isAuthenticated()
     {
+        if (is_null($this->isAuthenticated)) {
+            $this->authenticateTrackingApi($this->tokenAuth);
+        }
+
         return $this->isAuthenticated;
     }
 
@@ -101,9 +108,16 @@ class Request
         if (empty($tokenAuth)) {
             return false;
         }
-        $superUserLogin = Piwik::getConfigSuperUserLogin();
-        $superUserPassword = Config::getInstance()->superuser['password'];
-        if (md5($superUserLogin . $superUserPassword) === $tokenAuth) {
+
+        Piwik::postEvent('Request.initAuthenticationObject');
+
+        /** @var \Piwik\Auth $auth */
+        $auth = Registry::get('auth');
+        $auth->setTokenAuth($tokenAuth);
+        $auth->setLogin(null);
+        $access = $auth->authenticate();
+
+        if (!empty($access) && $access->hasSuperUserAccess()) {
             return true;
         }
 

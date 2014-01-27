@@ -12,13 +12,14 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
-use Piwik\Site;
+use Piwik\Date;
+use Piwik\Db;
+use Piwik\Option;
+use Piwik\Plugins\MobileMessaging\API as MobileMessagingApi;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Updater;
+use Piwik\Config;
 use Piwik\Updates;
-use Piwik\Filesystem;
-
-use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
-use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 
 /**
  * @package Updates
@@ -37,5 +38,52 @@ class Updates_2_0_4_b4 extends Updates
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
+
+        self::migratateExistingMobileMessagingOptions();
+        self::migrateConfigSuperUserToDb();
+    }
+
+    private static function migratateExistingMobileMessagingOptions()
+    {
+        if (MobileMessagingApi::getInstance()->getDelegatedManagement()) {
+            return;
+        }
+
+        // team_MobileMessagingSettings -> _MobileMessagingSettings as it is no longer guaranteed the super user's
+        // username is always the same
+
+        $optionName     = MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;
+        $superUserLogin = Config::getInstance()->superuser['login'];
+        $optionPrefixed = $superUserLogin . $optionName;
+
+        // team_MobileMessagingSettings
+        $value = Option::get($optionPrefixed);
+
+        if (false !== $value) {
+            // _MobileMessagingSettings
+            Option::set($optionName, $value);
+            Option::delete($optionPrefixed);
+        }
+    }
+
+    private static function migrateConfigSuperUserToDb()
+    {
+        $superUser = \Piwik\Config::getInstance()->superuser;
+        $userApi   = \Piwik\Plugins\UsersManager\API::getInstance();
+
+        Db::get()->insert(Common::prefixTable('user'), array(
+                'login'      => $superUser['login'],
+                'password'   => $superUser['password'],
+                'alias'      => $superUser['login'],
+                'email'      => $superUser['email'],
+                'token_auth' => $userApi->getTokenAuth($superUser['login'], $superUser['password']),
+                'date_registered'  => Date::now()->getDatetime(),
+                'superuser_access' => 1
+            )
+        );
+
+        \Piwik\Config::getInstance()->General['salt'] = $superUser['salt'];
+        \Piwik\Config::getInstance()->superuser       = array();
+        \Piwik\Config::getInstance()->forceSave();
     }
 }
