@@ -16,6 +16,13 @@
         "DeviceModel": "Device model",
         "DeviceDetection": "Device detection",
         "Device": "Device",
-        "UserAgent": "User-Agent"
+        "UserAgent": "User-Agent",
+        "Smartphone": "smartphone",
+        "CarBrowser": "car browser",
+        "Tablet": "tablet",
+        "SmartDisplay": "smart display",
+        "FeaturePhone": "feature phone",
+        "TV": "tv",
+        "Console": "console"
     }
 }

@@ -118,8 +118,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->os_family           = $parsedUA['os_family'];
         $view->os_family_logo      = getOsFamilyLogoExtended($parsedUA['os_family']);
         $view->os_version          = $parsedUA['os']['version'];
-        $view->device_type         = $parsedUA['device']['type'];
-        $view->device_type_logo    = getDeviceTypeLogo(ucfirst($view->device_type));
+        $view->device_type         = getDeviceTypeLabel($parsedUA['device']['type']);
+        $view->device_type_logo    = getDeviceTypeLogo($parsedUA['device']['type']);
         $view->device_model        = $parsedUA['device']['model'];
         $view->device_brand        = getDeviceBrandLabel($parsedUA['device']['brand']);
         $view->device_brand_logo   = getBrandLogo($view->device_brand);
@@ -193,7 +193,7 @@ class Controller extends \Piwik\Plugin\Controller
 
                 foreach ($deviceTypes AS $name) {
 
-                    $list[$name] = getDeviceTypeLogo(ucfirst($name));
+                    $list[$name] = getDeviceTypeLogo($name);
                 }
                 break;
         }

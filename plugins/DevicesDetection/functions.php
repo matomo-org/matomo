@@ -101,8 +101,20 @@ function getDeviceBrandLabel($label)
 
 function getDeviceTypeLabel($label)
 {
-    if (isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
-        return UserAgentParserEnhanced::$deviceTypes[$label];
+    $translations = array(
+        'desktop'       => 'General_Desktop',
+        'smartphone'    => 'DevicesDetection_Smartphone',
+        'tablet'        => 'DevicesDetection_Tablet',
+        'feature phone' => 'DevicesDetection_FeaturePhone',
+        'console'       => 'DevicesDetection_Console',
+        'tv'            => 'DevicesDetection_TV',
+        'car browser'   => 'DevicesDetection_CarBbrowser',
+        'smart display' => 'DevicesDetection_SmartDisplay'
+    );
+    if (isset(UserAgentParserEnhanced::$deviceTypes[$label]) && isset($translations[UserAgentParserEnhanced::$deviceTypes[$label]])) {
+        return Piwik::translate($translations[UserAgentParserEnhanced::$deviceTypes[$label]]);
+    } else if (isset($translations[$label])) {
+        return Piwik::translate($translations[$label]);
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -110,6 +122,10 @@ function getDeviceTypeLabel($label)
 
 function getDeviceTypeLogo($label)
 {
+    if (is_numeric($label) && isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
+        $label = UserAgentParserEnhanced::$deviceTypes[$label];
+    }
+
     $label = strtolower($label);
 
     $deviceTypeLogos = Array(

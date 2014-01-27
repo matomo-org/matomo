@@ -14,14 +14,14 @@ require_once(PIWIK_INCLUDE_PATH . '/libs/spyc.php');
 class UserAgentParserEnhanced
 {
     public static $deviceTypes = array(
-        'desktop',
-        'smartphone',
-        'tablet',
-        'feature phone',
-        'console',
-        'tv',
-        'car browser',
-        'smart display'
+        'desktop',          // 0
+        'smartphone',       // 1
+        'tablet',           // 2
+        'feature phone',    // 3
+        'console',          // 4
+        'tv',               // 5
+        'car browser',      // 6
+        'smart display'     // 7
     );
 
     public static $deviceBrands = array(

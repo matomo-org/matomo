@@ -170,7 +170,6 @@
 ##########
 - regex: '(?:CPU OS|iPhone OS) (\d+_\d+)'
   name: 'iOS'
-  
   version: '$1'
   
 - regex: '(?:iPhone|iPad|iPod)(?:.*Mac OS X.*Version/(\d+\.\d+)|; Opera)'
