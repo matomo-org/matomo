@@ -166,12 +166,23 @@
                             {% if plugin.info.license_homepage is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" target="_blank" href="{{ plugin.info.license_homepage }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_homepage is defined %}</a>{% endif %}
                         </div>
                         {% endif %}
-                        {% if plugin.info.author is defined %}
+                        {% if plugin.info.authors is defined %}
                         <div class="plugin-author">
                             <cite>By
-                            {% if plugin.info.author_homepage is defined %}
-                            <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ plugin.info.author_homepage }}" target="_blank">
-                                {% endif %}{{ plugin.info.author }}{% if plugin.info.author_homepage is defined -%}</a>{% endif -%}
+                            {% if plugin.info.authors is defined %}
+                            {% spaceless %}
+                            {% for author in plugin.info.authors if author.name %}
+                                {% if author.homepage is defined %}
+                                    <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" target="_blank">{{ author.name }}</a>
+                                {% else %}
+                                    {{ author.name }}
+                                {% endif %}
+                                {% if loop.index < plugin.info.authors|length %}
+                                        ,
+                                    {% endif %}
+                            {% endfor %}
+                            {% endspaceless %}
+                            {% endif %}
                             .</cite>
                         </div>
                         {% endif %}
