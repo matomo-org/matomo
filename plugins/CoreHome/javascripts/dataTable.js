@@ -1097,6 +1097,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
+        if(domElemToTruncate.find('.truncationDisabled').length > 0) {
+            return;
+        }
+
+
         // make the original text (before truncation) available for others.
         // the .truncate plugins adds a title to the dom element but the .tooltip
         // plugin removes that again.
