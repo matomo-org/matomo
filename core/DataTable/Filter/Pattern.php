@@ -65,16 +65,15 @@ class Pattern extends BaseFilter
     /**
      * Performs case insensitive match
      *
-     * @param string $pattern
      * @param string $patternQuoted
      * @param string $string
      * @param bool $invertedMatch
      * @return int
      * @ignore
      */
-    static public function match($pattern, $patternQuoted, $string, $invertedMatch)
+    static public function match($patternQuoted, $string, $invertedMatch = false)
     {
-        return @preg_match($patternQuoted . "i", $string) == 1 ^ $invertedMatch;
+        return preg_match($patternQuoted . "i", $string) == 1 ^ $invertedMatch;
     }
 
     /**
@@ -93,7 +92,7 @@ class Pattern extends BaseFilter
             if ($value === false) {
                 $value = $row->getMetadata($this->columnToFilter);
             }
-            if (!self::match($this->patternToSearch, $this->patternToSearchQuoted, $value, $this->invertedMatch)) {
+            if (!self::match($this->patternToSearchQuoted, $value, $this->invertedMatch)) {
                 $table->deleteRow($key);
             }
         }
