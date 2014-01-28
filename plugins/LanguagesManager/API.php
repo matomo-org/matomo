@@ -227,7 +227,7 @@ class API extends \Piwik\Plugin\API
         if($login == 'anonymous') {
             return false;
         }
-        Piwik::checkUserIsSuperUserOrTheUser($login);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
         return Db::fetchOne('SELECT language FROM ' . Common::prefixTable('user_language') .
             ' WHERE login = ? ', array($login));
     }
@@ -241,7 +241,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setLanguageForUser($login, $languageCode)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($login);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
         Piwik::checkUserIsNotAnonymous();
         if (!$this->isLanguageAvailable($languageCode)) {
             return false;

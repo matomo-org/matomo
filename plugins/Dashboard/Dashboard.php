@@ -67,7 +67,7 @@ class Dashboard extends \Piwik\Plugin
         $defaultLayout = $this->getLayoutForUser('', 1);
 
         if (empty($defaultLayout)) {
-            if (Piwik::isUserIsSuperUser()) {
+            if (Piwik::hasUserSuperUserAccess()) {
                 $topWidget = '{"uniqueId":"widgetCoreHomegetDonateForm",'
                     . '"parameters":{"module":"CoreHome","action":"getDonateForm"}},';
             } else {

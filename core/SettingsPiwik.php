@@ -20,7 +20,7 @@ use Exception;
 class SettingsPiwik
 {
     /**
-     * Get salt from [superuser] section
+     * Get salt from [General] section
      *
      * @return string
      */
@@ -28,7 +28,7 @@ class SettingsPiwik
     {
         static $salt = null;
         if (is_null($salt)) {
-            $salt = @Config::getInstance()->superuser['salt'];
+            $salt = @Config::getInstance()->General['salt'];
         }
         return $salt;
     }

@@ -138,8 +138,8 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $login = Common::getRequestVar('login', null, 'string');
-        if ($login == Config::getInstance()->superuser['login']) {
-            throw new Exception(Piwik::translate('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
+        if (Piwik::hasTheUserSuperUserAccess($login)) {
+            throw new Exception(Piwik::translate('Login_ExceptionInvalidSuperUserAccessAuthenticationMethod', array("logme")));
         }
 
         $currentUrl = 'index.php';
@@ -354,14 +354,8 @@ class Controller extends \Piwik\Plugin\Controller
                 "setNewUserPassword called w/ incorrect password hash. Something has gone terribly wrong.");
         }
 
-        if ($user['email'] == Piwik::getSuperUserEmail()) {
-            $user['password'] = $passwordHash;
-            Config::getInstance()->superuser = $user;
-            Config::getInstance()->forceSave();
-        } else {
-            API::getInstance()->updateUser(
-                $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
-        }
+        API::getInstance()->updateUser(
+            $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
     }
 
     /**
@@ -382,18 +376,10 @@ class Controller extends \Piwik\Plugin\Controller
      */
     protected function getUserInformation($loginMail)
     {
-        Piwik::setUserIsSuperUser();
+        Piwik::setUserHasSuperUserAccess();
 
         $user = null;
-        if ($loginMail == Piwik::getSuperUserEmail()
-            || $loginMail == Config::getInstance()->superuser['login']
-        ) {
-            $user = array(
-                'login'    => Config::getInstance()->superuser['login'],
-                'email'    => Piwik::getSuperUserEmail(),
-                'password' => Config::getInstance()->superuser['password'],
-            );
-        } else if (API::getInstance()->userExists($loginMail)) {
+        if (API::getInstance()->userExists($loginMail)) {
             $user = API::getInstance()->getUser($loginMail);
         } else if (API::getInstance()->userEmailExists($loginMail)) {
             $user = API::getInstance()->getUserByEmail($loginMail);

@@ -39,7 +39,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view = new View('@MobileMessaging/index');
 
-        $view->isSuperUser = Piwik::isUserIsSuperUser();
+        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
         $mobileMessagingAPI = API::getInstance();
         $view->delegatedManagement = $mobileMessagingAPI->getDelegatedManagement();

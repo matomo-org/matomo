@@ -109,7 +109,7 @@
         {{ 'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate("<strong>" ~ adminSitesCount ~ "</strong>")|raw }}
         {% if isSuperUser %}
             <br/>
-            {{ 'SitesManager_SuperUserCan'|translate("<a href='#globalSettings'>","</a>")|raw }}
+            {{ 'SitesManager_SuperUserAccessCan'|translate("<a href='#globalSettings'>","</a>")|raw }}
         {% endif %}
     </p>
     {{ ajax.errorDiv() }}

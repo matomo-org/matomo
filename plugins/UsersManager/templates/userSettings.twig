@@ -22,13 +22,7 @@
 
     <tr>
         <td><label for="alias">{{ 'UsersManager_Alias'|translate }} </label></td>
-        <td><input size="25" value="{{ userAlias }}" id="alias"{% if isSuperUser %} disabled="disabled"{% endif %} />
-            {% if isSuperUser %}
-                <span class='form-description'>
-                    {{ 'UsersManager_TheSuperUserAliasCannotBeChanged'|translate }}
-			</span>
-            {% endif %}
-        </td>
+        <td><input size="25" value="{{ userAlias }}" id="alias" /></td>
     </tr>
     <tr>
         <td><label for="email">{{ 'UsersManager_Email'|translate }} </label></td>

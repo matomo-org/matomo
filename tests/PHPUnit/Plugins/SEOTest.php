@@ -20,7 +20,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
-        //finally we set the user as a super user by default
+        //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 

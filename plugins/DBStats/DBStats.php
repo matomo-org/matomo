@@ -48,7 +48,7 @@ class DBStats extends \Piwik\Plugin
     {
         MenuAdmin::getInstance()->add('CoreAdminHome_MenuDiagnostic', 'DBStats_DatabaseUsage',
             array('module' => 'DBStats', 'action' => 'index'),
-            Piwik::isUserIsSuperUser(),
+            Piwik::hasUserSuperUserAccess(),
             $order = 6);
     }
 

@@ -24,7 +24,7 @@ class Updates_0_2_34 extends Updates
     static function update($schema = 'Myisam')
     {
         // force regeneration of cache files following #648
-        Piwik::setUserIsSuperUser();
+        Piwik::setUserHasSuperUserAccess();
         $allSiteIds = API::getInstance()->getAllSitesId();
         Cache::regenerateCacheWebsiteAttributes($allSiteIds);
     }

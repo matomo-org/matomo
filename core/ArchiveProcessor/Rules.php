@@ -219,7 +219,7 @@ class Rules
         return !self::$archivingDisabledByTests &&
         (Rules::isBrowserTriggerEnabled()
             || Common::isPhpCliMode()
-            || (Piwik::isUserIsSuperUser()
+            || (Piwik::hasUserSuperUserAccess()
                 && SettingsServer::isArchivePhpTriggered()));
     }
 

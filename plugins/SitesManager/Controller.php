@@ -37,7 +37,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@SitesManager/index');
 
         Site::clearCache();
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $sitesRaw = API::getInstance()->getAllSites();
         } else {
             $sitesRaw = API::getInstance()->getSitesWithAdminAccess();

@@ -348,8 +348,6 @@ class ScheduledReports extends \Piwik\Plugin
             if ($reportParameters[self::EMAIL_ME_PARAMETER] == 1) {
                 if (Piwik::getCurrentUserLogin() == $report['login']) {
                     $emails[] = Piwik::getCurrentUserEmail();
-                } elseif ($report['login'] == Piwik::getSuperUserLogin()) {
-                    $emails[] = Piwik::getSuperUserEmail();
                 } else {
                     try {
                         $user = APIUsersManager::getInstance()->getUser($report['login']);

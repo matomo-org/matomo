@@ -605,7 +605,7 @@ class Visitor
 
     /**
      * Removes fields that are not meant to be displayed (md5 config hash)
-     * Or that the user should only access if he is super user or admin (cookie, IP)
+     * Or that the user should only access if he is Super User or admin (cookie, IP)
      *
      * @param array $visitorDetails
      * @return array

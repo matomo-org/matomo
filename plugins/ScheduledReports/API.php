@@ -173,7 +173,7 @@ class API extends \Piwik\Plugin\API
     {
         $APIScheduledReports = $this->getReports($idSite = false, $periodSearch = false, $idReport);
         $report = reset($APIScheduledReports);
-        Piwik::checkUserIsSuperUserOrTheUser($report['login']);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($report['login']);
 
         Db::get()->update(Common::prefixTable('report'),
             array(
@@ -210,7 +210,7 @@ class API extends \Piwik\Plugin\API
         $bind = array();
 
         // Super user gets all reports back, other users only their own
-        if (!Piwik::isUserIsSuperUser()
+        if (!Piwik::hasUserSuperUserAccess()
             || $ifSuperUserReturnOnlySuperUserReports
         ) {
             $sqlWhere .= "AND login = ?";
@@ -353,7 +353,7 @@ class API extends \Piwik\Plugin\API
                     // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
                     $userLogin = $report['login'];
                     if (!empty($userLogin)
-                        && $userLogin != Piwik::getSuperUserLogin()
+                        && !Piwik::hasTheUserSuperUserAccess($userLogin)
                     ) {
                         $_GET['_restrictSitesToLogin'] = $userLogin;
                     }

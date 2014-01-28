@@ -487,7 +487,7 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage checkUserIsSuperUser Fake exception
+     * @expectedExceptionMessage checkUserHasSuperUserAccess Fake exception
      */
     public function test_removeAllPluginSettings_shouldThrowException_InCaseUserIsNotSuperUser()
     {
@@ -576,7 +576,7 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
         $this->buildUserSetting('myname', 'mytitle', 'myRandomName');
     }
 
-    public function test_userSetting_shouldBeAbleToSetLoginAndChangeValues_IfUserIsSuperUser()
+    public function test_userSetting_shouldBeAbleToSetLoginAndChangeValues_IfUserHasSuperUserAccess()
     {
         $this->setSuperUser();
 

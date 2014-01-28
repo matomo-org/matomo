@@ -18,6 +18,7 @@ use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\ProxyHttp;
 use Piwik\Session;
 
@@ -47,46 +48,27 @@ class Auth implements \Piwik\Auth
      */
     public function authenticate()
     {
-        $rootLogin = Config::getInstance()->superuser['login'];
-        $rootPassword = Config::getInstance()->superuser['password'];
-        $rootToken = API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
-
         if (is_null($this->login)) {
-            if ($this->token_auth === $rootToken) {
-                return new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth);
-            }
+            $model = new Model();
+            $user  = $model->getUserByTokenAuth($this->token_auth);
 
-            $login = Db::fetchOne(
-                'SELECT login
-                FROM ' . Common::prefixTable('user') . '
-					WHERE token_auth = ?',
-                array($this->token_auth)
-            );
-            if (!empty($login)) {
-                return new AuthResult(AuthResult::SUCCESS, $login, $this->token_auth);
+            if (!empty($user['login'])) {
+                $code = $user['superuser_access'] ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+
+                return new AuthResult($code, $user['login'], $this->token_auth);
             }
         } else if (!empty($this->login)) {
-            if ($this->login === $rootLogin
-                && ($this->getHashTokenAuth($rootLogin, $rootToken) === $this->token_auth)
-                || $rootToken === $this->token_auth
-            ) {
-                $this->setTokenAuth($rootToken);
-                return new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth);
-            }
+            $model = new Model();
+            $user  = $model->getUser($this->login);
 
-            $login = $this->login;
-            $userToken = Db::fetchOne(
-                'SELECT token_auth
-                FROM ' . Common::prefixTable('user') . '
-					WHERE login = ?',
-                array($login)
-            );
-            if (!empty($userToken)
-                && (($this->getHashTokenAuth($login, $userToken) === $this->token_auth)
-                    || $userToken === $this->token_auth)
+            if (!empty($user['token_auth'])
+                && (($this->getHashTokenAuth($this->login, $user['token_auth']) === $this->token_auth)
+                    || $user['token_auth'] === $this->token_auth)
             ) {
-                $this->setTokenAuth($userToken);
-                return new AuthResult(AuthResult::SUCCESS, $login, $userToken);
+                $this->setTokenAuth($user['token_auth']);
+                $code = !empty($user['superuser_access']) ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+
+                return new AuthResult($code, $this->login, $user['token_auth']);
             }
         }
 

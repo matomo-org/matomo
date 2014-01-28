@@ -191,12 +191,13 @@ class Tracker
         if (isset($jsonData['requests'])) {
             $this->requests = $jsonData['requests'];
         }
+
         $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $jsonData);
+
         if (empty($tokenAuth)) {
             throw new Exception("token_auth must be specified when using Bulk Tracking Import. See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
         }
         if (!empty($this->requests)) {
-            $idSitesForAuthentication = array();
 
             foreach ($this->requests as &$request) {
                 // if a string is sent, we assume its a URL and try to parse it
@@ -210,21 +211,17 @@ class Tracker
                     }
                 }
 
-                // We need to check access for each single request
-                if (isset($request['idsite'])
-                    && !in_array($request['idsite'], $idSitesForAuthentication)
-                ) {
-                    $idSitesForAuthentication[] = $request['idsite'];
-                }
-            }
-
-            foreach ($idSitesForAuthentication as $idSiteForAuthentication) {
+                $requestObj = new Request($request, $tokenAuth);
+                $this->loadTrackerPlugins($requestObj);
                 // a Bulk Tracking request that is not authenticated should fail
-                if (!Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
+                if (!$requestObj->isAuthenticated()) {
                     throw new Exception("token_auth specified does not have Admin permission for site " . intval($idSiteForAuthentication));
                 }
+
+                $request = $requestObj;
             }
         }
+
         return $tokenAuth;
     }
 
@@ -322,11 +319,11 @@ class Tracker
             Option::set('lastTrackerCronRun', $cache['lastTrackerCronRun']);
             Common::printDebug('-> Scheduled Tasks: Starting...');
 
-            // save current user privilege and temporarily assume super user privilege
-            $isSuperUser = Piwik::isUserIsSuperUser();
+            // save current user privilege and temporarily assume Super User privilege
+            $isSuperUser = Piwik::hasUserSuperUserAccess();
 
             // Scheduled tasks assume Super User is running
-            Piwik::setUserIsSuperUser();
+            Piwik::setUserHasSuperUserAccess();
 
             // While each plugins should ensure that necessary languages are loaded,
             // we ensure English translations at least are loaded
@@ -335,7 +332,7 @@ class Tracker
             $resultTasks = TaskScheduler::runTasks();
 
             // restore original user privilege
-            Piwik::setUserIsSuperUser($isSuperUser);
+            Piwik::setUserHasSuperUserAccess($isSuperUser);
 
             Common::printDebug($resultTasks);
             Common::printDebug('Finished Scheduled Tasks.');
@@ -437,8 +434,8 @@ class Tracker
      */
     protected function init(Request $request)
     {
-        $this->handleTrackingApi($request);
         $this->loadTrackerPlugins($request);
+        $this->handleTrackingApi($request);
         $this->handleDisabledTracker();
         $this->handleEmptyRequest($request);
 
@@ -646,7 +643,7 @@ class Tracker
     {
         // Adding &dp=1 will disable the provider plugin, if token_auth is used (used to speed up bulk imports)
         $disableProvider = $request->getParam('dp');
-        if (!empty($disableProvider) && $request->isAuthenticated()) {
+        if (!empty($disableProvider)) {
             Tracker::setPluginsNotToLoad(array('Provider'));
         }
 
@@ -809,9 +806,15 @@ class Tracker
      */
     protected function trackRequest($params, $tokenAuth)
     {
-        $request = new Request($params, $tokenAuth);
-        $isAuthenticated = $request->isAuthenticated();
+        if ($params instanceof Request) {
+            $request = $params;
+        } else {
+            $request = new Request($params, $tokenAuth);
+        }
+
         $this->init($request);
+
+        $isAuthenticated = $request->isAuthenticated();
 
         try {
             if ($this->isVisitValid()) {

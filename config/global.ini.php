@@ -33,10 +33,6 @@ tables_prefix = piwiktests_
 port = 3306
 adapter = PDO_MYSQL
 
-[superuser]
-login = 
-password =
-
 [log]
 ; possible values for log: screen, database, file
 log_writers[] = screen
@@ -585,6 +581,7 @@ Plugins_Tracker[] = Provider
 Plugins_Tracker[] = Goals
 Plugins_Tracker[] = PrivacyManager
 Plugins_Tracker[] = UserCountry
+Plugins_Tracker[] = Login
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call

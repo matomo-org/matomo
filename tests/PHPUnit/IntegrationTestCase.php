@@ -182,7 +182,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         static::createAccessInstance();
 
         // We need to be SU to create websites for tests
-        Piwik::setUserIsSuperUser();
+        Piwik::setUserHasSuperUserAccess();
 
         Cache::deleteTrackerCache();
 

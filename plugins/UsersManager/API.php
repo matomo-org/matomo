@@ -15,7 +15,6 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Site;
@@ -36,10 +35,20 @@ use Piwik\Tracker\Cache;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var Model
+     */
+    private $model;
+
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     static private $instance = null;
+
+    protected function __construct()
+    {
+        $this->model = new Model();
+    }
 
     /**
      * You can create your own Users Plugin to override this class.
@@ -76,7 +85,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
     }
 
@@ -88,7 +97,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUserPreference($userLogin, $preferenceName)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
         $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
         if ($optionValue !== false) {
@@ -125,20 +134,14 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $where = '';
-        $bind = array();
+        $logins = array();
         if (!empty($userLogins)) {
-            $userLogins = explode(',', $userLogins);
-            $where = 'WHERE login IN (' . Common::getSqlStringFieldsArray($userLogins) . ')';
-            $bind = $userLogins;
+            $logins = explode(',', $userLogins);
         }
-        $db = Db::get();
-        $users = $db->fetchAll("SELECT *
-								FROM " . Common::prefixTable("user") . "
-								$where
-								ORDER BY login ASC", $bind);
+
+        $users = $this->model->getUsers($logins);
         // Non Super user can only access login & alias
-        if (!Piwik::isUserIsSuperUser()) {
+        if (!Piwik::hasUserSuperUserAccess()) {
             foreach ($users as &$user) {
                 $user = array('login' => $user['login'], 'alias' => $user['alias']);
             }
@@ -155,15 +158,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $db = Db::get();
-        $users = $db->fetchAll("SELECT login
-								FROM " . Common::prefixTable("user") . "
-								ORDER BY login ASC");
-        $return = array();
-        foreach ($users as $login) {
-            $return[] = $login['login'];
-        }
-        return $return;
+        return $this->model->getUsersLogin();
     }
 
     /**
@@ -182,20 +177,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getUsersSitesFromAccess($access)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $this->checkAccessType($access);
 
-        $db = Db::get();
-        $users = $db->fetchAll("SELECT login,idsite
-								FROM " . Common::prefixTable("access")
-            . " WHERE access = ?
-								ORDER BY login, idsite", $access);
-        $return = array();
-        foreach ($users as $user) {
-            $return[$user['login']][] = $user['idsite'];
-        }
-        return $return;
+        return $this->model->getUsersSitesFromAccess($access);
     }
 
     /**
@@ -217,15 +203,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $db = Db::get();
-        $users = $db->fetchAll("SELECT login,access
-								FROM " . Common::prefixTable("access")
-            . " WHERE idsite = ?", $idSite);
-        $return = array();
-        foreach ($users as $user) {
-            $return[$user['login']] = $user['access'];
-        }
-        return $return;
+        return $this->model->getUsersAccessFromSite($idSite);
     }
 
     public function getUsersWithSiteAccess($idSite, $access)
@@ -233,17 +211,12 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasAdminAccess($idSite);
         $this->checkAccessType($access);
 
-        $db = Db::get();
-        $users = $db->fetchAll("SELECT login
-								FROM " . Common::prefixTable("access")
-            . " WHERE idsite = ? AND access = ?", array($idSite, $access));
-        $logins = array();
-        foreach ($users as $user) {
-            $logins[] = $user['login'];
-        }
+        $logins = $this->model->getUsersLoginWithSiteAccess($idSite, $access);
+
         if (empty($logins)) {
             return array();
         }
+
         $logins = implode(',', $logins);
         return $this->getUsers($logins);
     }
@@ -266,22 +239,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesAccessFromUser($userLogin)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserHasNotSuperUserAccess($userLogin);
 
-        $db = Db::get();
-        $users = $db->fetchAll("SELECT idsite,access
-								FROM " . Common::prefixTable("access")
-            . " WHERE login = ?", $userLogin);
-        $return = array();
-        foreach ($users as $user) {
-            $return[] = array(
-                'site'   => $user['idsite'],
-                'access' => $user['access'],
-            );
-        }
-        return $return;
+        return $this->model->getSitesAccessFromUser($userLogin);
     }
 
     /**
@@ -293,15 +255,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getUser($userLogin)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserExists($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
 
-        $db = Db::get();
-        $user = $db->fetchRow("SELECT *
-								FROM " . Common::prefixTable("user")
-            . " WHERE login = ?", $userLogin);
-        return $user;
+        return $this->model->getUser($userLogin);
     }
 
     /**
@@ -313,14 +270,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getUserByEmail($userEmail)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkUserEmailExists($userEmail);
 
-        $db = Db::get();
-        $user = $db->fetchRow("SELECT *
-								FROM " . Common::prefixTable("user")
-            . " WHERE email = ?", $userEmail);
-        return $user;
+        return $this->model->getUserByEmail($userEmail);
     }
 
     private function checkLogin($userLogin)
@@ -368,10 +321,9 @@ class API extends \Piwik\Plugin\API
      */
     public function addUser($userLogin, $password, $email, $alias = false)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $this->checkLogin($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
         $this->checkEmail($email);
 
         $password = Common::unsanitizeInputValue($password);
@@ -382,17 +334,7 @@ class API extends \Piwik\Plugin\API
 
         $token_auth = $this->getTokenAuth($userLogin, $passwordTransformed);
 
-        $db = Db::get();
-
-        $db->insert(Common::prefixTable("user"), array(
-                                                      'login'           => $userLogin,
-                                                      'password'        => $passwordTransformed,
-                                                      'alias'           => $alias,
-                                                      'email'           => $email,
-                                                      'token_auth'      => $token_auth,
-                                                      'date_registered' => Date::now()->getDatetime()
-                                                 )
-        );
+        $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, $token_auth, Date::now()->getDatetime());
 
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
@@ -407,6 +349,44 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Enable or disable Super user access to the given user login. Note: When granting Super User access all previous
+     * permissions of the user will be removed as the user gains access to everything.
+     *
+     * @param string   $userLogin          the user login.
+     * @param bool|int $hasSuperUserAccess true or '1' to grant Super User access, false or '0' to remove Super User
+     *                                     access.
+     * @throws \Exception
+     */
+    public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkUserIsNotAnonymous($userLogin);
+        $this->checkUserExists($userLogin);
+
+        if (!$hasSuperUserAccess && $this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
+            $message = Piwik::translate("UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser", $userLogin)
+                        . " "
+                        . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
+            throw new Exception($message);
+        }
+
+        $this->model->deleteUserAccess($userLogin);
+        $this->model->setSuperUserAccess($userLogin, $hasSuperUserAccess);
+    }
+
+    /**
+     * Returns a list of all Super Users containing there userLogin and email address.
+     *
+     * @return array
+     */
+    public function getUsersHavingSuperUserAccess()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        return $this->model->getUsersHavingSuperUserAccess();
+    }
+
+    /**
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
      * When the password changes, the key token for this user will change, which could break
@@ -417,9 +397,8 @@ class API extends \Piwik\Plugin\API
     public function updateUser($userLogin, $password = false, $email = false, $alias = false,
                                $_isPasswordHashed = false)
     {
-        Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
         $userInfo = $this->getUser($userLogin);
 
         if (empty($password)) {
@@ -447,17 +426,8 @@ class API extends \Piwik\Plugin\API
         $alias = $this->getCleanAlias($alias, $userLogin);
         $token_auth = $this->getTokenAuth($userLogin, $password);
 
-        $db = Db::get();
+        $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);
 
-        $db->update(Common::prefixTable("user"),
-            array(
-                 'password'   => $password,
-                 'alias'      => $alias,
-                 'email'      => $email,
-                 'token_auth' => $token_auth,
-            ),
-            "login = '$userLogin'"
-        );
         Cache::deleteTrackerCache();
 
         /**
@@ -479,15 +449,22 @@ class API extends \Piwik\Plugin\API
      */
     public function deleteUser($userLogin)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
         if (!$this->userExists($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
         }
 
-        $this->deleteUserOnly($userLogin);
-        $this->deleteUserAccess($userLogin);
+        if ($this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
+            $message = Piwik::translate("UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess", $userLogin)
+                        . " "
+                        . Piwik::translate("UsersManager_ExceptionYouMustGrantSuperUserAccessFirst");
+            throw new Exception($message);
+        }
+
+        $this->model->deleteUserOnly($userLogin);
+        $this->model->deleteUserAccess($userLogin);
+
         Cache::deleteTrackerCache();
     }
 
@@ -505,14 +482,11 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
-        $count = Db::fetchOne("SELECT count(*)
-													FROM " . Common::prefixTable("user") . "
-													WHERE login = ?", $userLogin);
-        return $count != 0;
+        return $this->model->userExists($userLogin);
     }
 
     /**
-     * Returns true if user with given email (userEmail) is known in the database, or the super user
+     * Returns true if user with given email (userEmail) is known in the database, or the Super User
      *
      * @param string $userEmail
      * @return bool true if the user is known
@@ -520,11 +494,8 @@ class API extends \Piwik\Plugin\API
     public function userEmailExists($userEmail)
     {
         Piwik::checkUserIsNotAnonymous();
-        $count = Db::fetchOne("SELECT count(*)
-								FROM " . Common::prefixTable("user") . "
-								WHERE email = ?", $userEmail);
-        return $count != 0
-        || Config::getInstance()->superuser['email'] == $userEmail;
+
+        return $this->model->userEmailExists($userEmail);
     }
 
     /**
@@ -548,7 +519,7 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkAccessType($access);
         $this->checkUserExists($userLogin);
-        $this->checkUserIsNotSuperUser($userLogin);
+        $this->checkUserHasNotSuperUserAccess($userLogin);
 
         if ($userLogin == 'anonymous'
             && $access == 'admin'
@@ -571,21 +542,12 @@ class API extends \Piwik\Plugin\API
         // basically an admin can give the view or the admin access to any user for the websites he manages
         Piwik::checkUserHasAdminAccess($idSites);
 
-        $this->deleteUserAccess($userLogin, $idSites);
-
-        // delete UserAccess
-        $db = Db::get();
+        $this->model->deleteUserAccess($userLogin, $idSites);
 
         // if the access is noaccess then we don't save it as this is the default value
         // when no access are specified
         if ($access != 'noaccess') {
-            foreach ($idSites as $idsite) {
-                $db->insert(Common::prefixTable("access"),
-                    array("idsite" => $idsite,
-                          "login"  => $userLogin,
-                          "access" => $access)
-                );
-            }
+            $this->model->addUserAccess($userLogin, $access, $idSites);
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access
@@ -626,10 +588,10 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function checkUserIsNotSuperUser($userLogin)
+    private function checkUserHasNotSuperUserAccess($userLogin)
     {
-        if ($userLogin == Piwik::getSuperUserLogin()) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUser"));
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUserAccess"));
         }
     }
 
@@ -645,53 +607,11 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    /**
-     * Delete a user given its login.
-     * The user's access are not deleted.
-     *
-     * @param string $userLogin the user login.
-     */
-    private function deleteUserOnly($userLogin)
+    private function isUserTheOnlyUserHavingSuperUserAccess($userLogin)
     {
-        $db = Db::get();
-        $db->query("DELETE FROM " . Common::prefixTable("user") . " WHERE login = ?", $userLogin);
+        $superUsers = $this->getUsersHavingSuperUserAccess();
 
-        /**
-         * Triggered after a user has been deleted.
-         * 
-         * This event should be used to clean up any data that is related to the now deleted user.
-         * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
-         * 
-         * @param string $userLogin The login handle of the deleted user.
-         */
-        Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
-    }
-
-    /**
-     * Delete the user access for the given websites.
-     * The array of idsite must be either null OR the values must have been checked before for their validity!
-     *
-     * @param string $userLogin the user login
-     * @param array $idSites array of idsites on which to delete the access. If null then delete all the access for this user.
-     *
-     * @return bool true on success
-     */
-    private function deleteUserAccess($userLogin, $idSites = null)
-    {
-        $db = Db::get();
-
-        if (is_null($idSites)) {
-            $db->query("DELETE FROM " . Common::prefixTable("access") .
-                " WHERE login = ?",
-                array($userLogin));
-        } else {
-            foreach ($idSites as $idsite) {
-                $db->query("DELETE FROM " . Common::prefixTable("access") .
-                    " WHERE idsite = ? AND login = ?",
-                    array($idsite, $userLogin)
-                );
-            }
-        }
+        return 1 >= count($superUsers) && Piwik::hasTheUserSuperUserAccess($userLogin);
     }
 
     /**

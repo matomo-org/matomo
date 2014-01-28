@@ -44,16 +44,34 @@ class FakeAccess
         self::$idSitesView = $ids;
     }
 
-    public static function checkUserIsSuperUser()
+    public static function checkUserHasSuperUserAccess()
     {
         if (!self::$superUser) {
-            throw new Exception("checkUserIsSuperUser Fake exception // string not to be tested");
+            throw new Exception("checkUserHasSuperUserAccess Fake exception // string not to be tested");
         }
     }
 
-    public static function setSuperUser($bool = true)
+    /**
+     * @see FakeAccess::checkUserHasSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     */
+    public function checksUserIsSuperUser()
+    {
+        self::checkUserHasSuperUserAccess();
+    }
+
+    public static function setSuperUserAccess($bool = true)
     {
         self::$superUser = $bool;
+    }
+
+    /**
+     * @see FakeAccess::checkUserHasSuperUserAccess()
+     * @deprecated deprecated since version 2.0.4
+     */
+    public static function setSuperUser($bool = true)
+    {
+        self::setSuperUserAccess($bool);
     }
 
     public static function reloadAccess()
@@ -123,7 +141,7 @@ class FakeAccess
                 throw new Exception("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
             }
         } else {
-            return; //super user has some admin rights
+            return; //Super User has some admin rights
         }
     }
 
@@ -164,9 +182,26 @@ class FakeAccess
         }
         return $result;
     }
-    
-    public function getSuperUserLogin()
+
+    static public function getAnyUserHavingSuperUserAccess()
+    {
+        return array(
+            'login' => self::$superUserLogin,
+            'email' => 'hello@piwik.org'
+        );
+    }
+
+    public function getAnySuperUserAccessLogin()
     {
         return self::$superUserLogin;
+    }
+
+    /**
+     * @see FakeAccess::getAnySuperUserAccessLogin()
+     * @deprecated deprecated since version 2.0.4
+     */
+    public function getSuperUserLogin()
+    {
+        return $this->getAnySuperUserAccessLogin();
     }
 }

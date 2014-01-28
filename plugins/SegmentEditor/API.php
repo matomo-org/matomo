@@ -55,7 +55,7 @@ class API extends \Piwik\Plugin\API
     {
         $enabledAllUsers = (int)$enabledAllUsers;
         if ($enabledAllUsers
-            && !Piwik::isUserIsSuperUser()
+            && !Piwik::hasUserSuperUserAccess()
         ) {
             throw new Exception("enabledAllUsers=1 requires Super User access");
         }
@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
     protected function checkIdSite($idSite)
     {
         if (empty($idSite)) {
-            if (!Piwik::isUserIsSuperUser()) {
+            if (!Piwik::hasUserSuperUserAccess()) {
                 throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
             }
         } else {
@@ -84,7 +84,7 @@ class API extends \Piwik\Plugin\API
         if ($autoArchive) {
             $exception = new Exception("To prevent abuse, autoArchive=1 requires Super User or ControllerAdmin access.");
             if (empty($idSite)) {
-                if (!Piwik::isUserIsSuperUser()) {
+                if (!Piwik::hasUserSuperUserAccess()) {
                     throw $exception;
                 }
             } else {
@@ -115,7 +115,7 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanModifySegment($segment)
     {
-        if(Piwik::isUserIsSuperUser()) {
+        if(Piwik::hasUserSuperUserAccess()) {
             return;
         }
         if($segment['login'] != Piwik::getCurrentUserLogin()) {
@@ -248,7 +248,7 @@ class API extends \Piwik\Plugin\API
         try {
 
             if (!$segment['enable_all_users']) {
-                Piwik::checkUserIsSuperUserOrTheUser($segment['login']);
+                Piwik::checkUserHasSuperUserAccessOrIsTheUser($segment['login']);
             }
 
         } catch (Exception $e) {

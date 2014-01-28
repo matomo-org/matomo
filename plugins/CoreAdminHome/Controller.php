@@ -47,7 +47,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSomeAdminAccess();
         $view = new View('@CoreAdminHome/generalSettings');
 
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $this->handleGeneralSettingsAdmin($view);
 
             $trustedHosts = array();
@@ -177,7 +177,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function setGeneralSettings()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $response = new ResponseBuilder(Common::getRequestVar('format'));
         try {
             $this->checkTokenInUrl();
@@ -268,7 +268,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function uploadCustomLogo()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $logo = new CustomLogo();
         $success = $logo->copyUploadedLogoToFilesystem();
