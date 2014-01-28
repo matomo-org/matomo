@@ -2,7 +2,7 @@
 
 {% block head %}
     {{ parent() }}
-    <script type="text/javascript" src="plugins/Overlay/javascripts/Piwik_Overlay.js"></script>
+    <script src="plugins/Overlay/javascripts/Piwik_Overlay.js"></script>
     <link rel="stylesheet" type="text/css" href="plugins/Overlay/stylesheets/overlay.css" />
 {% endblock %}
 
@@ -61,7 +61,7 @@
         <iframe id="Overlay_Iframe" src="" frameborder="0"></iframe>
     </div>
 
-    <script type="text/javascript">
+    <script>
         var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idsite={{ idSite }}&period={{ period }}&date={{ date }}';
         Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ date }}');
 

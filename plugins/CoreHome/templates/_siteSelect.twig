@@ -62,6 +62,6 @@
         <input type="hidden" name="{{ inputName }}" value="{% if idSite is defined %}{{ idSite }}{% else %}{{ sites[0].idsite }}{% endif %}"/>
     {% endif %}
 </div>
-<script type="text/javascript">
+<script>
     $(document).ready(function () { piwik.initSiteSelectors(); });
 </script>

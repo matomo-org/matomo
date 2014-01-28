@@ -3,7 +3,7 @@
 {% if (piwikUrl == 'http://demo.piwik.org/' or debugTrackVisitsInsidePiwikUI) %}
     <div class="clear"></div>
     <!-- Piwik -->
-    <script type="text/javascript">
+    <script>
     var _paq = _paq || [];
     _paq.push(['setTrackerUrl', 'piwik.php']);
     _paq.push(['setSiteId', 1]);
@@ -21,7 +21,7 @@
     _paq.push(['enableLinkTracking']);
 
     (function() {
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.defer=true; g.async=true; g.src='js/piwik.js'; s.parentNode.insertBefore(g,s);
     })();
     </script>

@@ -12,11 +12,11 @@
     <link rel="stylesheet" type="text/css" href="plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css" />
     <link rel="stylesheet" type="text/css" href="plugins/CoreUpdater/stylesheets/updateLayout.css" />
 
-    <script type="text/javascript" src="libs/jquery/jquery.js"></script>
-    <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/donate.js"></script>
-    <script type="text/javascript" src="plugins/CoreUpdater/javascripts/updateLayout.js"></script>
-    <script type="text/javascript">{{ getJavascriptTranslations()|raw }}</script>
+    <script src="libs/jquery/jquery.js"></script>
+    <script src="libs/jquery/jquery-ui.js"></script>
+    <script src="plugins/CoreHome/javascripts/donate.js"></script>
+    <script src="plugins/CoreUpdater/javascripts/updateLayout.js"></script>
+    <script>{{ getJavascriptTranslations()|raw }}</script>
     {% if 'General_LayoutDirection'|translate =='rtl' %}
         <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
     {% endif %}

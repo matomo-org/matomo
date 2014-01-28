@@ -80,7 +80,7 @@ class OneClickDone
     <button type="submit">Continue</button>
    </noscript>
   </form>
-  <script type="text/javascript">
+  <script>
    document.myform.submit();
   </script>
  </body>

@@ -76,7 +76,7 @@
 
 {% if not noData %}
 <!-- configure some piwik vars -->
-<script type="text/javascript">
+<script>
     var visitorMap,
     config = JSON.parse('{{ config|e('js') }}');
     config._ = JSON.parse('{{ localeJSON|e('js') }}');

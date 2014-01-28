@@ -175,7 +175,6 @@ var Piwik_Overlay_Client = (function () {
 
             var head = document.getElementsByTagName('head')[0];
             var script = document.createElement('script');
-            script.type = 'text/javascript';
 
             script.onreadystatechange = function () {
                 if (this.readyState == 'loaded' || this.readyState == 'complete') {

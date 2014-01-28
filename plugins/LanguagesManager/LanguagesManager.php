@@ -78,8 +78,8 @@ class LanguagesManager extends \Piwik\Plugin
     public function addLanguagesManagerToOtherTopBar(&$str)
     {
         // piwik object & scripts aren't loaded in 'other' topbars
-        $str .= "<script type='text/javascript'>if (!window.piwik) window.piwik={};</script>";
-        $str .= "<script type='text/javascript' src='plugins/LanguagesManager/javascripts/languageSelector.js'></script>";
+        $str .= "<script>if (!window.piwik) window.piwik={};</script>";
+        $str .= "<script src='plugins/LanguagesManager/javascripts/languageSelector.js'></script>";
         $str .= $this->getLanguagesSelector();
     }
 

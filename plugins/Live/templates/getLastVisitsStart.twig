@@ -135,7 +135,7 @@
         </li>
     {% endfor %}
 </ul>
-<script type="text/javascript">
+<script>
 $('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
     e.preventDefault();
     broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));

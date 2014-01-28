@@ -412,7 +412,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     private function getJsTranslationScript()
     {
         return
-            '<script type="text/javascript">' . PHP_EOL .
+            '<script>' . PHP_EOL .
             'var translations = [];' . PHP_EOL .
             'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }for(var i in translations) { piwik_translations[i] = translations[i];} function _pk_translate(translationStringId) { if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }return "The string "+translationStringId+" was not loaded in javascript. Make sure it is added in the Translate.getClientSideTranslationKeys hook.";}' . PHP_EOL .
             '</script>';
@@ -609,10 +609,10 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $expectedJsInclusionDirective =
             $this->getJsTranslationScript() .
-            '<script type="text/javascript" src="tests/PHPUnit/Core/AssetManager/scripts/SimpleObject.js"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="tests/PHPUnit/Core/AssetManager/scripts/SimpleArray.js"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="tests/PHPUnit/Core/AssetManager/scripts/SimpleComments.js"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="tests/PHPUnit/Core/AssetManager/scripts/SimpleAlert.js"></script>' . PHP_EOL;
+            '<script src="tests/PHPUnit/Core/AssetManager/scripts/SimpleObject.js"></script>' . PHP_EOL .
+            '<script src="tests/PHPUnit/Core/AssetManager/scripts/SimpleArray.js"></script>' . PHP_EOL .
+            '<script src="tests/PHPUnit/Core/AssetManager/scripts/SimpleComments.js"></script>' . PHP_EOL .
+            '<script src="tests/PHPUnit/Core/AssetManager/scripts/SimpleAlert.js"></script>' . PHP_EOL;
 
         $this->assertEquals($expectedJsInclusionDirective, $this->assetManager->getJsInclusionDirective());
     }
@@ -624,8 +624,8 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     {
         $expectedJsInclusionDirective =
             $this->getJsTranslationScript() .
-            '<script type="text/javascript" src="index.php?module=Proxy&action=getCoreJs"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="index.php?module=Proxy&action=getNonCoreJs"></script>' . PHP_EOL;
+            '<script src="index.php?module=Proxy&action=getCoreJs"></script>' . PHP_EOL .
+            '<script src="index.php?module=Proxy&action=getNonCoreJs"></script>' . PHP_EOL;
 
         $this->assertEquals($expectedJsInclusionDirective, $this->assetManager->getJsInclusionDirective());
     }

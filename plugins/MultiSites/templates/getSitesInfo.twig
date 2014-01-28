@@ -9,7 +9,7 @@
 
 <div class="pageWrap" id="multisites">
     <div id="main">
-        <script type="text/javascript">
+        <script>
             var allSites = [];
             var params = [];
             {% for i,site in sitesData %}
@@ -114,7 +114,7 @@
                 </tfoot>
             </table>
         </div>
-        <script type="text/javascript">
+        <script>
             prepareRows(allSites, params, '{{ orderBy }}');
 
             {% if autoRefreshTodayReport %}

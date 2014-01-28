@@ -32,7 +32,7 @@ To run this properly you will need
        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://trackedsite.com/";
        _paq.push(["setTrackerUrl", u+"piwik.php"]);
        _paq.push(["setSiteId", "trackedsite-id"]);
-       var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+       var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
        g.defer=true; g.async=true; g.src=u+"piwik.php"; s.parentNode.insertBefore(g,s);
    })();
    </script>

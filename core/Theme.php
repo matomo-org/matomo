@@ -84,9 +84,9 @@ class Theme
 
         $pattern = array(
             // Rewriting scripts includes to overrides
-            '~<script type=[\'"]text/javascript[\'"] (src)=[\'"]([^\'"]+)[\'"]>~',
-            '~<script (src)=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
-            '~<link (rel)=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
+            '~<script (src)=[\'"]([^\'"]+)[\'"]>~',
+            '~<script (src)=[\'"]([^\'"]+)[\'"]>~',
+            '~<link (rel)=[\'"]stylesheet[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
 
             // Images as well
             '~(src|href)=[\'"]([^\'"]+)[\'"]~',

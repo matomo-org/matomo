@@ -39,7 +39,7 @@ class Core_PiwikTest extends DatabaseTestCase
             $doNotTrack = true);
 
         $expected = "&lt;!-- Piwik --&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;script&quot;&gt;
   var _paq = _paq || [];
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -56,7 +56,7 @@ class Core_PiwikTest extends DatabaseTestCase
     var u=((&quot;https:&quot; == document.location.protocol) ? &quot;https&quot; : &quot;http&quot;) + &quot;://localhost/piwik&quot;;
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', 1]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 
