@@ -164,7 +164,7 @@ class Access
         $this->token_auth = $result->getTokenAuth();
 
         // case the superUser is logged in
-        if ($result->getCode() == AuthResult::SUCCESS_SUPERUSER_AUTH_CODE) {
+        if ($result->hasSuperUserAccess()) {
             return $this->reloadAccessSuperUser();
         }
         // in case multiple calls to API using different tokens, we ensure we reset it as not SU

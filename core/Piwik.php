@@ -339,6 +339,10 @@ class Piwik
             return false;
         }
 
+        if (Piwik::getCurrentUserLogin() === $theUser && Piwik::hasUserSuperUserAccess()) {
+            return true;
+        }
+
         try {
             $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
         } catch (\Exception $e) {
