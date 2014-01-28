@@ -15,7 +15,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
-use Piwik\Plugins\MobileMessaging\API as MobileMessagingApi;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Updater;
 use Piwik\Config;
@@ -50,7 +50,7 @@ class Updates_2_0_4_b5 extends Updates
 
     private static function migrateExistingMobileMessagingOptions()
     {
-        if (MobileMessagingApi::getInstance()->getDelegatedManagement()) {
+        if (Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION) == 'true') {
             return;
         }
 
@@ -73,8 +73,14 @@ class Updates_2_0_4_b5 extends Updates
 
     private static function migrateConfigSuperUserToDb()
     {
-        $superUser = \Piwik\Config::getInstance()->superuser;
-        $userApi   = \Piwik\Plugins\UsersManager\API::getInstance();
+        $config    = \Piwik\Config::getInstance();
+        $superUser = $config->superuser;
+
+        if (empty($superUser)) {
+            throw new UpdaterErrorException('Unable to migrate superUser to database. Entry in config is missing.');
+        }
+
+        $userApi = UsersManagerApi::getInstance();
 
         Db::get()->insert(Common::prefixTable('user'), array(
                 'login'      => $superUser['login'],
@@ -87,8 +93,8 @@ class Updates_2_0_4_b5 extends Updates
             )
         );
 
-        \Piwik\Config::getInstance()->General['salt'] = $superUser['salt'];
-        \Piwik\Config::getInstance()->superuser       = array();
-        \Piwik\Config::getInstance()->forceSave();
+        $config->General['salt'] = $superUser['salt'];
+        $config->superuser       = array();
+        $config->forceSave();
     }
 }
