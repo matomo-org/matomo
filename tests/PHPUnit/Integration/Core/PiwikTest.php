@@ -39,7 +39,7 @@ class Core_PiwikTest extends DatabaseTestCase
             $doNotTrack = true);
 
         $expected = "&lt;!-- Piwik --&gt;
-&lt;script&quot;&gt;
+&lt;script&gt;
   var _paq = _paq || [];
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
