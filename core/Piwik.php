@@ -228,6 +228,14 @@ class Piwik
     }
 
     /**
+     * @deprecated deprecated since version 2.0.4
+     */
+    static public function getSuperUserEmail()
+    {
+        return '';
+    }
+
+    /**
      * Get a list of all email addresses having Super User access.
      *
      * @return array
