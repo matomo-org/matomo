@@ -19,6 +19,7 @@ use Piwik\Plugins\MobileMessaging\API as MobileMessagingApi;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Updater;
 use Piwik\Config;
+use Piwik\UpdaterErrorException;
 use Piwik\Updates;
 
 /**
@@ -39,8 +40,12 @@ class Updates_2_0_4_b5 extends Updates
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
-        self::migrateExistingMobileMessagingOptions();
-        self::migrateConfigSuperUserToDb();
+        try {
+            self::migrateExistingMobileMessagingOptions();
+            self::migrateConfigSuperUserToDb();
+        } catch (\Exception $e) {
+            throw new UpdaterErrorException($e->getMessage());
+        }
     }
 
     private static function migrateExistingMobileMessagingOptions()
