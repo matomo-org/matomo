@@ -222,7 +222,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkTokenInUrl();
 
-        if (!Piwik::isUserIsSuperUser()) {
+        if (!Piwik::hasUserSuperUserAccess()) {
             return '0';
         }
         $login = Piwik::getCurrentUserLogin();
@@ -274,7 +274,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkTokenInUrl();
 
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $layout = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
             $paramsBind = array('', '1', $layout, $layout);
             $query = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',

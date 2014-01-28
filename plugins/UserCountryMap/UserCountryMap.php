@@ -27,11 +27,10 @@ class UserCountryMap extends \Piwik\Plugin
     public function getInformation()
     {
         return array(
-            'name'            => 'User Country Map',
-            'description'     => 'This plugin provides the widgets Visitor Map and Real-time Map. Note: Requires the UserCountry plugin enabled.',
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Version::VERSION,
+            'name'             => 'User Country Map',
+            'description'      => 'This plugin provides the widgets Visitor Map and Real-time Map. Note: Requires the UserCountry plugin enabled.',
+            'authors'          => array(array('name' => 'Piwik', 'homepage' => 'http://piwik.org/')),
+            'version'          => Version::VERSION,
             'license'          => 'GPL v3+',
             'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
         );

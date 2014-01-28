@@ -95,7 +95,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesFromGroup($group)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $group = trim($group);
 
         $sites = Db::get()->fetchAll("SELECT *
@@ -114,7 +114,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesGroups()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $groups = Db::get()->fetchAll("SELECT DISTINCT `group` FROM " . Common::prefixTable("site"));
         $cleanedGroups = array();
         foreach ($groups as $group) {
@@ -200,7 +200,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getAllSites()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $sites = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable("site") . " ORDER BY idsite ASC");
         $return = array();
         foreach ($sites as $site) {
@@ -212,13 +212,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of all the website IDs registered.
-     * Requires super user access.
+     * Requires Super User access.
      *
      * @return array The list of website IDs
      */
     public function getAllSitesId()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         try {
             return API::getInstance()->getSitesId();
         } catch (Exception $e) {
@@ -229,14 +229,14 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of the website IDs that received some visits since the specified timestamp.
-     * Requires super user access.
+     * Requires Super User access.
      *
      * @param bool|int $timestamp
      * @return array The list of website IDs
      */
     public function getSitesIdWithVisits($timestamp = false)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         if (empty($timestamp)) $timestamp = time();
 
@@ -331,15 +331,15 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
     {
-        if (Piwik::isUserIsSuperUser() && !TaskScheduler::isTaskBeingExecuted()) {
+        if (Piwik::hasUserSuperUserAccess() && !TaskScheduler::isTaskBeingExecuted()) {
             return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
 
         if (!empty($_restrictSitesToLogin)
-            // Only super user or logged in user can see viewable sites for a specific login,
+            // Only Super User or logged in user can see viewable sites for a specific login,
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
-            && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
+            && (Piwik::hasUserSuperUserAccessOrIsTheUser($_restrictSitesToLogin)
                 || TaskScheduler::isTaskBeingExecuted())
         ) {
 
@@ -402,7 +402,7 @@ class API extends \Piwik\Plugin\API
     {
         $url = $this->removeTrailingSlash($url);
         list($url, $urlBis) = $this->getNormalizedUrls($url);
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $ids = Db::get()->fetchAll(
                 'SELECT idsite
                 FROM ' . Common::prefixTable('site') . '
@@ -438,7 +438,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesIdFromTimezones($timezones)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $timezones = Piwik::getArrayFromApiParameter($timezones);
         $timezones = array_unique($timezones);
         $ids = Db::get()->fetchAll(
@@ -497,7 +497,7 @@ class API extends \Piwik\Plugin\API
                             $keepURLFragments = null,
                             $type = null)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $this->checkName($siteName);
         $urls = $this->cleanParameterUrls($urls);
@@ -546,7 +546,7 @@ class API extends \Piwik\Plugin\API
         $bind['type'] = $this->checkAndReturnType($type);
 
         if (!empty($group)
-            && Piwik::isUserIsSuperUser()
+            && Piwik::hasUserSuperUserAccess()
         ) {
             $bind['group'] = trim($group);
         } else {
@@ -582,7 +582,7 @@ class API extends \Piwik\Plugin\API
      */
     public function deleteSite($idSite)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $idSites = API::getInstance()->getSitesId();
         if (!in_array($idSite, $idSites)) {
@@ -740,7 +740,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setGlobalExcludedIps($excludedIps)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
         Option::set(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
         Cache::deleteTrackerCache();
@@ -757,7 +757,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         Option::set(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL, $searchKeywordParameters);
         Option::set(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL, $searchCategoryParameters);
         Cache::deleteTrackerCache();
@@ -822,7 +822,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setGlobalExcludedUserAgents($excludedUserAgents)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         // update option
         $excludedUserAgents = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
@@ -852,7 +852,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setSiteSpecificUserAgentExcludeEnabled($enabled)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         // update option
         Option::set(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE, $enabled);
@@ -883,7 +883,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setKeepURLFragmentsGlobal($enabled)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         // update option
         Option::set(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, $enabled);
@@ -901,7 +901,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setGlobalExcludedQueryParameters($excludedQueryParameters)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $excludedQueryParameters = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         Option::set(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
         Cache::deleteTrackerCache();
@@ -942,7 +942,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setDefaultCurrency($defaultCurrency)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkValidCurrency($defaultCurrency);
         Option::set(self::OPTION_DEFAULT_CURRENCY, $defaultCurrency);
         return true;
@@ -971,7 +971,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setDefaultTimezone($defaultTimezone)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->checkValidTimezone($defaultTimezone);
         Option::set(self::OPTION_DEFAULT_TIMEZONE, $defaultTimezone);
         return true;
@@ -1052,7 +1052,7 @@ class API extends \Piwik\Plugin\API
             $bind['timezone'] = $timezone;
         }
         if (!is_null($group)
-            && Piwik::isUserIsSuperUser()
+            && Piwik::hasUserSuperUserAccess()
         ) {
             $bind['group'] = trim($group);
         }
@@ -1233,7 +1233,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUniqueSiteTimezones()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $results = Db::fetchAll("SELECT distinct timezone FROM " . Common::prefixTable('site'));
         $timezones = array();
         foreach ($results as $result) {

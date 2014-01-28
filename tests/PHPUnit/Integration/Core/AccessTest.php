@@ -21,9 +21,6 @@ class Core_AccessTest extends DatabaseTestCase
         Access::setSingletonInstance(null);
     }
 
-    /**
-     * @group Core
-     */
     public function testGetListAccess()
     {
         $accessList = Access::getListAccess();
@@ -31,74 +28,50 @@ class Core_AccessTest extends DatabaseTestCase
         $this->assertEquals($shouldBe, $accessList);
     }
 
-    /**
-     * @group Core
-     */
     public function testGetTokenAuthWithEmptyAccess()
     {
         $access = new Access();
         $this->assertNull($access->getTokenAuth());
     }
 
-    /**
-     * @group Core
-     */
     public function testGetLoginWithEmptyAccess()
     {
         $access = new Access();
         $this->assertNull($access->getLogin());
     }
 
-    /**
-     * @group Core
-     */
-    public function testIsSuperUserWithEmptyAccess()
+    public function testHasSuperUserAccessWithEmptyAccess()
     {
         $access = new Access();
-        $this->assertFalse($access->isSuperUser());
+        $this->assertFalse($access->hasSuperUserAccess());
     }
 
-    /**
-     * @group Core
-     */
-    public function testIsSuperUserWithSuperUserAccess()
+    public function testHasSuperUserAccessWithSuperUserAccess()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(true);
-        $this->assertTrue($access->isSuperUser());
+        $access->setSuperUserAccess(true);
+        $this->assertTrue($access->hasSuperUserAccess());
     }
 
-    /**
-     * @group Core
-     */
-    public function testIsSuperUserWithNoSuperUserAccess()
+    public function testHasSuperUserAccessWithNoSuperUserAccess()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(false);
-        $this->assertFalse($access->isSuperUser());
+        $access->setSuperUserAccess(false);
+        $this->assertFalse($access->hasSuperUserAccess());
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSitesIdWithAtLeastViewAccessWithEmptyAccess()
     {
         $access = new Access();
         $this->assertEmpty($access->getSitesIdWithAtLeastViewAccess());
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSitesIdWithAdminAccessWithEmptyAccess()
     {
         $access = new Access();
         $this->assertEmpty($access->getSitesIdWithAdminAccess());
     }
 
-    /**
-     * @group Core
-     */
     public function testGetSitesIdWithViewAccessWithEmptyAccess()
     {
         $access = new Access();
@@ -106,29 +79,22 @@ class Core_AccessTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     * 
      * @expectedException Piwik\NoAccessException
      */
-    public function testCheckUserIsSuperUserWithEmptyAccess()
+    public function testCheckUserHasSuperUserAccessWithEmptyAccess()
     {
         $access = new Access();
-        $access->checkUserIsSuperUser();
+        $access->checkUserHasSuperUserAccess();
     }
 
-    /**
-     * @group Core
-     */
-    public function testCheckUserIsSuperUserWithSuperUserAccess()
+    public function testCheckUserHasSuperUserAccessWithSuperUserAccess()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(true);
-        $access->checkUserIsSuperUser();
+        $access->setSuperUserAccess(true);
+        $access->checkUserHasSuperUserAccess();
     }
 
     /**
-     * @group Core
-     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
@@ -137,19 +103,13 @@ class Core_AccessTest extends DatabaseTestCase
         $access->checkUserHasSomeAdminAccess();
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasSomeAdminAccessWithSuperUserAccess()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
         $access->checkUserHasSomeAdminAccess();
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasSomeAdminAccessWithSomeAccess()
     {
         $mock = $this->getMock(
@@ -165,8 +125,6 @@ class Core_AccessTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasSomeViewAccessWithEmptyAccess()
@@ -175,19 +133,13 @@ class Core_AccessTest extends DatabaseTestCase
         $access->checkUserHasSomeViewAccess();
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasSomeViewAccessWithSuperUserAccess()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
         $access->checkUserHasSomeViewAccess();
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasSomeViewAccessWithSomeAccess()
     {
         $mock = $this->getMock(
@@ -203,8 +155,6 @@ class Core_AccessTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithEmptyAccessNoSiteIdsGiven()
@@ -213,19 +163,13 @@ class Core_AccessTest extends DatabaseTestCase
         $access->checkUserHasViewAccess(array());
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasViewAccessWithSuperUserAccess()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
         $access->checkUserHasViewAccess(array());
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasViewAccessWithSomeAccessSuccessIdSitesAsString()
     {
         $mock = $this->getMock(
@@ -240,9 +184,6 @@ class Core_AccessTest extends DatabaseTestCase
         $mock->checkUserHasViewAccess('1,3');
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasViewAccessWithSomeAccessSuccessAllSites()
     {
         $mock = $this->getMock(
@@ -258,8 +199,6 @@ class Core_AccessTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithSomeAccessFailure()
@@ -276,19 +215,14 @@ class Core_AccessTest extends DatabaseTestCase
         $mock->checkUserHasViewAccess(array(1, 5));
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
         $access->checkUserHasAdminAccess(array());
     }
 
     /**
-     * @group Core
-     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
@@ -297,9 +231,6 @@ class Core_AccessTest extends DatabaseTestCase
         $access->checkUserHasViewAccess(array());
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessIdSitesAsString()
     {
         $mock = $this->getMock(
@@ -314,9 +245,6 @@ class Core_AccessTest extends DatabaseTestCase
         $mock->checkUserHasAdminAccess('1,3');
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessAllSites()
     {
         $mock = $this->getMock(
@@ -336,8 +264,6 @@ class Core_AccessTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithSomeAccessFailure()
@@ -354,31 +280,22 @@ class Core_AccessTest extends DatabaseTestCase
         $mock->checkUserHasAdminAccess(array(1, 5));
     }
 
-    /**
-     * @group Core
-     */
     public function testReloadAccessWithEmptyAuth()
     {
         $access = new Access();
         $this->assertFalse($access->reloadAccess(null));
     }
 
-    /**
-     * @group Core
-     */
     public function testReloadAccessWithEmptyAuthSuperUser()
     {
         $access = Access::getInstance();
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
         $this->assertTrue($access->reloadAccess(null));
     }
 
-    /**
-     * @group Core
-     */
     public function testReloadAccessWithMockedAuthValid()
     {
-        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName', 'initSession'));
+        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName', 'initSession', 'setTokenAuth', 'setLogin'));
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));
@@ -387,6 +304,6 @@ class Core_AccessTest extends DatabaseTestCase
 
         $access = Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
-        $this->assertFalse($access->isSuperUser());
+        $this->assertFalse($access->hasSuperUserAccess());
     }
 }

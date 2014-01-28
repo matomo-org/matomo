@@ -11,6 +11,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugins\VisitsSummary\API;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\ArchiveProcessor\Rules;
 
 abstract class UITest extends IntegrationTestCase
@@ -48,7 +49,9 @@ abstract class UITest extends IntegrationTestCase
         parent::setUpBeforeClass();
 
         DbHelper::createAnonymousUser();
-        
+        UsersManagerApi::getInstance()->addUser('superUserLogin', 'testtest', 'hello2@example.org');
+        UsersManagerApi::getInstance()->setSuperUserAccess('superUserLogin', true);
+
         AssetManager::getInstance()->removeMergedAssets();
         
         // launch archiving so tests don't run out of time

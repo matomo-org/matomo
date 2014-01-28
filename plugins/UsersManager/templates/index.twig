@@ -47,14 +47,31 @@
         <tbody>
         {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />{% endset %}
         {% set accesInvalid %}<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />{% endset %}
+        {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess`'|translate }}">N/A</span>{% endset %}
         {% for login,access in usersAccessByWebsite %}
             <tr>
                 <td id='login'>{{ login }}</td>
                 <td>{{ usersAliasByLogin[login]|raw }}</td>
-                <td id='noaccess'>{% if access=='noaccess' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;</td>
-                <td id='view'>{% if access == 'view' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;</td>
+                <td id='noaccess'>
+                    {% if login in superUserLogins %}
+                        {{ superUserAccess }}
+                    {% elseif access=='noaccess' and idSiteSelected != 'all' %}
+                        {{ accesValid }}
+                    {% else %}
+                        {{ accesInvalid }}
+                    {% endif %}&nbsp;</td>
+                <td id='view'>
+                    {% if login in superUserLogins %}
+                        {{ superUserAccess }}
+                    {% elseif access == 'view' and idSiteSelected != 'all' %}
+                        {{ accesValid }}
+                    {% else %}
+                        {{ accesInvalid }}
+                    {% endif %}&nbsp;</td>
                 <td id='admin'>
-                    {% if login == 'anonymous' %}
+                    {% if login in superUserLogins %}
+                        {{ superUserAccess }}
+                    {% elseif login == 'anonymous' %}
                         N/A
                     {% else %}
                         {% if access == 'admin' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;
@@ -133,5 +150,54 @@
         </table>
         <div class="addrow"><img src='plugins/UsersManager/images/add.png'/> {{ 'UsersManager_AddUser'|translate }}</div>
     </div>
+
+
+    <h2>{{ 'UsersManager_SuperUserAccessManagement'|translate }}</h2>
+    <p>{{ 'UsersManager_SuperUserAccessManagementMainDescription'|translate }} <br/>
+    {{ 'UsersManager_SuperUserAccessManagementGrantMore'|translate }}</p>
+
+    {{ ajax.errorDiv('ajaxErrorSuperUsersManagement') }}
+    {{ ajax.loadingDiv('ajaxLoadingSuperUsersManagement') }}
+
+    <table class="entityTable dataTable" id="superUserAccess" style="display:inline-table;width:400px;">
+        <thead>
+        <tr>
+            <th class='first'>{{ 'UsersManager_User'|translate }}</th>
+            <th>{{ 'UsersManager_Alias'|translate }}</th>
+            <th>{{ 'Installation_SuperUser'|translate }}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% if users|length > 1 %}
+            {% for login,alias in usersAliasByLogin if login != 'anonymous' %}
+                <tr>
+                    <td id='login'>{{ login }}</td>
+                    <td>{{ alias|raw }}</td>
+                    <td id='superuser' data-login="{{ login|e('html_attr') }}">
+                        <img src='plugins/UsersManager/images/ok.png' class='accessGranted' data-hasaccess="1" {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
+                        <img src='plugins/UsersManager/images/no-access.png' class='updateAccess' data-hasaccess="0" {% if login in superUserLogins %}style="display:none"{% endif %} />
+                        &nbsp;
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">
+                    {{ 'UsersManager_NoUsersExist'|translate }}
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <div id="superUserAccessUpdated" style="vertical-align:top;"></div>
+
+    <div class="ui-confirm" id="superUserAccessConfirm">
+        <h2> </h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+
 {% endif %}
 {% endblock %}

@@ -29,7 +29,7 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        //finally we set the user as a super user by default
+        //finally we set the user as a Super User by default
         Access::setSingletonInstance($pseudoMockAccess);
 
         $this->idSiteAccess = APISitesManager::getInstance()->addSite("test", "http://test");

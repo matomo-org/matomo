@@ -82,7 +82,7 @@ class MenuMain extends MenuAbstract
              *             'CustomMenuName',
              *             'CustomSubmenuName',
              *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::isUserIsSuperUser(),
+             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
              *             $order = 6
              *         );
              *     }

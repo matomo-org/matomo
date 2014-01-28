@@ -46,7 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
     // Draw graphs for all sizes (DEBUG)
     public function testAllSizes()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $view = new View('@ImageGraph/testAllSizes');
         $this->setGeneralVariablesView($view);

@@ -22,8 +22,7 @@ class MultiSites extends \Piwik\Plugin
     public function getInformation()
     {
         $info = parent::getInformation();
-        $info['author'] = 'Piwik PRO';
-        $info['author_homepage'] = 'http://piwik.pro';
+        $info['authors'] = array(array('name' => 'Piwik PRO', 'homepage' => 'http://piwik.pro'));
         return $info;
     }
 

@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -37,7 +38,7 @@ class UsersManager extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -142,5 +143,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Done";
         $translationKeys[] = "UsersManager_DeleteConfirm";
+        $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
+        $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
+        $translationKeys[] = "UsersManager_ConfirmProhibitMySuperUserAccess";
     }
 }

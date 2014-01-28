@@ -40,8 +40,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  * - **description**: An internationalized string description of what the plugin
  *                    does.
  * - **homepage**: The URL to the plugin's website.
- * - **author**: Author name.
- * - **author_homepage**: The URL to the author's website.
+ * - **authors**: A list of author arrays with keys for 'name', 'email' and 'homepage'
  * - **license**: The license the code uses (eg, GPL, MIT, etc.).
  * - **license_homepage**: URL to website describing the license used.
  * - **version**: The plugin version (eg, 1.0.1).

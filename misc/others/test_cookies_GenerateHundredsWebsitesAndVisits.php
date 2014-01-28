@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/PiwikTracker/PiwikTracker.php";
 
 FrontController::getInstance()->init();
-Piwik::setUserIsSuperUser();
+Piwik::setUserHasSuperUserAccess();
 $count = 100;
 for ($i = 0; $i <= $count; $i++) {
     $id = API::getInstance()->addSite(Common::getRandomString(), 'http://piwik.org');

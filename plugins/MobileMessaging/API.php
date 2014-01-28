@@ -361,7 +361,7 @@ class API extends \Piwik\Plugin\API
 
     private function checkCredentialManagementRights()
     {
-        $this->getDelegatedManagement() ? Piwik::checkUserIsNotAnonymous() : Piwik::checkUserIsSuperUser();
+        $this->getDelegatedManagement() ? Piwik::checkUserIsNotAnonymous() : Piwik::checkUserHasSuperUserAccess();
     }
 
     private function setUserSettings($user, $settings)
@@ -384,7 +384,7 @@ class API extends \Piwik\Plugin\API
 
     private function getCredentialManagerLogin()
     {
-        return $this->getDelegatedManagement() ? Piwik::getCurrentUserLogin() : Piwik::getSuperUserLogin();
+        return $this->getDelegatedManagement() ? Piwik::getCurrentUserLogin() : '';
     }
 
     private function getUserSettings($user)
@@ -418,7 +418,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setDelegatedManagement($delegatedManagement)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         Option::set(MobileMessaging::DELEGATED_MANAGEMENT_OPTION, $delegatedManagement);
     }
 

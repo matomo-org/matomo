@@ -11,6 +11,7 @@ use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
+use Piwik\Config;
 
 /**
  * Class Core_PiwikTest
@@ -19,6 +20,11 @@ use Piwik\Translate;
  */
 class Core_PiwikTest extends DatabaseTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
     /**
      * Tests the generated JS code
      * @group Core
@@ -81,8 +87,6 @@ class Core_PiwikTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getValidNumeric
      */
     public function testIsNumericValid($toTest)
@@ -105,8 +109,6 @@ class Core_PiwikTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getInvalidNumeric
      */
     public function testIsNumericNotValid($toTest)
@@ -114,9 +116,6 @@ class Core_PiwikTest extends DatabaseTestCase
         $this->assertFalse(is_numeric($toTest), $toTest . " valid but shouldn't!");
     }
 
-    /**
-     * @group Core
-     */
     public function testSecureDiv()
     {
         $this->assertSame(3, Piwik::secureDiv(9, 3));
@@ -125,7 +124,6 @@ class Core_PiwikTest extends DatabaseTestCase
         $this->assertSame(10.0, Piwik::secureDiv(10.0, 1.0));
         $this->assertSame(5.5, Piwik::secureDiv(11.0, 2));
         $this->assertSame(0, Piwik::secureDiv(11.0, 'a'));
-
     }
 
     /**
@@ -156,8 +154,6 @@ class Core_PiwikTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getPrettyTimeFromSecondsData
      */
     public function testGetPrettyTimeFromSeconds($seconds, $expected)
@@ -202,18 +198,12 @@ class Core_PiwikTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getInvalidLoginStringData
+     * @expectedException \Exception
      */
     public function testCheckInvalidLoginString($toTest)
     {
-        try {
-            Piwik::checkValidLoginString($toTest);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        Piwik::checkValidLoginString($toTest);
     }
 
     /**
@@ -233,8 +223,6 @@ class Core_PiwikTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getValidLoginStringData
      */
     public function testCheckValidLoginString($toTest)
@@ -258,8 +246,6 @@ class Core_PiwikTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getGetPrettyValueTestCases
      */
     public function testGetPrettyValue($columnName, $value, $expected)
@@ -267,7 +253,7 @@ class Core_PiwikTest extends DatabaseTestCase
         Translate::loadEnglishTranslation();
 
         $access = Access::getInstance();
-        $access->setSuperUser(true);
+        $access->setSuperUserAccess(true);
 
         $idsite = API::getInstance()->addSite("test", "http://test");
 
@@ -295,8 +281,6 @@ class Core_PiwikTest extends DatabaseTestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getIsAssociativeArrayTestCases
      */
     public function testIsAssociativeArray($array, $expected)
@@ -304,9 +288,6 @@ class Core_PiwikTest extends DatabaseTestCase
         $this->assertEquals($expected, Piwik::isAssociativeArray($array));
     }
 
-    /**
-     * @group Core
-     */
     public function testCheckIfFileSystemIsNFSOnNonNFS()
     {
         $this->assertFalse(Filesystem::checkIfFileSystemIsNFS());

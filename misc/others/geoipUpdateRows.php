@@ -45,7 +45,7 @@ $count = Db::fetchOne($query);
 // when script run via browser, check for Super User & output html page to do conversion via AJAX
 if (!Common::isPhpCliMode()) {
     try {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
     } catch (Exception $e) {
         Log::error('[error] You must be logged in as Super User to run this script. Please login in to Piwik and refresh this page.');
         exit;

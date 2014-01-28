@@ -214,7 +214,7 @@ class View implements ViewInterface
             $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();
             $this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
-            $this->userIsSuperUser = Piwik::isUserIsSuperUser();
+            $this->userIsSuperUser = Piwik::hasUserSuperUserAccess();
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');

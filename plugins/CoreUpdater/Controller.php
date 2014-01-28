@@ -57,7 +57,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function newVersionAvailable()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $newVersion = $this->checkNewVersionIsAvailableOrDie();
 
@@ -72,7 +72,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickUpdate()
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
         $this->newVersion = $this->checkNewVersionIsAvailableOrDie();
 
         SettingsServer::setMaxExecutionTime(0);
@@ -111,7 +111,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickResults()
     {
         Request::reloadAuthUsingTokenAuth($_POST);
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserHasSuperUserAccess();
 
         $view = new View('@CoreUpdater/oneClickResults');
         $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);

@@ -69,6 +69,7 @@ class Myisam implements SchemaInterface
 						  alias VARCHAR(45) NOT NULL,
 						  email VARCHAR(100) NOT NULL,
 						  token_auth CHAR(32) NOT NULL,
+						  superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
 						  date_registered TIMESTAMP NULL,
 						  PRIMARY KEY(login),
 						  UNIQUE KEY uniq_keytoken(token_auth)
@@ -510,7 +511,7 @@ class Myisam implements SchemaInterface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = Db::get();
         $db->query("INSERT INTO " . Common::prefixTable("user") . "
-					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '" . Date::factory('now')->getDatetime() . "' );");
+					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '" . Date::factory('now')->getDatetime() . "' );");
     }
 
     /**

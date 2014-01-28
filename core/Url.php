@@ -251,7 +251,7 @@ class Url
 
     /**
      * Records one host, or an array of hosts in the config file,
-     * if user is super user
+     * if user is Super User
      *
      * @static
      * @param $host string|array
@@ -259,7 +259,7 @@ class Url
      */
     public static function saveTrustedHostnameInConfig($host)
     {
-        if (Piwik::isUserIsSuperUser()
+        if (Piwik::hasUserSuperUserAccess()
             && file_exists(Config::getLocalConfigPath())
         ) {
             $general = Config::getInstance()->General;

@@ -189,9 +189,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@CoreHome/getDonateForm');
         if (Common::getRequestVar('widget', false)
-            && Piwik::isUserIsSuperUser()
+            && Piwik::hasUserSuperUserAccess()
         ) {
-            $view->footerMessage = Piwik::translate('CoreHome_OnlyForAdmin');
+            $view->footerMessage = Piwik::translate('CoreHome_OnlyForSuperUserAccess');
         }
         return $view->render();
     }

@@ -200,7 +200,7 @@ class UserCountry extends \Piwik\Plugin
         if($this->isGeoLocationAdminEnabled()) {
             MenuAdmin::getInstance()->add('General_Settings', 'UserCountry_Geolocation',
                 array('module' => 'UserCountry', 'action' => 'adminIndex'),
-                Piwik::isUserIsSuperUser(),
+                Piwik::hasUserSuperUserAccess(),
                 $order = 8);
         }
     }
