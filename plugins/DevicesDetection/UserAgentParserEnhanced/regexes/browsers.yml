@@ -206,7 +206,7 @@
   version: '$1'
   
 #BlackBerry Browser
-- regex: 'Black[bB]erry|PlayBook|BB10'
+- regex: 'BlackBerry|PlayBook|BB10'
   name: 'BlackBerry Browser'
   version: ''
   
