@@ -11838,3 +11838,35 @@
     model: Model S
   os_family: Linux
   browser_family: Safari
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3pre) Gecko/20100403 Lorentz/3.6.3plugin2pre (.NET CLR 4.0.20506)
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Firefox
+    short_name: FF
+    version: Lorentz (3.6)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1b5pre) Gecko/20090424 Shiretoko/3.5b5pre
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: Shiretoko (3.5)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox

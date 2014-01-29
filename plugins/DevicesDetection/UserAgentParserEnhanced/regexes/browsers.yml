@@ -38,8 +38,8 @@
   name: 'Firefox'
   version: '$1'
 - regex: '(BonEcho|GranParadiso|Lorentz|Minefield|Namoroka|Shiretoko)/(\d+\.\d+)'
-  name: Firefox '$1'
-  version: '$2'
+  name: 'Firefox'
+  version: '$1 ($2)'
   
 #Flock
 - regex: 'Flock/(\d+\.\d+)'
