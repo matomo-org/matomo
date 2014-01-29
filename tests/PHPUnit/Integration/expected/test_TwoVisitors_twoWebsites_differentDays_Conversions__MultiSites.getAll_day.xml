@@ -54,8 +54,60 @@
 			<idsite>1</idsite>
 		</row>
 	</result>
-	<result date="2010-01-06" />
-	<result date="2010-01-07" />
-	<result date="2010-01-08" />
-	<result date="2010-01-09" />
+	<result date="2010-01-06">
+		<row>
+			<label>Site 1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_pageviews>5</nb_pageviews>
+			<revenue>5</revenue>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<idsite>1</idsite>
+		</row>
+	</result>
+	<result date="2010-01-07">
+		<row>
+			<label>Site 1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_pageviews>5</nb_pageviews>
+			<revenue>5</revenue>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<idsite>1</idsite>
+		</row>
+	</result>
+	<result date="2010-01-08">
+		<row>
+			<label>Site 1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_pageviews>5</nb_pageviews>
+			<revenue>5</revenue>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<idsite>1</idsite>
+		</row>
+	</result>
+	<result date="2010-01-09">
+		<row>
+			<label>Site 1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_pageviews>5</nb_pageviews>
+			<revenue>5</revenue>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<idsite>1</idsite>
+		</row>
+	</result>
 </results>

@@ -17,14 +17,14 @@
 	<result date="From 2010-01-04 to 2010-01-10">
 		<row>
 			<label>Site 1</label>
-			<nb_visits>2</nb_visits>
-			<nb_actions>7</nb_actions>
-			<nb_pageviews>6</nb_pageviews>
-			<revenue>5</revenue>
-			<visits_evolution>100%</visits_evolution>
-			<actions_evolution>600%</actions_evolution>
-			<pageviews_evolution>200%</pageviews_evolution>
-			<revenue_evolution>-50%</revenue_evolution>
+			<nb_visits>7</nb_visits>
+			<nb_actions>32</nb_actions>
+			<nb_pageviews>31</nb_pageviews>
+			<revenue>30</revenue>
+			<visits_evolution>600%</visits_evolution>
+			<actions_evolution>3100%</actions_evolution>
+			<pageviews_evolution>1450%</pageviews_evolution>
+			<revenue_evolution>200%</revenue_evolution>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -40,7 +40,20 @@
 			<idsite>2</idsite>
 		</row>
 	</result>
-	<result date="From 2010-01-11 to 2010-01-17" />
+	<result date="From 2010-01-11 to 2010-01-17">
+		<row>
+			<label>Site 1</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>10</nb_actions>
+			<nb_pageviews>10</nb_pageviews>
+			<revenue>10</revenue>
+			<visits_evolution>-71.4%</visits_evolution>
+			<actions_evolution>-68.8%</actions_evolution>
+			<pageviews_evolution>-67.7%</pageviews_evolution>
+			<revenue_evolution>-66.7%</revenue_evolution>
+			<idsite>1</idsite>
+		</row>
+	</result>
 	<result date="From 2010-01-18 to 2010-01-24" />
 	<result date="From 2010-01-25 to 2010-01-31" />
 	<result date="From 2010-02-01 to 2010-02-07" />

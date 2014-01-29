@@ -117,32 +117,38 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
 
         // -
         // Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
-        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->getDatetime());
-        // visitor_returning is set to 1 only when visit count more than 1
-        // Temporary, until we implement 1st party cookies in PiwikTracker
-        $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Date::factory($dateTime)->getTimestamp();
+        // If you are thinking of *decreasing* this value, just DON'T (it's important for our test case)
+        $daysToGenerateVisitsFor = 10;
+        for($days = 2; $days < $daysToGenerateVisitsFor; $days++) {
+            $hoursOffset = $days * 24;
 
-        $visitorB->setUrlReferrer('http://referrer.com/Other_Page.htm');
-        $visitorB->setUrl('http://example.org/index.htm');
-        $visitorB->setGenerationTime(323);
-        self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
-        // Second page view 6 minutes later
-        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
-        $visitorB->setUrl('http://example.org/thankyou');
-        $visitorB->setGenerationTime(173);
-        self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
+            $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->getDatetime());
+            // visitor_returning is set to 1 only when visit count more than 1
+            // Temporary, until we implement 1st party cookies in PiwikTracker
+            $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Date::factory($dateTime)->getTimestamp();
 
-        // testing a strange combination causing an error in r3767
-        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.2)->getDatetime());
-        self::assertTrue($visitorB->doTrackAction('mailto:test@example.org', 'link'));
-        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
-        self::assertTrue($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
+            $visitorB->setUrlReferrer('http://referrer.com/Other_Page.htm');
+            $visitorB->setUrl('http://example.org/index.htm');
+            $visitorB->setGenerationTime(323);
+            self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
+            // Second page view 6 minutes later
+            $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.1)->getDatetime());
+            $visitorB->setUrl('http://example.org/thankyou');
+            $visitorB->setGenerationTime(173);
+            self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
 
-        // Actions.getPageTitle tested with this title
-        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
-        $visitorB->setGenerationTime(452);
-        self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
-        self::checkBulkTrackingResponse($visitorB->doBulkTrack());
+            // testing a strange combination causing an error in r3767
+            $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.2)->getDatetime());
+            self::assertTrue($visitorB->doTrackAction('mailto:test@example.org', 'link'));
+            $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.25)->getDatetime());
+            self::assertTrue($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
+
+            // Actions.getPageTitle tested with this title
+            $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.25)->getDatetime());
+            $visitorB->setGenerationTime(452);
+            self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
+            self::checkBulkTrackingResponse($visitorB->doBulkTrack());
+        }
     }
 
 

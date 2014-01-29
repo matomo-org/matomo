@@ -219,10 +219,254 @@
 				<nb_visits>0</nb_visits>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010">
+			<row>
+				<label>New visits</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>0 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_visits>1</nb_visits>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+		</result>
+		<result prettyDate="Thursday 7 January 2010">
+			<row>
+				<label>New visits</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>0 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_visits>1</nb_visits>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+		</result>
+		<result prettyDate="Friday 8 January 2010">
+			<row>
+				<label>New visits</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>0 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_visits>1</nb_visits>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+		</result>
+		<result prettyDate="Saturday 9 January 2010">
+			<row>
+				<label>New visits</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>0 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_visits>1</nb_visits>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+		</result>
 	</reportData>
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010" />
@@ -234,6 +478,6 @@
 		<result prettyDate="Saturday 9 January 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>3</nb_visits>
+		<nb_visits>7</nb_visits>
 	</reportTotal>
 </result>

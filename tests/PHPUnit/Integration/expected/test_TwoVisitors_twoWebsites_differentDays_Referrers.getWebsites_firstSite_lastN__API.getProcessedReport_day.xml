@@ -79,10 +79,54 @@
 				<revenue>$ 0</revenue>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010">
+			<row>
+				<label>referrer.com</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_actions_per_visit>5</nb_actions_per_visit>
+				<avg_time_on_site>00:15:01</avg_time_on_site>
+				<bounce_rate>0%</bounce_rate>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Thursday 7 January 2010">
+			<row>
+				<label>referrer.com</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_actions_per_visit>5</nb_actions_per_visit>
+				<avg_time_on_site>00:15:01</avg_time_on_site>
+				<bounce_rate>0%</bounce_rate>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Friday 8 January 2010">
+			<row>
+				<label>referrer.com</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_actions_per_visit>5</nb_actions_per_visit>
+				<avg_time_on_site>00:15:01</avg_time_on_site>
+				<bounce_rate>0%</bounce_rate>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Saturday 9 January 2010">
+			<row>
+				<label>referrer.com</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_actions_per_visit>5</nb_actions_per_visit>
+				<avg_time_on_site>00:15:01</avg_time_on_site>
+				<bounce_rate>0%</bounce_rate>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
 	</reportData>
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010" />
@@ -96,15 +140,31 @@
 				
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010">
+			<row>
+				
+			</row>
+		</result>
+		<result prettyDate="Thursday 7 January 2010">
+			<row>
+				
+			</row>
+		</result>
+		<result prettyDate="Friday 8 January 2010">
+			<row>
+				
+			</row>
+		</result>
+		<result prettyDate="Saturday 9 January 2010">
+			<row>
+				
+			</row>
+		</result>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>2</nb_visits>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_actions>7</nb_actions>
+		<nb_visits>6</nb_visits>
+		<nb_uniq_visitors>6</nb_uniq_visitors>
+		<nb_actions>27</nb_actions>
 		<nb_visits_converted>0</nb_visits_converted>
 		<bounce_count>0</bounce_count>
 	</reportTotal>

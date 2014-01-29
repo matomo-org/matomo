@@ -82,10 +82,86 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010">
+			<row>
+				<label>second visitor</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0.25s</avg_time_generation>
+			</row>
+			<row>
+				<label>Checkout</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.45s</avg_time_generation>
+			</row>
+		</result>
+		<result prettyDate="Thursday 7 January 2010">
+			<row>
+				<label>second visitor</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0.25s</avg_time_generation>
+			</row>
+			<row>
+				<label>Checkout</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.45s</avg_time_generation>
+			</row>
+		</result>
+		<result prettyDate="Friday 8 January 2010">
+			<row>
+				<label>second visitor</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0.25s</avg_time_generation>
+			</row>
+			<row>
+				<label>Checkout</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.45s</avg_time_generation>
+			</row>
+		</result>
+		<result prettyDate="Saturday 9 January 2010">
+			<row>
+				<label>second visitor</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0.25s</avg_time_generation>
+			</row>
+			<row>
+				<label>Checkout</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.45s</avg_time_generation>
+			</row>
+		</result>
 	</reportData>
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010" />
@@ -98,18 +174,46 @@
 				
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010">
+			<row>
+				
+			</row>
+			<row>
+				
+			</row>
+		</result>
+		<result prettyDate="Thursday 7 January 2010">
+			<row>
+				
+			</row>
+			<row>
+				
+			</row>
+		</result>
+		<result prettyDate="Friday 8 January 2010">
+			<row>
+				
+			</row>
+			<row>
+				
+			</row>
+		</result>
+		<result prettyDate="Saturday 9 January 2010">
+			<row>
+				
+			</row>
+			<row>
+				
+			</row>
+		</result>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>6</nb_visits>
+		<nb_visits>18</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
-		<nb_hits>6</nb_hits>
+		<nb_hits>18</nb_hits>
 		<entry_bounce_count>1</entry_bounce_count>
-		<entry_nb_visits>2</entry_nb_visits>
-		<entry_nb_actions>6</entry_nb_actions>
+		<entry_nb_visits>6</entry_nb_visits>
+		<entry_nb_actions>26</entry_nb_actions>
 		<exit_nb_visits>1</exit_nb_visits>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 	</reportTotal>

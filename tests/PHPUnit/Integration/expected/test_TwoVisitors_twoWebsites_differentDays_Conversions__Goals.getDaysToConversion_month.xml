@@ -16,27 +16,27 @@
 			</row>
 			<row>
 				<label>3 days</label>
-				<nb_conversions>0</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 			</row>
 			<row>
 				<label>4 days</label>
-				<nb_conversions>0</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 			</row>
 			<row>
 				<label>5 days</label>
-				<nb_conversions>0</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 			</row>
 			<row>
 				<label>6 days</label>
-				<nb_conversions>0</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 			</row>
 			<row>
 				<label>7 days</label>
-				<nb_conversions>0</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 			</row>
 			<row>
 				<label>8-14 days</label>
-				<nb_conversions>0</nb_conversions>
+				<nb_conversions>2</nb_conversions>
 			</row>
 			<row>
 				<label>15-30 days</label>

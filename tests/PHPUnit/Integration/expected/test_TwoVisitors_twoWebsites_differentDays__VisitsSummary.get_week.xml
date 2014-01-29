@@ -15,17 +15,28 @@
 		</result>
 		<result date="From 2010-01-04 to 2010-01-10">
 			<nb_uniq_visitors>2</nb_uniq_visitors>
-			<nb_visits>2</nb_visits>
-			<nb_actions>7</nb_actions>
+			<nb_visits>7</nb_visits>
+			<nb_actions>32</nb_actions>
 			<nb_visits_converted>0</nb_visits_converted>
 			<bounce_count>0</bounce_count>
-			<sum_visit_length>1262</sum_visit_length>
+			<sum_visit_length>5767</sum_visit_length>
 			<max_actions>5</max_actions>
 			<bounce_rate>0%</bounce_rate>
-			<nb_actions_per_visit>3.5</nb_actions_per_visit>
-			<avg_time_on_site>631</avg_time_on_site>
+			<nb_actions_per_visit>4.6</nb_actions_per_visit>
+			<avg_time_on_site>824</avg_time_on_site>
 		</result>
-		<result date="From 2010-01-11 to 2010-01-17" />
+		<result date="From 2010-01-11 to 2010-01-17">
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>10</nb_actions>
+			<nb_visits_converted>0</nb_visits_converted>
+			<bounce_count>0</bounce_count>
+			<sum_visit_length>1802</sum_visit_length>
+			<max_actions>5</max_actions>
+			<bounce_rate>0%</bounce_rate>
+			<nb_actions_per_visit>5</nb_actions_per_visit>
+			<avg_time_on_site>901</avg_time_on_site>
+		</result>
 		<result date="From 2010-01-18 to 2010-01-24" />
 		<result date="From 2010-01-25 to 2010-01-31" />
 		<result date="From 2010-02-01 to 2010-02-07" />
