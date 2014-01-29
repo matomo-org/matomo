@@ -55,7 +55,7 @@ class FakeAccess
      * @see FakeAccess::checkUserHasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
      */
-    public function checksUserIsSuperUser()
+    public function checkUserIsSuperUser()
     {
         self::checkUserHasSuperUserAccess();
     }
@@ -66,7 +66,7 @@ class FakeAccess
     }
 
     /**
-     * @see FakeAccess::checkUserHasSuperUserAccess()
+     * @see FakeAccess::setSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
      */
     public static function setSuperUser($bool = true)

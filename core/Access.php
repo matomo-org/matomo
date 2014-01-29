@@ -373,7 +373,7 @@ class Access
      * @see Access::checkUserHasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
      */
-    public function checksUserIsSuperUser()
+    public function checkUserIsSuperUser()
     {
         self::checkUserHasSuperUserAccess();
     }
