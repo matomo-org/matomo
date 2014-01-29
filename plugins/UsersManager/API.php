@@ -140,12 +140,14 @@ class API extends \Piwik\Plugin\API
         }
 
         $users = $this->model->getUsers($logins);
+
         // Non Super user can only access login & alias
         if (!Piwik::hasUserSuperUserAccess()) {
             foreach ($users as &$user) {
                 $user = array('login' => $user['login'], 'alias' => $user['alias']);
             }
         }
+
         return $users;
     }
 
@@ -476,9 +478,10 @@ class API extends \Piwik\Plugin\API
      */
     public function userExists($userLogin)
     {
-        if($userLogin == 'anonymous') {
+        if ($userLogin == 'anonymous') {
             return true;
         }
+
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 

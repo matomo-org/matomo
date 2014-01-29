@@ -181,12 +181,13 @@ class Model
     public function addUser($userLogin, $passwordTransformed, $email, $alias, $tokenAuth, $dateRegistered)
     {
         $user = array(
-            'login'           => $userLogin,
-            'password'        => $passwordTransformed,
-            'alias'           => $alias,
-            'email'           => $email,
-            'token_auth'      => $tokenAuth,
-            'date_registered' => $dateRegistered
+            'login'            => $userLogin,
+            'password'         => $passwordTransformed,
+            'alias'            => $alias,
+            'email'            => $email,
+            'token_auth'       => $tokenAuth,
+            'date_registered'  => $dateRegistered,
+            'superuser_access' => 0
         );
 
         $this->db->insert(Common::prefixTable("user"), $user);
