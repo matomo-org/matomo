@@ -169,7 +169,7 @@
                         {% if plugin.info.authors is defined %}
                         <div class="plugin-author">
                             <cite>By
-                            {% if plugin.info.authors is defined %}
+                            {% if plugin.info.authors is defined -%}
                             {% spaceless %}
                             {% for author in plugin.info.authors if author.name %}
                                 {% if author.homepage is defined %}
@@ -182,8 +182,7 @@
                                     {% endif %}
                             {% endfor %}
                             {% endspaceless %}
-                            {% endif %}
-                            .</cite>
+                            {%- endif %}.</cite>
                         </div>
                         {% endif %}
                     </td>
