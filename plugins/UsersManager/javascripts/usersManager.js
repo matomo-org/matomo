@@ -124,7 +124,7 @@ function updateSuperUserAccess(login, hasSuperUserAccess)
             id: 'usersManagerSuperUserAccessUpdated'
         });
         notification.scrollToNotification();
-        ajaxHandler.redirect();
+        piwikHelper.redirect();
     });
     ajaxHandler.setLoadingElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorSuperUsersManagement');
