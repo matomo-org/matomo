@@ -207,28 +207,32 @@ function ajaxHelper() {
      * @return {void}
      */
     this.redirectOnSuccess = function (params) {
-        this.setCallback(function(response) {
-            // add updated=X to the URL so that a "Your changes have been saved" message is displayed
-            if (typeof params == 'object') {
-                params = piwikHelper.getQueryStringFromParameters(params);
-            }
-            var urlToRedirect = piwikHelper.getCurrentQueryStringWithParametersModified(params);
-            var updatedUrl = new RegExp('&updated=([0-9]+)');
-            var updatedCounter = updatedUrl.exec(urlToRedirect);
-            if (!updatedCounter) {
-                urlToRedirect += '&updated=1';
-            } else {
-                updatedCounter = 1 + parseInt(updatedCounter[1]);
-                urlToRedirect = urlToRedirect.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
-            }
-            var currentHashStr = window.location.hash;
-            if(currentHashStr.length > 0) {
-                urlToRedirect += currentHashStr;
-            }
-            piwikHelper.redirectToUrl(urlToRedirect);
+        var self = this;
+        this.setCallback(function() {
+            self.redirect(params);
         });
     };
 
+    this.redirect = function (params) {
+        // add updated=X to the URL so that a "Your changes have been saved" message is displayed
+        if (typeof params == 'object') {
+            params = piwikHelper.getQueryStringFromParameters(params);
+        }
+        var urlToRedirect = piwikHelper.getCurrentQueryStringWithParametersModified(params);
+        var updatedUrl = new RegExp('&updated=([0-9]+)');
+        var updatedCounter = updatedUrl.exec(urlToRedirect);
+        if (!updatedCounter) {
+            urlToRedirect += '&updated=1';
+        } else {
+            updatedCounter = 1 + parseInt(updatedCounter[1]);
+            urlToRedirect = urlToRedirect.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
+        }
+        var currentHashStr = window.location.hash;
+        if(currentHashStr.length > 0) {
+            urlToRedirect += currentHashStr;
+        }
+        piwikHelper.redirectToUrl(urlToRedirect);
+    }
 
     /**
      * Sets the callback called in case of an error within the request

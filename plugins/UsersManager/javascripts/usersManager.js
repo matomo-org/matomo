@@ -111,7 +111,21 @@ function updateSuperUserAccess(login, hasSuperUserAccess)
         method: 'UsersManager.setSuperUserAccess'
     }, 'GET');
     ajaxHandler.addParams(parameters, 'POST');
-    ajaxHandler.redirectOnSuccess();
+    ajaxHandler.setCallback(function () {
+
+        var UI = require('piwik/UI');
+        var notification = new UI.Notification();
+        notification.show(_pk_translate('General_Done'), {
+            placeat: '#superUserAccessUpdated',
+            context: 'success',
+            noclear: true,
+            type: 'toast',
+            style: {display: 'inline-block', marginTop: '10px', marginBottom: '30px'},
+            id: 'usersManagerSuperUserAccessUpdated'
+        });
+        notification.scrollToNotification();
+        ajaxHandler.redirect();
+    });
     ajaxHandler.setLoadingElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.send(true);
