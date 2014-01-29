@@ -199,6 +199,8 @@ class ArchiveProcessor
         }
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
+            $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
@@ -207,6 +209,9 @@ class ArchiveProcessor
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
             Common::destroy($table);
             $this->insertBlobRecord($recordName, $blob);
+
+            unset($blob);
+            DataTable\Manager::getInstance()->deleteAll($latestUsedTableId);
         }
 
         return $nameToCount;

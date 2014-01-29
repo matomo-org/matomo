@@ -193,9 +193,9 @@ class Access
     public static function getSqlAccessSite($select)
     {
         return "SELECT " . $select . "
-						  FROM " . Common::prefixTable('access') . " as t1
-							JOIN " . Common::prefixTable('site') . " as t2 USING (idsite) " .
-        " WHERE login = ?";
+				FROM " . Common::prefixTable('access') . " as t1
+				JOIN " . Common::prefixTable('site') . " as t2 USING (idsite) " .
+              " WHERE login = ?";
     }
 
     /**
@@ -285,7 +285,7 @@ class Access
         return $this->token_auth;
     }
 
-    static public function getAnyUserHavingSuperUserAccess()
+    protected function getAnySuperUserAccessLogin()
     {
         try {
             $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
@@ -293,24 +293,20 @@ class Access
             return;
         }
 
-        $firstSuperUser = array_shift($superUsers);
-
-        return $firstSuperUser;
-    }
-
-    public function getAnySuperUserAccessLogin()
-    {
-        $anySuperUser = $this->getAnyUserHavingSuperUserAccess();
-
-        if (empty($anySuperUser)) {
+        if (empty($superUsers)) {
             return;
         }
 
-        return $anySuperUser['login'];
+        $firstSuperUser = array_shift($superUsers);
+
+        if (empty($firstSuperUser)) {
+            return;
+        }
+
+        return $firstSuperUser['login'];
     }
 
     /**
-     * @see Access::getAnySuperUserAccessLogin()
      * @deprecated deprecated since version 2.0.4
      */
     public function getSuperUserLogin()
@@ -377,7 +373,7 @@ class Access
      * @see Access::checkUserHasSuperUserAccess()
      * @deprecated deprecated since version 2.0.4
      */
-    public function checksUserIsSuperUser()
+    public function checkUserIsSuperUser()
     {
         self::checkUserHasSuperUserAccess();
     }

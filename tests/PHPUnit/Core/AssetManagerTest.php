@@ -500,9 +500,9 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function test_getMergedCoreJavaScript_AlreadyGenerated_MergedAssetsDisabled_Stale()
+    public function test_getMergedCoreJavaScript_AlreadyGenerated_MergedAssetsActivated_Stale()
     {
-        $this->disableMergedAssets();
+        $this->activateMergedAssets();
 
         $this->setJSCacheBuster(self::FIRST_CACHE_BUSTER_JS);
 
@@ -534,8 +534,10 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_Stale()
+    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_State()
     {
+        $this->disableMergedAssets();
+
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
         $this->triggerGetMergedStylesheet();
@@ -552,9 +554,9 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_Stale()
+    public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_State()
     {
-        $this->disableMergedAssets();
+        $this->activateMergedAssets();
 
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
