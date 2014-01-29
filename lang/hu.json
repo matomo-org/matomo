@@ -529,7 +529,6 @@
         "ManuallyTriggeredUsingJavascriptFunction": "Nem automatikusan történő célteljesülést a JavaScript API trackGoal() funkciójával lehet létrehozni",
         "MatchesExpression": "egyezik ezzel a kifejezéssel: %s",
         "NewVisitorsConversionRateIs": "Új látogatók konverziós aránya %s",
-        "NoGoalsNeedAccess": "Csak adminisztrátor és superuser jogosultságokkal rendelkező felhasználó tud célokat létrehozni egy adott weboldallal kapcsolatban. Kérjük, keresd meg a Piwik adminisztrátorod, ha szeretnél célokat létrehozni ehhez az oldalhoz.<br>A célok követése nagyszerű lehetőséget ad megérteni, hogy mi zajlik a weboldalon, és ennek megfelelően maximalizálni az oldal teljesítményét!",
         "Optional": "(opcionális)",
         "OverallConversionRate": "%s az összesített konverziós arány (látogatások, melyek során teljesült a cél)",
         "OverallRevenue": "%s összesített bevétel",
@@ -662,7 +661,6 @@
     },
     "Login": {
         "ContactAdmin": "Lehetséges ok: talán a szolgáltatód tiltja a mail() funkciót. <br \/> Kérjük, lépj kapcsolatba a Piwik adminisztrátoroddal.",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "Adminisztrátor (Super User) autentikációja nem lehetséges a '%s' módszerrel.",
         "ExceptionPasswordMD5HashExpected": "A jelszóparaméternek egyeznie kellene a jelszó MD5 hash értékével.",
         "InvalidOrExpiredToken": "A kód érvénytelen vagy lejárt.",
         "InvalidUsernameEmail": "Helytelen felhasználói név és\/vagy e-mail cím",
@@ -672,7 +670,6 @@
         "LostYourPassword": "Elfelejtetted jelszavad?",
         "PasswordRepeat": "Jelszó (ismét)",
         "PasswordsDoNotMatch": "Nem egyeznek a jelszavak",
-        "PluginDescription": "Felhasználókat beléptető kiegészítő, mely a Mindenható felhasználó (Super User) belépési adatait a config\/config.inc.php fájlból olvassa, míg az összes többi felhasználó adatait az adatbázisból. Egyszerűen leváltható abban az esetben, ha más autentikációs megoldásra lenne szükség (pl. OpenID, htaccess, egyéni autentikációs megoldás, stb.).",
         "RememberMe": "Megjegyzés"
     },
     "MultiSites": {
@@ -775,7 +772,6 @@
         "SelectDefaultTimezone": "Kiválaszthatod, melyik legyen az alapértelmezett időzóna új weboldalak létrehozása esetén.",
         "ShowTrackingTag": "Követőkódok megjelenítése",
         "Sites": "Weboldalak",
-        "SuperUserCan": "A superuser felhasználó %s általános érvényű beállításokat %s is eszközölhet az új weboldalakhoz.",
         "Timezone": "Időzóna",
         "TrackingTags": "Követőkód a következő weboldalhoz: %s",
         "Urls": "URL-ek",
@@ -1302,7 +1298,6 @@
         "ExceptionInvalidLoginFormat": "A felhasználói név csak %1$s-%2$s karakter hosszúságú lehet, és csak betűket, számokat, aláhúzás, kötőjel és pont karaktereket tartalmazhat.",
         "ExceptionLoginExists": "'%s' nevű felhasználó már létezik.",
         "ExceptionPasswordMD5HashExpected": "Az UsersManager.getTokenAuth funkció MD5-hashed jelszót vár (32 karakter hosszúságban). Kérjük, alkalmazd a md5() funkciót a jelszón, mielőtt meghívod ezt a metódust.",
-        "ExceptionSuperUser": "A kért felhasználó egy superuser és így nem lehet lekérdezni, szerkeszteni vagy törölni az API-n keresztül. A superuser adatait csak kézzel tudod szerkeszteni a Piwik konfigurációs fájlban.",
         "ExceptionUserDoesNotExist": "'%s' nevű felhasználó nem létezik.",
         "ExcludeVisitsViaCookie": "Saját látogatások kiszűrése süti segítségével",
         "ForAnonymousUsersReportDateToLoadByDefault": "A névtelen felhasználók számára alkalmazott alapértelmezett időintervallum",
@@ -1319,7 +1314,6 @@
         "ReportDateToLoadByDefault": "Alapértelmezett időintervallum a betöltődő jelentésekhez",
         "ReportToLoadByDefault": "Alapértelmezettként betöltődő jelentés",
         "TheLoginScreen": "Belépési képernyő",
-        "TheSuperUserAliasCannotBeChanged": "A superuser felhasználói neve nem változtatható meg.",
         "TypeYourPasswordAgain": "Add meg az új jelszót még egyszer.",
         "User": "Felhasználó",
         "UsersManagement": "Felhasználókezelés",

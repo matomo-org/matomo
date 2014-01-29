@@ -255,7 +255,6 @@
         "EnglishLanguageName": "Bosnian",
         "Error": "Greška",
         "ErrorRequest": "Ups... problem prilikom zahtjeva, probaj ponovo.",
-        "ExceptionCheckUserIsSuperUserOrTheUser": "Korisnik nije super korisnik ili nije korisnik '%s'.",
         "ExceptionConfigurationFileNotFound": "Konfiguracijski fajl {%s} nije pronađen.",
         "ExceptionDatabaseVersion": "Vaša %1$s verzija je %2$s ali Piwik traži da bude barem %3$s.",
         "ExceptionFileIntegrity": "Integracijska provjera je zaustavljena: %s",

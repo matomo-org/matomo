@@ -581,7 +581,6 @@
         "ManuallyTriggeredUsingJavascriptFunction": "Objectivo é atingido manualmente utilizando o API JavaScript trackGoal()",
         "MatchesExpression": "corresponde à expressão %s",
         "NewVisitorsConversionRateIs": "Taxa de conversão para novos visitantes é %s",
-        "NoGoalsNeedAccess": "Apenas um Administrador ou Super Utilizador pode adicionar Objectivos",
         "Optional": "(opcional)",
         "OverallConversionRate": "%s taxa de conversão geral (visitas com um objectivo completo)",
         "OverallRevenue": "%s rendimento geral",
@@ -728,7 +727,6 @@
     },
     "Login": {
         "ContactAdmin": "Razão possível: o seu administrador desactivou a função mail(). <br \/>Por favor contacte o seu administrador Piwik.",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "O Super Utilizador não se pode autenticar com o mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "Espera-se que o parâmetro da palavra-passe seja uma hash MD5 da palavra-passe.",
         "InvalidNonceOrHeadersOrReferrer": "Erro de Segurança do formulário. Por favor, recarregar o formulário e verificar se os cookies estão activos. Se você usar um servidor proxy, você deve configurar %s Piwik para aceitar os cabeçalhos proxy %s que encaminha o cabeçalho do Host. Além disso, verifique se o cabeçalho Referer é enviado corretamente.",
         "InvalidOrExpiredToken": "A chave é inválida ou expirou.",
@@ -739,7 +737,6 @@
         "LostYourPassword": "Perdeu a sua palavra-passe?",
         "PasswordRepeat": "Palavra-passe (repetir)",
         "PasswordsDoNotMatch": "As palavras-passe não coincidem.",
-        "PluginDescription": "Plugin de Login de Autenticação, lê as credenciais do ficheiro config\/config.inc.php para o Super Utilizador, e da Base de Dados para outros utilizadores. Pode ser facilmente substituído por outro mecanismo de Autenticação (OpenID, htaccess, Auth personalizado, etc.).",
         "RememberMe": "Manter sessão iniciada"
     },
     "Mobile": {
@@ -906,7 +903,6 @@
         "SelectDefaultTimezone": "Pode seleccionar o fuso horário para ser pré-definido em websites novos.",
         "ShowTrackingTag": "mostrar tags de monitorização",
         "Sites": "Websites",
-        "SuperUserCan": "O Super Utilizador também pode %s especificar definições globais%s para websites novos.",
         "Timezone": "Fuso horário",
         "TrackingTags": "Tags de monitorização para %s",
         "Urls": "Endereços",
@@ -1441,7 +1437,6 @@
         "ExceptionInvalidPassword": "O senha deve ter entre %1$s e %2$s caracteres.",
         "ExceptionLoginExists": "O nome de utilizador '%s' já existe.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth está à espera de uma palavra-passe codificada em MD5 (cadeia de 32 caracteres). Por favor chame a função md5() sobre a palavra-passe antes de chamar este método.",
-        "ExceptionSuperUser": "O utilizador pedido é o Super Utilizador e não pode ser consultado, editado ou eliminado pelo API. Pode editar manualmente os detalhes do Super Utilizador no seu ficheiro de configuração Piwik.",
         "ExceptionUserDoesNotExist": "Utilizador '%s' não existe.",
         "ExcludeVisitsViaCookie": "Exclua as suas visitas com um cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Para utilizadores anónimos, data de relatório pré-definida para carregar",
@@ -1459,7 +1454,6 @@
         "ReportToLoadByDefault": "Relatório pré-definido para carregar",
         "TheLoginScreen": "O ecrã de entrada",
         "ThereAreCurrentlyNRegisteredUsers": "Neste momento, existem %s utilizadores registrados.",
-        "TheSuperUserAliasCannotBeChanged": "O nome do Super Utilizador não pode ser alterada.",
         "TypeYourPasswordAgain": "Introduza a sua nova palavra-passe de novo.",
         "User": "Utilizador",
         "UsersManagement": "Gestor de Utilizadores",

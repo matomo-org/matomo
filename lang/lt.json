@@ -459,7 +459,6 @@
         "ManuallyTriggeredUsingJavascriptFunction": "Uždavinys paleistas rankiniu būdu naudojantis JavaScript API trackGoal()",
         "MatchesExpression": "atitinka išraišką %s",
         "NewVisitorsConversionRateIs": "Naujų lankytojų konversijos koeficientas yra %s",
-        "NoGoalsNeedAccess": "Tik administratorius ir super naudotojas gali pridėti uždavinius nurodytoms svetainėms. Paprašykite savo Piwik administratoriaus pridėti uždavinį Jūsų svetainei. <br> Uždavinių stebėjimas yra puikus būdas suprasti ir maksimizuoti Jūsų svetainės įdirbį!",
         "Optional": "(papildoma)",
         "OverallConversionRate": "%s bendras konversijos koeficientas (apsilankymai su uždavinio užbaigimu)",
         "OverallRevenue": "%s bendros pajamos",
@@ -576,7 +575,6 @@
     },
     "Login": {
         "ContactAdmin": "Galima priežastis: Jūsų pagr. kompiuteryje (serveryje) gali būti išjungta mail() funkcija.<br \/>Prašome susisiekti su savo Piwik administratoriumi.",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "Super naudojas negali būti patikrintas naudojantis '%s' mechanizmu.",
         "InvalidOrExpiredToken": "Netinkamas arba pasibaigęs talonas",
         "InvalidUsernameEmail": "Netinkamas naudotojo vardas ir\/arba el. pašto adresas",
         "LogIn": "Prisijungti",
@@ -585,7 +583,6 @@
         "LostYourPassword": "Pamiršote slaptažodį?",
         "PasswordRepeat": "Slaptažodis (pakartoti)",
         "PasswordsDoNotMatch": "Slaptažodžiai nesutampa",
-        "PluginDescription": "Prisijungimo autentifikacijos papildinys, nuskaitantis prisijungimo informaciją iš config\/config.inc.php failo Super User'iui, ir iš duomenų bazės kitiems naudotojams. Galima lengvai pakeisti kitais autentifikacijos mechanizmais (OpenID, htaccess, custom Auth ir t.t.)",
         "RememberMe": "Prisiminti mane"
     },
     "MultiSites": {
@@ -708,7 +705,6 @@
         "SelectDefaultTimezone": "Galite pasirinkti numatytąją laiko juostą naujoms svetainėms.",
         "ShowTrackingTag": "parodyti sekimo gairę (tracking tag)",
         "Sites": "Svetainės",
-        "SuperUserCan": "Super naudotojas taip pat gali %s nustatyti globalias parinktis%s naujoms svetainėms.",
         "Timezone": "Laiko juosta",
         "TrackingTags": "Sekimo žymės skirtos %s",
         "Urls": "Adresai (URLs)",
@@ -1235,7 +1231,6 @@
         "ExceptionInvalidEmail": "Netinkamas el. pašto formatas.",
         "ExceptionInvalidLoginFormat": "Registracijos vardas turi būti sudarytas iš %1$s - %2$s simbolių ir gali turėti raides, skaičius, arba simbolius '_', '-', '.'",
         "ExceptionLoginExists": "Registracijos vardas '%s' jau yra.",
-        "ExceptionSuperUser": "Pageidaujamas naudotojas yra Super Naudotojas, todėl negali būti klausiamas, keičiamas ar šalinamas per API sąsają. Super Naudotojo duomenis galite keisti rankiniu būdu Piwik konfigūraciniame faile.",
         "ExceptionUserDoesNotExist": "Naudotojas '%s' neegzistuoja.",
         "ExcludeVisitsViaCookie": "Neįtraukite savo apsilankymų pasinaudoję slapuku",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jei norite pakeisti slaptažodį, įrašykite naują. Jei ne, palikite laukelį tuščią.",
@@ -1249,7 +1244,6 @@
         "PrivNone": "Neleidžiama",
         "PrivView": "Matyti",
         "TheLoginScreen": "Prisijungimo langas",
-        "TheSuperUserAliasCannotBeChanged": "Alternatyvus super naudotojo vardas negali būti pakeistas.",
         "TypeYourPasswordAgain": "Pakartokite savo naują slaptažodį.",
         "User": "Naudotojas",
         "UsersManagement": "Naudotojų valdymas",
