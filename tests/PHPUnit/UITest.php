@@ -20,6 +20,7 @@ abstract class UITest extends IntegrationTestCase
     const CAPTURE_PROGRAM = 'phantomjs';
     const SCREENSHOT_GROUP_SIZE = 12;
     const DEBUG_IMAGE_MAGICK_COMPARE = true;
+    const GENERATE_ZEITGEIST = true;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
     private static $imageMagickAvailable = false;
@@ -63,8 +64,19 @@ abstract class UITest extends IntegrationTestCase
 
         // run slimerjs/phantomjs w/ all urls so we only invoke it once per 25 entries (travis needs
         // there to be output)
-        $urlsToTest = static::getUrlsForTesting();
+        static::generateScreenshots();
 
+        // check if image magick available
+        self::$imageMagickAvailable = self::checkImageMagickAvailable();
+
+        // remove existing diffs
+        self::removeExistingDiffs();
+    }
+
+    public static function generateScreenshots()
+    {
+        $urlsToTest = static::getUrlsForTesting();
+        
         reset($urlsToTest);
         for ($i = 0; $i < count($urlsToTest); $i += self::SCREENSHOT_GROUP_SIZE) {
             $urls = array();
@@ -86,16 +98,18 @@ abstract class UITest extends IntegrationTestCase
                 $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
 
                 // Screenshot Zeitgeist
-                list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name, "Zeitgeist/");
-                $enableZeitgeist = "&zeitgeist=1";
-                // Add the parameter to the query string, not the hash
-                if(($hash = strpos($testUrl, '#')) !== false) {
-                    $testUrl = substr($testUrl, 0, $hash) . $enableZeitgeist . substr($testUrl, $hash);
-                } else {
-                    $testUrl .= $enableZeitgeist;
-                }
+                if (self::GENERATE_ZEITGEIST) {
+                    list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name, "Zeitgeist/");
+                    $enableZeitgeist = "&zeitgeist=1";
+                    // Add the parameter to the query string, not the hash
+                    if(($hash = strpos($testUrl, '#')) !== false) {
+                        $testUrl = substr($testUrl, 0, $hash) . $enableZeitgeist . substr($testUrl, $hash);
+                    } else {
+                        $testUrl .= $enableZeitgeist;
+                    }
 
-                $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
+                    $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
+                }
 
                 next($urlsToTest);
                 echo ".";
@@ -104,12 +118,6 @@ abstract class UITest extends IntegrationTestCase
 
             self::runCaptureProgram($urls);
         }
-
-        // check if image magick available
-        self::$imageMagickAvailable = self::checkImageMagickAvailable();
-
-        // remove existing diffs
-        self::removeExistingDiffs();
     }
 
     public static function removeExistingDiffs()
@@ -151,7 +159,7 @@ abstract class UITest extends IntegrationTestCase
         Db::get()->closeConnection();
     }
     
-    private static function runCaptureProgram($urlInfo)
+    protected static function runCaptureProgram($urlInfo)
     {
         file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/urls.txt', json_encode($urlInfo));
         $cmd = self::CAPTURE_PROGRAM . " \"" . PIWIK_INCLUDE_PATH . "/tests/resources/screenshot-capture/capture.js\" 2>&1";
@@ -221,7 +229,7 @@ abstract class UITest extends IntegrationTestCase
         return $result === 0 || $result === 1;
     }
 
-    private static function getProcessedAndExpectedScreenshotPaths($name, $pathSuffix = '')
+    protected static function getProcessedAndExpectedScreenshotPaths($name, $pathSuffix = '')
     {
         list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
 
