@@ -113,7 +113,6 @@
         "InjectedHostEmailSubject": "Piwik a fost acesat de pe un hostname necunoscut: %s",
         "LongMonthFormat": "%longMonth% %longYear%",
         "MakeOneTimeDonation": "În schimb, donează o dată (fără subscriere).",
-        "OnlyForAdmin": "Acest widget este accesibil doar ţie, utilizator privilegiat.",
         "PageOf": "%1$s din %2$s",
         "PeriodDay": "Zi",
         "PeriodDays": "zile",
@@ -380,7 +379,6 @@
         "Error": "Eroare",
         "ErrorRequest": "Oops… problem during the request, please try again.",
         "EvolutionOverPeriod": "Evolutii peste perioada",
-        "ExceptionCheckUserIsSuperUserOrTheUser": "Utilizatorul trebuie să fie ori Super User ori utilizatorul '%s' însuşi.",
         "ExceptionConfigurationFileNotFound": "Fisierul de configurare {%s} nu a fost gasit.",
         "ExceptionDatabaseVersion": "Versiunea dvs. %1$s este %2$s dar Piwik necesita minim %3$s.",
         "ExceptionFileIntegrity": "A esuat verificare integritatii: %s",
@@ -724,7 +722,6 @@
     },
     "Login": {
         "ContactAdmin": "Motiv posibil: gazda ta poate avea dezactivata functia email . <br\/>Contactati adminstratorul.",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "Super Userul nu poate fi autentificat folosind '%s' mecanism.",
         "ExceptionPasswordMD5HashExpected": "Parametrul parolei este aşteptat să fie un hash MD5 al parolei.",
         "InvalidOrExpiredToken": "Jetonul este invalid sau expirat.",
         "InvalidUsernameEmail": "Nume sau adresa email invalidă.",
@@ -736,7 +733,6 @@
         "PasswordChanged": "Parola ta a fost schimbată",
         "PasswordRepeat": "Parolă (repetă)",
         "PasswordsDoNotMatch": "Parolele nu se potrivesc.",
-        "PluginDescription": "Modul de autentintificare, ce citeşte credenţialele din fişierul config\/config.inc.php pentru Super User şi din Baza de date pentru alţi useri. Poate fi uşor schimbat pentru a folosi un nou mecanism de Autentificare (OpenID, htaccess, custom Auth, etc.).",
         "RememberMe": "Ţine-mă minte",
         "ResetPasswordInstructions": "Introduce o parolă nouă pentru contul tău."
     },

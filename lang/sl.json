@@ -322,7 +322,6 @@
         "EnglishLanguageName": "Slovenian",
         "Error": "Napaka",
         "ErrorRequest": "Opa... Med zahtevo je prišlo do napake. Prosimo, poskusite znova.",
-        "ExceptionCheckUserIsSuperUserOrTheUser": "Uporabnik mora biti administrator ali uporabnik '%s'.",
         "ExceptionConfigurationFileNotFound": "Konfiguracijska datoteka {%s} ni bila najdena.",
         "ExceptionDatabaseVersion": "Vaša %1$s različica je %2$s, vendar Piwik potrebuje vsaj %3$s.",
         "ExceptionFileIntegrity": "Preverjanje integritete ni bilo uspešno: %s",

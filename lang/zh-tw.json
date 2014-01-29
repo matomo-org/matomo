@@ -465,7 +465,6 @@
         "ManuallyTriggeredUsingJavascriptFunction": "手動觸發的目標是使用 JavaScript API trackGoal()",
         "MatchesExpression": "表達式符合 %s",
         "NewVisitorsConversionRateIs": "新訪客轉換率為 %s",
-        "NoGoalsNeedAccess": "只有管理員或超級使用者能為網站新增目標。請詢問你的 Piwik 管理員來協助設定你的網站目標。<br \/>追蹤目標是一個絕佳的方式，幫忙瞭解及最大化你的網站效益！",
         "Optional": "（選用）",
         "OverallConversionRate": "%s 總轉換率（訪問一個完整的目標）",
         "OverallRevenue": "%s 總收益",
@@ -578,7 +577,6 @@
     },
     "Login": {
         "ContactAdmin": "可能原因：您的伺服主機可能已經停用了 mail() 函式。<br \/>請聯絡您的 Piwik 管理員！",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "超級使用者無法以 '%s' 機制通過身份驗證。",
         "ExceptionPasswordMD5HashExpected": "密碼參數會是一個 MD5 雜湊加密的密碼！",
         "InvalidOrExpiredToken": "權杖不正確或已過期！",
         "InvalidUsernameEmail": "無效的使用者名稱 和\/或 E-mail 位址",
@@ -588,8 +586,7 @@
         "LostYourPassword": "遺失了您的密碼嗎？",
         "MailTopicPasswordChange": "確認密碼變更",
         "PasswordRepeat": "密碼（再次輸入）",
-        "PasswordsDoNotMatch": "密碼並不相符！",
-        "PluginDescription": "登入驗證外掛，超級使用者從 config\/config.inc.php 檔案讀取憑證，其他使用者則從資料庫。可以很容易取代或導入新的驗證機制（OpenID, htaccess, 自訂驗證等等）。"
+        "PasswordsDoNotMatch": "密碼並不相符！"
     },
     "Mobile": {
         "AccessUrlLabel": "Piwik 存取網址",
@@ -701,7 +698,6 @@
         "SelectDefaultTimezone": "你可以為新的網站選擇預設的時區。",
         "ShowTrackingTag": "顯示追蹤程式碼",
         "Sites": "網站",
-        "SuperUserCan": "超級使用者也可以為新網站 %s 指定全域設定%s。",
         "Timezone": "時區",
         "TrackingTags": "%s 的追蹤程式碼",
         "Urls": "URL 位址",
@@ -1226,7 +1222,6 @@
         "ExceptionInvalidLoginFormat": "登入帳號的長度必須介於 %1$s 至 %2$s 字元之間，並且只能包含字母、數字或字元 '_' 或 '-' 或 '.' 。",
         "ExceptionLoginExists": "登入帳號 '%s' 已經存在。",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth 是以MD5加密的密碼（32個字元字串）。在使用此方法前請先呼叫 md5() 函式。",
-        "ExceptionSuperUser": "請求的使用者為超級使用者且無法被查詢，請透過應用程式介面 API 編輯或刪除。 你可以在你的 Piwik 設定檔手動編輯超級使用者。",
         "ExceptionUserDoesNotExist": "使用者 '%s' 不存在。",
         "ExcludeVisitsViaCookie": "以 cookie 排除你的訪問紀錄",
         "ForAnonymousUsersReportDateToLoadByDefault": "對於匿名用戶預設載入日期",
@@ -1243,7 +1238,6 @@
         "ReportDateToLoadByDefault": "預設載入日期",
         "ReportToLoadByDefault": "預設載入報表",
         "TheLoginScreen": "登入畫面",
-        "TheSuperUserAliasCannotBeChanged": "超級使用者的別名無法變更。",
         "TypeYourPasswordAgain": "再輸入一次新的密碼。",
         "User": "使用者",
         "UsersManagement": "使用者管理",

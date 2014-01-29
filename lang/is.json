@@ -336,7 +336,6 @@
     },
     "Login": {
         "ContactAdmin": "Möguleg ástæða: þjónninn þinn gæti hafa slökkt á mail() fallinu. <br\/>Vinsamlegast hafðu samband við umsjónarmann Piwik þjónsins.",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "Ekki er hægt að auðkenna yfirnotandan með '%s' aðferðinni.",
         "ExceptionPasswordMD5HashExpected": "Búist er við að lykilorðs færibreytan sé MD5 dulmál af lykilorðinu.",
         "InvalidUsernameEmail": "Ekki gilt notendanafn og\/eða tölvupóstfang",
         "LogIn": "Innskrá",

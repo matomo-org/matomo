@@ -24,7 +24,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
-        $this->markTestSkipped('');
     }
 
     function getTestDataForLanguageFiles()

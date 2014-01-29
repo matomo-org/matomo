@@ -735,7 +735,6 @@
         "ManuallyTriggeredUsingJavascriptFunction": "JavaScript API の trackGoal() を使用した手動トリガー",
         "MatchesExpression": "正規表現 %s に一致する",
         "NewVisitorsConversionRateIs": "新規ビジターのコンバージョン率は %s です",
-        "NoGoalsNeedAccess": "管理者またはスーパーユーザーのみが、特定のウェブサイト用の目標を追加することができます。 あなたのウェブサイト用の目標をセットアップするように、Piwik 管理者に依頼してください。<br \/>トラッキング目標は、あなたのウェブサイトのパフォーマンスを理解し、最大限にするのを支援する、素晴らしい方法です！",
         "Optional": "（オプション）",
         "OverallConversionRate": "%s 総コンバージョン率（目標達成ビジット）",
         "OverallRevenue": "%s 総収益",
@@ -886,7 +885,6 @@
     },
     "Login": {
         "ContactAdmin": "考えられる理由： ホストで mail() 関数が無効にされている可能性があります。<br \/>Piwik 管理者にご連絡ください。",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "スーパーユーザーは、'%s'メカニズムを使用した認証はできません。",
         "ExceptionPasswordMD5HashExpected": "パスワードパラメータは、パスワードの MD5 ハッシュ値であることを想定されています。",
         "InvalidOrExpiredToken": "トークンが無効または期限切れです。",
         "InvalidUsernameEmail": "ユーザー名またはメールアドレスが無効です",
@@ -896,7 +894,6 @@
         "LostYourPassword": "パスワードをお忘れですか？",
         "PasswordRepeat": "パスワード（再入力）",
         "PasswordsDoNotMatch": "パスワードが一致しません。",
-        "PluginDescription": "ログイン認証プラグインは信用証明物を、スーパーユーザー用はconfig\/config.inc.php から、その他のユーザー用はデータベースから読み込みます。 別の認証メカニズム（OpenID、htaccess、カスタム認証等）を導入したい場合は、簡単に置き換えることができます。",
         "RememberMe": "次回の入力を省略"
     },
     "Mobile": {
@@ -1100,7 +1097,6 @@
         "SelectDefaultTimezone": "新しいウェブサイトのデフォルトとして選択される、タイムゾーンを選択します。",
         "ShowTrackingTag": "トラッキングタグを表示",
         "Sites": "ウェブサイト",
-        "SuperUserCan": "スーパーユーザーは、新しいウェブサイト用の%s全般設定を指定%sすることができます。",
         "Timezone": "タイムゾーン",
         "TrackingTags": "%s 用トラッキングタグ",
         "Urls": "URL",
@@ -1639,7 +1635,6 @@
         "ExceptionInvalidPassword": "パスワードの長さは %1$s〜%2$s 文字である必要があります。",
         "ExceptionLoginExists": "ユーザー名 '%s' はすでに存在します。",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth は、MD5 ハッシュ値のパスワード（32文字長の文字列）を想定しています。 このメソッドをコールする前に、パスワードに対して md5() 関数をコールしてください。",
-        "ExceptionSuperUser": "要求されたユーザーはスーパーユーザーであり、API 経由で照会、編集、削除することはできません。 Piwik 設定ファイルで、スーパーユーザーの詳細を手作業で編集することができます。",
         "ExceptionUserDoesNotExist": "ユーザー '%s' は存在しません。",
         "ExcludeVisitsViaCookie": "自分自身のビジットを除外（Cookie 使用）",
         "ForAnonymousUsersReportDateToLoadByDefault": "anonymous ユーザー用にデフォルトで読み込むリポートの日付",
@@ -1657,7 +1652,6 @@
         "ReportToLoadByDefault": "デフォルトで読み込むリポート",
         "TheLoginScreen": "ログイン画面",
         "ThereAreCurrentlyNRegisteredUsers": "現在 %s 名のユーザーが登録されています。",
-        "TheSuperUserAliasCannotBeChanged": "スーパーユーザーのエイリアスを変更することはできません。",
         "TypeYourPasswordAgain": "新しいパスワードを再入力します。",
         "User": "ユーザー",
         "UsersManagement": "ユーザーの管理",
