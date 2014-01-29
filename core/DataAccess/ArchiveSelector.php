@@ -151,8 +151,7 @@ class ArchiveSelector
     {
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
-                              WHERE period = ?
-                                AND %s
+                              WHERE %s
                                 AND " . self::getNameCondition($plugins, $segment) . "
                                 AND idsite IN (" . implode(',', $siteIds) . ")
                            GROUP BY idsite, date1, date2";
@@ -169,19 +168,48 @@ class ArchiveSelector
         foreach ($monthToPeriods as $table => $periods) {
             $firstPeriod = reset($periods);
 
-            // if looking for a range archive. NOTE: we assume there's only one period if its a range.
-            $bind = array($firstPeriod->getId());
+            $bind = array();
+
             if ($firstPeriod instanceof Range) {
-                $dateCondition = "date1 = ? AND date2 = ?";
+                $dateCondition = "period = ? AND date1 = ? AND date2 = ?";
+                $bind[] = $firstPeriod->getId();
                 $bind[] = $firstPeriod->getDateStart()->toString('Y-m-d');
                 $bind[] = $firstPeriod->getDateEnd()->toString('Y-m-d');
-            } else { // if looking for a normal period
-                $dateStrs = array();
+            } else {
+                // we assume there is no range date in $periods
+                $dateStrs  = array();
+                $dayPeriod = null;
+                $dateCondition = '(';
+
                 foreach ($periods as $period) {
-                    $dateStrs[] = $period->getDateStart()->toString('Y-m-d');
+                    if ($period instanceof Period\Day) {
+                        $dateStrs[] = $period->getDateStart()->toString('Y-m-d');
+                        $dayPeriod  = $period;
+                    }
                 }
 
-                $dateCondition = "date1 IN ('" . implode("','", $dateStrs) . "')";
+                if (!empty($dayPeriod) && !empty($dateStrs)) {
+                    $bind[] = $dayPeriod->getId();
+                    $dateCondition .= "(period = ? AND date1 IN ('" . implode("','", $dateStrs) . "'))";
+                }
+
+                reset($periods);
+                foreach ($periods as $period) {
+                    if ($period instanceof Period\Week || $period instanceof Period\Month || $period instanceof Period\Year) {
+
+                        if (strlen($dateCondition) > 5) {
+                            $dateCondition .= ' OR ';
+                        }
+
+                        $dateCondition .= "(period = ? AND date1 = ? AND date2 = ?)";
+                        $bind[] = $period->getId();
+                        $bind[] = $period->getDateStart()->toString('Y-m-d');
+                        $bind[] = $period->getDateEnd()->toString('Y-m-d');
+                    }
+                }
+
+                $dateCondition .= ')';
+
             }
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
