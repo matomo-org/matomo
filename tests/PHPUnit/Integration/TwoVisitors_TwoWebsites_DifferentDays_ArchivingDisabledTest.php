@@ -29,6 +29,10 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
 
         $periods = array('day', 'week', 'month', 'year');
 
+        $dateStart = \Piwik\Date::factory($dateTime)->subDay(10)->toString();
+        $dateEnd = \Piwik\Date::factory($dateTime)->addDay(15)->toString();
+        $dateRange = $dateStart . "," . $dateEnd;
+
         return array(
             // disable archiving & check that there is no archive data
             array('VisitsSummary.get', array('idSite'           => 'all',
@@ -50,6 +54,26 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
                                              'periods'          => $periods,
                                              'disableArchiving' => true,
                                              'testSuffix'       => '_disabledAfter')),
+
+
+            // Testing this particular bug: http://dev.piwik.org/trac/ticket/4532
+            // ENABLE ARCHIVING and Process this custom date range.
+            array('VisitsSummary.get', array('idSite'           => 'all',
+                                             'date'             => $dateRange,
+                                             'periods'          => array('range'),
+                                             'disableArchiving' => false,
+                                             'testSuffix'       => '_enabledBefore_isDateRange')),
+
+            // DISABLE Archiving + DELETE Date range archives before this test.
+            // This should return the same data as the test above!
+            array('VisitsSummary.get', array('idSite'           => 'all',
+                                             'date'             => $dateRange,
+                                             'periods'          => array('range'),
+                                             'disableArchiving' => true,
+                                             'hackDeleteRangeArchivesBefore' => true,
+                                             'testSuffix'       => '_disabledBefore_isDateRange')),
+
+
         );
     }
 

@@ -134,7 +134,7 @@ class Controller extends \Piwik\Plugin\Controller
         $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
 
         // maximum number of visits to be displayed in the map
-        $maxVisits = Common::getRequestVar('format_limit', 100, 'int');
+        $maxVisits = Common::getRequestVar('filter_limit', 100, 'int');
 
         // some translations
         $locale = array(

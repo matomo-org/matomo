@@ -110,9 +110,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickResults()
     {
-        Request::reloadAuthUsingTokenAuth($_POST);
-        Piwik::checkUserHasSuperUserAccess();
-
         $view = new View('@CoreUpdater/oneClickResults');
         $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));

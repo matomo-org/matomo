@@ -132,10 +132,82 @@
 				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010">
+			<row>
+				<label>Site 1</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_pageviews>5</nb_pageviews>
+				<revenue>$ 5</revenue>
+				<visits_evolution>0%</visits_evolution>
+				<actions_evolution>0%</actions_evolution>
+				<pageviews_evolution>0%</pageviews_evolution>
+				<revenue_evolution>0%</revenue_evolution>
+				<nb_conversions>0</nb_conversions>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders>0</orders>
+				<orders_evolution>0</orders_evolution>
+				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
+			</row>
+		</result>
+		<result prettyDate="Thursday 7 January 2010">
+			<row>
+				<label>Site 1</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_pageviews>5</nb_pageviews>
+				<revenue>$ 5</revenue>
+				<visits_evolution>0%</visits_evolution>
+				<actions_evolution>0%</actions_evolution>
+				<pageviews_evolution>0%</pageviews_evolution>
+				<revenue_evolution>0%</revenue_evolution>
+				<nb_conversions>0</nb_conversions>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders>0</orders>
+				<orders_evolution>0</orders_evolution>
+				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
+			</row>
+		</result>
+		<result prettyDate="Friday 8 January 2010">
+			<row>
+				<label>Site 1</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_pageviews>5</nb_pageviews>
+				<revenue>$ 5</revenue>
+				<visits_evolution>0%</visits_evolution>
+				<actions_evolution>0%</actions_evolution>
+				<pageviews_evolution>0%</pageviews_evolution>
+				<revenue_evolution>0%</revenue_evolution>
+				<nb_conversions>0</nb_conversions>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders>0</orders>
+				<orders_evolution>0</orders_evolution>
+				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
+			</row>
+		</result>
+		<result prettyDate="Saturday 9 January 2010">
+			<row>
+				<label>Site 1</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>5</nb_actions>
+				<nb_pageviews>5</nb_pageviews>
+				<revenue>$ 5</revenue>
+				<visits_evolution>0%</visits_evolution>
+				<actions_evolution>0%</actions_evolution>
+				<pageviews_evolution>0%</pageviews_evolution>
+				<revenue_evolution>0%</revenue_evolution>
+				<nb_conversions>0</nb_conversions>
+				<nb_conversions_evolution>0</nb_conversions_evolution>
+				<orders>0</orders>
+				<orders_evolution>0</orders_evolution>
+				<ecommerce_revenue>$ 0</ecommerce_revenue>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
+			</row>
+		</result>
 	</reportData>
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
@@ -156,13 +228,29 @@
 				<idsite>1</idsite>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010">
+			<row>
+				<idsite>1</idsite>
+			</row>
+		</result>
+		<result prettyDate="Thursday 7 January 2010">
+			<row>
+				<idsite>1</idsite>
+			</row>
+		</result>
+		<result prettyDate="Friday 8 January 2010">
+			<row>
+				<idsite>1</idsite>
+			</row>
+		</result>
+		<result prettyDate="Saturday 9 January 2010">
+			<row>
+				<idsite>1</idsite>
+			</row>
+		</result>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>4</nb_visits>
-		<nb_actions>11</nb_actions>
+		<nb_visits>8</nb_visits>
+		<nb_actions>31</nb_actions>
 	</reportTotal>
 </result>

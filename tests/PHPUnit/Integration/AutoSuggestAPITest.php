@@ -52,7 +52,8 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
             $apiForTesting[] = array('Live.getLastVisitsDetails',
                                      array('idSite' => $idSite,
                                            'date'   => date('Y-m-d', strtotime(self::$fixture->dateTime)),
-                                           'period' => 'year'));
+                                           'period' => 'year',
+                                           'otherRequestParameters' => array('filter_limit' => 1000)));
 
         }
         return $apiForTesting;

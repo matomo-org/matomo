@@ -3,10 +3,10 @@
 	<result date="2010">
 		<row>
 			<label>Site 1</label>
-			<nb_visits>3</nb_visits>
-			<nb_actions>8</nb_actions>
-			<nb_pageviews>8</nb_pageviews>
-			<revenue>15</revenue>
+			<nb_visits>10</nb_visits>
+			<nb_actions>43</nb_actions>
+			<nb_pageviews>43</nb_pageviews>
+			<revenue>50</revenue>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>

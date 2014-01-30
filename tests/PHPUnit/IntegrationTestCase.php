@@ -1018,6 +1018,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
         }
 
+        if(!empty($params['hackDeleteRangeArchivesBefore'])) {
+            Db::query('delete from '. Common::prefixTable('archive_numeric_2009_12') . ' where period = 5');
+            Db::query('delete from '. Common::prefixTable('archive_blob_2009_12') . ' where period = 5');
+        }
+
         if (isset($params['language'])) {
             $this->changeLanguage($params['language']);
         }
