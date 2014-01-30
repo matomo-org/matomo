@@ -177,39 +177,20 @@ class ArchiveSelector
                 $bind[] = $firstPeriod->getDateEnd()->toString('Y-m-d');
             } else {
                 // we assume there is no range date in $periods
-                $dateStrs  = array();
-                $dayPeriod = null;
                 $dateCondition = '(';
 
                 foreach ($periods as $period) {
-                    if ($period instanceof Period\Day) {
-                        $dateStrs[] = $period->getDateStart()->toString('Y-m-d');
-                        $dayPeriod  = $period;
+                    if (strlen($dateCondition) > 1) {
+                        $dateCondition .= ' OR ';
                     }
-                }
 
-                if (!empty($dayPeriod) && !empty($dateStrs)) {
-                    $bind[] = $dayPeriod->getId();
-                    $dateCondition .= "(period = ? AND date1 IN ('" . implode("','", $dateStrs) . "'))";
-                }
-
-                reset($periods);
-                foreach ($periods as $period) {
-                    if ($period instanceof Period\Week || $period instanceof Period\Month || $period instanceof Period\Year) {
-
-                        if (strlen($dateCondition) > 5) {
-                            $dateCondition .= ' OR ';
-                        }
-
-                        $dateCondition .= "(period = ? AND date1 = ? AND date2 = ?)";
-                        $bind[] = $period->getId();
-                        $bind[] = $period->getDateStart()->toString('Y-m-d');
-                        $bind[] = $period->getDateEnd()->toString('Y-m-d');
-                    }
+                    $dateCondition .= "(period = ? AND date1 = ? AND date2 = ?)";
+                    $bind[] = $period->getId();
+                    $bind[] = $period->getDateStart()->toString('Y-m-d');
+                    $bind[] = $period->getDateEnd()->toString('Y-m-d');
                 }
 
                 $dateCondition .= ')';
-
             }
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);

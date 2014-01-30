@@ -294,7 +294,7 @@
                 <br/>
             {% elseif infos.extra.geolocation_using_non_recommended %}
                 {{ warning }}
-                <span class="warn">Geolocation works, but you are not using one of the recommended providers.
+                <span class="warn">{{ 'UserCountry_GeoIpLocationProviderNotRecomnended'|translate }}
                     {{ 'UserCountry_GeoIpLocationProviderDesc_ServerBased2'|translate('<a href="http://piwik.org/docs/geo-locate/" target="_blank">', '', '', '</a>')|raw }}</span>
                 <br/>
             {% else %}

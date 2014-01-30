@@ -700,9 +700,11 @@ class Plugin extends \Piwik\Plugin
         if (empty($_SERVER['HTTP_USER_AGENT'])) {
             return;
         }
-        require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
-        $os = \UserAgentParser::getOperatingSystem($_SERVER['HTTP_USER_AGENT']);
-        if ($os && in_array($os['id'], array('AND', 'IPD', 'IPA', 'IPH'))) {
+        require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php';
+        $ua = new \UserAgentParserEnhanced($_SERVER['HTTP_USER_AGENT']);
+        $ua->parse();
+        $os = $ua->getOs('short_name');
+        if ($os && in_array($os, array('AND', 'IOS'))) {
             MenuTop::addEntry('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
         }
     }
