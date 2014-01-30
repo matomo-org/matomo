@@ -64,11 +64,15 @@ PIWIK_CRON_FOLDER=`dirname ${ARCHIVE}`
 PIWIK_PATH="$PIWIK_CRON_FOLDER"/../../index.php
 PIWIK_CONFIG="$PIWIK_CRON_FOLDER"/../../config/config.ini.php
 
-PIWIK_SUPERUSER=`sed '/^\[superuser\]/,$!d;/^login[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
-PIWIK_SUPERUSER_MD5_PASSWORD=`sed '/^\[superuser\]/,$!d;/^password[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
+DB_USERNAME=`sed '/^\[database\]/,$!d;/^username[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
+DB_PASSWORD=`sed '/^\[database\]/,$!d;/^password[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
+DB_HOST=`sed '/^\[database\]/,$!d;/^host[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
+DB_NAME=`sed '/^\[database\]/,$!d;/^dbname[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
+DB_TABLEPREFIX=`sed '/^\[database\]/,$!d;/^tables_prefix[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
+DB_USERTABLE=${DB_TABLEPREFIX}user
 
-CMD_TOKEN_AUTH="$PHP_BIN -q $PIWIK_PATH -- module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
-TOKEN_AUTH=`$CMD_TOKEN_AUTH`
+PIWIK_SUPERUSER=`mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME -e "select login from $DB_USERTABLE where superuser_access=1 limit 1;" -s -N`
+TOKEN_AUTH=`mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME -e "select token_auth from $DB_USERTABLE where superuser_access=1 limit 1;" -s -N`
 
 CMD_GET_ID_SITES="$PHP_BIN -q $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
 ID_SITES=`$CMD_GET_ID_SITES`
