@@ -41,33 +41,9 @@ class Updates_2_0_4_b5 extends Updates
         Updater::updateDatabase(__FILE__, self::getSql());
 
         try {
-            self::migrateExistingMobileMessagingOptions();
             self::migrateConfigSuperUserToDb();
         } catch (\Exception $e) {
             throw new UpdaterErrorException($e->getMessage());
-        }
-    }
-
-    private static function migrateExistingMobileMessagingOptions()
-    {
-        if (Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION) == 'true') {
-            return;
-        }
-
-        // team_MobileMessagingSettings -> _MobileMessagingSettings as it is no longer guaranteed the Super User's
-        // username is always the same
-
-        $optionName     = MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;
-        $superUserLogin = Config::getInstance()->superuser['login'];
-        $optionPrefixed = $superUserLogin . $optionName;
-
-        // team_MobileMessagingSettings
-        $value = Option::get($optionPrefixed);
-
-        if (false !== $value) {
-            // _MobileMessagingSettings
-            Option::set($optionName, $value);
-            Option::delete($optionPrefixed);
         }
     }
 
