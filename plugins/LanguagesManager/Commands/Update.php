@@ -146,12 +146,19 @@ class Update extends ConsoleCommand
         preg_match_all('/plugins\/([a-zA-z]+) /', $submodules, $matches);
         $submodulePlugins = $matches[1];
 
+        // ignore complete new plugins aswell
+        $changes = shell_exec('git status');
+        preg_match_all('/plugins\/([a-zA-z]+)\/\n/', $changes, $matches);
+        $newPlugins = $matches[1];
+
+        $pluginsNotInCore = array_merge($submodulePlugins, $newPlugins);
+
         $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
         $pluginsWithTranslations = array_map(function($elem){
             return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
         }, $pluginsWithTranslations);
 
-        $pluginsInCore = array_diff($pluginsWithTranslations, $submodulePlugins);
+        $pluginsInCore = array_diff($pluginsWithTranslations, $pluginsNotInCore);
 
         return $pluginsInCore;
     }
