@@ -128,6 +128,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         // We do not pass the "--token_auth" parameter here to make sure import_logs.py finds the auth_token
         // automatically if needed
         $opts = array('--idsite'                    => $this->idSite,
+                      '--enable-testmode'           => '1',
                       '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '2');
 
@@ -145,6 +146,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         // We do not pass the "--token_auth" parameter here to make sure import_logs.py finds the auth_token
         // automatically if needed
         $opts = array('--add-sites-new-hosts'       => false,
+                      '--enable-testmode'           => '1',
                       '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '1');
 

@@ -29,6 +29,11 @@ if (!Common::isPhpCliMode()) {
     return;
 }
 
+$testmode = in_array('--testmode', $_SERVER['argv']);
+if ($testmode) {
+    Config::getInstance()->setTestEnvironment();
+}
+
 $token = Db::get()->fetchOne("SELECT token_auth
                               FROM " . Common::prefixTable("user") . "
                               WHERE superuser_access = 1

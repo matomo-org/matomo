@@ -490,6 +490,10 @@ class Configuration(object):
             help="Make URL path lowercase so paths with the same letters but different cases are "
                  "treated the same."
         )
+        option_parser.add_option(
+            '--enable-testmode', dest='enable_testmode', default=False, action='store_true',
+            help="If set, it will try to get the token_auth from the piwik_tests directory"
+        )
         return option_parser
 
 
@@ -592,7 +596,12 @@ class Configuration(object):
                 os.path.join(os.path.dirname(__file__),
                 '../../misc/cron/updatetoken.php'),
             )
-            filename    = subprocess.check_output("php " + updatetokenfile, shell=True);
+
+            process =  "php " + updatetokenfile
+            if self.options.enable_testmode:
+                process = process + " --testmode"
+
+            filename    = subprocess.check_output(process, shell=True);
             credentials = open(filename, 'r').readline()
             credentials = credentials.split('\t')
             return credentials[1]
