@@ -216,7 +216,14 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        $login    = 'admin';
+        $user = self::createSuperUser();
+
+        return $user['token_auth'];
+    }
+
+    public static function createSuperUser()
+    {
+        $login = 'admin';
         $password = '098f6bcd4621d373cade4e832627b4f6';
 
         $token = APIUsersManager::getInstance()->getTokenAuth($login, $password);
@@ -232,7 +239,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
             $model->setSuperUserAccess($login, true);
         }
 
-        return $token;
+        return $model->getUserByTokenAuth($token);
     }
 
     /**
