@@ -118,7 +118,7 @@ abstract class SMSProvider
             $subStrSize = self::sizeOfSMSContent($subStrToTruncate, $smsContentContainsUCS2Chars);
         }
 
-        return preg_replace('/' . preg_quote($subStrToTruncate) . '$/', $appendedString, $string);
+        return preg_replace('/' . preg_quote($subStrToTruncate, '/') . '$/', $appendedString, $string);
     }
 
     static private function mb_str_split($string)

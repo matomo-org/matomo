@@ -92,7 +92,7 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
 
         $alternatedGSMx153 = str_repeat('a€', 153);
 
-        $GSMWithRegExpSpecialChars = $stdGSMx459 . '[\^$.|?*+()';
+        $GSMWithRegExpSpecialChars = $stdGSMx459 . '[\^$.|?*/+()';
 
         $UCS2x201 = str_repeat('控', 201);
 
@@ -158,7 +158,7 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
             array(str_repeat('控', 197) . $UCS2AppendedString, $UCS2x201 . '控', 3, $UCS2AppendedString),
 
             // UCS-2, one '控' too many, appended with standard GSM characters
-            array(str_repeat('控', 193) . $stdGSMAppendedString, $UCS2x201 . '控', 3, $stdGSMAppendedString),
+            array(str_repeat('控', 193) . $stdGSMAppendedString, $UCS2x201 . '控', 3, $stdGSMAppendedString)
         );
     }
 

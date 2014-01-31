@@ -62,13 +62,10 @@ act_path() {
 ARCHIVE=`act_path ${0}`
 PIWIK_CRON_FOLDER=`dirname ${ARCHIVE}`
 PIWIK_PATH="$PIWIK_CRON_FOLDER"/../../index.php
-PIWIK_CONFIG="$PIWIK_CRON_FOLDER"/../../config/config.ini.php
+PIWIK_TOKEN_GENERATOR="$PIWIK_CRON_FOLDER"/../../misc/cron/updatetoken.php
 
-PIWIK_SUPERUSER=`sed '/^\[superuser\]/,$!d;/^login[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
-PIWIK_SUPERUSER_MD5_PASSWORD=`sed '/^\[superuser\]/,$!d;/^password[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
-
-CMD_TOKEN_AUTH="$PHP_BIN -q $PIWIK_PATH -- module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
-TOKEN_AUTH=`$CMD_TOKEN_AUTH`
+FILENAME_TOKEN_CONTENT=`php $PIWIK_TOKEN_GENERATOR`
+TOKEN_AUTH=`cat $FILENAME_TOKEN_CONTENT | cut -f2`
 
 CMD_GET_ID_SITES="$PHP_BIN -q $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
 ID_SITES=`$CMD_GET_ID_SITES`

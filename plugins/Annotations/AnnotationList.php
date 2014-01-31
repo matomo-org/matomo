@@ -316,7 +316,11 @@ class AnnotationList
             $serialized = Option::get($optionName);
 
             if ($serialized !== false) {
-                $result[$id] = unserialize($serialized);
+                $result[$id] = @unserialize($serialized);
+                if(empty($result[$id])) {
+                    // in case unserialize failed
+                    $result[$id] = array();
+                }
             } else {
                 $result[$id] = array();
             }

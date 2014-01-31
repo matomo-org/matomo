@@ -2,6 +2,7 @@ bootstrap.php
 build
 composer.phar
 config/config.ini.php
+config/config*
 crossdomain.xml
 documentation
 docs/

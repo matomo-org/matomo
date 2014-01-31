@@ -32,6 +32,7 @@ import time
 import urllib
 import urllib2
 import urlparse
+import subprocess
 
 try:
     import json
@@ -489,6 +490,10 @@ class Configuration(object):
             help="Make URL path lowercase so paths with the same letters but different cases are "
                  "treated the same."
         )
+        option_parser.add_option(
+            '--enable-testmode', dest='enable_testmode', default=False, action='store_true',
+            help="If set, it will try to get the token_auth from the piwik_tests directory"
+        )
         return option_parser
 
 
@@ -586,29 +591,21 @@ class Configuration(object):
                     "couldn't open the configuration file, "
                     "required to get the authentication token"
                 )
-            piwik_login = config_file.get('superuser', 'login').strip('"')
-            piwik_password = config_file.get('superuser', 'password').strip('"')
 
-        logging.debug('Using credentials: (login = %s, password = %s)', piwik_login, piwik_password)
-        try:
-            api_result = piwik.call_api('UsersManager.getTokenAuth',
-                userLogin=piwik_login,
-                md5Password=piwik_password,
-                _token_auth='',
-                _url=self.options.piwik_url,
+            updatetokenfile = os.path.abspath(
+                os.path.join(os.path.dirname(__file__),
+                '../../misc/cron/updatetoken.php'),
             )
-        except urllib2.URLError, e:
-            fatal_error('error when fetching token_auth from the API: %s' % e)
 
-        try:
-            return api_result['value']
-        except KeyError:
-            # Happens when the credentials are invalid.
-            message = api_result.get('message')
-            fatal_error(
-                'error fetching authentication token token_auth%s' % (
-                ': %s' % message if message else '')
-            )
+            process =  "php " + updatetokenfile
+            if self.options.enable_testmode:
+                process = process + " --testmode"
+
+            filename    = subprocess.check_output(process, shell=True);
+            credentials = open(filename, 'r').readline()
+            credentials = credentials.split('\t')
+            return credentials[1]
+
 
     def get_resolver(self):
         if self.options.site_id:

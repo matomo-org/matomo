@@ -1825,6 +1825,7 @@
         "ToGeolocateOldVisits": "To get location data for your old visits, use the script described %1$shere%2$s.",
         "GeoIPPeclCustomDirNotSet": "The %s PHP ini option is not set.",
         "GeoIPServerVarsFound": "Piwik detects the following GeoIP %s variables",
+        "GeoIpLocationProviderNotRecomnended": "Geolocation works, but you are not using one of the recommended providers.",
         "AssumingNonApache": "Cannot find apache_get_modules function, assuming non-Apache webserver.",
         "FoundApacheModules": "Piwik found the following Apache modules",
         "GeoIPNoServerVars": "Piwik cannot find any GeoIP %s variables.",

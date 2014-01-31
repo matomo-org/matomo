@@ -1292,7 +1292,7 @@ function done() {
 		// use escape sequences in case file gets loaded with non-utf-8-charset
 		document.title = [
 			( config.stats.bad ? "\u2716" : "\u2714" ),
-			document.title.replace( /^[\u2714\u2716] /i, "" )
+            //document.title.replace( /^[\u2714\u2716] /i, "" )
 		].join( " " );
 	}
 
