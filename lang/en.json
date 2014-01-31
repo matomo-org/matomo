@@ -327,6 +327,7 @@
         "ExceptionUnableToStartSession": "Unable to start session.",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "The user has to be either a Super User or the user '%s' itself.",
         "WarningFileIntegrityNoManifest": "File integrity check could not be performed due to missing manifest.inc.php.",
+        "WarningFileIntegrityNoManifestDeployingFromGit": "If you are deploying Piwik from Git, this message is normal.",
         "WarningFileIntegrityNoMd5file": "File integrity check could not be completed due to missing md5_file() function.",
         "FileIntegrityWarningExplanation": "File integrity check failed and reported some errors. This is most likely due to a partial or failed upload of some of the Piwik files. You should reupload all the Piwik files in BINARY mode and refresh this page until it shows no error.",
         "UseSMTPServerForEmail": "Use SMTP server for e-mail",
