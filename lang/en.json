@@ -1396,6 +1396,7 @@
         "WidgetGetAll": "All Referrers",
         "ViewReferrersBy": "View Referrers by %s",
         "ViewAllReferrers": "View all Referrers",
+        "XPercentOfVisits": "%s%% of visits",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL"
     },
     "SEO": {
