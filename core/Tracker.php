@@ -562,6 +562,9 @@ class Tracker
      */
     public static function getDatabase()
     {
+        if (empty(self::$db)) {
+            self::connectDatabaseIfNotConnected();
+        }
         return self::$db;
     }
 
