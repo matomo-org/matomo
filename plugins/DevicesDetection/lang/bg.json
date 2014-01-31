@@ -8,6 +8,7 @@
         "dataTableLabelTypes": "Тип",
         "Device": "Устройство",
         "DeviceBrand": "Марка на устройството",
+        "DeviceDetection": "Определяне на устройство",
         "DeviceModel": "Модел на устройството",
         "DevicesDetection": "Устройства, които използва посетителят",
         "DeviceType": "Вид устройство",
