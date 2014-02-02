@@ -48,11 +48,10 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
 
         // Skip the test on Mysqli as it fails due to rounding Float errors on latitude/longitude
         if(getenv('MYSQL_ADAPTER') != 'MYSQLI') {
-
             $apiForTesting[] = array('Live.getLastVisitsDetails',
                                      array('idSite' => $idSite,
-                                           'date'   => date('Y-m-d', strtotime(self::$fixture->dateTime)),
-                                           'period' => 'year',
+                                           'date'   => '1998-07-12,today',
+                                           'period' => 'range',
                                            'otherRequestParameters' => array('filter_limit' => 1000)));
 
         }
