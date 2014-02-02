@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\API
  */
 namespace Piwik\API;
 
@@ -67,9 +67,6 @@ use Piwik\UrlHelper;
  *     echo "This DataTable has " . $dataTable->getRowsCount() . " rows.";
  *
  * @see http://piwik.org/docs/analytics-api
- * @package Piwik
- * @subpackage Piwik_API
- *
  * @api
  */
 class Request

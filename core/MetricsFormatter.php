@@ -15,7 +15,6 @@ use Piwik\Tracker\GoalManager;
 /**
  * Contains helper function that format numerical values in different ways.
  * 
- * @package Piwik
  * @api
  */
 class MetricsFormatter

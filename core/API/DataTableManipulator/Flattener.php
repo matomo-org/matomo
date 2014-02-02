@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\API\DataTableManipulator
  */
 namespace Piwik\API\DataTableManipulator;
 
@@ -20,9 +20,6 @@ use Piwik\DataTable\Row;
  *
  * It loads subtables and combines them into a single table by concatenating the labels.
  * This manipulator is triggered by using flat=1 in the API request.
- *
- * @package Piwik
- * @subpackage Piwik_API
  */
 class Flattener extends DataTableManipulator
 {

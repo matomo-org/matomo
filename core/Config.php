@@ -38,8 +38,6 @@ use Exception;
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
  * 
- * @package Piwik
- * @subpackage Piwik_Config
  * @method static \Piwik\Config getInstance()
  */
 class Config extends Singleton

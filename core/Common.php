@@ -19,8 +19,6 @@ use Piwik\Tracker\Cache;
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
  *
  * This is the only non-Tracker class loaded by the **\/piwik.php** file.
- *
- * @package Piwik
  */
 class Common
 {

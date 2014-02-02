@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\Db
  */
 namespace Piwik\Db;
 
@@ -18,8 +18,6 @@ use Piwik\Singleton;
  *
  * Note: no relation to the ZF proposals for Zend_Db_Schema_Manager
  *
- * @package Piwik
- * @subpackage Piwik_Db
  * @method static \Piwik\Db\Schema getInstance()
  */
 class Schema extends Singleton

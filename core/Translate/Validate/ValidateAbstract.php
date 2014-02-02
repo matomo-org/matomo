@@ -6,14 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\Translate\Validate
  */
 
 namespace Piwik\Translate\Validate;
 
 /**
- * @package Piwik
- * @subpackage Piwik_Db
  */
 abstract class ValidateAbstract
 {

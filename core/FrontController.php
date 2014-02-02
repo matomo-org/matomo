@@ -51,8 +51,6 @@ use Piwik\Session;
  *
  * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
  *
- * @package Piwik
- * @subpackage FrontController
  * @method static \Piwik\FrontController getInstance()
  */
 class FrontController extends Singleton
@@ -548,9 +546,6 @@ class FrontController extends Singleton
 
 /**
  * Exception thrown when the requested plugin is not activated in the config file
- *
- * @package Piwik
- * @subpackage FrontController
  */
 class PluginDeactivatedException extends Exception
 {

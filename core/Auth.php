@@ -13,9 +13,6 @@ namespace Piwik;
 
 /**
  * Base for authentication modules
- *
- * @package Piwik
- * @subpackage Piwik_Auth
  */
 interface Auth
 {

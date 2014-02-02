@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\API\DataTableManipulator
  */
 namespace Piwik\API\DataTableManipulator;
 
@@ -24,9 +24,6 @@ use Piwik\Plugins\API\API;
  * This class is responsible for setting the metadata property 'totals' on each dataTable if the report
  * has a dimension. 'Totals' means it tries to calculate the total report value for each metric. For each
  * the total number of visits, actions, ... for a given report / dataTable.
- *
- * @package Piwik
- * @subpackage Piwik_API
  */
 class ReportTotalsCalculator extends DataTableManipulator
 {

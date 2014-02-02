@@ -32,8 +32,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
  * 
  * Contains helper methods for a variety of common tasks. Plugin developers are
  * encouraged to reuse these methods as much as possible.
- *
- * @package Piwik
  */
 class Piwik
 {

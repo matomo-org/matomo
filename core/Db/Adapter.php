@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\Db
  */
 namespace Piwik\Db;
 
@@ -15,8 +15,6 @@ use Piwik\Loader;
 use Zend_Db_Table;
 
 /**
- * @package Piwik
- * @subpackage Piwik_Db
  */
 class Adapter
 {

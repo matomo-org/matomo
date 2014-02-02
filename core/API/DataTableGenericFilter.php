@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\API
  */
 namespace Piwik\API;
 
@@ -15,10 +15,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 
-/**
- * @package Piwik
- * @subpackage Piwik_API
- */
 class DataTableGenericFilter
 {
     private static $genericFiltersInfo = null;

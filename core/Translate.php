@@ -13,7 +13,6 @@ namespace Piwik;
 use Exception;
 
 /**
- * @package Piwik
  */
 class Translate
 {

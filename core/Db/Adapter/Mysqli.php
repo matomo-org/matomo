@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\Db\Adapter
  */
 namespace Piwik\Db\Adapter;
 
@@ -18,8 +18,6 @@ use Zend_Config;
 use Zend_Db_Adapter_Mysqli;
 
 /**
- * @package Piwik
- * @subpackage Piwik_Db
  */
 class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 {

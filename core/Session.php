@@ -16,9 +16,6 @@ use Zend_Session;
 
 /**
  * Session initialization.
- *
- * @package Piwik
- * @subpackage Session
  */
 class Session extends Zend_Session
 {

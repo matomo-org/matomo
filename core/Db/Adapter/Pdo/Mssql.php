@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik
+ * @package Piwik\Db\Adapter\Pdo
  */
 namespace Piwik\Db\Adapter\Pdo;
 
@@ -22,8 +22,6 @@ use Zend_Db_Adapter_Pdo_Mssql;
 use Zend_Db_Profiler;
 
 /**
- * @package Piwik
- * @subpackage Piwik_Db
  */
 class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
 {
