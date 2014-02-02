@@ -198,6 +198,7 @@
         "MakeADifference": "Machen Sie den Unterschied: %1$sSpenden Sie jetzt%2$s und unterstützen Sie so Piwik 2.0!",
         "MakeOneTimeDonation": "Stattdessen eine einmalige Spende machen.",
         "NoPrivilegesAskPiwikAdmin": "Sie sind eingeloggt als '%s', aber es wurden keine Berechtigungen für diesen Benutzer in Piwik gesetzt. %s Bitte fragen Sie Ihren Piwik Administrator (klicken für E-Mail)%s um Zugriff auf die Webseite zu erhalten.",
+        "OnlyForSuperUserAccess": "Dieses Widget wird nur Benutzern mit Super-User Zugriff angezeigt.",
         "PageOf": "%1$s von %2$s",
         "PeriodDay": "Tag",
         "PeriodDays": "Tage",
@@ -1434,7 +1435,8 @@
         "WidgetGetAll": "Alle Verweise",
         "WidgetKeywords": "Liste der Suchbegriffe",
         "WidgetSocials": "Liste Sozialer Netzwerke",
-        "WidgetTopKeywordsForPages": "Top-Schlüsselworte für Seiten-URL"
+        "WidgetTopKeywordsForPages": "Top-Schlüsselworte für Seiten-URL",
+        "XPercentOfVisits": "%s%% aller Besuche"
     },
     "RowEvolution": {
         "AvailableMetrics": "Verfügbare Metriken",
@@ -2288,6 +2290,7 @@
         "PrivView": "Ansicht",
         "ReportDateToLoadByDefault": "Berichtsdatum, welches standardmäßig geladen wird",
         "ReportToLoadByDefault": "Bericht, der standardmäßig geladen wird",
+        "SuperUserAccessManagement": "Super-User Berechtigung verwalten",
         "TheLoginScreen": "den Loginbildschirm",
         "ThereAreCurrentlyNRegisteredUsers": "Es sind derzeit %s Benutzer registriert.",
         "TypeYourPasswordAgain": "Geben Sie Ihr Passwort nochmals ein.",
