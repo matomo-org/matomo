@@ -123,7 +123,7 @@ class Filechecks
         if (!class_exists('Piwik\\Manifest')) {
             $git = SettingsPiwik::getCurrentGitBranch();
             if(empty($git)) {
-                $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest') . " If you are deploying Piwik from Git, this message is normal.";
+                $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest') . ' ' . Piwik::translate('General_WarningFileIntegrityNoManifestDeployingFromGit'); 
             }
             return $messages;
         }
