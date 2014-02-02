@@ -31,7 +31,7 @@ class Actions extends \Piwik\Plugin
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

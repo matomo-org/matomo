@@ -18,7 +18,7 @@ use HTML_QuickForm2_Renderer;
 /**
  * Manages forms displayed in Twig
  *
- * For an example, @see Piwik_Login_FormLogin
+ * For an example, @see Piwik\Plugins\Login\FormLogin
  *
  * @see                 HTML_QuickForm2, libs/HTML/QuickForm2.php
  * @link http://pear.php.net/package/HTML_QuickForm2/

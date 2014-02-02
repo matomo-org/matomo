@@ -183,7 +183,7 @@ class RequestConfig
     /**
      * Whether to run generic filters on the DataTable before rendering or not.
      *
-     * @see Piwik_API_DataTableGenericFilter
+     * @see Piwik\API\DataTableGenericFilter
      *
      * Default value: false
      */

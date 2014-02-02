@@ -133,7 +133,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Same as getAll but for a unique Piwik site
-     * @see Piwik_MultiSites_API::getAll()
+     * @see Piwik\Plugins\MultiSites\API::getAll()
      *
      * @param int $idSite Id of the Piwik site
      * @param string $period The period type to get data for.

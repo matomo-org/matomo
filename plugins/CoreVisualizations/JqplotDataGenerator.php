@@ -27,7 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerat
 class JqplotDataGenerator
 {
     /**
-     * View properties. @see Piwik_ViewDataTable for more info.
+     * View properties. @see Piwik\ViewDataTable for more info.
      *
      * @var array
      */

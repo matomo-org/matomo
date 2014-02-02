@@ -28,7 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 class DevicesDetection extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getInformation
+     * @see Piwik\Plugin::getInformation
      */
     public function getInformation()
     {
@@ -86,7 +86,7 @@ class DevicesDetection extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

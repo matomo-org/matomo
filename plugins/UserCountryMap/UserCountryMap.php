@@ -19,7 +19,7 @@ use Piwik\WidgetsList;
 class UserCountryMap extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getInformation
+     * @see Piwik\Plugin::getInformation
      */
     public function getInformation()
     {

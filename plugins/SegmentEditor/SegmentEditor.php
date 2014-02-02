@@ -18,7 +18,7 @@ use Piwik\Version;
 class SegmentEditor extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getInformation
+     * @see Piwik\Plugin::getInformation
      */
     public function getInformation()
     {
@@ -32,7 +32,7 @@ class SegmentEditor extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

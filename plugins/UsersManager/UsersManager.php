@@ -25,7 +25,7 @@ class UsersManager extends \Piwik\Plugin
     const PASSWORD_MAX_LENGTH = 26;
 
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {
@@ -71,7 +71,7 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Return list of plug-in specific JavaScript files to be imported by the asset manager
      *
-     * @see Piwik_AssetManager
+     * @see Piwik\AssetManager
      */
     public function getJsFiles(&$jsFiles)
     {

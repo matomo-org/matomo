@@ -19,7 +19,7 @@ class Proxy extends \Piwik\Plugin
     /**
      * Return information about this plugin.
      *
-     * @see Piwik_Plugin
+     * @see Piwik\Plugin
      *
      * @return array
      */

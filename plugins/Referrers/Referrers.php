@@ -29,7 +29,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 class Referrers extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

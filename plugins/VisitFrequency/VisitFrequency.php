@@ -18,7 +18,7 @@ use Piwik\WidgetsList;
 class VisitFrequency extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

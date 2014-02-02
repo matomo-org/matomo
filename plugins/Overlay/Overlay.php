@@ -21,7 +21,7 @@ class Overlay extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     function getListHooksRegistered()
     {

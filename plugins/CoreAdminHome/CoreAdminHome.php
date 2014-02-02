@@ -26,7 +26,7 @@ use Piwik\Settings\UserSetting;
 class CoreAdminHome extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {
