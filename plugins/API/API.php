@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Piwik_API
  */
 namespace Piwik\Plugins\API;
 
@@ -43,7 +41,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * The Metadata API is for example used by the Piwik Mobile App to automatically display all Piwik reports, with translated report & columns names and nicely formatted values.
  * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
  *
- * @package Piwik_API
  * @method static \Piwik\Plugins\API\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -664,7 +661,6 @@ class API extends \Piwik\Plugin\API
 }
 
 /**
- * @package Piwik_API
  */
 class Plugin extends \Piwik\Plugin
 {

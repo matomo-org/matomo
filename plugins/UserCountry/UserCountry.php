@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package UserCountry
  */
 namespace Piwik\Plugins\UserCountry;
 
@@ -32,7 +30,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
 
 /**
  *
- * @package UserCountry
  */
 class UserCountry extends \Piwik\Plugin
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package StaticGraph
  */
 
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
@@ -18,7 +16,6 @@ require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pPie.class.php";
 
 /**
  *
- * @package StaticGraph
  */
 abstract class PieGraph extends StaticGraph
 {

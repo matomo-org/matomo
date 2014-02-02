@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package UsersManager
  */
 namespace Piwik\Plugins\UsersManager;
 
@@ -20,7 +18,6 @@ use Piwik\SettingsPiwik;
 /**
  * Manage Piwik users
  *
- * @package UsersManager
  */
 class UsersManager extends \Piwik\Plugin
 {

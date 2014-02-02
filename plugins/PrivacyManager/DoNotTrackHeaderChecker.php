@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package PrivacyManager
  */
 namespace Piwik\Plugins\PrivacyManager;
 
@@ -22,7 +20,6 @@ use Piwik\Option;
  * - X-Do-Not-Track header (used by AdBlockPlus and NoScript)
  * - DNT header (used by Mozilla)
  * 
- * @package PrivacyManager
  */
 class DoNotTrackHeaderChecker
 {

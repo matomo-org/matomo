@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package CoreHome
  */
 namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 
@@ -25,7 +23,6 @@ use Piwik\ViewDataTable\Factory;
 /**
  * ROW EVOLUTION
  * The class handles the popover that shows the evolution of a singe row in a data table
- * @package CoreHome
  */
 class RowEvolution
 {

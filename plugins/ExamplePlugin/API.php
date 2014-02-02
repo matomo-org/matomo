@@ -5,15 +5,12 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Piwik_ExamplePlugin
  */
 namespace Piwik\Plugins\ExamplePlugin;
 
 /**
  * API for plugin ExamplePlugin
  *
- * @package ExamplePlugin
  * @method static \Piwik\Plugins\ExamplePlugin\API getInstance()
  */
 class API extends \Piwik\Plugin\API

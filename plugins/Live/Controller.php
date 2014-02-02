@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Live
  */
 namespace Piwik\Plugins\Live;
 
@@ -21,7 +19,6 @@ use Piwik\View;
 use Piwik\ViewDataTable\Factory;
 
 /**
- * @package Live
  */
 class Controller extends \Piwik\Plugin\Controller
 {

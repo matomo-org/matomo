@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package UserCountry
  */
 namespace Piwik\Plugins\UserCountry;
 
@@ -26,7 +24,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
  * The UserCountry API lets you access reports about your visitors' Countries and Continents.
- * @package UserCountry
  * @method static \Piwik\Plugins\UserCountry\API getInstance()
  */
 class API extends \Piwik\Plugin\API

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package VisitorInterest
  */
 namespace Piwik\Plugins\VisitorInterest;
 
@@ -19,7 +17,6 @@ use Piwik\Piwik;
  * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,
  * and number of visits per visit duration.
  *
- * @package VisitorInterest
  * @method static \Piwik\Plugins\VisitorInterest\API getInstance()
  */
 class API extends \Piwik\Plugin\API

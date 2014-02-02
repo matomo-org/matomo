@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package LanguagesManager
  *
  */
 namespace Piwik\Plugins\LanguagesManager;
@@ -24,7 +22,6 @@ use Piwik\View;
 
 /**
  *
- * @package LanguagesManager
  */
 class LanguagesManager extends \Piwik\Plugin
 {

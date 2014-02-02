@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Installation
  */
 namespace Piwik\Plugins\Installation;
 
@@ -24,7 +22,6 @@ use Zend_Db_Adapter_Exception;
 
 /**
  *
- * @package Installation
  */
 class FormDatabaseSetup extends QuickForm2
 {
@@ -157,7 +154,6 @@ class FormDatabaseSetup extends QuickForm2
  * - DROP
  * - CREATE TEMPORARY TABLES
  *
- * @package Installation
  */
 class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
 {
@@ -303,7 +299,6 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
 /**
  * Filename check for prefix/DB name
  *
- * @package Installation
  */
 class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
 {

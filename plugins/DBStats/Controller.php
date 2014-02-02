@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package DBStats
  */
 namespace Piwik\Plugins\DBStats;
 
@@ -16,7 +14,6 @@ use Piwik\View;
 use Piwik\ViewDataTable\Factory;
 
 /**
- * @package DBStats
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {

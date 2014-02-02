@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package ExampleUI
  */
 namespace Piwik\Plugins\ExampleUI;
 
@@ -20,7 +18,6 @@ use Piwik\Period\Range;
  * The functions listed in this API are returning the data used in the Controller to draw graphs and
  * display tables. See also the ExampleAPI plugin for an introduction to Piwik APIs.
  *
- * @package ExampleUI
  * @method static \Piwik\Plugins\ExampleUI\API getInstance()
  */
 class API extends \Piwik\Plugin\API

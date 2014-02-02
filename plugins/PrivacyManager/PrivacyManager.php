@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package PrivacyManager
  */
 namespace Piwik\Plugins\PrivacyManager;
 
@@ -41,7 +39,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/DoNotTrackHeaderCheck
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
 /**
- * @package PrivacyManager
  */
 class PrivacyManager extends \Piwik\Plugin
 {

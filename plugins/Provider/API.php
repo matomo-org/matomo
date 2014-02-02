@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Provider
  */
 namespace Piwik\Plugins\Provider;
 
@@ -22,7 +20,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 /**
  * The Provider API lets you access reports for your visitors Internet Providers.
  *
- * @package Provider
  * @method static \Piwik\Plugins\Provider\API getInstance()
  */
 class API extends \Piwik\Plugin\API

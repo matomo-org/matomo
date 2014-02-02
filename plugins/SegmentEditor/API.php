@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package SegmentEditor
  */
 namespace Piwik\Plugins\SegmentEditor;
 
@@ -20,7 +18,6 @@ use Piwik\Segment;
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
  *
- * @package SegmentEditor
  * @method static \Piwik\Plugins\SegmentEditor\API getInstance()
  */
 class API extends \Piwik\Plugin\API

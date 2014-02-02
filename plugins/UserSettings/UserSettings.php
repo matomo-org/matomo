@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package UserSettings
  */
 namespace Piwik\Plugins\UserSettings;
 
@@ -20,7 +18,6 @@ use Piwik\WidgetsList;
 
 /**
  *
- * @package UserSettings
  */
 class UserSettings extends \Piwik\Plugin
 {

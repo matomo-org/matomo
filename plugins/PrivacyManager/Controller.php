@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package PrivacyManager
  */
 namespace Piwik\Plugins\PrivacyManager;
 
@@ -26,7 +24,6 @@ use Piwik\View;
 
 /**
  *
- * @package PrivacyManager
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package MobileMessaging
  */
 namespace Piwik\Plugins\MobileMessaging;
 
@@ -21,7 +19,6 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
  *  - activate phone numbers
  *  - check remaining credits
  *  - send SMS
- * @package MobileMessaging
  * @method static \Piwik\Plugins\MobileMessaging\API getInstance()
  */
 class API extends \Piwik\Plugin\API

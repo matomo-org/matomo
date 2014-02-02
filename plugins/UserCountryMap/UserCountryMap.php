@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package UserCountryMap
  */
 namespace Piwik\Plugins\UserCountryMap;
 
@@ -17,7 +15,6 @@ use Piwik\Version;
 use Piwik\WidgetsList;
 
 /**
- * @package UserCountryMap
  */
 class UserCountryMap extends \Piwik\Plugin
 {

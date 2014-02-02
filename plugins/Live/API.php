@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Live
  */
 namespace Piwik\Plugins\Live;
 
@@ -51,7 +49,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
  * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
  *
  * See also the documentation about <a href='http://piwik.org/docs/real-time/' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
- * @package Live
  * @method static \Piwik\Plugins\Live\API getInstance()
  */
 class API extends \Piwik\Plugin\API

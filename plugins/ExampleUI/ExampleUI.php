@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package ExampleUI
  */
 
 namespace Piwik\Plugins\ExampleUI;
@@ -14,7 +12,6 @@ use Piwik\Menu\MenuMain;
 use Piwik\Menu\MenuTop;
 
 /**
- * @package ExampleUI
  */
 class ExampleUI extends \Piwik\Plugin
 {

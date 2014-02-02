@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Installation
  */
 namespace Piwik\Plugins\Installation;
 
@@ -39,7 +37,6 @@ use Zend_Db_Adapter_Exception;
 /**
  * Installation controller
  *
- * @package Installation
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {

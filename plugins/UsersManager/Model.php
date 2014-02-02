@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package UsersManager
  */
 namespace Piwik\Plugins\UsersManager;
 
@@ -25,7 +23,6 @@ use Piwik\Piwik;
  * or you can list all users and websites for a given permission via "getUsersSitesFromAccess". Permissions are set and updated
  * via the method "setUserAccess".
  * See also the documentation about <a href='http://piwik.org/docs/manage-users/' target='_blank'>Managing Users</a> in Piwik.
- * @package UsersManager
  */
 class Model
 {

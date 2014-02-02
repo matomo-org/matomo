@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Installation
  */
 namespace Piwik\Plugins\Installation;
 
@@ -19,7 +17,6 @@ use Piwik\QuickForm2;
 
 /**
  *
- * @package Installation
  */
 class FormGeneralSetup extends QuickForm2
 {
@@ -77,7 +74,6 @@ class FormGeneralSetup extends QuickForm2
 /**
  * Login id validation rule
  *
- * @package Installation
  */
 class Rule_isValidLoginString extends HTML_QuickForm2_Rule
 {
@@ -99,7 +95,6 @@ class Rule_isValidLoginString extends HTML_QuickForm2_Rule
 /**
  * Email address validation rule
  *
- * @package Installation
  */
 class Rule_isValidEmailString extends HTML_QuickForm2_Rule
 {

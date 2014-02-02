@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package CustomVariables
  */
 namespace Piwik\Plugins\CustomVariables;
 
@@ -20,7 +18,6 @@ use Piwik\Tracker\ActionSiteSearch;
 /**
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.
  *
- * @package CustomVariables
  * @method static \Piwik\Plugins\CustomVariables\API getInstance()
  */
 class API extends \Piwik\Plugin\API

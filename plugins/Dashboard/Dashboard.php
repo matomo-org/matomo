@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Dashboard
  */
 namespace Piwik\Plugins\Dashboard;
 
@@ -20,7 +18,6 @@ use Piwik\Site;
 use Piwik\WidgetsList;
 
 /**
- * @package Dashboard
  */
 class Dashboard extends \Piwik\Plugin
 {

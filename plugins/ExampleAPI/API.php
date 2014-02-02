@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Piwik_ExampleAPI
  */
 namespace Piwik\Plugins\ExampleAPI;
 
@@ -19,7 +17,6 @@ use Piwik\Version;
  * The ExampleAPI is useful to developers building a custom Piwik plugin.
  *
  * Please see the <a href='http://dev.piwik.org/trac/browser/trunk/plugins/ExampleAPI/API.php#L1' target='_blank'>source code in in the file plugins/ExampleAPI/API.php</a> for more documentation.
- * @package Piwik_ExampleAPI
  * @method static \Piwik\Plugins\ExampleAPI\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -149,7 +146,6 @@ class API extends \Piwik\Plugin\API
 /**
  * Magic Object
  *
- * @package ExamplePlugin
  */
 class MagicObject
 {
