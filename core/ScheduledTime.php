@@ -146,11 +146,11 @@ abstract class ScheduledTime
 
         $rescheduledTime += (3600 * $hoursDifference);
 
-        if (Date::now()->getTimestamp() > $rescheduledTime) {
+        if ($this->getTime() > $rescheduledTime) {
             // make sure the rescheduled date is in the future
             $rescheduledTime = (24 * 3600) + $rescheduledTime;
         }
-
+        
         return $rescheduledTime;
     }
 
