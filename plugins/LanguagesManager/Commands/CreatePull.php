@@ -136,14 +136,14 @@ class CreatePull extends ConsoleCommand
 
         $messages = array();
 
-        $lnaguageCodesTouched = array();
+        $languageCodesTouched = array();
         if (!empty($addedFiles[1])) {
             foreach ($addedFiles[1] AS $addedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($addedFile);
                 $messages[$addedFile] = sprintf('- Added %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$addedFile], $languageInfo['percentage_complete']);
             }
-            $lnaguageCodesTouched = array_merge($lnaguageCodesTouched, $addedFiles[1]);
+            $languageCodesTouched = array_merge($languageCodesTouched, $addedFiles[1]);
         }
 
         if (!empty($modifiedFiles[1])) {
@@ -152,7 +152,7 @@ class CreatePull extends ConsoleCommand
                 $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
                 $messages[$modifiedFile] = sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
             }
-            $lnaguageCodesTouched = $modifiedFiles[1];
+            $languageCodesTouched = $modifiedFiles[1];
         }
 
         $message = implode('', $messages);
@@ -161,7 +161,7 @@ class CreatePull extends ConsoleCommand
             'Updated %s strings in %u languages (%s)',
             $addedLinesSum,
             $fileCount,
-            implode(', ', $lnaguageCodesTouched)
+            implode(', ', array_unique($languageCodesTouched, SORT_REGULAR))
         );
 
         shell_exec('git commit -m "language update ${pluginName} refs #3430"');
