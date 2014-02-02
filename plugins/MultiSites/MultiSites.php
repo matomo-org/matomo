@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package MultiSites
  */
 namespace Piwik\Plugins\MultiSites;
 use Piwik\Menu\MenuTop;
@@ -15,7 +13,6 @@ use Piwik\Piwik;
 
 /**
  *
- * @package MultiSites
  */
 class MultiSites extends \Piwik\Plugin
 {
@@ -27,7 +24,7 @@ class MultiSites extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

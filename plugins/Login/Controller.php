@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Login
  */
 namespace Piwik\Plugins\Login;
 
@@ -32,7 +30,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 /**
  * Login controller
  *
- * @package Login
  */
 class Controller extends \Piwik\Plugin\Controller
 {

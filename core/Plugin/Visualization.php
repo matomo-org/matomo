@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Plugin;
@@ -422,7 +420,7 @@ class Visualization extends ViewDataTable
      * - etc.
      *
      * The values are loaded:
-     * - from the generic filters that are applied by default @see Piwik_API_DataTableGenericFilter.php::getGenericFiltersInformation()
+     * - from the generic filters that are applied by default @see Piwik\API\DataTableGenericFilter::getGenericFiltersInformation()
      * - from the values already available in the GET array
      * - from the values set using methods from this class (eg. setSearchPattern(), setLimit(), etc.)
      *

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Settings;
@@ -17,8 +15,6 @@ use Piwik\Piwik;
  * Describes a per user setting. Each user will be able to change this setting for themselves,
  * but not for other users.
  *
- * @package Piwik
- * @subpackage Settings
  *
  * @api
  */

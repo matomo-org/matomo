@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Db\Schema;
 
@@ -20,9 +18,6 @@ use Piwik\DbHelper;
 
 /**
  * MySQL schema
- *
- * @package Piwik
- * @subpackage Piwik_Db
  */
 class Myisam implements SchemaInterface
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Plugin;
 
@@ -65,7 +63,6 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
  *
  *     <a href="?module=MyPlugin&action=index&idSite=1&period=day&date=2013-10-10">Link</a>
  * 
- * @package Piwik
  */
 abstract class Controller
 {

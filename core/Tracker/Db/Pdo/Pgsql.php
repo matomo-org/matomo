@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Tracker\Db\Pdo;
@@ -17,8 +15,6 @@ use PDO;
 /**
  * PDO PostgreSQL wrapper
  *
- * @package Piwik
- * @subpackage Tracker
  */
 class Pgsql extends Mysql
 {

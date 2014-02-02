@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Tracker;
 
@@ -22,7 +20,6 @@ use Piwik\Tracker;
 /**
  * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
  *
- * @package Piwik\Tracker
  */
 class Request
 {

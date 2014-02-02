@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package SegmentEditor
  */
 namespace Piwik\Plugins\SegmentEditor;
 
@@ -16,12 +14,11 @@ use Piwik\Db;
 use Piwik\Version;
 
 /**
- * @package SegmentEditor
  */
 class SegmentEditor extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getInformation
+     * @see Piwik\Plugin::getInformation
      */
     public function getInformation()
     {
@@ -35,7 +32,7 @@ class SegmentEditor extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

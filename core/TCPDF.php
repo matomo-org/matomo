@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik;
@@ -21,7 +19,6 @@ require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
 /**
  * TCPDF class wrapper.
  *
- * @package Piwik
  */
 class TCPDF extends \TCPDF
 {

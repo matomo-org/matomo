@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Unzip;
 
@@ -20,8 +18,6 @@ require_once PIWIK_INCLUDE_PATH . '/libs/Archive_Tar/Tar.php';
 /**
  * Unzip implementation for Archive_Tar PEAR lib.
  *
- * @package Piwik
- * @subpackage Unzip
  */
 class Tar implements UncompressInterface
 {

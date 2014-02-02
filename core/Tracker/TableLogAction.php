@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Tracker;
@@ -22,7 +20,6 @@ use Piwik\Tracker;
  * A pageview, outlink, download or site search are made of several "Action IDs"
  * For example pageview is idaction_url and idaction_name.
  *
- * @package Piwik\Tracker
  */
 class TableLogAction
 {

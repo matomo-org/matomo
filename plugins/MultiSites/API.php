@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package MultiSites
  */
 namespace Piwik\Plugins\MultiSites;
 
@@ -135,7 +133,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Same as getAll but for a unique Piwik site
-     * @see Piwik_MultiSites_API::getAll()
+     * @see Piwik\Plugins\MultiSites\API::getAll()
      *
      * @param int $idSite Id of the Piwik site
      * @param string $period The period type to get data for.

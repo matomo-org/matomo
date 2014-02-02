@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -16,9 +14,6 @@ use Zend_Session;
 
 /**
  * Session initialization.
- *
- * @package Piwik
- * @subpackage Session
  */
 class Session extends Zend_Session
 {

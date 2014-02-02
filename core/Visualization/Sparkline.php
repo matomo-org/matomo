@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Visualization;
@@ -25,9 +23,6 @@ require_once PIWIK_INCLUDE_PATH . '/libs/sparkline/lib/Sparkline_Line.php';
 /**
  * Renders a sparkline image given a PHP data array.
  * Using the Sparkline PHP Graphing Library sparkline.org
- *
- * @package Piwik
- * @subpackage Piwik_Visualization
  */
 class Sparkline implements ViewInterface
 {

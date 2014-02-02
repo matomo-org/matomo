@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -102,7 +100,6 @@ if (!defined('PIWIK_USER_PATH')) {
  *         return $view->render();
  *     }
  * 
- * @package Piwik
  *
  * @api
  */

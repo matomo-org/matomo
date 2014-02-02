@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package SEO
  */
 namespace Piwik\Plugins\SEO;
 
@@ -23,7 +21,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
  * The SEO API lets you access a list of SEO metrics for the specified URL: Google Pagerank, Goolge/Bing indexed pages
  * Alexa Rank, age of the Domain name and count of DMOZ entries.
  *
- * @package SEO
  * @method static \Piwik\Plugins\SEO\API getInstance()
  */
 class API extends \Piwik\Plugin\API

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package SEO
  */
 namespace Piwik\Plugins\SEO;
 
@@ -17,7 +15,6 @@ use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
- * @package SEO
  */
 class Controller extends \Piwik\Plugin\Controller
 {

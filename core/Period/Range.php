@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Period;
 
@@ -27,8 +25,6 @@ use Piwik\Piwik;
  * The range period differs from other periods mainly in that since it is arbitrary,
  * range periods are not pre-archived by the **archive.php** cron script.
  *
- * @package Piwik
- * @subpackage Period
  * @api
  */
 class Range extends Period

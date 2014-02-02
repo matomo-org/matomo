@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Plugin;
@@ -28,8 +26,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
  * The singleton that manages plugin loading/unloading and installation/uninstallation.
  *
  * @method static \Piwik\Plugin\Manager getInstance()
- * @package Piwik
- * @subpackage Manager
  */
 class Manager extends Singleton
 {
@@ -1048,8 +1044,6 @@ class Manager extends Singleton
 }
 
 /**
- * @package Piwik
- * @subpackage Manager
  */
 class PluginException extends \Exception
 {

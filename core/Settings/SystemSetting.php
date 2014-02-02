@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Settings;
@@ -19,8 +17,6 @@ use Piwik\Piwik;
  * 
  * See {@link \Piwik\Plugin\Settings}.
  *
- * @package Piwik
- * @subpackage Settings
  *
  * @api
  */

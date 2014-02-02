@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Filter;
 
@@ -23,8 +21,6 @@ use Piwik\Piwik;
  *     $nbVisits = // ... get the visits for a period ...
  *     $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *
- * @package Piwik
- * @subpackage DataTable
  * @api
  */
 class ColumnCallbackAddColumnPercentage extends ColumnCallbackAddColumnQuotient

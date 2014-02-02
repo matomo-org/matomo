@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Annotations
  */
 namespace Piwik\Plugins\Annotations;
 
@@ -14,12 +12,11 @@ namespace Piwik\Plugins\Annotations;
  * Annotations plugins. Provides the ability to attach text notes to
  * dates for each sites. Notes can be viewed, modified, deleted or starred.
  *
- * @package Annotations
  */
 class Annotations extends \Piwik\Plugin
 {
     /**
-     * @see Piwik_Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

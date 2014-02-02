@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -75,8 +73,6 @@ use Piwik\Period;
  *         $archiveProcessor->aggregateDataTableRecords('MyPlugin_myFancyReport');
  *     }
  * 
- * @package Piwik
- * @subpackage ArchiveProcessor
  */
 class ArchiveProcessor
 {

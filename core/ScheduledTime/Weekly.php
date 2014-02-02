@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\ScheduledTime;
 
@@ -17,8 +15,6 @@ use Piwik\ScheduledTime;
  * Weekly class is used to schedule tasks every week.
  *
  * @see ScheduledTask
- * @package Piwik
- * @subpackage ScheduledTime
  *
  */
 class Weekly extends ScheduledTime

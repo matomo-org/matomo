@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik;
@@ -165,8 +163,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *         return $dataTable;
  *     }
  * 
- * @package Piwik
- * @subpackage DataTable
  *
  * @api
  */

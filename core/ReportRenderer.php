@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -21,8 +19,6 @@ use Piwik\Plugins\ImageGraph\API;
  * A Report Renderer produces user friendly renderings of any given Piwik report.
  * All new Renderers must be copied in ReportRenderer and added to the $availableReportRenderers.
  *
- * @package Piwik
- * @subpackage ReportRenderer
  */
 abstract class ReportRenderer
 {

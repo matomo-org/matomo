@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Filter;
 
@@ -24,8 +22,6 @@ use Piwik\DataTable\Row\DataTableSummaryRow;
  *     // use a human readable label for the summary row (instead of '-1')
  *     $dataTable->filter('AddSummaryRow', array($labelSummaryRow = Piwik_Translate('General_Total')));
  * 
- * @package Piwik
- * @subpackage DataTable
  * @api
  */
 class AddSummaryRow extends BaseFilter

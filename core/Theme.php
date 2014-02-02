@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -15,7 +13,6 @@ use Piwik\Plugin\Manager;
 /**
  * This class contains logic to make Themes work beautifully.
  *
- * @package Piwik
  */
 class Theme
 {

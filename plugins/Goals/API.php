@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Goals
  */
 namespace Piwik\Plugins\Goals;
 
@@ -39,7 +37,6 @@ use Piwik\Tracker\GoalManager;
  *
  * See also the documentation about <a href='http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>Tracking Goals</a> in Piwik.
  *
- * @package Goals
  * @method static \Piwik\Plugins\Goals\API getInstance()
  */
 class API extends \Piwik\Plugin\API

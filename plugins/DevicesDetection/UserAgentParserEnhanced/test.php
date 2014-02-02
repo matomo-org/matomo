@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category UserAgentParserEnhanced
- * @package UserAgentParserEnhanced
  */
 define('PIWIK_INCLUDE_PATH', '../../..');
 

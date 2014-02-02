@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package UserCountry
  */
 
 namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -23,7 +21,6 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
  * To make this provider available, make sure the GEOIP_ADDR server
  * variable is set.
  *
- * @package UserCountry
  */
 class ServerBased extends GeoIp
 {

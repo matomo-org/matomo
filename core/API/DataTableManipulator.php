@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\API;
 
@@ -29,9 +27,6 @@ use Piwik\Plugins\API\API;
  * of using expanded=1. Another difference between manipulators and filters
  * is that filters keep the overall structure of the table intact while
  * manipulators can change the entire thing.
- *
- * @package Piwik
- * @subpackage Piwik_API
  */
 abstract class DataTableManipulator
 {

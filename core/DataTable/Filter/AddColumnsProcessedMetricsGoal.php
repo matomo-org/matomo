@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Filter;
 
@@ -49,8 +47,6 @@ use Piwik\Tracker\GoalManager;
  *     $dataTable->filter('AddColumnsProcessedMetricsGoal',
  *         array($enable = true, $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
  * 
- * @package Piwik
- * @subpackage DataTable
  * @api
  */
 class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics

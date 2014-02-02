@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -19,8 +17,6 @@ use Piwik\Tracker\Cache;
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
  *
  * This is the only non-Tracker class loaded by the **\/piwik.php** file.
- *
- * @package Piwik
  */
 class Common
 {

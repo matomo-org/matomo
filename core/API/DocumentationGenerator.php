@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\API;
 
@@ -15,10 +13,6 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Url;
 
-/**
- * @package Piwik
- * @subpackage Piwik_API
- */
 class DocumentationGenerator
 {
     protected $modulesToHide = array('CoreAdminHome', 'DBStats');

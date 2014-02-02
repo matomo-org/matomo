@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Filter;
 
@@ -22,8 +20,6 @@ use Piwik\DataTable\BaseFilter;
  *     // add a logo metadata based on the url metadata
  *     $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', 'Piwik\Plugins\MyPlugin\getLogoFromUrl'));
  *
- * @package Piwik
- * @subpackage DataTable
  * @api
  */
 class MetadataCallbackAddMetadata extends BaseFilter

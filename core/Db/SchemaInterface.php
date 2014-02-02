@@ -5,17 +5,12 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Db;
 
 /**
  * Database schema interface
- *
- * @package Piwik
- * @subpackage Piwik_Db
  */
 interface SchemaInterface
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -42,7 +40,6 @@ use Piwik\Config as PiwikConfig;
  * and 1 css file.
  *
  * @method static \Piwik\AssetManager getInstance()
- * @package Piwik
  */
 class AssetManager extends Singleton
 {

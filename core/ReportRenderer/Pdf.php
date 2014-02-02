@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package ReportRenderer
  */
 namespace Piwik\ReportRenderer;
 
@@ -26,7 +24,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
 
 /**
  *
- * @package ReportRenderer
  */
 class Pdf extends ReportRenderer
 {

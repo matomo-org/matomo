@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package CoreUpdater
  */
 namespace Piwik\Plugins\CoreUpdater;
 
@@ -34,7 +32,6 @@ use Piwik\View\OneClickDone;
 
 /**
  *
- * @package CoreUpdater
  */
 class Controller extends \Piwik\Plugin\Controller
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Renderer;
 
@@ -18,8 +16,6 @@ use Piwik\DataTable\Renderer;
  * Simple HTML output
  * Does not work with recursive DataTable (i.e., when a row can be associated with a subDataTable).
  *
- * @package Piwik
- * @subpackage DataTable
  */
 class Html extends Renderer
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik_Plugins
- * @package Actions
  */
 namespace Piwik\Plugins\Actions;
 
@@ -36,7 +34,6 @@ use Piwik\Tracker\PageUrl;
  * and an outlink via "getOutlink".
  *
  * Note: pageName, pageUrl, outlinkUrl, downloadUrl parameters must be URL encoded before you call the API.
- * @package Actions
  * @method static \Piwik\Plugins\Actions\API getInstance()
  */
 class API extends \Piwik\Plugin\API

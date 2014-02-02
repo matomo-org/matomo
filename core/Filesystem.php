@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -16,7 +14,6 @@ use Piwik\Tracker\Cache;
 /**
  * Contains helper functions that deal with the filesystem.
  * 
- * @package Piwik
  */
 class Filesystem
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Tracker;
 
@@ -21,8 +19,6 @@ use Piwik\Tracker\Db\DbException;
  * We can't afford to have a dependency with the Zend_Db module in Tracker.
  * We wrote this simple class
  *
- * @package Piwik
- * @subpackage Tracker
  */
 abstract class Db
 {
