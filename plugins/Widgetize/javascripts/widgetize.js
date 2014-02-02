@@ -78,7 +78,7 @@ function widgetize() {
             .append(exportButtonsElement);
 
         // JS is buggy at least on IE
-        //var widgetJS = '<script type="text/javascript" src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';
+        //var widgetJS = '<script src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';
         //divEmbedThisWidget.append('<br />Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
     }
 }

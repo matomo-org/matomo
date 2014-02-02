@@ -138,7 +138,7 @@ class Controller extends \Piwik\Plugin\Controller
         @header('Content-Type: text/html; charset=UTF-8');
         return '
 			<html><head><title></title></head><body>
-			<script type="text/javascript">
+			<script>
 				function handleProtocol(url) {
 					if (' . (ProxyHttp::isHttps() ? 'true' : 'false') . ') {
 						return url.replace(/http:\/\//i, "https://");

@@ -683,8 +683,6 @@ if (typeof Piwik !== 'object') {
          */
         function loadScript(src, onLoad) {
             var script = documentAlias.createElement('script');
-
-            script.type = 'text/javascript';
             script.src = src;
 
             if (script.readyState) {

@@ -916,7 +916,7 @@ dojo.global = {
 		// 		callback. dojo.addOnLoad waits for all outstanding modules to finish loading before
 		// 		executing. Example:
 		// 
-		//	   	|	<script type="text/javascript">
+		//	   	|	<script>
 		//		|	dojo.require("foo");
 		//		|	dojo.require("bar");
 		//	   	|	dojo.addOnLoad(function(){
@@ -1107,9 +1107,9 @@ dojo.global = {
 		//		At which point you can then use dojo.require() to load the
 		//		modules (assuming they provide() the same things which are
 		//		required). The full code might be:
-		//	|	<script type="text/javascript" 
+		//	|	<script 
 		//	|		src="/myapp/js/dojo/dojo/dojo.js"></script>
-		//	|	<script type="text/javascript">
+		//	|	<script>
 		//	|		dojo.registerModulePath("foo", "../../foo");
 		//	|		dojo.require("foo.bar");
 		//	|		dojo.require("foo.baz");

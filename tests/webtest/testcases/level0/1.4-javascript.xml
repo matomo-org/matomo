@@ -44,7 +44,7 @@
 					<attribute name="path" />
 					<sequential>
 						<echo file="../javascript/stub.tpl">
-&lt;script src="frameworks/@{path}" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="frameworks/@{path}"&gt;&lt;/script&gt;
 						</echo>
 					</sequential>
 				</macrodef>
@@ -54,8 +54,8 @@
 					<attribute name="path2" />
 					<sequential>
 						<echo file="../javascript/stub.tpl">
-&lt;script src="frameworks/@{path}" type="text/javascript"&gt;&lt;/script&gt;
-&lt;script src="frameworks/@{path2}" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="frameworks/@{path}"&gt;&lt;/script&gt;
+&lt;script src="frameworks/@{path2}"&gt;&lt;/script&gt;
 						</echo>
 					</sequential>
 				</macrodef>
@@ -72,8 +72,8 @@
 							</condition>
 							<then>
 								<echo file="../javascript/stub.tpl">
-&lt;script src="https://www.google.com/jsapi?key=${google.apikey}" type="text/javascript"&gt;&lt;/script&gt;
-&lt;script type="text/javascript"&gt;
+&lt;script src="https://www.google.com/jsapi?key=${google.apikey}"&gt;&lt;/script&gt;
+&lt;script&gt;
 	google.load("@{lib}", "@{version}");
 &lt;/script&gt;
 								</echo>

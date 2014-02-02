@@ -214,7 +214,7 @@
             // generate JS
             // changes made to this code should be mirrored in core/Piwik.php function getJavascriptCode()
             var result = '<!-- Piwik -->\n\
-<script type="text/javascript">\n\
+<script>\n\
   var _paq = _paq || [];\n';
 
             if (params.groupPageTitlesByDomain) {
@@ -263,7 +263,7 @@
     var u=(("https:" == document.location.protocol) ? "https" : "http") + "://' + params.piwikHost + params.piwikPath + '/";\n\
     _paq.push(["setTrackerUrl", u+"piwik.php"]);\n\
     _paq.push(["setSiteId", ' + JSON.stringify(idSite) + ']);\n\
-    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";\n\
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];\n\
     g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);\n\
   })();\n\
 </script>\n\

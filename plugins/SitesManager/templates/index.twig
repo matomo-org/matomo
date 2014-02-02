@@ -66,7 +66,7 @@
         </select>
     {% endset %}
 
-    <script type="text/javascript">
+    <script>
         var excludedIpHelp = '{{ excludedIpHelp|e('js') }}';
         var aliasUrlsHelp = '{{ piwik.inlineHelp('SitesManager_AliasUrlHelp'|translate)|e('js') }}';
         var excludedQueryParametersHelp = '{{ excludedQueryParametersHelp|e('js') }}';
@@ -415,7 +415,7 @@
         {{ ajax.loadingDiv('ajaxLoadingGlobalSettings') }}
     {% endif %}
     {% if showAddSite %}
-        <script type="text/javascript">
+        <script>
             $(document).ready(function () {
                 $('.addRowSite:first').trigger('click');
             });

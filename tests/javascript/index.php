@@ -10,7 +10,7 @@ if(file_exists("stub.tpl")) {
 	echo file_get_contents("stub.tpl");
 }
 ?>
- <script type="text/javascript">
+ <script>
 function getToken() {
 	return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
@@ -47,14 +47,14 @@ testTrackPageViewAsync();
 }
 ?>
  </script>
- <script src="../../js/piwik.js" type="text/javascript"></script>
- <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
- <script src="piwiktest.js" type="text/javascript"></script>
+ <script src="../../js/piwik.js"></script>
+ <script src="../../plugins/Overlay/client/urlnormalizer.js"></script>
+ <script src="piwiktest.js"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
- <script src="assets/qunit.js" type="text/javascript"></script>
- <script src="jslint/jslint.js" type="text/javascript"></script>
- <script type="text/javascript">
+ <script src="assets/qunit.js"></script>
+ <script src="jslint/jslint.js"></script>
+ <script>
 function _e(id){ 
 	if (document.getElementById)
 		return document.getElementById(id);

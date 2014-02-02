@@ -264,16 +264,16 @@ class View implements ViewInterface
         $tag = 'cb=' . $cacheBuster;
 
         $pattern = array(
-            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
-            '~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
+            '~<script src=[\'"]([^\'"]+)[\'"]>~',
+            '~<script src=[\'"]([^\'"]+)[\'"]>~',
             '~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
             // removes the double ?cb= tag
             '~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
         );
 
         $replace = array(
-            '<script type="text/javascript" src="$1?' . $tag . '">',
-            '<script type="text/javascript" src="$1?' . $tag . '">',
+            '<script src="$1?' . $tag . '">',
+            '<script src="$1?' . $tag . '">',
             '<link rel="stylesheet" type="text/css" href="$1?' . $tag . '" />',
             '$1="index.php?module=$2&amp;action=$3&amp;cb=',
         );

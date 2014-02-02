@@ -18,15 +18,15 @@
     <!--[if lt IE 9]>
     <script src="libs/html5shiv/html5shiv.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="libs/jquery/jquery.js"></script>
-    <script type="text/javascript" src="libs/jquery/jquery.placeholder.js"></script>
-    <script type="text/javascript" src="libs/jquery/jquery.smartbanner.js"></script>
+    <script src="libs/jquery/jquery.js"></script>
+    <script src="libs/jquery/jquery.placeholder.js"></script>
+    <script src="libs/jquery/jquery.smartbanner.js"></script>
     <link rel="stylesheet" type="text/css" href="libs/jquery/stylesheets/jquery.smartbanner.css" />
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/require.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/notification.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/notification_parser.js"></script>
+    <script src="plugins/CoreHome/javascripts/require.js"></script>
+    <script src="plugins/CoreHome/javascripts/notification.js"></script>
+    <script src="plugins/CoreHome/javascripts/notification_parser.js"></script>
     {% if (forceSslLogin is defined and forceSslLogin) %}
-        <script type="text/javascript">
+        <script>
             if (window.location.protocol !== 'https:') {
                 var url = window.location.toString();
                 url = url.replace(/^http:/, 'https:');
@@ -35,7 +35,7 @@
         </script>
 	
     {% endif %}
-    <script type="text/javascript">
+    <script>
         $(function () {
             $('#form_login').focus();
             $('input').placeholder();
@@ -44,7 +44,7 @@
   });    
         });
 	</script>
-	    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
+	    <script src="plugins/Login/javascripts/login.js"></script>
 	    {% if 'General_LayoutDirection'|translate =='rtl' %}
 		<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
 	    {% endif %}
