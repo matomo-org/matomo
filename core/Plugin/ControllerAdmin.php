@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Plugin;
 
@@ -26,7 +24,6 @@ use Piwik\View;
  * 
  * See {@link Controller} to learn more about Piwik controllers.
  * 
- * @package Piwik
  */
 abstract class ControllerAdmin extends Controller
 {

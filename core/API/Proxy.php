@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik\API
  */
 
 namespace Piwik\API;
@@ -510,8 +508,6 @@ class Proxy extends Singleton
 /**
  * To differentiate between "no value" and default value of null
  *
- * @package Piwik
- * @subpackage Piwik_API
  */
 class NoDefaultValue
 {

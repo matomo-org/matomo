@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -14,7 +12,6 @@ namespace Piwik;
  * Abstract class for update scripts
  *
  * @example core/Updates/0.4.2.php
- * @package Piwik
  */
 abstract class Updates
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -16,7 +14,6 @@ namespace Piwik;
  * - edit an existing cookie and save it
  * - create a new cookie, set values, expiration date, etc. and save it
  *
- * @package Piwik
  */
 class Cookie
 {

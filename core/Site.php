@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik;
@@ -38,7 +36,6 @@ use Piwik\Plugins\SitesManager\API;
  * 
  *     $name = Site::getNameFor($idSite);
  * 
- * @package Piwik
  * @api
  */
 class Site

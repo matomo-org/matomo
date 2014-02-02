@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Tracker;
 
@@ -20,8 +18,6 @@ use Piwik\Tracker;
 /**
  * Simple cache mechanism used in Tracker to avoid requesting settings from mysql on every request
  *
- * @package Piwik
- * @subpackage Tracker
  */
 class Cache
 {

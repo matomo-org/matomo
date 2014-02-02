@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Filter;
 
@@ -26,8 +24,6 @@ use Piwik\DataTable\BaseFilter;
  *         return parse_url($labelUrl, PHP_URL_HOST);
  *     }));
  * 
- * @package Piwik
- * @subpackage DataTable
  * @api
  */
 class GroupBy extends BaseFilter

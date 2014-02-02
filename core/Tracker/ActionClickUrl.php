@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Tracker;
@@ -18,7 +16,6 @@ use Piwik\Tracker;
  * This class represents a download or an outlink.
  * This is a particular type of Action: it has no 'name'
  *
- * @package Piwik\Tracker
  */
 class ActionClickUrl extends Action
 {

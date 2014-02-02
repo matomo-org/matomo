@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -45,8 +43,6 @@ namespace Piwik;
  *     $notification->type = Notification::TYPE_PERSISTENT;
  *     $notification->priority = Notification::PRIORITY_MAX;
  * 
- * @package Piwik
- * @subpackage Notification
  * @api
  */
 class Notification

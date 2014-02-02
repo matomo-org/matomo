@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Tracker;
@@ -14,8 +12,6 @@ namespace Piwik\Tracker;
 /**
  * Interface implemented by classes that track visit information for the Tracker.
  * 
- * @package Piwik
- * @subpackage Tracker
  */
 interface VisitInterface
 {

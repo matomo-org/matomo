@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Updates;
@@ -23,7 +21,6 @@ use Piwik\UpdaterErrorException;
 use Piwik\Updates;
 
 /**
- * @package Updates
  */
 class Updates_2_0_4_b7 extends Updates
 {

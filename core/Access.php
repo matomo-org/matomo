@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -33,8 +31,6 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
  * Access is granted per website. Uses with access for a website can view all
  * data associated with that website.
  * 
- * @package Piwik
- * @subpackage Access
  */
 class Access
 {
@@ -481,8 +477,6 @@ class Access
 /**
  * Exception thrown when a user doesn't have sufficient access to a resource.
  *
- * @package Piwik
- * @subpackage Access
  * @api
  */
 class NoAccessException extends \Exception

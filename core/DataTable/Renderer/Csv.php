@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Renderer;
 
@@ -29,8 +27,6 @@ use Piwik\ProxyHttp;
  * The default field delimiter string is a comma (,).
  * Formatting and layout are ignored.
  *
- * @package Piwik
- * @subpackage DataTable
  */
 class Csv extends Renderer
 {

@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik;
@@ -32,7 +30,6 @@ use Exception;
  *     $date->addHour(5);
  *     echo $date->getLocalized("%longDay% the %day% of %longMonth% at %time%");
  * 
- * @package Piwik
  * @api
  */
 class Date

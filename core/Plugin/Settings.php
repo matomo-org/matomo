@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\Plugin;
 
@@ -24,7 +22,6 @@ use Piwik\Settings\StorageInterface;
  * 
  * For an example, see the {@link Piwik\Plugins\ExampleSettingsPlugin\ExampleSettingsPlugin} plugin.
  * 
- * @package Piwik\Plugin
  * @api
  */
 abstract class Settings implements StorageInterface

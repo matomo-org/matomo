@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -52,7 +50,6 @@ use Piwik\Plugins\API\API;
  *     $segment = new Segment('', $idSites);
  *     // $segment->getSelectQuery will return a query that selects all visits
  * 
- * @package Piwik
  * @api
  */
 class Segment

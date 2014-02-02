@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik\Updates;
@@ -21,7 +19,6 @@ use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 
 /**
- * @package Updates
  */
 class Updates_2_0_3_b7 extends Updates
 {

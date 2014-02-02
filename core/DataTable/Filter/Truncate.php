@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik\DataTable\Filter;
 
@@ -31,8 +29,6 @@ use Piwik\Piwik;
  * 
  *     $dataTable->filter('Truncate', array($truncateAfter = 500, $summaryRowLabel = Piwik::translate('General_Total')));
  * 
- * @package Piwik
- * @subpackage DataTable
  * @api
  */
 class Truncate extends BaseFilter

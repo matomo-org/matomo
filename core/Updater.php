@@ -5,16 +5,12 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
  *
- * @package Piwik
- * @subpackage Updater
  */
 class Updater
 {
@@ -308,8 +304,6 @@ class Updater
 /**
  * Exception thrown by updater if a non-recoverable error occurs
  *
- * @package Piwik
- * @subpackage Updater
  */
 class UpdaterErrorException extends \Exception
 {

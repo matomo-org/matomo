@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 namespace Piwik;
 
@@ -106,8 +104,6 @@ use Piwik\Period\Range;
  *      and the current request came from a browser (and not the **archive.php** cron
  *      script).
  *
- * @package Piwik
- * @subpackage Archive
  *
  * @api
  */

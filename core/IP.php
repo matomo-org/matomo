@@ -5,8 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
  */
 
 namespace Piwik;
@@ -26,7 +24,6 @@ namespace Piwik;
  * so we don't have to worry about incompatibility with Windows UNICODE
  * and inetPtonW().
  *
- * @package Piwik
  * @api
  */
 class IP
