@@ -99,10 +99,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday January 4 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));
+        $mock = $this->getWeeklyMock(self::$_JANUARY_01_1971_09_10_00);
         $this->assertEquals(self::$_JANUARY_04_1971_00_00_00, $mock->getRescheduledTime());
     }
 
@@ -123,10 +120,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday January 4 1971 09:00:00 UTC
          */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));
+        $mock = $this->getWeeklyMock(self::$_JANUARY_01_1971_09_10_00);
         $mock->setHour(9);
         $this->assertEquals(self::$_JANUARY_04_1971_09_00_00, $mock->getRescheduledTime());
     }
@@ -146,6 +140,25 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function test_setTimezone_ShouldConvertRescheduledTime()
+    {
+        $oneHourInSeconds = 3600;
+
+        $mock    = $this->getWeeklyMock(self::$_JANUARY_01_1971_09_10_00);
+        $timeUTC = $mock->getRescheduledTime();
+        $this->assertEquals(self::$_JANUARY_04_1971_00_00_00, $timeUTC);
+
+
+        $mock->setTimezone('Pacific/Auckland');
+        $timeAuckland = $mock->getRescheduledTime();
+        $this->assertEquals(-11 * $oneHourInSeconds, $timeAuckland - $timeUTC);
+
+
+        $mock->setTimezone('America/Los_Angeles');
+        $timeLosAngeles = $mock->getRescheduledTime();
+        $this->assertEquals(8 * $oneHourInSeconds, $timeLosAngeles - $timeUTC);
+    }
+
     /**
      * Tests getRescheduledTime on Weekly with unspecified hour and specified day
      * 
@@ -159,12 +172,23 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRescheduledTimeWeeklyUnspecifiedHourSpecifiedDay($dayToSet, $expectedRescheduledTime)
     {
+        $mock = $this->getWeeklyMock(self::$_JANUARY_04_1971_09_00_00);
+        $mock->setDay($dayToSet);
+
+        $this->assertEquals($expectedRescheduledTime, $mock->getRescheduledTime());
+    }
+
+    /**
+     * @param $currentTime
+     * @return \Piwik\ScheduledTime\Weekly
+     */
+    private function getWeeklyMock($currentTime)
+    {
         $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_04_1971_09_00_00));
-        $mock->setDay($dayToSet);
-        $this->assertEquals($expectedRescheduledTime, $mock->getRescheduledTime());
+            ->will($this->returnValue($currentTime));
+        return $mock;
     }
 }
 

@@ -7,6 +7,9 @@
  */
 use Piwik\ScheduledTime\Monthly;
 
+/**
+ * @group Core
+ */
 class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 {
     public static $_JANUARY_01_1971_09_00_00; // initialized below class definition
@@ -26,67 +29,46 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests invalid call to setHour on Monthly
-     * @group Core
+     * @expectedException \Exception
      */
     public function testSetHourScheduledTimeMonthlyNegative()
     {
-        try {
-            $monthlySchedule = new Monthly();
-            $monthlySchedule->setHour(-1);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $monthlySchedule = new Monthly();
+        $monthlySchedule->setHour(-1);
     }
 
     /**
      * Tests invalid call to setHour on Monthly
-     * @group Core
+     * @expectedException \Exception
      */
     public function testSetHourScheduledTimMonthlyOver24()
     {
-        try {
-            $monthlySchedule = new Monthly();
-            $monthlySchedule->setHour(25);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $monthlySchedule = new Monthly();
+        $monthlySchedule->setHour(25);
     }
 
     /**
      * Tests invalid call to setDay on Monthly
-     * @group Core
+     * @expectedException \Exception
      */
     public function testSetDayScheduledTimeMonthlyDay0()
     {
-        try {
-            $monthlySchedule = new Monthly();
-            $monthlySchedule->setDay(0);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $monthlySchedule = new Monthly();
+        $monthlySchedule->setDay(0);
     }
 
     /**
      * Tests invalid call to setDay on Monthly
-     * @group Core
+     * @expectedException \Exception
      */
     public function testSetDayScheduledTimeMonthlyOver31()
     {
-        try {
-            $monthlySchedule = new Monthly();
-            $monthlySchedule->setDay(32);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $monthlySchedule = new Monthly();
+        $monthlySchedule->setDay(32);
     }
 
     /**
      * Tests getRescheduledTime on Monthly with unspecified hour and unspecified day
-     * @group Core
      */
     public function testGetRescheduledTimeMonthlyUnspecifiedHourUnspecifiedDay()
     {
@@ -101,10 +83,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday February 1 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_01_1971_09_00_00));
+        $mock = $this->getMonthlyMock(self::$_JANUARY_01_1971_09_00_00);
         $this->assertEquals(self::$_FEBRUARY_01_1971_00_00_00, $mock->getRescheduledTime());
 
         /*
@@ -118,17 +97,31 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday February 1 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_05_1971_09_00_00));
+        $mock = $this->getMonthlyMock(self::$_JANUARY_05_1971_09_00_00);
         $this->assertEquals(self::$_FEBRUARY_01_1971_00_00_00, $mock->getRescheduledTime());
     }
 
+    public function test_setTimezone_ShouldConvertRescheduledTime()
+    {
+        $oneHourInSeconds = 3600;
+
+        $mock = $this->getMonthlyMock(self::$_JANUARY_05_1971_09_00_00);
+        $timeUTC = $mock->getRescheduledTime();
+        $this->assertEquals(self::$_FEBRUARY_01_1971_00_00_00, $timeUTC);
+
+
+        $mock->setTimezone('Pacific/Auckland');
+        $timeAuckland = $mock->getRescheduledTime();
+        $this->assertEquals(-11 * $oneHourInSeconds, $timeAuckland - $timeUTC);
+
+
+        $mock->setTimezone('America/Los_Angeles');
+        $timeLosAngeles = $mock->getRescheduledTime();
+        $this->assertEquals(8 * $oneHourInSeconds, $timeLosAngeles - $timeUTC);
+    }
 
     /**
      * Tests getRescheduledTime on Monthly with unspecified hour and specified day
-     * @group Core
      *
      * _Monthly
      *
@@ -136,10 +129,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRescheduledTimeMonthlyUnspecifiedHourSpecifiedDay($currentTime, $day, $expected)
     {
-        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$$currentTime));
+        $mock = $this->getMonthlyMock(self::$$currentTime);
         $mock->setDay($day);
         $this->assertEquals(self::$$expected, $mock->getRescheduledTime());
     }
@@ -226,51 +216,34 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getValuesToTestSetDayOfWeek
-     * @group Core
      */
     public function testMonthlyDayOfWeek($day, $week, $expectedTime)
     {
-        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_15_1971_09_00_00));
+        $mock = $this->getMonthlyMock(self::$_JANUARY_15_1971_09_00_00);
         $mock->setDayOfWeek($day, $week);
         $this->assertEquals($expectedTime, $mock->getRescheduledTime());
     }
 
     /**
      * @dataProvider getValuesToTestSetDayOfWeekByString
-     * @group Core
      */
     public function testMonthlyDayOfWeekByString($dayOfWeekStr, $expectedTime)
     {
-        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_15_1971_09_00_00));
+        $mock = $this->getMonthlyMock(self::$_JANUARY_15_1971_09_00_00);
         $mock->setDayOfWeekFromString($dayOfWeekStr);
         $this->assertEquals($expectedTime, $mock->getRescheduledTime());
     }
 
     /**
-     * @group Core
-     *
      * _Monthly
      *
      * @dataProvider getInvalidDayOfWeekData
+     * @expectedException \Exception
      */
     public function testMonthlyDayOfWeekInvalid($day, $week)
     {
-        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_15_1971_09_00_00));
-        try {
-            $mock->setDayOfWeek($day, $week);
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected Exception not raised');
+        $mock = $this->getMonthlyMock(self::$_JANUARY_15_1971_09_00_00);
+        $mock->setDayOfWeek($day, $week);
     }
 
     /**
@@ -289,6 +262,20 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
             array(1, 0x8),
             array(1, '9ff'),
         );
+    }
+
+    /**
+     * @param $currentTime
+     * @return \Piwik\ScheduledTime\Monthly
+     */
+    private function getMonthlyMock($currentTime)
+    {
+        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
+        $mock->expects($this->any())
+             ->method('getTime')
+             ->will($this->returnValue($currentTime));
+
+        return $mock;
     }
 }
 
