@@ -57,7 +57,7 @@
 
             if (options.layout) {
                 generateLayout(options.layout);
-                buildMenu();
+                handleMenuClick();
             } else {
                 methods.loadDashboard.apply(this, [dashboardId]);
             }
@@ -85,7 +85,6 @@
          * @param {int} dashboardIdToLoad
          */
         loadDashboard: function (dashboardIdToLoad) {
-
             $(dashboardElement).empty();
             dashboardName = '';
             dashboardLayout = null;
@@ -94,7 +93,7 @@
             broadcast.updateHashOnly = true;
             broadcast.propagateAjax('?idDashboard=' + dashboardIdToLoad);
             fetchLayout(generateLayout);
-            buildMenu();
+            handleMenuClick();
             return this;
         },
 
@@ -427,47 +426,43 @@
     }
 
     /**
-     * Builds the menu for choosing between available dashboards
+     * Handle clicks for menu items for choosing between available dashboards
      */
-    function buildMenu() {
+    function handleMenuClick() {
+        var $dashboardLinks = $('#Dashboard ul a').filter(function () {
+            return $(this).closest('li').attr('id').indexOf('Dashboard_embeddedIndex') === 0;
+        });
 
-        var success = function (dashboards) {
-            var dashboardMenuList = $('#Dashboard').find('> ul');
-            dashboardMenuList.empty();
-            if (dashboards.length > 1) {
-                dashboardMenuList.show();
-                for (var i = 0; i < dashboards.length; i++) {
-                    dashboardMenuList.append('<li id="Dashboard_embeddedIndex_' + dashboards[i].iddashboard + '" class="dashboardMenuItem"><a dashboardId="' + dashboards[i].iddashboard + '">' + piwikHelper.htmlEntities(dashboards[i].name) + '</a></li>');
-                    if (dashboards[i].iddashboard == dashboardId) {
-                        dashboardName = dashboards[i].name;
-                    }
-                }
-                $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
-            } else {
-                dashboardMenuList.hide();
+        // setup each link (remove default onclick behavior, get idDashboard value and style currently selected
+        // link)
+        $dashboardLinks.each(function () {
+            $(this).removeAttr('onclick');
+
+            var linkIdDashboard = broadcast.getParamValue('idDashboard', $(this).attr('href'));
+            $(this).attr('data-idDashboard', linkIdDashboard);
+
+            if (dashboardId == linkIdDashboard) {
+                $(this).closest('li').addClass('sfHover');
             }
+        });
 
-            $('.dashboardMenuItem').on('click', function () {
-                if (typeof piwikMenu != 'undefined') {
-                    piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
-                }
-                $('.dashboardMenuItem').removeClass('sfHover');
-                if ($(dashboardElement).length) {
-                    $(dashboardElement).dashboard('loadDashboard', $('a', this).attr('dashboardId'));
-                } else {
-                    broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard=' + $('a', this).attr('dashboardId'));
-                }
-                $(this).addClass('sfHover');
-            });
-        };
+        $dashboardLinks.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-        var ajaxRequest = new ajaxHelper();
-        ajaxRequest.addParams({
-            module: 'Dashboard',
-            action: 'getAllDashboards'
-        }, 'get');
-        ajaxRequest.setCallback(success);
-        ajaxRequest.send(false);
+            var idDashboard = $(this).attr('data-idDashboard');
+
+            if (typeof piwikMenu != 'undefined') {
+                piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
+            }
+            $('#Dashboard ul li').removeClass('sfHover');
+            if ($(dashboardElement).length) {
+                $(dashboardElement).dashboard('loadDashboard', idDashboard);
+            } else {
+                broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard=' + idDashboard);
+            }
+            $(this).closest('li').addClass('sfHover');
+        });
     }
 
     /**
@@ -515,7 +510,7 @@
                 function () {
                     if (dashboardChanged) {
                         dashboardChanged = false;
-                        buildMenu();
+                        handleMenuClick();
                     }
                 }
             );
