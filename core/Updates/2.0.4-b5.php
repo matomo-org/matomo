@@ -66,7 +66,10 @@ class Updates_2_0_4_b5 extends Updates
             )
         );
 
-        $config->General['salt'] = $superUser['salt'];
+        if (array_key_exists('salt', $superUser)) {
+            $config->General['salt'] = $superUser['salt'];
+        }
+        
         $config->superuser       = array();
         $config->forceSave();
     }
