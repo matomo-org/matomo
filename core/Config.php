@@ -105,7 +105,6 @@ class Config extends Singleton
         // Ensure local mods do not affect tests
         if (is_null($pathGlobal)) {
             $this->configCache['Debug'] = $this->configGlobal['Debug'];
-            $this->configCache['branding'] = $this->configGlobal['branding'];
             $this->configCache['mail'] = $this->configGlobal['mail'];
             $this->configCache['General'] = $this->configGlobal['General'];
             $this->configCache['Segments'] = $this->configGlobal['Segments'];

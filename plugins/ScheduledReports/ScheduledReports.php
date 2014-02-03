@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -272,7 +273,8 @@ class ScheduledReports extends \Piwik\Plugin
 
             $mail = new Mail();
             $mail->setSubject($subject);
-            $fromEmailName = Config::getInstance()->branding['use_custom_logo']
+            $customLogo = new CustomLogo();
+            $fromEmailName = $customLogo->isEnabled()
                 ? Piwik::translate('CoreHome_WebAnalyticsReports')
                 : Piwik::translate('ScheduledReports_PiwikReports');
             $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];

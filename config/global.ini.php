@@ -500,11 +500,6 @@ delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
 enable_auto_database_size_estimate = 1
 
-[branding]
-; custom logo
-; if 1, custom logo is being displayed instead of piwik logo
-use_custom_logo = 0
-
 [mail]
 defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hostname, if current host can't be read from system variables
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
