@@ -395,7 +395,7 @@ function DisplayTopKeywords($url = "")
 	$url = htmlspecialchars($url, ENT_QUOTES);
 	$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
 	foreach($keywords as $keyword) {
-		$output .= "<li>". $keyword[0]. "</li>";
+		$output .= "<li>". $keyword . "</li>";
 	}
 	if(empty($keywords)) { $output .= "Nothing yet..."; }
 	$output .= "</ul>";
@@ -432,7 +432,7 @@ function DisplayTopKeywords($url = "")
             $url = htmlspecialchars($url, ENT_QUOTES);
             $output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
             foreach ($keywords as $keyword) {
-                $output .= "<li>" . $keyword[0] . "</li>";
+                $output .= "<li>" . $keyword . "</li>";
             }
             if (empty($keywords)) {
                 $output .= "Nothing yet...";
