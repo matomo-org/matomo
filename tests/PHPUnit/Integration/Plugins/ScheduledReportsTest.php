@@ -361,16 +361,20 @@ class Plugins_ScheduledReportsTest extends DatabaseTestCase
 
         // expected tasks
         $scheduleTask1 = ScheduledTime::factory('daily');
-        $scheduleTask1->setHour(23); // paris is UTC-1, period ends at 23h UTC
+        $scheduleTask1->setHour(0); // paris is UTC-1, period ends at 23h UTC
+        $scheduleTask1->setTimezone('Europe/Paris');
 
         $scheduleTask2 = new Monthly();
-        $scheduleTask2->setHour(7); // site is UTC-6.5, period ends at 6h30 UTC, smallest resolution is hour
+        $scheduleTask2->setHour(0); // site is UTC-6.5, period ends at 6h30 UTC, smallest resolution is hour
+        $scheduleTask2->setTimezone('UTC-6.5');
 
         $scheduleTask3 = new Monthly();
-        $scheduleTask3->setHour(7); // paris is UTC-1, configured to be sent at 8h
+        $scheduleTask3->setHour(8); // paris is UTC-1, configured to be sent at 8h
+        $scheduleTask3->setTimezone('Europe/Paris');
 
         $scheduleTask4 = new Monthly();
-        $scheduleTask4->setHour(15); // site is UTC-6.5, configured to be sent at 8h
+        $scheduleTask4->setHour(8); // site is UTC-6.5, configured to be sent at 8h
+        $scheduleTask4->setTimezone('UTC-6.5');
 
         $expectedTasks = array(
             new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
