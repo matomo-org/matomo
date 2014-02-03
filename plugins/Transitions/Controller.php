@@ -52,7 +52,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     /**
      * Translations that are added to JS
-     * (object Piwik_Transitions_Translations)
      */
     private static $jsTranslations = array(
         'XOfY'                   => 'Transitions_XOutOfYVisits',

@@ -324,7 +324,7 @@ class Proxy extends Singleton
     }
 
     /**
-     * Returns the 'moduleName' part of 'Piwik_moduleName_API' classname
+     * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"
      * @return string "Referrers"

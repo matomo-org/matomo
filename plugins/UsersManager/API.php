@@ -52,7 +52,7 @@ class API extends \Piwik\Plugin\API
      * Example of how you would overwrite the UsersManager_API with your own class:
      * Call the following in your plugin __construct() for example:
      *
-     * Registry::set('UsersManager_API',Piwik_MyCustomUsersManager_API::getInstance());
+     * Registry::set('UsersManager_API', \Piwik\Plugins\MyCustomUsersManager\API::getInstance());
      *
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API

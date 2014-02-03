@@ -98,7 +98,6 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        // this is a magic template to trigger the Piwik_View_Update
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
         $view->coreError = $errorMessage;
         $view->feedbackMessages = $messages;
