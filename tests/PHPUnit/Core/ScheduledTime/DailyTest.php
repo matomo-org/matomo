@@ -101,7 +101,7 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
 
         $mock->setTimezone('Pacific/Auckland');
         $timeAuckland = $mock->getRescheduledTime();
-        $this->assertEquals(-11 * $oneHourInSeconds, $timeAuckland - $timeUTC);
+        $this->assertEquals(-13 * $oneHourInSeconds, $timeAuckland - $timeUTC);
 
 
         $mock->setTimezone('America/Los_Angeles');

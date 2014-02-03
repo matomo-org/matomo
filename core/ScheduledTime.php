@@ -138,11 +138,14 @@ abstract class ScheduledTime
         $dateInTimezone     = Date::factory($arbitraryDateInUTC, $this->timezone);
 
         $midnightInTimezone = date('H', $dateInTimezone->getTimestamp());
-        $hoursDifference    = (24 - $midnightInTimezone) % 24;
 
         if ($arbitraryDateInUTC->isEarlier($dateInTimezone)) {
-            $hoursDifference = -1 * $hoursDifference;
+            $hoursDifference = 0 - $midnightInTimezone;
+        } else {
+            $hoursDifference = 24 - $midnightInTimezone;
         }
+
+        $hoursDifference  = $hoursDifference % 24;
 
         $rescheduledTime += (3600 * $hoursDifference);
 
