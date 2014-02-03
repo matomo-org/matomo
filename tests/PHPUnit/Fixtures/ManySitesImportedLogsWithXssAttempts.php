@@ -152,6 +152,12 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $segmentDefinition = "browserCode==FF";
         APISegmentEditor::getInstance()->add(
             $segmentName, $segmentDefinition, $this->idSite, $autoArchive = true, $enabledAllUsers = true);
+
+        // create two more segments
+        APISegmentEditor::getInstance()->add(
+            "From Europe", "continentCode==eur", $this->idSite, $autoArchive = false, $enabledAllUsers = true);
+        APISegmentEditor::getInstance()->add(
+            "Multiple actions", "actions>=2", $this->idSite, $autoArchive = false, $enabledAllUsers = true);
     }
     
     public function addAnnotations()
