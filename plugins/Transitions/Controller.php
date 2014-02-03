@@ -15,7 +15,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-
     /**
      * Since the metric translations are taken from different plugins,
      * it makes the rest of the code easier to read and maintain when we
