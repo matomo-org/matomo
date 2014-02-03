@@ -116,11 +116,7 @@ See [tests/README.testing-data.md](https://github.com/piwik/piwik/blob/master/te
 
 See [tests/README.screenshots.md](https://github.com/piwik/piwik/blob/master/tests/README.screenshots.md)
 
-## VisualPHPUnit
-
-See [tests/README.visualphpunit.md](https://github.com/piwik/piwik/blob/master/tests/README.visualphpunit.md) if you prefer to run phpunit tests using a visual interface.
-
-## Profiling 
+## Profiling
 
 See [tests/README.xhprof.md](https://github.com/piwik/piwik/blob/master/tests/README.xhprof.md) for help on how to profile Piwik with XHProf.
 

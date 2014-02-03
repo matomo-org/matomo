@@ -1,7 +1,5 @@
 
-Piwik is distributed with a copy of XHProf, the PHP profiler created by Facebook. Piwik
-also comes with a copy of VisualPHPUnit that has been modified to easily use XHProf. Using
-these two tools, you can profile tests and benchmarks.
+Piwik is distributed with a copy of XHProf, the PHP profiler created by Facebook.
 
 ## Installing XHProf
 
@@ -32,24 +30,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
 	Replace /path/to/output/dir with an existing directory. All your profiles will be
 	stored there.
 
-Restart your webserver and you're done. VisualPHPUnit will automatically detect if XHProf
-is installed and act accordingly.
+Restart your webserver and you're done.
 
-## Using XHProf
+XHProf will now store and process profiles of all running PHP processes. Access the reports via the XHPprof interface.
 
-To use XHProf, first load VisualPHPUnit by pointing your browser to:
-
-http://path/to/piwik/tests/lib/visualphpunit/
-
-Select a test or get ready to run a benchmark. Make sure the 'Profile with XHProf' select
-box is set to 'Yes' and click 'Run Tests'.
-
-When the test finishes, a link will be displayed that will let you view the profile that
-was created.
-
-## Notes
-
-* Currently, it is not possible to use XHProf with more than one test, so if multiple
-      tests are selected, XHProf will not be used.
-* XHProf will not delete old profiles, you must do that yourself, though individual
-      profiles do not take much space.
