@@ -276,14 +276,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return '0';
     }
 
-    private function isGeneralSettingsAdminEnabled()
+    static public function isGeneralSettingsAdminEnabled()
     {
         return (bool) Config::getInstance()->General['enable_general_settings_admin'];
     }
 
     private function saveGeneralSettings()
     {
-        if(!$this->isGeneralSettingsAdminEnabled()) {
+        if(!self::isGeneralSettingsAdminEnabled()) {
             // General settings + Beta channel + SMTP settings is disabled
             return;
         }
@@ -315,7 +315,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function handleGeneralSettingsAdmin($view)
     {
         // Whether to display or not the general settings (cron, beta, smtp)
-        $view->isGeneralSettingsAdminEnabled = $this->isGeneralSettingsAdminEnabled();
+        $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
 
         $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
         $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
