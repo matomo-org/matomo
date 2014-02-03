@@ -1136,8 +1136,6 @@ class PiwikTracker
     /**
      * This prevents the API from forcing a new visit.  See enableForceNewVisit() for a
 	 * complete explanation of this feature.
-     *
-     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      */
     public function disableForceNewVisit()
     {
