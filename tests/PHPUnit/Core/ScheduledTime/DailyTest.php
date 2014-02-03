@@ -7,6 +7,9 @@
  */
 use Piwik\ScheduledTime\Daily;
 
+/**
+ * @group Core
+ */
 class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
@@ -27,7 +30,6 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests invalid call to setHour on Daily
-     * @group Core
      */
     public function testSetHourScheduledTimeDailyNegative()
     {
@@ -43,7 +45,6 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests invalid call to setHour on Daily
-     * @group Core
      */
     public function testSetHourScheduledTimeDailyOver24()
     {
@@ -58,7 +59,6 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests forbidden call to setDay on Daily
-     * @group Core
      */
     public function testSetDayScheduledTimeDaily()
     {
@@ -73,7 +73,6 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests getRescheduledTime on Daily with unspecified hour
-     * @group Core
      */
     public function testGetRescheduledTimeDailyUnspecifiedHour()
     {
@@ -112,7 +111,6 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests getRescheduledTime on Daily with specified hour
-     * @group Core
      */
     public function testGetRescheduledTimeDailySpecifiedHour()
     {
