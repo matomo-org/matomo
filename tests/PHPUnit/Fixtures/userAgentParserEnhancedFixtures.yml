@@ -11918,3 +11918,51 @@
     model: Fire HD 8.9" 4G
   os_family: Android
   browser_family: Chrome
+-
+  user_agent: AmigaVoyager/3.2 (AmigaOS/MC680x0)
+  os:
+    name: AmigaOS
+    short_name: AMG
+    version:
+  browser:
+    name: Amiga Voyager
+    short_name: AV
+    version: 3.2
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: AmigaOS
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (AmigaOS; U; AmigaOS 1.3; en-US; rv:1.8.1.21) Gecko/20090303 SeaMonkey/1.1.15
+  os:
+    name: AmigaOS
+    short_name: AMG
+    version: 1.3
+  browser:
+    name: SeaMonkey
+    short_name: SM
+    version: 1.1
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: AmigaOS
+  browser_family: Unknown
+-
+  user_agent: Mozilla/6.0 (Macintosh; U; Amiga-AWeb) Safari 3.1
+  os:
+    name: AmigaOS
+    short_name: AMG
+    version:
+  browser:
+    name: Amiga Aweb
+    short_name: AW
+    version:
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: AmigaOS
+  browser_family: Unknown

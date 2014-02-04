@@ -196,7 +196,7 @@
   version: '$1'
   
 #Amiga Aweb
-- regex: 'Amiga-Aweb/(\d+\.\d+)'
+- regex: 'Amiga-Aweb(?:/(\d+\.\d+))?'
   name: 'Amiga Aweb'
   version: '$1'
   

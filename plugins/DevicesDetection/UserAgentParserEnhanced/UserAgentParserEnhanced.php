@@ -145,6 +145,7 @@ class UserAgentParserEnhanced
     public static $osShorts = array(
         'AIX'                  => 'AIX',
         'Android'              => 'AND',
+        'AmigaOS'              => 'AMG',
         'Apple TV'             => 'ATV',
         'Arch Linux'           => 'ARL',
         'BackTrack'            => 'BTR',
@@ -221,9 +222,10 @@ class UserAgentParserEnhanced
         'palmOS'               => 'POS',
         'webOS'                => 'WOS'
     );
-    protected static $desktopOsArray = array('IBM', 'Linux', 'Mac', 'Unix', 'Windows');
+    protected static $desktopOsArray = array('AmigaOS', 'IBM', 'Linux', 'Mac', 'Unix', 'Windows');
     public static $osFamilies = array(
         'Android'               => array('AND'),
+        'AmigaOS'               => array('AMG'),
         'Apple TV'              => array('ATV'),
         'BlackBerry'            => array('BLB'),
         'Bot'                   => array('BOT'),

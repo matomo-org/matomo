@@ -39,7 +39,18 @@
   version: ''
   
   
-  
+##########
+# AmigaOS
+##########
+- regex: 'AmigaOS[ ]?(\d+\.\d+)'
+  name: 'AmigaOS'
+  version: '$1'
+
+- regex: 'AmigaOS|AmigaVoyager|Amiga-AWeb'
+  name: 'AmigaOS'
+  version: ''
+
+
 ##########
 # Linux
 ##########
