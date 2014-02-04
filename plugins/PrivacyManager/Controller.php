@@ -38,7 +38,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $this->checkTokenInUrl();
             switch (Common::getRequestVar('form')) {
                 case("formMaskLength"):
-                    $this->handlePluginState(Common::getRequestVar("anonymizeIPEnable", 0));
+                    $enable = Common::getRequestVar("anonymizeIPEnable", 0);
+                    if ($enable == 1) {
+                        IPAnonymizer::activate();
+                    } else if ($enable == 0) {
+                        IPAnonymizer::deactivate();
+                    } else {
+                        // pass
+                    }
+
                     $privacyConfig = new Config();
                     $privacyConfig->ipAddressMaskLength = Common::getRequestVar("maskLength", 1);
                     $privacyConfig->useAnonymizedIpForVisitEnrichment = Common::getRequestVar("useAnonymizedIpForVisitEnrichment", 1);
@@ -281,17 +289,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $deleteDataInfos["nextRunPretty"] = MetricsFormatter::getPrettyTimeFromSeconds($deleteDataInfos["nextScheduleTime"] - time());
 
         return $deleteDataInfos;
-    }
-
-    protected function handlePluginState($state = 0)
-    {
-        if ($state == 1) {
-            IPAnonymizer::activate();
-        } else if ($state == 0) {
-            IPAnonymizer::deactivate();
-        } else {
-            // pass
-        }
     }
 
     public function deactivateDoNotTrack()
