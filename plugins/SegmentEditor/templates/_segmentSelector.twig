@@ -141,13 +141,12 @@
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
-</div>
-
-<div class="ui-confirm" id="pleaseChangeBrowserAchivingDisabledSetting">
-    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
-    {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
-    <p class="description">{{ 'SegmentEditor_SegmentNotAppliedExplanation'|translate(nameOfCurrentSegment, 'browser_archiving_disabled_enforce', segmentSetting)|raw }}</p>
-    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+    <div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
+        <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
+        {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
+        <p class="description">{{ 'SegmentEditor_SegmentNotAppliedExplanation'|translate(nameOfCurrentSegment, 'browser_archiving_disabled_enforce', segmentSetting)|raw }}</p>
+        <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+    </div>
 </div>
 
 <script type="text/javascript">
