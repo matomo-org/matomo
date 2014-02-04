@@ -146,8 +146,9 @@
 </div>
 
 <div class="ui-confirm" id="pleaseChangeBrowserAchivingDisabledSetting">
-    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment) }}</h2>
-    <p class="description">{{ 'SegmentEditor_SegmentNotAppliedExplanation'|translate(nameOfCurrentSegment) }}</p>
+    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
+    {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
+    <p class="description">{{ 'SegmentEditor_SegmentNotAppliedExplanation'|translate(nameOfCurrentSegment, 'browser_archiving_disabled_enforce', segmentSetting)|raw }}</p>
     <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
 </div>
 
