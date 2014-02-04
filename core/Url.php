@@ -237,11 +237,20 @@ class Url
         }
 
         foreach ($trustedHosts as &$trustedHost) {
+
+            // Case user wrote in the config, http://example.com/test instead of example.com
+            if(UrlHelper::isLookLikeUrl($trustedHost)) {
+                $trustedHost = parse_url($trustedHost, PHP_URL_HOST);
+            }
+
             $trustedHost = preg_quote($trustedHost);
         }
         $untrustedHost = Common::mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
+
+
         $hostRegex = Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
+
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;
     }
