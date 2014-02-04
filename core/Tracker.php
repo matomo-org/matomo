@@ -16,6 +16,7 @@ use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -745,13 +746,14 @@ class Tracker
         }
 
         // Tests can force the enabling of IP anonymization
-        $forceIpAnonymization = false;
         if (Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
-            self::updateTrackerConfig('ip_address_mask_length', 2);
+
+            self::connectDatabaseIfNotConnected();
+
+            $privacyConfig = new PrivacyManagerConfig();
+            $privacyConfig->ipAddressMaskLength = 2;
 
             \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
-
-            $forceIpAnonymization = true;
         }
 
         // Custom IP to use for this visitor
@@ -775,7 +777,6 @@ class Tracker
 
         // Disable provider plugin, because it is so slow to do many reverse ip lookups
         self::setPluginsNotToLoad($pluginsDisabled);
-
     }
 
     /**

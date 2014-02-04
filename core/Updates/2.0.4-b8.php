@@ -9,17 +9,12 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
-use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
-use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\Plugins\UsersManager\API as UsersManagerApi;
-use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Updater;
 use Piwik\Config;
-use Piwik\UpdaterErrorException;
 use Piwik\Updates;
+use Piwik\UpdaterErrorException;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**
  */
@@ -33,26 +28,51 @@ class Updates_2_0_4_b8 extends Updates
     static function update()
     {
         try {
-            self::migrateBrandingConfigToDatabase();
+            $config = Config::getInstance();
+
+            self::migrateBrandingConfig($config);
+            self::migratePrivacyManagerConfig($config, new PrivacyManagerConfig());
+
+            $config->forceSave();
+
         } catch (\Exception $e) {
             throw new UpdaterErrorException($e->getMessage());
         }
     }
 
-    private static function migrateBrandingConfigToDatabase()
+    private static function migrateBrandingConfig(Config $config)
     {
-        $config = Config::getInstance();
+        $useCustomLogo = self::getValueAndDelete($config, 'branding', 'use_custom_logo');
 
-        $branding = $config->branding;
+        $customLogo = new CustomLogo();
+        $useCustomLogo ? $customLogo->enable() : $customLogo->disable();
+    }
 
-        if (!empty($branding) && array_key_exists('use_custom_logo', $branding)) {
-            $useCustomLogo = $branding['use_custom_logo'];
+    private static function migratePrivacyManagerConfig(Config $oldConfig, PrivacyManagerConfig $newConfig)
+    {
+        $ipVisitEnrichment   = self::getValueAndDelete($oldConfig, 'Tracker', 'use_anonymized_ip_for_visit_enrichment');
+        $ipAddressMarkLength = self::getValueAndDelete($oldConfig, 'Tracker', 'ip_address_mask_length');
 
-            $customLogo = new CustomLogo();
-            $useCustomLogo ? $customLogo->enable() : $customLogo->disable();
+        if (null !== $ipVisitEnrichment) {
+            $newConfig->useAnonymizedIpForVisitEnrichment = $ipVisitEnrichment;
+        }
+        if (null !== $ipAddressMarkLength) {
+            $newConfig->ipAddressMaskLength = $ipAddressMarkLength;
+        }
+    }
+
+    private static function getValueAndDelete(Config $config, $section, $key)
+    {
+        if (!$config->$section || !array_key_exists($key, $config->$section)) {
+            return null;
         }
 
-        $config->branding = array();
-        $config->forceSave();
+        $values = $config->$section;
+        $value  = $values[$key];
+        unset($values[$key]);
+
+        $config->$section = $values;
+
+        return $value;
     }
 }

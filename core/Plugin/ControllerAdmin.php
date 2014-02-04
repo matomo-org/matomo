@@ -146,7 +146,7 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::cancelAllNonPersistent();
     }
 
-    static protected function isDataPurgeSettingsEnabled()
+    static public function isDataPurgeSettingsEnabled()
     {
         return (bool) Config::getInstance()->General['enable_delete_old_data_settings_admin'];
     }

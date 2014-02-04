@@ -11,8 +11,6 @@ namespace Piwik\Plugins\PrivacyManager;
 use Piwik\Common;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Tracker\Request;
-use Piwik\Tracker\Cache;
-use Piwik\Option;
 
 /**
  * Excludes visits where user agent's request contains either:
@@ -23,14 +21,12 @@ use Piwik\Option;
  */
 class DoNotTrackHeaderChecker
 {
-    const OPTION_NAME = "PrivacyManager.doNotTrackEnabled";
-
     /**
      * Checks for DoNotTrack headers and if found, sets `$exclude` to `true`.
      */
     public function checkHeaderInTracker(&$exclude)
     {
-        if (!$this->isActiveInTracker()
+        if (!$this->isActive()
             || $exclude
         ) {
             return;
@@ -61,30 +57,12 @@ class DoNotTrackHeaderChecker
     }
 
     /**
-     * Returns true if DoNotTrack header checking is enabled. This function is called by the
-     * Tracker.
-     */
-    private function isActiveInTracker()
-    {
-        $cache = Cache::getCacheGeneral();
-        return !empty($cache[self::OPTION_NAME]);
-    }
-
-    /**
-     * Caches the status of DoNotTrack checking (whether it is enabled or not).
-     */
-    public function setTrackerCacheGeneral(&$cacheContent)
-    {
-        $cacheContent[self::OPTION_NAME] = Option::get(self::OPTION_NAME);
-    }
-
-    /**
      * Deactivates DoNotTrack header checking. This function will not be called by the Tracker.
      */
     public static function deactivate()
     {
-        Option::set(self::OPTION_NAME, 0);
-        Cache::clearCacheGeneral();
+        $config = new Config();
+        $config->doNotTrackEnabled = false;
     }
 
     /**
@@ -92,8 +70,8 @@ class DoNotTrackHeaderChecker
      */
     public static function activate()
     {
-        Option::set(self::OPTION_NAME, 1);
-        Cache::clearCacheGeneral();
+        $config = new Config();
+        $config->doNotTrackEnabled = true;
     }
 
     /**
@@ -103,7 +81,7 @@ class DoNotTrackHeaderChecker
      */
     public static function isActive()
     {
-        $active = Option::get(self::OPTION_NAME);
-        return !empty($active);
+        $config = new Config();
+        return $config->doNotTrackEnabled;
     }
 }

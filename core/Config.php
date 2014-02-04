@@ -110,6 +110,7 @@ class Config extends Singleton
             $this->configCache['Segments'] = $this->configGlobal['Segments'];
             $this->configCache['Tracker'] = $this->configGlobal['Tracker'];
             $this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
+            $this->configCache['Deletereports'] = $this->configGlobal['Deletereports'];
         }
 
         // for unit tests, we set that no plugin is installed. This will force
@@ -128,7 +129,6 @@ class Config extends Singleton
 
         // to avoid weird session error in travis
         $this->configCache['General']['session_save_handler'] = 'dbtables';
-
     }
 
     /**
