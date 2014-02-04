@@ -996,6 +996,10 @@ $(document).ready( function(){
         return;
     }
 
+    if ((typeof isSegmentNotAppliedBecauseBrowserArchivingIsDisabled != "undefined") && isSegmentNotAppliedBecauseBrowserArchivingIsDisabled) {
+        piwikHelper.modalConfirm('#pleaseChangeBrowserAchivingDisabledSetting', {yes: function () {}});
+    }
+
     var changeSegment = function(segmentDefinition){
         $('#segmentEditorPanel').find('a.close').click();
         segmentDefinition = cleanupSegmentDefinition(segmentDefinition);

@@ -145,7 +145,14 @@
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
+<div class="ui-confirm" id="pleaseChangeBrowserAchivingDisabledSetting">
+    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment) }}</h2>
+    <p class="description">{{ 'SegmentEditor_SegmentNotAppliedExplanation'|translate(nameOfCurrentSegment) }}</p>
+    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+</div>
+
 <script type="text/javascript">
 var availableSegments = {{ savedSegmentsJson|raw }};
 var segmentTranslations = {{ segmentTranslations|raw }};
+var isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = {{ isSegmentNotAppliedBecauseBrowserArchivingIsDisabled }};
 </script>
