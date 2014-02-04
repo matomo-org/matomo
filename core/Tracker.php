@@ -209,9 +209,10 @@ class Tracker
 
                 $requestObj = new Request($request, $tokenAuth);
                 $this->loadTrackerPlugins($requestObj);
+
                 // a Bulk Tracking request that is not authenticated should fail
                 if (!$requestObj->isAuthenticated()) {
-                    throw new Exception("token_auth specified does not have Admin permission for site " . intval($idSiteForAuthentication));
+                    throw new Exception(sprintf("token_auth specified does not have Admin permission for idsite=%s", $requestObj->getIdSite()));
                 }
 
                 $request = $requestObj;
@@ -239,7 +240,6 @@ class Tracker
         if (!empty($this->requests)) {
 
             try {
-                self::connectDatabaseIfNotConnected();
                 foreach ($this->requests as $params) {
                     $isAuthenticated = $this->trackRequest($params, $tokenAuth);
                 }
@@ -540,7 +540,7 @@ class Tracker
         return $db;
     }
 
-    public static function connectDatabaseIfNotConnected()
+    protected static function connectDatabaseIfNotConnected()
     {
         if (!is_null(self::$db)) {
             return;
@@ -558,6 +558,7 @@ class Tracker
      */
     public static function getDatabase()
     {
+        self::connectDatabaseIfNotConnected();
         return self::$db;
     }
 
@@ -748,7 +749,6 @@ class Tracker
         if (Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
             self::updateTrackerConfig('ip_address_mask_length', 2);
 
-            self::connectDatabaseIfNotConnected();
             \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
 
             $forceIpAnonymization = true;

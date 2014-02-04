@@ -33,8 +33,6 @@ class Core_Tracker_ActionTest extends DatabaseTestCase
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
         
         Translate::loadEnglishTranslation();
-
-        \Piwik\Tracker::connectDatabaseIfNotConnected();
     }
 
     protected function setUpRootAccess()
