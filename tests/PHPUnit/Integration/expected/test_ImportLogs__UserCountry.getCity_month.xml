@@ -27,21 +27,21 @@
 	</row>
 	<row>
 		<label>Ashburn, Virginia, United States</label>
-		<nb_visits>4</nb_visits>
-		<nb_actions>4</nb_actions>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<bounce_count>5</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>4</nb_conversions>
-				<nb_visits_converted>4</nb_visits_converted>
-				<revenue>20</revenue>
+				<nb_conversions>5</nb_conversions>
+				<nb_visits_converted>5</nb_visits_converted>
+				<revenue>25</revenue>
 			</row>
 		</goals>
-		<nb_conversions>4</nb_conversions>
-		<revenue>20</revenue>
-		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<nb_conversions>5</nb_conversions>
+		<revenue>25</revenue>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<lat>39.044</lat>
 		<long>-77.488</long>
 		<city_name>Ashburn</city_name>
