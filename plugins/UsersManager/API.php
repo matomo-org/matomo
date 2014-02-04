@@ -479,12 +479,12 @@ class API extends \Piwik\Plugin\API
             return true;
         }
 
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
         if ($userLogin == Piwik::getCurrentUserLogin()) {
             return true;
         }
-
-        Piwik::checkUserIsNotAnonymous();
-        Piwik::checkUserHasSomeViewAccess();
 
         return $this->model->userExists($userLogin);
     }
