@@ -136,12 +136,10 @@ class Controller extends \Piwik\Plugin\Controller
         $list = array();
 
         switch ($type) {
-
             case 'brands':
                 $availableBrands = UserAgentParserEnhanced::$deviceBrands;
 
                 foreach ($availableBrands AS $short => $name) {
-
                     $list[$name] = getBrandLogo($name);
                 }
                 break;
@@ -150,7 +148,6 @@ class Controller extends \Piwik\Plugin\Controller
                 $availableBrowsers = UserAgentParserEnhanced::$browsers;
 
                 foreach ($availableBrowsers AS $short => $name) {
-
                     $list[$name] = getBrowserLogoExtended($short);
                 }
                 break;
@@ -159,7 +156,6 @@ class Controller extends \Piwik\Plugin\Controller
                 $availableBrowserFamilies = UserAgentParserEnhanced::$browserFamilies;
 
                 foreach ($availableBrowserFamilies AS $name => $browsers) {
-
                     $list[$name] = getBrowserFamilyLogoExtended($name);
                 }
                 break;
@@ -168,7 +164,6 @@ class Controller extends \Piwik\Plugin\Controller
                 $availableOSs = UserAgentParserEnhanced::$osShorts;
 
                 foreach ($availableOSs AS $name => $short) {
-
                     if ($name != 'Bot') {
                         $list[$name] = getOsLogoExtended($short);
                     }
@@ -179,7 +174,6 @@ class Controller extends \Piwik\Plugin\Controller
                 $osFamilies = UserAgentParserEnhanced::$osFamilies;
 
                 foreach ($osFamilies AS $name => $oss) {
-
                     if ($name != 'Bot') {
                         $list[$name] = getOsFamilyLogoExtended($name);
                     }
@@ -190,7 +184,6 @@ class Controller extends \Piwik\Plugin\Controller
                 $deviceTypes = UserAgentParserEnhanced::$deviceTypes;
 
                 foreach ($deviceTypes AS $name) {
-
                     $list[$name] = getDeviceTypeLogo($name);
                 }
                 break;
