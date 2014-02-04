@@ -8,10 +8,6 @@
  * @package Piwik
  */
 
-use Piwik\Error;
-use Piwik\ExceptionHandler;
-use Piwik\FrontController;
-
 if(!defined('PIWIK_DOCUMENT_ROOT')) {
     define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 }
@@ -31,10 +27,11 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 // NOTE: the code above this comment must be PHP4 compatible
+
+require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
@@ -47,21 +44,4 @@ if(!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
     define('PIWIK_PRINT_ERROR_BACKTRACE', false);
 }
 
-if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
-    require_once PIWIK_INCLUDE_PATH . '/core/Error.php';
-    Error::setErrorHandler();
-    require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
-    ExceptionHandler::setUp();
-}
-
-FrontController::setUpSafeMode();
-
-if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {
-    $controller = FrontController::getInstance();
-    $controller->init();
-    $response = $controller->dispatch();
-
-    if (!is_null($response)) {
-        echo $response;
-    }
-}
+require_once PIWIK_INCLUDE_PATH . '/core/dispatch.php';
