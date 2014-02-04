@@ -195,7 +195,8 @@ class PrivacyManager extends \Piwik\Plugin
         // load settings from ini config
         $config = PiwikConfig::getInstance();
         foreach (self::$purgeDataOptions as $configKey => $configSection) {
-            $settings[$configKey] = $config->$configSection[$configKey];
+            $values = $config->$configSection;
+            $settings[$configKey] = $values[$configKey];
         }
 
         if (!Controller::isDataPurgeSettingsEnabled()) {
