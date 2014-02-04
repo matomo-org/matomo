@@ -16,6 +16,7 @@ use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -209,9 +210,10 @@ class Tracker
 
                 $requestObj = new Request($request, $tokenAuth);
                 $this->loadTrackerPlugins($requestObj);
+
                 // a Bulk Tracking request that is not authenticated should fail
                 if (!$requestObj->isAuthenticated()) {
-                    throw new Exception("token_auth specified does not have Admin permission for site " . intval($idSiteForAuthentication));
+                    throw new Exception(sprintf("token_auth specified does not have Admin permission for idsite=%s", $requestObj->getIdSite()));
                 }
 
                 $request = $requestObj;
@@ -239,7 +241,6 @@ class Tracker
         if (!empty($this->requests)) {
 
             try {
-                self::connectDatabaseIfNotConnected();
                 foreach ($this->requests as $params) {
                     $isAuthenticated = $this->trackRequest($params, $tokenAuth);
                 }
@@ -540,7 +541,7 @@ class Tracker
         return $db;
     }
 
-    public static function connectDatabaseIfNotConnected()
+    protected static function connectDatabaseIfNotConnected()
     {
         if (!is_null(self::$db)) {
             return;
@@ -558,6 +559,7 @@ class Tracker
      */
     public static function getDatabase()
     {
+        self::connectDatabaseIfNotConnected();
         return self::$db;
     }
 
@@ -744,14 +746,14 @@ class Tracker
         }
 
         // Tests can force the enabling of IP anonymization
-        $forceIpAnonymization = false;
         if (Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
-            self::updateTrackerConfig('ip_address_mask_length', 2);
 
             self::connectDatabaseIfNotConnected();
-            \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
 
-            $forceIpAnonymization = true;
+            $privacyConfig = new PrivacyManagerConfig();
+            $privacyConfig->ipAddressMaskLength = 2;
+
+            \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
         }
 
         // Custom IP to use for this visitor
@@ -775,7 +777,6 @@ class Tracker
 
         // Disable provider plugin, because it is so slow to do many reverse ip lookups
         self::setPluginsNotToLoad($pluginsDisabled);
-
     }
 
     /**

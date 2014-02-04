@@ -153,11 +153,12 @@ default_period = day
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
 ; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
 ; This setting is overriden in the UI, under "General Settings".
-; This is the default value used if the setting hasn't been overriden via the UI.
+; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 10
 
-; This setting is overriden in the UI, under "General Settings". The default value is to allow browsers
-; to trigger the Piwik archiving process.
+; This setting is overriden in the UI, under "General Settings".
+; The default value is to allow browsers to trigger the Piwik archiving process.
+; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
 
 ; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
@@ -453,18 +454,6 @@ campaign_keyword_var_name = "pk_kwd,piwik_kwd,pk_keyword,utm_term"
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
-; Anonymize a visitor's IP address after testing for "Ip exclude"
-; This value is the level of anonymization Piwik will use; if the IP anonymization is deactivated, this value is ignored.
-; For IPv4/IPv6 addresses, valid values are the number of octets in IP address to mask (from 0 to 4).
-; For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
-ip_address_mask_length = 1
-
-
-; Set this setting to 0 to let plugins use the full non-anonymized IP address when enriching visitor information.
-; When set to 1, by default, Geo Location via geoip and Provider reverse name lookups
-; will use the anonymized IP address when anonymization is enabled.
-use_anonymized_ip_for_visit_enrichment = 1
-
 ; Tracker cache files are the simple caching layer for Tracking.
 ; TTL: Time to live for cache files, in seconds. Default to 5 minutes.
 tracker_cache_file_ttl = 300
@@ -497,12 +486,19 @@ tracking_requests_require_authentication = 1
 delete_logs_enable = 0
 delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
+delete_logs_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
 
-[branding]
-; custom logo
-; if 1, custom logo is being displayed instead of piwik logo
-use_custom_logo = 0
+[Deletereports]
+delete_reports_enable                = 0
+delete_reports_older_than            = 12
+delete_reports_keep_basic_metrics    = 1
+delete_reports_keep_day_reports      = 0
+delete_reports_keep_week_reports     = 0
+delete_reports_keep_month_reports    = 1
+delete_reports_keep_year_reports     = 1
+delete_reports_keep_range_reports    = 0
+delete_reports_keep_segment_reports  = 0
 
 [mail]
 defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hostname, if current host can't be read from system variables

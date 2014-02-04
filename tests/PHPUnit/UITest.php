@@ -20,7 +20,7 @@ abstract class UITest extends IntegrationTestCase
     const CAPTURE_PROGRAM = 'phantomjs';
     const SCREENSHOT_GROUP_SIZE = 12;
     const DEBUG_IMAGE_MAGICK_COMPARE = true;
-    const GENERATE_ZEITGEIST = true;
+    const GENERATE_ZEITGEIST = false;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
     private static $imageMagickAvailable = false;
@@ -93,7 +93,7 @@ abstract class UITest extends IntegrationTestCase
 
                 $testUrl = self::getProxyUrl() . $urlQuery;
 
-                // Screenshot Zeitgeist
+                // Screenshot morpheus
                 list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
                 $urls[] = array($processedScreenshotPath, $testUrl, $jsToTest);
 

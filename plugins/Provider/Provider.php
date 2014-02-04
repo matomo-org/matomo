@@ -19,6 +19,7 @@ use Piwik\IP;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\WidgetsList;
 
 /**
@@ -115,7 +116,8 @@ class Provider extends \Piwik\Plugin
             return;
         }
 
-        $ip = IP::N2P(Config::getInstance()->Tracker['use_anonymized_ip_for_visit_enrichment'] == 1 ? $visitorInfo['location_ip'] : $request->getIp());
+        $privacyConfig = new PrivacyManagerConfig();
+        $ip = IP::N2P($privacyConfig->useAnonymizedIpForVisitEnrichment ? $visitorInfo['location_ip'] : $request->getIp());
 
         // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
         if (substr($ip, -2, 2) == '.0') {

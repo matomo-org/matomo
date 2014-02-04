@@ -12,9 +12,10 @@ Segmentation = (function($) {
         var self = this;
 
         self.currentSegmentStr = "";
-        self.targetId = "segmentEditorPanel";
+        self.target = "segmentEditorPanel";
         self.segmentAccess = "read";
         self.availableSegments = [];
+        self.editorTemplate = $('.SegmentEditor').detach();
 
         for(var item in config)
         {
@@ -100,21 +101,21 @@ Segmentation = (function($) {
 
         var getAndDiv = function(){
             if(typeof andDiv === "undefined"){
-                var andDiv = $("#SegmentEditor").find("> div.segment-and").clone();
+                var andDiv = self.editorTemplate.find("> div.segment-and").clone();
             }
             return andDiv.clone();
         };
 
         var getOrDiv = function(){
             if(typeof orDiv === "undefined"){
-                var orDiv = $("#SegmentEditor").find("> div.segment-or").clone();
+                var orDiv = self.editorTemplate.find("> div.segment-or").clone();
             }
             return orDiv.clone();
         };
 
         var getMockedInputSet = function(){
             if(typeof mockedInputSet === "undefined"){
-                var mockedInputSet = $("#SegmentEditor").find("div.segment-row-inputs").clone();
+                var mockedInputSet = self.editorTemplate.find("div.segment-row-inputs").clone();
             }
             return mockedInputSet.clone();
         };
@@ -129,7 +130,7 @@ Segmentation = (function($) {
         var getMockedFormRow = function(){
             if(typeof mockedFormRow === "undefined")
             {
-                var mockedFormRow = $("#SegmentEditor").find("div.segment-rows").clone();
+                var mockedFormRow = self.editorTemplate.find("div.segment-rows").clone();
                 $(mockedFormRow).find(".segment-row").append(getMockedInputSet()).after(getAddOrBlockButtonHtml).after(getOrDiv());
             }
             return mockedFormRow.clone();
@@ -137,7 +138,7 @@ Segmentation = (function($) {
 
         var getInitialStateRowsHtml = function(){
             if(typeof initialStateRows === "undefined"){
-                var content = $("#SegmentEditor").find("div.initial-state-rows").html();
+                var content = self.editorTemplate.find("div.initial-state-rows").html();
                 var initialStateRows = $(content).clone();
             }
             return initialStateRows;
@@ -199,7 +200,7 @@ Segmentation = (function($) {
         };
 
         var getListHtml = function() {
-            var html = $("#SegmentEditor").find("> .listHtml").clone();
+            var html = self.editorTemplate.find("> .listHtml").clone();
             var segment, injClass;
 
             var listHtml = '<li data-idsegment="" ' +
@@ -239,10 +240,10 @@ Segmentation = (function($) {
         };
 
         var getFormHtml = function() {
-            var html = $("#SegmentEditor").find("> .segment-element").clone();
+            var html = self.editorTemplate.find("> .segment-element").clone();
             // set left margin to center form
             //$("body").append(html);
-            var segmentsDropdown = $(html).find("#available_segments_select");
+            var segmentsDropdown = $(html).find(".available_segments_select");
             var segment, newOption;
             newOption = '<option data-idsegment="" data-definition="" title="'
                         + self.translations['SegmentEditor_AddNewSegment']
@@ -343,9 +344,9 @@ Segmentation = (function($) {
             addForm("edit", segment);
 
             $(self.form).find(".segment-content > h3 > span").text(segment.name);
-            $(self.form).find('#available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
+            $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
-            $(self.form).find('#available_segments a.dropList').html(self.shortenSegmentName(segment.name, 16));
+            $(self.form).find('.available_segments a.dropList').html(self.shortenSegmentName(segment.name, 16));
 
 
 
@@ -485,16 +486,15 @@ Segmentation = (function($) {
         {
             if(typeof addNewBlockButton === "undefined")
             {
-                var addNewBlockButton = $("#SegmentEditor").find("> div.segment-add-row").clone();
+                var addNewBlockButton = self.editorTemplate.find("> div.segment-add-row").clone();
             }
             return addNewBlockButton.clone();
 
         };
 
         var getAddOrBlockButtonHtml = function(){
-            if(typeof addOrBlockButton === "undefined")
-            {
-                var addOrBlockButton = $("#SegmentEditor").find("div.segment-add-or").clone();
+            if(typeof addOrBlockButton === "undefined") {
+                var addOrBlockButton = self.editorTemplate.find("div.segment-add-or").clone();
             }
             return addOrBlockButton.clone();
         };
@@ -534,7 +534,7 @@ Segmentation = (function($) {
             });
 
             $('#closeSegmentationForm').on("click", function() {
-                $("#segmentList").show();
+                $(".segmentListContainer").show();
                 self.form.remove();
             });
 
@@ -565,7 +565,7 @@ Segmentation = (function($) {
                 event.preventDefault();
             });
 
-            $(self.form).find("#available_segments_select").bind("change", function(e){
+            $(self.form).find(".available_segments_select").bind("change", function(e){
                 var option = $(e.currentTarget).find('option:selected');
                 openEditFormGivenSegment(option);
             });
@@ -578,18 +578,18 @@ Segmentation = (function($) {
             });
 
             $(self.form).off("click", ".custom_select_search a").on("click", ".custom_select_search a", function(e){
-                $(self.form).find("#segmentSearch").val("").trigger("keyup").val(self.translations['General_Search']);
+                $(self.form).find(".segmentSearch").val("").trigger("keyup").val(self.translations['General_Search']);
             });
 
             // attach event that will clear search input upon focus if its content is default
-            $(self.form).find("#segmentSearch").on("focus", function(e){
+            $(self.form).find(".segmentSearch").on("focus", function(e){
                 var search = $(e.currentTarget).val();
                 if(search == self.translations['General_Search'])
                     $(e.currentTarget).val("");
             });
 
             // attach event that will set search input value upon blur if its content is not null
-            $(self.form).find("#segmentSearch").on("blur", function(e){
+            $(self.form).find(".segmentSearch").on("blur", function(e){
                 var search = $(e.currentTarget).val();
                 if(search == ""){
                     clearSearchMetricHighlight();
@@ -598,7 +598,7 @@ Segmentation = (function($) {
             });
 
             // bind search action triggering - only when input text is longer than 2 chars
-            $(self.form).find("#segmentSearch").on("keyup", function(e){
+            $(self.form).find(".segmentSearch").on("keyup", function(e){
                 var search = $(e.currentTarget).val();
                 if( search.length >= 2)
                 {
@@ -616,13 +616,13 @@ Segmentation = (function($) {
 
             $(self.form).on("click", ".delete", function(){
                 var segmentName = $(self.form).find(".segment-content > h3 > span").text();
-                var segmentId = $(self.form).find("#available_segments_select option:selected").attr("data-idsegment");
+                var segmentId = $(self.form).find(".available_segments_select option:selected").attr("data-idsegment");
                 var params = {
                     "idsegment" : segmentId
                 };
-                $('#segment-delete-confirm').find('#name').text( segmentName );
+                $('.segment-delete-confirm').find('#name').text( segmentName );
                 if(segmentId != ""){
-                    piwikHelper.modalConfirm( '#segment-delete-confirm', {
+                    piwikHelper.modalConfirm( '.segment-delete-confirm', {
                         yes: function(){
                             self.deleteMethod(params);
                         }
@@ -631,13 +631,13 @@ Segmentation = (function($) {
             });
 
             $(self.form).on("click", "a.close", function(e){
-                $("#segmentList").show();
+                $(".segmentListContainer").show();
                 self.form.unbind().remove();
             });
 
             $("body").on("keyup", function(e){
                 if(e.keyCode == "27"){
-                    $("#segmentList").show();
+                    $(".segmentListContainer").show();
                     $(self.form).remove();
                 }
             });
@@ -810,7 +810,7 @@ Segmentation = (function($) {
         // Mode = 'new' or 'edit'
         var addForm = function(mode, segment){
 
-            $("#segmentEditorPanel").find(".segment-element:visible").unbind().remove();
+            $(".segmentEditorPanel").find(".segment-element:visible").unbind().remove();
             if(typeof self.form !== "undefined")
             {
                 self.form.unbind().remove();
@@ -818,22 +818,22 @@ Segmentation = (function($) {
             // remove any remaining forms
 
             self.form = getFormHtml();
-            $("#segmentEditorPanel").prepend(self.form);
+            $(".segmentEditorPanel").prepend(self.form);
 
             bindFormEvents();
             bindSegmentManipulationEvents();
 
             if(mode == "edit") {
-                $(self.form).find('#enable_all_users_select > option[value="'+segment.enable_all_users+'"]').prop("selected",true);
-                $(self.form).find('#visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
-                $(self.form).find('#auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
+                $(self.form).find('.enable_all_users_select > option[value="'+segment.enable_all_users+'"]').prop("selected",true);
+                $(self.form).find('.visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
+                $(self.form).find('.auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
 
             }
 
-            makeDropList("#enable_all_users" , "#enable_all_users_select");
-            makeDropList("#visible_to_website" , "#visible_to_website_select");
-            makeDropList("#auto_archive" , "#auto_archive_select");
-            makeDropList("#available_segments" , "#available_segments_select");
+            makeDropList(".enable_all_users" , ".enable_all_users_select");
+            makeDropList(".visible_to_website" , ".visible_to_website_select");
+            makeDropList(".auto_archive" , ".auto_archive_select");
+            makeDropList(".available_segments" , ".available_segments_select");
             $(self.form).find(".saveAndApply").bind("click", function(e){
                 e.preventDefault();
                 parseFormAndSave();
@@ -849,7 +849,7 @@ Segmentation = (function($) {
             {
                 $(self.form).find(".editSegmentName").trigger('click');
             }
-            $("#segmentList").hide();
+            $(".segmentListContainer").hide();
 
         };
 
@@ -881,15 +881,15 @@ Segmentation = (function($) {
         var parseFormAndSave = function(){
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
             var segmentStr = parseForm();
-            var segmentId = $(self.form).find('#available_segments_select > option:selected').attr("data-idsegment");
-            var user = $(self.form).find("#enable_all_users_select option:selected").val();
-            var autoArchive = $(self.form).find("#auto_archive_select option:selected").val() || 0;
+            var segmentId = $(self.form).find('.available_segments_select > option:selected').attr("data-idsegment");
+            var user = $(self.form).find(".enable_all_users_select option:selected").val();
+            var autoArchive = $(self.form).find(".auto_archive_select option:selected").val() || 0;
             var params = {
                 "name": segmentName,
                 "definition": segmentStr,
                 "enabledAllUsers": user,
                 "autoArchive": autoArchive,
-                "idSite":  $(self.form).find("#visible_to_website_select option:selected").val()
+                "idSite":  $(self.form).find(".visible_to_website_select option:selected").val()
             };
 
             // determine if save or update should be performed
@@ -927,7 +927,7 @@ Segmentation = (function($) {
                     event.preventDefault();
                     ui.item.option.selected = true;
                     // Mark original select>option
-                    $('#SegmentEditor ' + spanId + ' option[value="' + ui.item.value + '"]').prop('selected', true);
+                    $(spanId + ' option[value="' + ui.item.value + '"]', self.editorTemplate).prop('selected', true);
                     dropList.text(ui.item.label);
                     $(self.form).find(selectId).trigger("change");
                 }
@@ -970,8 +970,8 @@ Segmentation = (function($) {
             if(typeof self.content !== "undefined"){
                 self.content.html($(html).html());
             } else {
-                $("#"+self.targetId).append(html);
-                self.content = $("#"+self.targetId).find(".segmentationContainer");
+                self.target.append(html);
+                self.content = self.target.find(".segmentationContainer");
             }
             initTopControls();
 
@@ -996,8 +996,12 @@ $(document).ready( function(){
         return;
     }
 
+    if ((typeof isSegmentNotAppliedBecauseBrowserArchivingIsDisabled != "undefined") && isSegmentNotAppliedBecauseBrowserArchivingIsDisabled) {
+        piwikHelper.modalConfirm('.pleaseChangeBrowserAchivingDisabledSetting', {yes: function () {}});
+    }
+
     var changeSegment = function(segmentDefinition){
-        $('#segmentEditorPanel').find('a.close').click();
+        $('.segmentEditorPanel').find('a.close').click();
         segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
         segmentDefinition = encodeURIComponent(segmentDefinition);
         return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
@@ -1086,7 +1090,7 @@ $(document).ready( function(){
         segmentFromRequest = decodeURIComponent(segmentFromRequest);
     }
     var segmentationFtw = new Segmentation({
-        "targetId"   : "segmentList",
+        "target"   : $(".segmentListContainer"),
         "segmentAccess" : "write",
         "availableSegments" : availableSegments,
         "addMethod": addSegment,
@@ -1101,11 +1105,10 @@ $(document).ready( function(){
         if($(e.target).parents('.segment-element').length === 0 && !$(e.target).is('.segment-element') && $(e.target).hasClass("ui-corner-all") == false
             && $(e.target).hasClass("ddmetric") == false  && $(".segment-element:visible").length == 1 ) {
             $(".segment-element:visible").unbind().remove();
-            $("#segmentList").show();
+            $(".segmentListContainer").show();
         }
 
-
-        if($(e.target).parents('#segmentList').length === 0 && $(".segmentationContainer").hasClass("visible")){
+        if($(e.target).parents('.segmentListContainer').length === 0 && $(".segmentationContainer").hasClass("visible")){
             $(".segmentationContainer").trigger("click");
         }
     });

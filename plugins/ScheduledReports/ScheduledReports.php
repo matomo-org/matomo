@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -272,7 +273,8 @@ class ScheduledReports extends \Piwik\Plugin
 
             $mail = new Mail();
             $mail->setSubject($subject);
-            $fromEmailName = Config::getInstance()->branding['use_custom_logo']
+            $customLogo = new CustomLogo();
+            $fromEmailName = $customLogo->isEnabled()
                 ? Piwik::translate('CoreHome_WebAnalyticsReports')
                 : Piwik::translate('ScheduledReports_PiwikReports');
             $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
@@ -455,22 +457,14 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getScheduledTasks(&$tasks)
     {
-        $arbitraryDateInUTC = Date::factory('2011-01-01');
         foreach (API::getInstance()->getReports() as $report) {
             if (!$report['deleted'] && $report['period'] != ScheduledTime::PERIOD_NEVER) {
-                $midnightInSiteTimezone =
-                    date(
-                        'H',
-                        Date::factory(
-                            $arbitraryDateInUTC,
-                            Site::getTimezoneFor($report['idsite'])
-                        )->getTimestamp()
-                    );
 
-                $hourInUTC = (24 - $midnightInSiteTimezone + $report['hour']) % 24;
+                $timezone = Site::getTimezoneFor($report['idsite']);
 
                 $schedule = ScheduledTime::getScheduledTimeForPeriod($report['period']);
-                $schedule->setHour($hourInUTC);
+                $schedule->setHour($report['hour']);
+                $schedule->setTimezone($timezone);
                 $tasks[] = new ScheduledTask (
                     API::getInstance(),
                     'sendReport',

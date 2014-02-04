@@ -49,6 +49,7 @@ class Weekly extends ScheduledTime
  
         // Adjusts the scheduled hour
         $rescheduledTime = $this->adjustHour($rescheduledTime);
+        $rescheduledTime = $this->adjustTimezone($rescheduledTime);
 
         return $rescheduledTime;
     }

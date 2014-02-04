@@ -114,10 +114,8 @@ class Cache
     {
         $cache = self::getInstance();
         $cacheId = 'general';
-        $expectedRows = 3;
-        if (($cacheContent = $cache->get($cacheId)) !== false
-            && count($cacheContent) == $expectedRows
-        ) {
+
+        if (($cacheContent = $cache->get($cacheId)) !== false) {
             return $cacheContent;
         }
 

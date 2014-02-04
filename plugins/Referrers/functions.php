@@ -204,7 +204,7 @@ function getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 /**
  * Return search engine URL for keyword and URL
  *
- * @see Piwik_getSearchEngineUrlFromUrlAndKeyword(getSearchEngineUrlFromUrlAndKeyword
+ * @see \Piwik\Plugins\Referrers\getSearchEngineUrlFromUrlAndKeyword
  *
  * @param string $keyword Keyword, e.g., web+analytics
  * @param string $url Domain name, e.g., search.piwik.org

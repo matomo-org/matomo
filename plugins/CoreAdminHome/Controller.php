@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
 use Piwik\Nonce;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -53,13 +54,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
             $view->trustedHosts = $trustedHosts;
 
-            $view->branding = Config::getInstance()->branding;
-
             $logo = new CustomLogo();
+            $view->branding       = array('use_custom_logo' => $logo->isEnabled());
             $view->logosWriteable = $logo->isCustomLogoWritable();
-            $view->pathUserLogo = CustomLogo::getPathUserLogo();
+            $view->pathUserLogo      = CustomLogo::getPathUserLogo();
             $view->pathUserLogoSmall = CustomLogo::getPathUserLogoSmall();
-            $view->pathUserLogoSVG = CustomLogo::getPathUserSvgLogo();
+            $view->pathUserLogoSVG   = CustomLogo::getPathUserSvgLogo();
             $view->pathUserLogoDirectory = dirname($view->pathUserLogo) . '/';
         }
 
@@ -187,10 +187,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 Url::saveTrustedHostnameInConfig($trustedHosts);
             }
 
-            // update branding settings
-            $branding = Config::getInstance()->branding;
-            $branding['use_custom_logo'] = Common::getRequestVar('useCustomLogo', '0');
-            Config::getInstance()->branding = $branding;
+            $customLogo = new CustomLogo();
+            if (Common::getRequestVar('useCustomLogo', '0')) {
+                $customLogo->enable();
+            } else {
+                $customLogo->disable();
+            }
 
             Config::getInstance()->forceSave();
 
@@ -276,14 +278,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return '0';
     }
 
-    private function isGeneralSettingsAdminEnabled()
+    static public function isGeneralSettingsAdminEnabled()
     {
         return (bool) Config::getInstance()->General['enable_general_settings_admin'];
     }
 
     private function saveGeneralSettings()
     {
-        if(!$this->isGeneralSettingsAdminEnabled()) {
+        if(!self::isGeneralSettingsAdminEnabled()) {
             // General settings + Beta channel + SMTP settings is disabled
             return;
         }
@@ -315,7 +317,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function handleGeneralSettingsAdmin($view)
     {
         // Whether to display or not the general settings (cron, beta, smtp)
-        $view->isGeneralSettingsAdminEnabled = $this->isGeneralSettingsAdminEnabled();
+        $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
 
         $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
         $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();

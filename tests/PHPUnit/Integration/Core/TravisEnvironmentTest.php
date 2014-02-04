@@ -7,7 +7,7 @@ use Piwik\Translate;
  *
  * @group Core
  */
-class TravisEnvironmentTest extends DatabaseTestCase
+class Core_TravisEnvironmentTest extends DatabaseTestCase
 {
     /**
      * @group Core

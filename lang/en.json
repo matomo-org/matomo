@@ -2411,7 +2411,9 @@
         "ChooseASegment": "Choose a segment",
         "LoadingSegmentedDataMayTakeSomeTime": "Processing segmented visitor data may take a few minutes...",
         "AutoArchiveRealTime": "segmented reports are processed in real time",
-        "AutoArchivePreProcessed": "segmented reports are pre-processed (faster, requires archive.php cron)"
+        "AutoArchivePreProcessed": "segmented reports are pre-processed (faster, requires archive.php cron)",
+        "SegmentNotApplied": "Segment '%s' not applied",
+        "SegmentNotAppliedExplanation": "You are requesting data for the Custom Segment '%s', the current Piwik configuration prevents the real time processing of reports for this segment. Please ask your Piwik admin to change the setting in the config file (%s). You may also edit this Segment and choose '%s'."
     },
     "Events": {
         "Events": "Events",

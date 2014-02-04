@@ -105,12 +105,12 @@ class Config extends Singleton
         // Ensure local mods do not affect tests
         if (is_null($pathGlobal)) {
             $this->configCache['Debug'] = $this->configGlobal['Debug'];
-            $this->configCache['branding'] = $this->configGlobal['branding'];
             $this->configCache['mail'] = $this->configGlobal['mail'];
             $this->configCache['General'] = $this->configGlobal['General'];
             $this->configCache['Segments'] = $this->configGlobal['Segments'];
             $this->configCache['Tracker'] = $this->configGlobal['Tracker'];
             $this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
+            $this->configCache['Deletereports'] = $this->configGlobal['Deletereports'];
         }
 
         // for unit tests, we set that no plugin is installed. This will force
@@ -129,7 +129,6 @@ class Config extends Singleton
 
         // to avoid weird session error in travis
         $this->configCache['General']['session_save_handler'] = 'dbtables';
-
     }
 
     /**

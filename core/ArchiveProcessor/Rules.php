@@ -15,6 +15,8 @@ use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -181,9 +183,13 @@ class Rules
 
     public static function getTodayArchiveTimeToLive()
     {
-        $timeToLive = Option::get(self::OPTION_TODAY_ARCHIVE_TTL);
-        if ($timeToLive !== false) {
-            return $timeToLive;
+        $uiSettingIsEnabled = Controller::isGeneralSettingsAdminEnabled();
+
+        if($uiSettingIsEnabled) {
+            $timeToLive = Option::get(self::OPTION_TODAY_ARCHIVE_TTL);
+            if ($timeToLive !== false) {
+                return $timeToLive;
+            }
         }
         return Config::getInstance()->General['time_before_today_archive_considered_outdated'];
     }
@@ -223,9 +229,13 @@ class Rules
 
     public static function isBrowserTriggerEnabled()
     {
-        $browserArchivingEnabled = Option::get(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
-        if ($browserArchivingEnabled !== false) {
-            return (bool)$browserArchivingEnabled;
+        $uiSettingIsEnabled = Controller::isGeneralSettingsAdminEnabled();
+
+        if($uiSettingIsEnabled) {
+            $browserArchivingEnabled = Option::get(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
+            if ($browserArchivingEnabled !== false) {
+                return (bool)$browserArchivingEnabled;
+            }
         }
         return (bool)Config::getInstance()->General['enable_browser_archiving_triggering'];
     }

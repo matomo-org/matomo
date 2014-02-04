@@ -17,9 +17,9 @@ use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
-
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Url;
 use Piwik\WidgetsList;
 
@@ -83,7 +83,9 @@ class UserCountry extends \Piwik\Plugin
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
-        $ipAddress = IP::N2P(Config::getInstance()->Tracker['use_anonymized_ip_for_visit_enrichment'] == 1 ? $visitorInfo['location_ip'] : $request->getIp());
+        $privacyConfig = new PrivacyManagerConfig();
+
+        $ipAddress = IP::N2P($privacyConfig->useAnonymizedIpForVisitEnrichment ? $visitorInfo['location_ip'] : $request->getIp());
         $userInfo = array(
             'lang' => $visitorInfo['location_browser_lang'],
             'ip' => $ipAddress

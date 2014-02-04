@@ -12,11 +12,8 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
-use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Updater;
-use Piwik\Config;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
 
@@ -66,7 +63,13 @@ class Updates_2_0_4_b5 extends Updates
             )
         );
 
-        $config->General['salt'] = $superUser['salt'];
+        if (array_key_exists('salt', $superUser)) {
+            $salt = $superUser['salt'];
+        } else {
+            $salt = Common::generateUniqId();
+        }
+
+        $config->General['salt'] = $salt;
         $config->superuser       = array();
         $config->forceSave();
     }

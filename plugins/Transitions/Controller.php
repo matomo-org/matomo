@@ -15,7 +15,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-
     /**
      * Since the metric translations are taken from different plugins,
      * it makes the rest of the code easier to read and maintain when we
@@ -52,7 +51,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     /**
      * Translations that are added to JS
-     * (object Piwik_Transitions_Translations)
      */
     private static $jsTranslations = array(
         'XOfY'                   => 'Transitions_XOutOfYVisits',
