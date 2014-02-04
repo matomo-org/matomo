@@ -11886,3 +11886,35 @@
     model:
   os_family: Windows
   browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; en-us; KFJWI Build/IMM76D) AppleWebKit/535.19 (KHTML, like Gecko) Silk/2.2 Mobile Safari/535.19 Silk-Accelerated=true
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Mobile Silk
+    short_name: MS
+    version: 2.2
+  device:
+    type: tablet
+    brand: KN
+    model: Fire HD 8.9" WiFi
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.0.4; KFJWA Build/IMM76D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.42 Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 31.0
+  device:
+    type: tablet
+    brand: KN
+    model: Fire HD 8.9" 4G
+  os_family: Android
+  browser_family: Chrome
