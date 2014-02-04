@@ -12,6 +12,9 @@ use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 
+/**
+ * Contains database related helper functions.
+ */
 class DbHelper
 {
     /**
@@ -23,6 +26,27 @@ class DbHelper
     public static function getTablesInstalled($forceReload = true)
     {
         return Schema::getInstance()->getTablesInstalled($forceReload);
+    }
+
+    /**
+     * Creates a new table in the database.
+     *
+     * Example:
+     * ```
+     * $tableDefinition = "`age` INT(11) NOT NULL AUTO_INCREMENT,
+     *                     `name` VARCHAR(255) NOT NULL";
+     *
+     * DbHelper::createTable('tablename', $tableDefinition);
+     * ``
+     *
+     * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
+     * @param string $createDefinition    The table create definition
+     *
+     * @api
+     */
+    public static function createTable($nameWithoutPrefix, $createDefinition)
+    {
+        Schema::getInstance()->createTable($nameWithoutPrefix, $createDefinition);
     }
 
     /**
@@ -146,4 +170,5 @@ class DbHelper
     {
         return Schema::getInstance()->getTableCreateSql($tableName);
     }
+
 }

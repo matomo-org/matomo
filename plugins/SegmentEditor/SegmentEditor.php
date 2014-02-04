@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SegmentEditor;
 use Exception;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Version;
 
 /**
@@ -71,28 +72,19 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function install()
     {
-        $queries[] = 'CREATE TABLE `' . Common::prefixTable('segment') . '` (
-					`idsegment` INT(11) NOT NULL AUTO_INCREMENT,
-					`name` VARCHAR(255) NOT NULL,
-					`definition` TEXT NOT NULL,
-					`login` VARCHAR(100) NOT NULL,
-					`enable_all_users` tinyint(4) NOT NULL default 0,
-					`enable_only_idsite` INTEGER(11) NULL,
-					`auto_archive` tinyint(4) NOT NULL default 0,
-					`ts_created` TIMESTAMP NULL,
-					`ts_last_edit` TIMESTAMP NULL,
-					`deleted` tinyint(4) NOT NULL default 0,
-					PRIMARY KEY (`idsegment`)
-				) DEFAULT CHARSET=utf8';
-        try {
-            foreach ($queries as $query) {
-                Db::exec($query);
-            }
-        } catch (Exception $e) {
-            if (!Db::get()->isErrNo($e, '1050')) {
-                throw $e;
-            }
-        }
+        $segmentTable = "`idsegment` INT(11) NOT NULL AUTO_INCREMENT,
+					     `name` VARCHAR(255) NOT NULL,
+					     `definition` TEXT NOT NULL,
+					     `login` VARCHAR(100) NOT NULL,
+					     `enable_all_users` tinyint(4) NOT NULL default 0,
+					     `enable_only_idsite` INTEGER(11) NULL,
+					     `auto_archive` tinyint(4) NOT NULL default 0,
+					     `ts_created` TIMESTAMP NULL,
+					     `ts_last_edit` TIMESTAMP NULL,
+					     `deleted` tinyint(4) NOT NULL default 0,
+					     PRIMARY KEY (`idsegment`)";
+
+        DbHelper::createTable('segment', $segmentTable);
     }
 
     public function getJsFiles(&$jsFiles)

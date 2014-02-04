@@ -42,15 +42,7 @@ class Adapter
         $className = self::getAdapterClassName($adapterName);
         Loader::loadClass($className);
 
-        /*
-         * 5.2.1 fixes various bugs with references that caused PDO_MYSQL getConnection()
-         * to clobber $dbInfos. (#33282, #35106, #39944)
-         */
-        if (version_compare(PHP_VERSION, '5.2.1') < 0) {
-            $adapter = new $className(array_map('trim', $dbInfos));
-        } else {
-            $adapter = new $className($dbInfos);
-        }
+        $adapter = new $className($dbInfos);
 
         if ($connect) {
             $adapter->getConnection();

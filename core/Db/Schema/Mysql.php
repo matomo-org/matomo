@@ -10,7 +10,6 @@ namespace Piwik\Db\Schema;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
@@ -19,7 +18,7 @@ use Piwik\DbHelper;
 /**
  * MySQL schema
  */
-class Myisam implements SchemaInterface
+class Mysql implements SchemaInterface
 {
     /**
      * Is this MySQL storage engine available?
@@ -45,7 +44,7 @@ class Myisam implements SchemaInterface
      */
     static public function isAvailable()
     {
-        return self::hasStorageEngine('MyISAM');
+        return self::hasStorageEngine('InnoDB');
     }
 
     /**
@@ -55,8 +54,9 @@ class Myisam implements SchemaInterface
      */
     public function getTablesCreateSql()
     {
-        $config = Config::getInstance();
-        $prefixTables = $config->database['tables_prefix'];
+        $engine       = $this->getTableEngine();
+        $prefixTables = $this->getTablePrefix();
+
         $tables = array(
             'user'                  => "CREATE TABLE {$prefixTables}user (
 						  login VARCHAR(100) NOT NULL,
@@ -68,7 +68,7 @@ class Myisam implements SchemaInterface
 						  date_registered TIMESTAMP NULL,
 						  PRIMARY KEY(login),
 						  UNIQUE KEY uniq_keytoken(token_auth)
-						)  DEFAULT CHARSET=utf8
+						) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'access'                => "CREATE TABLE {$prefixTables}access (
@@ -76,7 +76,7 @@ class Myisam implements SchemaInterface
 						  idsite INTEGER UNSIGNED NOT NULL,
 						  access VARCHAR(10) NULL,
 						  PRIMARY KEY(login, idsite)
-						)  DEFAULT CHARSET=utf8
+						) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'site'                  => "CREATE TABLE {$prefixTables}site (
@@ -97,14 +97,14 @@ class Myisam implements SchemaInterface
   						  `type` VARCHAR(255) NOT NULL,
   						  keep_url_fragment TINYINT NOT NULL DEFAULT 0,
 						  PRIMARY KEY(idsite)
-						)  DEFAULT CHARSET=utf8
+						) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'site_url'              => "CREATE TABLE {$prefixTables}site_url (
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
 							  url VARCHAR(255) NOT NULL,
 							  PRIMARY KEY(idsite, url)
-						)  DEFAULT CHARSET=utf8
+						) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'goal'                  => "	CREATE TABLE `{$prefixTables}goal` (
@@ -119,7 +119,7 @@ class Myisam implements SchemaInterface
 							  `revenue` float NOT NULL,
 							  `deleted` tinyint(4) NOT NULL default '0',
 							  PRIMARY KEY  (`idsite`,`idgoal`)
-							)  DEFAULT CHARSET=utf8
+							) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'logger_message'        => "CREATE TABLE {$prefixTables}logger_message (
@@ -129,7 +129,7 @@ class Myisam implements SchemaInterface
                                       level VARCHAR(16) NULL,
 									  message TEXT NULL,
 									  PRIMARY KEY(idlogger_message)
-									)  DEFAULT CHARSET=utf8
+									) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
 
@@ -141,7 +141,7 @@ class Myisam implements SchemaInterface
   									  url_prefix TINYINT(2) NULL,
 									  PRIMARY KEY(idaction),
 									  INDEX index_type_hash (type, hash)
-						)  DEFAULT CHARSET=utf8
+						) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'log_visit'             => "CREATE TABLE {$prefixTables}log_visit (
@@ -206,7 +206,7 @@ class Myisam implements SchemaInterface
 							  INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
 							  INDEX index_idsite_datetime (idsite, visit_last_action_time),
 							  INDEX index_idsite_idvisitor (idsite, idvisitor)
-							)  DEFAULT CHARSET=utf8
+							) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'log_conversion_item'   => "CREATE TABLE `{$prefixTables}log_conversion_item` (
@@ -229,7 +229,7 @@ class Myisam implements SchemaInterface
 
 												  PRIMARY KEY(idvisit, idorder, idaction_sku),
 										          INDEX index_idsite_servertime ( idsite, server_time )
-												)  DEFAULT CHARSET=utf8
+												) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'log_conversion'        => "CREATE TABLE `{$prefixTables}log_conversion` (
@@ -277,7 +277,7 @@ class Myisam implements SchemaInterface
 									  PRIMARY KEY (idvisit, idgoal, buster),
 									  UNIQUE KEY unique_idsite_idorder (idsite, idorder),
 									  INDEX index_idsite_datetime ( idsite, server_time )
-									) DEFAULT CHARSET=utf8
+									) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
@@ -307,7 +307,7 @@ class Myisam implements SchemaInterface
 											  PRIMARY KEY(idlink_va),
 											  INDEX index_idvisit(idvisit),
 									          INDEX index_idsite_servertime ( idsite, server_time )
-											)  DEFAULT CHARSET=utf8
+											) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'log_profiling'         => "CREATE TABLE {$prefixTables}log_profiling (
@@ -315,7 +315,7 @@ class Myisam implements SchemaInterface
 								  count INTEGER UNSIGNED NULL,
 								  sum_time_ms FLOAT NULL,
 								  UNIQUE KEY query(query(100))
-								)  DEFAULT CHARSET=utf8
+								) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'option'                => "CREATE TABLE `{$prefixTables}option` (
@@ -324,7 +324,7 @@ class Myisam implements SchemaInterface
 								autoload TINYINT NOT NULL DEFAULT '1',
 								PRIMARY KEY ( option_name ),
 								INDEX autoload( autoload )
-								)  DEFAULT CHARSET=utf8
+								) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'session'               => "CREATE TABLE {$prefixTables}session (
@@ -333,7 +333,7 @@ class Myisam implements SchemaInterface
 								lifetime INTEGER,
 								data TEXT,
 								PRIMARY KEY ( id )
-								)  DEFAULT CHARSET=utf8
+								) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'archive_numeric'       => "CREATE TABLE {$prefixTables}archive_numeric (
@@ -348,7 +348,7 @@ class Myisam implements SchemaInterface
 									  PRIMARY KEY(idarchive, name),
 									  INDEX index_idsite_dates_period(idsite, date1, date2, period, ts_archived),
 									  INDEX index_period_archived(period, ts_archived)
-									)  DEFAULT CHARSET=utf8
+									) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
             'archive_blob'          => "CREATE TABLE {$prefixTables}archive_blob (
@@ -362,7 +362,7 @@ class Myisam implements SchemaInterface
 									  value MEDIUMBLOB NULL,
 									  PRIMARY KEY(idarchive, name),
 									  INDEX index_period_archived(period, ts_archived)
-									)  DEFAULT CHARSET=utf8
+									) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
         );
         return $tables;
@@ -395,8 +395,7 @@ class Myisam implements SchemaInterface
     public function getTablesNames()
     {
         $aTables = array_keys($this->getTablesCreateSql());
-        $config = Config::getInstance();
-        $prefixTables = $config->database['tables_prefix'];
+        $prefixTables = $this->getTablePrefix();
         $return = array();
         foreach ($aTables as $table) {
             $return[] = $prefixTables . $table;
@@ -418,8 +417,7 @@ class Myisam implements SchemaInterface
             || $forceReload === true
         ) {
             $db = Db::get();
-            $config = Config::getInstance();
-            $prefixTables = $config->database['tables_prefix'];
+            $prefixTables = $this->getTablePrefix();
 
             // '_' matches any character; force it to be literal
             $prefixTables = str_replace('_', '\_', $prefixTables);
@@ -461,9 +459,35 @@ class Myisam implements SchemaInterface
     public function createDatabase($dbName = null)
     {
         if (is_null($dbName)) {
-            $dbName = Config::getInstance()->database['dbname'];
+            $dbName = $this->getDbName();
         }
         Db::exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+    }
+
+    /**
+     * Creates a new table in the database.
+     *
+     * @param string $nameWithoutPrefix The name of the table without any piwik prefix.
+     * @param string $createDefinition  The table create definition, see the "MySQL CREATE TABLE" specification for
+     *                                  more information.
+     * @throws \Exception
+     */
+    public function createTable($nameWithoutPrefix, $createDefinition)
+    {
+        $statement = sprintf("CREATE TABLE `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=utf8 ;",
+                             Common::prefixTable($nameWithoutPrefix),
+                             $createDefinition,
+                             $this->getTableEngine());
+
+        try {
+            Db::exec($statement);
+        } catch (Exception $e) {
+            // mysql code error 1050:table already exists
+            // see bug #153 http://dev.piwik.org/trac/ticket/153
+            if (!Db::get()->isErrNo($e, '1050')) {
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -471,8 +495,7 @@ class Myisam implements SchemaInterface
      */
     public function dropDatabase()
     {
-        $dbName = Config::getInstance()->database['dbname'];
-        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
+        Db::exec("DROP DATABASE IF EXISTS " . $this->getDbName());
     }
 
     /**
@@ -481,8 +504,7 @@ class Myisam implements SchemaInterface
     public function createTables()
     {
         $db = Db::get();
-        $config = Config::getInstance();
-        $prefixTables = $config->database['tables_prefix'];
+        $prefixTables = $this->getTablePrefix();
 
         $tablesAlreadyInstalled = $this->getTablesInstalled();
         $tablesToCreate = $this->getTablesCreateSql();
@@ -541,5 +563,28 @@ class Myisam implements SchemaInterface
                 $db->query("DROP TABLE `$tableName`");
             }
         }
+    }
+
+    private function getTablePrefix()
+    {
+        $dbInfos = Db::getDbConfig();
+        $prefixTables = $dbInfos['tables_prefix'];
+
+        return $prefixTables;
+    }
+
+    private function getTableEngine()
+    {
+        $dbInfos = Db::getDbConfig();
+        $engine = $dbInfos['type'];
+        return $engine;
+    }
+
+    private function getDbName()
+    {
+        $dbInfos = Db::getDbConfig();
+        $dbName  = $dbInfos['dbname'];
+
+        return $dbName;
     }
 }

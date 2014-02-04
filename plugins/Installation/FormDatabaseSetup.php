@@ -12,6 +12,7 @@ use Exception;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
+use Piwik\Config;
 use Piwik\Db\Adapter;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -106,6 +107,7 @@ class FormDatabaseSetup extends QuickForm2
             'tables_prefix' => $this->getSubmitValue('tables_prefix'),
             'adapter'       => $adapter,
             'port'          => $port,
+            'type'          => Config::getInstance()->database['type']
         );
 
         if (($portIndex = strpos($dbInfos['host'], '/')) !== false) {

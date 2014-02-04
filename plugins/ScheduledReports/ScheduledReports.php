@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -550,33 +551,23 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function install()
     {
-        $queries[] = '
-                CREATE TABLE `' . Common::prefixTable('report') . '` (
-					`idreport` INT(11) NOT NULL AUTO_INCREMENT,
-					`idsite` INTEGER(11) NOT NULL,
-					`login` VARCHAR(100) NOT NULL,
-					`description` VARCHAR(255) NOT NULL,
-					`idsegment` INT(11),
-					`period` VARCHAR(10) NOT NULL,
-					`hour` tinyint NOT NULL default 0,
-					`type` VARCHAR(10) NOT NULL,
-					`format` VARCHAR(10) NOT NULL,
-					`reports` TEXT NOT NULL,
-					`parameters` TEXT NULL,
-					`ts_created` TIMESTAMP NULL,
-					`ts_last_sent` TIMESTAMP NULL,
-					`deleted` tinyint(4) NOT NULL default 0,
-					PRIMARY KEY (`idreport`)
-				) DEFAULT CHARSET=utf8';
-        try {
-            foreach ($queries as $query) {
-                Db::exec($query);
-            }
-        } catch (Exception $e) {
-            if (!Db::get()->isErrNo($e, '1050')) {
-                throw $e;
-            }
-        }
+        $reportTable = "`idreport` INT(11) NOT NULL AUTO_INCREMENT,
+					    `idsite` INTEGER(11) NOT NULL,
+					    `login` VARCHAR(100) NOT NULL,
+					    `description` VARCHAR(255) NOT NULL,
+					    `idsegment` INT(11),
+					    `period` VARCHAR(10) NOT NULL,
+					    `hour` tinyint NOT NULL default 0,
+					    `type` VARCHAR(10) NOT NULL,
+					    `format` VARCHAR(10) NOT NULL,
+					    `reports` TEXT NOT NULL,
+					    `parameters` TEXT NULL,
+					    `ts_created` TIMESTAMP NULL,
+					    `ts_last_sent` TIMESTAMP NULL,
+					    `deleted` tinyint(4) NOT NULL default 0,
+					    PRIMARY KEY (`idreport`)";
+
+        DbHelper::createTable('report', $reportTable);
     }
 
     private static function checkAdditionalEmails($additionalEmails)

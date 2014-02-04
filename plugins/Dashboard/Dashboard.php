@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Dashboard;
 use Exception;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Menu\MenuMain;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -249,23 +250,13 @@ class Dashboard extends \Piwik\Plugin
 
     public function install()
     {
-        // we catch the exception
-        try {
-            $sql = "CREATE TABLE " . Common::prefixTable('user_dashboard') . " (
-					login VARCHAR( 100 ) NOT NULL ,
-					iddashboard INT NOT NULL ,
-					name VARCHAR( 100 ) NULL DEFAULT NULL ,
-					layout TEXT NOT NULL,
-					PRIMARY KEY ( login , iddashboard )
-					)  DEFAULT CHARSET=utf8 ";
-            Db::exec($sql);
-        } catch (Exception $e) {
-            // mysql code error 1050:table already exists
-            // see bug #153 http://dev.piwik.org/trac/ticket/153
-            if (!Db::get()->isErrNo($e, '1050')) {
-                throw $e;
-            }
-        }
+        $dashboard = "login VARCHAR( 100 ) NOT NULL ,
+					  iddashboard INT NOT NULL ,
+					  name VARCHAR( 100 ) NULL DEFAULT NULL ,
+					  layout TEXT NOT NULL,
+					  PRIMARY KEY ( login , iddashboard )";
+
+        DbHelper::createTable('user_dashboard', $dashboard);
     }
 
     public function uninstall()
