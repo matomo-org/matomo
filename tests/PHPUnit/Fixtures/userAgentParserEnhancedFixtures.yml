@@ -11870,3 +11870,19 @@
     model:
   os_family: Linux
   browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Comodo_Dragon/17.1.0.0 Chrome/17.0.963.38 Safari/535.11
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Comodo Dragon
+    short_name: CD
+    version: 17.1
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Chrome

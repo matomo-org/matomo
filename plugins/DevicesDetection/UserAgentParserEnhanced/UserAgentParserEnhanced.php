@@ -249,7 +249,7 @@ class UserAgentParserEnhanced
     public static $browserFamilies = array(
         'Android Browser'    => array('AN'),
         'BlackBerry Browser' => array('BB'),
-        'Chrome'             => array('CH', 'CM', 'CI', 'CF', 'CN', 'CR', 'CP', 'RM'),
+        'Chrome'             => array('CH', 'CD', 'CM', 'CI', 'CF', 'CN', 'CR', 'CP', 'RM'),
         'Firefox'            => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
         'Internet Explorer'  => array('IE', 'IM'),
         'Konqueror'          => array('KO'),
@@ -271,6 +271,7 @@ class UserAgentParserEnhanced
         'BE' => 'Beonex',
         'BX' => 'BrowseX',
         'CA' => 'Camino',
+        'CD' => 'Comodo Dragon',
         'CF' => 'Chrome Frame',
         'CH' => 'Chrome',
         'CI' => 'Chrome Mobile iOS',
@@ -400,7 +401,7 @@ class UserAgentParserEnhanced
         $this->parseBrand($mobileDef);
         $this->parseModel($mobileDef);
 
-        if (empty($this->device) && !$this->isMobile()) {
+        if (empty($this->device) && $this->isDesktop()) {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
         if ($this->debug) {

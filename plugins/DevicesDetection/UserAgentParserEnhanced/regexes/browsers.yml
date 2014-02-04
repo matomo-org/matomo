@@ -87,6 +87,11 @@
   name: 'CoolNovo'
   version: '$1'
 
+#Comodo Dragon
+- regex: 'Comodo[ _]Dragon/(\d+\.\d+)'
+  name: 'Comodo Dragon'
+  version: '$1'
+
 #ChromePlus
 - regex: 'ChromePlus/(\d+\.\d+)'
   name: 'ChromePlus'
