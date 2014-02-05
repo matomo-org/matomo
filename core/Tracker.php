@@ -299,13 +299,16 @@ class Tracker
         // To avoid parallel requests triggering the Scheduled Tasks,
         // Get last time tasks started executing
         $cache = Cache::getCacheGeneral();
+
         if ($minimumInterval <= 0
-            || empty($cache['isBrowserTriggerArchivingEnabled'])
+            || empty($cache['isBrowserTriggerEnabled'])
         ) {
             Common::printDebug("-> Scheduled tasks not running in Tracker: Browser archiving is disabled.");
             return;
         }
+
         $nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
+
         if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
             || $cache['lastTrackerCronRun'] === false
             || $nextRunTime < $now
@@ -326,7 +329,17 @@ class Tracker
             // we ensure English translations at least are loaded
             Translate::loadEnglishTranslation();
 
-            $resultTasks = TaskScheduler::runTasks();
+            ob_start();
+            CronArchive::$url = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+            $cronArchive = new CronArchive();
+            $cronArchive->enableTrackerMode();
+            $cronArchive->init();
+            $cronArchive->runScheduledTasks();
+
+            $resultTasks = ob_get_contents();
+            ob_clean();
+
+            /* $resultTasks = TaskScheduler::runTasks(); */
 
             // restore original user privilege
             Piwik::setUserHasSuperUserAccess($isSuperUser);
@@ -358,7 +371,7 @@ class Tracker
             $config = Config::getInstance();
 
             try {
-                $db = Db::get();
+                Db::get();
             } catch (Exception $e) {
                 Db::createDatabaseObject();
             }
@@ -532,6 +545,7 @@ class Tracker
          *                       - **dbname**: The name of the Piwik MySQL database.
          *                       - **port**: The MySQL database port to use.
          *                       - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
+         *                       - **type**: The MySQL engine to use, for instance 'InnoDB'
          */
         Piwik::postEvent('Tracker.getDatabaseConfig', array(&$configDb));
 

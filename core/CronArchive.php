@@ -116,6 +116,7 @@ Notes:
     private $acceptInvalidSSLCertificate = false;
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
+    private $isTrackerMode = false;
 
     /**
      * Returns the option name of the option that stores the time the archive.php script was last run.
@@ -419,6 +420,11 @@ Notes:
         exit(1);
     }
 
+    public function enableTrackerMode()
+    {
+        $this->isTrackerMode = true;
+    }
+
     public function runScheduledTasks()
     {
         $this->logSection("SCHEDULED TASKS");
@@ -711,7 +717,7 @@ Notes:
      */
     private function initCheckCli()
     {
-        if (Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode() || $this->isTrackerMode) {
             return;
         }
         $token_auth = Common::getRequestVar('token_auth', '', 'string');
@@ -842,10 +848,14 @@ Notes:
     {
         // If archive.php run as a web cron, we use the current hostname+path
         if (!Common::isPhpCliMode()) {
-            // example.org/piwik/misc/cron/
-            $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
-            // example.org/piwik/
-            $piwikUrl = $piwikUrl . "../../";
+            if (!empty(self::$url)) {
+                $piwikUrl = self::$url;
+            } else {
+                // example.org/piwik/misc/cron/
+                $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+                // example.org/piwik/
+                $piwikUrl = $piwikUrl . "../../";
+            }
         } else {
             // If archive.php run as CLI/shell we require the piwik url to be set
             $piwikUrl = $this->isParameterSet("url", true);
