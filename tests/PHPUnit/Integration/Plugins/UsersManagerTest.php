@@ -818,8 +818,10 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * check to modify as the user
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionLoginExists
      */
-    public function testUpdateUserIAmTheUser()
+    public function testAddUserIAmTheUser()
     {
         FakeAccess::$identity = 'login';
         $this->testUpdateUserNoEmailNoAlias();
