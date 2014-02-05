@@ -181,7 +181,6 @@ class Controller extends \Piwik\Plugin\Controller
      * to confirm use.
      *
      * @param none
-     * @return void
      */
     function resetPassword()
     {
@@ -223,8 +222,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function resetPasswordFirstStep($form)
     {
         $loginMail = $form->getSubmitValue('form_login');
-        $token = $form->getSubmitValue('form_token');
-        $password = $form->getSubmitValue('form_password');
+        $password  = $form->getSubmitValue('form_password');
 
         // check the password
         try {
