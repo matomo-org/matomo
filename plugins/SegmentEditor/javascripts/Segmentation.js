@@ -998,7 +998,9 @@ $(document).ready(function() {
     var SegmentSelectorControl = function (element) {
         UIControl.call(this, element);
 
-        if ((typeof isSegmentNotAppliedBecauseBrowserArchivingIsDisabled != "undefined") && isSegmentNotAppliedBecauseBrowserArchivingIsDisabled) {
+        if ((typeof this.props.isSegmentNotAppliedBecauseBrowserArchivingIsDisabled != "undefined")
+            && this.props.isSegmentNotAppliedBecauseBrowserArchivingIsDisabled
+        ) {
             piwikHelper.modalConfirm('.pleaseChangeBrowserAchivingDisabledSetting', {yes: function () {}});
         }
 
@@ -1091,16 +1093,16 @@ $(document).ready(function() {
         if($.browser.mozilla) {
             segmentFromRequest = decodeURIComponent(segmentFromRequest);
         }
-        var segmentationFtw = new Segmentation({
+        this.impl = new Segmentation({
             "target"   : this.$element.find(".segmentListContainer"),
             "segmentAccess" : "write",
-            "availableSegments" : availableSegments,
+            "availableSegments" : this.props.availableSegments,
             "addMethod": addSegment,
             "updateMethod": updateSegment,
             "deleteMethod": deleteSegment,
             "segmentSelectMethod": changeSegment,
             "currentSegmentStr": segmentFromRequest,
-            "translations": segmentTranslations
+            "translations": this.props.segmentTranslations
         });
 
         this.onMouseUp = function(e) {
