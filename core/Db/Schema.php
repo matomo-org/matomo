@@ -111,6 +111,11 @@ class Schema extends Singleton
         $config = Config::getInstance();
         $dbInfos = $config->database;
         $schemaName = $dbInfos['schema'];
+
+        // Upgrade from pre 2.0.4
+        if(strtolower($schemaName) == 'myisam') {
+            $schemaName = 'Mysql';
+        }
         $className = self::getSchemaClassName($schemaName);
         $this->schema = new $className();
     }
