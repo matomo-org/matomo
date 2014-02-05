@@ -332,14 +332,10 @@ class Tracker
             ob_start();
             CronArchive::$url = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
             $cronArchive = new CronArchive();
-            $cronArchive->enableTrackerMode();
-            $cronArchive->init();
-            $cronArchive->runScheduledTasks();
+            $cronArchive->runScheduledTasksInTrackerMode();
 
             $resultTasks = ob_get_contents();
             ob_clean();
-
-            /* $resultTasks = TaskScheduler::runTasks(); */
 
             // restore original user privilege
             Piwik::setUserHasSuperUserAccess($isSuperUser);

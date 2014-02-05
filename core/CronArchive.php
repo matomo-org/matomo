@@ -116,7 +116,6 @@ Notes:
     private $acceptInvalidSSLCertificate = false;
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
-    private $isTrackerMode = false;
 
     /**
      * Returns the option name of the option that stores the time the archive.php script was last run.
@@ -156,6 +155,17 @@ Notes:
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
             $this->log("XHProf profiling is enabled.");
         }
+    }
+
+    public function runScheduledTasksInTrackerMode()
+    {
+        $this->initPiwikHost();
+        $this->initLog();
+        $this->initCore();
+        $this->initTokenAuth();
+        $this->logInitInfo();
+        $this->checkPiwikUrlIsValid();
+        $this->runScheduledTasks();
     }
 
     /**
@@ -418,11 +428,6 @@ Notes:
             . ($backtrace ? "\n\n Here is the full errors output:\n\n" . $this->output : '')
         );
         exit(1);
-    }
-
-    public function enableTrackerMode()
-    {
-        $this->isTrackerMode = true;
     }
 
     public function runScheduledTasks()
@@ -717,7 +722,7 @@ Notes:
      */
     private function initCheckCli()
     {
-        if (Common::isPhpCliMode() || $this->isTrackerMode) {
+        if (Common::isPhpCliMode()) {
             return;
         }
         $token_auth = Common::getRequestVar('token_auth', '', 'string');
