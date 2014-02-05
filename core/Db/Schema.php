@@ -110,7 +110,11 @@ class Schema extends Singleton
     {
         $config = Config::getInstance();
         $dbInfos = $config->database;
-        $schemaName = $dbInfos['schema'];
+        if (isset($dbInfos['schema'])) {
+            $schemaName = $dbInfos['schema'];
+        } else {
+            $schemaName = 'Mysql';
+        }
         $className = self::getSchemaClassName($schemaName);
         $this->schema = new $className();
     }
