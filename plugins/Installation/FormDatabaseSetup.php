@@ -107,6 +107,7 @@ class FormDatabaseSetup extends QuickForm2
             'tables_prefix' => $this->getSubmitValue('tables_prefix'),
             'adapter'       => $adapter,
             'port'          => $port,
+            'schema'        => Config::getInstance()->database['schema'],
             'type'          => Config::getInstance()->database['type']
         );
 
