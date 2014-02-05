@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_6_3 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
@@ -35,14 +35,12 @@ class Updates_0_6_3 extends Updates
         if (!isset($dbInfos['schema'])) {
             try {
                 if (is_writable(Config::getLocalConfigPath())) {
-                    $dbInfos['schema'] = 'Myisam';
                     $config->database = $dbInfos;
                     $config->forceSave();
                 } else {
                     throw new \Exception('mandatory update failed');
                 }
             } catch (\Exception $e) {
-                throw new \Piwik\UpdaterErrorException("Please edit your config/config.ini.php file and add below <code>[database]</code> the following line: <br /><code>schema = Myisam</code>");
             }
         }
 

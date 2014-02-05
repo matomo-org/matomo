@@ -157,6 +157,17 @@ Notes:
         }
     }
 
+    public function runScheduledTasksInTrackerMode()
+    {
+        $this->initPiwikHost();
+        $this->initLog();
+        $this->initCore();
+        $this->initTokenAuth();
+        $this->logInitInfo();
+        $this->checkPiwikUrlIsValid();
+        $this->runScheduledTasks();
+    }
+
     /**
      * Main function, runs archiving on all websites with new activity
      */
@@ -842,10 +853,14 @@ Notes:
     {
         // If archive.php run as a web cron, we use the current hostname+path
         if (!Common::isPhpCliMode()) {
-            // example.org/piwik/misc/cron/
-            $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
-            // example.org/piwik/
-            $piwikUrl = $piwikUrl . "../../";
+            if (!empty(self::$url)) {
+                $piwikUrl = self::$url;
+            } else {
+                // example.org/piwik/misc/cron/
+                $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+                // example.org/piwik/
+                $piwikUrl = $piwikUrl . "../../";
+            }
         } else {
             // If archive.php run as CLI/shell we require the piwik url to be set
             $piwikUrl = $this->isParameterSet("url", true);

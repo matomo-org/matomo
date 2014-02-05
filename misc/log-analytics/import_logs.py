@@ -461,7 +461,7 @@ class Configuration(object):
         option_parser.add_option(
             '--replay-tracking', dest='replay_tracking',
             action='store_true', default=False,
-            help="Replay piwik.php requests found in custom logs (only piwik.php requests expected)"
+            help="Replay piwik.php requests found in custom logs (only piwik.php requests expected). \nSee http://piwik.org/faq/how-to/faq_17033/"
         )
         option_parser.add_option(
             '--output', dest='output',
@@ -1239,11 +1239,14 @@ class Recorder(object):
 
         if hit.is_download:
             args['download'] = args['url']
-        if hit.is_robot:
-            args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
-        elif config.options.enable_bots:
-            args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
+
+        if config.options.enable_bots:
             args['bots'] = '1'
+            if hit.is_robot:
+                args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
+            else:
+                args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
+
         if hit.is_error or hit.is_redirect:
             args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
             args['action_name'] = '%s/URL = %s%s' % (

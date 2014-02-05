@@ -176,7 +176,7 @@ class View implements ViewInterface
      * @param string $key The variable name.
      * @return mixed The variable value.
      */
-    public function __get($key)
+    public function &__get($key)
     {
         return $this->templateVars[$key];
     }

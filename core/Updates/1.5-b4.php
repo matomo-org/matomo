@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_5_b4 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('site') . '`

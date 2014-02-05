@@ -72,6 +72,7 @@ class Config extends Singleton
      *
      * @param string $pathLocal
      * @param string $pathGlobal
+     * @param string $pathCommon
      */
     public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
@@ -209,7 +210,7 @@ class Config extends Singleton
      *     $config->save();
      *
      * @param string $hostname eg piwik.example.com
-     *
+     * @return string
      * @throws \Exception In case the domain contains not allowed characters
      */
     public function forceUsageOfLocalHostnameConfig($hostname)
@@ -478,6 +479,7 @@ class Config extends Singleton
      *
      * @param array $configLocal
      * @param array $configGlobal
+     * @param array $configCommon
      * @param array $configCache
      * @return string
      */
@@ -576,10 +578,11 @@ class Config extends Singleton
      *
      * @param array $configLocal
      * @param array $configGlobal
+     * @param array $configCommon
      * @param array $configCache
      * @param string $pathLocal
      *
-     * @throws Exception if config file not writable
+     * @throws \Exception if config file not writable
      */
     protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal)
     {

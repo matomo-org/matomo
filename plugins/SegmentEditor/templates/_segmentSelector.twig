@@ -1,4 +1,6 @@
-<div class="segmentEditorPanel js-autoLeftPanel">
+<div class="segmentEditorPanel js-autoLeftPanel"
+     data-props="{{ clientSideProperties|json_encode }}"
+     data-params="{{ clientSideParameters|json_encode }}">
     <div class="SegmentEditor" style="display:none;">
         <div class="segmentationContainer listHtml">
             <span class="segmentationTitle"></span>
@@ -149,8 +151,4 @@
     </div>
 </div>
 
-<script type="text/javascript">
-var availableSegments = {{ savedSegmentsJson|raw }};
-var segmentTranslations = {{ segmentTranslations|raw }};
-var isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = {{ isSegmentNotAppliedBecauseBrowserArchivingIsDisabled }};
-</script>
+<script type="text/javascript">$(document).ready(function () { require('piwik/UI').SegmentSelectorControl.initElements(); });</script>

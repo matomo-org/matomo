@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_9_1 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         if (!SettingsServer::isTimezoneSupportEnabled()) {
             return array();

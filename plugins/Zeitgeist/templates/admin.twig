@@ -4,14 +4,15 @@
 <!--[if (gte IE 9)|!(IE)]><!-->
 <html><!--<![endif]-->
     <head>
-        {% block head %}
+{% block head %}
             <meta charset="utf-8">
             <title>{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}</title>
             <meta name="generator" content="Piwik - Open Source Web Analytics"/>
             <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
 
-            {% include "_jsGlobalVariables.twig" %}
-            {% include "_jsCssIncludes.twig" %}
+{% include "_jsGlobalVariables.twig" %}
+{% include "_jsCssIncludes.twig" %}
+
             <!--[if IE]>
             <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/ieonly.css"/>
             <![endif]-->

@@ -49,7 +49,7 @@ class ArchiveTableCreator
         }
 
         if (!in_array($tableName, self::$tablesAlreadyInstalled)) {
-            $db = Db::get();
+            $db  = Db::get();
             $sql = DbHelper::getTableCreateSql($tableNamePrefix);
 
             // replace table name template by real name

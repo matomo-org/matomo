@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_2_0_a7 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             // ignore existing column name error (1060)

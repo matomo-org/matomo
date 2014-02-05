@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_9_1_b2 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'ALTER TABLE ' . Common::prefixTable('site') . " DROP `feedburnerName`" => 1091

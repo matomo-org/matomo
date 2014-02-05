@@ -20,7 +20,7 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
  */
 class Updates_2_0_4_b8 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array();
     }

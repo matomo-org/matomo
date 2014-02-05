@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_2_24 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'CREATE INDEX index_type_name

@@ -23,7 +23,7 @@ class Updates_1_8_4_b1 extends Updates
         return true;
     }
 
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         $action = Common::prefixTable('log_action');
         $duplicates = Common::prefixTable('log_action_duplicates');
@@ -72,7 +72,7 @@ class Updates_1_8_4_b1 extends Updates
 				 `before` int(10) unsigned NOT NULL,
 				 `after` int(10) unsigned NOT NULL,
 				 KEY `mainkey` (`before`)
-				) ENGINE=MyISAM;
+				) ENGINE=InnoDB;
 			"                                                            => false,
 
             // grouping by name only would be case-insensitive, so we GROUP BY name,hash

@@ -49,11 +49,9 @@ class Schema extends Singleton
     public static function getSchemas($adapterName)
     {
         static $allSchemaNames = array(
-            // MySQL storage engines
             'MYSQL' => array(
-                'Myisam',
-//				'Innodb',
-//				'Infinidb',
+                'Mysql',
+                // InfiniDB
             ),
 
             // Microsoft SQL Server
@@ -112,11 +110,7 @@ class Schema extends Singleton
     {
         $config = Config::getInstance();
         $dbInfos = $config->database;
-        if (isset($dbInfos['schema'])) {
-            $schemaName = $dbInfos['schema'];
-        } else {
-            $schemaName = 'Myisam';
-        }
+        $schemaName = $dbInfos['schema'];
         $className = self::getSchemaClassName($schemaName);
         $this->schema = new $className();
     }
@@ -153,6 +147,17 @@ class Schema extends Singleton
     public function getTablesCreateSql()
     {
         return $this->getSchema()->getTablesCreateSql();
+    }
+
+    /**
+     * Creates a new table in the database.
+     *
+     * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
+     * @param string $createDefinition    The table create definition
+     */
+    public function createTable($nameWithoutPrefix, $createDefinition)
+    {
+        $this->getSchema()->createTable($nameWithoutPrefix, $createDefinition);
     }
 
     /**

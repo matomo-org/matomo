@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_1 extends Updates
 {
-    static function update($schema = 'Myisam')
+    static function update()
     {
         $config = Config::getInstance();
 

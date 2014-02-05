@@ -468,7 +468,7 @@ class Access
 
     private function setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess()
     {
-        if (!Piwik::hasTheUserSuperUserAccess($this->login)) {
+        if (!Piwik::hasTheUserSuperUserAccess($this->login) || Piwik::isUserIsAnonymous()) {
             $this->login = $this->getAnySuperUserAccessLogin();
         }
     }

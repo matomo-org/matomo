@@ -92,7 +92,7 @@ class UrlHelper
     }
 
     /**
-     * Returns true if the string passed may be a URL.
+     * Returns true if the string passed may be a URL ie. it starts with protocol://.
      * We don't need a precise test here because the value comes from the website
      * tracked source code and the URLs may look very strange.
      *

@@ -42,12 +42,12 @@
 	</row>
 	<row>
 		<label>Saturday</label>
-		<nb_visits>9</nb_visits>
-		<nb_uniq_visitors>9</nb_uniq_visitors>
-		<nb_actions>12</nb_actions>
+		<nb_visits>10</nb_visits>
+		<nb_uniq_visitors>10</nb_uniq_visitors>
+		<nb_actions>13</nb_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>7</bounce_count>
-		<nb_visits_converted>7</nb_visits_converted>
+		<bounce_count>8</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>

@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_2_13 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'DROP TABLE IF EXISTS `' . Common::prefixTable('option') . '`'    => false,

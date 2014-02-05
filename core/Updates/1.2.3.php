@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_1_2_3 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             // LOAD DATA INFILE uses the database's charset

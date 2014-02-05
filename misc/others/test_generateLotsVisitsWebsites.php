@@ -112,8 +112,15 @@ class Piwik_StressTests_CopyLogs
 		 		WHERE date(server_time) = CURRENT_DATE();";
             $db->query($sql);
         }
-        $sql = "OPTIMIZE TABLE " . Common::prefixTable('log_link_visit_action') . ", " . Common::prefixTable('log_conversion') . ", " . Common::prefixTable('log_conversion_item') . ", " . Common::prefixTable('log_visit') . "";
-        $db->query($sql);
+
+        $tablesToOptimize = array(
+            Common::prefixTable('log_link_visit_action'),
+            Common::prefixTable('log_conversion'),
+            Common::prefixTable('log_conversion_item'),
+            Common::prefixTable('log_visit')
+        );
+        \Piwik\Db::optimizeTables($tablesToOptimize);
+
         $this->log("done");
     }
 

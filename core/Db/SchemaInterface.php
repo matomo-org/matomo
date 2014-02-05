@@ -37,6 +37,14 @@ interface SchemaInterface
     public function getTablesCreateSql();
 
     /**
+     * Creates a new table in the database.
+     *
+     * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
+     * @param string $createDefinition    The table create definition
+     */
+    public function createTable($nameWithoutPrefix, $createDefinition);
+
+    /**
      * Create database
      *
      * @param string $dbName Name of the database to create
