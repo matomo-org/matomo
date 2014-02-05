@@ -50,7 +50,7 @@ abstract class UITest extends IntegrationTestCase
         parent::setUpBeforeClass();
 
         DbHelper::createAnonymousUser();
-        UsersManagerApi::getInstance()->addUser('superUserLogin', 'testtest', 'hello2@example.org');
+        //UsersManagerApi::getInstance()->addUser('superUserLogin', 'testtest', 'hello2@example.org');
         UsersManagerApi::getInstance()->setSuperUserAccess('superUserLogin', true);
 
         AssetManager::getInstance()->removeMergedAssets();
