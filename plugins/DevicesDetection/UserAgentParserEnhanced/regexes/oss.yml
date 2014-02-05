@@ -64,7 +64,7 @@
   version: ''
   
   
-- regex: 'Linux[;\)] |Linux (?:x86_64|zbov|i686)'
+- regex: 'Linux[;\)] |Linux (?:x86_64|zbov|i686)|Linux
   name: 'Linux'
   version: ''
   

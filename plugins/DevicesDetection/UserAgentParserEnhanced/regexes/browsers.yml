@@ -51,6 +51,16 @@
   name: 'ANTGalio'
   version: '$1'
 
+#Espial TV Browser
+- regex: '(?:Espial|Escape)(?:[/ ](\d+\.\d+))?'
+  name: 'Espial TV Browser'
+  version: '$1'
+
+#LG Browser
+- regex: 'LG Browser(?:/(\d+\.\d+))?'
+  name: 'LG Browser'
+  version: '$1'
+
 #RockMelt
 - regex: 'RockMelt(?:/(\d+\.\d+))?'
   name: 'RockMelt'

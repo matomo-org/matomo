@@ -578,7 +578,7 @@ LG:
   regex: 'LG|portalmmm/2\.0 (?:KE|KG|KP|L3)|VX[0-9]+'
   device: 'smartphone'
   models:
-    - regex: 'LGE_DLNA_SDK'
+    - regex: 'LGE_DLNA_SDK|NetCast'
       device: 'tv'
       model: 'NetCast'
     - regex: 'LGE(?: |-LG| LG-AX|-)([a-z0-9]+)'
@@ -913,10 +913,10 @@ Spice:
   
 # Sharp
 Sharp:
-  regex: 'SHARP|SBM|SH-[0-9]+[a-z]? Build'
+  regex: 'SHARP|SBM|SH-[0-9]+[a-z]? Build|AQUOS'
   device: 'smartphone'
   models: 
-    - regex: 'SHARP-AQUOS'
+    - regex: 'SHARP-AQUOS|AQUOSBrowser'
       device: 'tv'
       model: 'Aquos Net Plus'
     - regex: 'SHARP[ \-]([a-z0-9\-]+)'

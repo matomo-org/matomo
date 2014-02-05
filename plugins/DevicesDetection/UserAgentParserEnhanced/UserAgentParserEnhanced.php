@@ -35,12 +35,14 @@ class UserAgentParserEnhanced
         'BE' => 'Becker',
         'BI' => 'Bird',
         'BL' => 'Beetel',
+        'BO' => 'BangOlufsen',
         'BQ' => 'BenQ',
         'BS' => 'BenQ-Siemens',
         'CA' => 'Cat',
         'CK' => 'Cricket',
         'CL' => 'Compal',
         'CN' => 'CnM',
+        'CR' => 'creNova',
         'CT' => 'Capitel',
         'CU' => 'Cube',
         'DE' => 'Denver',
@@ -48,6 +50,7 @@ class UserAgentParserEnhanced
         'DC' => 'DoCoMo',
         'DI' => 'Dicam',
         'DL' => 'Dell',
+        'DM' => 'DMM',
         'DP' => 'Dopod',
         'EC' => 'Ericsson',
         'EI' => 'Ezio',
@@ -64,11 +67,15 @@ class UserAgentParserEnhanced
         'HP' => 'HP',
         'HT' => 'HTC',
         'HU' => 'Huawei',
+        'HX' => 'Humax',
+        'IA' => 'Ikea',
         'IK' => 'iKoMo',
         'IM' => 'i-mate',
         'IN' => 'Innostream',
         'IO' => 'i-mobile',
         'IQ' => 'INQ',
+        'IT' => 'Intek',
+        'IV' => 'Inverto',
         'JO' => 'Jolla',
         'KA' => 'Karbonn',
         'KD' => 'KDDI',
@@ -81,9 +88,13 @@ class UserAgentParserEnhanced
         'LC' => 'LCT',
         'LE' => 'Lenovo',
         'LG' => 'LG',
+        'LO' => 'Loewe',
         'LU' => 'LGUPlus',
         'MA' => 'Manta Multimedia',
+        'MD' => 'Medion',
+        'ME' => 'Metz',
         'MI' => 'MicroMax',
+        'MK' => 'MediaTek',
         'MO' => 'Mio',
         'MR' => 'Motorola',
         'MS' => 'Microsoft',
@@ -100,6 +111,7 @@ class UserAgentParserEnhanced
         'OR' => 'Orange',
         'OT' => 'O2',
         'PA' => 'Panasonic',
+        'PE' => 'PEAQ',
         'PH' => 'Philips',
         'PM' => 'Palm',
         'PO' => 'phoneOne',
@@ -118,26 +130,34 @@ class UserAgentParserEnhanced
         'SN' => 'Sendo',
         'SO' => 'Sony',
         'SP' => 'Spice',
+        'SV' => 'Selevision',
         'SY' => 'Sanyo',
         'SM' => 'Symphony',
+        'SR' => 'Smart',
         'TA' => 'Tesla',
         'TC' => 'TCL',
         'TE' => 'Telit',
         'TH' => 'TiPhone',
         'TI' => 'TIANYU',
+        'TL' => 'Telefunken',
         'TM' => 'T-Mobile',
+        'TN' => 'Thomson',
         'TO' => 'Toplux',
         'TS' => 'Toshiba',
+        'TT' => 'TechnoTrend',
+        'TX' => 'TechniSat',
         'UT' => 'UTStarcom',
         'VD' => 'Videocon',
         'VE' => 'Vertu',
         'VI' => 'Vitelcom',
         'VK' => 'VK Mobile',
         'VS' => 'ViewSonic',
+        'VT' => 'Vestel',
         'VO' => 'Voxtel',
         'WB' => 'Web TV',
         'WE' => 'WellcoM',
         'WO' => 'Wonu',
+        'VW' => 'Videoweb',
         'XX' => 'Unknown',
         'ZO' => 'Zonda',
         'ZT' => 'ZTE',
@@ -289,6 +309,7 @@ class UserAgentParserEnhanced
         'DI' => 'Dillo',
         'EL' => 'Elinks',
         'EP' => 'Epiphany',
+        'ES' => 'Espial TV Browser',
         'FB' => 'Firebird',
         'FD' => 'Fluid',
         'FE' => 'Fennec',
@@ -309,6 +330,7 @@ class UserAgentParserEnhanced
         'KO' => 'Konqueror',
         'KP' => 'Kapiko',
         'KZ' => 'Kazehakase',
+        'LB' => 'LG Browser',
         'LG' => 'Lightning',
         'LI' => 'Links',
         'LX' => 'Lynx',
@@ -353,6 +375,7 @@ class UserAgentParserEnhanced
     protected static $osRegexesFile = 'oss.yml';
     protected static $browserRegexesFile = 'browsers.yml';
     protected static $mobileRegexesFile = 'mobiles.yml';
+    protected static $televisionRegexesFile = 'televisions.yml';
     protected $userAgent;
     protected $os = '';
     protected $browser = '';
@@ -393,6 +416,11 @@ class UserAgentParserEnhanced
         return $regexMobile;
     }
 
+    protected function getTelevisionRegexes()
+    {
+        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
+    }
+
     public function parse()
     {
         $this->parseOs();
@@ -401,11 +429,15 @@ class UserAgentParserEnhanced
 
         $this->parseBrowser();
 
-        $mobileDef = $this->getMobileRegexes();
-        $this->parseBrand($mobileDef);
-        $this->parseModel($mobileDef);
+        if($this->isHbbTv()) {
+            $this->parseTelevision();
+        } else {
+            $this->parseMobile();
+        }
 
-        if (empty($this->device) && $this->isDesktop()) {
+        if (empty($this->device) && $this->isHbbTv()) {
+            $this->device = array_search('tv', self::$deviceTypes);
+        } else if (empty($this->device) && $this->isDesktop()) {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
         if ($this->debug) {
@@ -473,9 +505,23 @@ class UserAgentParserEnhanced
         );
     }
 
-    protected function parseBrand($mobileRegexes)
+    protected function parseMobile()
     {
-        foreach ($mobileRegexes as $brand => $mobileRegex) {
+        $mobileRegexes = $this->getMobileRegexes();
+        $this->parseBrand($mobileRegexes);
+        $this->parseModel($mobileRegexes);
+    }
+
+    protected function parseTelevision()
+    {
+        $televisionRegexes = $this->getTelevisionRegexes();
+        $this->parseBrand($televisionRegexes);
+        $this->parseModel($televisionRegexes);
+    }
+
+    protected function parseBrand($deviceRegexes)
+    {
+        foreach ($deviceRegexes as $brand => $mobileRegex) {
             $matches = $this->matchUserAgent($mobileRegex['regex']);
             if ($matches)
                 break;
@@ -500,12 +546,12 @@ class UserAgentParserEnhanced
         }
     }
 
-    protected function parseModel($mobileRegexes)
+    protected function parseModel($deviceRegexes)
     {
-        if (empty($this->brand) || !empty($this->model))
+        if (empty($this->brand) || !empty($this->model) || empty($deviceRegexes[$this->fullName]['models']))
             return;
 
-        foreach ($mobileRegexes[$this->fullName]['models'] as $modelRegex) {
+        foreach ($deviceRegexes[$this->fullName]['models'] as $modelRegex) {
             $matches = $this->matchUserAgent($modelRegex['regex']);
             if ($matches)
                 break;
@@ -675,6 +721,12 @@ class UserAgentParserEnhanced
             }
         }
         return $decodedFamily == 'Simulator';
+    }
+
+    public function isHbbTv()
+    {
+        $regex = 'HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})';
+        return $this->matchUserAgent($regex);
     }
 
     public function isMobile()
