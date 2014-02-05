@@ -49,11 +49,9 @@ class Schema extends Singleton
     public static function getSchemas($adapterName)
     {
         static $allSchemaNames = array(
-            // MySQL storage engines
             'MYSQL' => array(
                 'Mysql',
-//				'Innodb',
-//				'Infinidb',
+                // InfiniDB
             ),
 
             // Microsoft SQL Server
@@ -112,11 +110,7 @@ class Schema extends Singleton
     {
         $config = Config::getInstance();
         $dbInfos = $config->database;
-        if (isset($dbInfos['schema'])) {
-            $schemaName = $dbInfos['schema'];
-        } else {
-            $schemaName = 'Mysql';
-        }
+        $schemaName = $dbInfos['schema'];
         $className = self::getSchemaClassName($schemaName);
         $this->schema = new $className();
     }

@@ -20,6 +20,7 @@ tables_prefix =
 port = 3306
 adapter = PDO_MYSQL
 type = InnoDB
+schema = Mysql
 
 ; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
@@ -35,6 +36,7 @@ tables_prefix = piwiktests_
 port = 3306
 adapter = PDO_MYSQL
 type = InnoDB
+schema = Mysql
 
 [log]
 ; possible values for log: screen, database, file
