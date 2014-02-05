@@ -237,12 +237,16 @@ class Url
         }
 
         foreach ($trustedHosts as &$trustedHost) {
-
             // Case user wrote in the config, http://example.com/test instead of example.com
             if(UrlHelper::isLookLikeUrl($trustedHost)) {
                 $trustedHost = parse_url($trustedHost, PHP_URL_HOST);
             }
+        }
 
+        /* used by Piwik PRO */
+        Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
+
+        foreach ($trustedHosts as &$trustedHost) {
             $trustedHost = preg_quote($trustedHost);
         }
         $untrustedHost = Common::mb_strtolower($host);
@@ -514,8 +518,8 @@ class Url
         $parsedUrl = @parse_url($url);
         $host = IP::sanitizeIp(@$parsedUrl['host']);
         return !empty($host)
-        && ($disableHostCheck || in_array($host, $hosts))
-        && !empty($parsedUrl['scheme'])
-        && in_array($parsedUrl['scheme'], array('http', 'https'));
+            && ($disableHostCheck || in_array($host, $hosts))
+            && !empty($parsedUrl['scheme'])
+            && in_array($parsedUrl['scheme'], array('http', 'https'));
     }
 }
