@@ -297,21 +297,21 @@ class Db
         }
 
         // filter out all InnoDB tables
-        $innoDbTables = array();
+        $myisamDbTables = array();
         foreach (Db::fetchAll("SHOW TABLE STATUS") as $row) {
-            if (strtolower($row['Engine']) == 'innodb'
+            if (strtolower($row['Engine']) == 'myisam'
                 && in_array($row['Name'], $tables)
             ) {
-                $innoDbTables[] = $row['Name'];
+                $myisamDbTables[] = $row['Name'];
             }
         }
 
-        if (empty($innoDbTables)) {
+        if (empty($myisamDbTables)) {
             return false;
         }
 
         // optimize the tables
-        return self::query("OPTIMIZE TABLE " . implode(',', $innoDbTables));
+        return self::query("OPTIMIZE TABLE " . implode(',', $myisamDbTables));
     }
 
     /**
