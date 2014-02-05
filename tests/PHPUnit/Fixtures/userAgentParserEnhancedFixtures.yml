@@ -85,8 +85,8 @@
     short_name: WI8
     version: 8
   browser:
-    name: Opera
-    short_name: OP
+    name: Opera Next
+    short_name: ON
     version: 15.0
   device:
     type: desktop
@@ -11509,8 +11509,8 @@
     short_name: WI8
     version: 8
   browser:
-    name: Opera
-    short_name: OP
+    name: Opera Next
+    short_name: ON
     version: 18.0
   device:
     type: desktop
