@@ -119,6 +119,28 @@ class Mysql extends Db
     }
 
     /**
+     * Fetches the first column of all SQL result rows as an array.
+     *
+     * @param string $sql An SQL SELECT statement.
+     * @param mixed $bind Data to bind into SELECT placeholders.
+     * @throws \Piwik\Tracker\Db\DbException
+     * @return string
+     */
+    public function fetchCol($sql, $bind = array())
+    {
+        try {
+            $sth = $this->query($sql, $bind);
+            if ($sth === false) {
+                return false;
+            }
+            $result = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+            return $result;
+        } catch (PDOException $e) {
+            throw new DbException("Error query: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Returns the first row of a query result, using optional bound parameters.
      *
      * @param string $query Query

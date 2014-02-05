@@ -163,7 +163,9 @@ class FrontController extends Singleton
     public function __destruct()
     {
         try {
-            if (class_exists('Piwik\\Profiler')) {
+            if (class_exists('Piwik\\Profiler')
+                && empty($GLOBALS['PIWIK_TRACKER_MODE'])) {
+                // in tracker mode Piwik\Tracker\Db\Pdo\Mysql does currently not implement profiling
                 Profiler::displayDbProfileReport();
                 Profiler::printQueryCount();
                 Log::debug(Registry::get('timer'));
