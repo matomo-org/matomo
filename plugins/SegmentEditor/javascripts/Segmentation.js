@@ -8,17 +8,18 @@
 Segmentation = (function($) {
 
     var segmentation = function segmentation(config) {
-        
+        if (!config.target) {
+            throw new Error("target property must be set in config to segment editor control element");
+        }
+
         var self = this;
 
         self.currentSegmentStr = "";
-        self.target = "segmentEditorPanel";
         self.segmentAccess = "read";
         self.availableSegments = [];
-        self.editorTemplate = $('.SegmentEditor').detach();
+        self.editorTemplate = $('.SegmentEditor', self.target).detach();
 
-        for(var item in config)
-        {
+        for (var item in config) {
             self[item] = config[item];
         }
 
@@ -84,7 +85,7 @@ Segmentation = (function($) {
             if( current != "")
             {
                 var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
-                var foundItems = $(selector);
+                var foundItems = $(selector, self.target);
                 var title = $('<strong></strong>');
                 if( foundItems.length > 0) {
                     var name = $(foundItems).first().find("span.segname").text();
@@ -242,7 +243,6 @@ Segmentation = (function($) {
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
             // set left margin to center form
-            //$("body").append(html);
             var segmentsDropdown = $(html).find(".available_segments_select");
             var segment, newOption;
             newOption = '<option data-idsegment="" data-definition="" title="'
@@ -277,7 +277,7 @@ Segmentation = (function($) {
         };
 
         var closeAllOpenLists = function() {
-            $(".segmentationContainer").each(function() {
+            $(".segmentationContainer", self.target).each(function() {
                 if($(this).hasClass("visible"))
                     $(this).trigger("click");
             });
@@ -348,8 +348,6 @@ Segmentation = (function($) {
 
             $(self.form).find('.available_segments a.dropList').html(self.shortenSegmentName(segment.name, 16));
 
-
-
             if(segment.definition != ""){
                 revokeInitialStateRows();
                 var blocks = parseSegmentStr(segment.definition);
@@ -386,7 +384,7 @@ Segmentation = (function($) {
             });
 
             $(self.content).off("click",".editSegment").on("click", ".editSegment", function(e){
-                $(this).parents(".segmentationContainer").trigger("click");
+                $(this).closest(".segmentationContainer").trigger("click");
                 var target = $(this).parent("li");
 
                 openEditFormGivenSegment(target);
@@ -411,16 +409,18 @@ Segmentation = (function($) {
 
         var bindChangeMetricSelectEvent = function()
         {
-            $(".segment-content").off("change","select.metricList").on("change", "select.metricList", function(e, persist){
-                if(typeof persist === "undefined"){
-                    persist = false;
-                }
-                alterMatchesList(this, persist);
+            $(".segment-content", self.target)
+                .off("change","select.metricList")
+                .on("change", "select.metricList", function(e, persist){
+                    if(typeof persist === "undefined"){
+                        persist = false;
+                    }
+                    alterMatchesList(this, persist);
 
-                doDragDropBindings();
+                    doDragDropBindings();
 
-                autoSuggestValues(this, persist);
-            } );
+                    autoSuggestValues(this, persist);
+                });
         };
 
         // Request auto-suggest values
@@ -513,7 +513,6 @@ Segmentation = (function($) {
             var segment = {};
             segment.idsegment = option.attr("data-idsegment");
 
-
             var segmentExtra = getSegmentFromId(segment.idsegment);
             for(var item in segmentExtra)
             {
@@ -533,17 +532,12 @@ Segmentation = (function($) {
                 e.preventDefault();
             });
 
-            $('#closeSegmentationForm').on("click", function() {
-                $(".segmentListContainer").show();
-                self.form.remove();
-            });
-
             $(self.form).off("click", "a.editSegmentName").on("click", "a.editSegmentName", function(e){
                 var oldName = $(e.currentTarget).parents("h3").find("span").text();
                 $(e.currentTarget).parents("h3").find("span").hide();
                 $(e.currentTarget).hide();
-                $(e.currentTarget).before('<input id="edit_segment_name" type="text"/>');
-                $(e.currentTarget).siblings("#edit_segment_name").focus().val(oldName);
+                $(e.currentTarget).before('<input class="edit_segment_name" type="text"/>');
+                $(e.currentTarget).siblings(".edit_segment_name").focus().val(oldName);
             });
 
 
@@ -551,7 +545,7 @@ Segmentation = (function($) {
                 $(self.form).find("a.editSegmentName").trigger('click');
             });
 
-            $(self.form).off("blur", "input#edit_segment_name").on("blur", "input#edit_segment_name", function(e){
+            $(self.form).off("blur", "input.edit_segment_name").on("blur", "input.edit_segment_name", function(e){
                 var newName = $(this).val();
                 if(newName.trim() != '') {
                     $(e.currentTarget).parents("h3").find("span").text(newName).show();
@@ -620,7 +614,7 @@ Segmentation = (function($) {
                 var params = {
                     "idsegment" : segmentId
                 };
-                $('.segment-delete-confirm').find('#name').text( segmentName );
+                $('.segment-delete-confirm', self.target).find('#name').text( segmentName );
                 if(segmentId != ""){
                     piwikHelper.modalConfirm( '.segment-delete-confirm', {
                         yes: function(){
@@ -631,13 +625,13 @@ Segmentation = (function($) {
             });
 
             $(self.form).on("click", "a.close", function(e){
-                $(".segmentListContainer").show();
+                $(".segmentListContainer", self.target).show();
                 self.form.unbind().remove();
             });
 
             $("body").on("keyup", function(e){
                 if(e.keyCode == "27"){
-                    $(".segmentListContainer").show();
+                    $(".segmentListContainer", self.target).show();
                     $(self.form).remove();
                 }
             });
@@ -810,7 +804,7 @@ Segmentation = (function($) {
         // Mode = 'new' or 'edit'
         var addForm = function(mode, segment){
 
-            $(".segmentEditorPanel").find(".segment-element:visible").unbind().remove();
+            self.target.find(".segment-element:visible").unbind().remove();
             if(typeof self.form !== "undefined")
             {
                 self.form.unbind().remove();
@@ -818,7 +812,7 @@ Segmentation = (function($) {
             // remove any remaining forms
 
             self.form = getFormHtml();
-            $(".segmentEditorPanel").prepend(self.form);
+            self.target.prepend(self.form);
 
             bindFormEvents();
             bindSegmentManipulationEvents();
@@ -840,16 +834,16 @@ Segmentation = (function($) {
             });
 
             $(self.form).find('.segment-footer').hover( function() {
-                $('.segmentFooterNote').fadeIn();
+                $('.segmentFooterNote', self.target).fadeIn();
             }, function() {
-                $('.segmentFooterNote').fadeOut();
+                $('.segmentFooterNote', self.target).fadeOut();
             });
 
             if(typeof mode !== "undefined" && mode == "new")
             {
                 $(self.form).find(".editSegmentName").trigger('click');
             }
-            $(".segmentListContainer").hide();
+            $(".segmentListContainer", self.target).hide();
 
         };
 
@@ -990,126 +984,161 @@ Segmentation = (function($) {
 })(jQuery);
 
 
-$(document).ready( function(){
-    // ie. admin screens
-    if(typeof availableSegments == "undefined") {
-        return;
-    }
+$(document).ready(function() {
+    var exports = require('piwik/UI');
+    var UIControl = exports.UIControl;
 
-    if ((typeof isSegmentNotAppliedBecauseBrowserArchivingIsDisabled != "undefined") && isSegmentNotAppliedBecauseBrowserArchivingIsDisabled) {
-        piwikHelper.modalConfirm('.pleaseChangeBrowserAchivingDisabledSetting', {yes: function () {}});
-    }
+    /**
+     * Sets up and handles events for the segment selector & editor control.
+     * 
+     * @param {Element} element The HTML element generated by the SegmentSelectorControl PHP class. Should
+     *                          have the CSS class 'segmentEditorPanel'.
+     * @constructor
+     */
+    var SegmentSelectorControl = function (element) {
+        UIControl.call(this, element);
 
-    var changeSegment = function(segmentDefinition){
-        $('.segmentEditorPanel').find('a.close').click();
-        segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
-        segmentDefinition = encodeURIComponent(segmentDefinition);
-        return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
-    };
-
-    var cleanupSegmentDefinition = function(definition) {
-        definition = definition.replace("'", "%29");
-        definition = definition.replace("&", "%26");
-        return definition;
-    };
-
-    var addSegment = function(params){
-        var ajaxHandler = new ajaxHelper();
-        ajaxHandler.setLoadingElement();
-        jQuery.extend(params, {
-            "module": 'API',
-            "format": 'json',
-            "method": 'SegmentEditor.add'
-        });
-        params.definition = cleanupSegmentDefinition(params.definition);
-
-        ajaxHandler.addParams(params, 'GET');
-        ajaxHandler.useCallbackInCaseOfError();
-        ajaxHandler.setCallback(function (response) {
-            if (response && response.result == 'error') {
-                alert(response.message);
-            } else {
-                changeSegment(params.definition);
-            }
-        });
-        ajaxHandler.send(true);
-    };
-
-    var updateSegment = function(params){
-        var ajaxHandler = new ajaxHelper();
-        ajaxHandler.setLoadingElement();
-        jQuery.extend(params, {
-            "module": 'API',
-            "format": 'json',
-            "method": 'SegmentEditor.update'
-        });
-        params.definition = cleanupSegmentDefinition(params.definition);
-
-        ajaxHandler.addParams(params, 'GET');
-        ajaxHandler.useCallbackInCaseOfError();
-        ajaxHandler.setCallback(function (response) {
-            if (response && response.result == 'error') {
-                alert(response.message);
-            } else {
-                changeSegment(params.definition);
-            }
-        });
-        ajaxHandler.send(true);
-    };
-
-
-    var deleteSegment = function(params){
-        var ajaxHandler = new ajaxHelper();
-        ajaxHandler.addParams({
-            module: 'API',
-            format: 'json',
-            method: 'SegmentEditor.delete'
-        }, 'GET');
-        ajaxHandler.addParams({
-            idSegment: params.idsegment
-        }, 'POST');
-//        ajaxHandler.redirectOnSuccess();
-        ajaxHandler.setLoadingElement();
-        ajaxHandler.useCallbackInCaseOfError();
-        ajaxHandler.setCallback(function (response) {
-            if (response && response.result == 'error') {
-                alert(response.message);
-            } else {
-                return broadcast.propagateNewPage('segment=');
-            }
-        });
-
-        ajaxHandler.send(true);
-    };
-
-    var segmentFromRequest = broadcast.getValueFromHash('segment');
-    if(segmentFromRequest.length == 0) {
-        segmentFromRequest = broadcast.getValueFromUrl('segment');
-    }
-    if($.browser.mozilla) {
-        segmentFromRequest = decodeURIComponent(segmentFromRequest);
-    }
-    var segmentationFtw = new Segmentation({
-        "target"   : $(".segmentListContainer"),
-        "segmentAccess" : "write",
-        "availableSegments" : availableSegments,
-        "addMethod": addSegment,
-        "updateMethod": updateSegment,
-        "deleteMethod": deleteSegment,
-        "segmentSelectMethod": changeSegment,
-        "currentSegmentStr": segmentFromRequest,
-        "translations": segmentTranslations
-    });
-
-    $('body').on('mouseup',function(e){
-        if($(e.target).parents('.segment-element').length === 0 && !$(e.target).is('.segment-element') && $(e.target).hasClass("ui-corner-all") == false
-            && $(e.target).hasClass("ddmetric") == false  && $(".segment-element:visible").length == 1 ) {
-            $(".segment-element:visible").unbind().remove();
-            $(".segmentListContainer").show();
+        if ((typeof isSegmentNotAppliedBecauseBrowserArchivingIsDisabled != "undefined") && isSegmentNotAppliedBecauseBrowserArchivingIsDisabled) {
+            piwikHelper.modalConfirm('.pleaseChangeBrowserAchivingDisabledSetting', {yes: function () {}});
         }
 
-        if($(e.target).parents('.segmentListContainer').length === 0 && $(".segmentationContainer").hasClass("visible")){
-            $(".segmentationContainer").trigger("click");
+        var self = this;
+        var changeSegment = function(segmentDefinition){
+            self.$element.find('a.close').click();
+            segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
+            segmentDefinition = encodeURIComponent(segmentDefinition);
+            return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
+        };
+
+        var cleanupSegmentDefinition = function(definition) {
+            definition = definition.replace("'", "%29");
+            definition = definition.replace("&", "%26");
+            return definition;
+        };
+
+        var addSegment = function(params){
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.setLoadingElement();
+            jQuery.extend(params, {
+                "module": 'API',
+                "format": 'json',
+                "method": 'SegmentEditor.add'
+            });
+            params.definition = cleanupSegmentDefinition(params.definition);
+
+            ajaxHandler.addParams(params, 'GET');
+            ajaxHandler.useCallbackInCaseOfError();
+            ajaxHandler.setCallback(function (response) {
+                if (response && response.result == 'error') {
+                    alert(response.message);
+                } else {
+                    changeSegment(params.definition);
+                }
+            });
+            ajaxHandler.send(true);
+        };
+
+        var updateSegment = function(params){
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.setLoadingElement();
+            jQuery.extend(params, {
+                "module": 'API',
+                "format": 'json',
+                "method": 'SegmentEditor.update'
+            });
+            params.definition = cleanupSegmentDefinition(params.definition);
+
+            ajaxHandler.addParams(params, 'GET');
+            ajaxHandler.useCallbackInCaseOfError();
+            ajaxHandler.setCallback(function (response) {
+                if (response && response.result == 'error') {
+                    alert(response.message);
+                } else {
+                    changeSegment(params.definition);
+                }
+            });
+            ajaxHandler.send(true);
+        };
+
+
+        var deleteSegment = function(params){
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams({
+                module: 'API',
+                format: 'json',
+                method: 'SegmentEditor.delete'
+            }, 'GET');
+            ajaxHandler.addParams({
+                idSegment: params.idsegment
+            }, 'POST');
+            ajaxHandler.setLoadingElement();
+            ajaxHandler.useCallbackInCaseOfError();
+            ajaxHandler.setCallback(function (response) {
+                if (response && response.result == 'error') {
+                    alert(response.message);
+                } else {
+                    return broadcast.propagateNewPage('segment=');
+                }
+            });
+
+            ajaxHandler.send(true);
+        };
+
+        var segmentFromRequest = broadcast.getValueFromHash('segment');
+        if(segmentFromRequest.length == 0) {
+            segmentFromRequest = broadcast.getValueFromUrl('segment');
+        }
+        if($.browser.mozilla) {
+            segmentFromRequest = decodeURIComponent(segmentFromRequest);
+        }
+        var segmentationFtw = new Segmentation({
+            "target"   : this.$element.find(".segmentListContainer"),
+            "segmentAccess" : "write",
+            "availableSegments" : availableSegments,
+            "addMethod": addSegment,
+            "updateMethod": updateSegment,
+            "deleteMethod": deleteSegment,
+            "segmentSelectMethod": changeSegment,
+            "currentSegmentStr": segmentFromRequest,
+            "translations": segmentTranslations
+        });
+
+        this.onMouseUp = function(e) {
+            if ($(e.target).closest('.segment-element').length === 0
+                && !$(e.target).is('.segment-element')
+                && $(e.target).hasClass("ui-corner-all") == false
+                && $(e.target).hasClass("ddmetric") == false
+                && $(".segment-element:visible", self.$element).length == 1
+            ) {
+                $(".segment-element:visible", self.$element).unbind().remove();
+                $(".segmentListContainer", self.$element).show();
+            }
+
+            if ($(e.target).closest('.segmentListContainer').length === 0
+                && $(".segmentationContainer", self.$element).hasClass("visible")
+            ) {
+                $(".segmentationContainer", self.$element).trigger("click");
+            }
+        };
+
+        $('body').on('mouseup', this.onMouseUp);
+    };
+
+    /**
+     * Initializes all elements w/ the .segmentEditorPanel CSS class as SegmentSelectorControls,
+     * if the element has not already been initialized.
+     */
+    SegmentSelectorControl.initElements = function () {
+        UIControl.initElements(this, '.segmentEditorPanel');
+    };
+
+    $.extend(SegmentSelectorControl.prototype, UIControl.prototype, {
+        _destroy: function () {
+            UIControl.prototype.call(this);
+
+            $('body')[0].removeEventListener('mouseup', this.onMouseUp);
         }
     });
+
+    exports.SegmentSelectorControl = SegmentSelectorControl;
 });

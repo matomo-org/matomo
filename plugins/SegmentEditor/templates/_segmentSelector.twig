@@ -153,4 +153,6 @@
 var availableSegments = {{ savedSegmentsJson|raw }};
 var segmentTranslations = {{ segmentTranslations|raw }};
 var isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = {{ isSegmentNotAppliedBecauseBrowserArchivingIsDisabled }};
+
+$(document).ready(function () { require('piwik/UI').SegmentSelectorControl.initElements(); });
 </script>
