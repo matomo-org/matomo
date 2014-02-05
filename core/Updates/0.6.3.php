@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_6_3 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`

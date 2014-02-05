@@ -22,7 +22,7 @@ class Updates_1_9_b9 extends Updates
         return true;
     }
 
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         $logVisit = Common::prefixTable('log_visit');
         $logConversion = Common::prefixTable('log_conversion');

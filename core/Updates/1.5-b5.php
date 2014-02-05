@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_5_b5 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'CREATE TABLE `' . Common::prefixTable('session') . '` (

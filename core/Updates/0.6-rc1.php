@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_6_rc1 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         $defaultTimezone = 'UTC';
         $defaultCurrency = 'USD';

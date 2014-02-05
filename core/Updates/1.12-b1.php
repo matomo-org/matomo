@@ -22,7 +22,7 @@ class Updates_1_12_b1 extends Updates
         return true;
     }
 
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`

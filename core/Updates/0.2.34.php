@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_2_34 extends Updates
 {
-    static function update($schema = 'Myisam')
+    static function update()
     {
         // force regeneration of cache files following #648
         Piwik::setUserHasSuperUserAccess();

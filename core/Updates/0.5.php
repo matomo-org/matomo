@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_5 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             'ALTER TABLE ' . Common::prefixTable('log_action') . ' ADD COLUMN `hash` INTEGER(10) UNSIGNED NOT NULL AFTER `name`;'                        => '1060',

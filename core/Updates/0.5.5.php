@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_5_5 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         $sqlarray = array(
             'DROP INDEX index_idsite_date ON ' . Common::prefixTable('log_visit')                                                                => '1091',

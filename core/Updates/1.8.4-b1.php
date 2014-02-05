@@ -23,7 +23,7 @@ class Updates_1_8_4_b1 extends Updates
         return true;
     }
 
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         $action = Common::prefixTable('log_action');
         $duplicates = Common::prefixTable('log_action_duplicates');

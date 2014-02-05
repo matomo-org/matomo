@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_4 extends Updates
 {
-    static function getSql($schema = 'Myisam')
+    static function getSql()
     {
         return array(
             // 0.4 [1140]
