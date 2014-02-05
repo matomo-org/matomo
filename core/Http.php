@@ -359,6 +359,13 @@ class Http
 
             // determine success or failure
             @fclose(@$fsock);
+        } else if ($method == 'cli') {
+
+            $url      = @parse_url($aUrl);
+            $status   = 200;
+            $headers  = array();
+            $response = shell_exec('php ' . PIWIK_INCLUDE_PATH . '/core/wrapper.php -- ' . escapeshellarg($url['query']));
+
         } else if ($method == 'fopen') {
             $response = false;
 

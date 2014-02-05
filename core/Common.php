@@ -29,6 +29,8 @@ class Common
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
+    public static $isCliMode = null;
+
 
     /*
      * Database
@@ -117,6 +119,10 @@ class Common
      */
     public static function isPhpCliMode()
     {
+        if (is_bool(self::$isCliMode)) {
+            return self::$isCliMode;
+        }
+
         $remoteAddr = @$_SERVER['REMOTE_ADDR'];
         return PHP_SAPI == 'cli' ||
         (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
