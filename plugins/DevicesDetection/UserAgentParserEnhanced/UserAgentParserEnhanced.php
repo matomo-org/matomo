@@ -42,7 +42,7 @@ class UserAgentParserEnhanced
         'CK' => 'Cricket',
         'CL' => 'Compal',
         'CN' => 'CnM',
-        'CR' => 'creNova',
+        'CR' => 'CreNova',
         'CT' => 'Capitel',
         'CU' => 'Cube',
         'DE' => 'Denver',

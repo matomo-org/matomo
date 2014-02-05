@@ -17,9 +17,9 @@ BangOlufsen:
   device: 'tv'
   model: 'BeoVision'
 
-# creNova
-creNova:
-  regex: 'creNova'
+# CreNova
+CreNova:
+  regex: 'CreNova'
   device: 'tv'
   model: 'CNV001'
 
