@@ -37,7 +37,6 @@ class Piwik_TestingEnvironment
 {
     public static function addHooks()
     {
-        exit(1);
         \Piwik\Piwik::addAction('Access.createAccessSingleton', function($access) {
             $access = new Piwik_MockAccess($access);
             \Piwik\Access::setSingletonInstance($access);
