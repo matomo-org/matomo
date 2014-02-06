@@ -713,6 +713,28 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Set the list of alias Urls for the given idSite
+     *
+     * Completely overwrites the current list of URLs with the provided list.
+     * The 'main_url' of the website won't be affected by this method.
+     *
+     * @return int the number of inserted URLs
+     */
+    public function setSiteAliasUrls($idSite, $urls)
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        $urls = $this->cleanParameterUrls($urls);
+        $this->checkUrls($urls);
+
+	$this->deleteSiteAliasUrls($idSite);
+        $this->insertSiteUrls($idSite, $urls);
+        $this->postUpdateWebsite($idSite);
+
+        return count($urls);
+    }
+
+    /**
      * Get the start and end IP addresses for an IP address range
      *
      * @param string $ipRange IP address range in presentation format
