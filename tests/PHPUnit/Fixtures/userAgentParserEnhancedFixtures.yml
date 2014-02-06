@@ -13246,3 +13246,499 @@
     model: Smart TV
   os_family: Linux
   browser_family: Unknown
+-
+  user_agent: Mozilla/3.01 (compatible;)
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type:
+    brand:
+    model:
+  os_family: Unknown
+  browser_family: Unknown
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; AOL 9.0; Windows NT 5.0; AVPersonalSerial 0000000000000000000000000000000000000000; .NET CLR 2.0.50727)
+  os:
+    name: Windows 2000
+    short_name: W2K
+    version: 2000
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; TOB 6.07; Windows NT 5.1; .NET CLR 1.1.4322)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Win 9x 4.90; .NET CLR 1.1.4322)
+  os:
+    name: Windows ME
+    short_name: WME
+    version: ME
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 2.0.50727; 3P_UVRMDE 1.0.23.2)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; GTB6.3; .NET CLR 1.1.4322; .NET CLR 2.0.50727)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; AskTB5.4)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Avant Browser; InfoPath.1)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Avant Browser
+    short_name: AA
+    version:
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; SIMBAR={81EF9ABE-357A-484a-A97A-37904552D43B}; .NET CLR 2.0.50727)'
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2;  SLCC1;  .NET CLR 1.1.4325)'
+  os:
+    name: Windows Server 2003
+    short_name: WS3
+    version: Server 2003
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 6.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.0; Windows NT 6.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.30618; .NET CLR 3.5.30729)
+  os:
+    name: Windows Vista
+    short_name: WVI
+    version: Vista
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 7.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 7.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; i-NavFourF; TuneUp HTML Client Embedded Web Browser from: http://bsalsa.com/; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)'
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 7.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; GTB6; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30618; .NET CLR 1.1.4322)
+  os:
+    name: Windows Vista
+    short_name: WVI
+    version: Vista
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 7.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; (R1 1.3))
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 8.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; GTB6.3; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; OfficeLiveConnector.1.4; OfficeLivePatch.1.3)
+  os:
+    name: Windows Vista
+    short_name: WVI
+    version: Vista
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 8.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; OfficeLiveConnector.1.4; OfficeLivePatch.1.3)
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 8.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (compatible; Exabot/3.0; +http://www.exabot.com/go/robot)
+  os:
+    name: Bot
+    short_name: BOT
+    version:
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type:
+    brand:
+    model:
+  os_family: Bot
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_1_2 like Mac OS X; de-de) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7D11 Safari/528.16
+  os:
+    name: iOS
+    short_name: IOS
+    version: 3.1
+  browser:
+    name: Mobile Safari
+    short_name: MF
+    version: 4.0
+  device:
+    type: smartphone
+    brand: AP
+    model: iPhone
+  os_family: iOS
+  browser_family: Safari
+-
+  user_agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; de; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6
+  os:
+    name: Mac
+    short_name: MAC
+    version: 10.6
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; de-de) AppleWebKit/531.21.8 (KHTML, like Gecko) Version/4.0.4 Safari/531.21.10
+  os:
+    name: Mac
+    short_name: MAC
+    version: 10.5
+  browser:
+    name: Safari
+    short_name: SF
+    version: 4.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Safari
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.0; de; rv:1.8.1.20) Gecko/20081217 Firefox/2.0.0.20
+  os:
+    name: Windows 2000
+    short_name: W2K
+    version: 2000
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 2.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9.1.6) Gecko/20091201 (WEB.DE/1.5) Firefox/3.5.6 (.NET CLR 3.5.30729)
+  os:
+    name: Windows Vista
+    short_name: WVI
+    version: Vista
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.15) Gecko/2009102815 Iceweasel/3.0.6 (Debian-3.0.6-3)
+  os:
+    name: Debian
+    short_name: DEB
+    version:
+  browser:
+    name: Iceweasel
+    short_name: IW
+    version: 3.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.1.6) Gecko/20091215 Ubuntu/9.10 (karmic) Firefox/3.5.6
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: 9.10
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.11) Gecko GranParadiso/3.0.11
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: GranParadiso (3.0)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Opera/9.27 (Windows NT 5.1; U; de)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Opera
+    short_name: OP
+    version: 9.27
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Opera
+-
+  user_agent: Opera/9.80 (Windows NT 5.1; U; de) Presto/2.2.15 Version/10.10
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Opera
+    short_name: OP
+    version: 10.10
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Opera
+-
+  user_agent: SimilarPages/Nutch-1.0-dev (SimilarPages Nutch Crawler; http://www.similarpages.com; info at similarpages dot com)
+  os:
+    name: Bot
+    short_name: BOT
+    version:
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type:
+    brand:
+    model:
+  os_family: Bot
+  browser_family: Unknown
+-
+  user_agent: Sosospider+(+http://help.soso.com/webspider.htm)
+  os:
+    name: Bot
+    short_name: BOT
+    version:
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type:
+    brand:
+    model:
+  os_family: Bot
+  browser_family: Unknown

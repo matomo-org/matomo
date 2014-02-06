@@ -32,7 +32,17 @@
 - regex: 'Firefox.*Tablet browser (\d+\.\d+)'
   name: 'MicroB'
   version: '$1'
-  
+
+#Avant Browser
+- regex: 'Avant Browser'
+  name: 'Avant Browser'
+  version: ''
+
+#Iceweasel
+- regex: 'Iceweasel(?:/(\d+\.\d+))?'
+  name: 'Iceweasel'
+  version: '$1'
+
 #Firefox
 - regex: 'Firefox(?:/(\d+\.\d+))?'
   name: 'Firefox'

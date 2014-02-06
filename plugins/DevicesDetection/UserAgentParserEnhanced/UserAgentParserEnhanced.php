@@ -281,6 +281,7 @@ class UserAgentParserEnhanced
         'Sailfish Browser'   => array('SA')
     );
     public static $browsers = array(
+        'AA' => 'Avant Browser',
         'AB' => 'ABrowse',
         'AG' => 'ANTGalio',
         'AM' => 'Amaya',
@@ -320,6 +321,7 @@ class UserAgentParserEnhanced
         'HJ' => 'HotJava',
         'IB' => 'IBrowse',
         'IC' => 'iCab',
+        'IW' => 'Iceweasel',
         'IE' => 'Internet Explorer',
         'IM' => 'IE Mobile',
         'IR' => 'Iron',
