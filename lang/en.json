@@ -585,8 +585,7 @@
         "PluginSettingsIntro": "Here you can change the settings for the following 3rd party plugins:",
         "PluginSettingsValueNotAllowed": "The value for field \"%s\" in plugin \"%s\" is not allowed",
         "PluginSettingChangeNotAllowed": "You are not allowed to change the value of the setting \"%s\" in plugin \"%s\"",
-        "PluginSettings": "Plugin settings",
-        "EacceleratorNotCompatible": "You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik. We have disabled eAccelerator therefore which might affect the performance of Piwik. Read the %srelated ticket%s for more information and how to fix this problem."
+        "PluginSettings": "Plugin settings"
     },
     "CoreHome": {
         "InjectedHostWarningIntro": "You are now accessing Piwik from %1$s, but Piwik has been configured to run at this address: %2$s.",

@@ -121,7 +121,9 @@ abstract class ControllerAdmin extends Controller
     {
         if (self::$isEacceleratorUsed) {
             $params  = array('<a href="http://dev.piwik.org/trac/ticket/4439">', '</a>');
-            $message = Piwik::translate('CoreAdminHome_EacceleratorNotCompatible', $params);
+            $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
+                We have disabled eAccelerator, which might affect the performance of Piwik.
+                Read the %srelated ticket%s for more information and how to fix this problem.", $params);
 
             $notification = new Notification($message);
             $notification->context = Notification::CONTEXT_WARNING;
