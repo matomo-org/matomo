@@ -331,7 +331,6 @@ class UserAgentParserEnhanced
         'KO' => 'Konqueror',
         'KP' => 'Kapiko',
         'KZ' => 'Kazehakase',
-        'LB' => 'LG Browser',
         'LG' => 'Lightning',
         'LI' => 'Links',
         'LX' => 'Lynx',

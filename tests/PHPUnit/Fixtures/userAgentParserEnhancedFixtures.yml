@@ -13221,15 +13221,15 @@
     short_name: LIN
     version:
   browser:
-    name: LG Browser
-    short_name: LB
-    version: 4.0
+    name: Safari
+    short_name: SF
+    version:
   device:
     type: tv
     brand: LG
     model: NetCast
   os_family: Linux
-  browser_family: Unknown
+  browser_family: Safari
 -
   user_agent: Mozilla/5.0 (SmartHub; SMART-TV; U; Linux/SmartTV; Maple2012)
   os:
