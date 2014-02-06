@@ -13635,7 +13635,7 @@
   os:
     name: Debian
     short_name: DEB
-    version:
+    version: 3.0
   browser:
     name: Iceweasel
     short_name: IW
