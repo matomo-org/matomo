@@ -29,10 +29,14 @@ class SegmentSelectorControl extends UIControl
     {
         parent::__construct();
 
+        $this->jsClass = "SegmentSelectorControl";
+        $this->cssIdentifier = "segmentEditorPanel";
+        $this->cssClass = "js-autoLeftPanel";
+
         $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $this->idSite = Common::getRequestVar('idSite', false, 'int');
 
-        $currentSelectedSegment = Common::getRequestVar('segment', false, 'string');
+        $this->selectedSegment = Common::getRequestVar('segment', false, 'string');
 
         $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
 
@@ -57,7 +61,7 @@ class SegmentSelectorControl extends UIControl
         foreach ($savedSegments as &$savedSegment) {
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
 
-            if (!empty($currentSelectedSegment) && $currentSelectedSegment == $savedSegment['definition']) {
+            if (!empty($this->selectedSegment) && $this->selectedSegment == $savedSegment['definition']) {
                 $this->nameOfCurrentSegment = $savedSegment['name'];
                 $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled']
                     = $this->wouldApplySegment($savedSegment) ? 0 : 1;

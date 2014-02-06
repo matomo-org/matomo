@@ -150,11 +150,13 @@ class View implements ViewInterface
     /**
      * Returns the variables to bind to the template when rendering.
      *
+     * @param array $override Template variable override values. Mainly useful
+     *                        when including View templates in other templates.
      * @return array
      */
-    public function getTemplateVars()
+    public function getTemplateVars($override = array())
     {
-        return $this->templateVars;
+        return $override + $this->templateVars;
     }
 
     /**
