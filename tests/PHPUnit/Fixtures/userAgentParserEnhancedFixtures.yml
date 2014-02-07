@@ -13767,10 +13767,10 @@
   browser:
     name: WebPositive
     short_name: WE
-    version: 5.0
+    version:
   device:
     type: desktop
     brand:
     model:
   os_family: BeOS
-  browser_family: Chrome
+  browser_family: Unknown

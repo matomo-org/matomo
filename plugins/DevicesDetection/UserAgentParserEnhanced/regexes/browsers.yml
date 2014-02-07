@@ -44,9 +44,9 @@
   version: '$1'
 
 #WebPositive
-- regex: 'WebPositive(?:[/ ](\d+\.\d+))?'
+- regex: 'WebPositive'
   name: 'WebPositive'
-  version: '$1'
+  version: ''
 
 #Firefox
 - regex: 'Firefox(?:/(\d+\.\d+))?'
