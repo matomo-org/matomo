@@ -318,6 +318,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         // Whether to display or not the general settings (cron, beta, smtp)
         $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
+        if($view->isGeneralSettingsAdminEnabled) {
+            $this->displayWarningIfConfigFileNotWritable();
+        }
 
         $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
         $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
@@ -334,7 +337,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];
         $view->mail = Config::getInstance()->mail;
-        $this->displayWarningIfConfigFileNotWritable();
     }
 
 

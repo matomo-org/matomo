@@ -140,7 +140,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->activateNonce   = Nonce::getNonce(self::ACTIVATE_DNT_NONCE);
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
-        $this->displayWarningIfConfigFileNotWritable();
         $this->setBasicVariablesView($view);
         return $view->render();
     }
