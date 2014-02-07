@@ -168,7 +168,6 @@ abstract class UITest extends IntegrationTestCase
         $output = implode("\n", $output);
         if ($result !== 0
             || strpos($output, "ERROR") !== false
-            || strpos($output, "Error") !== false
         ) {
             echo self::CAPTURE_PROGRAM . " failed: " . $output . "\n\ncommand used: $cmd\n";
         }
