@@ -4,6 +4,50 @@ var readFileSync = fs.readFileSync || fs.read;
 
 var VERBOSE = false;
 
+var PageFacade = function (webpage) {
+    this.webpage = webpage;
+};
+
+PageFacade.prototype = {
+    click: function (selector) {
+        var elementPosition = this._getPosition(selector);
+        this._clickImpl(elementPosition);
+    },
+
+    sendKeys: function (selector, keys) {
+        var elementPosition = this._getPosition(selector);
+        this._clickImpl(elementPosition);
+        this.webpage.sendEvent('keypress', keys);
+    },
+
+    mouseMove: function (selector) {
+        var position = this._getPosition(selector);
+        this.webpage.sendEvent('mousemove', position.x, position.y);
+    },
+
+    _clickImpl: function (position) {
+        this.webpage.sendEvent('click', position.x, position.y);
+    },
+
+    _getPosition: function (selector) {
+        return this.webpage.evaluate(function (selector) {
+            var element = window.jQuery(selector),
+                offset = element.offset();
+            return {
+                x: offset.left + element.width() / 2,
+                y: offset.top + element.height() / 2
+            };
+        }, selector);
+    },
+
+    evaluate: function (impl) {
+        return this.webpage.evaluate(function (js) {
+            var $ = window.jQuery;
+            eval("(" + js + ")();");
+        }, impl.toString());
+    }
+};
+
 var PageRenderer = function(data) {
     this.start = new Date();
 };
@@ -92,8 +136,12 @@ PageRenderer.prototype = {
             app.exit(1);
         }, Math.max(1000 * 15 * this.screenshotCount, 1000 * 60 * 10));
     },
-};
 
+    _executeScreenJs: function (js) {
+        var page = new PageFacade(this.webpage);
+        eval(js);
+    }
+};
 
 var IntegrationTestRenderer = function(data) {
     PageRenderer.call(this, data);
@@ -135,10 +183,7 @@ IntegrationTestRenderer.prototype._saveCurrentScreen = function () {
     var self = this;
     this.webpage.open(this.url, function () {
         if (self.jsToTest) {
-            self.webpage.evaluate(function (js) {
-                var $ = window.jQuery;
-                eval(js);
-            }, self.jsToTest);
+            self._executeScreenJs(self.jsToTest);
         }
 
         self._setNoAjaxCheckTimeout();
@@ -213,10 +258,7 @@ UnitTestRenderer.prototype._saveCurrentScreen = function () {
 
     console.log("SAVING " + outputPath + " at " + this._getElapsedExecutionTime());
 
-    this.webpage.evaluate(function (js) {
-        var $ = window.jQuery;
-        eval(js);
-    }, screenJs);
+    this._executeScreenJs(screenJs);
 
     var self = this;
     setTimeout(function () {

@@ -238,14 +238,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     protected static function getPluginsToLoadDuringTests()
     {
-        $manager = \Piwik\Plugin\Manager::getInstance();
-        $toLoad = array();
-        foreach($manager->readPluginsDirectory() as $plugin) {
-            if($manager->isPluginBundledWithCore($plugin)) {
-                $toLoad[] = $plugin;
-            }
-        }
-        return $toLoad;
+        return \Piwik\Plugin\Manager::$pluginsToLoadForTests;
     }
 
     public function setUp()
