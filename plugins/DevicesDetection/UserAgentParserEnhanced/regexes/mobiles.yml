@@ -330,7 +330,7 @@ Denver:
 
 # Dell
 Dell:
-  regex: 'Dell ([a-z0-9]+)'
+  regex: 'Dell;? ([a-z0-9 ]+)'
   device: 'smartphone'
   model: '$1'
 
