@@ -13774,3 +13774,19 @@
     model:
   os_family: BeOS
   browser_family: Unknown
+-
+  user_agent: COCOON/R01 Browser/Obigo/Q05A Profile/MIDP-2.0 Configuration/CLDC-1.1
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: Obigo
+    short_name: OB
+    version: Q05A
+  device:
+    type: smartphone
+    brand: OT
+    model: COCOON
+  os_family: Unknown
+  browser_family: Unknown

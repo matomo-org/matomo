@@ -422,7 +422,11 @@ class UserAgentParserEnhanced
 
     protected function getTelevisionRegexes()
     {
-        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
+        static $regexTvs = null;
+        if(empty($regexTvs)) {
+            $regexTvs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
+        }
+        return $regexTvs;
     }
 
     public function parse()

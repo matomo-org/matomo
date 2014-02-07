@@ -742,13 +742,13 @@ O2:
   device: 'smartphone'
   models:
     - regex: '(Xda[ _][a-z0-9_]+)'
-      models: '$1'
+      model: '$1'
     - regex: '(COCOON)'
-      models: '$1'
+      model: '$1'
     - regex: 'O2 ([a-z0-9 ]+)'
-      models: '$1'
+      model: '$1'
     - regex: 'O2-([a-z0-9]+)'
-      models: '$1'
+      model: '$1'
   
 # onda
 Onda:
