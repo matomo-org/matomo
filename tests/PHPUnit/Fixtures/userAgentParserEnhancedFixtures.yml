@@ -13742,3 +13742,35 @@
     model:
   os_family: Bot
   browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (BeOS; U; Haiku BePC; en-US; rv:1.8.1.21pre) Gecko/20090218 BonEcho/2.0.0.21pre
+  os:
+    name: Haiku OS
+    short_name: HAI
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: BonEcho (2.0)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: BeOS
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (compatible; U; Webpositive/533.4; Haiku) AppleWebkit/533.4 (KHTML, like gecko) Chrome/5.0.375.55 Safari/533.4
+  os:
+    name: Haiku OS
+    short_name: HAI
+    version:
+  browser:
+    name: WebPositive
+    short_name: WE
+    version: 5.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: BeOS
+  browser_family: Chrome

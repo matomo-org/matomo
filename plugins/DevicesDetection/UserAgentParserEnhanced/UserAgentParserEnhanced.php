@@ -170,6 +170,7 @@ class UserAgentParserEnhanced
         'Arch Linux'           => 'ARL',
         'BackTrack'            => 'BTR',
         'Bada'                 => 'SBA',
+        'BeOS'                 => 'BEO',
         'BlackBerry OS'        => 'BLB',
         'BlackBerry Tablet OS' => 'QNX',
         'Bot'                  => 'BOT',
@@ -184,6 +185,7 @@ class UserAgentParserEnhanced
         'Gentoo'               => 'GNT',
         'Google TV'            => 'GTV',
         'HP-UX'                => 'HPX',
+        'Haiku OS'             => 'HAI',
         'IRIX'                 => 'IRI',
         'Knoppix'              => 'KNO',
         'Kubuntu'              => 'KBT',
@@ -242,7 +244,7 @@ class UserAgentParserEnhanced
         'palmOS'               => 'POS',
         'webOS'                => 'WOS'
     );
-    protected static $desktopOsArray = array('AmigaOS', 'IBM', 'Linux', 'Mac', 'Unix', 'Windows');
+    protected static $desktopOsArray = array('AmigaOS', 'IBM', 'Linux', 'Mac', 'Unix', 'Windows', 'BeOS');
     public static $osFamilies = array(
         'Android'               => array('AND'),
         'AmigaOS'               => array('AMG'),
@@ -250,6 +252,7 @@ class UserAgentParserEnhanced
         'BlackBerry'            => array('BLB'),
         'Bot'                   => array('BOT'),
         'Brew'                  => array('BMP'),
+        'BeOS'                  => array('BEO', 'HAI'),
         'Chrome OS'             => array('COS'),
         'Firefox OS'            => array('FOS'),
         'Gaming Console'        => array('WII', 'PS3'),
@@ -366,6 +369,7 @@ class UserAgentParserEnhanced
         'SX' => 'Swiftfox',
         'TZ' => 'Tizen Browser',
         'UC' => 'UC Browser',
+        'WE' => 'WebPositive',
         'WO' => 'wOSBrowser',
         'YA' => 'Yandex Browser'
     );

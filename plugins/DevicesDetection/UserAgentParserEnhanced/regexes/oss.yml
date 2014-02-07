@@ -227,9 +227,26 @@
 - regex: 'BlackBerry'
   name: 'BlackBerry OS'
   version: ''
-  
-  
-  
+
+
+##########
+# Haiku OS
+##########
+- regex: 'Haiku'
+  name: 'Haiku OS'
+  version: ''
+
+
+##########
+# BeOS
+##########
+- regex: 'BeOS'
+  name: 'BeOS'
+  version: ''
+
+
+
+
 ##########
 # Symbian
 ##########
