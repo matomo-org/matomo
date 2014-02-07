@@ -362,35 +362,16 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function doExecuteUpdates($view, $updater, $componentsWithUpdateFile)
     {
-        $this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
+        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
 
-        Filesystem::deleteAllCacheOnUpdate();
-
+        $this->coreError       = $result['coreError'];
+        $this->warningMessages = $result['warnings'];
+        $this->errorMessages   = $result['errors'];
+        $this->deactivatedPlugins = $result['deactivatedPlugins'];
         $view->coreError = $this->coreError;
         $view->warningMessages = $this->warningMessages;
         $view->errorMessages = $this->errorMessages;
         $view->deactivatedPlugins = $this->deactivatedPlugins;
     }
 
-    private function loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile)
-    {
-        // if error in any core update, show message + help message + EXIT
-        // if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
-        // if warning in any core update or in any plugins update, show message + CONTINUE
-        // if no error or warning, success message + CONTINUE
-        foreach ($componentsWithUpdateFile as $name => $filenames) {
-            try {
-                $this->warningMessages = array_merge($this->warningMessages, $updater->update($name));
-            } catch (UpdaterErrorException $e) {
-                $this->errorMessages[] = $e->getMessage();
-                if ($name == 'core') {
-                    $this->coreError = true;
-                    break;
-                } else {
-                    \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($name);
-                    $this->deactivatedPlugins[] = $name;
-                }
-            }
-        }
-    }
 }

@@ -284,9 +284,14 @@ class Config extends Singleton
         }
     }
 
+    public function existsLocalConfig()
+    {
+        return is_readable($this->pathLocal);
+    }
+
     public function checkLocalConfigFound()
     {
-        if (!is_readable($this->pathLocal)) {
+        if (!$this->existsLocalConfig()) {
             throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
         }
     }
@@ -393,6 +398,7 @@ class Config extends Singleton
                                 ORDER BY date_registered ASC LIMIT 1");
 
             if (!empty($user)) {
+                $user['bridge'] = 1;
                 return $user;
             }
         } catch (Exception $e) {}

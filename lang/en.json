@@ -1135,6 +1135,7 @@
         "SystemCheckTracker": "Tracker status",
         "SystemCheckTrackerHelp": "GET request to piwik.php failed.  Try whitelisting this URL from HTTP Authentication and disable mod_security (you may have to ask your webhost).",
         "Tables": "Creating the Tables",
+        "ReusingTables": "Reusing the Tables",
         "TablesWithSameNamesFound": "Some %1$s tables in your database %2$s have the same names as the tables Piwik is trying to create",
         "TablesFound": "The following tables have been found in the database",
         "TablesWarningHelp": "Either choose to reuse the existing database tables or select a clean install to erase all existing data in the database.",

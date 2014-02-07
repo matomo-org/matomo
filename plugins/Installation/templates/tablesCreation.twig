@@ -1,6 +1,7 @@
 {% extends '@Installation/layout.twig' %}
 
 {% block content %}
+
 <h2>{{ 'Installation_Tables'|translate }}</h2>
 
 {% if someTablesInstalled is defined %}
@@ -13,7 +14,7 @@
     </div>
     {% if showReuseExistingTables is defined %}
         <p>{{ 'Installation_TablesWarningHelp'|translate }}</p>
-        <p class="nextStep"><a href="{{ linkTo({'action':nextModuleName}) }}">{{ 'Installation_TablesReuse'|translate }} &raquo;</a></p>
+        <p class="nextStep"><a href="{{ linkTo({'action':'reuseTables'}) }}">{{ 'Installation_TablesReuse'|translate }} &raquo;</a></p>
     {% else %}
         <p class="nextStep"><a href="{{ linkTo({'action':previousPreviousModuleName}) }}">&laquo; {{ 'Installation_GoBackAndDefinePrefix'|translate }}</a></p>
     {% endif %}
