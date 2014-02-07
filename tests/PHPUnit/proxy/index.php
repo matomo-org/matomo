@@ -21,27 +21,7 @@ Piwik_TestingEnvironment::addHooks();
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-/**
- * @return bool
- */
-function loadAllPluginsButOneTheme()
-{
-    // Load all plugins that are found so UI tests are really testing real world use case
-    $pluginsToEnable = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
-
-    $themesNotToEnable = array('ExampleTheme', 'LeftMenu', 'PleineLune');
-
-    $enableZeitgeist = !empty($_REQUEST['zeitgeist']);
-    if (!$enableZeitgeist) {
-        $themesNotToEnable[] = 'Zeitgeist';
-    }
-
-    $pluginsToEnable = array_diff($pluginsToEnable, $themesNotToEnable);
-    \Piwik\Config::getInstance()->Plugins['Plugins'] = $pluginsToEnable;
-    return $enableZeitgeist;
-}
-
-$enableZeitgeist = loadAllPluginsButOneTheme();
+$enableZeitgeist = !empty($_REQUEST['zeitgeist']);
 
 $controller = \Piwik\FrontController::getInstance();
 $controller->init();

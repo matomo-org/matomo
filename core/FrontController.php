@@ -288,6 +288,7 @@ class FrontController extends Singleton
             try {
                 Db::createDatabaseObject();
                 Option::get('TestingIfDatabaseConnectionWorked');
+
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;

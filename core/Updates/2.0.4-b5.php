@@ -16,6 +16,7 @@ use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
+use Piwik\Config;
 
 /**
  */
@@ -43,10 +44,20 @@ class Updates_2_0_4_b5 extends Updates
 
     private static function migrateConfigSuperUserToDb()
     {
-        $config    = \Piwik\Config::getInstance();
+        $config = Config::getInstance();
+
+        if (!$config->existsLocalConfig()) {
+            return;
+        }
+
         $superUser = $config->superuser;
 
-        if (empty($superUser)) {
+        if (!empty($superUser['bridge'])) {
+            // there is a super user which is not from the config but from the bridge, that means we already have
+            // a super user in the database
+            return;
+        } elseif (empty($superUser)) {
+
             throw new UpdaterErrorException('Unable to migrate superUser to database. Entry in config is missing.');
         }
 

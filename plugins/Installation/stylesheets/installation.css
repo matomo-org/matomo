@@ -209,6 +209,11 @@ input {
 
 }
 
+.reuseTables ul {
+    padding-left: 16px;
+    list-style: disc;
+}
+
 .infos img, .infosServer img {
     padding-right: 10px;
     vertical-align: middle;

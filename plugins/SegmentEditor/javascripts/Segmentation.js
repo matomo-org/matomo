@@ -1086,13 +1086,13 @@ $(document).ready(function() {
             ajaxHandler.send(true);
         };
 
-        var segmentFromRequest = broadcast.getValueFromHash('segment');
-        if(segmentFromRequest.length == 0) {
-            segmentFromRequest = broadcast.getValueFromUrl('segment');
-        }
+        var segmentFromRequest = self.props.selectedSegment
+                              || broadcast.getValueFromHash('segment')
+                              || broadcast.getValueFromUrl('segment');
         if($.browser.mozilla) {
             segmentFromRequest = decodeURIComponent(segmentFromRequest);
         }
+        
         this.impl = new Segmentation({
             "target"   : this.$element.find(".segmentListContainer"),
             "segmentAccess" : "write",

@@ -301,7 +301,7 @@ abstract class UITest extends IntegrationTestCase
     private static function outputDiffViewerHtmlFile()
     {
         if (!empty(self::$failureScreenshotNames)) {
-            $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.html';
+            $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.' . static::getOutputPrefix() . '.html';
             echo "\nFailures encountered. View all diffs at:
 $diffViewerPath
 

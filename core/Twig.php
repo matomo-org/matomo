@@ -11,6 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Translate;
 use Piwik\Visualization\Sparkline;
+use Piwik\View\RenderTokenParser;
 use Twig_Environment;
 use Twig_Extension_Debug;
 use Twig_Loader_Chain;
@@ -71,6 +72,8 @@ class Twig
         $this->addFunction_postEvent();
         $this->addFunction_isPluginLoaded();
         $this->addFunction_getJavascriptTranslations();
+
+        $this->twig->addTokenParser(new RenderTokenParser());
     }
 
     protected function addFunction_getJavascriptTranslations()

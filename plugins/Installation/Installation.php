@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Installation;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
@@ -29,10 +30,32 @@ class Installation extends \Piwik\Plugin
         $hooks = array(
             'Config.NoConfigurationFile'      => 'dispatch',
             'Config.badConfigurationFile'     => 'dispatch',
+            'Request.dispatch'                => 'dispatchIfNotInstalledYet',
             'Menu.Admin.addItems'             => 'addMenu',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
         return $hooks;
+    }
+
+    public function dispatchIfNotInstalledYet(&$module, &$action, &$parameters)
+    {
+        $general = Config::getInstance()->General;
+
+        if (empty($general['install_in_progress'])) {
+            return;
+        }
+
+        if ($module == 'Installation') {
+            return;
+        }
+
+        $module = 'Installation';
+
+        if (!$this->isAllowedAction($action)) {
+            $action = 'welcome';
+        }
+
+        $parameters = array();
     }
 
     public function setControllerToLoad($newControllerName)
@@ -58,13 +81,10 @@ class Installation extends \Piwik\Plugin
 
         Translate::loadCoreTranslation();
 
-        $step = Common::getRequestVar('action', 'welcome', 'string');
-        $controller = $this->getInstallationController();
-        $isActionWhiteListed = in_array($step, array('saveLanguage', 'getBaseCss'));
-        if (in_array($step, array_keys($controller->getInstallationSteps()))
-            || $isActionWhiteListed
-        ) {
-            echo FrontController::getInstance()->dispatch('Installation', $step, array($message));
+        $action = Common::getRequestVar('action', 'welcome', 'string');
+
+        if ($this->isAllowedAction($action)) {
+            echo FrontController::getInstance()->dispatch('Installation', $action, array($message));
         } else {
             Piwik::exitWithErrorMessage(Piwik::translate('Installation_NoConfigFound'));
         }
@@ -89,5 +109,14 @@ class Installation extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Installation/stylesheets/systemCheckPage.less";
+    }
+
+    private function isAllowedAction($action)
+    {
+        $controller = $this->getInstallationController();
+        $isActionWhiteListed = in_array($action, array('saveLanguage', 'getBaseCss', 'reuseTables'));
+
+        return in_array($action, array_keys($controller->getInstallationSteps()))
+                || $isActionWhiteListed;
     }
 }

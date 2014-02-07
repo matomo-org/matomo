@@ -27,6 +27,8 @@ use Piwik\View;
  */
 abstract class ControllerAdmin extends Controller
 {
+    private static $isEacceleratorUsed = false;
+
     private static function notifyWhenTrackingStatisticsDisabled()
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
@@ -98,6 +100,39 @@ abstract class ControllerAdmin extends Controller
     }
 
     /**
+     * See http://dev.piwik.org/trac/ticket/4439#comment:8 and https://github.com/eaccelerator/eaccelerator/issues/12
+     *
+     * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling
+     * it automatically. At this point it looks like Eaccelerator is no longer under development and the bug has not
+     * been fixed within a year.
+     */
+    public static function disableEacceleratorIfEnabled()
+    {
+        $isEacceleratorUsed = ini_get('eaccelerator.enable');
+
+        if (!empty($isEacceleratorUsed)) {
+            self::$isEacceleratorUsed = true;
+
+            @ini_set('eaccelerator.enable', 0);
+        }
+    }
+
+    private static function notifyIfEAcceleratorIsUsed()
+    {
+        if (self::$isEacceleratorUsed) {
+            $params  = array('<a href="http://dev.piwik.org/trac/ticket/4439">', '</a>');
+            $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
+                We have disabled eAccelerator, which might affect the performance of Piwik.
+                Read the %srelated ticket%s for more information and how to fix this problem.", $params);
+
+            $notification = new Notification($message);
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->raw     = true;
+            Notification\Manager::notify('ControllerAdmin_EacceleratorIsUsed', $notification);
+        }
+    }
+
+    /**
      * Assigns view properties that would be useful to views that render admin pages.
      *
      * Assigns the following variables:
@@ -123,6 +158,7 @@ abstract class ControllerAdmin extends Controller
     static public function setBasicVariablesAdminView(View $view)
     {
         self::notifyWhenTrackingStatisticsDisabled();
+        self::notifyIfEAcceleratorIsUsed();
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();

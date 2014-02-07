@@ -192,7 +192,7 @@ class API extends \Piwik\Plugin\API
 										WHERE idsite = ?
 											AND idgoal = ?",
             array($idSite, $idGoal));
-        Db::deleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ?", "idvisit", 100000, array($idGoal));
+        Db::deleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ? AND idsite = ?", "idvisit", 100000, array($idGoal, $idSite));
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
