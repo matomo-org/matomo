@@ -379,7 +379,7 @@ table.entityTable tr td a:hover {
     }
 }
 
-.dataTable {
+table.dataTable {
     thead {
         tr {
             th {
@@ -420,10 +420,14 @@ table.entityTable tr td a:hover {
                 color: @brand-blue;
             }
         }
-        &:nth-child(2n) {
-            td  {
-                background-color: #fff !important;
-            }
+        & td.columneven,
+        & td.labeleven,
+        &:hover > td.labeleven,
+        &:hover > td.columneven,
+        &.subDataTable:hover > td.labeleven,
+        &.subDataTable:hover > td.columneven,
+        td.cellSubDataTable {
+          background-color: #fff !important;
         }
     }
 
