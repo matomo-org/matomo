@@ -2793,9 +2793,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26w
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2809,9 +2809,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2969,9 +2969,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT28h
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2985,9 +2985,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT18i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3337,9 +3337,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT22i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4201,9 +4201,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT22i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4233,9 +4233,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT22i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4329,9 +4329,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4441,9 +4441,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT30p
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5529,9 +5529,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT28i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5545,9 +5545,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26w
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5561,9 +5561,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5865,9 +5865,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5977,9 +5977,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6009,9 +6009,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT18i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6073,9 +6073,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26ii
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6313,9 +6313,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT18i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6473,9 +6473,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6553,9 +6553,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26w
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6569,9 +6569,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26ii
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9385,9 +9385,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT22i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9961,9 +9961,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT22i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9977,9 +9977,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT22i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9993,9 +9993,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: LT26i
   os_family: Android
   browser_family: Android Browser
 - 
