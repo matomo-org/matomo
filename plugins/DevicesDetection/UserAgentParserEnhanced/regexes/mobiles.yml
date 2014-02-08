@@ -232,10 +232,12 @@ Archos:
 
 # Asus
 Asus:
-  regex: 'Asus|Transformer'
+  regex: 'Asus|Transformer|PadFone'
   device: 'smartphone'
   models:
     - regex: 'Asus(?:-|;)?([a-z0-9]+)'
+      model: '$1'
+    - regex: '(PadFone(?: [0-9]+)?)'
       model: '$1'
     - regex: '(Transformer (Pad |Prime )?TF[0-9a-z]+)'
       device: 'tablet'
