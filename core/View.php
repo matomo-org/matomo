@@ -112,7 +112,7 @@ class View implements ViewInterface
      * @var Twig_Environment
      */
     private $twig;
-    private $templateVars = array();
+    protected $templateVars = array();
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
 
@@ -202,6 +202,7 @@ class View implements ViewInterface
             $this->currentAction = Piwik::getAction();
             $userLogin = Piwik::getCurrentUserLogin();
             $this->userLogin = $userLogin;
+            $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
 
             $count = SettingsPiwik::getWebsitesCountToDisplay();
 

@@ -7,31 +7,31 @@
 
 function initDashboard(dashboardId, dashboardLayout) {
 
-    $('#dashboardSettings').show();
+    $('.dashboardSettings').show();
     initTopControls();
 
     // Embed dashboard
     if (!$('#topBars').length) {
-        $('#dashboardSettings').after($('#Dashboard'));
+        $('.dashboardSettings').after($('#Dashboard'));
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
 
-    $('#dashboardSettings').on('click', function (e) {
-        if ($(e.target).is('#dashboardSettings') || $(e.target).is('#dashboardSettings>span')) {
-            $('#dashboardSettings').toggleClass('visible');
+    $('.dashboardSettings').on('click', function (e) {
+        if ($(e.target).is('.dashboardSettings') || $(e.target).is('.dashboardSettings>span')) {
+            $('.dashboardSettings').toggleClass('visible');
             if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
                 $('#removeDashboardLink').hide();
             } else {
                 $('#removeDashboardLink').show();
             }
             // fix position
-            $('#dashboardSettings').find('.widgetpreview-widgetlist').css('paddingTop', $('#dashboardSettings').find('.widgetpreview-categorylist').parent('li').position().top);
+            $('.dashboardSettings').find('.widgetpreview-widgetlist').css('paddingTop', $('.dashboardSettings').find('.widgetpreview-categorylist').parent('li').position().top);
         }
     });
     $('body').on('mouseup', function (e) {
-        if (!$(e.target).parents('#dashboardSettings').length && !$(e.target).is('#dashboardSettings')) {
-            $('#dashboardSettings').widgetPreview('reset');
-            $('#dashboardSettings').removeClass('visible');
+        if (!$(e.target).parents('.dashboardSettings').length && !$(e.target).is('.dashboardSettings')) {
+            $('.dashboardSettings').widgetPreview('reset');
+            $('.dashboardSettings').removeClass('visible');
         }
     });
 
@@ -44,14 +44,14 @@ function initDashboard(dashboardId, dashboardLayout) {
             layout: dashboardLayout
         });
 
-    $('#dashboardSettings').widgetPreview({
+    $('.dashboardSettings').widgetPreview({
         isWidgetAvailable: function (widgetUniqueId) {
             return !$('#dashboardWidgetsArea').find('[widgetId=' + widgetUniqueId + ']').length;
         },
         onSelect: function (widgetUniqueId) {
             var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
             $('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
-            $('#dashboardSettings').removeClass('visible');
+            $('.dashboardSettings').removeClass('visible');
         },
         resetOnSelect: true
     });
@@ -71,7 +71,7 @@ function initDashboard(dashboardId, dashboardLayout) {
 
     $('.submenu > li').on('mouseenter', function (event) {
         if (!$('.widgetpreview-categorylist', event.target).length) {
-            $('#dashboardSettings').widgetPreview('reset');
+            $('.dashboardSettings').widgetPreview('reset');
         }
     });
 
@@ -127,7 +127,7 @@ function showChangeDashboardLayoutDialog() {
 function showEmptyDashboardNotification() {
     piwikHelper.modalConfirm('#dashboardEmptyNotification', {
         resetDashboard: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); },
-        addWidget: function () { $('#dashboardSettings').trigger('click'); }
+        addWidget: function () { $('.dashboardSettings').trigger('click'); }
     });
 }
 
@@ -187,3 +187,12 @@ function copyDashboardToUser() {
         }
     });
 }
+
+// TODO: remove when control JS finished
+(function () {
+    var exports = window.require('piwik/UI');
+    exports.DashboardSettingsControl = function () {
+    };
+    exports.DashboardSettingsControl.initElements = function () {
+    };
+}());

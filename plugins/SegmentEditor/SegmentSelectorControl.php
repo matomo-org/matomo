@@ -33,7 +33,6 @@ class SegmentSelectorControl extends UIControl
         $this->cssIdentifier = "segmentEditorPanel";
         $this->cssClass = "js-autoLeftPanel";
 
-        $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $this->idSite = Common::getRequestVar('idSite', false, 'int');
 
         $this->selectedSegment = Common::getRequestVar('segment', false, 'string');

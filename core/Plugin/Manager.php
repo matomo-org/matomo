@@ -72,6 +72,61 @@ class Manager extends Singleton
         'LeftMenu'
     );
 
+    public static $pluginsToLoadForTests = array(
+        "CorePluginsAdmin",
+        "CoreAdminHome",
+        "CoreHome",
+        "Proxy",
+        "API",
+        "Widgetize",
+        "Transitions",
+        "LanguagesManager",
+        "Actions",
+        "Dashboard",
+        "MultiSites",
+        "Referrers",
+        "UserSettings",
+        "Goals",
+        "SEO",
+        "UserCountry",
+        "VisitsSummary",
+        "VisitFrequency",
+        "VisitTime",
+        "VisitorInterest",
+        "ExampleAPI",
+        "ExamplePlugin",
+        "ExampleRssWidget",
+        "Provider",
+        "Feedback",
+        "Login",
+        "UsersManager",
+        "SitesManager",
+        "Installation",
+        "CoreUpdater",
+        "ScheduledReports",
+        "UserCountryMap",
+        "Live",
+        "CustomVariables",
+        "PrivacyManager",
+        "ImageGraph",
+        "Annotations",
+        "MobileMessaging",
+        "Overlay",
+        "SegmentEditor",
+        "DevicesDetection",
+        "DBStats",
+        'ExampleUI',
+        "TasksTimetable",
+        "Morpheus",
+        "Zeitgeist",
+        "CustomAlerts",
+        "VisitorGenerator",
+        "SecurityInfo",
+        "ExampleSettingsPlugin",
+        "TreemapVisualization",
+        "Events"
+    );
+
     public function getCorePluginsDisabledByDefault()
     {
         return $this->corePluginsDisabledByDefault;
@@ -401,7 +456,6 @@ class Manager extends Singleton
         );
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
-
             // Hide plugins that are never going to be used
             if($this->isPluginBogus($pluginName)) {
                 continue;

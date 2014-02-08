@@ -72,19 +72,39 @@ class UIControl extends \Piwik\View
     public $cssClass = "";
 
     /**
-     * Whether we are currently rendering the containing div or not.
+     * The inner view that renders the actual control content.
+     *
+     * @var View
      */
-    private $renderingContainer = false;
+    private $innerView = null;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        parent::__construct(static::TEMPLATE);
+        $this->innerView = new View(static::TEMPLATE);
+
+        parent::__construct("@CoreHome\_uiControl");
 
         $this->clientSideProperties = array();
         $this->clientSideParameters = array();
+    }
+
+    /**
+     * Sets a variable. See {@link View::__set()}.
+     */
+    public function __set($key, $val)
+    {
+        $this->innerView->__set($key, $val);
+    }
+
+    /**
+     * Gets a view variable. See {@link View::__get()}.
+     */
+    public function &__get($key)
+    {
+        return $this->innerView->__get($key);
     }
 
     /**
@@ -103,24 +123,22 @@ class UIControl extends \Piwik\View
             throw new Exception("All UIControls must set a jsClass property");
         }
 
-        if ($this->renderingContainer) {
-            return parent::render();
-        } else {
-            $this->renderingContainer = true;
+        $this->getTemplateVars();
+        return parent::render();
+    }
 
-            $surroundingDivView = new View("@CoreHome\_uiControl");
-            $surroundingDivView->clientSideProperties = $this->clientSideProperties;
-            $surroundingDivView->clientSideParameters = $this->clientSideParameters;
-            $surroundingDivView->implView = $this;
-            $surroundingDivView->cssIdentifier = $this->cssIdentifier;
-            $surroundingDivView->cssClass = $this->cssClass;
-            $surroundingDivView->jsClass = $this->jsClass;
+    /**
+     * See {@link View::getTemplateVars()}.
+     */
+    public function getTemplateVars($override = array())
+    {
+        $this->templateVars['implView'] = $this->innerView;
+        $this->templateVars['clientSideProperties'] = $this->clientSideProperties;
+        $this->templateVars['clientSideParameters'] = $this->clientSideParameters;
+        $this->templateVars['cssIdentifier'] = $this->cssIdentifier;
+        $this->templateVars['cssClass'] = $this->cssClass;
+        $this->templateVars['jsClass'] = $this->jsClass;
 
-            $result = $surroundingDivView->render();
-
-            $this->renderingContainer = false;
-
-            return $result;
-        }
+        return parent::getTemplateVars($override);
     }
 }
