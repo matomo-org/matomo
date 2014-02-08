@@ -14030,3 +14030,19 @@
     model: Glass
   os_family: Android
   browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.1.1; ARCHOS GAMEPAD Build/JRO03H) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Safari/535.19
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 18.0
+  device:
+    type: console
+    brand: AR
+    model: Gamepad
+  os_family: Android
+  browser_family: Chrome
