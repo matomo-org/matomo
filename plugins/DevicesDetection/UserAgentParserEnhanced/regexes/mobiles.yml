@@ -428,9 +428,11 @@ Gionee:
 
 # Google
 Google:
-  regex: 'Nexus|GoogleTV'
+  regex: 'Nexus|GoogleTV|Glass'
   device: 'smartphone'
   models:
+    - regex: 'Glass'
+      model: 'Glass'
     - regex: '(Galaxy Nexus)'
       model: '$1'
     - regex: '(Nexus (?:S|4|5|One))'
