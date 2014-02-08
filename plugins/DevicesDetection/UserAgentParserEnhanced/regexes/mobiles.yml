@@ -866,6 +866,12 @@ Samsung:
     - regex: 'sam([rua][0-9]+)'
       model: 'SCH-$1'
 
+# SuperSonic
+SuperSonic:
+  regex: '(SC-[0-9]+[a-z]+)'
+  device: 'tablet'
+  model: '$1'
+
 # pantech
 Pantech:
   regex: 'Pantech|P[GN]-|PT-[a-z0-9]{3,}|TX[T]?[0-9]+'

@@ -3977,9 +3977,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: SU
+    model: SC-06D
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4713,9 +4713,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: SU
+    model: SC-91MID
   os_family: Android
   browser_family: Android Browser
 - 

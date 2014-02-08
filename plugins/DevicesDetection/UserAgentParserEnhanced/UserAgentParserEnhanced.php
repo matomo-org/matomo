@@ -130,6 +130,7 @@ class UserAgentParserEnhanced
         'SN' => 'Sendo',
         'SO' => 'Sony',
         'SP' => 'Spice',
+        'SU' => 'SuperSonic',
         'SV' => 'Selevision',
         'SY' => 'Sanyo',
         'SM' => 'Symphony',
