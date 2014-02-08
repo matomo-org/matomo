@@ -182,7 +182,20 @@
 - regex: '(?:Tizen|SLP) Browser(?:/(\d+\.\d+))?'
   name: 'Tizen Browser'
   version: '$1'
-  
+
+#Palm Blazer
+- regex: 'Blazer(?:/(\d+\.\d+))?'
+  name: 'Palm Blazer'
+  version: '$1'
+- regex: 'Pre/(\d+\.\d+)'
+  name: 'Palm Pre'
+  version: '$1'
+
+#Palm WebPro
+- regex: 'WebPro(?:[ /](\d+\.\d+))?'
+  name: 'Palm WebPro'
+  version: '$1'
+
 #Epiphany
 - regex: 'Epiphany(?:/(\d+\.\d+))?'
   name: 'Epiphany'
@@ -307,7 +320,7 @@
 - regex: 'iCab(?:[ /](\d+\.\d+))?'
   name: 'iCab'
   version: '$1'
-  
+
 #Internet Explorer
 - regex: 'IEMobile[ /](\d+\.\d+)'
   name: 'IE Mobile'
@@ -433,14 +446,6 @@
   name: 'Obigo'
   version: ''
   
-#Palm Blazer
-- regex: 'Blazer(?:/(\d+\.\d+))?'
-  name: 'Palm Blazer'
-  version: '$1'
-- regex: 'Pre/(\d+\.\d+)'
-  name: 'Palm Pre'
-  version: '$1'
-  
 #Polaris
 - regex: '(?:Polaris|Embider)(?:/(\d+\.\d+))?'
   name: 'Polaris'
@@ -451,7 +456,12 @@
   name: 'Snowshoe'
   version: '$1'
 
-  #Android Browser
+#Xiino
+- regex: 'Xiino(?:/(\d+\.\d+))?'
+  name: 'Xiino'
+  version: '$1'
+
+#Android Browser
 - regex: 'Android'
   name: 'Android Browser'
   version: ''

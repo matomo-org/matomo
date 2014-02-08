@@ -358,6 +358,7 @@ class UserAgentParserEnhanced
         'OW' => 'OmniWeb',
         'PL' => 'Palm Blazer',
         'PR' => 'Palm Pre',
+        'PW' => 'Palm WebPro',
         'PX' => 'Phoenix',
         'PO' => 'Polaris',
         'RK' => 'Rekonq',
@@ -371,7 +372,8 @@ class UserAgentParserEnhanced
         'UC' => 'UC Browser',
         'WE' => 'WebPositive',
         'WO' => 'wOSBrowser',
-        'YA' => 'Yandex Browser'
+        'YA' => 'Yandex Browser',
+        'XI' => 'Xiino'
     );
 
     const UNKNOWN = "UNK";

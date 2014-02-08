@@ -123,15 +123,19 @@ RIM:
 
 # PALM
 Palm:
-  regex: '(?:Pre|Pixi)/(\d+)\.(\d+)|Palm|Treo'
+  regex: '(?:Pre|Pixi)/(\d+)\.(\d+)|Palm|Treo|Xiino'
   device: 'smartphone'
   models:
     - regex: '((?:Pre|Pixi))/(\d+\.\d+)'
       model: '$1 $2'
-    - regex: 'Palm(?: )?([a-z0-9]+)'
+    - regex: 'Palm(?:[ -])?((?!OS|Source)[a-z0-9]+)'
       model: '$1'
     - regex: 'Treo([a-z0-9]+)'
       model: 'Treo $1'
+    - regex: 'Tungsten'
+      model: 'Tungsten'
+    - regex: 'Xiino' # Browser for Palm OS only
+      model: ''
 
 # HP
 HP:

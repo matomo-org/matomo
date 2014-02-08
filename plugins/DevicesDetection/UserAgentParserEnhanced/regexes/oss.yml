@@ -91,7 +91,24 @@
   name: 'Windows RT'
   version: ''
   
-  
+
+
+##########
+# webOS
+##########
+- regex: '(?:webOS|Palm webOS)(?:/(\d+\.\d+))?'
+  name: 'webOS'
+  version: '$1'
+
+- regex: '(?:PalmOS|Palm OS)(?:[/ ](\d+\.\d+))?|Palm'
+  name: 'palmOS'
+  version: '$1'
+
+- regex: 'Xiino(?:.*v\. (\d+\.\d+))?'  # palmOS only browser
+  name: 'palmOS'
+  version: '$1'
+
+
   
 ##########
 # Windows
@@ -180,20 +197,6 @@
 - regex: '(?:iPhone|iPad|iPod)(?:.*Mac OS X.*Version/(\d+\.\d+)|; Opera)'
   name: 'iOS'
   version: '$1'
-  
-  
-  
-##########
-# webOS
-##########
-- regex: '(?:webOS|Palm webOS)(?:/(\d+\.\d+))?'
-  name: 'webOS'
-  version: '$1'
-  
-  
-- regex: '(?:PalmOS|Palm OS)(?:/(\d+\.\d+))?'
-  name: 'PalmOS'
-  version: ''
   
   
   

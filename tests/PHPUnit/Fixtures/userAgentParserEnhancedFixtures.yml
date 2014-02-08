@@ -13854,3 +13854,147 @@
     model: Venue Pro
   os_family: Windows Mobile
   browser_family: Internet Explorer
+-
+  user_agent: 'Xiino/1.0.9E [en] (v. 4.1; 153x130; g4)'
+  os:
+    name: palmOS
+    short_name: POS
+    version: 4.1
+  browser:
+    name: Xiino
+    short_name: XI
+    version: 1.0
+  device:
+    type: smartphone
+    brand: PM
+    model:
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: CorePlayer/1.0 (Palm OS 5.4.9; ARM Intel PXA27x; en) CorePlayer/1.3.2_6909
+  os:
+    name: palmOS
+    short_name: POS
+    version: 5.4
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: smartphone
+    brand: PM
+    model:
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (webOS/1.4.5; U; ru-RU) AppleWebKit/532.2 (KHTML, like Gecko) Version/1.0 Safari/532.2 Pixi/1.0
+  os:
+    name: webOS
+    short_name: WOS
+    version: 1.4
+  browser:
+    name: wOSBrowser
+    short_name: WO
+    version: 1.4
+  device:
+    type: smartphone
+    brand: PM
+    model: Pixi 1.0
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; PalmSource/Palm-TunX; Blazer/4.3) 16;320x448
+  os:
+    name: palmOS
+    short_name: POS
+    version:
+  browser:
+    name: Palm Blazer
+    short_name: PL
+    version: 4.3
+  device:
+    type: smartphone
+    brand: PM
+    model: TunX
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: Mozilla/4.76 (compatible; MSIE 6.0; U; Windows 95; PalmSource; PalmOS; WebPro; Tungsten Proxyless 1.1 320x320x16)
+  os:
+    name: palmOS
+    short_name: POS
+    version:
+  browser:
+    name: Palm WebPro
+    short_name: PW
+    version:
+  device:
+    type: smartphone
+    brand: PM
+    model: Tungsten
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/5.0 [en] (PalmOS; U; WebPro/3.5; Palm-Zi72)'
+  os:
+    name: palmOS
+    short_name: POS
+    version:
+  browser:
+    name: Palm WebPro
+    short_name: PW
+    version: 3.5
+  device:
+    type: smartphone
+    brand: PM
+    model: Zi72
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; PalmSource/Palm-Zir4; Blazer/4.0) 16;320x320
+  os:
+    name: palmOS
+    short_name: POS
+    version:
+  browser:
+    name: Palm Blazer
+    short_name: PL
+    version: 4.0
+  device:
+    type: smartphone
+    brand: PM
+    model: Zir4
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 8.12; MSIEMobile 6.0) 320X320 Palm Treo850e
+  os:
+    name: Windows CE
+    short_name: WCE
+    version:
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 8.12
+  device:
+    type: smartphone
+    brand: PM
+    model: Treo850e
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (webOS/1.0; U; en-US) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/1.0 Safari/525.27.1 Pre/1.0
+  os:
+    name: webOS
+    short_name: WOS
+    version: 1.0
+  browser:
+    name: wOSBrowser
+    short_name: WO
+    version: 1.0
+  device:
+    type: smartphone
+    brand: PM
+    model: Pre 1.0
+  os_family: Other Mobile
+  browser_family: Unknown
