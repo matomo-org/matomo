@@ -456,6 +456,11 @@
   name: 'Snowshoe'
   version: '$1'
 
+#Thunderbird
+- regex: 'Thunderbird(?:/(\d+\.\d+))?'
+  name: 'Thunderbird'
+  version: '$1'
+
 #Xiino
 - regex: 'Xiino(?:/(\d+\.\d+))?'
   name: 'Xiino'

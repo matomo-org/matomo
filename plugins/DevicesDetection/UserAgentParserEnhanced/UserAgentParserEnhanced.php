@@ -369,6 +369,7 @@ class UserAgentParserEnhanced
         'SM' => 'SeaMonkey',
         'SN' => 'Snowshoe',
         'SX' => 'Swiftfox',
+        'TB' => 'Thunderbird',
         'TZ' => 'Tizen Browser',
         'UC' => 'UC Browser',
         'WE' => 'WebPositive',
