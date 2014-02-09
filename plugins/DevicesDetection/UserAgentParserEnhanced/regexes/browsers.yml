@@ -48,6 +48,11 @@
   name: 'WebPositive'
   version: ''
 
+#Pale Moon
+- regex: 'PaleMoon(?:/(\d+\.\d+))?'
+  name: 'Pale Moon'
+  version: '$1'
+
 #Firefox
 - regex: 'Firefox(?:/(\d+\.\d+))?'
   name: 'Firefox'
@@ -153,6 +158,19 @@
 #Mercury
 - regex: 'Mercury(?:/(\d+\.\d+))?'
   name: 'Mercury'
+  version: '$1'
+
+#Maxthon
+- regex: 'Maxthon[ /](\d+\.\d+)'
+  name: 'Maxthon'
+  version: '$1'
+- regex: '(?:Maxthon|MyIE2|Uzbl|Shiira)'
+  name: 'Maxthon'
+  version: ''
+
+#Iron
+- regex: 'Iron(?:/(\d+\.\d+))?'
+  name: 'Iron'
   version: '$1'
 
 #Chrome
@@ -352,11 +370,6 @@
   name: 'Internet Explorer'
   version: '$1'
 
-#Iron
-- regex: 'Iron(?:/(\d+\.\d+))?'
-  name: 'Iron'
-  version: '$1'
-  
 #Kapiko
 - regex: 'Kapiko(?:/(\d+\.\d+))?'
   name: 'Kapiko'
@@ -386,14 +399,6 @@
 - regex: 'Links(?: \((\d+\.\d+))?'
   name: 'Links'
   version: '$1'
-  
-#Maxthon
-- regex: 'Maxthon (\d+\.\d+)'
-  name: 'Maxthon'
-  version: '$1'
-- regex: '(?:Maxthon|MyIE2|Uzbl|Shiira)'
-  name: 'Maxthon'
-  version: ''
   
 #Openwave Mobile Browser
 - regex: 'UP.Browser(?:/(\d+\.\d+))?'

@@ -14606,3 +14606,163 @@
     model:
   os_family: Windows
   browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64; rv:29.0) Gecko/20100101 Firefox/29.0 SeaMonkey/2.26a1 Lightning/3.1a1
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: SeaMonkey
+    short_name: SM
+    version: 2.26
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) KHTML/4.8.5 (like Gecko) Mageia Konqueror/4.8
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Konqueror
+    short_name: KO
+    version: 4.8
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Konqueror
+-
+  user_agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 BIDUBrowser/2.x Safari/537.31
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 26.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; it-IT; rv:1.9.0.2) Gecko/2008092313 Ubuntu/9.25 (jaunty) Firefox/3.8
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: 9.25
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.8
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.22 (KHTML, like Gecko) Maxthon/4.1.2.2000 Chrome/25.0.1364.99 Safari/537.22
+  os:
+    name: Mac
+    short_name: MAC
+    version: 10.8
+  browser:
+    name: Maxthon
+    short_name: MX
+    version: 4.1
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SUSE/31.0.1650.63
+  os:
+    name: SUSE
+    short_name: SSE
+    version: 31.0
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 31.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; HTC; Windows Phone 8X by HTC)
+  os:
+    name: Windows Phone
+    short_name: WPH
+    version: 8.0
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 10.0
+  device:
+    type: smartphone
+    brand: HT
+    model: Windows Phone 8X by HTC
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; Maxthon/4.2.0.4000)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Maxthon
+    short_name: MX
+    version: 4.2
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Iron/26.0.1450.0 Chrome/26.0.1450.0 Safari/537.36
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Iron
+    short_name: IR
+    version: 26.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:24.0) Gecko/20140129 Firefox/24.0 PaleMoon/24.3.1
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: Pale Moon
+    short_name: PM
+    version: 24.3
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown

@@ -359,6 +359,7 @@ class UserAgentParserEnhanced
         'OV' => 'Openwave Mobile Browser',
         'OW' => 'OmniWeb',
         'PL' => 'Palm Blazer',
+        'PM' => 'Pale Moon',
         'PR' => 'Palm Pre',
         'PW' => 'Palm WebPro',
         'PX' => 'Phoenix',
