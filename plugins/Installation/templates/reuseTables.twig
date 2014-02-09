@@ -70,8 +70,8 @@
         </ul>
         </p>
     {% else %}
-
-        <p class="success">The database was successfully updated from {{ oldVersion }} to {{ currentVersion }}!</p>
+        <div class="success"> {{ 'Installation_TablesUpdatedSuccess'|translate(oldVersion, currentVersion) }}
+            <img src="plugins/Zeitgeist/images/success_medium.png"/></div>
         <br />
 
     {% endif %}

@@ -618,7 +618,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected function markInstallationAsCompleted()
     {
         $config = Config::getInstance();
-        $config->General['install_in_progress'] = null;
+        unset($config->General['install_in_progress']);
         $config->forceSave();
     }
 
@@ -661,8 +661,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $error = true;
         } else if ($currentStep == 'finished' && $this->session->currentStepDone == 'finished') {
             // ok to refresh this page or use language selector
-        } else if ($currentStep == 'reuseTables' && $this->session->currentStepDone == 'tablesCreation') {
-            // this is ok, we cannot use 'reuseTables' to steps as it would appear in the menu otherwise
+        } else if ($currentStep == 'reuseTables' && in_array($this->session->currentStepDone, array('tablesCreation', 'reuseTables'))) {
+            // this is ok, we cannot add 'reuseTables' to steps as it would appear in the menu otherwise
         } else {
             if ($this->isFinishedInstallation()) {
                 $error = true;

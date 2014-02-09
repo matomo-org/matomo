@@ -1143,6 +1143,7 @@
         "TablesDelete": "Delete the detected tables",
         "TablesDeletedSuccess": "Existing Piwik tables deleted with success",
         "TablesCreatedSuccess": "Tables created with success!",
+        "TablesUpdatedSuccess": "The database was successfully updated from %1$s to %2$s!",
         "GoBackAndDefinePrefix": "Go back and define a Prefix for the Piwik Tables",
         "ConfirmDeleteExistingTables": "Are you sure you want to delete the tables: %s from your database? WARNING: DATA FROM THESE TABLES CANNOT BE RECOVERED!",
         "Welcome": "Welcome!",
