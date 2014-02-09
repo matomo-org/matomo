@@ -325,9 +325,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
+        $steps = $this->getInstallationSteps();
+        $steps['tablesCreation'] = 'Installation_ReusingTables';
+
         $view = new View(
             '@Installation/reuseTables',
-            $this->getInstallationSteps(),
+            $steps,
             'tablesCreation'
         );
 
