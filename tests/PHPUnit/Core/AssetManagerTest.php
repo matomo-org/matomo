@@ -534,7 +534,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_State()
+    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_Stale()
     {
         $this->disableMergedAssets();
 
@@ -554,7 +554,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_State()
+    public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_Stale()
     {
         $this->activateMergedAssets();
 
