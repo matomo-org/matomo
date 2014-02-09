@@ -2857,9 +2857,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST23i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3193,9 +3193,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST23i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3289,9 +3289,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST26a
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3305,9 +3305,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST26a
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3737,9 +3737,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST25i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3801,9 +3801,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST21i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4153,9 +4153,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4217,9 +4217,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST15i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4297,9 +4297,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4313,9 +4313,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST21i2
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4361,9 +4361,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4377,9 +4377,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST25i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4409,9 +4409,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST18i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4601,9 +4601,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST21i2
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5049,9 +5049,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST25a
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5849,9 +5849,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5881,9 +5881,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST23i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5945,9 +5945,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST26i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5961,9 +5961,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST21i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6361,9 +6361,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST23i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6457,9 +6457,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST23i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9369,9 +9369,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST27i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9401,9 +9401,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST25i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9545,9 +9545,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST27a
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9769,9 +9769,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST25a
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9785,9 +9785,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST27i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10025,9 +10025,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: ST25a
   os_family: Android
   browser_family: Android Browser
 - 

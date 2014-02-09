@@ -381,14 +381,14 @@ Ericy:
 
 # Sony Ericsson
 Sony Ericsson:
-  regex: 'Sony(?: )?Ericsson|portalmmm/2\.0 K|LT[0-9]+[a-z]* Build'
+  regex: 'Sony(?: )?Ericsson|portalmmm/2\.0 K|(?:LT|SO|ST)[0-9]+[a-z]*[0-9]* Build'
   device: 'smartphone'
   models:
     - regex: 'SonyEricsson([a-z0-9]+) Build'
       model: '$1'
     - regex: 'Sony(?: )?Ericsson ([a-z0-9\-]+)'
       model: '$1'
-    - regex: '(LT[0-9]+[a-z]*)'
+    - regex: '((?:LT|SO|ST)[0-9]+[a-z]*[0-9]*) Build'
       model: '$1'
     - regex: 'portalmmm/2.0 K([a-z0-9]+)'
       model: 'K$1'
