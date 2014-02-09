@@ -12,7 +12,7 @@ use Piwik\View\UIControl;
 /**
  * Generates the HTML for the dashboard manager control.
  */
-class DashboardSettingsControl extends UIControl
+abstract class DashboardSettingsControlBase extends UIControl
 {
     const TEMPLATE = "@Dashboard/_dashboardSettings";
 
@@ -23,8 +23,8 @@ class DashboardSettingsControl extends UIControl
     {
         parent::__construct();
         
-        $this->jsClass = "DashboardSettingsControl";
-        $this->cssIdentifier = "dashboardSettings";
         $this->cssClass = "js-autoLeftPanel";
+        $this->dashboardActions = array();
+        $this->generalActions = array();
     }
 }

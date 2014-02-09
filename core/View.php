@@ -135,6 +135,8 @@ class View implements ViewInterface
 
         $this->piwik_version = Version::VERSION;
         $this->piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+        $this->userLogin = Piwik::getCurrentUserLogin();
+        $this->isSuperUser = Access::getInstance()->hasSuperUserAccess(); // TODO: redundancy w/ userIsSuperUser
     }
 
     /**
@@ -200,9 +202,6 @@ class View implements ViewInterface
         try {
             $this->currentModule = Piwik::getModule();
             $this->currentAction = Piwik::getAction();
-            $userLogin = Piwik::getCurrentUserLogin();
-            $this->userLogin = $userLogin;
-            $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
 
             $count = SettingsPiwik::getWebsitesCountToDisplay();
 
@@ -226,7 +225,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = APIUsersManager::getInstance()->getUser($userLogin);
+            $user = APIUsersManager::getInstance()->getUser($this->userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
             // can fail, for example at installation (no plugin loaded yet)

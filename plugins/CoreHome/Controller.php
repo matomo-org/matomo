@@ -19,7 +19,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
-use Piwik\Plugins\Dashboard\DashboardSettingsControl;
+use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Site;
 use Piwik\UpdateCheck;
@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
         $view->menu = MenuMain::getInstance()->getMenu();
-        $view->dashboardSettingsControl = new DashboardSettingsControl();
+        $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
         return $view;
     }

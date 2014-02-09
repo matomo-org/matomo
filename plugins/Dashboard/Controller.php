@@ -57,7 +57,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = $this->_getDashboardView('@Dashboard/index');
-        $view->dashboardSettingsControl = new DashboardSettingsControl();
+        $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {
             $login = Piwik::getCurrentUserLogin();
@@ -69,7 +69,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getDashboardSettingsControl()
     {
-        $view = new DashboardSettingsControl();
+        $view = new DashboardManagerControl();
         return $view->render();
     }
 
