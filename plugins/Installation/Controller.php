@@ -584,7 +584,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        $config->General['install_in_progress'] = 1;
+        $config->General['installation_in_progress'] = 1;
         $config->database = $dbInfos;
         $config->forceSave();
 
@@ -597,7 +597,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected function markInstallationAsCompleted()
     {
         $config = Config::getInstance();
-        unset($config->General['install_in_progress']);
+        unset($config->General['installation_in_progress']);
         $config->forceSave();
     }
 
@@ -1097,8 +1097,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $general = Config::getInstance()->General;
 
         $isInstallationInProgress = false;
-        if (array_key_exists('install_in_progress', $general)) {
-            $isInstallationInProgress = (bool) $general['install_in_progress'];
+        if (array_key_exists('installation_in_progress', $general)) {
+            $isInstallationInProgress = (bool) $general['installation_in_progress'];
         }
 
         return !$isInstallationInProgress;
