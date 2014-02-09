@@ -200,58 +200,59 @@ table.entityTable tr td a:hover {
     }
 }
 
-.top_controls {
-  #dashboardSettings {
-    border: 1px solid @silver-80;
-    background: #fff;
-    z-index: 10;
-    padding: 8px 10px 8px 10px;
-    .border-radius(0px);
-    .font-default(10px, 12px);
-    > span {
-      position: relative;
-      background: none;
-      text-transform: uppercase;
-      &:after {
-        content: '';
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 5px solid @brand-red;
-        position: absolute;
-        top: 3px;
-        right: 0;
-      }
+.dashboardSettings {
+  border: 1px solid @silver-80;
+  background: #fff;
+  z-index: 10;
+  padding: 8px 10px 8px 10px;
+  .border-radius(0px);
+  .font-default(10px, 12px);
+  > span {
+    position: relative;
+    background: none;
+    text-transform: uppercase;
+    &:after {
+      content: '';
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid @brand-red;
+      position: absolute;
+      top: 3px;
+      right: 0;
     }
+  }
 
-    ul.submenu {
-      margin-left: 0;
-      li {
-        list-style-type: none;
-        > div {
-          .font-default(11px, 14px);
-          color: @brand-black;
-        }
-        text-transform: none;
-        color: @silver-20;
-        &.widgetpreview-choosen {
-          color: @brand-black;
-          font-weight: normal;
-          background: @silver-95;
-          position: relative;
-          &:after {
-            position: absolute;
-            content: '';
-            top: 6px;
-            right: 10px;
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-            border-left: 5px solid @brand-red;
-
-          }
+  ul.submenu {
+    margin-left: 0;
+    li {
+      list-style-type: none;
+      > div {
+        .font-default(11px, 14px);
+        color: @brand-black;
+      }
+      text-transform: none;
+      color: @silver-20;
+      &.widgetpreview-choosen {
+        color: @brand-black;
+        font-weight: normal;
+        background: @silver-95;
+        position: relative;
+        &:after {
+          position: absolute;
+          content: '';
+          top: 6px;
+          right: 10px;
+          border-top: 4px solid transparent;
+          border-bottom: 4px solid transparent;
+          border-left: 5px solid @brand-red;
         }
       }
     }
   }
+}
+
+.dashboardSettings.visible {
+    z-index:10;
 }
 
 .segmentEditorPanel {
@@ -318,7 +319,7 @@ table.entityTable tr td a:hover {
   }
 }
 
-.segmentEditorPanel:hover {
+.segmentEditorPanel:hover, .dashboardSettings:hover {
   background: #fff;
   border: 1px solid @silver-80;
 }
@@ -379,7 +380,7 @@ table.entityTable tr td a:hover {
     }
 }
 
-.dataTable {
+table.dataTable {
     thead {
         tr {
             th {
@@ -420,10 +421,14 @@ table.entityTable tr td a:hover {
                 color: @brand-blue;
             }
         }
-        &:nth-child(2n) {
-            td  {
-                background-color: #fff !important;
-            }
+        & td.columneven,
+        & td.labeleven,
+        &:hover > td.labeleven,
+        &:hover > td.columneven,
+        &.subDataTable:hover > td.labeleven,
+        &.subDataTable:hover > td.columneven,
+        td.cellSubDataTable {
+          background-color: #fff !important;
         }
     }
 
@@ -844,4 +849,20 @@ table#editSites {
 
 #header_message a:hover {
     text-decoration:none;
+}
+
+
+#multisites table.dataTable {
+    thead tr th {
+        background: @silver-95 !important;
+    }
+    td {
+        background: white;
+    }
+    tr:hover td {
+        background: #f8f8f8;
+    }
+    tfoot tr:hover td {
+        background: white;
+    }
 }

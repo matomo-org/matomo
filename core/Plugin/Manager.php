@@ -123,7 +123,8 @@ class Manager extends Singleton
         "VisitorGenerator",
         "SecurityInfo",
         "ExampleSettingsPlugin",
-        "TreemapVisualization"
+        "TreemapVisualization",
+        "Events"
     );
 
     public function getCorePluginsDisabledByDefault()

@@ -18,7 +18,7 @@
   }
 
   .top_controls #periodString,
-  .top_controls #dashboardSettings,
+  .top_controls .dashboardSettings,
   .top_controls #segmentEditorPanel {
     position: static;
     margin: 0 0 10px;
@@ -230,7 +230,7 @@
   height: 30px;
 }
 
-#dashboardSettings {
+.dashboardSettings {
   position: absolute;
   z-index: 120;
   background: #f7f7f7;
@@ -243,39 +243,39 @@
   overflow: hidden;
 }
 
-#dashboardSettings:hover {
+.dashboardSettings:hover {
   background: #f1f0eb;
   border-color: #a9a399;
 }
 
-#dashboardSettings.visible {
+.dashboardSettings.visible {
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
 }
 
-#dashboardSettings > span {
+.dashboardSettings > span {
   background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) right center no-repeat;
   padding-right: 20px;
   display: block;
 }
 
-#dashboardSettings ul.submenu {
+.dashboardSettings ul.submenu {
   padding-top: 5px;
   display: none;
   float: left;
 }
 
-#dashboardSettings.visible ul.submenu {
+.dashboardSettings.visible ul.submenu {
   display: block;
   list-style: square outside none;
   margin-left: 15px;
 }
 
-#dashboardSettings > ul.submenu > li {
+.dashboardSettings > ul.submenu > li {
   padding: 5px 0;
   clear: both;
 }
 
-#dashboardSettings > ul.submenu > li:hover {
+.dashboardSettings > ul.submenu > li:hover {
   color: #e87500;
 }
 
@@ -362,7 +362,7 @@
   -height: 600px;
 }
 
-#addWidget, #manageDashboard {
+.addWidget, .manageDashboard {
   cursor: default;
 }
 
@@ -413,18 +413,18 @@ div.widgetpreview-preview {
   width: 500px;
 }
 
-#dashboardSettings {
+.dashboardSettings {
   min-height: 0;
   height: auto;
   margin-right: 10px;
 }
 
-#dashboardSettings .submenu {
+.dashboardSettings .submenu {
   font-weight: bold;
   color: #255792;
 }
 
-#dashboardSettings .submenu ul {
+.dashboardSettings .submenu ul {
   float: none;
   font-weight: normal;
   padding-top: 10px;
@@ -436,32 +436,32 @@ div.widgetpreview-preview {
   margin-right: 20px;
 }
 
-#dashboardSettings .submenu ul li {
+.dashboardSettings .submenu ul li {
   line-height: 20px;
   padding: 0 25px 0 5px;
   color: #444;
 }
 
-#dashboardSettings .submenu ul li:hover {
+.dashboardSettings .submenu ul li:hover {
   color: #e87500;
 }
 
-#dashboardSettings .widgetpreview-widgetlist {
+.dashboardSettings .widgetpreview-widgetlist {
   width: 228px;
   font-weight: normal;
 }
 
-#dashboardSettings .widgetTop {
+.dashboardSettings .widgetTop {
   cursor: pointer;
 }
 
-#dashboardSettings .widgetpreview-widgetlist,
-#dashboardSettings .widgetpreview-preview {
+.dashboardSettings .widgetpreview-widgetlist,
+.dashboardSettings .widgetpreview-preview {
   display: none;
 }
 
-#dashboardSettings.visible .widgetpreview-widgetlist,
-#dashboardSettings.visible .widgetpreview-preview {
+.dashboardSettings.visible .widgetpreview-widgetlist,
+.dashboardSettings.visible .widgetpreview-preview {
   display: block;
 }
 

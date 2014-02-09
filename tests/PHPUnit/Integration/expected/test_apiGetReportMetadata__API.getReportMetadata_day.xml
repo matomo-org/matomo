@@ -2,44 +2,6 @@
 <result>
 	<row>
 		<category>All Websites</category>
-		<name>Single Website dashboard</name>
-		<module>MultiSites</module>
-		<action>getOne</action>
-		<dimension>Website</dimension>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<visits_evolution>Visits Evolution</visits_evolution>
-			<nb_actions>Actions</nb_actions>
-			<actions_evolution>Actions Evolution</actions_evolution>
-			<nb_pageviews>Pageviews</nb_pageviews>
-			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
-			<revenue>Revenue</revenue>
-			<revenue_evolution>Revenue Evolution</revenue_evolution>
-			<nb_conversions>Conversions</nb_conversions>
-			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
-			<orders>Ecommerce Orders</orders>
-			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
-			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
-			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
-			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>MultiSites_getOne</uniqueId>
-	</row>
-	<row>
-		<category>All Websites</category>
 		<name>All Websites dashboard</name>
 		<module>MultiSites</module>
 		<action>getAll</action>
@@ -75,6 +37,44 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
+	</row>
+	<row>
+		<category>All Websites</category>
+		<name>Single Website dashboard</name>
+		<module>MultiSites</module>
+		<action>getOne</action>
+		<dimension>Website</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<visits_evolution>Visits Evolution</visits_evolution>
+			<nb_actions>Actions</nb_actions>
+			<actions_evolution>Actions Evolution</actions_evolution>
+			<nb_pageviews>Pageviews</nb_pageviews>
+			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+			<revenue>Revenue</revenue>
+			<revenue_evolution>Revenue Evolution</revenue_evolution>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
+			<orders>Ecommerce Orders</orders>
+			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
+			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
+			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>MultiSites_getOne</uniqueId>
 	</row>
 	<row>
 		<category>Visits Summary</category>

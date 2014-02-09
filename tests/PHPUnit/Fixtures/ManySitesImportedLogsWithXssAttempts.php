@@ -64,7 +64,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
     public function setupDashboards()
     {
         $dashboardColumnCount = 3;
-        $dashboardCount = 3;
+        $dashboardCount = 4;
         
         $layout = array();
         for ($j = 0; $j != $dashboardColumnCount; ++$j) {
@@ -95,16 +95,23 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
             if ($widget['uniqueId'] == 'widgetSEOgetRank'
                 || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
+                || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0
             ) {
                 continue;
             }
             
             $dashboard = ($dashboard + 1) % $dashboardCount;
-            $groupedWidgets[$dashboard][] = array(
+
+            $widgetEntry = array(
                 'uniqueId' => $widget['uniqueId'],
                 'parameters' => $widget['parameters']
             );
+            
+            // dashboard images must have height of less than 4000px to avoid odd discoloration of last line of image
+            $widgetEntry['parameters']['filter_limit'] = 5;
+
+            $groupedWidgets[$dashboard][] = $widgetEntry;
         }
         
         // distribute widgets in each dashboard
@@ -118,7 +125,11 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         }
 
         foreach ($dashboards as $id => $layout) {
-            $_GET['name'] = self::makeXssContent('dashboard name' . $id);
+            if ($id == 0) {
+                $_GET['name'] = self::makeXssContent('dashboard name' . $id);
+            } else {
+                $_GET['name'] = 'dashboard name' . $id;
+            }
             $_GET['layout'] = Common::json_encode($layout);
             $_GET['idDashboard'] = $id + 1;
             FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
@@ -139,7 +150,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
 
         $_GET['name'] = 'D4';
         $_GET['layout'] = Common::json_encode($dashboard);
-        $_GET['idDashboard'] = 4;
+        $_GET['idDashboard'] = count($dashboards) + 1;
         $_GET['idSite'] = 2;
         FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         

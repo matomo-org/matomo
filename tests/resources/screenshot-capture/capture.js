@@ -30,7 +30,7 @@ PageFacade.prototype = {
     },
 
     _getPosition: function (selector) {
-        return this.webpage.evaluate(function (selector) {
+        var pos = this.webpage.evaluate(function (selector) {
             var element = window.jQuery(selector),
                 offset = element.offset();
             return {
@@ -38,6 +38,13 @@ PageFacade.prototype = {
                 y: offset.top + element.height() / 2
             };
         }, selector);
+
+        if (!pos) {
+            console.log("ERROR: Cannot find element: " + selector);
+            app.exit(1);
+        }
+
+        return pos;
     },
 
     evaluate: function (impl) {

@@ -670,15 +670,13 @@ class GeoIPAutoUpdater extends ScheduledTask
 
     private function getPreviousScheduledTime($rescheduledTime)
     {
-        $updaterPeriod = Option::get(self::SCHEDULE_PERIOD_OPTION_NAME);
+        $updaterPeriod = self::getSchedulePeriod();
 
-        if ($updaterPeriod == 'week') {
+        if ($updaterPeriod == self::SCHEDULE_PERIOD_WEEKLY) {
             return Date::factory($rescheduledTime)->subWeek(1);
-        } else if ($updaterPeriod == 'month') {
+        } else if ($updaterPeriod == self::SCHEDULE_PERIOD_MONTHLY) {
             return Date::factory($rescheduledTime)->subMonth(1);
-        } else {
-            Log::warning("Unknown GeoIP updater period found in database: %s", $updaterPeriod);
-            return Date::factory(0);
         }
+        throw new Exception("Unknown GeoIP updater period found in database: %s", $updaterPeriod);
     }
 }
