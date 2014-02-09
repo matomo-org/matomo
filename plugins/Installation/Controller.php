@@ -174,25 +174,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->skipThisStep(__FUNCTION__);
 
-        if (Config::getInstance()->existsLocalConfig()) {
-            try {
-                $database = Config::getInstance()->database;
-                if ($database) {
-                    $db = Db::get();
-                    DbHelper::checkDatabaseVersion();
-                    $db->checkClientVersion();
-                }
-                $tmp = $this->session->skipThisStep;
-                $tmp[__FUNCTION__] = true;
-                $tmp['databaseCheck'] = true;
-                $tmp['tablesCreation'] = false;
-                $this->session->skipThisStep = $tmp;
-                $this->redirectToNextStep(__FUNCTION__  );
-            } catch (Exception $e) {
-                // existing database info in config is not complete or not valid, user has to reconfigure
-            }
-        }
-
         $view = new View(
             '@Installation/databaseSetup',
             $this->getInstallationSteps(),
@@ -310,17 +291,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (count($tablesInstalled) > 0) {
 
             // we have existing tables
-            $view->tablesInstalled = implode(', ', $tablesInstalled);
+            $view->tablesInstalled     = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
-
-            // remove monthly archive tables
-            $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-            $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
-            $minimumCountPiwikTables = 12;
 
             Access::getInstance();
             Piwik::setUserHasSuperUserAccess();
-            if ($baseTablesInstalled >= $minimumCountPiwikTables &&
+            if ($this->hasEnoughTablesToReuseDb($tablesInstalled) &&
                 count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
                 count(APIUsersManager::getInstance()->getUsers()) > 0
             ) {
@@ -1123,6 +1099,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return !$isInstallationInProgress;
+    }
+
+    private function hasEnoughTablesToReuseDb($tablesInstalled)
+    {
+        if (empty($tablesInstalled) || !is_array($tablesInstalled)) {
+            return false;
+        }
+
+        $archiveTables       = ArchiveTableCreator::getTablesArchivesInstalled();
+        $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
+        $minimumCountPiwikTables = 12;
+
+        return $baseTablesInstalled >= $minimumCountPiwikTables;
     }
 
 }
