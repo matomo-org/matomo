@@ -370,9 +370,9 @@
 ##########
 # Unix
 ##########
-- regex: 'SunOS'
+- regex: '(?:SunOS|Solaris)(?:[/ ](\d+\.\d+))?'
   name: 'Solaris'
-  version: ''
+  version: '$1'
   
   
 - regex: 'AIX'

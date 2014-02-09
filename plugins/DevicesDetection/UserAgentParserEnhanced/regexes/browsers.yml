@@ -146,7 +146,7 @@
   version: '$1'
   
 #Baidu Browser
-- regex: 'baidubrowser(?:[/ ](\d+))?'
+- regex: 'baidubrowser(?:[/ ](\d+(?:\.?\d+)?))?'
   name: 'Baidu Browser'
   version: '$1'
   
@@ -176,6 +176,11 @@
 #Iron
 - regex: 'Iron(?:/(\d+\.\d+))?'
   name: 'Iron'
+  version: '$1'
+
+#Epiphany
+- regex: 'Epiphany(?:/(\d+\.\d+))?'
+  name: 'Epiphany'
   version: '$1'
 
 #Chrome
@@ -224,11 +229,6 @@
   name: 'Palm WebPro'
   version: '$1'
 
-#Epiphany
-- regex: 'Epiphany(?:/(\d+\.\d+))?'
-  name: 'Epiphany'
-  version: '$1'
-  
 #Fireweb Navigator
 - regex: 'Fireweb Navigator(?:/(\d+\.\d+))?'
   name: 'Fireweb Navigator'
@@ -349,6 +349,11 @@
   name: 'iCab'
   version: '$1'
 
+#Sleipnir
+- regex: 'Sleipnir(?:[ /](\d+\.\d+))?'
+  name: 'Sleipnir'
+  version: '$1'
+
 #Internet Explorer
 - regex: 'IEMobile[ /](\d+\.\d+)'
   name: 'IE Mobile'
@@ -404,7 +409,12 @@
 - regex: 'Links(?: \((\d+\.\d+))?'
   name: 'Links'
   version: '$1'
-  
+
+#Lunascape
+- regex: 'Lunascape(?:/(\d+\.\d+))?'
+  name: 'Lunascape'
+  version: '$1'
+
 #Openwave Mobile Browser
 - regex: 'UP.Browser(?:/(\d+\.\d+))?'
   name: 'Openwave Mobile Browser'

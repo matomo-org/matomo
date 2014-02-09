@@ -14846,4 +14846,436 @@
     model:
   os_family: Linux
   browser_family: Konqueror
+-
+  user_agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X; de-de) AppleWebKit/535+ (KHTML, like Gecko) Version/5.0 Safari/535.22+ Midori/0.4
+  os:
+    name: Mac
+    short_name: MAC
+    version:
+  browser:
+    name: Midori
+    short_name: MI
+    version: 0.4
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Unknown
+-
+  user_agent: Nokia210/2.0 (04.12) Profile/MIDP-2.1 Configuration/CLDC-1.1 UCWEB/2.0 (Java; U; MIDP-2.0; en-US; Nokia210) U2/1.0.0 UCBrowser/9.3.0.326 U2/1.0.0 Mobile
+  os:
+    name: Symbian
+    short_name: SYM
+    version:
+  browser:
+    name: UC Browser
+    short_name: UC
+    version: 9.3
+  device:
+    type: smartphone
+    brand: NK
+    model: 210
+  os_family: Symbian
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64; en; rv:2.0) Gecko/20100101 Firefox/4.0 Opera 11.64
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 4.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.2; zh-cn; MI 1S Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 XiaoMi/MiuiBrowser/1.0
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type:
+    brand:
+    model:
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0; Sleipnir/2.9.18)
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Sleipnir
+    short_name: SL
+    version: 2.9
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Series40; Nokia306/03.63; Profile/MIDP-2.1 Configuration/CLDC-1.1) Gecko/20100401 S40OviBrowser/3.9.0.0.22
+  os:
+    name: Symbian OS Series 40
+    short_name: S40
+    version:
+  browser:
+    name: Nokia Ovi Browser
+    short_name: NV
+    version: 3.9
+  device:
+    type: smartphone
+    brand: NK
+    model: 306
+  os_family: Symbian
+  browser_family: Nokia Browser
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; HTC; Radar C110e)
+  os:
+    name: Windows Phone
+    short_name: WPH
+    version: 7.5
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 9.0
+  device:
+    type: smartphone
+    brand: HT
+    model: Radar C110e
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.22+ (KHTML, like Gecko) Chromium/17.0.963.56 Chrome/17.0.963.56 Safari/535.22+ Debian/7.0 (3.4.2-2.1) Epiphany/3.4.2
+  os:
+    name: Debian
+    short_name: DEB
+    version: 7.0
+  browser:
+    name: Epiphany
+    short_name: EP
+    version: 3.4
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; zh-cn; ZTE U817 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 baidubrowser/4.0.7.10 (Baidu; P1 4.0.4)
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Baidu Browser
+    short_name: BD
+    version: 4.0
+  device:
+    type: smartphone
+    brand: ZT
+    model: U817
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; HUAWEI; W2-U00)
+  os:
+    name: Windows Phone
+    short_name: WPH
+    version: 8.0
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 10.0
+  device:
+    type: smartphone
+    brand: HU
+    model:
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64; rv:10.0.12) Gecko/20130823 Firefox/10.0.11esrpre Iceape/2.7.12
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Iceape
+    short_name: IA
+    version: 2.7
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.24pre) Gecko/20100228 K-Meleon/1.5.4
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: K-meleon
+    short_name: KM
+    version: 1.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.13) Gecko/20110504 Namoroka/3.6.13
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Firefox
+    short_name: FF
+    version: Namoroka (3.6)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; Arch Linux i686; rv:2.0) Gecko/20110321 Firefox/4.0
+  os:
+    name: Arch Linux
+    short_name: ARL
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 4.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; es-ES; rv:2.0) Gecko/20100101 Linux Mint 16/Petra Firefox/25.0.1.
+  os:
+    name: Mint
+    short_name: MIN
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 25.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.452) Gecko/20041027 Mnenhy/0.6.0.104
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) KHTML/4.11.4 (like Gecko) Konqueror/4.11 Fedora/4.11.4-1.fc19
+  os:
+    name: Fedora
+    short_name: FED
+    version: 4.11
+  browser:
+    name: Konqueror
+    short_name: KO
+    version: 4.11
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Konqueror
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.7) Gecko/2009031915 Gentoo Firefox/3.0.7
+  os:
+    name: Gentoo
+    short_name: GNT
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: ELinks/0.12~pre6-1ubuntu1 (textmode; Ubuntu; Linux 3.11.0-13-generic i686; 100x25-2)
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version:
+  browser:
+    name: Elinks
+    short_name: EL
+    version: 0.12
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.2 x64; en-US; rv:1.9a1) Gecko/20061007 Minefield/3.0a1
+  os:
+    name:  Windows Server 2003
+    short_name: WS3
+    version: Server 2003
+  browser:
+    name: Firefox
+    short_name: FF
+    version: Minefield (3.0)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-TW; rv:1.9.1b4pre) Gecko/20090308 Shiretoko/3.1b4pre (.NET CLR 3.5.30729)
+  os:
+    name:  Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Firefox
+    short_name: FF
+    version: Shiretoko (3.1)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.2pre) Gecko/2008071405 GranParadiso/3.0.2pre
+  os:
+    name:  Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Firefox
+    short_name: FF
+    version: GranParadiso (3.0)
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Windows; N; Windows NT 5.2; ru-RU) AppleWebKit/529 (KHTML, like Gecko, Safari/529.0) Lunascape/4.9.9.94
+  os:
+    name:  Windows Server 2003
+    short_name: WS3
+    version: Server 2003
+  browser:
+    name: Lunascape
+    short_name: LS
+    version: 4.9
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8) Gecko/20100215 Solaris/10.1 (GNU) Superswan/3.5.8 (Byte/me)
+  os:
+    name:  Solaris
+    short_name: SOS
+    version: 10.1
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/4.79 [en] (X11; U; SunOS 5.10 i86pc)'
+  os:
+    name:  Solaris
+    short_name: SOS
+    version: 5.10
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US; rv:1.9.0.6) Gecko/2009020414 CentOS/3.0.6-1.el5.centos Firefox/3.0.6
+  os:
+    name:  CentOS
+    short_name: CES
+    version: 3.0
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
 
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8) Gecko/20071019 Fedora/2.0.0.8-1.fc7 Firefox/2.0.0.8
+  os:
+    name:  Fedora
+    short_name: FED
+    version: 2.0
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 2.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
