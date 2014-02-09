@@ -141,13 +141,18 @@
   version: '$1'
   
 #Yandex Browser
-- regex: 'YaBrowser(?:/(\d+))?'
+- regex: 'YaBrowser(?:/(\d+(?:\.?\d+)?))?'
   name: 'Yandex Browser'
   version: '$1'
   
 #Midori
 - regex: 'Midori(?:/(\d+\.\d+))?'
   name: 'Midori'
+  version: '$1'
+
+#Mercury
+- regex: 'Mercury(?:/(\d+\.\d+))?'
+  name: 'Mercury'
   version: '$1'
 
 #Chrome
@@ -171,13 +176,13 @@
   version: '$1'
   
 #UC Browser
-- regex: 'UC[ ]?Browser(?:[ /](\d+\.\d+))?'
+- regex: 'UC[ ]?Browser(?:[ /]?(\d+\.\d+))?'
   name: 'UC Browser'
   version: '$1'
-- regex: '(?:UC Browser|UCBrowser|UCWEB)(\d+\.\d+)?'
+- regex: 'UCWEB(?:[ /]?(\d+\.\d+))?'
   name: 'UC Browser'
   version: '$1'
-  
+
 #Tizen Browser
 - regex: '(?:Tizen|SLP) Browser(?:/(\d+\.\d+))?'
   name: 'Tizen Browser'

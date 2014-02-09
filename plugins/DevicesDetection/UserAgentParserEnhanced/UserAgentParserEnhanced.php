@@ -340,6 +340,7 @@ class UserAgentParserEnhanced
         'LX' => 'Lynx',
         'MB' => 'MicroB',
         'MC' => 'NCSA Mosaic',
+        'ME' => 'Mercury',
         'MF' => 'Mobile Safari',
         'MI' => 'Midori',
         'MS' => 'Mobile Silk',
