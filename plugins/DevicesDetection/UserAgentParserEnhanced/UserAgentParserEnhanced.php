@@ -701,37 +701,12 @@ class UserAgentParserEnhanced
 
     public function isBot()
     {
-        $decodedFamily = '';
-        if (in_array($this->getOs('name'), self::$osShorts)) {
-            $osShort = self::$osShorts[$this->getOs('name')];
-        } else {
-            $osShort = '';
-        }
-        foreach (self::$osFamilies as $family => $familyOs) {
-            if (in_array($osShort, $familyOs)) {
-                $decodedFamily = $family;
-                break;
-            }
-        }
-
-        return $decodedFamily == 'Bot';
+        return $this->getOsFamily($this->getOs('short_name')) == 'Bot';
     }
 
     public function isSimulator()
     {
-        $decodedFamily = '';
-        if (in_array($this->getOs('name'), self::$osShorts)) {
-            $osShort = self::$osShorts[$this->getOs('name')];
-        } else {
-            $osShort = '';
-        }
-        foreach (self::$osFamilies as $family => $familyOs) {
-            if (in_array($osShort, $familyOs)) {
-                $decodedFamily = $family;
-                break;
-            }
-        }
-        return $decodedFamily == 'Simulator';
+        return $this->getOsFamily($this->getOs('short_name')) == 'Simulator';
     }
 
     public function isHbbTv()
