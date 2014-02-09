@@ -35,6 +35,14 @@
                 {{ piwik.inlineHelp(browserArchivingHelp) }}
             </td>
         </tr>
+    {% else %}
+        <tr>
+            <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
+            <td style="width:220px;">
+                <input id="enableBrowserTriggerArchiving-disabled" type="radio" checked="checked" disabled="disabled" />
+                <label for="enableBrowserTriggerArchiving-disabled">{% if enableBrowserTriggerArchiving==1 %}{{ 'General_Yes'|translate }}{% else %}{{ 'General_No'|translate }}{% endif %}</label><br/>
+            </td>
+        </tr>
     {% endif %}
 
     <tr>
