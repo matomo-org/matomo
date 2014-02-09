@@ -58,6 +58,7 @@ abstract class UITest extends IntegrationTestCase
         // launch archiving so tests don't run out of time
         $date = Date::factory(static::$fixture->dateTime)->toString();
         API::getInstance()->get(static::$fixture->idSite, 'year', $date);
+        API::getInstance()->get(static::$fixture->idSite, 'year', $date, static::$fixture->segment);
 
         // make sure processed & expected dirs exist
         self::makeDirsAndLinks();

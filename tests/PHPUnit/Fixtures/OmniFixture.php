@@ -19,6 +19,7 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
     public $idSite = 'all';
     public $dateTime = '2012-02-01';
     public $now = null;
+    public $segment = urlencode("browserCode==FF");
 
     // Visitor profile screenshot test needs visitor id
     public $visitorIdDeterministic = null;
