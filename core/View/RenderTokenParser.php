@@ -39,7 +39,7 @@ class RenderTokenParser extends Twig_TokenParser
 
         $view = $parser->getExpressionParser()->parseExpression();
 
-        $variablesOverride = null;
+        $variablesOverride = new Twig_Node_Expression_Array(array(), $token->getLine());
         if ($stream->nextIf(Twig_Token::NAME_TYPE, 'with')) {
             $variablesOverride = $this->parser->getExpressionParser()->parseExpression();
         }
@@ -53,11 +53,10 @@ class RenderTokenParser extends Twig_TokenParser
             $token->getLine()
         );
 
-        $variablesOverrideExpr = $variablesOverride === null ? array() : array($variablesOverride);
         $variablesExpr = new Twig_Node_Expression_MethodCall(
             $view,
             'getTemplateVars',
-            new Twig_Node_Expression_Array($variablesOverrideExpr, $token->getLine()),
+            $variablesOverride,
             $token->getLine()
         );
 
