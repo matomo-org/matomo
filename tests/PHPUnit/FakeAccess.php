@@ -44,6 +44,11 @@ class FakeAccess
         self::$idSitesView = $ids;
     }
 
+    public static function hasSuperUserAccess()
+    {
+        return self::$superUser;
+    }
+
     public static function checkUserHasSuperUserAccess()
     {
         if (!self::$superUser) {
