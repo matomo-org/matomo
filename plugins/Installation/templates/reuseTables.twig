@@ -9,16 +9,14 @@
 <div class="reuseTables">
 
 {% if coreError %}
-    <br/>
-    <br/>
     <div class="error">
         <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
-        {% for message in errorMessages %}
-            <pre>{{ message }}</pre>
-            <br/>
-        {% endfor %}
+        <ul>
+            {% for message in errorMessages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
     </div>
-    <br/>
     <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}
     <ul>
         <li>{{ helpMessage }}</li>
@@ -36,21 +34,23 @@
 {% else %}
     {% if warningMessages|length > 0 %}
         <div class="warning">
-            <p><img src="plugins/Zeitgeist/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}</p>
-            {% for message in warningMessages %}
-                <pre>{{ message }}</pre>
-                <br/>
-            {% endfor %}
+            <img src="plugins/Zeitgeist/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}
+            <ul>
+                {% for message in warningMessages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
 
     {% if errorMessages|length > 0 %}
-        <div class="warning">
-            <p><img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
-            {% for message in errorMessages %}
-                <pre>{{ message }}</pre>
-                <br/>
-            {% endfor %}
+        <div class="error">
+            <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}
+            <ul>
+                {% for message in errorMessages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
 
             {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
                 {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
@@ -63,7 +63,6 @@
     {% endif %}
 
     {% if errorMessages|length > 0 or warningMessages|length > 0 %}
-        <br/>
         <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}
         <ul>
             <li>{{ helpMessage }}</li>
