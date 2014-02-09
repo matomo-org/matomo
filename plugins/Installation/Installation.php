@@ -41,7 +41,7 @@ class Installation extends \Piwik\Plugin
     {
         $general = Config::getInstance()->General;
 
-        if (empty($general['install_in_progress'])) {
+        if (empty($general['installation_in_progress'])) {
             return;
         }
 

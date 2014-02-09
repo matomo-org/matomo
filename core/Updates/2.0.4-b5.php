@@ -50,7 +50,11 @@ class Updates_2_0_4_b5 extends Updates
             return;
         }
 
-        $superUser = $config->superuser;
+        try {
+            $superUser = $config->superuser;
+        } catch (\Exception $e) {
+            $superUser = null;
+        }
 
         if (!empty($superUser['bridge']) || empty($superUser)) {
             // there is a super user which is not from the config but from the bridge, that means we already have
