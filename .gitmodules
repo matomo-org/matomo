@@ -30,4 +30,3 @@
 	path = plugins/LoginHttpAuth
 	url = https://github.com/piwik/plugin-LoginHttpAuth.git
     branch = master
-
