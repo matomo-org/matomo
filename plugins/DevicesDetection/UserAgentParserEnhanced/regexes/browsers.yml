@@ -53,6 +53,11 @@
   name: 'Pale Moon'
   version: '$1'
 
+#IceDragon
+- regex: 'IceDragon(?:/(\d+\.\d+))?'
+  name: 'IceDragon'
+  version: '$1'
+
 #Firefox
 - regex: 'Firefox(?:/(\d+\.\d+))?'
   name: 'Firefox'

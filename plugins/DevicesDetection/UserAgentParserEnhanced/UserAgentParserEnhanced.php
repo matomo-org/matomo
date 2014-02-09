@@ -325,6 +325,7 @@ class UserAgentParserEnhanced
         'HJ' => 'HotJava',
         'IB' => 'IBrowse',
         'IC' => 'iCab',
+        'ID' => 'IceDragon',
         'IW' => 'Iceweasel',
         'IE' => 'Internet Explorer',
         'IM' => 'IE Mobile',

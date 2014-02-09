@@ -14766,3 +14766,84 @@
     model:
   os_family: Windows
   browser_family: Unknown
+-
+  user_agent: 'Mozilla/5.0 (Macintosh; Intel  Mac OS X 10_9_1; en-US) AppleWebKit/9537.73.11 (KHTML, like Gecko) Version/7.0 Safari/537.71 OmniWeb/v624.0'
+  os:
+    name: Mac
+    short_name: MAC
+    version: 10.9
+  browser:
+    name: OmniWeb
+    short_name: OW
+    version: 624.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux) AppleWebKit/535.22 (KHTML, like Gecko) Chrome/18.0.1025.133 Safari/535.22 Midori/0.5
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Midori
+    short_name: MI
+    version: 0.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0 IceDragon/25.0.0.1
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: IceDragon
+    short_name: ID
+    version: 25.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US) AppleWebKit/532.1 (KHTML, like Gecko) Arora/0.10.1 (Git: 1329 e5385f3) Safari/532.1'
+  os:
+    name: Mac
+    short_name: MAC
+    version:
+  browser:
+    name: Arora
+    short_name: AR
+    version: 0.10
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (compatible; Konqueror/4.3; Linux) KHTML/4.3.4 (like Gecko) Red Hat Enterprise Linux/4.3.4-19.el6
+  os:
+    name: Red Hat
+    short_name: RHT
+    version:
+  browser:
+    name: Konqueror
+    short_name: KO
+    version: 4.3
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Konqueror
+
