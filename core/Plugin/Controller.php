@@ -584,7 +584,7 @@ abstract class Controller
         $view->isValidHost = Url::isValidHost();
         if (!$view->isValidHost) {
             // invalid host, so display warning to user
-            $validHosts = Url::getTrustedHosts();
+            $validHosts = Url::getTrustedHosts($filterEnrich = false);
             $validHost = $validHosts[0];
             $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 

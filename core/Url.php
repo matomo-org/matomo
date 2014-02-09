@@ -515,7 +515,7 @@ class Url
             && in_array($parsedUrl['scheme'], array('http', 'https'));
     }
 
-    public static function getTrustedHosts()
+    public static function getTrustedHosts( $filterEnrich = true )
     {
         $trustedHosts = @Config::getInstance()->General['trusted_hosts'];
 
@@ -529,8 +529,10 @@ class Url
             }
         }
 
-        /* used by Piwik PRO */
-        Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
+        if($filterEnrich) {
+            /* used by Piwik PRO */
+            Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
+        }
 
         return $trustedHosts;
     }

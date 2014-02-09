@@ -227,28 +227,33 @@
 
         {% include "@CoreHome/_warningInvalidHost.twig" %}
 
-        {% if trustedHosts|length == 1 and (isValidHost is not defined or isValidHost) %}
-            {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}:&nbsp;&nbsp;
-            <input name="trusted_host" type="text" value="{{ trustedHosts[0] }}"/>
+
+        {% if not isGeneralSettingsAdminEnabled %}
+            {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}: {{ trustedHosts|join(", ") }}
         {% else %}
-            <p>{{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}:</p>
-            <table class="adminTable">
-                <tr>
-                    <th style="width:250px;">{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</th>
-                    <th style="width:10px;">&nbsp;</th>
-                </tr>
-                {% for hostIdx, host in trustedHosts %}
+            {% if trustedHosts|length == 1 and (isValidHost is not defined or isValidHost) %}
+                {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}:&nbsp;&nbsp;
+                <input name="trusted_host" type="text" value="{{ trustedHosts[0] }}"/>
+            {% else %}
+                <p>{{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}:</p>
+                <table class="adminTable">
                     <tr>
-                        <td><input name="trusted_host" type="text" value="{{ host }}"/></td>
-                        <td>
-                            <a href="#" class="remove-trusted-host">x</a>
-                        </td>
+                        <th style="width:250px;">{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</th>
+                        <th style="width:10px;">&nbsp;</th>
                     </tr>
-                {% endfor %}
-            </table>
-            <div class="adminTable add-trusted-host-container">
-                <a href="#" class="add-trusted-host"><em>{{ 'General_Add'|translate }}</em></a>
-            </div>
+                    {% for hostIdx, host in trustedHosts %}
+                        <tr>
+                            <td><input name="trusted_host" type="text" value="{{ host }}"/></td>
+                            <td>
+                                <a href="#" class="remove-trusted-host">x</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <div class="adminTable add-trusted-host-container">
+                    <a href="#" class="add-trusted-host"><em>{{ 'General_Add'|translate }}</em></a>
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 
