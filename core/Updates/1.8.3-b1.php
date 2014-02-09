@@ -40,7 +40,7 @@ class Updates_1_8_3_b1 extends Updates
 					`ts_last_sent` TIMESTAMP NULL,
 					`deleted` tinyint(4) NOT NULL default 0,
 					PRIMARY KEY (`idreport`)
-				) DEFAULT CHARSET=utf8' => false,
+				) DEFAULT CHARSET=utf8' => 1050,
         );
     }
 

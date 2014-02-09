@@ -21,7 +21,17 @@ class Updates_1_1 extends Updates
     {
         $config = Config::getInstance();
 
-        $rootLogin = $config->superuser['login'];
+        try {
+            $superuser = $config->superuser;
+        } catch (\Exception $e) {
+            return;
+        }
+
+        if (empty($superuser['login'])) {
+            return;
+        }
+
+        $rootLogin = $superuser['login'];
         try {
             // throws an exception if invalid
             Piwik::checkValidLoginString($rootLogin);
