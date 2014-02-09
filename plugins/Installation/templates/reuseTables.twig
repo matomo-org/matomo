@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% set helpMessage %}{{- 'CoreUpdater_HelpMessageContent'|translate('[',']',"\n\n    *") }}{% endset %}
+{% set helpMessage %}{{- 'CoreUpdater_HelpMessageContent'|translate('[',']',"<br/>")|raw }}{% endset %}
 
 <h2>{{ 'Installation_ReusingTables'|translate }}</h2>
 
