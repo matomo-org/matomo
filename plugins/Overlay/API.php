@@ -114,15 +114,15 @@ class API extends \Piwik\Plugin\API
          * 
          *     use Piwik\Registry;
          * 
-         *     public function initAuthenticationObject($allowCookieAuthentication)
+         *     public function initAuthenticationObject($activateCookieAuth)
          *     {
-         *         Registry::set('auth', new LDAPAuth($allowCookieAuthentication));
+         *         Registry::set('auth', new LDAPAuth($activateCookieAuth));
          *     }
          * 
-         * @param bool $allowCookieAuthentication Whether authentication based on `$_COOKIE` values should
+         * @param bool $activateCookieAuth Whether authentication based on `$_COOKIE` values should
          *                                        be allowed.
          */
-        Piwik::postEvent('Request.initAuthenticationObject', array($allowCookieAuthentication = true));
+        Piwik::postEvent('Request.initAuthenticationObject', array($activateCookieAuth = true));
 
         $auth = \Piwik\Registry::get('auth');
         $success = Access::getInstance()->reloadAccess($auth);

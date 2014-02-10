@@ -584,7 +584,8 @@ abstract class Controller
         $view->isValidHost = Url::isValidHost();
         if (!$view->isValidHost) {
             // invalid host, so display warning to user
-            $validHost = PiwikConfig::getInstance()->General['trusted_hosts'][0];
+            $validHosts = Url::getTrustedHosts($filterEnrich = false);
+            $validHost = $validHosts[0];
             $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));

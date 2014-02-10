@@ -326,7 +326,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (is_null($errorMessage)) // if success, show login w/ success message
         {
-            $this->redirectToIndex('Login', 'resetPasswordSuccess');
+            $this->redirectToIndex(Piwik::getLoginPluginName(), 'resetPasswordSuccess');
             return;
         } else {
             // show login page w/ error. this will keep the token in the URL

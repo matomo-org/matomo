@@ -3,6 +3,7 @@ var app = typeof slimer === 'undefined' ? phantom : slimer;
 var readFileSync = fs.readFileSync || fs.read;
 
 var VERBOSE = false;
+var PAGE_LOAD_TIMEOUT = 120;
 
 var PageFacade = function (webpage) {
     this.webpage = webpage;
@@ -93,7 +94,7 @@ PageRenderer.prototype = {
                     console.log("__AJAX_DONE__");
                 });
             }
-        }, 1000 * 60);
+        }, 1000 * PAGE_LOAD_TIMEOUT);
     },
 
     _setupWebpageEvents: function () {

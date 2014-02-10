@@ -223,7 +223,8 @@ class Url
             return true;
         }
 
-        $trustedHosts = @Config::getInstance()->General['trusted_hosts'];
+        $trustedHosts = self::getTrustedHosts();
+
         // if no trusted hosts, just assume it's valid
         if (empty($trustedHosts)) {
             self::saveTrustedHostnameInConfig($host);
@@ -236,15 +237,6 @@ class Url
             return false;
         }
 
-        foreach ($trustedHosts as &$trustedHost) {
-            // Case user wrote in the config, http://example.com/test instead of example.com
-            if(UrlHelper::isLookLikeUrl($trustedHost)) {
-                $trustedHost = parse_url($trustedHost, PHP_URL_HOST);
-            }
-        }
-
-        /* used by Piwik PRO */
-        Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
 
         foreach ($trustedHosts as &$trustedHost) {
             $trustedHost = preg_quote($trustedHost);
@@ -521,5 +513,27 @@ class Url
             && ($disableHostCheck || in_array($host, $hosts))
             && !empty($parsedUrl['scheme'])
             && in_array($parsedUrl['scheme'], array('http', 'https'));
+    }
+
+    public static function getTrustedHosts( $filterEnrich = true )
+    {
+        $trustedHosts = @Config::getInstance()->General['trusted_hosts'];
+
+        if (empty($trustedHosts)) {
+            return array();
+        }
+        foreach ($trustedHosts as &$trustedHost) {
+            // Case user wrote in the config, http://example.com/test instead of example.com
+            if (UrlHelper::isLookLikeUrl($trustedHost)) {
+                $trustedHost = parse_url($trustedHost, PHP_URL_HOST);
+            }
+        }
+
+        if($filterEnrich) {
+            /* used by Piwik PRO */
+            Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
+        }
+
+        return $trustedHosts;
     }
 }

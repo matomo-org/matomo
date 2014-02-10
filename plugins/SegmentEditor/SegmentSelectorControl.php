@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\View\UIControl;
-use Piwik\Access;
 
 /**
  * Generates the HTML for the segment selector control (which includes the segment editor).

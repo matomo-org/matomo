@@ -33,4 +33,5 @@
     piwik.config = {};
     piwik.config.action_url_category_delimiter = "{{ config_action_url_category_delimiter }}";
 {% endif %}
+    {{ postEvent("Template.jsGlobalVariables") }}
 </script>

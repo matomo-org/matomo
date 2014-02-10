@@ -174,25 +174,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->skipThisStep(__FUNCTION__);
 
-        if (Config::getInstance()->existsLocalConfig()) {
-            try {
-                $database = Config::getInstance()->database;
-                if ($database) {
-                    $db = Db::get();
-                    DbHelper::checkDatabaseVersion();
-                    $db->checkClientVersion();
-                }
-                $tmp = $this->session->skipThisStep;
-                $tmp[__FUNCTION__] = true;
-                $tmp['databaseCheck'] = true;
-                $tmp['tablesCreation'] = false;
-                $this->session->skipThisStep = $tmp;
-                $this->redirectToNextStep(__FUNCTION__  );
-            } catch (Exception $e) {
-                // existing database info in config is not complete or not valid, user has to reconfigure
-            }
-        }
-
         $view = new View(
             '@Installation/databaseSetup',
             $this->getInstallationSteps(),
@@ -310,17 +291,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (count($tablesInstalled) > 0) {
 
             // we have existing tables
-            $view->tablesInstalled = implode(', ', $tablesInstalled);
+            $view->tablesInstalled     = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
-
-            // remove monthly archive tables
-            $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-            $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
-            $minimumCountPiwikTables = 14;
 
             Access::getInstance();
             Piwik::setUserHasSuperUserAccess();
-            if ($baseTablesInstalled >= $minimumCountPiwikTables &&
+            if ($this->hasEnoughTablesToReuseDb($tablesInstalled) &&
                 count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
                 count(APIUsersManager::getInstance()->getUsers()) > 0
             ) {
@@ -349,9 +325,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
+        $steps = $this->getInstallationSteps();
+        $steps['tablesCreation'] = 'Installation_ReusingTables';
+
         $view = new View(
             '@Installation/reuseTables',
-            $this->getInstallationSteps(),
+            $steps,
             'tablesCreation'
         );
 
@@ -605,7 +584,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        $config->General['install_in_progress'] = 1;
+        $config->General['installation_in_progress'] = 1;
         $config->database = $dbInfos;
         $config->forceSave();
 
@@ -618,7 +597,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected function markInstallationAsCompleted()
     {
         $config = Config::getInstance();
-        $config->General['install_in_progress'] = null;
+        unset($config->General['installation_in_progress']);
         $config->forceSave();
     }
 
@@ -661,8 +640,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $error = true;
         } else if ($currentStep == 'finished' && $this->session->currentStepDone == 'finished') {
             // ok to refresh this page or use language selector
-        } else if ($currentStep == 'reuseTables' && $this->session->currentStepDone == 'tablesCreation') {
-            // this is ok, we cannot use 'reuseTables' to steps as it would appear in the menu otherwise
+        } else if ($currentStep == 'reuseTables' && in_array($this->session->currentStepDone, array('tablesCreation', 'reuseTables'))) {
+            // this is ok, we cannot add 'reuseTables' to steps as it would appear in the menu otherwise
         } else {
             if ($this->isFinishedInstallation()) {
                 $error = true;
@@ -1118,11 +1097,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $general = Config::getInstance()->General;
 
         $isInstallationInProgress = false;
-        if (array_key_exists('install_in_progress', $general)) {
-            $isInstallationInProgress = (bool) $general['install_in_progress'];
+        if (array_key_exists('installation_in_progress', $general)) {
+            $isInstallationInProgress = (bool) $general['installation_in_progress'];
         }
 
         return !$isInstallationInProgress;
+    }
+
+    private function hasEnoughTablesToReuseDb($tablesInstalled)
+    {
+        if (empty($tablesInstalled) || !is_array($tablesInstalled)) {
+            return false;
+        }
+
+        $archiveTables       = ArchiveTableCreator::getTablesArchivesInstalled();
+        $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
+        $minimumCountPiwikTables = 12;
+
+        return $baseTablesInstalled >= $minimumCountPiwikTables;
     }
 
 }

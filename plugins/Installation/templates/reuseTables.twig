@@ -2,23 +2,21 @@
 
 {% block content %}
 
-{% set helpMessage %}{{- 'CoreUpdater_HelpMessageContent'|translate('[',']',"\n\n    *") }}{% endset %}
+{% set helpMessage %}{{- 'CoreUpdater_HelpMessageContent'|translate('[',']',"<br/>")|raw }}{% endset %}
 
 <h2>{{ 'Installation_ReusingTables'|translate }}</h2>
 
 <div class="reuseTables">
 
 {% if coreError %}
-    <br/>
-    <br/>
     <div class="error">
         <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
-        {% for message in errorMessages %}
-            <pre>{{ message }}</pre>
-            <br/>
-        {% endfor %}
+        <ul>
+            {% for message in errorMessages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
     </div>
-    <br/>
     <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}
     <ul>
         <li>{{ helpMessage }}</li>
@@ -36,21 +34,23 @@
 {% else %}
     {% if warningMessages|length > 0 %}
         <div class="warning">
-            <p><img src="plugins/Zeitgeist/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}</p>
-            {% for message in warningMessages %}
-                <pre>{{ message }}</pre>
-                <br/>
-            {% endfor %}
+            <img src="plugins/Zeitgeist/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}
+            <ul>
+                {% for message in warningMessages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
 
     {% if errorMessages|length > 0 %}
-        <div class="warning">
-            <p><img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
-            {% for message in errorMessages %}
-                <pre>{{ message }}</pre>
-                <br/>
-            {% endfor %}
+        <div class="error">
+            <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}
+            <ul>
+                {% for message in errorMessages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
 
             {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
                 {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
@@ -63,16 +63,14 @@
     {% endif %}
 
     {% if errorMessages|length > 0 or warningMessages|length > 0 %}
-        <br/>
         <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}
         <ul>
             <li>{{ helpMessage }}</li>
         </ul>
         </p>
     {% else %}
-
-        <br />
-        <p class="success">The database was successfully updated from {{ oldVersion }} to {{ currentVersion }}!</p>
+        <div class="success"> {{ 'Installation_TablesUpdatedSuccess'|translate(oldVersion, currentVersion) }}
+            <img src="plugins/Zeitgeist/images/success_medium.png"/></div>
         <br />
 
     {% endif %}
