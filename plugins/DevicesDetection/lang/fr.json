@@ -1,6 +1,8 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Versions du Navigateur",
+        "CarBrowser": "Navigateur de voiture",
+        "Console": "Console",
         "dataTableLabelBrands": "Marque",
         "dataTableLabelBrowserFamily": "Famille de navigateurs",
         "dataTableLabelModels": "Modèle",
@@ -14,7 +16,11 @@
         "DeviceType": "Type du périphérique",
         "OperatingSystemFamilies": "Familles de système d'exploitation",
         "OperatingSystemVersions": "Versions de système d'exploitation",
+        "SmartDisplay": "Affichage intelligent",
+        "Smartphone": "Téléphone intelligent (smartphone)",
         "submenu": "Périphériques",
+        "Tablet": "Tabelette",
+        "TV": "TV",
         "UserAgent": "Agent Utilisateur (User-Agent)"
     }
 }

@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Browser Versionen",
+        "Console": "Konsole",
         "dataTableLabelBrands": "Marke",
         "dataTableLabelBrowserFamily": "Browser Familie",
         "dataTableLabelModels": "Modell",
@@ -12,10 +13,15 @@
         "DeviceModel": "Gerätemodell",
         "DevicesDetection": "Geräte der Besucher",
         "DeviceType": "Gerätetyp",
+        "FeaturePhone": "Feature-Phone",
         "OperatingSystemFamilies": "Betriebssystem Familie",
         "OperatingSystemVersions": "Betriebssystem Familien",
         "PluginDescription": "Dieses Plugin stellt erweiterte Informationen über mobile Geräte, wie Marke (Hersteller), Modell (Geräteversion), bessere Gerätetyperkennung (TV, Konsolen, Smartphones, Desktop, etc) und mehr bereit. Dieses Plugin fügt einen neuen Bericht unter 'Besucher > Geräte' hinzu.",
+        "SmartDisplay": "Smart Display",
+        "Smartphone": "Smartphone",
         "submenu": "Geräte",
+        "Tablet": "Tablet",
+        "TV": "TV",
         "UserAgent": "User-Agent"
     }
 }

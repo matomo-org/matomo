@@ -1,6 +1,8 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "نسخه مرورگر",
+        "CarBrowser": "مرورگر خودرو",
+        "Console": "کنسول",
         "dataTableLabelBrands": "مارک",
         "dataTableLabelBrowserFamily": "خانواده مرورگر",
         "dataTableLabelModels": "مدل",
@@ -12,9 +14,14 @@
         "DeviceModel": "مدل وسیله",
         "DevicesDetection": "وسایل بازدیده کنندگان",
         "DeviceType": "نوع وسیله",
+        "FeaturePhone": "گوشی",
         "OperatingSystemFamilies": "خانواده سیستم عامل",
         "OperatingSystemVersions": "نسخه سیستم عامل",
+        "SmartDisplay": "صفحه نمایش هوشمند",
+        "Smartphone": "تلفن هوشمند",
         "submenu": "وسایل",
+        "Tablet": "تبلت",
+        "TV": "تلویزیون",
         "UserAgent": "کاربر-نمایندگی"
     }
 }
