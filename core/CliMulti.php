@@ -23,10 +23,6 @@ class CliMulti {
 
     public function request($piwikUrls)
     {
-        if (!$this->supportsAsync() || 1 == count($piwikUrls)) {
-            return $this->requestNonAsyncFallback($piwikUrls);
-        }
-
         $this->start($piwikUrls);
 
         while (!$this->isFinished()) {
@@ -46,9 +42,11 @@ class CliMulti {
             $pid    = $cmdId . $index . '_cli_multi_pid';
             $output = $cmdId . $index . '_cli_multi_output';
 
-            $additionalParams = array('output' => $output, 'pid' => $pid);
+            $params   = array('output' => $output, 'pid' => $pid);
+            $command  = $this->buildCommand($url, $params);
+            $appendix = $this->supportsAsync() ? ' &' : '';
 
-            shell_exec($this->buildCommand($url, $additionalParams) . '&');
+            shell_exec($command . $appendix);
 
             $this->pids[]    = new Lock($pid);
             $this->outputs[] = new Output($output);
@@ -64,7 +62,7 @@ class CliMulti {
             $query .= '&' . http_build_query($additionalParams);
         }
 
-        $command = 'php ' . PIWIK_INCLUDE_PATH . '/core/wrapper.php -- ' . escapeshellarg($query);
+        $command = 'php ' . PIWIK_INCLUDE_PATH . '/core/CliMulti/run.php -- ' . escapeshellarg($query);
 
         return $command;
     }
@@ -74,13 +72,8 @@ class CliMulti {
         $response = array();
 
         foreach ($this->outputs as $index => $output) {
-            $url = $urls[$index];
-
-            if ($output->exists()) {
-                $response[$url] = $output->get();
-            } else {
-                $response[$url] = null;
-            }
+            $url            = $urls[$index];
+            $response[$url] = $output->get();
         }
 
         return $response;
@@ -116,17 +109,6 @@ class CliMulti {
         foreach ($this->outputs as $output) {
             $output->destroy();
         }
-    }
-
-    private function requestNonAsyncFallback($piwikUrls)
-    {
-        $response = array();
-
-        foreach ($piwikUrls as $piwikUrl) {
-            $response[$piwikUrl] = shell_exec($this->buildCommand($piwikUrl));
-        }
-
-        return $response;
     }
 
 }

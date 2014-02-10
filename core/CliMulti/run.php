@@ -10,7 +10,7 @@
  */
 
 if (!defined('PIWIK_INCLUDE_PATH')) {
-    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/.."));
+    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
