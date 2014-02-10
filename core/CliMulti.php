@@ -7,12 +7,13 @@
  */
 namespace Piwik;
 
+use Piwik\CliMulti\Lock;
 use Piwik\CliMulti\Output;
 
 class CliMulti {
 
     /**
-     * @var \Piwik\Lock[]
+     * @var \Piwik\CliMulti\Lock[]
      */
     private $pids = array();
 

@@ -19,11 +19,11 @@ if (!Piwik\Common::isPhpCliMode()) {
 include PIWIK_INCLUDE_PATH . '/core/Singleton.php';
 include PIWIK_INCLUDE_PATH . '/core/FrontController.php';
 include PIWIK_INCLUDE_PATH . '/core/Filesystem.php';
-include PIWIK_INCLUDE_PATH . '/core/Lock.php';
+include PIWIK_INCLUDE_PATH . '/core/CliMulti/Lock.php';
 \Piwik\FrontController::assignCliParametersToRequest();
 
 if (!empty($_GET['pid']) && \Piwik\Filesystem::isValidFilename($_GET['pid'])) {
-    $lock = new \Piwik\Lock($_GET['pid']);
+    $lock = new \Piwik\CliMulti\Lock($_GET['pid']);
     $lock->lock();
 }
 
