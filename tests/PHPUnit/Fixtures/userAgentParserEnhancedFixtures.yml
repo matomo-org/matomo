@@ -15153,7 +15153,7 @@
 -
   user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.2 x64; en-US; rv:1.9a1) Gecko/20061007 Minefield/3.0a1
   os:
-    name:  Windows Server 2003
+    name: Windows Server 2003
     short_name: WS3
     version: Server 2003
   browser:
@@ -15169,7 +15169,7 @@
 -
   user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-TW; rv:1.9.1b4pre) Gecko/20090308 Shiretoko/3.1b4pre (.NET CLR 3.5.30729)
   os:
-    name:  Windows XP
+    name: Windows XP
     short_name: WXP
     version: XP
   browser:
@@ -15185,7 +15185,7 @@
 -
   user_agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.2pre) Gecko/2008071405 GranParadiso/3.0.2pre
   os:
-    name:  Windows XP
+    name: Windows XP
     short_name: WXP
     version: XP
   browser:
@@ -15201,7 +15201,7 @@
 -
   user_agent: Mozilla/5.0 (Windows; N; Windows NT 5.2; ru-RU) AppleWebKit/529 (KHTML, like Gecko, Safari/529.0) Lunascape/4.9.9.94
   os:
-    name:  Windows Server 2003
+    name: Windows Server 2003
     short_name: WS3
     version: Server 2003
   browser:
@@ -15217,7 +15217,7 @@
 -
   user_agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8) Gecko/20100215 Solaris/10.1 (GNU) Superswan/3.5.8 (Byte/me)
   os:
-    name:  Solaris
+    name: Solaris
     short_name: SOS
     version: 10.1
   browser:
@@ -15233,7 +15233,7 @@
 -
   user_agent: 'Mozilla/4.79 [en] (X11; U; SunOS 5.10 i86pc)'
   os:
-    name:  Solaris
+    name: Solaris
     short_name: SOS
     version: 5.10
   browser:
@@ -15249,7 +15249,7 @@
 -
   user_agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US; rv:1.9.0.6) Gecko/2009020414 CentOS/3.0.6-1.el5.centos Firefox/3.0.6
   os:
-    name:  CentOS
+    name: CentOS
     short_name: CES
     version: 3.0
   browser:
@@ -15262,11 +15262,10 @@
     model:
   os_family: Linux
   browser_family: Firefox
-
 -
   user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8) Gecko/20071019 Fedora/2.0.0.8-1.fc7 Firefox/2.0.0.8
   os:
-    name:  Fedora
+    name: Fedora
     short_name: FED
     version: 2.0
   browser:
@@ -15279,3 +15278,963 @@
     model:
   os_family: Linux
   browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:26.0) Gecko/26.0 Firefox/26.0 SailfishBrowser/1.0 like Safari/538.1
+  os:
+    name: Sailfish OS
+    short_name: SAF
+    version:
+  browser:
+    name: Sailfish Browser
+    short_name: SA
+    version: 1.0
+  device:
+    type: smartphone
+    brand: JO
+    model:
+  os_family: Linux
+  browser_family: Sailfish Browser
+-
+  user_agent: Mozilla/5.0 (compatible; IBrowse 3.0; AmigaOS4.0)
+  os:
+    name: AmigaOS
+    short_name: AMG
+    version: 4.0
+  browser:
+    name: IBrowse
+    short_name: IB
+    version: 3.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: AmigaOS
+  browser_family: Unknown
+-
+  user_agent: IBrowse/2.4 (AmigaOS 3.9; 68K)
+  os:
+    name: AmigaOS
+    short_name: AMG
+    version: 3.9
+  browser:
+    name: IBrowse
+    short_name: IB
+    version: 2.4
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: AmigaOS
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)
+  os:
+    name: Kubuntu
+    short_name: KBT
+    version:
+  browser:
+    name: Konqueror
+    short_name: KO
+    version: 3.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Konqueror
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.1) Gecko/2008072820 Kubuntu/8.04 (hardy) Firefox/3.0.1
+  os:
+    name: Kubuntu
+    short_name: KBT
+    version: 8.04
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.17) Gecko/20110429 Mandriva Linux/1.9.2.17-0.1mdv2010.0 (2010.0) Firefox/3.6.17
+  os:
+    name: Mandriva
+    short_name: MDR
+    version: 1.9
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.6
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.2) Gecko/20090729 Slackware/13.0 Firefox/3.5.2
+  os:
+    name: Slackware
+    short_name: SLW
+    version: 13.0
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388 Version/12.16
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Opera
+    short_name: OP
+    version: 12.16
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Opera
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3 YunOs 1.0.0.3; zh-cn; K-Touch W658 Build/AliyunOs-2012) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand: KT
+    model: W658
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; XBLWP7; ZuneWP7)
+  os:
+    name: Windows Phone
+    short_name: WPH
+    version:
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 9.0
+  device:
+    type:
+    brand:
+    model:
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Opera/9.80 (Windows Mobile; WCE; Opera Mobi/WMD-50433; U; en) Presto/2.4.13 Version/10.00
+  os:
+    name: Windows Mobile
+    short_name: WMO
+    version:
+  browser:
+    name: Opera Mobile
+    short_name: OM
+    version: 10.00
+  device:
+    type:
+    brand:
+    model:
+  os_family: Windows Mobile
+  browser_family: Opera
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch; MALNJS)
+  os:
+    name: Windows RT
+    short_name: WRT
+    version:
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 10.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (compatible; Konqueror/3.4; CYGWIN_NT-5.1) KHTML/3.4.89 (like Gecko)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Konqueror
+    short_name: KO
+    version: 3.4
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Konqueror
+-
+  user_agent: Mozilla/5.0 (X11; CrOS x86_64 4731.101.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.67 Safari/537.36
+  os:
+    name: Chrome OS
+    short_name: COS
+    version: 4731.101
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 31.0
+  device:
+    type:
+    brand:
+    model:
+  os_family: Chrome OS
+  browser_family: Chrome
+-
+  user_agent: Mozilla/3.0 (compatible; NetPositive/2.2.1; BeOS)
+  os:
+    name: BeOS
+    short_name: BEO
+    version:
+  browser:
+    name: NetPositive
+    short_name: NP
+    version: 2.2
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: BeOS
+  browser_family: Unknown
+-
+  user_agent: SonyEricssonU1i/R1CA; Mozilla/5.0 (SymbianOS/9.4; U; Series60/5.0 Profile/MIDP-2.1 Configuration/CLDC-1.1) AppleWebKit/525 (KHTML, like Gecko) Version/3.0 Safari/525
+  os:
+    name: Symbian OS Series 60
+    short_name: S60
+    version: 5.0
+  browser:
+    name: Nokia Browser
+    short_name: NB
+    version: 7.0
+  device:
+    type: smartphone
+    brand: SE
+    model: U1i
+  os_family: Symbian
+  browser_family: Nokia Browser
+-
+  user_agent: Mozilla/5.0 (Series40; Nokia306/03.63; Profile/MIDP-2.1 Configuration/CLDC-1.1) Gecko/20100401 S40OviBrowser/3.9.0.0.22
+  os:
+    name: Symbian OS Series 40
+    short_name: S40
+    version:
+  browser:
+    name: Nokia Ovi Browser
+    short_name: NV
+    version: 3.9
+  device:
+    type: smartphone
+    brand: NK
+    model: 306
+  os_family: Symbian
+  browser_family: Nokia Browser
+-
+  user_agent: Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/014.002; Profile/MIDP-2.1 Configuration/CLDC-1.1; en-us) AppleWebKit/525 (KHTML, like Gecko) Version/3.0 BrowserNG/7.2.6.4 3gpp-gba
+  os:
+    name: Symbian OS Series 60
+    short_name: S60
+    version: 5.2
+  browser:
+    name: Nokia Browser
+    short_name: NB
+    version: 7.2
+  device:
+    type: smartphone
+    brand: NK
+    model: N8
+  os_family: Symbian
+  browser_family: Nokia Browser
+-
+  user_agent: Mozilla/5.0 (MeeGo; NokiaN9) AppleWebKit/534.13 (KHTML, like Gecko) NokiaBrowser/8.5.0 Mobile Safari/534.13
+  os:
+    name: MeeGo
+    short_name: SMG
+    version:
+  browser:
+    name: Nokia Browser
+    short_name: NB
+    version: 8.5
+  device:
+    type: smartphone
+    brand: NK
+    model: N9
+  os_family: Other Mobile
+  browser_family: Nokia Browser
+-
+  user_agent: Mozilla/5.0 (Android; Tablet; rv:20.0) Gecko/20.0 Firefox/20.0
+  os:
+    name: Android
+    short_name: AND
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 20.0
+  device:
+    type:
+    brand:
+    model:
+  os_family: Android
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Android; Mobile; rv:22.0) Gecko/22.0 Firefox/22.0
+  os:
+    name: Android
+    short_name: AND
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 22.0
+  device:
+    type:
+    brand:
+    model:
+  os_family: Android
+  browser_family: Firefox
+-
+  user_agent: 'BREW-Applet/0x20068888 (BREW/3.1.5.20; DeviceId: 90086; Lang: zhcn) ucweb-squid'
+  os:
+    name: Brew
+    short_name: BMP
+    version: 3.1
+  browser:
+    name: UC Browser
+    short_name: UC
+    version:
+  device:
+    type:
+    brand:
+    model:
+  os_family: Brew
+  browser_family: Unknown
+-
+  user_agent: NetFront/4.2 (BMP 1.0.4; U; en-us; LG; NetFront/4.2/AMB) Boost LG272 MMP/2.0 Profile/MIDP-2.1 Configuration/CLDC-1.1
+  os:
+    name: Brew
+    short_name: BMP
+    version: 1.0
+  browser:
+    name: NetFront
+    short_name: NF
+    version: 4.2
+  device:
+    type: smartphone
+    brand: LG
+    model: 272
+  os_family: Brew
+  browser_family: NetFront
+-
+  user_agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.77 Large Screen Safari/534.24 GoogleTV/092754
+  os:
+    name: Google TV
+    short_name: GTV
+    version:
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 11.0
+  device:
+    type: tv
+    brand: GO
+    model: GoogleTV
+  os_family: Google TV
+  browser_family: Chrome
+-
+  user_agent: XBMC/PRE-11.0 Git:20110623-62171b3 (iOS; 11.0.0 AppleTV2,1; http://www.xbmc.org)
+  os:
+    name: Apple TV
+    short_name: ATV
+    version:
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: tv
+    brand: AP
+    model: Apple TV
+  os_family: Apple TV
+  browser_family: Unknown
+-
+  user_agent: Mozilla/3.0 WebTV/1.2 (compatible; MSIE 2.0)
+  os:
+    name: WebTV
+    short_name: WTV
+    version: 1.2
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 2.0
+  device:
+    type: tv
+    brand: WB
+    model:
+  os_family: WebTV
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (X11; U; NetBSD amd64; fr-FR; rv:1.8.0.7) Gecko/20061102 Firefox/1.5.0.7
+  os:
+    name: NetBSD
+    short_name: NBS
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 1.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; OpenBSD amd64; rv:26.0) Gecko/20100101 Firefox/26.0
+  os:
+    name: OpenBSD
+    short_name: OBS
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 26.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)
+  os:
+    name: Syllable
+    short_name: SYL
+    version:
+  browser:
+    name: ABrowse
+    short_name: AB
+    version: 0.6
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/4.04 [en] (X11; I; IRIX 5.3 IP22)'
+  os:
+    name: IRIX
+    short_name: IRI
+    version: 5.3
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/4.75C-ja [ja] (X11; U; OSF1 V5.1 alpha)'
+  os:
+    name: OSF1
+    short_name: T64
+    version:
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Unknown
+-
+  user_agent: Opera/9.30 (Nintendo Wii; U; ; 3642; en)
+  os:
+    name: Nintendo
+    short_name: WII
+    version: Wii
+  browser:
+    name: Opera
+    short_name: OP
+    version: 9.30
+  device:
+    type: console
+    brand: NI
+    model: Wii
+  os_family: Gaming Console
+  browser_family: Opera
+-
+  user_agent: Mozilla/5.0 (PlayStation Vita 3.01) AppleWebKit/536.26 (KHTML, like Gecko) Silk/3.2
+  os:
+    name: PlayStation Portable
+    short_name: PSP
+    version: Vita
+  browser:
+    name: Mobile Silk
+    short_name: MS
+    version: 3.2
+  device:
+    type: console
+    brand: SO
+    model: PlayStation Vita
+  os_family: Mobile Gaming Console
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (OS/2; Warp 4.5; rv:10.0.12) Gecko/20100101 Firefox/10.0.12
+  os:
+    name: OS/2
+    short_name: OS2
+    version:
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 10.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: IBM
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en; rv:1.9.2.28) Gecko/20120308 Camino/2.1.2 (like Firefox/3.6.28)
+  os:
+    name: Mac
+    short_name: MAC
+    version: 10.6
+  browser:
+    name: Camino
+    short_name: CA
+    version: 2.1
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Android; Linux armv7l; rv:10.0) Gecko/20120118 Firefox/10.0 Fennec/10.0
+  os:
+    name: Android
+    short_name: AND
+    version:
+  browser:
+    name: Fennec
+    short_name: FE
+    version: 10.0
+  device:
+    type:
+    brand:
+    model:
+  os_family: Android
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; pl; rv:1.9.0.16) Gecko/2010021013 Firefox/3.0.16 Flock/2.5.6
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Flock
+    short_name: FL
+    version: 2.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.7 (KHTML, like Gecko) RockMelt/0.16.91.483 Chrome/16.0.912.77 Safari/535.7
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: RockMelt
+    short_name: RM
+    version: 0.16
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux 2.4.2-2 i586; en-US; m18) Gecko/20010131 Netscape6/6.01
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Netscape
+    short_name: NS
+    version: 6.01
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1) Gecko/20061024 Firefox/2.0 (Swiftfox)
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Swiftfox
+    short_name: SX
+    version: 2.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.21 (KHTML, like Gecko) rekonq/2.3.2 Safari/537.21
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Rekonq
+    short_name: RK
+    version: 2.3
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64; rv:25.0) Gecko/20100101 conkeror/1.0pre
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Conkeror
+    short_name: CK
+    version: 1.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) CriOS/32.0.1700.20 Mobile/11A465 Safari/9537.53
+  os:
+    name: iOS
+    short_name: IOS
+    version: 7.0
+  browser:
+    name: Chrome Mobile iOS
+    short_name: CI
+    version: 32.0
+  device:
+    type: tablet
+    brand: AP
+    model: iPad
+  os_family: iOS
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; chromeframe/19.0.1084.52)
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Chrome Frame
+    short_name: CF
+    version: 19.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Chrome
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; PalmSource/Palm-D050; Blazer/4.3) 16;320x320
+  os:
+    name: palmOS
+    short_name: POS
+    version:
+  browser:
+    name: Palm Blazer
+    short_name: PL
+    version: 4.3
+  device:
+    type: smartphone
+    brand: PM
+    model: D050
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: SAMSUNG-GT-S5230/S523MXEIL2 SHP/VPP/R5 Jasmine/1.0 Nextreaming SMM-MMS/1.2.0 profile/MIDP-2.1 configuration/CLDC-1.1
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: Jasmine
+    short_name: JS
+    version: 1.0
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5230
+  os_family: Unknown
+  browser_family: Unknown
+-
+  user_agent: Lynx/2.8.8pre.3 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/1.0.1e
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: Lynx
+    short_name: LX
+    version: 2.8
+  device:
+    type:
+    brand:
+    model:
+  os_family: Unknown
+  browser_family: Unknown
+-
+  user_agent: NCSA_Mosaic/2.7b5 (X11;Linux 2.6.7 i686) libwww/2.12 modified
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: NCSA Mosaic
+    short_name: MC
+    version: 2.7
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: amaya/9.51 libwww/5.4.0
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: Amaya
+    short_name: AM
+    version: 9.51
+  device:
+    type:
+    brand:
+    model:
+  os_family: Unknown
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows; U; Win9x; en; Stable) Gecko/20020911 Beonex/0.8.1-stable
+  os:
+    name: Windows
+    short_name: WIN
+    version:
+  browser:
+    name: Beonex
+    short_name: BE
+    version: 0.8
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/4.61 [en] (X11; U; ) - BrowseX (2.0.0 Windows)'
+  os:
+    name: Windows
+    short_name: WIN
+    version:
+  browser:
+    name: BrowseX
+    short_name: BX
+    version: 2.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:11.0) Gecko/20100101 Firefox/11.0 CometBird/11.0
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: CometBird
+    short_name: CO
+    version: 11.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Dillo/0.8.5-i18n-misc
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: Dillo
+    short_name: DI
+    version: 0.8
+  device:
+    type:
+    brand:
+    model:
+  os_family: Unknown
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows; U; Win95; en-US; rv:1.5) Gecko/20031007 Firebird/0.7
+  os:
+    name: Windows 95
+    short_name: W95
+    version: 95
+  browser:
+    name: Firebird
+    short_name: FB
+    version: 0.7
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; FreeBSD i386; en-US; rv:1.7.12) Gecko/20051105 Galeon/1.3.21
+  os:
+    name: FreeBSD
+    short_name: BSD
+    version:
+  browser:
+    name: Galeon
+    short_name: GA
+    version: 1.3
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Unix
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_5_8; en-us) AppleWebKit/533.19.4 (KHTML, like Gecko) iCab/4.8 Safari/533.16
+  os:
+    name: Mac
+    short_name: MAC
+    version: 10.5
+  browser:
+    name: iCab
+    short_name: IC
+    version: 4.8
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.8) Gecko Fedora/1.9.0.8-1.fc10 Kazehakase/0.5.6
+  os:
+    name: Fedora
+    short_name: FED
+    version: 1.9
+  browser:
+    name: Kazehakase
+    short_name: KZ
+    version: 0.5
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Links (2.1pre23; Linux 3.5.0 i686; 237x63)
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Links
+    short_name: LI
+    version: 2.1
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2b) Gecko/20021029 Phoenix/0.4
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Phoenix
+    short_name: PX
+    version: 0.4
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: HUAWEI-M636/001.00 WAP/OBIGO/Q05A
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: Obigo
+    short_name: OB
+    version: Q05A
+  device:
+    type: smartphone
+    brand: HU
+    model: M636
+  os_family: Unknown
+  browser_family: Unknown

@@ -40,30 +40,6 @@ Tesla:
   device: 'car browser'
   model: 'Model S'
 
-# Kindle
-Kindle:
-  regex: 'KF(?:OT|TT|JWI|JWA) Build|Kindle|Silk/(\d+)\.(\d+)'
-  device: 'tablet'
-  models:
-    - regex: 'KFTT Build'
-      model: 'Fire HD'
-    - regex: 'KFJWI Build'
-      model: 'Fire HD 8.9" WiFi'
-    - regex: 'KFJWA Build'
-      model: 'Fire HD 8.9" 4G'
-    - regex: 'KFSOWI Build'
-      model: 'Fire HD 7" WiFi'
-    - regex: 'KFTHWI Build'
-      model: 'Fire HDX 7" WiFi'
-    - regex: 'KFTHWA Build'
-      model: 'Fire HDX 7" 4G'
-    - regex: 'KFAPWI Build'
-      model: 'Fire HDX 8.9" WiFi'
-    - regex: 'KFAPWA Build'
-      model: 'Fire HDX 8.9" 4G'
-    - regex: 'KFOT|Kindle Fire|Silk/(\d+)\.(\d+)'
-      model: 'Fire'
-
 # NOKIA
 Nokia:
   regex: 'Nokia|Lumia|Maemo RX|portalmmm/2\.0 N7|portalmmm/2\.0 NK|nok[0-9]+|Symbian.*\s([a-z0-9]+)$'
@@ -386,7 +362,7 @@ Sony Ericsson:
   models:
     - regex: 'SonyEricsson([a-z0-9]+) Build'
       model: '$1'
-    - regex: 'Sony(?: )?Ericsson ([a-z0-9\-]+)'
+    - regex: 'Sony(?: )?Ericsson ?([a-z0-9\-]+)'
       model: '$1'
     - regex: '((?:LT|SO|ST)[0-9]+[a-z]*[0-9]*) Build'
       model: '$1'
@@ -961,12 +937,36 @@ Softbank:
 Sony:
   regex: 'Sony|PlayStation'
   device: 'smartphone'
-  models: 
+  models:
     - regex: 'Sony[ ]?([a-z0-9\-]+)'
       model: '$1'
     - regex: '(PlayStation (?:3|4|Portable|Vita))'
       device: 'console'
       model: '$1'
+
+# Kindle
+Kindle:
+  regex: 'KF(?:OT|TT|JWI|JWA) Build|Kindle|Silk/(\d+)\.(\d+)'
+  device: 'tablet'
+  models:
+    - regex: 'KFTT Build'
+      model: 'Fire HD'
+    - regex: 'KFJWI Build'
+      model: 'Fire HD 8.9" WiFi'
+    - regex: 'KFJWA Build'
+      model: 'Fire HD 8.9" 4G'
+    - regex: 'KFSOWI Build'
+      model: 'Fire HD 7" WiFi'
+    - regex: 'KFTHWI Build'
+      model: 'Fire HDX 7" WiFi'
+    - regex: 'KFTHWA Build'
+      model: 'Fire HDX 7" 4G'
+    - regex: 'KFAPWI Build'
+      model: 'Fire HDX 8.9" WiFi'
+    - regex: 'KFAPWA Build'
+      model: 'Fire HDX 8.9" 4G'
+    - regex: 'KFOT|Kindle Fire|Silk/(\d+)\.(\d+)'
+      model: 'Fire'
 
 # Symphony
 Symphony:
@@ -1104,11 +1104,11 @@ Fly:
     - regex: 'MERIDIAN-([a-z0-9]+)'
       model: '$1'
 
-# WebTV
-WebTV:
+# Web TV
+Web TV:
   regex: 'WebTV/(\d+\.\d+)'
   device: 'tv'
-  model: '$1'
+  model: ''
 
 # ZTE
 ZTE:

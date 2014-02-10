@@ -53,9 +53,24 @@
   name: 'Pale Moon'
   version: '$1'
 
+#CometBird
+- regex: 'CometBird(?:/(\d+\.\d+))?'
+  name: 'CometBird'
+  version: '$1'
+
 #IceDragon
 - regex: 'IceDragon(?:/(\d+\.\d+))?'
   name: 'IceDragon'
+  version: '$1'
+
+#Flock
+- regex: 'Flock(?:/(\d+\.\d+))?'
+  name: 'Flock'
+  version: '$1'
+
+#Swiftfox
+- regex: 'Firefox/(\d+\.\d+).*\(Swiftfox\)'
+  name: 'Swiftfox'
   version: '$1'
 
 #Firefox
@@ -66,11 +81,6 @@
   name: 'Firefox'
   version: '$1 ($2)'
   
-#Flock
-- regex: 'Flock(?:/(\d+\.\d+))?'
-  name: 'Flock'
-  version: '$1'
-
 #ANTGalio
 - regex: 'ANTGalio(?:/(\d+\.\d+))?'
   name: 'ANTGalio'
@@ -110,15 +120,10 @@
   name: 'wOSBrowser'
   version: '$1'
   
-#Swiftfox
-- regex: 'Firefox/(\d+\.\d+).*\(Swiftfox\)'
-  name: 'Swiftfox'
-  version: '$1'
-  
 #Rekonq
-- regex: 'rekonq'
+- regex: 'rekonq(?:/(\d+\.\d+))?'
   name: 'Rekonq'
-  version: ''
+  version: '$1'
 
 #CoolNovo
 - regex: 'CoolNovo(?:/(\d+\.\d+))?'
@@ -294,11 +299,6 @@
   name: 'Cheshire'
   version: '$1'
   
-#CometBird
-- regex: 'CometBird(?:/(\d+\.\d+))?'
-  name: 'CometBird'
-  version: '$1'
-  
 #Dillo
 - regex: 'Dillo(?:/(\d+\.\d+))?'
   name: 'Dillo'
@@ -358,6 +358,9 @@
 - regex: 'IEMobile[ /](\d+\.\d+)'
   name: 'IE Mobile'
   version: '$1'
+- regex: 'MSIE (\d+\.\d+).*XBLWP7'
+  name: 'IE Mobile'
+  version: '$1'
 - regex: 'MSIE.*Trident/4.0'
   name: 'Internet Explorer'
   version: 8.0
@@ -370,9 +373,6 @@
 - regex: 'Trident/7.0'
   name: 'Internet Explorer'
   version: 11.0
-- regex: 'MSIE (\d+\.\d+).*XBLWP7'
-  name: 'IE Mobile'
-  version: '$1'
 - regex: 'MSIE (\d+\.\d+)'
   name: 'Internet Explorer'
   version: '$1'
@@ -462,7 +462,12 @@
 - regex: 'PLAYSTATION|NINTENDO 3|AppleWebKit.+ NX/\d+\.\d+\.\d+'
   name: 'NetFront'
   version: ''
-  
+
+#NetPositive
+- regex: 'NetPositive(?:/(\d+\.\d+))?'
+  name: 'NetPositive'
+  version: '$1'
+
 #Obigo
 - regex: 'Obigo[ ]?(?:InternetBrowser|Browser)?(?:[ /]([a-z0-9]*))?'
   name: 'Obigo'

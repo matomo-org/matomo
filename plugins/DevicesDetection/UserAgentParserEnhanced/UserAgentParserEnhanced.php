@@ -353,6 +353,7 @@ class UserAgentParserEnhanced
         'NV' => 'Nokia Ovi Browser',
         'NF' => 'NetFront',
         'NL' => 'NetFront Life',
+        'NP' => 'NetPositive',
         'NS' => 'Netscape',
         'OB' => 'Obigo',
         'OI' => 'Opera Mini',

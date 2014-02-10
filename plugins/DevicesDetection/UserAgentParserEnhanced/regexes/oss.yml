@@ -77,7 +77,7 @@
   version: '$2'
   
   
-- regex: '(Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs)(?:[ /\-](\d+\.\d+))?'
+- regex: '(Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs)(?: Linux)?(?:[ /\-](\d+\.\d+))?'
   name: '$1'
   version: '$2'
   
@@ -271,6 +271,16 @@
 ##########
 # Symbian
 ##########
+- regex: '(?:Series ?60|SymbOS|S60)(?:[ /]?(\d+\.\d+|V\d+))?'
+  name: 'Symbian OS Series 60'
+  version: '$1'
+
+
+- regex: 'Series40'
+  name: 'Symbian OS Series 40'
+  version: ''
+
+
 - regex: 'SymbianOS/(\d+\.\d+)'
   name: 'Symbian OS'
   version: '$1'
@@ -289,16 +299,6 @@
 - regex: 'Symbian[/]?3'
   name: 'Symbian^3'
   version: '^3'
-  
-  
-- regex: '(?:Series 60|SymbOS|S60)(?:[ /]?(\d+\.\d+|V\d+))?'
-  name: 'Symbian OS Series 60'
-  version: '$1'
-  
-  
-- regex: 'Series40'
-  name: 'Symbian OS Series 40'
-  version: ''
   
   
 - regex: 'MeeGo|WeTab'
@@ -342,10 +342,14 @@
 ##########
 # Brew
 ##########
-- regex: '(?:Brew MP|BREW|BMP)(?:[ /](\d+\.\d+))?'
+- regex: '(?:Brew MP|BREW|BMP)(?:[ /](\d+\.\d+))'
   name: 'Brew'
   version: '$1'
-  
+
+
+- regex: 'Brew MP|BREW|BMP'
+  name: 'Brew'
+  version: ''
 
   
 ##########
@@ -356,7 +360,7 @@
   version: '$1'
   
   
-- regex: 'AppleTV/(\d+\.\d+)'
+- regex: 'AppleTV(?:/?(\d+\.\d+))?'
   name: 'Apple TV'
   version: '$1'
   
@@ -410,9 +414,9 @@
   version: ''
   
   
-- regex: 'IRIX'
+- regex: 'IRIX(?: (\d+\.\d+))'
   name: 'IRIX'
-  version: ''
+  version: '$1'
   
   
 - regex: 'OSF1'
