@@ -48,11 +48,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Piwik::hasUserSuperUserAccess()) {
             $this->handleGeneralSettingsAdmin($view);
 
-            $trustedHosts = array();
-            if (isset(Config::getInstance()->General['trusted_hosts'])) {
-                $trustedHosts = Config::getInstance()->General['trusted_hosts'];
-            }
-            $view->trustedHosts = $trustedHosts;
+            $view->trustedHosts = Url::getTrustedHosts( $filterEnrich = false );
 
             $logo = new CustomLogo();
             $view->branding       = array('use_custom_logo' => $logo->isEnabled());
@@ -181,20 +177,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             $this->saveGeneralSettings();
 
-            // update trusted host settings
-            $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
-            if ($trustedHosts !== false) {
-                Url::saveTrustedHostnameInConfig($trustedHosts);
-            }
-
             $customLogo = new CustomLogo();
             if (Common::getRequestVar('useCustomLogo', '0')) {
                 $customLogo->enable();
             } else {
                 $customLogo->disable();
             }
-
-            Config::getInstance()->forceSave();
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -312,12 +300,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
 
         Config::getInstance()->mail = $mail;
+
+        // update trusted host settings
+        $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
+        if ($trustedHosts !== false) {
+            Url::saveTrustedHostnameInConfig($trustedHosts);
+        }
+        Config::getInstance()->forceSave();
+
+
     }
 
     private function handleGeneralSettingsAdmin($view)
     {
         // Whether to display or not the general settings (cron, beta, smtp)
         $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
+        if($view->isGeneralSettingsAdminEnabled) {
+            $this->displayWarningIfConfigFileNotWritable();
+        }
 
         $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
         $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
@@ -334,7 +334,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];
         $view->mail = Config::getInstance()->mail;
-        $this->displayWarningIfConfigFileNotWritable();
     }
 
 

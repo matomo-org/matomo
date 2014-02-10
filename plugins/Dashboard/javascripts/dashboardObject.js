@@ -57,7 +57,7 @@
 
             if (options.layout) {
                 generateLayout(options.layout);
-                handleMenuClick();
+                buildMenu();
             } else {
                 methods.loadDashboard.apply(this, [dashboardId]);
             }
@@ -93,7 +93,7 @@
             broadcast.updateHashOnly = true;
             broadcast.propagateAjax('?idDashboard=' + dashboardIdToLoad);
             fetchLayout(generateLayout);
-            handleMenuClick();
+            buildMenu();
             return this;
         },
 
@@ -428,41 +428,59 @@
     /**
      * Handle clicks for menu items for choosing between available dashboards
      */
-    function handleMenuClick() {
-        var $dashboardLinks = $('#Dashboard ul a').filter(function () {
-            return $(this).closest('li').attr('id').indexOf('Dashboard_embeddedIndex') === 0;
-        });
+    function buildMenu() {
+        var success = function (dashboards) {
+            var dashboardMenuList = $('#Dashboard').find('> ul');
+            var dashboardMenuListItems = dashboardMenuList.find('>li');
 
-        // setup each link (remove default onclick behavior, get idDashboard value and style currently selected
-        // link)
-        $dashboardLinks.each(function () {
-            $(this).removeAttr('onclick');
+            dashboardMenuListItems.filter(function () {
+                return $(this).attr('id').indexOf('Dashboard_embeddedIndex') === 0;
+            }).remove();
 
-            var linkIdDashboard = broadcast.getParamValue('idDashboard', $(this).attr('href'));
-            $(this).attr('data-idDashboard', linkIdDashboard);
+            if (dashboards.length > 1) {
+                dashboardMenuList.show();
+                var items = [];
+                for (var i = 0; i < dashboards.length; i++) {
+                    var $link = $('<a/>').attr('data-idDashboard', dashboards[i].iddashboard).text(dashboards[i].name);
+                    var $li = $('<li/>').attr('id', 'Dashboard_embeddedIndex_' + dashboards[i].iddashboard)
+                                        .addClass('dashboardMenuItem').append($link);
+                    items.push($li);
 
-            if (dashboardId == linkIdDashboard) {
-                $(this).closest('li').addClass('sfHover');
-            }
-        });
-
-        $dashboardLinks.click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            var idDashboard = $(this).attr('data-idDashboard');
-
-            if (typeof piwikMenu != 'undefined') {
-                piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
-            }
-            $('#Dashboard ul li').removeClass('sfHover');
-            if ($(dashboardElement).length) {
-                $(dashboardElement).dashboard('loadDashboard', idDashboard);
+                    if (dashboards[i].iddashboard == dashboardId) {
+                        dashboardName = dashboards[i].name;
+                        $li.addClass('sfHover');
+                    }
+                }
+                dashboardMenuList.prepend(items);
             } else {
-                broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard=' + idDashboard);
+                dashboardMenuList.hide();
             }
-            $(this).closest('li').addClass('sfHover');
-        });
+
+            dashboardMenuList.find('a[data-idDashboard]').click(function (e) {
+                e.preventDefault();
+
+                var idDashboard = $(this).attr('data-idDashboard');
+
+                if (typeof piwikMenu != 'undefined') {
+                    piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
+                }
+                $('#Dashboard ul li').removeClass('sfHover');
+                if ($(dashboardElement).length) {
+                    $(dashboardElement).dashboard('loadDashboard', idDashboard);
+                } else {
+                    broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard=' + idDashboard);
+                }
+                $(this).closest('li').addClass('sfHover');
+            });
+        };
+
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams({
+            module: 'Dashboard',
+            action: 'getAllDashboards'
+        }, 'get');
+        ajaxRequest.setCallback(success);
+        ajaxRequest.send(false);
     }
 
     /**
@@ -510,7 +528,7 @@
                 function () {
                     if (dashboardChanged) {
                         dashboardChanged = false;
-                        handleMenuClick();
+                        buildMenu();
                     }
                 }
             );

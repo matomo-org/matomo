@@ -14,7 +14,7 @@ span.plugin-version {
     visibility:hidden;
 }
 
-/* add some space to the top of the segment editor so screenshots are clearer */
-.widget .segmentEditorPanel {
+/* add some space to the top of the segment editor & other widgets so screenshots are clearer */
+.widget .segmentEditorPanel, .widget .dashboardSettings {
     margin-top:1em;
 }

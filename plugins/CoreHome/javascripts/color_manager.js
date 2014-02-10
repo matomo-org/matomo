@@ -212,7 +212,8 @@
          */
         _getTransparentColor: function () {
             if (!this.transparentColor) {
-                this.transparentColor = $('<div style="color:transparent;"></div>').appendTo($('body')).css('color');
+                this.transparentColor =
+                    $('<div style="color:transparent;display:none;"></div>').appendTo($('body')).css('color');
             }
 
             return this.transparentColor;

@@ -12,13 +12,12 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
-use Piwik\View;
-use Piwik\Access;
+use Piwik\View\UIControl;
 
 /**
  * Generates the HTML for the segment selector control (which includes the segment editor).
  */
-class SegmentSelectorControl extends View
+class SegmentSelectorControl extends UIControl
 {
     const TEMPLATE = "@SegmentEditor/_segmentSelector";
 
@@ -27,12 +26,15 @@ class SegmentSelectorControl extends View
      */
     public function __construct()
     {
-        parent::__construct(self::TEMPLATE);
+        parent::__construct();
 
-        $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        $this->jsClass = "SegmentSelectorControl";
+        $this->cssIdentifier = "segmentEditorPanel";
+        $this->cssClass = "js-autoLeftPanel";
+
         $this->idSite = Common::getRequestVar('idSite', false, 'int');
 
-        $currentSelectedSegment = Common::getRequestVar('segment', false, 'string');
+        $this->selectedSegment = Common::getRequestVar('segment', false, 'string');
 
         $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
 
@@ -51,21 +53,23 @@ class SegmentSelectorControl extends View
 
         $this->segmentsByCategory   = $segmentsByCategory;
         $this->nameOfCurrentSegment = '';
-        $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = 0;
+        $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled'] = 0;
 
         $savedSegments = API::getInstance()->getAll($this->idSite);
         foreach ($savedSegments as &$savedSegment) {
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
 
-            if (!empty($currentSelectedSegment) && $currentSelectedSegment == $savedSegment['definition']) {
+            if (!empty($this->selectedSegment) && $this->selectedSegment == $savedSegment['definition']) {
                 $this->nameOfCurrentSegment = $savedSegment['name'];
-                $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = $this->wouldApplySegment($savedSegment) ? 0 : 1;
+                $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled']
+                    = $this->wouldApplySegment($savedSegment) ? 0 : 1;
             }
         }
 
-        $this->savedSegmentsJson = Common::json_encode($savedSegments);
+        $this->clientSideProperties['availableSegments'] = $savedSegments;
+        $this->clientSideProperties['segmentTranslations'] = $this->getTranslations();
+
         $this->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
-        $this->segmentTranslations = Common::json_encode($this->getTranslations());
     }
 
     private function wouldApplySegment($savedSegment)

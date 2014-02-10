@@ -269,7 +269,11 @@ class Controller extends Plugin\ControllerAdmin
 
         $view = new View($template);
         $this->setBasicVariablesView($view);
-        $this->displayWarningIfConfigFileNotWritable();
+
+        // If user can manage plugins+themes, display a warning if config not writable
+        if (CorePluginsAdmin::isPluginsAdminEnabled()) {
+            $this->displayWarningIfConfigFileNotWritable();
+        }
 
         $view->errorMessage = '';
 

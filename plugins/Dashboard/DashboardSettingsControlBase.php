@@ -1,0 +1,30 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link     http://piwik.org
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+namespace Piwik\Plugins\Dashboard;
+
+use Piwik\View\UIControl;
+
+/**
+ * Generates the HTML for the dashboard manager control.
+ */
+abstract class DashboardSettingsControlBase extends UIControl
+{
+    const TEMPLATE = "@Dashboard/_dashboardSettings";
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->cssClass = "js-autoLeftPanel";
+        $this->dashboardActions = array();
+        $this->generalActions = array();
+    }
+}

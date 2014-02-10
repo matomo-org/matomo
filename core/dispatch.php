@@ -11,6 +11,9 @@
 use Piwik\Error;
 use Piwik\ExceptionHandler;
 use Piwik\FrontController;
+use \Piwik\Plugin\ControllerAdmin as PluginControllerAdmin;
+
+PluginControllerAdmin::disableEacceleratorIfEnabled();
 
 if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
     require_once PIWIK_INCLUDE_PATH . '/core/Error.php';

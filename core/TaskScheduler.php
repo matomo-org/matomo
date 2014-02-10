@@ -47,7 +47,8 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  *     $task1Output = $task1Result['output'];
  * 
  *     echo "Executed task '$task1Name'. Task output:\n$task1Output";
- * 
+ *
+ * @method static \Piwik\TaskScheduler getInstance()
  */
 class TaskScheduler extends Singleton
 {

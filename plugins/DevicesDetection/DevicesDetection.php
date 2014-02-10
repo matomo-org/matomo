@@ -246,12 +246,7 @@ class DevicesDetection extends \Piwik\Plugin
                 ADD `config_device_brand` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_type` ,
                 ADD `config_device_model` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_brand`";
             Db::exec($q1);
-            // conditionaly add this column
-            if (@Config::getInstance()->Debug['store_user_agent_in_visit']) {
-                $q2 = "ALTER TABLE `" . Common::prefixTable("log_visit") . "`
-                ADD `config_debug_ua` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_model`";
-                Db::exec($q2);
-            }
+
         } catch (Exception $e) {
             if (!Db::get()->isErrNo($e, '1060')) {
                 throw $e;
@@ -272,10 +267,6 @@ class DevicesDetection extends \Piwik\Plugin
         $deviceInfo['config_device_type'] = $UAParser->getDevice();
         $deviceInfo['config_device_model'] = $UAParser->getModel();
         $deviceInfo['config_device_brand'] = $UAParser->getBrand();
-
-        if (@Config::getInstance()->Debug['store_user_agent_in_visit']) {
-            $deviceInfo['config_debug_ua'] = $userAgent;
-        }
 
         $visitorInfo = array_merge($visitorInfo, $deviceInfo);
         Common::printDebug("Device Detection:");

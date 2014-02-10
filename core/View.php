@@ -112,7 +112,7 @@ class View implements ViewInterface
      * @var Twig_Environment
      */
     private $twig;
-    private $templateVars = array();
+    protected $templateVars = array();
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
 
@@ -135,6 +135,8 @@ class View implements ViewInterface
 
         $this->piwik_version = Version::VERSION;
         $this->piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+        $this->userLogin = Piwik::getCurrentUserLogin();
+        $this->isSuperUser = Access::getInstance()->hasSuperUserAccess(); // TODO: redundancy w/ userIsSuperUser
     }
 
     /**
@@ -150,11 +152,13 @@ class View implements ViewInterface
     /**
      * Returns the variables to bind to the template when rendering.
      *
+     * @param array $override Template variable override values. Mainly useful
+     *                        when including View templates in other templates.
      * @return array
      */
-    public function getTemplateVars()
+    public function getTemplateVars($override = array())
     {
-        return $this->templateVars;
+        return $override + $this->templateVars;
     }
 
     /**
@@ -176,7 +180,7 @@ class View implements ViewInterface
      * @param string $key The variable name.
      * @return mixed The variable value.
      */
-    public function __get($key)
+    public function &__get($key)
     {
         return $this->templateVars[$key];
     }
@@ -198,8 +202,6 @@ class View implements ViewInterface
         try {
             $this->currentModule = Piwik::getModule();
             $this->currentAction = Piwik::getAction();
-            $userLogin = Piwik::getCurrentUserLogin();
-            $this->userLogin = $userLogin;
 
             $count = SettingsPiwik::getWebsitesCountToDisplay();
 
@@ -223,7 +225,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = APIUsersManager::getInstance()->getUser($userLogin);
+            $user = APIUsersManager::getInstance()->getUser($this->userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
             // can fail, for example at installation (no plugin loaded yet)

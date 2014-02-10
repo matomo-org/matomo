@@ -58,7 +58,7 @@ body {
 
 .top_controls > #Dashboard,
 .top_controls > #periodString,
-.top_controls > #dashboardSettings {
+.top_controls > .dashboardSettings {
     margin-left: 0;
     margin-right: 10px;
 }

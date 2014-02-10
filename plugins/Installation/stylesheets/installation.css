@@ -209,6 +209,31 @@ input {
 
 }
 
+.reuseTables .error {
+    margin: 10px 0px;
+}
+
+.reuseTables .warning {
+    color: #ff5502;
+    font-size: 100%;
+    font-weight: bold;
+    padding: 20px;
+    border: 2px solid #ff5502;
+    width: 550px;
+    margin: 10px 0px;
+}
+
+.reuseTables .warning img {
+    border: 0;
+    float: right;
+    margin: 10px;
+}
+
+.reuseTables ul {
+    padding-left: 16px;
+    list-style: disc;
+}
+
 .infos img, .infosServer img {
     padding-right: 10px;
     vertical-align: middle;

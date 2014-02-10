@@ -22,7 +22,11 @@
 	path = plugins/CustomAlerts
 	url = https://github.com/piwik/plugin-CustomAlerts.git
 	branch = master
-
 [submodule "plugins/TasksTimetable"]
 	path = plugins/TasksTimetable
 	url = https://github.com/piwik/plugin-TasksTimetable.git
+    branch = master
+[submodule "plugins/LoginHttpAuth"]
+	path = plugins/LoginHttpAuth
+	url = https://github.com/piwik/plugin-LoginHttpAuth.git
+    branch = master

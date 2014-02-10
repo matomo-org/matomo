@@ -58,6 +58,7 @@ abstract class UITest extends IntegrationTestCase
         // launch archiving so tests don't run out of time
         $date = Date::factory(static::$fixture->dateTime)->toString();
         API::getInstance()->get(static::$fixture->idSite, 'year', $date);
+        API::getInstance()->get(static::$fixture->idSite, 'year', $date, urlencode(static::$fixture->segment));
 
         // make sure processed & expected dirs exist
         self::makeDirsAndLinks();
@@ -288,9 +289,8 @@ abstract class UITest extends IntegrationTestCase
 
     private static function getScreenshotDiffPath($name)
     {
-        $outputPrefix = static::getOutputPrefix();
         $diffDir = self::getScreenshotDiffDir();
-        return $diffDir . "/" . $outputPrefix . '_' . $name . '.' . self::IMAGE_TYPE;
+        return $diffDir . "/" . $name . '.' . self::IMAGE_TYPE;
     }
 
     private static function getScreenshotDiffDir()
@@ -300,8 +300,8 @@ abstract class UITest extends IntegrationTestCase
 
     private static function outputDiffViewerHtmlFile()
     {
+        $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.html';
         if (!empty(self::$failureScreenshotNames)) {
-            $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.html';
             echo "\nFailures encountered. View all diffs at:
 $diffViewerPath
 
@@ -315,7 +315,6 @@ If processed screenshots are correct, you can copy the generated screenshots to 
 
         $diffViewerEntries = array();
         foreach (self::$failureScreenshotNames as $name) {
-            $name = static::getOutputPrefix() . '_' . $name;
             $file = $name . '.png';
 
             $diffFileOrError = $file;
@@ -363,7 +362,7 @@ If processed screenshots are correct, you can copy the generated screenshots to 
 </body>
 </html>';
         
-        file_put_contents($diffDir . '/diffviewer.html', $diffViewerHtml);
+        file_put_contents($diffViewerPath, $diffViewerHtml);
     }
 
     /**
@@ -389,9 +388,10 @@ Generated screenshot: $processedPath");
 
         $expected = file_get_contents($expectedPath);
         if ($expected != $processed) {
-            self::$failureScreenshotNames[] = $name;
+            $fullName = static::getOutputPrefix() . '_' . $name;
+            self::$failureScreenshotNames[] = $fullName;
 
-            $diffPath = self::getScreenshotDiffPath($name);
+            $diffPath = self::getScreenshotDiffPath($fullName);
 
             echo "\nFail: generated screenshot does not match expected for '$name'.
 Url to reproduce: $urlQuery

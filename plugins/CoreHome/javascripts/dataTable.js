@@ -1611,7 +1611,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         actions.height(tr.innerHeight() - 2);
-        actions.css('marginLeft', (td.width() + 5 - actions.outerWidth()) + 'px');
+        actions.css('marginLeft', (td.width() + 3 - actions.outerWidth()) + 'px');
     },
 
     _findReportHeader: function (domElem) {
