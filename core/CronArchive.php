@@ -541,37 +541,44 @@ Notes:
         $url .= self::APPEND_TO_API_REQUEST;
 
         $visitsAllDaysInPeriod = false;
+        $noSegmentUrl = '';
         $success = true;
+
+        $urls = array();
 
         // already processed above for "day"
         if ($period != "day") {
+            $noSegmentUrl = $url;
+            $urls [] = $url;
+            $this->requests++;
+        }
 
-            $content = $this->request($url);
-            $success = $this->checkResponse($content, $url);
+        foreach ($this->getSegmentsForSite($idsite) as $segment) {
+            $urls[] = $url . '&segment=' . urlencode($segment);
+            $this->requests++;
+        }
 
-            if ($success) {
+        $async    = new CliMulti();
+        $response = $async->request($urls);
+
+        foreach ($urls as $url) {
+            $content = $response[$url];
+            $success = $success && $this->checkResponse($content, $url);
+
+            if ($noSegmentUrl === $url && $success) {
+
                 $stats = @unserialize($content);
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
                 }
                 $visitsAllDaysInPeriod = @array_sum($stats);
             }
-
-            $this->requests++;
-        }
-
-        foreach ($this->getSegmentsForSite($idsite) as $segment) {
-            $segmentUrl = $url . '&segment=' . urlencode($segment);
-
-            $content = $this->request($segmentUrl);
-            $success = $success && $this->checkResponse($content, $segmentUrl);
-
-            $this->requests++;
         }
 
         $this->log("Archived website id = $idsite, period = $period, "
             . ($period != "day" ? (int)$visitsAllDaysInPeriod . " visits, " : "")
             . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
+
         return $success;
     }
 

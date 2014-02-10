@@ -294,4 +294,18 @@ class Filesystem
             self::copy($source, $target, $excludePhp);
         }
     }
+
+    public static function createWritableFolderIfNeeded($path)
+    {
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+    }
+
+    public static function deleteIfExists($file)
+    {
+        if (file_exists($file)) {
+            unlink($file);
+        }
+    }
 }

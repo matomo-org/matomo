@@ -361,10 +361,12 @@ class Http
             @fclose(@$fsock);
         } else if ($method == 'cli') {
 
-            $url      = @parse_url($aUrl);
+            $cliMulti  = new CliMulti();
+            $responses = $cliMulti->request(array($aUrl));
+
+            $response = $responses[$aUrl];
             $status   = 200;
             $headers  = array();
-            $response = shell_exec('php ' . PIWIK_INCLUDE_PATH . '/core/wrapper.php -- ' . escapeshellarg($url['query']));
 
         } else if ($method == 'fopen') {
             $response = false;
