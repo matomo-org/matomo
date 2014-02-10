@@ -23,7 +23,7 @@ abstract class DashboardSettingsControlBase extends UIControl
     {
         parent::__construct();
         
-        $this->cssClass = "js-autoLeftPanel";
+        $this->cssClass = "piwikTopControl dashboardSettings";
         $this->dashboardActions = array();
         $this->generalActions = array();
     }

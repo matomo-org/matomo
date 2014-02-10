@@ -18,6 +18,10 @@
      * @param {Element} element The root element of the control.
      */
     var UIControl = function (element) {
+        if (!element) {
+            throw new Error("no element passed to UIControl constructor");
+        }
+
         this._controlId = UIControl._controls.length;
         UIControl._controls.push(this);
 

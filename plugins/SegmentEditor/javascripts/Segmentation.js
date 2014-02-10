@@ -17,11 +17,12 @@ Segmentation = (function($) {
         self.currentSegmentStr = "";
         self.segmentAccess = "read";
         self.availableSegments = [];
-        self.editorTemplate = $('.SegmentEditor', self.target).detach();
 
         for (var item in config) {
             self[item] = config[item];
         }
+
+        self.editorTemplate = self.editorTemplate.detach();
 
         self.timer = ""; // variable for further use in timing events
         self.searchAllowed = true;
@@ -967,7 +968,6 @@ Segmentation = (function($) {
                 self.target.append(html);
                 self.content = self.target.find(".segmentationContainer");
             }
-            initTopControls();
 
             // assign content to object attribute to make it easil accesible through all widget methods
             bindListEvents();
@@ -1005,7 +1005,7 @@ $(document).ready(function() {
         }
 
         var self = this;
-        var changeSegment = function(segmentDefinition){
+        this.changeSegment = function(segmentDefinition) {
             self.$element.find('a.close').click();
             segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
             segmentDefinition = encodeURIComponent(segmentDefinition);
@@ -1034,7 +1034,7 @@ $(document).ready(function() {
                 if (response && response.result == 'error') {
                     alert(response.message);
                 } else {
-                    changeSegment(params.definition);
+                    self.changeSegment(params.definition);
                 }
             });
             ajaxHandler.send(true);
@@ -1056,7 +1056,7 @@ $(document).ready(function() {
                 if (response && response.result == 'error') {
                     alert(response.message);
                 } else {
-                    changeSegment(params.definition);
+                    self.changeSegment(params.definition);
                 }
             });
             ajaxHandler.send(true);
@@ -1079,7 +1079,8 @@ $(document).ready(function() {
                 if (response && response.result == 'error') {
                     alert(response.message);
                 } else {
-                    return broadcast.propagateNewPage('segment=');
+                    self.changeSegment('');
+                    $('.ui-dialog-content').dialog('close');
                 }
             });
 
@@ -1095,12 +1096,13 @@ $(document).ready(function() {
         
         this.impl = new Segmentation({
             "target"   : this.$element.find(".segmentListContainer"),
+            "editorTemplate": $('.SegmentEditor', self.$element),
             "segmentAccess" : "write",
             "availableSegments" : this.props.availableSegments,
             "addMethod": addSegment,
             "updateMethod": updateSegment,
             "deleteMethod": deleteSegment,
-            "segmentSelectMethod": changeSegment,
+            "segmentSelectMethod": function () { self.changeSegment.apply(this, arguments); },
             "currentSegmentStr": segmentFromRequest,
             "translations": this.props.segmentTranslations
         });

@@ -30,7 +30,7 @@ class SegmentSelectorControl extends UIControl
 
         $this->jsClass = "SegmentSelectorControl";
         $this->cssIdentifier = "segmentEditorPanel";
-        $this->cssClass = "js-autoLeftPanel";
+        $this->cssClass = "piwikTopControl";
 
         $this->idSite = Common::getRequestVar('idSite', false, 'int');
 
