@@ -7,11 +7,29 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
-use Piwik\
+use Piwik\View;
 
 /**
  * TODO
  */
-class WidgetizedReportControl extends UIControl
+class WidgetizedReportControl extends View
 {
+    const TEMPLATE = "@Dashboard/_widgetizedReport";
+
+    /**
+     * TODO
+     */
+    public function __construct($apiModule = false, $apiAction = false, $parameterOverride = array(),
+                                $renderEmpty = false)
+    {
+        parent::__construct(self::TEMPLATE);
+
+        $this->reportData = '';
+        if (!$renderEmpty) {
+            $this->reportData = // TODO
+        }
+
+        $this->uniqueWidgetId = // TODO
+        $this->widgetName = // TODO
+    }
 }

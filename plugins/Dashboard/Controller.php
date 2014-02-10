@@ -288,6 +288,15 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
+     * TODO
+     */
+    public function getReportWidget()
+    {
+        $control = new WidgetizedReportControl();
+        return $control->render();
+    }
+
+    /**
      * Get the dashboard layout for the current user (anonymous or logged user)
      *
      * @param int $idDashboard
