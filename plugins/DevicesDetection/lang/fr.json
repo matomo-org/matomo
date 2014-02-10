@@ -4,7 +4,17 @@
         "dataTableLabelBrands": "Marque",
         "dataTableLabelBrowserFamily": "Famille de navigateurs",
         "dataTableLabelModels": "Modèle",
+        "dataTableLabelSystemVersion": "Version du système d'exploitation",
         "dataTableLabelTypes": "Type",
-        "submenu": "Périphériques"
+        "Device": "Périphèrique",
+        "DeviceBrand": "Marque du périphérique",
+        "DeviceDetection": "Détection du périphérique",
+        "DeviceModel": "Modèle du périphérique",
+        "DevicesDetection": "Périphériques du visiteur",
+        "DeviceType": "Type du périphérique",
+        "OperatingSystemFamilies": "Familles de système d'exploitation",
+        "OperatingSystemVersions": "Versions de système d'exploitation",
+        "submenu": "Périphériques",
+        "UserAgent": "Agent Utilisateur (User-Agent)"
     }
 }

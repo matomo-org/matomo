@@ -104,7 +104,7 @@
         "DevelopmentProcess": "Poichè il nostro %sprocesso di sviluppo%s include migliaia di test automatizzati, i Beta Testers giocano un ruolo chiave nel raggiungimento in Piwik della \"Politica no bug\".",
         "EmailServerSettings": "Impostazioni server e-mail",
         "ForBetaTestersOnly": "Solo per beta tester",
-        "ImageTracking": "rilevamento immagine",
+        "ImageTracking": "Rilevamento immagine",
         "ImageTrackingIntro1": "Quando un visitatore ha disattivato JavaScript o quando JavaScript non può essere utilizzato, è possibile utilizzare un collegamento di tracciamento immagine per tracciare i visitatori.",
         "ImageTrackingIntro2": "Genera il link qui sotto e copia-incolla il codice HTML generato nella pagina. Se si utilizza questo come ripiego per il tracciamento JavaScript, è possibile limitarlo a %1$s tags.",
         "ImageTrackingIntro3": "Per la lista completa delle opzioni che è possibile utilizzare con un link di tracciamento dell'immagine, vedi la%1$sDocumentazione API Tracciamento%2$s.",
@@ -884,6 +884,7 @@
         "VisitTypeExample": "Ad esempio, per selezionare tutti i visitatori che sono ritornati al sito Web, compresi quelli che hanno comprato qualcosa nella loro precedenti visite, la richiesta di API conterrebbe %s",
         "Warning": "Attenzione",
         "WarningFileIntegrityNoManifest": "Il controllo dell'integrità dei file non può essere eseguito per la mancanza del file manifest.inc.php",
+        "WarningFileIntegrityNoManifestDeployingFromGit": "Se stai sviluppando Piwik da Git, questo messaggio è normale.",
         "WarningFileIntegrityNoMd5file": "Il controllo dell'integrità dei file non può essere eseguito per la mancanza della funzione md5_file().",
         "WarningPasswordStored": "%sAttenzione:%s Questa password verrà salvata nel file di configurazione e sarà visibile a chiunque ne ha accesso.",
         "Website": "Sito:",
@@ -1448,7 +1449,8 @@
         "WidgetGetAll": "Tutti i Referenti",
         "WidgetKeywords": "Lista di parole chiave",
         "WidgetSocials": "Elenco dei social network",
-        "WidgetTopKeywordsForPages": "Top Keyword per URL Pagina"
+        "WidgetTopKeywordsForPages": "Top Keyword per URL Pagina",
+        "XPercentOfVisits": "%s%% di visite"
     },
     "RowEvolution": {
         "AvailableMetrics": "Metriche disponibili",
@@ -1528,6 +1530,8 @@
         "SegmentDisplayedAllWebsites": "tutti i siti",
         "SegmentDisplayedThisWebsiteOnly": "solo questo sito",
         "SegmentIsDisplayedForWebsite": "e mostrato per",
+        "SegmentNotApplied": "Segmento '%s' non applicato",
+        "SegmentNotAppliedExplanation": "Stai richiedendo i dati per il Segmento Personalizzato '%s', l'attuale configurazione di Piwik impedisce l'elaborazione in tempo reale dei report per questo segmento. Chiedi al tuo amministratore di Piwik di cambiare le impostazioni nel file di configurazione (%s). Puoi anche modificare questo Segmento e scegliere '%s'.",
         "SelectSegmentOfVisitors": "Seleziona un segmento di visitatori:",
         "ThisSegmentIsVisibleTo": "Questo segmento è visibile a:",
         "VisibleToAllUsers": "tutti gli utenti",
@@ -1964,6 +1968,7 @@
         "GeoIpLocationProviderDesc_ServerBased1": "Questo individuatore di posizione utilizza il modulo GeoIP che è stato installato nel vostro server HTTP. Questo è veloce e preciso, ma %1$spuò essere utilizzato solo con il normale monitoraggio browser.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Se si devono importare i file di log o fare qualcos'altro che richiede l'impostazione degli indirizzi IP, utilizza l'%1$simplementazione PECL GeoIP (consigliata)%2$s oppure l'%3$simplementazione PHP GeoIP%4$s.",
         "GeoIpLocationProviderDesc_ServerBasedAnonWarn": "Nota: l'anonimizzazione IP non ha alcun effetto sui luoghi segnalati da questo fornitore. Prima di utilizzarlo con la trasformazione in forma anonima degli IP, assicurati che questo non violi alcuna legge sulla privacy a cui puoi essere soggetto.",
+        "GeoIpLocationProviderNotRecomnended": "La geolocalizzazione sta funzionando ma tu non stai utilizzando uno dei provider raccomandati.",
         "GeoIPNoServerVars": "Piwik non riesce a trovare alcuna delle variabili %s GeoIP.",
         "GeoIPPeclCustomDirNotSet": "L'opzione %s PHP ini non è impostata.",
         "GeoIPServerVarsFound": "Piwik rileva le seguenti %s variabili GeoIP.",
