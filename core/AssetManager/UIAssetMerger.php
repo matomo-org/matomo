@@ -209,6 +209,6 @@ abstract class UIAssetMerger
      */
     private function shouldCompareExistingVersion()
     {
-        return !$this->isMergedAssetsDisabled();
+        return $this->isMergedAssetsDisabled();
     }
 }
