@@ -96,28 +96,13 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
  * @return {string} html for empty widget
  */
 widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
-    return '<div id="' + uniqueId + '" class="widget">' +
-        '<div class="widgetTop">' +
-        '<div class="button" id="close">' +
-        '<img src="plugins/Zeitgeist/images/close.png" title="' + _pk_translate('General_Close') + '" />' +
-        '</div>' +
-        '<div class="button" id="maximise">' +
-        '<img src="plugins/Zeitgeist/images/maximise.png" title="' + _pk_translate('Dashboard_Maximise') + '" />' +
-        '</div>' +
-        '<div class="button" id="minimise">' +
-        '<img src="plugins/Zeitgeist/images/minimise.png" title="' + _pk_translate('Dashboard_Minimise') + '" />' +
-        '</div>' +
-        '<div class="button" id="refresh">' +
-        '<img src="plugins/Zeitgeist/images/refresh.png" title="' + _pk_translate('General_Refresh') + '" />' +
-        '</div>' +
-        '<div class="widgetName">' + widgetName + '</div>' +
-        '</div>' +
-        '<div class="widgetContent">' +
-        '<div class="widgetLoading">' +
-        _pk_translate('Dashboard_LoadingWidget') +
-        '</div>' +
-        '</div>' +
-        '</div>';
+    if (!widgetsHelper.widgetTemplate) {
+        widgetsHelper.widgetTemplate = $('.widgetTemplate').find('>.widget').detach();
+    }
+
+    var $result = widgetsHelper.widgetTemplate.clone();
+    $result.attr('id', uniqueId).find('.widgetName').append(widgetName);
+    return $result;
 };
 
 /**
@@ -309,9 +294,9 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
 
                 var emptyWidgetHtml = widgetsHelper.getEmptyWidgetHtml(
                     widgetUniqueId,
-                    '<div title="' + _pk_translate("Dashboard_AddPreviewedWidget") + '">' +
-                        _pk_translate('Dashboard_WidgetPreview') +
-                        '</div>'
+                    $('<div/>')
+                        .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))
+                        .text(_pk_translate('Dashboard_WidgetPreview'))
                 );
                 previewElement.html(emptyWidgetHtml);
 

@@ -194,7 +194,7 @@
                 widgetName = _pk_translate('Dashboard_WidgetNotFound');
             }
 
-            var emptyWidgetContent = widgetsHelper.getEmptyWidgetHtml(uniqueId, widgetName);
+            var emptyWidgetContent = widgetsHelper.getEmptyWidgetHtml(uniqueId, $('<span/>').text(widgetName));
             this.element.html(emptyWidgetContent);
 
             var widgetElement = $('#' + uniqueId, this.element);
