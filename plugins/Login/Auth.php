@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\AuthResult;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\Db;
