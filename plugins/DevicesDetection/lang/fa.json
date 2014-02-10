@@ -1,0 +1,20 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "نسخه مرورگر",
+        "dataTableLabelBrands": "مارک",
+        "dataTableLabelBrowserFamily": "خانواده مرورگر",
+        "dataTableLabelModels": "مدل",
+        "dataTableLabelSystemVersion": "نسخه سیستم عامل",
+        "dataTableLabelTypes": "نوع",
+        "Device": "وسیله",
+        "DeviceBrand": "مارک وسیله",
+        "DeviceDetection": "تشخیص وسیله",
+        "DeviceModel": "مدل وسیله",
+        "DevicesDetection": "وسایل بازدیده کنندگان",
+        "DeviceType": "نوع وسیله",
+        "OperatingSystemFamilies": "خانواده سیستم عامل",
+        "OperatingSystemVersions": "نسخه سیستم عامل",
+        "submenu": "وسایل",
+        "UserAgent": "کاربر-نمایندگی"
+    }
+}

@@ -5,7 +5,7 @@
         "DBSize": "Andmebaasi suurus",
         "EstimatedSize": "Ennustatud maht",
         "IndexSize": "Indeksi maht",
-        "MainDescription": "Piwik salvestab kõik veebianalüütika andmed Mysql andmebaasi. Hetkel, Piwiki tabelid kasutavad %s.",
+        "MainDescription": "Piwik salvestab kõik veebianalüütika andmed MySQL andmebaasi. Piwiku tabelid kasutavad hetkel %s.",
         "MetricDataByYear": "Mõõttabelid aasta järgi",
         "MetricTables": "Mõõttabelid",
         "OtherTables": "Muud tabelid",

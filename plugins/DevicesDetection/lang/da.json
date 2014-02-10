@@ -1,0 +1,20 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Browser-versioner",
+        "dataTableLabelBrands": "Mærke",
+        "dataTableLabelBrowserFamily": "Browser familie",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Operativsystem-version",
+        "dataTableLabelTypes": "Type",
+        "Device": "Enhed",
+        "DeviceBrand": "Enhedsmærke",
+        "DeviceDetection": "Detektering af enheder",
+        "DeviceModel": "Enhedsmodel",
+        "DevicesDetection": "Besøgendes enheder",
+        "DeviceType": "Enhedstypen",
+        "OperatingSystemFamilies": "Operativsystem familier",
+        "OperatingSystemVersions": "Operativsystem-versioner",
+        "submenu": "Enheder",
+        "UserAgent": "Brugeragent"
+    }
+}
