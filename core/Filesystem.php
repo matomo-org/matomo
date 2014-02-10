@@ -295,17 +295,20 @@ class Filesystem
         }
     }
 
-    public static function createWritableFolderIfNeeded($path)
+    /**
+     * Deletes the given file if it exists.
+     *
+     * @param  string $pathToFile
+     * @return bool   true in case of success or if file does not exist, false otherwise. It might fail in case the
+     *                file is not writeable.
+     * @api
+     */
+    public static function deleteFileIfExists($pathToFile)
     {
-        if (!file_exists($path)) {
-            mkdir($path, 0755, true);
+        if (!file_exists($pathToFile)) {
+            return true;
         }
-    }
 
-    public static function deleteIfExists($file)
-    {
-        if (file_exists($file)) {
-            unlink($file);
-        }
+        return @unlink($pathToFile);
     }
 }

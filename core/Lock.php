@@ -15,8 +15,8 @@ class Lock
 
     public function __construct($name)
     {
-        $this->locksDir   = PIWIK_INCLUDE_PATH . '/tmp/';
-        $this->name       = $name;
+        $this->locksDir = PIWIK_INCLUDE_PATH . '/tmp/locks';
+        $this->name     = $name;
     }
 
     public function lock()
@@ -28,7 +28,7 @@ class Lock
 
     public function isLocked()
     {
-        Filesystem::createWritableFolderIfNeeded($this->locksDir);
+        Filesystem::mkdir($this->locksDir, true);
 
         if (!$this->doesLockFileExist()) {
             return false;
@@ -47,7 +47,7 @@ class Lock
     {
         $lockFile = $this->getLockFile();
 
-        Filesystem::deleteIfExists($lockFile);
+        Filesystem::deleteFileIfExists($lockFile);
     }
 
     private function getLockFile()
@@ -64,6 +64,10 @@ class Lock
 
     private function isProcessStillRunning()
     {
+        if (SettingsServer::isWindows()) {
+            return true;
+        }
+
         $lockFile    = $this->getLockFile();
         $lockedPID   = file_get_contents($lockFile);
         $runningPIDs = explode("\n", trim( `ps -e | awk '{print $1}'` ));

@@ -43,7 +43,7 @@ class Output {
 
     public function destroy()
     {
-        Filesystem::deleteIfExists($this->tmpFile);
+        Filesystem::deleteFileIfExists($this->tmpFile);
     }
 
 }
