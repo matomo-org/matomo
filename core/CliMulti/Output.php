@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: thomassteur
- * Date: 10.02.14
- * Time: 14:57
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\CliMulti;
 
