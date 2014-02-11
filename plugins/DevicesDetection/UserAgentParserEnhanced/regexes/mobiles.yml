@@ -503,6 +503,12 @@ iKoMo:
   device: 'feature phone'
   model: '$1'
 
+#Jiayu
+Jiayu:
+  regex: '(JY-[a-z0-9]+) Build'
+  device: 'smartphone'
+  model: '$1'
+
 # Jolla
 Jolla:
   regex: 'Jolla'
@@ -858,7 +864,7 @@ SuperSonic:
 
 # pantech
 Pantech:
-  regex: 'Pantech|P[GN]-|PT-[a-z0-9]{3,}|TX[T]?[0-9]+'
+  regex: 'Pantech|P[GN]-|PT-[a-z0-9]{3,}|TX[T]?[0-9]+|IM-[a-z0-9]+'
   device: 'smartphone'
   models:
     - regex: 'Pantech[ \-]?([a-z0-9]+)'
@@ -869,6 +875,8 @@ Pantech:
       model: '$1'
     - regex: '(TX[T]?[0-9]+)'
       model: '$1'  
+    - regex: '(IM-[a-z0-9]+)'
+      model: '$1'
 
 #Polaroid
 Polaroid:

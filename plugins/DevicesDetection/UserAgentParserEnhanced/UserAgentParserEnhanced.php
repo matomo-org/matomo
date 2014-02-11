@@ -76,6 +76,7 @@ class UserAgentParserEnhanced
         'IQ' => 'INQ',
         'IT' => 'Intek',
         'IV' => 'Inverto',
+        'JI' => 'Jiayu',
         'JO' => 'Jolla',
         'KA' => 'Karbonn',
         'KD' => 'KDDI',
