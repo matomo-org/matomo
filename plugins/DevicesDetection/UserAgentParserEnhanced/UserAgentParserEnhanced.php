@@ -155,11 +155,12 @@ class UserAgentParserEnhanced
         'VS' => 'ViewSonic',
         'VT' => 'Vestel',
         'VO' => 'Voxtel',
+        'VW' => 'Videoweb',
         'WB' => 'Web TV',
         'WE' => 'WellcoM',
         'WO' => 'Wonu',
-        'VW' => 'Videoweb',
         'XX' => 'Unknown',
+        'YU' => 'Yuandao',
         'ZO' => 'Zonda',
         'ZT' => 'ZTE',
     );

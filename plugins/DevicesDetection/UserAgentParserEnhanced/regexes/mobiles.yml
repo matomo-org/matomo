@@ -1082,6 +1082,12 @@ Wonu:
   device: 'feature phone'
   model: '$1'
 
+#Yuandao
+Yuandao:
+  regex: 'N101[ _]DUAL(?:[ _]CORE)?(?:[ _]?2|\|\|)?(?:[ _]V11)? Build'
+  device: 'tablet'
+  model: 'N101'
+
 # Zonda
 Zonda:
   regex: '(ZM(?:CK|EM|TFTV|TN)[a-z0-9]+)'
