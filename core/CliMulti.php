@@ -7,13 +7,13 @@
  */
 namespace Piwik;
 
-use Piwik\CliMulti\Pid;
+use Piwik\CliMulti\Process;
 use Piwik\CliMulti\Output;
 
 class CliMulti {
 
     /**
-     * @var \Piwik\CliMulti\Pid[]
+     * @var \Piwik\CliMulti\Process[]
      */
     private $pids = array();
 
@@ -49,7 +49,7 @@ class CliMulti {
 
             shell_exec($command . $appendix);
 
-            $this->pids[]    = new Pid($pid);
+            $this->pids[]    = new Process($pid);
             $this->outputs[] = new Output($output);
         }
     }
@@ -106,6 +106,10 @@ class CliMulti {
         return md5($command . microtime(true) . rand(0, 99999));
     }
 
+    /**
+     * What is missing under windows? Detection whether a process is still running in Process::isProcessStillRunning
+     * and how to send a process into background in start()
+     */
     private function supportsAsync()
     {
         return !SettingsServer::isWindows();

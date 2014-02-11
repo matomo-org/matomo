@@ -6,9 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-if (!defined('PIWIK_INCLUDE_PATH')) {
-    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
-}
+define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
@@ -20,7 +18,7 @@ if (!Piwik\Common::isPhpCliMode()) {
 include PIWIK_INCLUDE_PATH . '/core/Singleton.php';
 include PIWIK_INCLUDE_PATH . '/core/FrontController.php';
 include PIWIK_INCLUDE_PATH . '/core/Filesystem.php';
-include PIWIK_INCLUDE_PATH . '/core/CliMulti/Pid.php';
+include PIWIK_INCLUDE_PATH . '/core/CliMulti/Process.php';
 include PIWIK_INCLUDE_PATH . '/core/SettingsServer.php';
 include PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 include PIWIK_INCLUDE_PATH . '/core/Url.php';
@@ -32,7 +30,7 @@ if (!empty($_GET['testmode'])) {
 }
 
 if (!empty($_GET['pid']) && \Piwik\Filesystem::isValidFilename($_GET['pid'])) {
-    $pid = new \Piwik\CliMulti\Pid($_GET['pid']);
+    $pid = new \Piwik\CliMulti\Process($_GET['pid']);
     $pid->startProcess();
 }
 

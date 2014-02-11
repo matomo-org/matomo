@@ -11,16 +11,16 @@ namespace Piwik\CliMulti;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
-class Pid
+class Process
 {
     private $pidFile = '';
 
-    public function __construct($name)
+    public function __construct($pid)
     {
         $pidDir = PIWIK_INCLUDE_PATH . '/tmp/pids';
         Filesystem::mkdir($pidDir, true);
 
-        $this->pidFile = $pidDir . '/' . $name . '.pid';
+        $this->pidFile = $pidDir . '/' . $pid . '.pid';
 
         $this->markAsNotStarted();
     }
