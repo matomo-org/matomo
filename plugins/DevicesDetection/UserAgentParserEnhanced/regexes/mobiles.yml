@@ -1092,6 +1092,12 @@ Wonu:
   device: 'feature phone'
   model: '$1'
 
+#Xiaomi
+Xiaomi:
+  regex: '(MI [a-z0-9]+|MI-One[ _]Plus) Build'
+  device: 'smartphone'
+  model: '$1'
+
 #Yuandao
 Yuandao:
   regex: 'N101[ _]DUAL(?:[ _]CORE)?(?:[ _]?2|\|\|)?(?:[ _]V11)? Build'

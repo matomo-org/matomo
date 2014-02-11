@@ -160,6 +160,7 @@ class UserAgentParserEnhanced
         'WB' => 'Web TV',
         'WE' => 'WellcoM',
         'WO' => 'Wonu',
+        'XI' => 'Xiaomi',
         'XX' => 'Unknown',
         'YU' => 'Yuandao',
         'ZO' => 'Zonda',
