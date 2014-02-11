@@ -55,6 +55,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         );
 
         // Normal standard goal
+        $apiWithSegments_visitConvertedGoal = $apiWithSegments + array('Goals.get', 'VisitsSummary.get');
         return array_merge(array(
 
                 // Segment: This will match the first visit of the fixture only
@@ -180,6 +181,23 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                 array('VisitsSummary.get', array('idSite'     => $idSite, 'date' => $dateTime,
                                                  'periods'    => array('week'), 'segment' => 'visitorType==returningCustomer',
                                                  'testSuffix' => '_SegmentReturningCustomers')),
+
+                // test segment visitConvertedGoalId with Ecommerce APIs
+                array($apiWithSegments_visitConvertedGoal,
+                      array(
+                          'idSite' => $idSite,
+                          'date' => $dateTime,
+                          'periods' => array('day'),
+                          'segment' => 'visitConvertedGoalId==1;visitConvertedGoalId!=2',
+                          'testSuffix' => '_SegmentVisitHasConvertedGoal')),
+
+                array($apiWithSegments_visitConvertedGoal,
+                      array(
+                          'idSite' => $idSite,
+                          'date' => $dateTime,
+                          'periods' => array('day'),
+                          'segment' => 'visitConvertedGoalId!=1',
+                          'testSuffix' => '_SegmentVisitHasNotConvertedGoal1')),
 
                 // test segment pageTitle
                 array('VisitsSummary.get', array('idSite'     => $idSite, 'date' => $dateTime,
