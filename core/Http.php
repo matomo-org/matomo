@@ -364,7 +364,7 @@ class Http
             $cliMulti  = new CliMulti();
             $responses = $cliMulti->request(array($aUrl));
 
-            $response = $responses[$aUrl];
+            $response = !empty($responses) ? array_shift($responses) : null;
             $status   = 200;
             $headers  = array();
 

@@ -7,13 +7,13 @@
  */
 namespace Piwik;
 
-use Piwik\CliMulti\Lock;
+use Piwik\CliMulti\Pid;
 use Piwik\CliMulti\Output;
 
 class CliMulti {
 
     /**
-     * @var \Piwik\CliMulti\Lock[]
+     * @var \Piwik\CliMulti\Pid[]
      */
     private $pids = array();
 
@@ -22,7 +22,7 @@ class CliMulti {
      */
     private $outputs = array();
 
-    public function request($piwikUrls)
+    public function request(array $piwikUrls)
     {
         $this->start($piwikUrls);
 
@@ -45,11 +45,11 @@ class CliMulti {
 
             $params   = array('output' => $output, 'pid' => $pid);
             $command  = $this->buildCommand($url, $params);
-            $appendix = $this->supportsAsync() ? ' &' : '';
+            $appendix = $this->supportsAsync() ? ' > /dev/null 2>&1 &' : '';
 
             shell_exec($command . $appendix);
 
-            $this->pids[]    = new Lock($pid);
+            $this->pids[]    = new Pid($pid);
             $this->outputs[] = new Output($output);
         }
     }
@@ -57,10 +57,17 @@ class CliMulti {
     private function buildCommand($aUrl, $additionalParams = array())
     {
         $url   = @parse_url($aUrl);
-        $query = $url['query'];
+        $query = '';
+
+        if (!empty($url['query'])) {
+            $query .= $url['query'];
+        }
 
         if (!empty($additionalParams)) {
-            $query .= '&' . http_build_query($additionalParams);
+            if (!empty($query)) {
+                $query .= '&';
+            }
+            $query .= http_build_query($additionalParams);
         }
 
         $command = 'php ' . PIWIK_INCLUDE_PATH . '/core/CliMulti/run.php -- ' . escapeshellarg($query);
@@ -68,13 +75,12 @@ class CliMulti {
         return $command;
     }
 
-    private function getResponse($urls)
+    private function getResponse()
     {
         $response = array();
 
-        foreach ($this->outputs as $index => $output) {
-            $url            = $urls[$index];
-            $response[$url] = $output->get();
+        foreach ($this->outputs as $output) {
+            $response[] = $output->get();
         }
 
         return $response;
@@ -83,7 +89,11 @@ class CliMulti {
     private function isFinished()
     {
         foreach ($this->pids as $index => $pid) {
-            if ($pid->isLocked() && !$this->outputs[$index]->exists()) {
+            if (!$pid->hasStarted()) {
+                return false;
+            }
+
+            if ($pid->isRunning() && !$this->outputs[$index]->exists()) {
                 return false;
             }
         }
@@ -104,12 +114,15 @@ class CliMulti {
     private function cleanup()
     {
         foreach ($this->pids as $pid) {
-            $pid->removeLock();
+            $pid->finishProcess();
         }
 
         foreach ($this->outputs as $output) {
             $output->destroy();
         }
+
+        $this->pids    = array();
+        $this->outputs = array();
     }
 
 }

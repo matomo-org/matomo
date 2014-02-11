@@ -9,6 +9,7 @@
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 }
+define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 
@@ -19,12 +20,20 @@ if (!Piwik\Common::isPhpCliMode()) {
 include PIWIK_INCLUDE_PATH . '/core/Singleton.php';
 include PIWIK_INCLUDE_PATH . '/core/FrontController.php';
 include PIWIK_INCLUDE_PATH . '/core/Filesystem.php';
-include PIWIK_INCLUDE_PATH . '/core/CliMulti/Lock.php';
+include PIWIK_INCLUDE_PATH . '/core/CliMulti/Pid.php';
+include PIWIK_INCLUDE_PATH . '/core/SettingsServer.php';
+include PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
+include PIWIK_INCLUDE_PATH . '/core/Url.php';
+include PIWIK_INCLUDE_PATH . '/core/Config.php';
 \Piwik\FrontController::assignCliParametersToRequest();
 
+if (!empty($_GET['testmode'])) {
+    Piwik\Config::getInstance()->setTestEnvironment();
+}
+
 if (!empty($_GET['pid']) && \Piwik\Filesystem::isValidFilename($_GET['pid'])) {
-    $lock = new \Piwik\CliMulti\Lock($_GET['pid']);
-    $lock->lock();
+    $pid = new \Piwik\CliMulti\Pid($_GET['pid']);
+    $pid->startProcess();
 }
 
 ob_start();
@@ -43,6 +52,6 @@ if (!empty($_GET['output']) && \Piwik\Filesystem::isValidFilename($_GET['output'
     echo $content;
 }
 
-if (!empty($lock)) {
-    $lock->removeLock();
+if (!empty($pid)) {
+    $pid->finishProcess();
 }

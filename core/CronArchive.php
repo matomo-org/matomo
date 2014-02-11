@@ -561,8 +561,8 @@ Notes:
         $async    = new CliMulti();
         $response = $async->request($urls);
 
-        foreach ($urls as $url) {
-            $content = $response[$url];
+        foreach ($urls as $index => $url) {
+            $content = $response[$index];
             $success = $success && $this->checkResponse($content, $url);
 
             if ($noSegmentUrl === $url && $success) {
