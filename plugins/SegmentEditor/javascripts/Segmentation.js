@@ -815,6 +815,14 @@ Segmentation = (function($) {
             self.form = getFormHtml();
             self.target.prepend(self.form);
 
+            // if there's enough space to the left & not enough space to the right,
+            // anchor the form to the right of the selector
+            if (self.form.width() + self.target.offset().left > $(window).width()
+                && self.form.width() < self.target.offset().left + self.target.width()
+            ) {
+                self.form.addClass('anchorRight');
+            }
+
             bindFormEvents();
             bindSegmentManipulationEvents();
 
