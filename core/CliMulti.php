@@ -13,15 +13,31 @@ use Piwik\CliMulti\Output;
 class CliMulti {
 
     /**
+     * If set to true or false it will overwrite whether async is supported or not.
+     *
+     * @var null|bool
+     */
+    public $supportsAsync = null;
+
+    /**
      * @var \Piwik\CliMulti\Process[]
      */
-    private $pids = array();
+    private $processes = array();
 
     /**
      * @var \Piwik\CliMulti\Output[]
      */
     private $outputs = array();
 
+    /**
+     * It will request all given URLs in parallel (async) using the CLI and wait until all requests are finished.
+     *
+     *
+     * @param string[]  $piwikUrls   An array of urls, for instance:
+     *                               array('/index.php?module=API', '/?module=API', 'http://www.example.com?module=API')
+     * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
+     *               there was a problem with a request, for instance if the process died unexpected.
+     */
     public function request(array $piwikUrls)
     {
         $this->start($piwikUrls);
@@ -39,18 +55,21 @@ class CliMulti {
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
-            $cmdId  = $this->generateCmdId($url);
-            $pid    = $cmdId . $index . '_cli_multi_pid';
-            $output = $cmdId . $index . '_cli_multi_output';
+            $cmdId    = $this->generateCmdId($url);
+            $pid      = $cmdId . $index . '_cli_multi_pid';
+            $outputId = $cmdId . $index . '_cli_multi_output';
 
-            $params   = array('output' => $output, 'pid' => $pid);
-            $command  = $this->buildCommand($url, $params);
+            $this->processes[] = new Process($pid);
+            $this->outputs[]   = new Output($outputId);
+
+            $command  = $this->buildCommand($url, array('outputId' => $outputId, 'pid' => $pid));
             $appendix = $this->supportsAsync() ? ' > /dev/null 2>&1 &' : '';
 
             shell_exec($command . $appendix);
 
-            $this->pids[]    = new Process($pid);
-            $this->outputs[] = new Output($output);
+            if (!$this->supportsAsync()) {
+                end($this->processes)->finishProcess();
+            }
         }
     }
 
@@ -88,12 +107,12 @@ class CliMulti {
 
     private function isFinished()
     {
-        foreach ($this->pids as $index => $pid) {
-            if (!$pid->hasStarted()) {
+        foreach ($this->processes as $index => $process) {
+            if (!$process->hasStarted()) {
                 return false;
             }
 
-            if ($pid->isRunning() && !$this->outputs[$index]->exists()) {
+            if ($process->isRunning() && !$this->outputs[$index]->exists()) {
                 return false;
             }
         }
@@ -112,12 +131,16 @@ class CliMulti {
      */
     private function supportsAsync()
     {
+        if (is_bool($this->supportsAsync)) {
+            return $this->supportsAsync;
+        }
+
         return !SettingsServer::isWindows();
     }
 
     private function cleanup()
     {
-        foreach ($this->pids as $pid) {
+        foreach ($this->processes as $pid) {
             $pid->finishProcess();
         }
 
@@ -125,8 +148,8 @@ class CliMulti {
             $output->destroy();
         }
 
-        $this->pids    = array();
-        $this->outputs = array();
+        $this->processes = array();
+        $this->outputs   = array();
     }
 
 }

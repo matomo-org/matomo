@@ -137,6 +137,15 @@ class Core_CliMultiTest extends IntegrationTestCase
         $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard'));
     }
 
+    public function test_shouldFallback_IfAsyncIsNotSupported()
+    {
+        $this->cliMulti->supportsAsync = false;
+
+        $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
+
+        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+    }
+
     private function assertRequestReturnsValidResponses($urls, $expectedResponseIds)
     {
         $actualResponse = $this->cliMulti->request($urls);

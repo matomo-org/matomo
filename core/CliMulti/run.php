@@ -43,8 +43,8 @@ require_once PIWIK_INCLUDE_PATH . "/index.php";
 $content = ob_get_contents();
 ob_clean();
 
-if (!empty($_GET['output']) && \Piwik\Filesystem::isValidFilename($_GET['output'])) {
-    $cliMulti = new \Piwik\CliMulti\Output($_GET['output']);
+if (!empty($_GET['outputId']) && \Piwik\Filesystem::isValidFilename($_GET['outputId'])) {
+    $cliMulti = new \Piwik\CliMulti\Output($_GET['outputId']);
     $cliMulti->write($content);
 } else {
     echo $content;
