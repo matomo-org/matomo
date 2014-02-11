@@ -43,6 +43,14 @@ class OutputTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->output->exists());
     }
 
+    public function test_getPathToFile_shouldReturnFullPath()
+    {
+        $expectedEnd = '/tmp/climulti/myid.output';
+
+        $this->assertStringEndsWith($expectedEnd, $this->output->getPathToFile());
+        $this->assertGreaterThan(strlen($expectedEnd), strlen($this->output->getPathToFile()));
+    }
+
     public function test_exists_ShouldReturnTrue_IfSomethingIsWritten()
     {
         $this->output->write('test');

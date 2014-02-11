@@ -52,9 +52,11 @@ class Process
         $this->writePidFileContent('');
     }
 
-    public function hasStarted()
+    public function hasStarted($content = null)
     {
-        $content = $this->getPidFileContent();
+        if (is_null($content)) {
+            $content = $this->getPidFileContent();
+        }
 
         if (!$this->doesPidFileExist($content)) {
             // process is finished, this means there was a start before
@@ -99,7 +101,7 @@ class Process
             return true;
         }
 
-        if ($this->hasStarted()) {
+        if ($this->hasStarted($content)) {
             $this->finishProcess();
         }
 
@@ -118,15 +120,14 @@ class Process
 
     private function isProcessStillRunning($content)
     {
-        $lockedPID = trim($content);
-
         if (!$this->isSupported) {
             return true;
         }
 
+        $lockedPID   = trim($content);
         $runningPIDs = explode("\n", trim( `ps -e | awk '{print $1}'` ));
 
-        return in_array($lockedPID, $runningPIDs);
+        return !empty($lockedPID) && in_array($lockedPID, $runningPIDs);
     }
 
     private function getPidFileContent()

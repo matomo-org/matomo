@@ -54,7 +54,7 @@ class CliMulti {
 
         do {
             usleep(100000); // 100 * 1000 = 100ms
-        } while (!$this->isFinished());
+        } while (!$this->hasFinished());
 
         $results = $this->getResponse($piwikUrls);
         $this->cleanup();
@@ -90,33 +90,12 @@ class CliMulti {
         }
     }
 
-    private function getQueryFromUrl($aUrl, array $additionalParams)
-    {
-        $url   = @parse_url($aUrl);
-        $query = '';
-
-        if (!empty($url['query'])) {
-            $query .= $url['query'];
-        }
-
-        if (!empty($additionalParams)) {
-            if (!empty($query)) {
-                $query .= '&';
-            }
-
-            $query .= http_build_query($additionalParams);
-        }
-
-        return $query;
-    }
-
     private function buildCommand($query, $outputFile)
     {
-        $appendix = $this->supportsAsync ? ' > ' . $outputFile . ' 2>&1 &' : '';
-        $bin      = $this->getPhpBinary();
+        $bin = $this->findPhpBinary();
 
-        return sprintf('%s %s/console climulti:request %s %s',
-                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($query), $appendix);
+        return sprintf('%s %s/console climulti:request %s > %s 2>&1 &',
+                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($query), $outputFile);
     }
 
     private function getResponse()
@@ -130,7 +109,7 @@ class CliMulti {
         return $response;
     }
 
-    private function isFinished()
+    private function hasFinished()
     {
         foreach ($this->processes as $index => $process) {
             $hasStarted = $process->hasStarted();
@@ -160,7 +139,7 @@ class CliMulti {
 
     private function generateCommandId($command)
     {
-        return md5($command . microtime(true) . rand(0, 99999));
+        return substr(Common::hash($command . microtime(true) . rand(0, 99999)), 0, 100);
     }
 
     /**
@@ -169,7 +148,7 @@ class CliMulti {
      */
     private function supportsAsync()
     {
-        return !SettingsServer::isWindows() && Process::isSupported() && $this->getPhpBinary();
+        return !SettingsServer::isWindows() && Process::isSupported() && $this->findPhpBinary();
     }
 
     private function cleanup()
@@ -203,7 +182,7 @@ class CliMulti {
         }
     }
 
-    private function getPhpBinary()
+    private function findPhpBinary()
     {
         if (defined('PHP_BINARY')) {
             return PHP_BINARY;
@@ -224,7 +203,7 @@ class CliMulti {
     {
         $this->processes[] = new Process($cmdId);
 
-        $query   = $this->getQueryFromUrl($url, array('pid' => $cmdId));
+        $query   = Url::getQueryFromUrl($url, array('pid' => $cmdId));
         $command = $this->buildCommand($query, $output->getPathToFile());
 
         shell_exec($command);
