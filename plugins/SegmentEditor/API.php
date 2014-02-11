@@ -272,6 +272,11 @@ class API extends \Piwik\Plugin\API
         } else {
             Piwik::checkUserHasSomeViewAccess();
         }
+
+        if($returnOnlyAutoArchived) {
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
         $bind = array();
 
         // Build basic segment filtering

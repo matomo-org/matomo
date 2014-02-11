@@ -316,8 +316,6 @@ class Segment
                 // first table
                 $sql .= $tableSql;
             } else {
-                $join = "";
-
                 if ($actionsAvailable && $table == "log_conversion") {
                     // have actions, need conversions => join on idlink_va
                     $join = "log_conversion.idlink_va = log_link_visit_action.idlink_va "
@@ -349,7 +347,7 @@ class Segment
                 } elseif ($conversionItemAvailable && $table === 'log_link_visit_action') {
                     $join = "log_conversion_item.idvisit = log_link_visit_action.idvisit";
                 } else {
-                    throw new Exception("Table '$table', can't be joined for segmentation");
+                    throw new Exception("Table '$table' can't be joined for segmentation");
                 }
 
                 // the join sql the default way

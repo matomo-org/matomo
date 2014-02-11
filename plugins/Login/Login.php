@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Login;
 use Exception;
 use Piwik\Config;
 use Piwik\Cookie;
+use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -42,8 +43,7 @@ class Login extends \Piwik\Plugin
     {
         $exceptionMessage = $exception->getMessage();
 
-        $controller = new Controller();
-        echo $controller->login($exceptionMessage, '' /* $exception->getTraceAsString() */);
+        echo FrontController::getInstance()->dispatch('Login', 'login', array($exceptionMessage));
     }
 
     /**
