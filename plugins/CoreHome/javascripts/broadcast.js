@@ -401,7 +401,7 @@ var broadcast = {
 
         piwikHelper.hideAjaxError('loadingError');
         piwikHelper.showAjaxLoading();
-        $('#content').hide();
+        $('#content').empty();
         $("object").remove();
 
         urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
