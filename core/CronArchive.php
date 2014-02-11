@@ -559,6 +559,7 @@ Notes:
         }
 
         $cliMulti = new CliMulti();
+        $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {

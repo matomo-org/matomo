@@ -362,6 +362,7 @@ class Http
         } else if ($method == 'cli') {
 
             $cliMulti  = new CliMulti();
+            $cliMulti->setAcceptInvalidSSLCertificate($acceptInvalidSslCertificate);
             $responses = $cliMulti->request(array($aUrl));
 
             $response = !empty($responses) ? array_shift($responses) : null;

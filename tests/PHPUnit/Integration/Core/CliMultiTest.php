@@ -7,6 +7,8 @@
  */
 
 use \Piwik\Version;
+use \Piwik\Common;
+use \Piwik\Url;
 
 /**
  * Class Core_CliMultiTest
@@ -43,8 +45,8 @@ class Core_CliMultiTest extends IntegrationTestCase
         $this->authToken = Test_Piwik_BaseFixture::getTokenAuth();
 
         $this->urls = array(
-            'getAnswerToLife' => $this->completeUrl('/?module=API&method=ExampleAPI.getAnswerToLife&format=JSON'),
-            'getPiwikVersion' => $this->completeUrl('/?module=API&method=API.getPiwikVersion&format=JSON'),
+            'getAnswerToLife' => $this->completeUrl('?module=API&method=ExampleAPI.getAnswerToLife&format=JSON'),
+            'getPiwikVersion' => $this->completeUrl('?module=API&method=API.getPiwikVersion&format=JSON'),
         );
 
         $this->responses = array(
@@ -76,12 +78,9 @@ class Core_CliMultiTest extends IntegrationTestCase
         $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife'));
     }
 
-    public function test_request_shouldIgnoreHost_IfGiven()
+    public function test_request_shouldRunAsync()
     {
-        $urls     = $this->buildUrls('getAnswerToLife');
-        $urls[0]  = 'http://localhost' . $urls[0];
-
-        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife'));
+        $this->assertTrue($this->cliMulti->supportsAsync);
     }
 
     public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven()
@@ -116,13 +115,13 @@ class Core_CliMultiTest extends IntegrationTestCase
      */
     public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
     {
-        $response = $this->cliMulti->request(array($this->completeUrl('/')));
+        $response = $this->cliMulti->request(array($this->completeUrl('')));
 
-        $this->assertEquals(array(null), $response);
+        $this->assertStringStartsWith('Error: no website was found', $response[0]);
 
         $response = $this->cliMulti->request(array('/'));
 
-        $this->assertEquals(array(null), $response);
+        $this->assertStringStartsWith('<!DOCTYPE html>', $response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
@@ -172,15 +171,17 @@ class Core_CliMultiTest extends IntegrationTestCase
         return $urls;
     }
 
-    private function completeUrl($url)
+    private function completeUrl($query)
     {
-        if (false === strpos($url, '?')) {
-            $url .= '?';
+        $host = Test_Piwik_BaseFixture::getRootUrl();
+
+        if (false === strpos($query, '?')) {
+            $query .= '?';
         } else {
-            $url .= '&';
+            $query .= '&';
         }
 
-        return $url . 'testmode=1&token_auth=' . $this->authToken;
+        return $host . 'tests/PHPUnit/proxy/index.php' . $query . 'testmode=1&token_auth=' . $this->authToken;
     }
 
     private function getNumberOfFilesInTmpFolder()

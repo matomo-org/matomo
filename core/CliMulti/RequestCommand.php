@@ -48,21 +48,9 @@ class RequestCommand extends ConsoleCommand
             $process->startProcess();
         }
 
-        ob_start();
-
         Common::$isCliMode = false;
 
         require_once PIWIK_INCLUDE_PATH . "/index.php";
-
-        $content = ob_get_contents();
-        ob_clean();
-
-        if (!empty($_GET['outputId'])) {
-            $cliMulti = new Output($_GET['outputId']);
-            $cliMulti->write($content);
-        } else {
-            echo $content;
-        }
 
         if (!empty($process)) {
             $process->finishProcess();

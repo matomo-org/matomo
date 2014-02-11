@@ -29,6 +29,11 @@ class Output {
         file_put_contents($this->tmpFile, $content);
     }
 
+    public function getPathToFile()
+    {
+        return $this->tmpFile;
+    }
+
     public function exists()
     {
         return file_exists($this->tmpFile);

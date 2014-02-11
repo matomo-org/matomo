@@ -10,6 +10,9 @@ namespace Piwik;
 use Piwik\CliMulti\Process;
 use Piwik\CliMulti\Output;
 
+/**
+ * Class CliMulti.
+ */
 class CliMulti {
 
     /**
@@ -29,12 +32,19 @@ class CliMulti {
      */
     private $outputs = array();
 
+    private $acceptInvalidSSLCertificate = false;
+
+    public function __construct()
+    {
+        $this->supportsAsync = $this->supportsAsync();
+    }
+
     /**
      * It will request all given URLs in parallel (async) using the CLI and wait until all requests are finished.
-     *
+     * If multi cli is not supported (eg windows) it will initiate an HTTP request instead (not async).
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
-     *                               array('/index.php?module=API', '/?module=API', 'http://www.example.com?module=API')
+     *                               array('http://www.example.com/piwik?module=API...')
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
      *               there was a problem with a request, for instance if the process died unexpected.
      */
@@ -44,7 +54,7 @@ class CliMulti {
 
         do {
             usleep(100000); // 100 * 1000 = 100ms
-        } while (!$this->isFinished());
+        } while ($this->supportsAsync && !$this->isFinished());
 
         $results = $this->getResponse($piwikUrls);
         $this->cleanup();
@@ -52,24 +62,34 @@ class CliMulti {
         return $results;
     }
 
+    /**
+     * Ok, this sounds weird. Why should we care about ssl certificates when we are in CLI mode? It is needed for
+     * our simple fallback mode for Windows where we initiate HTTP requests instead of CLI.
+     * @param $acceptInvalidSSLCertificate
+     */
+    public function setAcceptInvalidSSLCertificate($acceptInvalidSSLCertificate)
+    {
+        $this->acceptInvalidSSLCertificate = $acceptInvalidSSLCertificate;
+    }
+
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
-            $cmdId    = $this->generateCommandId($url);
-            $pid      = $cmdId . $index . '_cli_multi_pid';
-            $outputId = $cmdId . $index . '_cli_multi_output';
+            $cmdId  = $this->generateCommandId($url) . $index;
+            $output = new Output($cmdId);
 
-            $this->processes[] = new Process($pid);
-            $this->outputs[]   = new Output($outputId);
+            if ($this->supportsAsync) {
+                $this->processes[] = new Process($cmdId);
 
-            $query   = $this->getQueryFromUrl($url, array('outputId' => $outputId, 'pid' => $pid));
-            $command = $this->buildCommand($query);
-
-            shell_exec($command);
-
-            if (!$this->supportsAsync()) {
-                end($this->processes)->finishProcess();
+                $query   = $this->getQueryFromUrl($url, array('pid' => $cmdId));
+                $command = $this->buildCommand($query, $output->getPathToFile());
+                shell_exec($command);
+            } else {
+                $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
+                $output->write($response);
             }
+
+            $this->outputs[] = $output;
         }
     }
 
@@ -93,9 +113,9 @@ class CliMulti {
         return $query;
     }
 
-    private function buildCommand($query)
+    private function buildCommand($query, $outputFile)
     {
-        $appendix = $this->supportsAsync() ? ' > /dev/null 2>&1 &' : '';
+        $appendix = $this->supportsAsync ? ' > ' . $outputFile . ' 2>&1 &' : '';
 
         return PIWIK_INCLUDE_PATH . '/console climulti:request ' . escapeshellarg($query) . $appendix;
     }
@@ -113,7 +133,7 @@ class CliMulti {
 
     private function isFinished()
     {
-        foreach ($this->processes as $index => $process) {
+        foreach ($this->processes as $process) {
             $hasStarted = $process->hasStarted();
 
             if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
@@ -126,7 +146,7 @@ class CliMulti {
                 return false;
             }
 
-            if ($process->isRunning() && !$this->outputs[$index]->exists()) {
+            if ($process->isRunning()) {
                 return false;
             }
         }
@@ -145,10 +165,6 @@ class CliMulti {
      */
     private function supportsAsync()
     {
-        if (is_bool($this->supportsAsync)) {
-            return $this->supportsAsync;
-        }
-
         return !SettingsServer::isWindows() && Process::isSupported();
     }
 
@@ -166,4 +182,14 @@ class CliMulti {
         $this->outputs   = array();
     }
 
+    public static function cleanupAllNotRemovedFiles()
+    {
+        foreach (_glob(PIWIK_INCLUDE_PATH . '/tmp/climulti/*') as $file) {
+            $timeLastModified = filemtime($file);
+
+            if (time() - $timeLastModified > 1000) {
+                unlink($file);
+            }
+        }
+    }
 }

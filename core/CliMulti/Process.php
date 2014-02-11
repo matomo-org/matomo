@@ -23,6 +23,7 @@ class Process
 {
     private $pidFile = '';
     private $timeCreation = null;
+    private $isSupported = null;
 
     public function __construct($pid)
     {
@@ -33,6 +34,7 @@ class Process
         $pidDir = PIWIK_INCLUDE_PATH . '/tmp/climulti';
         Filesystem::mkdir($pidDir, true);
 
+        $this->isSupported  = self::isSupported();
         $this->pidFile      = $pidDir . '/' . $pid . '.pid';
         $this->timeCreation = time();
 
@@ -118,7 +120,7 @@ class Process
     {
         $lockedPID = trim($content);
 
-        if (!self::isSupported()) {
+        if (!$this->isSupported) {
             return true;
         }
 
