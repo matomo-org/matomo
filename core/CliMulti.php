@@ -55,17 +55,17 @@ class CliMulti {
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
-            $cmdId    = $this->generateCmdId($url);
+            $cmdId    = $this->generateCommandId($url);
             $pid      = $cmdId . $index . '_cli_multi_pid';
             $outputId = $cmdId . $index . '_cli_multi_output';
 
             $this->processes[] = new Process($pid);
             $this->outputs[]   = new Output($outputId);
 
-            $command  = $this->buildCommand($url, array('outputId' => $outputId, 'pid' => $pid));
-            $appendix = $this->supportsAsync() ? ' > /dev/null 2>&1 &' : '';
+            $query   = $this->getQueryFromUrl($url, array('outputId' => $outputId, 'pid' => $pid));
+            $command = $this->buildCommand($query);
 
-            shell_exec($command . $appendix);
+            shell_exec($command);
 
             if (!$this->supportsAsync()) {
                 end($this->processes)->finishProcess();
@@ -73,7 +73,7 @@ class CliMulti {
         }
     }
 
-    private function buildCommand($aUrl, $additionalParams = array())
+    private function getQueryFromUrl($aUrl, array $additionalParams)
     {
         $url   = @parse_url($aUrl);
         $query = '';
@@ -86,12 +86,18 @@ class CliMulti {
             if (!empty($query)) {
                 $query .= '&';
             }
+
             $query .= http_build_query($additionalParams);
         }
 
-        $command = PIWIK_INCLUDE_PATH . '/console climulti:request ' . escapeshellarg($query);
+        return $query;
+    }
 
-        return $command;
+    private function buildCommand($query)
+    {
+        $appendix = $this->supportsAsync() ? ' > /dev/null 2>&1 &' : '';
+
+        return PIWIK_INCLUDE_PATH . '/console climulti:request ' . escapeshellarg($query) . $appendix;
     }
 
     private function getResponse()
@@ -120,7 +126,7 @@ class CliMulti {
         return true;
     }
 
-    private function generateCmdId($command)
+    private function generateCommandId($command)
     {
         return md5($command . microtime(true) . rand(0, 99999));
     }

@@ -21,7 +21,7 @@ class Process
             throw new \Exception('The given pid has an invalid format');
         }
 
-        $pidDir = PIWIK_INCLUDE_PATH . '/tmp/pids';
+        $pidDir = PIWIK_INCLUDE_PATH . '/tmp/climulti';
         Filesystem::mkdir($pidDir, true);
 
         $this->pidFile = $pidDir . '/' . $pid . '.pid';
@@ -88,7 +88,7 @@ class Process
 
     private function isProcessStillRunning()
     {
-        if (SettingsServer::isWindows()) {
+        if (!self::isSupported()) {
             return true;
         }
 

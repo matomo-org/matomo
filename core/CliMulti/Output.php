@@ -19,7 +19,9 @@ class Output {
             throw new \Exception('The given output id has an invalid format');
         }
 
-        $this->tmpFile = PIWIK_INCLUDE_PATH . '/tmp/' . $outputId;
+        $dir = PIWIK_INCLUDE_PATH . '/tmp/climulti/';
+        Filesystem::mkdir($dir, true);
+        $this->tmpFile = $dir . $outputId . '.output';
     }
 
     public function write($content)
