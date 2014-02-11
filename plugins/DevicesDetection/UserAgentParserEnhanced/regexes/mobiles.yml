@@ -76,14 +76,13 @@ CnM:
   regex: 'CnM'
   device: 'tablet'
   models:
-    - regex: 'CnM[ \-](?:Touchpad|TP)[ \-]([0-9]+)'
+    - regex: 'CnM[ \-](?:Touchpad|TP)[ \-]([0-9\.]+)'
       model: 'Touchpad $1'
 
 # RIM/BlackBerry
 RIM:
   regex: 'BB10;|BlackBerry|rim[0-9]+|PlayBook'
   device: 'smartphone'
-   
   models:
     - regex: 'BB10; ([a-z0-9\- ]+)\)'
       model: 'BlackBerry $1'
@@ -134,7 +133,7 @@ HP:
 
 # TiPhone
 TiPhone:
-  regex: 'TiPhone(?: )?([a-z0-9]+)'
+  regex: 'TiPhone ?([a-z0-9]+)'
   device: 'smartphone'
   model: '$1'
 
@@ -157,9 +156,14 @@ Apple:
 
 # Acer
 Acer:
-  regex: 'acer[\-_]([a-z0-9]+)'
+  regex: 'acer[\-_]([a-z0-9]+)|a(101|110|200|210|211|500|501|510|511|700|701) Build'
   device: 'smartphone'
-  model: '$1'
+  models:
+    - regex: 'acer[\-_]([a-z0-9]+)'
+      model: '$1'
+    - regex: 'a(101|110|200|210|211|500|501|510|511|700|701) Build'
+      model: 'Icona Tab A$1'
+      device: 'tablet'
    
 # Airness
 Airness:
