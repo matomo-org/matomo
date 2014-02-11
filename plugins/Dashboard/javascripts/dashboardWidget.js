@@ -32,7 +32,8 @@
             isHidden: false,
             onChange: null,
             widgetParameters: {},
-            title: null
+            title: null,
+            onRemove: null
         },
 
         /**
@@ -229,8 +230,12 @@
             $('.button#close', widgetElement)
                 .on('click.dashboardWidget', function (ev) {
                     piwikHelper.modalConfirm('#confirm', {yes: function () {
-                        self.element.remove();
-                        self.options.onChange();
+                        if (self.options.onRemove) {
+                            self.options.onRemove(self.element);
+                        } else {
+                            self.element.remove();
+                            self.options.onChange();
+                        }
                     }});
                 });
 
