@@ -107,4 +107,24 @@ class Process
     {
         file_put_contents($this->pidFile, $content);
     }
+
+    public static function isSupported()
+    {
+        if (SettingsServer::isWindows()) {
+            return false;
+        }
+
+        if (static::commandExists('ps') && self::commandExists('awk')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static function commandExists($command)
+    {
+        $result = shell_exec('which ' . escapeshellarg($command));
+
+        return !empty($result);
+    }
 }

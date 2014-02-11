@@ -78,4 +78,9 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->process->isRunning());
         $this->assertTrue($this->process->hasStarted());
     }
+
+    public function test_isSupported()
+    {
+        $this->assertTrue(Process::isSupported(), 'This test does not work on windows or if the commands ps and awk are not available');
+    }
 }

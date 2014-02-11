@@ -135,7 +135,7 @@ class CliMulti {
             return $this->supportsAsync;
         }
 
-        return !SettingsServer::isWindows();
+        return !SettingsServer::isWindows() && Process::isSupported();
     }
 
     private function cleanup()
