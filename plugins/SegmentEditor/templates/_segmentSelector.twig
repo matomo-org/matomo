@@ -2,23 +2,25 @@
     <div class="segmentationContainer listHtml">
         <span class="segmentationTitle"></span>
 
-        <ul class="submenu">
-            <li>{{ 'SegmentEditor_SelectSegmentOfVisitors'|translate }}
-                <div class="segmentList">
-                    <ul>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-        {% if authorizedToCreateSegments %}
-            <a class="add_new_segment">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
-        {% else %}
+        <div class="dropdown-body">
             <ul class="submenu">
-            <li> <span class='youMustBeLoggedIn'>{{ 'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate }}
-                <br/>&rsaquo; <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a> </span>
-            </li>
+                <li>{{ 'SegmentEditor_SelectSegmentOfVisitors'|translate }}
+                    <div class="segmentList">
+                        <ul>
+                        </ul>
+                    </div>
+                </li>
             </ul>
-        {% endif %}
+            {% if authorizedToCreateSegments %}
+                <a class="add_new_segment">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
+            {% else %}
+                <ul class="submenu">
+                <li> <span class='youMustBeLoggedIn'>{{ 'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate }}
+                    <br/>&rsaquo; <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a> </span>
+                </li>
+                </ul>
+            {% endif %}
+        </div>
     </div>
 
     <div class="initial-state-rows">{# no space here important for jquery #}<div class="segment-add-row initial"><div>

@@ -279,7 +279,7 @@ Segmentation = (function($) {
 
         var closeAllOpenLists = function() {
             $(".segmentationContainer", self.target).each(function() {
-                if($(this).hasClass("visible"))
+                if($(this).closest('.segmentEditorPanel').hasClass("visible"))
                     $(this).trigger("click");
             });
         };
@@ -366,20 +366,20 @@ Segmentation = (function($) {
         var bindListEvents = function(){
             $(self.content).off("click").on("click", function(event){
                 // hide all other modals connected with this widget
-                if(self.content.hasClass("visible")){
+                if(self.content.closest('.segmentEditorPanel').hasClass("visible")){
                     if($(event.target).hasClass("jspDrag") === true)
                     {
                         event.stopPropagation();
                     }
                     else{
                         self.jscroll.destroy();
-                        self.content.removeClass("visible");
+                        self.target.closest('.segmentEditorPanel').removeClass('visible');
                     }
                 }
                 else{
                     // for each visible segmentationContainer -> trigger click event to close and kill scrollpane - very important !
                     closeAllOpenLists();
-                    self.content.addClass("visible");
+                    self.target.closest('.segmentEditorPanel').addClass('visible');
                     doListBindings();
                 }
             });
@@ -1130,7 +1130,7 @@ $(document).ready(function() {
             }
 
             if ($(e.target).closest('.segmentListContainer').length === 0
-                && $(".segmentationContainer", self.$element).hasClass("visible")
+                && self.$element.hasClass("visible")
             ) {
                 $(".segmentationContainer", self.$element).trigger("click");
             }

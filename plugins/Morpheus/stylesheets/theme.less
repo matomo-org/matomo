@@ -275,6 +275,17 @@ table.entityTable tr td a:hover {
       right: 0;
     }
   }
+  .dropdown-body {
+    background:#fff;
+    padding:0 10px;
+    .border-radius(0px);
+    border: 1px solid @silver-80;
+    border-top-width: 0px;
+  }
+  &:hover .dropdown-body {
+    background:#fff;
+    border-color: @silver-80;
+  }
   .segmentationContainer {
     > span > strong {
       color: @brand-red;
@@ -302,18 +313,16 @@ table.entityTable tr td a:hover {
 
   .segmentListContainer {
     .segmentationContainer {
-      &.visible {
-        .submenu {
+      .submenu {
           li {
-            .font-default(13px, 16px);
-            color: #444;
-            &:hover {
+          .font-default(13px, 16px);
+          color: #444;
+          &:hover {
               border-color: @silver-80 !important;
               background: #fff !important;
               .border-radius(0px);
-            }
           }
-        }
+          }
       }
     }
   }
