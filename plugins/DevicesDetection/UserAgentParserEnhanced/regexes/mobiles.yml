@@ -15,7 +15,7 @@ HTC:
   models:
     - regex: 'NexusHD2' # custom rom for hd2
       model: 'HD2'
-    - regex: 'HTC ([a-z0-9]+) Build'
+    - regex: 'HTC (.+) Build'
       model: '$1'
     - regex: 'HTC ([a-z0-9]+(?: [a-z0-9]+)?)'
       model: '$1'
@@ -76,14 +76,13 @@ CnM:
   regex: 'CnM'
   device: 'tablet'
   models:
-    - regex: 'CnM[ \-](?:Touchpad|TP)[ \-]([0-9]+)'
+    - regex: 'CnM[ \-](?:Touchpad|TP)[ \-]([0-9\.]+)'
       model: 'Touchpad $1'
 
 # RIM/BlackBerry
 RIM:
   regex: 'BB10;|BlackBerry|rim[0-9]+|PlayBook'
   device: 'smartphone'
-   
   models:
     - regex: 'BB10; ([a-z0-9\- ]+)\)'
       model: 'BlackBerry $1'
@@ -134,7 +133,7 @@ HP:
 
 # TiPhone
 TiPhone:
-  regex: 'TiPhone(?: )?([a-z0-9]+)'
+  regex: 'TiPhone ?([a-z0-9]+)'
   device: 'smartphone'
   model: '$1'
 
@@ -157,9 +156,14 @@ Apple:
 
 # Acer
 Acer:
-  regex: 'acer[\-_]([a-z0-9]+)'
+  regex: 'acer[\-_]([a-z0-9]+)|a(101|110|200|210|211|500|501|510|511|700|701) Build'
   device: 'smartphone'
-  model: '$1'
+  models:
+    - regex: 'acer[\-_]([a-z0-9]+)'
+      model: '$1'
+    - regex: 'a(101|110|200|210|211|500|501|510|511|700|701) Build'
+      model: 'Icona Tab A$1'
+      device: 'tablet'
    
 # Airness
 Airness:
@@ -357,14 +361,16 @@ Ericy:
 
 # Sony Ericsson
 Sony Ericsson:
-  regex: 'Sony(?: )?Ericsson|portalmmm/2\.0 K|(?:LT|SO|ST)[0-9]+[a-z]*[0-9]* Build'
+  regex: 'Sony(?: )?Ericsson|portalmmm/2\.0 K|(?:LT|SO|ST|SK)[0-9]+[a-z]*[0-9]* Build|MT[0-9]{2}[a-z]? Build'
   device: 'smartphone'
   models:
     - regex: 'SonyEricsson([a-z0-9]+) Build'
       model: '$1'
     - regex: 'Sony(?: )?Ericsson ?([a-z0-9\-]+)'
       model: '$1'
-    - regex: '((?:LT|SO|ST)[0-9]+[a-z]*[0-9]*) Build'
+    - regex: '((?:LT|SO|ST|SK)[0-9]+[a-z]*[0-9]*) Build'
+      model: '$1'
+    - regex: '(MT[0-9]{2}[a-z]?) Build'
       model: '$1'
     - regex: 'portalmmm/2.0 K([a-z0-9]+)'
       model: 'K$1'
@@ -460,6 +466,8 @@ Huawei:
   models:
     - regex: 'Huawei(?:[\- /_]|/1\.0/)?([a-z0-9]+)'
       model: '$1'
+    - regex: 'Huawei; ([a-z0-9 -]+)'
+      model: '$1'
     - regex: 'vodafone([a-z0-9]+)'
       model: 'Vodafone $1'
 
@@ -495,6 +503,12 @@ i-mobile:
 iKoMo:
   regex: 'iKoMo ([a-z0-9]+)'
   device: 'feature phone'
+  model: '$1'
+
+#Jiayu
+Jiayu:
+  regex: '(JY-[a-z0-9]+) Build'
+  device: 'smartphone'
   model: '$1'
 
 # Jolla
@@ -852,7 +866,7 @@ SuperSonic:
 
 # pantech
 Pantech:
-  regex: 'Pantech|P[GN]-|PT-[a-z0-9]{3,}|TX[T]?[0-9]+'
+  regex: 'Pantech|P[GN]-|PT-[a-z0-9]{3,}|TX[T]?[0-9]+|IM-[a-z0-9]+'
   device: 'smartphone'
   models:
     - regex: 'Pantech[ \-]?([a-z0-9]+)'
@@ -863,6 +877,18 @@ Pantech:
       model: '$1'
     - regex: '(TX[T]?[0-9]+)'
       model: '$1'  
+    - regex: '(IM-[a-z0-9]+)'
+      model: '$1'
+
+#Polaroid
+Polaroid:
+  regex: 'Polaroid|(?:PMID|MIDC)[0-9a-z]+ Build'
+  device: 'tablet'
+  models:
+    - regex: '((?:PMID|MIDC)[0-9a-z]+) Build'
+      model: '$1'
+    - regex: 'Polaroid'
+      model: ''
 
 # PolyPad
 PolyPad:
@@ -1077,6 +1103,18 @@ Wonu:
   regex: 'Wonu ([a-z0-9]+)'
   device: 'feature phone'
   model: '$1'
+
+#Xiaomi
+Xiaomi:
+  regex: '(MI [a-z0-9]+|MI-One[ _]Plus) Build'
+  device: 'smartphone'
+  model: '$1'
+
+#Yuandao
+Yuandao:
+  regex: 'N101[ _]DUAL(?:[ _]CORE)?(?:[ _]?2|\|\|)?(?:[ _]V11)? Build'
+  device: 'tablet'
+  model: 'N101'
 
 # Zonda
 Zonda:

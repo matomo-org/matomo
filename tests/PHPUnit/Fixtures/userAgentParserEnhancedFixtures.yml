@@ -921,9 +921,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A510
   os_family: Android
   browser_family: Android Browser
 - 
@@ -1305,9 +1305,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A511
   os_family: Android
   browser_family: Android Browser
 - 
@@ -1433,9 +1433,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: YU
+    model: N101
   os_family: Android
   browser_family: Android Browser
 - 
@@ -1993,12 +1993,76 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: PL
+    model: MIDC410
   os_family: Android
   browser_family: Android Browser
-- 
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.3; en-sg; MIDC010PR001 Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: PL
+    model: MIDC010PR001
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; de-de; MIDC409 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: PL
+    model: MIDC409
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; it-it; MIDC801 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: PL
+    model: MIDC801
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; en-gb; PMID4311 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: PL
+    model: PMID4311
+  os_family: Android
+  browser_family: Android Browser
+-
   user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; fr-ch; GT-N7100 Build/JRO03C) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
   os:
     name: Android
@@ -2329,9 +2393,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A701
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2507,7 +2571,7 @@
   device:
     type: smartphone
     brand: HT
-    model: One X
+    model: One X+
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2571,7 +2635,7 @@
   device:
     type: smartphone
     brand: HT
-    model: One X
+    model: One X+
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2697,9 +2761,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: XI
+    model: MI 1S
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2713,12 +2777,28 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: PT
+    model: IM-A840S
   os_family: Android
   browser_family: Android Browser
-- 
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3.3; ko-kr; IM-T100K Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 NAVER(inapp; search; 200; 3.7.0)
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand: PT
+    model: IM-T100K
+  os_family: Android
+  browser_family: Android Browser
+-
   user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; zh-tw; HTC_One_S Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
   os:
     name: Android
@@ -3049,12 +3129,28 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: JI
+    model: JY-G2
   os_family: Android
   browser_family: Android Browser
-- 
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.2.1; it-it; JY-G4 Build/JOP40D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand: JI
+    model: JY-G4
+  os_family: Android
+  browser_family: Android Browser
+-
   user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; zh-cn; HTC One XL Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
   os:
     name: Android
@@ -3209,9 +3305,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: MT27i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -3785,12 +3881,28 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: SK17i
   os_family: Android
   browser_family: Android Browser
-- 
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; en-jm; SK17a Build/4.1.B.0.431) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand: SE
+    model: SK17a
+  os_family: Android
+  browser_family: Android Browser
+-
   user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; pl-pl; ST21i Build/11.0.A.0.16) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
   os:
     name: Android
@@ -3929,9 +4041,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: SK17i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -4777,9 +4889,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: SK17i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5065,9 +5177,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: MT25i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5657,9 +5769,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: PT
+    model: IM-A850L
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5673,9 +5785,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: PT
+    model: IM-A850K
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6091,7 +6203,7 @@
   device:
     type: tablet
     brand: CN
-    model: Touchpad 9
+    model: Touchpad 9.7
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6681,9 +6793,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A501
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6875,7 +6987,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7035,7 +7147,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7179,7 +7291,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7339,7 +7451,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8155,7 +8267,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8187,7 +8299,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D X515m
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8219,7 +8331,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8267,7 +8379,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8315,7 +8427,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D X515m
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8331,7 +8443,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8395,7 +8507,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D GSM
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8427,7 +8539,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8443,7 +8555,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8459,7 +8571,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8491,7 +8603,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715a
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8539,7 +8651,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8921,9 +9033,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A501
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9017,9 +9129,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A500
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9033,9 +9145,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A500
   os_family: Android
   browser_family: Android Browser
 - 
@@ -9305,9 +9417,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: AC
+    model: Icona Tab A501
   os_family: Android
   browser_family: Android Browser
 - 
@@ -10041,9 +10153,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: SE
+    model: MT27i
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11499,7 +11611,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D X515m
   os_family: Android
   browser_family: Opera
 -
@@ -14905,9 +15017,57 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: XI
+    model: MI 1S
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; fr-fr; MI 2 Build/JRO03L) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 XiaoMi/MiuiBrowser/1.0
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand: XI
+    model: MI 2
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3.5; zh-cn; MI-ONE_Plus Build/GINGERBREAD; 480*854) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1/UCWEB7.9.3.103/139/800
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: UC Browser
+    short_name: UC
+    version: 7.9
+  device:
+    type: smartphone
+    brand: XI
+    model: MI-ONE Plus
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; zh-cn; MI-ONE Plus Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) FlyFlow/2.2 Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand: XI
+    model: MI-ONE Plus
   os_family: Android
   browser_family: Android Browser
 -
@@ -15003,7 +15163,7 @@
   device:
     type: smartphone
     brand: HU
-    model:
+    model: W2-U00
   os_family: Windows Mobile
   browser_family: Internet Explorer
 -
@@ -16238,3 +16398,99 @@
     model: M636
   os_family: Unknown
   browser_family: Unknown
+-
+  user_agent: Tiphone T67/1.0 Browser/wap2.0 Sync/SyncClient1.1 Profile/MIDP-2.0 Configuration/CLDC-1.1
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: smartphone
+    brand: TH
+    model: T67
+  os_family: Unknown
+  browser_family: Unknown
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.O; windows CE; IEMobile 8.12; MSIEMobile 6.0) acer_S200
+  os:
+    name: Windows CE
+    short_name: WCE
+    version:
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 8.12
+  device:
+    type: smartphone
+    brand: AC
+    model: S200
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 8.12; MSIEMobile 6.0) Acer_P400 1.023h.00
+  os:
+    name: Windows CE
+    short_name: WCE
+    version:
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 8.12
+  device:
+    type: smartphone
+    brand: AC
+    model: P400
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; ar-eg; A210 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: AC
+    model: Icona Tab A210
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; fr-ca; A700 Build/JRO03H) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: AC
+    model: Icona Tab A700
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 3.2.1; th-th; A101 Build/HTK55D) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13
+  os:
+    name: Android
+    short_name: AND
+    version: 3.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: tablet
+    brand: AC
+    model: Icona Tab A101
+  os_family: Android
+  browser_family: Android Browser

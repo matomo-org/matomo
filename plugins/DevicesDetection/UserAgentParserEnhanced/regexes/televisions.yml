@@ -140,7 +140,7 @@ Samsung:
   models:
     - regex: '(SmartTV2013|SmartTV2012)'
       model: '$1'
-    - regex: '(2011)'
+    - regex: 'Maple_2011'
       model: 'SmartTV2011'
 
 # Selevision

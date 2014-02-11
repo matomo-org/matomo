@@ -76,6 +76,7 @@ class UserAgentParserEnhanced
         'IQ' => 'INQ',
         'IT' => 'Intek',
         'IV' => 'Inverto',
+        'JI' => 'Jiayu',
         'JO' => 'Jolla',
         'KA' => 'Karbonn',
         'KD' => 'KDDI',
@@ -113,6 +114,7 @@ class UserAgentParserEnhanced
         'PA' => 'Panasonic',
         'PE' => 'PEAQ',
         'PH' => 'Philips',
+        'PL' => 'Polaroid',
         'PM' => 'Palm',
         'PO' => 'phoneOne',
         'PT' => 'Pantech',
@@ -155,11 +157,13 @@ class UserAgentParserEnhanced
         'VS' => 'ViewSonic',
         'VT' => 'Vestel',
         'VO' => 'Voxtel',
+        'VW' => 'Videoweb',
         'WB' => 'Web TV',
         'WE' => 'WellcoM',
         'WO' => 'Wonu',
-        'VW' => 'Videoweb',
+        'XI' => 'Xiaomi',
         'XX' => 'Unknown',
+        'YU' => 'Yuandao',
         'ZO' => 'Zonda',
         'ZT' => 'ZTE',
     );
@@ -589,7 +593,7 @@ class UserAgentParserEnhanced
 
     protected function matchUserAgent($regex)
     {
-        $regex = '/(?:^|[^A-Z])(?:' . str_replace('/', '\/', $regex) . ')/i';
+        $regex = '/(?:^|[^A-Z_-])(?:' . str_replace('/', '\/', $regex) . ')/i';
 
         if (preg_match($regex, $this->userAgent, $matches)) {
             return $matches;
