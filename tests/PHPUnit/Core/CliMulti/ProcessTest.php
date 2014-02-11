@@ -52,6 +52,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->process->isRunning());
         $this->assertFalse($this->process->hasStarted());
+        $this->assertFalse($this->process->hasFinished());
 
         $this->process->startProcess();
 
@@ -59,16 +60,19 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->process->hasStarted());
         $this->assertTrue($this->process->isRunning());
         $this->assertTrue($this->process->hasStarted());
+        $this->assertFalse($this->process->hasFinished());
 
         $this->process->startProcess();
 
         $this->assertTrue($this->process->isRunning());
         $this->assertTrue($this->process->hasStarted());
+        $this->assertFalse($this->process->hasFinished());
 
         $this->process->finishProcess();
 
         $this->assertFalse($this->process->isRunning());
         $this->assertTrue($this->process->hasStarted());
+        $this->assertTrue($this->process->hasFinished());
     }
 
     public function test_finishProcess_ShouldNotThrowError_IfNotStartedBefore()
@@ -77,6 +81,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->process->isRunning());
         $this->assertTrue($this->process->hasStarted());
+        $this->assertTrue($this->process->hasFinished());
     }
 
     public function test_isSupported()

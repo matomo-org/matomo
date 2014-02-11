@@ -11,6 +11,14 @@ namespace Piwik\CliMulti;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
+/**
+ * There are three different states
+ * - PID file exists with empty content: Process is created but not started
+ * - PID file exists with the actual process PID as content: Process is runnning
+ * - PID file does not exist: Process is marked as finished
+ *
+ * Class Process
+ */
 class Process
 {
     private $pidFile = '';
@@ -58,6 +66,13 @@ class Process
 
         // process is probably running or pid file was not removed
         return true;
+    }
+
+    public function hasFinished()
+    {
+        $content = $this->getPidFileContent();
+
+        return !$this->doesPidFileExist($content);
     }
 
     public function getSecondsSinceCreation()

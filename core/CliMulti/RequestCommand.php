@@ -39,8 +39,13 @@ class RequestCommand extends ConsoleCommand
         }
 
         if (!empty($_GET['pid'])) {
-            $pid = new Process($_GET['pid']);
-            $pid->startProcess();
+            $process = new Process($_GET['pid']);
+
+            if ($process->hasFinished()) {
+                return;
+            }
+
+            $process->startProcess();
         }
 
         ob_start();
@@ -59,8 +64,8 @@ class RequestCommand extends ConsoleCommand
             echo $content;
         }
 
-        if (!empty($pid)) {
-            $pid->finishProcess();
+        if (!empty($process)) {
+            $process->finishProcess();
         }
     }
 
