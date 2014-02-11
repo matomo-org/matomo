@@ -53,23 +53,29 @@ class SegmentSelectorControl extends UIControl
 
         $this->segmentsByCategory   = $segmentsByCategory;
         $this->nameOfCurrentSegment = '';
-        $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled'] = 0;
+        $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = 0;
 
-        $savedSegments = API::getInstance()->getAll($this->idSite);
-        foreach ($savedSegments as &$savedSegment) {
+        $this->availableSegments = API::getInstance()->getAll($this->idSite);
+        foreach ($this->availableSegments as &$savedSegment) {
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
 
             if (!empty($this->selectedSegment) && $this->selectedSegment == $savedSegment['definition']) {
                 $this->nameOfCurrentSegment = $savedSegment['name'];
-                $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled']
-                    = $this->wouldApplySegment($savedSegment) ? 0 : 1;
+                $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled =
+                    $this->wouldApplySegment($savedSegment) ? 0 : 1;
             }
         }
 
-        $this->clientSideProperties['availableSegments'] = $savedSegments;
-        $this->clientSideProperties['segmentTranslations'] = $this->getTranslations();
-
         $this->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
+        $this->segmentTranslations = $this->getTranslations();
+    }
+
+    public function getClientSideProperties()
+    {
+        return array('availableSegments',
+                     'segmentTranslations',
+                     'isSegmentNotAppliedBecauseBrowserArchivingIsDisabled',
+                     'selectedSegment');
     }
 
     private function wouldApplySegment($savedSegment)

@@ -1,6 +1,6 @@
 <div class="{{ cssIdentifier }} {{ cssClass }}"
      data-props="{{ clientSideProperties|json_encode }}"
      data-params="{{ clientSideParameters|json_encode }}">
-     {% render implView %}
+     {% render implView with implOverride %}
 </div>
 <script>$(document).ready(function () { require('piwik/UI').{{ jsClass }}.initElements(); });</script>
