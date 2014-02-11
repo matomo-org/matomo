@@ -113,6 +113,7 @@ class UserAgentParserEnhanced
         'PA' => 'Panasonic',
         'PE' => 'PEAQ',
         'PH' => 'Philips',
+        'PL' => 'Polaroid',
         'PM' => 'Palm',
         'PO' => 'phoneOne',
         'PT' => 'Pantech',
