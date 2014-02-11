@@ -197,11 +197,6 @@ hash_algorithm = whirlpool
 ; For clusters, use dbtable.
 session_save_handler = files
 
-; by default, Piwik uses relative URLs, so you can login using http:// or https://
-; (the latter assumes you have a valid SSL certificate).
-; If set to 1, Piwik redirects the login form to use a secure connection (i.e., https).
-force_ssl_login = 0
-
 ; If set to 1, Piwik will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Piwik
 ; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0 

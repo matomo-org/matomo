@@ -54,7 +54,7 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function getKnownSegmentsToArchiveAllSites(&$segments)
     {
-        $segmentsToAutoArchive = API::getInstance()->getAll($idSite = false, $returnAutoArchived = true);
+        $segmentsToAutoArchive = API::getInstance()->getAll($idSite = false, $returnOnlyAutoArchived = true);
         foreach ($segmentsToAutoArchive as $segment) {
             $segments[] = $segment['definition'];
         }
@@ -62,7 +62,7 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function getKnownSegmentsToArchiveForSite(&$segments, $idSite)
     {
-        $segmentToAutoArchive = API::getInstance()->getAll($idSite, $returnAutoArchived = true);
+        $segmentToAutoArchive = API::getInstance()->getAll($idSite, $returnOnlyAutoArchived = true);
 
         foreach ($segmentToAutoArchive as $segmentInfo) {
             $segments[] = $segmentInfo['definition'];

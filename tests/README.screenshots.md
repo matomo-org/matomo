@@ -1,9 +1,35 @@
 # Screenshots UI tests
 
 Piwik contains UI tests that work by taking a screenshot of a URL and comparing it with
-an expected screenshot. If the screenshots do not match, there is a bug somewhere. 
+an expected screenshot. If any screenshots do not match, the build will fail.
+These screenshots are taken after each commit to our git repository.
+This powerful tool, which we call continuous User Interface tests, enables Piwik to remain stable and innovate faster.
+ Learn more below!
 
-## Requirements 
+## Using screenshots tests
+
+As a Piwik developer, you may make changes to Piwik User interface.
+When you change some CSS or visuals, it may make the Travis UI Test go from green to red.
+We have tried to make fixing the build easy, please read below how to fix the screenshot build:
+
+**As a Piwik developer, how do I fix UI tests build?**
+
+ * If the piwik-ui-tests travis build has failed, go to travis: [https://travis-ci.org/piwik/piwik-ui-tests](https://travis-ci.org/piwik/piwik-ui-tests)
+ * Click on the latest failed build.
+ * In the output for this build, you will find a message such as:
+     http://builds-artifacts.piwik.org/ui-tests.master/1617.1/screenshot-diffs/diffviewer.html
+ * Visit this URL. It lists all screenshots which have changed in your commit.
+ * Check that the changes are desired. Sometimes we introduce regression without realising, and screenshot tests can help us spot such regressions.
+     * If the change is not wanted, revert or fix your commit.
+     * If the change is wanted, then you can set the new screenshots as the expected screenshot.
+       To do so, in the diffviewer.html page click on the "Processed" link for this screenshot.
+       Then "Save this file as" and save it in the piwik/tests/PHPUnit/UI/expected-ui-screenshots/ directory.
+ * Push the changes (to your code and/or to the expected-ui-screenshots directory.
+ * Wait for next UI Tests build [on travis](https://travis-ci.org/piwik/piwik-ui-tests). Hopefully, the build should be green!
+
+
+## Setup screenshots tests on your dev box
+
 These tests are in another repository but are included in Piwik as a submodule. To get the tests, run the following commands:
 
     $ git submodule init

@@ -1,0 +1,27 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Browser-versioner",
+        "CarBrowser": "Bil browser",
+        "Console": "Konsol",
+        "dataTableLabelBrands": "Mærke",
+        "dataTableLabelBrowserFamily": "Browser familie",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Operativsystem-version",
+        "dataTableLabelTypes": "Type",
+        "Device": "Enhed",
+        "DeviceBrand": "Enhedsmærke",
+        "DeviceDetection": "Detektering af enheder",
+        "DeviceModel": "Enhedsmodel",
+        "DevicesDetection": "Besøgendes enheder",
+        "DeviceType": "Enhedstypen",
+        "FeaturePhone": "Telefonfunktioner",
+        "OperatingSystemFamilies": "Operativsystem familier",
+        "OperatingSystemVersions": "Operativsystem-versioner",
+        "SmartDisplay": "Smart skærm",
+        "Smartphone": "Smartphone",
+        "submenu": "Enheder",
+        "Tablet": "Tablet",
+        "TV": "TV",
+        "UserAgent": "Brugeragent"
+    }
+}

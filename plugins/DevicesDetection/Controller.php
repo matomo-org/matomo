@@ -116,11 +116,80 @@ class Controller extends \Piwik\Plugin\Controller
         $view->os_family           = $parsedUA['os_family'];
         $view->os_family_logo      = getOsFamilyLogoExtended($parsedUA['os_family']);
         $view->os_version          = $parsedUA['os']['version'];
-        $view->device_type         = $parsedUA['device']['type'];
-        $view->device_type_logo    = getDeviceTypeLogo(ucfirst($view->device_type));
+        $view->device_type         = getDeviceTypeLabel($parsedUA['device']['type']);
+        $view->device_type_logo    = getDeviceTypeLogo($parsedUA['device']['type']);
         $view->device_model        = $parsedUA['device']['model'];
         $view->device_brand        = getDeviceBrandLabel($parsedUA['device']['brand']);
         $view->device_brand_logo   = getBrandLogo($view->device_brand);
+
+        return $view->render();
+    }
+
+    public function showList()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $view = new View('@DevicesDetection/list');
+
+        $type = Common::getRequestVar('type', 'brands', 'string');
+
+        $list = array();
+
+        switch ($type) {
+            case 'brands':
+                $availableBrands = UserAgentParserEnhanced::$deviceBrands;
+
+                foreach ($availableBrands AS $short => $name) {
+                    $list[$name] = getBrandLogo($name);
+                }
+                break;
+
+            case 'browsers':
+                $availableBrowsers = UserAgentParserEnhanced::$browsers;
+
+                foreach ($availableBrowsers AS $short => $name) {
+                    $list[$name] = getBrowserLogoExtended($short);
+                }
+                break;
+
+            case 'browserfamilies':
+                $availableBrowserFamilies = UserAgentParserEnhanced::$browserFamilies;
+
+                foreach ($availableBrowserFamilies AS $name => $browsers) {
+                    $list[$name] = getBrowserFamilyLogoExtended($name);
+                }
+                break;
+
+            case 'os':
+                $availableOSs = UserAgentParserEnhanced::$osShorts;
+
+                foreach ($availableOSs AS $name => $short) {
+                    if ($name != 'Bot') {
+                        $list[$name] = getOsLogoExtended($short);
+                    }
+                }
+                break;
+
+            case 'osfamilies':
+                $osFamilies = UserAgentParserEnhanced::$osFamilies;
+
+                foreach ($osFamilies AS $name => $oss) {
+                    if ($name != 'Bot') {
+                        $list[$name] = getOsFamilyLogoExtended($name);
+                    }
+                }
+                break;
+
+            case 'devicetypes':
+                $deviceTypes = UserAgentParserEnhanced::$deviceTypes;
+
+                foreach ($deviceTypes AS $name) {
+                    $list[$name] = getDeviceTypeLogo($name);
+                }
+                break;
+        }
+
+        $view->itemList = $list;
 
         return $view->render();
     }

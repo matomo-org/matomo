@@ -36,11 +36,9 @@ function getBrowserFamilyFullNameExtended($label)
 function getBrowserFamilyLogoExtended($label)
 {
     if (array_key_exists($label, UserAgentParserEnhanced::$browserFamilies)) {
-        $path = 'plugins/UserSettings/images/browsers/' . UserAgentParserEnhanced::$browserFamilies[$label][0] . '.gif';
-    } else {
-        $path = 'plugins/UserSettings/images/browsers/UNK.gif';
+        return getBrowserLogoExtended(UserAgentParserEnhanced::$browserFamilies[$label][0]);
     }
-    return $path;
+    return getBrowserLogoExtended($label);
 }
 
 function getBrowserNameExtended($label)
@@ -54,14 +52,40 @@ function getBrowserNameExtended($label)
     }
 }
 
-function getBrowserLogoExtended($label)
+/**
+ * Returns the path to the logo for the given browser
+ *
+ * First try to find a logo for the given short code
+ * If none can be found try to find a logo for the browser family
+ * Return unkown logo otherwise
+ *
+ * @param string  $short  Shortcode or name of browser
+ *
+ * @return string  path to image
+ */
+function getBrowserLogoExtended($short)
 {
-    $short = substr($label, 0, 2);
+    $path = 'plugins/UserSettings/images/browsers/%s.gif';
 
-    $familyName = getBrowserFamilyFullNameExtended($short);
-    $path = getBrowserFamilyLogoExtended($familyName);
+    // If name is given instead of short code, try to find matching shortcode
+    if (strlen($short) > 2) {
 
-    return $path;
+        if (in_array($short, UserAgentParserEnhanced::$browsers)) {
+            $flippedBrowsers = array_flip(UserAgentParserEnhanced::$browsers);
+            $short = $flippedBrowsers[$short];
+        } else {
+            $short = substr($short, 0, 2);
+        }
+    }
+
+    $family = getBrowserFamilyFullNameExtended($short);
+
+    if (array_key_exists($short, UserAgentParserEnhanced::$browsers) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
+        return sprintf($path, $short);
+    } elseif (array_key_exists($family, UserAgentParserEnhanced::$browserFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, UserAgentParserEnhanced::$browserFamilies[$family][0]))) {
+        return sprintf($path, UserAgentParserEnhanced::$browserFamilies[$family][0]);
+    }
+    return sprintf($path, 'UNK');
 }
 
 function getDeviceBrandLabel($label)
@@ -75,8 +99,20 @@ function getDeviceBrandLabel($label)
 
 function getDeviceTypeLabel($label)
 {
-    if (isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
-        return UserAgentParserEnhanced::$deviceTypes[$label];
+    $translations = array(
+        'desktop'       => 'General_Desktop',
+        'smartphone'    => 'DevicesDetection_Smartphone',
+        'tablet'        => 'DevicesDetection_Tablet',
+        'feature phone' => 'DevicesDetection_FeaturePhone',
+        'console'       => 'DevicesDetection_Console',
+        'tv'            => 'DevicesDetection_TV',
+        'car browser'   => 'DevicesDetection_CarBbrowser',
+        'smart display' => 'DevicesDetection_SmartDisplay'
+    );
+    if (isset(UserAgentParserEnhanced::$deviceTypes[$label]) && isset($translations[UserAgentParserEnhanced::$deviceTypes[$label]])) {
+        return Piwik::translate($translations[UserAgentParserEnhanced::$deviceTypes[$label]]);
+    } else if (isset($translations[$label])) {
+        return Piwik::translate($translations[$label]);
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -84,13 +120,20 @@ function getDeviceTypeLabel($label)
 
 function getDeviceTypeLogo($label)
 {
+    if (is_numeric($label) && isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
+        $label = UserAgentParserEnhanced::$deviceTypes[$label];
+    }
+
+    $label = strtolower($label);
+
     $deviceTypeLogos = Array(
-        "Desktop"       => "normal.gif",
-        "Smartphone"    => "smartphone.png",
-        "Tablet"        => "tablet.png",
-        "Tv"            => "tv.png",
-        "Feature phone" => "mobile.gif",
-        "Console"       => "console.gif");
+        "desktop"       => "normal.gif",
+        "smartphone"    => "smartphone.png",
+        "tablet"        => "tablet.png",
+        "tv"            => "tv.png",
+        "feature phone" => "mobile.gif",
+        "console"       => "console.gif",
+        "car browser"   => "carbrowser.png");
 
     if (!array_key_exists($label, $deviceTypeLogos) || $label == "Unknown") {
         $label = 'unknown.gif';
@@ -121,11 +164,9 @@ function getOSFamilyFullNameExtended($label)
 function getOsFamilyLogoExtended($label)
 {
     if (array_key_exists($label, UserAgentParserEnhanced::$osFamilies)) {
-        $path = 'plugins/UserSettings/images/os/' . UserAgentParserEnhanced::$osFamilies[$label][0] . ".gif";
-    } else {
-        $path = 'plugins/UserSettings/images/os/UNK.gif';
+        return getOsLogoExtended(UserAgentParserEnhanced::$osFamilies[$label][0]);
     }
-    return $path;
+    return getOsLogoExtended($label);
 }
 
 function getOsFullNameExtended($label)
@@ -141,11 +182,37 @@ function getOsFullNameExtended($label)
     return Piwik::translate('General_Unknown');
 }
 
-
-function getOsLogoExtended($label)
+/**
+ * Returns the path to the logo for the given OS
+ *
+ * First try to find a logo for the given short code
+ * If none can be found try to find a logo for the os family
+ * Return unkown logo otherwise
+ *
+ * @param string  $short  Shortcode or name of OS
+ *
+ * @return string  path to image
+ */
+function getOsLogoExtended($short)
 {
-    $short = substr($label, 0, 3);
-    $familyName = getOsFamilyFullNameExtended($short);
-    $path = getOsFamilyLogoExtended($familyName);
-    return $path;
+    $path = 'plugins/UserSettings/images/os/%s.gif';
+
+    // If name is given instead of short code, try to find matching shortcode
+    if (strlen($short) > 3) {
+
+        if (array_key_exists($short, UserAgentParserEnhanced::$osShorts)) {
+            $short = UserAgentParserEnhanced::$osShorts[$short];
+        } else {
+            $short = substr($short, 0, 3);
+        }
+    }
+
+    $family = getOsFamilyFullNameExtended($short);
+
+    if (in_array($short, UserAgentParserEnhanced::$osShorts) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
+        return sprintf($path, $short);
+    } elseif (array_key_exists($family, UserAgentParserEnhanced::$osFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, UserAgentParserEnhanced::$osFamilies[$family][0]))) {
+        return sprintf($path, UserAgentParserEnhanced::$osFamilies[$family][0]);
+    }
+    return sprintf($path, 'UNK');
 }

@@ -9,6 +9,24 @@
 ###############
 
 ##########
+# Bot
+##########
+- regex: '(nuhk|Sosospider|CareerBot|SputnikBot|SensikaBot|UptimeRobot|SeznamBot|AhrefsBot|Ezooms|Googlebot|Exabot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves/Teoma|ia_archiver|ScoutJet|Gulper Web Bot|EmailWolf|grub-client|Download Demon|SearchExpress|Microsoft URL Control|bot|borg|yahoo|slurp|msnbot|msrbot|openbot|archiver|netresearch|transcoder|crawler|lycos|scooter|altavista|teoma|gigabot|baiduspider|blitzbot|oegp|charlotte|furlbot|http%20client|polybot|htdig|ichiro|mogimogi|larbin|pompos|scrubby|searchsight|seekbot|semanticdiscovery|snappy|speedy|spider|voila|vortex|zao|zeal|fast-webcrawler|converacrawler|dataparksearch|findlinksYottaaMonitor|BrowserMob|HttpMonitor|YandexBot|Slurp|BingPreview|PagePeeker|ThumbShotsBot|WebThumb|URL2PNG|ZooShot|GomezA|Catchpoint bot|Willow Internet Crawler|Google SketchUp|Read%20Later|Minimo|Pingdom.com|facebookexternalhit|Twitterbot|RackspaceBot)'
+  name: 'Bot'
+  version: ''
+
+
+
+##########
+# Simulators
+##########
+- regex: '(Talkatone|WinWAP)'
+  name: '$1'
+  version: ''
+
+
+
+##########
 # Tizen
 ##########
 - regex: 'Tizen'
@@ -39,7 +57,18 @@
   version: ''
   
   
-  
+##########
+# AmigaOS
+##########
+- regex: 'AmigaOS[ ]?(\d+\.\d+)'
+  name: 'AmigaOS'
+  version: '$1'
+
+- regex: 'AmigaOS|AmigaVoyager|Amiga-AWeb'
+  name: 'AmigaOS'
+  version: ''
+
+
 ##########
 # Linux
 ##########
@@ -48,17 +77,12 @@
   version: '$2'
   
   
-- regex: '((?:Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs))'
+- regex: '(Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs)(?: Linux)?(?:[ /\-](\d+\.\d+))?'
   name: '$1'
-  version: ''
+  version: '$2'
   
-  
-- regex: 'Linux[;\)] |Linux (?:x86_64|zbov|i686)'
-  name: 'Linux'
-  version: ''
-  
-  
-  
+# generic linux match -> end of file
+
 ##########
 # Windows Mobile
 ##########
@@ -85,7 +109,24 @@
   name: 'Windows RT'
   version: ''
   
-  
+
+
+##########
+# webOS
+##########
+- regex: '(?:webOS|Palm webOS)(?:/(\d+\.\d+))?'
+  name: 'webOS'
+  version: '$1'
+
+- regex: '(?:PalmOS|Palm OS)(?:[/ ](\d+\.\d+))?|Palm'
+  name: 'palmOS'
+  version: '$1'
+
+- regex: 'Xiino(?:.*v\. (\d+\.\d+))?'  # palmOS only browser
+  name: 'palmOS'
+  version: '$1'
+
+
   
 ##########
 # Windows
@@ -156,7 +197,6 @@
 ##########
 - regex: 'Mac OS X (\d+[_.]\d+)'
   name: 'Mac'
-  
   version: '$1'
   
 - regex: 'Darwin|Macintosh|Mac_PowerPC|PPC|Mac PowerPC'
@@ -168,28 +208,13 @@
 ##########
 # iOS
 ##########
-- regex: '(?:CPU OS|iPhone OS) (\d+_\d+)'
+- regex: '(?:CPU OS|iPhone OS)[ _](\d+(?:_\d+)?)'
   name: 'iOS'
-  
   version: '$1'
   
 - regex: '(?:iPhone|iPad|iPod)(?:.*Mac OS X.*Version/(\d+\.\d+)|; Opera)'
   name: 'iOS'
   version: '$1'
-  
-  
-  
-##########
-# webOS
-##########
-- regex: '(?:webOS|Palm webOS)(?:/(\d+\.\d+))?'
-  name: 'webOS'
-  version: '$1'
-  
-  
-- regex: '(?:PalmOS|Palm OS)(?:/(\d+\.\d+))?'
-  name: 'PalmOS'
-  version: ''
   
   
   
@@ -220,16 +245,43 @@
   version: ''
   
   
-- regex: 'Black[Bb]erry'
+- regex: 'BlackBerry'
   name: 'BlackBerry OS'
   version: ''
-  
-  
-  
+
+
+##########
+# Haiku OS
+##########
+- regex: 'Haiku'
+  name: 'Haiku OS'
+  version: ''
+
+
+##########
+# BeOS
+##########
+- regex: 'BeOS'
+  name: 'BeOS'
+  version: ''
+
+
+
+
 ##########
 # Symbian
 ##########
-- regex: 'Symbian[Oo][Ss]/(\d+\.\d+)'
+- regex: '(?:Series ?60|SymbOS|S60)(?:[ /]?(\d+\.\d+|V\d+))?'
+  name: 'Symbian OS Series 60'
+  version: '$1'
+
+
+- regex: 'Series40'
+  name: 'Symbian OS Series 40'
+  version: ''
+
+
+- regex: 'SymbianOS/(\d+\.\d+)'
   name: 'Symbian OS'
   version: '$1'
   
@@ -249,22 +301,12 @@
   version: '^3'
   
   
-- regex: '(?:Series 60|SymbOS|S60)(?:[ /]?(\d+\.\d+|V\d+))?'
-  name: 'Symbian OS Series 60'
-  version: '$1'
-  
-  
-- regex: 'Series40'
-  name: 'Symbian OS Series 40'
-  version: ''
-  
-  
 - regex: 'MeeGo|WeTab'
   name: 'MeeGo'
   version: ''
   
   
-- regex: 'Symbian [Oo][Ss]|SymbOS'
+- regex: 'Symbian OS|SymbOS'
   name: 'Symbian OS'
   version: ''
   
@@ -287,20 +329,28 @@
 ##########
 # Bada
 ##########
-- regex: 'bada'
+- regex: 'bada(?:[ /](\d+\.\d+))'
   name: 'Bada'
-  version: ''
-  
-  
-  
-##########
-# Brew
-##########
-- regex: '(?:Brew MP|BREW|BMP)(?:[ /](\d+\.\d+))?'
-  name: 'Brew'
   version: '$1'
   
   
+- regex: 'bada'
+  name: 'Bada'
+  version: ''
+
+
+##########
+# Brew
+##########
+- regex: '(?:Brew MP|BREW|BMP)(?:[ /](\d+\.\d+))'
+  name: 'Brew'
+  version: '$1'
+
+
+- regex: 'Brew MP|BREW|BMP'
+  name: 'Brew'
+  version: ''
+
   
 ##########
 # Web TV
@@ -310,7 +360,7 @@
   version: '$1'
   
   
-- regex: 'AppleTV/(\d+\.\d+)'
+- regex: 'AppleTV(?:/?(\d+\.\d+))?'
   name: 'Apple TV'
   version: '$1'
   
@@ -324,9 +374,9 @@
 ##########
 # Unix
 ##########
-- regex: 'SunOS'
+- regex: '(?:SunOS|Solaris)(?:[/ ](\d+\.\d+))?'
   name: 'Solaris'
-  version: ''
+  version: '$1'
   
   
 - regex: 'AIX'
@@ -364,9 +414,9 @@
   version: ''
   
   
-- regex: 'IRIX'
+- regex: 'IRIX(?: (\d+\.\d+))'
   name: 'IRIX'
-  version: ''
+  version: '$1'
   
   
 - regex: 'OSF1'
@@ -403,7 +453,7 @@
   
   
 - regex: 'PlayStation ((?:Portable|Vita))'
-  name: 'PlayStation'
+  name: 'PlayStation Portable'
   version: '$1'
   
   
@@ -415,22 +465,13 @@
   name: 'OS/2'
   version: ''
   
-  
-  
-##########
-# Simulators
-##########
-- regex: '(Talkatone|WinWAP)'
-  name: '$1'
+
+
+###########
+# Linux (Generic)
+###########
+- regex: 'Linux[^a-z]'
+  name: 'Linux'
   version: ''
-  
-  
-  
-##########
-# Bot
-##########
-- regex: '(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves/Teoma|ia_archiver|ScoutJet|Gulper Web Bot|EmailWolf|grub-client|Download Demon|OmniWeb|SearchExpress|Microsoft URL Control|bot|borg|yahoo|slurp|msnbot|msrbot|openbot|archiver|netresearch|transcoder|crawler|lycos|scooter|altavista|teoma|gigabot|baiduspider|blitzbot|oegp|charlotte|furlbot|http%20client|polybot|htdig|ichiro|mogimogi|larbin|pompos|scrubby|searchsight|seekbot|semanticdiscovery|silk|snappy|speedy|spider|voila|vortex|voyager|zao|zeal|fast-webcrawler|converacrawler|dataparksearch|findlinksYottaaMonitor|BrowserMob|HttpMonitor|YandexBot|Slurp|BingPreview|PagePeeker|ThumbShotsBot|WebThumb|URL2PNG|ZooShot|GomezA|Catchpoint bot|Willow Internet Crawler|Google SketchUp|Read%20Later|Minimo|Pingdom.com|facebookexternalhit|Twitterbot|RackspaceBot)'
-  name: 'Bot  '
-  version: ''
-  
-  
+
+

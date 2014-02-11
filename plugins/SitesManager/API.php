@@ -560,6 +560,13 @@ class API extends \Piwik\Plugin\API
         Access::getInstance()->reloadAccess();
         $this->postUpdateWebsite($idSite);
 
+        /**
+         * Triggered after a site has been added.
+         *
+         * @param int $idSite The ID of the site that was added.
+         */
+        Piwik::postEvent('SitesManager.addSite.end', array($idSite));
+
         return (int)$idSite;
     }
 
