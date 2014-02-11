@@ -194,6 +194,12 @@ class CliMulti {
             $bin = shell_exec('which php5');
         }
 
+        if (empty($bin) && defined('PHP_BINDIR') && Common::isPhpCliMode() && !empty($_SERVER['_']) && is_executable($_SERVER['_'])) {
+            if (0 === strpos($_SERVER['_'], PHP_BINDIR)) {
+                $bin = $_SERVER['_'];
+            }
+        }
+
         if (!empty($bin)) {
             return trim($bin);
         }
