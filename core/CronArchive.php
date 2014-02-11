@@ -616,7 +616,13 @@ Notes:
         }
 
         try {
-            $response = Http::sendHttpRequestBy('cli', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
+
+            $cliMulti  = new CliMulti();
+            $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+            $responses = $cliMulti->request(array($url));
+
+            $response  = !empty($responses) ? array_shift($responses) : null;
+
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }

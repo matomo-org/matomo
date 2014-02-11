@@ -359,16 +359,6 @@ class Http
 
             // determine success or failure
             @fclose(@$fsock);
-        } else if ($method == 'cli') {
-
-            $cliMulti  = new CliMulti();
-            $cliMulti->setAcceptInvalidSSLCertificate($acceptInvalidSslCertificate);
-            $responses = $cliMulti->request(array($aUrl));
-
-            $response = !empty($responses) ? array_shift($responses) : null;
-            $status   = 200;
-            $headers  = array();
-
         } else if ($method == 'fopen') {
             $response = false;
 
