@@ -31,7 +31,8 @@
             uniqueId: null,
             isHidden: false,
             onChange: null,
-            widgetParameters: {}
+            widgetParameters: {},
+            title: null
         },
 
         /**
@@ -183,6 +184,13 @@
         },
 
         /**
+         * TODO
+         */
+        getParameters: function () {
+            return this.widgetParameters;
+        },
+
+        /**
          * Creaates the widget markup for the given uniqueId
          *
          * @param {String} uniqueId
@@ -194,7 +202,8 @@
                 widgetName = _pk_translate('Dashboard_WidgetNotFound');
             }
 
-            var emptyWidgetContent = widgetsHelper.getEmptyWidgetHtml(uniqueId, $('<span/>').text(widgetName));
+            var title = this.options.title === null ? $('<span/>').text(widgetName) : this.options.title;
+            var emptyWidgetContent = require('piwik/UI/Dashboard').WidgetFactory.make(uniqueId, title);
             this.element.html(emptyWidgetContent);
 
             var widgetElement = $('#' + uniqueId, this.element);

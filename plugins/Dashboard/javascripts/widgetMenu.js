@@ -88,22 +88,49 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
     return ajaxRequest;
 };
 
-/**
- * Returns the base html use for displaying a widget
- *
- * @param {string} uniqueId     unique id of the widget
- * @param {string} widgetName   name of the widget
- * @return {string} html for empty widget
- */
-widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
-    if (!widgetsHelper.widgetTemplate) {
-        widgetsHelper.widgetTemplate = $('.widgetTemplate').find('>.widget').detach();
-    }
+(function ($, require) {
+    var exports = require('piwik/UI/Dashboard');
 
-    var $result = widgetsHelper.widgetTemplate.clone();
-    $result.attr('id', uniqueId).find('.widgetName').append(widgetName);
-    return $result;
-};
+    /**
+     * Singleton instance that creates widget elements. Normally not needed even
+     * when embedding/re-using dashboard widgets, but it can be useful when creating
+     * elements with the same look and feel as dashboard widgets, but different
+     * behavior (such as the widget preview in the dashboard manager control).
+     *
+     * @constructor
+     */
+    var WidgetFactory = function () {
+        // empty
+    };
+
+    /**
+     * Creates an HTML element for displaying a widget.
+     *
+     * @param {string} uniqueId     unique id of the widget
+     * @param {string} widgetName   name of the widget
+     * @return {Element} the empty widget
+     */
+    WidgetFactory.prototype.make = function (uniqueId, widgetName) {
+        var $result = this.getWidgetTemplate().clone();
+        $result.attr('id', uniqueId).find('.widgetName').append(widgetName);
+        return $result;
+    };
+
+    /**
+     * Returns the base widget template element. The template is stored in the
+     * element with id == 'widgetTemplate'.
+     *
+     * @return {Element} the widget template
+     */
+    WidgetFactory.prototype.getWidgetTemplate = function () {
+        if (!this.widgetTemplate) {
+            this.widgetTemplate = $('#widgetTemplate').find('>.widget').detach();
+        }
+        return this.widgetTemplate;
+    };
+
+    exports.WidgetFactory = new WidgetFactory();
+})(jQuery, require);
 
 /**
  * widgetPreview jQuery Extension
@@ -292,7 +319,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
                 var widgetParameters = widget['parameters'];
 
-                var emptyWidgetHtml = widgetsHelper.getEmptyWidgetHtml(
+                var emptyWidgetHtml = require('piwik/UI/Dashboard').WidgetFactory.make(
                     widgetUniqueId,
                     $('<div/>')
                         .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))
