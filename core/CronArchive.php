@@ -558,11 +558,11 @@ Notes:
             $this->requests++;
         }
 
-        $async    = new CliMulti();
-        $response = $async->request($urls);
+        $cliMulti = new CliMulti();
+        $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
-            $content = $response[$index];
+            $content = array_key_exists($index, $response) ? $response[$index] : null;
             $success = $success && $this->checkResponse($content, $url);
 
             if ($noSegmentUrl === $url && $success) {
@@ -614,7 +614,6 @@ Notes:
             $url .= "&xhprof=2";
         }
 
-        //$this->log($url);
         try {
             $response = Http::sendHttpRequestBy('cli', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
         } catch (Exception $e) {

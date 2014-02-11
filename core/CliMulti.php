@@ -89,7 +89,7 @@ class CliMulti {
             $query .= http_build_query($additionalParams);
         }
 
-        $command = 'php ' . PIWIK_INCLUDE_PATH . '/core/CliMulti/run.php -- ' . escapeshellarg($query);
+        $command = PIWIK_INCLUDE_PATH . '/console climulti:request ' . escapeshellarg($query);
 
         return $command;
     }

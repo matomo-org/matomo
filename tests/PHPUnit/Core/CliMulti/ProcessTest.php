@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 use Piwik\CliMulti\Process;
 
 /**
@@ -26,6 +27,15 @@ class ProcessTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->process->finishProcess();
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage The given pid has an invalid format
+     */
+    public function test_construct_shouldFailInCasePidIsInvalid()
+    {
+        new Process('../../htaccess');
     }
 
     public function test_construct_shouldBeNotStarted_IfPidJustCreated()

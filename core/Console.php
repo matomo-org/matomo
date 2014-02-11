@@ -43,7 +43,7 @@ class Console
      */
     private function getAvailableCommands()
     {
-        $commands = array();
+        $commands = array('Piwik\CliMulti\RequestCommand');
 
         /**
          * Triggered to gather all available console commands. Plugins that want to expose new console commands

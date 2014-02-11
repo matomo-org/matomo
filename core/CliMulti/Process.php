@@ -17,6 +17,10 @@ class Process
 
     public function __construct($pid)
     {
+        if (!Filesystem::isValidFilename($pid)) {
+            throw new \Exception('The given pid has an invalid format');
+        }
+
         $pidDir = PIWIK_INCLUDE_PATH . '/tmp/pids';
         Filesystem::mkdir($pidDir, true);
 
