@@ -56,7 +56,7 @@ class OutputTest extends PHPUnit_Framework_TestCase
 
     public function test_get_shouldReturnNull_IfNothingWritten()
     {
-        $this->assertNull($this->output->get());
+        $this->assertFalse($this->output->get());
     }
 
     public function test_get_write_shouldReturnTheActualOutput_IfExists()
@@ -93,7 +93,7 @@ class OutputTest extends PHPUnit_Framework_TestCase
         $this->output->destroy();
 
         $this->assertFalse($this->output->exists());
-        $this->assertNull($this->output->get());
+        $this->assertFalse($this->output->get());
     }
 
     public function test_destroy_ShouldNotFail_IfNothingIsWritten()
@@ -101,7 +101,7 @@ class OutputTest extends PHPUnit_Framework_TestCase
         $this->output->destroy();
 
         $this->assertFalse($this->output->exists());
-        $this->assertNull($this->output->get());
+        $this->assertFalse($this->output->get());
     }
 
     public function test_twoDifferentOutputHandles_ShouldWriteInDifferentFiles()

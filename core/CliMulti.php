@@ -42,9 +42,9 @@ class CliMulti {
     {
         $this->start($piwikUrls);
 
-        while (!$this->isFinished()) {
-            sleep(1);
-        }
+        do {
+            usleep(100 * 1000);
+        } while (!$this->isFinished());
 
         $results = $this->getResponse($piwikUrls);
         $this->cleanup();

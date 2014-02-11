@@ -31,7 +31,9 @@ class Process
 
     private function markAsNotStarted()
     {
-        if ($this->doesPidFileExist()) {
+        $content = $this->getPidFileContent();
+
+        if ($this->doesPidFileExist($content)) {
             return;
         }
 
@@ -40,12 +42,14 @@ class Process
 
     public function hasStarted()
     {
-        if (!$this->doesPidFileExist()) {
+        $content = $this->getPidFileContent();
+
+        if (!$this->doesPidFileExist($content)) {
             // process is finished, this means there was a start before
             return true;
         }
 
-        if ('' === trim($this->getPidFileContent())) {
+        if ('' === trim($content)) {
             // pid file is overwritten by startProcess()
             return false;
         }
@@ -61,11 +65,13 @@ class Process
 
     public function isRunning()
     {
-        if (!$this->doesPidFileExist()) {
+        $content = $this->getPidFileContent();
+
+        if (!$this->doesPidFileExist($content)) {
             return false;
         }
 
-        if ($this->isProcessStillRunning()) {
+        if ($this->isProcessStillRunning($content)) {
             return true;
         }
 
@@ -81,18 +87,19 @@ class Process
         Filesystem::deleteFileIfExists($this->pidFile);
     }
 
-    private function doesPidFileExist()
+    private function doesPidFileExist($content)
     {
-        return file_exists($this->pidFile);
+        return false !== $content;
     }
 
-    private function isProcessStillRunning()
+    private function isProcessStillRunning($content)
     {
+        $lockedPID = trim($content);
+
         if (!self::isSupported()) {
             return true;
         }
 
-        $lockedPID   = trim($this->getPidFileContent());
         $runningPIDs = explode("\n", trim( `ps -e | awk '{print $1}'` ));
 
         return in_array($lockedPID, $runningPIDs);
@@ -100,7 +107,7 @@ class Process
 
     private function getPidFileContent()
     {
-        return file_get_contents($this->pidFile);
+        return @file_get_contents($this->pidFile);
     }
 
     private function writePidFileContent($content)

@@ -36,11 +36,7 @@ class Output {
 
     public function get()
     {
-        if (!$this->exists()) {
-            return null;
-        }
-
-        return file_get_contents($this->tmpFile);
+        return @file_get_contents($this->tmpFile);
     }
 
     public function destroy()
