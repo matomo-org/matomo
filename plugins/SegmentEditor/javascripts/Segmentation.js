@@ -50,11 +50,11 @@ Segmentation = (function($) {
             return decodeURIComponent(self.currentSegmentStr);
         };
 
-        var setSegment = function(segmentStr){
+        segmentation.prototype.setSegment = function(segmentStr){
             if(!$.browser.mozilla) {
                 segmentStr = encodeURIComponent(segmentStr);
             }
-            self.currentSegmentStr = segmentStr;
+            this.currentSegmentStr = segmentStr;
         };
 
         segmentation.prototype.shortenSegmentName = function(name, length){
@@ -79,14 +79,14 @@ Segmentation = (function($) {
             return name;
         };
 
-        var markCurrentSegment = function(){
-            var current = self.getSegment();
+        segmentation.prototype.markCurrentSegment = function(){
+            var current = this.getSegment();
 
-            var segmentationTitle = $(self.content).find(".segmentationTitle");
+            var segmentationTitle = $(this.content).find(".segmentationTitle");
             if( current != "")
             {
                 var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
-                var foundItems = $(selector, self.target);
+                var foundItems = $(selector, this.target);
                 var title = $('<strong></strong>');
                 if( foundItems.length > 0) {
                     var name = $(foundItems).first().find("span.segname").text();
@@ -97,7 +97,7 @@ Segmentation = (function($) {
                 segmentationTitle.html(title);
             }
             else {
-                $(self.content).find(".segmentationTitle").text(self.translations['SegmentEditor_DefaultAllVisits']);
+                $(this.content).find(".segmentationTitle").text(this.translations['SegmentEditor_DefaultAllVisits']);
             }
         };
 
@@ -400,10 +400,10 @@ Segmentation = (function($) {
                     segment.definition = $(this).data("definition");
                     segment.name = $(this).attr("title");
 
+                    self.setSegment(segment.definition);
+                    self.markCurrentSegment();
                     self.segmentSelectMethod( segment.definition );
                     toggleLoadingMessage( segment.definition.length );
-                    setSegment(segment.definition);
-                    markCurrentSegment();
                 }
             });
         };
@@ -971,7 +971,7 @@ Segmentation = (function($) {
 
             // assign content to object attribute to make it easil accesible through all widget methods
             bindListEvents();
-            markCurrentSegment();
+            self.markCurrentSegment();
 
             // Loading message
             var segmentIsSet = self.getSegment().length;
@@ -1006,7 +1006,6 @@ $(document).ready(function() {
 
         var self = this;
         this.changeSegment = function(segmentDefinition) {
-            self.$element.find('a.close').click();
             segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
             segmentDefinition = encodeURIComponent(segmentDefinition);
             return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
@@ -1034,6 +1033,10 @@ $(document).ready(function() {
                 if (response && response.result == 'error') {
                     alert(response.message);
                 } else {
+                    self.impl.setSegment(params.definition);
+                    self.impl.markCurrentSegment();
+
+                    self.$element.find('a.close').click();
                     self.changeSegment(params.definition);
                 }
             });
@@ -1056,6 +1059,10 @@ $(document).ready(function() {
                 if (response && response.result == 'error') {
                     alert(response.message);
                 } else {
+                    self.impl.setSegment(params.definition);
+                    self.impl.markCurrentSegment();
+
+                    self.$element.find('a.close').click();
                     self.changeSegment(params.definition);
                 }
             });
@@ -1079,6 +1086,10 @@ $(document).ready(function() {
                 if (response && response.result == 'error') {
                     alert(response.message);
                 } else {
+                    self.impl.setSegment('');
+                    self.impl.markCurrentSegment();
+
+                    self.$element.find('a.close').click();
                     self.changeSegment('');
                     $('.ui-dialog-content').dialog('close');
                 }
@@ -1093,7 +1104,7 @@ $(document).ready(function() {
         if($.browser.mozilla) {
             segmentFromRequest = decodeURIComponent(segmentFromRequest);
         }
-        
+
         this.impl = new Segmentation({
             "target"   : this.$element.find(".segmentListContainer"),
             "editorTemplate": $('.SegmentEditor', self.$element),
@@ -1137,8 +1148,12 @@ $(document).ready(function() {
     };
 
     $.extend(SegmentSelectorControl.prototype, UIControl.prototype, {
+        getSegment: function () {
+            return this.impl.getSegment();
+        },
+
         _destroy: function () {
-            UIControl.prototype.call(this);
+            UIControl.prototype._destroy.call(this);
 
             $('body')[0].removeEventListener('mouseup', this.onMouseUp);
         }
