@@ -464,6 +464,8 @@ Huawei:
   models:
     - regex: 'Huawei(?:[\- /_]|/1\.0/)?([a-z0-9]+)'
       model: '$1'
+    - regex: 'Huawei; ([a-z0-9 -]+)'
+      model: '$1'
     - regex: 'vodafone([a-z0-9]+)'
       model: 'Vodafone $1'
 
