@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<result>
-	<error message="Table 'log_conversion' can't be joined for segmentation
- 
- --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php" />
-</result>

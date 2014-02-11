@@ -346,6 +346,8 @@ class Segment
                     $join = "log_conversion_item.idvisit = log_visit.idvisit";
                 } elseif ($conversionItemAvailable && $table === 'log_link_visit_action') {
                     $join = "log_conversion_item.idvisit = log_link_visit_action.idvisit";
+                } elseif ($conversionItemAvailable && $table === 'log_conversion') {
+                    $join = "log_conversion_item.idvisit = log_conversion.idvisit";
                 } else {
                     throw new Exception("Table '$table' can't be joined for segmentation");
                 }
