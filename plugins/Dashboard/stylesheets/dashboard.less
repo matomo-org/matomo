@@ -144,7 +144,6 @@
 
 #close.button, #maximise.button, #minimise.button, #refresh.button {
   float: right;
-  display: none;
   margin: 6px 6px 0 0;
 }
 
@@ -521,4 +520,24 @@ div.widgetpreview-preview {
     }
   }
 
+}
+
+.widgetTop .button {
+  display:none;
+}
+
+.widgetTop.widgetTopHover .button {
+  display:block;
+}
+
+.widget.hiddenContent .widgetTop.widgetTopHover {
+  .button#minimise,.button#refresh {
+    display:none;
+  }
+}
+
+.ui-dialog .widget {
+  .button#close,.button#maximise {
+    display:none;
+  }
 }

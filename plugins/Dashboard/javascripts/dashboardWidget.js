@@ -91,7 +91,6 @@
         maximise: function () {
             this.isMaximised = true;
 
-            $('.button#close, .button#maximise', this.element).hide();
             this.element.before('<div id="' + this.uniqueId + '-placeholder" class="widgetPlaceholder widget"> </div>');
             $('#' + this.uniqueId + '-placeholder').height(this.element.height());
             $('#' + this.uniqueId + '-placeholder').width(this.element.width() - 16);
@@ -108,7 +107,6 @@
                 autoOpen: true,
                 close: function (event, ui) {
                     self.isMaximised = false;
-                    $('.button#minimise, .button#refresh', $(this)).hide();
                     $('body').off('.dashboardWidget');
                     $(this).dialog("destroy");
                     $('#' + self.uniqueId + '-placeholder').replaceWith(this);
@@ -184,7 +182,9 @@
         },
 
         /**
-         * TODO
+         * Get widget parameters
+         *
+         * @param {object} parameters
          */
         getParameters: function () {
             return this.widgetParameters;
@@ -213,22 +213,17 @@
                     if (!self.isMaximised) {
                         $(this).addClass('widgetHover');
                         $('.widgetTop', this).addClass('widgetTopHover');
-                        $('.button#close, .button#maximise', this).show();
-                        if (!$('.widgetContent', this).hasClass('hidden')) {
-                            $('.button#minimise, .button#refresh', this).show();
-                        }
                     }
                 })
                 .on('mouseleave.dashboardWidget', function () {
                     if (!self.isMaximised) {
                         $(this).removeClass('widgetHover');
                         $('.widgetTop', this).removeClass('widgetTopHover');
-                        $('.button#close, .button#maximise, .button#minimise, .button#refresh', this).hide();
                     }
                 });
 
             if (this.options.isHidden) {
-                $('.widgetContent', widgetElement).toggleClass('hidden');
+                $('.widgetContent', widgetElement).toggleClass('hidden').closest('.widget').toggleClass('hiddenContent');
             }
 
             $('.button#close', widgetElement)
@@ -244,9 +239,8 @@
                     if ($('.widgetContent', $(this).parents('.widget')).hasClass('hidden')) {
                         self.isMaximised = false;
                         self.options.isHidden = false;
-                        $('.widgetContent', $(this).parents('.widget')).removeClass('hidden');
-                        $('.button#minimise, .button#refresh', $(this).parents('.widget')).show();
-                        $(this).parents('.widget').find('div.piwik-graph').trigger('resizeGraph');
+                        $(this).closest('.widget').removeClass('hiddenContent').find('.widgetContent').removeClass('hidden');
+                        $(this).closest('.widget').find('div.piwik-graph').trigger('resizeGraph');
                         self.options.onChange();
                         $('.widgetContent', widgetElement).trigger('widget:minimise');
                     } else {
@@ -257,8 +251,7 @@
             $('.button#minimise', widgetElement)
                 .on('click.dashboardWidget', function (ev) {
                     if (!self.isMaximised) {
-                        $('.widgetContent', $(this).parents('.widget')).addClass('hidden');
-                        $('.button#minimise, .button#refresh', $(this).parents('.widget')).hide();
+                        $('.widgetContent', $(this).closest('.widget').addClass('hiddenContent')).addClass('hidden');
                         self.options.isHidden = true;
                         self.options.onChange();
                     } else {
