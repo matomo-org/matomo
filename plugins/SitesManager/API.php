@@ -574,6 +574,13 @@ class API extends \Piwik\Plugin\API
     {
         Site::clearCache();
         Cache::regenerateCacheWebsiteAttributes($idSite);
+
+        /**
+         * Triggered after a site has been created.
+         *
+         * @param int $idSite The ID of the site being created.
+         */
+        Piwik::postEvent('SitesManager.addSite.end', array($idSite));
     }
 
     /**
