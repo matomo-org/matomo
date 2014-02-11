@@ -2507,7 +2507,7 @@
   device:
     type: smartphone
     brand: HT
-    model: One X
+    model: One X+
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2571,7 +2571,7 @@
   device:
     type: smartphone
     brand: HT
-    model: One X
+    model: One X+
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6875,7 +6875,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7035,7 +7035,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7179,7 +7179,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7339,7 +7339,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8155,7 +8155,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8187,7 +8187,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D X515m
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8219,7 +8219,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8267,7 +8267,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8315,7 +8315,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D X515m
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8331,7 +8331,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8395,7 +8395,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D GSM
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8427,7 +8427,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8443,7 +8443,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8459,7 +8459,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XL
+    model: Sensation XL with Beats Audio X315e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8491,7 +8491,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715a
   os_family: Android
   browser_family: Android Browser
 - 
@@ -8539,7 +8539,7 @@
   device:
     type: smartphone
     brand: HT
-    model: Sensation XE
+    model: Sensation XE with Beats Audio Z715e
   os_family: Android
   browser_family: Android Browser
 - 
@@ -11499,7 +11499,7 @@
   device:
     type: smartphone
     brand: HT
-    model: EVO 3D
+    model: EVO 3D X515m
   os_family: Android
   browser_family: Opera
 -

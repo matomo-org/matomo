@@ -15,7 +15,7 @@ HTC:
   models:
     - regex: 'NexusHD2' # custom rom for hd2
       model: 'HD2'
-    - regex: 'HTC ([a-z0-9]+) Build'
+    - regex: 'HTC (.+) Build'
       model: '$1'
     - regex: 'HTC ([a-z0-9]+(?: [a-z0-9]+)?)'
       model: '$1'
