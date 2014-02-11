@@ -83,4 +83,14 @@ class ProcessTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue(Process::isSupported(), 'This test does not work on windows or if the commands ps and awk are not available');
     }
+
+    public function test_getSecondsSinceCreation()
+    {
+        sleep(3);
+        $seconds = $this->process->getSecondsSinceCreation();
+
+        $this->assertGreaterThanOrEqual(3, $seconds);
+        $this->assertLessThanOrEqual(4, $seconds);
+    }
+
 }

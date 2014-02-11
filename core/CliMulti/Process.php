@@ -14,6 +14,7 @@ use Piwik\SettingsServer;
 class Process
 {
     private $pidFile = '';
+    private $timeCreation = null;
 
     public function __construct($pid)
     {
@@ -24,7 +25,8 @@ class Process
         $pidDir = PIWIK_INCLUDE_PATH . '/tmp/climulti';
         Filesystem::mkdir($pidDir, true);
 
-        $this->pidFile = $pidDir . '/' . $pid . '.pid';
+        $this->pidFile      = $pidDir . '/' . $pid . '.pid';
+        $this->timeCreation = time();
 
         $this->markAsNotStarted();
     }
@@ -56,6 +58,11 @@ class Process
 
         // process is probably running or pid file was not removed
         return true;
+    }
+
+    public function getSecondsSinceCreation()
+    {
+        return time() - $this->timeCreation;
     }
 
     public function startProcess()

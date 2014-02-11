@@ -43,7 +43,7 @@ class CliMulti {
         $this->start($piwikUrls);
 
         do {
-            usleep(100 * 1000);
+            usleep(100000); // 100 * 1000 = 100ms
         } while (!$this->isFinished());
 
         $results = $this->getResponse($piwikUrls);
@@ -114,7 +114,15 @@ class CliMulti {
     private function isFinished()
     {
         foreach ($this->processes as $index => $process) {
-            if (!$process->hasStarted()) {
+            $hasStarted = $process->hasStarted();
+
+            if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
+                // if process was created more than 8 seconds ago but still not started there must be something wrong.
+                // ==> declare the process as finished
+                $process->finishProcess();
+                continue;
+
+            } elseif (!$hasStarted) {
                 return false;
             }
 
