@@ -54,10 +54,12 @@ class CliMulti {
 
         do {
             usleep(100000); // 100 * 1000 = 100ms
-        } while ($this->supportsAsync && !$this->isFinished());
+        } while (!$this->isFinished());
 
         $results = $this->getResponse($piwikUrls);
         $this->cleanup();
+
+        self::cleanupNotRemovedFiles();
 
         return $results;
     }
@@ -79,14 +81,9 @@ class CliMulti {
             $output = new Output($cmdId);
 
             if ($this->supportsAsync) {
-                $this->processes[] = new Process($cmdId);
-
-                $query   = $this->getQueryFromUrl($url, array('pid' => $cmdId));
-                $command = $this->buildCommand($query, $output->getPathToFile());
-                shell_exec($command);
+                $this->executeAsyncCli($url, $output, $cmdId);
             } else {
-                $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
-                $output->write($response);
+                $this->executeNotAsyncHttp($url, $output);
             }
 
             $this->outputs[] = $output;
@@ -116,8 +113,10 @@ class CliMulti {
     private function buildCommand($query, $outputFile)
     {
         $appendix = $this->supportsAsync ? ' > ' . $outputFile . ' 2>&1 &' : '';
+        $bin      = $this->getPhpBinary();
 
-        return PIWIK_INCLUDE_PATH . '/console climulti:request ' . escapeshellarg($query) . $appendix;
+        return sprintf('%s %s/console climulti:request %s %s',
+                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($query), $appendix);
     }
 
     private function getResponse()
@@ -133,7 +132,7 @@ class CliMulti {
 
     private function isFinished()
     {
-        foreach ($this->processes as $process) {
+        foreach ($this->processes as $index => $process) {
             $hasStarted = $process->hasStarted();
 
             if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
@@ -148,6 +147,11 @@ class CliMulti {
 
             if ($process->isRunning()) {
                 return false;
+            }
+
+            if ($process->hasFinished()) {
+                // prevent from checking this process over and over again
+                unset($this->processes[$index]);
             }
         }
 
@@ -165,7 +169,7 @@ class CliMulti {
      */
     private function supportsAsync()
     {
-        return !SettingsServer::isWindows() && Process::isSupported();
+        return !SettingsServer::isWindows() && Process::isSupported() && $this->getPhpBinary();
     }
 
     private function cleanup()
@@ -182,14 +186,65 @@ class CliMulti {
         $this->outputs   = array();
     }
 
-    public static function cleanupAllNotRemovedFiles()
+    /**
+     * Remove files older than one week. They should be cleaned up automatically after each request but for whatever
+     * reason there can be always some files left.
+     */
+    public static function cleanupNotRemovedFiles()
     {
+        $timeOneWeekAgo = strtotime('-1 week');
+
         foreach (_glob(PIWIK_INCLUDE_PATH . '/tmp/climulti/*') as $file) {
             $timeLastModified = filemtime($file);
 
-            if (time() - $timeLastModified > 1000) {
+            if ($timeOneWeekAgo > $timeLastModified) {
                 unlink($file);
             }
+        }
+    }
+
+    private function getPhpBinary()
+    {
+        if (defined('PHP_BINARY')) {
+            return PHP_BINARY;
+        }
+
+        $bin = shell_exec('which php');
+
+        if (empty($bin)) {
+            $bin = shell_exec('which php5');
+        }
+
+        if (!empty($bin)) {
+            return trim($bin);
+        }
+    }
+
+    private function executeAsyncCli($url, Output $output, $cmdId)
+    {
+        $this->processes[] = new Process($cmdId);
+
+        $query   = $this->getQueryFromUrl($url, array('pid' => $cmdId));
+        $command = $this->buildCommand($query, $output->getPathToFile());
+
+        shell_exec($command);
+    }
+
+    private function executeNotAsyncHttp($url, Output $output)
+    {
+        try {
+            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
+            $output->write($response);
+        } catch (\Exception $e) {
+            $message = "Got invalid response from API request: $url. ";
+
+            if (empty($response)) {
+                $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
+            } else {
+                $message .= "Response was '" . $e->getMessage() . "'";
+            }
+
+            $output->write($message);
         }
     }
 }

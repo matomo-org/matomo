@@ -7,8 +7,7 @@
  */
 
 use \Piwik\Version;
-use \Piwik\Common;
-use \Piwik\Url;
+use \Piwik\CliMulti;
 
 /**
  * Class Core_CliMultiTest
@@ -41,7 +40,7 @@ class Core_CliMultiTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->cliMulti  = new \Piwik\CliMulti();
+        $this->cliMulti  = new CliMulti();
         $this->authToken = Test_Piwik_BaseFixture::getTokenAuth();
 
         $this->urls = array(
@@ -143,6 +142,33 @@ class Core_CliMultiTest extends IntegrationTestCase
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
 
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+    }
+
+    public function test_cleanupNotRemovedFiles_shouldOnlyRemoveFiles_IfTheyAreOlderThanOneWeek()
+    {
+        $timeOneWeekAgo = strtotime('-1 week');
+
+        // make sure -1 week returns a timestamp one week ago
+        $this->assertGreaterThan(604797, time() - $timeOneWeekAgo);
+        $this->assertLessThan(604803, time() - $timeOneWeekAgo);
+
+        $tmpDir = PIWIK_INCLUDE_PATH . '/tmp/climulti/';
+        touch($tmpDir . 'now.pid');
+        touch($tmpDir . 'now.output');
+        touch($tmpDir . 'toberemoved.pid', $timeOneWeekAgo - 10);
+        touch($tmpDir . 'toberemoved.output', $timeOneWeekAgo - 10);
+        touch($tmpDir . 'toBeNotRemoved.pid', $timeOneWeekAgo + 10);
+        touch($tmpDir . 'toBeNotRemoved.output', $timeOneWeekAgo + 10);
+
+        CliMulti::cleanupNotRemovedFiles();
+
+        $this->assertFileExists($tmpDir . 'now.pid');
+        $this->assertFileExists($tmpDir . 'now.output');
+        $this->assertFileExists($tmpDir . 'toBeNotRemoved.output');
+        $this->assertFileExists($tmpDir . 'toBeNotRemoved.output');
+
+        $this->assertFileNotExists($tmpDir . 'toberemoved.output');
+        $this->assertFileNotExists($tmpDir . 'toberemoved.output');
     }
 
     private function assertRequestReturnsValidResponses($urls, $expectedResponseIds)
