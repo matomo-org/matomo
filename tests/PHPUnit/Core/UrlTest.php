@@ -280,6 +280,9 @@ class UrlTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group Core
+     */
     public function test_getQueryFromUrl_ShouldReturnEmtpyString_IfNoQuery()
     {
         $this->assertEquals('', Url::getQueryFromUrl('', array()));
@@ -287,12 +290,18 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', Url::getQueryFromUrl('http://localhost/path', array()));
     }
 
+    /**
+     * @group Core
+     */
     public function test_getQueryFromUrl_ShouldReturnOnlyTheQueryPartOfTheUrl_IfNoAdditionalParamsGiven()
     {
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', Url::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array()));
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', Url::getQueryFromUrl('/?foo=bar&foo2=bar2&test[]=1', array()));
     }
 
+    /**
+     * @group Core
+     */
     public function test_getQueryFromUrl_ShouldAddAdditionalParams_IfGiven()
     {
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1&add=foo', Url::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array('add' => 'foo')));
