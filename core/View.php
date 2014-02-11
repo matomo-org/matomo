@@ -249,7 +249,7 @@ class View implements ViewInterface
 
     protected function renderTwigTemplate()
     {
-        $output = $this->twig->render($this->template, $this->templateVars);
+        $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
         $output = $this->applyFilter_cacheBuster($output);
 
         $helper = new Theme;

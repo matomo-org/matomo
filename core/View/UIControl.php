@@ -104,7 +104,6 @@ class UIControl extends \Piwik\View
             throw new Exception("All UIControls must set a jsClass property");
         }
 
-        $this->getTemplateVars();
         return parent::render();
     }
 
@@ -130,10 +129,6 @@ class UIControl extends \Piwik\View
         $clientSideParameters = $this->getClientSideParameters();
         foreach ($this->getClientSideParameters() as $name) {
             $this->templateVars['clientSideParameters'][$name] = $innerTemplateVars[$name];
-        }
-
-        if ($this instanceof \Piwik\Plugins\SegmentEditor\SegmentSelectorControl) {
-            \Piwik\Log::warning(print_r($override, true));
         }
 
         return parent::getTemplateVars($override);
