@@ -256,7 +256,6 @@ class FrontController extends Singleton
                 '/tmp/',
                 '/tmp/assets/',
                 '/tmp/cache/',
-                '/tmp/climulti/',
                 '/tmp/logs/',
                 '/tmp/tcpdf/',
                 '/tmp/templates_c/',
