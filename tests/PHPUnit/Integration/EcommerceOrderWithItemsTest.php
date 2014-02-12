@@ -55,7 +55,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         );
 
         // Normal standard goal
-        $apiWithSegments_visitConvertedGoal = $apiWithSegments + array('Goals.get', 'VisitsSummary.get');
+        $apiWithSegments_visitConvertedGoal = array_merge($apiWithSegments , array('Goals.get', 'VisitsSummary.get'));
         return array_merge(array(
 
                 // Segment: This will match the first visit of the fixture only
@@ -187,15 +187,25 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                       array(
                           'idSite' => $idSite,
                           'date' => $dateTime,
-                          'periods' => array('day'),
+                          'periods' => array('week'),
                           'segment' => 'visitConvertedGoalId==1;visitConvertedGoalId!=2',
                           'testSuffix' => '_SegmentVisitHasConvertedGoal')),
 
+                // Different segment will yield same result, so we keep same testSuffix
                 array($apiWithSegments_visitConvertedGoal,
                       array(
                           'idSite' => $idSite,
                           'date' => $dateTime,
-                          'periods' => array('day'),
+                          'periods' => array('week'),
+                          'segment' => 'visitConvertedGoalId==1;visitConvertedGoalId!=2;countryCode!=xx;deviceType!=tv',
+                          'testSuffix' => '_SegmentVisitHasConvertedGoal')),
+
+                // testing a segment on log_conversion matching no visit
+                array($apiWithSegments_visitConvertedGoal,
+                      array(
+                          'idSite' => $idSite,
+                          'date' => $dateTime,
+                          'periods' => array('week'),
                           'segment' => 'visitConvertedGoalId==666',
                           'testSuffix' => '_SegmentNoVisit_HaveConvertedNonExistingGoal')),
 
