@@ -7,6 +7,7 @@
  */
 namespace Piwik\CliMulti;
 
+use Piwik\CliMulti;
 use Piwik\Filesystem;
 
 class Output {
@@ -19,9 +20,9 @@ class Output {
             throw new \Exception('The given output id has an invalid format');
         }
 
-        $dir = PIWIK_INCLUDE_PATH . '/tmp/climulti/';
+        $dir = CliMulti::getTmpPath();
         Filesystem::mkdir($dir, true);
-        $this->tmpFile = $dir . $outputId . '.output';
+        $this->tmpFile = $dir . '/' . $outputId . '.output';
     }
 
     public function write($content)
