@@ -8,7 +8,10 @@
 # @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 # @version $Id$
 #
-# For more info see: http://piwik.org/log-analytics/
+# For more info see: http://piwik.org/log-analytics/ and http://piwik.org/docs/log-analytics-tool-how-to/
+#
+# Requires Python 2.7
+#
 
 import base64
 import bz2
@@ -594,7 +597,7 @@ class Configuration(object):
 
             updatetokenfile = os.path.abspath(
                 os.path.join(os.path.dirname(__file__),
-                '../../misc/cron/updatetoken.php'),
+                    '../../misc/cron/updatetoken.php'),
             )
 
             process =  "php " + updatetokenfile
