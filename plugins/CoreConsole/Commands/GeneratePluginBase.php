@@ -116,7 +116,7 @@ class GeneratePluginBase extends ConsoleCommand
      * @return array
      * @throws \RunTimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output, $pluginNames, $invalidArgumentException)
+    protected function askPluginNameAndValidate(InputInterface $input, OutputInterface $output, $pluginNames, $invalidArgumentException)
     {
         $validate = function ($pluginName) use ($pluginNames, $invalidArgumentException) {
             if (!in_array($pluginName, $pluginNames)) {
