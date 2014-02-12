@@ -25,16 +25,6 @@
     <script type="text/javascript" src="plugins/CoreHome/javascripts/require.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/notification.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/notification_parser.js"></script>
-    {% if (forceSslLogin is defined and forceSslLogin) %}
-        <script type="text/javascript">
-            if (window.location.protocol !== 'https:') {
-                var url = window.location.toString();
-                url = url.replace(/^http:/, 'https:');
-                window.location.replace(url);
-            }
-        </script>
-	
-    {% endif %}
     <script type="text/javascript">
         $(function () {
             $('#form_login').focus();
@@ -151,7 +141,7 @@
                            value="{{ 'General_ChangePassword'|translate }}" tabindex="100"/>
                 </fieldset>
 
-                <input type="hidden" name="module" value="Login"/>
+                <input type="hidden" name="module" value="{{ loginModule }}"/>
                 <input type="hidden" name="action" value="resetPassword"/>
             </form>
             <p id="nav">

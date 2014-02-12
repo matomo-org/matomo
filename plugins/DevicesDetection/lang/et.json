@@ -1,6 +1,8 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Brauseri versioonid",
+        "CarBrowser": "Sõiduki sirvik",
+        "Console": "Konsool",
         "dataTableLabelBrands": "Bränd",
         "dataTableLabelBrowserFamily": "Sirvija tüüp",
         "dataTableLabelModels": "Mudel",
@@ -12,10 +14,15 @@
         "DeviceModel": "Seadme mudel",
         "DevicesDetection": "Külastajate seadmed",
         "DeviceType": "Seadme tüüp",
+        "FeaturePhone": "Tark telefon",
         "OperatingSystemFamilies": "Operatsioonisüsteemide tüübid",
         "OperatingSystemVersions": "Operatsioonisüsteemide versioonid",
         "PluginDescription": "Antud plugin annab mobiilsete seadmete kohta detailsemat infot, nagu bränd (tootja), mudel (seadme versioon), täpsema seadmete tuvastuse (tv, konsool, nutitelefon, tahvelarvuti jne). See plugin lisab uue raporti 'Külastajad > Seadmed' alla.",
+        "SmartDisplay": "Nutikas kuvar",
+        "Smartphone": "Nutitelefon",
         "submenu": "Seadmed",
+        "Tablet": "Tahvelarvuti",
+        "TV": "Televiisor",
         "UserAgent": "Veebisirvija tüüp"
     }
 }

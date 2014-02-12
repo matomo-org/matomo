@@ -1,0 +1,15 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Version av webbläsare",
+        "dataTableLabelBrands": "Märke",
+        "dataTableLabelModels": "Modell",
+        "dataTableLabelTypes": "Sort",
+        "DeviceBrand": "Typ av utrustning",
+        "DevicesDetection": "Besöksutrustning",
+        "FeaturePhone": "Telefonmodell",
+        "OperatingSystemVersions": "Nuvarande System version",
+        "SmartDisplay": "Smart skärm",
+        "submenu": "Utrustning",
+        "TV": "TV"
+    }
+}

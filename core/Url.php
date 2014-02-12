@@ -497,6 +497,19 @@ class Url
     }
 
     /**
+     * If the page is using HTTP, redirect to the same page over HTTPS
+     */
+    static public function redirectToHttps()
+    {
+        if(ProxyHttp::isHttps()) {
+            return;
+        }
+        $url = self::getCurrentUrl();
+        $url = str_replace("http://", "https://", $url);
+        self::redirectToUrl($url);
+    }
+
+    /**
      * Returns the **HTTP_REFERER** `$_SERVER` variable, or `false` if not found.
      *
      * @return string|false

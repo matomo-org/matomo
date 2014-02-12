@@ -35,5 +35,26 @@ class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @group Plugins
+     * @dataProvider getAllOs
+     */
+    public function testOSInGroup($os)
+    {
 
+        foreach (UserAgentParserEnhanced::$osFamilies as $family => $labels) {
+            if (in_array($os, $labels)) {
+                return true;
+            }
+        }
+
+        $this->fail('Operating System not in a group');
+    }
+
+    public function getAllOs()
+    {
+        $allOs = array_values(UserAgentParserEnhanced::$osShorts);
+        $allOs = array_map(function($os){ return array($os); }, $allOs);
+        return $allOs;
+    }
 }

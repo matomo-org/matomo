@@ -84,7 +84,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<screenType>dual</screenType>
-		<deviceType>desktop</deviceType>
+		<deviceType>Desktop</deviceType>
 		<resolution>1111x222</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -198,7 +198,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<screenType>dual</screenType>
-		<deviceType>desktop</deviceType>
+		<deviceType>Desktop</deviceType>
 		<resolution>1111x222</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -372,7 +372,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>dual</screenType>
-		<deviceType>desktop</deviceType>
+		<deviceType>Desktop</deviceType>
 		<resolution>1111x222</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>

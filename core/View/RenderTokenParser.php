@@ -40,8 +40,10 @@ class RenderTokenParser extends Twig_TokenParser
         $view = $parser->getExpressionParser()->parseExpression();
 
         $variablesOverride = new Twig_Node_Expression_Array(array(), $token->getLine());
-        if ($stream->nextIf(Twig_Token::NAME_TYPE, 'with')) {
-            $variablesOverride = $this->parser->getExpressionParser()->parseExpression();
+        if ($stream->test(Twig_Token::NAME_TYPE, 'with')) {
+            $stream->next();
+            
+            $variablesOverride->addElement($this->parser->getExpressionParser()->parseExpression());
         }
 
         $stream->expect(Twig_Token::BLOCK_END_TYPE);

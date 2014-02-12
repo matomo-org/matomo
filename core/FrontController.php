@@ -274,8 +274,8 @@ class FrontController extends Singleton
             }
 
             $this->handleMaintenanceMode();
-            $this->handleSSLRedirection();
             $this->handleProfiler();
+            $this->handleSSLRedirection();
 
             $pluginsManager = \Piwik\Plugin\Manager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
@@ -441,18 +441,21 @@ class FrontController extends Singleton
 
     protected function handleSSLRedirection()
     {
-        if (!Common::isPhpCliMode()
-            && Config::getInstance()->General['force_ssl'] == 1
-            && !ProxyHttp::isHttps()
-            // Specifically disable for the opt out iframe
-            && !(Common::getRequestVar('module', '') == 'CoreAdminHome'
-                && Common::getRequestVar('action', '') == 'optOut')
-        ) {
-            $url = Url::getCurrentUrl();
-            $url = str_replace("http://", "https://", $url);
-            Url::redirectToUrl($url);
+        // Specifically disable for the opt out iframe
+        if(Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
+            return;
         }
+        if(Common::isPhpCliMode()) {
+            return;
+        }
+        // force_ssl=1 -> whole of Piwik must run in SSL
+        $isSSLForced = Config::getInstance()->General['force_ssl'] == 1;
+        if ($isSSLForced) {
+            Url::redirectToHttps();
+        }
+
     }
+
 
     /**
      * Assign CLI parameters as if they were REQUEST or GET parameters.

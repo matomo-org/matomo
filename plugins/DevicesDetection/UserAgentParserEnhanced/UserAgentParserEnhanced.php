@@ -12,13 +12,14 @@ require_once(PIWIK_INCLUDE_PATH . '/libs/spyc.php');
 class UserAgentParserEnhanced
 {
     public static $deviceTypes = array(
-        'desktop',
-        'smartphone',
-        'tablet',
-        'feature phone',
-        'console',
-        'tv',
-        'car browser'
+        'desktop',          // 0
+        'smartphone',       // 1
+        'tablet',           // 2
+        'feature phone',    // 3
+        'console',          // 4
+        'tv',               // 5
+        'car browser',      // 6
+        'smart display'     // 7
     );
 
     public static $deviceBrands = array(
@@ -27,22 +28,29 @@ class UserAgentParserEnhanced
         'AL' => 'Alcatel',
         'AO' => 'Amoi',
         'AP' => 'Apple',
+        'AR' => 'Archos',
         'AU' => 'Asus',
         'AV' => 'Avvio',
         'AX' => 'Audiovox',
         'BE' => 'Becker',
         'BI' => 'Bird',
         'BL' => 'Beetel',
+        'BO' => 'BangOlufsen',
         'BQ' => 'BenQ',
         'BS' => 'BenQ-Siemens',
+        'CA' => 'Cat',
         'CK' => 'Cricket',
         'CL' => 'Compal',
+        'CN' => 'CnM',
+        'CR' => 'CreNova',
         'CT' => 'Capitel',
+        'CU' => 'Cube',
         'DE' => 'Denver',
         'DB' => 'Dbtel',
         'DC' => 'DoCoMo',
         'DI' => 'Dicam',
         'DL' => 'Dell',
+        'DM' => 'DMM',
         'DP' => 'Dopod',
         'EC' => 'Ericsson',
         'EI' => 'Ezio',
@@ -50,6 +58,7 @@ class UserAgentParserEnhanced
         'ET' => 'eTouch',
         'EZ' => 'Ezze',
         'FL' => 'Fly',
+        'GD' => 'Gemini',
         'GI' => 'Gionee',
         'GO' => 'Google',
         'GR' => 'Gradiente',
@@ -58,24 +67,35 @@ class UserAgentParserEnhanced
         'HP' => 'HP',
         'HT' => 'HTC',
         'HU' => 'Huawei',
+        'HX' => 'Humax',
+        'IA' => 'Ikea',
         'IK' => 'iKoMo',
         'IM' => 'i-mate',
         'IN' => 'Innostream',
         'IO' => 'i-mobile',
         'IQ' => 'INQ',
+        'IT' => 'Intek',
+        'IV' => 'Inverto',
+        'JI' => 'Jiayu',
         'JO' => 'Jolla',
         'KA' => 'Karbonn',
         'KD' => 'KDDI',
         'KN' => 'Kindle',
         'KO' => 'Konka',
         'KT' => 'K-Touch',
+        'KH' => 'KT-Tech',
         'KY' => 'Kyocera',
         'LA' => 'Lanix',
         'LC' => 'LCT',
         'LE' => 'Lenovo',
         'LG' => 'LG',
+        'LO' => 'Loewe',
         'LU' => 'LGUPlus',
+        'MA' => 'Manta Multimedia',
+        'MD' => 'Medion',
+        'ME' => 'Metz',
         'MI' => 'MicroMax',
+        'MK' => 'MediaTek',
         'MO' => 'Mio',
         'MR' => 'Motorola',
         'MS' => 'Microsoft',
@@ -92,10 +112,13 @@ class UserAgentParserEnhanced
         'OR' => 'Orange',
         'OT' => 'O2',
         'PA' => 'Panasonic',
+        'PE' => 'PEAQ',
         'PH' => 'Philips',
+        'PL' => 'Polaroid',
         'PM' => 'Palm',
         'PO' => 'phoneOne',
         'PT' => 'Pantech',
+        'PP' => 'PolyPad',
         'QT' => 'Qtek',
         'RM' => 'RIM',
         'RO' => 'Rover',
@@ -109,35 +132,50 @@ class UserAgentParserEnhanced
         'SN' => 'Sendo',
         'SO' => 'Sony',
         'SP' => 'Spice',
+        'SU' => 'SuperSonic',
+        'SV' => 'Selevision',
         'SY' => 'Sanyo',
+        'SM' => 'Symphony',
+        'SR' => 'Smart',
         'TA' => 'Tesla',
         'TC' => 'TCL',
         'TE' => 'Telit',
         'TH' => 'TiPhone',
         'TI' => 'TIANYU',
+        'TL' => 'Telefunken',
         'TM' => 'T-Mobile',
+        'TN' => 'Thomson',
         'TO' => 'Toplux',
         'TS' => 'Toshiba',
+        'TT' => 'TechnoTrend',
+        'TX' => 'TechniSat',
         'UT' => 'UTStarcom',
         'VD' => 'Videocon',
         'VE' => 'Vertu',
         'VI' => 'Vitelcom',
         'VK' => 'VK Mobile',
+        'VS' => 'ViewSonic',
+        'VT' => 'Vestel',
         'VO' => 'Voxtel',
+        'VW' => 'Videoweb',
         'WB' => 'Web TV',
         'WE' => 'WellcoM',
         'WO' => 'Wonu',
+        'XI' => 'Xiaomi',
         'XX' => 'Unknown',
+        'YU' => 'Yuandao',
         'ZO' => 'Zonda',
         'ZT' => 'ZTE',
     );
     public static $osShorts = array(
         'AIX'                  => 'AIX',
         'Android'              => 'AND',
+        'AmigaOS'              => 'AMG',
         'Apple TV'             => 'ATV',
         'Arch Linux'           => 'ARL',
         'BackTrack'            => 'BTR',
         'Bada'                 => 'SBA',
+        'BeOS'                 => 'BEO',
         'BlackBerry OS'        => 'BLB',
         'BlackBerry Tablet OS' => 'QNX',
         'Bot'                  => 'BOT',
@@ -152,6 +190,7 @@ class UserAgentParserEnhanced
         'Gentoo'               => 'GNT',
         'Google TV'            => 'GTV',
         'HP-UX'                => 'HPX',
+        'Haiku OS'             => 'HAI',
         'IRIX'                 => 'IRI',
         'Knoppix'              => 'KNO',
         'Kubuntu'              => 'KBT',
@@ -167,8 +206,8 @@ class UserAgentParserEnhanced
         'OS/2'                 => 'OS2',
         'OSF1'                 => 'T64',
         'OpenBSD'              => 'OBS',
-        'PlayStation'          => 'PSP',
-        'PlayStation 3'        => 'PS3',
+        'PlayStation Portable' => 'PSP',
+        'PlayStation'          => 'PS3',
         'Presto'               => 'PRS',
         'Puppy'                => 'PPY',
         'Red Hat'              => 'RHT',
@@ -210,24 +249,25 @@ class UserAgentParserEnhanced
         'palmOS'               => 'POS',
         'webOS'                => 'WOS'
     );
-    protected static $desktopOsArray = array('IBM', 'Linux', 'Mac', 'Unix', 'Windows');
+    protected static $desktopOsArray = array('AmigaOS', 'IBM', 'Linux', 'Mac', 'Unix', 'Windows', 'BeOS');
     public static $osFamilies = array(
         'Android'               => array('AND'),
+        'AmigaOS'               => array('AMG'),
         'Apple TV'              => array('ATV'),
         'BlackBerry'            => array('BLB'),
         'Bot'                   => array('BOT'),
         'Brew'                  => array('BMP'),
+        'BeOS'                  => array('BEO', 'HAI'),
         'Chrome OS'             => array('COS'),
         'Firefox OS'            => array('FOS'),
         'Gaming Console'        => array('WII', 'PS3'),
         'Google TV'             => array('GTV'),
         'IBM'                   => array('OS2'),
         'iOS'                   => array('IOS'),
-        'Linux'                 => array('LIN', 'ARL', 'DEB', 'KNO', 'MIN', 'UBT', 'KBT', 'XBT', 'LBT', 'FED', 'RHT', 'MDR', 'GNT', 'SLW', 'SSE', 'PPY', 'CES', 'BTR', 'YNS', 'PRS'),
+        'Linux'                 => array('LIN', 'ARL', 'DEB', 'KNO', 'MIN', 'UBT', 'KBT', 'XBT', 'LBT', 'FED', 'RHT', 'MDR', 'GNT', 'SLW', 'SSE', 'PPY', 'CES', 'BTR', 'YNS', 'PRS', 'SAF'),
         'Mac'                   => array('MAC'),
         'Mobile Gaming Console' => array('PSP', 'NDS', 'XBX'),
         'Other Mobile'          => array('WOS', 'POS', 'QNX', 'SBA', 'TIZ', 'SMG'),
-        'Sailfish'              => array('SAF'),
         'Simulator'             => array('TKT', 'WWP'),
         'Symbian'               => array('SYM', 'SYS', 'SY3', 'S60', 'S40'),
         'Unix'                  => array('SOS', 'AIX', 'HPX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
@@ -238,18 +278,20 @@ class UserAgentParserEnhanced
     public static $browserFamilies = array(
         'Android Browser'    => array('AN'),
         'BlackBerry Browser' => array('BB'),
-        'Chrome'             => array('CH', 'CM', 'CI', 'CF', 'CR', 'RM'),
+        'Chrome'             => array('CH', 'CD', 'CM', 'CI', 'CF', 'CN', 'CR', 'CP', 'RM'),
         'Firefox'            => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
         'Internet Explorer'  => array('IE', 'IM'),
         'Konqueror'          => array('KO'),
         'NetFront'           => array('NF'),
-        'Nokia Browser'      => array('NB'),
-        'Opera'              => array('OP', 'OM', 'OI'),
+        'Nokia Browser'      => array('NB', 'NO', 'NV'),
+        'Opera'              => array('OP', 'OM', 'OI', 'ON'),
         'Safari'             => array('SF', 'MF'),
         'Sailfish Browser'   => array('SA')
     );
     public static $browsers = array(
+        'AA' => 'Avant Browser',
         'AB' => 'ABrowse',
+        'AG' => 'ANTGalio',
         'AM' => 'Amaya',
         'AN' => 'Android Browser',
         'AR' => 'Arora',
@@ -260,18 +302,22 @@ class UserAgentParserEnhanced
         'BE' => 'Beonex',
         'BX' => 'BrowseX',
         'CA' => 'Camino',
+        'CD' => 'Comodo Dragon',
         'CF' => 'Chrome Frame',
         'CH' => 'Chrome',
         'CI' => 'Chrome Mobile iOS',
         'CK' => 'Conkeror',
         'CM' => 'Chrome Mobile',
+        'CN' => 'CoolNovo',
         'CO' => 'CometBird',
+        'CP' => 'ChromePlus',
         'CR' => 'Chromium',
         'CS' => 'Cheshire',
         'DF' => 'Dolphin',
         'DI' => 'Dillo',
         'EL' => 'Elinks',
         'EP' => 'Epiphany',
+        'ES' => 'Espial TV Browser',
         'FB' => 'Firebird',
         'FD' => 'Fluid',
         'FE' => 'Fennec',
@@ -281,8 +327,11 @@ class UserAgentParserEnhanced
         'GA' => 'Galeon',
         'GE' => 'Google Earth',
         'HJ' => 'HotJava',
+        'IA' => 'Iceape',
         'IB' => 'IBrowse',
         'IC' => 'iCab',
+        'ID' => 'IceDragon',
+        'IW' => 'Iceweasel',
         'IE' => 'Internet Explorer',
         'IM' => 'IE Mobile',
         'IR' => 'Iron',
@@ -294,37 +343,50 @@ class UserAgentParserEnhanced
         'KZ' => 'Kazehakase',
         'LG' => 'Lightning',
         'LI' => 'Links',
+        'LS' => 'Lunascape',
         'LX' => 'Lynx',
         'MB' => 'MicroB',
         'MC' => 'NCSA Mosaic',
+        'ME' => 'Mercury',
         'MF' => 'Mobile Safari',
         'MI' => 'Midori',
         'MS' => 'Mobile Silk',
         'MX' => 'Maxthon',
         'NB' => 'Nokia Browser',
+        'NO' => 'Nokia OSS Browser',
+        'NV' => 'Nokia Ovi Browser',
         'NF' => 'NetFront',
         'NL' => 'NetFront Life',
+        'NP' => 'NetPositive',
         'NS' => 'Netscape',
         'OB' => 'Obigo',
         'OI' => 'Opera Mini',
         'OM' => 'Opera Mobile',
         'OP' => 'Opera',
+        'ON' => 'Opera Next',
         'OV' => 'Openwave Mobile Browser',
         'OW' => 'OmniWeb',
         'PL' => 'Palm Blazer',
+        'PM' => 'Pale Moon',
         'PR' => 'Palm Pre',
+        'PW' => 'Palm WebPro',
         'PX' => 'Phoenix',
+        'PO' => 'Polaris',
         'RK' => 'Rekonq',
         'RM' => 'RockMelt',
         'SA' => 'Sailfish Browser',
         'SF' => 'Safari',
+        'SL' => 'Sleipnir',
         'SM' => 'SeaMonkey',
         'SN' => 'Snowshoe',
         'SX' => 'Swiftfox',
+        'TB' => 'Thunderbird',
         'TZ' => 'Tizen Browser',
         'UC' => 'UC Browser',
+        'WE' => 'WebPositive',
         'WO' => 'wOSBrowser',
-        'YA' => 'Yandex Browser'
+        'YA' => 'Yandex Browser',
+        'XI' => 'Xiino'
     );
 
     const UNKNOWN = "UNK";
@@ -332,6 +394,7 @@ class UserAgentParserEnhanced
     protected static $osRegexesFile = 'oss.yml';
     protected static $browserRegexesFile = 'browsers.yml';
     protected static $mobileRegexesFile = 'mobiles.yml';
+    protected static $televisionRegexesFile = 'televisions.yml';
     protected $userAgent;
     protected $os = '';
     protected $browser = '';
@@ -372,6 +435,15 @@ class UserAgentParserEnhanced
         return $regexMobile;
     }
 
+    protected function getTelevisionRegexes()
+    {
+        static $regexTvs = null;
+        if(empty($regexTvs)) {
+            $regexTvs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
+        }
+        return $regexTvs;
+    }
+
     public function parse()
     {
         $this->parseOs();
@@ -380,11 +452,15 @@ class UserAgentParserEnhanced
 
         $this->parseBrowser();
 
-        if ($this->isMobile()) {
-            $mobileDef = $this->getMobileRegexes();
-            $this->parseBrand($mobileDef);
-            $this->parseModel($mobileDef);
+        if($this->isHbbTv()) {
+            $this->parseTelevision();
         } else {
+            $this->parseMobile();
+        }
+
+        if (empty($this->device) && $this->isHbbTv()) {
+            $this->device = array_search('tv', self::$deviceTypes);
+        } else if (empty($this->device) && $this->isDesktop()) {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
         if ($this->debug) {
@@ -403,14 +479,18 @@ class UserAgentParserEnhanced
         if (!$matches)
             return;
 
-        if (in_array($osRegex['name'], self::$osShorts)) {
-            $short = self::$osShorts[$osRegex['name']];
-        } else {
-            $short = 'UNK';
+        $name  = $this->buildOsName($osRegex['name'], $matches);
+        $short = 'UNK';
+
+        foreach (self::$osShorts AS $osName => $osShort) {
+            if (strtolower($name) == strtolower($osName)) {
+                $name  = $osName;
+                $short = $osShort;
+            }
         }
 
         $this->os = array(
-            'name'       => $this->buildOsName($osRegex['name'], $matches),
+            'name'       => $name,
             'short_name' => $short,
             'version'    => $this->buildOsVersion($osRegex['version'], $matches)
         );
@@ -431,22 +511,40 @@ class UserAgentParserEnhanced
         if (!$matches)
             return;
 
-        if (in_array($browserRegex['name'], self::$browsers)) {
-            $short = array_search($browserRegex['name'], self::$browsers);
-        } else {
-            $short = 'XX';
+        $name  = $this->buildBrowserName($browserRegex['name'], $matches);
+        $short = 'XX';
+
+        foreach (self::$browsers AS $browserShort => $browserName) {
+            if (strtolower($name) == strtolower($browserName)) {
+                $name  = $browserName;
+                $short = $browserShort;
+            }
         }
 
         $this->browser = array(
-            'name'       => $this->buildBrowserName($browserRegex['name'], $matches),
+            'name'       => $name,
             'short_name' => $short,
             'version'    => $this->buildBrowserVersion($browserRegex['version'], $matches)
         );
     }
 
-    protected function parseBrand($mobileRegexes)
+    protected function parseMobile()
     {
-        foreach ($mobileRegexes as $brand => $mobileRegex) {
+        $mobileRegexes = $this->getMobileRegexes();
+        $this->parseBrand($mobileRegexes);
+        $this->parseModel($mobileRegexes);
+    }
+
+    protected function parseTelevision()
+    {
+        $televisionRegexes = $this->getTelevisionRegexes();
+        $this->parseBrand($televisionRegexes);
+        $this->parseModel($televisionRegexes);
+    }
+
+    protected function parseBrand($deviceRegexes)
+    {
+        foreach ($deviceRegexes as $brand => $mobileRegex) {
             $matches = $this->matchUserAgent($mobileRegex['regex']);
             if ($matches)
                 break;
@@ -471,12 +569,12 @@ class UserAgentParserEnhanced
         }
     }
 
-    protected function parseModel($mobileRegexes)
+    protected function parseModel($deviceRegexes)
     {
-        if (empty($this->brand) || !empty($this->model))
+        if (empty($this->brand) || !empty($this->model) || empty($deviceRegexes[$this->fullName]['models']))
             return;
 
-        foreach ($mobileRegexes[$this->fullName]['models'] as $modelRegex) {
+        foreach ($deviceRegexes[$this->fullName]['models'] as $modelRegex) {
             $matches = $this->matchUserAgent($modelRegex['regex']);
             if ($matches)
                 break;
@@ -495,7 +593,7 @@ class UserAgentParserEnhanced
 
     protected function matchUserAgent($regex)
     {
-        $regex = '/' . str_replace('/', '\/', $regex) . '/i';
+        $regex = '/(?:^|[^A-Z_-])(?:' . str_replace('/', '\/', $regex) . ')/i';
 
         if (preg_match($regex, $this->userAgent, $matches)) {
             return $matches;
@@ -615,37 +713,18 @@ class UserAgentParserEnhanced
 
     public function isBot()
     {
-        $decodedFamily = '';
-        if (in_array($this->getOs('name'), self::$osShorts)) {
-            $osShort = self::$osShorts[$this->getOs('name')];
-        } else {
-            $osShort = '';
-        }
-        foreach (self::$osFamilies as $family => $familyOs) {
-            if (in_array($osShort, $familyOs)) {
-                $decodedFamily = $family;
-                break;
-            }
-        }
-
-        return $decodedFamily == 'Bot';
+        return $this->getOsFamily($this->getOs('short_name')) == 'Bot';
     }
 
     public function isSimulator()
     {
-        $decodedFamily = '';
-        if (in_array($this->getOs('name'), self::$osShorts)) {
-            $osShort = self::$osShorts[$this->getOs('name')];
-        } else {
-            $osShort = '';
-        }
-        foreach (self::$osFamilies as $family => $familyOs) {
-            if (in_array($osShort, $familyOs)) {
-                $decodedFamily = $family;
-                break;
-            }
-        }
-        return $decodedFamily == 'Simulator';
+        return $this->getOsFamily($this->getOs('short_name')) == 'Simulator';
+    }
+
+    public function isHbbTv()
+    {
+        $regex = 'HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})';
+        return $this->matchUserAgent($regex);
     }
 
     public function isMobile()

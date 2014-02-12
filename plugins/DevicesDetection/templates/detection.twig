@@ -1,6 +1,29 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
+
+    <script type="text/javascript">
+
+        function showList(type) {
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams({
+                module: 'DevicesDetection',
+                action: 'showList',
+                type: type
+            }, 'GET');
+            ajaxHandler.setFormat('html');
+            ajaxHandler.setCallback(function(response){
+                $('.itemList').html(response).dialog({
+                    modal: true,
+                    width: '50%',
+                    maxHeight: 400
+                });
+            });
+            ajaxHandler.send(true);
+        }
+
+    </script>
+
     <style type="text/css">
 
         textarea {
@@ -24,7 +47,7 @@
     <h2>{{ 'UserSettings_ColumnOperatingSystem'|translate }}</h2>
     <table class="dataTable detection">
         <tr>
-            <td>{{ 'General_Name'|translate }}</td>
+            <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('os');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ os_logo }}" />{{ os_name }}</td>
         </tr>
         <tr>
@@ -32,7 +55,7 @@
             <td>{{ os_version }}</td>
         </tr>
         <tr>
-            <td>{{ 'UserSettings_OperatingSystemFamily'|translate }}</td>
+            <td>{{ 'UserSettings_OperatingSystemFamily'|translate }}  <small>(<a href="javascript:showList('osfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ os_family_logo }}" />{{ os_family }}</td>
         </tr>
     </table>
@@ -40,7 +63,7 @@
     <h2>{{ 'UserSettings_ColumnBrowser'|translate }}</h2>
     <table class="dataTable detection">
         <tr>
-            <td>{{ 'General_Name'|translate }}</td>
+            <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('browsers');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ browser_logo }}" />{{ browser_name }}</td>
         </tr>
         <tr>
@@ -48,7 +71,7 @@
             <td>{{ browser_version }}</td>
         </tr>
         <tr>
-            <td>{{ 'UserSettings_ColumnBrowserFamily'|translate }}</td>
+            <td>{{ 'UserSettings_ColumnBrowserFamily'|translate }} <small>(<a href="javascript:showList('browserfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ browser_family_logo }}" />{{ browser_family }}</td>
         </tr>
     </table>
@@ -56,11 +79,11 @@
     <h2>{{ 'DevicesDetection_Device'|translate }}</h2>
     <table class="dataTable detection">
         <tr>
-            <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }}</td>
+            <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }} <small>(<a href="javascript:showList('devicetypes');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ device_type_logo }}" />{{ device_type }}</td>
         </tr>
         <tr>
-            <td>{{ 'DevicesDetection_dataTableLabelBrands'|translate }}</td>
+            <td>{{ 'DevicesDetection_dataTableLabelBrands'|translate }} <small>(<a href="javascript:showList('brands');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ device_brand_logo }}" />{{ device_brand }}</td>
         </tr>
         <tr>
@@ -68,5 +91,7 @@
             <td>{{ device_model }}</td>
         </tr>
     </table>
+
+    <div style="display: none;" class="itemList"></div>
 
 {% endblock %}

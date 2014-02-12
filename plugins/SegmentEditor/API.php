@@ -272,6 +272,11 @@ class API extends \Piwik\Plugin\API
         } else {
             Piwik::checkUserHasSomeViewAccess();
         }
+
+        if ($returnOnlyAutoArchived) {
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
         $bind = array();
 
         // Build basic segment filtering
@@ -281,18 +286,17 @@ class API extends \Piwik\Plugin\API
             $bind[] = $idSite;
         }
 
-        $bind[] = Piwik::getCurrentUserLogin();
-
-        $extraWhere = '';
         if ($returnOnlyAutoArchived) {
             $extraWhere = ' AND auto_archive = 1';
+        } else {
+            $extraWhere = ' AND (enable_all_users = 1 OR login = ?)';
+            $bind[] = Piwik::getCurrentUserLogin();
         }
 
         // Query
         $sql = "SELECT * " .
             " FROM " . Common::prefixTable("segment") .
             " WHERE ($whereIdSite enable_only_idsite = 0)
-                        AND  (enable_all_users = 1 OR login = ?)
                         AND deleted = 0
                         $extraWhere
                       ORDER BY name ASC";

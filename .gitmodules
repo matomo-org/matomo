@@ -12,7 +12,7 @@
 	branch = master
 [submodule "plugins/VisitorGenerator"]
 	path = plugins/VisitorGenerator
-	url = https://github.com/piwik/plugin-VisitorGenerator
+	url = https://github.com/piwik/plugin-VisitorGenerator.git
 	branch = master
 [submodule "tests/PHPUnit/UI"]
 	path = tests/PHPUnit/UI
@@ -25,8 +25,8 @@
 [submodule "plugins/TasksTimetable"]
 	path = plugins/TasksTimetable
 	url = https://github.com/piwik/plugin-TasksTimetable.git
-    branch = master
+        branch = master
 [submodule "plugins/LoginHttpAuth"]
 	path = plugins/LoginHttpAuth
 	url = https://github.com/piwik/plugin-LoginHttpAuth.git
-    branch = master
+        branch = master
