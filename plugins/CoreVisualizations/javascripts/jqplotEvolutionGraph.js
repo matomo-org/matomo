@@ -119,6 +119,8 @@
                         $(this).css('cursor', 'pointer');
                     }
                 });
+
+            this.setYTicks();
         },
 
         _destroyDataPointTooltip: function () {
@@ -126,7 +128,6 @@
         },
 
         render: function () {
-            this.setYTicks();
             JqplotGraphDataTablePrototype.render.call(this);
         }
     });
