@@ -85,7 +85,7 @@ class Recorder(object):
 
 def test_replay_tracking_arguments():
     """Test data parsing from sample log file."""
-    file_ = 'logs_to_tests.log'
+    file_ = 'logs/logs_to_tests.log'
     
     import_logs.stats = import_logs.Statistics()
     import_logs.config = Config()
