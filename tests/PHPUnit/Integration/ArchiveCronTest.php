@@ -82,7 +82,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 
         foreach ($this->getApiForTesting() as $testInfo) {
 
-
             list($api, $params) = $testInfo;
 
             if (!isset($params['testSuffix'])) {

@@ -732,8 +732,10 @@ class Tracker
         if (is_null($args)) {
             $args = $_GET + $_POST;
         }
-        if (is_null($requestMethod)) {
+        if (is_null($requestMethod) && array_key_exists('REQUEST_METHOD', $_SERVER)) {
             $requestMethod = $_SERVER['REQUEST_METHOD'];
+        } else if (is_null($requestMethod)) {
+            $requestMethod = 'GET';
         }
 
         // Do not run scheduled tasks during tests

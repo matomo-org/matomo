@@ -209,6 +209,7 @@ class CliMulti {
     {
         $this->processes[] = new Process($cmdId);
 
+        $url     = $this->appendTestmodeParamToUrlIfNeeded($url);
         $query   = Url::getQueryFromUrl($url, array('pid' => $cmdId));
         $command = $this->buildCommand($query, $output->getPathToFile());
 
@@ -231,5 +232,18 @@ class CliMulti {
 
             $output->write($message);
         }
+    }
+
+    private function appendTestmodeParamToUrlIfNeeded($url)
+    {
+        $isTestMode = $url && false !== strpos($url, 'tests/PHPUnit/proxy');
+
+        if ($isTestMode && false === strpos($url, '?')) {
+            $url .= "?testmode=1";
+        } elseif ($isTestMode) {
+            $url .= "&testmode=1";
+        }
+
+        return $url;
     }
 }

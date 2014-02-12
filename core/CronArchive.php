@@ -850,7 +850,7 @@ Notes:
             }
 
             // ensure there is a trailing slash
-            if ($piwikUrl[strlen($piwikUrl) - 1] != '/') {
+            if ($piwikUrl[strlen($piwikUrl) - 1] != '/' && !Common::stringEndsWith($piwikUrl, 'index.php')) {
                 $piwikUrl .= '/';
             }
         }
@@ -860,7 +860,12 @@ Notes:
         if (Config::getInstance()->General['force_ssl'] == 1) {
             $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
         }
-        $this->piwikUrl = $piwikUrl . "index.php";
+
+        if (!Common::stringEndsWith($piwikUrl, 'index.php')) {
+            $piwikUrl .= 'index.php';
+        }
+
+        $this->piwikUrl = $piwikUrl;
     }
 
     /**
@@ -1086,5 +1091,6 @@ Notes:
         $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
             . "\n--help for more information", $backtrace = false);
     }
+
 }
 

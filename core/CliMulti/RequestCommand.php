@@ -36,6 +36,9 @@ class RequestCommand extends ConsoleCommand
 
         if ($this->isTestModeEnabled()) {
             Config::getInstance()->setTestEnvironment();
+            $indexFile = '/tests/PHPUnit/proxy/index.php';
+        } else {
+            $indexFile = '/index.php';
         }
 
         if (!empty($_GET['pid'])) {
@@ -50,7 +53,7 @@ class RequestCommand extends ConsoleCommand
 
         Common::$isCliMode = false;
 
-        require_once PIWIK_INCLUDE_PATH . "/index.php";
+        require_once PIWIK_INCLUDE_PATH . $indexFile;
 
         if (!empty($process)) {
             $process->finishProcess();
