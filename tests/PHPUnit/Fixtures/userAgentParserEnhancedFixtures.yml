@@ -15039,7 +15039,7 @@
   os_family: Android
   browser_family: Android Browser
 -
-  user_agent: Mozilla/5.0 (Linux; U; Android 2.3.5; zh-cn; MI-ONE_Plus Build/GINGERBREAD; 480*854) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1/UCWEB7.9.3.103/139/800
+  user_agent: 'Mozilla/5.0 (Linux; U; Android 2.3.5; zh-cn; MI-ONE_Plus Build/GINGERBREAD; 480*854) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1/UCWEB7.9.3.103/139/800'
   os:
     name: Android
     short_name: AND
@@ -16492,5 +16492,358 @@
     type: tablet
     brand: AC
     model: Icona Tab A101
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.2.2; ALCATEL ONE TOUCH Fierce Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.59 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 31.0
+  device:
+    type: smartphone
+    brand: AL
+    model: ONE TOUCH Fierce
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.0.4; PantechP9070 Build/IMM76I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.99 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 32.0
+  device:
+    type: smartphone
+    brand: PT
+    model: P9070
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; Transformer TF101 Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: AU
+    model: Transformer TF101
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.2.1;en-us; Lenovo_S920_ROW/JOP40D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.2.1 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: LE
+    model: S920
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; en-us; NuclearSX-SP5 Build/JRO03C) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: TV
+    model: Nuclear SX-SP5
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3.6; ru-ru; FLY IQ256 Build/GRK39F) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 Maxthon/4.1.4.2000
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Maxthon
+    short_name: MX
+    version: 4.1
+  device:
+    type: smartphone
+    brand: FL
+    model: IQ256
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; en-us; ZTE N9120 Build/IMM76I) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: ZT
+    model: N9120
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.2; en-in; Micromax A92 Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: MI
+    model: A92
+  os_family: Android
+  browser_family: Android Browser
+
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.3; en-us; HTCONE Build/JSS15J) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 GSA/3.1.24.941712.arm
+  os:
+    name: Android
+    short_name: AND
+    version: 4.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HT
+    model: ONE
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.3; en-ca; SonyC6906 Build/14.2.A.0.290) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: SO
+    model: C6906
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.2.1; zh-cn;GiONEE-E6/E6 Build/IMM76D) AppleWebKit534.30(KHTML,like Gecko)Version/4.0 Mobile Safari/534.30 Id/E3BF0C8D6FBEE9E2CE5D6D89000FF784 RV/4.2.7 GNBR/v1.5.1.h (securitypay,securityinstalled) GNBR/2.1.2.aa (securitypay,securityinstalled)
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: GI
+    model: E6
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: GiONEE-GN160T_TD/1.0 Linux/2.6.35.7 Android/2.3.5 Release/10.24.2012 Browser/AppleWebKit533.1 (KHTML, like Gecko) Mozilla/5.0 Mobile
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: GI
+    model: GN160T
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; zh-cn; vivo S7t Build/IMM76D) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 MQQBrowser/5.0 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: BB
+    model: Vivo S7t
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3.3; zh-CN; vivo V1 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/9.4.1.362 U3/0.8.0 Mobile Safari/533.1
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: UC Browser
+    short_name: UC
+    version: 9.4
+  device:
+    type: smartphone
+    brand: BB
+    model: Vivo V1
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.2.2; LIFETAB_E10316 Build/JDQ39) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.58 Safari/537.31
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 26.0
+  device:
+    type: tablet
+    brand: MD
+    model: Lifetab E10316
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent:  Mozilla/5.0 (Linux; U; Android 4.1.1; de-de; LIFETAB_S9714 Build/JRO03R) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: MD
+    model: Lifetab S9714
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.2; zh-CN; Amaze 4G Build/JZO54K) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/9.5.0.360 U3/0.8.0 Mobile Safari/533.1
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: UC Browser
+    short_name: UC
+    version: 9.5
+  device:
+    type: smartphone
+    brand: HT
+    model: Amaze 4G
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; it-it; ARCHOS 80 TITANIUM Build/JRO03H) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30 GSA/2.0.0.438695
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: AR
+    model: 80 TITANIUM
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3;en-us; ViewSonic-ViewPad7e build/ERE27) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: VS
+    model: ViewPad 7e
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.0.4; MyPhone A919 Duo Build/IMM76D) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.169 Mobile Safari/537.22
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 25.0
+  device:
+    type: smartphone
+    brand: MY
+    model: A919 Duo
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; en-us ; MyPad 2 Build/IMM76D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1/UCBrowser/8.6.1.262/145/405
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: UC Browser
+    short_name: UC
+    version: 8.6
+  device:
+    type: tablet
+    brand: MY
+    model: MyPad 2
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Dalvik/1.6.0 (Linux; U; Android 4.4.2; HTC One Build/KOT49H.H1)
+  os:
+    name: Android
+    short_name: AND
+    version: 4.4
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HT
+    model: One
   os_family: Android
   browser_family: Android Browser
