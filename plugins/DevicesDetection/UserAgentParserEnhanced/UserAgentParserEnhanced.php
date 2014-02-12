@@ -404,6 +404,7 @@ class UserAgentParserEnhanced
     protected $brand = '';
     protected $model = '';
     protected $debug = false;
+    protected $cache = null;
 
     public function __construct($userAgent)
     {
@@ -412,39 +413,80 @@ class UserAgentParserEnhanced
 
     protected function getOsRegexes()
     {
-        static $regexOs = null;
-        if(empty($regexOs)) {
+        static $regexOs;
+        if (empty($regexOs)) {
+            $regexOs = $this->getParsedYmlFromCache('os');
+        }
+        if (empty($regexOs)) {
             $regexOs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$osRegexesFile);
+            $this->saveParsedYmlInCache('os', $regexOs);
         }
         return $regexOs;
     }
 
     protected function getBrowserRegexes()
     {
-        static $regexBrowser = null;
-        if(empty($regexBrowser)) {
+        static $regexBrowser;
+        if (empty($regexBrowser)) {
+            $regexBrowser = $this->getParsedYmlFromCache('browser');
+        }
+        if (empty($regexBrowser)) {
             $regexBrowser = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$browserRegexesFile);
+            $this->saveParsedYmlInCache('browser', $regexBrowser);
         }
         return $regexBrowser;
     }
 
     protected function getMobileRegexes()
     {
-        static $regexMobile = null;
-        if(empty($regexMobile)) {
+        static $regexMobile;
+        if (empty($regexMobile)) {
+            $regexMobile = $this->getParsedYmlFromCache('mobile');
+        }
+        if (empty($regexMobile)) {
             $regexMobile = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$mobileRegexesFile);
+            $this->saveParsedYmlInCache('mobile', $regexMobile);
         }
         return $regexMobile;
     }
 
     protected function getTelevisionRegexes()
     {
-        static $regexTvs = null;
-        if(empty($regexTvs)) {
+        static $regexTvs;
+        if (empty($regexTvs)) {
+            $regexTvs = $this->getParsedYmlFromCache('tv');
+        }
+        if (empty($regexTvs)) {
             $regexTvs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
+            $this->saveParsedYmlInCache('tv', $regexTvs);
         }
         return $regexTvs;
     }
+
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
+    }
+
+    protected function saveParsedYmlInCache($type, $data)
+    {
+        if (!empty($this->cache) && method_exists($this->cache, 'set')) {
+            $this->cache->set($type, serialize($data));
+        }
+    }
+
+    protected function getParsedYmlFromCache($type)
+    {
+        $data = null;
+        if (!empty($this->cache) && method_exists($this->cache, 'get')) {
+            $data = $this->cache->get($type);
+            if (!empty($data)) {
+                $data = unserialize($data);
+            }
+        }
+        return $data;
+    }
+
 
     public function parse()
     {
