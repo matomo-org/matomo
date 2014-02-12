@@ -120,10 +120,10 @@ abstract class ControllerAdmin extends Controller
     private static function notifyIfEAcceleratorIsUsed()
     {
         if (self::$isEacceleratorUsed) {
-            $params  = array('<a href="http://dev.piwik.org/trac/ticket/4439">', '</a>');
             $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
                 We have disabled eAccelerator, which might affect the performance of Piwik.
-                Read the %srelated ticket%s for more information and how to fix this problem.", $params);
+                Read the %srelated ticket%s for more information and how to fix this problem.",
+                '<a target="_blank" href="http://dev.piwik.org/trac/ticket/4439">', '</a>');
 
             $notification = new Notification($message);
             $notification->context = Notification::CONTEXT_WARNING;
