@@ -94,7 +94,7 @@ class CliMulti {
     {
         $bin = $this->findPhpBinary();
 
-        return sprintf('%s %s/console climulti:request %s > %s 2>&1 &',
+        return sprintf('%s -q %s/console climulti:request %s > %s 2>&1 &',
                        $bin, PIWIK_INCLUDE_PATH, escapeshellarg($query), $outputFile);
     }
 
