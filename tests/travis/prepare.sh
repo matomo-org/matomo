@@ -34,5 +34,6 @@ mkdir ./tmp/logs
 mkdir ./tmp/sessions
 mkdir ./tmp/templates_c
 mkdir ./tmp/tcpdf
+mkdir ./tmp/climulti
 chmod a+rw ./tests/lib/geoip-files
 chmod a+rw ./plugins/ExamplePlugin/tests/processed

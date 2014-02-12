@@ -8,6 +8,7 @@
  */
 namespace Piwik\CliMulti;
 
+use Piwik\CliMulti;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
@@ -31,7 +32,7 @@ class Process
             throw new \Exception('The given pid has an invalid format');
         }
 
-        $pidDir = PIWIK_INCLUDE_PATH . '/tmp/climulti';
+        $pidDir = CliMulti::getTmpPath();
         Filesystem::mkdir($pidDir, true);
 
         $this->isSupported  = self::isSupported();

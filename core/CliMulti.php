@@ -173,13 +173,19 @@ class CliMulti {
     {
         $timeOneWeekAgo = strtotime('-1 week');
 
-        foreach (_glob(PIWIK_INCLUDE_PATH . '/tmp/climulti/*') as $file) {
+        foreach (_glob(self::getTmpPath() . '/*') as $file) {
             $timeLastModified = filemtime($file);
 
             if ($timeOneWeekAgo > $timeLastModified) {
                 unlink($file);
             }
         }
+    }
+
+    public static function getTmpPath()
+    {
+        $dir = PIWIK_INCLUDE_PATH . '/tmp/climulti';
+        return SettingsPiwik::rewriteTmpPathWithHostname($dir);
     }
 
     private function findPhpBinary()

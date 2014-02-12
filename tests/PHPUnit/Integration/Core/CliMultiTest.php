@@ -152,7 +152,7 @@ class Core_CliMultiTest extends IntegrationTestCase
         $this->assertGreaterThan(604797, time() - $timeOneWeekAgo);
         $this->assertLessThan(604803, time() - $timeOneWeekAgo);
 
-        $tmpDir = PIWIK_INCLUDE_PATH . '/tmp/climulti/';
+        $tmpDir = CliMulti::getTmpPath() . '/';
         touch($tmpDir . 'now.pid');
         touch($tmpDir . 'now.output');
         touch($tmpDir . 'toberemoved.pid', $timeOneWeekAgo - 10);
