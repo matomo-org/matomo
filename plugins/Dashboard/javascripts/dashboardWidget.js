@@ -33,7 +33,10 @@
             onChange: null,
             widgetParameters: {},
             title: null,
-            onRemove: null
+            onRemove: null,
+            onRefresh: null,
+            onMaximise: null,
+            onMinimise: null
         },
 
         /**
@@ -92,40 +95,13 @@
         maximise: function () {
             this.isMaximised = true;
 
-            this.element.before('<div id="' + this.uniqueId + '-placeholder" class="widgetPlaceholder widget"> </div>');
-            $('#' + this.uniqueId + '-placeholder').height(this.element.height());
-            $('#' + this.uniqueId + '-placeholder').width(this.element.width() - 16);
+            if (this.options.onMaximise) {
+                this.options.onMaximise(this.element);
+            } else {
+                this._maximiseImpl();
+            }
 
-            var width = Math.floor($('body').width() * 0.7);
-
-            var self = this;
-            this.element.dialog({
-                title: '',
-                modal: true,
-                width: width,
-                position: ['center', 'center'],
-                resizable: true,
-                autoOpen: true,
-                close: function (event, ui) {
-                    self.isMaximised = false;
-                    $('body').off('.dashboardWidget');
-                    $(this).dialog("destroy");
-                    $('#' + self.uniqueId + '-placeholder').replaceWith(this);
-                    $(this).removeAttr('style');
-                    self.options.onChange();
-                    $(this).find('div.piwik-graph').trigger('resizeGraph');
-                    $('.widgetContent', self.element).trigger('widget:minimise');
-                }
-            });
-            this.element.find('div.piwik-graph').trigger('resizeGraph');
-
-            var currentWidget = this.element;
-            $('body').on('click.dashboardWidget', function (ev) {
-                if (/ui-widget-overlay/.test(ev.target.className)) {
-                    $(currentWidget).dialog("close");
-                }
-            });
-            $('.widgetContent', currentWidget).trigger('widget:maximise');
+            $('.widgetContent', this.element).trigger('widget:maximise');
             return this;
         },
 
@@ -168,7 +144,6 @@
          * @param {object} parameters
          */
         setParameters: function (parameters) {
-
             if (!this.isMaximised && (parameters.viewDataTable == 'tableAllColumns' || parameters.viewDataTable == 'tableGoals')) {
                 this.maximise();
             }
@@ -241,37 +216,113 @@
 
             $('.button#maximise', widgetElement)
                 .on('click.dashboardWidget', function (ev) {
-                    if ($('.widgetContent', $(this).parents('.widget')).hasClass('hidden')) {
-                        self.isMaximised = false;
-                        self.options.isHidden = false;
-                        $(this).closest('.widget').removeClass('hiddenContent').find('.widgetContent').removeClass('hidden');
-                        $(this).closest('.widget').find('div.piwik-graph').trigger('resizeGraph');
-                        self.options.onChange();
-                        $('.widgetContent', widgetElement).trigger('widget:minimise');
+                    if (self.options.onMaximise) {
+                        self.options.onMaximise(self.element);
                     } else {
-                        self.maximise();
+                        if ($('.widgetContent', $(this).parents('.widget')).hasClass('hidden')) {
+                            self.showContent();
+                        } else {
+                            self.maximise();
+                        }
                     }
                 });
 
             $('.button#minimise', widgetElement)
                 .on('click.dashboardWidget', function (ev) {
-                    if (!self.isMaximised) {
-                        $('.widgetContent', $(this).closest('.widget').addClass('hiddenContent')).addClass('hidden');
-                        self.options.isHidden = true;
-                        self.options.onChange();
+                    if (self.options.onMinimise) {
+                        self.options.onMinimise(self.element);
                     } else {
-                        self.element.dialog("close");
+                        if (!self.isMaximised) {
+                            self.hideContent();
+                        } else {
+                            self.element.dialog("close");
+                        }
                     }
                 });
 
             $('.button#refresh', widgetElement)
                 .on('click.dashboardWidget', function (ev) {
-                    self.reload(false, true);
+                    if (self.options.onRefresh) {
+                        self.options.onRefresh(self.element);
+                    } else {
+                        self.reload(false, true);
+                    }
                 });
+        },
 
-            widgetElement.show();
+        /**
+         * Hide the widget content. Triggers the onChange event.
+         */
+        hideContent: function () {
+            $('.widgetContent', this.element.find('.widget').addClass('hiddenContent')).addClass('hidden');
+            this.options.isHidden = true;
+            this.options.onChange();
+        },
+
+        /**
+         * Show the widget content. Triggers the onChange event.
+         */
+        showContent: function () {
+            this.isMaximised = false;
+            this.options.isHidden = false;
+            this.element.find('.widget').removeClass('hiddenContent').find('.widgetContent').removeClass('hidden');
+            this.element.find('.widget').find('div.piwik-graph').trigger('resizeGraph');
+            this.options.onChange();
+            $('.widgetContent', this.element).trigger('widget:minimise');
+        },
+
+        /**
+         * Default maximise behavior. Will create a dialog that is 70% of the document's width,
+         * displaying the widget alone.
+         */
+        _maximiseImpl: function () {
+            this.detachWidget();
+
+            var width = Math.floor($('body').width() * 0.7);
+
+            var self = this;
+            this.element.dialog({
+                title: '',
+                modal: true,
+                width: width,
+                position: ['center', 'center'],
+                resizable: true,
+                autoOpen: true,
+                close: function (event, ui) {
+                    self.isMaximised = false;
+                    $('body').off('.dashboardWidget');
+                    $(this).dialog("destroy");
+                    $('#' + self.uniqueId + '-placeholder').replaceWith(this);
+                    $(this).removeAttr('style');
+                    self.options.onChange();
+                    $(this).find('div.piwik-graph').trigger('resizeGraph');
+                    $('.widgetContent', self.element).trigger('widget:minimise');
+                }
+            });
+            this.element.find('div.piwik-graph').trigger('resizeGraph');
+
+            var currentWidget = this.element;
+            $('body').on('click.dashboardWidget', function (ev) {
+                if (/ui-widget-overlay/.test(ev.target.className)) {
+                    $(currentWidget).dialog("close");
+                }
+            });
+        },
+
+        /**
+         * Detaches the widget from the DOM and replaces it with a placeholder element.
+         * The placeholder element will have the save dimensions as the widget and will have
+         * the widgetPlaceholder CSS class.
+         *
+         * @return {jQuery} the detached widget
+         */
+        detachWidget: function () {
+            this.element.before('<div id="' + this.uniqueId + '-placeholder" class="widgetPlaceholder widget"> </div>');
+            $('#' + this.uniqueId + '-placeholder').height(this.element.height());
+            $('#' + this.uniqueId + '-placeholder').width(this.element.width() - 16);
+
+            return this.element.detach();
         }
-
     });
 
 })(jQuery);
