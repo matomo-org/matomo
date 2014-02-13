@@ -19,7 +19,8 @@ class UserAgentParserEnhanced
         'console',          // 4
         'tv',               // 5
         'car browser',      // 6
-        'smart display'     // 7
+        'smart display',    // 7
+        'camera'            // 8
     );
 
     public static $deviceBrands = array(
@@ -106,12 +107,14 @@ class UserAgentParserEnhanced
         'NG' => 'NGM',
         'NI' => 'Nintendo',
         'NK' => 'Nokia',
+        'NN' => 'Nikon',
         'NW' => 'Newgen',
         'NX' => 'Nexian',
         'OD' => 'Onda',
         'OP' => 'OPPO',
         'OR' => 'Orange',
         'OT' => 'O2',
+        'OU' => 'OUYA',
         'PA' => 'Panasonic',
         'PE' => 'PEAQ',
         'PH' => 'Philips',

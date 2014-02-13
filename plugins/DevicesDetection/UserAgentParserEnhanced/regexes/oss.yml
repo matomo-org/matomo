@@ -47,7 +47,7 @@
 ##########
 # Android
 ##########
-- regex: 'Android[ /](\d+\.\d+)'
+- regex: 'Android[ /](?:[a-z]+ )?(\d+\.\d+)'
   name: 'Android'
   version: '$1'
   

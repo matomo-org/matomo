@@ -16863,3 +16863,51 @@
     model:
   os_family: Android
   browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android OUYA 4.1.2; en-us; OUYA Build/JZO54L-OUYA) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: console
+    brand: OU
+    model: OUYA
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0; de-DE; EK-GC100 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: camera
+    brand: SA
+    model: Galaxy Camera 100
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.1.2; EK-GC100 Build/JZO54K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.63 Mobile Safari/537.36 OPR/15.0.1162.60140
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Opera Mobile
+    short_name: OM
+    version: 15.0
+  device:
+    type: camera
+    brand: SA
+    model: Galaxy Camera 100
+  os_family: Android
+  browser_family: Opera
