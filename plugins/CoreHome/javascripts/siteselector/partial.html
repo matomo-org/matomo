@@ -1,0 +1,49 @@
+<div ng-class="{'sites_autocomplete--dropdown': (hasMultipleWebsites || showAllSitesItem)}"
+     id="{{ selectorId }}">
+    <div piwik-focus-anywhere-but-here="selector.showSitesList=false" class="custom_select">
+
+        <input ng-if="inputName" ng-model="selector.selectedSiteId" type="hidden" name="{{ inputName }}" value=""/>
+
+        <a ng-click="selector.showSitesList=!selector.showSitesList; selector.showSitesList && loadInitialSites()" href="javascript:void(0)"
+           class="custom_select_main_link" ng-class="{'loading': isLoading}"
+           data-siteid="{{ selectedSiteId }}">
+            <span ng-bind="siteName"></span>
+        </a>
+
+        <div ng-show="selector.showSitesList" class="custom_select_block">
+
+            <div ng-click="siteName='Ddd'" ng-show="allWebsitesLinkLocation=='top' && showAllSitesItem" class="custom_select_all" style="clear: both;">
+                <a href="#">
+                    {{ allSitesItemText || 'General_MultiSitesSummary'|translate }}
+                </a>
+            </div>
+
+            <div class="custom_select_container">
+                <ul class="custom_select_ul_list">
+                    <li ng-focus="selector.searchTerm=site.name" ng-click="selector.showSitesList=false; switchSite(site)" ng-repeat="site in sites" ng-hide="!showSelectedSite && piwik.idSite==site.idsite">
+                        <a href="javascript:void(0)" piwik-autocomplete-matched="selector.searchTerm">{{ site.name }}</a>
+                    </li>
+                </ul>
+                <ul ng-show="!sites.length" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
+                    <li class="ui-menu-item" style="float:none;position:static">
+                        <a class="ui-corner-all" style="float:none;position:static" tabindex="-1">{{ ('SitesManager_NotFound' | translate) + ' ' + selector.searchTerm }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div ng-click="siteName='Ddd'" ng-show="allWebsitesLinkLocation=='bottom' && showAllSitesItem" class="custom_select_all" style="clear: both;">
+                <a href="#">
+                    {{ allSitesItemText || 'General_MultiSitesSummary'|translate }}
+                </a>
+            </div>
+
+            <div class="custom_select_search" ng-show="showAutocomplete">
+                <input type="text" ng-focus="selector.showSitesList" ng-click="selector.searchTerm=''" ng-model="selector.searchTerm" ng-change="searchSite(selector.searchTerm)" length="15" class="websiteSearch inp"/>
+                <input type="submit" value="Search" class="but"/>
+                <img title="Clear" ng-show="selector.searchTerm" ng-click="selector.searchTerm=''; loadInitialSites()" class="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer;"
+                     src="plugins/CoreHome/images/reset_search.png"/>
+            </div>
+        </div>
+    </div>
+
+</div>

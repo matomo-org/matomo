@@ -94,7 +94,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/filters.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dependencies/PiwikApi.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/directives.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorController.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/controller.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/directives.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

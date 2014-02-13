@@ -36,16 +36,17 @@ piwikApp.directive('piwikAutocompleteMatched', function() {
     return function(scope, element, attrs) {
         var searchTerm;
 
-        scope.$watch(attrs.autocompleteMatched, function(value) {
+        scope.$watch(attrs.piwikAutocompleteMatched, function(value) {
             searchTerm = value;
             updateText();
         });
 
         function updateText () {
-            if (!searchTerm) {
+            if (!searchTerm || !element) {
                 return;
             }
-            var content = element.text();
+
+            var content   = element.text();
             var startTerm = content.toLowerCase().indexOf(searchTerm);
             if (-1 !== startTerm) {
                 var word = content.substr(startTerm, searchTerm.length);

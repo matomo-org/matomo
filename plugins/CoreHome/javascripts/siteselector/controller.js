@@ -5,26 +5,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikApp.controller('SiteSelectorCtrl', ['$scope', 'piwikApi', function($scope, piwikApi){
+piwikApp.controller('SiteSelectorController', ['$scope', 'piwikApi', function($scope, piwikApi){
     var filterLimit = 10;
 
-    $scope.templateUrl = 'plugins/CoreHome/javascripts/siteselector//siteSelector.tpl.html';
-    $scope.allWebsitesLinkLocation = 'bottom';
     $scope.sites = [];
-    $scope.showSelectedSite = false;
-    $scope.show_autocompleter = true;
-    $scope.siteSelectorId = '';
-    $scope.switchSiteOnSelect = false;
     $scope.hasMultipleWebsites = false;
     $scope.isLoading = false;
-    $scope.showAllSitesItem = true;
-    $scope.selectedSiteId = 0;
-    $scope.searchTerm = '';
-    $scope.max_sitename_width = 130; // can be removed?
 
     $scope.switchSite = function (site) {
         if (!$scope.switchSiteOnSelect || piwik.idSite == site.idsite) {
-            $scope.selectedSiteId = site.idsite;
+            $scope.selector.selectedSiteId = site.idsite;
             $scope.siteName = site.name;
             return;
         }
