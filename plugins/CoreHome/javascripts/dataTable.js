@@ -691,6 +691,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     domElem.on('mouseleave', '.annotations', function (e) {
                         runningAnimation = null;
                     });
+
+                    self.$element.trigger('piwik:annotationsLoaded');
                 }
             );
         }

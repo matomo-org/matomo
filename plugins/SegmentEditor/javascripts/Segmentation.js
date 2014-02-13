@@ -627,13 +627,13 @@ Segmentation = (function($) {
 
             $(self.form).on("click", "a.close", function(e){
                 $(".segmentListContainer", self.target).show();
-                self.form.unbind().remove();
+                closeForm();
             });
 
             $("body").on("keyup", function(e){
                 if(e.keyCode == "27"){
                     $(".segmentListContainer", self.target).show();
-                    $(self.form).remove();
+                    closeForm();
                 }
             });
 
@@ -808,7 +808,7 @@ Segmentation = (function($) {
             self.target.find(".segment-element:visible").unbind().remove();
             if(typeof self.form !== "undefined")
             {
-                self.form.unbind().remove();
+                closeForm();
             }
             // remove any remaining forms
 
@@ -854,6 +854,13 @@ Segmentation = (function($) {
             }
             $(".segmentListContainer", self.target).hide();
 
+            self.target.closest('.segmentEditorPanel').addClass('editing');
+
+        };
+
+        var closeForm = function () {
+            self.form.unbind().remove();
+            self.target.closest('.segmentEditorPanel').removeClass('editing');
         };
 
         var parseForm = function(){
