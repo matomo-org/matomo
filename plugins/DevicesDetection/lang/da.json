@@ -17,6 +17,7 @@
         "FeaturePhone": "Telefonfunktioner",
         "OperatingSystemFamilies": "Operativsystem familier",
         "OperatingSystemVersions": "Operativsystem-versioner",
+        "PluginDescription": "Udvidelsen indeholderudvidet information om mobile enheder, såsom mærke (producent), model (enhed version) og bedre enhedstype detektion (tv, konsoller, smartphones, desktop, osv). Programudvidelsen tilføjer en ny rapport i 'Besøgende > Enheder'.",
         "SmartDisplay": "Smart skærm",
         "Smartphone": "Smartphone",
         "submenu": "Enheder",
