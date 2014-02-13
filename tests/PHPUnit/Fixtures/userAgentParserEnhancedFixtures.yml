@@ -8937,7 +8937,7 @@
     short_name: AN
     version:
   device:
-    type:
+    type: tablet
     brand:
     model:
   os_family: Android
@@ -8985,7 +8985,7 @@
     short_name: AN
     version:
   device:
-    type:
+    type: tablet
     brand:
     model:
   os_family: Android
@@ -9209,7 +9209,7 @@
     short_name: AN
     version:
   device:
-    type:
+    type: tablet
     brand:
     model:
   os_family: Android
@@ -9241,7 +9241,7 @@
     short_name: AN
     version:
   device:
-    type:
+    type: tablet
     brand:
     model:
   os_family: Android
@@ -9257,7 +9257,7 @@
     short_name: AN
     version:
   device:
-    type:
+    type: tablet
     brand:
     model:
   os_family: Android
@@ -9273,7 +9273,7 @@
     short_name: AN
     version:
   device:
-    type:
+    type: tablet
     brand:
     model:
   os_family: Android
@@ -9321,7 +9321,7 @@
     short_name: AN
     version:
   device:
-    type:
+    type: tablet
     brand:
     model:
   os_family: Android
@@ -16845,5 +16845,21 @@
     type: smartphone
     brand: HT
     model: One
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3
+  os:
+    name: Android
+    short_name: AND
+    version: 0.5
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand:
+    model:
   os_family: Android
   browser_family: Android Browser

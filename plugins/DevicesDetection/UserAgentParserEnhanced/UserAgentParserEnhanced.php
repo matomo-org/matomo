@@ -507,6 +507,23 @@ class UserAgentParserEnhanced
         } else if (empty($this->device) && $this->isDesktop()) {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
+
+        /**
+         * Android up to 3.0 was designed for smartphones only. But as 3.0, which was tablet only, was published
+         * too late, there were a bunch of tablets running with 2.x
+         * With 4.0 the two trees were merged and it is for smartphones and tablets
+         *
+         * So were are expecting that all devices running Android < 2 are smartphones
+         * Devices running Android 3.X are tablets. Device type of Android 2.X and 4.X+ are unknown
+         */
+        if (empty($this->device) && $this->getOs('short_name') == 'AND' && $this->getOs('version') != '') {
+            if (version_compare($this->getOs('version'), '2.0') == -1) {
+                $this->device = array_search('smartphone', self::$deviceTypes);
+            } else if (version_compare($this->getOs('version'), '3.0') >= 0 AND version_compare($this->getOs('version'), '4.0') == -1) {
+                $this->device = array_search('tablet', self::$deviceTypes);
+            }
+        }
+
         if ($this->debug) {
             var_export($this->brand, $this->model, $this->device);
         }
