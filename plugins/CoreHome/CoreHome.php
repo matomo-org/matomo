@@ -68,6 +68,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/jquery.mousewheel.js";
         $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
+        $jsFiles[] = "libs/angularjs/angular.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
@@ -89,6 +90,11 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/filters/filters.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/dependencies/PiwikApi.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/directives.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorController.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -98,6 +104,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Show';
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_YearShort';
+        $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';
         $translationKeys[] = 'CoreHome_IncludeRowsWithLowPopulation';
         $translationKeys[] = 'CoreHome_ExcludeRowsWithLowPopulation';
@@ -107,6 +114,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_PageOf';
         $translationKeys[] = 'CoreHome_FlattenDataTable';
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
+        $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltip';
