@@ -1,40 +1,64 @@
 <div ng-class="{'sites_autocomplete--dropdown': (model.hasMultipleWebsites || showAllSitesItem)}">
     <div piwik-focus-anywhere-but-here="view.showSitesList=false" class="custom_select">
 
+        <script type="text/ng-template" id="siteselector_allsiteslink.html">
+            <div ng-click="switchSite({idsite: 'all', name: allSitesText})"
+                 class="custom_select_all">
+                <a href="{{ getUrlAllSites() }}" ng-bind-html="allSitesText"></a>
+            </div>
+        </script>
+
         <input ng-if="inputName" type="hidden" name="{{ inputName }}" value="{{ selectedSite.id }}"/>
 
-        <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites()" href="javascript:void(0)"
-           class="custom_select_main_link" ng-class="{'loading': model.isLoading}">
+        <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites()"
+           href="javascript:void(0)"
+           class="custom_select_main_link"
+           ng-class="{'loading': model.isLoading}">
             <span ng-bind="selectedSite.name || model.firstSiteName"></span>
         </a>
 
         <div ng-show="view.showSitesList" class="custom_select_block">
+            <div ng-if="allSitesLocation=='top' && showAllSitesItem"
+                 ng-include="'siteselector_allsiteslink.html'"></div>
 
-            <div ng-click="switchSite({idsite: 'all', name: allSitesText})" ng-if="allSitesLocation=='top' && showAllSitesItem" class="custom_select_all">
-                <a href="#" ng-bind-html="allSitesText"></a>
+            <div ng-click="switchSite({idsite: 'all', name: allSitesText})"
+                 ng-if="allSitesLocation=='top' && showAllSitesItem"
+                 class="custom_select_all">
+                <a href="{{ getUrlAllSites() }}" ng-bind-html="allSitesText"></a>
             </div>
 
             <div class="custom_select_container">
                 <ul class="custom_select_ul_list">
-                    <li ng-click="view.showSitesList=false; switchSite(site)" ng-repeat="site in model.sites" ng-hide="!showSelectedSite && activeSiteId==site.idsite">
-                        <a href="javascript:void(0)" piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
+                    <li ng-click="view.showSitesList=false; switchSite(site)"
+                        ng-repeat="site in model.sites"
+                        ng-hide="!showSelectedSite && activeSiteId==site.idsite">
+                        <a href="{{ getUrlForSiteId(site.idsite) }}" piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
                     </li>
                 </ul>
                 <ul ng-show="!model.sites.length" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
-                    <li class="ui-menu-item" style="float:none;position:static">
+                    <li class="ui-menu-item"
+                        style="float:none;position:static">
                         <a class="ui-corner-all" style="float:none;position:static" tabindex="-1">{{ ('SitesManager_NotFound' | translate) + ' ' + view.searchTerm }}</a>
                     </li>
                 </ul>
             </div>
 
-            <div ng-click="switchSite({idsite: 'all', name: allSitesText})" ng-if="allSitesLocation=='bottom' && showAllSitesItem" class="custom_select_all">
-                <a href="javascript:void(0)" ng-bind-html="allSitesText"></a>
-            </div>
+            <div ng-if="allSitesLocation=='bottom' && showAllSitesItem"
+                 ng-include="'siteselector_allsiteslink.html'"></div>
 
             <div class="custom_select_search" ng-show="showAutocomplete">
-                <input type="text" ng-click="view.searchTerm=''" ng-model="view.searchTerm" ng-change="model.searchSite(view.searchTerm)" length="15" class="websiteSearch inp"/>
+                <input type="text"
+                       ng-click="view.searchTerm=''"
+                       ng-model="view.searchTerm"
+                       ng-change="model.searchSite(view.searchTerm)"
+                       length="15"
+                       class="websiteSearch inp"/>
                 <input type="submit" value="Search" class="but"/>
-                <img title="Clear" ng-show="view.searchTerm" ng-click="view.searchTerm=''; model.loadInitialSites()" class="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer;"
+                <img title="Clear"
+                     ng-show="view.searchTerm"
+                     ng-click="view.searchTerm=''; model.loadInitialSites()"
+                     class="reset"
+                     style="position: relative; top: 4px; left: -44px; cursor: pointer;"
                      src="plugins/CoreHome/images/reset_search.png"/>
             </div>
         </div>

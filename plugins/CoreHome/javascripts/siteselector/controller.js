@@ -1,3 +1,10 @@
+/*!
+ * Piwik - Web Analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 piwikApp.controller('SiteSelectorController', ['$scope', 'siteSelectorModel', 'piwik', function($scope, siteSelectorModel, piwik){
 
     $scope.model = siteSelectorModel;
@@ -7,7 +14,7 @@ piwikApp.controller('SiteSelectorController', ['$scope', 'siteSelectorModel', 'p
     $scope.model.loadInitialSites();
 
     $scope.switchSite = function (site) {
-        if (!$scope.switchSiteOnSelect || piwik.idSite == site.idsite) {
+        if (!$scope.switchSiteOnSelect || $scope.activeSiteId == site.idsite) {
             $scope.selectedSite.id   = site.idsite;
             $scope.selectedSite.name = site.name;
             return;
@@ -20,7 +27,11 @@ piwikApp.controller('SiteSelectorController', ['$scope', 'siteSelectorModel', 'p
         }
     };
 
-    function getUrlForWebsiteId (idSite) {
+    $scope.getUrlAllSites  = function () {
+        var newParameters = 'module=MultiSites&action=index'
+        return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters);
+    }
+    $scope.getUrlForSiteId = function (idSite) {
         var idSiteParam   = 'idSite=' + idSite;
         var newParameters = 'segment=&' + idSiteParam;
         var hash = piwik.broadcast.isHashExists() ? piwik.broadcast.getHashFromUrl() : "";
@@ -28,10 +39,3 @@ piwikApp.controller('SiteSelectorController', ['$scope', 'siteSelectorModel', 'p
             + '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
     };
 }]);
-
-/*!
- * Piwik - Web Analytics
- *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */

@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
+piwikApp.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
 
     var url = 'index.php';
     var format = 'json';
@@ -19,66 +19,25 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
      * If params are given more then once, the latest given value is used for the request
      *
      * @param {object}  params
-     * @param {string}  type  type of given parameters (POST or GET)
      * @return {void}
      */
-    piwikApi.addParams = function (params, type) {
+    function addParams (params) {
         if (typeof params == 'string') {
-            params = broadcast.getValuesFromUrl(params);
+            params = piwik.broadcast.getValuesFromUrl(params);
         }
 
         for (var key in params) {
-            if(type.toLowerCase() == 'get') {
-                getParams[key] = params[key];
-            } else if(type.toLowerCase() == 'post') {
-                postParams[key] = params[key];
-            }
+            getParams[key] = params[key];
         }
-    };
-
-    /**
-     * Sets the base URL to use in the AJAX request.
-     *
-     * @param {string} url
-     */
-    piwikApi.setUrl = function (url) {
-        this.addParams(broadcast.getValuesFromUrl(url), 'GET');
-    };
-
-    /**
-     * Gets this helper instance ready to send a bulk request. Each argument to this
-     * function is a single request to use.
-     */
-    piwikApi.setBulkRequests = function () {
-        var urls = [];
-        for (var i = 0; i != arguments.length; ++i) {
-            urls.push($.param(arguments[i]));
-        }
-
-        this.addParams({
-            module: 'API',
-            method: 'API.getBulkRequest',
-            urls: urls,
-            format: 'json'
-        }, 'post');
-    };
-
-    /**
-     * Sets the response format for the request
-     *
-     * @param {string} theFormat  response format (e.g. json, html, ...)
-     * @return {void}
-     */
-    piwikApi.setFormat = function (theFormat) {
-        format = theFormat;
     };
 
     /**
      * Send the request
-     * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
-     * @return {void}
+     * @param {boolean}  cacheResult   TODO Note: caching does currently not work because we have to make POST requests
+     *                                 instead of GET
+     * @return $promise
      */
-    piwikApi.send = function () {
+    function send (cacheResult) {
 
         var deferred = $q.defer();
 
@@ -114,7 +73,8 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
             url: url,
             responseType: format,
             params: _mixinDefaultGetParams(getParams),
-            data: $.param(_mixinDefaultPostParams(postParams)),
+            data: $.param(getPostParams(postParams)),
+            cache: cacheResult,
             timeout: deferred.promise,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         };
@@ -125,25 +85,16 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
     };
 
     /**
-     * Mixin the default parameters to send as POST
+     * Get the parameters to send as POST
      *
      * @param {object}   params   parameter object
      * @return {object}
      * @private
      */
-     function _mixinDefaultPostParams (params) {
-
-        var defaultParams = {
+     function getPostParams () {
+        return {
             token_auth: piwik.token_auth
         };
-
-        for (var index in defaultParams) {
-            if (!params[index]) {
-                params[index] = defaultParams[index];
-            }
-        }
-
-        return params;
     };
 
     /**
@@ -156,9 +107,9 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
     function _mixinDefaultGetParams (getParamsToMixin) {
 
         var defaultParams = {
-            idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
-            period:  piwik.period || broadcast.getValueFromUrl('period'),
-            segment: broadcast.getValueFromHash('segment', window.location.href.split('#')[1])
+            idSite:  piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'),
+            period:  piwik.period || piwik.broadcast.getValueFromUrl('period'),
+            segment: piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1])
         };
 
         // never append token_auth to url
@@ -175,7 +126,7 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
 
         // handle default date & period if not already set
         if (!getParamsToMixin.date && !postParams.date) {
-            getParamsToMixin.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
+            getParamsToMixin.date = piwik.currentDateString || piwik.broadcast.getValueFromUrl('date');
             if (getParamsToMixin.period == 'range' && piwik.currentDateString) {
                 getParamsToMixin.date = piwik.startDateString + ',' + getParamsToMixin.date;
             }
@@ -185,7 +136,7 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
     };
 
     /**
-     * Convenient method for making an API request
+     * Make a reading API request. Response is cached for fast future requests
      * @param getParams
      */
     piwikApi.fetch = function (getParams) {
@@ -193,9 +144,9 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope) {
         getParams.module = 'API';
         getParams.format = 'JSON';
 
-        this.addParams(getParams, 'GET');
+        addParams(getParams, 'GET');
 
-        return this.send();
+        return send(true);
     };
 
     return piwikApi;
