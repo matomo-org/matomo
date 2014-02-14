@@ -10,3 +10,9 @@ piwikApp.filter('translate', function() {
         return _pk_translate(key);
     }
 });
+
+piwikApp.filter('htmldecode', function() {
+    return function(theString) {
+        return piwikHelper.htmlDecode(theString);
+    }
+});

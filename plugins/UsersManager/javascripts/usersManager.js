@@ -293,7 +293,7 @@ $(document).ready(function () {
     $('#superUserAccess .accessGranted, #superUserAccess .updateAccess').click(bindUpdateSuperUserAccess);
 
     // when a site is selected, reload the page w/o showing the ajax loading element
-    $('#usersManagerSiteSelect').bind('piwik:siteSelected', function (e, site) {
+    $('#usersManagerSiteSelect').bind('change', function (e, site) {
         if (site.id != piwik.idSite) {
             switchSite(
                 site.id,

@@ -1,81 +1,37 @@
+piwikApp.controller('SiteSelectorController', ['$scope', 'siteSelectorModel', 'piwik', function($scope, siteSelectorModel, piwik){
+
+    $scope.model = siteSelectorModel;
+    $scope.selectedSite = {id: '', name: ''};
+    $scope.activeSiteId = piwik.idSite;
+
+    $scope.model.loadInitialSites();
+
+    $scope.switchSite = function (site) {
+        if (!$scope.switchSiteOnSelect || piwik.idSite == site.idsite) {
+            $scope.selectedSite.id   = site.idsite;
+            $scope.selectedSite.name = site.name;
+            return;
+        }
+
+        if (site.idsite == 'all') {
+            piwik.broadcast.propagateNewPage('module=MultiSites&action=index');
+        } else {
+            piwik.broadcast.propagateNewPage('segment=&idSite=' + site.idsite, false);
+        }
+    };
+
+    function getUrlForWebsiteId (idSite) {
+        var idSiteParam   = 'idSite=' + idSite;
+        var newParameters = 'segment=&' + idSiteParam;
+        var hash = piwik.broadcast.isHashExists() ? piwik.broadcast.getHashFromUrl() : "";
+        return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters)
+            + '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
+    };
+}]);
+
 /*!
  * Piwik - Web Analytics
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
-piwikApp.controller('SiteSelectorController', ['$scope', 'piwikApi', function($scope, piwikApi){
-    var filterLimit = 10;
-
-    $scope.sites = [];
-    $scope.hasMultipleWebsites = false;
-    $scope.isLoading = false;
-
-    $scope.switchSite = function (site) {
-        if (!$scope.switchSiteOnSelect || piwik.idSite == site.idsite) {
-            $scope.selector.selectedSiteId = site.idsite;
-            $scope.siteName = site.name;
-            return;
-        }
-
-        if (site.idsite == 'all' && !$scope.showAllSitesItem) {
-            broadcast.propagateNewPage('module=MultiSites&action=index');
-        } else {
-            broadcast.propagateNewPage($scope.getUrlForWebsiteId(site.idsite), false);
-        }
-    };
-
-    $scope.getUrlForWebsiteId = function (idSite) {
-        var idSiteParam   = 'idSite=' + idSite;
-        var newParameters = 'segment=&' + idSiteParam;
-        var hash = broadcast.isHashExists() ? broadcast.getHashFromUrl() : "";
-        return piwikHelper.getCurrentQueryStringWithParametersModified(newParameters)
-            + '#' + piwikHelper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
-    };
-
-    $scope.updateWebsitesList = function (websites) {
-        angular.forEach(websites, function (website) {
-            website.name = piwikHelper.htmlDecode(website.name);
-        });
-
-        $scope.sites = websites;
-
-        if (!$scope.siteName) {
-            $scope.siteName = websites[0].name;
-        }
-
-        $scope.hasMultipleWebsites = websites.length > 1;
-    };
-
-    $scope.searchSite = function (term) {
-        if (!term) {
-            $scope.loadInitialSites();
-            return;
-        }
-        $scope.isLoading = true;
-        piwikApi.fetch({
-            method: 'SitesManager.getPatternMatchSites',
-            filter_limit: filterLimit,
-            pattern: term
-        }).then(function (response) {
-            $scope.updateWebsitesList(response);
-        }).finally(function () {
-            $scope.isLoading = false;
-        });
-    };
-
-    $scope.loadInitialSites = function () {
-        $scope.isLoading = true;
-        piwikApi.fetch({
-            method: 'SitesManager.getSitesWithAtLeastViewAccess',
-            filter_limit: filterLimit,
-            showColumns: 'name,idsite'
-        }).then(function (response) {
-            $scope.updateWebsitesList(response);
-        }).finally(function () {
-            $scope.isLoading = false;
-        });
-    }
-
-}]);

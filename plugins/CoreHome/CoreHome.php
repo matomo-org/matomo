@@ -69,6 +69,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
         $jsFiles[] = "libs/angularjs/angular.js";
+        $jsFiles[] = "libs/angularjs/angular-sanitize.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
@@ -80,7 +81,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/menu.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/menu_init.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/calendar.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/autocomplete.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/top_controls.js";
@@ -92,8 +92,10 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/filters.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/dependencies/PiwikApi.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/PiwikApi.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/directives.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/services.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/controller.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/directives.js";
     }

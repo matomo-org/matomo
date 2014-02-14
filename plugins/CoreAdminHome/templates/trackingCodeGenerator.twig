@@ -27,15 +27,13 @@
         {# website #}
         <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
 
-        <div ng-controller="SiteSelectorController"
-             piwik-site-selector
+        <div piwik-site-selector
+             siteid="{{ idSite }}"
              sitename="{{ defaultReportSiteName }}"
-             selectedsiteid="{{ idSite }}"
              showallsitesitem="0"
              switchsiteonselect="0"
-             selectorid="js-tracker-website"
-             showselectedsite="1"
-             class="sites_autocomplete"></div>
+             id="js-tracker-website"
+             showselectedsite="1"></div>
 
         <br/><br/><br/>
     </div>
@@ -201,15 +199,13 @@
     <div>
         {# website #}
         <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
-        <div ng-controller="SiteSelectorController"
-             piwik-site-selector
+        <div piwik-site-selector
+             siteid="{{ idSite }}"
              sitename="{{ defaultReportSiteName }}"
-             selectedsiteid="{{ idSite }}"
              showallsitesitem="0"
              switchsiteonselect="0"
-             selectorid="image-tracker-website"
-             showselectedsite="1"
-             class="sites_autocomplete"></div>
+             id="image-tracker-website"
+             showselectedsite="1"></div>
 
         <br/><br/><br/>
     </div>
