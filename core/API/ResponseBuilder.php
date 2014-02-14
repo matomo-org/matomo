@@ -396,10 +396,7 @@ class ResponseBuilder
                                 break;
 
                             case 'php':
-                                if ($this->caseRendererPHPSerialize($defaultSerialize = 0)) {
-                                    return serialize($array);
-                                }
-                                return $array;
+                                return serialize($array);
 
                             case 'xml':
                                 @header("Content-Type: text/xml;charset=utf-8");
