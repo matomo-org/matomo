@@ -8,10 +8,10 @@
 piwikApp.controller('SiteSelectorController', function($scope, siteSelectorModel, piwik){
 
     $scope.model = siteSelectorModel;
+    $scope.model.loadInitialSites();
+
     $scope.selectedSite = {id: '', name: ''};
     $scope.activeSiteId = piwik.idSite;
-
-    $scope.model.loadInitialSites();
 
     $scope.switchSite = function (site) {
         if (!$scope.switchSiteOnSelect || $scope.activeSiteId == site.idsite) {

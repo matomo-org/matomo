@@ -7,45 +7,56 @@
 
 piwikApp.directive('piwikSiteSelector', function($document, piwik, $filter){
 
-    function getBool(attr, property, defaultValue)
-    {
-        return angular.isDefined(attr[property]) && 'true' === attr[property];
-    }
-
     return {
         restrict: 'A',
-        scope: true,
+        // why not directly use camel case and for example site-name? If I remember correct this does not work
+        // in all of or required IE versions. Alternative can be to define a namespace attribute and prefix all
+        // attributes with piwik, eg. piwik-site-name. Again: Not sure if I remember correct, will have a look
+        // later
+        scope: {
+            showAutocomplete: '=showautocomplete',
+            showSelectedSite: '=showselectedsite',
+            showAllSitesItem: '=showallsitesitem',
+            switchSiteOnSelect: '=switchsiteonselect',
+            maxSitenameWidth: '=maxsitenamewidth',
+            inputName: '@inputname',
+            allSitesText: '@allsitestext',
+            allSitesLocation: '@allsiteslocation'
+        },
         templateUrl: 'plugins/CoreHome/javascripts/siteselector/partial.html',
         controller: 'SiteSelectorController',
         compile: function (element, attrs) {
-            element.addClass('sites_autocomplete');
+            attrs.$addClass('sites_autocomplete');
 
-            return function (scope, element, attr, ctrl) {
+            // define default values
+            if (!attrs.allsiteslocation) attrs.allsiteslocation = 'bottom';
+            if (!attrs.allsitestext) attrs.allsitestext = $filter('translate')('General_MultiSitesSummary');
+            if (!attrs.siteid) attrs.siteid = '';
+            if (!attrs.sitename) attrs.sitename = '';
+            if (!attrs.inputname) attrs.inputname = '';
+            if (!attrs.showautocomplete) attrs.showautocomplete = 'true';
+            if (!attrs.showselectedsite) attrs.showselectedsite = 'false';
+            if (!attrs.switchsiteonselect) attrs.switchsiteonselect = 'true';
+            if (!attrs.showallsitesitem) attrs.showallsitesitem = 'true';
+            if (!attrs.maxSitenameWidth) attrs.maxsitenamewidth = '130'; // can be removed?
 
-                // why not directly use camel case and for example site-name? If I remember correct this does not work
-                // in all of or required IE versions. Alternative can be to define a namespace attribute and prefix all
-                // attributes with piwik, eg. piwik-site-name. Again: Not sure if I remember correct, will have a look
-                // later
-                scope.allSitesLocation = attr.allsiteslocation || 'bottom';
-                scope.allSitesText = attr.allsitestext || $filter('translate')('General_MultiSitesSummary');
-                scope.selectedSite = {id: attr.siteid || piwik.idSite, name: attr.sitename || ''};
-                scope.inputName    = attr.inputname || '';
-                scope.showAutocomplete   = getBool(attr, 'showautocomplete', true);
-                scope.showSelectedSite   = getBool(attr, 'showselectedsite', false);
-                scope.switchSiteOnSelect = getBool(attr, 'switchsiteonselect', true);
-                scope.showAllSitesItem   = getBool(attr, 'showallsitesitem', true);
-                /*
-                 $scope.max_sitename_width = 130; // can be removed?
-                 */
+            return function (scope, element, attrs) {
 
-                function passSiteId (newValue, oldValue, scope) {
+                // selectedSite.id|.name is hard-coded but actually the directive should not know about this
+                scope.selectedSite.id   = attrs.siteid;
+                scope.selectedSite.name = attrs.sitename;
+
+                scope.$watch('selectedSite.id', function (newValue, oldValue, scope) {
                     if (newValue != oldValue) {
                         element.attr('siteid', newValue);
                         element.trigger('change', scope.selectedSite);
                     }
-                }
+                });
 
-                scope.$watch('selectedSite.id', passSiteId);
+                /** use observe to monitor attribute changes
+                attrs.$observe('maxsitenamewidth', function(val) {
+                    // for instance trigger a function or whatever
+                }) */
             }
         }
     }

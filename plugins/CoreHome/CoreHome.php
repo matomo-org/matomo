@@ -92,10 +92,10 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/filters.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/PiwikApi.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/providers/PiwikApi.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/providers/piwik.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/directives.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/services.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/providers.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/controller.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/directives.js";
     }

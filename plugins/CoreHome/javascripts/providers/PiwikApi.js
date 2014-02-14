@@ -68,6 +68,13 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
             }
         };
 
+        var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+        if (!cacheResult) {
+            // ie 8,9,10 caches ajax requests, prevent this
+            headers['cache-control'] = 'no-cache';
+        }
+
         var ajaxCall = {
             method: 'POST',
             url: url,
@@ -76,7 +83,7 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
             data: $.param(getPostParams(postParams)),
             cache: cacheResult,
             timeout: deferred.promise,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: headers
         };
 
         $http(ajaxCall).success(onSuccess).error(onError);

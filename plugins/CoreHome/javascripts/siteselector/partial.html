@@ -4,17 +4,19 @@
         <script type="text/ng-template" id="siteselector_allsiteslink.html">
             <div ng-click="switchSite({idsite: 'all', name: allSitesText})"
                  class="custom_select_all">
-                <a href="{{ getUrlAllSites() }}" ng-bind-html="allSitesText"></a>
+                <a href="{{ getUrlAllSites() }}"
+                   piwik-ignore-click
+                   ng-bind-html="allSitesText"></a>
             </div>
         </script>
 
-        <input ng-if="inputName" type="hidden" name="{{ inputName }}" value="{{ selectedSite.id }}"/>
+        <input ng-if="inputName" type="hidden" name="{{ inputName }}" ng-value="selectedSite.id"/>
 
         <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites()"
            href="javascript:void(0)"
            class="custom_select_main_link"
            ng-class="{'loading': model.isLoading}">
-            <span ng-bind-html="selectedSite.name || model.firstSiteName"></span>
+            <span ng-bind-html="selectedSite.name || (initialSiteName || model.firstSiteName)"></span>
         </a>
 
         <div ng-show="view.showSitesList" class="custom_select_block">
@@ -32,7 +34,7 @@
                     <li ng-click="view.showSitesList=false; switchSite(site)"
                         ng-repeat="site in model.sites"
                         ng-hide="!showSelectedSite && activeSiteId==site.idsite">
-                        <a href="{{ getUrlForSiteId(site.idsite) }}" piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
+                        <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}" piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
                     </li>
                 </ul>
                 <ul ng-show="!model.sites.length" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">

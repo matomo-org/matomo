@@ -32,6 +32,14 @@ piwikApp.directive('piwikFocusAnywhereButHere', function($document){
     }
 });
 
+piwikApp.directive('piwikIgnoreClick', function() {
+    return function(scope, element, attrs) {
+        $(element).click(function(event) {
+            event.preventDefault();
+        });
+    }
+})
+
 piwikApp.directive('piwikAutocompleteMatched', function() {
     return function(scope, element, attrs) {
         var searchTerm;
