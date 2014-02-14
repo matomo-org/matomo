@@ -50,8 +50,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->init();
         $controllerName = Common::getRequestVar('moduleToWidgetize');
         $actionName = Common::getRequestVar('actionToWidgetize');
-        $parameters = array($fetch = true);
-        $outputDataTable = FrontController::getInstance()->fetchDispatch($controllerName, $actionName, $parameters);
+        $outputDataTable = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
         if ($controllerName == 'Dashboard' && $actionName == 'index') {
             $view = new View('@Widgetize/iframe_empty');
         } else {
