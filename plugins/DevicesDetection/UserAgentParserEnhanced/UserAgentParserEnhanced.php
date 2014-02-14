@@ -62,6 +62,7 @@ class UserAgentParserEnhanced
         'FL' => 'Fly',
         'GD' => 'Gemini',
         'GI' => 'Gionee',
+        'GG' => 'Gigabyte',
         'GO' => 'Google',
         'GR' => 'Gradiente',
         'GU' => 'Grundig',
