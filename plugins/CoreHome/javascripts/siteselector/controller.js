@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikApp.controller('SiteSelectorController', ['$scope', 'siteSelectorModel', 'piwik', function($scope, siteSelectorModel, piwik){
+piwikApp.controller('SiteSelectorController', function($scope, siteSelectorModel, piwik){
 
     $scope.model = siteSelectorModel;
     $scope.selectedSite = {id: '', name: ''};
@@ -38,4 +38,4 @@ piwikApp.controller('SiteSelectorController', ['$scope', 'siteSelectorModel', 'p
         return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters)
             + '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
     };
-}]);
+});

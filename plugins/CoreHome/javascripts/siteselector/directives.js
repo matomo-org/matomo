@@ -9,11 +9,7 @@ piwikApp.directive('piwikSiteSelector', function($document, piwik, $filter){
 
     function getBool(attr, property, defaultValue)
     {
-        if (angular.isDefined(attr[property])) {
-            return !!parseInt(attr[property]);
-        }
-
-        return defaultValue;
+        return angular.isDefined(attr[property]) && 'true' === attr[property];
     }
 
     return {
@@ -42,12 +38,14 @@ piwikApp.directive('piwikSiteSelector', function($document, piwik, $filter){
                  $scope.max_sitename_width = 130; // can be removed?
                  */
 
-                scope.$watch('selectedSite.id', function (newValue, oldValue, scope) {
+                function passSiteId (newValue, oldValue, scope) {
                     if (newValue != oldValue) {
                         element.attr('siteid', newValue);
                         element.trigger('change', scope.selectedSite);
                     }
-                });
+                }
+
+                scope.$watch('selectedSite.id', passSiteId);
             }
         }
     }

@@ -14,7 +14,7 @@
            href="javascript:void(0)"
            class="custom_select_main_link"
            ng-class="{'loading': model.isLoading}">
-            <span ng-bind="selectedSite.name || model.firstSiteName"></span>
+            <span ng-bind-html="selectedSite.name || model.firstSiteName"></span>
         </a>
 
         <div ng-show="view.showSitesList" class="custom_select_block">
