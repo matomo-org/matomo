@@ -600,11 +600,16 @@ class Configuration(object):
                     '../../misc/cron/updatetoken.php'),
             )
 
-            process =  "php " + updatetokenfile
+            command = ['php', updatetokenfile]
             if self.options.enable_testmode:
-                process = process + " --testmode"
+                command.append('--testmode')
 
-            filename    = subprocess.check_output(process, shell=True);
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            [stdout, stderr] = process.communicate()
+            if process.returncode != 0:
+                fatal_error("misc/cron/updatetoken.php failed: " + stderr)
+
+            filename = stdout
             credentials = open(filename, 'r').readline()
             credentials = credentials.split('\t')
             return credentials[1]
