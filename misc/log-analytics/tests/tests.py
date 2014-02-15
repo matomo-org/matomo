@@ -61,6 +61,9 @@ class Options(object):
     excluded_paths = []
     excluded_useragents = []
     enable_bots = []
+    force_lowercase_path = False
+    included_paths = []
+    enable_http_errors = False
 
 
 class Config(object):
@@ -248,7 +251,12 @@ def check_nginx_json_groups(groups):
     assert groups['length'] == 192
     assert groups['user_agent'] == 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17'
     assert groups['date'] == '2013-10-10T16:52:00+02:00'
-    
+
+def check_icecast2_groups(groups):
+    check_ncsa_extended_groups(groups)
+
+    assert groups['session_time'] == '1807'
+
 def check_match_groups(format_name, groups):
     symbols = globals()
     check_function = symbols['check_' + format_name + '_groups']
