@@ -10,7 +10,7 @@
 #
 # For more info see: http://piwik.org/log-analytics/ and http://piwik.org/docs/log-analytics-tool-how-to/
 #
-# Requires Python 2.7
+# Requires Python 2.6 or greater.
 #
 
 import base64
