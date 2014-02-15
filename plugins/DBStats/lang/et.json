@@ -5,6 +5,7 @@
         "DBSize": "Andmebaasi suurus",
         "EstimatedSize": "Ennustatud maht",
         "IndexSize": "Indeksi maht",
+        "LearnMore": "Et saada rohkem infot, kuidas Piwik töötleb andmeid ja kuidas optimeerida Piwikut tööks keskmise ja kõrge külastatavusega veebilehtedele, vaata seda dokumentatsiooni: %s.",
         "MainDescription": "Piwik salvestab kõik veebianalüütika andmed MySQL andmebaasi. Piwiku tabelid kasutavad hetkel %s.",
         "MetricDataByYear": "Mõõttabelid aasta järgi",
         "MetricTables": "Mõõttabelid",

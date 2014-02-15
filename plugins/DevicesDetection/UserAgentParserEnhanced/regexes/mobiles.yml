@@ -10,7 +10,7 @@
 
 # HTC
 HTC:
-  regex: 'HTC|Sprint APA|ADR[a-z0-9]+|Desire [a-z]+ Build|NexusHD2'
+  regex: 'HTC|Sprint APA|ADR[a-z0-9]+|Desire [a-z]+ Build|NexusHD2|Amaze 4G Build'
   device: 'smartphone'
   models:
     - regex: 'NexusHD2' # custom rom for hd2
@@ -29,7 +29,7 @@ HTC:
       model: '$1'
     - regex: 'HTC;(?: )?([a-z0-9 ]+)'
       model: '$1'
-    - regex: '(Desire [a-z]+) Build'
+    - regex: '(Desire [a-z]+|Amaze 4G) Build'
       model: '$1'
     - regex: '(ADR[a-z0-9]+)'
       model: '$1'
@@ -243,6 +243,12 @@ Avvio:
   device: 'smartphone'
   model: '$1'
 
+#BBK
+BBK:
+  regex: 'vivo (.*) Build'
+  device: 'smartphone'
+  model: 'Vivo $1'
+
 # Bird
 Bird:
   regex: 'BIRD[\-. _]([a-z0-9]+)'
@@ -409,11 +415,29 @@ Gemini:
   device: 'tablet'
   model: '$1'
 
+#Gigabyte
+Gigabyte:
+  regex: 'GSmart [a-z0-9 ]+ Build|Gigabyte-[a-z0-9]+'
+  device: 'smartphone'
+  models:
+    - regex: '(GSmart [a-z0-9 ]+) Build'
+      model: '$1'
+    - regex: 'Gigabyte-([a-z0-9]+)'
+      model: '$1'
+
+
 # Gionee
 Gionee:
   regex: 'GIONEE-([a-z0-9]+)'
-  device: 'feature phone'
-  model: '$1'
+  device: 'smartphone'
+  models:
+    - regex: 'GIONEE-([a-z0-9]+).*Android'
+      model: '$1'
+    - regex: 'Android.*GIONEE-([a-z0-9]+)'
+      model: '$1'
+    - regex: 'GIONEE-([a-z0-9]+)'
+      model: '$1'
+      device: 'feature phone'
 
 # Google
 Google:
@@ -640,6 +664,11 @@ Manta Multimedia:
   device: 'tablet'
   model: '$1'
 
+#Medion
+Medion:
+  regex: '(?:MD_)?LIFETAB_([a-z0-9]+)'
+  device: 'tablet'
+  model: 'Lifetab $1'
 
 # micromax
 MicroMax:
@@ -695,9 +724,14 @@ Motorola:
 
 # myphone
 MyPhone:
-  regex: 'MyPhone([a-z0-9]+)'
+  regex: '(?:MyPhone|MyPad) (.+) Build'
   device: 'smartphone'
-  model: '$1'
+  models:
+    - regex: 'MyPad (.+) Build'
+      model: 'MyPad $1'
+      device: 'tablet'
+    - regex: 'MyPhone (.+) Build'
+      model: '$1'
 
 # nec
 NEC:
@@ -738,7 +772,13 @@ Nexian:
       model: '$1'
     - regex: 'S?Nexian-([a-z0-9]+)'
       model: '$1'
-  
+
+#Nikon
+Nikon:
+  regex: 'Coolpix S800c'
+  device: 'camera'
+  model: 'Coolpix S800c'
+
 # o2
 O2:
   regex: 'Xda|O2[ \-]|COCOON'
@@ -774,6 +814,12 @@ Orange:
   regex: 'SPV[ \-]?([a-z0-9]+)'
   device: 'smartphone'
   model: 'SPV $1'
+
+#OUYA
+OUYA:
+  regex: 'OUYA'
+  device: 'console'
+  model: 'OUYA'
 
 # panasonic
 Panasonic:
@@ -828,7 +874,7 @@ Siemens:
 
 # Samsung
 Samsung:
-  regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM|HV|HW)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]'
+  regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM|HV|HW)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]|EK-GC[0-9]{3}'
   device: 'smartphone'
   models:
     - regex: '(GT-(P|N8|N5)[0-9]+[a-z]?)'
@@ -844,6 +890,9 @@ Samsung:
       model: '$1'
     - regex: '((?:SCH|SGH|SPH|SHV|SHW|GT)-[a-z0-9]+)'
       model: '$1'
+    - regex: 'EK-GC([0-9]{3})'
+      device: 'camera'
+      model: 'Galaxy Camera $1'
     - regex: 'SEC-([a-z0-9]+)'
       model: '$1'
     - regex: 'SAM-([a-z0-9]+)'
@@ -1044,6 +1093,12 @@ Toplux:
   device: 'feature phone'
   model: '$1'
 
+#TVC
+TVC:
+  regex: '(NuclearSX-SP5)'
+  device: 'smartphone'
+  model: 'Nuclear SX-SP5'
+
 # UTStarcom
 UTStarcom:
   regex: 'utstar([a-z0-9]+)'
@@ -1052,9 +1107,14 @@ UTStarcom:
 
 # ViewSonic
 ViewSonic:
-  regex: '(VSD[0-9]+) Build'
+  regex: 'ViewSonic|(VSD[0-9]+) Build'
   device: 'smart display'
-  model: '$1'
+  models:
+    - regex: 'ViewSonic-ViewPad([a-z0-9]+) Build'
+      model: 'ViewPad $1'
+      device: 'tablet'
+    - regex: '(VSD[0-9]+) Build'
+      model: '$1'
 
 # Vitelcom
 Vitelcom:

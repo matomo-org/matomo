@@ -534,86 +534,53 @@ Notes:
      */
     private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Timer $timerWebsite = null)
     {
-        $timer = new Timer;
-        $aCurl = array();
-        $mh = false;
-        $url = $this->piwikUrl;
+        $timer = new Timer();
+
+        $url  = $this->piwikUrl;
         $url .= $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed);
         $url .= self::APPEND_TO_API_REQUEST;
 
+        $visitsAllDaysInPeriod = false;
+        $noSegmentUrl = '';
+        $success = true;
+
+        $urls = array();
+
         // already processed above for "day"
         if ($period != "day") {
-            $ch = $this->getNewCurlHandle($url);
-            $this->addCurlHandleToMulti($mh, $ch);
-            $aCurl[$url] = $ch;
+            $noSegmentUrl = $url;
+            $urls [] = $url;
             $this->requests++;
         }
-        $urlNoSegment = $url;
+
         foreach ($this->getSegmentsForSite($idsite) as $segment) {
-            $segmentUrl = $url . '&segment=' . urlencode($segment);
-            $ch = $this->getNewCurlHandle($segmentUrl);
-            $this->addCurlHandleToMulti($mh, $ch);
-            $aCurl[$segmentUrl] = $ch;
+            $urls[] = $url . '&segment=' . urlencode($segment);
             $this->requests++;
         }
 
-        $success = true;
-        $visitsAllDaysInPeriod = false;
+        $cliMulti = new CliMulti();
+        $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+        $response = $cliMulti->request($urls);
 
-        if (!empty($aCurl)) {
-            $running = null;
-            do {
-                usleep(1000);
-                curl_multi_exec($mh, $running);
-            } while ($running > 0);
+        foreach ($urls as $index => $url) {
+            $content = array_key_exists($index, $response) ? $response[$index] : null;
+            $success = $success && $this->checkResponse($content, $url);
 
-            foreach ($aCurl as $url => $ch) {
-                $content = curl_multi_getcontent($ch);
-                $successResponse = $this->checkResponse($content, $url);
-                $success = $successResponse && $success;
-                if ($url == $urlNoSegment
-                    && $successResponse
-                ) {
-                    $stats = @unserialize($content);
-                    if (!is_array($stats)) {
-                        $this->logError("Error unserializing the following response from $url: " . $content);
-                    }
-                    $visitsAllDaysInPeriod = @array_sum($stats);
+            if ($noSegmentUrl === $url && $success) {
+
+                $stats = @unserialize($content);
+                if (!is_array($stats)) {
+                    $this->logError("Error unserializing the following response from $url: " . $content);
                 }
+                $visitsAllDaysInPeriod = @array_sum($stats);
             }
-
-            foreach ($aCurl as $ch) {
-                curl_multi_remove_handle($mh, $ch);
-            }
-            curl_multi_close($mh);
         }
 
         $this->log("Archived website id = $idsite, period = $period, "
             . ($period != "day" ? (int)$visitsAllDaysInPeriod . " visits, " : "")
             . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
+
         return $success;
-    }
-
-    private function addCurlHandleToMulti(&$mh, $ch)
-    {
-        if (!$mh) {
-            $mh = curl_multi_init();
-        }
-        curl_multi_add_handle($mh, $ch);
-    }
-
-    private function getNewCurlHandle($url)
-    {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        if ($this->acceptInvalidSSLCertificate) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        }
-        curl_setopt($ch, CURLOPT_USERAGENT, Http::getUserAgent());
-        Http::configCurlCertificate($ch);
-        return $ch;
     }
 
     /**
@@ -648,9 +615,14 @@ Notes:
             $url .= "&xhprof=2";
         }
 
-        //$this->log($url);
         try {
-            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
+
+            $cliMulti  = new CliMulti();
+            $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+            $responses = $cliMulti->request(array($url));
+
+            $response  = !empty($responses) ? array_shift($responses) : null;
+
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }
@@ -878,7 +850,7 @@ Notes:
             }
 
             // ensure there is a trailing slash
-            if ($piwikUrl[strlen($piwikUrl) - 1] != '/') {
+            if ($piwikUrl[strlen($piwikUrl) - 1] != '/' && !Common::stringEndsWith($piwikUrl, 'index.php')) {
                 $piwikUrl .= '/';
             }
         }
@@ -888,7 +860,12 @@ Notes:
         if (Config::getInstance()->General['force_ssl'] == 1) {
             $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
         }
-        $this->piwikUrl = $piwikUrl . "index.php";
+
+        if (!Common::stringEndsWith($piwikUrl, 'index.php')) {
+            $piwikUrl .= 'index.php';
+        }
+
+        $this->piwikUrl = $piwikUrl;
     }
 
     /**
@@ -1114,5 +1091,6 @@ Notes:
         $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
             . "\n--help for more information", $backtrace = false);
     }
+
 }
 

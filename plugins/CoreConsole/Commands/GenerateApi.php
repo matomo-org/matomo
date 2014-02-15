@@ -52,7 +52,7 @@ class GenerateApi extends GeneratePluginBase
         $pluginNames = $this->getPluginNamesHavingNotSpecificFile('API.php');
         $invalidName = 'You have to enter the name of an existing plugin which does not already have an API';
 
-        return parent::getPluginName($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }
 
 }

@@ -294,4 +294,21 @@ class Filesystem
             self::copy($source, $target, $excludePhp);
         }
     }
+
+    /**
+     * Deletes the given file if it exists.
+     *
+     * @param  string $pathToFile
+     * @return bool   true in case of success or if file does not exist, false otherwise. It might fail in case the
+     *                file is not writeable.
+     * @api
+     */
+    public static function deleteFileIfExists($pathToFile)
+    {
+        if (!file_exists($pathToFile)) {
+            return true;
+        }
+
+        return @unlink($pathToFile);
+    }
 }

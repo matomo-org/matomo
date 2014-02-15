@@ -12,6 +12,7 @@ namespace Piwik\Plugins\DevicesDetection;
 use Exception;
 
 use Piwik\ArchiveProcessor;
+use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
@@ -259,6 +260,7 @@ class DevicesDetection extends \Piwik\Plugin
         $userAgent = $request->getUserAgent();
 
         $UAParser = new UserAgentParserEnhanced($userAgent);
+        $UAParser->setCache(new CacheFile('tracker', 86400));
         $UAParser->parse();
         $deviceInfo['config_browser_name'] = $UAParser->getBrowser("short_name");
         $deviceInfo['config_browser_version'] = $UAParser->getBrowser("version");

@@ -52,7 +52,7 @@ class GenerateSettings extends GeneratePluginBase
         $pluginNames = $this->getPluginNamesHavingNotSpecificFile('Settings.php');
         $invalidName = 'You have to enter the name of an existing plugin which does not already have settings';
 
-        return parent::getPluginName($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }
 
 }

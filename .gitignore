@@ -8,7 +8,6 @@ documentation
 docs/
 /favicon.ico
 js/yui*
-logs
 misc/*.dat
 misc/user/logo-header.png
 misc/user/logo.png

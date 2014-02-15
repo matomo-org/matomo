@@ -110,7 +110,7 @@ class GenerateTest extends GeneratePluginBase
         $pluginNames = $this->getPluginNames();
         $invalidName = 'You have to enter the name of an existing plugin';
 
-        return parent::getPluginName($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }
 
     /**

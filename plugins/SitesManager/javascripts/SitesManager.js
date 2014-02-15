@@ -353,12 +353,12 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 + piwikHelper.htmlEntities(searchKeywordLabel)
                 + '</div><input type="text" size="22" id="searchKeywordParameters" value="'
                 + piwikHelper.htmlEntities(searchKeywordParameters)
-                + '" style="margin-bottom: -10px;font-size:9pt;font-family:monospace"></input>'
+                + '" style="font-size:9pt;font-family:monospace"></input>'
                 + searchKeywordHelp + '</label>';
 
         // if custom var plugin is disabled, category tracking not supported
         if (globalCategoryParameters != 'globalSearchCategoryParametersIsDisabled') {
-            html += '<br/><label><div style="margin-bottom:3px">' + searchCategoryLabel + '</div><input type="text" size="22" id="searchCategoryParameters" value="' + searchCategoryParameters + '" style="margin-bottom: -10px;font-size:9pt;font-family:monospace"></input>' + searchCategoryHelp + '</label>';
+            html += '<br/><label><div style="margin-bottom:3px">' + searchCategoryLabel + '</div><input type="text" size="22" id="searchCategoryParameters" value="' + searchCategoryParameters + '" style="font-size:9pt;font-family:monospace"></input>' + searchCategoryHelp + '</label>';
         }
         html += '</div></span>';
 

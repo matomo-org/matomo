@@ -19,7 +19,8 @@ class UserAgentParserEnhanced
         'console',          // 4
         'tv',               // 5
         'car browser',      // 6
-        'smart display'     // 7
+        'smart display',    // 7
+        'camera'            // 8
     );
 
     public static $deviceBrands = array(
@@ -32,6 +33,7 @@ class UserAgentParserEnhanced
         'AU' => 'Asus',
         'AV' => 'Avvio',
         'AX' => 'Audiovox',
+        'BB' => 'BBK',
         'BE' => 'Becker',
         'BI' => 'Bird',
         'BL' => 'Beetel',
@@ -60,6 +62,7 @@ class UserAgentParserEnhanced
         'FL' => 'Fly',
         'GD' => 'Gemini',
         'GI' => 'Gionee',
+        'GG' => 'Gigabyte',
         'GO' => 'Google',
         'GR' => 'Gradiente',
         'GU' => 'Grundig',
@@ -105,12 +108,14 @@ class UserAgentParserEnhanced
         'NG' => 'NGM',
         'NI' => 'Nintendo',
         'NK' => 'Nokia',
+        'NN' => 'Nikon',
         'NW' => 'Newgen',
         'NX' => 'Nexian',
         'OD' => 'Onda',
         'OP' => 'OPPO',
         'OR' => 'Orange',
         'OT' => 'O2',
+        'OU' => 'OUYA',
         'PA' => 'Panasonic',
         'PE' => 'PEAQ',
         'PH' => 'Philips',
@@ -148,6 +153,7 @@ class UserAgentParserEnhanced
         'TO' => 'Toplux',
         'TS' => 'Toshiba',
         'TT' => 'TechnoTrend',
+        'TV' => 'TVC',
         'TX' => 'TechniSat',
         'UT' => 'UTStarcom',
         'VD' => 'Videocon',
@@ -272,7 +278,7 @@ class UserAgentParserEnhanced
         'Symbian'               => array('SYM', 'SYS', 'SY3', 'S60', 'S40'),
         'Unix'                  => array('SOS', 'AIX', 'HPX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
         'WebTV'                 => array('WTV'),
-        'Windows'               => array('WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95', 'WRT', 'W31', 'WIN'),
+        'Windows'               => array('WI7', 'WI8', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95', 'WRT', 'W31', 'WIN'),
         'Windows Mobile'        => array('WPH', 'WMO', 'WCE')
     );
     public static $browserFamilies = array(
@@ -402,6 +408,7 @@ class UserAgentParserEnhanced
     protected $brand = '';
     protected $model = '';
     protected $debug = false;
+    protected $cache = null;
 
     public function __construct($userAgent)
     {
@@ -410,39 +417,80 @@ class UserAgentParserEnhanced
 
     protected function getOsRegexes()
     {
-        static $regexOs = null;
-        if(empty($regexOs)) {
+        static $regexOs;
+        if (empty($regexOs)) {
+            $regexOs = $this->getParsedYmlFromCache('os');
+        }
+        if (empty($regexOs)) {
             $regexOs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$osRegexesFile);
+            $this->saveParsedYmlInCache('os', $regexOs);
         }
         return $regexOs;
     }
 
     protected function getBrowserRegexes()
     {
-        static $regexBrowser = null;
-        if(empty($regexBrowser)) {
+        static $regexBrowser;
+        if (empty($regexBrowser)) {
+            $regexBrowser = $this->getParsedYmlFromCache('browser');
+        }
+        if (empty($regexBrowser)) {
             $regexBrowser = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$browserRegexesFile);
+            $this->saveParsedYmlInCache('browser', $regexBrowser);
         }
         return $regexBrowser;
     }
 
     protected function getMobileRegexes()
     {
-        static $regexMobile = null;
-        if(empty($regexMobile)) {
+        static $regexMobile;
+        if (empty($regexMobile)) {
+            $regexMobile = $this->getParsedYmlFromCache('mobile');
+        }
+        if (empty($regexMobile)) {
             $regexMobile = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$mobileRegexesFile);
+            $this->saveParsedYmlInCache('mobile', $regexMobile);
         }
         return $regexMobile;
     }
 
     protected function getTelevisionRegexes()
     {
-        static $regexTvs = null;
-        if(empty($regexTvs)) {
+        static $regexTvs;
+        if (empty($regexTvs)) {
+            $regexTvs = $this->getParsedYmlFromCache('tv');
+        }
+        if (empty($regexTvs)) {
             $regexTvs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
+            $this->saveParsedYmlInCache('tv', $regexTvs);
         }
         return $regexTvs;
     }
+
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
+    }
+
+    protected function saveParsedYmlInCache($type, $data)
+    {
+        if (!empty($this->cache) && method_exists($this->cache, 'set')) {
+            $this->cache->set($type, serialize($data));
+        }
+    }
+
+    protected function getParsedYmlFromCache($type)
+    {
+        $data = null;
+        if (!empty($this->cache) && method_exists($this->cache, 'get')) {
+            $data = $this->cache->get($type);
+            if (!empty($data)) {
+                $data = unserialize($data);
+            }
+        }
+        return $data;
+    }
+
 
     public function parse()
     {
@@ -463,6 +511,23 @@ class UserAgentParserEnhanced
         } else if (empty($this->device) && $this->isDesktop()) {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
+
+        /**
+         * Android up to 3.0 was designed for smartphones only. But as 3.0, which was tablet only, was published
+         * too late, there were a bunch of tablets running with 2.x
+         * With 4.0 the two trees were merged and it is for smartphones and tablets
+         *
+         * So were are expecting that all devices running Android < 2 are smartphones
+         * Devices running Android 3.X are tablets. Device type of Android 2.X and 4.X+ are unknown
+         */
+        if (empty($this->device) && $this->getOs('short_name') == 'AND' && $this->getOs('version') != '') {
+            if (version_compare($this->getOs('version'), '2.0') == -1) {
+                $this->device = array_search('smartphone', self::$deviceTypes);
+            } else if (version_compare($this->getOs('version'), '3.0') >= 0 AND version_compare($this->getOs('version'), '4.0') == -1) {
+                $this->device = array_search('tablet', self::$deviceTypes);
+            }
+        }
+
         if ($this->debug) {
             var_export($this->brand, $this->model, $this->device);
         }

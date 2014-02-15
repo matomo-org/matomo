@@ -8,7 +8,10 @@
 # @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 # @version $Id$
 #
-# For more info see: http://piwik.org/log-analytics/
+# For more info see: http://piwik.org/log-analytics/ and http://piwik.org/docs/log-analytics-tool-how-to/
+#
+# Requires Python 2.6 or greater.
+#
 
 import base64
 import bz2
@@ -594,14 +597,19 @@ class Configuration(object):
 
             updatetokenfile = os.path.abspath(
                 os.path.join(os.path.dirname(__file__),
-                '../../misc/cron/updatetoken.php'),
+                    '../../misc/cron/updatetoken.php'),
             )
 
-            process =  "php " + updatetokenfile
+            command = ['php', updatetokenfile]
             if self.options.enable_testmode:
-                process = process + " --testmode"
+                command.append('--testmode')
 
-            filename    = subprocess.check_output(process, shell=True);
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            [stdout, stderr] = process.communicate()
+            if process.returncode != 0:
+                fatal_error("misc/cron/updatetoken.php failed: " + stderr)
+
+            filename = stdout
             credentials = open(filename, 'r').readline()
             credentials = credentials.split('\t')
             return credentials[1]

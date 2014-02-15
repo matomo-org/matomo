@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Browser Versionen",
+        "Camera": "Digitalcamera",
         "Console": "Konsole",
         "dataTableLabelBrands": "Marke",
         "dataTableLabelBrowserFamily": "Browser Familie",
