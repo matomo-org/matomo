@@ -194,7 +194,7 @@ function copyDashboardToUser() {
             }
         };
 
-        $('body').on('mouseup', this.onBodyMouseUp);
+        $('body')[0].addEventListener('mouseup', this.onBodyMouseUp);
 
         // setup widgetPreview
         this.$element.widgetPreview({
@@ -222,7 +222,7 @@ function copyDashboardToUser() {
         _destroy: function () {
             UIControl.prototype.call(this);
 
-            $('body')[0].removeEventListener(this.onBodyMouseUp);
+            $('body')[0].removeEventListener('mouseup', this.onBodyMouseUp);
         }
     });
 

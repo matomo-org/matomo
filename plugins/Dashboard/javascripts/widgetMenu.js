@@ -146,7 +146,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              * Default settings for widgetPreview
              * @type {object}
              */
-            var settings = {
+            var defaultSettings = {
                 /**
                  * handler called after a widget preview is loaded in preview element
                  * @type {function}
@@ -180,8 +180,6 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 unavailableClass: 'widgetpreview-unavailable'
             };
 
-            var availableWidgets, widgetPreview, widgetAjaxRequest = null;
-
             /**
              * Returns the div to show category list in
              * - if element doesn't exist it will be created and added
@@ -189,7 +187,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              *
              * @return {$} category list element
              */
-            function createWidgetCategoryList() {
+            function createWidgetCategoryList(widgetPreview, availableWidgets) {
+                var settings = widgetPreview.settings;
 
                 if (!$('.' + settings.categorylistClass, widgetPreview).length) {
                     $(widgetPreview).append('<ul class="' + settings.categorylistClass + '"></ul>');
@@ -212,7 +211,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              *
              * @return {$} widget list element
              */
-            function createWidgetList() {
+            function createWidgetList(widgetPreview) {
+                var settings = widgetPreview.settings;
 
                 if (!$('.' + settings.widgetlistClass, widgetPreview).length) {
                     $(widgetPreview).append('<ul class="' + settings.widgetlistClass + '"></ul>');
@@ -239,9 +239,10 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              * @param {object} widgets widgets to be displayed
              * @return {void}
              */
-            function showWidgetList(widgets) {
+            function showWidgetList(widgets, widgetPreview) {
+                var settings = widgetPreview.settings;
 
-                var widgetList = createWidgetList(),
+                var widgetList = createWidgetList(widgetPreview),
                     widgetPreviewTimer;
 
                 for (var j = 0; j < widgets.length; j++) {
@@ -265,7 +266,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                         $('li', widgetList).removeClass(settings.choosenClass);
                         $(that).addClass(settings.choosenClass);
 
-                        showPreview(widgetUniqueId);
+                        showPreview(widgetUniqueId, widgetPreview);
                     }, 400);
                 });
 
@@ -278,7 +279,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     if (!$('.widgetLoading', widgetPreview).length) {
                         settings.onSelect($(this).attr('uniqueid'));
                         if (settings.resetOnSelect) {
-                            resetWidgetPreview();
+                            resetWidgetPreview(widgetPreview);
                         }
                     }
                     return false;
@@ -292,7 +293,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              *
              * @return {$} preview element
              */
-            function createPreviewElement() {
+            function createPreviewElement(widgetPreview) {
+                var settings = widgetPreview.settings;
 
                 if (!$('.' + settings.widgetpreviewClass, widgetPreview).length) {
                     $(widgetPreview).append('<div class="' + settings.widgetpreviewClass + '"></div>');
@@ -310,11 +312,13 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              * @param {string} widgetUniqueId unique id of widget to display
              * @return {void}
              */
-            function showPreview(widgetUniqueId) {
+            function showPreview(widgetUniqueId, widgetPreview) {
                 // do not reload id widget already displayed
                 if ($('#' + widgetUniqueId, widgetPreview).length) return;
 
-                var previewElement = createPreviewElement();
+                var settings = widgetPreview.settings;
+
+                var previewElement = createPreviewElement(widgetPreview);
 
                 var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
                 var widgetParameters = widget['parameters'];
@@ -335,18 +339,18 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
                         settings.onSelect(widgetUniqueId);
                         if (settings.resetOnSelect) {
-                            resetWidgetPreview();
+                            resetWidgetPreview(widgetPreview);
                         }
                         return false;
                     });
                 };
 
                 // abort previous sent request
-                if (widgetAjaxRequest) {
-                    widgetAjaxRequest.abort();
+                if (widgetPreview.widgetAjaxRequest) {
+                    widgetPreview.widgetAjaxRequest.abort();
                 }
 
-                widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
+                widgetPreview.widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
             }
 
             /**
@@ -354,10 +358,12 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              *
              * @return {void}
              */
-            function resetWidgetPreview() {
+            function resetWidgetPreview(widgetPreview) {
+                var settings = widgetPreview.settings;
+
                 $('.' + settings.categorylistClass + ' li', widgetPreview).removeClass(settings.choosenClass);
-                createWidgetList();
-                createPreviewElement();
+                createWidgetList(widgetPreview);
+                createPreviewElement(widgetPreview);
             }
 
             /**
@@ -368,38 +374,39 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              */
             this.construct = function (userSettings) {
 
-                if (widgetPreview && userSettings == 'reset') {
-                    resetWidgetPreview();
+                if (userSettings == 'reset') {
+                    resetWidgetPreview(this);
                     return;
                 }
 
-                widgetPreview = this;
+                this.widgetAjaxRequest = null;
 
                 $(this).addClass('widgetpreview-base');
 
-                settings = jQuery.extend(settings, userSettings);
+                this.settings = jQuery.extend({}, defaultSettings, userSettings);
 
                 // set onSelect callback
-                if (typeof settings.onSelect == 'function') {
-                    this.onSelect = settings.onSelect;
+                if (typeof this.settings.onSelect == 'function') {
+                    this.onSelect = this.settings.onSelect;
                 }
 
                 // set onPreviewLoaded callback
-                if (typeof settings.onPreviewLoaded == 'function') {
-                    this.onPreviewLoaded = settings.onPreviewLoaded;
+                if (typeof this.settings.onPreviewLoaded == 'function') {
+                    this.onPreviewLoaded = this.settings.onPreviewLoaded;
                 }
 
                 availableWidgets = widgetsHelper.getAvailableWidgets();
 
-                var categoryList = createWidgetCategoryList();
+                var categoryList = createWidgetCategoryList(this, availableWidgets);
 
+                var self = this;
                 $('li', categoryList).on('mouseover', function () {
                     var category = $(this).text();
                     var widgets = availableWidgets[category];
-                    $('li', categoryList).removeClass(settings.choosenClass);
-                    $(this).addClass(settings.choosenClass);
-                    showWidgetList(widgets);
-                    createPreviewElement(); // empty preview
+                    $('li', categoryList).removeClass(self.settings.choosenClass);
+                    $(this).addClass(self.settings.choosenClass);
+                    showWidgetList(widgets, self);
+                    createPreviewElement(self); // empty preview
                 });
             };
         }

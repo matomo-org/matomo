@@ -1151,7 +1151,7 @@ $(document).ready(function() {
             }
         };
 
-        $('body').on('mouseup', this.onMouseUp);
+        $('body')[0].addEventListener('mouseup', this.onMouseUp);
     };
 
     /**
