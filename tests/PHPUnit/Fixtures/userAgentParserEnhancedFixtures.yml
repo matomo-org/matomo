@@ -16959,3 +16959,19 @@
     model: MS800
   os_family: Windows Mobile
   browser_family: Internet Explorer
+-
+  user_agent: Bunjalloo/0.7.6(Nintendo DS;U;en)
+  os:
+    name: Nintendo Mobile
+    short_name: NDS
+    version: DS
+  browser:
+    name: Bunjalloo
+    short_name: BJ
+    version: 0.7
+  device:
+    type: console
+    brand: NI
+    model: DS
+  os_family: Mobile Gaming Console
+  browser_family: Unknown

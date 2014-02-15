@@ -306,6 +306,7 @@ class UserAgentParserEnhanced
         'BB' => 'BlackBerry Browser',
         'BD' => 'Baidu Browser',
         'BE' => 'Beonex',
+        'BJ' => 'Bunjalloo',
         'BX' => 'BrowseX',
         'CA' => 'Camino',
         'CD' => 'Comodo Dragon',
