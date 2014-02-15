@@ -107,7 +107,8 @@ function getDeviceTypeLabel($label)
         'console'       => 'DevicesDetection_Console',
         'tv'            => 'DevicesDetection_TV',
         'car browser'   => 'DevicesDetection_CarBbrowser',
-        'smart display' => 'DevicesDetection_SmartDisplay'
+        'smart display' => 'DevicesDetection_SmartDisplay',
+        'camera'        => 'DevicesDetection_Camera'
     );
     if (isset(UserAgentParserEnhanced::$deviceTypes[$label]) && isset($translations[UserAgentParserEnhanced::$deviceTypes[$label]])) {
         return Piwik::translate($translations[UserAgentParserEnhanced::$deviceTypes[$label]]);
@@ -133,7 +134,8 @@ function getDeviceTypeLogo($label)
         "tv"            => "tv.png",
         "feature phone" => "mobile.gif",
         "console"       => "console.gif",
-        "car browser"   => "carbrowser.png");
+        "car browser"   => "carbrowser.png",
+        "camera"        => "camera.png");
 
     if (!array_key_exists($label, $deviceTypeLogos) || $label == "Unknown") {
         $label = 'unknown.gif';
