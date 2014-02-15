@@ -39,14 +39,18 @@ class UIControl extends \Piwik\View
     /**
      * The name of the JavaScript class that handles the behavior of this control.
      *
-     * The JavaScript class must exist in the **piwik/UI** JavaScript module (so it will exist in
-     * `window.piwik.UI`).
-     *
      * This field must be set prior to rendering.
      *
      * @var string
      */
     public $jsClass = null;
+
+    /**
+     * The JavaScript module that contains the JavaScript class.
+     *
+     * @var string
+     */
+    public $jsNamespace = 'piwik/UI';
 
     /**
      * Extra CSS class(es) for the root element.
@@ -116,6 +120,7 @@ class UIControl extends \Piwik\View
         $this->templateVars['cssIdentifier'] = $this->cssIdentifier;
         $this->templateVars['cssClass'] = $this->cssClass;
         $this->templateVars['jsClass'] = $this->jsClass;
+        $this->templateVars['jsNamespace'] = $this->jsNamespace;
         $this->templateVars['implOverride'] = $override;
 
         $innerTemplateVars = $this->innerView->getTemplateVars($override);

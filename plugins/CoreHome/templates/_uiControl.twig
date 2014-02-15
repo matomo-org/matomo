@@ -3,4 +3,4 @@
      data-params="{{ clientSideParameters|json_encode }}">
      {% render implView with implOverride %}
 </div>
-<script>$(document).ready(function () { require('piwik/UI').{{ jsClass }}.initElements(); });</script>
+<script>$(document).ready(function () { require('{{ jsNamespace }}').{{ jsClass }}.initElements(); });</script>

@@ -600,18 +600,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     });
 
                     // on hover of x-axis, show note icon over correct part of x-axis
-                    $('span', annotations).hover(
-                        function () { $(this).css('opacity', 1); },
-                        function () {
-                            if ($(this).attr('data-count') == 0) // only hide if there are no annotations for this note
-                            {
-                                $(this).css('opacity', 0);
-                            }
+                    datatableFeatures.on('mouseenter', '.evolution-annotations>span', function () {
+                        $(this).css('opacity', 1);
+                    });
+
+                    datatableFeatures.on('mouseleave', '.evolution-annotations>span', function () {
+                        if ($(this).attr('data-count') == 0) // only hide if there are no annotations for this note
+                        {
+                            $(this).css('opacity', 0);
                         }
-                    );
+                    });
 
                     // when clicking an annotation, show the annotation viewer for that period
-                    $('span', annotations).click(function () {
+                    datatableFeatures.on('click', '.evolution-annotations>span', function () {
                         var spanSelf = $(this),
                             date = spanSelf.attr('data-date'),
                             oldDate = $('.annotation-manager', domElem).attr('data-date');
