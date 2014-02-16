@@ -14,28 +14,10 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
 {
     public static $fixture = null;
 
-    static $shouldSkipTestThisTime = false;
-
     public static function setUpBeforeClass()
     {
-        self::$shouldSkipTestThisTime = in_array(date('G'), array(22, 23));
-
-        if (self::$shouldSkipTestThisTime) {
-            print("\nSKIPPED test PeriodIsRange_DateIsLastN_MetadataAndNormalAPI since it fails around midnight...\n");
-            return;
-        }
-
-        self::$fixture->dateTime = Date::factory('now')->getDateTime();
+        self::$fixture->dateTime = Date::factory('today')->getDateTime();
         parent::setUpBeforeClass();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        if (self::$shouldSkipTestThisTime) {
-            return;
-        }
-
-        parent::tearDownAfterClass();
     }
 
     /**
@@ -44,9 +26,6 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
      */
     public function testApi($api, $params)
     {
-        if (self::$shouldSkipTestThisTime) {
-            return;
-        }
         $this->runApiTests($api, $params);
     }
 
@@ -84,8 +63,11 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
             foreach ($dates as $date) {
                 $result[] = array($apiToCall, array('idSite'    => $idSite, 'date' => $date,
                                                     'periods'   => array('range'), 'segment' => $segment,
-                    // testing getLastVisitsForVisitor requires a visitor ID
-                                                    'visitorId' => $visitorId));
+                                                    // testing getLastVisitsForVisitor requires a visitor ID
+                                                    'visitorId' => $visitorId,
+                                                    'otherRequestParameters' => array(
+                                                        'lastMinutes' => 60 * 24,
+                                                    )));
             }
         }
 

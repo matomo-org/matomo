@@ -216,7 +216,11 @@
                     {% else %}
                         <td>
                             <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_LogoNotWriteable">
-                                {{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>"~ pathUserLogoDirectory ~"</li><li>"~ pathUserLogo ~"</li><li>"~ pathUserLogoSmall ~"</li><li>"~ pathUserLogoSVG ~"</li></ul>")|notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
+                                {{ 'CoreAdminHome_LogoNotWriteableInstruction'
+                                        |translate("<strong>"~pathUserLogoDirectory~"</strong><br/>", pathUserLogo ~", "~ pathUserLogoSmall ~", "~ pathUserLogoSVG ~"")
+                                        |notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
+
+
                             </div>
                         </td>
                     {% endif %}

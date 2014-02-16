@@ -314,6 +314,9 @@ class GoalManager
                 $time = $referrerTimestamp;
             }
         }
+        $name = Common::mb_strtolower($name);
+        $keyword = Common::mb_strtolower($keyword);
+
         $goal += array(
             'referer_type'              => $type,
             'referer_name'              => $name,
