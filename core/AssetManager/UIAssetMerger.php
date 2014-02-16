@@ -140,12 +140,7 @@ abstract class UIAssetMerger
         if(!$this->mergedAsset->exists())
             return true;
 
-        if($this->shouldCompareExistingVersion()) {
-
-            return !$this->isFileUpToDate();
-        }
-
-        return false;
+        return !$this->isFileUpToDate();
     }
 
     /**
