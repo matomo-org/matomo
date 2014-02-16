@@ -7,14 +7,14 @@
 
 angular.module('piwikApp').directive('piwikSiteSelector', function($document, piwik, $filter){
     var defaults = {
-        'name': '',
-        'siteid': piwik.idSite,
-        'sitename': piwik.siteName,
-        'all-sites-location': 'bottom',
-        'all-sites-text': $filter('translate')('General_MultiSitesSummary'),
-        'show-selected-site': 'false',
-        'show-all-sites-item': 'true',
-        'switch-site-on-select': 'true',
+        name: '',
+        siteid: piwik.idSite,
+        sitename: piwik.siteName,
+        allSitesLocation: 'bottom',
+        allSitesText: $filter('translate')('General_MultiSitesSummary'),
+        showSelectedSite: 'false',
+        showAllSitesItem: 'true',
+        switchSiteOnSelect: 'true',
     };
 
     return {
@@ -30,7 +30,7 @@ angular.module('piwikApp').directive('piwikSiteSelector', function($document, pi
         templateUrl: 'plugins/CoreHome/javascripts/siteselector/siteSelectorPartial.html',
         controller: 'SiteSelectorController',
         compile: function (element, attrs) {
-            attrs.$addClass('sites_autocomplete');
+            element.addClass('sites_autocomplete');
 
             for (var index in defaults) {
                if (!attrs[index]) { attrs[index] = defaults[index]; }
