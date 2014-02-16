@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikApp.controller('SiteSelectorController', function($scope, siteSelectorModel, piwik, AUTOCOMPLETE_MIN_SITES){
+angular.module('piwikApp').controller('SiteSelectorController', function($scope, siteSelectorModel, piwik, AUTOCOMPLETE_MIN_SITES){
 
     $scope.model = siteSelectorModel;
 

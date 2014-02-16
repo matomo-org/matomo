@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikAppDirectives.directive('piwikAutocompleteMatched', function() {
+angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', function() {
     return function(scope, element, attrs) {
         var searchTerm;
 

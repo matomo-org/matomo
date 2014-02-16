@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikAppServices.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
+angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
 
     var url = 'index.php';
     var format = 'json';

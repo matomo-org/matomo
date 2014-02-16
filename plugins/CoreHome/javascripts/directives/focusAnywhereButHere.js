@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikAppDirectives.directive('piwikFocusAnywhereButHere', function($document){
+angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', function($document){
     return {
         restrict: 'A',
         link: function(scope, element, attr, ctrl) {

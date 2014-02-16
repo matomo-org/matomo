@@ -1,5 +1,5 @@
 
-piwikApp.factory('siteSelectorModel', function (piwikApi, $filter, SITE_SELECTOR_MAX_SITES) {
+angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $filter, SITE_SELECTOR_MAX_SITES) {
 
     var model = {};
     model.sites = [];
