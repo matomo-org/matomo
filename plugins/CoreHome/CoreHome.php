@@ -90,14 +90,25 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
+
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/services.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwikApi.js";
+
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/filters.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/providers/PiwikApi.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/providers/piwik.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/filters/htmldecode.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/filters/translate.js";
+
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/directives.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/providers.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/controller.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/directives.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/autocompleteMatched.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focusAnywhereButHere.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/ignoreClick.js";
+
+        $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
+        
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorModel.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorController.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorDirectives.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

@@ -5,12 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-piwikApp.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
+piwikAppServices.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
 
     var url = 'index.php';
     var format = 'json';
     var getParams  = {};
     var postParams = {};
+    var requestHandle = null;
 
     var piwikApi = {};
 
@@ -39,13 +40,14 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
      */
     function send (cacheResult) {
 
-        var deferred = $q.defer();
+        var deferred = requestHandle = $q.defer();
 
         var onError = function (message) {
             deferred.reject(message);
+            requestHandle = null;
         };
 
-        var onSuccess  = function (response) {
+        var onSuccess = function (response) {
             if (response && response.result == 'error') {
 
                 if (response.message) {
@@ -66,6 +68,7 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
             } else {
                 deferred.resolve(response);
             }
+            requestHandle = null;
         };
 
         var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
@@ -140,6 +143,16 @@ piwikApp.factory('piwikApi', function ($http, $q, $rootScope, piwik, $window) {
         }
 
         return getParamsToMixin;
+    };
+
+    piwikApi.abort = function () {
+        getParams  = {};
+        postParams = {};
+
+        if (requestHandle) {
+            requestHandle.resolve();
+            requestHandle = null;
+        }
     };
 
     /**

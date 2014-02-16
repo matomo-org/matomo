@@ -1,12 +1,29 @@
 
 piwikApp.factory('siteSelectorModel', function (piwikApi, $filter) {
-    var filterLimit = 10;
 
     var model = {};
     model.sites = [];
     model.hasMultipleWebsites = false;
     model.isLoading = false;
     model.firstSiteName = '';
+
+    function fetchAndUpdate(params)
+    {
+        if (model.isLoading) {
+            piwikApi.abort();
+        }
+
+        model.isLoading = true;
+
+        params.filter_limit = 10;
+        params.showColumns  = 'name,idsite';
+
+        piwikApi.fetch(params).then(function (response) {
+            model.updateWebsitesList(response);
+        }).finally(function () {
+            model.isLoading = false;
+        });
+    }
 
     model.updateWebsitesList = function (websites) {
 
@@ -33,29 +50,17 @@ piwikApp.factory('siteSelectorModel', function (piwikApi, $filter) {
             model.loadInitialSites();
             return;
         }
-        model.isLoading = true;
-        piwikApi.fetch({
+
+        fetchAndUpdate({
             method: 'SitesManager.getPatternMatchSites',
-            filter_limit: filterLimit,
             pattern: term
-        }).then(function (response) {
-            model.updateWebsitesList(response);
-        }).finally(function () {
-            model.isLoading = false;
         });
     };
 
     model.loadInitialSites = function () {
-        model.isLoading = true;
-        piwikApi.fetch({
-            method: 'SitesManager.getSitesWithAtLeastViewAccess',
-            filter_limit: filterLimit,
-            showColumns: 'name,idsite'
-        }).then(function (response) {
-            model.updateWebsitesList(response);
-        }).finally(function () {
-            model.isLoading = false;
-        });
+        fetchAndUpdate({
+            method: 'SitesManager.getSitesWithAtLeastViewAccess'
+        })
     }
 
     return model;

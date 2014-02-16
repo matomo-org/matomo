@@ -8,7 +8,6 @@
 piwikApp.controller('SiteSelectorController', function($scope, siteSelectorModel, piwik){
 
     $scope.model = siteSelectorModel;
-    $scope.model.loadInitialSites();
 
     $scope.selectedSite = {id: '', name: ''};
     $scope.activeSiteId = piwik.idSite;
