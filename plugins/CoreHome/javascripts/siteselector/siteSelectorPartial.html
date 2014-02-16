@@ -24,8 +24,8 @@
                  ng-include="'siteselector_allsiteslink.html'"></div>
 
             <div class="custom_select_container">
-                <ul class="custom_select_ul_list">
-                    <li ng-click="view.showSitesList=false; switchSite(site)"
+                <ul class="custom_select_ul_list" ng-click="view.showSitesList=false;">
+                    <li ng-click="switchSite(site)"
                         ng-repeat="site in model.sites"
                         ng-hide="!showSelectedSite && activeSiteId==site.idsite">
                         <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}" piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
