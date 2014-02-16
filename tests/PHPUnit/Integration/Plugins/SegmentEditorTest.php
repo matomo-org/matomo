@@ -10,6 +10,7 @@ use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\SegmentEditor\Model;
 
 /**
  * Class Plugins_SegmentEditorTest
@@ -108,20 +109,21 @@ class Plugins_SegmentEditorTest extends DatabaseTestCase
         $this->assertEquals($segment, $expected);
 
         // There is a segment to process for this particular site
-        $segments = API::getInstance()->getAll($idSite, $autoArchived = true);
+        $model = new Model();
+        $segments = $model->getSegmentsToAutoArchive($idSite);
         unset($segments[0]['ts_created']);
         $this->assertEquals($segments, array($expected));
 
         // There is no segment to process for a non existing site
         try {
-            $segments = API::getInstance()->getAll(33, $autoArchived = true);
+            $segments = $model->getSegmentsToAutoArchive(33);
             $this->fail();
         } catch(Exception $e) {
             // expected
         }
 
         // There is no segment to process across all sites
-        $segments = API::getInstance()->getAll($idSite = false, $autoArchived = true);
+        $segments = $model->getSegmentsToAutoArchive($idSite = false);
         $this->assertEquals($segments, array());
     }
 

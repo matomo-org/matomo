@@ -949,6 +949,17 @@ PolyPad:
     - regex: 'POLY ?PAD[_\.]([a-z0-9]+)'
       model: '$1'
 
+# Prestigio
+Prestigio:
+  regex: '((?:PMP|PAP)[0-9]+[a-z0-9]+) Build'
+  device: 'tablet'
+  models:
+    - regex: '(PMP[0-9]+[a-z0-9]+) Build'
+      model: '$1'
+    - regex: '(PAP[0-9]+[a-z0-9]+) Build'
+      model: '$1'
+      device: 'smartphone'
+
 # Sanyo
 Sanyo:
   regex: 'Sanyo|MobilePhone '

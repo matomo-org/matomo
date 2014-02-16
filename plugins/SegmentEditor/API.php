@@ -261,11 +261,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all stored segments.
      *
-     * @param bool $idSite Whether to return stored segments that are only auto-archived for a specific idSite, or all of them. If supplied, must be a valid site ID.
-     * @param bool $returnOnlyAutoArchived Whether to only return stored segments that are auto-archived or not.
+     * @param bool|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
      * @return array
      */
-    public function getAll($idSite = false, $returnOnlyAutoArchived = false)
+    public function getAll($idSite = false)
     {
         if (!empty($idSite)) {
             Piwik::checkUserHasViewAccess($idSite);
@@ -273,34 +272,14 @@ class API extends \Piwik\Plugin\API
             Piwik::checkUserHasSomeViewAccess();
         }
 
-        if ($returnOnlyAutoArchived) {
-            Piwik::checkUserHasSuperUserAccess();
-        }
+        $userLogin = Piwik::getCurrentUserLogin();
 
-        $bind = array();
-
-        // Build basic segment filtering
-        $whereIdSite = '';
-        if (!empty($idSite)) {
-            $whereIdSite = 'enable_only_idsite = ? OR ';
-            $bind[] = $idSite;
-        }
-
-        if ($returnOnlyAutoArchived) {
-            $extraWhere = ' AND auto_archive = 1';
+        $model = new Model();
+        if (empty($idSite)) {
+            $segments = $model->getAllSegments($userLogin);
         } else {
-            $extraWhere = ' AND (enable_all_users = 1 OR login = ?)';
-            $bind[] = Piwik::getCurrentUserLogin();
+            $segments = $model->getAllSegmentsForSite($idSite, $userLogin);
         }
-
-        // Query
-        $sql = "SELECT * " .
-            " FROM " . Common::prefixTable("segment") .
-            " WHERE ($whereIdSite enable_only_idsite = 0)
-                        AND deleted = 0
-                        $extraWhere
-                      ORDER BY name ASC";
-        $segments = Db::get()->fetchAll($sql, $bind);
 
         return $segments;
     }
