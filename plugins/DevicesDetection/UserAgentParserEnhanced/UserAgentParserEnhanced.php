@@ -124,6 +124,7 @@ class UserAgentParserEnhanced
         'PO' => 'phoneOne',
         'PT' => 'Pantech',
         'PP' => 'PolyPad',
+        'PR' => 'Prestigio',
         'QT' => 'Qtek',
         'RM' => 'RIM',
         'RO' => 'Rover',

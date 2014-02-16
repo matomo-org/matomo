@@ -3545,9 +3545,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: PR
+    model: PMP5570C
   os_family: Android
   browser_family: Android Browser
 - 
@@ -5513,9 +5513,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: PR
+    model: PMP5770D
   os_family: Android
   browser_family: Android Browser
 - 
@@ -6489,9 +6489,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: PR
+    model: PMP5580C
   os_family: Android
   browser_family: Android Browser
 - 
@@ -7081,9 +7081,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: PR
+    model: PMP3370B
   os_family: Android
   browser_family: Android Browser
 - 
@@ -16975,3 +16975,19 @@
     model: DS
   os_family: Mobile Gaming Console
   browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; en-; PAP4322DUO Build/PrestigioPAP4322DUO) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version:
+  device:
+    type: smartphone
+    brand: PR
+    model: PAP4322DUO
+  os_family: Android
+  browser_family: Android Browser
