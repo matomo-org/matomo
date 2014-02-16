@@ -194,16 +194,22 @@ class CliMulti {
             return PHP_BINARY;
         }
 
-        $bin = shell_exec('which php');
+        $bin = '';
+
+        if (!empty($_SERVER['_']) && Common::isPhpCliMode()) {
+            $bin = $this->getPhpCommandIfValid($_SERVER['_']);
+        }
+
+        if (empty($bin) && !empty($_SERVER['argv'][0]) && Common::isPhpCliMode()) {
+            $bin = $this->getPhpCommandIfValid($_SERVER['argv'][0]);
+        }
+
+        if (empty($bin)) {
+            $bin = shell_exec('which php');
+        }
 
         if (empty($bin)) {
             $bin = shell_exec('which php5');
-        }
-
-        if (empty($bin) && defined('PHP_BINDIR') && Common::isPhpCliMode() && !empty($_SERVER['_']) && is_executable($_SERVER['_'])) {
-            if (0 === strpos($_SERVER['_'], PHP_BINDIR)) {
-                $bin = $_SERVER['_'];
-            }
         }
 
         if (!empty($bin)) {
@@ -251,5 +257,14 @@ class CliMulti {
         }
 
         return $url;
+    }
+
+    private function getPhpCommandIfValid($path)
+    {
+        if (!empty($path) && is_executable($path)) {
+            if (0 === strpos($path, PHP_BINDIR) && false === strpos($path, 'phpunit')) {
+                return $path;
+            }
+        }
     }
 }

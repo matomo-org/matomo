@@ -52,6 +52,8 @@ class Core_CliMultiTest extends IntegrationTestCase
             'getAnswerToLife' => '{"value":42}',
             'getPiwikVersion' => '{"value":"' . Version::VERSION . '"}'
         );
+
+        \Piwik\Common::$isCliMode = true;
     }
 
     public function test_request_shouldNotFailAndReturnNoResponse_IfNoUrlsAreGiven()
@@ -108,9 +110,17 @@ class Core_CliMultiTest extends IntegrationTestCase
         $this->assertGreaterThan(1, $numFilesAfter);
     }
 
+    public function test_request_shouldWorkInCaseItDoesNotRunFromCli()
+    {
+        $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife');
+
+        \Piwik\Common::$isCliMode = false;
+        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife'));
+    }
+
     /**
-     * This is a known issue, we do not get a content in case Piwik ends with an exit, but we have to make sure
-     * we detect the request has finished though
+     * This is a known issue, we do not get a content in case Piwik ends with an exit or redirect, but we have to make
+     * sure we detect the request has finished though
      */
     public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
     {
@@ -118,9 +128,10 @@ class Core_CliMultiTest extends IntegrationTestCase
 
         $this->assertStringStartsWith('Error: no website was found', $response[0]);
 
+        // performs a redirect
         $response = $this->cliMulti->request(array('/'));
 
-        $this->assertStringStartsWith('<!DOCTYPE html>', $response[0]);
+        $this->assertEmpty($response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
