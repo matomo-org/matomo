@@ -507,7 +507,7 @@ abstract class Controller
             $language = LanguagesManager::getLanguageForSession();
             $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 
-            $view->config_action_url_category_delimiter = PiwikConfig::getInstance()->General['action_url_category_delimiter'];
+            $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
 
             $this->setBasicVariablesView($view);
 

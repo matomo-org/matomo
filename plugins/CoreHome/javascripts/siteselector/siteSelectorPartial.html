@@ -41,7 +41,7 @@
             <div ng-if="allSitesLocation=='bottom' && showAllSitesItem"
                  ng-include="'siteselector_allsiteslink.html'"></div>
 
-            <div class="custom_select_search" ng-show="model.hasMultipleWebsites">
+            <div class="custom_select_search" ng-show="autocompleteMinSites <= model.sites.length">
                 <input type="text"
                        ng-click="view.searchTerm=''"
                        ng-model="view.searchTerm"

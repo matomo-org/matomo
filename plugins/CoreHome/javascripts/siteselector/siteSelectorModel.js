@@ -1,5 +1,5 @@
 
-piwikApp.factory('siteSelectorModel', function (piwikApi, $filter) {
+piwikApp.factory('siteSelectorModel', function (piwikApi, $filter, SITE_SELECTOR_MAX_SITES) {
 
     var model = {};
     model.sites = [];
@@ -15,7 +15,7 @@ piwikApp.factory('siteSelectorModel', function (piwikApi, $filter) {
 
         model.isLoading = true;
 
-        params.filter_limit = 10;
+        params.filter_limit = SITE_SELECTOR_MAX_SITES;
         params.showColumns  = 'name,idsite';
 
         piwikApi.fetch(params).then(function (response) {
