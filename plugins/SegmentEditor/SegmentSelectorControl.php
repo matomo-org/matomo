@@ -53,6 +53,7 @@ class SegmentSelectorControl extends UIControl
         }
         uksort($segmentsByCategory, array($this, 'sortSegmentCategories'));
 
+        $this->createRealTimeSegmentsIsEnabled = Config::getInstance()->General['enable_create_realtime_segments'];
         $this->segmentsByCategory   = $segmentsByCategory;
         $this->nameOfCurrentSegment = '';
         $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled'] = 0;
@@ -62,7 +63,7 @@ class SegmentSelectorControl extends UIControl
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
 
             if (!empty($this->selectedSegment) && $this->selectedSegment == $savedSegment['definition']) {
-                $this->nameOfCurrentSegment = $savedSegment['name'];
+                    $this->nameOfCurrentSegment = $savedSegment['name'];
                 $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled']
                     = $this->wouldApplySegment($savedSegment) ? 0 : 1;
             }

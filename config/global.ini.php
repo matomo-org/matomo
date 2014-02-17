@@ -136,6 +136,13 @@ anonymous_user_enable_use_segments_API = 1
 ; The only time that the browser will still trigger archiving is when requesting a custom date range that is not pre-processed yet
 browser_archiving_disabled_enforce = 0
 
+; By default, users can create Segments which are to be processed in Real-time.
+; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
+; This can be useful if you want to prevent users from adding much load on the server.
+; Note: any existing Segment set to "processed in Real time", will still be set to Real-time.
+;       this will only affect custom segments added or modified after this setting is changed.
+enable_create_realtime_segments = 1
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
