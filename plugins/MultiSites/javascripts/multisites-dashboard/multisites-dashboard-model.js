@@ -1,5 +1,5 @@
 
-angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikApi, $filter) {
+angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikApi, $filter, $timeout) {
 
     var model       = {};
     model.sites     = [];
@@ -65,7 +65,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         model.sites = $filter('filter')(model.allSites, term);
     }
 
-    model.fetchAllSites = function () {
+    model.fetchAllSites = function (refreshInterval) {
 
         if (model.isLoading) {
             piwikApi.abort();
@@ -85,6 +85,12 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             model.updateWebsitesList(response);
         }).finally(function () {
             model.isLoading = false;
+
+            if (refreshInterval && refreshInterval > 0) {
+                $timeout(function () {
+                    model.fetchAllSites(refreshInterval)
+                }, refreshInterval * 1000);
+            }
         });
     };
 

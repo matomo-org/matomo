@@ -22,7 +22,7 @@ angular.module('piwikApp').directive('piwikMultisitesDashboard', function($docum
                 scope.model.pageSize = attrs.pageSize;
             }
 
-            scope.model.fetchAllSites();
+            scope.model.fetchAllSites(attrs.autoRefreshTodayReport);
         }
     }
 });
