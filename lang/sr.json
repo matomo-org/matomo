@@ -139,7 +139,6 @@
         "JSTrackingIntro5": "Ukoliko želite da pratite više od prikaza stranica, pogledajte %1$sPiwik dokumentaciju za JavaScript praćenje%2$s za sve raspoložive funkcije. Pomoću tih funkcija možete pratiti ciljeve, korisnički definisane promenljive, elektronske porudžbine, napuštene korpe i još puno toga.",
         "LatestBetaRelease": "Poslednje beta izdanje",
         "LatestStableRelease": "Poslednja stabilna verzija",
-        "LogoNotWriteable": "Da biste koristili svoj logo za Piwik, potrebno je da omogućite prava za pisanje logo fajlovima u okviru foldera za teme: %s",
         "LogoUpload": "Izaberite logo za kačenje",
         "MenuDiagnostic": "Dijagnostika",
         "MenuGeneralSettings": "Osnovna podešavanja",

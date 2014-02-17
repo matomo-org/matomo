@@ -138,7 +138,6 @@
         "JSTrackingIntro5": "Indien je meer wilt bijhouden dan paginaweergaves, lees dan de %1$sPiwik Javascript Tracking documentatie%2$s voor de lijst van beschikbare functies. Via deze functies kun je doelen, eigen variabelen, ecommerce bestellingen, afgebroken bestellingen en meer.",
         "LatestBetaRelease": "De laatste beta versie",
         "LatestStableRelease": "De laatste stabiele versie",
-        "LogoNotWriteable": "Voor het gebruik van een aangepast logo heeft Piwik schrijfrechten nodig in de map met de logo-bestanden in de themes map: %s",
         "LogoUpload": "Selecteer een logo om te uploaden",
         "LogoUploadHelp": "Upload een bestand in %s formaten met een minimum hoogte van %s pixels.",
         "MenuDiagnostic": "Diagnose",

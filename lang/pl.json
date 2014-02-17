@@ -50,7 +50,6 @@
         "ClickHereToOptOut": "Kliknij tutaj by wyłączyć analizę.",
         "CustomLogoHelpText": "Można dostosować logo Piwik, które będą wyświetlane w interfejsie użytkownika i w raportach e-mail.",
         "EmailServerSettings": "Konfiguracja serwera poczty",
-        "LogoNotWriteable": "Aby użyć niestandardowego logo Piwik wymagany jest dostępu do zapisu plików logo w katalogu temat: %s",
         "LogoUpload": "Wybierz logo",
         "MenuGeneralSettings": "Konfiguracja ogólna",
         "OptOutComplete": "Pełna dezaktywacja. Nie będziesz odnotowywany przez narzędzie statystyk i analityki.",

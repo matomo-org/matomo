@@ -128,7 +128,6 @@
         "JSTrackingIntro4": "Eğer Javascript izleme kodu kullanmak istemiyorsanız aşağıdaki%2$s linke tıklayarak izleme resmi oluşturabilirsiniz%1$s.",
         "LatestBetaRelease": "En son beta sürümü",
         "LatestStableRelease": "En son kararlı sürüm",
-        "LogoNotWriteable": "Logoyu değiştirmek için, Piwik için tema dizinindeki logo dosyalarına yazma hakkı gerekir: %s",
         "LogoUpload": "Yüklemek için logo seçiniz",
         "MenuDiagnostic": "tehşis",
         "MenuGeneralSettings": "Genel Ayarlar",

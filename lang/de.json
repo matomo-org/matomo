@@ -139,7 +139,6 @@
         "JSTrackingIntro5": "Sollte Sie mehr als nur Seitenaufrufe aufzeichnen wollen, werfen Sie einen Blick in die %1$sPiwik Javascript Tracking Dokumentation%2$s für eine Liste an verfügbaren Funktionen. Mit der Verwendung dieser Funktionen können Sie Ziele, benutzerdefinierte Variablen, Ecommerce Bestellungen, verlassene Warenkörbe und mehr aufzeichnen.",
         "LatestBetaRelease": "Das aktuellste Beta Release",
         "LatestStableRelease": "Das aktuellste stabile Release",
-        "LogoNotWriteable": "Um ein eigenes Logo in Piwik verwenden zu können, wird Schreibzugriff auf die Logo Dateien im themes Ordner benötigt: %s",
         "LogoUpload": "Wählen Sie ein Logo für den Upload",
         "LogoUploadHelp": "Bitte laden Sie eine Datei in den Formaten %s mit einer minimalen Höhe von %s Pixeln hoch.",
         "MenuDiagnostic": "Diagnose",

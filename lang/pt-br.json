@@ -139,7 +139,6 @@
         "JSTrackingIntro5": "Se você deseja mais do que apenas monitorar exibições de página, porfavor verifique a %1$sdocumentação do rastreamento por javascript do Piwik%2$s para uma lista de funcões disponíveis. Usando essas funções você pode acompanhar objetivos, variáveis ​​personalizadas, ordens de comércio eletrônico, compras abandonadas e muito mais.",
         "LatestBetaRelease": "O último release beta",
         "LatestStableRelease": "O último release estável",
-        "LogoNotWriteable": "Para usar um logo personalizado o Piwik requer permissão de gravação ao diretório dos arquivos de temas: %s",
         "LogoUpload": "Selecione um logotipo para carregar",
         "MenuDiagnostic": "Diagnostico",
         "MenuGeneralSettings": "Configurações Gerais",

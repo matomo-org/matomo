@@ -94,7 +94,6 @@
         "CustomLogoFeedbackInfo": "Nëse e përshtatni logon e Piwik-ut, mund t’ju interesonte edhe fshehja lidhjes %s te menuja në krye. Për ta bërë këtë, mund të çaktivizoni shtojcën e Përshtypjeve te faqja e %sAdministrimit të Shtojcëve%s.",
         "CustomLogoHelpText": "Logon e Piwik-ut, që do të shfaqet në ndërfaqen e përdoruesit dhe raportet email.",
         "EmailServerSettings": "Rregullime shërbyesi email",
-        "LogoNotWriteable": "Që të përdorni një logo Piwik të përshtatur ju nevojitet të keni leje shkrimi te kartelat e logos brenda drejtorisë së temës: %s",
         "LogoUpload": "Përzgjidhni një Logo për ta ngarkuar",
         "MenuDiagnostic": "Diagnostikim",
         "MenuGeneralSettings": "Rregullime të përgjithshme",

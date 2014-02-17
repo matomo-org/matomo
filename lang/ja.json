@@ -135,7 +135,6 @@
         "JSTrackingIntro5": "ページビューを追跡する以上のことをしたい場合は、%1$sPiwik Javascriptトラッキングドキュメント%2$sの使用可能な機能のリストを参照してください。これらの機能を使って、ゴール（目標）、カスタム変数、eコマース注文、破棄されたショッピングカート等々の追跡が可能です。",
         "LatestBetaRelease": "最新のベータ版リリース",
         "LatestStableRelease": "最新の安定版リリース",
-        "LogoNotWriteable": "カスタムロゴを使用するにはthemesディレクトリ：%s の中のロゴファイルへの書き込み権限が必要です。",
         "LogoUpload": "アップロードするロゴを選択",
         "MenuDiagnostic": "診断",
         "MenuGeneralSettings": "全般の設定",

@@ -107,7 +107,6 @@
         "ImportingServerLogs": "Important els Registres del Servidor",
         "ImportingServerLogsDesc": "Una alternativa a seguir els visitants a través del navegador (tant amb JavaScript com amb un enllaç de imatge) és important continuament els registres del servidor. Informeu-vos més a %1$sServer Log File Analytics%2$s.",
         "JavaScriptTracking": "Seguiment amb Javascript",
-        "LogoNotWriteable": "Per utiltizar un logo personalitzat el Piwik requereix permisos d'escriptura sobre els fitxers logo dins del directori de temes: %s",
         "LogoUpload": "Seleccioneu un logo per pujar",
         "MenuGeneralSettings": "Configuració general",
         "OptOutComplete": "Baixa complerta. Les teves visites en aquest lloc web no es tindrán en compte per l'eina d'anàlisis Web.",

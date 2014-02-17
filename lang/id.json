@@ -139,7 +139,6 @@
         "JSTrackingIntro5": "Bila Anda berkeinginan lebih dari melacak tampilan halaman, harap periksa %1$sDokumentas Pelacakan Javascript Piwik%2$s untuk daftar fungsi yang tersedia. Gunakan funsi tersebut untuk melacak tujuan Anda, variabel kustom, pemesanan niaga-e, keranjang dibuang, dan lebih.",
         "LatestBetaRelease": "Rilis beta terkini",
         "LatestStableRelease": "Rilis stabil terkini",
-        "LogoNotWriteable": "Untuk menggunakan logo kustom, Piwik membutuhkan akses tulis ke file logo dalam direktori tema: %s",
         "LogoUpload": "Pilih Logo untuk diunggah",
         "LogoUploadHelp": "Harap mengunggah berkas dalam bentuk %s dengan tinggi minimal %s pixel.",
         "MenuDiagnostic": "Diagnosis",

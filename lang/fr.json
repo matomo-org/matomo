@@ -139,7 +139,6 @@
         "JSTrackingIntro5": "Si vous voulez faire plus qu'effectuer le suivi des visites de pages, veuillez consulter %1$sla documentation de suivi par JavaScript%2$s pour connaitre la liste des fonctions disponibles. En utilisant ces fonctions vous pouvez effectuer le suivi des objectifs, variables personnalisées, commandes de e-commerce, chariots\/paniers abandonnés et plus encore.",
         "LatestBetaRelease": "Dernière version beta",
         "LatestStableRelease": "Dernière version stable",
-        "LogoNotWriteable": "Pour utiliser un logo personnalisé Piwik a besoin d'un accès en écriture aux fichiers de logo dans les répertoires des thèmes: %s",
         "LogoUpload": "Sélectionnez le logo à télécharger",
         "LogoUploadHelp": "Veuillez télécharge un file dans un des formats suivants %s avec une hauteur minimale de %s pixels.",
         "MenuDiagnostic": "Diagnostique",

@@ -42,7 +42,6 @@
         "ClickHereToOptOut": "Clique aqui para fazer opt-out.",
         "CustomLogoHelpText": "Você pode personalizar o logotipo Piwik que será exibido na interface do utilizador e relatórios de e-mail.",
         "EmailServerSettings": "Definições do servidor de email",
-        "LogoNotWriteable": "Para usar um logo Piwik personalizado é necessário permissões de escrita nos ficheiros log, na directoria de temas: %s",
         "LogoUpload": "Selecione um logo para fazer upload",
         "MenuGeneralSettings": "Definições gerais",
         "OptOutComplete": "Opt-out completo; as suas visitas a este site não serão gravadas pela ferramenta de Web Analytics.",

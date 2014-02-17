@@ -121,7 +121,6 @@
         "JSTrackingIntro1": "Du kan spåra besöken till din sida på många olika sätt. Det sättet som vi rekommenderar är via JavaScript. För att använda den här metoden behöver du ge varje undersida på din hemsida en JavaScript kod. Du kan hämta den koden här:",
         "LatestBetaRelease": "Senaste betaversionen",
         "LatestStableRelease": "Senaste stabila versionen",
-        "LogoNotWriteable": "För att kunna använda en anpassad logotyp för Piwik krävs skrivrättigheter till logotypfilerna i temakatalogen: %s",
         "LogoUpload": "Välj en logotyp att ladda upp",
         "MenuDiagnostic": "Diagnostik",
         "MenuGeneralSettings": "Allmänna inställningar",

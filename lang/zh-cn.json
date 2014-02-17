@@ -139,7 +139,6 @@
         "JSTrackingIntro5": "如果除了统计访问次数，请在 %1$sPiwik Javascript 跟踪文档%2$s 中查看更多的功能列表。通过这些功能，您可以跟踪目标、自定义变量、订单、丢弃的购物车等。",
         "LatestBetaRelease": "最新测试板",
         "LatestStableRelease": "最新稳定版",
-        "LogoNotWriteable": "Piwik需要主题文件夹内%s的写权限去自定义您的logo",
         "LogoUpload": "选择一个图标上传",
         "LogoUploadHelp": "请上传 %s 格式的文件，最小高度 %s 点。",
         "MenuDiagnostic": "检测",

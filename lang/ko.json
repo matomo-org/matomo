@@ -102,7 +102,6 @@
         "ImageTrackingLink": "이미지 추적 링크",
         "ImportingServerLogs": "서버 로그 가져오기",
         "JavaScriptTracking": "자바스크립트 추적",
-        "LogoNotWriteable": "로고를 변경하려면 themes 디렉토리의 로고 파일에 쓰기 권한이 있어야합니다: %s",
         "LogoUpload": "업로드 할 로고 선택",
         "MenuDiagnostic": "진단",
         "MenuGeneralSettings": "일반 설정",
