@@ -18,11 +18,17 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         model.totalActions = processedReport.reportTotal.nb_actions;
         model.prettyDate   = processedReport.prettyDate;
 
+        if (processedReport.reportMetadata) {
+            angular.forEach(model.allSites, function (site, index) {
+                site.idsite = processedReport.reportMetadata[index].idsite;
+            });
+        }
+
         if (!model.allSites || !model.allSites.length) {
             return;
         }
 
-        model.sites    = model.allSites;
+        model.sites = model.allSites;
     };
 
     model.getNumberOfFilteredSites = function () {
