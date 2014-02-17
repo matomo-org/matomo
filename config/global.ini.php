@@ -76,9 +76,8 @@ enable_sql_profiler = 0
 ; this is useful for Piwik developers as an easy way to create data in their local Piwik
 track_visits_inside_piwik_ui = 0
 
-; if set to 1, javascript files will be included individually and the css will be regenerated from the less
-; files when they change
-; this option must be set to 1 when adding, removing or modifying javascript and less files
+; if set to 1, javascript files will be included individually and neither merged nor minified.
+; this option must be set to 1 when adding, removing or modifying javascript files
 disable_merged_assets = 0
 
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
