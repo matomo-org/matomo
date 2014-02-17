@@ -532,6 +532,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * We always regenerate if cache buster changes
      * @group Core
      */
     public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_Stale()
@@ -548,10 +549,13 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
         $this->triggerGetMergedStylesheet();
 
-        $this->validateDateDidNotChange($modDateBeforeSecondRequest);
+        $this->validateDateIsMoreRecent($modDateBeforeSecondRequest);
+
+        $this->validateMergedStylesheet();
     }
 
     /**
+     * We always regenerate if cache buster changes
      * @group Core
      */
     public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_Stale()

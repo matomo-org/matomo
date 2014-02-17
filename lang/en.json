@@ -536,7 +536,7 @@
         "UseCustomLogo": "Use a custom logo",
         "LogoUpload": "Select a Logo to upload",
         "LogoUploadHelp": "Please upload a file in %s formats with a minimum height of %s pixels.",
-        "LogoNotWriteable": "To use a custom logo Piwik requires write access to the logo files within the \"misc\" directory: %s",
+        "LogoNotWriteableInstruction": "To use your custom logo instead of the default Piwik logo, give write permission to this directory: %1$s Piwik needs write access for your logos stored in the files %2$s.",
         "TrustedHostSettings": "Trusted Piwik Hostname",
         "TrustedHostConfirm": "Are you sure you want to change the trusted Piwik hostname?",
         "PiwikIsInstalledAt": "Piwik is installed at",

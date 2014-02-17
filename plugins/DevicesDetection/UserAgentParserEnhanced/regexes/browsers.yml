@@ -38,6 +38,11 @@
   name: 'Avant Browser'
   version: ''
 
+#Bunjalloo
+- regex: 'Bunjalloo(?:/(\d+\.\d+))?'
+  name: 'Bunjalloo'
+  version: '$1'
+
 #Iceweasel
 - regex: 'Iceweasel(?:/(\d+\.\d+))?'
   name: 'Iceweasel'

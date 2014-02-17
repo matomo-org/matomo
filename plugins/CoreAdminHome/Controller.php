@@ -56,7 +56,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->pathUserLogo      = CustomLogo::getPathUserLogo();
             $view->pathUserLogoSmall = CustomLogo::getPathUserLogoSmall();
             $view->pathUserLogoSVG   = CustomLogo::getPathUserSvgLogo();
-            $view->pathUserLogoDirectory = dirname($view->pathUserLogo) . '/';
+            $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
         }
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();

@@ -146,11 +146,18 @@ class Process
             return false;
         }
 
-        if (static::commandExists('ps') && self::commandExists('awk')) {
+        if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
             return true;
         }
 
         return false;
+    }
+
+    private static function returnsSuccessCode($command)
+    {
+        system($command . ' > /dev/null 2>&1', $returnCode);
+
+        return 0 == (int) $returnCode;
     }
 
     private static function commandExists($command)
