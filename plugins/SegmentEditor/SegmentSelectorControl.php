@@ -21,8 +21,6 @@ class SegmentSelectorControl extends UIControl
 {
     const TEMPLATE = "@SegmentEditor/_segmentSelector";
 
-    protected $selectedSegment = false;
-
     /**
      * Constructor.
      */
