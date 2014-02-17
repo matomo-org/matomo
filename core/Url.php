@@ -441,6 +441,9 @@ class Url
 
     static public function getHostFromUrl($url)
     {
+        if(!UrlHelper::isLookLikeUrl($url)) {
+            $url = "http://" . $url;
+        }
         return parse_url($url, PHP_URL_HOST);
     }
 

@@ -433,7 +433,7 @@ Notes:
     public function runScheduledTasks()
     {
         $this->logSection("SCHEDULED TASKS");
-        if($this->isParameterSet('--disable-scheduled-tasks')) {
+        if($this->getParameterFromCli('--disable-scheduled-tasks')) {
             $this->log("Scheduled tasks are disabled with --disable-scheduled-tasks");
             return;
         }
@@ -492,7 +492,7 @@ Notes:
             $dateLast = $dateLastMax;
         }
 
-        $dateLastForced = $this->isParameterSet('--force-date-last-n', true);
+        $dateLastForced = $this->getParameterFromCli('--force-date-last-n', true);
         if(!empty($dateLastForced)){
             $dateLast = $dateLastForced;
         }
@@ -724,7 +724,7 @@ Notes:
 
     private function displayHelp()
     {
-        $displayHelp = $this->isParameterSet('help') || $this->isParameterSet('h');
+        $displayHelp = $this->getParameterFromCli('help') || $this->getParameterFromCli('h');
 
         if ($displayHelp) {
             $this->usage();
@@ -739,12 +739,12 @@ Notes:
     private function initStateFromParameters()
     {
         $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
-        $this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
+        $this->acceptInvalidSSLCertificate = $this->getParameterFromCli("accept-invalid-ssl-certificate");
         $this->processPeriodsMaximumEverySeconds = $this->getDelayBetweenPeriodsArchives();
-        $this->shouldArchiveAllSites = (bool) $this->isParameterSet("force-all-websites");
-        $this->shouldStartProfiler = (bool) $this->isParameterSet("xhprof");
-        $restrictToIdSites = $this->isParameterSet("force-idsites", true);
-        $skipIdSites = $this->isParameterSet("skip-idsites", true);
+        $this->shouldArchiveAllSites = (bool) $this->getParameterFromCli("force-all-websites");
+        $this->shouldStartProfiler = (bool) $this->getParameterFromCli("xhprof");
+        $restrictToIdSites = $this->getParameterFromCli("force-idsites", true);
+        $skipIdSites = $this->getParameterFromCli("skip-idsites", true);
         $this->shouldArchiveSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($restrictToIdSites);
         $this->shouldSkipSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($skipIdSites);
         $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
@@ -835,7 +835,7 @@ Notes:
             }
         } else {
             // If archive.php run as CLI/shell we require the piwik url to be set
-            $piwikUrl = $this->isParameterSet("url", true);
+            $piwikUrl = $this->getParameterFromCli("url", true);
 
             if (!$piwikUrl) {
                 $this->logFatalErrorUrlExpected();
@@ -877,7 +877,7 @@ Notes:
      * @param bool $valuePossible
      * @return true or the value (int,string) if set, false otherwise
      */
-    private function isParameterSet($parameter, $valuePossible = false)
+    public static function getParameterFromCli($parameter, $valuePossible = false)
     {
         if (!Common::isPhpCliMode()) {
             return false;
@@ -1040,7 +1040,7 @@ Notes:
      */
     private function getDelayBetweenPeriodsArchives()
     {
-        $forceTimeoutPeriod = $this->isParameterSet("force-timeout-for-periods", $valuePossible = true);
+        $forceTimeoutPeriod = $this->getParameterFromCli("force-timeout-for-periods", $valuePossible = true);
         if (empty($forceTimeoutPeriod) || $forceTimeoutPeriod === true) {
             return self::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES;
         }
@@ -1058,7 +1058,7 @@ Notes:
 
     private function isShouldArchiveAllSitesWithTrafficSince()
     {
-        $shouldArchiveAllPeriodsSince = $this->isParameterSet("force-all-periods", $valuePossible = true);
+        $shouldArchiveAllPeriodsSince = $this->getParameterFromCli("force-all-periods", $valuePossible = true);
         if(empty($shouldArchiveAllPeriodsSince)) {
             return false;
         }
