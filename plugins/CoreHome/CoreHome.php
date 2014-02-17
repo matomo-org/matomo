@@ -93,24 +93,24 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/javascripts/piwikAppConfig.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/services.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwikApi.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/service.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik-service.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik-api-service.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/filters/filters.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/filters/htmldecode.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/filters/translate.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/filters/filter.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/filters/htmldecode-filter.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/filters/translate-filter.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/directives.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/autocompleteMatched.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focusAnywhereButHere.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/ignoreClick.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/directive.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/autocomplete-matched-directive.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focus-anywhere-but-here-directive.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/ignore-click-directive.js";
 
         $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorModel.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorController.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteSelectorDirectives.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteselector-model.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteselector-controller.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteselector-directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
