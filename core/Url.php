@@ -434,18 +434,28 @@ class Url
         return $query;
     }
 
+    static public function getQueryStringFromUrl($url)
+    {
+        return parse_url($url, PHP_URL_QUERY);
+    }
+
+    static public function getHostFromUrl($url)
+    {
+        return parse_url($url, PHP_URL_HOST);
+    }
+
     /**
      * Returns the query part from any valid url and adds additional parameters to the query part if needed.
      *
-     * @param string $aUrl    Any url eg `"http://example.com/piwik/?foo=bar"`
+     * @param string $url    Any url eg `"http://example.com/piwik/?foo=bar"`
      * @param array $additionalParamsToAdd    If not empty the given parameters will be added to the query.
      *
      * @return string eg. `"foo=bar&foo2=bar2"`
      * @api
      */
-    static public function getQueryFromUrl($aUrl, array $additionalParamsToAdd)
+    static public function getQueryFromUrl($url, array $additionalParamsToAdd)
     {
-        $url   = @parse_url($aUrl);
+        $url   = @parse_url($url);
         $query = '';
 
         if (!empty($url['query'])) {

@@ -9,12 +9,17 @@
 namespace Piwik;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputOption;
 
 class Console
 {
     public function run()
     {
         $console  = new Application();
+        $option = new InputOption('piwik-domain', null, InputOption::VALUE_OPTIONAL, 'Piwik URL (protocol and domain) eg. "http://piwik.example.org"');
+
+        $console->getDefinition()->addOption($option);
+
         $commands = $this->getAvailableCommands();
 
         foreach ($commands as $command) {
