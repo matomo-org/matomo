@@ -5,6 +5,39 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
+function _pk_translate(translationStringId, values) {
+
+    function sprintf (translation, values) {
+        var index = 0;
+        return (translation+'').replace(/(%(.\$)?s+)/g, function(match, number) {
+
+            var replaced = match;
+            if (match != '%s') {
+                index = match.substr(1, 1);
+            }
+
+            if (typeof values[index] != 'undefined') {
+                replaced = values[index];
+            }
+
+            index++;
+            return replaced;
+        });
+    }
+
+    if( typeof(piwik_translations[translationStringId]) != 'undefined' ){
+        var translation = piwik_translations[translationStringId];
+        if (typeof values != 'undefined' && values && values.length) {
+            return sprintf(translation, values);
+        }
+
+        return translation;
+    }
+
+    return "The string "+translationStringId+" was not loaded in javascript. Make sure it is added in the Translate.getClientSideTranslationKeys hook.";
+}
+
 var piwikHelper = {
 
     htmlDecode: function(value)

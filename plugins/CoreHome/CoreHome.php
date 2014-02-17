@@ -100,6 +100,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/filter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/htmldecode-filter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/translate-filter.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/filters/startfrom-filter.js";
 
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/autocomplete-matched-directive.js";

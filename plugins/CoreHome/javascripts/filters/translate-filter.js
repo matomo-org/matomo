@@ -6,7 +6,14 @@
  */
 
 angular.module('piwikApp.filter').filter('translate', function() {
-    return function(key) {
-        return _pk_translate(key);
+
+    return function(key, value1, value2, value3) {
+        var values = [];
+        if (arguments && arguments.length > 1) {
+            for (var index = 1; index < arguments.length; index++) {
+                values.push(arguments[index]);
+            }
+        }
+        return _pk_translate(key, values);
     }
 });
