@@ -39,14 +39,14 @@ Arguments:
 	--force-timeout-for-periods=[seconds]
 			The current week/ current month/ current year will be processed at most every [seconds].
 			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
-    --force-date-last-n=M
-            This script calls the API with period=lastN. You can force the N in lastN by specifying this value.
+	--force-date-last-n=M
+			This script calls the API with period=lastN. You can force the N in lastN by specifying this value.
 	--force-idsites=1,2,n
 			Restricts archiving to the specified website IDs, comma separated list.
 	--skip-idsites=1,2,n
 			If the specified websites IDs were to be archived, skip them instead.
 	--disable-scheduled-tasks
-	        Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).
+			Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).
 	--xhprof
 			Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).
 	--accept-invalid-ssl-certificate
