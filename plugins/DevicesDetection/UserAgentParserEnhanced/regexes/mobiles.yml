@@ -1078,6 +1078,11 @@ TCL:
   device: 'smartphone'
   model: '$1'
 
+# teXet
+teXet:
+  regex: '(NaviPad .*) Build'
+  device: 'tablet'
+  model: '$1'
 # Telit
 Telit:
   regex: 'Telit'
