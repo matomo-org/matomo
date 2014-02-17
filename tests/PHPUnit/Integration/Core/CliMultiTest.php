@@ -131,7 +131,7 @@ class Core_CliMultiTest extends IntegrationTestCase
         // performs a redirect
         $response = $this->cliMulti->request(array('/'));
 
-        $this->assertEmpty($response[0]);
+        $this->assertStringStartsWith('<!DOCTYPE html>', $response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
