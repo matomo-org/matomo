@@ -34,11 +34,9 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
 
     /**
      * Send the request
-     * @param {boolean}  cacheResult   TODO Note: caching does currently not work because we have to make POST requests
-     *                                 instead of GET
      * @return $promise
      */
-    function send (cacheResult) {
+    function send () {
 
         var deferred = requestHandle = $q.defer();
 
@@ -71,12 +69,11 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
             requestHandle = null;
         };
 
-        var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-
-        if (!cacheResult) {
+        var headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
             // ie 8,9,10 caches ajax requests, prevent this
-            headers['cache-control'] = 'no-cache';
-        }
+            'cache-control': 'no-cache'
+        };
 
         var ajaxCall = {
             method: 'POST',
@@ -84,7 +81,6 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
             responseType: format,
             params: _mixinDefaultGetParams(getParams),
             data: $.param(getPostParams(postParams)),
-            cache: cacheResult,
             timeout: deferred.promise,
             headers: headers
         };
@@ -156,7 +152,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
     };
 
     /**
-     * Make a reading API request. Response is cached for fast future requests
+     * Perform a reading API request.
      * @param getParams
      */
     piwikApi.fetch = function (getParams) {
@@ -166,7 +162,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
 
         addParams(getParams, 'GET');
 
-        return send(true);
+        return send();
     };
 
     return piwikApi;

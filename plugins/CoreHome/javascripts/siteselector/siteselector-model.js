@@ -7,26 +7,28 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
     model.isLoading = false;
     model.firstSiteName = '';
 
+    var initialSites = null;
+
     model.updateWebsitesList = function (websites) {
 
         if (!websites || !websites.length) {
             model.sites = [];
-            return;
+            return [];
         }
 
         angular.forEach(websites, function (website) {
             website.name = $filter('htmldecode')(website.name);
         });
 
-        websites = $filter('orderBy')(websites, '+name')
-
-        model.sites = websites;
+        model.sites = $filter('orderBy')(websites, '+name');
 
         if (!model.firstSiteName) {
-            model.firstSiteName = websites[0].name;
+            model.firstSiteName = model.sites[0].name;
         }
 
         model.hasMultipleWebsites = model.hasMultipleWebsites || websites.length > 1;
+
+        return model.sites;
     };
 
     model.searchSite = function (term) {
@@ -41,18 +43,25 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
 
         model.isLoading = true;
 
-        piwikApi.fetch({
+        return piwikApi.fetch({
             method: 'SitesManager.getPatternMatchSites',
             pattern: term
         }).then(function (response) {
-            model.updateWebsitesList(response);
+            return model.updateWebsitesList(response);
         }).finally(function () {
             model.isLoading = false;
         });
     };
 
     model.loadInitialSites = function () {
-        this.searchSite('%');
+        if (initialSites) {
+            model.sites = initialSites;
+            return;
+        }
+
+        this.searchSite('%').then(function (websites) {
+            initialSites = websites;
+        });
     }
 
     return model;
