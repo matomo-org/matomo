@@ -1175,6 +1175,12 @@ Wonu:
   device: 'feature phone'
   model: '$1'
 
+# Woxter
+Woxter:
+  regex: 'Woxter (Tablet PC .+) Build'
+  device: 'tablet'
+  model: '$1'
+
 #Xiaomi
 Xiaomi:
   regex: '(MI [a-z0-9]+|MI-One[ _]Plus) Build'
