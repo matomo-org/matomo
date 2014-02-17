@@ -35,10 +35,9 @@ use Piwik\Config as PiwikConfig;
  *
  * Whether assets are included individually or as merged files is defined by
  * the global option 'disable_merged_assets'. When set to 1, JavaScript files will 
- * be included individually and the css will be regenerated from the less
- * files when they change.
- * When set to 0, files will be included within a pair of files: 1 JavaScript
- * and 1 css file.
+ * be included individually and neither merged nor minified.
+ * When set to 0, files will be merged together to 3 files: 2 JavaScript files
+ * (core and non-core) and 1 css file.
  *
  * @method static \Piwik\AssetManager getInstance()
  */
