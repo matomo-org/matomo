@@ -59,12 +59,7 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        $model = new Model();
-        $segmentsToAutoArchive = $model->getSegmentsToAutoArchive($idSite = false);
-
-        foreach ($segmentsToAutoArchive as $segment) {
-            $segments[] = $segment['definition'];
-        }
+        $this->getKnownSegmentsToArchiveForSite($segments, $idSite = false);
     }
 
     public function getKnownSegmentsToArchiveForSite(&$segments, $idSite)
@@ -75,11 +70,9 @@ class SegmentEditor extends \Piwik\Plugin
 
         $model = new Model();
         $segmentToAutoArchive = $model->getSegmentsToAutoArchive($idSite);
-
         foreach ($segmentToAutoArchive as $segmentInfo) {
             $segments[] = $segmentInfo['definition'];
         }
-
         $segments = array_unique($segments);
     }
 
