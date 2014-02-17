@@ -1,29 +1,11 @@
 
-angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $filter, SITE_SELECTOR_MAX_SITES) {
+angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $filter) {
 
     var model = {};
     model.sites = [];
     model.hasMultipleWebsites = false;
     model.isLoading = false;
     model.firstSiteName = '';
-
-    function fetchAndUpdate(params)
-    {
-        if (model.isLoading) {
-            piwikApi.abort();
-        }
-
-        model.isLoading = true;
-
-        params.filter_limit = SITE_SELECTOR_MAX_SITES;
-        params.showColumns  = 'name,idsite';
-
-        piwikApi.fetch(params).then(function (response) {
-            model.updateWebsitesList(response);
-        }).finally(function () {
-            model.isLoading = false;
-        });
-    }
 
     model.updateWebsitesList = function (websites) {
 
@@ -35,6 +17,8 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
         angular.forEach(websites, function (website) {
             website.name = $filter('htmldecode')(website.name);
         });
+
+        websites = $filter('orderBy')(websites, '+name')
 
         model.sites = websites;
 
@@ -51,16 +35,24 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
             return;
         }
 
-        fetchAndUpdate({
+        if (model.isLoading) {
+            piwikApi.abort();
+        }
+
+        model.isLoading = true;
+
+        piwikApi.fetch({
             method: 'SitesManager.getPatternMatchSites',
             pattern: term
+        }).then(function (response) {
+            model.updateWebsitesList(response);
+        }).finally(function () {
+            model.isLoading = false;
         });
     };
 
     model.loadInitialSites = function () {
-        fetchAndUpdate({
-            method: 'SitesManager.getSitesWithAtLeastViewAccess'
-        })
+        this.searchSite('%');
     }
 
     return model;
