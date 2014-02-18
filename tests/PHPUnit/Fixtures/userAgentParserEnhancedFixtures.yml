@@ -17167,3 +17167,51 @@
     model: ChaCha A810e
   os_family: Android
   browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 3.0.1; LG-V905R Build/HRI66) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.72 Safari/537.36 OPR/16.0.1212.63780
+  os:
+    name: Android
+    short_name: AND
+    version: 3.0
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 16.0
+  device:
+    type: tablet
+    brand: LG
+    model: V905R
+  os_family: Android
+  browser_family: Opera
+-
+  user_agent: Android 3.1;AppleWebKit/534.13;Build/HMJ37;LG Optimus Pad L-06C Build/HMJ37
+  os:
+    name: Android
+    short_name: AND
+    version: 3.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: LG
+    model: Optimus Pad L-06C
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: UCWEB/2.0 (Linux; U; Adr 4.0.4; en-US; LG-P895) U2/1.0.0 UCBrowser/8.6.0.276 U2/1.0.0 Mobile
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: UC Browser
+    short_name: UC
+    version: 8.6
+  device:
+    type: smartphone
+    brand: LG
+    model: P895
+  os_family: Android
+  browser_family: Unknown
