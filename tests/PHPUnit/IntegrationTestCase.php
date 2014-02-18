@@ -347,19 +347,40 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         array_push(
             $apiCalls,
             array(
-                 'ScheduledReports.generateReport',
-                 array(
-                     'testSuffix'             => '_scheduled_report_in_html_tables_only',
-                     'date'                   => $dateTime,
-                     'periods'                => array($period),
-                     'format'                 => 'original',
-                     'fileExtension'          => 'html',
-                     'otherRequestParameters' => array(
-                         'idReport'     => 1,
-                         'reportFormat' => ReportRenderer::HTML_FORMAT,
-                         'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
-                     )
-                 )
+                'ScheduledReports.generateReport',
+                array(
+                    'testSuffix'             => '_scheduled_report_in_html_tables_only',
+                    'date'                   => $dateTime,
+                    'periods'                => array($period),
+                    'format'                 => 'original',
+                    'fileExtension'          => 'html',
+                    'otherRequestParameters' => array(
+                        'idReport'     => 1,
+                        'reportFormat' => ReportRenderer::HTML_FORMAT,
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                    )
+                )
+            )
+        );
+
+
+        // CSV Scheduled Report
+        array_push(
+            $apiCalls,
+            array(
+                'ScheduledReports.generateReport',
+                array(
+                    'testSuffix'             => '_scheduled_report_in_csv',
+                    'date'                   => $dateTime,
+                    'periods'                => array($period),
+                    'format'                 => 'original',
+                    'fileExtension'          => 'csv',
+                    'otherRequestParameters' => array(
+                        'idReport'     => 1,
+                        'reportFormat' => ReportRenderer::CSV_FORMAT,
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                    )
+                )
             )
         );
 

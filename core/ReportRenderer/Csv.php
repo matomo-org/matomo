@@ -1,6 +1,7 @@
 <?php
 namespace Piwik\ReportRenderer;
 
+use Piwik\Piwik;
 use Piwik\ReportRenderer;
 use Piwik\DataTable\Renderer\Csv as CsvDataTableRenderer;
 use Piwik\DataTable\DataTableInterface;
@@ -34,7 +35,7 @@ class Csv extends ReportRenderer
         return ReportRenderer::writeFile(
             $filename,
             ReportRenderer::CSV_FORMAT,
-            $this->rendered
+            $this->getRenderedReport()
         );
     }
 
@@ -49,7 +50,7 @@ class Csv extends ReportRenderer
             $filename,
             ReportRenderer::CSV_FORMAT,
             "text/" . ReportRenderer::CSV_FORMAT,
-            $this->rendered
+            $this->getRenderedReport()
         );
     }
 
@@ -64,7 +65,7 @@ class Csv extends ReportRenderer
             $filename,
             ReportRenderer::CSV_FORMAT,
             "application/" . ReportRenderer::CSV_FORMAT,
-            $this->rendered
+            $this->getRenderedReport()
         );
     }
 
@@ -98,18 +99,24 @@ class Csv extends ReportRenderer
      */
     public function renderReport($processedReport)
     {
-
         $csvRenderer = $this->getRenderer(
             $processedReport['reportData'],
             $processedReport['metadata']['uniqueId']
         );
 
+        $reportData = $csvRenderer->render($processedReport);
+        if(empty($reportData)) {
+            $reportData = Piwik::translate('CoreHome_ThereIsNoDataForThisReport');
+        }
+
+        $replaceBySpace = array( $csvRenderer->separator, ";");
+        $reportName = str_replace($replaceBySpace, " ", $processedReport['metadata']['name']);
         $this->rendered .= implode(
             '',
             array(
-                $processedReport['metadata']['name'],
+                $reportName,
                 $csvRenderer->lineEnd,
-                $csvRenderer->render($processedReport),
+                $reportData,
                 $csvRenderer->lineEnd,
                 $csvRenderer->lineEnd,
             )
