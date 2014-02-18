@@ -41,9 +41,15 @@ class CoreUpdater extends \Piwik\Plugin
         $errors   = array();
         $deactivatedPlugins = array();
         $coreError = false;
-
+        
         if (!empty($componentsWithUpdateFile)) {
-
+            $currentAccess      = Access::getInstance();
+            $hasSuperUserAccess = $currentAccess->hasSuperUserAccess();
+    
+            if (!$hasSuperUserAccess) {
+                $currentAccess->setSuperUserAccess(true);
+            }
+            
             // if error in any core update, show message + help message + EXIT
             // if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
             // if warning in any core update or in any plugins update, show message + CONTINUE
@@ -61,6 +67,10 @@ class CoreUpdater extends \Piwik\Plugin
                         $deactivatedPlugins[] = $name;
                     }
                 }
+            }
+            
+            if (!$hasSuperUserAccess) {
+                $currentAccess->setSuperUserAccess(false);
             }
         }
 
