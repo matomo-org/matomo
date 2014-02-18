@@ -17,17 +17,6 @@ Translate::loadEnglishTranslation();
 if (!Common::isPhpCliMode()) {
     exit;
 }
-
-$piwikHostname = CronArchive::getParameterFromCli('piwik-domain', true);
-$piwikHostname = UrlHelper::getHostFromUrl($piwikHostname);
-
-Url::setHost($piwikHostname);
-
-// load active plugins
-$pluginsManager = Plugin\Manager::getInstance();
-$pluginsToLoad  = Config::getInstance()->Plugins['Plugins'];
-$pluginsManager->loadPlugins($pluginsToLoad);
-
-
 $console = new Console();
+$console->init();
 $console->run();
