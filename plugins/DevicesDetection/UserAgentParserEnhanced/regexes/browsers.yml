@@ -183,6 +183,11 @@
   name: 'Maxthon'
   version: ''
 
+#Puffin
+- regex: 'Puffin(?:/(\d+\.\d+))?'
+  name: 'Puffin'
+  version: '$1'
+
 #Iron
 - regex: 'Iron(?:/(\d+\.\d+))?'
   name: 'Iron'
@@ -485,7 +490,7 @@
 - regex: '(?:Polaris|Embider)(?:/(\d+\.\d+))?'
   name: 'Polaris'
   version: '$1'
-  
+
 #Snowshoe
 - regex: 'Snowshoe(?:/(\d+\.\d+))?'
   name: 'Snowshoe'

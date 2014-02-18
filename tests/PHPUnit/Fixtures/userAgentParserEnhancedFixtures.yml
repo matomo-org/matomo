@@ -17311,3 +17311,35 @@
     model: DROID 3
   os_family: Android
   browser_family: Android Browser
+-
+  user_agent: Opera/9.80 (Android; Opera Mini/7.5.33361/34.861; U; en) Presto/2.8.119 Version/11.10
+  os:
+    name: Android
+    short_name: AND
+    version: 
+  browser:
+    name: Opera Mini
+    short_name: OI
+    version: 7.5
+  device:
+    type: 
+    brand: 
+    model: 
+  os_family: Android
+  browser_family: Opera
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10977AP
+  os:
+    name: Linux
+    short_name: LIN
+    version: 
+  browser:
+    name: Puffin
+    short_name: PU
+    version: 2.10977
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: 

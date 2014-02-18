@@ -379,6 +379,7 @@ class UserAgentParserEnhanced
         'PL' => 'Palm Blazer',
         'PM' => 'Pale Moon',
         'PR' => 'Palm Pre',
+        'PU' => 'Puffin',
         'PW' => 'Palm WebPro',
         'PX' => 'Phoenix',
         'PO' => 'Polaris',
