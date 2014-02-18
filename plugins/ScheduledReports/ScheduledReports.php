@@ -11,7 +11,6 @@ namespace Piwik\Plugins\ScheduledReports;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Mail;
@@ -69,7 +68,8 @@ class ScheduledReports extends \Piwik\Plugin
 
     static private $managedReportFormats = array(
         ReportRenderer::HTML_FORMAT => 'plugins/Zeitgeist/images/html_icon.png',
-        ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
+        ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif',
+        ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
     );
 
     /**
@@ -302,6 +302,24 @@ class ScheduledReports extends \Piwik\Plugin
                     }
 
                     $mail->setBodyHtml($message . "<br/><br/>" . $contents);
+                    break;
+
+
+                case 'csv':
+                    $message .= "\n" . Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+
+                    if ($displaySegmentInfo) {
+                        $message .= " " . $segmentInfo;
+                    }
+
+                    $mail->setBodyText($message);
+                    $mail->createAttachment(
+                        $contents,
+                        'application/csv',
+                        Zend_Mime::DISPOSITION_INLINE,
+                        Zend_Mime::ENCODING_BASE64,
+                        $attachmentName . '.csv'
+                    );
                     break;
 
                 default:

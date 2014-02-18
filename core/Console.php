@@ -9,12 +9,30 @@
 namespace Piwik;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputOption;
 
 class Console
 {
+    public function init()
+    {
+        $this->initPiwikHost();
+        $this->initConfig();
+        $this->initPlugins();
+    }
+
     public function run()
     {
-        $console  = new Application();
+        $console = new Application();
+
+        $option = new InputOption('piwik-domain',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Piwik URL (protocol and domain) eg. "http://piwik.example.org"'
+        );
+
+        $console->getDefinition()->addOption($option);
+
         $commands = $this->getAvailableCommands();
 
         foreach ($commands as $command) {
@@ -50,7 +68,7 @@ class Console
          * should subscribe to this event and add commands to the incoming array.
          *
          * **Example**
-         * 
+         *
          *     public function addConsoleCommands(&$commands)
          *     {
          *         $commands[] = 'Piwik\Plugins\MyPlugin\Commands\MyCommand';
@@ -61,5 +79,31 @@ class Console
         Piwik::postEvent('Console.addCommands', array(&$commands));
 
         return $commands;
+    }
+
+    protected function initPiwikHost()
+    {
+        $piwikHostname = CronArchive::getParameterFromCli('piwik-domain', true);
+        $piwikHostname = UrlHelper::getHostFromUrl($piwikHostname);
+        Url::setHost($piwikHostname);
+    }
+
+    protected function initConfig()
+    {
+        $config = Config::getInstance();
+        try {
+            $config->checkLocalConfigFound();
+            return $config;
+        } catch (\Exception $e) {
+            echo ($e->getMessage() . "\n\n");
+            exit(1);
+        }
+    }
+
+    protected function initPlugins()
+    {
+        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
+        $pluginsManager = Plugin\Manager::getInstance();
+        $pluginsManager->loadPlugins($pluginsToLoad);
     }
 }

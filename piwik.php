@@ -110,6 +110,6 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
     ob_end_flush();
     if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
         Common::printDebug($_COOKIE);
-        Common::printDebug($timer);
+        Common::printDebug((string)$timer);
     }
 }

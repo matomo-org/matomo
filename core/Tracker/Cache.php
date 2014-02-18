@@ -10,7 +10,9 @@ namespace Piwik\Tracker;
 
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CacheFile;
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Tracker;
@@ -84,6 +86,7 @@ class Cache
          * @param int $idSite The site ID to get attributes for.
          */
         Piwik::postEvent('Tracker.Cache.getSiteAttributes', array(&$content, $idSite));
+        Common::printDebug("Website $idSite tracker cache was re-created.");
 
         // restore original user privilege
         Piwik::setUserHasSuperUserAccess($isSuperUser);
@@ -147,6 +150,7 @@ class Cache
          */
         Piwik::postEvent('Tracker.setTrackerCacheGeneral', array(&$cacheContent));
         self::setCacheGeneral($cacheContent);
+        Common::printDebug("General tracker cache was re-created.");
         return $cacheContent;
     }
 

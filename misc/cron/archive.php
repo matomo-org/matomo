@@ -13,15 +13,6 @@ namespace Piwik;
 
 use Exception;
 
-/*
-Ideas for improvements:
-	- Known limitation: when adding new segments to preprocess, script will assume that data was processed for this segment in the past
-      Workaround: run --force-all-websites --force-all-periods=10000000 to archive everything.
-	- Possible performance improvement
-      - Run first websites which are faster to process (weighted by visits and/or time to generate the last daily report)
-	    This would make sure that huge websites do not 'block' processing of smaller websites' reports.
-*/
-
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 }

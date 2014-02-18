@@ -123,7 +123,7 @@ abstract class UITest extends IntegrationTestCase
 
     public static function removeExistingDiffs()
     {
-        $files = glob(dirname(__FILE__) . '/UI/screenshot-diffs/*.png');
+        $files = glob(dirname(__FILE__) . '/UI/screenshot-diffs/' . static::getOutputPrefix() . '*.png');
         foreach ($files as $file) {
             unlink($file);
         }
@@ -164,6 +164,7 @@ abstract class UITest extends IntegrationTestCase
     {
         file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/urls.txt', json_encode($urlInfo));
         $cmd = self::CAPTURE_PROGRAM . " \"" . PIWIK_INCLUDE_PATH . "/tests/resources/screenshot-capture/capture.js\" 2>&1";
+        \Piwik\Log::debug("running capture: $cmd");
         
         exec($cmd, $output, $result);
         $output = implode("\n", $output);
@@ -172,6 +173,9 @@ abstract class UITest extends IntegrationTestCase
         ) {
             echo self::CAPTURE_PROGRAM . " failed: " . $output . "\n\ncommand used: $cmd\n";
         }
+
+        \Piwik\Log::debug("phantomjs output: %s", $output);
+
         return $output;
     }
 
@@ -200,6 +204,8 @@ abstract class UITest extends IntegrationTestCase
     private function saveImageDiff($expectedPath, $processedPath, $diffPath)
     {
         $cmd = "compare \"$expectedPath\" \"$processedPath\" \"$diffPath\" 2>&1";
+        \Piwik\Log::debug("running compare: $cmd");
+
         exec($cmd, $output, $result);
 
         if (self::DEBUG_IMAGE_MAGICK_COMPARE

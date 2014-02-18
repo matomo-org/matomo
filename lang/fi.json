@@ -78,7 +78,6 @@
         "ForBetaTestersOnly": "Vain beta-testaajille",
         "LatestBetaRelease": "Uusin beta-julkaisu",
         "LatestStableRelease": "Uusin vakaa julkaisu",
-        "LogoNotWriteable": "Piwik ei voi tallentaa uutta logoa. Piwik tarvitsee kirjoitusoikeuden kansioon %s",
         "LogoUpload": "Valitse tallennettava logo",
         "MenuGeneralSettings": "Yleiset asetukset",
         "MenuManage": "Hallinnoi",

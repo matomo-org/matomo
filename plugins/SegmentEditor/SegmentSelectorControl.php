@@ -51,6 +51,7 @@ class SegmentSelectorControl extends UIControl
         }
         uksort($segmentsByCategory, array($this, 'sortSegmentCategories'));
 
+        $this->createRealTimeSegmentsIsEnabled = Config::getInstance()->General['enable_create_realtime_segments'];
         $this->segmentsByCategory   = $segmentsByCategory;
         $this->nameOfCurrentSegment = '';
         $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = 0;

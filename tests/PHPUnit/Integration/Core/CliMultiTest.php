@@ -125,13 +125,7 @@ class Core_CliMultiTest extends IntegrationTestCase
     public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
     {
         $response = $this->cliMulti->request(array($this->completeUrl('')));
-
         $this->assertStringStartsWith('Error: no website was found', $response[0]);
-
-        // performs a redirect
-        $response = $this->cliMulti->request(array('/'));
-
-        $this->assertEmpty($response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()

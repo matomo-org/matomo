@@ -65,7 +65,8 @@ class ArchiveWriter
         $this->idSite = $params->getSite()->getId();
         $this->segment = $params->getSegment();
         $this->period = $params->getPeriod();
-        $this->doneFlag = Rules::getDoneStringFlagFor($this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
+        $idSites = array($this->idSite);
+        $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
         $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();

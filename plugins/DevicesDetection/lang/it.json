@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Versioni browser",
+        "Camera": "Fotocamera",
         "CarBrowser": "Browser in auto",
         "Console": "Console",
         "dataTableLabelBrands": "Marca",

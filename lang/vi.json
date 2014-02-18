@@ -139,7 +139,6 @@
         "JSTrackingIntro5": "Nếu bạn muốn thực hiện các tác vụ khác theo dõi page view, vui lòng tham khảo %1$sTài liệu Piwik Javascript Tracking%2$s để xem danh sách những chức năng được cung cấp. Sử dụng những chức năng này, bạn có thể theo dõi goals, thông số thiết lập, đơn hàng thương mại điện tử, giỏ hàng bị từ chối và nhiều hơn thế nữa.",
         "LatestBetaRelease": "Phiên bản beta mới nhất",
         "LatestStableRelease": "Phiên bản ổn định mới nhất",
-        "LogoNotWriteable": "Để sử dụng một biểu tượng Piwik tùy chỉnh yêu cầu ghi vào các tập tin logo trong thư mục \"misc\": %s",
         "LogoUpload": "Chọn một logo để tải lên",
         "MenuDiagnostic": "chẩn đoán",
         "MenuGeneralSettings": "cài đặt chung",

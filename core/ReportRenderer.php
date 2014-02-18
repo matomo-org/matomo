@@ -18,7 +18,6 @@ use Piwik\Plugins\ImageGraph\API;
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
  * All new Renderers must be copied in ReportRenderer and added to the $availableReportRenderers.
- *
  */
 abstract class ReportRenderer
 {
@@ -32,10 +31,12 @@ abstract class ReportRenderer
 
     const HTML_FORMAT = 'html';
     const PDF_FORMAT = 'pdf';
+    const CSV_FORMAT = 'csv';
 
     static private $availableReportRenderers = array(
         self::PDF_FORMAT,
         self::HTML_FORMAT,
+        self::CSV_FORMAT,
     );
 
     /**

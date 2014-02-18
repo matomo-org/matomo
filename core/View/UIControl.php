@@ -92,6 +92,11 @@ class UIControl extends \Piwik\View
         return $this->innerView->__get($key);
     }
 
+    public function __isset($key)
+    {
+        return isset($this->innerView->templateVars[$key]);
+    }
+
     /**
      * Renders the control view within a containing <div> that is used by the UIControl JavaScript
      * class.

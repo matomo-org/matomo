@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+namespace Piwik;
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
@@ -11,17 +12,11 @@ require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
-Piwik\Translate::loadEnglishTranslation();
+Translate::loadEnglishTranslation();
 
-// load active plugins
-$pluginsManager = \Piwik\Plugin\Manager::getInstance();
-$pluginsToLoad  = \Piwik\Config::getInstance()->Plugins['Plugins'];
-
-$pluginsManager->loadPlugins($pluginsToLoad);
-
-if (!Piwik\Common::isPhpCliMode()) {
+if (!Common::isPhpCliMode()) {
     exit;
 }
-
-$console = new Piwik\Console();
+$console = new Console();
+$console->init();
 $console->run();

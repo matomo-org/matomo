@@ -34,11 +34,8 @@ use Piwik\Config as PiwikConfig;
  *  - Manages server-side cache
  *
  * Whether assets are included individually or as merged files is defined by
- * the global option 'disable_merged_assets'. When set to 1, JavaScript files will 
- * be included individually and the css will be regenerated from the less
- * files when they change.
- * When set to 0, files will be included within a pair of files: 1 JavaScript
- * and 1 css file.
+ * the global option 'disable_merged_assets'. See the documentation in the global
+ * config for more information.
  *
  * @method static \Piwik\AssetManager getInstance()
  */

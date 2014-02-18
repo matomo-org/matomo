@@ -434,33 +434,9 @@ class Url
         return $query;
     }
 
-    /**
-     * Returns the query part from any valid url and adds additional parameters to the query part if needed.
-     *
-     * @param string $aUrl    Any url eg `"http://example.com/piwik/?foo=bar"`
-     * @param array $additionalParamsToAdd    If not empty the given parameters will be added to the query.
-     *
-     * @return string eg. `"foo=bar&foo2=bar2"`
-     * @api
-     */
-    static public function getQueryFromUrl($aUrl, array $additionalParamsToAdd)
+    static public function getQueryStringFromUrl($url)
     {
-        $url   = @parse_url($aUrl);
-        $query = '';
-
-        if (!empty($url['query'])) {
-            $query .= $url['query'];
-        }
-
-        if (!empty($additionalParamsToAdd)) {
-            if (!empty($query)) {
-                $query .= '&';
-            }
-
-            $query .= self::getQueryStringFromParameters($additionalParamsToAdd);
-        }
-
-        return $query;
+        return parse_url($url, PHP_URL_QUERY);
     }
 
     /**

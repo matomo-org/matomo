@@ -38,10 +38,6 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
          * Stylesheets should be placed within a **stylesheets** subdirectory in your plugin's
          * root directory.
          *
-         * _Note: While you are developing your plugin you should enable the config setting
-         * `[Debug] disable_merged_assets` so your stylesheets will be regenerated immediately
-         * after a change._
-         *
          * **Example**
          *
          *     public function getStylesheetFiles(&$stylesheets)

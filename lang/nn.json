@@ -41,7 +41,6 @@
         "ClickHereToOptOut": "Klikk her for å melda deg av.",
         "CustomLogoHelpText": "Du kan tilpassa Piwik-logoen som visast i brukargrensesnittet og e-postrapportar.",
         "EmailServerSettings": "Innstillingar for e-posttenar",
-        "LogoNotWriteable": "For å bruka ein tilpassa logo, krev Piwik skrivetilgang til logofilene i bunad-katalogen: %s",
         "LogoUpload": "Last opp ein logo",
         "MenuGeneralSettings": "Generelle innstillingar",
         "OptOutComplete": "Avmelding fullførd. Vitjingane dine til denne nettsida vil ikkje loggførast av nettstatistikkverktøyet.",

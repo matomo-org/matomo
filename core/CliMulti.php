@@ -7,8 +7,8 @@
  */
 namespace Piwik;
 
-use Piwik\CliMulti\Process;
 use Piwik\CliMulti\Output;
+use Piwik\CliMulti\Process;
 
 /**
  * Class CliMulti.
@@ -90,12 +90,12 @@ class CliMulti {
         }
     }
 
-    private function buildCommand($query, $outputFile)
+    private function buildCommand($hostname, $query, $outputFile)
     {
         $bin = $this->findPhpBinary();
 
-        return sprintf('%s -q %s/console climulti:request %s > %s 2>&1 &',
-                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($query), $outputFile);
+        return sprintf('%s -q %s/console climulti:request --piwik-domain=%s %s > %s 2>&1 &',
+                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), escapeshellarg($query), $outputFile);
     }
 
     private function getResponse()
@@ -221,10 +221,12 @@ class CliMulti {
     {
         $this->processes[] = new Process($cmdId);
 
-        $url     = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query   = Url::getQueryFromUrl($url, array('pid' => $cmdId));
-        $command = $this->buildCommand($query, $output->getPathToFile());
+        $url  = $this->appendTestmodeParamToUrlIfNeeded($url);
+        $query   = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $hostname = UrlHelper::getHostFromUrl($url);
+        $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
+        Log::debug($command);
         shell_exec($command);
     }
 

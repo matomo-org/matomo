@@ -9,6 +9,8 @@
 namespace Piwik\CliMulti;
 
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Url;
+use Piwik\UrlHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,13 +28,12 @@ class RequestCommand extends ConsoleCommand
     {
         $this->setName('climulti:request');
         $this->setDescription('Parses and executes the given query. See Piwik\CliMulti. Intended only for system usage.');
-        $this->addArgument('url', InputArgument::OPTIONAL, 'Piwik URL, for instance "module=API&method=API.getPiwikVersion&token_auth=123456789"', '');
+        $this->addArgument('url-query', null, InputOption::VALUE_REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $_GET = array();
-        FrontController::assignCliParametersToRequest();
+        $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
             Config::getInstance()->setTestEnvironment();
@@ -63,6 +64,23 @@ class RequestCommand extends ConsoleCommand
     private function isTestModeEnabled()
     {
         return !empty($_GET['testmode']);
+    }
+
+    /**
+     * @param InputInterface $input
+     */
+    protected function initHostAndQueryString(InputInterface $input)
+    {
+        $_GET = array();
+
+        $hostname = $input->getOption('piwik-domain');
+        Url::setHost($hostname);
+
+        $query = $input->getArgument('url-query');
+        $query = UrlHelper::getArrayFromQueryString($query);
+        foreach ($query as $name => $value) {
+            $_GET[$name] = $value;
+        }
     }
 
 }
