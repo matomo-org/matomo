@@ -123,7 +123,7 @@ abstract class UITest extends IntegrationTestCase
 
     public static function removeExistingDiffs()
     {
-        $files = glob(dirname(__FILE__) . '/UI/screenshot-diffs/*.png');
+        $files = glob(dirname(__FILE__) . '/UI/screenshot-diffs/' . static::getOutputPrefix() . '*.png');
         foreach ($files as $file) {
             unlink($file);
         }
