@@ -124,7 +124,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
             echo $headerPage . $content . $footerPage;
         }
         echo "\n";
-        exit;
+        exit(1);
     }
 }
 
