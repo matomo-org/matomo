@@ -412,6 +412,10 @@ class UserAgentParserEnhanced
     protected $brand = '';
     protected $model = '';
     protected $debug = false;
+
+    /**
+     * @var \Piwik\CacheFile
+     */
     protected $cache = null;
 
     public function __construct($userAgent)
@@ -422,12 +426,8 @@ class UserAgentParserEnhanced
     protected function getOsRegexes()
     {
         static $regexOs;
-        if (empty($regexOs)) {
-            $regexOs = $this->getParsedYmlFromCache('os');
-        }
-        if (empty($regexOs)) {
-            $regexOs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$osRegexesFile);
-            $this->saveParsedYmlInCache('os', $regexOs);
+        if(empty($regexOs)) {
+            $regexOs = $this->getRegexList('os', self::$osRegexesFile);
         }
         return $regexOs;
     }
@@ -436,11 +436,7 @@ class UserAgentParserEnhanced
     {
         static $regexBrowser;
         if (empty($regexBrowser)) {
-            $regexBrowser = $this->getParsedYmlFromCache('browser');
-        }
-        if (empty($regexBrowser)) {
-            $regexBrowser = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$browserRegexesFile);
-            $this->saveParsedYmlInCache('browser', $regexBrowser);
+            $regexBrowser = $this->getRegexList('browser', self::$browserRegexesFile);
         }
         return $regexBrowser;
     }
@@ -449,11 +445,7 @@ class UserAgentParserEnhanced
     {
         static $regexMobile;
         if (empty($regexMobile)) {
-            $regexMobile = $this->getParsedYmlFromCache('mobile');
-        }
-        if (empty($regexMobile)) {
-            $regexMobile = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$mobileRegexesFile);
-            $this->saveParsedYmlInCache('mobile', $regexMobile);
+            $regexMobile = $this->getRegexList('mobile', self::$mobileRegexesFile);
         }
         return $regexMobile;
     }
@@ -462,11 +454,7 @@ class UserAgentParserEnhanced
     {
         static $regexTvs;
         if (empty($regexTvs)) {
-            $regexTvs = $this->getParsedYmlFromCache('tv');
-        }
-        if (empty($regexTvs)) {
-            $regexTvs = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
-            $this->saveParsedYmlInCache('tv', $regexTvs);
+            $regexTvs = $this->getRegexList('tv', self::$televisionRegexesFile);
         }
         return $regexTvs;
     }
@@ -936,6 +924,16 @@ class UserAgentParserEnhanced
             'browser_family' => $browserFamily !== false ? $browserFamily : 'Unknown',
         );
         return $processed;
+    }
+
+    protected function getRegexList($type, $regexesFile)
+    {
+        $regexList = $this->getParsedYmlFromCache($type);
+        if (empty($regexList)) {
+            $regexList = Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . $regexesFile);
+            $this->saveParsedYmlInCache($type, $regexList);
+        }
+        return $regexList;
     }
 
 }
