@@ -95,7 +95,8 @@ class Console
             $config->checkLocalConfigFound();
             return $config;
         } catch (\Exception $e) {
-            die($e->getMessage() . "\n\n");
+            echo ($e->getMessage() . "\n\n");
+            exit(1);
         }
     }
 
