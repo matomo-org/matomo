@@ -32,10 +32,12 @@ abstract class ReportRenderer
 
     const HTML_FORMAT = 'html';
     const PDF_FORMAT = 'pdf';
+    const CSV_FORMAT = 'csv';
 
     static private $availableReportRenderers = array(
         self::PDF_FORMAT,
         self::HTML_FORMAT,
+        self::CSV_FORMAT,
     );
 
     /**
