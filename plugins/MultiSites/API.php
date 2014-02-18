@@ -259,6 +259,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // move the site id to a metadata column
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'group', array('\Piwik\Site', 'getGroupFor'), array()));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'idsite'));
 
         // set the label of each row to the site name
