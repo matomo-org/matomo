@@ -17,6 +17,7 @@ use Piwik\UpdateCheck;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
 use Piwik\Version;
+use Piwik\Access;
 
 /**
  *
