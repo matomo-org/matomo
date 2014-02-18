@@ -12,7 +12,7 @@ use Piwik\Common;
 use Piwik\Timer;
 use Piwik\Tracker;
 
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = !false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 define('PIWIK_ENABLE_TRACKING', true);
 
@@ -110,6 +110,6 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
     ob_end_flush();
     if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
         Common::printDebug($_COOKIE);
-        Common::printDebug($timer);
+        Common::printDebug((string)$timer);
     }
 }
