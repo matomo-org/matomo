@@ -37,6 +37,11 @@ class Access
     private static $instance = null;
 
     /**
+     * @var string
+     */
+    private $previousLogin;
+
+    /**
      * Gets the singleton instance. Creates it if necessary.
      */
     public static function getInstance()
@@ -226,10 +231,16 @@ class Access
     public function setSuperUserAccess($bool = true)
     {
         if ($bool) {
+            $this->previousLogin = self::getLogin();
             $this->reloadAccessSuperUser();
         } else {
             $this->hasSuperUserAccess = false;
             $this->idsitesByAccess['superuser'] = array();
+
+            if(!empty($this->previousLogin)) {
+                $this->login = $this->previousLogin;
+                $this->previousLogin = null;
+            }
         }
     }
 
