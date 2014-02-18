@@ -156,6 +156,7 @@ class UserAgentParserEnhanced
         'TT' => 'TechnoTrend',
         'TV' => 'TVC',
         'TX' => 'TechniSat',
+        'TZ' => 'teXet',
         'UT' => 'UTStarcom',
         'VD' => 'Videocon',
         'VE' => 'Vertu',
