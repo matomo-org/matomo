@@ -184,4 +184,48 @@ class Core_UrlHelperTest extends PHPUnit_Framework_TestCase
         include "DataFiles/SearchEngines.php";
         include "DataFiles/Countries.php";
     }
+
+
+    /**
+     * @group Core
+     */
+    public function test_getHostFromUrl()
+    {
+        $this->assertEquals('', UrlHelper::getHostFromUrl(''));
+        $this->assertEquals('', UrlHelper::getHostFromUrl(null));
+        $this->assertEquals('localhost', UrlHelper::getHostFromUrl('http://localhost'));
+        $this->assertEquals('localhost', UrlHelper::getHostFromUrl('http://localhost/path'));
+        $this->assertEquals('localhost', UrlHelper::getHostFromUrl('localhost/path'));
+        $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('sub.localhost/path'));
+        $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('http://sub.localhost/path/?query=test'));
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_getQueryFromUrl_ShouldReturnEmtpyString_IfNoQuery()
+    {
+        $this->assertEquals('', UrlHelper::getQueryFromUrl('', array()));
+        $this->assertEquals('', UrlHelper::getQueryFromUrl(null, array()));
+        $this->assertEquals('', UrlHelper::getQueryFromUrl('http://localhost/path', array()));
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_getQueryFromUrl_ShouldReturnOnlyTheQueryPartOfTheUrl_IfNoAdditionalParamsGiven()
+    {
+        $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array()));
+        $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('/?foo=bar&foo2=bar2&test[]=1', array()));
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_getQueryFromUrl_ShouldAddAdditionalParams_IfGiven()
+    {
+        $this->assertEquals('foo=bar&foo2=bar2&test[]=1&add=foo', UrlHelper::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array('add' => 'foo')));
+        $this->assertEquals('add=foo', UrlHelper::getQueryFromUrl('/', array('add' => 'foo')));
+        $this->assertEquals('add[]=foo&add[]=test', UrlHelper::getQueryFromUrl('/', array('add' => array('foo', 'test'))));
+    }
 }

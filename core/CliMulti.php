@@ -7,8 +7,8 @@
  */
 namespace Piwik;
 
-use Piwik\CliMulti\Process;
 use Piwik\CliMulti\Output;
+use Piwik\CliMulti\Process;
 
 /**
  * Class CliMulti.
@@ -221,9 +221,9 @@ class CliMulti {
     {
         $this->processes[] = new Process($cmdId);
 
-        $url     = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query   = Url::getQueryFromUrl($url, array('pid' => $cmdId));
-        $hostname = parse_url($url, PHP_URL_HOST);
+        $url  = $this->appendTestmodeParamToUrlIfNeeded($url);
+        $query   = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $hostname = UrlHelper::getHostFromUrl($url);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
         Log::debug($command);

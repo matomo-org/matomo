@@ -456,4 +456,41 @@ class UrlHelper
             'keywords' => $key,
         );
     }
+
+    /**
+     * Returns the query part from any valid url and adds additional parameters to the query part if needed.
+     *
+     * @param string $url    Any url eg `"http://example.com/piwik/?foo=bar"`
+     * @param array $additionalParamsToAdd    If not empty the given parameters will be added to the query.
+     *
+     * @return string eg. `"foo=bar&foo2=bar2"`
+     * @api
+     */
+    public static function getQueryFromUrl($url, array $additionalParamsToAdd = array())
+    {
+        $url = @parse_url($url);
+        $query = '';
+
+        if (!empty($url['query'])) {
+            $query .= $url['query'];
+        }
+
+        if (!empty($additionalParamsToAdd)) {
+            if (!empty($query)) {
+                $query .= '&';
+            }
+
+            $query .= Url::getQueryStringFromParameters($additionalParamsToAdd);
+        }
+
+        return $query;
+    }
+
+    public static function getHostFromUrl($url)
+    {
+        if (!UrlHelper::isLookLikeUrl($url)) {
+            $url = "http://" . $url;
+        }
+        return parse_url($url, PHP_URL_HOST);
+    }
 }

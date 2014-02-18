@@ -19,7 +19,7 @@ if (!Common::isPhpCliMode()) {
 }
 
 $piwikHostname = CronArchive::getParameterFromCli('piwik-domain', true);
-$piwikHostname = Url::getHostFromUrl($piwikHostname);
+$piwikHostname = UrlHelper::getHostFromUrl($piwikHostname);
 
 Url::setHost($piwikHostname);
 
