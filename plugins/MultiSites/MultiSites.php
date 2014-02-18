@@ -101,7 +101,9 @@ class MultiSites extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-model.js";
         $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-controller.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-filter.js";
         $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-directive.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multisites-site/multisites-site-directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)

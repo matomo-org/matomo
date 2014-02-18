@@ -10,8 +10,8 @@ angular.module('piwikApp').directive('piwikMultisitesDashboard', function($docum
     return {
         restrict: 'A',
         scope: {
-            displayRevenueColumn: '=',
-            showSparklines: '=',
+            displayRevenueColumn: '@',
+            showSparklines: '@',
             dateSparkline: '@'
         },
         templateUrl: 'plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard.html',
