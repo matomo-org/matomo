@@ -52,7 +52,6 @@
                 show-sparklines="showSparklines"
                 display-revenue-column="displayRevenueColumn"
                 ng-repeat="website in model.sites | orderBy:predicate:reverse | multiSitesGroupFilter:model.getCurrentPagingOffsetStart():model.pageSize">
-
             </tr>
         </tbody>
 
@@ -68,7 +67,7 @@
 
         <tr>
             <td colspan="8" class="clean" style="text-align: center;">
-                <input type="text" ng-change="model.searchSite(searchTerm)" ng-model="searchTerm" placeholder="Search for websites">
+                <input type="text" ng-change="model.searchSite(searchTerm)" ng-model="searchTerm" placeholder="Search for websites" style="margin-top:20px;">
             </td>
         </tr>
 

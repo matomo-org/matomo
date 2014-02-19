@@ -96,6 +96,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/services/service.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik-service.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik-api-service.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik-access-service.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/services/websitegroups-service.js";
 
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/filter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/filters/htmldecode-filter.js";

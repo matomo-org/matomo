@@ -43,8 +43,9 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         var sitesByGroup = [];
         var groups = {};
         angular.forEach(model.allSites, function (site, index) {
-            site.idsite = processedReport.reportMetadata[index].idsite;
-            site.group  = processedReport.reportMetadata[index].group;
+            site.idsite   = processedReport.reportMetadata[index].idsite;
+            site.group    = processedReport.reportMetadata[index].group;
+            site.main_url = processedReport.reportMetadata[index].main_url;
 
             if (site.group) {
 
@@ -98,18 +99,18 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
     model.getCurrentPagingOffsetEnd = function() {
         var end = model.getCurrentPagingOffsetStart() + parseInt(model.pageSize, 10);
-        if (end > model.allSites.length) {
-            end = model.allSites.length
+        if (end > model.sites.length) {
+            end = model.sites.length
         }
         return parseInt(end, 10);
     }
 
     model.previousPage = function () {
-        model.currentPage = model.currentPage - 1
+        model.currentPage = model.currentPage - 1;
     };
 
     model.nextPage = function () {
-        model.currentPage = model.currentPage + 1
+        model.currentPage = model.currentPage + 1;
     };
 
     model.numberOfPages = function () {

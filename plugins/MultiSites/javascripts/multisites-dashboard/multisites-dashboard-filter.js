@@ -25,7 +25,7 @@ angular.module('piwikApp').filter('multiSitesGroupFilter', function() {
             }
         }
 
-        return sites.slice(from, to);
+        return sites.slice(from, offsetEnd);
     }
 });
 

@@ -32,6 +32,11 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         }
     };
 
+    function reset () {
+        getParams  = {};
+        postParams = {};
+    }
+
     /**
      * Send the request
      * @return $promise
@@ -142,8 +147,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
     };
 
     piwikApi.abort = function () {
-        getParams  = {};
-        postParams = {};
+        reset();
 
         if (requestHandle) {
             requestHandle.resolve();
@@ -162,7 +166,19 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
 
         addParams(getParams, 'GET');
 
-        return send();
+        var promise = send();
+
+        reset();
+
+        return promise;
+    };
+
+    piwikApi.post = function (getParams, _postParams_) {
+        if (_postParams_) {
+            postParams = _postParams_;
+        }
+
+        this.fetch(getParams);
     };
 
     return piwikApi;

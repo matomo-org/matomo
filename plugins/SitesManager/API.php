@@ -1032,7 +1032,7 @@ class API extends \Piwik\Plugin\API
      * @return bool true on success
      */
     public function updateSite($idSite,
-                               $siteName,
+                               $siteName = null,
                                $urls = null,
                                $ecommerce = null,
                                $siteSearch = null,
@@ -1055,7 +1055,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception("website id = $idSite not found");
         }
 
-        $this->checkName($siteName);
+        if (!is_null($siteName)) {
+            $this->checkName($siteName);
+            $bind['name'] = $siteName;
+        }
 
         // Build the SQL UPDATE based on specified updates to perform
         $bind = array();
@@ -1105,7 +1108,6 @@ class API extends \Piwik\Plugin\API
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
         $bind['type'] = $this->checkAndReturnType($type);
 
-        $bind['name'] = $siteName;
         $db = Db::get();
         $db->update(Common::prefixTable("site"),
             $bind,

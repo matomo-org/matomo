@@ -20,8 +20,9 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
         templateUrl: 'plugins/MultiSites/javascripts/multisites-site/multisites-site.html',
         controller: function ($scope) {
 
-            $scope.period = piwik.period;
-            $scope.date   = $scope.period == 'range' ? (piwik.startDateString + ',' + piwik.endDateString) : piwik.currentDateString;
+            $scope.period   = piwik.period;
+            $scope.date     = $scope.period == 'range' ? (piwik.startDateString + ',' + piwik.endDateString) : piwik.currentDateString;
+            $scope.parseInt = parseInt;
 
             $scope.sparklineImage = function(website){
                 var append = '';

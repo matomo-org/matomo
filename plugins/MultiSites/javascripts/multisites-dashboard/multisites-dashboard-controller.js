@@ -8,21 +8,21 @@
 angular.module('piwikApp').controller('MultiSitesDashboardController', function($scope, piwik, multisitesDashboardModel){
 
     $scope.model = multisitesDashboardModel;
-
-    $scope.showSparklines = false;
     $scope.reverse = true;
     $scope.predicate = 'nb_visits';
     $scope.evolutionSelector = 'visits_evolution';
 
     // 'General_EvolutionSummaryGeneric'|translate:'General_NVisits' | translate:totalVisits,prettyDate,'General_NVisits' | translate:pastTotalVisits,pastPeriodPretty,totalVisitsEvolution
     $scope.totalVisitsEvolutionTitle = 'TODO';
-    $scope.parseInt = parseInt;
-
-    // TODO
-    $scope.hasSuperUserAccess = true;
 
     $scope.sortBy = function (predicate) {
+
+        var reverse = $scope.reverse;
+        if ($scope.predicate == predicate) {
+            reverse = !reverse;
+        }
+
         $scope.predicate = predicate;
-        $scope.reverse   = !$scope.reverse;
+        $scope.reverse   = reverse;
     };
 });

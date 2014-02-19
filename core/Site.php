@@ -442,7 +442,7 @@ class Site
     }
 
     /**
-     * Returns the name of the site with the specified ID.
+     * Returns the group of the site with the specified ID.
      *
      * @param int $idsite The site ID.
      * @return string
