@@ -303,7 +303,12 @@
 - regex: 'BrowseX \((\d+\.\d+)'
   name: 'BrowseX'
   version: '$1'
-  
+
+#Charon
+- regex: 'Charon(?:[/ ](\d+\.\d+))?'
+  name: 'Charon'
+  version: '$1'
+
 #Cheshire
 - regex: 'Cheshire(?:/(\d+\.\d+))?'
   name: 'Cheshire'

@@ -591,10 +591,10 @@ LCT:
 
 # lenovo
 Lenovo:
-  regex: 'Lenovo|IdeaTab'
+  regex: '(?:LNV-)?Lenovo|IdeaTab'
   device: 'smartphone'
   models:
-    - regex: 'Lenovo[ \-_]([a-z0-9]+)'
+    - regex: '(?:LNV-)?Lenovo[ \-_]([a-z0-9]+)'
       model: '$1'
     - regex: 'IdeaTab[ \-_]?([a-z0-9]+)'
       model: 'IdeaTab $1'
