@@ -485,7 +485,12 @@
 - regex: 'Obigo|Teleca'
   name: 'Obigo'
   version: ''
-  
+
+#Oregano
+- regex: 'Oregano(?:[ /](\d+\.\d+))?'
+  name: 'Oregano'
+  version: '$1'
+
 #Polaris
 - regex: '(?:Polaris|Embider)(?:/(\d+\.\d+))?'
   name: 'Polaris'

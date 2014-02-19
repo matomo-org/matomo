@@ -323,8 +323,14 @@
 - regex: '(?:Mobile|Tablet);.+Firefox/\d+\.\d+'
   name: 'Firefox OS'
   version: ''
-  
-  
+
+
+##########
+# RISC OS
+##########
+- regex: 'RISC OS(?:[ /](\d+\.\d+))?'
+  name: 'RISC OS'
+  version: '$1'
   
 ##########
 # Bada

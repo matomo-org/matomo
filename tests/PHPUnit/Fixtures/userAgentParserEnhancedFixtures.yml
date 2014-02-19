@@ -17328,7 +17328,7 @@
   os_family: Android
   browser_family: Opera
 -
-  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10977AP
+  user_agent: 'Mozilla/5.0 (X11; U; Linux x86_64; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10977AP'
   os:
     name: Linux
     short_name: LIN
@@ -17342,4 +17342,100 @@
     brand: 
     model: 
   os_family: Linux
-  browser_family: 
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/5.0 (Linux; U; Android 4.0.4; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10990AP Mobile'
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Puffin
+    short_name: PU
+    version: 2.10990
+  device:
+    type: 
+    brand: 
+    model: 
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla 5.0 (Linux; U; Android 2.3.5; zh-cn; ZTE U793 Build MocorDroid2.3.5) UC AppleWebKit 534.31 (KHTML, like Gecko) Mobile Safari 534.31
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: ZT
+    model: U793
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla 5.0 (Linux; U; Android 2.3.6; zh-cn; ZTE U790 Build GRK39F) UC AppleWebKit 534.31 (KHTML, like Gecko) Mobile Safari 534.31
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: ZT
+    model: U790
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla 5.0 (Linux; U; Android 4.1.2; en-us; HUAWEI G610-C00 Build HuaweiG610-C00) UC AppleWebKit 534.31 (KHTML, like Gecko) Mobile Safari 534.31
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HU
+    model: G610
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla 5.0 (Linux; U; Android 4.1.2; zh-cn; SCH-I829 Build JZO54K) UC AppleWebKit 534.31 (KHTML, like Gecko) Mobile Safari 534.31
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: SA
+    model: SCH-I829
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: 'Mozilla/1.10 [en] (Compatible; RISC OS 3.70; Oregano 1.10)'
+  os:
+    name: RISC OS
+    short_name: ROS
+    version: 3.70
+  browser:
+    name: Oregano
+    short_name: OR
+    version: 1.10
+  device:
+    type: 
+    brand: 
+    model: 
+  os_family: RISC OS
+  browser_family: Unknown
