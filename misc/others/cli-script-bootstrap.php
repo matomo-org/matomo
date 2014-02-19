@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+use Piwik\Config;
+use Piwik\FrontController;
 
 error_reporting(E_ALL | E_NOTICE);
 
@@ -33,4 +35,5 @@ define('PIWIK_ENABLE_DISPATCH', false);
 
 Config::getInstance()->log['log_writers'][] = 'screen';
 Config::getInstance()->log['log_level'] = 'VERBOSE';
+Config::getInstance()->log['string_message_format'] = "%message%";
 FrontController::getInstance()->init();
