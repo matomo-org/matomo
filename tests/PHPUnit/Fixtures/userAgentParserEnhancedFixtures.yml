@@ -17711,3 +17711,323 @@
     model: 
   os_family: Windows
   browser_family: Unknown
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows Phone OS 7.0; Trident/3.1; IEMobile/ 7.0; WpsLondonTest; Asus;Galaxy6)
+  os:
+    name: Windows Phone
+    short_name: WPH
+    version: 7.0
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 7.0
+  device:
+    type: smartphone
+    brand: AU
+    model: Galaxy6
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; MAXTHON 2.0)
+  os:
+    name: Windows XP
+    short_name: WXP
+    version: XP
+  browser:
+    name: Maxthon
+    short_name: MX
+    version: 2.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: 'Mozilla/4.01 (Compatible; Acorn Browse 1.25 [23-Oct-97] AW  97; RISC OS 4.39) Acorn-HTTP/0.84'
+  os:
+    name: RISC OS
+    short_name: ROS
+    version: 4.39
+  browser:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  device:
+    type: 
+    brand: 
+    model: 
+  os_family: RISC OS
+  browser_family: Unknown
+-
+  user_agent: Mozilla/4.08 (Charon; Inferno)
+  os:
+    name: Inferno
+    short_name: INF
+    version: 
+  browser:
+    name: Charon
+    short_name: CX
+    version: 
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Unix
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5 (X11; Linux x86_64) AppleWebKit/537.4 (KHTML like Gecko) Arch Linux Firefox/23.0 Xfce
+  os:
+    name: Arch Linux
+    short_name: ARL
+    version: 
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 23.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (compatible; Konqueror/3.5; Linux; de) KHTML/3.5.8 (like Gecko) (Debian)
+  os:
+    name: Debian
+    short_name: DEB
+    version: 
+  browser:
+    name: Konqueror
+    short_name: KO
+    version: 3.5
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Konqueror
+-
+  user_agent: Mozilla/5.0 (compatible; Konqueror/4.1; Linux 2.6.27.7-134.fc10.x86_64; X11; x86_64) KHTML/4.1.3 (like Gecko) Fedora/4.1.3-4.fc10
+  os:
+    name: Fedora
+    short_name: FED
+    version: 4.1
+  browser:
+    name: Konqueror
+    short_name: KO
+    version: 4.1
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Konqueror
+-
+  user_agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; HTC; Windows Phone 8S by HTC)
+  os:
+    name: Windows Phone
+    short_name: WPH
+    version: 8.0
+  browser:
+    name: IE Mobile
+    short_name: IM
+    version: 10.0
+  device:
+    type: smartphone
+    brand: HT
+    model: Windows Phone 8S by HTC
+  os_family: Windows Mobile
+  browser_family: Internet Explorer
+-
+  user_agent: 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)69706759&#039;%20or%208056%3d8057--%20'
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Internet Explorer
+    short_name: IE
+    version: 9.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Windows
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; LNV-Lenovo_A560e Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: LE
+    model: A560e
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (SAMSUNG; SAMSUNG-GT-S5380/S5380AELB3; U; Bada/2.0; fr-fr) AppleWebKit/534.20 (KHTML, like Gecko) Dolfin/3.0 Mobile HVGA SMM-MMS/1.2.0 OPN-B
+  os:
+    name: Bada
+    short_name: SBA
+    version: 2.0
+  browser:
+    name: Dolphin
+    short_name: DF
+    version: 3.0
+  device:
+    type: smartphone
+    brand: SA
+    model: GT-S5380
+  os_family: Other Mobile
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.1; rv:26.0) Gecko/20100101 Firefox/26.0 IceDragon/26.0.0.2
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: IceDragon
+    short_name: ID
+    version: 26.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Windows; U; Win9x; en; Stable) Gecko/20020911 Beonex/0.8.1-stable
+  os:
+    name: Windows
+    short_name: WIN
+    version: 
+  browser:
+    name: Beonex
+    short_name: BE
+    version: 0.8
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Windows
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.30 (KHTML, like Gecko) Slackware/Chrome/12.0.742.100 Safari/534.30
+  os:
+    name: Slackware
+    short_name: SLW
+    version: 
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 12.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.22+ (KHTML, like Gecko) Chromium/17.0.963.56 Chrome/17.0.963.56 Safari/535.22+ Debian/7.0 (3.4.2-2.1) Epiphany/3.4.2
+  os:
+    name: Debian
+    short_name: DEB
+    version: 7.0
+  browser:
+    name: Epiphany
+    short_name: EP
+    version: 3.4
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.26+ (KHTML, like Gecko) Version/5.0 Safari/534.26+ Ubuntu/10.10 (2.30.6-1ubuntu5) Epiphany/2.30.6
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: 10.10
+  browser:
+    name: Epiphany
+    short_name: EP
+    version: 2.30
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20131030 conkeror/1.0pre (Debian-1.0~~pre+git131116-1)
+  os:
+    name: Debian
+    short_name: DEB
+    version: 1.0
+  browser:
+    name: Conkeror
+    short_name: CK
+    version: 1.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; OpenBSD amd64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.45 Safari/537.36
+  os:
+    name: OpenBSD
+    short_name: OBS
+    version: 
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 28.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Unix
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (X11; U; Gentoo x86_64; de-DE) Firefox/26.0
+  os:
+    name: Gentoo
+    short_name: GNT
+    version: 
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 26.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.13) Gecko/20080313 SeaMonkey/1.1.9 (Ubuntu-1.1.9+nobinonly-0ubuntu1)
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: 1.1
+  browser:
+    name: SeaMonkey
+    short_name: SM
+    version: 1.1
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Unknown

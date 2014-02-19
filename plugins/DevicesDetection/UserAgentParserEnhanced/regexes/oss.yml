@@ -331,7 +331,16 @@
 - regex: 'RISC OS(?:-NC)?(?:[ /](\d+\.\d+))?'
   name: 'RISC OS'
   version: '$1'
-  
+
+
+##########
+# Inferno
+##########
+- regex: 'Inferno(?:[ /](\d+\.\d+))?'
+  name: 'Inferno'
+  version: '$1'
+
+
 ##########
 # Bada
 ##########
