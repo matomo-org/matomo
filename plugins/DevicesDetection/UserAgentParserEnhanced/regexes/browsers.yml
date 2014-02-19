@@ -364,6 +364,11 @@
   name: 'Sleipnir'
   version: '$1'
 
+#Lunascape
+- regex: 'Lunascape(?:[/ ](\d+\.\d+))?'
+  name: 'Lunascape'
+  version: '$1'
+
 #Internet Explorer
 - regex: 'IEMobile[ /](\d+\.\d+)'
   name: 'IE Mobile'
@@ -418,11 +423,6 @@
 #Links
 - regex: 'Links(?: \((\d+\.\d+))?'
   name: 'Links'
-  version: '$1'
-
-#Lunascape
-- regex: 'Lunascape(?:/(\d+\.\d+))?'
-  name: 'Lunascape'
   version: '$1'
 
 #Openwave Mobile Browser

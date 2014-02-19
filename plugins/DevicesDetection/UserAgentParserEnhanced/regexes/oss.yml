@@ -328,7 +328,7 @@
 ##########
 # RISC OS
 ##########
-- regex: 'RISC OS(?:[ /](\d+\.\d+))?'
+- regex: 'RISC OS(?:-NC)?(?:[ /](\d+\.\d+))?'
   name: 'RISC OS'
   version: '$1'
   
@@ -385,49 +385,49 @@
   version: '$1'
   
   
-- regex: 'AIX'
+- regex: 'AIX(?:[/ ]?(\d+\.\d+))?'
   name: 'AIX'
-  version: ''
+  version: '$1'
   
   
-- regex: 'HP-UX'
+- regex: 'HP-UX(?:[/ ]?(\d+\.\d+))?'
   name: 'HP-UX'
-  version: ''
+  version: '$1'
   
   
-- regex: 'FreeBSD'
+- regex: 'FreeBSD(?:[/ ]?(\d+\.\d+))?'
   name: 'FreeBSD'
-  version: ''
+  version: '$1'
   
   
-- regex: 'NetBSD'
+- regex: 'NetBSD(?:[/ ]?(\d+\.\d+))?'
   name: 'NetBSD'
-  version: ''
+  version: '$1'
   
   
-- regex: 'OpenBSD'
+- regex: 'OpenBSD(?:[/ ]?(\d+\.\d+))?'
   name: 'OpenBSD'
-  version: ''
+  version: '$1'
   
   
-- regex: 'DragonFly'
+- regex: 'DragonFly(?:[/ ]?(\d+\.\d+))?'
   name: 'DragonFly'
-  version: ''
+  version: '$1'
   
   
-- regex: 'Syllable'
+- regex: 'Syllable(?:[/ ]?(\d+\.\d+))?'
   name: 'Syllable'
-  version: ''
+  version: '$1'
   
   
-- regex: 'IRIX(?: (\d+\.\d+))'
+- regex: 'IRIX(?:[/ ]?(\d+\.\d+))'
   name: 'IRIX'
   version: '$1'
   
   
-- regex: 'OSF1'
+- regex: 'OSF1(?:[/ ]?v?(\d+\.\d+))?'
   name: 'OSF1'
-  version: ''
+  version: '$1'
   
   
   
