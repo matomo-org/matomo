@@ -38,6 +38,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         model.allSites     = processedReport.reportData;
         model.totalVisits  = processedReport.reportTotal.nb_visits;
         model.totalActions = processedReport.reportTotal.nb_actions;
+        model.totalRevenue = processedReport.reportTotal.revenue;
         model.prettyDate   = processedReport.prettyDate;
 
         var sitesByGroup = [];

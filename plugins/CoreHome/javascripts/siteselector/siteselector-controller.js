@@ -27,7 +27,7 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
         }
     };
 
-    $scope.getUrlAllSites  = function () {
+    $scope.getUrlAllSites = function () {
         var newParameters = 'module=MultiSites&action=index'
         return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters);
     }

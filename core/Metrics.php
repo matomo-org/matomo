@@ -310,7 +310,8 @@ class Metrics
             self::INDEX_PAGE_ENTRY_NB_VISITS,
             self::INDEX_PAGE_ENTRY_NB_ACTIONS,
             self::INDEX_PAGE_EXIT_NB_VISITS,
-            self::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS
+            self::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
+            self::INDEX_REVENUE
         );
     }
 

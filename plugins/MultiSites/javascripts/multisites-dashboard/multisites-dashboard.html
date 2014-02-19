@@ -3,7 +3,7 @@
         {{ 'General_AllWebsitesDashboard'|translate }}
         <span class='smallTitle'
               title="{{ 'General_EvolutionSummaryGeneric' | translate:('General_NVisits'|translate:model.totalVisits):model.prettyDate:'lastnum':'lastprettydate':'evolution' }}"
-              ng-bind-html="'General_TotalVisitsPageviewsRevenue' | translate:('<strong>'+model.totalVisits+'</strong>'):('<strong>'+model.totalActions+'</strong>'):('<strong>totalRevenueTodo</strong>')">
+              ng-bind-html="'General_TotalVisitsPageviewsRevenue' | translate:('<strong>'+model.totalVisits+'</strong>'):('<strong>'+model.totalActions+'</strong>'):('<strong>' + model.totalRevenue + '</strong>')">
          Loading
         </span>
     </h2>
@@ -45,6 +45,18 @@
 
         <tbody id="tb">
 
+            <tr ng-show="model.isLoading">
+                <td colspan="7" style="padding:20px">
+                    Loading all websites
+                    <span style="
+                            background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
+                            display: inline-block;
+                            width: 16px;
+                            height: 16px;
+                    "> </span>
+                </td>
+            </tr>
+
             <tr website="website"
                 evolution-selector="evolutionSelector"
                 piwik-multisites-site
@@ -67,7 +79,7 @@
 
         <tr>
             <td colspan="8" class="clean" style="text-align: center;">
-                <input type="text" ng-change="model.searchSite(searchTerm)" ng-model="searchTerm" placeholder="Search for websites" style="margin-top:20px;">
+                <input type="text" ng-change="model.searchSite(searchTerm)" ng-model="searchTerm" placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}" style="margin-top:20px;">
             </td>
         </tr>
 
