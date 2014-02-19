@@ -260,22 +260,26 @@ class Config extends Singleton
     public function init()
     {
         $this->initialized = true;
+        $reportError = !empty($GLOBALS['PIWIK_TRACKER_MODE']);
 
         // read defaults from global.ini.php
-        if (!is_readable($this->pathGlobal)) {
+        if (!is_readable($this->pathGlobal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
         }
 
         $this->configGlobal = _parse_ini_file($this->pathGlobal, true);
-        if (empty($this->configGlobal)) {
+
+        if (empty($this->configGlobal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
         }
 
         $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
-        $this->checkLocalConfigFound();
+        if ($reportError) {
+            $this->checkLocalConfigFound();
+        }
         $this->configLocal = _parse_ini_file($this->pathLocal, true);
-        if (empty($this->configLocal)) {
+        if (empty($this->configLocal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
         }
     }
@@ -288,7 +292,7 @@ class Config extends Singleton
     public function checkLocalConfigFound()
     {
         if (!$this->existsLocalConfig()) {
-            Piwik_ExitWithMessage(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
+            throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
         }
     }
 
