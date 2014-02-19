@@ -34,7 +34,8 @@ angular.module('piwikApp.service').service('websiteGroups', function(piwikApi){
             method: 'SitesManager.updateSite',
             idSite: website.idsite,
             group: groupName
+        }).then(function () {
+            website.group = groupName;
         });
-        website.group = groupName;
     }
 });

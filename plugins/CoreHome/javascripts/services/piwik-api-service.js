@@ -178,7 +178,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
             postParams = _postParams_;
         }
 
-        this.fetch(getParams);
+        return this.fetch(getParams);
     };
 
     return piwikApi;
