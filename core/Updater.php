@@ -126,9 +126,9 @@ class Updater
                 $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
             }
             // unfortunately had to extract this query from the Option class
-            $queries[] = 'UPDATE `' . Common::prefixTable('option') . '`
-    				SET option_value = \'' . $fileVersion . '\'
-    				WHERE option_name = \'' . self::getNameInOptionTable($componentName) . '\';';
+            $queries[] = 'UPDATE `' . Common::prefixTable('option') . '` '.
+    				'SET option_value = \'' . $fileVersion . '\' '.
+    				'WHERE option_name = \'' . self::getNameInOptionTable($componentName) . '\';';
         }
         return $queries;
     }

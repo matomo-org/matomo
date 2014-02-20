@@ -18031,3 +18031,131 @@
     model: 
   os_family: Linux
   browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.13) Gecko/20101209 CentOS/3.6-2.el5.centos Firefox/3.6.13
+  os:
+    name: CentOS
+    short_name: CES
+    version: 3.6
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.6
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.24) Gecko/20111101 SUSE/3.6.24-0.2.1 Firefox/3.6.24
+  os:
+    name: SUSE
+    short_name: SSE
+    version: 3.6
+  browser:
+    name: Firefox
+    short_name: FF
+    version: 3.6
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9a3pre) Gecko/20070301 Minefield/3.0a3pre
+  os:
+    name: Linux
+    short_name: LIN
+    version: 
+  browser:
+    name: Firefox
+    short_name: FF
+    version: Minefield (3.0)
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Firefox
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; fr-fr) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/531.2+ Debian/squeeze (2.30.6-1) Epiphany/2.30.6
+  os:
+    name: Debian
+    short_name: DEB
+    version: 
+  browser:
+    name: Epiphany
+    short_name: EP
+    version: 2.30
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 ArchLinux (X11; U; Linux x86_64; en-US) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30
+  os:
+    name: Arch Linux
+    short_name: ARL
+    version: 
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 12.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Chrome
+-
+  user_agent: Opera/9.80 (X11; Linux x86_64; Sabayon) Presto/2.12.388 Version/12.16
+  os:
+    name: Sabayon
+    short_name: SAB
+    version: 
+  browser:
+    name: Opera
+    short_name: OP
+    version: 12.16
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Linux
+  browser_family: Opera
+-
+  user_agent: UCWEB/2.0 (Linux; U; Opera Mini/7.1.32052/30.3697; en-US; LG-E405) U2/1.0.0 UCBrowser/8.8.1.359 Mobile
+  os:
+    name: Linux
+    short_name: LIN
+    version: 
+  browser:
+    name: Opera Mini
+    short_name: OI
+    version: 7.1
+  device:
+    type: smartphone
+    brand: LG
+    model: E405
+  os_family: Linux
+  browser_family: Opera
+-
+  user_agent: ZTE U930_TD/1.0 Linux/2.6.39 Android/4.0 Release/3.5.2012 Browser/AppleWebKit534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: ZT
+    model: U930
+  os_family: Android
+  browser_family: Android Browser

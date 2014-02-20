@@ -16,9 +16,9 @@ use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\Singleton;
+use Piwik\Theme;
 use Piwik\Translate;
 use Piwik\Updater;
-use Piwik\Theme;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -72,60 +72,22 @@ class Manager extends Singleton
         'LeftMenu'
     );
 
-    public static $pluginsToLoadForTests = array(
-        "CorePluginsAdmin",
-        "CoreAdminHome",
-        "CoreHome",
-        "Proxy",
-        "API",
-        "Widgetize",
-        "Transitions",
-        "LanguagesManager",
-        "Actions",
-        "Dashboard",
-        "MultiSites",
-        "Referrers",
-        "UserSettings",
-        "Goals",
-        "SEO",
-        "UserCountry",
-        "VisitsSummary",
-        "VisitFrequency",
-        "VisitTime",
-        "VisitorInterest",
-        "ExampleAPI",
-        "ExamplePlugin",
-        "ExampleRssWidget",
-        "Provider",
-        "Feedback",
-        "Login",
-        "UsersManager",
-        "SitesManager",
-        "Installation",
-        "CoreUpdater",
-        "ScheduledReports",
-        "UserCountryMap",
-        "Live",
-        "CustomVariables",
-        "PrivacyManager",
-        "ImageGraph",
-        "Annotations",
-        "MobileMessaging",
-        "Overlay",
-        "SegmentEditor",
-        "DevicesDetection",
-        "DBStats",
-        'ExampleUI',
-        "TasksTimetable",
-        "Morpheus",
-        "Zeitgeist",
-        "CustomAlerts",
-        "VisitorGenerator",
-        "SecurityInfo",
-        "ExampleSettingsPlugin",
-        "TreemapVisualization",
-        "Events"
-    );
+    public function getPluginsToLoadDuringTests()
+    {
+        $toLoad = array();
+        foreach($this->readPluginsDirectory() as $plugin) {
+            $isPluginBundledWithCore = $this->isPluginBundledWithCore($plugin);
+            $isPluginOfficiallySupported = $this->isPluginOfficialAndNotBundledWithCore($plugin);
+
+            // Do not enable other Login plugins
+            $isPluginOfficiallySupported = $isPluginOfficiallySupported && strpos($plugin, 'Login') === false;
+
+            if($isPluginBundledWithCore || $isPluginOfficiallySupported) {
+                $toLoad[] = $plugin;
+            }
+        }
+        return $toLoad;
+    }
 
     public function getCorePluginsDisabledByDefault()
     {
@@ -134,6 +96,19 @@ class Manager extends Singleton
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
     const TRACKER_EVENT_PREFIX = 'Tracker.';
+
+    /**
+     * @param $pluginName
+     * @return bool
+     */
+    public function isPluginOfficialAndNotBundledWithCore($pluginName)
+    {
+        static $gitModules;
+        if(empty($gitModules)) {
+            $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
+        }
+        return false !== strpos($gitModules, "plugins/" . $pluginName);
+    }
 
     /**
      * Update Plugins config
@@ -340,6 +315,7 @@ class Manager extends Singleton
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
+            throw new \Exception("Plugin '$pluginName' cannot be found in the filesystem in plugins/ directory.");
             return;
         }
         $this->deactivateThemeIfTheme($pluginName);
@@ -347,6 +323,7 @@ class Manager extends Singleton
         // Load plugin
         $plugin = $this->loadPlugin($pluginName);
         if ($plugin === null) {
+            throw new \Exception("The plugin '$pluginName' was found in the filesystem, but could not be loaded.'");
             return;
         }
         $this->installPluginIfNecessary($plugin);

@@ -34,7 +34,7 @@ Arguments:
 	--force-all-periods[=seconds]
 			Limits archiving to websites with some traffic in the last [seconds] seconds.
 			For example --force-all-periods=86400 will archive websites that had visits in the last 24 hours.
-			If [seconds] is not specified, all websites will visits in the last ". CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
+			If [seconds] is not specified, all websites with visits in the last ". CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
             . " seconds (" . round( CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE/86400 ) ." days) will be archived.
 	--force-timeout-for-periods=[seconds]
 			The current week/ current month/ current year will be processed at most every [seconds].
@@ -680,7 +680,7 @@ Notes:
         $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
         $config->log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
-        $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'VERBOSE';
+        $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
 
         if (!function_exists("curl_multi_init")) {
             $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");

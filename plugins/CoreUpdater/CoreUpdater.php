@@ -32,8 +32,14 @@ class CoreUpdater extends \Piwik\Plugin
         $hooks = array(
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',
             'Updater.checkForUpdates'                    => 'updateCheck',
+            'Console.addCommands'                        => 'addConsoleCommands',
         );
         return $hooks;
+    }
+
+    public function addConsoleCommands(&$commands)
+    {
+        $commands[] = 'Piwik\Plugins\CoreUpdater\Commands\Update';
     }
 
     public static function updateComponents(Updater $updater, $componentsWithUpdateFile)

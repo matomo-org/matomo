@@ -209,8 +209,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public static function loadAllPlugins()
     {
-        $plugins = \Piwik\Plugin\Manager::$pluginsToLoadForTests;
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $pluginsManager->getPluginsToLoadDuringTests();
 
         // Load all plugins
         $pluginsManager->loadPlugins($plugins);
