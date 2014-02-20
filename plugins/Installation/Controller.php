@@ -756,23 +756,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $infos['general_infos'] = array();
 
-        $directoriesToCheck = array();
+
+
+        $directoriesToCheck = array(
+                                '/tmp/',
+                                '/tmp/assets/',
+                                '/tmp/cache/',
+                                '/tmp/latest/',
+                                '/tmp/logs/',
+                                '/tmp/sessions/',
+                                '/tmp/tcpdf/',
+                                '/tmp/templates_c/',
+        );
 
         if (!DbHelper::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
             $directoriesToCheck[] = '/config/';
         }
-
-        $directoriesToCheck = array_merge($directoriesToCheck, array(
-                                                                    '/tmp/',
-                                                                    '/tmp/assets/',
-                                                                    '/tmp/cache/',
-                                                                    '/tmp/latest/',
-                                                                    '/tmp/logs/',
-                                                                    '/tmp/sessions/',
-                                                                    '/tmp/tcpdf/',
-                                                                    '/tmp/templates_c/',
-                                                               ));
 
         $infos['directories'] = Filechecks::checkDirectoriesWritable($directoriesToCheck);
 
