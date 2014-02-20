@@ -16,9 +16,9 @@ use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\Singleton;
+use Piwik\Theme;
 use Piwik\Translate;
 use Piwik\Updater;
-use Piwik\Theme;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -72,12 +72,17 @@ class Manager extends Singleton
         'LeftMenu'
     );
 
-    public static function getPluginsToLoadDuringTests()
+    public function getPluginsToLoadDuringTests()
     {
-        $manager = \Piwik\Plugin\Manager::getInstance();
         $toLoad = array();
-        foreach($manager->readPluginsDirectory() as $plugin) {
-            if($manager->isPluginBundledWithCore($plugin)) {
+        foreach($this->readPluginsDirectory() as $plugin) {
+            $isPluginBundledWithCore = $this->isPluginBundledWithCore($plugin);
+            $isPluginOfficiallySupported = $this->isPluginOfficialAndNotBundledWithCore($plugin);
+
+            // Do not enable other Login plugins
+            $isPluginOfficiallySupported = $isPluginOfficiallySupported && strpos($plugin, 'Login') === false;
+
+            if($isPluginBundledWithCore || $isPluginOfficiallySupported) {
                 $toLoad[] = $plugin;
             }
         }
@@ -91,6 +96,19 @@ class Manager extends Singleton
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
     const TRACKER_EVENT_PREFIX = 'Tracker.';
+
+    /**
+     * @param $pluginName
+     * @return bool
+     */
+    public function isPluginOfficialAndNotBundledWithCore($pluginName)
+    {
+        static $gitModules;
+        if(empty($gitModules)) {
+            $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
+        }
+        return false !== strpos($gitModules, "plugins/" . $pluginName);
+    }
 
     /**
      * Update Plugins config

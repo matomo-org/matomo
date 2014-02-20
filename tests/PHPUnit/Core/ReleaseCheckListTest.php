@@ -1,5 +1,6 @@
 <?php
 use Piwik\Filesystem;
+use Piwik\Plugin\Manager;
 use Piwik\SettingsServer;
 
 /**
@@ -192,7 +193,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             $manager = \Piwik\Plugin\Manager::getInstance();
             $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault());
 
-            $isGitSubmodule = false !== strpos( file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules'), "plugins/" . $pluginName);
+            $isGitSubmodule = Manager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule || $pluginName == $manager::DEFAULT_THEME;
 
             $this->assertTrue( $enabled + $disabled === 1,
@@ -302,4 +303,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             $this->fail("$format format failed for following icons $icons \n");
         }
     }
+
+
 }
