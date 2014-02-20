@@ -762,6 +762,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                                 '/tmp/',
                                 '/tmp/assets/',
                                 '/tmp/cache/',
+                                '/tmp/climulti/',
                                 '/tmp/latest/',
                                 '/tmp/logs/',
                                 '/tmp/sessions/',
