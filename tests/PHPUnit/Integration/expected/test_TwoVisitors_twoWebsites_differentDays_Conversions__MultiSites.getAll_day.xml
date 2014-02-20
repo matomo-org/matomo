@@ -12,6 +12,8 @@
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>100%</revenue_evolution>
 			<idsite>1</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
 		</row>
 	</result>
 	<result date="2010-01-04">
@@ -26,6 +28,8 @@
 			<pageviews_evolution>-50%</pageviews_evolution>
 			<revenue_evolution>-100%</revenue_evolution>
 			<idsite>1</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
 		</row>
 		<row>
 			<label>Site 2</label>
@@ -38,6 +42,8 @@
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<idsite>2</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
 		</row>
 	</result>
 	<result date="2010-01-05">
@@ -52,6 +58,8 @@
 			<pageviews_evolution>400%</pageviews_evolution>
 			<revenue_evolution>100%</revenue_evolution>
 			<idsite>1</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
 		</row>
 	</result>
 	<result date="2010-01-06">
@@ -66,6 +74,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<idsite>1</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
 		</row>
 	</result>
 	<result date="2010-01-07">
@@ -80,6 +90,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<idsite>1</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
 		</row>
 	</result>
 	<result date="2010-01-08">
@@ -93,7 +105,9 @@
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
-			<idsite>1</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
+            <idsite>1</idsite>
 		</row>
 	</result>
 	<result date="2010-01-09">
@@ -107,7 +121,9 @@
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
-			<idsite>1</idsite>
+            <group/>
+            <main_url>http://piwik.net</main_url>
+            <idsite>1</idsite>
 		</row>
 	</result>
 </results>
