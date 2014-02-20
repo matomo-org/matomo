@@ -937,8 +937,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $infos['has_errors'] = true;
         }
 
-        if (!$infos['can_auto_update']
-            || !empty($infos['missing_desired_extensions'])
+        if (   !empty($infos['missing_desired_extensions'])
             || !$infos['gd_ok']
             || !$infos['multibyte_ok']
             || !$infos['registerGlobals_ok']
