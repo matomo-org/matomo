@@ -1,9 +1,11 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Version av webbläsare",
+        "Camera": "Kamera",
         "dataTableLabelBrands": "Märke",
         "dataTableLabelModels": "Modell",
         "dataTableLabelTypes": "Sort",
+        "Device": "Enhet",
         "DeviceBrand": "Typ av utrustning",
         "DevicesDetection": "Besöksutrustning",
         "FeaturePhone": "Telefonmodell",
