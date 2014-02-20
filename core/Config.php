@@ -40,6 +40,8 @@ use Exception;
  */
 class Config extends Singleton
 {
+    const RELATIVE_CONFIG_OVERRIDE_PATH = 'tmp/test.config.ini';
+
     /**
      * Contains configuration files values
      *
@@ -82,6 +84,11 @@ class Config extends Singleton
 
         if ($pathLocal) {
             $this->pathLocal = $pathLocal;
+        } else {
+            $configOverridePath = $this->getConfigOverridePath();
+            if (file_exists($configOverridePath)) {
+                $this->pathLocal = $configOverridePath;
+            }
         }
 
         if ($pathGlobal) {
@@ -587,12 +594,15 @@ class Config extends Singleton
      * @param array $configCommon
      * @param array $configCache
      * @param string $pathLocal
+     * @param bool $clear
      *
      * @throws \Exception if config file not writable
      */
-    protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal)
+    protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal, $clear = true)
     {
-        if ($this->isTest) {
+        if ($this->isTest
+            && $pathLocal == $this->pathLocal
+        ) {
             return;
         }
 
@@ -604,18 +614,42 @@ class Config extends Singleton
             }
         }
 
-        $this->clear();
+        if ($clear) {
+            $this->clear();
+        }
     }
 
     /**
      * Writes the current configuration to the **config.ini.php** file. Only writes options whose
      * values are different from the default.
-     * 
+     *
      * @api
      */
     public function forceSave()
     {
         $this->writeConfig($this->configLocal, $this->configGlobal, $this->configCommon, $this->configCache, $this->pathLocal);
+    }
+
+    /**
+     * Writes the config cache to tmp/test.config.ini.
+     *
+     * Used for testing purposes to communicate config overrides w/ other processes (such as the log
+     * importer).
+     */
+    public function saveConfigOverride()
+    {
+        $path = $this->getConfigOverridePath();
+        $this->writeConfig($this->configCache, $this->configGlobal, $this->configCommon, $this->configCache, $path, false);
+    }
+
+    /**
+     * Removes the file at tmp/test.config.ini.
+     *
+     * Used for testing purposes.
+     */
+    public function removeConfigOverride()
+    {
+        @unlink($this->getConfigOverridePath());
     }
 
     /**
@@ -665,4 +699,8 @@ class Config extends Singleton
         return $merged;
     }
 
+    private function getConfigOverridePath()
+    {
+        return PIWIK_INCLUDE_PATH . '/' . self::RELATIVE_CONFIG_OVERRIDE_PATH;
+    }
 }

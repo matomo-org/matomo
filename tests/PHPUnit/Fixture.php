@@ -43,7 +43,6 @@ use Piwik\DataAccess\ArchiveTableCreator;
  * Related TODO: we should try and reduce the amount of existing fixtures by
  *                merging some together.
  */
-// TODO: rename to Fixture
 class Fixture extends PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
@@ -51,15 +50,16 @@ class Fixture extends PHPUnit_Framework_Assert
     const IMAGES_GENERATED_FOR_GD = '2.1.1';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
-    const ADMIN_USER_LOGIN = 'admin';
+    const ADMIN_USER_LOGIN = 'superUserLogin';
     const ADMIN_USER_PASSWORD = '098f6bcd4621d373cade4e832627b4f6';
 
     public $dbName = false;
-    public $createEmptyDatabase = true;
     public $createConfig = true;
+    public $dropDatabaseInSetUp = true;
     public $dropDatabaseInTearDown = true;
     public $loadTranslations = true;
     public $createSuperUser = true;
+    public $overwriteExisting = true;
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
@@ -73,7 +73,27 @@ class Fixture extends PHPUnit_Framework_Assert
         // empty
     }
 
-    public function setUpEnvironment()
+    private function handleConfiguration()
+    {
+        Config::getInstance()->removeConfigOverride();
+
+        $testsConfig = Config::getInstance()->Tests;
+        if (!empty($testsConfig['persist_fixture_data'])) {
+            $this->dbName = get_class($this);
+            $this->dropDatabaseInSetUp = false;
+            $this->dropDatabaseInTearDown = false;
+            $this->overwriteExisting = false;
+
+            Config::getInstance()->database_tests['dbname'] = $this->dbName;
+            Config::getInstance()->saveConfigOverride();
+        }
+
+        if ($this->dbName === false) { // must be after test config is created
+            $this->dbName = Config::getInstance()->database['dbname'];
+        }
+    }
+
+    public function performSetUp()
     {
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
@@ -82,14 +102,14 @@ class Fixture extends PHPUnit_Framework_Assert
                 Config::getInstance()->setTestEnvironment();
             }
 
-            if ($this->dbName === false) { // must be after test config is created
-                $this->dbName = Config::getInstance()->database['dbname'];
-            }
+            $this->handleConfiguration();
 
             static::connectWithoutDatabase();
-            if ($this->createEmptyDatabase) {
+
+            if ($this->dropDatabaseInSetUp) {
                 DbHelper::dropDatabase();
             }
+
             DbHelper::createDatabase($this->dbName);
             DbHelper::disconnectDatabase();
 
@@ -141,10 +161,32 @@ class Fixture extends PHPUnit_Framework_Assert
         if ($this->createSuperUser) {
             self::createSuperUser();
         }
+
+        if ($this->overwriteExisting
+            || !$this->isFixtureSetUp()
+        ) {
+            $this->setUp();
+
+            $this->markFixtureSetUp();
+        }
     }
 
-    public function tearDownEnvironment()
+    public function isFixtureSetUp()
     {
+        $optionName = get_class($this) . '.setUpFlag';
+        return Option::get($optionName) !== false;
+    }
+
+    public function markFixtureSetUp()
+    {
+        $optionName = get_class($this) . '.setUpFlag';
+        Option::set($optionName, 1);
+    }
+
+    public function performTearDown()
+    {
+        $this->tearDown();
+
         \Piwik\SettingsPiwik::$piwikUrlCache = null;
         self::unloadAllPlugins();
 

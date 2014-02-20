@@ -85,8 +85,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         try {
-            $fixture->setUpEnvironment();
-            $fixture->setUp();
+            $fixture->performSetUp();
         } catch (Exception $e) {
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
@@ -100,8 +99,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $fixture = static::$fixture;
         }
 
-        $fixture->tearDown();
-        $fixture->tearDownEnvironment();
+        $fixture->performTearDown();
     }
 
     public function setUp()

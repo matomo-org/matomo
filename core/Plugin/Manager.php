@@ -922,7 +922,6 @@ class Manager extends Singleton
     private function installPluginIfNecessary(Plugin $plugin)
     {
         $pluginName = $plugin->getPluginName();
-
         $saveConfig = false;
 
         // is the plugin already installed or is it the first time we activate it?

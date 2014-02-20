@@ -1,3 +1,4 @@
+// TODO: this is a mess, need to refactor
 var fs = require('fs');
 var app = typeof slimer === 'undefined' ? phantom : slimer;
 var readFileSync = fs.readFileSync || fs.read;
@@ -7,27 +8,69 @@ var PAGE_LOAD_TIMEOUT = 120;
 
 var PageFacade = function (webpage) {
     this.webpage = webpage;
+    this.events = [];
+    this.impl = {
+        click: function (selector) {
+            var position = this._getPosition(selector);
+            this.webpage.sendEvent('click', position.x, position.y);
+        },
+
+        keypress: function (keys) {
+            this.webpage.sendEvent('keypress', keys);
+        },
+
+        mousemove: function (selector) {
+            var position = this._getPosition(selector);
+            this.webpage.sendEvent('mousemove', position.x, position.y);
+        }
+    };
 };
 
 PageFacade.prototype = {
-    click: function (selector) {
-        var elementPosition = this._getPosition(selector);
-        this._clickImpl(elementPosition);
+    click: function (selector, waitTime) {
+        this.events.push(['click', waitTime || 1000, selector]);
     },
 
-    sendKeys: function (selector, keys) {
-        var elementPosition = this._getPosition(selector);
-        this._clickImpl(elementPosition);
-        this.webpage.sendEvent('keypress', keys);
+    sendKeys: function (selector, keys, waitTime) {
+        this.events.push(['click', 100, selector]);
+        this.events.push(['keypress', waitTime || 1000, keys]);
     },
 
-    mouseMove: function (selector) {
-        var position = this._getPosition(selector);
-        this.webpage.sendEvent('mousemove', position.x, position.y);
+    mouseMove: function (selector, waitTime) {
+        this.events.push(['mousemove', waitTime || 1000, selector]);
     },
 
-    _clickImpl: function (position) {
-        this.webpage.sendEvent('click', position.x, position.y);
+    executeEvents: function (callback, i) {
+        i = i || 0;
+
+        var evt = this.events[i];
+        if (!evt) {
+            callback();
+            return;
+        }
+
+        var type = evt.shift(),
+            waitTime = evt.shift();
+
+        this.impl[type].apply(this, evt);
+        this._waitForNextEvent(callback, i, waitTime);
+    },
+
+    getAjaxRequestCount: function () {
+        return this.webpage.evaluate(function () {
+            return globalAjaxQueue.active;
+        });
+    },
+
+    _waitForNextEvent: function (callback, i, waitTime) {
+        var self = this;
+        setTimeout(function () {
+            if (self.getAjaxRequestCount() == 0) {
+                self.executeEvents(callback, i + 1);
+            } else {
+                self._waitForNextEvent(callback, i, waitTime);
+            }
+        }, waitTime);
     },
 
     _getPosition: function (selector) {
@@ -145,9 +188,10 @@ PageRenderer.prototype = {
         }, Math.max(1000 * 15 * this.screenshotCount, 1000 * 60 * 10));
     },
 
-    _executeScreenJs: function (js) {
+    _executeScreenJs: function (js, callback) {
         var page = new PageFacade(this.webpage);
         eval(js);
+        page.executeEvents(callback || function () {});
     }
 };
 
@@ -266,10 +310,8 @@ UnitTestRenderer.prototype._saveCurrentScreen = function () {
 
     console.log("SAVING " + outputPath + " at " + this._getElapsedExecutionTime());
 
-    this._executeScreenJs(screenJs);
-
     var self = this;
-    setTimeout(function () {
+    this._executeScreenJs(screenJs, function () {
         try {
             self._setCorrectViewportSize();
             self.webpage.render(outputPath);
@@ -279,7 +321,7 @@ UnitTestRenderer.prototype._saveCurrentScreen = function () {
             console.log("ERROR: " + e.message);
             app.exit(1);
         }
-    }, 5 * 1000);
+    });
 };
 
 UnitTestRenderer.prototype._renderNextUrl = function () {
