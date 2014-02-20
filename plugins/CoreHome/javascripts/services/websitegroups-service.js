@@ -18,6 +18,7 @@ angular.module('piwikApp.service').service('websiteGroups', function(piwikApi){
                     response.splice(indexEmpty, 1);
                 }
 
+                response.sort();
                 that.groups = response;
             }
         });
@@ -29,13 +30,19 @@ angular.module('piwikApp.service').service('websiteGroups', function(piwikApi){
         }
     }
 
-    this.assignGroup = function (website, groupName) {
-        piwikApi.post({
+    this.assignGroup = function (idSite, groupName) {
+        return piwikApi.post({
             method: 'SitesManager.updateSite',
-            idSite: website.idsite,
+            idSite: idSite,
             group: groupName
-        }).then(function () {
-            website.group = groupName;
+        });
+    }
+
+    this.renameGroup = function (oldGroupName, newGroupName) {
+        return piwikApi.post({
+            method: 'SitesManager.renameGroup',
+            oldGroupName: oldGroupName,
+            newGroupName: newGroupName
         });
     }
 });

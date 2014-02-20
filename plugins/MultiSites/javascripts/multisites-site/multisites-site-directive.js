@@ -24,6 +24,10 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
             $scope.date     = $scope.period == 'range' ? (piwik.startDateString + ',' + piwik.endDateString) : piwik.currentDateString;
             $scope.parseInt = parseInt;
 
+            this.getWebsite = function () {
+                return $scope.website;
+            }
+
             $scope.sparklineImage = function(website){
                 var append = '';
                 var token_auth = piwik.broadcast.getValueFromUrl('token_auth');

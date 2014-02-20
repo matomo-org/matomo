@@ -16,13 +16,13 @@ angular.module('piwikApp').directive('piwikMultisitesDashboard', function($docum
         },
         templateUrl: 'plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard.html',
         controller: 'MultiSitesDashboardController',
-        link: function (scope, element, attrs) {
+        link: function (scope, element, attrs, controller) {
 
             if (attrs.pageSize) {
                 scope.model.pageSize = attrs.pageSize;
             }
 
-            scope.model.fetchAllSites(attrs.autoRefreshTodayReport);
+            controller.refresh(attrs.autoRefreshTodayReport);
         }
     }
 });

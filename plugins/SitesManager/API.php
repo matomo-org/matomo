@@ -1055,13 +1055,14 @@ class API extends \Piwik\Plugin\API
             throw new Exception("website id = $idSite not found");
         }
 
+        // Build the SQL UPDATE based on specified updates to perform
+        $bind = array();
+
         if (!is_null($siteName)) {
             $this->checkName($siteName);
             $bind['name'] = $siteName;
         }
 
-        // Build the SQL UPDATE based on specified updates to perform
-        $bind = array();
         if (!is_null($urls)) {
             $urls = $this->cleanParameterUrls($urls);
             $this->checkUrls($urls);
@@ -1113,6 +1114,7 @@ class API extends \Piwik\Plugin\API
             $bind,
             "idsite = $idSite"
         );
+
 
         // we now update the main + alias URLs
         $this->deleteSiteAliasUrls($idSite);
@@ -1420,6 +1422,34 @@ class API extends \Piwik\Plugin\API
         return $urls;
     }
 
+    public function renameGroup($oldGroupName, $newGroupName)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if ($oldGroupName == $newGroupName) {
+            return true;
+        }
+
+        $sitesHavingOldGroup = $this->getSitesFromGroup($oldGroupName);
+
+        foreach ($sitesHavingOldGroup as $site) {
+            $this->updateSite($site['idsite'],
+                              $siteName = null,
+                              $urls = null,
+                              $ecommerce = null,
+                              $siteSearch = null,
+                              $searchKeywordParameters = null,
+                              $searchCategoryParameters = null,
+                              $excludedIps = null,
+                              $excludedQueryParameters = null,
+                              $timezone = null,
+                              $currency = null,
+                              $newGroupName);
+        }
+
+        return true;
+    }
+
     public function getPatternMatchSites($pattern)
     {
         $ids = $this->getSitesIdWithAtLeastViewAccess();
@@ -1428,13 +1458,13 @@ class API extends \Piwik\Plugin\API
         }
 
         $ids_str = '';
-        foreach ($ids as $id_num => $id_val) {
+        foreach ($ids as $id_val) {
             $ids_str .= $id_val . ' , ';
         }
         $ids_str .= $id_val;
 
         $db = Db::get();
-        $bind = array('%' . $pattern . '%', 'http%' . $pattern . '%');
+        $bind = array('%' . $pattern . '%', 'http%' . $pattern . '%', '%' . $pattern . '%');
 
         // Also match the idsite
         $where = '';
@@ -1442,10 +1472,11 @@ class API extends \Piwik\Plugin\API
             $bind[] = $pattern;
             $where = 'OR  s.idsite = ?';
         }
-        $sites = $db->fetchAll("SELECT idsite, name, main_url
+        $sites = $db->fetchAll("SELECT idsite, name, main_url, `group`
 								FROM " . Common::prefixTable('site') . " s
 								WHERE (		s.name like ?
 										OR 	s.main_url like ?
+										OR 	s.`group` like ?
 										 $where )
 									AND idsite in ($ids_str)
 								LIMIT " . SettingsPiwik::getWebsitesCountToDisplay(),

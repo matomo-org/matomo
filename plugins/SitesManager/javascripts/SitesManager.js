@@ -306,7 +306,9 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
         $('#defaultTimezone').html(getTimezoneSelector(defaultTimezone));
         $('#defaultCurrency').html(getCurrencySelector(defaultCurrency));
 
-        $('td.editableSite').click(function () { $(this).parent().find('.editSite').click(); });
+        $('td.editableSite').click(function (event) {
+            $(this).parent().find('.editSite').click();
+        });
     };
 
     function getSitesearchSelector(contentBefore) {

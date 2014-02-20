@@ -43,7 +43,21 @@
         </tr>
         </thead>
 
-        <tbody id="tb">
+        <tbody id="tb" ng-if="model.isLoading">
+            <tr>
+                <td colspan="7" style="padding:20px">
+                    Loading all websites
+                        <span style="
+                                background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
+                                display: inline-block;
+                                width: 16px;
+                                height: 16px;
+                        "> </span>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody id="tb" ng-if="!model.isLoading">
 
             <tr ng-show="model.isLoading">
                 <td colspan="7" style="padding:20px">
@@ -80,6 +94,15 @@
         <tr>
             <td colspan="8" class="clean" style="text-align: center;">
                 <input type="text" ng-change="model.searchSite(searchTerm)" ng-model="searchTerm" placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}" style="margin-top:20px;">
+                <img title="Search"
+                     ng-show="!searchTerm"
+                     class="search_ico"
+                     src="plugins/Zeitgeist/images/search_ico.png"/>
+                <img title="Clear"
+                     ng-show="searchTerm"
+                     ng-click="searchTerm='';model.searchSite('')"
+                     class="reset"
+                     src="plugins/CoreHome/images/reset_search.png"/>
             </td>
         </tr>
 

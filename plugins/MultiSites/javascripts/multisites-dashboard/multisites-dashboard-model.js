@@ -10,6 +10,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     model.totalVisits  = 0;
     model.totalActions = 0;
     model.prettyDate   = '';
+    model.searchTerm   = '';
 
     function createGroup(name){
         return {
@@ -35,7 +36,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
     model.updateWebsitesList = function (processedReport) {
 
-        model.allSites     = processedReport.reportData;
+        var allSites       = processedReport.reportData;
         model.totalVisits  = processedReport.reportTotal.nb_visits;
         model.totalActions = processedReport.reportTotal.nb_actions;
         model.totalRevenue = processedReport.reportTotal.revenue;
@@ -43,7 +44,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
         var sitesByGroup = [];
         var groups = {};
-        angular.forEach(model.allSites, function (site, index) {
+        angular.forEach(allSites, function (site, index) {
             site.idsite   = processedReport.reportMetadata[index].idsite;
             site.group    = processedReport.reportMetadata[index].group;
             site.main_url = processedReport.reportMetadata[index].main_url;
@@ -80,16 +81,18 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         }
 
         model.allSites = sitesByGroup;
-        model.sites    = sitesByGroup;
+
+        if (model.searchTerm) {
+            model.searchSite(model.searchTerm);
+        } else {
+            model.sites = sitesByGroup;
+        }
     };
 
     model.getNumberOfFilteredSites = function () {
         return model.sites.length;
     }
 
-    model.getNumberOfFilteredSites = function () {
-        return model.sites.length;
-    }
     model.getNumberOfPages = function () {
         return model.sites.length / model.pageSize - 1;
     }
@@ -142,6 +145,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     }
 
     model.searchSite = function (term) {
+        model.searchTerm  = term;
         model.currentPage = 0;
         model.sites = nestedSearch(model.allSites, term);
     }
@@ -164,7 +168,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             enhanced: 1
         }).then(function (response) {
             model.updateWebsitesList(response);
-        }).finally(function () {
+        })['finally'](function () {
             model.isLoading = false;
 
             if (refreshInterval && refreshInterval > 0) {

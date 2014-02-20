@@ -32,6 +32,7 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
     };
 
     model.searchSite = function (term) {
+
         if (!term) {
             model.loadInitialSites();
             return;
@@ -48,7 +49,7 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
             pattern: term
         }).then(function (response) {
             return model.updateWebsitesList(response);
-        }).finally(function () {
+        })['finally'](function () {    // .finally() is not IE8 compatible see https://github.com/angular/angular.js/commit/f078762d48d0d5d9796dcdf2cb0241198677582c
             model.isLoading = false;
         });
     };

@@ -126,7 +126,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      * Displays the admin UI page showing all tracking tags
-     * @return void
+     * @return string
      */
     function displayJavascriptCode()
     {

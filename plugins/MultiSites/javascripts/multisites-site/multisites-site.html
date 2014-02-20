@@ -31,7 +31,7 @@
     <td ng-if="showSparklines" style="width:180px;">
         <div ng-if="!website.isGroup" class="sparkline" style="width: 100px; margin: auto;">
             <a target="_blank" ng-href="index.php?module=CoreHome&action=index&date={{ date }}&period={{ period }}&idSite={{ website.idsite }}"
-               title="{{ 'General_GoTo'|translate:('Dashboard_DashboardOf'|translate:website.name) }}">
+               title="{{ 'General_GoTo'|translate:('Dashboard_DashboardOf'|translate:website.label) }}">
                 <img alt="" ng-src="{{ sparklineImage(website) }}" width="100" height="25" />
             </a>
         </div>

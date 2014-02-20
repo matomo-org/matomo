@@ -109,6 +109,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/autocomplete-matched-directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/focus-anywhere-but-here-directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/ignore-click-directive.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/enter.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focus.js";
 
         $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
 
@@ -188,5 +190,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DayFr';
         $translationKeys[] = 'General_DaySa';
         $translationKeys[] = 'General_DaySu';
+        $translationKeys[] = 'General_Search';
     }
 }

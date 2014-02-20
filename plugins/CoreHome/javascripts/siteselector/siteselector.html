@@ -28,7 +28,8 @@
                 <li ng-click="switchSite(site)"
                     ng-repeat="site in model.sites"
                     ng-hide="!showSelectedSite && activeSiteId==site.idsite">
-                    <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}" piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
+                    <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
+                       piwik-autocomplete-matched="view.searchTerm">{{  site.group ? '[' + site.group + '] ' : '' }}{{ site.name }}</a>
                 </li>
             </ul>
             <ul ng-show="!model.sites.length && view.searchTerm" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
@@ -41,14 +42,15 @@
         <div ng-if="allSitesLocation=='bottom' && showAllSitesItem"
              ng-include="'siteselector_allsiteslink.html'"></div>
 
-        <div class="custom_select_search" ng-show="autocompleteMinSites <= model.sites.length">
+        <div class="custom_select_search" ng-show="autocompleteMinSites <= model.sites.length || view.searchTerm">
             <input type="text"
                    ng-click="view.searchTerm=''"
                    ng-model="view.searchTerm"
                    ng-change="model.searchSite(view.searchTerm)"
-                   length="15"
                    class="websiteSearch inp"/>
-            <input type="submit" value="Search" class="but"/>
+            <input type="submit"
+                   ng-click="model.searchSite(view.searchTerm)"
+                   value="{{ 'General_Search' | translate }}" class="but"/>
             <img title="Clear"
                  ng-show="view.searchTerm"
                  ng-click="view.searchTerm=''; model.loadInitialSites()"

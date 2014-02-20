@@ -25,4 +25,8 @@ angular.module('piwikApp').controller('MultiSitesDashboardController', function(
         $scope.predicate = predicate;
         $scope.reverse   = reverse;
     };
+
+    this.refresh = function (interval) {
+        $scope.model.fetchAllSites(interval);
+    }
 });
