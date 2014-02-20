@@ -546,6 +546,7 @@ abstract class Controller
         $view->debugTrackVisitsInsidePiwikUI = PiwikConfig::getInstance()->Debug['track_visits_inside_piwik_ui'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+        $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
         $customLogo = new CustomLogo();
         $view->isCustomLogo = $customLogo->isEnabled();

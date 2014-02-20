@@ -29,6 +29,7 @@
 {% endif %}
     {% if language is defined %}piwik.language = "{{ language }}";{% endif %}
 
+    piwik.hasSuperUserAccess = {{ hasSuperUserAccess|default(0)|e('js')}};
     piwik.config = {};
 {% if clientSideConfig is defined %}
     piwik.config = {{ clientSideConfig|json_encode|raw }};
