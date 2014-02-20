@@ -340,6 +340,7 @@ class Manager extends Singleton
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
+            throw new \Exception("Plugin '$pluginName' cannot be found in the filesystem in plugins/ directory.");
             return;
         }
         $this->deactivateThemeIfTheme($pluginName);
@@ -347,6 +348,7 @@ class Manager extends Singleton
         // Load plugin
         $plugin = $this->loadPlugin($pluginName);
         if ($plugin === null) {
+            throw new \Exception("The plugin '$pluginName' was found in the filesystem, but could not be loaded.'");
             return;
         }
         $this->installPluginIfNecessary($plugin);
