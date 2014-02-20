@@ -469,6 +469,10 @@ class Url
         } else {
             echo "Invalid URL to redirect to.";
         }
+
+        if(Common::isPhpCliMode()) {
+            die("If you were using a browser, Piwik would redirect you to this URL: $url \n\n");
+        }
         exit;
     }
 

@@ -128,6 +128,18 @@ class Common
         (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
     }
 
+    /**
+     * Returns true if the current request is a console command, eg. ./console xx:yy
+     * @return bool
+     */
+    public static function isRunningConsoleCommand()
+    {
+        $searched = '/console';
+        $consolePos = strpos($_SERVER['SCRIPT_NAME'], $searched);
+        $expectedConsolePos = strlen($_SERVER['SCRIPT_NAME']) - strlen($searched);
+        $isScriptIsConsole = $consolePos == $expectedConsolePos;
+        return self::isPhpCliMode() && $isScriptIsConsole;
+    }
 
     /*
      * String operations
