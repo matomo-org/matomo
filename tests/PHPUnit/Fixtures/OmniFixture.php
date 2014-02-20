@@ -13,7 +13,7 @@ use Piwik\Tracker\Visit;
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
  * with year periods.
  */
-class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_OmniFixture extends Fixture
 {
     public $month = '2012-01';
     public $idSite = 'all';
@@ -35,7 +35,7 @@ class Test_Piwik_Fixture_OmniFixture extends Test_Piwik_BaseFixture
 
         $classes = get_declared_classes();
         foreach ($classes as $className) {
-            if (is_subclass_of($className, 'Test_Piwik_BaseFixture')
+            if (is_subclass_of($className, 'Fixture')
                 && $className != __CLASS__
             ) {
                 $fixture = new $className();

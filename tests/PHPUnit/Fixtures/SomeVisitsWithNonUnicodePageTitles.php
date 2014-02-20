@@ -11,7 +11,7 @@ use Piwik\Plugins\SitesManager\API;
 /**
  * Adds one website and some visits with non unicode page titles.
  */
-class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Fixture
 {
     public $idSite1 = 1;
     public $dateTime = '2010-01-03 11:22:33';

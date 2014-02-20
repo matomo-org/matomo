@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
  * Adds one new website and tracks 35 visits from 18 visitors with geolocation using
  * free GeoIP databases. The GeoIP databases are downloaded if they do not exist already.
  */
-class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Fixture
 {
     const GEOIP_IMPL_TO_TEST = 'geoip_php';
 

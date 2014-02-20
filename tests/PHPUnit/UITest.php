@@ -50,7 +50,6 @@ abstract class UITest extends IntegrationTestCase
         parent::setUpBeforeClass();
 
         DbHelper::createAnonymousUser();
-        //UsersManagerApi::getInstance()->addUser('superUserLogin', 'testtest', 'hello2@example.org');
         UsersManagerApi::getInstance()->setSuperUserAccess('superUserLogin', true);
 
         AssetManager::getInstance()->removeMergedAssets();
@@ -256,7 +255,7 @@ abstract class UITest extends IntegrationTestCase
     
     public static function getProxyUrl()
     {
-        return Test_Piwik_BaseFixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
+        return Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
     }
 
     private static function makeDirsAndLinks()

@@ -10,7 +10,7 @@ use Piwik\Date;
 /**
  * Adds one site and tracks one visit with several pageviews.
  */
-class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;

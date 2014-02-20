@@ -16,9 +16,18 @@ use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Url;
+use Piwik\Log;
+use Piwik\DbHelper;
+use Piwik\Piwik;
+use Piwik\Tracker\Cache;
+use Piwik\Translate;
+use Piwik\Option;
+use Piwik\DataTable\Manager as DataTableManager;
+use Piwik\DataAccess\ArchiveTableCreator;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -34,18 +43,159 @@ use Piwik\Url;
  * Related TODO: we should try and reduce the amount of existing fixtures by
  *                merging some together.
  */
-abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
+// TODO: rename to Fixture
+class Fixture extends PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
     const IMAGES_GENERATED_FOR_PHP = '5.5';
     const IMAGES_GENERATED_FOR_GD = '2.1.1';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
+    const ADMIN_USER_LOGIN = 'admin';
+    const ADMIN_USER_PASSWORD = '098f6bcd4621d373cade4e832627b4f6';
+
+    public $dbName = false;
+    public $createEmptyDatabase = true;
+    public $createConfig = true;
+    public $dropDatabaseInTearDown = true;
+    public $loadTranslations = true;
+    public $createSuperUser = true;
+
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
-    public abstract function setUp();
+    public function setUp()
+    {
+        // empty
+    }
 
     /** Does any clean up. Most of the time there will be no need to clean up. */
-    public abstract function tearDown();
+    public function tearDown()
+    {
+        // empty
+    }
+
+    public function setUpEnvironment()
+    {
+        try {
+            \Piwik\SettingsPiwik::$piwikUrlCache = '';
+
+            if ($this->createConfig) {
+                Config::getInstance()->setTestEnvironment();
+            }
+
+            if ($this->dbName === false) { // must be after test config is created
+                $this->dbName = Config::getInstance()->database['dbname'];
+            }
+
+            static::connectWithoutDatabase();
+            if ($this->createEmptyDatabase) {
+                DbHelper::dropDatabase();
+            }
+            DbHelper::createDatabase($this->dbName);
+            DbHelper::disconnectDatabase();
+
+            // reconnect once we're sure the database exists
+            Config::getInstance()->database['dbname'] = $this->dbName;
+            Db::createDatabaseObject();
+
+            DbHelper::createTables();
+
+            \Piwik\Plugin\Manager::getInstance()->loadPlugins(array());
+        } catch (Exception $e) {
+            static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+        }
+
+        include "DataFiles/SearchEngines.php";
+        include "DataFiles/Socials.php";
+        include "DataFiles/Languages.php";
+        include "DataFiles/Countries.php";
+        include "DataFiles/Currencies.php";
+        include "DataFiles/LanguageToCountry.php";
+        include "DataFiles/Providers.php";
+        
+        static::createAccessInstance();
+
+        // We need to be SU to create websites for tests
+        Piwik::setUserHasSuperUserAccess();
+
+        Cache::deleteTrackerCache();
+
+        static::loadAllPlugins();
+
+        $_GET = $_REQUEST = array();
+        $_SERVER['HTTP_REFERER'] = '';
+
+        // Make sure translations are loaded to check messages in English
+        if ($this->loadTranslations) {
+            Translate::reloadLanguage('en');
+            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
+        }
+        
+        FakeAccess::$superUserLogin = 'superUserLogin';
+        
+        \Piwik\SettingsPiwik::$cachedKnownSegmentsToArchive = null;
+        \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+
+        \Piwik\Plugins\PrivacyManager\IPAnonymizer::deactivate();
+        \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::deactivate();
+
+        if ($this->createSuperUser) {
+            self::createSuperUser();
+        }
+    }
+
+    public function tearDownEnvironment()
+    {
+        \Piwik\SettingsPiwik::$piwikUrlCache = null;
+        self::unloadAllPlugins();
+
+        if ($this->dropDatabaseInTearDown) {
+            DbHelper::dropDatabase();
+        }
+
+        DataTableManager::getInstance()->deleteAll();
+        Option::clearCache();
+        Site::clearCache();
+        Cache::deleteTrackerCache();
+        Config::getInstance()->clear();
+        ArchiveTableCreator::clear();
+        \Piwik\Plugins\ScheduledReports\API::$cache = array();
+        \Piwik\Registry::unsetInstance();
+
+        $_GET = $_REQUEST = array();
+        Translate::unloadEnglishTranslation();
+    }
+
+    public static function loadAllPlugins()
+    {
+        $plugins = \Piwik\Plugin\Manager::$pluginsToLoadForTests;
+        $pluginsManager = \Piwik\Plugin\Manager::getInstance();
+
+        // Load all plugins
+        $pluginsManager->loadPlugins($plugins);
+
+        // Install plugins
+        $messages = $pluginsManager->installLoadedPlugins();
+        Log::info("Plugin loading messages: %s", implode(" --- ", $messages));
+
+        // Activate them
+        foreach($plugins as $name) {
+            if (!$pluginsManager->isPluginActivated($name)) {
+                $pluginsManager->activatePlugin($name);
+            }
+        }
+    }
+
+    public static function unloadAllPlugins()
+    {
+        try {
+            $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
+            foreach ($plugins AS $plugin) {
+                $plugin->uninstall();
+            }
+            \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
+        } catch (Exception $e) {
+        }
+    }
 
     /**
      * Creates a website, then sets its creation date to a day earlier than specified dateTime
@@ -216,17 +366,14 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        $user = self::createSuperUser();
-
-        return $user['token_auth'];
+        return APIUsersManager::getInstance()->getTokenAuth(self::ADMIN_USER_LOGIN, self::ADMIN_USER_PASSWORD);
     }
 
     public static function createSuperUser()
     {
-        $login = 'admin';
-        $password = '098f6bcd4621d373cade4e832627b4f6';
-
-        $token = APIUsersManager::getInstance()->getTokenAuth($login, $password);
+        $login = self::ADMIN_USER_LOGIN;
+        $password = self::ADMIN_USER_PASSWORD;
+        $token = self::getTokenAuth();
 
         $model = new \Piwik\Plugins\UsersManager\Model();
         $user  = $model->getUserByTokenAuth($token);
@@ -386,8 +533,9 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         // unzip the dump
         exec("gunzip -c \"" . $outfileName . "\" > \"$deflatedOut\"", $output, $return);
         if ($return !== 0) {
-            \Piwik\Log::info("gunzip failed with file that has following contents:");
-            \Piwik\Log::info(file_get_contents($outfile));
+            Log::info("gunzip failed with file that has following contents:");
+            Log::info(file_get_contents($outfile));
+
             throw new Exception("gunzip failed($return): " . implode("\n", $output));
         }
     }
@@ -430,5 +578,30 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     public static function goalExists($idSite, $idGoal)
     {
         return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", array($idGoal, $idSite)) != 0;
+    }
+
+    
+    /**
+     * Connects to MySQL w/o specifying a database.
+     */
+    public static function connectWithoutDatabase()
+    {
+        $dbConfig = Config::getInstance()->database;
+        $oldDbName = $dbConfig['dbname'];
+        $dbConfig['dbname'] = null;
+
+        Db::createDatabaseObject($dbConfig);
+
+        $dbConfig['dbname'] = $oldDbName;
+    }
+
+    /**
+     * Sets up access instance.
+     */
+    public static function createAccessInstance()
+    {
+        Access::setSingletonInstance(null);
+        Access::getInstance();
+        Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

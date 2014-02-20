@@ -3,6 +3,7 @@ use Piwik\Access;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Translate;
 
 /**
  * Piwik - Open source web analytics

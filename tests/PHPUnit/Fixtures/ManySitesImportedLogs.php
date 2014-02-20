@@ -14,7 +14,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 /**
  * Imports visits from several log files using the python log importer.
  */
-class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
 {
     public $dateTime = '2012-08-09 11:22:33';
     public $idSite = 1;

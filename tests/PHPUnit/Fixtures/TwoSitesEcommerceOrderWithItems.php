@@ -11,7 +11,7 @@ use Piwik\Plugins\Goals\API;
 /**
  * Adds two sites and tracks some visits with ecommerce orders.
  */
-class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Fixture
 {
     public $dateTime = '2011-04-05 00:11:42';
     public $idSite = 1;

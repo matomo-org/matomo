@@ -11,7 +11,7 @@ use Piwik\Date;
  * Adds one website and tracks several visits from one visitor on
  * different days that span about a month apart.
  */
-class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_VisitsOverSeveralDays extends Fixture
 {
     public $dateTimes = array(
         '2010-12-14 01:00:00',
