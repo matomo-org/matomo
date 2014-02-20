@@ -45,6 +45,7 @@
         "SubmenuPagesExit": "Izlazne stranice",
         "SubmenuPageTitles": "Naslovi stranica",
         "SubmenuSitesearch": "Pretraga stranice",
+        "WidgetEntryPageTitles": "Naslovi ulaznih stranica",
         "WidgetExitPageTitles": "Izlazni naslovi stranica",
         "WidgetPagesEntry": "Ulazne stranice",
         "WidgetPagesExit": "Izlazne stranice",
@@ -55,7 +56,11 @@
     "Annotations": {
         "AddAnnotationsFor": "Dodaj bilješke za %s...",
         "AnnotationOnDate": "Interaktivne bilješke na %1$s: %2$s",
-        "Annotations": "Interaktivne bilješke"
+        "Annotations": "Interaktivne bilješke",
+        "ClickToDelete": "Kliknite izbrisati ovu obavijest.",
+        "ClickToEdit": "Klikni za urediti ovu obavijest.",
+        "EnterAnnotationText": "Unesi svoju bilješku",
+        "LoginToAnnotate": "Prijavi se za objaviti obavijest."
     },
     "CoreAdminHome": {
         "Administration": "Administracija",
@@ -79,7 +84,21 @@
         "ActionInstall": "Instaliraj"
     },
     "Dashboard": {
-        "Dashboard": "Upravljačka ploča"
+        "AddAWidget": "Dodaj novi widget",
+        "AddPreviewedWidget": "Klikni za dodati widget na kontrolnu ploču",
+        "Dashboard": "Kontrolna ploča",
+        "DashboardName": "Naziv kontrolne ploče:",
+        "DashboardOf": "Kontrolna ploča %s",
+        "LoadingWidget": "Učitavanje widgeta, molimo pričekajte...",
+        "ManageDashboard": "Manage dashboard",
+        "Maximise": "Uvečaj",
+        "Minimise": "Smanji",
+        "PluginDescription": "Vaša kontrolna ploča analize posjete stranice. Možete podesiti nadzornu ploču: dodavanje novih widgeta, mijenjati redoslijed vaših widgeta. Svaki korisnik može pristupiti vlastitoj prilagođenoj nadzornoj ploči.",
+        "RemoveDashboard": "Ukloni kontrolnu ploču",
+        "RenameDashboard": "Preimenuj kontrolnu ploču",
+        "SelectWidget": "Odaberi widget za dodati na kontrolnu ploču",
+        "WidgetPreview": "Predpregled widgeta",
+        "WidgetsAndDashboard": "Wigeti i kontrolna ploča"
     },
     "General": {
         "AbandonedCarts": "Napuštene košarice",
@@ -275,6 +294,7 @@
         "Others": "Ostali",
         "Outlinks": "Odlazni linkovi",
         "Overview": "Pregled",
+        "Pages": "Stranice",
         "Period": "Razdoblje",
         "Piechart": "Pita",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "Dostupan je %s. Molimo vas da obavijestite administratora stranice.",
@@ -376,7 +396,17 @@
         "YourChangesHaveBeenSaved": "Tvoje su izmjene spremljene"
     },
     "Live": {
-        "VisitorLog": "Zapis posjetitelja"
+        "GoalType": "Vrsta",
+        "HideMap": "sakrij mapu",
+        "LoadMoreVisits": "Učitaj više posjeta",
+        "NbVisitor": "1 visitor",
+        "NextVisitor": "Slijedeći posjetitelj",
+        "PreviousVisitor": "Prijašnji posjetitelj",
+        "Referrer_URL": "Referrer URL",
+        "ShowMap": "pokaži mapu",
+        "VisitedPages": "Posjećene stranice",
+        "VisitorLog": "Zapis posjeta",
+        "VisitorsInRealTime": "Posjete u stvarnom vremenu"
     },
     "Mobile": {
         "SaveSuccessError": "Molim provjerite postavke"
@@ -654,6 +684,9 @@
         "Location": "Lokacija",
         "SubmenuLocations": "Lokacije"
     },
+    "UserCountryMap": {
+        "VisitorMap": "Mapa posjetitelja"
+    },
     "UserSettings": {
         "Browsers": "Pretraživači",
         "ColumnBrowserVersion": "Verzija pretraživača",
@@ -845,7 +878,8 @@
         "Language_za": "zhuang",
         "Language_zh": "kineski",
         "Language_zu": "zulu",
-        "VisitorSettings": "Postavke posjetitelja"
+        "VisitorSettings": "Postavke posjetitelja",
+        "WidgetBrowsers": "Pretraživać posjetitelja"
     },
     "UsersManager": {
         "ExceptionEmailExists": "Korisnik sa istim emailom '%s' već postoji.",
@@ -855,6 +889,17 @@
         "MenuUserSettings": "Korisničke postavke",
         "TypeYourPasswordAgain": "Ponovi novu lozinku.",
         "YourUsernameCannotBeChanged": "Korisničko ime se ne može promijeniti"
+    },
+    "VisitsSummary": {
+        "VisitsSummary": "Pregled posjeta",
+        "WidgetLastVisits": "Posjete kroz vrijeme",
+        "WidgetOverviewGraph": "Pregled posjeta (sa grafom)",
+        "WidgetVisits": "Pregled posjeta"
+    },
+    "VisitTime": {
+        "ColumnServerTime": "Vrijeme servera",
+        "LocalTime": "Posjete po lokalnom vremenu",
+        "WidgetServerTime": "Posjete po vremenu servera"
     },
     "Widgetize": {
         "OpenInNewWindow": "Otvori u novom prozoru"
