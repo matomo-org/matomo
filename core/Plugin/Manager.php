@@ -72,60 +72,17 @@ class Manager extends Singleton
         'LeftMenu'
     );
 
-    public static $pluginsToLoadForTests = array(
-        "CorePluginsAdmin",
-        "CoreAdminHome",
-        "CoreHome",
-        "Proxy",
-        "API",
-        "Widgetize",
-        "Transitions",
-        "LanguagesManager",
-        "Actions",
-        "Dashboard",
-        "MultiSites",
-        "Referrers",
-        "UserSettings",
-        "Goals",
-        "SEO",
-        "UserCountry",
-        "VisitsSummary",
-        "VisitFrequency",
-        "VisitTime",
-        "VisitorInterest",
-        "ExampleAPI",
-        "ExamplePlugin",
-        "ExampleRssWidget",
-        "Provider",
-        "Feedback",
-        "Login",
-        "UsersManager",
-        "SitesManager",
-        "Installation",
-        "CoreUpdater",
-        "ScheduledReports",
-        "UserCountryMap",
-        "Live",
-        "CustomVariables",
-        "PrivacyManager",
-        "ImageGraph",
-        "Annotations",
-        "MobileMessaging",
-        "Overlay",
-        "SegmentEditor",
-        "DevicesDetection",
-        "DBStats",
-        'ExampleUI',
-        "TasksTimetable",
-        "Morpheus",
-        "Zeitgeist",
-        "CustomAlerts",
-        "VisitorGenerator",
-        "SecurityInfo",
-        "ExampleSettingsPlugin",
-        "TreemapVisualization",
-        "Events"
-    );
+    public static function getPluginsToLoadDuringTests()
+    {
+        $manager = \Piwik\Plugin\Manager::getInstance();
+        $toLoad = array();
+        foreach($manager->readPluginsDirectory() as $plugin) {
+            if($manager->isPluginBundledWithCore($plugin)) {
+                $toLoad[] = $plugin;
+            }
+        }
+        return $toLoad;
+    }
 
     public function getCorePluginsDisabledByDefault()
     {

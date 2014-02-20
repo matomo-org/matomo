@@ -46,7 +46,7 @@ class Piwik_TestingEnvironment
 
             $config->setTestEnvironment();
 
-            $pluginsToLoad = \Piwik\Plugin\Manager::$pluginsToLoadForTests;
+            $pluginsToLoad = \Piwik\Plugin\Manager::getInstance()->getPluginsToLoadDuringTests();
             $config->Plugins = array('Plugins' => $pluginsToLoad);
 
             $trackerPluginsToLoad = array(
