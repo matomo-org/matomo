@@ -73,6 +73,7 @@ class Manager extends Singleton
     protected $coreThemesDisabledByDefault = array(
         'ExampleTheme',
         'LeftMenu',
+        'PleineLune',
         'Zeitgeist',
     );
 
@@ -87,9 +88,6 @@ class Manager extends Singleton
             // Load plugins from submodules
             $isPluginOfficiallySupported = $this->isPluginOfficialAndNotBundledWithCore($plugin);
 
-            // Do not enable other Login plugins
-            $isPluginOfficiallySupported = $isPluginOfficiallySupported && strpos($plugin, 'Login') === false;
-
             $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
 
             // Do not enable other Themes
@@ -102,7 +100,6 @@ class Manager extends Singleton
         }
         return $toLoad;
     }
-
 
     public function getCorePluginsDisabledByDefault()
     {
@@ -122,7 +119,14 @@ class Manager extends Singleton
         if(empty($gitModules)) {
             $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
         }
-        return false !== strpos($gitModules, "plugins/" . $pluginName);
+
+        // other Login plugins would conflict
+        if($pluginName == 'LoginHttpAuth') {
+            return false;
+        }
+        // All submodules are officially maintained plugins
+        $isSubmodule = false !== strpos($gitModules, "plugins/" . $pluginName);
+        return $isSubmodule;
     }
 
     /**
