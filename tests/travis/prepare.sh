@@ -20,7 +20,8 @@ then
     TRAVIS_CONFIG_FILE=config.ini.travis.ui.php
 fi
 
-sed "s/PDO_MYSQL/${MYSQL_ADAPTER}/g" ./tests/PHPUnit/$TRAVIS_CONFIG_FILE > ./config/config.ini.php
+echo "Using $TRAVIS_CONFIG_FILE..."
+sed "s/PDO_MYSQL/${MYSQL_ADAPTER}/g" "./tests/PHPUnit/$TRAVIS_CONFIG_FILE" > ./config/config.ini.php
 
 # Prepare phpunit.xml
 echo "Adjusting phpunit.xml"
