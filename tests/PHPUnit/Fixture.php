@@ -660,3 +660,8 @@ class Fixture extends PHPUnit_Framework_Assert
         DbHelper::dropDatabase();
     }
 }
+
+// TODO: remove when other plugins don't use BaseFixture
+class Test_Piwik_BaseFixture extends Fixture
+{
+}
