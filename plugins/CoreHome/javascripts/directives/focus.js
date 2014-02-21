@@ -5,6 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/**
+ * If the given expression evaluates to true the element will be focussed
+ *
+ * Example:
+ * <input type="text" piwik-focus="view.editName">
+ */
 angular.module('piwikApp.directive').directive('piwikFocus', function($timeout) {
     return {
         restrict: 'A',

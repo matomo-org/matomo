@@ -8,12 +8,14 @@
 angular.module('piwikApp').controller('MultiSitesDashboardController', function($scope, piwik, multisitesDashboardModel){
 
     $scope.model = multisitesDashboardModel;
+
     $scope.reverse = true;
     $scope.predicate = 'nb_visits';
     $scope.evolutionSelector = 'visits_evolution';
-
-    // 'General_EvolutionSummaryGeneric'|translate:'General_NVisits' | translate:totalVisits,prettyDate,'General_NVisits' | translate:pastTotalVisits,pastPeriodPretty,totalVisitsEvolution
-    $scope.totalVisitsEvolutionTitle = 'TODO';
+    $scope.hasSuperUserAccess = piwik.hasSuperUserAccess;
+    $scope.date = piwik.broadcast.getValueFromUrl('date');
+    $scope.url  = piwik.piwik_url;
+    $scope.period = piwik.period;
 
     $scope.sortBy = function (predicate) {
 
@@ -27,6 +29,6 @@ angular.module('piwikApp').controller('MultiSitesDashboardController', function(
     };
 
     this.refresh = function (interval) {
-        $scope.model.fetchAllSites(interval);
+        multisitesDashboardModel.fetchAllSites(interval);
     }
 });

@@ -16,10 +16,6 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
             return [];
         }
 
-        angular.forEach(websites, function (website) {
-            website.name = $filter('htmldecode')(website.name);
-        });
-
         model.sites = $filter('orderBy')(websites, '+name');
 
         if (!model.firstSiteName) {

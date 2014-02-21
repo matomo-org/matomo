@@ -14,7 +14,7 @@ function _pk_translate(translationStringId, values) {
 
             var replaced = match;
             if (match != '%s') {
-                index = match.substr(1, 1);
+                index = parseInt(match.substr(1, 1)) - 1;
             }
 
             if (typeof values[index] != 'undefined') {

@@ -35,7 +35,7 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
                     append = '&token_auth=' + token_auth;
                 }
 
-                return '?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' +$scope.evolutionSelector + '&columns=' + $scope.evolutionSelector + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
+                return piwik.piwik_url + '?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' +$scope.evolutionSelector + '&columns=' + $scope.evolutionSelector + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
             }
         }
     }

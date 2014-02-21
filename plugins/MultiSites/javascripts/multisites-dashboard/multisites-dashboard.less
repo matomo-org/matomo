@@ -3,14 +3,28 @@
   font-size: 15px;
 }
 
-.clean {
-  border: 0 !important;
-}
-
 #multisites {
   border: 0;
   padding: 0 15px;
   font-size: 14px;
+
+  .add_new_site,
+  .clean {
+    border: 0 !important;
+    text-align: right; padding-top: 15px;padding-right:10px;
+  }
+
+  .add_new_site {
+    img {
+      margin: 0px;
+    }
+  }
+
+  .site_search {
+    padding: 0px;
+    text-align: center;
+    border: 0 !important;
+  }
 
   td, tr, .sparkline {
     text-align: center;
@@ -27,6 +41,16 @@
     border: 0 !important;
   }
 
+  .paging {
+    padding: 20px;
+
+    .previous {
+      padding-right: 20px;
+    }
+    .next {
+      padding-left: 20px;
+    }
+  }
 
   .top_controls {
     height: 10px;
@@ -36,14 +60,21 @@
     cursor: pointer;
   }
 
+  .site_search input {
+    margin-right: 0px;
+    margin-left: 25px;
+  }
+
   .search_ico {
     position: relative;
     left: -25px;
+    margin-right: 0px;
   }
   .reset {
     position: relative;
     left: -25px;
     cursor: pointer;
+    margin-right: 0px;
   }
   tr.group {
     font-weight: bold;
@@ -70,6 +101,42 @@
   td.multisites-column-evolution,
   th.multisites-column-evolution {
     width: 70px;
+  }
+
+  th#evolution {
+    width:350px;
+  }
+
+  th#visits {
+    width: 100px;
+  }
+
+  th#pageviews {
+    width: 110px;
+  }
+
+  th#revenue {
+    width: 110px;
+  }
+
+  .evolution {
+    cursor:pointer;
+  }
+
+  .allWebsitesLoading {
+    padding:20px
+  }
+
+  .allWebsitesLoadingIndicator {
+    background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+  }
+
+  .heading {
+    display: inline-block;
+    margin-top: 4px;
   }
   .multisites_desc {
     width: 16px;

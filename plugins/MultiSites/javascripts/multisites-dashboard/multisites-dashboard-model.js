@@ -7,10 +7,15 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     model.isLoading = false;
     model.pageSize  = 5;
     model.currentPage  = 0;
-    model.totalVisits  = 0;
-    model.totalActions = 0;
+    model.totalVisits  = '?';
+    model.totalActions = '?';
+    model.totalRevenue = '?';
     model.prettyDate   = '';
     model.searchTerm   = '';
+    model.lastVisits   = '?';
+    model.lastVisitsDate = '?'
+
+    fetchPreviousSummary();
 
     function createGroup(name){
         return {
@@ -149,6 +154,37 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         model.currentPage = 0;
         model.sites = nestedSearch(model.allSites, term);
     }
+
+    function fetchPreviousSummary () {
+        piwikApi.fetch({
+            method: 'API.getLastDate'
+        }).then(function (response) {
+            if (response && response.value) {
+                return response.value;
+            }
+        }).then(function (lastDate) {
+            if (!lastDate) {
+                return;
+            }
+            
+            model.lastVisitsDate = lastDate;
+
+            return piwikApi.fetch({
+                method: 'API.getProcessedReport',
+                apiModule: 'MultiSites',
+                apiAction: 'getAll',
+                hideMetricsDoc: '1',
+                filter_limit: '0',
+                showColumns: 'label,nb_visits',
+                enhanced: 1,
+                date: lastDate
+            })
+        }).then(function (response) {
+            if (response && response.reportTotal) {
+                model.lastVisits = response.reportTotal.nb_visits;
+            }
+        });
+    };
 
     model.fetchAllSites = function (refreshInterval) {
 

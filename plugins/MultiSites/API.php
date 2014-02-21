@@ -158,6 +158,20 @@ class API extends \Piwik\Plugin\API
         );
     }
 
+    public function getAllPreviousPeriod($period, $date, $pattern)
+    {
+        $lastDate = Range::getLastDate($date, $period);
+        $idSites  = $this->getSitesIdFromPattern($pattern);
+
+        // http://apache.piwik/index.php?apiAction=getAll&apiModule=MultiSites&date=2014-02-21&enhanced=1&filter_limit=-1&format=JSON&hideMetricsDoc=1&idSite=1&&period=day&
+        $query = sprintf('method=API.getProcessedReport&module=API&apiAction=getAll&apiModule=MultiSites&date=%s&period=%s&pattern=%s&format=php',
+                         $lastDate[0], $period, implode($idSites, 1));
+        $request = new Request($query);
+        $result  = $request->process();
+
+        return $result['reportTotal'];
+    }
+
     private function buildDataTable($idSitesOrIdSite, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested)
     {
         $allWebsitesRequested = ($idSitesOrIdSite == 'all');

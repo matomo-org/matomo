@@ -2,9 +2,8 @@
     <h2>
         {{ 'General_AllWebsitesDashboard'|translate }}
         <span class='smallTitle'
-              title="{{ 'General_EvolutionSummaryGeneric' | translate:('General_NVisits'|translate:model.totalVisits):model.prettyDate:'lastnum':'lastprettydate':'evolution' }}"
+              title="{{ 'General_EvolutionSummaryGeneric'|translate:('General_NVisits'|translate:model.totalVisits):date:model.lastVisits:model.lastVisitsDate:(model.totalVisits|evolution:model.lastVisits)}}"
               ng-bind-html="'General_TotalVisitsPageviewsRevenue' | translate:('<strong>'+model.totalVisits+'</strong>'):('<strong>'+model.totalActions+'</strong>'):('<strong>' + model.totalRevenue + '</strong>')">
-         Loading
         </span>
     </h2>
 
@@ -12,27 +11,27 @@
         <thead>
         <tr>
             <th id="names" class="label" ng-click="sortBy('label')">
-                <span>{{ 'General_Website'|translate }}</span>
+                <span class="heading">{{ 'General_Website'|translate }}</span>
                 <span ng-class="{multisites_asc: !reverse && 'label' == predicate, multisites_desc: reverse && 'label' == predicate}" class="arrow"></span>
             </th>
-            <th id="visits" class="multisites-column" style="width: 100px;" ng-click="sortBy('nb_visits')">
-                <span>{{ 'General_ColumnNbVisits'|translate }}</span>
+            <th id="visits" class="multisites-column" ng-click="sortBy('nb_visits')">
+                <span class="heading">{{ 'General_ColumnNbVisits'|translate }}</span>
                 <span ng-class="{multisites_asc: !reverse && 'nb_visits' == predicate, multisites_desc: reverse && 'nb_visits' == predicate}" class="arrow"></span>
             </th>
-            <th id="pageviews" class="multisites-column" style="width: 110px;" ng-click="sortBy('nb_pageviews')">
-                <span>{{ 'General_ColumnPageviews'|translate }}</span>
+            <th id="pageviews" class="multisites-column" ng-click="sortBy('nb_pageviews')">
+                <span class="heading">{{ 'General_ColumnPageviews'|translate }}</span>
                 <span ng-class="{multisites_asc: !reverse && 'nb_pageviews' == predicate, multisites_desc: reverse && 'nb_pageviews' == predicate}" class="arrow"></span>
             </th>
 
-            <th ng-if="displayRevenueColumn" id="revenue" class="multisites-column" style="width: 110px;" ng-click="sortBy('revenue')">
-                <span>{{ 'General_ColumnRevenue'|translate }}</span>
+            <th ng-if="displayRevenueColumn" id="revenue" class="multisites-column" ng-click="sortBy('revenue')">
+                <span class="heading">{{ 'General_ColumnRevenue'|translate }}</span>
                 <span ng-class="{multisites_asc: !reverse && 'revenue' == predicate, multisites_desc: reverse && 'revenue' == predicate}" class="arrow"></span>
             </th>
 
-            <th id="evolution" style="width:350px;" colspan="{{ showSparklines ? 2 : 1 }}">
+            <th id="evolution" colspan="{{ showSparklines ? 2 : 1 }}">
                 <span class="arrow" ng-class="{multisites_asc: !reverse && evolutionSelector == predicate, multisites_desc: reverse && evolutionSelector == predicate}"></span>
-                        <span class="evolution" style="cursor:pointer;"
-                              ng-click="sortBy(evolutionSelector)"> {{ 'MultiSites_Evolution'|translate }}</span>
+                <span class="evolution"
+                      ng-click="sortBy(evolutionSelector)"> {{ 'MultiSites_Evolution'|translate }}</span>
                 <select class="selector" id="evolution_selector" ng-model="evolutionSelector"
                         ng-change="predicate = evolutionSelector">
                     <option value="visits_evolution">{{ 'General_ColumnNbVisits'|translate }}</option>
@@ -45,31 +44,14 @@
 
         <tbody id="tb" ng-if="model.isLoading">
             <tr>
-                <td colspan="7" style="padding:20px">
-                    Loading all websites
-                        <span style="
-                                background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
-                                display: inline-block;
-                                width: 16px;
-                                height: 16px;
-                        "> </span>
+                <td colspan="7" class="allWebsitesLoading">
+                    {{ 'MultiSites_LoadingWebsites' | translate }}
+                    <span class="allWebsitesLoadingIndicator"> </span>
                 </td>
             </tr>
         </tbody>
 
         <tbody id="tb" ng-if="!model.isLoading">
-
-            <tr ng-show="model.isLoading">
-                <td colspan="7" style="padding:20px">
-                    Loading all websites
-                    <span style="
-                            background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
-                            display: inline-block;
-                            width: 16px;
-                            height: 16px;
-                    "> </span>
-                </td>
-            </tr>
 
             <tr website="website"
                 evolution-selector="evolutionSelector"
@@ -84,16 +66,19 @@
         <tfoot>
 
         <tr ng-if="hasSuperUserAccess">
-            <td colspan="8" class="clean" style="text-align: right; padding-top: 15px;padding-right:10px;">
-                <a href="{{ url }}&module=SitesManager&action=index&showaddsite=1">
-                    <img src='plugins/UsersManager/images/add.png' alt="" style="margin: 0;"/> {{ 'SitesManager_AddSite'|translate }}
+            <td colspan="8" class="add_new_site">
+                <a href="{{ url }}?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}">
+                    <img src='plugins/UsersManager/images/add.png' alt=""/> {{ 'SitesManager_AddSite'|translate }}
                 </a>
             </td>
         </tr>
 
         <tr>
-            <td colspan="8" class="clean" style="text-align: center;">
-                <input type="text" ng-change="model.searchSite(searchTerm)" ng-model="searchTerm" placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}" style="margin-top:20px;">
+            <td colspan="8" class="site_search">
+                <input type="text"
+                       ng-change="model.searchSite(searchTerm)"
+                       ng-model="searchTerm"
+                       placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}">
                 <img title="Search"
                      ng-show="!searchTerm"
                      class="search_ico"
@@ -107,16 +92,16 @@
         </tr>
 
         <tr row_id="last">
-            <td colspan="8" class="clean" style="padding: 20px;" ng-hide="model.numberOfPages() <= 1">
-                <span id="prev" class="pager" style="padding-right: 20px;" ng-hide="model.currentPage == 0" ng-click="model.previousPage()">
+            <td colspan="8" class="paging" ng-hide="model.numberOfPages() <= 1">
+                <span id="prev" class="previous" ng-hide="model.currentPage == 0" ng-click="model.previousPage()">
                     <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
                 </span>
                 <span class="dataTablePages">
                     <span id="counter">
-                        <span>{{ model.getCurrentPagingOffsetStart() }} - {{ model.getCurrentPagingOffsetEnd() }} of {{ model.getNumberOfFilteredSites() }}</span>
+                        {{ model.getCurrentPagingOffsetStart() }} - {{ model.getCurrentPagingOffsetEnd() }} of {{ model.getNumberOfFilteredSites() }}
                     </span>
                 </span>
-                <span id="next" class="clean" style="padding-left: 20px;" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
+                <span id="next" class="next" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
                     <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
                 </span>
             </td>
