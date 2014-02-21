@@ -60,6 +60,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public $loadTranslations = true;
     public $createSuperUser = true;
     public $overwriteExisting = true;
+    public $configureComponents = true;
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
@@ -157,8 +158,10 @@ class Fixture extends PHPUnit_Framework_Assert
         \Piwik\SettingsPiwik::$cachedKnownSegmentsToArchive = null;
         \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
 
-        \Piwik\Plugins\PrivacyManager\IPAnonymizer::deactivate();
-        \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::deactivate();
+        if ($this->configureComponents) {
+            \Piwik\Plugins\PrivacyManager\IPAnonymizer::deactivate();
+            \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::deactivate();
+        }
 
         if ($this->createSuperUser) {
             self::createSuperUser();
