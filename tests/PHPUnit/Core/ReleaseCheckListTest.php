@@ -190,6 +190,10 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 // if not added to git, then it is not part of the release checklist.
                 continue;
             }
+
+            if($pluginName === \Piwik\Plugin\Manager::DEFAULT_THEME) {
+                continue;
+            }
             $manager = \Piwik\Plugin\Manager::getInstance();
             $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault());
 
