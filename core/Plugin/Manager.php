@@ -81,6 +81,13 @@ class Manager extends Singleton
     {
         $toLoad = array();
         foreach($this->readPluginsDirectory() as $plugin) {
+            $forceDisable = array(
+                'ExampleVisualization', // adds an icon
+                'LoginHttpAuth',  // other Login plugins would conflict
+            );
+            if(in_array($plugin, $forceDisable)) {
+                continue;
+            }
 
             // Load all default plugins
             $isPluginBundledWithCore = $this->isPluginBundledWithCore($plugin);
@@ -118,11 +125,6 @@ class Manager extends Singleton
         static $gitModules;
         if(empty($gitModules)) {
             $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
-        }
-
-        // other Login plugins would conflict
-        if($pluginName == 'LoginHttpAuth') {
-            return false;
         }
         // All submodules are officially maintained plugins
         $isSubmodule = false !== strpos($gitModules, "plugins/" . $pluginName);
