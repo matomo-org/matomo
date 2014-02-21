@@ -69,7 +69,8 @@ class Manager extends Singleton
         'ExampleVisualization',
         'ExamplePluginTemplate',
         'ExampleTheme',
-        'LeftMenu'
+        'LeftMenu',
+        'Zeitgeist',
     );
 
     public function getPluginsToLoadDuringTests()

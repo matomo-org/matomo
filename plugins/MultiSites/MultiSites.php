@@ -55,7 +55,7 @@ class MultiSites extends \Piwik\Plugin
             'metrics'           => $metadataMetrics,
             'processedMetrics'  => false,
             'constantRowsCount' => false,
-            'order'             => 5
+            'order'             => 4
         );
 
         $reports[] = array(
