@@ -20,13 +20,13 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        IntegrationTestCase::loadAllPlugins();
+        Fixture::loadAllPlugins();
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        IntegrationTestCase::unloadAllPlugins();
+        Fixture::unloadAllPlugins();
     }
 
     protected function _filterWhitsSpaces($valueToFilter)

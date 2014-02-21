@@ -169,7 +169,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
             $this->markFixtureSetUp();
         } else {
-            echo "---Using existing database {$this->dbName}---\n\n";
+            \Piwik\Log::info("Using existing database {$this->dbName}");
         }
     }
 
