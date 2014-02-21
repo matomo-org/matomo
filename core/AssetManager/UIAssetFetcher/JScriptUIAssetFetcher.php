@@ -78,6 +78,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'plugins/Zeitgeist/javascripts/',
             'plugins/CoreHome/javascripts/uiControl.js',
             'plugins/CoreHome/javascripts/broadcast.js',
+            'plugins/CoreHome/javascripts/', // load CoreHome JS before other plugins
             'plugins/',
             'tests/',
         );
