@@ -30,7 +30,6 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
         templateUrl: 'plugins/CoreHome/javascripts/siteselector/siteselector.html',
         controller: 'SiteSelectorController',
         compile: function (element, attrs) {
-            element.addClass('sites_autocomplete');
 
             for (var index in defaults) {
                if (!attrs[index]) { attrs[index] = defaults[index]; }

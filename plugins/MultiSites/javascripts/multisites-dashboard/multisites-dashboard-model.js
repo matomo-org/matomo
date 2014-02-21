@@ -166,7 +166,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             if (!lastDate) {
                 return;
             }
-            
+
             model.lastVisitsDate = lastDate;
 
             return piwikApi.fetch({
