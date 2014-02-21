@@ -107,7 +107,7 @@ class Fixture extends PHPUnit_Framework_Assert
             static::connectWithoutDatabase();
 
             if ($this->dropDatabaseInSetUp) {
-                DbHelper::dropDatabase();
+                $this->dropDatabase();
             }
 
             DbHelper::createDatabase($this->dbName);
@@ -193,7 +193,7 @@ class Fixture extends PHPUnit_Framework_Assert
         self::unloadAllPlugins();
 
         if ($this->dropDatabaseInTearDown) {
-            DbHelper::dropDatabase();
+            $this->dropDatabase();
         }
 
         DataTableManager::getInstance()->deleteAll();
@@ -647,5 +647,16 @@ class Fixture extends PHPUnit_Framework_Assert
         Access::setSingletonInstance(null);
         Access::getInstance();
         Piwik::postEvent('Request.initAuthenticationObject');
+    }
+
+    private function dropDatabase()
+    {
+        $config = _parse_ini_file(PIWIK_INCLUDE_PATH . '/config/config.ini.php', true);
+        $originalDbName = $config['database']['dbname'];
+        if ($this->dbName == $originalDbName) { // santity check
+            throw new \Exception("Trying to drop original database $originalDbName. Something's wrong w/ the tests.");
+        }
+
+        DbHelper::dropDatabase();
     }
 }
