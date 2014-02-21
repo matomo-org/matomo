@@ -13,15 +13,7 @@ fi
 
 # Copy Piwik configuration
 echo "Install config.ini.php"
-
-TRAVIS_CONFIG_FILE=config.ini.travis.php
-if [ "$TEST_DIR" = "UI" ];
-then
-    TRAVIS_CONFIG_FILE=config.ini.travis.ui.php
-fi
-
-echo "Using $TRAVIS_CONFIG_FILE..."
-sed "s/PDO_MYSQL/${MYSQL_ADAPTER}/g" "./tests/PHPUnit/$TRAVIS_CONFIG_FILE" > ./config/config.ini.php
+sed "s/PDO_MYSQL/${MYSQL_ADAPTER}/g" ./tests/PHPUnit/config.ini.travis.php > ./config/config.ini.php
 
 # Prepare phpunit.xml
 echo "Adjusting phpunit.xml"

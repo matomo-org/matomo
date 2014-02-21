@@ -73,10 +73,12 @@ class Fixture extends PHPUnit_Framework_Assert
         // empty
     }
 
-    private function handleConfiguration()
+    private function handleConfiguration($testCase)
     {
         $testsConfig = Config::getInstance()->Tests;
-        if (!empty($testsConfig['persist_fixture_data'])) {
+        if (!empty($testsConfig['persist_fixture_data'])
+            && is_subclass_of($testCase, "UITest")
+        ) {
             $this->dbName = get_class($this);
             $this->dropDatabaseInSetUp = false;
             $this->dropDatabaseInTearDown = false;
@@ -91,7 +93,7 @@ class Fixture extends PHPUnit_Framework_Assert
         }
     }
 
-    public function performSetUp()
+    public function performSetUp($testCase)
     {
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
@@ -102,7 +104,7 @@ class Fixture extends PHPUnit_Framework_Assert
                 Config::getInstance()->setTestEnvironment();
             }
 
-            $this->handleConfiguration();
+            $this->handleConfiguration($testCase);
 
             static::connectWithoutDatabase();
 

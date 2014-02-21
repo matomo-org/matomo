@@ -85,7 +85,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         try {
-            $fixture->performSetUp();
+            $fixture->performSetUp(__CLASS__);
         } catch (Exception $e) {
             static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
