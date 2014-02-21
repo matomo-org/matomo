@@ -567,7 +567,7 @@ class Mysql implements SchemaInterface
 
     private function getTablePrefix()
     {
-        $dbInfos = Db::getDbConfig();
+        $dbInfos = Db::getDatabaseConfig();
         $prefixTables = $dbInfos['tables_prefix'];
 
         return $prefixTables;
@@ -575,14 +575,14 @@ class Mysql implements SchemaInterface
 
     private function getTableEngine()
     {
-        $dbInfos = Db::getDbConfig();
+        $dbInfos = Db::getDatabaseConfig();
         $engine = $dbInfos['type'];
         return $engine;
     }
 
     private function getDbName()
     {
-        $dbInfos = Db::getDbConfig();
+        $dbInfos = Db::getDatabaseConfig();
         $dbName  = $dbInfos['dbname'];
 
         return $dbName;
