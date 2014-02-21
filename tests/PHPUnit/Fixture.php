@@ -75,8 +75,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
     private function handleConfiguration()
     {
-        Config::getInstance()->removeConfigOverride();
-
         $testsConfig = Config::getInstance()->Tests;
         if (!empty($testsConfig['persist_fixture_data'])) {
             $this->dbName = get_class($this);
@@ -84,7 +82,7 @@ class Fixture extends PHPUnit_Framework_Assert
             $this->dropDatabaseInTearDown = false;
             $this->overwriteExisting = false;
 
-            Config::getInstance()->database_tests['dbname'] = $this->dbName;
+            Config::getInstance()->database_tests['dbname'] = Config::getInstance()->database['dbname'] = $this->dbName;
             Config::getInstance()->saveConfigOverride();
         }
 
@@ -97,6 +95,8 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
+
+            Config::getInstance()->removeConfigOverride();
 
             if ($this->createConfig) {
                 Config::getInstance()->setTestEnvironment();
@@ -168,6 +168,8 @@ class Fixture extends PHPUnit_Framework_Assert
             $this->setUp();
 
             $this->markFixtureSetUp();
+        } else {
+            echo "---Using existing database {$this->dbName}---\n\n";
         }
     }
 
