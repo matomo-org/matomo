@@ -46,10 +46,9 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
     public function tearDown()
     {
         $this->setSuperUser();
-        if (!$this->settings) {
-            throw new Exception("Invalid state: \$settings is null.");
+        if ($this->settings) {
+            $this->settings->removeAllPluginSettings();
         }
-        $this->settings->removeAllPluginSettings();
 
         parent::tearDown();
     }
