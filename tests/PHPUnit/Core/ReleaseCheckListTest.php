@@ -167,6 +167,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     /**
      * This tests that all PHP files start with <?php
      * This would help detect errors such as a php file starting with spaces
+     * @group Core
      */
     public function test_phpFilesStartWithRightCharacter()
     {
