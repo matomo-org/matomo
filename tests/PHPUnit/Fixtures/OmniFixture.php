@@ -41,7 +41,7 @@ class Test_Piwik_Fixture_OmniFixture extends Fixture
                 $fixture = new $className();
                 if (!property_exists($fixture, 'dateTime')) {
                     continue;
-                }
+                }   
 
                 $fixture->dateTime = $this->adjustDateTime($fixture->dateTime, $date);
 

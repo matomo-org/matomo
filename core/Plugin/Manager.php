@@ -68,30 +68,45 @@ class Manager extends Singleton
         'ExampleUI',
         'ExampleVisualization',
         'ExamplePluginTemplate',
+    );
+
+    protected $coreThemesDisabledByDefault = array(
         'ExampleTheme',
-        'LeftMenu'
+        'LeftMenu',
+        'Zeitgeist',
     );
 
     public function getPluginsToLoadDuringTests()
     {
         $toLoad = array();
         foreach($this->readPluginsDirectory() as $plugin) {
+
+            // Load all default plugins
             $isPluginBundledWithCore = $this->isPluginBundledWithCore($plugin);
+
+            // Load plugins from submodules
             $isPluginOfficiallySupported = $this->isPluginOfficialAndNotBundledWithCore($plugin);
 
             // Do not enable other Login plugins
             $isPluginOfficiallySupported = $isPluginOfficiallySupported && strpos($plugin, 'Login') === false;
 
-            if($isPluginBundledWithCore || $isPluginOfficiallySupported) {
+            $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
+
+            // Do not enable other Themes
+            $isThemeDisabled = in_array($plugin, $this->coreThemesDisabledByDefault);
+            $loadPlugin = $loadPlugin && !$isThemeDisabled;
+
+            if($loadPlugin) {
                 $toLoad[] = $plugin;
             }
         }
         return $toLoad;
     }
 
+
     public function getCorePluginsDisabledByDefault()
     {
-        return $this->corePluginsDisabledByDefault;
+        return array_merge( $this->corePluginsDisabledByDefault, $this->coreThemesDisabledByDefault);
     }
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
@@ -384,10 +399,11 @@ class Manager extends Singleton
     {
         $plugins = $this->getLoadedPlugins();
 
-        foreach ($plugins as $plugin)
-            if ($plugin->isTheme() && $plugin->getPluginName() == $themeName)
+        foreach ($plugins as $plugin) {
+            if ($plugin->isTheme() && $plugin->getPluginName() == $themeName) {
                 return new Theme($plugin);
-
+            }
+        }
         throw new \Exception('Theme not found : ' . $themeName);
     }
 

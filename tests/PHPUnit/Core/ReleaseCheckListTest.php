@@ -194,7 +194,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault());
 
             $isGitSubmodule = Manager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
-            $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule || $pluginName == $manager::DEFAULT_THEME;
+            $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule;
 
             $this->assertTrue( $enabled + $disabled === 1,
                 "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager)."
