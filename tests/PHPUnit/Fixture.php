@@ -164,15 +164,15 @@ class Fixture extends PHPUnit_Framework_Assert
             self::createSuperUser();
         }
 
-        if ($this->overwriteExisting
-            || !$this->isFixtureSetUp()
-        ) {
+        //if ($this->overwriteExisting
+        //    || !$this->isFixtureSetUp()
+        //) {
             $this->setUp();
 
-            $this->markFixtureSetUp();
-        } else {
-            \Piwik\Log::debug("Using existing database %s", $this->dbName);
-        }
+        //    $this->markFixtureSetUp();
+        //} else {
+        //    \Piwik\Log::debug("Using existing database %s", $this->dbName);
+        //}
     }
 
     public function isFixtureSetUp()

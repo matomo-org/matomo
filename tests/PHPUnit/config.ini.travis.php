@@ -22,3 +22,6 @@ tables_prefix = piwiktests_
 [log]
 log_writers[] = file
 log_level = debug
+
+[Tests]
+persist_fixture_data = 1
