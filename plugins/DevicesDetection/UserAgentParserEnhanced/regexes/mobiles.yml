@@ -216,6 +216,16 @@ Archos:
     - regex: 'ARCHOS ([a-z0-9]+)'
       model: '$1'
 
+# Arnova
+Arnova:
+  regex: 'arnova|AN[0-9]'
+  device: 'tablet'
+  models:
+    - regex: 'Arnova ([^/]*) Build'
+      model: '$1'
+    - regex: 'AN([0-9][a-z0-9]+)'
+      model: '$1'
+
 # Asus
 Asus:
   regex: 'Asus|Transformer|PadFone'
@@ -251,9 +261,13 @@ Avvio:
 
 #BBK
 BBK:
-  regex: 'vivo (.*) Build'
+  regex: 'vivo'
   device: 'smartphone'
-  model: 'Vivo $1'
+  models:
+    - regex: 'vivo ([^/]*) Build'
+      model: 'Vivo $1'
+    - regex: 'vivo_([a-z0-9]+)'
+      model: 'Vivo $1'
 
 # Bird
 Bird:
@@ -306,6 +320,16 @@ Compal:
   regex: 'Compal-([a-z0-9]+)'
   device: 'feature phone'
   model: '$1'
+
+# Coolpad
+Coolpad:
+  regex: 'Coolpad'
+  device: 'smartphone'
+  models:
+    - regex: 'Coolpad ?([^/]+) Build'
+      model: '$1'
+    - regex: '(?:YL-)?Coolpad[ _-]?([a-z0-9]+)'
+      model: '$1'
 
 # Cricket
 Cricket:
@@ -491,10 +515,14 @@ Haier:
 
 # Huawei
 Huawei:
-  regex: 'Huawei|vodafone([a-z0-9]+)'
+  regex: '(HW-)?Huawei|vodafone([a-z0-9]+)'
   device: 'smartphone'
   models:
-    - regex: 'Huawei(?:[\- /_]|/1\.0/)?([a-z0-9]+)'
+    - regex: '(MediaPad [^/]*) Build'
+      model: '$1'
+    - regex: 'Huawei ([^/]*) Build'
+      model: '$1'
+    - regex: '(?:HW-)?Huawei(?:[\- /_]|/1\.0/)?([a-z0-9]+)'
       model: '$1'
     - regex: 'Huawei; ([a-z0-9 -]+)'
       model: '$1'
@@ -594,6 +622,8 @@ Lenovo:
   regex: '(?:LNV-)?Lenovo|IdeaTab'
   device: 'smartphone'
   models:
+    - regex: 'Lenovo ([^/]*) Build'
+      model: '$1'
     - regex: '(?:LNV-)?Lenovo[ \-_]([a-z0-9]+)'
       model: '$1'
     - regex: 'IdeaTab[ \-_]?([a-z0-9]+)'
@@ -895,7 +925,7 @@ Samsung:
       model: '$1'
     - regex: 'SAMSUNG;[ ]?([a-z0-9]+[\-_][a-z0-9]+)'
       model: '$1'
-    - regex: 'SAMSUNG[ _/]?([a-z0-9\-]+)'
+    - regex: 'SAMSUNG[ _/-]?([a-z0-9\-]+)'
       model: '$1'
     - regex: 'SAMSUNG;[ ]?([a-z0-9 ]+)'
       model: '$1'
@@ -1035,6 +1065,8 @@ Sony:
   regex: 'Sony|PlayStation'
   device: 'smartphone'
   models:
+    - regex: 'Sony[ ]?([^/]*) Build'
+      model: '$1'
     - regex: 'Sony[ ]?([a-z0-9\-]+)'
       model: '$1'
     - regex: '(PlayStation (?:3|4|Portable|Vita))'
@@ -1091,9 +1123,10 @@ TCL:
 
 # teXet
 teXet:
-  regex: '(NaviPad .*) Build'
+  regex: '(NaviPad [^/]*) Build'
   device: 'tablet'
   model: '$1'
+
 # Telit
 Telit:
   regex: 'Telit'
