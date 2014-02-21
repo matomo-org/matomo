@@ -38,7 +38,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         $this->fixture = new Fixture();
         $this->fixture->loadTranslations = false;
         $this->fixture->createSuperUser = false;
-        $this->fixture->performSetUp();
+        $this->fixture->performSetUp(__CLASS__);
     }
 
     /**
