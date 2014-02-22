@@ -221,13 +221,14 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 continue;
             }
             $manager = \Piwik\Plugin\Manager::getInstance();
-            $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault());
-
             $isGitSubmodule = Manager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
-            $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule;
+            $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
+
+            $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 
             $this->assertTrue( $enabled + $disabled === 1,
-                "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager)."
+                "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager).
+                It is currently (enabled=".(int)$enabled. ", disabled=" . (int)$disabled . ")"
             );
             $count++;
         }

@@ -127,7 +127,7 @@ class Manager extends Singleton
             $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
         }
         // All submodules are officially maintained plugins
-        $isSubmodule = false !== strpos($gitModules, "plugins/" . $pluginName);
+        $isSubmodule = false !== strpos($gitModules, "plugins/" . $pluginName . "\n");
         return $isSubmodule;
     }
 
