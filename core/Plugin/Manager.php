@@ -42,6 +42,8 @@ class Manager extends Singleton
     const DEFAULT_THEME = "Zeitgeist";
 
     protected $doLoadAlwaysActivatedPlugins = true;
+
+    // These are always activated and cannot be deactivated
     protected $pluginToAlwaysActivate = array(
         'CoreHome',
         'CoreUpdater',
@@ -60,6 +62,7 @@ class Manager extends Singleton
         self::DEFAULT_THEME,
     );
 
+    // Plugins bundled with core package, disabled by default
     protected $corePluginsDisabledByDefault = array(
         'DBStats',
         'DevicesDetection',
@@ -70,10 +73,10 @@ class Manager extends Singleton
         'ExamplePluginTemplate',
     );
 
+    // Themes bundled with core package, disabled by default
     protected $coreThemesDisabledByDefault = array(
         'ExampleTheme',
         'LeftMenu',
-        'PleineLune',
         'Zeitgeist',
     );
 
@@ -98,9 +101,14 @@ class Manager extends Singleton
             $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
 
             // Do not enable other Themes
-            $isThemeDisabled = in_array($plugin, $this->coreThemesDisabledByDefault);
-            $loadPlugin = $loadPlugin && !$isThemeDisabled;
+            $disabledThemes = $this->coreThemesDisabledByDefault;
 
+            // PleineLune is officially supported, yet we don't want to enable another theme in tests (we test for Morpheus)
+            $disabledThemes[] = "PleineLune";
+
+            $isThemeDisabled = in_array($plugin, $disabledThemes);
+
+            $loadPlugin = $loadPlugin && !$isThemeDisabled;
             if($loadPlugin) {
                 $toLoad[] = $plugin;
             }
