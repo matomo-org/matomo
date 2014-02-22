@@ -65,6 +65,6 @@ class VisitFrequency extends \Piwik\Plugin
     function addMenu()
     {
         MenuMain::getInstance()->add('General_Visitors', 'VisitFrequency_SubmenuFrequency',
-            array('module' => 'VisitFrequency', 'action' => 'index'), true, $order = 65);
+            array('module' => 'VisitFrequency', 'action' => 'index'), true, $order = 55);
     }
 }

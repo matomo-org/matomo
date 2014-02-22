@@ -89,7 +89,7 @@ class VisitTime extends \Piwik\Plugin
     function addMenu()
     {
         MenuMain::getInstance()->add('General_Visitors', 'VisitTime_SubmenuTimes',
-            array('module' => 'VisitTime', 'action' => 'index'), true, $order = 55);
+            array('module' => 'VisitTime', 'action' => 'index'), true, $order = 65);
     }
 
     public function getReportsWithGoalMetrics(&$dimensions)
