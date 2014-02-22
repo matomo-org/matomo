@@ -17,6 +17,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Url;
@@ -51,7 +52,7 @@ class Fixture extends PHPUnit_Framework_Assert
     const DEFAULT_SITE_NAME = 'Piwik test';
 
     const ADMIN_USER_LOGIN = 'superUserLogin';
-    const ADMIN_USER_PASSWORD = '098f6bcd4621d373cade4e832627b4f6';
+    const ADMIN_USER_PASSWORD = 'superUserPass';
 
     public $dbName = false;
     public $createConfig = true;
@@ -61,6 +62,8 @@ class Fixture extends PHPUnit_Framework_Assert
     public $createSuperUser = true;
     public $overwriteExisting = true;
     public $configureComponents = true;
+
+    public $testOptions = array();
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
@@ -78,7 +81,7 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         $testsConfig = Config::getInstance()->Tests;
         if (!empty($testsConfig['persist_fixture_data'])
-            && is_subclass_of($testCase, "UITest")
+            && is_subclass_of($testCase, "Piwik\\Tests\\UI\\UITest")
         ) {
             $this->dbName = get_class($this);
             $this->dropDatabaseInSetUp = false;
@@ -164,7 +167,7 @@ class Fixture extends PHPUnit_Framework_Assert
         }
 
         if ($this->createSuperUser) {
-            self::createSuperUser();
+            self::createSuperUser($removeExisting = true);
         }
 
         if ($this->overwriteExisting
@@ -175,6 +178,10 @@ class Fixture extends PHPUnit_Framework_Assert
             $this->markFixtureSetUp();
         } else {
             echo "\n---Using existing database {$this->dbName}---\n";
+        }
+
+        foreach ($this->testOptions as $key => $value) {
+            Option::set("Tests." . $key, $value);
         }
     }
 
@@ -192,6 +199,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performTearDown()
     {
+        Option::deleteLike("Tests.%");
+
         $this->tearDown();
 
         \Piwik\SettingsPiwik::$piwikUrlCache = null;
@@ -415,16 +424,23 @@ class Fixture extends PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        return APIUsersManager::getInstance()->getTokenAuth(self::ADMIN_USER_LOGIN, self::ADMIN_USER_PASSWORD);
+        return APIUsersManager::getInstance()->getTokenAuth(
+            self::ADMIN_USER_LOGIN,
+            UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD)
+        );
     }
 
-    public static function createSuperUser()
+    public static function createSuperUser($removeExisting = false)
     {
         $login = self::ADMIN_USER_LOGIN;
-        $password = self::ADMIN_USER_PASSWORD;
+        $password = UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD);
         $token = self::getTokenAuth();
 
         $model = new \Piwik\Plugins\UsersManager\Model();
+        if ($removeExisting) {
+            $model->deleteUserOnly($login);
+        }
+
         $user  = $model->getUserByTokenAuth($token);
 
         if (empty($user)) {

@@ -10,18 +10,34 @@ var PageFacade = function (webpage) {
     this.webpage = webpage;
     this.events = [];
     this.impl = {
-        click: function (selector) {
+        click: function (selector, callback) {
             var position = this._getPosition(selector);
             this.webpage.sendEvent('click', position.x, position.y);
+
+            callback();
         },
 
-        keypress: function (keys) {
+        keypress: function (keys, callback) {
             this.webpage.sendEvent('keypress', keys);
+
+            callback();
         },
 
-        mousemove: function (selector) {
+        mousemove: function (selector, callback) {
             var position = this._getPosition(selector);
             this.webpage.sendEvent('mousemove', position.x, position.y);
+
+            callback();
+        },
+
+        reload: function (callback) {
+            this.webpage.reload();
+
+            callback();
+        },
+
+        load: function (url, callback) {
+            this.webpage.open(url, callback);
         }
     };
 };
@@ -40,6 +56,14 @@ PageFacade.prototype = {
         this.events.push(['mousemove', waitTime || 1000, selector]);
     },
 
+    reload: function (waitTime) {
+        this.events.push(['reload', waitTime]);
+    },
+
+    load: function (url) {
+        this.events.push(['load', 1000, url]);
+    },
+
     executeEvents: function (callback, i) {
         i = i || 0;
 
@@ -52,13 +76,17 @@ PageFacade.prototype = {
         var type = evt.shift(),
             waitTime = evt.shift();
 
+        var self = this;
+        evt.push(function () {
+            self._waitForNextEvent(callback, i, waitTime);
+        });
+
         this.impl[type].apply(this, evt);
-        this._waitForNextEvent(callback, i, waitTime);
     },
 
     getAjaxRequestCount: function () {
         return this.webpage.evaluate(function () {
-            return globalAjaxQueue.active;
+            return window.globalAjaxQueue ? window.globalAjaxQueue.active : 0;
         });
     },
 
@@ -77,6 +105,7 @@ PageFacade.prototype = {
         var pos = this.webpage.evaluate(function (selector) {
             var element = window.jQuery(selector),
                 offset = element.offset();
+
             return {
                 x: offset.left + element.width() / 2,
                 y: offset.top + element.height() / 2
@@ -318,7 +347,7 @@ UnitTestRenderer.prototype._saveCurrentScreen = function () {
 
             self._renderNextUrl();
         } catch (e) {
-            console.log("ERROR: " + e.message);
+            console.log("ERROR: " + e.message + "\n" + (e.stack || ''));
             app.exit(1);
         }
     });

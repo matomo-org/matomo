@@ -1,6 +1,10 @@
 <?php
 
 use Piwik\Piwik;
+use Piwik\Config;
+use Piwik\Option;
+use Piwik\Common;
+use Piwik\Session\SessionNamespace;
 
 if (!defined('PIWIK_TEST_MODE')) {
     define('PIWIK_TEST_MODE', true);
@@ -40,8 +44,10 @@ class Piwik_TestingEnvironment
     public static function addHooks()
     {
         Piwik::addAction('Access.createAccessSingleton', function($access) {
-            $access = new Piwik_MockAccess($access);
-            \Piwik\Access::setSingletonInstance($access);
+            if (empty(Option::get('Tests.testUseRegularAuth'))) {
+                $access = new Piwik_MockAccess($access);
+                \Piwik\Access::setSingletonInstance($access);
+            }
         });
         Piwik::addAction('Config.createConfigSingleton', function($config) {
             \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
@@ -55,6 +61,7 @@ class Piwik_TestingEnvironment
                 'Provider', 'Goals', 'PrivacyManager', 'UserCountry', 'DevicesDetection'
             );
             $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
+            $config->log['log_writers'] = array('file');
         });
         Piwik::addAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
@@ -67,6 +74,22 @@ class Piwik_TestingEnvironment
         Piwik::addAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
             $jsFiles[] = 'tests/resources/screenshot-override/jquery.waitforimages.js';
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
+        });
+        Piwik::addAction('Test.Mail.send', function($mail) {
+            $outputFile = PIWIK_INCLUDE_PATH . 'tmp/' . Common::getRequestVar('module') . '.' . Common::getRequestVar('action') . '.mail.json';
+
+            $outputContent = str_replace("=\n", "", $mail->getBodyText($textOnly = true));
+            $outputContent = str_replace("=0A", "\n", $outputContent);
+            $outputContent = str_replace("=3D", "=", $outputContent);
+
+            $outputContents = array(
+                'from' => $mail->getFrom(),
+                'to' => $mail->getRecipients(),
+                'subject' => $mail->getSubject(),
+                'contents' => $outputContent
+            );
+            
+            file_put_contents($outputFile, Common::json_encode($outputContents));
         });
     }
 }

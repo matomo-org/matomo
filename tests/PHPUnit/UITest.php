@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\UI;
+
 use Piwik\Access;
 use Piwik\AssetManager;
 use Piwik\Date;
@@ -13,8 +15,9 @@ use Piwik\DbHelper;
 use Piwik\Plugins\VisitsSummary\API;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\ArchiveProcessor\Rules;
+use \Fixture;
 
-abstract class UITest extends IntegrationTestCase
+abstract class UITest extends \IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
@@ -163,7 +166,7 @@ abstract class UITest extends IntegrationTestCase
     {
         file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/urls.txt', json_encode($urlInfo));
         $cmd = self::CAPTURE_PROGRAM . " \"" . PIWIK_INCLUDE_PATH . "/tests/resources/screenshot-capture/capture.js\" 2>&1";
-        \Piwik\Log::debug("running capture: $cmd");
+        \Piwik\Log::info("running capture: $cmd");
         
         exec($cmd, $output, $result);
         $output = implode("\n", $output);
@@ -173,7 +176,7 @@ abstract class UITest extends IntegrationTestCase
             echo self::CAPTURE_PROGRAM . " failed: " . $output . "\n\ncommand used: $cmd\n";
         }
 
-        \Piwik\Log::debug("phantomjs output: %s", $output);
+        \Piwik\Log::info("phantomjs output: %s", $output);
 
         return $output;
     }
@@ -203,7 +206,7 @@ abstract class UITest extends IntegrationTestCase
     private function saveImageDiff($expectedPath, $processedPath, $diffPath)
     {
         $cmd = "compare \"$expectedPath\" \"$processedPath\" \"$diffPath\" 2>&1";
-        \Piwik\Log::debug("running compare: $cmd");
+        \Piwik\Log::info("running compare: $cmd");
 
         exec($cmd, $output, $result);
 
@@ -383,9 +386,13 @@ If processed screenshots are correct, you can copy the generated screenshots to 
             return;
         }
 
+        $fullName = static::getOutputPrefix() . '_' . $name;
+
         $processed = file_get_contents($processedPath);
 
         if (!file_exists($expectedPath)) {
+            self::$failureScreenshotNames[] = $fullName;
+
             $this->fail("expected screenshot for '$name' test is missing.
 Generated screenshot: $processedPath");
             return;
@@ -393,7 +400,6 @@ Generated screenshot: $processedPath");
 
         $expected = file_get_contents($expectedPath);
         if ($expected != $processed) {
-            $fullName = static::getOutputPrefix() . '_' . $name;
             self::$failureScreenshotNames[] = $fullName;
 
             $diffPath = self::getScreenshotDiffPath($fullName);
