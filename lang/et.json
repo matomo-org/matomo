@@ -16,6 +16,7 @@
         "ColumnSearchCategory": "Otsingu Kategooria",
         "ColumnSearches": "Otsinguid",
         "ColumnSearchesDocumentation": "Külastuste arv, mille jooksul otsiti antud märksõna veebilehe enda otsingumootoriga.",
+        "ColumnSearchExits": "% väljumisi otsingust",
         "ColumnSearchResultsCount": "Otisngutulemuste arv",
         "ColumnSiteSearchKeywords": "Unikaalseid Võtmesõnu",
         "ColumnUniqueClicks": "Unikaalseid Klikke",

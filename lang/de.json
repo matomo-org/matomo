@@ -293,6 +293,7 @@
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
         "PluginsManagement": "Pluginverwaltung",
+        "PluginUpdateAvailable": "Sie verwenden Version %s und eine neue Version %s is verfügbar.",
         "PluginVersionInfo": "%1$s vom %2$s",
         "PluginWebsite": "Plugin Webseite",
         "Screenshots": "Screenshots",
