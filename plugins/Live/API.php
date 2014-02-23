@@ -328,8 +328,8 @@ class API extends \Piwik\Plugin\API
         $result['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($rows));
 
         // check if requested visits have lat/long
+        $result['hasLatLong'] = false;
         if ($checkForLatLong) {
-            $result['hasLatLong'] = false;
             foreach ($rows as $visit) {
                 if ($visit->getColumn('latitude') !== false) { // realtime map only checks for latitude
                     $result['hasLatLong'] = true;
