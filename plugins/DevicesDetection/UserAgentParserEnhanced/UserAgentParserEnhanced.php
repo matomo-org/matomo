@@ -77,6 +77,7 @@ class UserAgentParserEnhanced
         'IK' => 'iKoMo',
         'IM' => 'i-mate',
         'IN' => 'Innostream',
+        'IX' => 'Intex',
         'IO' => 'i-mobile',
         'IQ' => 'INQ',
         'IT' => 'Intek',

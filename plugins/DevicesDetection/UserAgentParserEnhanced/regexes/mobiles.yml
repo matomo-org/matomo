@@ -541,6 +541,18 @@ INQ:
   device: 'feature phone'
   model: '$1'
 
+# Intex
+Intex:
+  regex: 'Intex|Aqua[ _][^/]+[ _]Build'
+  device: 'smartphone'
+  models:
+    - regex: 'Intex[ _]([^/]*)[ _]Build'
+      model: '$1'
+    - regex: '(Aqua[ _][^/]+)[ _]Build'
+      model: '$1'
+    - regex: 'Intex[ _]([a-z0-9_+-]+)'
+      model: '$1'
+
 # i-mate
 i-mate:
   regex: 'i-mate ([a-z0-9]+)'
