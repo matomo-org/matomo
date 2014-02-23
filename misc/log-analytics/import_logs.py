@@ -497,6 +497,10 @@ class Configuration(object):
             '--enable-testmode', dest='enable_testmode', default=False, action='store_true',
             help="If set, it will try to get the token_auth from the piwik_tests directory"
         )
+        option_parser.add_option(
+            '--enable-virtual-session', dest='enable_virtual_session', default=False, action='store_true',
+            help="If set, To set the count of visits by creating virtual session."
+        )
         return option_parser
 
 
@@ -1120,6 +1124,7 @@ class Recorder(object):
 
     def __init__(self):
         self.queue = Queue.Queue(maxsize=2)
+        self._cache_idvc = {}
 
         # if bulk tracking disabled, make sure we can store hits outside of the Queue
         if not config.options.use_bulk_tracking:
@@ -1244,6 +1249,21 @@ class Recorder(object):
             # prevent request to be force recorded when option replay-tracking
             args['rec'] = '0'
         args.update(hit.args)
+
+        if config.options.enable_virtual_session:
+            # define unique visitor
+            uid = args['cip'] + args['ua']
+            m = hashlib.md5()
+            m.update(str(uid))
+            args['_id'] = m.hexdigest()[:16]
+
+            # session count
+            if self._cache_idvc.has_key(args['_id']) and (args['urlref'].find(main_url) == -1):
+                self._cache_idvc[args['_id']] += 1
+            else:
+                self._cache_idvc[args['_id']] = 1
+
+            args['_idvc'] = self._cache_idvc[args['_id']]
 
         if hit.is_download:
             args['download'] = args['url']
