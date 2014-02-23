@@ -814,7 +814,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $expected = str_replace('.11</revenue>', '</revenue>', $expected);
         $response = str_replace('.11</revenue>', '</revenue>', $response);
 
-        file_put_contents($processedFilePath, $response);
+        if (empty($compareAgainst)) {
+            file_put_contents($processedFilePath, $response);
+        }
 
         try {
             if (strpos($requestUrl, 'format=xml') !== false) {
