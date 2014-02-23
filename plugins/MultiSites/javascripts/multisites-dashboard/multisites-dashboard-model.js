@@ -1,9 +1,30 @@
-
+/**
+ * Model for Multisites Dashboard aka All Websites Dashboard.
+ *
+ */
 angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikApi, $filter, $timeout) {
+    /**
+     *
+     * this is the list of all available sites. For performance reason this list is different to model.sites. ngRepeat
+     * won't operate on the whole list this way. The allSites array contains websites and groups in the following
+     * structure
+     *
+     * - website1
+     * - website2
+     * - website3.sites = [ // this is a group
+     *    - website4
+     *    - website5
+     * ]
+     * - website6
+     *
+     * This structure allows us to display the sites within a group directly under the group without big logic and also
+     * allows us to calculate the summary for each group easily
+    */
+    var allSites = [];
 
     var model       = {};
+    // those sites are going to be displayed
     model.sites     = [];
-    model.allSites  = [];
     model.isLoading = false;
     model.pageSize  = 5;
     model.currentPage  = 0;
@@ -17,6 +38,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
     fetchPreviousSummary();
 
+    // create a new group object which has similar structure than a website
     function createGroup(name){
         return {
             label: name,
@@ -27,6 +49,8 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             isGroup: true
         }
     }
+
+    // create a new group with empty site to make sure we do not change the original group in $allSites
     function copyGroup(group)
     {
         return {
@@ -39,9 +63,27 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         }
     }
 
-    model.updateWebsitesList = function (processedReport) {
+    function calculateMetricsForEachGroup(groups)
+    {
+        angular.forEach(groups, function (group) {
+            angular.forEach(group.sites, function (site) {
+                var revenue = (site.revenue+'').match(/(\d+\.?\d*)/); // convert $ 0.00 to 0.00 or 5€ to 5
+                group.nb_visits    += parseInt(site.nb_visits, 10);
+                group.nb_pageviews += parseInt(site.nb_pageviews, 10);
+                if (revenue.length) {
+                    group.revenue += parseInt(revenue[0], 10);
+                }
+            });
+        });
+    }
 
-        var allSites       = processedReport.reportData;
+    model.updateWebsitesList = function (processedReport) {
+        if (!processedReport) {
+            model.errorLoadingSites = true;
+            return;
+        }
+
+        var allSitesUnordered  = processedReport.reportData;
         model.totalVisits  = processedReport.reportTotal.nb_visits;
         model.totalActions = processedReport.reportTotal.nb_actions;
         model.totalRevenue = processedReport.reportTotal.revenue;
@@ -49,7 +91,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
         var sitesByGroup = [];
         var groups = {};
-        angular.forEach(allSites, function (site, index) {
+        angular.forEach(allSitesUnordered, function (site, index) {
             site.idsite   = processedReport.reportMetadata[index].idsite;
             site.group    = processedReport.reportMetadata[index].group;
             site.main_url = processedReport.reportMetadata[index].main_url;
@@ -70,22 +112,14 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             }
         });
 
-        angular.forEach(groups, function (group) {
-            angular.forEach(group.sites, function (site) {
-                var revenue = (site.revenue+'').match(/(\d+\.?\d*)/);
-                group.nb_visits    += site.nb_visits;
-                group.nb_pageviews += site.nb_pageviews;
-                if (revenue.length) {
-                    group.revenue += parseInt(revenue[0], 10);
-                }
-            });
-        });
+        // calculate visits, pageviews, ... per group
+        calculateMetricsForEachGroup(groups);
 
         if (!sitesByGroup || !sitesByGroup.length) {
             return;
         }
 
-        model.allSites = sitesByGroup;
+        allSites = sitesByGroup;
 
         if (model.searchTerm) {
             model.searchSite(model.searchTerm);
@@ -99,7 +133,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     }
 
     model.getNumberOfPages = function () {
-        return model.sites.length / model.pageSize - 1;
+        return Math.ceil(model.sites.length / model.pageSize - 1);
     }
 
     model.getCurrentPagingOffsetStart = function() {
@@ -120,10 +154,6 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
     model.nextPage = function () {
         model.currentPage = model.currentPage + 1;
-    };
-
-    model.numberOfPages = function () {
-        return Math.ceil(model.allSites.length / model.pageSize);
     };
 
     function nestedSearch(sites, term)
@@ -152,7 +182,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     model.searchSite = function (term) {
         model.searchTerm  = term;
         model.currentPage = 0;
-        model.sites = nestedSearch(model.allSites, term);
+        model.sites       = nestedSearch(allSites, term);
     }
 
     function fetchPreviousSummary () {
@@ -193,6 +223,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         }
 
         model.isLoading = true;
+        model.errorLoadingSites = false;
 
         return piwikApi.fetch({
             method: 'API.getProcessedReport',
@@ -204,6 +235,8 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             enhanced: 1
         }).then(function (response) {
             model.updateWebsitesList(response);
+        }).catch(function (errorMessage) {
+            model.errorLoadingSites = true;
         })['finally'](function () {
             model.isLoading = false;
 

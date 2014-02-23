@@ -17,14 +17,14 @@ angular.module('piwikApp').controller('MultiSitesDashboardController', function(
     $scope.url  = piwik.piwik_url;
     $scope.period = piwik.period;
 
-    $scope.sortBy = function (predicate) {
+    $scope.sortBy = function (metric) {
 
         var reverse = $scope.reverse;
-        if ($scope.predicate == predicate) {
+        if ($scope.predicate == metric) {
             reverse = !reverse;
         }
 
-        $scope.predicate = predicate;
+        $scope.predicate = metric;
         $scope.reverse   = reverse;
     };
 

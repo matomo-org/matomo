@@ -55,6 +55,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'Dashboard_DashboardOf';
         $translations[] = 'Actions_SubmenuSitesearch';
         $translations[] = 'MultiSites_LoadingWebsites';
+        $translations[] = 'General_ErrorRequest';
     }
 
     public function getReportMetadata(&$reports)

@@ -107,8 +107,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/autocomplete-matched-directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/focus-anywhere-but-here-directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/directives/ignore-click-directive.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/enter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focus.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/onenter.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focusif.js";
 
         $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
 

@@ -53,8 +53,16 @@
 
         <tbody id="tb" ng-if="!model.isLoading">
 
+            <tr ng-if="model.errorLoadingSites">
+                <td colspan="7">
+                    <div class="notification system notification-error">
+                        {{ 'General_ErrorRequest'|translate }}
+                    </div>
+                </td>
+            </tr>
+
             <tr website="website"
-                evolution-selector="evolutionSelector"
+                evolution-metric="evolutionSelector"
                 piwik-multisites-site
                 date-sparkline="dateSparkline"
                 show-sparklines="showSparklines"

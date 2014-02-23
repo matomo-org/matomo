@@ -9,13 +9,13 @@
  * If the given expression evaluates to true the element will be focussed
  *
  * Example:
- * <input type="text" piwik-focus="view.editName">
+ * <input type="text" piwik-focus-if="view.editName">
  */
-angular.module('piwikApp.directive').directive('piwikFocus', function($timeout) {
+angular.module('piwikApp.directive').directive('piwikFocusIf', function($timeout) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
-            scope.$watch(attrs.piwikFocus, function(newValue, oldValue) {
+            scope.$watch(attrs.piwikFocusIf, function(newValue, oldValue) {
                 if (newValue) {
                     $timeout(function () {
                         element[0].focus();

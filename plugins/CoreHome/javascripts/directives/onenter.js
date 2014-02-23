@@ -9,15 +9,15 @@
  * Allows you to define any expression to be executed in case the user presses enter
  *
  * Example
- * <div piwik-enter="save()">
- * <div piwik-enter="showList=false">
+ * <div piwik-onenter="save()">
+ * <div piwik-onenter="showList=false">
  */
-angular.module('piwikApp.directive').directive('piwikEnter', function() {
+angular.module('piwikApp.directive').directive('piwikOnenter', function() {
     return function(scope, element, attrs) {
         element.bind("keydown keypress", function(event) {
             if(event.which === 13) {
                 scope.$apply(function(){
-                    scope.$eval(attrs.piwikEnter, {'event': event});
+                    scope.$eval(attrs.piwikOnenter, {'event': event});
                 });
 
                 event.preventDefault();
