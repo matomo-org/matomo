@@ -72,20 +72,18 @@
 ##########
 # Linux
 ##########
-- regex: 'Linux; .*((?:Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Sabayon|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs|Presto))[ /](\d+\.\d+)'
-  name: '$1'
-  version: '$2'
-  
-  
-- regex: '(Arch Linux|Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Sabayon|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs)(?: Linux)?(?:[ /\-](\d+\.\d+))?'
-  name: '$1'
-  version: '$2'
-
-
-- regex: 'ArchLinux(?:[ /\-](\d+\.\d+))?'
+- regex: 'Arch ?Linux(?:[ /\-](\d+\.\d+))?'
   name: 'Arch Linux'
   version: '$1'
-  
+
+- regex: 'Linux; .*((?:Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Sabayon|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs|Presto))[ /](\d+\.\d+)'
+  name: '$1'
+  version: '$2'
+
+- regex: '(Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Sabayon|Slackware|SUSE|Puppy|CentOS|BackTrack|YunOs)(?: Linux)?(?:[ /\-](\d+\.\d+))?'
+  name: '$1'
+  version: '$2'
+
 # generic linux match -> end of file
 
 ##########
