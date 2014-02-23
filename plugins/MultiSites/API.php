@@ -242,6 +242,8 @@ class API extends \Piwik\Plugin\API
             $dataTable->filter('ColumnDelete', array('label'));
         }
 
+        Site::clearCache();
+
         // replace record names with user friendly metric names
         $dataTable->filter('ReplaceColumnNames', array($columnNameRewrites));
 
