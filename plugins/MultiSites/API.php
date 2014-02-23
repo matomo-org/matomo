@@ -158,20 +158,6 @@ class API extends \Piwik\Plugin\API
         );
     }
 
-    public function getAllPreviousPeriod($period, $date, $pattern)
-    {
-        $lastDate = Range::getLastDate($date, $period);
-        $idSites  = $this->getSitesIdFromPattern($pattern);
-
-        // http://apache.piwik/index.php?apiAction=getAll&apiModule=MultiSites&date=2014-02-21&enhanced=1&filter_limit=-1&format=JSON&hideMetricsDoc=1&idSite=1&&period=day&
-        $query = sprintf('method=API.getProcessedReport&module=API&apiAction=getAll&apiModule=MultiSites&date=%s&period=%s&pattern=%s&format=php',
-                         $lastDate[0], $period, implode($idSites, 1));
-        $request = new Request($query);
-        $result  = $request->process();
-
-        return $result['reportTotal'];
-    }
-
     private function buildDataTable($idSitesOrIdSite, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested)
     {
         $allWebsitesRequested = ($idSitesOrIdSite == 'all');
@@ -185,9 +171,9 @@ class API extends \Piwik\Plugin\API
                 // Instead, we make sure that only the right set of data is returned
                 && !TaskScheduler::isTaskBeingExecuted()
             ) {
-                $sites = APISitesManager::getInstance()->getAllSites();
+                APISitesManager::getInstance()->getAllSites();
             } else {
-                $sites = APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
+                APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
             // Both calls above have called Site::setSitesFromArray. We now get these sites:
             $sitesToProblablyAdd = Site::getSites();
@@ -222,7 +208,7 @@ class API extends \Piwik\Plugin\API
         // $dataTable instanceOf Set
         $dataTable = $archive->getDataTableFromNumeric($fieldsToGet);
 
-        $dataTable= $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $dataTable);
+        $dataTable = $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $dataTable);
 
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $table) {
@@ -230,34 +216,6 @@ class API extends \Piwik\Plugin\API
             }
         } else {
             $this->addMissingWebsites($dataTable, $fieldsToGet, $sitesToProblablyAdd);
-        }
-
-        // calculate total visits/actions/revenue
-        $this->setMetricsTotalsMetadata($dataTable, $apiMetrics);
-
-        // if the period isn't a range & a lastN/previousN date isn't used, we get the same
-        // data for the last period to show the evolution of visits/actions/revenue
-        list($strLastDate, $lastPeriod) = Range::getLastDate($date, $period);
-
-        if ($strLastDate !== false) {
-
-            if ($lastPeriod !== false) {
-                // NOTE: no easy way to set last period date metadata when range of dates is requested.
-                //       will be easier if DataTable\Map::metadata is removed, and metadata that is
-                //       put there is put directly in DataTable::metadata.
-                $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
-            }
-
-            $pastArchive = Archive::build($idSitesOrIdSite, $period, $strLastDate, $segment, $_restrictSitesToLogin);
-
-            $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
-
-            $pastData = $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $pastData);
-
-            // use past data to calculate evolution percentages
-            $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
-
-            $this->setPastDataMetadata($dataTable, $pastData, $apiMetrics);
         }
 
         // remove eCommerce related metrics on non eCommerce Piwik sites
@@ -349,84 +307,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets the total visits, actions & revenue for a DataTable returned by
-     * $this->buildDataTable.
-     *
-     * @param DataTable $dataTable
-     * @param array $apiMetrics Metrics info.
-     * @return array Array of three values: total visits, total actions, total revenue
-     */
-    private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $table) {
-                $this->setMetricsTotalsMetadata($table, $apiMetrics);
-            }
-        } else {
-            $revenueMetric = '';
-            if (Common::isGoalPluginEnabled()) {
-                $revenueMetric = Archiver::getRecordName(self::GOAL_REVENUE_METRIC);
-            }
-
-            $totals = array();
-            foreach ($apiMetrics as $label => $metricInfo) {
-                $totalMetadataName = self::getTotalMetadataName($label);
-                $totals[$totalMetadataName] = 0;
-            }
-
-            foreach ($dataTable->getRows() as $row) {
-                foreach ($apiMetrics as $label => $metricInfo) {
-                    $totalMetadataName = self::getTotalMetadataName($label);
-                    $totals[$totalMetadataName] += $row->getColumn($metricInfo[self::METRIC_RECORD_NAME_KEY]);
-                }
-            }
-
-            foreach ($totals as $name => $value) {
-                $dataTable->setMetadata($name, $value);
-            }
-        }
-    }
-
-    /**
-     * Sets the total evolution metadata for a datatable returned by $this->buildDataTable
-     * given data for the last period.
-     *
-     * @param DataTable|DataTable\Map $dataTable
-     * @param DataTable|DataTable\Map $pastData
-     * @param array $apiMetrics Metrics info.
-     */
-    private function setPastDataMetadata($dataTable, $pastData, $apiMetrics)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            $pastArray = $pastData->getDataTables();
-            foreach ($dataTable->getDataTables() as $subTable) {
-                $this->setPastDataMetadata($subTable, current($pastArray), $apiMetrics);
-                next($pastArray);
-            }
-        } else {
-            // calculate total visits/actions/revenue for past data
-            $this->setMetricsTotalsMetadata($pastData, $apiMetrics);
-
-            foreach ($apiMetrics as $label => $metricInfo) {
-                // get the names of metadata to set
-                $totalMetadataName = self::getTotalMetadataName($label);
-                $lastPeriodTotalMetadataName = self::getLastPeriodMetadataName($totalMetadataName);
-                $totalEvolutionMetadataName =
-                    self::getTotalMetadataName($metricInfo[self::METRIC_EVOLUTION_COL_NAME_KEY]);
-
-                // set last period total
-                $pastTotal = $pastData->getMetadata($totalMetadataName);
-                $dataTable->setMetadata($lastPeriodTotalMetadataName, $pastTotal);
-
-                // calculate & set evolution
-                $currentTotal = $dataTable->getMetadata($totalMetadataName);
-                $evolution = CalculateEvolutionFilter::calculate($currentTotal, $pastTotal);
-                $dataTable->setMetadata($totalEvolutionMetadataName, $evolution);
-            }
-        }
-    }
-
-    /**
      * @ignore
      */
     public static function getApiMetrics($enhanced)
@@ -469,16 +349,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $metrics;
-    }
-
-    private static function getTotalMetadataName($name)
-    {
-        return 'total_' . $name;
-    }
-
-    private static function getLastPeriodMetadataName($name)
-    {
-        return 'last_period_' . $name;
     }
 
     /**
