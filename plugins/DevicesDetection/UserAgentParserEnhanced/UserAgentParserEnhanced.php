@@ -651,7 +651,7 @@ class UserAgentParserEnhanced
             return;
         }
 
-        $this->model = $this->buildModel($modelRegex['model'], $matches);
+        $this->model = trim($this->buildModel($modelRegex['model'], $matches));
 
         if (isset($modelRegex['device'])) {
             $this->device = array_search($modelRegex['device'], self::$deviceTypes);

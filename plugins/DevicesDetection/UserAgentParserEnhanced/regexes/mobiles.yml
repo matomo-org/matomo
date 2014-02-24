@@ -221,7 +221,7 @@ Arnova:
   regex: 'arnova|AN[0-9]'
   device: 'tablet'
   models:
-    - regex: 'Arnova ([^/]*) Build'
+    - regex: 'Arnova ([^/;]*) Build'
       model: '$1'
     - regex: 'AN([0-9][a-z0-9]+)'
       model: '$1'
@@ -264,7 +264,7 @@ BBK:
   regex: 'vivo'
   device: 'smartphone'
   models:
-    - regex: 'vivo ([^/]*) Build'
+    - regex: 'vivo ([^/;]*) Build'
       model: 'Vivo $1'
     - regex: 'vivo_([a-z0-9]+)'
       model: 'Vivo $1'
@@ -310,7 +310,7 @@ Cat:
   regex: 'Cat ?(tablet|stargate|nova)'
   device: 'tablet'
   models:
-    - regex: 'Cat ?(?:tablet)? ?(StarGate|Nova ?8?)'
+    - regex: 'Cat ?(?:tablet)? ?((?:Galactica|Nova|StarGate|PHOENIX)[^/;]*) Build'
       model: '$1'
     - regex: 'Cat ?tablet'
       model: 'Nova'
@@ -326,7 +326,7 @@ Coolpad:
   regex: 'Coolpad'
   device: 'smartphone'
   models:
-    - regex: 'Coolpad ?([^/]+) Build'
+    - regex: 'Coolpad ?([^/;]+) Build'
       model: '$1'
     - regex: '(?:YL-)?Coolpad[ _-]?([a-z0-9]+)'
       model: '$1'
@@ -518,9 +518,9 @@ Huawei:
   regex: '(HW-)?Huawei|vodafone([a-z0-9]+)'
   device: 'smartphone'
   models:
-    - regex: '(MediaPad [^/]*) Build'
+    - regex: '(MediaPad [^/;]*) Build'
       model: '$1'
-    - regex: 'Huawei ([^/]*) Build'
+    - regex: 'Huawei ([^/;]*) Build'
       model: '$1'
     - regex: '(?:HW-)?Huawei(?:[\- /_]|/1\.0/)?([a-z0-9]+)'
       model: '$1'
@@ -543,12 +543,12 @@ INQ:
 
 # Intex
 Intex:
-  regex: 'Intex|Aqua[ _][^/]+[ _]Build'
+  regex: 'Intex|Aqua[ _][^/;]+[ _]Build'
   device: 'smartphone'
   models:
-    - regex: 'Intex[ _]([^/]*)[ _]Build'
+    - regex: 'Intex[ _]([^/;]*)[ _]Build'
       model: '$1'
-    - regex: '(Aqua[ _][^/]+)[ _]Build'
+    - regex: '(Aqua[ _][^/;]+)[ _]Build'
       model: '$1'
     - regex: 'Intex[ _]([a-z0-9_+-]+)'
       model: '$1'
@@ -634,7 +634,7 @@ Lenovo:
   regex: '(?:LNV-)?Lenovo|IdeaTab'
   device: 'smartphone'
   models:
-    - regex: 'Lenovo ([^/]*) Build'
+    - regex: 'Lenovo ([^/;]*) Build'
       model: '$1'
     - regex: '(?:LNV-)?Lenovo[ \-_]([a-z0-9]+)'
       model: '$1'
@@ -663,7 +663,7 @@ LG:
     - regex: 'LG[ _-](V90.*|Optimus[ _-]Pad.*) Build'
       device: 'tablet'
       model: '$1'
-    - regex: 'LG(?:/|-LG| |-)?(.*) Build'
+    - regex: 'LG(?:/|-LG| |-)?([^/;]*) Build'
       model: '$1'
     - regex: 'LG(?:/|-LG| |-)?([a-z0-9]+)'
       model: '$1'
@@ -1077,7 +1077,10 @@ Sony:
   regex: 'Sony|PlayStation'
   device: 'smartphone'
   models:
-    - regex: 'Sony[ ]?([^/]*) Build'
+    - regex: 'Sony (Tablet[^/;]*) Build'
+      model: '$1'
+      device: 'tablet'
+    - regex: 'Sony[ ]?([^/;]*) Build'
       model: '$1'
     - regex: 'Sony[ ]?([a-z0-9\-]+)'
       model: '$1'
@@ -1087,7 +1090,7 @@ Sony:
 
 # Kindle
 Kindle:
-  regex: 'KF(?:OT|TT|JWI|JWA) Build|Kindle|Silk/(\d+)\.(\d+)'
+  regex: 'KF(?:OT|TT|JWI|JWA|SOWI|APWI|THWI) Build|Kindle|Silk/(\d+)\.(\d+)'
   device: 'tablet'
   models:
     - regex: 'KFTT Build'
@@ -1135,7 +1138,7 @@ TCL:
 
 # teXet
 teXet:
-  regex: '(NaviPad [^/]*) Build'
+  regex: '(NaviPad [^/;]*) Build'
   device: 'tablet'
   model: '$1'
 
@@ -1293,11 +1296,11 @@ ZTE:
   models:
     - regex: '(Z331)'
       model: '$1'
-    - regex: 'ZTE[\- ]([a-z0-9\- ]+) Build'
+    - regex: 'ZTE[\- ]([a-z0-9\-_ ]+) Build'
       model: '$1'
     - regex: 'ZTE-(?:G |G-)?([a-z0-9 _]+)'
       model: '$1'
-    - regex: 'ZTE ([a-z0-9]+)'
+    - regex: 'ZTE[ _]([a-z0-9]+)'
       model: '$1'
 
 # Symbian to Nokia ??
