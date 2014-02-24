@@ -62,6 +62,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public $createSuperUser = true;
     public $overwriteExisting = true;
     public $configureComponents = true;
+    public $persistFixtureData = false;
 
     public $testOptions = array();
 
@@ -77,27 +78,7 @@ class Fixture extends PHPUnit_Framework_Assert
         // empty
     }
 
-    private function handleConfiguration($testCase)
-    {
-        $testsConfig = Config::getInstance()->Tests;
-        if (!empty($testsConfig['persist_fixture_data'])
-            && is_subclass_of($testCase, "Piwik\\Tests\\UI\\UITest")
-        ) {
-            $this->dbName = get_class($this);
-            $this->dropDatabaseInSetUp = false;
-            $this->dropDatabaseInTearDown = false;
-            $this->overwriteExisting = false;
-
-            Config::getInstance()->database_tests['dbname'] = Config::getInstance()->database['dbname'] = $this->dbName;
-            Config::getInstance()->saveConfigOverride();
-        }
-
-        if ($this->dbName === false) { // must be after test config is created
-            $this->dbName = Config::getInstance()->database['dbname'];
-        }
-    }
-
-    public function performSetUp($testCase)
+    public function performSetUp($testCase, $setupEnvironmentOnly = false)
     {
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
@@ -108,7 +89,19 @@ class Fixture extends PHPUnit_Framework_Assert
                 Config::getInstance()->setTestEnvironment();
             }
 
-            $this->handleConfiguration($testCase);
+            if ($this->persistFixtureData) {
+                $this->dbName = str_replace("\\", "_", get_class($this));
+                $this->dropDatabaseInSetUp = false;
+                $this->dropDatabaseInTearDown = false;
+                $this->overwriteExisting = false;
+
+                Config::getInstance()->database_tests['dbname'] = Config::getInstance()->database['dbname'] = $this->dbName;
+                Config::getInstance()->saveConfigOverride();
+            }
+
+            if ($this->dbName === false) { // must be after test config is created
+                $this->dbName = Config::getInstance()->database['dbname'];
+            }
 
             static::connectWithoutDatabase();
 
@@ -170,6 +163,10 @@ class Fixture extends PHPUnit_Framework_Assert
             self::createSuperUser($removeExisting = true);
         }
 
+        if ($setupEnvironmentOnly) {
+            return;
+        }
+
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
         ) {
@@ -177,7 +174,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
             $this->markFixtureSetUp();
         } else {
-            echo "\n---Using existing database {$this->dbName}---\n";
+            echo "Using existing database {$this->dbName}.";
         }
 
         foreach ($this->testOptions as $key => $value) {

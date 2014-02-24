@@ -37,8 +37,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/spyc.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/UITest.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/UIUnitTest.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
 require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')

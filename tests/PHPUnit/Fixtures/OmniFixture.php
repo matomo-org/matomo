@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Tracker\Visit;
@@ -13,7 +14,7 @@ use Piwik\Tracker\Visit;
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
  * with year periods.
  */
-class Test_Piwik_Fixture_OmniFixture extends Fixture
+class OmniFixture extends \Fixture
 {
     public $month = '2012-01';
     public $idSite = 'all';
@@ -36,6 +37,7 @@ class Test_Piwik_Fixture_OmniFixture extends Fixture
         $classes = get_declared_classes();
         foreach ($classes as $className) {
             if (is_subclass_of($className, 'Fixture')
+                && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
             ) {
                 $fixture = new $className();
