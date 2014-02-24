@@ -420,6 +420,7 @@ var broadcast = {
 
             if (urlAjax == broadcast.lastUrlRequested) {
                 $('#content').html(content).show();
+                $(broadcast).trigger('locationChangeSuccess', {element: $('#content'), content: content});
                 piwikHelper.hideAjaxLoading();
                 broadcast.lastUrlRequested = null;
             }
