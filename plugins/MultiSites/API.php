@@ -218,6 +218,32 @@ class API extends \Piwik\Plugin\API
             $this->addMissingWebsites($dataTable, $fieldsToGet, $sitesToProblablyAdd);
         }
 
+        // calculate total visits/actions/revenue
+        $this->setMetricsTotalsMetadata($dataTable, $apiMetrics);
+
+        // if the period isn't a range & a lastN/previousN date isn't used, we get the same
+        // data for the last period to show the evolution of visits/actions/revenue
+        list($strLastDate, $lastPeriod) = Range::getLastDate($date, $period);
+
+        if ($strLastDate !== false) {
+
+            if ($lastPeriod !== false) {
+                // NOTE: no easy way to set last period date metadata when range of dates is requested.
+                //       will be easier if DataTable\Map::metadata is removed, and metadata that is
+                //       put there is put directly in DataTable::metadata.
+                $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
+            }
+
+            $pastArchive = Archive::build($idSitesOrIdSite, $period, $strLastDate, $segment, $_restrictSitesToLogin);
+
+            $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
+
+            $pastData = $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $pastData);
+
+            // use past data to calculate evolution percentages
+            $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
+        }
+
         // remove eCommerce related metrics on non eCommerce Piwik sites
         // note: this is not optimal in terms of performance: those metrics should not be retrieved in the first place
         if ($enhanced) {
@@ -351,6 +377,55 @@ class API extends \Piwik\Plugin\API
         }
 
         return $metrics;
+    }
+
+    /**
+     * Sets the total visits, actions & revenue for a DataTable returned by
+     * $this->buildDataTable.
+     *
+     * @param DataTable $dataTable
+     * @param array $apiMetrics Metrics info.
+     * @return array Array of three values: total visits, total actions, total revenue
+     */
+    private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
+    {
+        if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $table) {
+                $this->setMetricsTotalsMetadata($table, $apiMetrics);
+            }
+        } else {
+            $revenueMetric = '';
+            if (Common::isGoalPluginEnabled()) {
+                $revenueMetric = Archiver::getRecordName(self::GOAL_REVENUE_METRIC);
+            }
+
+            $totals = array();
+            foreach ($apiMetrics as $label => $metricInfo) {
+                $totalMetadataName = self::getTotalMetadataName($label);
+                $totals[$totalMetadataName] = 0;
+            }
+
+            foreach ($dataTable->getRows() as $row) {
+                foreach ($apiMetrics as $label => $metricInfo) {
+                    $totalMetadataName = self::getTotalMetadataName($label);
+                    $totals[$totalMetadataName] += $row->getColumn($metricInfo[self::METRIC_RECORD_NAME_KEY]);
+                }
+            }
+
+            foreach ($totals as $name => $value) {
+                $dataTable->setMetadata($name, $value);
+            }
+        }
+    }
+
+    private static function getTotalMetadataName($name)
+    {
+        return 'total_' . $name;
+    }
+
+    private static function getLastPeriodMetadataName($name)
+    {
+        return 'last_period_' . $name;
     }
 
     /**
