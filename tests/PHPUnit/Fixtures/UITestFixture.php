@@ -18,8 +18,6 @@ use Piwik\Date;
  */
 class UITestFixture extends OmniFixture
 {
-    private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
-
     public function setUp()
     {
         parent::setUp();
@@ -33,13 +31,5 @@ class UITestFixture extends OmniFixture
         $date = Date::factory($this->dateTime)->toString();
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
-
-        // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-        foreach (self::$recursiveProxyLinkNames as $linkName) {
-            $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
-            if (!file_exists($linkPath)) {
-                symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
-            }
-        }
     }
 }
