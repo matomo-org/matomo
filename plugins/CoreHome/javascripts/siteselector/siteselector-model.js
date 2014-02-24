@@ -9,20 +9,24 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
 
     var initialSites = null;
 
-    model.updateWebsitesList = function (websites) {
+    model.updateWebsitesList = function (sites) {
 
-        if (!websites || !websites.length) {
+        if (!sites || !sites.length) {
             model.sites = [];
             return [];
         }
 
-        model.sites = $filter('orderBy')(websites, '+name');
+        angular.forEach(sites, function (site) {
+            if (site.group) site.name = '[' + site.group + '] ' + site.name;
+        });
+
+        model.sites = $filter('orderBy')(sites, '+name');
 
         if (!model.firstSiteName) {
             model.firstSiteName = model.sites[0].name;
         }
 
-        model.hasMultipleWebsites = model.hasMultipleWebsites || websites.length > 1;
+        model.hasMultipleWebsites = model.hasMultipleWebsites || sites.length > 1;
 
         return model.sites;
     };

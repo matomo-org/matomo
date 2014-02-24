@@ -29,7 +29,7 @@
                     ng-repeat="site in model.sites"
                     ng-hide="!showSelectedSite && activeSiteId==site.idsite">
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
-                       piwik-autocomplete-matched="view.searchTerm">{{  site.group ? '[' + site.group + '] ' : '' }}{{ site.name }}</a>
+                       piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
                 </li>
             </ul>
             <ul ng-show="!model.sites.length && view.searchTerm" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
