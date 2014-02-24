@@ -14,9 +14,17 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
     $scope.activeSiteId = piwik.idSite;
 
     $scope.switchSite = function (site) {
+        $scope.selectedSite.id  = site.idsite;
+
+        if (site.name === $scope.allSitesText) {
+            $scope.selectedSite.name = $scope.allSitesText;
+        } else {
+            $scope.selectedSite.name = site.name.replace(/[\u0000-\u2666]/g, function(c) {
+                return '&#'+c.charCodeAt(0)+';';
+            });
+        }
+
         if (!$scope.switchSiteOnSelect || $scope.activeSiteId == site.idsite) {
-            $scope.selectedSite.id   = site.idsite;
-            $scope.selectedSite.name = site.name;
             return;
         }
 

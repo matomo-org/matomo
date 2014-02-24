@@ -62,6 +62,12 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         }
     }
 
+    function onError () {
+        model.errorLoadingSites = true;
+        model.sites     = [];
+        allSitesByGroup = [];
+    }
+
     function calculateMetricsForEachGroup(groups)
     {
         angular.forEach(groups, function (group) {
@@ -111,7 +117,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
     model.updateWebsitesList = function (processedReport) {
         if (!processedReport) {
-            model.errorLoadingSites = true;
+            onError();
             return;
         }
 
@@ -240,9 +246,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             enhanced: 1
         }).then(function (response) {
             model.updateWebsitesList(response);
-        }).catch(function (errorMessage) {
-            model.errorLoadingSites = true;
-        })['finally'](function () {
+        }, onError)['finally'](function () {
             model.isLoading = false;
 
             if (refreshInterval && refreshInterval > 0) {

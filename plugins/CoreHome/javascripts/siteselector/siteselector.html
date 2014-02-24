@@ -2,7 +2,7 @@
      ng-class="{'sites_autocomplete--dropdown': (model.hasMultipleWebsites || showAllSitesItem || !model.sites.length)}">
 
     <script type="text/ng-template" id="siteselector_allsiteslink.html">
-        <div ng-click="switchSite({idsite: 'all', name: allSitesText})"
+        <div ng-click="switchSite({idsite: 'all', name: allSitesText});view.showSitesList=false;"
              class="custom_select_all">
             <a href="{{ getUrlAllSites() }}"
                piwik-ignore-click

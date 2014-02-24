@@ -29,7 +29,7 @@ angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', funct
                 return;
             }
 
-            var content   = element.text();
+            var content   = element.html();
             var startTerm = content.toLowerCase().indexOf(searchTerm);
             if (-1 !== startTerm) {
                 var word = content.substr(startTerm, searchTerm.length);
