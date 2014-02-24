@@ -65,32 +65,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderReport(__FUNCTION__);
     }
 
-    private function getArray(UserAgentParserEnhanced $UAParser)
-    {
-        $UADetails['config_browser_name'] = $UAParser->getBrowser("short_name");
-        $UADetails['config_browser_version'] = $UAParser->getBrowser("version");
-        $UADetails['config_os'] = $UAParser->getOs("short_name");
-        $UADetails['config_os_version'] = $UAParser->getOs("version");
-        $UADetails['config_device_type'] = $UAParser->getDevice();
-        $UADetails['config_device_model'] = $UAParser->getModel();
-        $UADetails['config_device_brand'] = $UAParser->getBrand();
-        return $UADetails;
-    }
-
-    private function updateVisit($idVisit, $uaDetails)
-    {
-        $q = "UPDATE " . Common::prefixTable("log_visit") . " SET " .
-            "config_browser_name = '" . $uaDetails['config_browser_name'] . "' ," .
-            "config_browser_version = '" . $uaDetails['config_browser_version'] . "' ," .
-            "config_os = '" . $uaDetails['config_os'] . "' ," .
-            "config_os_version = '" . $uaDetails['config_os_version'] . "' ," .
-            "config_device_type =  " . (isset($uaDetails['config_device_type']) ? "'" . $uaDetails['config_device_type'] . "'" : "NULL") . " ," .
-            "config_device_model = " . (isset($uaDetails['config_device_model']) ? "'" . $uaDetails['config_device_model'] . "'" : "NULL") . " ," .
-            "config_device_brand = " . (isset($uaDetails['config_device_brand']) ? "'" . $uaDetails['config_device_brand'] . "'" : "NULL") . "
-                    WHERE idvisit = " . $idVisit;
-        Db::query($q);
-    }
-
     public function deviceDetection()
     {
         Piwik::checkUserHasSomeAdminAccess();

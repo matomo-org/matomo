@@ -143,7 +143,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->exportLink = $this->getVisitorProfileExportLink();
 
         if (Common::getRequestVar('showMap', 1) == 1
-            && $view->visitorData['hasLatLong']
+            && !empty($view->visitorData['hasLatLong'])
             && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
         ) {
             $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();

@@ -53,7 +53,7 @@ class Db
         return self::$connection;
     }
 
-    public static function getDbConfig($dbConfig = null)
+    public static function getDatabaseConfig($dbConfig = null)
     {
         $config = Config::getInstance();
 
@@ -79,7 +79,7 @@ class Db
          *                        - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
          *                        - **type**: The MySQL engine to use, for instance 'InnoDB'
          */
-        Piwik::postEvent('Reporting.getDatabaseConfig', array(&$dbConfig));
+        Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
 
         $dbConfig['profiler'] = $config->Debug['enable_sql_profiler'];
 
@@ -96,7 +96,7 @@ class Db
      */
     public static function createDatabaseObject($dbConfig = null)
     {
-        $dbConfig = self::getDbConfig($dbConfig);
+        $dbConfig = self::getDatabaseConfig($dbConfig);
 
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 

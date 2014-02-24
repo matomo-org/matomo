@@ -105,4 +105,9 @@ class MenuAdmin extends MenuAbstract
         }
         return false;
     }
+
+    public static function removeEntry($menuName)
+    {
+        MenuAdmin::getInstance()->remove('General_Settings', $menuName);
+    }
 }

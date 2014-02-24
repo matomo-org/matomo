@@ -137,7 +137,7 @@ function getDeviceTypeLogo($label)
         "car browser"   => "carbrowser.png",
         "camera"        => "camera.png");
 
-    if (!array_key_exists($label, $deviceTypeLogos) || $label == "Unknown") {
+    if (!array_key_exists($label, $deviceTypeLogos)) {
         $label = 'unknown.gif';
     } else {
         $label = $deviceTypeLogos[$label];
