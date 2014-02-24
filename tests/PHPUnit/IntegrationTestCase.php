@@ -765,7 +765,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public static function getOutputPrefix()
     {
-        $result = substr(get_called_class(), strrpos(get_called_class(), "\\") + 1);
+        $parts = explode("\\", get_called_class());
+        $result = end($parts);
         $result = str_replace('Test_Piwik_Integration_', '', $result);
         return $result;
     }
