@@ -20,7 +20,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
      * This structure allows us to display the sites within a group directly under the group without big logic and also
      * allows us to calculate the summary for each group easily
     */
-    var allSites = [];
+    var allSitesByGroup = [];
 
     var model       = {};
     // those sites are going to be displayed
@@ -31,7 +31,6 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     model.totalVisits  = '?';
     model.totalActions = '?';
     model.totalRevenue = '?';
-    model.prettyDate   = '';
     model.searchTerm   = '';
     model.lastVisits   = '?';
     model.lastVisitsDate = '?'
@@ -77,24 +76,17 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         });
     }
 
-    model.updateWebsitesList = function (processedReport) {
-        if (!processedReport) {
-            model.errorLoadingSites = true;
-            return;
-        }
-
-        var allSitesUnordered  = processedReport.reportData;
-        model.totalVisits  = processedReport.reportTotal.nb_visits;
-        model.totalActions = processedReport.reportTotal.nb_actions;
-        model.totalRevenue = processedReport.reportTotal.revenue;
-        model.prettyDate   = processedReport.prettyDate;
-
+    function createGroupsAndMoveSitesIntoRelatedGroup(allSitesUnordered, reportMetadata)
+    {
         var sitesByGroup = [];
         var groups = {};
+
+        // we do 3 things (complete site information, create groups, move sites into group) in one step for
+        // performance reason, there can be > 20k sites
         angular.forEach(allSitesUnordered, function (site, index) {
-            site.idsite   = processedReport.reportMetadata[index].idsite;
-            site.group    = processedReport.reportMetadata[index].group;
-            site.main_url = processedReport.reportMetadata[index].main_url;
+            site.idsite   = reportMetadata[index].idsite;
+            site.group    = reportMetadata[index].group;
+            site.main_url = reportMetadata[index].main_url;
 
             if (site.group) {
 
@@ -112,19 +104,32 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             }
         });
 
-        // calculate visits, pageviews, ... per group
         calculateMetricsForEachGroup(groups);
 
-        if (!sitesByGroup || !sitesByGroup.length) {
+        return sitesByGroup;
+    }
+
+    model.updateWebsitesList = function (processedReport) {
+        if (!processedReport) {
+            model.errorLoadingSites = true;
             return;
         }
 
-        allSites = sitesByGroup;
+        var allSitesUnordered = processedReport.reportData;
+        model.totalVisits  = processedReport.reportTotal.nb_visits;
+        model.totalActions = processedReport.reportTotal.nb_actions;
+        model.totalRevenue = processedReport.reportTotal.revenue;
+
+        var allSitesByGroup = createGroupsAndMoveSitesIntoRelatedGroup(allSitesUnordered, processedReport.reportMetadata);
+
+        if (!allSitesByGroup.length) {
+            return;
+        }
 
         if (model.searchTerm) {
             model.searchSite(model.searchTerm);
         } else {
-            model.sites = sitesByGroup;
+            model.sites = allSitesByGroup;
         }
     };
 
@@ -156,12 +161,12 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         model.currentPage = model.currentPage + 1;
     };
 
-    function nestedSearch(sites, term)
+    function nestedSearch(sitesByGroup, term)
     {
         var filteredSites = [];
 
-        for (var index in sites) {
-            var site = sites[index];
+        for (var index in sitesByGroup) {
+            var site = sitesByGroup[index];
             if (site.isGroup) {
                 var matchingSites = nestedSearch(site.sites, term);
                 if (matchingSites.length || (''+site.label).toLowerCase().indexOf(term) > -1) {
@@ -182,7 +187,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     model.searchSite = function (term) {
         model.searchTerm  = term;
         model.currentPage = 0;
-        model.sites       = nestedSearch(allSites, term);
+        model.sites       = nestedSearch(allSitesByGroup, term);
     }
 
     function fetchPreviousSummary () {
