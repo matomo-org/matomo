@@ -43,14 +43,15 @@
                 {% else %}
                     {% set defaultReportIdSite=defaultReport %}
                 {% endif %}
-                {% include "@CoreHome/_siteSelect.twig" with {
-                    'siteName':defaultReportSiteName,
-                    'idSite':defaultReportIdSite,
-                    'switchSiteOnSelect':false,
-                    'showAllSitesItem':false,
-                    'showSelectedSite':true,
-                    'siteSelectorId': 'defaultReportSiteSelector'
-                } %}
+
+                <div piwik-siteselector
+                     class="sites_autocomplete"
+                     siteid="{{ defaultReportIdSite }}"
+                     sitename="{{ defaultReportSiteName }}"
+                     switch-site-on-select="false"
+                     show-all-sites-item="false"
+                     showselectedsite="true"
+                     id="defaultReportSiteSelector"></div>
             </fieldset>
         </td>
     </tr>

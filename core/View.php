@@ -203,13 +203,6 @@ class View implements ViewInterface
             $this->currentModule = Piwik::getModule();
             $this->currentAction = Piwik::getAction();
 
-            $count = SettingsPiwik::getWebsitesCountToDisplay();
-
-            $sites = APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($count);
-            usort($sites, function ($site1, $site2) {
-                return strcasecmp($site1["name"], $site2["name"]);
-            });
-            $this->sites = $sites;
             $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();
             $this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
@@ -217,11 +210,6 @@ class View implements ViewInterface
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
-            if (Config::getInstance()->General['autocomplete_min_sites'] <= count($sites)) {
-                $this->show_autocompleter = true;
-            } else {
-                $this->show_autocompleter = false;
-            }
 
             $this->loginModule = Piwik::getLoginPluginName();
 

@@ -88,6 +88,10 @@ var broadcast = {
         }
 
         // hash doesn't contain the first # character.
+        if (hash && 0 === (''+hash).indexOf('/')) {
+            hash = (''+hash).substr(1);
+        }
+
         if (hash) {
 
             if (/^popover=/.test(hash)) {

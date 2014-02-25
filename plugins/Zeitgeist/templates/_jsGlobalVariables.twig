@@ -29,9 +29,10 @@
 {% endif %}
     {% if language is defined %}piwik.language = "{{ language }}";{% endif %}
 
-{% if config_action_url_category_delimiter is defined %}
+    piwik.hasSuperUserAccess = {{ hasSuperUserAccess|default(0)|e('js')}};
     piwik.config = {};
-    piwik.config.action_url_category_delimiter = "{{ config_action_url_category_delimiter }}";
+{% if clientSideConfig is defined %}
+    piwik.config = {{ clientSideConfig|json_encode|raw }};
 {% endif %}
     {{ postEvent("Template.jsGlobalVariables") }}
 </script>

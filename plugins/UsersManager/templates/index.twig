@@ -12,14 +12,15 @@
         {% set applyAllSitesText %}
             <strong>{{ 'UsersManager_ApplyToAllWebsites'|translate }}</strong>
         {% endset %}
-        {% include "@CoreHome/_siteSelect.twig" with {
-            'siteName': defaultReportSiteName,
-            'idSite':idSiteSelected,
-            'allSitesItemText': applyAllSitesText,
-            'allWebsitesLinkLocation': 'top',
-            'siteSelectorId':"usersManagerSiteSelect",
-            'switchSiteOnSelect':false
-        } %}
+
+        <div piwik-siteselector
+             class="sites_autocomplete"
+             siteid="{{ idSiteSelected }}"
+             sitename="{{ defaultReportSiteName }}"
+             all-sites-text="{{ applyAllSitesText|raw }}"
+             all-sites-location="top"
+             id="usersManagerSiteSelect"
+             switch-site-on-select="false"></div>
     </section>
 </div>
 

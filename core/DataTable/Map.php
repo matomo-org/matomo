@@ -8,6 +8,7 @@
  */
 namespace Piwik\DataTable;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
 
@@ -299,6 +300,10 @@ class Map implements DataTableInterface
      * This function can be used, for example, to smoosh IndexedBySite archive
      * query results into one DataTable w/ different rows differentiated by site ID.
      *
+     * Note: This DataTable/Map will be destroyed and will be no longer usable after the tables have been merged into
+     *       the new dataTable to reduce memory usage. Destroying all DataTables witihn the Map also seems to fix a
+     *       Segmentation Fault that occurred in the AllWebsitesDashboard when having > 16k sites.
+     *
      * @return DataTable|Map
      */
     public function mergeChildren()
@@ -326,7 +331,10 @@ class Map implements DataTableInterface
 
             foreach ($this->getDataTables() as $label => $subTable) {
                 $this->copyRowsAndSetLabel($result, $subTable, $label);
+                Common::destroy($subTable);
             }
+
+            $this->array = array();
         }
 
         return $result;

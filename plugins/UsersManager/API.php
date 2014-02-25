@@ -374,6 +374,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Detect whether the current user has super user access or not.
+     *
+     * @return bool
+     */
+    public function hasSuperUserAccess()
+    {
+        return Piwik::hasUserSuperUserAccess();
+    }
+
+    /**
      * Returns a list of all Super Users containing there userLogin and email address.
      *
      * @return array

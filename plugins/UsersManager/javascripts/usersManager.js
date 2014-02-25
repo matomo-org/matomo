@@ -60,7 +60,7 @@ function sendAddUserAJAX(row) {
 }
 
 function getIdSites() {
-    return $('.custom_select_main_link').attr('data-siteid');
+    return $('#usersManagerSiteSelect').attr('siteid');
 }
 
 function sendUpdateUserAccess(login, access, successCallback) {
@@ -293,14 +293,9 @@ $(document).ready(function () {
     $('#superUserAccess .accessGranted, #superUserAccess .updateAccess').click(bindUpdateSuperUserAccess);
 
     // when a site is selected, reload the page w/o showing the ajax loading element
-    $('#usersManagerSiteSelect').bind('piwik:siteSelected', function (e, site) {
+    $('#usersManagerSiteSelect').bind('change', function (e, site) {
         if (site.id != piwik.idSite) {
-            switchSite(
-                site.id,
-                site.name,
-                false /* do not show main ajax loading animation */,
-                true /* do not go to all websites dash */
-            );
+            piwik.broadcast.propagateNewPage('segment=&idSite=' + site.id, false);
         }
     });
 });
