@@ -182,6 +182,16 @@ class Config extends Singleton
         return $this->getHostname();
     }
 
+    public function getClientSideOptions()
+    {
+        $general = $this->General;
+
+        return array(
+            'action_url_category_delimiter' => $general['action_url_category_delimiter'],
+            'autocomplete_min_sites' => $general['autocomplete_min_sites']
+        );
+    }
+
     protected static function getByDomainConfigPath()
     {
         $host       = self::getHostname();

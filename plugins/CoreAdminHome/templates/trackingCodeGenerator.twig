@@ -26,8 +26,15 @@
     <div>
         {# website #}
         <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
-        {% include "@CoreHome/_siteSelect.twig" with {'siteName':defaultReportSiteName, 'idSite':idSite, 'showAllSitesItem':false, 'switchSiteOnSelect':false,
-        'siteSelectorId':"js-tracker-website", 'showSelectedSite':true} %}
+
+        <div piwik-siteselector
+             class="sites_autocomplete"
+             siteid="{{ idSite }}"
+             sitename="{{ defaultReportSiteName }}"
+             show-all-sites-item="false"
+             switch-site-on-select="false"
+             id="js-tracker-website"
+             show-selected-site="true"></div>
 
         <br/><br/><br/>
     </div>
@@ -193,10 +200,14 @@
     <div>
         {# website #}
         <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
-        {% include "@CoreHome/_siteSelect.twig" with {
-            'siteName': defaultReportSiteName, 'idSite': idSite, 'showAllSitesItem': false,
-            'switchSiteOnSelect': false, 'showSelectedSite': true, 'siteSelectorId':"image-tracker-website"
-        } %}
+        <div piwik-siteselector
+             class="sites_autocomplete"
+             siteid="{{ idSite }}"
+             sitename="{{ defaultReportSiteName }}"
+             id="image-tracker-website"
+             show-all-sites-item="false"
+             switch-site-on-select="false"
+             show-selected-site="true"></div>
 
         <br/><br/><br/>
     </div>

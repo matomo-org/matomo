@@ -10,118 +10,14 @@
 
 <div class="pageWrap" id="multisites">
     <div id="main">
-        <script type="text/javascript">
-            var allSites = [];
-            var params = [];
-            {% for i,site in sitesData %}
-            allSites[{{ i }}] = new setRowData({{ site.idsite }},
-                {{ site.visits }},
-                {{ site.pageviews }},
-                {% if site.revenue is empty %}0{% else %}{{ site.revenue|raw }}{% endif %},
-                '{{ site.name|e("js") }}',
-                '{{ site.main_url|e("js") }}',
-                '{% if site.visits_evolution is defined %}{{ site.visits_evolution|replace({",":"."}) }}{% endif %}',
-                '{% if site.pageviews_evolution is defined %}{{ site.pageviews_evolution|replace({",":"."}) }}{% endif %}',
-                '{% if site.revenue_evolution is defined %}{{ site.revenue_evolution|replace({",":"."})|raw }}{% endif %}'
-            );
-            {% endfor %}
-            params['period'] = '{{ period }}';
-            params['date'] = '{{ date }}';
-            params['evolutionBy'] = '{{ evolutionBy }}';
-            params['mOrderBy'] = '{{ orderBy }}';
-            params['order'] = '{{ order }}';
-            params['limit'] = '{{ limit }}';
-            params['page'] = 1;
-            params['prev'] = "{{ 'General_Previous'|translate|e("js") }}";
-            params['next'] = "{{ 'General_Next'|translate|e("js") }}";
-
-            {% set row %}
-            {% include "@MultiSites/_siteRow.twig" %}
-            {% endset %}
-            params['row'] = '{{ row|e("js") }}';
-            params['dateSparkline'] = '{{ dateSparkline }}';
-        </script>
-
-        <div class="centerLargeDiv">
-            <h2>{{ 'General_AllWebsitesDashboard'|translate }}
-                {% set nVisits %}{{ 'General_NVisits'|translate(totalVisits) }}{% endset %}
-                {% set nVisitsLast %}{{ 'General_NVisits'|translate(pastTotalVisits) }}{% endset %}
-                <span class='smallTitle'
-                {% if totalVisitsEvolution %}title="{{ 'General_EvolutionSummaryGeneric'|translate(nVisits,prettyDate,nVisitsLast,pastPeriodPretty,totalVisitsEvolution) }}"{% endif %}>
-                    {{ 'General_TotalVisitsPageviewsRevenue'|translate("<strong>"~totalVisits~"</strong>","<strong>"~totalPageviews~"</strong>","<strong>"~totalRevenue~"</strong>")|raw }}
-	            </span>
-            </h2>
-
-            <table id="mt" class="dataTable" cellspacing="0">
-                <thead>
-                <tr>
-                    <th id="names" class="label" onClick="params = setOrderBy(this,allSites, params, 'names');">
-                        <span>{{ 'General_Website'|translate }}</span>
-                        <span class="arrow {% if evolutionBy=='names' %}multisites_{{ order }}{% endif %}"></span>
-                    </th>
-                    <th id="visits" class="multisites-column" style="width: 100px;" onClick="params = setOrderBy(this,allSites, params, 'visits');">
-                        <span>{{ 'General_ColumnNbVisits'|translate }}</span>
-                        <span class="arrow {% if evolutionBy=='visits' %}multisites_{{ order }}{% endif %}"></span>
-                    </th>
-                    <th id="pageviews" class="multisites-column" style="width: 110px;" onClick="params = setOrderBy(this,allSites, params, 'pageviews');">
-                        <span>{{ 'General_ColumnPageviews'|translate }}</span>
-                        <span class="arrow {% if evolutionBy=='pageviews' %}multisites_{{ order }}{% endif %}"></span>
-                    </th>
-                    {% if displayRevenueColumn %}
-                        <th id="revenue" class="multisites-column" style="width: 110px;" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
-                            <span>{{ 'General_ColumnRevenue'|translate }}</span>
-                            <span class="arrow {% if evolutionBy=='revenue' %}multisites_{{ order }}{% endif %}"></span>
-                        </th>
-                    {% endif %}
-                    <th id="evolution" style=" width:350px;" colspan="{% if show_sparklines %}2{% else %}1{% endif %}">
-                        <span class="arrow "></span>
-                        <span class="evolution" style="cursor:pointer;"
-                              onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {{ 'MultiSites_Evolution'|translate }}</span>
-                        <select class="selector" id="evolution_selector"
-                                onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
-                            <option value="visits" {% if evolutionBy == 'visits' %} selected {% endif %}>{{ 'General_ColumnNbVisits'|translate }}</option>
-                            <option value="pageviews" {% if evolutionBy == 'pageviews' %} selected {% endif %}}>{{ 'General_ColumnPageviews'|translate }}</option>
-                            {% if displayRevenueColumn %}
-                                <option value="revenue" {% if evolutionBy == 'revenue' %} selected {% endif %}>{{ 'General_ColumnRevenue'|translate }}</option>
-                            {% endif %}
-                        </select>
-                    </th>
-                </tr>
-                </thead>
-
-                <tbody id="tb">
-                </tbody>
-
-                <tfoot>
-                {% if isSuperUser %}
-                    <tr>
-                        <td colspan="8" class="clean" style="text-align: right; padding-top: 15px;padding-right:10px;">
-                            <a href="{{ url|raw }}&module=SitesManager&action=index&showaddsite=1">
-                                <img src='plugins/UsersManager/images/add.png' alt="" style="margin: 0;"/> {{ 'SitesManager_AddSite'|translate }}
-                            </a>
-                        </td>
-                    </tr>
-                {% endif %}
-                <tr row_id="last">
-                    <td colspan="8" class="clean" style="padding: 20px;">
-                        <span id="prev" class="pager" style="padding-right: 20px;"></span>
-                        <span class="dataTablePages">
-                            <span id="counter">
-                            </span>
-                        </span>
-                        <span id="next" class="clean" style="padding-left: 20px;"></span>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+        <div piwik-multisites-dashboard
+             class="centerLargeDiv"
+             display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
+             page-size="{{ limit }}"
+             show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
+             date-sparkline="{{ dateSparkline }}"
+             auto-refresh-today-report="{{ autoRefreshTodayReport }}">
         </div>
-        <script type="text/javascript">
-            prepareRows(allSites, params, '{{ orderBy }}');
-
-            {% if autoRefreshTodayReport %}
-            piwikHelper.refreshAfter({{ autoRefreshTodayReport }} * 1000);
-            {% endif %}
-        </script>
     </div>
 </div>
 {% endblock %}

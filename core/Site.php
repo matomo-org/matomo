@@ -442,6 +442,17 @@ class Site
     }
 
     /**
+     * Returns the group of the site with the specified ID.
+     *
+     * @param int $idsite The site ID.
+     * @return string
+     */
+    static public function getGroupFor($idsite)
+    {
+        return self::getFor($idsite, 'group');
+    }
+
+    /**
      * Returns the timezone of the site with the specified ID.
      *
      * @param int $idsite The site ID.
