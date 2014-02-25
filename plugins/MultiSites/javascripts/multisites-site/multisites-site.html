@@ -3,7 +3,7 @@
         <a title="View reports" ng-href="index.php?module=CoreHome&action=index&date={{ date }}&period={{ period }}&idSite={{ website.idsite }}">{{ website.label }}</a>
 
         <span style="width: 10px; margin-left:3px;">
-            <a target="_blank" ng-attr-title="{{ 'General_GoTo'|translate:website.url }}" ng-href="{{ website.main_url }}">
+            <a target="_blank" title="{{ 'General_GoTo'|translate:website.main_url }}" ng-href="{{ website.main_url }}">
             <img src="plugins/MultiSites/images/link.gif"/></a>
         </span>
     </td>
