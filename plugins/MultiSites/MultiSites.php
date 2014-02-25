@@ -33,7 +33,29 @@ class MultiSites extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Menu.Top.addItems'               => 'addTopMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'General_Website';
+        $translations[] = 'General_ColumnNbVisits';
+        $translations[] = 'General_ColumnPageviews';
+        $translations[] = 'General_ColumnRevenue';
+        $translations[] = 'General_TotalVisitsPageviewsRevenue';
+        $translations[] = 'General_EvolutionSummaryGeneric';
+        $translations[] = 'General_AllWebsitesDashboard';
+        $translations[] = 'General_NVisits';
+        $translations[] = 'MultiSites_Evolution';
+        $translations[] = 'SitesManager_AddSite';
+        $translations[] = 'General_Next';
+        $translations[] = 'General_Previous';
+        $translations[] = 'General_GoTo';
+        $translations[] = 'Dashboard_DashboardOf';
+        $translations[] = 'Actions_SubmenuSitesearch';
+        $translations[] = 'MultiSites_LoadingWebsites';
+        $translations[] = 'General_ErrorRequest';
     }
 
     public function getReportMetadata(&$reports)
@@ -80,11 +102,15 @@ class MultiSites extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/MultiSites/javascripts/multiSites.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-model.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-controller.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-filter.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard-directive.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multisites-site/multisites-site-directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/MultiSites/stylesheets/multiSites.less";
+        $stylesheets[] = "plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard.less";
     }
 }

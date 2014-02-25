@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Tracker\GoalManager;
@@ -527,6 +528,13 @@ class API extends \Piwik\Plugin\API
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
             $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl);
+    }
+
+    public function getLastDate($date, $period)
+    {
+        $lastDate = Range::getLastDate($date, $period);
+
+        return array_shift($lastDate);
     }
 
     /**

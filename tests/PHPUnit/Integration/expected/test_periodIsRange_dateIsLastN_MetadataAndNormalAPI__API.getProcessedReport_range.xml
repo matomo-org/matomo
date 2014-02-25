@@ -73,5 +73,6 @@
 		<nb_actions>5</nb_actions>
 		<nb_conversions>3</nb_conversions>
 		<bounce_count>2</bounce_count>
+        <revenue>1000</revenue>
 	</reportTotal>
 </result>
