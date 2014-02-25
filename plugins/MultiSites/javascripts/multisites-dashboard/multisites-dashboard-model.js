@@ -126,7 +126,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         model.totalActions = processedReport.reportTotal.nb_actions;
         model.totalRevenue = processedReport.reportTotal.revenue;
 
-        var allSitesByGroup = createGroupsAndMoveSitesIntoRelatedGroup(allSitesUnordered, processedReport.reportMetadata);
+        allSitesByGroup = createGroupsAndMoveSitesIntoRelatedGroup(allSitesUnordered, processedReport.reportMetadata);
 
         if (!allSitesByGroup.length) {
             return;
