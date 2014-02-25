@@ -14,7 +14,7 @@ use Piwik\AssetManager;
 use Piwik\Date;
 
 /**
- * TODO
+ * Fixture for UI tests.
  */
 class UITestFixture extends OmniFixture
 {

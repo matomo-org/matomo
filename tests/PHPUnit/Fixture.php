@@ -60,6 +60,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public $dropDatabaseInTearDown = true;
     public $loadTranslations = true;
     public $createSuperUser = true;
+    public $removeExistingSuperUser = true;
     public $overwriteExisting = true;
     public $configureComponents = true;
     public $persistFixtureData = false;
@@ -94,6 +95,7 @@ class Fixture extends PHPUnit_Framework_Assert
                 $this->dropDatabaseInSetUp = false;
                 $this->dropDatabaseInTearDown = false;
                 $this->overwriteExisting = false;
+                $this->removeExistingSuperUser = false;
 
                 Config::getInstance()->database_tests['dbname'] = Config::getInstance()->database['dbname'] = $this->dbName;
                 Config::getInstance()->saveConfigOverride();
@@ -160,7 +162,7 @@ class Fixture extends PHPUnit_Framework_Assert
         }
 
         if ($this->createSuperUser) {
-            self::createSuperUser($removeExisting = true);
+            self::createSuperUser($this->removeExistingSuperUser);
         }
 
         if ($setupEnvironmentOnly) {
@@ -427,7 +429,7 @@ class Fixture extends PHPUnit_Framework_Assert
         );
     }
 
-    public static function createSuperUser($removeExisting = false)
+    public static function createSuperUser($removeExisting = true)
     {
         $login = self::ADMIN_USER_LOGIN;
         $password = UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD);
