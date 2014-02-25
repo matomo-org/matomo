@@ -2025,9 +2025,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: BX
+    model: Edison
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2409,9 +2409,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: BX
+    model: Edison
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2425,9 +2425,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: tablet
+    brand: BX
+    model: Edison
   os_family: Android
   browser_family: Android Browser
 - 
@@ -21662,3 +21662,195 @@
     model: APA9292KT (Sprint)
   os_family: Android
   browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.3; de-de; Galaxy S II Build/GRJ22) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: SA
+    model: Galaxy S II
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.3; ru-ru; Sensation_Z710e Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HT
+    model: Sensation Z710e
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 2.3.5; en-gb; Desire_A8181 Build/GRJ90) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+  os:
+    name: Android
+    short_name: AND
+    version: 2.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HT
+    model: Desire A8181
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.4; en-us; bq Maxwell Plus Build/1.0.3 20121201-14:07) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: BX
+    model: Maxwell Plus
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; es-es; bq Aquaris 4 Build/JRO03C) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: BX
+    model: Aquaris 4
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; es-es; bq Aquaris Build/JRO03C) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: BX
+    model: Aquaris
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.2; es-es; bq Elcano Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: BX
+    model: Elcano
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.2.1; es-es; bq Aquaris 5 Build/JOP40D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: BX
+    model: Aquaris 5
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.2.1; bq Aquaris 5.7 Build/JOP40D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.99 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 32.0
+  device:
+    type: smartphone
+    brand: BX
+    model: Aquaris 5.7
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (iPad; CPU OS 6_0_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mercury/8.0.1 Mobile/10A523 Safari/8536.25
+  os:
+    name: iOS
+    short_name: IOS
+    version: 6.0
+  browser:
+    name: Mercury
+    short_name: ME
+    version: 8.0
+  device:
+    type: tablet
+    brand: AP
+    model: iPad
+  os_family: iOS
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (iPad; CPU OS 6_0_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) CriOS/31.0.1650.18 Mobile/10A523 Safari/8536.25
+  os:
+    name: iOS
+    short_name: IOS
+    version: 6.0
+  browser:
+    name: Chrome Mobile iOS
+    short_name: CI
+    version: 31.0
+  device:
+    type: tablet
+    brand: AP
+    model: iPad
+  os_family: iOS
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (iPad2,1; iPad; U; CPU OS 7_0_4 like Mac OS X; pl_PL) com.google.GooglePlus/29676 (KHTML, like Gecko) Mobile/K93AP (gzip)
+  os:
+    name: iOS
+    short_name: IOS
+    version: 7.0
+  browser:
+    name: Mobile Safari
+    short_name: MF
+    version: 
+  device:
+    type: tablet
+    brand: AP
+    model: iPad
+  os_family: iOS
+  browser_family: Safari

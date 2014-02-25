@@ -41,6 +41,7 @@ class UserAgentParserEnhanced
         'BO' => 'BangOlufsen',
         'BQ' => 'BenQ',
         'BS' => 'BenQ-Siemens',
+        'BX' => 'bq',
         'CA' => 'Cat',
         'CK' => 'Cricket',
         'CL' => 'Compal',

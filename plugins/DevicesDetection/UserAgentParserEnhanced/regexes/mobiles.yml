@@ -10,7 +10,7 @@
 
 # HTC
 HTC:
-  regex: 'HTC|Sprint (?:APA|ATP)|ADR[a-z0-9]+|Desire [a-z]+ Build|NexusHD2|Amaze 4G Build'
+  regex: 'HTC|Sprint (?:APA|ATP)|ADR[a-z0-9]+|Desire[ _][a-z0-9]+ Build|NexusHD2|Amaze 4G Build|Sensation[ _][a-z0-9]+ Build'
   device: 'smartphone'
   models:
     - regex: 'NexusHD2' # custom rom for hd2
@@ -33,7 +33,7 @@ HTC:
       model: '$1'
     - regex: 'HTC;(?: )?([a-z0-9 ]+)'
       model: '$1'
-    - regex: '(Desire [a-z]+|Amaze 4G) Build'
+    - regex: '(Desire[ _][a-z0-9]+|Amaze 4G|Sensation[ _][a-z0-9]+) Build'
       model: '$1'
     - regex: '(ADR.+) Build'
       model: '$1'
@@ -264,7 +264,7 @@ BBK:
   regex: 'vivo'
   device: 'smartphone'
   models:
-    - regex: 'vivo ([^/;]*) Build'
+    - regex: 'vivo ([^/;]+) Build'
       model: 'Vivo $1'
     - regex: 'vivo_([a-z0-9]+)'
       model: 'Vivo $1'
@@ -298,6 +298,17 @@ BenQ:
   regex: 'BENQ(?:[ \-])?([a-z0-9]+)'
   device: 'feature phone'
   model: '$1'
+
+# bq
+bq:
+  regex: 'bq ([^/;]+) Build'
+  device: 'tablet'
+  models:
+    - regex: 'bq (Aquaris [^/;]+) Build'
+      model: '$1'
+      device: 'smartphone'
+    - regex: 'bq ([^/;]+) Build'
+      model: '$1'
 
 # Capitel
 Capitel:
@@ -953,6 +964,8 @@ Samsung:
     - regex: 'SMART-TV'
       device: 'tv'
       model: 'Smart TV'
+    - regex: '(Galaxy [^/;]+) Build'
+      model: '$1'
     - regex: '(Galaxy [a-z0-9]+)'
       model: '$1'
     - regex: '(?:portalmmm|o2imode)/2\.0 ([SZ][a-z0-9]+)'
