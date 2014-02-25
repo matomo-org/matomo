@@ -76,11 +76,6 @@ class OmniFixture extends \Fixture
         foreach ($this->fixtures as $name => $fixture) {
             $fixture->setUp();
         }
-
-        $this->visitorIdDeterministic = bin2hex(\Piwik\Db::fetchOne(
-            "SELECT idvisitor FROM " . \Piwik\Common::prefixTable('log_visit')
-            . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
-
     }
 
     public function tearDown()

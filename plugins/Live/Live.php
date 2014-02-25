@@ -31,7 +31,8 @@ class Live extends \Piwik\Plugin
             'WidgetsList.addWidgets'                 => 'addWidget',
             'Menu.Reporting.addItems'                => 'addMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'ViewDataTable.getDefaultType'           => 'getDefaultTypeViewDataTable'
+            'ViewDataTable.getDefaultType'           => 'getDefaultTypeViewDataTable',
+            'TestingEnvironment.addHooks'            => 'addTestHooks'
         );
     }
 
@@ -73,5 +74,10 @@ class Live extends \Piwik\Plugin
     public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['Live.getLastVisitsDetails'] = VisitorLog::ID;
+    }
+
+    public function addTestHooks($testingEnvironment)
+    {
+        $_GET['visitorId'] = $testingEnvironment->forcedIdVisitor;
     }
 }

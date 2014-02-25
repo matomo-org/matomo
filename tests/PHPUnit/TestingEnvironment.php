@@ -2,7 +2,6 @@
 
 use Piwik\Piwik;
 use Piwik\Config;
-use Piwik\Option;
 use Piwik\Common;
 use Piwik\Session\SessionNamespace;
 
@@ -41,10 +40,38 @@ class Piwik_MockAccess
  */
 class Piwik_TestingEnvironment
 {
+    private $behaviorOverrideProperties = array();
+
+    public function __construct()
+    {
+        $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
+        if (file_exists($overridePath)) {
+            $this->behaviorOverrideProperties = json_decode(file_get_contents($overridePath), true);
+        }
+    }
+
+    public function __get($key)
+    {
+        return isset($this->behaviorOverrideProperties[$key]) ? $this->behaviorOverrideProperties[$key] : null;
+    }
+
+    public function __set($key, $value)
+    {
+        $this->behaviorOverrideProperties[$key] = $value;
+    }
+
+    public function save()
+    {
+        $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
+        file_put_contents($overridePath, json_encode($this->behaviorOverrideProperties));
+    }
+
     public static function addHooks()
     {
-        Piwik::addAction('Access.createAccessSingleton', function($access) {
-            if (empty(Option::get('Tests.testUseRegularAuth'))) {
+        $testingEnvironment = new Piwik_TestingEnvironment();
+
+        Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
+            if (!$testingEnvironment->testUseRegularAuth) {
                 $access = new Piwik_MockAccess($access);
                 \Piwik\Access::setSingletonInstance($access);
             }
@@ -71,10 +98,6 @@ class Piwik_TestingEnvironment
         Piwik::addAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
             $stylesheets[] = 'tests/resources/screenshot-override/override.css';
         });
-        Piwik::addAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
-            $jsFiles[] = 'tests/resources/screenshot-override/jquery.waitforimages.js';
-            $jsFiles[] = 'tests/resources/screenshot-override/override.js';
-        });
         Piwik::addAction('Test.Mail.send', function($mail) {
             $outputFile = PIWIK_INCLUDE_PATH . 'tmp/' . Common::getRequestVar('module') . '.' . Common::getRequestVar('action') . '.mail.json';
 
@@ -91,5 +114,7 @@ class Piwik_TestingEnvironment
             
             file_put_contents($outputFile, Common::json_encode($outputContents));
         });
+
+        Piwik::postEvent("TestingEnvironment.addHooks", $testingEnvironment); // for plugins that need to inject special testing logic
     }
 }

@@ -53,6 +53,7 @@ class UserCountryMap extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Menu.Reporting.addItems'         => 'addMenu',
+            'TestingEnvironment.addHooks'     => 'addTestHooks'
         );
         return $hooks;
     }
@@ -77,5 +78,10 @@ class UserCountryMap extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/UserCountryMap/stylesheets/visitor-map.less";
         $stylesheets[] = "plugins/UserCountryMap/stylesheets/realtime-map.less";
+    }
+
+    public function addTestHooks($testingEnvironment)
+    {
+        $_GET['forceNowValue'] = $testingEnvironment->forcedNowTimestamp;
     }
 }

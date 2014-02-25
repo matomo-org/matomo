@@ -39,6 +39,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
     ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
     : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency

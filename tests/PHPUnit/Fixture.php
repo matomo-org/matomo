@@ -65,7 +65,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public $configureComponents = true;
     public $persistFixtureData = false;
 
-    public $testOptions = array();
+    public $testEnvironment = null;
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
@@ -81,6 +81,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performSetUp($testCase, $setupEnvironmentOnly = false)
     {
+        $this->testEnvironment = new Piwik_TestingEnvironment();
+
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
 
@@ -179,9 +181,7 @@ class Fixture extends PHPUnit_Framework_Assert
             echo "Using existing database {$this->dbName}.";
         }
 
-        foreach ($this->testOptions as $key => $value) {
-            Option::set("Tests." . $key, $value);
-        }
+        $this->testEnvironment->save();
     }
 
     public function isFixtureSetUp()
@@ -198,8 +198,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performTearDown()
     {
-        Option::deleteLike("Tests.%");
-
         $this->tearDown();
 
         \Piwik\SettingsPiwik::$piwikUrlCache = null;
@@ -444,6 +442,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
         if (empty($user)) {
             $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
+        } else {
+            $model->updateUser($login, $password, 'hello@example.org', $login, $token);
         }
 
         if (empty($user['superuser_access'])) {
