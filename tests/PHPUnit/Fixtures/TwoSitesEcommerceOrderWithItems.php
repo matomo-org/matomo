@@ -34,15 +34,15 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
 
     private function setUpWebsitesAndGoals()
     {
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($this->idSite)) {
             $this->idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
         }
 
-        if (!self::siteCreated($idSite = 2)) {
+        if (!self::siteCreated($this->idSite2)) {
             $this->idSite2 = self::createWebsite($this->dateTime);
         }
 
-        if (!self::goalExists($idSite = 1, $idGoal = 1)) {
+        if (!self::goalExists($this->idSite, $this->idGoalStandard)) {
             API::getInstance()->addGoal(
                 $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
                 $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
