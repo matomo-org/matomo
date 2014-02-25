@@ -19,7 +19,7 @@ install:
   - cd piwik
   - git checkout "$TEST_PIWIK_VERSION"
   - git submodule init
-  - git submodule update
+  - git submodule update || true
   - composer install
   - rm -rf plugins/ExamplePlugin
   - cd ../
