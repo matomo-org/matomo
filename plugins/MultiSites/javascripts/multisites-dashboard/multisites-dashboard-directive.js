@@ -26,7 +26,7 @@ angular.module('piwikApp').directive('piwikMultisitesDashboard', function($docum
             showSparklines: '@',
             dateSparkline: '@'
         },
-        templateUrl: 'plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard.html',
+        templateUrl: 'plugins/MultiSites/javascripts/multisites-dashboard/multisites-dashboard.html?cb=' + piwik.cacheBuster,
         controller: 'MultiSitesDashboardController',
         link: function (scope, element, attrs, controller) {
 

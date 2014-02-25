@@ -29,7 +29,7 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
             dateSparkline: '=',
             displayRevenueColumn: '='
         },
-        templateUrl: 'plugins/MultiSites/javascripts/multisites-site/multisites-site.html',
+        templateUrl: 'plugins/MultiSites/javascripts/multisites-site/multisites-site.html?cb=' + piwik.cacheBuster,
         controller: function ($scope) {
 
             $scope.period   = piwik.period;
