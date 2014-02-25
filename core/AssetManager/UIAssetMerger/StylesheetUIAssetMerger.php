@@ -31,7 +31,12 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function getMergedAssets()
     {
         foreach($this->getAssetCatalog()->getAssets() as $uiAsset) {
-            $this->lessCompiler->addImportDir(dirname($uiAsset->getAbsoluteLocation()));
+
+            $content = $uiAsset->getContent();
+            if (false !== strpos($content, '@import')) {
+                $this->lessCompiler->addImportDir(dirname($uiAsset->getAbsoluteLocation()));
+            }
+
         }
 
         return $this->lessCompiler->compile($this->getConcatenatedAssets());

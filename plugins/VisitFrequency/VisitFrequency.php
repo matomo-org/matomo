@@ -58,11 +58,13 @@ class VisitFrequency extends \Piwik\Plugin
     function addWidgets()
     {
         WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
-        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
+        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph',
+                            array('columns' => array('nb_visits_returning')));
     }
 
     function addMenu()
     {
-        MenuMain::getInstance()->add('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
+        MenuMain::getInstance()->add('General_Visitors', 'VisitFrequency_SubmenuFrequency',
+            array('module' => 'VisitFrequency', 'action' => 'index'), true, $order = 55);
     }
 }

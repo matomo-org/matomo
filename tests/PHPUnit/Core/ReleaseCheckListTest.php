@@ -1,5 +1,6 @@
 <?php
 use Piwik\Filesystem;
+use Piwik\Plugin\Manager;
 use Piwik\SettingsServer;
 
 /**
@@ -164,6 +165,36 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
 
     /**
+     * This tests that all PHP files start with <?php
+     * This would help detect errors such as a php file starting with spaces
+     * @group Core
+     */
+    public function test_phpFilesStartWithRightCharacter()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
+
+        foreach($files as $file) {
+            $handle = fopen($file, "r");
+            $expectedStart = "<?php";
+
+
+            $isIniFile = strpos($file, ".ini.php") !== false || strpos($file, ".ini.travis.php") !== false;
+            if($isIniFile) {
+                $expectedStart = "; <?php exit;";
+            }
+
+            $skipStartFileTest = $this->isSkipPhpFileStartWithPhpBlock($file, $isIniFile);
+
+            if($skipStartFileTest) {
+                continue;
+            }
+
+            $start = fgets($handle, strlen($expectedStart) + 1 );
+            $this->assertEquals($start, $expectedStart, "File $file does not start with $expectedStart");
+        }
+    }
+
+    /**
      * Check that directories in plugins/ folder are specifically either enabled or disabled.
      *
      * This fails when a new folder is added to plugins/* and forgot to enable or mark as disabled in Manager.php.
@@ -190,13 +221,14 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 continue;
             }
             $manager = \Piwik\Plugin\Manager::getInstance();
-            $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault());
+            $isGitSubmodule = Manager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
+            $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
 
-            $isGitSubmodule = false !== strpos( file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules'), "plugins/" . $pluginName);
-            $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule || $pluginName == $manager::DEFAULT_THEME;
+            $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 
             $this->assertTrue( $enabled + $disabled === 1,
-                "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager)."
+                "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager).
+                It is currently (enabled=".(int)$enabled. ", disabled=" . (int)$disabled . ")"
             );
             $count++;
         }
@@ -302,4 +334,23 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             $this->fail("$format format failed for following icons $icons \n");
         }
     }
+
+    /**
+     * @param $file
+     * @param $isIniFile
+     * @return bool
+     */
+    protected function isSkipPhpFileStartWithPhpBlock($file, $isIniFile)
+    {
+        $isIniFileInTests = strpos($file, "/tests/") !== false;
+        $isTestResultFile = strpos($file, "/Integration/expected") !== false
+            || strpos($file, "/Integration/processed") !== false
+            || strpos($file, "tests/resources/Updater/") !== false
+            || strpos($file, "Twig/Tests/") !== false;
+        $isLib = strpos($file, "lib/xhprof") !== false;
+
+        return ($isIniFile && $isIniFileInTests) || $isTestResultFile || $isLib;
+    }
+
+
 }

@@ -16,6 +16,7 @@
         "ColumnSearchCategory": "Otsingu Kategooria",
         "ColumnSearches": "Otsinguid",
         "ColumnSearchesDocumentation": "Külastuste arv, mille jooksul otsiti antud märksõna veebilehe enda otsingumootoriga.",
+        "ColumnSearchExits": "% väljumisi otsingust",
         "ColumnSearchResultsCount": "Otisngutulemuste arv",
         "ColumnSiteSearchKeywords": "Unikaalseid Võtmesõnu",
         "ColumnUniqueClicks": "Unikaalseid Klikke",
@@ -60,7 +61,9 @@
     },
     "API": {
         "LoadedAPIs": "Edukalt laetud %s API-id",
-        "QuickDocumentationTitle": "API kiire dokumentatsioon",
+        "MoreInformation": "Et saada rohkem infot Piwiku API-st, vaata %sPiwiku API tutvustus%s ja %sPiwiku API juhend%s.",
+        "PluginDescription": "Kõik andmed on Piwikus kättesaadavad ka lihtsa API kaudu. Antud moodul on veebiteenuste sisend, mida saad kasutada veebistatistika küsimiseks xml, json, php, csv jne formaatides.",
+        "QuickDocumentationTitle": "API lühidokumentatsioon",
         "UserAuthentication": "Kasutaja autentimine"
     },
     "CoreAdminHome": {
@@ -111,7 +114,7 @@
         "LongWeekFormat": "%dayFrom%.%longMonthFrom% - %dayTo%.%longMonthTo% %longYearTo%",
         "MakeADifference": "Aita kaasa: %1$sAnneta%2$s Piwik 2.0 arendamiseks!",
         "MakeOneTimeDonation": "Või tee hoopis ühekordne annetus.",
-        "PageOf": "%1$s - %2$s",
+        "PageOf": "%1$s \/ %2$s",
         "PeriodDay": "Päev",
         "PeriodDays": "päeva",
         "PeriodMonth": "Kuu",
@@ -548,6 +551,7 @@
         "Piechart": "Sektordiagramm",
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s on koostööprojekt. %3$s Kui sa oled Piwiku fänn, siis saad abiks olla: vaata %4$s Kuidas Piwiku arenduses kaasa lüüa%5$s, või%6$s %7$sanneta kohe%8$s et aidata Piwiku arengut rahastada!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s on saadaval. Palun teavita lehe haldajat.",
+        "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s on saadaval. %2$sPalun uuenda kohe!%3$s (vaata %4$smuudatusi%5$s).",
         "PleaseSpecifyValue": "Palun täpsusta '%s' väärtust.",
         "PleaseUpdatePiwik": "Palun uuenda oma Piwikut",
         "Plugin": "Lisatarkvara",
@@ -733,7 +737,8 @@
         "VisitsUntilConv": "Külastusi tulu tekitamiseni",
         "VisitUrl": "Külastavad määratud URLi (leht või lehtede grupp)",
         "WhenVisitors": "kui külastajad",
-        "WhereThe": "kus"
+        "WhereThe": "kus",
+        "YouCanEnableEcommerceReports": "Sa saad aktiveerida %s antud veebilehele %s lehel."
     },
     "Installation": {
         "CollaborativeProject": "Piwik on koostööprojekt, mis on valminud armastusega inimeste poolt üle kogu maailma.",
@@ -1031,7 +1036,12 @@
         "PickARow": "Vali rida, millega võrrelda"
     },
     "ScheduledReports": {
-        "AggregateReportsFormat": "(valikuline) Kuvamise valikud",
+        "AggregateReportsFormat": "(valikuline) Kuvamise seaded",
+        "AggregateReportsFormat_GraphsOnly": "Kuva ainult graafikud (tabelid puuduvad)",
+        "AggregateReportsFormat_TablesAndGraphs": "Kuva tabelid ja graafikud kõikidele raportitele",
+        "AggregateReportsFormat_TablesOnly": "(vaikimisi) Kuva raportite tabelid (ja olulistele mõõdikutele ka graafikud)",
+        "AlsoSendReportToTheseEmails": "Saada raport ka järgnevatele e-posti aadressitele (iga aadress eraldi real):",
+        "CancelAndReturnToReports": "Katkesta ja %snaase raportite nimekirja%s",
         "CreateAndScheduleReport": "Loo ja ajasta raporti käivitumine",
         "CreateReport": "Loo raport",
         "CustomVisitorSegment": "Kohandatud külastaja segment:",
@@ -1046,6 +1056,7 @@
         "PleaseFindAttachedFile": "Manusest leiad oma %1$s raporti %2$s jaoks.",
         "ReportFormat": "Raporti formaat",
         "ReportHour": "Raporti saatmise aeg",
+        "ReportIncludeNWebsites": "Antud raport sisaldab põhimõõdikuid kõikide veebilehtede kohta, millel on vähemalt üks külastus (%s veebilehest, mis on kokku saadaval).",
         "ReportSent": "Raport saadetud",
         "ReportsIncluded": "Statistika osade kaasamine",
         "ReportType": "Raporti saatmise kanal",

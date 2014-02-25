@@ -507,8 +507,6 @@ abstract class Controller
             $language = LanguagesManager::getLanguageForSession();
             $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 
-            $view->config_action_url_category_delimiter = PiwikConfig::getInstance()->General['action_url_category_delimiter'];
-
             $this->setBasicVariablesView($view);
 
             $view->topMenu       = MenuTop::getInstance()->getMenu();
@@ -544,9 +542,11 @@ abstract class Controller
      */
     protected function setBasicVariablesView($view)
     {
+        $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
         $view->debugTrackVisitsInsidePiwikUI = PiwikConfig::getInstance()->Debug['track_visits_inside_piwik_ui'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+        $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
         $customLogo = new CustomLogo();
         $view->isCustomLogo = $customLogo->isEnabled();

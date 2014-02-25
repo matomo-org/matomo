@@ -16,9 +16,9 @@ use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\Singleton;
+use Piwik\Theme;
 use Piwik\Translate;
 use Piwik\Updater;
-use Piwik\Theme;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -42,6 +42,8 @@ class Manager extends Singleton
     const DEFAULT_THEME = "Zeitgeist";
 
     protected $doLoadAlwaysActivatedPlugins = true;
+
+    // These are always activated and cannot be deactivated
     protected $pluginToAlwaysActivate = array(
         'CoreHome',
         'CoreUpdater',
@@ -60,6 +62,7 @@ class Manager extends Singleton
         self::DEFAULT_THEME,
     );
 
+    // Plugins bundled with core package, disabled by default
     protected $corePluginsDisabledByDefault = array(
         'DBStats',
         'DevicesDetection',
@@ -68,72 +71,73 @@ class Manager extends Singleton
         'ExampleUI',
         'ExampleVisualization',
         'ExamplePluginTemplate',
-        'ExampleTheme',
-        'LeftMenu'
     );
 
-    public static $pluginsToLoadForTests = array(
-        "CorePluginsAdmin",
-        "CoreAdminHome",
-        "CoreHome",
-        "Proxy",
-        "API",
-        "Widgetize",
-        "Transitions",
-        "LanguagesManager",
-        "Actions",
-        "Dashboard",
-        "MultiSites",
-        "Referrers",
-        "UserSettings",
-        "Goals",
-        "SEO",
-        "UserCountry",
-        "VisitsSummary",
-        "VisitFrequency",
-        "VisitTime",
-        "VisitorInterest",
-        "ExampleAPI",
-        "ExamplePlugin",
-        "ExampleRssWidget",
-        "Provider",
-        "Feedback",
-        "Login",
-        "UsersManager",
-        "SitesManager",
-        "Installation",
-        "CoreUpdater",
-        "ScheduledReports",
-        "UserCountryMap",
-        "Live",
-        "CustomVariables",
-        "PrivacyManager",
-        "ImageGraph",
-        "Annotations",
-        "MobileMessaging",
-        "Overlay",
-        "SegmentEditor",
-        "DevicesDetection",
-        "DBStats",
-        'ExampleUI',
-        "TasksTimetable",
-        "Morpheus",
-        "Zeitgeist",
-        "CustomAlerts",
-        "VisitorGenerator",
-        "SecurityInfo",
-        "ExampleSettingsPlugin",
-        "TreemapVisualization",
-        "Events"
+    // Themes bundled with core package, disabled by default
+    protected $coreThemesDisabledByDefault = array(
+        'ExampleTheme',
+        'LeftMenu',
+        'Zeitgeist',
     );
+
+    public function getPluginsToLoadDuringTests()
+    {
+        $toLoad = array();
+        foreach($this->readPluginsDirectory() as $plugin) {
+            $forceDisable = array(
+                'ExampleVisualization', // adds an icon
+                'LoginHttpAuth',  // other Login plugins would conflict
+            );
+            if(in_array($plugin, $forceDisable)) {
+                continue;
+            }
+
+            // Load all default plugins
+            $isPluginBundledWithCore = $this->isPluginBundledWithCore($plugin);
+
+            // Load plugins from submodules
+            $isPluginOfficiallySupported = $this->isPluginOfficialAndNotBundledWithCore($plugin);
+
+            $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
+
+            // Do not enable other Themes
+            $disabledThemes = $this->coreThemesDisabledByDefault;
+
+            // PleineLune is officially supported, yet we don't want to enable another theme in tests (we test for Morpheus)
+            $disabledThemes[] = "PleineLune";
+
+            $isThemeDisabled = in_array($plugin, $disabledThemes);
+
+            $loadPlugin = $loadPlugin && !$isThemeDisabled;
+            if($loadPlugin) {
+                $toLoad[] = $plugin;
+            }
+        }
+        return $toLoad;
+    }
 
     public function getCorePluginsDisabledByDefault()
     {
-        return $this->corePluginsDisabledByDefault;
+        return array_merge( $this->corePluginsDisabledByDefault, $this->coreThemesDisabledByDefault);
     }
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
     const TRACKER_EVENT_PREFIX = 'Tracker.';
+
+    /**
+     * @param $pluginName
+     * @return bool
+     */
+    public function isPluginOfficialAndNotBundledWithCore($pluginName)
+    {
+        static $gitModules;
+        if(empty($gitModules)) {
+            $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
+        }
+        // All submodules are officially maintained plugins
+        $isSubmodule = false !== strpos($gitModules, "plugins/" . $pluginName . "\n");
+        return $isSubmodule;
+    }
 
     /**
      * Update Plugins config
@@ -340,6 +344,7 @@ class Manager extends Singleton
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
+            throw new \Exception("Plugin '$pluginName' cannot be found in the filesystem in plugins/ directory.");
             return;
         }
         $this->deactivateThemeIfTheme($pluginName);
@@ -347,6 +352,7 @@ class Manager extends Singleton
         // Load plugin
         $plugin = $this->loadPlugin($pluginName);
         if ($plugin === null) {
+            throw new \Exception("The plugin '$pluginName' was found in the filesystem, but could not be loaded.'");
             return;
         }
         $this->installPluginIfNecessary($plugin);
@@ -407,10 +413,11 @@ class Manager extends Singleton
     {
         $plugins = $this->getLoadedPlugins();
 
-        foreach ($plugins as $plugin)
-            if ($plugin->isTheme() && $plugin->getPluginName() == $themeName)
+        foreach ($plugins as $plugin) {
+            if ($plugin->isTheme() && $plugin->getPluginName() == $themeName) {
                 return new Theme($plugin);
-
+            }
+        }
         throw new \Exception('Theme not found : ' . $themeName);
     }
 

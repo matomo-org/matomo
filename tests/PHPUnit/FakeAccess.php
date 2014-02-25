@@ -102,11 +102,11 @@ class FakeAccess
     //means at least view access
     public static function checkUserHasViewAccess($idSites)
     {
-        if (!self::$superUser) {
-            $websitesAccess = array_merge(self::$idSitesView, self::$idSitesAdmin);
-        } else {
-            $websitesAccess = API::getInstance()->getAllSitesId();
+        if (self::$superUser) {
+            return;
         }
+        
+        $websitesAccess = array_merge(self::$idSitesView, self::$idSitesAdmin);
 
         if (!is_array($idSites)) {
             if ($idSites == 'all') {

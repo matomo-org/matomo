@@ -64,7 +64,7 @@
   padding: 0 20px 0 4px;
 }
 
-.sites_autocomplete--dropdown .custom_select_main_link[data-loading="0"]:before {
+.sites_autocomplete--dropdown .custom_select_main_link:not(.loading):before {
   content: " \25BC";
   position: absolute;
   right: 0;
@@ -78,7 +78,7 @@
   position: relative;
 }
 
-.sites_autocomplete .custom_select_main_link[data-loading="1"] {
+.sites_autocomplete .custom_select_main_link.loading {
   background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
 }
 
@@ -126,6 +126,9 @@
   color: #454545;
 
 }
+.sites_autocomplete {
+  width: 165px;
+}
 
 .sites_autocomplete .custom_select_search .but {
   vertical-align: top;
@@ -143,10 +146,18 @@
   padding-left: 12px;
 }
 
+.custom_selector_container .ui-menu-item,
+.custom_selector_container .ui-menu-item a {
+  float:none;position:static
+}
+
+.custom_select_search .reset {
+  position: relative; top: 4px; left: -44px; cursor: pointer;
+}
+
 .custom_select_block {
-  height: 0;
   overflow: hidden;
-  max-width:140px;
+  max-width: inherit
 }
 
 .custom_select_block_show {

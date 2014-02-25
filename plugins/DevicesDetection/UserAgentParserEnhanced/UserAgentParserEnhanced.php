@@ -27,6 +27,7 @@ class UserAgentParserEnhanced
         'AC' => 'Acer',
         'AI' => 'Airness',
         'AL' => 'Alcatel',
+        'AN' => 'Arnova',
         'AO' => 'Amoi',
         'AP' => 'Apple',
         'AR' => 'Archos',
@@ -46,6 +47,7 @@ class UserAgentParserEnhanced
         'CN' => 'CnM',
         'CR' => 'CreNova',
         'CT' => 'Capitel',
+        'CO' => 'Coolpad',
         'CU' => 'Cube',
         'DE' => 'Denver',
         'DB' => 'Dbtel',
@@ -75,6 +77,7 @@ class UserAgentParserEnhanced
         'IK' => 'iKoMo',
         'IM' => 'i-mate',
         'IN' => 'Innostream',
+        'IX' => 'Intex',
         'IO' => 'i-mobile',
         'IQ' => 'INQ',
         'IT' => 'Intek',
@@ -222,6 +225,7 @@ class UserAgentParserEnhanced
         'Puppy'                => 'PPY',
         'Red Hat'              => 'RHT',
         'RISC OS'              => 'ROS',
+        'Sabayon'              => 'SAB',
         'SUSE'                 => 'SSE',
         'Sailfish OS'          => 'SAF',
         'Slackware'            => 'SLW',
@@ -276,7 +280,7 @@ class UserAgentParserEnhanced
         'IBM'                   => array('OS2'),
         'iOS'                   => array('IOS'),
         'RISC OS'               => array('ROS'),
-        'Linux'                 => array('LIN', 'ARL', 'DEB', 'KNO', 'MIN', 'UBT', 'KBT', 'XBT', 'LBT', 'FED', 'RHT', 'MDR', 'GNT', 'SLW', 'SSE', 'PPY', 'CES', 'BTR', 'YNS', 'PRS', 'SAF'),
+        'Linux'                 => array('LIN', 'ARL', 'DEB', 'KNO', 'MIN', 'UBT', 'KBT', 'XBT', 'LBT', 'FED', 'RHT', 'MDR', 'GNT', 'SAB', 'SLW', 'SSE', 'PPY', 'CES', 'BTR', 'YNS', 'PRS', 'SAF'),
         'Mac'                   => array('MAC'),
         'Mobile Gaming Console' => array('PSP', 'NDS', 'XBX'),
         'Other Mobile'          => array('WOS', 'POS', 'QNX', 'SBA', 'TIZ', 'SMG'),
@@ -647,7 +651,7 @@ class UserAgentParserEnhanced
             return;
         }
 
-        $this->model = $this->buildModel($modelRegex['model'], $matches);
+        $this->model = trim($this->buildModel($modelRegex['model'], $matches));
 
         if (isset($modelRegex['device'])) {
             $this->device = array_search($modelRegex['device'], self::$deviceTypes);

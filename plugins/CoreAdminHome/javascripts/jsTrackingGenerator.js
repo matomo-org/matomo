@@ -188,7 +188,7 @@
         var generateJsCode = function () {
             // get params used to generate JS code
             var params = {
-                idSite: $('#js-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
+                idSite: $('#js-tracker-website').attr('siteid'),
                 groupPageTitlesByDomain: $('#javascript-tracking-group-by-domain').is(':checked'),
                 mergeSubdomains: $('#javascript-tracking-all-subdomains').is(':checked'),
                 mergeAliasUrls: $('#javascript-tracking-all-aliases').is(':checked'),
@@ -281,7 +281,7 @@
         var generateImageTrackerLink = function () {
             // get data used to generate the link
             var generateDataParams = {
-                idSite: $('#image-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
+                idSite: $('#image-tracker-website').attr('siteid'),
                 actionName: $('#image-tracker-action-name').val(),
                 piwikHost: piwikHost,
                 piwikPath: piwikPath
@@ -331,7 +331,7 @@
         };
 
         // on image link tracker site change, change available goals
-        $('#image-tracker-website').bind('piwik:siteSelected', function (e, site) {
+        $('#image-tracker-website').bind('change', function (e, site) {
             getSiteData(site.id, '#image-tracking-code-options', function () {
                 resetGoalSelectItems(site.id, 'image-tracker-goal');
                 generateImageTrackerLink();
@@ -339,7 +339,7 @@
         });
 
         // on js link tracker site change, change available goals
-        $('#js-tracker-website').bind('piwik:siteSelected', function (e, site) {
+        $('#js-tracker-website').bind('change', function (e, site) {
             $('.current-site-name', '#optional-js-tracking-options').each(function () {
                 $(this).text(site.name);
             });
@@ -400,7 +400,7 @@
 
         // initial generation
         getSiteData(
-            $('#js-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
+            $('#js-tracker-website').attr('siteid'),
             '#js-code-options,#image-tracking-code-options',
             function () {
                 var imageTrackerSiteId = $('#image-tracker-website').find('.custom_select_main_link').attr('data-siteid');

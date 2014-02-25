@@ -61,7 +61,7 @@ class Console
      */
     private function getAvailableCommands()
     {
-        $commands = array('Piwik\CliMulti\RequestCommand');
+        $commands = $this->getDefaultCommands();
 
         /**
          * Triggered to gather all available console commands. Plugins that want to expose new console commands
@@ -96,7 +96,6 @@ class Console
             return $config;
         } catch (\Exception $e) {
             echo ($e->getMessage() . "\n\n");
-            exit(1);
         }
     }
 
@@ -105,5 +104,18 @@ class Console
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsManager = Plugin\Manager::getInstance();
         $pluginsManager->loadPlugins($pluginsToLoad);
+    }
+
+    private function getDefaultCommands()
+    {
+        $commands = array(
+            'Piwik\CliMulti\RequestCommand'
+        );
+
+        if (class_exists('Piwik\Plugins\CloudAdmin\CloudAdmin')) {
+            $extra = new \Piwik\Plugins\CloudAdmin\CloudAdmin();
+            $extra->addConsoleCommands($commands);
+        }
+        return $commands;
     }
 }

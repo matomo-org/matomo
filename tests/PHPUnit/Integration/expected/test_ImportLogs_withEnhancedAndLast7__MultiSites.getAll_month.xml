@@ -13,6 +13,8 @@
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>100%</revenue_evolution>
 			<nb_conversions_evolution>100%</nb_conversions_evolution>
+			<group />
+			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -27,6 +29,8 @@
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://example-site-two.com</main_url>
 			<idsite>2</idsite>
 		</row>
 	</result>
@@ -43,6 +47,8 @@
 			<pageviews_evolution>-61.5%</pageviews_evolution>
 			<revenue_evolution>-96%</revenue_evolution>
 			<nb_conversions_evolution>-96%</nb_conversions_evolution>
+			<group />
+			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -57,6 +63,8 @@
 			<pageviews_evolution>-100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://example-site-two.com</main_url>
 			<idsite>2</idsite>
 		</row>
 	</result>
@@ -73,6 +81,8 @@
 			<pageviews_evolution>-100%</pageviews_evolution>
 			<revenue_evolution>-100%</revenue_evolution>
 			<nb_conversions_evolution>-100%</nb_conversions_evolution>
+			<group />
+			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -87,6 +97,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://example-site-two.com</main_url>
 			<idsite>2</idsite>
 		</row>
 	</result>
@@ -103,6 +115,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -117,6 +131,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://example-site-two.com</main_url>
 			<idsite>2</idsite>
 		</row>
 	</result>
@@ -133,6 +149,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -147,6 +165,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://example-site-two.com</main_url>
 			<idsite>2</idsite>
 		</row>
 	</result>
@@ -163,6 +183,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -177,6 +199,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://example-site-two.com</main_url>
 			<idsite>2</idsite>
 		</row>
 	</result>
@@ -193,6 +217,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://piwik.net</main_url>
 			<idsite>1</idsite>
 		</row>
 		<row>
@@ -207,6 +233,8 @@
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<group />
+			<main_url>http://example-site-two.com</main_url>
 			<idsite>2</idsite>
 		</row>
 	</result>

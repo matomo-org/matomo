@@ -33,7 +33,8 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
         $dateTime = '2010-03-06 11:22:33';
 
         return array(
-            array('all', array('idSite' => $idSite, 'date' => $dateTime, 'compareAgainst' => 'OneVisitorTwoVisits',
+            array('all', array('idSite' => $idSite, 'date' => $dateTime,
+                               'compareAgainst' => 'OneVisitorTwoVisits',
                                'disableArchiving' => true)),
         );
     }

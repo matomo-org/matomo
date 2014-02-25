@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--[if lt IE 9 ]>
-<html class="old-ie"> <![endif]-->
+<html class="old-ie" id="ng-app" ng-app="piwikApp"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
-<html><!--<![endif]-->
+<html id="ng-app" ng-app="piwikApp"><!--<![endif]-->
     <head>
         {% block head %}            
             <meta charset="utf-8">
@@ -23,7 +23,7 @@
             <![endif]-->
         {% endblock %}
     </head>
-    <body>
+    <body ng-app="app">
     {% include "_iframeBuster.twig" %}
     {% include "@CoreHome/_javaScriptDisabled.twig" %}
 

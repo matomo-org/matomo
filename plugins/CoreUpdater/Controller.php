@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataTable\Renderer\Console;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -265,15 +266,19 @@ class Controller extends \Piwik\Plugin\Controller
             LanguagesManager::setLanguageForSession($language);
         }
 
-        return $this->runUpdaterAndExit();
+        try {
+            return $this->runUpdaterAndExit();
+        } catch(NoUpdatesFoundException $e) {
+            Piwik::redirectToModule('CoreHome');
+        }
     }
 
-    protected function runUpdaterAndExit()
+    public function runUpdaterAndExit($doDryRun = null)
     {
         $updater = new Updater();
         $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
         if (empty($componentsWithUpdateFile)) {
-            Piwik::redirectToModule('CoreHome');
+            throw new NoUpdatesFoundException("Everything is already up to date.");
         }
 
         SettingsServer::setMaxExecutionTime(0);
@@ -283,33 +288,44 @@ class Controller extends \Piwik\Plugin\Controller
         $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
         $viewWelcome = new View($welcomeTemplate);
         $viewDone = new View($doneTemplate);
+        $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
 
+        if(is_null($doDryRun)) {
+            $doDryRun = !$doExecuteUpdates;
+        }
+
+        if($doDryRun) {
+            $viewWelcome->queries = $updater->getSqlQueriesToExecute();
+            $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
+            $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
+            return $viewWelcome->render();
+        }
+
+        // CLI
         if (Common::isPhpCliMode()) {
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
             $output = $viewWelcome->render();
 
-            if (!$this->coreError && Piwik::getModule() == 'CoreUpdater') {
+            // Proceed with upgrade in CLI only if user specifically asked for it, or if running console command
+            $isUpdateRequested = Common::isRunningConsoleCommand() || Piwik::getModule() == 'CoreUpdater';
+
+            if (!$this->coreError && $isUpdateRequested) {
                 $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
                 $output .= $viewDone->render();
             }
-
             return $output;
-
-        } else {
-            if (Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
-                $this->warningMessages = array();
-                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
-
-                $this->redirectToDashboardWhenNoError($updater);
-
-                return $viewDone->render();
-            } else {
-                $viewWelcome->queries = $updater->getSqlQueriesToExecute();
-                $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
-                $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
-                return $viewWelcome->render();
-            }
         }
+
+        // Web
+        if ($doExecuteUpdates) {
+            $this->warningMessages = array();
+            $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
+
+            $this->redirectToDashboardWhenNoError($updater);
+
+            return $viewDone->render();
+        }
+
         exit;
     }
 

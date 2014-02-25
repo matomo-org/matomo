@@ -59,7 +59,8 @@ class UserCountryMap extends \Piwik\Plugin
 
     public function addMenu()
     {
-        MenuMain::getInstance()->add('General_Visitors', 'UserCountryMap_RealTimeMap', array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
+        MenuMain::getInstance()->add('General_Visitors', 'UserCountryMap_RealTimeMap',
+            array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
     }
 
     public function getJsFiles(&$jsFiles)

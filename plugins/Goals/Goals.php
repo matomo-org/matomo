@@ -50,7 +50,21 @@ class Goals extends \Piwik\Plugin
             unset($dimension['category']);
             $dimensionsByGroup[$group][] = $dimension;
         }
+
+        uksort($dimensionsByGroup, array('self', 'sortGoalDimensionsByModule'));
         return $dimensionsByGroup;
+    }
+
+    public static function sortGoalDimensionsByModule($a, $b)
+    {
+        $order = array(
+            Piwik::translate('Referrers_Referrers'),
+            Piwik::translate('General_Visit'),
+            Piwik::translate('VisitTime_ColumnServerTime'),
+        );
+        $orderA = array_search($a, $order);
+        $orderB = array_search($b, $order);
+        return $orderA > $orderB;
     }
 
     static public function getGoalColumns($idGoal)

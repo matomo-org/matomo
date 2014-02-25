@@ -43,7 +43,7 @@ class Plugins_PrivacyManagerConfigTest extends DatabaseTestCase
 
     public function test_doNotTrackEnabled()
     {
-        $this->assertFalse($this->config->doNotTrackEnabled);
+        $this->assertTrue($this->config->doNotTrackEnabled);
 
         $this->config->doNotTrackEnabled = true;
 
@@ -80,7 +80,7 @@ class Plugins_PrivacyManagerConfigTest extends DatabaseTestCase
             'existingEntry' => 'test',
             'PrivacyManager.ipAddressMaskLength' => 1,
             'PrivacyManager.ipAnonymizerEnabled' => false,
-            'PrivacyManager.doNotTrackEnabled'   => false,
+            'PrivacyManager.doNotTrackEnabled'   => true,
             'PrivacyManager.useAnonymizedIpForVisitEnrichment' => true,
         );
 

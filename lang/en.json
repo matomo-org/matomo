@@ -1339,7 +1339,8 @@
     "MultiSites": {
         "PluginDescription": "Displays multi-site executive summary\/statistics. Currently maintained as a core Piwik plugin.",
         "Evolution": "Evolution",
-        "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites."
+        "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites.",
+        "LoadingWebsites": "Loading websites"
     },
     "Provider": {
         "PluginDescription": "Reports the Provider of the visitors.",

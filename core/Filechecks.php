@@ -43,7 +43,9 @@ class Filechecks
                 $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
             }
 
-            $directoryToCheck = SettingsPiwik::rewriteTmpPathWithHostname($directoryToCheck);
+            if(strpos($directoryToCheck, '/tmp/') !== false) {
+                $directoryToCheck = SettingsPiwik::rewriteTmpPathWithHostname($directoryToCheck);
+            }
 
             Filesystem::mkdir($directoryToCheck);
 

@@ -1869,6 +1869,7 @@
         "country_zw": "Zimbabwe",
         "CurrentLocationIntro": "Volgens deze provider is je huidige locatie",
         "DefaultLocationProviderDesc1": "De standaard locatie provider gokt een bezoekers land gebaseerd op de taal die ze gebruiken.",
+        "DefaultLocationProviderDesc2": "Dit is niet erg nauwkeurig, %1$swe adviseren %2$sGeoIP%3$s. te installeren en gebruiken.%4$s",
         "DistinctCountries": "%s unieke landen",
         "DownloadingDb": "%s aan het downloaden",
         "DownloadNewDatabasesEvery": "Update databases elke",

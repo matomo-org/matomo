@@ -52,8 +52,6 @@ class RequestCommand extends ConsoleCommand
             $process->startProcess();
         }
 
-        Common::$isCliMode = false;
-
         require_once PIWIK_INCLUDE_PATH . $indexFile;
 
         if (!empty($process)) {
