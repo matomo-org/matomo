@@ -1369,9 +1369,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: PR
+    model: PAP4040 DUO
   os_family: Android
   browser_family: Android Browser
 - 
@@ -2601,9 +2601,9 @@
     short_name: AN
     version:
   device:
-    type:
-    brand:
-    model:
+    type: smartphone
+    brand: PR
+    model: PAP4040 DUO
   os_family: Android
   browser_family: Android Browser
 - 
@@ -18587,7 +18587,7 @@
   device:
     type: tablet
     brand: MR
-    model: MZ607
+    model: XOOM 2
   os_family: Android
   browser_family: Android Browser
 - 
@@ -21163,7 +21163,7 @@
   device:
     type: tablet
     brand: MR
-    model: MZ607
+    model: XOOM 2
   os_family: Android
   browser_family: Chrome
 -
@@ -21854,3 +21854,227 @@
     model: iPad
   os_family: iOS
   browser_family: Safari
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.3; SM-P600 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.99 Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.3
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 32.0
+  device:
+    type: smartphone
+    brand: SA
+    model: SM-P600
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.3; SM-N900V Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.58 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.3
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 32.0
+  device:
+    type: smartphone
+    brand: SA
+    model: SM-N900V
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.3; SM-N900W8 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.99 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.3
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 32.0
+  device:
+    type: smartphone
+    brand: SA
+    model: SM-N900W8
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.3; en-ca; SM-N900W8 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko) Version/1.5 Chrome/28.0.1500.94 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.3
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 28.0
+  device:
+    type: smartphone
+    brand: SA
+    model: SM-N900W8
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.2; az-az; SM-T211 Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: SA
+    model: SM-T211
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ca; SM-G730W8 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: SA
+    model: SM-G730W8
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: UCWEB/2.0 (MIDP-2.0; U; Adr 4.1.2; en-US; SM-T211) U2/1.0.0 UCBrowser/8.8.1.359 U2/1.0.0 Mobile
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: UC Browser
+    short_name: UC
+    version: 8.8
+  device:
+    type: smartphone
+    brand: SA
+    model: SM-T211
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 3.1; en-us; Xoom Build/HMJ25) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13
+  os:
+    name: Android
+    short_name: AND
+    version: 3.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: MR
+    model: Xoom
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.4.2; Xoom Wifi Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.99 Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.4
+  browser:
+    name: Chrome
+    short_name: CH
+    version: 32.0
+  device:
+    type: tablet
+    brand: MR
+    model: Xoom Wifi
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.1.2; ru-ru; PMP7170B3G_DUO Build/JZO54K) AppleWebKit/534.30 (KHTML, \xd0\xba\xd0\xb0\xd0\xba Gecko) Version/4.0 \xd0\x9c\xd0\xbe\xd0\xb1\xd0\xb8\xd0\xbb\xd1\x8c\xd0\xbd\xd1\x8b\xd0\xb9Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.1
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: PR
+    model: PMP7170B3G DUO
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.2.2; cs-cz; PMP5101C_QUAD Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: tablet
+    brand: PR
+    model: PMP5101C QUAD
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.2.2; XT1030 Build/12.9.0Q2.X-160-OBK_TA-14-7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.90 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.2
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 27.0
+  device:
+    type: smartphone
+    brand: MR
+    model: XT1030
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.4; XT1080 Build/SU2-3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.99 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.4
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 32.0
+  device:
+    type: smartphone
+    brand: MR
+    model: XT1080
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.4; XT1056 Build/13.11.3Q2.X-69-3-8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.59 Mobile Safari/537.36
+  os:
+    name: Android
+    short_name: AND
+    version: 4.4
+  browser:
+    name: Chrome Mobile
+    short_name: CM
+    version: 31.0
+  device:
+    type: smartphone
+    brand: MR
+    model: XT1056
+  os_family: Android
+  browser_family: Chrome
