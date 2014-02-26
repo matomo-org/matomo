@@ -286,7 +286,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
         Db::get()->update(Common::prefixTable("site"),
-            array('ts_created' => Date::factory($dateTime)->subDay(1)->getDatetime()),
+            array('ts_created' => Date::factory($dateTime)->subDay(60)->getDatetime()),
             "idsite = $idSite"
         );
 
@@ -438,7 +438,7 @@ class Fixture extends PHPUnit_Framework_Assert
             $model->deleteUserOnly($login);
         }
 
-        $user  = $model->getUserByTokenAuth($token);
+        $user = $model->getUser($login);
 
         if (empty($user)) {
             $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
