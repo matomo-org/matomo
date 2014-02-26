@@ -161,6 +161,7 @@
     },
     "CoreHome": {
         "CategoryNoData": "このカテゴリにデータはありません。 \"すべての母集団（統計の対象とする集団）を含める\" を試してみてください。",
+        "CheckForUpdates": "アップデートの確認",
         "DataForThisReportHasBeenPurged": "このリポートのデータは %sヶ月以上古いのでパージされました。",
         "DataTableExcludeAggregateRows": "集計行は表示 %s 隠す",
         "DataTableIncludeAggregateRows": "集計行は非表示 %s 表示する",
@@ -192,19 +193,26 @@
         "WebAnalyticsReports": "ウェブ解析リポート"
     },
     "CorePluginsAdmin": {
+        "ActionInstall": "インストール",
         "Activate": "有効化",
         "Activated": "有効",
         "Active": "有効",
         "AuthorHomepage": "作者のホームページ",
+        "BackToExtendPiwik": "マーケットプレイスへ戻る",
         "Deactivate": "無効化",
+        "History": "履歴",
         "Inactive": "無効",
+        "LastUpdated": "最終更新日",
         "LicenseHomepage": "ライセンスのホームページ",
         "MainDescription": "プラグインは Piwik の機能性を拡張します。 プラグインをインストールすると、ここで有効化と無効化を行うことができます。",
+        "NoZipFileSelected": "ZIP ファイルを選択してください。",
         "PluginDescription": "プラグイン管理のインターフェースです。",
         "PluginHomepage": "プラグインのホームページ",
         "PluginsManagement": "プラグインの管理",
+        "Screenshots": "スクリーンショット",
         "Status": "状態",
-        "Version": "バージョン"
+        "Version": "バージョン",
+        "Websites": "ウェブサイト"
     },
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "実行する SQL クエリーのリストを表示し、コピーするには、ここをクリックしてください",
@@ -293,6 +301,15 @@
         "WidgetNotFound": "ウィジェットが見つかりませんでした",
         "WidgetPreview": "ウィジェットのプレビュー",
         "WidgetsAndDashboard": "ウィジェットとダッシュボード"
+    },
+    "Events": {
+        "Event": "イベント",
+        "EventAction": "イベントのアクション",
+        "EventCategory": "イベントのカテゴリー",
+        "EventName": "イベントの名称",
+        "Events": "イベント",
+        "EventValue": "イベントの価値",
+        "NbEvents": "イベントの数"
     },
     "Feedback": {
         "CategoryHire": "Piwik コンサルタントを雇いたい",
@@ -1389,12 +1406,17 @@
         "country_zr": "旧ザイール",
         "country_zw": "ジンバブエ",
         "DistinctCountries": "%s 個別の国々",
+        "Geolocation": "ジオロケーション",
         "Location": "位置",
         "PluginDescription": "ビジターの国をリポートします。",
         "SubmenuLocations": "位置"
     },
     "UserCountryMap": {
-        "map": "地図"
+        "Cities": "都市",
+        "Countries": "国",
+        "map": "地図",
+        "RealTimeMap": "リアルタイムマップ",
+        "VisitorMap": "ビジターマップ"
     },
     "UserSettings": {
         "BrowserFamilies": "ブラウザファミリー",
