@@ -227,4 +227,9 @@ class Controller extends \Piwik\Plugin\Controller
         header("Location: $url");
         exit;
     }
+
+    public function getSiteSelector()
+    {
+        return "<div piwik-siteselector class=\"sites_autocomplete\" switch-site-on-select=\"false\"></div>";
+    }
 }

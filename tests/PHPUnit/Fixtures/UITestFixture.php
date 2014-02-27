@@ -24,6 +24,8 @@ class UITestFixture extends OmniFixture
     {
         parent::setUp();
 
+        $this->addNewSitesForSiteSelector();
+
         DbHelper::createAnonymousUser();
         UsersManagerAPI::getInstance()->setSuperUserAccess('superUserLogin', true);
 
@@ -40,5 +42,12 @@ class UITestFixture extends OmniFixture
         $date = Date::factory($this->dateTime)->toString();
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
+    }
+
+    public function addNewSitesForSiteSelector()
+    {
+        for ($i = 0; $i != 8; ++$i) {
+            self::createWebsite("2011-01-01 00:00:00", $ecommerce = 1, $siteName = "Site #$i", $siteUrl = "http://site$i.com");
+        }
     }
 }
