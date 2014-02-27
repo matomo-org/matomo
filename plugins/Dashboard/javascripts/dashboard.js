@@ -8,32 +8,12 @@
 function initDashboard(dashboardId, dashboardLayout) {
 
     $('.dashboardSettings').show();
-    initTopControls();
 
     // Embed dashboard
     if (!$('#topBars').length) {
         $('.dashboardSettings').after($('#Dashboard'));
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
-
-    $('.dashboardSettings').on('click', function (e) {
-        if ($(e.target).is('.dashboardSettings') || $(e.target).is('.dashboardSettings>span')) {
-            $('.dashboardSettings').toggleClass('visible');
-            if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
-                $('.removeDashboardLink').hide();
-            } else {
-                $('.removeDashboardLink').show();
-            }
-            // fix position
-            $('.dashboardSettings').find('.widgetpreview-widgetlist').css('paddingTop', $('.dashboardSettings').find('.widgetpreview-categorylist').parent('li').position().top);
-        }
-    });
-    $('body').on('mouseup', function (e) {
-        if (!$(e.target).parents('.dashboardSettings').length && !$(e.target).is('.dashboardSettings')) {
-            $('.dashboardSettings').widgetPreview('reset');
-            $('.dashboardSettings').removeClass('visible');
-        }
-    });
 
     widgetsHelper.getAvailableWidgets();
 
@@ -43,18 +23,6 @@ function initDashboard(dashboardId, dashboardLayout) {
             idDashboard: dashboardId,
             layout: dashboardLayout
         });
-
-    $('.dashboardSettings').widgetPreview({
-        isWidgetAvailable: function (widgetUniqueId) {
-            return !$('#dashboardWidgetsArea').find('[widgetId=' + widgetUniqueId + ']').length;
-        },
-        onSelect: function (widgetUniqueId) {
-            var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-            $('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
-            $('.dashboardSettings').removeClass('visible');
-        },
-        resetOnSelect: true
-    });
 
     $('#columnPreview').find('>div').each(function () {
         var width = [];
@@ -68,13 +36,6 @@ function initDashboard(dashboardId, dashboardLayout) {
         $('#columnPreview').find('>div').removeClass('choosen');
         $(this).addClass('choosen');
     });
-
-    $('.submenu > li').on('mouseenter', function (event) {
-        if (!$('.widgetpreview-categorylist', event.target).length) {
-            $('.dashboardSettings').widgetPreview('reset');
-        }
-    });
-
 }
 
 function createDashboard() {
@@ -203,11 +164,67 @@ function copyDashboardToUser() {
     var DashboardSettingsControlBase = function (element) {
         UIControl.call(this, element);
 
+        // on menu item click, trigger action event on this
         var self = this;
         this.$element.on('click', 'ul.submenu li[data-action]', function (e) {
             $(self).trigger($(this).attr('data-action'));
         });
+
+        // open manager on open
+        this.$element.on('click', function (e) {
+            if ($(e.target).is('.dashboardSettings,.dashboardSettings>span')) {
+                self.$element.toggleClass('visible');
+
+                // fix position
+                self.$element
+                    .find('.widgetpreview-widgetlist')
+                    .css('paddingTop', self.$element.find('.widgetpreview-categorylist').parent('li').position().top);
+
+                self.onOpen();
+            }
+        });
+
+        // handle manager close
+        this.onBodyMouseUp = function (e) {
+            if (!$(e.target).closest('.dashboardSettings').length
+                && !$(e.target).is('.dashboardSettings')
+            ) {
+                self.$element.widgetPreview('reset');
+                self.$element.removeClass('visible');
+            }
+        };
+
+        $('body')[0].addEventListener('mouseup', this.onBodyMouseUp);
+
+        // setup widgetPreview
+        this.$element.widgetPreview({
+            isWidgetAvailable: function (widgetUniqueId) {
+                return self.isWidgetAvailable(widgetUniqueId);
+            },
+            onSelect: function (widgetUniqueId) {
+                var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
+                self.$element.removeClass('visible');
+
+                self.widgetSelected(widget);
+            },
+            resetOnSelect: true
+        });
+
+        // on enter widget list category, reset widget preview
+        this.$element.on('mouseenter', '.submenu > li', function (event) {
+            if (!$('.widgetpreview-categorylist', event.target).length) {
+                self.$element.widgetPreview('reset');
+            }
+        });
     };
+
+    $.extend(DashboardSettingsControlBase.prototype, UIControl.prototype, {
+        _destroy: function () {
+            UIControl.prototype._destroy.call(this);
+
+            $('body')[0].removeEventListener('mouseup', this.onBodyMouseUp);
+        }
+    });
 
     exports.DashboardSettingsControlBase = DashboardSettingsControlBase;
 
@@ -250,8 +267,26 @@ function copyDashboardToUser() {
         });
     };
 
+    $.extend(DashboardManagerControl.prototype, DashboardSettingsControlBase.prototype, {
+        onOpen: function () {
+            if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) { 
+                $('.removeDashboardLink', this.$element).hide();
+            } else {
+                $('.removeDashboardLink', this.$element).show();
+            }
+        },
+
+        isWidgetAvailable: function (widgetUniqueId) {
+            return !$('#dashboardWidgetsArea').find('[widgetId=' + widgetUniqueId + ']').length;
+        },
+
+        widgetSelected: function (widget) {
+            $('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
+        }
+    });
+
     DashboardManagerControl.initElements = function () {
-        UIControl.initElements(this, '.dashboardSettings');
+        UIControl.initElements(this, '.dashboard-manager');
     };
 
     exports.DashboardManagerControl = DashboardManagerControl;

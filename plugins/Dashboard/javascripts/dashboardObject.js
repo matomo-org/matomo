@@ -434,10 +434,12 @@
             var dashboardMenuListItems = dashboardMenuList.find('>li');
 
             dashboardMenuListItems.filter(function () {
-                return $(this).attr('id').indexOf('Dashboard_embeddedIndex') === 0;
+                return $(this).attr('id').indexOf('Dashboard_embeddedIndex') == 0;
             }).remove();
 
-            if (dashboards.length > 1) {
+            if (dashboards.length > 1
+                || dashboardMenuListItems.length >= 1
+            ) {
                 dashboardMenuList.show();
                 var items = [];
                 for (var i = 0; i < dashboards.length; i++) {

@@ -10,7 +10,7 @@
 
 # HTC
 HTC:
-  regex: 'HTC|Sprint (?:APA|ATP)|ADR[a-z0-9]+|Desire [a-z]+ Build|NexusHD2|Amaze 4G Build'
+  regex: 'HTC|Sprint (?:APA|ATP)|ADR[a-z0-9]+|Desire[ _][a-z0-9]+ Build|NexusHD2|Amaze 4G Build|Sensation[ _][a-z0-9]+ Build'
   device: 'smartphone'
   models:
     - regex: 'NexusHD2' # custom rom for hd2
@@ -33,7 +33,7 @@ HTC:
       model: '$1'
     - regex: 'HTC;(?: )?([a-z0-9 ]+)'
       model: '$1'
-    - regex: '(Desire [a-z]+|Amaze 4G) Build'
+    - regex: '(Desire[ _][a-z0-9]+|Amaze 4G|Sensation[ _][a-z0-9]+) Build'
       model: '$1'
     - regex: '(ADR.+) Build'
       model: '$1'
@@ -264,7 +264,7 @@ BBK:
   regex: 'vivo'
   device: 'smartphone'
   models:
-    - regex: 'vivo ([^/;]*) Build'
+    - regex: 'vivo ([^/;]+) Build'
       model: 'Vivo $1'
     - regex: 'vivo_([a-z0-9]+)'
       model: 'Vivo $1'
@@ -298,6 +298,17 @@ BenQ:
   regex: 'BENQ(?:[ \-])?([a-z0-9]+)'
   device: 'feature phone'
   model: '$1'
+
+# bq
+bq:
+  regex: 'bq ([^/;]+) Build'
+  device: 'tablet'
+  models:
+    - regex: 'bq (Aquaris [^/;]+) Build'
+      model: '$1'
+      device: 'smartphone'
+    - regex: 'bq ([^/;]+) Build'
+      model: '$1'
 
 # Capitel
 Capitel:
@@ -749,7 +760,7 @@ Mitsubishi:
 
 # motorola
 Motorola:
-  regex: 'MOT|(?<!AN)DROID ?(?:Build|([a-z0-9]+))|portalmmm/2.0 (?:E378i|L6|L7|v3)|XOOM 2|(?:XT|MZ|MB|ME)[0-9]{3}(?:\(Defy\))? Build'
+  regex: 'MOT|(?<!AN)DROID ?(?:Build|([a-z0-9]+))|portalmmm/2.0 (?:E378i|L6|L7|v3)|XOOM ([^;/]*)Build|(?:XT|MZ|MB|ME)[0-9]{3,4}(?:\(Defy\))? Build'
   device: 'smartphone'
   models:
     - regex: 'Motorola[ \-]([a-z0-9]+)'
@@ -766,13 +777,13 @@ Motorola:
       model: 'DROID $1'
     - regex: 'portalmmm/2.0 ((?:E378i|L6|L7|V3)[a-z0-9]+)'
       model: '$1'
-    - regex: 'XOOM 2'
+    - regex: '(XOOM [^;/]*)Build'
       device: 'tablet'
-      model: 'MZ607'
+      model: '$1'
     - regex: '(MZ[0-9]{3}) Build'
       device: 'tablet'
       model: '$1'
-    - regex: '((?:ME|MB|XT)[0-9]{3}(?:\(Defy\))?) Build'
+    - regex: '((?:ME|MB|XT)[0-9]{3,4}(?:\(Defy\))?) Build'
       model: '$1'
 
 # myphone
@@ -927,7 +938,7 @@ Siemens:
 
 # Samsung
 Samsung:
-  regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM|HV|HW)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]|EK-GC[0-9]{3}'
+  regex: 'SAMSUNG|S(?:CH|GH|PH|EC|AM|HV|HW|M)-|SMART-TV|GT-|Galaxy|(?:portalmmm|o2imode)/2\.0 [SZ]|sam[rua]|EK-GC[0-9]{3}'
   device: 'smartphone'
   models:
     - regex: '(GT-(P|N8|N5)[0-9]+[a-z]?)'
@@ -941,7 +952,7 @@ Samsung:
       model: '$1'
     - regex: 'SAMSUNG;[ ]?([a-z0-9 ]+)'
       model: '$1'
-    - regex: '((?:SCH|SGH|SPH|SHV|SHW|GT)-[a-z0-9]+)'
+    - regex: '((?:SCH|SGH|SPH|SHV|SHW|GT|SM)-[a-z0-9]+)'
       model: '$1'
     - regex: 'EK-GC([0-9]{3})'
       device: 'camera'
@@ -953,6 +964,8 @@ Samsung:
     - regex: 'SMART-TV'
       device: 'tv'
       model: 'Smart TV'
+    - regex: '(Galaxy [^/;]+) Build'
+      model: '$1'
     - regex: '(Galaxy [a-z0-9]+)'
       model: '$1'
     - regex: '(?:portalmmm|o2imode)/2\.0 ([SZ][a-z0-9]+)'
@@ -1004,12 +1017,12 @@ PolyPad:
 
 # Prestigio
 Prestigio:
-  regex: '((?:PMP|PAP)[0-9]+[a-z0-9]+) Build'
+  regex: '((?:PMP|PAP)[0-9]+[a-z0-9_]+) Build'
   device: 'tablet'
   models:
-    - regex: '(PMP[0-9]+[a-z0-9]+) Build'
+    - regex: '(PMP[0-9]+[a-z0-9_]+) Build'
       model: '$1'
-    - regex: '(PAP[0-9]+[a-z0-9]+) Build'
+    - regex: '(PAP[0-9]+[a-z0-9_]+) Build'
       model: '$1'
       device: 'smartphone'
 
