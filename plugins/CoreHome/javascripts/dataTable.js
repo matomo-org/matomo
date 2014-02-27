@@ -875,6 +875,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
                 var period = self.param.period;
 
+                if(self.param.period == 'range' && $(this).attr("alterPeriod") !== "")
+                {
+                    period = $(this).attr("alterPeriod");
+                }
+
+
                 // RSS does not work for period=range
                 if (format == 'RSS'
                     && self.param.period == 'range') {

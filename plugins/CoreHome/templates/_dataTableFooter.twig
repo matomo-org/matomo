@@ -54,11 +54,11 @@
                     </span>
 				    <span class="exportToFormatItems" style="display:none;">
 					{{ 'General_Export'|translate }}:
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a>
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" alterPeriod="{{ properties.alterPeriod }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" alterPeriod="{{ properties.alterPeriod }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" alterPeriod="{{ properties.alterPeriod }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" alterPeriod="{{ properties.alterPeriod }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" alterPeriod="{{ properties.alterPeriod }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a>
                     {% if properties.show_export_as_rss_feed %}
                         |
                         <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">

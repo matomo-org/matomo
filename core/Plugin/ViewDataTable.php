@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -191,6 +192,10 @@ abstract class ViewDataTable implements ViewInterface
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
+        $this->requestConfig->alterPeriod = '';
+        if (Common::getRequestVar('period', false, 'string') == 'range') {
+            $this->requestConfig->alterPeriod = Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
+        }
         /**
          * Triggered during {@link ViewDataTable} construction. Subscribers should customize
          * the view based on the report that is being displayed.
