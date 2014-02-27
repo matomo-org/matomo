@@ -28,22 +28,6 @@ class UIControl extends \Piwik\View
     const TEMPLATE = '';
 
     /**
-     * Holds the array of values that are passed to the UIControl JavaScript class.
-     *
-     * @var array
-     */
-    public $clientSideProperties = array();
-
-    /**
-     * Holds an array of values that are passed to the UIControl JavaScript class. These values
-     * differ from those in {@link $clientSideProperties} in that they are meant to passed as
-     * request parameters when the JavaScript code makes an AJAX request.
-     *
-     * @var array
-     */
-    public $clientSideParameters = array();
-
-    /**
      * The CSS class that is used to map the root element of this control with the JavaScript class.
      *
      * This field must be set prior to rendering.
@@ -55,14 +39,18 @@ class UIControl extends \Piwik\View
     /**
      * The name of the JavaScript class that handles the behavior of this control.
      *
-     * The JavaScript class must exist in the **piwik/UI** JavaScript module (so it will exist in
-     * `window.piwik.UI`).
-     *
      * This field must be set prior to rendering.
      *
      * @var string
      */
     public $jsClass = null;
+
+    /**
+     * The JavaScript module that contains the JavaScript class.
+     *
+     * @var string
+     */
+    public $jsNamespace = 'piwik/UI';
 
     /**
      * Extra CSS class(es) for the root element.
@@ -86,9 +74,6 @@ class UIControl extends \Piwik\View
         $this->innerView = new View(static::TEMPLATE);
 
         parent::__construct("@CoreHome\_uiControl");
-
-        $this->clientSideProperties = array();
-        $this->clientSideParameters = array();
     }
 
     /**
@@ -128,7 +113,6 @@ class UIControl extends \Piwik\View
             throw new Exception("All UIControls must set a jsClass property");
         }
 
-        $this->getTemplateVars();
         return parent::render();
     }
 
@@ -138,12 +122,51 @@ class UIControl extends \Piwik\View
     public function getTemplateVars($override = array())
     {
         $this->templateVars['implView'] = $this->innerView;
-        $this->templateVars['clientSideProperties'] = $this->clientSideProperties;
-        $this->templateVars['clientSideParameters'] = $this->clientSideParameters;
         $this->templateVars['cssIdentifier'] = $this->cssIdentifier;
         $this->templateVars['cssClass'] = $this->cssClass;
         $this->templateVars['jsClass'] = $this->jsClass;
+        $this->templateVars['jsNamespace'] = $this->jsNamespace;
+        $this->templateVars['implOverride'] = $override;
+
+        $innerTemplateVars = $this->innerView->getTemplateVars($override);
+
+        $this->templateVars['clientSideProperties'] = array();
+        foreach ($this->getClientSideProperties() as $name) {
+            $this->templateVars['clientSideProperties'][$name] = $innerTemplateVars[$name];
+        }
+
+        $this->templateVars['clientSideParameters'] = array();
+        $clientSideParameters = $this->getClientSideParameters();
+        foreach ($this->getClientSideParameters() as $name) {
+            $this->templateVars['clientSideParameters'][$name] = $innerTemplateVars[$name];
+        }
 
         return parent::getTemplateVars($override);
+    }
+
+    /**
+     * Returns the array of property names whose values are passed to the UIControl JavaScript class.
+     *
+     * Should be overriden by descendants.
+     *
+     * @return array
+     */
+    public function getClientSideProperties()
+    {
+        return array();
+    }
+
+    /**
+     * Returns an array of property names whose values are passed to the UIControl JavaScript class.
+     * These values differ from those in {@link $clientSideProperties} in that they are meant to passed as
+     * request parameters when the JavaScript code makes an AJAX request.
+     *
+     * Should be overriden by descendants.
+     *
+     * @return array
+     */
+    public function getClientSideParameters()
+    {
+        return array();
     }
 }

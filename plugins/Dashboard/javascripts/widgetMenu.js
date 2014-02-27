@@ -88,37 +88,49 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
     return ajaxRequest;
 };
 
-/**
- * Returns the base html use for displaying a widget
- *
- * @param {string} uniqueId     unique id of the widget
- * @param {string} widgetName   name of the widget
- * @return {string} html for empty widget
- */
-widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
-    return '<div id="' + uniqueId + '" class="widget">' +
-        '<div class="widgetTop">' +
-        '<div class="button" id="close">' +
-        '<img src="plugins/Zeitgeist/images/close.png" title="' + _pk_translate('General_Close') + '" />' +
-        '</div>' +
-        '<div class="button" id="maximise">' +
-        '<img src="plugins/Zeitgeist/images/maximise.png" title="' + _pk_translate('Dashboard_Maximise') + '" />' +
-        '</div>' +
-        '<div class="button" id="minimise">' +
-        '<img src="plugins/Zeitgeist/images/minimise.png" title="' + _pk_translate('Dashboard_Minimise') + '" />' +
-        '</div>' +
-        '<div class="button" id="refresh">' +
-        '<img src="plugins/Zeitgeist/images/refresh.png" title="' + _pk_translate('General_Refresh') + '" />' +
-        '</div>' +
-        '<div class="widgetName">' + widgetName + '</div>' +
-        '</div>' +
-        '<div class="widgetContent">' +
-        '<div class="widgetLoading">' +
-        _pk_translate('Dashboard_LoadingWidget') +
-        '</div>' +
-        '</div>' +
-        '</div>';
-};
+(function ($, require) {
+    var exports = require('piwik/UI/Dashboard');
+
+    /**
+     * Singleton instance that creates widget elements. Normally not needed even
+     * when embedding/re-using dashboard widgets, but it can be useful when creating
+     * elements with the same look and feel as dashboard widgets, but different
+     * behavior (such as the widget preview in the dashboard manager control).
+     *
+     * @constructor
+     */
+    var WidgetFactory = function () {
+        // empty
+    };
+
+    /**
+     * Creates an HTML element for displaying a widget.
+     *
+     * @param {string} uniqueId     unique id of the widget
+     * @param {string} widgetName   name of the widget
+     * @return {Element} the empty widget
+     */
+    WidgetFactory.prototype.make = function (uniqueId, widgetName) {
+        var $result = this.getWidgetTemplate().clone();
+        $result.attr('id', uniqueId).find('.widgetName').append(widgetName);
+        return $result;
+    };
+
+    /**
+     * Returns the base widget template element. The template is stored in the
+     * element with id == 'widgetTemplate'.
+     *
+     * @return {Element} the widget template
+     */
+    WidgetFactory.prototype.getWidgetTemplate = function () {
+        if (!this.widgetTemplate) {
+            this.widgetTemplate = $('#widgetTemplate').find('>.widget').detach();
+        }
+        return this.widgetTemplate;
+    };
+
+    exports.WidgetFactory = new WidgetFactory();
+})(jQuery, require);
 
 /**
  * widgetPreview jQuery Extension
@@ -134,7 +146,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              * Default settings for widgetPreview
              * @type {object}
              */
-            var settings = {
+            var defaultSettings = {
                 /**
                  * handler called after a widget preview is loaded in preview element
                  * @type {function}
@@ -168,8 +180,6 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 unavailableClass: 'widgetpreview-unavailable'
             };
 
-            var availableWidgets, widgetPreview, widgetAjaxRequest = null;
-
             /**
              * Returns the div to show category list in
              * - if element doesn't exist it will be created and added
@@ -177,7 +187,8 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              *
              * @return {$} category list element
              */
-            function createWidgetCategoryList() {
+            function createWidgetCategoryList(widgetPreview, availableWidgets) {
+                var settings = widgetPreview.settings;
 
                 if (!$('.' + settings.categorylistClass, widgetPreview).length) {
                     $(widgetPreview).append('<ul class="' + settings.categorylistClass + '"></ul>');
@@ -200,7 +211,8 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              *
              * @return {$} widget list element
              */
-            function createWidgetList() {
+            function createWidgetList(widgetPreview) {
+                var settings = widgetPreview.settings;
 
                 if (!$('.' + settings.widgetlistClass, widgetPreview).length) {
                     $(widgetPreview).append('<ul class="' + settings.widgetlistClass + '"></ul>');
@@ -212,7 +224,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
 
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
-                        $('.' + settings.categorylistClass).position().top;
+                        $('.' + settings.categorylistClass, widgetPreview).position().top;
 
                     $('.' + settings.widgetlistClass, widgetPreview).css('top', position);
                     $('.' + settings.widgetlistClass, widgetPreview).css('marginBottom', position);
@@ -227,9 +239,10 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              * @param {object} widgets widgets to be displayed
              * @return {void}
              */
-            function showWidgetList(widgets) {
+            function showWidgetList(widgets, widgetPreview) {
+                var settings = widgetPreview.settings;
 
-                var widgetList = createWidgetList(),
+                var widgetList = createWidgetList(widgetPreview),
                     widgetPreviewTimer;
 
                 for (var j = 0; j < widgets.length; j++) {
@@ -253,7 +266,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                         $('li', widgetList).removeClass(settings.choosenClass);
                         $(that).addClass(settings.choosenClass);
 
-                        showPreview(widgetUniqueId);
+                        showPreview(widgetUniqueId, widgetPreview);
                     }, 400);
                 });
 
@@ -266,7 +279,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                     if (!$('.widgetLoading', widgetPreview).length) {
                         settings.onSelect($(this).attr('uniqueid'));
                         if (settings.resetOnSelect) {
-                            resetWidgetPreview();
+                            resetWidgetPreview(widgetPreview);
                         }
                     }
                     return false;
@@ -280,7 +293,8 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              *
              * @return {$} preview element
              */
-            function createPreviewElement() {
+            function createPreviewElement(widgetPreview) {
+                var settings = widgetPreview.settings;
 
                 if (!$('.' + settings.widgetpreviewClass, widgetPreview).length) {
                     $(widgetPreview).append('<div class="' + settings.widgetpreviewClass + '"></div>');
@@ -298,20 +312,22 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              * @param {string} widgetUniqueId unique id of widget to display
              * @return {void}
              */
-            function showPreview(widgetUniqueId) {
+            function showPreview(widgetUniqueId, widgetPreview) {
                 // do not reload id widget already displayed
                 if ($('#' + widgetUniqueId, widgetPreview).length) return;
 
-                var previewElement = createPreviewElement();
+                var settings = widgetPreview.settings;
+
+                var previewElement = createPreviewElement(widgetPreview);
 
                 var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
                 var widgetParameters = widget['parameters'];
 
-                var emptyWidgetHtml = widgetsHelper.getEmptyWidgetHtml(
+                var emptyWidgetHtml = require('piwik/UI/Dashboard').WidgetFactory.make(
                     widgetUniqueId,
-                    '<div title="' + _pk_translate("Dashboard_AddPreviewedWidget") + '">' +
-                        _pk_translate('Dashboard_WidgetPreview') +
-                        '</div>'
+                    $('<div/>')
+                        .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))
+                        .text(_pk_translate('Dashboard_WidgetPreview'))
                 );
                 previewElement.html(emptyWidgetHtml);
 
@@ -323,18 +339,18 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                     $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
                         settings.onSelect(widgetUniqueId);
                         if (settings.resetOnSelect) {
-                            resetWidgetPreview();
+                            resetWidgetPreview(widgetPreview);
                         }
                         return false;
                     });
                 };
 
                 // abort previous sent request
-                if (widgetAjaxRequest) {
-                    widgetAjaxRequest.abort();
+                if (widgetPreview.widgetAjaxRequest) {
+                    widgetPreview.widgetAjaxRequest.abort();
                 }
 
-                widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
+                widgetPreview.widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
             }
 
             /**
@@ -342,10 +358,12 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              *
              * @return {void}
              */
-            function resetWidgetPreview() {
+            function resetWidgetPreview(widgetPreview) {
+                var settings = widgetPreview.settings;
+
                 $('.' + settings.categorylistClass + ' li', widgetPreview).removeClass(settings.choosenClass);
-                createWidgetList();
-                createPreviewElement();
+                createWidgetList(widgetPreview);
+                createPreviewElement(widgetPreview);
             }
 
             /**
@@ -356,38 +374,39 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
              */
             this.construct = function (userSettings) {
 
-                if (widgetPreview && userSettings == 'reset') {
-                    resetWidgetPreview();
+                if (userSettings == 'reset') {
+                    resetWidgetPreview(this);
                     return;
                 }
 
-                widgetPreview = this;
+                this.widgetAjaxRequest = null;
 
                 $(this).addClass('widgetpreview-base');
 
-                settings = jQuery.extend(settings, userSettings);
+                this.settings = jQuery.extend({}, defaultSettings, userSettings);
 
                 // set onSelect callback
-                if (typeof settings.onSelect == 'function') {
-                    this.onSelect = settings.onSelect;
+                if (typeof this.settings.onSelect == 'function') {
+                    this.onSelect = this.settings.onSelect;
                 }
 
                 // set onPreviewLoaded callback
-                if (typeof settings.onPreviewLoaded == 'function') {
-                    this.onPreviewLoaded = settings.onPreviewLoaded;
+                if (typeof this.settings.onPreviewLoaded == 'function') {
+                    this.onPreviewLoaded = this.settings.onPreviewLoaded;
                 }
 
                 availableWidgets = widgetsHelper.getAvailableWidgets();
 
-                var categoryList = createWidgetCategoryList();
+                var categoryList = createWidgetCategoryList(this, availableWidgets);
 
+                var self = this;
                 $('li', categoryList).on('mouseover', function () {
                     var category = $(this).text();
                     var widgets = availableWidgets[category];
-                    $('li', categoryList).removeClass(settings.choosenClass);
-                    $(this).addClass(settings.choosenClass);
-                    showWidgetList(widgets);
-                    createPreviewElement(); // empty preview
+                    $('li', categoryList).removeClass(self.settings.choosenClass);
+                    $(this).addClass(self.settings.choosenClass);
+                    showWidgetList(widgets, self);
+                    createPreviewElement(self); // empty preview
                 });
             };
         }

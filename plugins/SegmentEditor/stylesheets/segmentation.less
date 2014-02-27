@@ -439,7 +439,8 @@ div.scrollable {
 }
 
 .segmentEditorPanel {
-  position: absolute;
+  display:inline-block;
+  position:relative;
   z-index: 121; /* Should be bigger than 'Dashboard widget selector' (z-index: 120) */
   background: #f7f7f7;
   border: 1px solid #e4e5e4;
@@ -448,6 +449,10 @@ div.scrollable {
   border-radius: 4px;
   color: #444;
   font-size: 14px;
+}
+
+.top_controls .segmentEditorPanel {
+  position:absolute;
 }
 
 .segmentEditorPanel:hover {
@@ -506,16 +511,18 @@ div.scrollable {
   font-weight: normal;
 }
 
-.segmentationContainer.visible {
+.segmentEditorPanel.visible .segmentationContainer {
   width: 200px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
-.segmentationContainer.visible ul.submenu {
+.segmentEditorPanel.visible ul.submenu {
   display: block;
   list-style: none;
 }
 
-.segmentationContainer.visible .add_new_segment {
+.segmentEditorPanel.visible .add_new_segment {
   display: block;
   background: url("plugins/SegmentEditor/images/dashboard_h_bg_hover.png") repeat-x scroll 0 0 #847b6d;
   border: 0 none;
@@ -655,11 +662,45 @@ a.metric_category {
 
 @media all and (max-width: 749px) {
   span.segmentationTitle,
-  .segmentationContainer.visible {
+  .segmentEditorPanel.visible .segmentationContainer {
     width: auto;
   }
 
-  .segmentationContainer.visible .add_new_segment {
+  .segmentEditorPanel.visible .add_new_segment {
     float: left;
   }
+}
+
+.dropdown-body {
+    position:absolute;
+    top:100%;
+    left:-1px;
+    background-color:#f7f7f7;
+    padding:0px 10px;
+    border: 1px solid #e4e5e4;
+    border-top-width:0px;
+    display:none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.segmentEditorPanel.visible .dropdown-body {
+    display:block;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.segmentEditorPanel:hover .dropdown-body {
+    border-color: #a9a399;
+    background: #f1f0eb
+}
+
+.segmentEditorPanel.visible {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.segment-element.anchorRight {
+    right:-1px;
+    left:auto;
 }

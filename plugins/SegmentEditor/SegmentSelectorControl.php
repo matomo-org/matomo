@@ -30,7 +30,7 @@ class SegmentSelectorControl extends UIControl
 
         $this->jsClass = "SegmentSelectorControl";
         $this->cssIdentifier = "segmentEditorPanel";
-        $this->cssClass = "js-autoLeftPanel";
+        $this->cssClass = "piwikTopControl";
 
         $this->idSite = Common::getRequestVar('idSite', false, 'int');
 
@@ -54,23 +54,29 @@ class SegmentSelectorControl extends UIControl
         $this->createRealTimeSegmentsIsEnabled = Config::getInstance()->General['enable_create_realtime_segments'];
         $this->segmentsByCategory   = $segmentsByCategory;
         $this->nameOfCurrentSegment = '';
-        $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled'] = 0;
+        $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = 0;
 
-        $savedSegments = API::getInstance()->getAll($this->idSite);
-        foreach ($savedSegments as &$savedSegment) {
+        $this->availableSegments = API::getInstance()->getAll($this->idSite);
+        foreach ($this->availableSegments as &$savedSegment) {
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
 
             if (!empty($this->selectedSegment) && $this->selectedSegment == $savedSegment['definition']) {
-                    $this->nameOfCurrentSegment = $savedSegment['name'];
-                $this->clientSideProperties['isSegmentNotAppliedBecauseBrowserArchivingIsDisabled']
-                    = $this->wouldApplySegment($savedSegment) ? 0 : 1;
+                $this->nameOfCurrentSegment = $savedSegment['name'];
+                $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled =
+                    $this->wouldApplySegment($savedSegment) ? 0 : 1;
             }
         }
 
-        $this->clientSideProperties['availableSegments'] = $savedSegments;
-        $this->clientSideProperties['segmentTranslations'] = $this->getTranslations();
-
         $this->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
+        $this->segmentTranslations = $this->getTranslations();
+    }
+
+    public function getClientSideProperties()
+    {
+        return array('availableSegments',
+                     'segmentTranslations',
+                     'isSegmentNotAppliedBecauseBrowserArchivingIsDisabled',
+                     'selectedSegment');
     }
 
     private function wouldApplySegment($savedSegment)

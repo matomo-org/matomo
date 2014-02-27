@@ -132,7 +132,7 @@ var broadcast = {
                     broadcast.loadAjaxContent(hashUrl);
 
                     // make sure the "Widgets & Dashboard" is deleted on reload
-                    $('.top_controls .dashboardSettings').hide();
+                    $('.top_controls .dashboard-manager').hide();
                     $('#dashboardWidgetsArea').dashboard('destroy');
 
                     // remove unused controls
@@ -405,7 +405,7 @@ var broadcast = {
 
         piwikHelper.hideAjaxError('loadingError');
         piwikHelper.showAjaxLoading();
-        $('#content').hide();
+        $('#content').empty();
         $("object").remove();
 
         urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
@@ -428,6 +428,8 @@ var broadcast = {
                 piwikHelper.hideAjaxLoading();
                 broadcast.lastUrlRequested = null;
             }
+
+            initTopControls();
         }
 
         var ajax = new ajaxHelper();

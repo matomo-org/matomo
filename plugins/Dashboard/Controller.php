@@ -50,7 +50,6 @@ class Controller extends \Piwik\Plugin\Controller
     public function embeddedIndex()
     {
         $view = $this->_getDashboardView('@Dashboard/embeddedIndex');
-
         return $view->render();
     }
 

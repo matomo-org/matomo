@@ -232,6 +232,7 @@ class Access
     {
         if ($bool) {
             $this->previousLogin = self::getLogin();
+            $this->login = $this->getSuperUserLogin();
             $this->reloadAccessSuperUser();
         } else {
             $this->hasSuperUserAccess = false;

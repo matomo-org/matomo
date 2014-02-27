@@ -404,8 +404,9 @@ class Log extends Singleton
         }
 
         if (is_string($message)) {
-            if (!defined('PIWIK_TEST_MODE')
-                || !PIWIK_TEST_MODE
+            if ((!defined('PIWIK_TEST_MODE')
+                 || !PIWIK_TEST_MODE)
+                && !Common::isPhpCliMode()
             ) {
                 $message = '[' . $currentRequestKey . '] ' . $message;
             }

@@ -462,6 +462,7 @@
                 // initially, show only the first series
                 this.data = [this.data[0]];
                 this.jqplotParams.series = [this.jqplotParams.series[0]];
+                this.setYTicks();
             }
         },
 
@@ -596,6 +597,7 @@ JQPlotExternalSeriesToggle.prototype = {
 
         this.jqplotObject.data = config.data;
         this.jqplotObject.jqplotParams = config.params;
+        this.jqplotObject.setYTicks();
         this.jqplotObject.render();
     },
 
