@@ -8,14 +8,14 @@
  */
 
 // required modules
-var fs = require('fs'),
-    path = require('./support/path'),
-    config = require("./config");
+var config = require("./config");
+
+require('./support/fs-extras');
 
 phantom.injectJs('./support/globals.js');
 
 // make sure script works wherever it's executed from
-fs.changeWorkingDirectory(__dirname);
+require('fs').changeWorkingDirectory(__dirname);
 
 // load mocha + chai
 require('./support/mocha-loader');
@@ -27,5 +27,6 @@ if (options['help']) {
     app.printHelpAndExit();
 }
 
+app.init();
 app.loadTestModules();
 app.runTests();

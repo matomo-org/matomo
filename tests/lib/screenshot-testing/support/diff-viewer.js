@@ -7,6 +7,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+var fs = require('fs'),
+    path = require('./path');
+
 var DiffViewerGenerator = function (diffDir) {
     this.diffDir = diffDir;
     this.outputPath = path.join(diffDir, 'diffviewer.html');
@@ -30,7 +33,12 @@ DiffViewerGenerator.prototype.checkImageMagickCompare = function (callback) {
 };
 
 DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
-    return path.join(this.diffDir, testInfo.name + '.png');
+    return path.resolve(path.join(this.diffDir, testInfo.name + '.png'));
+};
+
+// TODO: diff output path shouldn't be stored in piwik-ui-tests repo
+DiffViewerGenerator.prototype.getUrlForPath = function (path) {
+    return fs.relpath(path, this.diffDir);
 };
 
 DiffViewerGenerator.prototype.generate = function (callback) {
@@ -58,18 +66,24 @@ DiffViewerGenerator.prototype.generate = function (callback) {
             var entry = self.failures[i];
 
             if (entry.expected) {
-                entry.expectedUrl = 'https://raw.github.com/piwik/piwik-ui-tests/master/expected-ui-screenshots/'
-                                  + entry.name + '.png';
+                var expectedUrl = self.getUrlForPath(entry.expected);
+                var expectedUrlGithub = 'https://raw.github.com/piwik/piwik-ui-tests/master/expected-ui-screenshots/'
+                                      + entry.name + '.png';
+
+                var expectedHtml = '<a href="' + entry.expectedUrl + '">Expected</a>&nbsp;<a href="' + expectedUrlGithub
+                                 + '">[Github]</a>';
+            } else {
+                var expectedHtml = '<em>Not found</em>';
             }
 
             if (entry.processed) {
-                entry.processedUrl = '../processed-ui-screenshots/' + entry.name + '.png';
+                entry.processedUrl = self.getUrlForPath(entry.processed);
             }
 
             diffViewerContent += '\
     <tr>\
         <td>' + entry.name + '</td>\
-        <td>' + (entry.expected ? ('<a href="' + entry.expectedUrl + '">Expected</a>') : '<em>Not found</em>') + '</td>\
+        <td>' + expectedHtml + '</td>\
         <td>' + (entry.processed ? ('<a href="' + entry.processedUrl + '">Processed</a>') : '<em>Not found</em>') + '</td>\
         <td>' + (entry.diffUrl ? ('<a href="' + entry.diffUrl + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
     </tr>';

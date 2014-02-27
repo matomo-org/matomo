@@ -50,10 +50,10 @@ chai.Assertion.addChainableMethod('capture', function () {
         throw new Error("No 'done' callback specified in capture assertion.");
     }
 
-    // TODO: tests dir should depend on module path
     var screenshotFileName = screenName + '.png',
-        expectedScreenshotPath = path.join(uiTestsDir, config.expectedScreenshotsDir, compareAgainst + '.png'),
-        processedScreenshotPath = path.join(uiTestsDir, config.processedScreenshotsDir, screenshotFileName);
+        dirsBase = app.runner.suite.baseDirectory,
+        expectedScreenshotPath = path.join(dirsBase, config.expectedScreenshotsDir, compareAgainst + '.png'),
+        processedScreenshotPath = path.join(dirsBase, config.processedScreenshotsDir, screenshotFileName);
 
     pageSetupFn(pageRenderer);
 
@@ -85,11 +85,14 @@ chai.Assertion.addChainableMethod('capture', function () {
             var fail = function (message) {
                 app.diffViewerGenerator.failures.push(testInfo);
 
+                var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) : "",
+                    processedPath = testInfo.processed ? path.resolve(testInfo.processed) : "";
+
                 var indent = "     ";
                 var failureInfo = message + "\n";
                 failureInfo += indent + "Url to reproduce: " + pageRenderer.getCurrentUrl() + "\n";
-                failureInfo += indent + "Generated screenshot: " + testInfo.processed + "\n";
-                failureInfo += indent + "Expected screenshot: " + testInfo.expected + "\n";
+                failureInfo += indent + "Generated screenshot: " + processedPath + "\n";
+                failureInfo += indent + "Expected screenshot: " + expectedPath + "\n";
                 failureInfo += indent + "Screenshot diff: " + app.diffViewerGenerator.getDiffPath(testInfo);
 
                 failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);

@@ -54,8 +54,21 @@ Application.prototype.printHelpAndExit = function () {
     phantom.exit(0);
 };
 
+Application.prototype.init = function () {
+    var app = this;
+
+    // overwrite describe function so we can inject the base directory of a suite
+    var oldDescribe = describe;
+    describe = function () {
+        var suite = oldDescribe.apply(null, arguments);
+        suite.baseDirectory = path.dirname(app.currentModulePath);
+        return suite;
+    };
+};
+
 Application.prototype.loadTestModules = function () {
-    var pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
+    var self = this,
+        pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
 
     // find all installed plugins
     var plugins = fs.list(pluginDir).map(function (item) {
@@ -72,6 +85,8 @@ Application.prototype.loadTestModules = function () {
     });
 
     modulePaths.forEach(function (path) {
+        self.currentModulePath = path;
+
         require(path);
     });
 
