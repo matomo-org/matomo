@@ -115,6 +115,6 @@ class Piwik_TestingEnvironment
             file_put_contents($outputFile, Common::json_encode($outputContents));
         });
 
-        Piwik::postEvent("TestingEnvironment.addHooks", $testingEnvironment); // for plugins that need to inject special testing logic
+        Piwik::postEvent("TestingEnvironment.addHooks", array($testingEnvironment), $pending = true); // for plugins that need to inject special testing logic
     }
 }

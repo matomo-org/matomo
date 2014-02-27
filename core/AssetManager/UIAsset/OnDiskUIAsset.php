@@ -103,7 +103,7 @@ class OnDiskUIAsset extends UIAsset
      */
     private function assetIsReadable()
     {
-        return is_readable($this->getAbsoluteLocation());
+        return file_exists($this->getAbsoluteLocation()) && is_readable($this->getAbsoluteLocation());
     }
 
     public function getModificationDate()
