@@ -10,7 +10,7 @@
 
 # HTC
 HTC:
-  regex: 'HTC|Sprint (?:APA|ATP)|ADR[a-z0-9]+|Desire[ _][a-z0-9]+ Build|NexusHD2|Amaze 4G Build|Sensation[ _][a-z0-9]+ Build'
+  regex: 'HTC|Sprint (?:APA|ATP)|ADR[a-z0-9]+|NexusHD2|Amaze[ _]4G Build|(Sensation|Desire|Evo ?3D)[ _][a-z0-9]+ Build'
   device: 'smartphone'
   models:
     - regex: 'NexusHD2' # custom rom for hd2
@@ -33,7 +33,7 @@ HTC:
       model: '$1'
     - regex: 'HTC;(?: )?([a-z0-9 ]+)'
       model: '$1'
-    - regex: '(Desire[ _][a-z0-9]+|Amaze 4G|Sensation[ _][a-z0-9]+) Build'
+    - regex: '(Desire[ _][a-z0-9]+|Amaze[ _]4G|Sensation[ _][a-z0-9]+|Evo ?3D[ _][a-z0-9]+) Build'
       model: '$1'
     - regex: '(ADR.+) Build'
       model: '$1'

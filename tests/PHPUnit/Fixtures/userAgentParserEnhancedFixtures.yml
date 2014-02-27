@@ -22078,3 +22078,51 @@
     model: XT1056
   os_family: Android
   browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.3; de-de; EVO3D_X515m Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HT
+    model: EVO3D X515m
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.0.3; en-us; Amaze_4G Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+  os:
+    name: Android
+    short_name: AND
+    version: 4.0
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HT
+    model: Amaze 4G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 4.3.1; de-de; Evo 3D GSM Build/JLS36I) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 CyanogenMod/10.2/shooteru
+  os:
+    name: Android
+    short_name: AND
+    version: 4.3
+  browser:
+    name: Android Browser
+    short_name: AN
+    version: 
+  device:
+    type: smartphone
+    brand: HT
+    model: Evo 3D GSM
+  os_family: Android
+  browser_family: Android Browser
