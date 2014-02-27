@@ -880,6 +880,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     && self.param.period == 'range') {
                     period = 'day';
                 }
+
+                // Below evolution graph, show daily exports
+                if(self.param.period == 'range'
+                    && self.param.viewDataTable == "graphEvolution") {
+                    period = 'day';
+                }
                 var str = 'index.php?module=API'
                     + '&method=' + method
                     + '&format=' + format
