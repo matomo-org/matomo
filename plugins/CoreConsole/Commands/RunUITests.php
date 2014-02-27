@@ -48,7 +48,7 @@ class RunUITests extends ConsoleCommand
 
         $specs = implode(" ", $specs);
 
-        $cmd = "phantomjs '" . PIWIK_INCLUDE_PATH . "/tests/PHPUnit/UI/run-tests.js' $options $specs";
+        $cmd = "phantomjs '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');
