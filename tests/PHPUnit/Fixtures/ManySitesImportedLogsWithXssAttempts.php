@@ -134,25 +134,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
             $_GET['idDashboard'] = $id + 1;
             FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         }
-
-        // create empty dashboard
-        $widget = reset($allWidgets);
-        $dashboard = array(
-            array(
-                array(
-                    'uniqueId' => $widget['uniqueId'],
-                    'parameters' => $widget['parameters']
-                )
-            ),
-            array(),
-            array()
-        );
-
-        $_GET['name'] = 'D4';
-        $_GET['layout'] = Common::json_encode($dashboard);
-        $_GET['idDashboard'] = count($dashboards) + 1;
-        $_GET['idSite'] = 2;
-        FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         
         $_GET = $oldGet;
     }

@@ -25,6 +25,7 @@ class UITestFixture extends OmniFixture
         parent::setUp();
 
         $this->addNewSitesForSiteSelector();
+        $this->createOneWidgetDashboard();
 
         DbHelper::createAnonymousUser();
         UsersManagerAPI::getInstance()->setSuperUserAccess('superUserLogin', true);
@@ -49,5 +50,35 @@ class UITestFixture extends OmniFixture
         for ($i = 0; $i != 8; ++$i) {
             self::createWebsite("2011-01-01 00:00:00", $ecommerce = 1, $siteName = "Site #$i", $siteUrl = "http://site$i.com");
         }
+    }
+
+    public function createOneWidgetDashboard()
+    {
+        $allWidgets = array(); // TODO: redundant
+        foreach (WidgetsList::get() as $category => $widgets) {
+            $allWidgets = array_merge($allWidgets, $widgets);
+        }
+        usort($allWidgets, function ($lhs, $rhs) {
+            return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
+        });
+
+        // create empty dashboard
+        $widget = reset($allWidgets);
+        $dashboard = array(
+            array(
+                array(
+                    'uniqueId' => $widget['uniqueId'],
+                    'parameters' => $widget['parameters']
+                )
+            ),
+            array(),
+            array()
+        );
+
+        $_GET['name'] = 'D4';
+        $_GET['layout'] = Common::json_encode($dashboard);
+        $_GET['idDashboard'] = 5;
+        $_GET['idSite'] = 2;
+        FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
     }
 }
