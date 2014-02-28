@@ -1171,6 +1171,10 @@ $(document).ready(function() {
         };
 
         $('body')[0].addEventListener('mouseup', this.onMouseUp);
+
+        // re-initialize top controls since the size of the control is not the same after it's
+        // initialized.
+        initTopControls();
     };
 
     /**

@@ -167,6 +167,8 @@ function copyDashboardToUser() {
         // on menu item click, trigger action event on this
         var self = this;
         this.$element.on('click', 'ul.submenu li[data-action]', function (e) {
+            self.$element.toggleClass('visible');
+
             $(self).trigger($(this).attr('data-action'));
         });
 

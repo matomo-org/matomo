@@ -55,7 +55,7 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Fixture
     private function trackVisits()
     {
         $dateTime = $this->dateTime;
-        $idSite = $this->idSite;
+        $idSite = 1;
         $idGoal_OneConversionPerVisit = $this->idGoal_OneConversionPerVisit;
         $idGoal_MultipleConversionPerVisit = $this->idGoal_MultipleConversionPerVisit;
 

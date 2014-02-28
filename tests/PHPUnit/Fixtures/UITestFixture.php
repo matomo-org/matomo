@@ -25,19 +25,9 @@ class UITestFixture extends OmniFixture
         parent::setUp();
 
         $this->addNewSitesForSiteSelector();
-        $this->createOneWidgetDashboard();
 
         DbHelper::createAnonymousUser();
         UsersManagerAPI::getInstance()->setSuperUserAccess('superUserLogin', true);
-
-        AssetManager::getInstance()->removeMergedAssets();
-
-        $this->testingEnvironment->forcedNowTimestamp = $this->now->getTimestamp();
-
-        $visitorIdDeterministic = bin2hex(Db::fetchOne(
-            "SELECT idvisitor FROM " . Common::prefixTable('log_visit')
-            . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
-        $this->testingEnvironment->forcedIdVisitor = $visitorIdDeterministic;
 
         // launch archiving so tests don't run out of time
         $date = Date::factory($this->dateTime)->toString();
@@ -45,40 +35,24 @@ class UITestFixture extends OmniFixture
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
     }
 
+    public function performSetUp($testCase, $setupEnvironmentOnly = false)
+    {
+        parent::performSetUp($testCase, $setupEnvironmentOnly);
+
+        AssetManager::getInstance()->removeMergedAssets();
+
+        $this->testEnvironment->forcedNowTimestamp = $this->now->getTimestamp();
+
+        $visitorIdDeterministic = bin2hex(Db::fetchOne(
+            "SELECT idvisitor FROM " . Common::prefixTable('log_visit')
+            . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
+        $this->testEnvironment->forcedIdVisitor = $visitorIdDeterministic;
+    }
+
     public function addNewSitesForSiteSelector()
     {
         for ($i = 0; $i != 8; ++$i) {
             self::createWebsite("2011-01-01 00:00:00", $ecommerce = 1, $siteName = "Site #$i", $siteUrl = "http://site$i.com");
         }
-    }
-
-    public function createOneWidgetDashboard()
-    {
-        $allWidgets = array(); // TODO: redundant
-        foreach (WidgetsList::get() as $category => $widgets) {
-            $allWidgets = array_merge($allWidgets, $widgets);
-        }
-        usort($allWidgets, function ($lhs, $rhs) {
-            return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
-        });
-
-        // create empty dashboard
-        $widget = reset($allWidgets);
-        $dashboard = array(
-            array(
-                array(
-                    'uniqueId' => $widget['uniqueId'],
-                    'parameters' => $widget['parameters']
-                )
-            ),
-            array(),
-            array()
-        );
-
-        $_GET['name'] = 'D4';
-        $_GET['layout'] = Common::json_encode($dashboard);
-        $_GET['idDashboard'] = 5;
-        $_GET['idSite'] = 2;
-        FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
     }
 }

@@ -28,6 +28,20 @@ TestingEnvironment.prototype.callApi = function (method, params, done) {
     params.method = method;
     params.format = 'json';
 
+    this._call(params, done);
+};
+
+TestingEnvironment.prototype.callController = function (method, params, done) {
+    var parts = method.split('.');
+
+    params.module = parts[0];
+    params.action = parts[1];
+    params.idSite = params.idSite || 1;
+
+    this._call(params, done);
+};
+
+TestingEnvironment.prototype._call = function (params, done) {
     var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
     for (var key in params) {
         url += key + "=" + encodeURIComponent(params[key]) + "&";
@@ -38,7 +52,7 @@ TestingEnvironment.prototype.callApi = function (method, params, done) {
     page.open(url, function () {
         var response = page.plainText;
         if (response.replace(/\s*/g, "")) {
-            JSON.parse(response);
+            response = JSON.parse(response);
         }
 
         page.close();

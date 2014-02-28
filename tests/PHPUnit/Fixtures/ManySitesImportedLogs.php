@@ -131,7 +131,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
                       '--enable-testmode'           => false,
                       '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '2');
-        self::createSuperUser();
+
         self::executeLogImporter($logFile, $opts);
     }
 
@@ -149,7 +149,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
                       '--enable-testmode'           => false,
                       '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '1');
-        self::createSuperUser();
         self::executeLogImporter($logFile, $opts);
     }
 

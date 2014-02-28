@@ -61,6 +61,14 @@ PageRenderer.prototype.mouseMove = function (selector, waitTime) {
     this.queuedEvents.push([this._mousemove, waitTime, selector]);
 };
 
+PageRenderer.prototype.mousedown = function (selector, waitTime) {
+    this.queuedEvents.push([this._mousedown, waitTime, selector]);
+};
+
+PageRenderer.prototype.mouseup = function (selector, waitTime) {
+    this.queuedEvents.push([this._mouseup, waitTime, selector]);
+};
+
 PageRenderer.prototype.reload = function (waitTime) {
     this.queuedEvents.push([this._reload, waitTime]);
 };
@@ -101,6 +109,20 @@ PageRenderer.prototype._keypress = function (keys, callback) {
 PageRenderer.prototype._mousemove = function (selector, callback) {
     var position = this._getPosition(selector);
     this.webpage.sendEvent('mousemove', position.x, position.y);
+
+    callback();
+};
+
+PageRenderer.prototype._mousedown = function (selector, callback) {
+    var position = this._getPosition(selector);
+    this.webpage.sendEvent('mousedown', position.x, position.y);
+
+    callback();
+};
+
+PageRenderer.prototype._mouseup = function (selector, callback) {
+    var position = this._getPosition(selector);
+    this.webpage.sendEvent('mouseup', position.x, position.y);
 
     callback();
 };

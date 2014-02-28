@@ -135,6 +135,10 @@ class Fixture extends PHPUnit_Framework_Assert
         include "DataFiles/LanguageToCountry.php";
         include "DataFiles/Providers.php";
         
+        if (!$this->isFixtureSetUp()) {
+            DbHelper::truncateAllTables();
+        }
+
         static::createAccessInstance();
 
         // We need to be SU to create websites for tests
@@ -177,6 +181,7 @@ class Fixture extends PHPUnit_Framework_Assert
             $this->setUp();
 
             $this->markFixtureSetUp();
+            echo "Database {$this->dbName} marked as successfully set up.";
         } else {
             echo "Using existing database {$this->dbName}.";
         }
@@ -427,7 +432,7 @@ class Fixture extends PHPUnit_Framework_Assert
         );
     }
 
-    public static function createSuperUser($removeExisting = true)
+    private static function createSuperUser($removeExisting = true)
     {
         $login = self::ADMIN_USER_LOGIN;
         $password = UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD);
