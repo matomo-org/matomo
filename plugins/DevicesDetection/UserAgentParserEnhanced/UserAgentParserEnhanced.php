@@ -531,6 +531,19 @@ class UserAgentParserEnhanced
             }
         }
 
+        /**
+         * According to http://msdn.microsoft.com/en-us/library/ie/hh920767(v=vs.85).aspx
+         * Internet Explorer 10 introduces the "Touch" UA string token. If this token is present at the end of the
+         * UA string, the computer has touch capability, and is running Windows 8 (or later).
+         * This UA string will be transmitted on a touch-enabled system running Windows 8 (RT)
+         *
+         * As most touch enabled devices are tablets and only a smaller part are desktops/notebooks we assume that
+         * all Windows 8 touch devices are tablets.
+         */
+        if (empty($this->device) && in_array($this->getOs('short_name'), array('WI8', 'WRT')) && $this->isTouchEnabled()) {
+            $this->device = array_search('tablet', self::$deviceTypes);
+        }
+
         if ($this->debug) {
             var_export($this->brand, $this->model, $this->device);
         }
@@ -792,6 +805,12 @@ class UserAgentParserEnhanced
     public function isHbbTv()
     {
         $regex = 'HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})';
+        return $this->matchUserAgent($regex);
+    }
+
+    public function isTouchEnabled()
+    {
+        $regex = 'Touch';
         return $this->matchUserAgent($regex);
     }
 
