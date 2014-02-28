@@ -70,16 +70,32 @@ class Piwik_TestingEnvironment
     {
         $testingEnvironment = new Piwik_TestingEnvironment();
 
+        if ($testingEnvironment->configFileLocal) {
+            \Piwik\Config::$defaultLocalConfigPath = $testingEnvironment->configFileLocal;
+        }
+
+        if ($testingEnvironment->configFileCommon) {
+            \Piwik\Config::$defaultCommonConfigPath = $testingEnvironment->configFileCommon;
+        }
+
+        if ($testingEnvironment->configFileGlobal) {
+            \Piwik\Config::$defaultGlobalConfigPath = $testingEnvironment->configFileGlobal;
+        }
+
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
                 $access = new Piwik_MockAccess($access);
                 \Piwik\Access::setSingletonInstance($access);
             }
         });
-        Piwik::addAction('Config.createConfigSingleton', function($config) {
+        Piwik::addAction('Config.createConfigSingleton', function($config) use ($testingEnvironment) {
             \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
 
             $config->setTestEnvironment();
+
+            if ($testingEnvironment->dbName) {
+                $config->database_tests['dbname'] = $config->database['dbname'] = $testingEnvironment->dbName;
+            }
 
             $pluginsToLoad = \Piwik\Plugin\Manager::getInstance()->getPluginsToLoadDuringTests();
             $config->Plugins = array('Plugins' => $pluginsToLoad);
@@ -113,6 +129,16 @@ class Piwik_TestingEnvironment
             );
             
             file_put_contents($outputFile, Common::json_encode($outputContents));
+        });
+        Piwik::addAction('Updater.checkForUpdates', function () {
+            \Piwik\Filesystem::deleteAllCacheOnUpdate();
+        });
+        Piwik::addAction('Request.dispatch.end', function (&$result, $parameters) {
+            $enableZeitgeist = !empty($_REQUEST['zeitgeist']);
+            if ($enableZeitgeist) {
+                $replace = "action=getCss";
+                $result = str_replace($replace, $replace . "&zeitgeist=1", $result);
+            }
         });
 
         Piwik::postEvent("TestingEnvironment.addHooks", array($testingEnvironment), $pending = true); // for plugins that need to inject special testing logic

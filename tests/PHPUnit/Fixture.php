@@ -86,8 +86,6 @@ class Fixture extends PHPUnit_Framework_Assert
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
 
-            Config::getInstance()->removeConfigOverride();
-
             if ($this->createConfig) {
                 Config::getInstance()->setTestEnvironment();
             }
@@ -100,7 +98,8 @@ class Fixture extends PHPUnit_Framework_Assert
                 $this->removeExistingSuperUser = false;
 
                 Config::getInstance()->database_tests['dbname'] = Config::getInstance()->database['dbname'] = $this->dbName;
-                Config::getInstance()->saveConfigOverride();
+
+                $this->testEnvironment->dbName = $this->dbName;
             }
 
             if ($this->dbName === false) { // must be after test config is created

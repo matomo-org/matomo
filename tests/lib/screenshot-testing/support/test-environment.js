@@ -52,7 +52,11 @@ TestingEnvironment.prototype._call = function (params, done) {
     page.open(url, function () {
         var response = page.plainText;
         if (response.replace(/\s*/g, "")) {
-            response = JSON.parse(response);
+            try {
+                response = JSON.parse(response);
+            } catch (e) {
+                throw new Error("Unable to parse JSON response: " + response);
+            }
         }
 
         page.close();

@@ -42,6 +42,10 @@ class Config extends Singleton
 {
     const RELATIVE_CONFIG_OVERRIDE_PATH = 'tmp/test.config.ini';
 
+    public static $defaultLocalConfigPath = '/config/config.ini.php';
+    public static $defaultCommonConfigPath = '/config/common.config.ini.php';
+    public static $defaultGlobalConfigPath = '/config/global.ini.php';
+
     /**
      * Contains configuration files values
      *
@@ -84,11 +88,6 @@ class Config extends Singleton
 
         if ($pathLocal) {
             $this->pathLocal = $pathLocal;
-        } else {
-            $configOverridePath = $this->getConfigOverridePath();
-            if (file_exists($configOverridePath)) {
-                $this->pathLocal = $configOverridePath;
-            }
         }
 
         if ($pathGlobal) {
@@ -146,7 +145,7 @@ class Config extends Singleton
      */
     protected static function getGlobalConfigPath()
     {
-        return PIWIK_USER_PATH . '/config/global.ini.php';
+        return PIWIK_USER_PATH . self::$defaultGlobalConfigPath;
     }
 
     /**
@@ -156,7 +155,7 @@ class Config extends Singleton
      */
     public static function getCommonConfigPath()
     {
-        return PIWIK_USER_PATH . '/config/common.config.ini.php';
+        return PIWIK_USER_PATH . self::$defaultCommonConfigPath;
     }
 
     /**
@@ -170,7 +169,7 @@ class Config extends Singleton
         if ($path) {
             return $path;
         }
-        return PIWIK_USER_PATH . '/config/config.ini.php';
+        return PIWIK_USER_PATH . self::$defaultLocalConfigPath;
     }
 
     private static function getLocalConfigInfoForHostname($hostname)
@@ -641,28 +640,6 @@ class Config extends Singleton
     }
 
     /**
-     * Writes the config cache to tmp/test.config.ini.
-     *
-     * Used for testing purposes to communicate config overrides w/ other processes (such as the log
-     * importer).
-     */
-    public function saveConfigOverride()
-    {
-        $path = $this->getConfigOverridePath();
-        $this->writeConfig($this->configCache, $this->configGlobal, $this->configCommon, $this->configCache, $path, false);
-    }
-
-    /**
-     * Removes the file at tmp/test.config.ini.
-     *
-     * Used for testing purposes.
-     */
-    public function removeConfigOverride()
-    {
-        @unlink($this->getConfigOverridePath());
-    }
-
-    /**
      * @throws \Exception
      */
     public function getConfigNotWritableException()
@@ -707,10 +684,5 @@ class Config extends Singleton
             }
         }
         return $merged;
-    }
-
-    private function getConfigOverridePath()
-    {
-        return PIWIK_INCLUDE_PATH . '/' . self::RELATIVE_CONFIG_OVERRIDE_PATH;
     }
 }
