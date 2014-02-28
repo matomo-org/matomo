@@ -31,6 +31,10 @@ PageRenderer.prototype._recreateWebPage = function () {
     this._setupWebpageEvents();
 };
 
+PageRenderer.prototype.setViewportSize = function (w, h) {
+    this._viewportSizeOverride = {width: w, height: h};
+};
+
 PageRenderer.prototype.getCurrentUrl = function () {
     return this.webpage.url;
 };
@@ -192,8 +196,12 @@ PageRenderer.prototype.capture = function (outputPath, callback) {
             self._setCorrectViewportSize();
             self.webpage.render(outputPath);
 
+            self._viewportSizeOverride = null;
+
             callback();
         } catch (e) {
+            self._viewportSizeOverride = null;
+
             callback(e);
         }
     });
@@ -269,11 +277,13 @@ PageRenderer.prototype._waitForNextEvent = function (events, callback, i, waitTi
 };
 
 PageRenderer.prototype._setCorrectViewportSize = function () {
-    this.webpage.viewportSize = {width:1350, height:768};
-    var height = Math.max(768, this.webpage.evaluate(function() {
+    var viewportSize = this._viewportSizeOverride || {width:1350, height:768};
+
+    this.webpage.viewportSize = viewportSize;
+    var height = Math.max(viewportSize.height, this.webpage.evaluate(function() {
         return document.body.offsetHeight;
     }));
-    this.webpage.viewportSize = {width:1350, height: height};
+    this.webpage.viewportSize = {width: viewportSize.width, height: height};
 };
 
 PageRenderer.prototype._setupWebpageEvents = function () {
