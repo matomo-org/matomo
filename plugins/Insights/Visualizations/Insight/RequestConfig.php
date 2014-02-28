@@ -1,0 +1,45 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+
+namespace Piwik\Plugins\Insights\Visualizations\Insight;
+
+use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
+
+class RequestConfig extends VisualizationRequestConfig
+{
+    public $min_visits_percent = 2;
+    public $min_growth_percent = 20;
+    public $based_on_total_metric = 1;
+    public $compared_to_x_periods_ago = 1;
+    public $order_by = 'absolute';
+    public $filter_by = '';
+    public $limit_increaser = 5;
+    public $limit_decreaser = 5;
+
+    public function __construct()
+    {
+        $this->disable_generic_filters = true;
+        $this->disable_queued_filters  = true;
+
+        $properties = array(
+            'min_growth_percent',
+            'min_visits_percent',
+            'based_on_total_metric',
+            'order_by',
+            'compared_to_x_periods_ago',
+            'filter_by',
+            'limit_increaser',
+            'limit_decreaser'
+        );
+
+        $this->addPropertiesThatShouldBeAvailableClientSide($properties);
+        $this->addPropertiesThatCanBeOverwrittenByQueryParams($properties);
+    }
+
+}

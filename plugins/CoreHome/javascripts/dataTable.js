@@ -81,6 +81,10 @@ DataTable.getDataTableByReport = function (report) {
 
 $.extend(DataTable.prototype, UIControl.prototype, {
 
+    _init: function (domElem) {
+        // initialize your dataTable in your plugin
+    },
+
     //initialisation function
     init: function () {
         var domElem = this.$element;
@@ -91,6 +95,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
+        this._init(domElem);
         this.initialized = true;
     },
 

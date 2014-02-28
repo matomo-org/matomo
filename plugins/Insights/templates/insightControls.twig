@@ -1,0 +1,93 @@
+<div style="padding: 10px;padding-bottom: 0px;">
+    Show only rows with a
+
+    minimum impact of
+    <select name="minVisitsPercent">
+        {% for i in range(0, 20) %}
+            <option {% if i == properties.min_visits_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
+        {% endfor %}
+        {% for i in range(22, 100, 2) %}
+            <option {% if i == properties.min_visits_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
+        {% endfor %}
+    </select>
+
+    {% if properties.show_based_on_total_metric %}
+        <select size="1" name="basedOnTotalMetric">
+            <option value="1" {% if 1 == properties.based_on_total_metric %}selected{% endif %}>compared to metric</option>
+            <option value="0" {% if 0 == properties.based_on_total_metric %}selected{% endif %}>compared to total visits</option>
+        </select>
+    {% endif %}
+
+    and min growth of
+    <select size="1" name="minGrowthPercent">
+        {% for i in range(0, 1, 1) %}
+            <option {% if i == properties.min_growth_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
+        {% endfor %}
+        {% for i in range(5, 100, 5) %}
+            <option {% if i == properties.min_growth_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
+        {% endfor %}
+        {% for i in range(200, 1000, 100) %}
+            <option {% if i == properties.min_growth_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
+        {% endfor %}
+    </select>
+
+    {% if period == 'day' %}
+        <select size="1" name="comparedToXPeriodsAgo">
+            <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
+                compare to previous day
+            </option>
+            <option value="7" {% if properties.compared_to_x_periods_ago == 7 %}selected{% endif %}>
+                compare to same day in previous week
+            </option>
+            <option value="365" {% if properties.compared_to_x_periods_ago == 365 %}selected{% endif %}>
+                compare to same day in previous year
+            </option>
+        </select>
+    {% elseif period == 'month' %}
+        <select size="1" name="comparedToXPeriodsAgo">
+            <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
+                compare to previous month
+            </option>
+            <option value="12" {% if properties.compared_to_x_periods_ago == 12 %}selected{% endif %}>
+                compare to same month in previous year
+            </option>
+        </select>
+    {% endif %}
+
+    Order them by
+    <select name="orderBy">
+        <option {% if 'absolute' == properties.order_by %}selected{% endif %} value="absolute">
+            absolute
+        </option>
+        <option {% if 'relative' == properties.order_by %}selected{% endif %} value="relative">
+            relative
+        </option>
+        <option {% if 'importance' == properties.order_by %}selected{% endif %} value="importance">
+            importance
+        </option>
+    </select> value
+
+    and show
+
+    {% if properties.show_filter_by %}
+        <select size="1" name="filterBy">
+            <option {% if not properties.filter_by %}selected{% endif %} value="">all</option>
+            <option {% if properties.filter_by == 'movers' %}selected{% endif %} value="movers">only movers</option>
+            <option {% if properties.filter_by == 'new' %}selected{% endif %} value="new">only new entries</option>
+            <option {% if properties.filter_by == 'disappeared' %}selected{% endif %} value="disappeared">only disappeared entries</option>
+        </select>
+    {% endif %}
+
+    if they
+    <select size="1" name="showIncreaseOrDecrease">
+        <option value="both" {% if properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>
+            increase or decrease
+        </option>
+        <option value="increase" {% if properties.limit_increaser and not properties.limit_decreaser %}selected{%endif%}>
+            increase
+        </option>
+        <option value="decrease" {% if not properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>
+            decrease
+        </option>
+    </select>
+</div>
