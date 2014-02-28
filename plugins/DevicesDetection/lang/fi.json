@@ -1,0 +1,21 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Selainversiot",
+        "Camera": "Kamera",
+        "Console": "Konsoli",
+        "dataTableLabelBrands": "Merkki",
+        "dataTableLabelBrowserFamily": "Selainperhe",
+        "dataTableLabelModels": "Malli",
+        "dataTableLabelTypes": "Tyyppi",
+        "Device": "Laite",
+        "DeviceBrand": "Laitteen merkki",
+        "DeviceDetection": "Laitteen jäljitys",
+        "DeviceModel": "Laitteen malli",
+        "DevicesDetection": "Kävijän laitteet",
+        "Smartphone": "Älypuhelin",
+        "submenu": "Laitteet",
+        "Tablet": "Tabletti",
+        "TV": "TV",
+        "UserAgent": "Käyttäjä-Agentti"
+    }
+}
