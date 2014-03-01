@@ -19,5 +19,6 @@ require_once dirname(__FILE__) . "/../../../PHPUnit/bootstrap.php";
 
 $fixture = new \Piwik\Tests\Fixtures\UITestFixture();
 $fixture->dropDatabaseInSetUp = false;
+$fixture->printToScreen = true;
 $fixture->performSetUp("", $environmentOnly = true);
 $fixture->performTearDown("");

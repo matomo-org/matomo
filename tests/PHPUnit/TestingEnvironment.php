@@ -5,6 +5,8 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\Session\SessionNamespace;
 
+require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
+
 if (!defined('PIWIK_TEST_MODE')) {
     define('PIWIK_TEST_MODE', true);
 }
@@ -93,10 +95,6 @@ class Piwik_TestingEnvironment
 
             $config->setTestEnvironment();
 
-            if ($testingEnvironment->dbName) {
-                $config->database_tests['dbname'] = $config->database['dbname'] = $testingEnvironment->dbName;
-            }
-
             $pluginsToLoad = \Piwik\Plugin\Manager::getInstance()->getPluginsToLoadDuringTests();
             $config->Plugins = array('Plugins' => $pluginsToLoad);
 
@@ -106,6 +104,16 @@ class Piwik_TestingEnvironment
             $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
             $config->log['log_writers'] = array('file');
         });
+        Piwik::addAction('Db.getDatabaseConfig', function (&$dbConfig) use ($testingEnvironment) {
+            if ($testingEnvironment->dbName) {
+                $dbConfig['dbname'] = $testingEnvironment->dbName;
+            }
+        });
+        Piwik::addAction('Tracker.getDatabaseConfig', function (&$dbConfig) use ($testingEnvironment) {
+            if ($testingEnvironment->dbName) {
+                $dbConfig['dbname'] = $testingEnvironment->dbName;
+            }
+        });
         Piwik::addAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
@@ -113,6 +121,9 @@ class Piwik_TestingEnvironment
         });
         Piwik::addAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
             $stylesheets[] = 'tests/resources/screenshot-override/override.css';
+        });
+        Piwik::addAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
+            $jsFiles[] = 'tests/resources/screenshot-override/override.js';
         });
         Piwik::addAction('Test.Mail.send', function($mail) {
             $outputFile = PIWIK_INCLUDE_PATH . 'tmp/' . Common::getRequestVar('module') . '.' . Common::getRequestVar('action') . '.mail.json';

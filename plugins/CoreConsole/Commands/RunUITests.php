@@ -23,6 +23,7 @@ class RunUITests extends ConsoleCommand
         $this->addOption("persist-fixture-data", null, InputOption::VALUE_NONE, "Persist test data in a database and do not execute tear down.");
         $this->addOption('keep-symlinks', null, InputOption::VALUE_NONE, "Keep recursive directory symlinks so test pages can be viewed in a browser.");
         $this->addOption('print-logs', null, InputOption::VALUE_NONE, "Print webpage logs even if tests succeed.");
+        $this->addOption('drop', null, InputOption::VALUE_NONE, "Drop the existing database and re-setup a persisted fixture.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -31,6 +32,7 @@ class RunUITests extends ConsoleCommand
         $persistFixtureData = $input->getOption("persist-fixture-data");
         $keepSymlinks = $input->getOption('keep-symlinks');
         $printLogs = $input->getOption('print-logs');
+        $drop = $input->getOption('drop');
 
         $options = array();
         if ($persistFixtureData) {
@@ -43,6 +45,10 @@ class RunUITests extends ConsoleCommand
 
         if ($printLogs) {
             $options[] = "--print-logs";
+        }
+
+        if ($drop) {
+            $options[] = "--drop";
         }
         $options = implode(" ", $options);
 

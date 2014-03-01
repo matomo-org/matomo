@@ -449,7 +449,7 @@
 
                         visitSymbols.layout().render();
 
-                        if (!enableAnimation) {
+                        if (enableAnimation) {
                             $.each(newSymbols, function (i, s) {
                                 if (i > 10) return false;
 

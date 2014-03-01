@@ -21,6 +21,10 @@ $fixture = new \Piwik\Tests\Fixtures\UITestFixture();
 if (in_array("--persist-fixture-data", $argv)) {
     $fixture->persistFixtureData = true;
 }
+if (in_array("--drop", $argv)) {
+    $fixture->resetPersistedFixture = true;
+}
+$fixture->printToScreen = true;
 $fixture->performSetUp("");
 
 // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)

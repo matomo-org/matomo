@@ -139,6 +139,10 @@ Application.prototype.setupDatabase = function () {
         processArgs.push('--persist-fixture-data');
     }
 
+    if (options['drop']) {
+        processArgs.push('--drop');
+    }
+
     var child = require('child_process').spawn(config.php, processArgs);
 
     child.stdout.on("data", function (data) {

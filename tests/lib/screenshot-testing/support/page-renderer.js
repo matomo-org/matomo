@@ -40,6 +40,10 @@ PageRenderer.prototype.getCurrentUrl = function () {
 };
 
 // event queueing functions
+PageRenderer.prototype.wait = function (waitTime) {
+    this.queuedEvents.push([this._wait, waitTime]);
+};
+
 PageRenderer.prototype.click = function () {
     var selector = arguments[0],
         waitTime = null,
@@ -86,6 +90,10 @@ PageRenderer.prototype.evaluate = function (impl, waitTime) {
 };
 
 // event impl functions
+PageRenderer.prototype._wait = function (callback) {
+    callback();
+};
+
 PageRenderer.prototype._click = function (selector, modifiers, callback) {
     var position = this._getPosition(selector);
 

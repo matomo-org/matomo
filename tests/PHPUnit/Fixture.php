@@ -64,6 +64,8 @@ class Fixture extends PHPUnit_Framework_Assert
     public $overwriteExisting = true;
     public $configureComponents = true;
     public $persistFixtureData = false;
+    public $resetPersistedFixture = false;
+    public $printToScreen = false;
 
     public $testEnvironment = null;
 
@@ -108,7 +110,11 @@ class Fixture extends PHPUnit_Framework_Assert
 
             static::connectWithoutDatabase();
 
-            if ($this->dropDatabaseInSetUp) {
+            if ($this->dropDatabaseInSetUp
+                || $this->resetPersistedFixture
+            ) {
+                $this->log("Dropping database...");
+
                 $this->dropDatabase();
             }
 
@@ -180,12 +186,10 @@ class Fixture extends PHPUnit_Framework_Assert
             $this->setUp();
 
             $this->markFixtureSetUp();
-            echo "Database {$this->dbName} marked as successfully set up.";
+            $this->log("Database {$this->dbName} marked as successfully set up.");
         } else {
-            echo "Using existing database {$this->dbName}.";
+            $this->log("Using existing database {$this->dbName}.");
         }
-
-        $this->testEnvironment->save();
     }
 
     public function isFixtureSetUp()
@@ -684,6 +688,13 @@ class Fixture extends PHPUnit_Framework_Assert
         }
 
         DbHelper::dropDatabase();
+    }
+
+    public function log($message)
+    {
+        if ($this->printToScreen) {
+            echo $message . "\n";
+        }
     }
 }
 
