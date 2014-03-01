@@ -19804,7 +19804,7 @@
     type: tablet
     brand: RM
     model: BlackBerry Playbook
-  os_family: BlackBerry
+  os_family: Other Mobile
   browser_family: BlackBerry Browser
 - 
   user_agent: Mozilla/5.0 (Linux; U; Android 4.1.1; cs-cz; GT-N8000 Build/JRO03C) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
