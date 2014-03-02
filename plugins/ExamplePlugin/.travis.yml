@@ -15,6 +15,7 @@ install:
   - TEST_PIWIK_VERSION=`echo $TEST_PIWIK_VERSION | tr -d ' ' | tr -d '\n'`
   - mkdir ExamplePlugin
   - cp -R !(ExamplePlugin) ExamplePlugin
+  - cp -R .git/ ExamplePlugin/
   - git clone https://github.com/piwik/piwik.git piwik
   - cd piwik
   - git checkout "$TEST_PIWIK_VERSION"
