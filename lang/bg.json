@@ -794,6 +794,7 @@
         "Seconds": "%sс",
         "SeeAll": "вижте всички",
         "SeeTheOfficialDocumentationForMoreInformation": "Прегледайте %sofficial documentation%s за повече информация",
+        "Segment": "Сегмент",
         "SelectYesIfYouWantToSendEmailsViaServer": "Изберете \"Да\", ако желаете, или изпратете електронна поща чрез именуван сървър, вместо да ползвате локално mail функцията.",
         "Settings": "Настройки",
         "Shipping": "Доставка",
