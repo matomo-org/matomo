@@ -68,6 +68,12 @@ class Piwik_TestingEnvironment
         file_put_contents($overridePath, json_encode($this->behaviorOverrideProperties));
     }
 
+    public function delete()
+    {
+        $this->behaviorOverrideProperties = array();
+        $this->save();
+    }
+
     public static function addHooks()
     {
         $testingEnvironment = new Piwik_TestingEnvironment();

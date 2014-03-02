@@ -84,6 +84,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public function performSetUp($testCase, $setupEnvironmentOnly = false)
     {
         $this->testEnvironment = new Piwik_TestingEnvironment();
+        $this->testEnvironment->delete();
 
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
