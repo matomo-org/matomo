@@ -14,7 +14,7 @@ else
             touch ../javascript/enable_sqlite
             phantomjs ../javascript/testrunner.js
         else
-            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+            # phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
     else
       if [ -n "$TEST_DIR" ]
