@@ -31,10 +31,10 @@ class GenerateTest extends GeneratePluginBase
     {
         $pluginName = $this->getPluginName($input, $output);
         $testName   = $this->getTestName($input, $output);
-        $testType = $this->getTestType($input, $output);
+        $testType   = $this->getTestType($input, $output);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array(
+        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $replace       = array(
             'ExamplePlugin'               => $pluginName,
             'SimpleTest'                  => $testName,
             'SimpleIntegrationTest'       => $testName,
@@ -153,7 +153,7 @@ class GenerateTest extends GeneratePluginBase
 
         if (empty($testtype)) {
             $dialog   = $this->getHelperSet()->get('dialog');
-            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate);
+            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate, false, null, $this->getValidTypes());
         } else {
             $validate($testtype);
         }
