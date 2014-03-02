@@ -18,6 +18,11 @@ class Core_TrackerTest extends DatabaseTestCase
         Fixture::createWebsite('2014-02-04');
     }
 
+    protected function configureFixture()
+    {
+        $this->fixture->createSuperUser = true;
+    }
+
     /**
      * Test the Bulk tracking API as documented in: http://developer.piwik.org/api-reference/tracking-api#bulk-tracking
      *

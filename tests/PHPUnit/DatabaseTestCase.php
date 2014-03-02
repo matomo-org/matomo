@@ -36,9 +36,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->fixture = new Fixture();
-        $this->fixture->loadTranslations = false;
-        $this->fixture->createSuperUser = false;
-        $this->fixture->configureComponents = false;
+        $this->configureFixture();
         $this->fixture->performSetUp(__CLASS__);
     }
 
@@ -49,5 +47,12 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
     {
         parent::tearDown();
         $this->fixture->performTearDown();
+    }
+
+    protected function configureFixture()
+    {
+        $this->fixture->loadTranslations = false;
+        $this->fixture->createSuperUser = false;
+        $this->fixture->configureComponents = false;
     }
 }
