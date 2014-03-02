@@ -366,6 +366,24 @@ class Range extends Period
      */
     public static function getLastDate($date = false, $period = false)
     {
+        return self::getDateXPeriodsAgo(1, $date, $period);
+    }
+
+    /**
+     * Returns the date that is X periods before the supplied date.
+     *
+     * @param bool|string $date The date to get the last date of.
+     * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
+     * @param int         $subXPeriods How many periods in the past the date should be, for instance 1 or 7.
+     *                    If sub period is 365 days and the current year is a leap year we assume you want to get the
+     *                    day one year ago and change the value to 366 days therefore.
+     *
+     * @return array An array with two elements, a string for the date before $date and
+     *               a Period instance for the period before $date.
+     * @api
+     */
+    public static function getDateXPeriodsAgo($subXPeriods, $date = false, $period = false)
+    {
         if ($date === false) {
             $date = Common::getRequestVar('date');
         }
@@ -374,20 +392,24 @@ class Range extends Period
             $period = Common::getRequestVar('period');
         }
 
+        if (365 == $subXPeriods && 'day' == $period && Date::today()->isLeapYear()) {
+            $subXPeriods = 366;
+        }
+
         // can't get the last date for range periods & dates that use lastN/previousN
         $strLastDate = false;
-        $lastPeriod = false;
+        $lastPeriod  = false;
         if ($period != 'range' && !preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
             if (strpos($date, ',')) // date in the form of 2011-01-01,2011-02-02
             {
                 $rangePeriod = new Range($period, $date);
 
-                $lastStartDate = $rangePeriod->getDateStart()->addPeriod(-1, $period);
-                $lastEndDate = $rangePeriod->getDateEnd()->addPeriod(-1, $period);
+                $lastStartDate = $rangePeriod->getDateStart()->subPeriod($subXPeriods, $period);
+                $lastEndDate   = $rangePeriod->getDateEnd()->subPeriod($subXPeriods, $period);
 
                 $strLastDate = "$lastStartDate,$lastEndDate";
             } else {
-                $lastPeriod = Date::factory($date)->addPeriod(-1, $period);
+                $lastPeriod  = Date::factory($date)->subPeriod($subXPeriods, $period);
                 $strLastDate = $lastPeriod->toString();
             }
         }

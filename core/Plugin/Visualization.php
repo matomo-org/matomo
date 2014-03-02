@@ -255,7 +255,7 @@ class Visualization extends ViewDataTable
      */
     protected function isThereDataToDisplay()
     {
-        return true;
+        return !empty($this->dataTable) && 0 < $this->dataTable->getRowsCount();
     }
 
     /**

@@ -81,6 +81,10 @@ DataTable.getDataTableByReport = function (report) {
 
 $.extend(DataTable.prototype, UIControl.prototype, {
 
+    _init: function (domElem) {
+        // initialize your dataTable in your plugin
+    },
+
     //initialisation function
     init: function () {
         var domElem = this.$element;
@@ -91,6 +95,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
+        this._init(domElem);
         this.initialized = true;
     },
 
@@ -878,6 +883,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // RSS does not work for period=range
                 if (format == 'RSS'
                     && self.param.period == 'range') {
+                    period = 'day';
+                }
+
+                // Below evolution graph, show daily exports
+                if(self.param.period == 'range'
+                    && self.param.viewDataTable == "graphEvolution") {
                     period = 'day';
                 }
                 var str = 'index.php?module=API'

@@ -1,0 +1,52 @@
+<div>
+    {% if dataTable.getRowsCount > 0 %}
+        <table class="dataTable">
+            <thead>
+            <tr title="based on {{ dataTable.getMetadata('totalValue') }} {{ dataTable.getMetadata('metricName') }}, rows less than {{ dataTable.getMetadata('minVisits') }} {{ dataTable.getMetadata('metricName') }} were ignored">
+                <th class="label" style="width:60%;">
+                    {{ dataTable.getMetadata('reportName') }}
+                </th>
+                <th class="label" style="width:20%;">
+                    {{ dataTable.getMetadata('metricName') }}
+                </th>
+                <th class="label" style="width:20%;">
+                    Evolution
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for row in dataTable.getRows %}
+                <tr title="{{ dataTable.getMetadata('metricName') }} changed from {{ row.getColumn('value_old') }} ({{ dataTable.getMetadata('lastDate') }}) to {{ row.getColumn('value_new') }} ({{ dataTable.getMetadata('date') }})">
+                    <td>
+                        <span style="word-break: break-all;overflow: hidden;text-overflow: ellipsis;width: inherit;padding-right: 10px;display: block;"
+                              title="{{ row.getColumn('label') }}">
+                            {{ row.getColumn('label') }}
+                        </span>
+                    </td>
+                    {% if row.getColumn('grown') %}
+                        <td>+{{ row.getColumn('difference') }}</td>
+                        <td style="color:green">
+                            +{{ row.getColumn('growth_percent') }}
+                        </td>
+                    {% else %}
+                        <td>{{ row.getColumn('difference') }}</td>
+                        <td style="color:red">
+                            {{ row.getColumn('growth_percent') }}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% elseif showNoDataMessage %}
+        <div class="pk-emptyDataTable">
+            No rows match the criteria
+        </div>
+    {% endif %}
+
+    {% if showInsightsControls %}
+        {% include "@Insights/insightControls.twig" %}
+    {% endif %}
+</div>

@@ -34,12 +34,12 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      *
      * @var DataTable
      */
-    private $pastDataTable;
+    protected $pastDataTable;
 
     /**
      * Tells if column being added is the revenue evolution column.
      */
-    private $isRevenueEvolution = null;
+    protected $isRevenueEvolution = null;
 
     /**
      * Constructor.
@@ -130,7 +130,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * @param Row $row The row in the 'current' DataTable.
      * @return bool|Row
      */
-    private function getPastRowFromCurrent($row)
+    protected function getPastRowFromCurrent($row)
     {
         return $this->pastDataTable->getRowFromLabel($row->getColumn('label'));
     }
