@@ -181,6 +181,8 @@ class Fixture extends PHPUnit_Framework_Assert
             return;
         }
 
+        $this->testEnvironment->save();
+
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
         ) {
@@ -696,6 +698,17 @@ class Fixture extends PHPUnit_Framework_Assert
         if ($this->printToScreen) {
             echo $message . "\n";
         }
+    }
+
+    // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must
+    // sometimes do sanitization ourselves.
+    public static function makeXssContent($type, $sanitize = false)
+    {
+        $result = "<script>$('body').html('$type XSS!');</script>";
+        if ($sanitize) {
+            $result = Common::sanitizeInputValue($result);
+        }
+        return $result;
     }
 }
 

@@ -28,6 +28,10 @@ else
         if [ -d "./screenshot-diffs" ];
         then
             echo "Uploading screenshot diffs..."
+
+            echo ""
+            ls screenshot-diffs
+            echo ""
             
             tar -cjf screenshot-diffs.tar.bz2 screenshot-diffs
             curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"

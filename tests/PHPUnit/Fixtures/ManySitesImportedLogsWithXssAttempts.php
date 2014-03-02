@@ -35,7 +35,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
 
         $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);
 
-        $this->setupDashboards();
         $this->setupXssSegment();
         $this->addAnnotations();
         $this->trackVisitsForRealtimeMap($this->now);
@@ -58,92 +57,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
             self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
                 $siteUrl = 'http://example-site-two.com');
         }
-    }
-    
-    /** Creates two dashboards that split the widgets up into different groups. */
-    public function setupDashboards()
-    {
-        $dashboardColumnCount = 3;
-        $dashboardCount = 4;
-        
-        $layout = array();
-        for ($j = 0; $j != $dashboardColumnCount; ++$j) {
-            $layout[] = array();
-        }
-
-        $dashboards = array();
-        for ($i = 0; $i != $dashboardCount; ++$i) {
-            $dashboards[] = $layout;
-        }
-        
-        $oldGet = $_GET;
-        $_GET['idSite'] = $this->idSite;
-        
-        // collect widgets & sort them so widget order is not important
-        $allWidgets = array();
-        foreach (WidgetsList::get() as $category => $widgets) {
-            $allWidgets = array_merge($allWidgets, $widgets);
-        }
-        usort($allWidgets, function ($lhs, $rhs) {
-            return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
-        });
-
-        // group widgets so they will be spread out across 3 dashboards
-        $groupedWidgets = array();
-        $dashboard = 0;
-        foreach ($allWidgets as $widget) {
-            if ($widget['uniqueId'] == 'widgetSEOgetRank'
-                || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
-                || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
-                || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
-                || strpos($widget['uniqueId'], 'widgetExample') === 0
-            ) {
-                continue;
-            }
-            
-            $dashboard = ($dashboard + 1) % $dashboardCount;
-
-            $widgetEntry = array(
-                'uniqueId' => $widget['uniqueId'],
-                'parameters' => $widget['parameters']
-            );
-            
-            // dashboard images must have height of less than 4000px to avoid odd discoloration of last line of image
-            $widgetEntry['parameters']['filter_limit'] = 5;
-
-            $groupedWidgets[$dashboard][] = $widgetEntry;
-        }
-        
-        // distribute widgets in each dashboard
-        $column = 0;
-        foreach ($groupedWidgets as $dashboardIndex => $dashboardWidgets) {
-            foreach ($dashboardWidgets as $widget) {
-                $column = ($column + 1) % $dashboardColumnCount;
-                
-                $dashboards[$dashboardIndex][$column][] = $widget;
-            }
-        }
-
-        foreach ($dashboards as $id => $layout) {
-            if ($id == 0) {
-                $_GET['name'] = self::makeXssContent('dashboard name' . $id);
-            } else {
-                $_GET['name'] = 'dashboard name' . $id;
-            }
-            $_GET['layout'] = Common::json_encode($layout);
-            $_GET['idDashboard'] = $id + 1;
-            FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
-        }
-        
-        $allWidgets = array();
-        foreach (WidgetsList::get() as $category => $widgets) {
-            $allWidgets = array_merge($allWidgets, $widgets);
-        }
-        usort($allWidgets, function ($lhs, $rhs) {
-            return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
-        });
-
-        $_GET = $oldGet;
     }
     
     public function setupXssSegment()
@@ -222,16 +135,5 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $t->setLatitude(-23.55);
         $t->setLongitude(-46.64);
         self::checkResponse($t->doTrackPageView('incredible title!'));
-    }
-    
-    // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must
-    // sometimes do sanitization ourselves.
-    public static function makeXssContent($type, $sanitize = false)
-    {
-        $result = "<script>$('body').html('$type XSS!');</script>";
-        if ($sanitize) {
-            $result = Common::sanitizeInputValue($result);
-        }
-        return $result;
     }
 }

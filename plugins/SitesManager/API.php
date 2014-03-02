@@ -727,14 +727,14 @@ class API extends \Piwik\Plugin\API
      *
      * @return int the number of inserted URLs
      */
-    public function setSiteAliasUrls($idSite, $urls)
+    public function setSiteAliasUrls($idSite, $urls = array())
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
         $urls = $this->cleanParameterUrls($urls);
         $this->checkUrls($urls);
 
-	$this->deleteSiteAliasUrls($idSite);
+        $this->deleteSiteAliasUrls($idSite);
         $this->insertSiteUrls($idSite, $urls);
         $this->postUpdateWebsite($idSite);
 

@@ -90,6 +90,12 @@ class Piwik_TestingEnvironment
             \Piwik\Config::$defaultGlobalConfigPath = $testingEnvironment->configFileGlobal;
         }
 
+        if ($testingEnvironment->queryParamOverride) {
+            foreach ($testingEnvironment->queryParamOverride as $key => $value) {
+                $_GET[$key] = $value;
+            }
+        }
+
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
                 $access = new Piwik_MockAccess($access);

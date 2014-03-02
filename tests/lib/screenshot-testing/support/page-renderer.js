@@ -271,6 +271,10 @@ PageRenderer.prototype._getImageLoadingCount = function () {
         var cssImageProperties = ['backgroundImage', 'listStyleImage', 'borderImage', 'borderCornerImage', 'cursor'],
             matchUrl = /url\(\s*(['"]?)(.*?)\1\s*\)/g;
 
+        if (!window._pendingImages) {
+            window._pendingImages = {};
+        }
+
         // check <img> elements and background URLs
         var elements = document.getElementsByTagName('*');
         for (var i = 0; i != elements.length; ++i) {
@@ -281,6 +285,10 @@ PageRenderer.prototype._getImageLoadingCount = function () {
                 count = count + 1;
             }
 
+            if (typeof $ === "undefined") { // waiting for CSS depends on jQuery
+                continue;
+            }
+
             for (var j = 0; j != cssImageProperties.length; ++j) { // handle CSS image URLs
                 var prop = $(element).css(cssImageProperties[j]);
 
@@ -289,14 +297,26 @@ PageRenderer.prototype._getImageLoadingCount = function () {
                 }
 
                 while (match = matchUrl.exec(prop)) {
-                    var src = match[2],
-                        img = new Image();
-                    img.src = src;
-
-                    if (img.complete === false) {
-                        count = count + 1;
+                    var src = match[2];
+                    if (window._pendingImages[src]) {
+                        continue;
                     }
+
+                    var img = new Image();
+
+                    img.addEventListener('load', function () {
+                        window._pendingImages[this.src] = true;
+                    });
+
+                    window._pendingImages[src] = img;
+                    img.src = src;
                 }
+            }
+        }
+
+        for (var url in window._pendingImages) {
+            if (typeof window._pendingImages[url] === 'object') {
+                count = count + 1;
             }
         }
 

@@ -48,7 +48,14 @@ TestingEnvironment.prototype.callController = function (method, params, done) {
 TestingEnvironment.prototype._call = function (params, done) {
     var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
     for (var key in params) {
-        url += key + "=" + encodeURIComponent(params[key]) + "&";
+        var value = params[key];
+        if (value instanceof Array) {
+            for (var i = 0; i != value.length; ++i) {
+                url += key + "[]=" + encodeURIComponent(value[i]) + "&";
+            }
+        } else {
+            url += key + "=" + encodeURIComponent(value) + "&";
+        }
     }
     url = url.substring(0, url.length - 1);
 
@@ -60,6 +67,10 @@ TestingEnvironment.prototype._call = function (params, done) {
                 response = JSON.parse(response);
             } catch (e) {
                 throw new Error("Unable to parse JSON response: " + response);
+            }
+
+            if (response.result == "error") {
+                throw new Error("API returned error: " + response.message);
             }
         }
 

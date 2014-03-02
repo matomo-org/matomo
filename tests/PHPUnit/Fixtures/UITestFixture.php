@@ -18,6 +18,7 @@ use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Url;
+use Piwik\WidgetsList;
 
 /**
  * Fixture for UI tests.
@@ -36,7 +37,6 @@ class UITestFixture extends OmniFixture
 
         $this->addOverlayVisits();
         $this->addNewSitesForSiteSelector();
-        $this->createEmptyDashboard();
 
         DbHelper::createAnonymousUser();
         UsersManagerAPI::getInstance()->setSuperUserAccess('superUserLogin', true);
@@ -52,6 +52,8 @@ class UITestFixture extends OmniFixture
     public function performSetUp($testCase, $setupEnvironmentOnly = false)
     {
         parent::performSetUp($testCase, $setupEnvironmentOnly);
+
+        $this->setupDashboards();
 
         AssetManager::getInstance()->removeMergedAssets();
 
@@ -74,9 +76,6 @@ class UITestFixture extends OmniFixture
 
     private function addOverlayVisits()
     {
-        $alias = Url::getCurrentScheme() . '://' . Url::getCurrentHost();
-        SitesManagerAPI::getInstance()->addSiteAliasUrls($idSite = 3, array($alias));
-
         $baseUrl = $this->getLocalTestSiteUrl();
 
         $visitProfiles = array(
@@ -165,9 +164,80 @@ class UITestFixture extends OmniFixture
         }
     }
 
-    private function createEmptyDashboard()
+    /** Creates two dashboards that split the widgets up into different groups. */
+    public function setupDashboards()
     {
+        $dashboardColumnCount = 3;
+        $dashboardCount = 4;
+        
+        $layout = array();
+        for ($j = 0; $j != $dashboardColumnCount; ++$j) {
+            $layout[] = array();
+        }
+
+        $dashboards = array();
+        for ($i = 0; $i != $dashboardCount; ++$i) {
+            $dashboards[] = $layout;
+        }
+        
         $oldGet = $_GET;
+        $_GET['idSite'] = 1;
+        
+        // collect widgets & sort them so widget order is not important
+        $allWidgets = array();
+        foreach (WidgetsList::get() as $category => $widgets) {
+            $allWidgets = array_merge($allWidgets, $widgets);
+        }
+        usort($allWidgets, function ($lhs, $rhs) {
+            return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
+        });
+
+        // group widgets so they will be spread out across 3 dashboards
+        $groupedWidgets = array();
+        $dashboard = 0;
+        foreach ($allWidgets as $widget) {
+            if ($widget['uniqueId'] == 'widgetSEOgetRank'
+                || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
+                || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
+                || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
+                || strpos($widget['uniqueId'], 'widgetExample') === 0
+            ) {
+                continue;
+            }
+            
+            $dashboard = ($dashboard + 1) % $dashboardCount;
+
+            $widgetEntry = array(
+                'uniqueId' => $widget['uniqueId'],
+                'parameters' => $widget['parameters']
+            );
+            
+            // dashboard images must have height of less than 4000px to avoid odd discoloration of last line of image
+            $widgetEntry['parameters']['filter_limit'] = 5;
+
+            $groupedWidgets[$dashboard][] = $widgetEntry;
+        }
+        
+        // distribute widgets in each dashboard
+        $column = 0;
+        foreach ($groupedWidgets as $dashboardIndex => $dashboardWidgets) {
+            foreach ($dashboardWidgets as $widget) {
+                $column = ($column + 1) % $dashboardColumnCount;
+                
+                $dashboards[$dashboardIndex][$column][] = $widget;
+            }
+        }
+
+        foreach ($dashboards as $id => $layout) {
+            if ($id == 0) {
+                $_GET['name'] = self::makeXssContent('dashboard name' . $id);
+            } else {
+                $_GET['name'] = 'dashboard name' . $id;
+            }
+            $_GET['layout'] = Common::json_encode($layout);
+            $_GET['idDashboard'] = $id + 1;
+            FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
+        }
 
         // create empty dashboard
         $dashboard = array(
