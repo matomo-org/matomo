@@ -1,0 +1,77 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link    http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+use Piwik\Date;
+
+/**
+ * Adds one website and tracks several visits from one visitor on
+ * different days that span about a month apart.
+ */
+class Test_Piwik_Fixture_SomeVisitsDifferentPathsOnTwoDays extends Test_Piwik_BaseFixture
+{
+    public $idSite = 1;
+    public $date1  = '2010-12-14';
+    public $date2  = '2010-12-13';
+
+    public function setUp()
+    {
+        $this->setUpWebsitesAndGoals();
+        $this->trackVisits();
+    }
+
+    public function tearDown()
+    {
+        // empty
+    }
+
+    private function setUpWebsitesAndGoals()
+    {
+        if (!self::siteCreated($idSite = 1)) {
+            self::createWebsite('2008-12-12 00:00:00', $ecommerce = 0, $siteName = 'Site AAAAAA');
+        }
+    }
+
+    private function trackVisits()
+    {
+        $this->trackPageViews($this->date2, array(
+            '/category/Mover1' => 2,
+            '/category/Old1' => 9,
+            '/Mover2' => 24,
+            '/category/Mover3' => 21,
+            '/Old2' => 3
+        ));
+
+        $this->trackPageViews($this->date1, array(
+            '/category/Mover1' => 10,
+            '/category/New1' => 5,
+            '/Mover2' => 13,
+            '/category/Mover3' => 20,
+            '/New2' => 2
+        ));
+    }
+
+    private function trackPageViews($date, $paths)
+    {
+        $date = Date::factory($date . ' 00:02:00');
+        $numPageViews = 1;
+
+        foreach ($paths as $path => $numVisits) {
+            for ($index = 0; $index < $numVisits; $index++) {
+
+                $tracker = self::getTracker($this->idSite, $date->getDatetime(), $defaultInit = true);
+                $date    = $date->addHour(.1);
+                $tracker->setUrl('http://example.org' . $path);
+                $tracker->setIp('156.15.13.' . $numPageViews);
+                $response = $tracker->doTrackPageView('Hello');
+                self::checkResponse($response);
+
+                $numPageViews++;
+            }
+        }
+
+    }
+}

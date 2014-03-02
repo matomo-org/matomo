@@ -13,28 +13,28 @@ use Piwik\DataTable;
 
 class MinGrowth extends BaseFilter
 {
-    private $minGrowthPercent;
-    private $growthColumn;
+    private $minValue;
+    private $columnToRead;
 
-    public function __construct($table, $growthColumn, $minGrowthPercent)
+    public function __construct($table, $columnToRead, $minValue)
     {
-        $this->growthColumn = $growthColumn;
-        $this->minGrowthPercent = $minGrowthPercent;
+        $this->columnToRead = $columnToRead;
+        $this->minValue = abs($minValue);
     }
 
     public function filter($table)
     {
-        if (!$this->minGrowthPercent) {
+        if (!$this->minValue) {
             return;
         }
 
         foreach ($table->getRows() as $key => $row) {
 
-            $growthNumeric = $row->getColumn($this->growthColumn);
+            $growthNumeric = $row->getColumn($this->columnToRead);
 
-            if ($growthNumeric > $this->minGrowthPercent) {
+            if ($growthNumeric >= $this->minValue) {
                 continue;
-            } elseif ($growthNumeric < -$this->minGrowthPercent) {
+            } elseif ($growthNumeric <= -$this->minValue) {
                 continue;
             }
 

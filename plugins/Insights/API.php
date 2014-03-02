@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Insights;
 
 use Piwik\DataTable;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Plugins\API\ProcessedReport;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
@@ -26,13 +27,14 @@ class API extends \Piwik\Plugin\API
     {
         /** @var DataTable[] $tables */
         $tables = array(
-            $this->getMoversAndShakers($idSite, $period, $date, 'Actions_getPageUrls', 4, 4),
-            $this->getMoversAndShakers($idSite, $period, $date, 'Actions_getPageTitles', 4, 4),
-            $this->getMoversAndShakers($idSite, $period, $date, 'Referrers_getKeywords', 4, 4),
-            $this->getMoversAndShakers($idSite, $period, $date, 'Referrers_getCampaigns', 4, 4),
-            $this->getMoversAndShakers($idSite, $period, $date, 'Referrers_getAll', 4, 4),
-            $this->getMoversAndShakers($idSite, $period, $date, 'MultiSites_getAll', 4, 4),
+            $this->getInsights($idSite, $period, $date, 'Actions_getPageUrls', 4, 4),
+            $this->getInsights($idSite, $period, $date, 'Actions_getPageTitles', 4, 4),
+            $this->getInsights($idSite, $period, $date, 'Referrers_getKeywords', 4, 4),
+            $this->getInsights($idSite, $period, $date, 'Referrers_getCampaigns', 4, 4),
+            $this->getInsights($idSite, $period, $date, 'Referrers_getAll', 4, 4),
         );
+
+        // post event to add other reports?
 
         $map = new DataTable\Map();
 
@@ -44,12 +46,13 @@ class API extends \Piwik\Plugin\API
     }
 
     // force $limitX and ignore minVisitsPercent, minGrowthPercent
-    // segment
-    public function getMoversAndShakers(
-        $idSite, $period, $date, $reportUniqueId = '', $limitIncreaser = 5, $limitDecreaser = 5, $basedOnTotalMetric = false,
-        $minVisitsPercent = 2, $minGrowthPercent = 20, $orderBy = 'absolute',
-        $comparedToXPeriods = 1, $filterBy = '')
+    public function getInsights(
+        $idSite, $period, $date, $reportUniqueId, $limitIncreaser = 5, $limitDecreaser = 5,
+        $basedOnTotalMetric = false, $minVisitsPercent = 2, $minGrowthPercent = 20,
+        $comparedToXPeriods = 1, $orderBy = 'absolute', $filterBy = '', $segment = false)
     {
+        Piwik::checkUserHasViewAccess(array($idSite));
+
         $metric = 'nb_visits';
 
         $processedReport = new ProcessedReport();
@@ -57,8 +60,8 @@ class API extends \Piwik\Plugin\API
 
         $lastDate = Range::getDateXPeriodsAgo(abs($comparedToXPeriods), $date, $period);
 
-        $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric);
-        $lastReport    = $this->requestReport($idSite, $period, $lastDate[0], $report, $metric);
+        $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric, $segment);
+        $lastReport    = $this->requestReport($idSite, $period, $lastDate[0], $report, $metric, $segment);
 
         $totalValue = $this->getTotalValue($idSite, $period, $date, $basedOnTotalMetric, $currentReport, $metric);
         $minVisits  = $this->getMinVisits($totalValue, $minVisitsPercent);
@@ -91,8 +94,6 @@ class API extends \Piwik\Plugin\API
                 $currentReport,
                 $lastReport,
                 $metric,
-                $totalValue,
-                $filterBy,
                 $considerMovers,
                 $considerNew,
                 $considerDisappeared
@@ -108,7 +109,7 @@ class API extends \Piwik\Plugin\API
         );
 
         $dataTable->filter(
-            'Piwik\Plugins\Insights\DataTable\Filter\RemoveIrrelevant',
+            'Piwik\Plugins\Insights\DataTable\Filter\ExcludeLowValue',
             array(
                 $metric,
                 $minVisits
@@ -145,7 +146,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    private function requestReport($idSite, $period, $date, $report, $metric)
+    private function requestReport($idSite, $period, $date, $report, $metric, $segment)
     {
         $params = array(
             'method' => $report['module'] . '.' . $report['action'],
@@ -157,6 +158,10 @@ class API extends \Piwik\Plugin\API
             'filter_limit' => 10000,
             'showColumns'  => $metric
         );
+
+        if (!empty($segment)) {
+            $params['segment'] = $segment;
+        }
 
         if (!empty($report['parameters']) && is_array($report['parameters'])) {
             $params = array_merge($params, $report['parameters']);
@@ -170,9 +175,9 @@ class API extends \Piwik\Plugin\API
 
     private function getMinVisits($totalValue, $minVisitsPercent)
     {
-        $minVisits = (int) ceil(($totalValue / 100) * $minVisitsPercent);
+        $minVisits = ceil(($totalValue / 100) * $minVisitsPercent);
 
-        return $minVisits;
+        return (int) $minVisits;
     }
 
     private function getTotalValue($idSite, $period, $date, $basedOnTotalMetric, DataTable $currentReport, $metric)
@@ -186,7 +191,7 @@ class API extends \Piwik\Plugin\API
                 $totalValue = 0;
             }
 
-            return $totalValue;
+            return (int) $totalValue;
         }
 
         $visits     = VisitsSummaryAPI::getInstance()->get($idSite, $period, $date, false, array($metric));

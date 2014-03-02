@@ -33,7 +33,7 @@ class Insight extends Visualization
         $report = $this->requestConfig->apiMethodToRequestDataTable;
         $report = str_replace('.', '_', $report);
 
-        $this->requestConfig->apiMethodToRequestDataTable = 'Insights.getMoversAndShakers';
+        $this->requestConfig->apiMethodToRequestDataTable = 'Insights.getInsights';
         $this->requestConfig->request_parameters_to_modify = array(
             'reportUniqueId' => $report,
             'minVisitsPercent' => $this->requestConfig->min_visits_percent,

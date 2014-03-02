@@ -30,6 +30,7 @@ class Limit extends BaseFilter
         foreach ($table->getRows() as $key => $row) {
 
             if ($row->getColumn($this->columnToRead) >= 0) {
+
                 $countIncreaser++;
 
                 if ($countIncreaser > $this->limitIncreaser) {
@@ -42,6 +43,7 @@ class Limit extends BaseFilter
                 if ($countDecreaser > $this->limitDecreaser) {
                     $table->deleteRow($key);
                 }
+
             }
         }
     }
