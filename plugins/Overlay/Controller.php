@@ -126,7 +126,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function startOverlaySession()
     {
-        $idSite = Common::getRequestVar('idsite', 0, 'int');
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
         $sitesManager = APISitesManager::getInstance();

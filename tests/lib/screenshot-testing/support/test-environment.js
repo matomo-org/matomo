@@ -11,6 +11,10 @@ var fs = require('fs'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
 var TestingEnvironment = function () {
+    this.reload();
+};
+
+TestingEnvironment.prototype.reload = function () {
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
         for (var key in data) {

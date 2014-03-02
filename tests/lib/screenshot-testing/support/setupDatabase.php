@@ -28,7 +28,7 @@ $fixture->printToScreen = true;
 $fixture->performSetUp("");
 
 // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-foreach (array('libs', 'plugins', 'tests') as $linkName) {
+foreach (array('libs', 'plugins', 'tests', 'piwik.js') as $linkName) {
     $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
     if (!file_exists($linkPath)) {
         symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);

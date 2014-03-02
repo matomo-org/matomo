@@ -166,11 +166,13 @@ Application.prototype.setupDatabase = function () {
 Application.prototype.doRunTests = function () {
     var self = this;
 
+    testEnvironment.reload();
+
     // run tests
     this.runner = mocha.run(function () {
         // remove symlinks
         if (!options['keep-symlinks']) {
-            var symlinks = ['libs', 'plugins', 'tests'];
+            var symlinks = ['libs', 'plugins', 'tests', 'piwik.js'];
 
             symlinks.forEach(function (item) {
                 var file = path.join(uiTestsDir, '..', 'proxy', item);

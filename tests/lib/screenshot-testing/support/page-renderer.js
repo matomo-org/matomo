@@ -9,6 +9,7 @@
 
 var VERBOSE = false;
 
+// TODO: should refactor, move all event queueing logic to PageAutomation class and add .frame method to change context
 var PageRenderer = function (baseUrl) {
     this.webpage = null;
 
@@ -16,6 +17,7 @@ var PageRenderer = function (baseUrl) {
     this.pageLogs = [];
     this.aborted = false;
     this.baseUrl = baseUrl;
+    this.currentFrame = null;
 
     this.defaultWaitTime = 1000;
     this._isLoading = false;
@@ -42,6 +44,10 @@ PageRenderer.prototype.getCurrentUrl = function () {
 // event queueing functions
 PageRenderer.prototype.wait = function (waitTime) {
     this.queuedEvents.push([this._wait, waitTime]);
+};
+
+PageRenderer.prototype.sendMouseEvent = function (type, pos, waitTime) {
+    this.queuedEvents.push([this._sendMouseEvent, waitTime, type, pos]);
 };
 
 PageRenderer.prototype.click = function () {
@@ -91,6 +97,11 @@ PageRenderer.prototype.evaluate = function (impl, waitTime) {
 
 // event impl functions
 PageRenderer.prototype._wait = function (callback) {
+    callback();
+};
+
+PageRenderer.prototype._sendMouseEvent = function (type, pos, callback) {
+    this.webpage.sendEvent(type, pos.x, pos.y);
     callback();
 };
 
@@ -257,12 +268,35 @@ PageRenderer.prototype._getImageLoadingCount = function () {
     return this.webpage.evaluate(function () {
         var count = 0;
 
-        // check <img> elements
-        var imgs = document.getElementsByTagName('img');
-        for (var i = 0; i != imgs.length; ++i) {
-            var element = imgs.item(i);
-            if (element.complete === false) {
+        var cssImageProperties = ['backgroundImage', 'listStyleImage', 'borderImage', 'borderCornerImage', 'cursor'],
+            matchUrl = /url\(\s*(['"]?)(.*?)\1\s*\)/g;
+
+        // check <img> elements and background URLs
+        var elements = document.getElementsByTagName('*');
+        for (var i = 0; i != elements.length; ++i) {
+            var element = elements.item(i);
+            if (element.tagName == 'img' // handle <img> elements
+                && element.complete === false
+            ) {
                 count = count + 1;
+            }
+
+            for (var j = 0; j != cssImageProperties.length; ++j) { // handle CSS image URLs
+                var prop = $(element).css(cssImageProperties[j]);
+
+                if (!prop) {
+                    continue;
+                }
+
+                while (match = matchUrl.exec(prop)) {
+                    var src = match[2],
+                        img = new Image();
+                    img.src = src;
+
+                    if (img.complete === false) {
+                        count = count + 1;
+                    }
+                }
             }
         }
 

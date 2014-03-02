@@ -16,7 +16,6 @@ class Core_TrackerTest extends DatabaseTestCase
         parent::setUp();
         \Piwik\Piwik::setUserHasSuperUserAccess(true);
         Fixture::createWebsite('2014-02-04');
-        Fixture::createSuperUser();
     }
 
     /**
