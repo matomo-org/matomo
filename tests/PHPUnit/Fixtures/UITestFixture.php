@@ -28,6 +28,12 @@ class UITestFixture extends OmniFixture
     {
         parent::setUp();
 
+        // make sure site has an early enough creation date (for period selector tests)
+        Db::get()->update(Common::prefixTable("site"),
+            array('ts_created' => '2011-01-01'),
+            "idsite = 1"
+        );
+
         $this->addOverlayVisits();
         $this->addNewSitesForSiteSelector();
         $this->createEmptyDashboard();

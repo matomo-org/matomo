@@ -295,7 +295,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
         Db::get()->update(Common::prefixTable("site"),
-            array('ts_created' => Date::factory($dateTime)->subDay(30)->getDatetime()),
+            array('ts_created' => Date::factory($dateTime)->subDay(1)->getDatetime()),
             "idsite = $idSite"
         );
 
