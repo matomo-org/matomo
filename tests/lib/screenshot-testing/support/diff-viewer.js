@@ -138,6 +138,8 @@ DiffViewerGenerator.prototype.generateDiffs = function (callback, i) {
         var self = this;
         child.on("exit", function (code) {
             if (!code) {
+                console.log("Saved diff to " + diffPath);
+
                 entry.diffUrl = entry.name + '.png';
             }
 

@@ -279,7 +279,7 @@ PageRenderer.prototype._getImageLoadingCount = function () {
         var elements = document.getElementsByTagName('*');
         for (var i = 0; i != elements.length; ++i) {
             var element = elements.item(i);
-            if (element.tagName == 'img' // handle <img> elements
+            if (element.tagName.toLowerCase() == 'img' // handle <img> elements
                 && element.complete === false
             ) {
                 count = count + 1;

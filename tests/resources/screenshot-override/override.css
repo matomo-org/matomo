@@ -21,6 +21,10 @@ span.plugin-version {
     margin-left:1em;
 }
 
-.widget {
+body > .widget {
     overflow: visible !important;
+}
+
+.ui-dialog-content {
+    overflow-y: hidden !important;
 }
