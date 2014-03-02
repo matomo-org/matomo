@@ -14,6 +14,12 @@ then
 else
     if [ "$TEST_DIR" = "UI" ];
     then
+        echo ""
+        echo `pwd`
+        echo ""
+        ls screenshot-diffs
+        echo ""
+
         url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&branch=ui-tests.$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
 
         echo "Uploading artifacts for $TEST_DIR..."
