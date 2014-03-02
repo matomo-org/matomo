@@ -14,7 +14,7 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
         allSitesText: $filter('translate')('General_MultiSitesSummary'),
         showSelectedSite: 'false',
         showAllSitesItem: 'true',
-        switchSiteOnSelect: 'true',
+        switchSiteOnSelect: 'true'
     };
 
     return {
