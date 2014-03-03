@@ -76,7 +76,9 @@ class Piwik_TestingEnvironment
 
     public function logVariables()
     {
-        \Piwik\Log::debug("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+        if (isset($_SERVER['QUERY_STRING'])) {
+            \Piwik\Log::debug("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+        }
     }
 
     public static function addHooks()
