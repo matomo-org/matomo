@@ -6,11 +6,14 @@
                 <th class="label" style="width:60%;">
                     {{ dataTable.getMetadata('reportName') }}
                 </th>
-                <th class="label" style="width:20%;">
+                <th class="label" name="orderBy" value="absolute"
+                    style="width:20%;cursor:pointer;{% if 'absolute' == properties.order_by %}font-weight:bold;{% endif %}"
+                        >
                     {{ dataTable.getMetadata('metricName') }}
                 </th>
-                <th class="label" style="width:20%;">
-                    Evolution
+                <th class="label" name="orderBy" value="relative"
+                    style="width:20%;cursor:pointer;{% if 'relative' == properties.order_by %}font-weight:bold;{% endif %}">
+                    {{ 'MultiSites_Evolution'|translate }}
                 </th>
             </tr>
             </thead>

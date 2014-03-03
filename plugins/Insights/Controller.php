@@ -17,7 +17,7 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\Controller
 {
 
-    public function getOverviewMoversAndShakers()
+    public function getInsightOverview()
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $period = Common::getRequestVar('period', null, 'string');
@@ -26,12 +26,13 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Insights/index.twig');
         $this->setBasicVariablesView($view);
 
-        $view->moversAndShakers = API::getInstance()->getOverallMoversAndShakers($idSite, $period, $date);
+        $view->moversAndShakers = API::getInstance()->getInsightsOverview($idSite, $period, $date);
         $view->showNoDataMessage = false;
         $view->showInsightsControls = false;
         $view->properties = array(
             'show_increase' => true,
-            'show_decrease' => true
+            'show_decrease' => true,
+            'order_by' => 'absolute'
         );
 
         return $view->render();

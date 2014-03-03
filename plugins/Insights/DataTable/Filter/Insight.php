@@ -68,7 +68,11 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
                 $oldValue   = $row->getColumn($this->columnValueToRead);
                 $difference = $newValue - $oldValue;
 
-                $growthPercentage = '-100%';
+                if ($oldValue == 0 && $newValue == 0) {
+                    $growthPercentage = '0%';
+                } else {
+                    $growthPercentage = '-100%';
+                }
 
                 $this->addRow($table, $row, $growthPercentage, $newValue, $oldValue, $difference);
             }
@@ -85,7 +89,7 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         $columns = $row->getColumns();
         $columns['growth_percent'] = $growthPercentage;
         $columns['growth_percent_numeric'] = str_replace('%', '', $growthPercentage);
-        $columns['grown']      = $newValue >= $oldValue;
+        $columns['grown']      = '-' != substr($growthPercentage, 0 , 1);
         $columns['value_old']  = $oldValue;
         $columns['value_new']  = $newValue;
         $columns['difference'] = $difference;
