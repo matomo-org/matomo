@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Insights;
 
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Log;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\API\ProcessedReport;
@@ -32,16 +33,25 @@ class API extends \Piwik\Plugin\API
 
     public function getInsightsOverview($idSite, $period, $date)
     {
+        Piwik::checkUserHasViewAccess(array($idSite));
+
         /** @var DataTable[] $tables */
-        $tables = array(
-            $this->getInsightOverview($idSite, $period, $date, 'Actions_getPageUrls'),
-            $this->getInsightOverview($idSite, $period, $date, 'Actions_getPageTitles'),
-            $this->getInsightOverview($idSite, $period, $date, 'Referrers_getKeywords'),
-            $this->getInsightOverview($idSite, $period, $date, 'Referrers_getCampaigns'),
-            $this->getInsightOverview($idSite, $period, $date, 'Referrers_getAll'),
+        $reports = array(
+            'Actions_getPageUrls',
+            'Actions_getPageTitles',
+            'Referrers_getKeywords',
+            'Referrers_getCampaigns',
+            'Referrers_getAll'
         );
 
         // post event to add other reports?
+
+        $tables = array();
+        foreach ($reports as $report) {
+            $tableId  = DataTable\Manager::getInstance()->getMostRecentTableId();
+            $tables[] = $this->getInsightOverview($idSite, $period, $date, $report);
+            DataTable\Manager::getInstance()->deleteAll($tableId);
+        }
 
         $map = new DataTable\Map();
 
@@ -52,46 +62,39 @@ class API extends \Piwik\Plugin\API
         return $map;
     }
 
-    protected function getInsightOverview($idSite, $period, $date, $reportUniqueId, $segment = false)
+    public function getInsightOverview($idSite, $period, $date, $reportUniqueId, $segment = false, $limitIncreaser = 4,
+                                       $limitDecreaser = 4, $minVisitsPercent = 2, $minGrowthPercent = 20, $orderBy = 'absolute',
+                                       $considerMovers = true, $considerNew = true, $considerDisappeared = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
-        $minVisitsPercent = 2;
         $metric = 'nb_visits';
-        $limitIncreaser = 4;
-        $limitDecreaser = 4;
-        $minGrowthPercent = 20;
-        $orderBy = 'absolute';
-        $considerMovers = true;
-        $considerNew = true;
-        $considerDisappeared = false;
-        // TODO consider disappeared if impact > 10%?
-
-        $report = $this->getReportByUniqueId($idSite, $reportUniqueId);
-
-        $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric, $segment);
-
-        if ($period == 'day') {
-            // if website is too young, than use website creation date
-            // for faster performance just compare against last week?
-            $pastDate = Date::factory($date);
-            $pastDate = $pastDate->subDay(7);
-            $lastReport = $this->requestReport($idSite, 'week', $pastDate->toString(), $report, $metric, $segment);
-            $lastReport->filter('Piwik\Plugins\Insights\DataTable\Filter\Average', array($metric, 7));
-        } else {
-            $pastDate = Range::getLastDate($date, $period);
-            $pastDate = $pastDate[0];
-            if (empty($pastDate)) {
-                return new DataTable();
-            }
-
-            $lastReport = $this->requestReport($idSite, $period, $pastDate, $report, $metric, $segment);
-        }
+        // consider disappeared if impact > 10%?
 
         $totalValue = $this->getTotalValue($idSite, $period, $date, $metric);
         $minVisits  = $this->getMinVisits($totalValue, $minVisitsPercent);
 
-        $lastDate = $pastDate;
+        $report        = $this->getReportByUniqueId($idSite, $reportUniqueId);
+        $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric, $segment);
+
+        if ($period === 'day') {
+            // if website is too young, than use website creation date
+            // for faster performance just compare against last week?
+            $pastDate   = Date::factory($date);
+            $pastDate   = $pastDate->subDay(7);
+            $lastDate   = $pastDate->toString();
+            $lastReport = $this->requestReport($idSite, 'week', $lastDate, $report, $metric, $segment);
+            $lastReport->filter('Piwik\Plugins\Insights\DataTable\Filter\Average', array($metric, 7));
+        } else {
+            $pastDate = Range::getLastDate($date, $period);
+
+            if (empty($pastDate[0])) {
+                return new DataTable();
+            }
+
+            $lastDate   = $pastDate[0];
+            $lastReport = $this->requestReport($idSite, $period, $lastDate, $report, $metric, $segment);
+        }
 
         return $this->buildInsightsReport($period, $date, $limitIncreaser, $limitDecreaser, $minGrowthPercent, $orderBy, $currentReport, $lastReport, $metric, $considerMovers, $considerNew, $considerDisappeared, $minVisits, $report, $lastDate, $totalValue);
     }
@@ -147,7 +150,7 @@ class API extends \Piwik\Plugin\API
             'period' => $period,
             'date'   => $date,
             'flat'   => 1,
-            'filter_limit' => 10000,
+            'filter_limit' => 1000,
             'showColumns'  => $metric
         );
 

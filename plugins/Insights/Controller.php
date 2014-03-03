@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Insights;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\View;
 
 /**
@@ -22,6 +23,8 @@ class Controller extends \Piwik\Plugin\Controller
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
+
+        Piwik::checkUserHasViewAccess(array($idSite));
 
         $view = new View('@Insights/index.twig');
         $this->setBasicVariablesView($view);
