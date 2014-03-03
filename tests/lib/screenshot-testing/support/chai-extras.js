@@ -52,8 +52,22 @@ chai.Assertion.addChainableMethod('capture', function () {
 
     var screenshotFileName = screenName + '.png',
         dirsBase = app.runner.suite.baseDirectory,
-        expectedScreenshotPath = path.join(dirsBase, config.expectedScreenshotsDir, compareAgainst + '.png'),
-        processedScreenshotPath = path.join(dirsBase, config.processedScreenshotsDir, screenshotFileName);
+
+        expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
+        expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst + '.png'),
+
+        processedScreenshotDir = path.join(dirsBase, config.processedScreenshotsDir),
+        processedScreenshotPath = path.join(processedScreenshotDir, screenshotFileName),
+
+        screenshotDiffDir = path.join(dirsBase, config.screenshotDiffDir);
+
+    if (!fs.isDirectory(processedScreenshotDir)) {
+        fs.makeTree(processedScreenshotDir);
+    }
+
+    if (!fs.isDirectory(screenshotDiffDir)) {
+        fs.makeTree(screenshotDiffDir);
+    }
 
     pageSetupFn(pageRenderer);
 

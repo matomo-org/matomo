@@ -103,15 +103,11 @@ Application.prototype.runTests = function () {
 
     // make sure all necessary directories exist (symlinks handled by PHP since phantomjs can't create any)
     var dirsToCreate = [
-        config.expectedScreenshotsDir,
-        config.processedScreenshotsDir,
-        config.screenshotDiffDir,
         path.join(PIWIK_INCLUDE_PATH, 'tmp/sessions')
     ];
 
     dirsToCreate.forEach(function (path) {
         if (!fs.isDirectory(path)) {
-            console.log("MAKING PATH: " + path);
             fs.makeTree(path);
         }
     });
