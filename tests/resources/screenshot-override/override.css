@@ -33,3 +33,7 @@ body > .widget {
 .dashboard-manager .addWidget, .dashboard-manager .manageDashboard {
     font-family: Arial !important;
 }
+
+#logo .description a {
+    font-family: Arial !important;
+}

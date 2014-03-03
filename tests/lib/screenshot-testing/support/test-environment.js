@@ -25,6 +25,10 @@ TestingEnvironment.prototype.reload = function () {
 
 TestingEnvironment.prototype.save = function () {
     fs.write(testingEnvironmentOverridePath, JSON.stringify(this));
+
+    console.log("Saving TestEnvironment vars to " + testingEnvironmentOverridePath);
+    console.log("  -> " + JSON.stringify(this));
+    console.log(" A-> " + fs.read(testingEnvironmentOverridePath));
 };
 
 TestingEnvironment.prototype.callApi = function (method, params, done) {

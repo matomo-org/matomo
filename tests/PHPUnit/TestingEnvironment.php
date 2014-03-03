@@ -76,7 +76,7 @@ class Piwik_TestingEnvironment
 
     public function logVariables()
     {
-        \Piwik\Log::debug("Test Environment Variables: %s", print_r($this->behaviorOverrideProperties, true));
+        \Piwik\Log::verbose("Test Environment Variables: %s", print_r($this->behaviorOverrideProperties, true));
     }
 
     public static function addHooks()
