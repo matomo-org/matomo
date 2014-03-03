@@ -86,9 +86,6 @@ class Piwik_TestingEnvironment
         $testingEnvironment = new Piwik_TestingEnvironment();
 
         if ($testingEnvironment->configFileLocal) {
-        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
-        fwrite($fd, "Found config file local environment override.");
-        fclose($fd);
             \Piwik\Config::$defaultLocalConfigPath = $testingEnvironment->configFileLocal;
         }
 

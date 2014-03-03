@@ -167,16 +167,9 @@ class Config extends Singleton
     {
         $path = self::getByDomainConfigPath();
         if ($path) {
-        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
-        fwrite($fd, "Found config by domain '$path'.");
-        fclose($fd);
             return $path;
         }
-        $r = PIWIK_USER_PATH . self::$defaultLocalConfigPath;
-        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
-        fwrite($fd, "Found config file local path: '$r'.");
-        fclose($fd);
-        return $r;
+        return PIWIK_USER_PATH . self::$defaultLocalConfigPath;
     }
 
     private static function getLocalConfigInfoForHostname($hostname)
@@ -298,9 +291,8 @@ class Config extends Singleton
 
         $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
-        if ($reportError) {
-            $this->checkLocalConfigFound();
-        }
+        $this->checkLocalConfigFound();
+
         $this->configLocal = _parse_ini_file($this->pathLocal, true);
         if (empty($this->configLocal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));

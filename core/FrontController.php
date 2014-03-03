@@ -213,7 +213,7 @@ class FrontController extends Singleton
     {
         $exceptionToThrow = false;
         try {
-            Config::getInstance();
+            Config::getInstance()->database; // access property to check if the local file exists
         } catch (Exception $exception) {
 
             /**
