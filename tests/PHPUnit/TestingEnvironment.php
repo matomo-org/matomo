@@ -163,7 +163,11 @@ class Piwik_TestingEnvironment
             file_put_contents($outputFile, Common::json_encode($outputContents));
         });
         Piwik::addAction('Updater.checkForUpdates', function () {
-            \Piwik\Filesystem::deleteAllCacheOnUpdate();
+            try {
+                \Piwik\Filesystem::deleteAllCacheOnUpdate();
+            } catch (Exception $ex) {
+                // pass
+            }
         });
         Piwik::addAction('Request.dispatch.end', function (&$result, $parameters) {
             $enableZeitgeist = !empty($_REQUEST['zeitgeist']);
