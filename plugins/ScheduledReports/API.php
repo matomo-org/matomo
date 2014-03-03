@@ -12,9 +12,11 @@ use Exception;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
+use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\ReportRenderer\Html;
 use Piwik\Site;
@@ -288,7 +290,10 @@ class API extends \Piwik\Plugin\API
         $report = reset($reports);
 
         $idSite = $report['idsite'];
+        $login  = $report['login'];
         $reportType = $report['type'];
+
+        $this->checkUserHasViewPermission($login, $idSite);
 
         // override report period
         if (empty($period)) {
@@ -934,5 +939,20 @@ class API extends \Piwik\Plugin\API
         $additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
 
         return $additionalFile;
+    }
+
+    private function checkUserHasViewPermission($login, $idSite)
+    {
+        if (empty($idSite)) {
+            return;
+        }
+
+        $idSitesUserHasAccess = SitesManagerApi::getInstance()->getSitesIdWithAtLeastViewAccess($login);
+
+        if (empty($idSitesUserHasAccess)
+            || !in_array($idSite, $idSitesUserHasAccess)
+        ) {
+            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'view'")));
+        }
     }
 }
