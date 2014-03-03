@@ -167,9 +167,16 @@ class Config extends Singleton
     {
         $path = self::getByDomainConfigPath();
         if ($path) {
+        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
+        fwrite($fd, "Found config by domain '$path'.");
+        fclose($fd);
             return $path;
         }
-        return PIWIK_USER_PATH . self::$defaultLocalConfigPath;
+        $r = PIWIK_USER_PATH . self::$defaultLocalConfigPath;
+        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
+        fwrite($fd, "Found config file local path: '$r'.");
+        fclose($fd);
+        return $r;
     }
 
     private static function getLocalConfigInfoForHostname($hostname)

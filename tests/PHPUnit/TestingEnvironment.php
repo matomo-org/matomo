@@ -86,6 +86,9 @@ class Piwik_TestingEnvironment
         $testingEnvironment = new Piwik_TestingEnvironment();
 
         if ($testingEnvironment->configFileLocal) {
+        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
+        fwrite($fd, "Found config file local environment override.");
+        fclose($fd);
             \Piwik\Config::$defaultLocalConfigPath = $testingEnvironment->configFileLocal;
         }
 
@@ -102,10 +105,6 @@ class Piwik_TestingEnvironment
                 $_GET[$key] = $value;
             }
         }
-
-        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
-        fwrite($fd, print_r($testingEnvironment->behaviorOverrideProperties, true));
-        fclose($fd);
 
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
