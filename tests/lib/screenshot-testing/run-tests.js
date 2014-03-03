@@ -27,6 +27,8 @@ if (options['help']) {
     app.printHelpAndExit();
 }
 
+options['tests'] = ['Installation']; // TODO: remove after debugging testing done
+
 app.init();
 app.loadTestModules();
 app.runTests();

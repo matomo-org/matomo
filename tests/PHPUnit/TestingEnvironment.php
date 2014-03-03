@@ -77,7 +77,7 @@ class Piwik_TestingEnvironment
     public function logVariables()
     {
         if (isset($_SERVER['QUERY_STRING'])) {
-            \Piwik\Log::debug("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+            \Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
         }
     }
 
@@ -102,6 +102,10 @@ class Piwik_TestingEnvironment
                 $_GET[$key] = $value;
             }
         }
+
+        $fd = fopen(PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.log', 'a');
+        fwrite($fd, print_r($testingEnvironment->behaviorOverrideProperties, true));
+        fclose($fd);
 
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
