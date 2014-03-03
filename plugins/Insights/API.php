@@ -22,8 +22,14 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
  */
 class API extends \Piwik\Plugin\API
 {
+    const FILTER_BY_NEW = 'new';
+    const FILTER_BY_MOVERS = 'movers';
+    const FILTER_BY_DISAPPEARED = 'disappeared';
+    const ORDER_BY_RELATIVE = 'relative';
+    const ORDER_BY_ABSOLUTE = 'absolute';
+    const ORDER_BY_IMPORTANCE = 'importance';
 
-    public function getOverallMoversAndShakers($idSite, $period, $date)
+    public function getInsightsOverview($idSite, $period, $date)
     {
         /** @var DataTable[] $tables */
         $tables = array(
@@ -35,6 +41,7 @@ class API extends \Piwik\Plugin\API
         );
 
         // post event to add other reports?
+        // display new and disappeared only if very high impact
 
         $map = new DataTable\Map();
 
@@ -48,8 +55,8 @@ class API extends \Piwik\Plugin\API
     // force $limitX and ignore minVisitsPercent, minGrowthPercent
     public function getInsights(
         $idSite, $period, $date, $reportUniqueId, $limitIncreaser = 5, $limitDecreaser = 5,
-        $basedOnTotalMetric = false, $minVisitsPercent = 2, $minGrowthPercent = 20,
-        $comparedToXPeriods = 1, $orderBy = 'absolute', $filterBy = '', $segment = false)
+        $filterBy = '', $basedOnTotalMetric = false, $minVisitsPercent = 2, $minGrowthPercent = 20,
+        $comparedToXPeriods = 1, $orderBy = 'absolute', $segment = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
@@ -71,20 +78,19 @@ class API extends \Piwik\Plugin\API
         $considerDisappeared = false;
 
         switch ($filterBy) {
-            case '':
+            case self::FILTER_BY_MOVERS:
+                $considerMovers = true;
+                break;
+            case self::FILTER_BY_NEW:
+                $considerNew = true;
+                break;
+            case self::FILTER_BY_DISAPPEARED:
+                $considerDisappeared = true;
+                break;
+            default:
                 $considerMovers = true;
                 $considerNew = true;
                 $considerDisappeared = true;
-                break;
-            case 'movers':
-                $considerMovers = true;
-                break;
-            case 'new':
-                $considerNew = true;
-                break;
-            case 'disappeared':
-                $considerDisappeared = true;
-                break;
         }
 
         $dataTable = new DataTable();
@@ -202,11 +208,11 @@ class API extends \Piwik\Plugin\API
 
     private function getOrderByColumn($orderBy)
     {
-        if ('relative' == $orderBy) {
+        if (self::ORDER_BY_RELATIVE == $orderBy) {
             $orderByColumn = 'growth_percent_numeric';
-        } elseif ('absolute' == $orderBy) {
+        } elseif (self::ORDER_BY_ABSOLUTE == $orderBy) {
             $orderByColumn = 'difference';
-        } elseif ('importance' == $orderBy) {
+        } elseif (self::ORDER_BY_IMPORTANCE == $orderBy) {
             $orderByColumn = 'importance';
         } else {
             throw new \Exception('Unsupported orderBy');

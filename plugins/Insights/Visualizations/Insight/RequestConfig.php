@@ -19,8 +19,8 @@ class RequestConfig extends VisualizationRequestConfig
     public $compared_to_x_periods_ago = 1;
     public $order_by = 'absolute';
     public $filter_by = '';
-    public $limit_increaser = 5;
-    public $limit_decreaser = 5;
+    public $limit_increaser = '13';
+    public $limit_decreaser = '12';
 
     public function __construct()
     {
@@ -35,7 +35,8 @@ class RequestConfig extends VisualizationRequestConfig
             'compared_to_x_periods_ago',
             'filter_by',
             'limit_increaser',
-            'limit_decreaser'
+            'limit_decreaser',
+            'filter_limit'
         );
 
         $this->addPropertiesThatShouldBeAvailableClientSide($properties);
