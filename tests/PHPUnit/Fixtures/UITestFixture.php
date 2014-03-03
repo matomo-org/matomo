@@ -63,7 +63,6 @@ class UITestFixture extends OmniFixture
         $this->testEnvironment->forcedIdVisitor = $visitorIdDeterministic;
 
         $this->testEnvironment->overlayUrl = $this->getLocalTestSiteUrl();
-        echo "OVERLAY URL IN SETUP: " .$this->testEnvironment->overlayUrl . "\n";
         $this->createOverlayTestSite();
 
         $forcedNowTimestamp = Option::get("Tests.forcedNowTimestamp");
