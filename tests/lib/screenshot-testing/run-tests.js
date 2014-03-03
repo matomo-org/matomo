@@ -27,7 +27,7 @@ if (options['help']) {
     app.printHelpAndExit();
 }
 
-options['tests'] = ['Login']; // TODO: remove after debugging testing done
+options['tests'] = ['Dashboard', 'Login']; // TODO: remove after debugging testing done
 
 app.init();
 app.loadTestModules();
