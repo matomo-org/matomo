@@ -41,7 +41,8 @@ class API extends \Piwik\Plugin\API
             'Actions_getPageTitles',
             'Referrers_getKeywords',
             'Referrers_getCampaigns',
-            'Referrers_getAll'
+            'Referrers_getAll',
+            'Referrers_getSearchEngines'
         );
         // post event to add other reports?
 
@@ -160,7 +161,7 @@ class API extends \Piwik\Plugin\API
             'idSite' => $idSite,
             'period' => $period,
             'date'   => $date,
-            'flat'   => 1,
+            'flat'   => 0,
             'filter_limit' => 1000,
             'showColumns'  => $metric
         );
