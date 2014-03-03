@@ -50,6 +50,8 @@ DiffViewerGenerator.prototype.generate = function (callback) {
 
     var self = this;
     this.generateDiffs(function () {
+        console.log("DIFF DIR: " + self.diffDir);
+        console.log(JSON.stringify(fs.list(self.diffDir)));
         var diffViewerContent = "<html>\
 <head></head>\
 <body>\

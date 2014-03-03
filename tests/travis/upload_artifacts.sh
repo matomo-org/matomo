@@ -14,12 +14,6 @@ then
 else
     if [ "$TEST_DIR" = "UI" ];
     then
-        echo ""
-        echo `pwd`
-        echo ""
-        ls ./tests/PHPUnit/UI/screenshot-diffs
-        echo ""
-
         url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&branch=ui-tests.$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
 
         echo "Uploading artifacts for $TEST_DIR..."
@@ -35,10 +29,6 @@ else
         then
             echo "Uploading screenshot diffs..."
 
-            echo ""
-            ls screenshot-diffs
-            echo ""
-            
             tar -cjf screenshot-diffs.tar.bz2 screenshot-diffs
             curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
 
