@@ -27,6 +27,8 @@ if (options['help']) {
     app.printHelpAndExit();
 }
 
+options.tests = ['Overlay'];
+
 app.init();
 app.loadTestModules();
 app.runTests();
