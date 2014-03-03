@@ -126,6 +126,7 @@ DiffViewerGenerator.prototype.generateDiffs = function (callback, i) {
         && entry.processed
     ) {
         var diffPath = this.getDiffPath(entry);
+        console.log("COMPARE ARGS: " + JSON.stringify([entry.expected, entry.processed, diffPath]));
 
         var child = require('child_process').spawn('compare', [entry.expected, entry.processed, diffPath]);
 

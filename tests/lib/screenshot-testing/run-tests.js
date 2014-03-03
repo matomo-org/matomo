@@ -27,7 +27,7 @@ if (options['help']) {
     app.printHelpAndExit();
 }
 
-options['tests'] = ['Dashboard']; // TODO: remove after debugging testing done
+options['tests'] = ['ActionsDataTable', 'BarGraph', 'Dashboard']; // TODO: remove after debugging testing done
 
 app.init();
 app.loadTestModules();

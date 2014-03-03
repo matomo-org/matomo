@@ -111,6 +111,7 @@ Application.prototype.runTests = function () {
 
     dirsToCreate.forEach(function (path) {
         if (!fs.isDirectory(path)) {
+            console.log("MAKING PATH: " + path);
             fs.makeTree(path);
         }
     });
