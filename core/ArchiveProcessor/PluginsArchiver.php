@@ -121,7 +121,7 @@ class PluginsArchiver
     protected function getPluginArchivers()
     {
         if (empty(static::$archivers)) {
-            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
+            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getActivatedAndLoadedPlugins();
             $archivers = array();
             foreach ($pluginNames as $pluginName) {
                 $archivers[$pluginName] = self::getPluginArchiverClass($pluginName);

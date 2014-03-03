@@ -55,7 +55,7 @@ class Piwik_LocalTracker extends PiwikTracker
         $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         $oldTrackerConfig = Config::getInstance()->Tracker;
 
-        \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
+        //\Piwik\Plugin\Manager::getInstance()->unloadPlugins();
 
         // modify config
         $GLOBALS['PIWIK_TRACKER_MODE'] = true;
