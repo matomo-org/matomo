@@ -43,14 +43,25 @@ class API extends \Piwik\Plugin\API
             'Referrers_getCampaigns',
             'Referrers_getAll'
         );
-
         // post event to add other reports?
+
+        $reportTableIds   = array();
+        $dataTableManager = DataTable\Manager::getInstance();
 
         $tables = array();
         foreach ($reports as $report) {
-            $tableId  = DataTable\Manager::getInstance()->getMostRecentTableId();
-            $tables[] = $this->getInsightOverview($idSite, $period, $date, $report);
-            DataTable\Manager::getInstance()->deleteAll($tableId);
+            $firstTableId     = $dataTableManager->getMostRecentTableId();
+            $table            = $this->getInsightOverview($idSite, $period, $date, $report);
+            $reportTableIds[] = $table->getId();
+            $lastTableId      = $dataTableManager->getMostRecentTableId();
+
+            for ($index = $firstTableId; $index < $lastTableId; $index++) {
+                if (!in_array($index, $reportTableIds)) {
+                    DataTable\Manager::getInstance()->deleteTable($index);
+                }
+            }
+
+            $tables[] = $table;
         }
 
         $map = new DataTable\Map();
