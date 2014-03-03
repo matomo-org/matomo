@@ -74,6 +74,11 @@ class Piwik_TestingEnvironment
         $this->save();
     }
 
+    public function logVariables()
+    {
+        \Piwik\Log::debug("Test Environment Variables: %s", print_r($this->behaviorOverrideProperties, true));
+    }
+
     public static function addHooks()
     {
         $testingEnvironment = new Piwik_TestingEnvironment();
@@ -115,6 +120,8 @@ class Piwik_TestingEnvironment
             );
             $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
             $config->log['log_writers'] = array('file');
+
+            $testingEnvironment->logVariables();
         });
         Piwik::addAction('Db.getDatabaseConfig', function (&$dbConfig) use ($testingEnvironment) {
             if ($testingEnvironment->dbName) {

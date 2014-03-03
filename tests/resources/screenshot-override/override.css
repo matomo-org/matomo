@@ -28,3 +28,8 @@ body > .widget {
 .ui-dialog-content {
     overflow-y: hidden !important;
 }
+
+/* Verdana does not have the down arrow U+2193 */
+.dashboard-manager .addWidget, .dashboard-manager .manageDashboard {
+    font-family: Arial !important;
+}
