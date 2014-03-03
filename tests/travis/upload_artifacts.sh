@@ -17,7 +17,7 @@ else
         echo ""
         echo `pwd`
         echo ""
-        ls screenshot-diffs
+        ls ./tests/PHPUnit/UI/screenshot-diffs
         echo ""
 
         url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&branch=ui-tests.$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
