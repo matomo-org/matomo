@@ -37,3 +37,7 @@ body > .widget {
 #logo .description a {
     font-family: Arial !important;
 }
+
+.providerDescription {
+    border-style: solid;
+}
