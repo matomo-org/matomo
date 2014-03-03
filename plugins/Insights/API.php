@@ -55,7 +55,7 @@ class API extends \Piwik\Plugin\API
             $reportTableIds[] = $table->getId();
             $lastTableId      = $dataTableManager->getMostRecentTableId();
 
-            for ($index = $firstTableId; $index < $lastTableId; $index++) {
+            for ($index = $firstTableId; $index <= $lastTableId; $index++) {
                 if (!in_array($index, $reportTableIds)) {
                     DataTable\Manager::getInstance()->deleteTable($index);
                 }
