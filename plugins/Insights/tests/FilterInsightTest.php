@@ -164,7 +164,7 @@ class FilterInsightTest extends \PHPUnit_Framework_TestCase
             array('label' => 'val9', 'growth_percent' => '-90.3%', 'growth_percent_numeric' => '-90.3', 'difference' => -65),
             array('label' => 'val10', 'growth_percent' => '100%', 'growth_percent_numeric' => '100', 'difference' => 89),
             array('label' => 'val102', 'growth_percent' => '-100%', 'growth_percent_numeric' => '-100', 'difference' => -29),
-            array('label' => 'val109', 'growth_percent' => '-100%', 'growth_percent_numeric' => '-100', 'difference' => 0),
+            array('label' => 'val109', 'growth_percent' => '0%', 'growth_percent_numeric' => '0', 'difference' => 0),
             array('label' => 'val107', 'growth_percent' => '-100%', 'growth_percent_numeric' => '-100', 'difference' => -415),
         );
 
