@@ -271,7 +271,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'UserCountry.getLocationFromIP',
         'Dashboard',
         'ExamplePluginTemplate',
-        'CustomAlerts'
+        'CustomAlerts',
+        'Insights'
     );
 
     const DEFAULT_USER_PASSWORD = 'nopass';
