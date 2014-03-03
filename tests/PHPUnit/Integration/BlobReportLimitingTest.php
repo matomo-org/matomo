@@ -21,8 +21,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 
     public static function setUpBeforeClass()
     {
+        parent::_setUpBeforeClass($dbName = false, $createEmptyDatabase = true);
         self::setUpConfigOptions();
-        parent::_setUpBeforeClass($dbName = false, $createEmptyDatabase = true, $createConfig = false);
         parent::setUpFixture(self::$fixture);
     }
 
@@ -150,7 +150,6 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 
     protected static function setUpConfigOptions()
     {
-        self::createTestConfig();
         $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
