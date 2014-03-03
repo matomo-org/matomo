@@ -36,7 +36,6 @@
         _init: function (domElem) {
             this.initMinGrowthPercentage(domElem);
             this.initMinVisitsPercent(domElem);
-            this.initBasedOnTotalMetric(domElem);
             this.initShowIncreaseOrDecrease(domElem);
             this.initOrderBy(domElem);
             this.initComparedToXPeriodsAgo(domElem);
@@ -95,13 +94,6 @@
             var self = this;
             $('[name=minVisitsPercent]', domElem).bind('change', function (event) {
                 self._changeParameterAndReload({min_visits_percent: getValueFromEvent(event)});
-            });
-        },
-
-        initBasedOnTotalMetric: function (domElem) {
-            var self = this;
-            $('[name=basedOnTotalMetric]', domElem).bind('change', function (event) {
-                self._changeParameterAndReload({based_on_total_metric: getValueFromEvent(event)});
             });
         },
 

@@ -55,7 +55,6 @@ class Insight extends Visualization
             'reportUniqueId' => $report,
             'minVisitsPercent' => $this->requestConfig->min_visits_percent,
             'minGrowthPercent' => $this->requestConfig->min_growth_percent,
-            'basedOnTotalMetric' => $this->requestConfig->based_on_total_metric,
             'comparedToXPeriods' => $this->requestConfig->compared_to_x_periods_ago,
             'orderBy' => $this->requestConfig->order_by,
             'filterBy' => $this->requestConfig->filter_by,

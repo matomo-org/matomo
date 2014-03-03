@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Insights;
 
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\API\ProcessedReport;
@@ -33,15 +34,14 @@ class API extends \Piwik\Plugin\API
     {
         /** @var DataTable[] $tables */
         $tables = array(
-            $this->getInsights($idSite, $period, $date, 'Actions_getPageUrls', 4, 4),
-            $this->getInsights($idSite, $period, $date, 'Actions_getPageTitles', 4, 4),
-            $this->getInsights($idSite, $period, $date, 'Referrers_getKeywords', 4, 4),
-            $this->getInsights($idSite, $period, $date, 'Referrers_getCampaigns', 4, 4),
-            $this->getInsights($idSite, $period, $date, 'Referrers_getAll', 4, 4),
+            $this->getInsightOverview($idSite, $period, $date, 'Actions_getPageUrls'),
+            $this->getInsightOverview($idSite, $period, $date, 'Actions_getPageTitles'),
+            $this->getInsightOverview($idSite, $period, $date, 'Referrers_getKeywords'),
+            $this->getInsightOverview($idSite, $period, $date, 'Referrers_getCampaigns'),
+            $this->getInsightOverview($idSite, $period, $date, 'Referrers_getAll'),
         );
 
         // post event to add other reports?
-        // display new and disappeared only if very high impact
 
         $map = new DataTable\Map();
 
@@ -52,25 +52,67 @@ class API extends \Piwik\Plugin\API
         return $map;
     }
 
+    protected function getInsightOverview($idSite, $period, $date, $reportUniqueId, $segment = false)
+    {
+        Piwik::checkUserHasViewAccess(array($idSite));
+
+        $minVisitsPercent = 2;
+        $metric = 'nb_visits';
+        $limitIncreaser = 4;
+        $limitDecreaser = 4;
+        $minGrowthPercent = 20;
+        $orderBy = 'absolute';
+        $considerMovers = true;
+        $considerNew = true;
+        $considerDisappeared = false;
+        // TODO consider disappeared if impact > 10%?
+
+        $report = $this->getReportByUniqueId($idSite, $reportUniqueId);
+
+        $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric, $segment);
+
+        if ($period == 'day') {
+            // if website is too young, than use website creation date
+            // for faster performance just compare against last week?
+            $pastDate = Date::factory($date);
+            $pastDate = $pastDate->subDay(7);
+            $lastReport = $this->requestReport($idSite, 'week', $pastDate->toString(), $report, $metric, $segment);
+            $lastReport->filter('Piwik\Plugins\Insights\DataTable\Filter\Average', array($metric, 7));
+        } else {
+            $pastDate = Range::getLastDate($date, $period);
+            $pastDate = $pastDate[0];
+            if (empty($pastDate)) {
+                return new DataTable();
+            }
+
+            $lastReport = $this->requestReport($idSite, $period, $pastDate, $report, $metric, $segment);
+        }
+
+        $totalValue = $this->getTotalValue($idSite, $period, $date, $metric);
+        $minVisits  = $this->getMinVisits($totalValue, $minVisitsPercent);
+
+        $lastDate = $pastDate;
+
+        return $this->buildInsightsReport($period, $date, $limitIncreaser, $limitDecreaser, $minGrowthPercent, $orderBy, $currentReport, $lastReport, $metric, $considerMovers, $considerNew, $considerDisappeared, $minVisits, $report, $lastDate, $totalValue);
+    }
+
     // force $limitX and ignore minVisitsPercent, minGrowthPercent
     public function getInsights(
         $idSite, $period, $date, $reportUniqueId, $limitIncreaser = 5, $limitDecreaser = 5,
-        $filterBy = '', $basedOnTotalMetric = false, $minVisitsPercent = 2, $minGrowthPercent = 20,
+        $filterBy = '', $minVisitsPercent = 2, $minGrowthPercent = 20,
         $comparedToXPeriods = 1, $orderBy = 'absolute', $segment = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
         $metric = 'nb_visits';
-
-        $processedReport = new ProcessedReport();
-        $report          = $processedReport->getReportMetadataByUniqueId($idSite, $reportUniqueId);
+        $report = $this->getReportByUniqueId($idSite, $reportUniqueId);
 
         $lastDate = Range::getDateXPeriodsAgo(abs($comparedToXPeriods), $date, $period);
 
         $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric, $segment);
         $lastReport    = $this->requestReport($idSite, $period, $lastDate[0], $report, $metric, $segment);
 
-        $totalValue = $this->getTotalValue($idSite, $period, $date, $basedOnTotalMetric, $currentReport, $metric);
+        $totalValue = $this->getRelevantTotalValue($idSite, $period, $date, $currentReport, $metric);
         $minVisits  = $this->getMinVisits($totalValue, $minVisitsPercent);
 
         $considerMovers = false;
@@ -93,6 +135,92 @@ class API extends \Piwik\Plugin\API
                 $considerDisappeared = true;
         }
 
+        return $this->buildInsightsReport($period, $date, $limitIncreaser, $limitDecreaser, $minGrowthPercent, $orderBy, $currentReport, $lastReport, $metric, $considerMovers, $considerNew, $considerDisappeared, $minVisits, $report, $lastDate[0], $totalValue);
+    }
+
+    private function requestReport($idSite, $period, $date, $report, $metric, $segment)
+    {
+        $params = array(
+            'method' => $report['module'] . '.' . $report['action'],
+            'format' => 'original',
+            'idSite' => $idSite,
+            'period' => $period,
+            'date'   => $date,
+            'flat'   => 1,
+            'filter_limit' => 10000,
+            'showColumns'  => $metric
+        );
+
+        if (!empty($segment)) {
+            $params['segment'] = $segment;
+        }
+
+        if (!empty($report['parameters']) && is_array($report['parameters'])) {
+            $params = array_merge($params, $report['parameters']);
+        }
+
+        $request = new ApiRequest($params);
+        $table   = $request->process();
+
+        return $table;
+    }
+
+    private function getOrderByColumn($orderBy)
+    {
+        if (self::ORDER_BY_RELATIVE == $orderBy) {
+            $orderByColumn = 'growth_percent_numeric';
+        } elseif (self::ORDER_BY_ABSOLUTE == $orderBy) {
+            $orderByColumn = 'difference';
+        } elseif (self::ORDER_BY_IMPORTANCE == $orderBy) {
+            $orderByColumn = 'importance';
+        } else {
+            throw new \Exception('Unsupported orderBy');
+        }
+
+        return $orderByColumn;
+    }
+
+    private function getMinVisits($totalValue, $minVisitsPercent)
+    {
+        $minVisits = ceil(($totalValue / 100) * $minVisitsPercent);
+
+        return (int) $minVisits;
+    }
+
+    private function getRelevantTotalValue($idSite, $period, $date, DataTable $currentReport, $metric)
+    {
+        $totalMetric = $this->getMetricTotalValue($currentReport, $metric);
+        $totalValue  = $this->getTotalValue($idSite, $period, $date, $metric);
+
+        if (($totalMetric * 2) < $totalValue) {
+            return $totalMetric;
+        }
+
+        return $totalValue;
+    }
+
+    private function getTotalValue($idSite, $period, $date, $metric)
+    {
+        $visits = VisitsSummaryAPI::getInstance()->get($idSite, $period, $date, false, array($metric));
+        $totalValue = $visits->getFirstRow()->getColumn($metric);
+        return $totalValue;
+    }
+
+    private function getMetricTotalValue(DataTable $currentReport, $metric)
+    {
+        $totals = $currentReport->getMetadata('totals');
+
+        if (!empty($totals[$metric])) {
+            $totalValue = (int) $totals[$metric];
+        } else {
+            $totalValue = 0;
+        }
+
+        return $totalValue;
+    }
+
+    private function buildInsightsReport($period, $date, $limitIncreaser, $limitDecreaser, $minGrowthPercent, $orderBy, $currentReport, $lastReport, $metric, $considerMovers, $considerNew, $considerDisappeared, $minVisits, $report, $lastDate, $totalValue)
+    {
         $dataTable = new DataTable();
         $dataTable->filter(
             'Piwik\Plugins\Insights\DataTable\Filter\Insight',
@@ -141,83 +269,21 @@ class API extends \Piwik\Plugin\API
         $dataTable->setMetadataValues(array(
             'reportName' => $report['name'],
             'metricName' => $report['metrics'][$metric],
-            'date'       => $date,
-            'lastDate'   => $lastDate[0],
-            'period'     => $period,
-            'report'     => $report,
+            'date' => $date,
+            'lastDate' => $lastDate,
+            'period' => $period,
+            'report' => $report,
             'totalValue' => $totalValue,
-            'minVisits'  => $minVisits
+            'minVisits' => $minVisits
         ));
 
         return $dataTable;
     }
 
-    private function requestReport($idSite, $period, $date, $report, $metric, $segment)
+    private function getReportByUniqueId($idSite, $reportUniqueId)
     {
-        $params = array(
-            'method' => $report['module'] . '.' . $report['action'],
-            'format' => 'original',
-            'idSite' => $idSite,
-            'period' => $period,
-            'date'   => $date,
-            'flat'   => 1,
-            'filter_limit' => 10000,
-            'showColumns'  => $metric
-        );
-
-        if (!empty($segment)) {
-            $params['segment'] = $segment;
-        }
-
-        if (!empty($report['parameters']) && is_array($report['parameters'])) {
-            $params = array_merge($params, $report['parameters']);
-        }
-
-        $request = new ApiRequest($params);
-        $table   = $request->process();
-
-        return $table;
-    }
-
-    private function getMinVisits($totalValue, $minVisitsPercent)
-    {
-        $minVisits = ceil(($totalValue / 100) * $minVisitsPercent);
-
-        return (int) $minVisits;
-    }
-
-    private function getTotalValue($idSite, $period, $date, $basedOnTotalMetric, DataTable $currentReport, $metric)
-    {
-        if ($basedOnTotalMetric) {
-            $totals = $currentReport->getMetadata('totals');
-
-            if (!empty($totals[$metric])) {
-                $totalValue = $totals[$metric];
-            } else {
-                $totalValue = 0;
-            }
-
-            return (int) $totalValue;
-        }
-
-        $visits     = VisitsSummaryAPI::getInstance()->get($idSite, $period, $date, false, array($metric));
-        $totalValue = $visits->getFirstRow()->getColumn($metric);
-
-        return $totalValue;
-    }
-
-    private function getOrderByColumn($orderBy)
-    {
-        if (self::ORDER_BY_RELATIVE == $orderBy) {
-            $orderByColumn = 'growth_percent_numeric';
-        } elseif (self::ORDER_BY_ABSOLUTE == $orderBy) {
-            $orderByColumn = 'difference';
-        } elseif (self::ORDER_BY_IMPORTANCE == $orderBy) {
-            $orderByColumn = 'importance';
-        } else {
-            throw new \Exception('Unsupported orderBy');
-        }
-
-        return $orderByColumn;
+        $processedReport = new ProcessedReport();
+        $report = $processedReport->getReportMetadataByUniqueId($idSite, $reportUniqueId);
+        return $report;
     }
 }

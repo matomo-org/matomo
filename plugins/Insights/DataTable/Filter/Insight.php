@@ -85,7 +85,7 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         $columns = $row->getColumns();
         $columns['growth_percent'] = $growthPercentage;
         $columns['growth_percent_numeric'] = str_replace('%', '', $growthPercentage);
-        $columns['grown']      = $newValue >= $oldValue;
+        $columns['grown']      = '-' != substr($growthPercentage, 0 , 1);
         $columns['value_old']  = $oldValue;
         $columns['value_new']  = $newValue;
         $columns['difference'] = $difference;

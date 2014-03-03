@@ -31,7 +31,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->showInsightsControls = false;
         $view->properties = array(
             'show_increase' => true,
-            'show_decrease' => true
+            'show_decrease' => true,
+            'order_by' => 'absolute'
         );
 
         return $view->render();

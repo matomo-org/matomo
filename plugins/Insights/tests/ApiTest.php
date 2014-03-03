@@ -89,14 +89,6 @@ class ApiTest extends \IntegrationTestCase
         $this->assertEquals('2010-11-14', $metadata['lastDate']);
     }
 
-    public function test_getInsights_ShouldBeAbleToUseTheTotalMetricValueInsteadOfTotalVisits()
-    {
-        $insights = $this->requestInsights(array('basedOnTotalMetric' => 1));
-        $metadata = $insights->getAllTableMetadata();
-
-        $this->assertEquals(50, $metadata['totalValue']);
-    }
-
     public function test_getInsights_ShouldReturnAllRowsIfMinValuesArelow()
     {
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 1));
