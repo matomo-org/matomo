@@ -637,21 +637,9 @@ class Manager extends Singleton
      *
      * @return string[]
      */
-    public function getActivatedAndLoadedPlugins()
+    public function getActivatedPlugins()
     {
-        $activatedPlugins = $this->pluginsToLoad;
-
-        $plugins = array();
-        foreach ($activatedPlugins as $activatedPlugin) {
-
-            if ($activatedPlugin
-                && $this->isPluginLoaded($activatedPlugin)) {
-
-                $plugins[] = $activatedPlugin;
-            }
-        }
-
-        return $plugins;
+        return $this->pluginsToLoad;
     }
 
     /**
