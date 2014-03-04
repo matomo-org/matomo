@@ -70,8 +70,11 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 var expectedUrlGithub = 'https://raw.github.com/piwik/piwik-ui-tests/master/expected-ui-screenshots/'
                                       + entry.name + '.png';
 
-                var expectedHtml = '<a href="' + expectedUrl + '">Expected</a>&nbsp;<a href="' + expectedUrlGithub
-                                 + '">[Github]</a>';
+                var expectedHtml = '';
+                if (!options['use-github-expected']) {
+                    expectedHtml += '<a href="' + expectedUrl + '">Expected</a>&nbsp;';
+                }
+                expectedHtml += '<a href="' + expectedUrlGithub + '">[Github]</a>';
             } else {
                 var expectedHtml = '<em>Not found</em>';
             }
