@@ -65,10 +65,7 @@ Application.prototype.init = function () {
     var oldDescribe = describe;
     describe = function () {
         var suite = oldDescribe.apply(null, arguments);
-        suite.baseDirectory = !options['store-in-ui-tests-repo'] && app.currentModulePath.match(/\/plugins\//)
-                            ? path.dirname(app.currentModulePath)
-                            : uiTestsDir
-                            ;
+        suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
         return suite;
     };
 };
