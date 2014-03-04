@@ -39,10 +39,10 @@ class ApiTest extends \IntegrationTestCase
     }
 
     /**
-    '/category/Mover1' => 2,    +8  // 400%
-    '/category/Old1' => 9,      -9  // -100%
+    '//Mover1' => 2,    +8  // 400%
+    '//Old1' => 9,      -9  // -100%
     '/Mover2' => 24,            -11 // -50%
-    '/category/Mover3' => 21,   -1  // -5%
+    '//Mover3' => 21,   -1  // -5%
     '/Old2' => 3                -3  // -100%
     New1,                       +5  // 100%
     New2                        +2  // 100%
@@ -94,13 +94,13 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 1));
 
         $expectedLabels = array(
-            'category/Mover1',
-            'category/New1',
-            'New2',
-            'Mover2',
-            'category/Old1',
-            'Old2',
-            'category/Mover3'
+            '/Mover1',
+            '/New1',
+            '/New2',
+            '/Mover2',
+            '/Old1',
+            '/Old2',
+            '/Mover3'
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -124,13 +124,13 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0));
 
         $expectedLabels = array(
-            'category/Mover1',
-            'category/New1',
-            'New2',
-            'Mover2',
-            'category/Old1',
-            'Old2',
-            'category/Mover3'
+            '/Mover1',
+            '/New1',
+            '/New2',
+            '/Mover2',
+            '/Old1',
+            '/Old2',
+            '/Mover3'
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -140,13 +140,13 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'relative'));
 
         $expectedLabels = array(
-            'category/Mover1',
-            'category/New1',
-            'New2',
-            'category/Old1',
-            'Old2',
-            'Mover2',
-            'category/Mover3'
+            '/Mover1',
+            '/New1',
+            '/New2',
+            '/Old1',
+            '/Old2',
+            '/Mover2',
+            '/Mover3'
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -156,13 +156,13 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'importance'));
 
         $expectedLabels = array(
-            'Mover2',
-            'category/Old1',
-            'category/Mover1',
-            'category/New1',
-            'Old2',
-            'New2',
-            'category/Mover3'
+            '/Mover2',
+            '/Old1',
+            '/Mover1',
+            '/New1',
+            '/Old2',
+            '/New2',
+            '/Mover3'
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -172,8 +172,8 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('limitIncreaser' => 1, 'limitDecreaser' => 1));
 
         $expectedLabels = array(
-            'category/Mover1',
-            'Mover2'
+            '/Mover1',
+            '/Mover2'
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -183,9 +183,9 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'movers'));
 
         $expectedLabels = array(
-            'category/Mover1',
-            'Mover2',
-            'category/Mover3'
+            '/Mover1',
+            '/Mover2',
+            '/Mover3'
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -195,8 +195,8 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'new'));
 
         $expectedLabels = array(
-            'category/New1',
-            'New2'
+            '/New1',
+            '/New2'
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -206,8 +206,8 @@ class ApiTest extends \IntegrationTestCase
         $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'disappeared'));
 
         $expectedLabels = array(
-            'category/Old1',
-            'Old2'
+            '/Old1',
+            '/Old2'
         );
         $this->assertRows($expectedLabels, $insights);
     }

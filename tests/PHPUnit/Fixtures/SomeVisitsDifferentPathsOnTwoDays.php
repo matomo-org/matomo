@@ -38,18 +38,18 @@ class Test_Piwik_Fixture_SomeVisitsDifferentPathsOnTwoDays extends Test_Piwik_Ba
     private function trackVisits()
     {
         $this->trackPageViews($this->date2, array(
-            '/category/Mover1' => 2,
-            '/category/Old1' => 9,
+            '/Mover1' => 2,
+            '/Old1' => 9,
             '/Mover2' => 24,
-            '/category/Mover3' => 21,
+            '/Mover3' => 21,
             '/Old2' => 3
         ));
 
         $this->trackPageViews($this->date1, array(
-            '/category/Mover1' => 10,
-            '/category/New1' => 5,
+            '/Mover1' => 10,
+            '/New1' => 5,
             '/Mover2' => 13,
-            '/category/Mover3' => 20,
+            '/Mover3' => 20,
             '/New2' => 2
         ));
     }
