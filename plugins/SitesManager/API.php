@@ -340,6 +340,10 @@ class API extends \Piwik\Plugin\API
                 || TaskScheduler::isTaskBeingExecuted())
         ) {
 
+            if (Piwik::hasTheUserSuperUserAccess($_restrictSitesToLogin)) {
+                return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+            }
+
             $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
             foreach ($accessRaw as $access) {

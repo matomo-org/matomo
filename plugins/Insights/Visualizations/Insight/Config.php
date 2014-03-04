@@ -13,6 +13,5 @@ use Piwik\ViewDataTable\Config as VisualizationConfig;
 
 class Config extends VisualizationConfig
 {
-    public $show_based_on_total_metric = true;
     public $show_filter_by = true;
 }

@@ -63,7 +63,7 @@ angular.module('piwikApp').factory('siteSelectorModel', function (piwikApi, $fil
         this.searchSite('%').then(function (websites) {
             initialSites = websites;
         });
-    }
+    };
 
     return model;
 });

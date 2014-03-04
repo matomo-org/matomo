@@ -58,10 +58,18 @@ class OrderBy extends BaseFilter
             return $valA < $valB ? 1 : -1;
         }
 
-        return strnatcasecmp(
-            $a->getColumn('nb_visits'),
-            $b->getColumn('nb_visits')
-        );
+        $aVisits = $a->getColumn('nb_visits');
+        $bVisits = $b->getColumn('nb_visits');
+
+        if ($aVisits == $bVisits) {
+            return 0;
+        }
+
+        if ($aVisits > $bVisits) {
+            return -1;
+        }
+
+        return 1;
     }
 
 }

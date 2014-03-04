@@ -258,7 +258,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 // delay widget preview a few millisconds
-                $('li:not(.' + settings.unavailableClass + ')', widgetList).on('mouseenter', function () {
+                $('li', widgetList).on('mouseenter', function () {
                     var that = this,
                         widgetUniqueId = $(this).attr('uniqueid');
                     clearTimeout(widgetPreview);

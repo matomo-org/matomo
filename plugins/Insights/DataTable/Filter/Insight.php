@@ -15,17 +15,13 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
     private $considerMovers;
     private $considerNew;
     private $considerDisappeared;
-    private $filterBy;
-    private $totalValue;
     private $currentDataTable;
 
-    public function __construct($table, $currentDataTable, $pastDataTable, $columnToRead, $totalValue, $filterBy,
+    public function __construct($table, $currentDataTable, $pastDataTable, $columnToRead,
                                 $considerMovers, $considerNew, $considerDisappeared)
     {
         parent::__construct($table, $pastDataTable, 'growth', $columnToRead, $quotientPrecision = 1);
 
-        $this->totalValue = $totalValue;
-        $this->filterBy   = $filterBy;
         $this->currentDataTable = $currentDataTable;
         $this->considerMovers = $considerMovers;
         $this->considerNew = $considerNew;
@@ -64,7 +60,7 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         if ($this->considerDisappeared) {
             foreach ($this->pastDataTable->getRows() as $key => $row) {
 
-                if (!$this->getRowFromTable($this->currentDataTable, $row)) {
+                if ($this->getRowFromTable($this->currentDataTable, $row)) {
                     continue;
                 }
 
@@ -72,7 +68,11 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
                 $oldValue   = $row->getColumn($this->columnValueToRead);
                 $difference = $newValue - $oldValue;
 
-                $growthPercentage = '-100%';
+                if ($oldValue == 0 && $newValue == 0) {
+                    $growthPercentage = '0%';
+                } else {
+                    $growthPercentage = '-100%';
+                }
 
                 $this->addRow($table, $row, $growthPercentage, $newValue, $oldValue, $difference);
             }
@@ -89,16 +89,12 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         $columns = $row->getColumns();
         $columns['growth_percent'] = $growthPercentage;
         $columns['growth_percent_numeric'] = str_replace('%', '', $growthPercentage);
-        $columns['grown']      = $newValue >= $oldValue;
+        $columns['grown']      = '-' != substr($growthPercentage, 0 , 1);
         $columns['value_old']  = $oldValue;
         $columns['value_new']  = $newValue;
         $columns['difference'] = $difference;
-
-        if ($this->totalValue) {
-            $columns['importance'] = (abs($difference) / $this->totalValue) * 100; // magic formula here
-        }
+        $columns['importance'] = abs($difference);
 
         $table->addRowFromArray(array(DataTable\Row::COLUMNS => $columns));
-        return $columns;
     }
 }

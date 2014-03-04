@@ -10,20 +10,19 @@ namespace Piwik\Plugins\Insights\DataTable\Filter;
 
 use Piwik\DataTable;
 
-class RemoveIrrelevant extends DataTable\BaseFilter
+class Average extends DataTable\BaseFilter
 {
-    private $minRequiredValue;
-    private $columnToRead;
+    private $divisor;
 
-    public function __construct($table, $columnToRead, $minRequiredValue)
+    public function __construct($table, $columnToRead, $divisor)
     {
         $this->columnToRead = $columnToRead;
-        $this->minRequiredValue = $minRequiredValue;
+        $this->divisor = $divisor;
     }
 
     public function filter($table)
     {
-        if (!$this->minRequiredValue) {
+        if (!$this->divisor) {
             return;
         }
 
@@ -31,9 +30,7 @@ class RemoveIrrelevant extends DataTable\BaseFilter
 
             $value = $row->getColumn($this->columnToRead);
 
-            if ($this->minRequiredValue > $value) {
-                $table->deleteRow($key);
-            }
+            $row->setColumn($this->columnToRead, round($value / $this->divisor));
         }
     }
 }

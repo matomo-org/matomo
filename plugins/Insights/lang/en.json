@@ -1,6 +1,7 @@
 {
     "Insights": {
-        "OverviewWidgetTitle": "Overview of movers and shakers",
-        "Category": "Insights"
+        "OverviewWidgetTitle": "Insights Overview",
+        "Category": "Insights",
+        "NoResultMatchesCriteria": "No rows match the criteria"
     }
 }

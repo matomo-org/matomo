@@ -21,15 +21,12 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
 
     public function setUp()
     {
-        $this->tmpHost = $_SERVER['HTTP_HOST'];
-        $_SERVER['HTTP_HOST'] = 'localhost';
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
     public function tearDown()
     {
-        $_SERVER['HTTP_HOST'] = $this->tmpHost;
     }
 
     private function setUpWebsitesAndGoals()

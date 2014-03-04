@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Site;
+use Piwik\TaskScheduler;
 use Piwik\Url;
 
 class ImageGraph extends \Piwik\Plugin
@@ -133,6 +134,10 @@ class ImageGraph extends \Piwik\Plugin
             $idSubtable = Common::getRequestVar('idSubtable', false);
             if ($idSubtable !== false) {
                 $parameters['idSubtable'] = $idSubtable;
+            }
+
+            if (!empty($_GET['_restrictSitesToLogin']) && TaskScheduler::isTaskBeingExecuted()) {
+                $parameters['_restrictSitesToLogin'] = $_GET['_restrictSitesToLogin'];
             }
 
             $report['imageGraphUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);

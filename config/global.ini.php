@@ -569,6 +569,7 @@ Plugins[] = Annotations
 Plugins[] = MobileMessaging
 Plugins[] = Overlay
 Plugins[] = SegmentEditor
+Plugins[] = Insights
 
 Plugins[] = Morpheus
 

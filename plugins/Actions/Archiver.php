@@ -511,12 +511,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $dataTable->deleteColumns($columnsToDelete);
     }
 
-    // archiveDayReportFromLogs
-    // archiveMultipleReportsSum
-
-    // aggregateDayReportFromLogs
-    // aggregateMultipleReports
-
     public function aggregateMultipleReports()
     {
         ArchivingHelper::reloadConfig();

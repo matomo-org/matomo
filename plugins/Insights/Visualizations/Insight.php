@@ -33,17 +33,33 @@ class Insight extends Visualization
         $report = $this->requestConfig->apiMethodToRequestDataTable;
         $report = str_replace('.', '_', $report);
 
-        $this->requestConfig->apiMethodToRequestDataTable = 'Insights.getMoversAndShakers';
+        if (!$this->requestConfig->filter_limit) {
+            $this->requestConfig->filter_limit = 25;
+        }
+
+        $limit = $this->requestConfig->filter_limit;
+        $limitDecrease = 0;
+        $limitIncrease = 0;
+
+        if ($this->requestConfig->limit_increaser && !$this->requestConfig->limit_decreaser) {
+            $limitIncrease = $limit;
+        } elseif (!$this->requestConfig->limit_increaser && $this->requestConfig->limit_decreaser) {
+            $limitDecrease = $limit;
+        } elseif ($this->requestConfig->limit_increaser && $this->requestConfig->limit_decreaser) {
+            $limitIncrease = round($limit / 2);
+            $limitDecrease = $limit - $limitIncrease;
+        }
+
+        $this->requestConfig->apiMethodToRequestDataTable = 'Insights.getInsights';
         $this->requestConfig->request_parameters_to_modify = array(
             'reportUniqueId' => $report,
             'minVisitsPercent' => $this->requestConfig->min_visits_percent,
             'minGrowthPercent' => $this->requestConfig->min_growth_percent,
-            'basedOnTotalMetric' => $this->requestConfig->based_on_total_metric,
             'comparedToXPeriods' => $this->requestConfig->compared_to_x_periods_ago,
             'orderBy' => $this->requestConfig->order_by,
             'filterBy' => $this->requestConfig->filter_by,
-            'limitIncreaser' => $this->requestConfig->limit_increaser,
-            'limitDecreaser' => $this->requestConfig->limit_decreaser,
+            'limitIncreaser' => $limitIncrease,
+            'limitDecreaser' => $limitDecrease,
         );
     }
 
@@ -72,7 +88,7 @@ class Insight extends Visualization
     public function beforeRender()
     {
         $this->config->datatable_js_type  = 'InsightsDataTable';
-        $this->config->show_limit_control = false;
+        $this->config->show_limit_control = true;
         $this->config->show_pagination_control = false;
         $this->config->show_offset_information = false;
         $this->config->show_search = false;
