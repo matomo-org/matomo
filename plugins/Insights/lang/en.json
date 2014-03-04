@@ -1,6 +1,7 @@
 {
     "Insights": {
         "OverviewWidgetTitle": "Insights Overview",
-        "Category": "Insights"
+        "Category": "Insights",
+        "NoResultMatchesCriteria": "No rows match the criteria"
     }
 }

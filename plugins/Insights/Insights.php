@@ -22,6 +22,7 @@ class Insights extends \Piwik\Plugin
         return array(
             'WidgetsList.addWidgets' => 'addWidgets',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'ViewDataTable.addViewDataTable' => 'getAvailableVisualizations'
         );
     }
@@ -34,6 +35,11 @@ class Insights extends \Piwik\Plugin
     public function addWidgets()
     {
         WidgetsList::add('Insights_Category', 'Insights_OverviewWidgetTitle', 'Insights', 'getInsightOverview');
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/Insights/stylesheets/insightVisualization.less";
     }
 
     public function getJsFiles(&$jsFiles)

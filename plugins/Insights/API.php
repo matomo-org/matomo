@@ -39,10 +39,13 @@ class API extends \Piwik\Plugin\API
         $reports = array(
             'Actions_getPageUrls',
             'Actions_getPageTitles',
+            'Actions_getDownloads',
+            'Referrers_getAll',
             'Referrers_getKeywords',
             'Referrers_getCampaigns',
-            'Referrers_getAll',
-            'Referrers_getSearchEngines'
+            'Referrers_getSocials',
+            'Referrers_getSearchEngines',
+            'UserCountry_getCountry',
         );
         // post event to add other reports?
 
@@ -75,7 +78,7 @@ class API extends \Piwik\Plugin\API
     }
 
     public function getInsightOverview($idSite, $period, $date, $reportUniqueId, $segment = false, $limitIncreaser = 4,
-                                       $limitDecreaser = 4, $minVisitsPercent = 2, $minGrowthPercent = 20, $orderBy = 'absolute',
+                                       $limitDecreaser = 4, $minVisitsPercent = 3, $minGrowthPercent = 25, $orderBy = 'absolute',
                                        $considerMovers = true, $considerNew = true, $considerDisappeared = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
@@ -161,7 +164,6 @@ class API extends \Piwik\Plugin\API
             'idSite' => $idSite,
             'period' => $period,
             'date'   => $date,
-            'flat'   => 0,
             'filter_limit' => 1000,
             'showColumns'  => $metric
         );
