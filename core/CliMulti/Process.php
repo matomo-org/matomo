@@ -155,8 +155,9 @@ class Process
 
     private static function returnsSuccessCode($command)
     {
-        system($command . ' > /dev/null 2>&1', $returnCode);
-
+        $exec = $command . ' > /dev/null 2>&1 & echo $?';
+        $returnCode = shell_exec($exec);
+        $returnCode = trim($returnCode);
         return 0 == (int) $returnCode;
     }
 
