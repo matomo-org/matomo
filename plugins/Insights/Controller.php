@@ -13,7 +13,7 @@ use Piwik\Piwik;
 use Piwik\View;
 
 /**
- *
+ * Insights Controller
  */
 class Controller extends \Piwik\Plugin\Controller
 {

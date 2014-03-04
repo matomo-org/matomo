@@ -11,6 +11,7 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Plugins\Insights\API;
 use Piwik\API\Request as ApiRequest;
+use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
 
 /**
  * @group Insights
@@ -21,7 +22,7 @@ use Piwik\API\Request as ApiRequest;
 class ApiTest extends \IntegrationTestCase
 {
     /**
-     * @var \Test_Piwik_Fixture_SomeVisitsDifferentPathsOnTwoDays
+     * @var SomeVisitsDifferentPathsOnTwoDays
      */
     public static $fixture = null;
 
@@ -240,4 +241,4 @@ class ApiTest extends \IntegrationTestCase
     }
 }
 
-ApiTest::$fixture = new \Test_Piwik_Fixture_SomeVisitsDifferentPathsOnTwoDays();
+ApiTest::$fixture = new SomeVisitsDifferentPathsOnTwoDays();

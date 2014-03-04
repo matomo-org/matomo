@@ -40,6 +40,14 @@
             this.initOrderBy(domElem);
             this.initComparedToXPeriodsAgo(domElem);
             this.initFilterBy(domElem);
+            this.setFixWidthToMakeEllipsisWork(domElem);
+        },
+
+        setFixWidthToMakeEllipsisWork: function (domElem) {
+            var width = domElem.width();
+            if (width) {
+                $('td.label', domElem).width(parseInt(width * 0.60, 10));
+            }
         },
 
         _changeParameter: function (params) {

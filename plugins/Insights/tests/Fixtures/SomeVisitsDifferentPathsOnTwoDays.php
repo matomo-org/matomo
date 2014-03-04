@@ -5,13 +5,15 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Date;
 
+namespace Piwik\Plugins\Insights\tests\Fixtures;
+
+use Piwik\Date;
 /**
  * Adds one website and tracks several visits from one visitor on
  * different days that span about a month apart.
  */
-class Test_Piwik_Fixture_SomeVisitsDifferentPathsOnTwoDays extends Test_Piwik_BaseFixture
+class SomeVisitsDifferentPathsOnTwoDays extends \Test_Piwik_BaseFixture
 {
     public $idSite = 1;
     public $date1  = '2010-12-14';
