@@ -36,7 +36,6 @@ fs.relpath = function (p, start) {
 
     rel_list.push.apply(rel_list, path_list.slice(l));
 
-
     if (rel_list.length == 0) {
         return '.';
     }

@@ -80,9 +80,15 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 entry.processedUrl = self.getUrlForPath(entry.processed);
             }
 
+            var entryLocationHint = '',
+                m = entry.expected.match(/\/plugins\/([^\/]*)\//);
+            if (m) {
+                entryLocationHint = ' <em>(for ' + m[1] + ' plugin)</em>';
+            }
+
             diffViewerContent += '\
     <tr>\
-        <td>' + entry.name + '</td>\
+        <td>' + entry.name + entryLocationHint + '</td>\
         <td>' + expectedHtml + '</td>\
         <td>' + (entry.processed ? ('<a href="' + entry.processedUrl + '">Processed</a>') : '<em>Not found</em>') + '</td>\
         <td>' + (entry.diffUrl ? ('<a href="' + entry.diffUrl + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
