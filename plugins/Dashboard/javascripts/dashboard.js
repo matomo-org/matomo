@@ -220,7 +220,7 @@ function copyDashboardToUser() {
 
     $.extend(DashboardSettingsControlBase.prototype, UIControl.prototype, {
         _destroy: function () {
-            UIControl.prototype.call(this);
+            UIControl.prototype._destroy.call(this);
 
             $('body')[0].removeEventListener('mouseup', this.onBodyMouseUp);
         }

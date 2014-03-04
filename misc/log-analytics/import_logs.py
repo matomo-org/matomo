@@ -63,6 +63,7 @@ DOWNLOAD_EXTENSIONS = (
     'jar mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
     'ods odt ogg ogv pdf phps ppt qt qtm ra ram rar rpm sea sit tar tbz '
     'bz2 tbz tgz torrent txt wav wma wmv wpd xls xml xsd z zip'
+    'azw3 epub mobi'
 ).split()
 
 
