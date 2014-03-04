@@ -687,7 +687,7 @@ class Fixture extends PHPUnit_Framework_Assert
         if ($this->dbName == $originalDbName
             && $this->dbName != 'piwik_tests'
         ) { // santity check
-            throw new \Exception("Trying to drop original database $originalDbName. Something's wrong w/ the tests.");
+            throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }
 
         DbHelper::dropDatabase();
