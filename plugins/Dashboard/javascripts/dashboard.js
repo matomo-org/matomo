@@ -239,30 +239,37 @@ function copyDashboardToUser() {
         DashboardSettingsControlBase.call(this, element);
 
         $(this).on('resetDashboard', function () {
+            this.hide();
             resetDashboard();
         });
 
         $(this).on('showChangeDashboardLayoutDialog', function () {
+            this.hide();
             showChangeDashboardLayoutDialog();
         });
 
         $(this).on('renameDashboard', function () {
+            this.hide();
             renameDashboard();
         });
 
         $(this).on('removeDashboard', function () {
+            this.hide();
             removeDashboard();
         });
 
         $(this).on('setAsDefaultWidgets', function () {
+            this.hide();
             setAsDefaultWidgets();
         });
 
         $(this).on('copyDashboardToUser', function () {
+            this.hide();
             copyDashboardToUser();
         });
 
         $(this).on('createDashboard', function () {
+            this.hide();
             createDashboard();
         });
     };
@@ -274,6 +281,10 @@ function copyDashboardToUser() {
             } else {
                 $('.removeDashboardLink', this.$element).show();
             }
+        },
+
+        hide: function () {
+            this.$element.removeClass('visible');
         },
 
         isWidgetAvailable: function (widgetUniqueId) {
