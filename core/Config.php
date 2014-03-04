@@ -40,8 +40,6 @@ use Exception;
  */
 class Config extends Singleton
 {
-    const RELATIVE_CONFIG_OVERRIDE_PATH = 'tmp/test.config.ini';
-
     public static $defaultLocalConfigPath = '/config/config.ini.php';
     public static $defaultCommonConfigPath = '/config/common.config.ini.php';
     public static $defaultGlobalConfigPath = '/config/global.ini.php';
