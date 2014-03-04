@@ -35,6 +35,8 @@ To fix a broken build, follow these steps:
        Then "Save this file as" and save it in the piwik/tests/PHPUnit/UI/expected-ui-screenshots/ directory.
        (If the screenshot test is for a plugin and not Piwik Core, the expected screenshot should be added to the
        plugin's expected screenshot directory. For example: piwik/plugins/DBStats/tests/UI/expected-ui-screenshots.)
+
+     _Note: When determining whether a screenshot is correct, the data displayed is not important. Report data correctness is verified through Integration and other PHP tests. The UI tests should only test UI behavior._
  * Push the changes (to your code and/or to the expected-ui-screenshots directory.
  * Wait for next UI Tests build [on travis](https://travis-ci.org/piwik/piwik-ui-tests). Hopefully, the build should be green!
 
@@ -88,13 +90,13 @@ The following options may be useful if you plan on running the UI tests locally 
 
 ## Writing Tests
 
-UI screenshot tests are run directly by phantomjs and are written using [mocha]() and [chai]().
+UI screenshot tests are run directly by phantomjs and are written using [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com).
 
-To create a new test, first decide whether it will belong to Piwik Core or a plugin. If it will belong to Piwik Core, the test should be placed within the [piwik-ui-tests]() repository. Otherwise, it should be placed within tests/UI sub-directory of your plugin.
+To create a new test, first decide whether it will belong to Piwik Core or a plugin. If it will belong to Piwik Core, the test should be placed within the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository. Otherwise, it should be placed within tests/UI sub-directory of your plugin.
 
 All test files should have \_spec.js file name suffixes (for example, **ActionsDataTable\_spec.js**).
 
-Tests should be written using [BDD]() style, for example:
+Tests should be written using [BDD](http://en.wikipedia.org/wiki/Behavior-driven_development) style, for example:
 
     describe("TheControlImTesting", function () {
         // ...

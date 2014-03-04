@@ -123,7 +123,11 @@ DiffViewerGenerator.prototype.generateDiffs = function (callback, i) {
     if (i >= this.failures.length
         || !this.isCompareAvailable
     ) {
-        callback();
+        try {
+            callback();
+        } catch (ex) {
+            console.error("Failed to generate diffviewer: " + ex.stack);
+        }
         return;
     }
 
