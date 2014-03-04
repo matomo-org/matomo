@@ -84,7 +84,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
             }
 
             var entryLocationHint = '',
-                m = entry.expected.match(/\/plugins\/([^\/]*)\//);
+                m = entry.expected ? entry.expected.match(/\/plugins\/([^\/]*)\//) : null;
             if (m) {
                 entryLocationHint = ' <em>(for ' + m[1] + ' plugin)</em>';
             }
@@ -126,7 +126,8 @@ DiffViewerGenerator.prototype.generateDiffs = function (callback, i) {
         try {
             callback();
         } catch (ex) {
-            console.error("Failed to generate diffviewer: " + ex.stack);
+            console.error("Fatal error: failed to generate diffviewer: " + ex.stack);
+            phantom.exit(-1);
         }
         return;
     }
