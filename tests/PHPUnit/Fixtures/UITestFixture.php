@@ -19,6 +19,7 @@ use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Url;
 use Piwik\WidgetsList;
+use \Exception
 
 /**
  * Fixture for UI tests.
@@ -192,6 +193,8 @@ class UITestFixture extends OmniFixture
             return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
         });
 
+        $widgetsPerDashboard = ceil(count($allWidgets) / $dashboardCount);
+
         // group widgets so they will be spread out across 3 dashboards
         $groupedWidgets = array();
         $dashboard = 0;
@@ -204,8 +207,6 @@ class UITestFixture extends OmniFixture
             ) {
                 continue;
             }
-            
-            $dashboard = ($dashboard + 1) % $dashboardCount;
 
             $widgetEntry = array(
                 'uniqueId' => $widget['uniqueId'],
@@ -216,6 +217,15 @@ class UITestFixture extends OmniFixture
             $widgetEntry['parameters']['filter_limit'] = 5;
 
             $groupedWidgets[$dashboard][] = $widgetEntry;
+
+            if (count($groupedWidgets[$dashboard]) >= $widgetsPerDashboard) {
+                $dashboard = $dashboard + 1;
+            }
+
+            // sanity check
+            if ($dashboard >= $dashboardCount) {
+                throw new Exception("Unexpected error: Incorrect dashboard widget placement logic. Something's wrong w/ the code.");
+            }
         }
         
         // distribute widgets in each dashboard
