@@ -31,39 +31,31 @@ class API extends \Piwik\Plugin\API
     const ORDER_BY_ABSOLUTE = 'absolute';
     const ORDER_BY_IMPORTANCE = 'importance';
 
-    public function getInsightsOverview($idSite, $period, $date)
+    private $reportIds = array(
+        'Actions_getPageUrls',
+        'Actions_getPageTitles',
+        'Actions_getDownloads',
+        'Referrers_getAll',
+        'Referrers_getKeywords',
+        'Referrers_getCampaigns',
+        'Referrers_getSocials',
+        'Referrers_getSearchEngines',
+        'UserCountry_getCountry',
+    );
+
+    public function getInsightsOverview($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
+        $reportTableIds = array();
+
         /** @var DataTable[] $tables */
-        $reports = array(
-            'Actions_getPageUrls',
-            'Actions_getPageTitles',
-            'Actions_getDownloads',
-            'Referrers_getAll',
-            'Referrers_getKeywords',
-            'Referrers_getCampaigns',
-            'Referrers_getSocials',
-            'Referrers_getSearchEngines',
-            'UserCountry_getCountry',
-        );
-        // post event to add other reports?
-
-        $reportTableIds   = array();
-        $dataTableManager = DataTable\Manager::getInstance();
-
         $tables = array();
-        foreach ($reports as $report) {
-            $firstTableId     = $dataTableManager->getMostRecentTableId();
-            $table            = $this->getInsightOverview($idSite, $period, $date, $report);
+        foreach ($this->reportIds as $reportId) {
+            $firstTableId     = DataTable\Manager::getInstance()->getMostRecentTableId();
+            $table            = $this->getInsights($idSite, $period, $date, $reportId, $segment, 3, 3, '', 2, 25);
             $reportTableIds[] = $table->getId();
-            $lastTableId      = $dataTableManager->getMostRecentTableId();
-
-            for ($index = $firstTableId; $index <= $lastTableId; $index++) {
-                if (!in_array($index, $reportTableIds)) {
-                    $dataTableManager->deleteTable($index);
-                }
-            }
+            $this->deleteDataTables($firstTableId, $reportTableIds);
 
             $tables[] = $table;
         }
@@ -77,18 +69,47 @@ class API extends \Piwik\Plugin\API
         return $map;
     }
 
-    public function getInsightOverview($idSite, $period, $date, $reportUniqueId, $segment = false, $limitIncreaser = 4,
-                                       $limitDecreaser = 4, $minVisitsPercent = 3, $minGrowthPercent = 25, $orderBy = 'absolute',
-                                       $considerMovers = true, $considerNew = true, $considerDisappeared = false)
+    public function getOverallMoversAndShakers($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
+        $reportTableIds = array();
+
+        /** @var DataTable[] $tables */
+        $tables = array();
+        foreach ($this->reportIds as $reportId) {
+            $firstTableId     = DataTable\Manager::getInstance()->getMostRecentTableId();
+            $table            = $this->getMoversAndShakers($idSite, $period, $date, $reportId, $segment, 4, 4);
+            $reportTableIds[] = $table->getId();
+            $this->deleteDataTables($firstTableId, $reportTableIds);
+
+            $tables[] = $table;
+        }
+
+        $map = new DataTable\Map();
+
+        foreach ($tables as $table) {
+            $map->addTable($table, $table->getMetadata('reportName'));
+        }
+
+        return $map;
+    }
+
+    public function getMoversAndShakers($idSite, $period, $date, $reportUniqueId, $segment = false,
+                                        $limitIncreaser = 4, $limitDecreaser = 4)
+    {
+        $orderBy = 'absolute';
+        $minVisitsPercent = 2;
+        $minGrowthPercent = 30;
+        $minMoversPercent = 2;
+        $minNewPercent = 2;
+        $minDisappearedPercent = 2;
+
+        Piwik::checkUserHasViewAccess(array($idSite));
+
         $metric = 'nb_visits';
-        // consider disappeared if impact > 10%?
 
-        $totalValue = $this->getTotalValue($idSite, $period, $date, $metric);
-        $minVisits  = $this->getMinVisits($totalValue, $minVisitsPercent);
-
+        $totalValue    = $this->getTotalValue($idSite, $period, $date, $metric);
         $report        = $this->getReportByUniqueId($idSite, $reportUniqueId);
         $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric, $segment);
 
@@ -97,28 +118,29 @@ class API extends \Piwik\Plugin\API
             // for faster performance just compare against last week?
             $pastDate   = Date::factory($date);
             $pastDate   = $pastDate->subDay(7);
-            $lastDate   = $pastDate->toString();
-            $lastReport = $this->requestReport($idSite, 'week', $lastDate, $report, $metric, $segment);
+            $pastDate   = $pastDate->toString();
+            $lastReport = $this->requestReport($idSite, 'week', $pastDate, $report, $metric, $segment);
             $lastReport->filter('Piwik\Plugins\Insights\DataTable\Filter\Average', array($metric, 7));
+            $lastDate   = Range::factory('week', $pastDate);
+            $lastDate   = $lastDate->getRangeString();
         } else {
             $pastDate = Range::getLastDate($date, $period);
 
             if (empty($pastDate[0])) {
-                return new DataTable();
+                throw new \Exception('Not possible to calculate movers and shakers for this date/period combination');
             }
 
             $lastDate   = $pastDate[0];
             $lastReport = $this->requestReport($idSite, $period, $lastDate, $report, $metric, $segment);
         }
 
-        return $this->buildInsightsReport($period, $date, $limitIncreaser, $limitDecreaser, $minGrowthPercent, $orderBy, $currentReport, $lastReport, $metric, $considerMovers, $considerNew, $considerDisappeared, $minVisits, $report, $lastDate, $totalValue);
+        return $this->buildDataTable($report, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minVisitsPercent, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser);
     }
 
-    // force $limitX and ignore minVisitsPercent, minGrowthPercent
     public function getInsights(
-        $idSite, $period, $date, $reportUniqueId, $limitIncreaser = 5, $limitDecreaser = 5,
+        $idSite, $period, $date, $reportUniqueId, $segment = false, $limitIncreaser = 5, $limitDecreaser = 5,
         $filterBy = '', $minVisitsPercent = 2, $minGrowthPercent = 20,
-        $comparedToXPeriods = 1, $orderBy = 'absolute', $segment = false)
+        $comparedToXPeriods = 1, $orderBy = 'absolute')
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
@@ -127,33 +149,36 @@ class API extends \Piwik\Plugin\API
 
         $lastDate = Range::getDateXPeriodsAgo(abs($comparedToXPeriods), $date, $period);
 
+        if (empty($lastDate[0])) {
+            throw new \Exception('Not possible to calculate movers and shakers for this date/period combination');
+        }
+
         $currentReport = $this->requestReport($idSite, $period, $date, $report, $metric, $segment);
         $lastReport    = $this->requestReport($idSite, $period, $lastDate[0], $report, $metric, $segment);
 
         $totalValue = $this->getRelevantTotalValue($idSite, $period, $date, $currentReport, $metric);
-        $minVisits  = $this->getMinVisits($totalValue, $minVisitsPercent);
 
-        $considerMovers = false;
-        $considerNew = false;
-        $considerDisappeared = false;
+        $minMoversPercent = -1;
+        $minNewPercent = -1;
+        $minDisappearedPercent = -1;
 
         switch ($filterBy) {
             case self::FILTER_BY_MOVERS:
-                $considerMovers = true;
+                $minMoversPercent = 0;
                 break;
             case self::FILTER_BY_NEW:
-                $considerNew = true;
+                $minNewPercent = 0;
                 break;
             case self::FILTER_BY_DISAPPEARED:
-                $considerDisappeared = true;
+                $minDisappearedPercent = 0;
                 break;
             default:
-                $considerMovers = true;
-                $considerNew = true;
-                $considerDisappeared = true;
+                $minMoversPercent      = 0;
+                $minNewPercent         = 0;
+                $minDisappearedPercent = 0;
         }
 
-        return $this->buildInsightsReport($period, $date, $limitIncreaser, $limitDecreaser, $minGrowthPercent, $orderBy, $currentReport, $lastReport, $metric, $considerMovers, $considerNew, $considerDisappeared, $minVisits, $report, $lastDate[0], $totalValue);
+        return $this->buildDataTable($report, $period, $date, $lastDate[0], $metric, $currentReport, $lastReport, $totalValue, $minVisitsPercent, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser);
     }
 
     private function requestReport($idSite, $period, $date, $report, $metric, $segment)
@@ -197,9 +222,9 @@ class API extends \Piwik\Plugin\API
         return $orderByColumn;
     }
 
-    private function getMinVisits($totalValue, $minVisitsPercent)
+    private function getMinVisits($totalValue, $percent)
     {
-        $minVisits = ceil(($totalValue / 100) * $minVisitsPercent);
+        $minVisits = ceil(($totalValue / 100) * $percent);
 
         return (int) $minVisits;
     }
@@ -218,8 +243,9 @@ class API extends \Piwik\Plugin\API
 
     private function getTotalValue($idSite, $period, $date, $metric)
     {
-        $visits = VisitsSummaryAPI::getInstance()->get($idSite, $period, $date, false, array($metric));
+        $visits     = VisitsSummaryAPI::getInstance()->get($idSite, $period, $date, false, array($metric));
         $totalValue = $visits->getFirstRow()->getColumn($metric);
+
         return $totalValue;
     }
 
@@ -236,8 +262,36 @@ class API extends \Piwik\Plugin\API
         return $totalValue;
     }
 
-    private function buildInsightsReport($period, $date, $limitIncreaser, $limitDecreaser, $minGrowthPercent, $orderBy, $currentReport, $lastReport, $metric, $considerMovers, $considerNew, $considerDisappeared, $minVisits, $report, $lastDate, $totalValue)
+    /**
+     * @param array $reportMetadata
+     * @param string $period
+     * @param string $date
+     * @param string $lastDate
+     * @param string $metric
+     * @param DataTable $currentReport
+     * @param DataTable $lastReport
+     * @param int $totalValue
+     * @param int $minVisitsPercent            Row must have at least min percent visits of totalVisits
+     * @param int $minVisitsMoversPercent      Exclude rows who moved and the difference is not at least min percent
+     *                                         visits of totalVisits. -1 excludes movers.
+     * @param int $minVisitsNewPercent         Exclude rows who are new and the difference is not at least min percent
+     *                                         visits of totalVisits. -1 excludes all new.
+     * @param int $minVisitsDisappearedPercent Exclude rows who are disappeared and the difference is not at least min
+     *                                         percent visits of totalVisits. -1 excludes all disappeared.
+     * @param int $minGrowthPercent            The actual growth of a row must be at least percent compared to the
+     *                                         previous value (not total value)
+     * @param string $orderBy                  Order by absolute, relative, importance
+     * @param int $limitIncreaser
+     * @param int $limitDecreaser
+     * @return DataTable
+     */
+    private function buildDataTable($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minVisitsPercent, $minVisitsMoversPercent, $minVisitsNewPercent, $minVisitsDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser)
     {
+        $minVisits = $this->getMinVisits($totalValue, $minVisitsPercent);
+        $minChangeMovers = 0;
+        $minIncreaseNew = 0;
+        $minDecreaseDisappeared = 0;
+
         $dataTable = new DataTable();
         $dataTable->filter(
             'Piwik\Plugins\Insights\DataTable\Filter\Insight',
@@ -245,9 +299,9 @@ class API extends \Piwik\Plugin\API
                 $currentReport,
                 $lastReport,
                 $metric,
-                $considerMovers,
-                $considerNew,
-                $considerDisappeared
+                $considerMovers = (-1 !== $minVisitsMoversPercent),
+                $considerNew = (-1 !== $minVisitsNewPercent),
+                $considerDisappeared = (-1 !== $minVisitsDisappearedPercent)
             )
         );
 
@@ -255,7 +309,7 @@ class API extends \Piwik\Plugin\API
             'Piwik\Plugins\Insights\DataTable\Filter\MinGrowth',
             array(
                 'growth_percent_numeric',
-                $minGrowthPercent
+                $minGrowthPercent,
             )
         );
 
@@ -266,6 +320,42 @@ class API extends \Piwik\Plugin\API
                 $minVisits
             )
         );
+
+        if ($minVisitsNewPercent) {
+            $minIncreaseNew = $this->getMinVisits($totalValue, $minVisitsNewPercent);
+            $dataTable->filter(
+                'Piwik\Plugins\Insights\DataTable\Filter\ExcludeLowValue',
+                array(
+                    'difference',
+                    $minIncreaseNew,
+                    'isNew'
+                )
+            );
+        }
+
+        if ($minVisitsMoversPercent) {
+            $minChangeMovers = $this->getMinVisits($totalValue, $minVisitsMoversPercent);
+            $dataTable->filter(
+                'Piwik\Plugins\Insights\DataTable\Filter\ExcludeLowValue',
+                array(
+                    'difference',
+                    $minChangeMovers,
+                    'isMover'
+                )
+            );
+        }
+
+        if ($minVisitsDisappearedPercent) {
+            $minDecreaseDisappeared = $this->getMinVisits($totalValue, $minVisitsDisappearedPercent);
+            $dataTable->filter(
+                'Piwik\Plugins\Insights\DataTable\Filter\ExcludeLowValue',
+                array(
+                    'difference',
+                    $minDecreaseDisappeared,
+                    'isDisappeared'
+                )
+            );
+        }
 
         $dataTable->filter(
             'Piwik\Plugins\Insights\DataTable\Filter\OrderBy',
@@ -284,14 +374,22 @@ class API extends \Piwik\Plugin\API
         );
 
         $dataTable->setMetadataValues(array(
-            'reportName' => $report['name'],
-            'metricName' => $report['metrics'][$metric],
+            'reportName' => $reportMetadata['name'],
+            'metricName' => $reportMetadata['metrics'][$metric],
             'date' => $date,
             'lastDate' => $lastDate,
             'period' => $period,
-            'report' => $report,
+            'report' => $reportMetadata,
             'totalValue' => $totalValue,
-            'minVisits' => $minVisits
+            'minValue'  => $minVisits,
+            'minChangeMovers' => $minChangeMovers,
+            'minIncreaseNew' => $minIncreaseNew,
+            'minDecreaseDisappeared' => $minDecreaseDisappeared,
+            'minValuePercent' => $minVisitsPercent,
+            'minGrowthPercent' => $minGrowthPercent,
+            'minVisitsMoversPercent' => $minVisitsMoversPercent,
+            'minVisitsNewPercent' => $minVisitsNewPercent,
+            'minVisitsDisappearedPercent' => $minVisitsDisappearedPercent
         ));
 
         return $dataTable;
@@ -301,6 +399,19 @@ class API extends \Piwik\Plugin\API
     {
         $processedReport = new ProcessedReport();
         $report = $processedReport->getReportMetadataByUniqueId($idSite, $reportUniqueId);
+
         return $report;
+    }
+
+    private function deleteDataTables($firstTableId, $dataTableIdsToBeIgnored)
+    {
+        $dataTableManager = DataTable\Manager::getInstance();
+        $lastTableId = $dataTableManager->getMostRecentTableId();
+
+        for ($index = $firstTableId; $index <= $lastTableId; $index++) {
+            if (!in_array($index, $dataTableIdsToBeIgnored)) {
+                $dataTableManager->deleteTable($index);
+            }
+        }
     }
 }

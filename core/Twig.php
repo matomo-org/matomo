@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Period\Range;
 use Piwik\Translate;
 use Piwik\Visualization\Sparkline;
 use Piwik\View\RenderTokenParser;
@@ -63,6 +64,7 @@ class Twig
         $this->addFilter_truncate();
         $this->addFilter_notificiation();
         $this->addFilter_percentage();
+        $this->addFilter_prettyDate();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
 
@@ -185,6 +187,14 @@ class Twig
 
         }, array('is_safe' => array('html')));
         $this->twig->addFilter($notificationFunction);
+    }
+
+    protected function addFilter_prettyDate()
+    {
+        $prettyDate = new Twig_SimpleFilter('prettyDate', function ($dateString, $period) {
+            return Range::factory($period, $dateString)->getLocalizedShortString();
+        });
+        $this->twig->addFilter($prettyDate);
     }
 
     protected function addFilter_percentage()

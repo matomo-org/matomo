@@ -18,7 +18,21 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\Controller
 {
 
-    public function getInsightOverview()
+    public function getInsightsOverview()
+    {
+        $view = $this->prepareWidget($apiReport = 'getInsightsOverview');
+
+        return $view->render();
+    }
+
+    public function getOverallMoversAndShakers()
+    {
+        $view = $this->prepareWidget($apiReport = 'getOverallMoversAndShakers');
+
+        return $view->render();
+    }
+
+    private function prepareWidget($apiReport)
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $period = Common::getRequestVar('period', null, 'string');
@@ -26,18 +40,14 @@ class Controller extends \Piwik\Plugin\Controller
 
         Piwik::checkUserHasViewAccess(array($idSite));
 
-        $view = new View('@Insights/index.twig');
+        $view = new View('@Insights/overviewWidget.twig');
         $this->setBasicVariablesView($view);
 
-        $view->moversAndShakers = API::getInstance()->getInsightsOverview($idSite, $period, $date);
-        $view->showNoDataMessage = false;
-        $view->showInsightsControls = false;
+        $view->reports = API::getInstance()->$apiReport($idSite, $period, $date);
         $view->properties = array(
-            'show_increase' => true,
-            'show_decrease' => true,
             'order_by' => 'absolute'
         );
 
-        return $view->render();
+        return $view;
     }
 }
