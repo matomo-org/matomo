@@ -19,7 +19,7 @@ use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Url;
 use Piwik\WidgetsList;
-use \Exception
+use \Exception;
 
 /**
  * Fixture for UI tests.
