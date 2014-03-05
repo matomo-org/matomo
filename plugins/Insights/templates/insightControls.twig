@@ -1,5 +1,5 @@
 <div style="padding: 10px;padding-bottom: 0px;">
-    Minimum impact of
+    Minimum visits of
     <select name="minVisitsPercent" title="Based on a total of {{ dataTable.getMetadata('totalValue') }} visitors or metricname">
         {% for i in range(0, 10) %}
             <option {% if i == properties.min_visits_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
@@ -7,7 +7,7 @@
         {% for i in range(12, 30, 2) %}
             <option {% if i == properties.min_visits_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
         {% endfor %}
-        {% for i in range(35, 100, 5) %}
+        {% for i in range(40, 100, 10) %}
             <option {% if i == properties.min_visits_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
         {% endfor %}
     </select>
@@ -25,28 +25,30 @@
         {% endfor %}
     </select>
 
-    compared to
-    {% if period == 'day' %}
-        <select size="1" name="comparedToXPeriodsAgo">
-            <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
-               previous day
-            </option>
-            <option value="7" {% if properties.compared_to_x_periods_ago == 7 %}selected{% endif %}>
-               same day in previous week
-            </option>
-            <option value="365" {% if properties.compared_to_x_periods_ago == 365 %}selected{% endif %}>
-               same day in previous year
-            </option>
-        </select>
-    {% elseif period == 'month' %}
-        <select size="1" name="comparedToXPeriodsAgo">
-            <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
-                previous month
-            </option>
-            <option value="12" {% if properties.compared_to_x_periods_ago == 12 %}selected{% endif %}>
-                same month in previous year
-            </option>
-        </select>
+    {% if period == 'day' or period == 'month' %}
+        compared to
+        {% if period == 'day' %}
+            <select size="1" name="comparedToXPeriodsAgo">
+                <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
+                   previous day
+                </option>
+                <option value="7" {% if properties.compared_to_x_periods_ago == 7 %}selected{% endif %}>
+                   same day in previous week
+                </option>
+                <option value="365" {% if properties.compared_to_x_periods_ago == 365 %}selected{% endif %}>
+                   same day in previous year
+                </option>
+            </select>
+        {% elseif period == 'month' %}
+            <select size="1" name="comparedToXPeriodsAgo">
+                <option value="1" {% if properties.compared_to_x_periods_ago == 1 %}selected{% endif %}>
+                    previous month
+                </option>
+                <option value="12" {% if properties.compared_to_x_periods_ago == 12 %}selected{% endif %}>
+                    same month in previous year
+                </option>
+            </select>
+        {% endif %}
     {% endif %}
 
     <hr style="height: 1px;border: 0px;background-color: #cccccc;" />

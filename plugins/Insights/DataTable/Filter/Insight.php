@@ -30,53 +30,69 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
 
     public function filter($table)
     {
-        foreach ($this->currentDataTable->getRows() as $key => $row) {
-            $pastRow  = $this->getPastRowFromCurrent($row);
-            $oldValue = 0;
-
-            if (!$pastRow && !$this->considerNew) {
-                continue;
-            }
-
-            if ($pastRow && $this->considerMovers) {
-                $oldValue = $pastRow->getColumn($this->columnValueToRead);
-            } elseif ($pastRow) {
-                continue;
-            }
-
-            $difference = $this->getDividend($row);
-            if ($difference === false) {
-                continue;
-            }
-
-            $newValue = $row->getColumn($this->columnValueToRead);
-            $divisor  = $this->getDivisor($row);
-
-            $growthPercentage = $this->formatValue($difference, $divisor);
-
-            $this->addRow($table, $row, $growthPercentage, $newValue, $oldValue, $difference);
+        foreach ($this->currentDataTable->getRows() as $row) {
+            $this->addRowIfNewOrMover($table, $row);
         }
 
         if ($this->considerDisappeared) {
-            foreach ($this->pastDataTable->getRows() as $key => $row) {
-
-                if ($this->getRowFromTable($this->currentDataTable, $row)) {
-                    continue;
-                }
-
-                $newValue   = 0;
-                $oldValue   = $row->getColumn($this->columnValueToRead);
-                $difference = $newValue - $oldValue;
-
-                if ($oldValue == 0 && $newValue == 0) {
-                    $growthPercentage = '0%';
-                } else {
-                    $growthPercentage = '-100%';
-                }
-
-                $this->addRow($table, $row, $growthPercentage, $newValue, $oldValue, $difference);
+            foreach ($this->pastDataTable->getRows() as $row) {
+                $this->addRowIfDisappeared($table, $row);
             }
         }
+    }
+
+    private function addRowIfDisappeared(DataTable $table, DataTable\Row $row)
+    {
+        if ($this->getRowFromTable($this->currentDataTable, $row)) {
+            return;
+        }
+
+        $newValue   = 0;
+        $oldValue   = $row->getColumn($this->columnValueToRead);
+        $difference = $newValue - $oldValue;
+
+        if ($oldValue == 0 && $newValue == 0) {
+            $growthPercentage = '0%';
+        } else {
+            $growthPercentage = '-100%';
+        }
+
+        $this->addRow($table, $row, $growthPercentage, $newValue, $oldValue, $difference, $isDisappeared = true);
+    }
+
+    private function addRowIfNewOrMover(DataTable $table, DataTable\Row $row)
+    {
+        $pastRow = $this->getPastRowFromCurrent($row);
+
+        if (!$pastRow && !$this->considerNew) {
+            return;
+        } elseif ($pastRow && !$this->considerMovers) {
+            return;
+        }
+
+        $isNew   = false;
+        $isMover = false;
+        $isDisappeared = false;
+
+        if (!$pastRow) {
+            $isNew    = true;
+            $oldValue = 0;
+        } else {
+            $isMover  = true;
+            $oldValue = $pastRow->getColumn($this->columnValueToRead);
+        }
+
+        $difference = $this->getDividend($row);
+        if ($difference === false) {
+            return;
+        }
+
+        $newValue = $row->getColumn($this->columnValueToRead);
+        $divisor  = $this->getDivisor($row);
+
+        $growthPercentage = $this->formatValue($difference, $divisor);
+
+        $this->addRow($table, $row, $growthPercentage, $newValue, $oldValue, $difference, $isDisappeared, $isNew, $isMover);
     }
 
     private function getRowFromTable(DataTable $table, DataTable\Row $row)
@@ -84,7 +100,7 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         return $table->getRowFromLabel($row->getColumn('label'));
     }
 
-    private function addRow(DataTable $table, DataTable\Row $row, $growthPercentage, $newValue, $oldValue, $difference)
+    private function addRow(DataTable $table, DataTable\Row $row, $growthPercentage, $newValue, $oldValue, $difference, $disappeared = false, $isNew = false, $isMover = false)
     {
         $columns = $row->getColumns();
         $columns['growth_percent'] = $growthPercentage;
@@ -94,6 +110,9 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         $columns['value_new']  = $newValue;
         $columns['difference'] = $difference;
         $columns['importance'] = abs($difference);
+        $columns['isDisappeared'] = $disappeared;
+        $columns['isNew']   = $isNew;
+        $columns['isMover'] = $isMover;
 
         $table->addRowFromArray(array(DataTable\Row::COLUMNS => $columns));
     }

@@ -25,7 +25,7 @@ class Insight extends Visualization
 {
     const ID = 'insightsVisualization';
     const TEMPLATE_FILE     = '@Insights/insightVisualization.twig';
-    const FOOTER_ICON_TITLE = 'InsightsVisualization';
+    const FOOTER_ICON_TITLE = 'Insights';
     const FOOTER_ICON       = 'plugins/Insights/images/idea.png';
 
     public function beforeLoadDataTable()
@@ -80,8 +80,6 @@ class Insight extends Visualization
 
     public function afterAllFiltersAreApplied()
     {
-        $this->assignTemplateVar('showNoDataMessage', true);
-        $this->assignTemplateVar('showInsightsControls', true);
         $this->assignTemplateVar('period', Common::getRequestVar('period', null, 'string'));
     }
 

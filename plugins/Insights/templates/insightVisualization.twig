@@ -1,54 +1,24 @@
-<div class="insightsDataTable">
+{% set metadata = dataTable.getAllTableMetadata%}
+{% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(metadata.minValue, metadata.minValuePercent, metadata.totalValue, metadata.minGrowthPercent, metadata.lastDate|prettyDate(metadata.period)) %}
+
+<div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }}">
     {% if dataTable.getRowsCount > 0 %}
         <table class="dataTable">
             <thead>
-            <tr title="Based on {{ dataTable.getMetadata('totalValue') }} {{ dataTable.getMetadata('metricName') }}, rows less than {{ dataTable.getMetadata('minVisits') }} {{ dataTable.getMetadata('metricName') }} were ignored">
-                <th class="label">
-                    {{ dataTable.getMetadata('reportName') }}
-                </th>
-                <th class="label orderBy" name="orderBy" value="absolute"
-                    style="{% if 'absolute' == properties.order_by %}font-weight:bold;{% endif %}">
-                    {{ dataTable.getMetadata('metricName') }}
-                </th>
-                <th class="label orderBy" name="orderBy" value="relative"
-                    style="{% if 'relative' == properties.order_by %}font-weight:bold;{% endif %}">
-                    {{ 'MultiSites_Evolution'|translate }}
-                </th>
-            </tr>
+                {% include "@Insights/table_header.twig" %}
             </thead>
+
             <tbody>
-
-            {% for row in dataTable.getRows %}
-                <tr title="{{ dataTable.getMetadata('metricName') }} changed from {{ row.getColumn('value_old') }} ({{ dataTable.getMetadata('lastDate') }}) to {{ row.getColumn('value_new') }} ({{ dataTable.getMetadata('date') }})">
-                    <td>
-                        <span class="title"
-                              title="{{ row.getColumn('label') }}">
-                            {{ row.getColumn('label') }}
-                        </span>
-                    </td>
-                    {% if row.getColumn('grown') %}
-                        <td>+{{ row.getColumn('difference') }}</td>
-                        <td class="grown">
-                            +{{ row.getColumn('growth_percent') }}
-                        </td>
-                    {% else %}
-                        <td>{{ row.getColumn('difference') }}</td>
-                        <td class="notGrown">
-                            {{ row.getColumn('growth_percent') }}
-                        </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-
+                {% for row in dataTable.getRows %}
+                    {% include "@Insights/table_row.twig" %}
+                {% endfor %}
             </tbody>
         </table>
-    {% elseif showNoDataMessage %}
+    {% else %}
         <div class="pk-emptyDataTable">
             {{ 'Insights_NoResultMatchesCriteria'|translate }}
         </div>
     {% endif %}
 
-    {% if showInsightsControls %}
-        {% include "@Insights/insightControls.twig" %}
-    {% endif %}
+    {% include "@Insights/insightControls.twig" %}
 </div>

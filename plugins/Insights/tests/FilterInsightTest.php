@@ -148,6 +148,29 @@ class FilterInsightTest extends \PHPUnit_Framework_TestCase
         $this->assertColumnValues($values);
     }
 
+    public function testShouldDetectWhetherRowIsNewMoverOrDisappeared()
+    {
+        $this->applyInsightConsiderAll();
+
+        $values = array(
+            array('label' => 'val1', 'isNew' => false, 'isMover' => true, 'isDisappeared' => false),
+            array('label' => 'val2', 'isNew' => true, 'isMover' => false, 'isDisappeared' => false),
+            array('label' => 'val3', 'isNew' => true, 'isMover' => false, 'isDisappeared' => false),
+            array('label' => 'val4', 'isNew' => false, 'isMover' => true, 'isDisappeared' => false),
+            array('label' => 'val5', 'isNew' => true, 'isMover' => false, 'isDisappeared' => false),
+            array('label' => 'val6', 'isNew' => false, 'isMover' => true, 'isDisappeared' => false),
+            array('label' => 'val7', 'isNew' => true, 'isMover' => false, 'isDisappeared' => false),
+            array('label' => 'val8', 'isNew' => false, 'isMover' => true, 'isDisappeared' => false),
+            array('label' => 'val9', 'isNew' => false, 'isMover' => true, 'isDisappeared' => false),
+            array('label' => 'val10', 'isNew' => false, 'isMover' => true, 'isDisappeared' => false),
+            array('label' => 'val102', 'isNew' => false, 'isMover' => false, 'isDisappeared' => true),
+            array('label' => 'val109', 'isNew' => false, 'isMover' => false, 'isDisappeared' => true),
+            array('label' => 'val107', 'isNew' => false, 'isMover' => false, 'isDisappeared' => true)
+        );
+
+        $this->assertColumnValues($values);
+    }
+
     public function testShouldCalculateDifferenceAndGrowthPercentage()
     {
         $this->applyInsightConsiderAll();

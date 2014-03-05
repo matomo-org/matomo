@@ -14,11 +14,21 @@ class ExcludeLowValue extends DataTable\BaseFilter
 {
     private $minimumValue;
     private $columnToRead;
+    private $columnToCheckToBeTrue;
 
-    public function __construct($table, $columnToRead, $minimumValue)
+    /**
+     * @param DataTable $table
+     * @param string $columnToRead
+     * @param int    $minimumValue
+     * @param string $columnToCheckToBeTrue  if set, we will delete a row only if this column evaluates to true. If
+     *                                       column does not evaluate to true we will not delete the row even if
+     *                                       the value is lower than the minimumValue.
+     */
+    public function __construct($table, $columnToRead, $minimumValue, $columnToCheckToBeTrue = '')
     {
         $this->columnToRead = $columnToRead;
         $this->minimumValue = $minimumValue;
+        $this->columnToCheckToBeTrue = $columnToCheckToBeTrue;
     }
 
     public function filter($table)
@@ -27,11 +37,17 @@ class ExcludeLowValue extends DataTable\BaseFilter
             return;
         }
 
-        $minimumValue = $this->minimumValue;
-        $isValueLowPopulation = function ($value) use ($minimumValue) {
-            return $value < $minimumValue;
-        };
+        foreach ($table->getRows() as $key => $row) {
 
-        $table->filter('ColumnCallbackDeleteRow', array($this->columnToRead, $isValueLowPopulation));
+            if ($this->columnToCheckToBeTrue && !$row->getColumn($this->columnToCheckToBeTrue)) {
+                continue;
+            }
+
+            $value = $row->getColumn($this->columnToRead);
+
+            if ($this->minimumValue > $value) {
+                $table->deleteRow($key);
+            }
+        }
     }
 }
