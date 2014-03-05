@@ -242,7 +242,7 @@
                         }
                     }
                 });
-                
+
                 var table = $(domElem);
                 if (!table.hasClass('dataTable')) {
                     table = table.closest('.dataTable');
@@ -250,6 +250,8 @@
                 if (stripingNeeded) {
                     self.addOddAndEvenClasses(table);
                 }
+
+                self.$element.trigger('piwik:actionsSubTableToggled');
             }
 
             // toggle the +/- image
@@ -313,6 +315,8 @@
 
             // we execute the bindDataTableEvent function for the new DIV
             self.bindEventsAndApplyStyle($('#' + self.workingDivId), response);
+
+            self.$element.trigger('piwik:actionsSubDataTableLoaded');
 
             //bind back the click event (disabled to avoid double-click problem)
             self.disabledRowDom.click(
