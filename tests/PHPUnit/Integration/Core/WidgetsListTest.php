@@ -51,7 +51,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
             'SEO'                          => 2,
             'Example Widgets'              => 4,
             'DevicesDetection_DevicesDetection' => 7,
-            'Insights_Category' => 1
+            'Insights_WidgetCategory' => 2
         );
 
         // number of main categories
