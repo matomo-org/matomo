@@ -1007,7 +1007,7 @@ Notes:
     private function logInitInfo()
     {
         $this->logSection("INIT");
-        $this->log("Querying Piwik API at: {$this->piwikUrl}");
+        $this->log("Piwik is installed at: {$this->piwikUrl}");
         $this->log("Running Piwik " . Version::VERSION . " as Super User: " . $this->login);
     }
 
