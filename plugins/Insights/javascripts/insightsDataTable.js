@@ -35,7 +35,6 @@
 
         _init: function (domElem) {
             this.initMinGrowthPercentage(domElem);
-            this.initMinImpactPercent(domElem);
             this.initShowIncreaseOrDecrease(domElem);
             this.initOrderBy(domElem);
             this.initComparedToXPeriodsAgo(domElem);
@@ -95,13 +94,6 @@
             });
             $('th[name=orderBy]', domElem).bind('click', function (event) {
                 self._changeParameterAndReload({order_by: getValueFromEvent(event)});
-            });
-        },
-
-        initMinImpactPercent: function (domElem) {
-            var self = this;
-            $('[name=minImpactPercent]', domElem).bind('change', function (event) {
-                self._changeParameterAndReload({min_impact_percent: getValueFromEvent(event)});
             });
         },
 
