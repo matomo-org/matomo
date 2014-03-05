@@ -1,7 +1,12 @@
 {% set metadata = dataTable.getAllTableMetadata%}
 {% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(metadata.minGrowthPercent, metadata.lastDate|prettyDate(metadata.period)) %}
+{% set consideredChanges = '' %}
 
-<div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }}">
+{% if metadata.minChangeMovers and metadata.minChangeMovers > 1 %}
+    {% set consideredChanges = 'Insights_TitleIgnoredChanges'|translate(metadata.minChangeMovers) %}
+{% endif %}
+
+<div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
     {% if dataTable.getRowsCount > 0 %}
         <table class="dataTable">
             <thead>

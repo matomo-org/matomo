@@ -7,6 +7,7 @@
         "TitleConsideredVisits": "Considered rows having at least a growth of at least %s%% compared to %s.",
         "TitleConsideredChanges": "Considered movers only if they increased or decreased by more than %s visits, new entries only if they increase by more than %s visits, and disappeared rows if they decreased by more than %s visits based on %s total visits.",
         "TitleReportBasedOn": "Based on %s %s, rows less than %s %s were ignored",
-        "TitleRowChangeDetails": "'%s' changed from %s (%s) to %s (%s) %s"
+        "TitleRowChangeDetails": "'%s' changed from %s (%s) to %s (%s) %s",
+        "TitleIgnoredChanges": "Changes affecting less than %s visits were ignored."
     }
 }

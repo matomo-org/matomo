@@ -43,7 +43,7 @@
     <hr style="height: 1px;border: 0px;background-color: #cccccc;" />
 
     Filter
-
+    
     {% if properties.show_filter_by %}
         <select size="1" name="filterBy" title="Show all, only movers, only new, only disappeared">
             <option {% if not properties.filter_by %}selected{% endif %} value="">All</option>
@@ -55,7 +55,7 @@
 
     <select size="1" name="showIncreaseOrDecrease" title="Show increaser and/or decreaser">
         <option value="both" {% if properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>
-            All
+            Increaser & decreaser
         </option>
         <option value="increase" {% if properties.limit_increaser and not properties.limit_decreaser %}selected{%endif%}>
             Only increaser
