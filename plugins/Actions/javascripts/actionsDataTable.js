@@ -278,6 +278,9 @@
             $('.datatableRelatedReports', content).replaceWith(oldReportsElem);
 
             dataTableSel.replaceWith(content);
+
+            content.trigger('piwik:dataTableLoaded');
+
             piwikHelper.lazyScrollTo(content[0], 400);
 
             return content;
