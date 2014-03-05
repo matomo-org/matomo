@@ -204,12 +204,11 @@ class Dashboard extends \Piwik\Plugin
             $login = Piwik::getCurrentUserLogin();
 
             $dashboards = $this->getAllDashboards($login);
-            if (count($dashboards) > 1) {
-                $pos = 0;
-                foreach ($dashboards AS $dashboard) {
-                    MenuMain::getInstance()->add('Dashboard_Dashboard', $dashboard['name'], array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
-                    $pos++;
-                }
+
+            $pos = 0;
+            foreach ($dashboards as $dashboard) {
+                MenuMain::getInstance()->add('Dashboard_Dashboard', $dashboard['name'], array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
+                $pos++;
             }
         }
     }

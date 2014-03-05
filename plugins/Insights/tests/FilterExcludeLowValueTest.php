@@ -29,17 +29,17 @@ class FilterExcludeLowValueTest extends \PHPUnit_Framework_TestCase
     {
         $this->table = new DataTable();
         $this->table->addRowsFromArray(array(
-            array(Row::COLUMNS => array('label' => 'val1', 'growth' => 22)),
-            array(Row::COLUMNS => array('label' => 'val2', 'growth' => 14)),
-            array(Row::COLUMNS => array('label' => 'val3', 'growth' => 18)),
-            array(Row::COLUMNS => array('label' => 'val4', 'growth' => 20)),
-            array(Row::COLUMNS => array('label' => 'val5', 'growth' => 22)),
-            array(Row::COLUMNS => array('label' => 'val6', 'growth' => 25)),
-            array(Row::COLUMNS => array('label' => 'val7', 'growth' => 17)),
-            array(Row::COLUMNS => array('label' => 'val8', 'growth' => 20)),
-            array(Row::COLUMNS => array('label' => 'val9', 'growth' => 0)),
-            array(Row::COLUMNS => array('label' => 'val10', 'growth' => 15)),
-            array(Row::COLUMNS => array('label' => 'val11', 'growth' => 16))
+            array(Row::COLUMNS => array('label' => 'val1', 'growth' => 22, 'isFooBar' => false)),
+            array(Row::COLUMNS => array('label' => 'val2', 'growth' => 14, 'isFooBar' => true)),
+            array(Row::COLUMNS => array('label' => 'val3', 'growth' => 18, 'isFooBar' => false)),
+            array(Row::COLUMNS => array('label' => 'val4', 'growth' => 20, 'isFooBar' => true)),
+            array(Row::COLUMNS => array('label' => 'val5', 'growth' => 22, 'isFooBar' => true)),
+            array(Row::COLUMNS => array('label' => 'val6', 'growth' => 25, 'isFooBar' => true)),
+            array(Row::COLUMNS => array('label' => 'val7', 'growth' => 17, 'isFooBar' => false)),
+            array(Row::COLUMNS => array('label' => 'val8', 'growth' => 20, 'isFooBar' => false)),
+            array(Row::COLUMNS => array('label' => 'val9', 'growth' => 0, 'isFooBar' => false)),
+            array(Row::COLUMNS => array('label' => 'val10', 'growth' => 15, 'isFooBar' => false)),
+            array(Row::COLUMNS => array('label' => 'val11', 'growth' => 16, 'isFooBar' => true))
         ));
     }
 
@@ -74,15 +74,22 @@ class FilterExcludeLowValueTest extends \PHPUnit_Framework_TestCase
         $this->assertOrder(array());
     }
 
+    public function testShouldRemoveValuesOnlyIfColumnToCheckIsTrue()
+    {
+        $this->excludeLowValues(21, 'isFooBar');
+
+        $this->assertOrder(array('val1', 'val3', 'val5', 'val6', 'val7', 'val8', 'val9', 'val10'));
+    }
+
     private function assertOrder($expectedOrder)
     {
         $this->assertEquals($expectedOrder, $this->table->getColumn('label'));
         $this->assertEquals(count($expectedOrder), $this->table->getRowsCount());
     }
 
-    private function excludeLowValues($minimumValue)
+    private function excludeLowValues($minimumValue, $columnToCheck = null)
     {
-        $filter = new ExcludeLowValue($this->table, 'growth', $minimumValue);
+        $filter = new ExcludeLowValue($this->table, 'growth', $minimumValue, $columnToCheck);
         $filter->filter($this->table);
     }
 

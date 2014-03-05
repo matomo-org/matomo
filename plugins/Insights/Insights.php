@@ -34,7 +34,8 @@ class Insights extends \Piwik\Plugin
 
     public function addWidgets()
     {
-        WidgetsList::add('Insights_Category', 'Insights_OverviewWidgetTitle', 'Insights', 'getInsightOverview');
+        WidgetsList::add('Insights_WidgetCategory', 'Insights_OverviewWidgetTitle', 'Insights', 'getInsightsOverview');
+        WidgetsList::add('Insights_WidgetCategory', 'Insights_MoversAndShakersWidgetTitle', 'Insights', 'getOverallMoversAndShakers');
     }
 
     public function getStylesheetFiles(&$stylesheets)

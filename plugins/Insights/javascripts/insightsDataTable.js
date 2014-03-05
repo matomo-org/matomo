@@ -35,7 +35,7 @@
 
         _init: function (domElem) {
             this.initMinGrowthPercentage(domElem);
-            this.initMinVisitsPercent(domElem);
+            this.initMinImpactPercent(domElem);
             this.initShowIncreaseOrDecrease(domElem);
             this.initOrderBy(domElem);
             this.initComparedToXPeriodsAgo(domElem);
@@ -98,10 +98,10 @@
             });
         },
 
-        initMinVisitsPercent: function (domElem) {
+        initMinImpactPercent: function (domElem) {
             var self = this;
-            $('[name=minVisitsPercent]', domElem).bind('change', function (event) {
-                self._changeParameterAndReload({min_visits_percent: getValueFromEvent(event)});
+            $('[name=minImpactPercent]', domElem).bind('change', function (event) {
+                self._changeParameterAndReload({min_impact_percent: getValueFromEvent(event)});
             });
         },
 

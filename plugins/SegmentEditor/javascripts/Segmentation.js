@@ -1072,7 +1072,7 @@ $(document).ready(function() {
 
                     var idx = null;
                     for (idx in self.props.availableSegments) {
-                        if (self.props.availableSegments[idx].definition == params.definition) {
+                        if (self.props.availableSegments[idx].idsegment == params.idSegment) {
                             break;
                         }
                     }
@@ -1170,7 +1170,7 @@ $(document).ready(function() {
             }
         };
 
-        $('body')[0].addEventListener('mouseup', this.onMouseUp);
+        $('body').on('mouseup', this.onMouseUp);
 
         // re-initialize top controls since the size of the control is not the same after it's
         // initialized.
@@ -1198,7 +1198,7 @@ $(document).ready(function() {
         _destroy: function () {
             UIControl.prototype._destroy.call(this);
 
-            $('body')[0].removeEventListener('mouseup', this.onMouseUp);
+            $('body').off('mouseup', null, this.onMouseUp);
         }
     });
 

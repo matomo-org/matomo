@@ -13,7 +13,7 @@ use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
 
 class RequestConfig extends VisualizationRequestConfig
 {
-    public $min_visits_percent = 2;
+    public $min_impact_percent = 1;
     public $min_growth_percent = 20;
     public $compared_to_x_periods_ago = 1;
     public $order_by = 'absolute';
@@ -28,7 +28,7 @@ class RequestConfig extends VisualizationRequestConfig
 
         $properties = array(
             'min_growth_percent',
-            'min_visits_percent',
+            'min_impact_percent',
             'order_by',
             'compared_to_x_periods_ago',
             'filter_by',

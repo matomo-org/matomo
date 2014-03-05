@@ -33,7 +33,7 @@ class SomeVisitsDifferentPathsOnTwoDays extends \Test_Piwik_BaseFixture
     private function setUpWebsitesAndGoals()
     {
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite('2008-12-12 00:00:00', $ecommerce = 0, $siteName = 'Site AAAAAA');
+            $this->idSite = self::createWebsite('2008-12-12 00:00:00', $ecommerce = 0, $siteName = 'Site AAAAAA');
         }
     }
 

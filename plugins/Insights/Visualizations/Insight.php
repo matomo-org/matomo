@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\Insights\Model;
 
 /**
  * InsightsVisualization Visualization.
@@ -25,7 +26,7 @@ class Insight extends Visualization
 {
     const ID = 'insightsVisualization';
     const TEMPLATE_FILE     = '@Insights/insightVisualization.twig';
-    const FOOTER_ICON_TITLE = 'InsightsVisualization';
+    const FOOTER_ICON_TITLE = 'Insights';
     const FOOTER_ICON       = 'plugins/Insights/images/idea.png';
 
     public function beforeLoadDataTable()
@@ -34,7 +35,7 @@ class Insight extends Visualization
         $report = str_replace('.', '_', $report);
 
         if (!$this->requestConfig->filter_limit) {
-            $this->requestConfig->filter_limit = 25;
+            $this->requestConfig->filter_limit = 10;
         }
 
         $limit = $this->requestConfig->filter_limit;
@@ -53,7 +54,7 @@ class Insight extends Visualization
         $this->requestConfig->apiMethodToRequestDataTable = 'Insights.getInsights';
         $this->requestConfig->request_parameters_to_modify = array(
             'reportUniqueId' => $report,
-            'minVisitsPercent' => $this->requestConfig->min_visits_percent,
+            'minImpactPercent' => $this->requestConfig->min_impact_percent,
             'minGrowthPercent' => $this->requestConfig->min_growth_percent,
             'comparedToXPeriods' => $this->requestConfig->compared_to_x_periods_ago,
             'orderBy' => $this->requestConfig->order_by,
@@ -80,8 +81,6 @@ class Insight extends Visualization
 
     public function afterAllFiltersAreApplied()
     {
-        $this->assignTemplateVar('showNoDataMessage', true);
-        $this->assignTemplateVar('showInsightsControls', true);
         $this->assignTemplateVar('period', Common::getRequestVar('period', null, 'string'));
     }
 
@@ -100,9 +99,14 @@ class Insight extends Visualization
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
 
-        $lastDate = Range::getDateXPeriodsAgo(1, $date, $period);
+        try {
+            $model    = new Model();
+            $lastDate = $model->getLastDate($date, $period, 1);
+        } catch (\Exception $e) {
+            return false;
+        }
 
-        if (empty($lastDate[0])) {
+        if (empty($lastDate)) {
             return false;
         }
 

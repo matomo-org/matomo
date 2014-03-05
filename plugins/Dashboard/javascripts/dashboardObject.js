@@ -490,7 +490,6 @@
      * @param {string}  [action]  action to perform (defaults to saveLayout)
      */
     function saveLayout(action) {
-
         var columns = [];
 
         var columnNumber = 0;

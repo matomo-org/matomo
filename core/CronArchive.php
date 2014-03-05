@@ -90,7 +90,7 @@ Notes:
     const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 
     // Show only first N characters from Piwik API output in case of errors
-    const TRUNCATE_ERROR_MESSAGE_SUMMARY = 4000 ;
+    const TRUNCATE_ERROR_MESSAGE_SUMMARY = 6000;
 
     // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
     private $shouldArchiveOnlySitesWithTrafficSince;
@@ -1007,7 +1007,7 @@ Notes:
     private function logInitInfo()
     {
         $this->logSection("INIT");
-        $this->log("Querying Piwik API at: {$this->piwikUrl}");
+        $this->log("Piwik is installed at: {$this->piwikUrl}");
         $this->log("Running Piwik " . Version::VERSION . " as Super User: " . $this->login);
     }
 
