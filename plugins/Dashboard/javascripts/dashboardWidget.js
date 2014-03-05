@@ -36,7 +36,8 @@
             onRemove: null,
             onRefresh: null,
             onMaximise: null,
-            onMinimise: null
+            onMinimise: null,
+            autoMaximiseVisualizations: ['tableAllColumns', 'tableGoals']
         },
 
         /**
@@ -144,7 +145,9 @@
          * @param {object} parameters
          */
         setParameters: function (parameters) {
-            if (!this.isMaximised && (parameters.viewDataTable == 'tableAllColumns' || parameters.viewDataTable == 'tableGoals')) {
+            if (!this.isMaximised
+                && this.options.autoMaximiseVisualizations.indexOf(parameters.viewDataTable) !== -1
+            ) {
                 this.maximise();
             }
             for (var name in parameters) {
