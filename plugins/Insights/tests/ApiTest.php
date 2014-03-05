@@ -40,13 +40,13 @@ class ApiTest extends \IntegrationTestCase
     }
 
     /**
-    '//Mover1' => 2,    +8  // 400%
-    '//Old1' => 9,      -9  // -100%
-    '/Mover2' => 24,            -11 // -50%
-    '//Mover3' => 21,   -1  // -5%
-    '/Old2' => 3                -3  // -100%
-    New1,                       +5  // 100%
-    New2                        +2  // 100%
+    '/Mover1' => 2,    +8  // 400%
+    '/Old1' => 9,      -9  // -100%
+    '/Mover2' => 24,   -11 // -50%
+    '/Mover3' => 21,   -1  // -5%
+    '/Old2' => 3       -3  // -100%
+    '/New1',           +5  // 100%
+    '/New2'            +2  // 100%
      */
     public function test_getInsights_ShouldReturnCorrectMetadata()
     {
@@ -60,7 +60,13 @@ class ApiTest extends \IntegrationTestCase
             'lastDate'   => self::$fixture->date2,
             'period'     => 'day',
             'totalValue' => 50,
-            'minVisits'  => 1
+            'minChangeMovers' => 1,
+            'minIncreaseNew'  => 1,
+            'minDecreaseDisappeared' => 1,
+            'minGrowthPercent' => 20,
+            'minVisitsMoversPercent' => 2,
+            'minVisitsNewPercent' => 2,
+            'minVisitsDisappearedPercent' => 2,
         );
 
         $this->assertInternalType('array', $metadata['report']);
@@ -92,7 +98,7 @@ class ApiTest extends \IntegrationTestCase
 
     public function test_getInsights_ShouldReturnAllRowsIfMinValuesArelow()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 1));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 1));
 
         $expectedLabels = array(
             '/Mover1',
@@ -106,23 +112,23 @@ class ApiTest extends \IntegrationTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldReturnReturnNothingIfMinVisitsPercentIsTooHigh()
+    public function test_getInsights_ShouldReturnReturnNothingIfminImpactPercentIsTooHigh()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 10000, 'minGrowthPercent' => 0));
+        $insights = $this->requestInsights(array('minImpactPercent' => 10000, 'minGrowthPercent' => 0));
 
         $this->assertRows(array(), $insights);
     }
 
     public function test_getInsights_ShouldReturnReturnNothingIfMinGrowthIsHigh()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 10000));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 10000));
 
         $this->assertRows(array(), $insights);
     }
 
     public function test_getInsights_ShouldOrderAbsoluteByDefault()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0));
 
         $expectedLabels = array(
             '/Mover1',
@@ -138,7 +144,7 @@ class ApiTest extends \IntegrationTestCase
 
     public function test_getInsights_ShouldBeAbleToOrderRelative()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'relative'));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'relative'));
 
         $expectedLabels = array(
             '/Mover1',
@@ -154,7 +160,7 @@ class ApiTest extends \IntegrationTestCase
 
     public function test_getInsights_ShouldBeAbleToOrderByImportance()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'importance'));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'importance'));
 
         $expectedLabels = array(
             '/Mover2',
@@ -181,7 +187,7 @@ class ApiTest extends \IntegrationTestCase
 
     public function test_getInsights_ShouldBeAbleToShowOnlyMovers()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'movers'));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'movers'));
 
         $expectedLabels = array(
             '/Mover1',
@@ -193,7 +199,7 @@ class ApiTest extends \IntegrationTestCase
 
     public function test_getInsights_ShouldBeAbleToShowOnlyNew()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'new'));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'new'));
 
         $expectedLabels = array(
             '/New1',
@@ -204,7 +210,7 @@ class ApiTest extends \IntegrationTestCase
 
     public function test_getInsights_ShouldBeAbleToShowOnlyDisappeared()
     {
-        $insights = $this->requestInsights(array('minVisitsPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'disappeared'));
+        $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'disappeared'));
 
         $expectedLabels = array(
             '/Old1',

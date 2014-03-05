@@ -45,7 +45,7 @@ class ExcludeLowValue extends DataTable\BaseFilter
 
             $value = $row->getColumn($this->columnToRead);
 
-            if ($this->minimumValue > $value) {
+            if ($this->minimumValue > abs($value)) {
                 $table->deleteRow($key);
             }
         }

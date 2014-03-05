@@ -1,5 +1,5 @@
 {% set metadata = dataTable.getAllTableMetadata%}
-{% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(metadata.minValue, metadata.minValuePercent, metadata.totalValue, metadata.minGrowthPercent, metadata.lastDate|prettyDate(metadata.period)) %}
+{% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(metadata.minGrowthPercent, metadata.lastDate|prettyDate(metadata.period)) %}
 
 <div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }}">
     {% if dataTable.getRowsCount > 0 %}

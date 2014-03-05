@@ -107,6 +107,24 @@ class Manager extends Singleton
     }
 
     /**
+     * Deletes all tables starting from the $firstTableId to the most recent table id except the ones that are
+     * supposed to be ignored.
+     *
+     * @param int[] $idsToBeIgnored
+     * @param int $firstTableId
+     */
+    public function deleteTablesExceptIgnored($idsToBeIgnored, $firstTableId = 0)
+    {
+        $lastTableId = $this->getMostRecentTableId();
+
+        for ($index = $firstTableId; $index <= $lastTableId; $index++) {
+            if (!in_array($index, $idsToBeIgnored)) {
+                $this->deleteTable($index);
+            }
+        }
+    }
+
+    /**
      * Remove the table from the manager (table has already been unset)
      *
      * @param int $id

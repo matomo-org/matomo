@@ -68,7 +68,27 @@ class FilterOrderByTest extends \PHPUnit_Framework_TestCase
 
         $this->applyOrderByFilter();
 
-        $this->assertOrder(array('pos4', 'pos2', 'pos1', 'pos3', 'pos6', 'pos5', 'neg3', 'neg1', 'neg2', 'neg4'));
+        $this->assertOrder(array('pos4', 'pos2', 'pos1', 'pos3', 'pos6', 'pos5', 'neg3', 'neg2', 'neg1', 'neg4'));
+    }
+
+    public function testOrderByShouldSortDependingOnNbVisitsIfColumnsHaveSameValueAndNbVisitsIsNegative()
+    {
+        $this->table->addRowsFromArray(array(
+            array(Row::COLUMNS => array('label' => 'pos1', 'nb_visits' => -40, 'growth' => 7)),
+            array(Row::COLUMNS => array('label' => 'pos2', 'nb_visits' => -55, 'growth' => 7)),
+            array(Row::COLUMNS => array('label' => 'pos3', 'nb_visits' => -35, 'growth' => 7)),
+            array(Row::COLUMNS => array('label' => 'pos4', 'nb_visits' => -60, 'growth' => 7)),
+            array(Row::COLUMNS => array('label' => 'pos5', 'nb_visits' => -7, 'growth' => 7)),
+            array(Row::COLUMNS => array('label' => 'pos6', 'nb_visits' => -35, 'growth' => 7)),
+            array(Row::COLUMNS => array('label' => 'neg1', 'nb_visits' => -33, 'growth' => -5)),
+            array(Row::COLUMNS => array('label' => 'neg2', 'nb_visits' => -34, 'growth' => -5)),
+            array(Row::COLUMNS => array('label' => 'neg3', 'nb_visits' => -99, 'growth' => -5)),
+            array(Row::COLUMNS => array('label' => 'neg4', 'nb_visits' => -20, 'growth' => -5))
+        ));
+
+        $this->applyOrderByFilter();
+
+        $this->assertOrder(array('pos4', 'pos2', 'pos1', 'pos3', 'pos6', 'pos5', 'neg3', 'neg2', 'neg1', 'neg4'));
     }
 
     private function assertOrder($expectedOrder)
@@ -79,7 +99,7 @@ class FilterOrderByTest extends \PHPUnit_Framework_TestCase
 
     private function applyOrderByFilter()
     {
-        $filter = new OrderBy($this->table, 'growth');
+        $filter = new OrderBy($this->table, 'growth', 'nb_visits');
         $filter->filter($this->table);
     }
 

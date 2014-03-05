@@ -13,11 +13,11 @@ use Piwik\DataTable\Row;
 
 class OrderBy extends BaseFilter
 {
-    private $columnToRead;
+    private $columnsToCheck;
 
-    public function __construct($table, $columnToRead)
+    public function __construct($table, $columnToRead, $columnSecondOrder, $columnThirdOrder = '')
     {
-        $this->columnToRead = $columnToRead;
+        $this->columnsToCheck = array($columnToRead, $columnSecondOrder, $columnThirdOrder);
     }
 
     public function filter($table)
@@ -26,27 +26,46 @@ class OrderBy extends BaseFilter
             return;
         }
 
-        $table->sort(array($this, 'sort'), $this->columnToRead);
+        $table->sort(array($this, 'sort'), $this->columnsToCheck[0]);
     }
 
     public function sort(Row $a, Row $b)
     {
-        $valA = $a->getColumn($this->columnToRead);
-        $valB = $b->getColumn($this->columnToRead);
+        foreach ($this->columnsToCheck as $column) {
+            if ($column) {
 
-        if (!isset($valA) && !isset($valB)) {
+                $valA = $a->getColumn($column);
+                $valB = $b->getColumn($column);
+                $sort = $this->sortVal($valA, $valB);
+
+                if (isset($sort)) {
+                    return $sort;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    private function sortVal($valA, $valB)
+    {
+        if ((!isset($valA) || $valA === false) && (!isset($valB) || $valB === false)) {
             return 0;
         }
 
-        if (!isset($valA)) {
+        if (!isset($valA) || $valA === false) {
             return 1;
         }
 
-        if (!isset($valB)) {
+        if (!isset($valB) || $valB === false) {
             return -1;
         }
 
-        if ($valA > 0 && $valB < 0) {
+        if ($valA === $valB) {
+            return null;
+        }
+
+        if ($valA >= 0 && $valB < 0) {
             return -1;
         }
 
@@ -58,18 +77,7 @@ class OrderBy extends BaseFilter
             return $valA < $valB ? 1 : -1;
         }
 
-        $aVisits = $a->getColumn('nb_visits');
-        $bVisits = $b->getColumn('nb_visits');
-
-        if ($aVisits == $bVisits) {
-            return 0;
-        }
-
-        if ($aVisits > $bVisits) {
-            return -1;
-        }
-
-        return 1;
+        return null;
     }
 
 }

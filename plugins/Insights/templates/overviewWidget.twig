@@ -1,10 +1,10 @@
 {% set allMetadata = reports.getFirstRow.getAllTableMetadata %}
 
-{% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(allMetadata.minValue, allMetadata.minValuePercent, allMetadata.totalValue, allMetadata.minGrowthPercent, allMetadata.lastDate|prettyDate(allMetadata.period)) %}
+{% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(allMetadata.minGrowthPercent, allMetadata.lastDate|prettyDate(allMetadata.period)) %}
 {% set consideredChanges = '' %}
 
 {% if allMetadata.minChangeMovers or allMetadata.minIncreaseNew or allMetadata.minDecreaseDisappeared %}
-    {% set consideredChanges = 'Insights_TitleConsideredChanges'|translate(allMetadata.minChangeMovers, allMetadata.minIncreaseNew, allMetadata.minDecreaseDisappeared) %}
+    {% set consideredChanges = 'Insights_TitleConsideredChanges'|translate(allMetadata.minChangeMovers, allMetadata.minIncreaseNew, allMetadata.minDecreaseDisappeared, allMetadata.totalValue) %}
 {% endif %}
 
 <div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
