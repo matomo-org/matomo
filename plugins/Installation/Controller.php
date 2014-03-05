@@ -871,7 +871,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $infos['serverOs'] = @php_uname();
         $infos['serverTime'] = date('H:i:s');
 
-        $infos['registerGlobals_ok'] = ini_get('register_globals') == 0;
         $infos['memoryMinimum'] = $minimumMemoryLimit;
 
         $infos['memory_ok'] = true;
@@ -940,7 +939,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (   !empty($infos['missing_desired_extensions'])
             || !$infos['gd_ok']
             || !$infos['multibyte_ok']
-            || !$infos['registerGlobals_ok']
             || !$infos['memory_ok']
             || !empty($infos['integrityErrorMessages'])
             || !$infos['timezone'] // if timezone support isn't available
