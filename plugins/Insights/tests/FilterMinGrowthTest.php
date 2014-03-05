@@ -18,12 +18,8 @@ use Piwik\Plugins\Insights\DataTable\Filter\MinGrowth;
  * @group Unit
  * @group Core
  */
-class FilterMinGrowthTest extends \PHPUnit_Framework_TestCase
+class FilterMinGrowthTest extends BaseUnitTest
 {
-    /**
-     * @var DataTable
-     */
-    private $table;
 
     public function setUp()
     {
@@ -79,12 +75,6 @@ class FilterMinGrowthTest extends \PHPUnit_Framework_TestCase
         $this->applyMinGrowthFilter(999);
 
         $this->assertOrder(array());
-    }
-
-    private function assertOrder($expectedOrder)
-    {
-        $this->assertEquals($expectedOrder, $this->table->getColumn('label'));
-        $this->assertEquals(count($expectedOrder), $this->table->getRowsCount());
     }
 
     private function applyMinGrowthFilter($minGrowthPercent)

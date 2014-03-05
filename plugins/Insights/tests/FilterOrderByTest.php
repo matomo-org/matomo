@@ -18,13 +18,8 @@ use Piwik\Plugins\Insights\DataTable\Filter\OrderBy;
  * @group Unit
  * @group Core
  */
-class FilterOrderByTest extends \PHPUnit_Framework_TestCase
+class FilterOrderByTest extends BaseUnitTest
 {
-    /**
-     * @var DataTable
-     */
-    private $table;
-
     public function setUp()
     {
         $this->table = new DataTable();
@@ -89,12 +84,6 @@ class FilterOrderByTest extends \PHPUnit_Framework_TestCase
         $this->applyOrderByFilter();
 
         $this->assertOrder(array('pos4', 'pos2', 'pos1', 'pos3', 'pos6', 'pos5', 'neg3', 'neg2', 'neg1', 'neg4'));
-    }
-
-    private function assertOrder($expectedOrder)
-    {
-        $this->assertEquals($expectedOrder, $this->table->getColumn('label'));
-        $this->assertEquals(count($expectedOrder), $this->table->getRowsCount());
     }
 
     private function applyOrderByFilter()

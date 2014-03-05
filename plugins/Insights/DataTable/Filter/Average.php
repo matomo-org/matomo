@@ -26,11 +26,13 @@ class Average extends DataTable\BaseFilter
             return;
         }
 
-        foreach ($table->getRows() as $key => $row) {
+        foreach ($table->getRows() as $row) {
 
             $value = $row->getColumn($this->columnToRead);
 
-            $row->setColumn($this->columnToRead, round($value / $this->divisor));
+            if (false !== $value && is_numeric($value)) {
+                $row->setColumn($this->columnToRead, round($value / $this->divisor));
+            }
         }
     }
 }

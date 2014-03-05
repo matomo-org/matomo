@@ -79,14 +79,11 @@ class Insight extends Visualization
         return true;
     }
 
-    public function afterAllFiltersAreApplied()
-    {
-        $this->assignTemplateVar('period', Common::getRequestVar('period', null, 'string'));
-    }
-
     public function beforeRender()
     {
-        $this->config->datatable_js_type  = 'InsightsDataTable';
+        $this->assignTemplateVar('period', Common::getRequestVar('period', null, 'string'));
+
+        $this->config->datatable_js_type = 'InsightsDataTable';
         $this->config->show_limit_control = true;
         $this->config->show_pagination_control = false;
         $this->config->show_offset_information = false;
