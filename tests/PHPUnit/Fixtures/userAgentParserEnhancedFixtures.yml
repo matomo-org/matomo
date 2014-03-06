@@ -5749,8 +5749,8 @@
     short_name: WI7
     version: 7
   browser:
-    name: Opera Next
-    short_name: ON
+    name: Opera
+    short_name: OP
     version: 18.0
   device:
     type: desktop
@@ -5941,8 +5941,8 @@
     short_name: WI8
     version: 8
   browser:
-    name: Opera Next
-    short_name: ON
+    name: Opera
+    short_name: OP
     version: 18.0
   device:
     type: desktop
@@ -18261,8 +18261,8 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Opera Next
-    short_name: ON
+    name: Opera
+    short_name: OP
     version: 19.0
   device:
     type: tablet
@@ -19205,8 +19205,8 @@
     short_name: AND
     version: 3.0
   browser:
-    name: Opera Next
-    short_name: ON
+    name: Opera
+    short_name: OP
     version: 16.0
   device:
     type: tablet
@@ -19445,8 +19445,8 @@
     short_name: AND
     version: 4.0
   browser:
-    name: Opera Next
-    short_name: ON
+    name: Opera
+    short_name: OP
     version: 18.0
   device:
     type: tablet
@@ -22190,3 +22190,67 @@
     model:
   os_family: WebTV
   browser_family: Internet Explorer
+-
+  user_agent: Opera/9.80 (Windows NT 6.0; Edition Next) Presto/2.12 Version/12.10
+  os:
+    name: Windows Vista
+    short_name: WVI
+    version: Vista
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 12.10
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Windows
+  browser_family: Opera
+-
+  user_agent: Opera/9.80 (Windows NT 6.2; U; Edition Next; ru) Presto/2.11 Version/12.50
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 12.50
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Windows
+  browser_family: Opera
+-
+  user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 1091) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next)
+  os:
+    name: Mac
+    short_name: MAC
+    version: 
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 20.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Mac
+  browser_family: Opera
+-
+  user_agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next-Campaign 21)
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 20.0
+  device:
+    type: desktop
+    brand: 
+    model: 
+  os_family: Windows
+  browser_family: Opera
