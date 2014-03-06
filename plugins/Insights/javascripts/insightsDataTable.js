@@ -11,6 +11,8 @@
         DataTable = exports.DataTable,
         dataTablePrototype = DataTable.prototype;
 
+     var UIControl = exports.UIControl;
+
      function getValueFromEvent(event)
      {
          return event.target.value ? event.target.value : $(event.target).attr('value');
@@ -26,7 +28,16 @@
         this.parentId = '';
         this.disabledRowDom = {}; // to handle double click on '+' row
 
-        DataTable.call(this, element);
+        if ($(element).attr('data-table-onlyinsightsinit')) {
+            // overview-widget
+            UIControl.call(this, element);
+            this._init($(element));
+            this.workingDivId = this._createDivId();
+            $(element).attr('id', this.workingDivId);
+
+        } else {
+            DataTable.call(this, element);
+        }
     };
 
     $.extend(exports.InsightsDataTable.prototype, dataTablePrototype, {
@@ -45,7 +56,7 @@
         setFixWidthToMakeEllipsisWork: function (domElem) {
             var width = domElem.width();
             if (width) {
-                $('td.label', domElem).width(parseInt(width * 0.60, 10));
+                $('td.label', domElem).width(parseInt(width * 0.50, 10));
             }
         },
 

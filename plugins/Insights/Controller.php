@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Insights;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugins\Insights\Visualizations\Insight;
 use Piwik\View;
 
 /**
@@ -20,19 +21,19 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getInsightsOverview()
     {
-        $view = $this->prepareWidget($apiReport = 'getInsightsOverview');
+        $view = $this->prepareWidget('insightsOverviewWidget.twig', $apiReport = 'getInsightsOverview');
 
         return $view->render();
     }
 
     public function getOverallMoversAndShakers()
     {
-        $view = $this->prepareWidget($apiReport = 'getOverallMoversAndShakers');
+        $view = $this->prepareWidget('moversAndShakersOverviewWidget.twig', $apiReport = 'getMoversAndShakersOverview');
 
         return $view->render();
     }
 
-    private function prepareWidget($apiReport)
+    private function prepareWidget($template, $apiReport)
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $period = Common::getRequestVar('period', null, 'string');
@@ -40,7 +41,14 @@ class Controller extends \Piwik\Plugin\Controller
 
         Piwik::checkUserHasViewAccess(array($idSite));
 
-        $view = new View('@Insights/overviewWidget.twig');
+        if (!API::getInstance()->canGenerateInsights($period, $date)) {
+
+            $view = new View('@Insights/cannotDisplayReport.twig');
+            $this->setBasicVariablesView($view);
+            return $view;
+        }
+
+        $view = new View('@Insights/' . $template);
         $this->setBasicVariablesView($view);
 
         $view->reports = API::getInstance()->$apiReport($idSite, $period, $date);

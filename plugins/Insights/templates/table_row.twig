@@ -1,5 +1,6 @@
-<tr title="{{ 'Insights_TitleRowChangeDetails'|translate(row.getColumn('label'), row.getColumn('value_old'), metadata.lastDate|prettyDate(metadata.period), row.getColumn('value_new'), metadata.date|prettyDate(metadata.period), metadata.metricName)|e('html_attr') }}">
-    <td>
+<tr title="{{ 'Insights_TitleRowChangeDetails'|translate(row.getColumn('label'), row.getColumn('value_old'), metadata.lastDate|prettyDate(metadata.period), row.getColumn('value_new'), metadata.date|prettyDate(metadata.period), metadata.metricName)|e('html_attr') }}"
+    {% if isShaker is defined and isShaker %}class="isMoverAndShaker"{% endif %}>
+    <td class="label">
         <span class="title">
             {{ row.getColumn('label') }}
         </span>
