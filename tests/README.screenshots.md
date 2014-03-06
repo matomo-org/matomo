@@ -1,32 +1,46 @@
 # Screenshots UI tests
 
-Piwik contains UI tests that work by taking a screenshot of a URL and comparing it with
-an expected screenshot. If any screenshots do not match, the build will fail.
-These screenshots are taken after each commit to our git repository.
-This powerful tool, which we call continuous User Interface tests, enables Piwik to remain stable and innovate faster.
- Learn more below!
+Piwik contains UI tests that compare captured screenshots of URLs and UI controls with expected screenshots.
+If a captured screenshot does not match its expected screenshot, the build will fail.
 
-## Using screenshots tests
+Read on to learn how to run, manage and create screenshot tests.
 
-As a Piwik developer, you may make changes to Piwik User interface.
-When you change some CSS or visuals, it may make the Travis UI Test go from green to red.
-We have tried to make fixing the build easy, please read below how to fix the screenshot build:
+## Fixing a broken build
 
-**As a Piwik developer, how do I fix UI tests build?**
+Changes made to Piwik that affect the UI (such as changes to CSS, JavaScript, Twig templates or even PHP code) may
+break the UI tests build. This is an opportunity to review your code and as a Piwik developer you should ensure that
+any side effects created by your changes are correct.
 
- * If the piwik-ui-tests travis build has failed, go to travis: [https://travis-ci.org/piwik/piwik-ui-tests](https://travis-ci.org/piwik/piwik-ui-tests)
- * Click on the latest failed build.
- * In the output for this build, you will find a message such as:
-     http://builds-artifacts.piwik.org/ui-tests.master/1617.1/screenshot-diffs/diffviewer.html
- * Visit this URL. It lists all screenshots which have changed in your commit.
- * Check that the changes are desired. Sometimes we introduce regression without realising, and screenshot tests can help us spot such regressions.
-     * If the change is not wanted, revert or fix your commit.
-     * If the change is wanted, then you can set the new screenshots as the expected screenshot.
+If they are not correct, determine the cause of the change and fix it in a new commit. If the changes are correct, 
+then you should update the expected screenshots accordingly.
+
+**Steps to fix a broken build**
+
+To fix a broken build, follow these steps:
+
+ * Go to the UI tests travis build: [https://travis-ci.org/piwik/piwik-ui-tests](https://travis-ci.org/piwik/piwik-ui-tests)
+ * Find the build you are interested in. The UI tests build will be run for each commit in each branch, so if you're
+   looking to resolve a specific failure, you'll have to find the build for the commit you've made.
+ * In the build output, at the beginning of the test output, there will be a link to a image diff viewer. It will look something
+   like this:
+
+       View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
+   
+   Click on the link in the message.
+ * The diff viewer will list links to the generated screenshots for failed tests as well as the expected screenshots and image diffs.
+ * For each failure, check if the change is desired. Sometimes we introduce regression without realising, and screenshot tests can help us spot such regressions.
+     * If a change is not wanted, revert or fix your commit.
+     * If a change is correct, then you can set the new screenshot as the expected screenshot.
        To do so, in the diffviewer.html page click on the "Processed" link for this screenshot.
        Then "Save this file as" and save it in the piwik/tests/PHPUnit/UI/expected-ui-screenshots/ directory.
+       (If the screenshot test is for a plugin and not Piwik Core, the expected screenshot should be added to the
+       plugin's expected screenshot directory. For example: piwik/plugins/DBStats/tests/UI/expected-ui-screenshots.)
+
+     _Note: When determining whether a screenshot is correct, the data displayed is not important. Report data correctness is verified through Integration and other PHP tests. The UI tests should only test UI behavior._
  * Push the changes (to your code and/or to the expected-ui-screenshots directory.
  * Wait for next UI Tests build [on travis](https://travis-ci.org/piwik/piwik-ui-tests). Hopefully, the build should be green!
 
+_Note: the **development:sync-ui-test-screenshots** console command can be used to speed up the process. Run **./console help development:sync-ui-test-screenshots** to learn more._
 
 ## Setup screenshots tests on your dev box
 
@@ -36,14 +50,11 @@ These tests are in another repository but are included in Piwik as a submodule. 
     $ git submodule update
 
 In order to run UI tests, you need to have [phantomjs](http://phantomjs.org) version 1.9.0 or greater
-installed on your machine. You can download phantomjs [here](http://phantomjs.org/download.html). phantomjs is headless, so even if you're on a server without the X window system, you can still run the
-UI tests.
+installed on your machine. You can download phantomjs [here](http://phantomjs.org/download.html). phantomjs is headless, so even if you're on a server without the X window system, you can still run the UI tests.
 
-On Ubuntu:
+To generate screenshots identical to those generated by Travis, we install some extra fonts. On Ubuntu run:
 
     $ sudo apt-get install ttf-mscorefonts-installer imagemagick imagemagick-doc
-
-To generate screenshots identical to those generated by Travis, we install some extra fonts. 
 
 Imagick is used to generate the "difference" screenshots which show which pixels have changed.
 
@@ -51,12 +62,148 @@ Removing this font may be useful if your generated screenshots' fonts do not mat
 
     $ sudo apt-get remove ttf-bitstream-vera
 
+### Configuring screenshot testing library
+
+The screenshot testing library's configuration resides in the tests/lib/screenshot-testing/config.js file. If your development environment's PHP executable isn't named 'php' or your dev Piwik install isn't at http://localhost/, you may need to edit the contents of this file.
+
 ## Running Tests
 
-You can test the UI by running:
+You can test the UI by running the following command in the root piwik directory:
 
-    $ cd PHPUnit
-    $ phpunit --group UI
+    $ ./console tests:run-ui
+
+This will run every UI test in Piwik Core as well as in each plugin directory.
+
+To run a single test, run:
+
+    $ ./console tests:run-ui TestName
+
+where **TestName** is the name of a mocha test specification. For example, to run the tests within the Dashboard\_spec.js, run:
+
+    $ ./console tests:run-ui Dashboard
+
+The test names to use is determined by the test itself in the calls to `describe(...`.
+
+The following options may be useful if you plan on running the UI tests locally often:
+
+ * **--persist-fixture-data**: This will save the test data in a separate database so the setup only has to be run once.
+                               This can save 5 mins per screenshot test run.
+ * **--drop**: If you've used --persist-fixture-data and need to re-setup the separate data, use this option with --persist-fixture-data.
+ * **--keep-symlinks**: If you want to visit the URLs of captured pages in a browser to diagnose failures use this option.
+                        This will keep the recursive symlinks in tests/PHPUnit/proxy.
+
+## Writing Tests
+
+UI screenshot tests are run directly by phantomjs and are written using [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com).
+
+To create a new test, first decide whether it will belong to Piwik Core or a plugin. If it will belong to Piwik Core, the test should be placed within the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository. Otherwise, it should be placed within tests/UI sub-directory of your plugin.
+
+All test files should have \_spec.js file name suffixes (for example, **ActionsDataTable\_spec.js**).
+
+Tests should be written using [BDD](http://en.wikipedia.org/wiki/Behavior-driven_development) style, for example:
+
+    describe("TheControlImTesting", function () {
+        // ...
+    });
+
+Since screenshots can take a while to capture, you will want to override mocha's default timeout like this:
+
+    describe("TheControlImTesting", function () {
+        this.timeout(0);
+
+        // ...
+    });
+
+Each test should use Piwik's special chai extension to capture and compare screenshots:
+
+    describe("TheControlImTesting", function () {
+        this.timeout(0);
+
+        var url = // ...
+
+        it("should load correctly", function (done) {
+            expect.screenshot("screenshot_name").to.be.capture(function (page) {
+                page.load(url);
+            }, done);
+        });
+    });
+
+If you want to compare a screenshot against an already existing expected screenshot you can do the following:
+
+    it("should load correctly", function (done) {
+        expect.screenshot("screenshot_to_comapre_against", "OptionalPrefix").to.be.capture("processed_screenshot_name", function (page) {
+            page.load(url);
+        }, done);
+    });
+
+`"OptionalPrefix"` will default to the name of the test.
+
+### Manipulating Pages Before Capture
+
+The callback supplied to the `capture()` function accepts one argument: the page renderer. You can use this object to queue events to be sent to the page before taking a screenshot. For example:
+
+    .capture(function (page) {
+        page.click('.myDropDown');
+        page.mouseMove('.someOtherElement');
+    }, done);
+
+After each event the page renderer will wait for all AJAX requests to finish and for all images to load and then will wait 1s longer for any JavaScript to finish. If you want to wait longer, you can supply an extra wait time (in milliseconds) to the event queuing call:
+
+    .capture(function (page) {
+        page.click('.something');
+        page.click('.myReallyLongRunningJavaScriptFunctionButton', 10000); // will wait for 10s
+    }, done);
+
+_Note: phantomjs has its quirks and you may have to hack around to get certain behavior to work. For example, clicking a &lt;select&gt; will not open the dropdown, so dropdowns have to be manipulated via JavaScript within the page (ie, the .evaluate() method)._
+
+**Page Renderer Object Methods**
+
+The page renderer object has the following methods:
+
+ * **click(selector, [modifiers], [waitTime])**: Sends a click to the element referenced by `selector`. Modifiers is an array of strings that can be used to specify keys that are pressed at the same time. Currently only `'shift'` is supported.
+ * **mouseMove(selector, [waitTime])**: Sends a mouse move event to the element referenced by `selector`.
+ * **mousedown(selector, [waitTime])**: Sends a mouse down event to the element referenced by `selector`.
+ * **mouseup(selector, [waitTime])**: Sends a mouse up event to the element referenced by `selector`.
+ * **sendKeys(selector, keyString, [waitTime])**: Clicks an element to bring it into focus and then simulates typing a string of keys.
+ * **sendMouseEvent(type, pos. [waitTime])**: Sends a mouse event by name to a specific position. `type` is the name of an event that phantomjs will recognize. `pos` is a point, eg, `{x: 0, y: 0}`.
+ * **wait([waitTime])**: Waits without doing anything.
+ * **load(url, [waitTime])**: Loads a URL.
+ * **reload([waitTime])**: Reloads the current URL.
+ * **evaluate(impl, [waitTime])**: Evaluates a function (`impl`) within a webpage. `impl` is an actual function, not a string and must take no arguments.
+
+All **selector**s are jQuery selectors, so you can use jQuery only filters such as `:eq`.
+
+All events are real events, not synthetic DOM events.
+
+### Manipulating the Test Environment
+
+Sometimes it will be necessary to manipulate Piwik for testing purposes. You may want to remove randomness, manipulate data or simulate certain situations (such as there being no config.ini.php file). This section describes how you can do that.
+
+**In your screenshot tests,** use the global **testEnvironment** object. You can use this object to call Piwik API methods using the **callApi(method, params, callback)** method and to call Piwik Controller methods using the **callController(method, params, callback)** method.
+
+You can communicate with PHP code by setting data on the testEnvironment object and calling **save()**, for example:
+
+    testEnvironment.myTestVar = "abcdefg";
+    testEnvironment.save();
+
+This data will be loaded by the **TestingEnvironment** PHP class.
+
+**In your Piwik plugin,** handle the **TestingEnvironment.addHooks** event and use the data in the TestingEnvironment object. for example:
+
+    // event handler in a plugin descriptor class
+    public function addTestHooks($testingEnvironment) {
+        if ($testingEnvironment->myTestVar) {
+            // ...
+        }
+    }
+
+_Note: the Piwik environment is not initialized when the **TestingEnvironment.addHooks** event is fired, so attempts to use the Config and other objects may fail. It is best to use Piwik::addAction to inject logic._
+
+The following are examples of test environment manipulation:
+
+ * [Overlay_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Overlay_spec.js)
+ * [Dashboard_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Dashboard_spec.js)
+ * [Login_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Login_spec.js)
 
 ## Learn more 
 

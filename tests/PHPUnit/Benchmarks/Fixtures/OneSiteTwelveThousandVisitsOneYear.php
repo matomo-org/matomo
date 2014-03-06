@@ -22,7 +22,7 @@ class Piwik_Test_Fixture_OneSiteTwelveThousandVisitsOneYear
     public function setUp()
     {
         // add one site
-        Test_Piwik_BaseFixture::createWebsite(
+        Fixture::createWebsite(
             $this->date, $ecommerce = 1, $siteName = "Site #0", $siteUrl = "http://whatever.com/");
 
         // add two goals

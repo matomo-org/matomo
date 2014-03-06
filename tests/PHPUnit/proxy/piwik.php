@@ -21,6 +21,8 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 // calling us waits for the full request to process before unblocking
 ob_start();
 
+Piwik_TestingEnvironment::addHooks();
+
 Config::getInstance()->setTestEnvironment();
 
 try {

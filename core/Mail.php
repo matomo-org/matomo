@@ -80,4 +80,13 @@ class Mail extends Zend_Mail
         Mail::setDefaultTransport($tr);
         ini_set("smtp_port", $mailConfig['port']);
     }
+
+    public function send($transport = NULL)
+    {
+        if (defined('PIWIK_TEST_MODE')) { // hack
+            Piwik::postTestEvent("Test.Mail.send", array($this));
+        } else {
+            return parent::send($transport);
+        }
+    }
 }

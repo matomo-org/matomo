@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,26 +22,60 @@ class SyncUITestScreenshots extends ConsoleCommand
     protected function configure()
     {
         $this->setName('development:sync-ui-test-screenshots');
-        $this->setDescription('This command is intended for Piwik core developers. It copies all processed screenshot tests on Travis to the expected screenshot directory.');
-        $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync');
+        $this->setDescription('This command is intended for Piwik core developers. It copies all processed screenshot '
+                            . 'tests on Travis to the expected screenshot directory.');
+        $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
+        $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
+            'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $buildnumber = $input->getArgument('buildnumber');
+        $buildNumber = $input->getArgument('buildnumber');
+        $screenshotsRegex = $input->getArgument('screenshotsRegex');
 
-        if (empty($buildnumber)) {
+        if (empty($buildNumber)) {
             throw new \InvalidArgumentException('Missing build number.');
         }
 
-        $target = PIWIK_DOCUMENT_ROOT . '/tests/PHPUnit/UI/expected-ui-screenshots';
+        $urlBase = sprintf('http://builds-artifacts.piwik.org/ui-tests.master/%s', $buildNumber);
+        $diffviewer = Http::sendHttpRequest($urlBase . "/screenshot-diffs/diffviewer.html", $timeout = 60);
 
-        $cmd = sprintf('wget -r --level=0 --no-parent -m -nH --cut-dirs=3 -p -erobots=off -P "%s" -A *.png http://builds-artifacts.piwik.org/ui-tests.master/%s/processed-ui-screenshots', $target, $buildnumber);
-        $output->writeln('Executing command: ' . $cmd);
-        passthru($cmd);
+        $dom = new \DOMDocument();
+        $dom->loadHTML($diffviewer);
+        foreach ($dom->getElementsByTagName("tr") as $row) {
+            $columns = $row->getElementsByTagName("td");
 
-        $cmd = sprintf('rm -rf %s/Morpheus', $target);
-        $output->writeln('Executing command: ' . $cmd);
-        passthru($cmd);
+            $nameColumn = $columns->item(0);
+            $processedColumn = $columns->item(2);
+
+            $testPlugin = null;
+            if ($nameColumn
+                && preg_match("/\(for ([a-zA-Z_]+) plugin\)/", $dom->saveXml($nameColumn), $matches)
+            ) {
+                $testPlugin = $matches[1];
+            }
+
+            $file = null;
+            if ($processedColumn
+                && preg_match("/href=\".*\/(.*)\"/", $dom->saveXml($processedColumn), $matches)
+            ) {
+                $file = $matches[1];
+            }
+
+            if ($file !== null
+                && preg_match("/" . $screenshotsRegex . "/", $file)
+            ) {
+                if ($testPlugin == null) {
+                    $downloadTo = "tests/PHPUnit/UI/expected-ui-screenshots/$file";
+                } else {
+                    $downloadTo = "plugins/$testPlugin/tests/UI/expected-ui-screenshots/$file";
+                }
+
+                $output->write("<info>Downloading $file to .$downloadTo...</info>\n");
+                Http::sendHttpRequest("$urlBase/processed-ui-screenshots/$file", $timeout = 60, $userAgent = null,
+                    PIWIK_DOCUMENT_ROOT . "/" . $downloadTo);
+            }
+        }
     }
 }

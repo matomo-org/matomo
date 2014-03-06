@@ -12,7 +12,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 /**
  * This fixture adds one website and tracks two visits by one visitor.
  */
-class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_OneVisitorTwoVisits extends Fixture
 {
     public $idSite = 1;
     public $idSiteEmptyBis;

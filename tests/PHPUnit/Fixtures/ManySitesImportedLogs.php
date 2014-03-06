@@ -14,7 +14,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 /**
  * Imports visits from several log files using the python log importer.
  */
-class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
 {
     public $dateTime = '2012-08-09 11:22:33';
     public $idSite = 1;
@@ -131,7 +131,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                       '--enable-testmode'           => false,
                       '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '2');
-        self::createSuperUser();
+
         self::executeLogImporter($logFile, $opts);
     }
 
@@ -149,7 +149,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                       '--enable-testmode'           => false,
                       '--recorders'                 => '4',
                       '--recorder-max-payload-size' => '1');
-        self::createSuperUser();
         self::executeLogImporter($logFile, $opts);
     }
 

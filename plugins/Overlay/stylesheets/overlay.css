@@ -153,3 +153,7 @@ body .ui-tooltip.Overlay_Tooltip {
 #topBars {
     display: none;
 }
+
+.overlay-sidebar-container {
+    width: 220px;
+}

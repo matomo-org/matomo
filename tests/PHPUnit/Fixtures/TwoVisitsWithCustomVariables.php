@@ -11,7 +11,7 @@ use Piwik\Plugins\Goals\API;
 /**
  * Adds one site with two goals and tracks two visits with custom variables.
  */
-class Test_Piwik_Fixture_TwoVisitsWithCustomVariables extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoVisitsWithCustomVariables extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;

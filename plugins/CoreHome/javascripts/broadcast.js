@@ -369,7 +369,8 @@ var broadcast = {
             newHash = '#';
         }
 
-        window.location.href = 'index.php' + window.location.search + newHash;
+        broadcast.forceReload = false;
+        $.history.load(newHash);
     },
 
     /**

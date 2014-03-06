@@ -315,4 +315,3 @@ class AnnotationsTest extends IntegrationTestCase
 }
 
 AnnotationsTest::$fixture = new Test_Piwik_Fixture_TwoSitesWithAnnotations();
-

@@ -46,7 +46,9 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
     public function tearDown()
     {
         $this->setSuperUser();
-        $this->settings->removeAllPluginSettings();
+        if ($this->settings) {
+            $this->settings->removeAllPluginSettings();
+        }
 
         parent::tearDown();
     }

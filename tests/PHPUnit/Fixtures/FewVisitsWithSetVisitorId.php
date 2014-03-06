@@ -11,7 +11,7 @@ use Piwik\Tracker\Visit;
 /**
  * Adds one site and tracks a couple visits using a custom visitor ID.
  */
-class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Fixture
 {
     public $idSite = 1;
     public $dateTime = '2010-03-06 11:22:33';

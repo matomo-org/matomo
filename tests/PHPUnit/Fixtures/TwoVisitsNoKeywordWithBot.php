@@ -12,7 +12,7 @@ use Piwik\Plugins\Goals\API;
  * Adds one site and tracks two visits. One visit is a bot and one has no keyword
  * but is from a search engine.
  */
-class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;

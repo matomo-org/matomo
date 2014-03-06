@@ -11,7 +11,7 @@ use Piwik\Date;
  * Adds one site and tracks 7 visits w/ some long-ish urls (as page urls and
  * referrer urls).
  */
-class Test_Piwik_Fixture_SomeVisitsWithLongUrls extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_SomeVisitsWithLongUrls extends Fixture
 {
     public $dateTime = '2010-03-06 01:22:33';
     public $idSite = 1;

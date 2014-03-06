@@ -41,7 +41,7 @@ class Core_CliMultiTest extends IntegrationTestCase
         parent::setUp();
 
         $this->cliMulti  = new CliMulti();
-        $this->authToken = Test_Piwik_BaseFixture::getTokenAuth();
+        $this->authToken = Fixture::getTokenAuth();
 
         $this->urls = array(
             'getAnswerToLife' => $this->completeUrl('?module=API&method=ExampleAPI.getAnswerToLife&format=JSON'),
@@ -130,7 +130,7 @@ class Core_CliMultiTest extends IntegrationTestCase
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
     {
-        Test_Piwik_BaseFixture::createWebsite('2014-01-01 00:00:00');
+        Fixture::createWebsite('2014-01-01 00:00:00');
 
         $urls = array($this->completeUrl('/?module=Widgetize&idSite=1&period=day&date=today'));
 
@@ -204,7 +204,7 @@ class Core_CliMultiTest extends IntegrationTestCase
 
     private function completeUrl($query)
     {
-        $host = Test_Piwik_BaseFixture::getRootUrl();
+        $host = Fixture::getRootUrl();
 
         if (false === strpos($query, '?')) {
             $query .= '?';
@@ -224,5 +224,4 @@ class Core_CliMultiTest extends IntegrationTestCase
 
         return $numFilesInTmp + $numFilesInSubfolders;
     }
-
 }

@@ -24,7 +24,7 @@ class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
         // add one thousand sites
         $allIdSites = array();
         for ($i = 0; $i < 1000; ++$i) {
-            $allIdSites[] = Test_Piwik_BaseFixture::createWebsite($this->date, $ecommerce = 1, $siteName = "Site #$i");
+            $allIdSites[] = Fixture::createWebsite($this->date, $ecommerce = 1, $siteName = "Site #$i");
         }
 
         // add goals to 500 sites

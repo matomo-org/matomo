@@ -37,7 +37,8 @@ class DBStats extends \Piwik\Plugin
             'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'ViewDataTable.configure'         => 'configureViewDataTable',
-            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable'
+            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable',
+            "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
         );
     }
 
@@ -373,5 +374,13 @@ class DBStats extends \Piwik\Plugin
         if ($lastGenerated !== false) {
             $view->config->show_footer_message = Piwik::translate('Mobile_LastUpdated', $lastGenerated);
         }
+    }
+
+    public function setupTestEnvironment($environment)
+    {
+        Piwik::addAction("MySQLMetadataProvider.createDao", function (&$dao) {
+            require_once dirname(__FILE__) . "/tests/Mocks/MockDataAccess.php";
+            $dao = new Mocks\MockDataAccess();
+        });
     }
 }

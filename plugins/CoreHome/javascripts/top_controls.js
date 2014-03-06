@@ -7,18 +7,21 @@
 function initTopControls() {
     var $topControlsContainer = $('.top_controls'),
         left = 0;
-    $('.piwikTopControl').each(function () {
-        var $control = $(this);
-        if ($control.css('display') == 'none') {
-            return;
-        }
+    
+    if ($topControlsContainer.length) {
+        $('.piwikTopControl').each(function () {
+            var $control = $(this);
+            if ($control.css('display') == 'none') {
+                return;
+            }
 
-        $control.css('left', left);
+            $control.css('left', left);
 
-        if (!$.contains($topControlsContainer[0], this)) {
-            $control.detach().appendTo($topControlsContainer);
-        }
+            if (!$.contains($topControlsContainer[0], this)) {
+                $control.detach().appendTo($topControlsContainer);
+            }
 
-        left += $control.outerWidth(true);
-    });
+            left += $control.outerWidth(true);
+        });
+    }
 }

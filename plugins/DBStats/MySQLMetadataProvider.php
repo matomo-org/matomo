@@ -15,6 +15,7 @@ use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
+use Piwik\Piwik;
 
 /**
  * Utility class that provides general information about databases, including the size of
@@ -32,11 +33,20 @@ class MySQLMetadataProvider
     private $tableStatuses = null;
 
     /**
+     * Data access object.
+     */
+    public $dataAccess = null;
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
-        // empty
+        Piwik::postTestEvent("MySQLMetadataProvider.createDao", array(&$this->dataAccess));
+
+        if ($this->dataAccess === null) {
+            $this->dataAccess = new MySQLMetadataDataAccess();
+        }
     }
 
     /**
@@ -47,31 +57,7 @@ class MySQLMetadataProvider
      */
     public function getDBStatus()
     {
-        if (function_exists('mysql_connect')) {
-            $configDb = Config::getInstance()->database;
-            $link = mysql_connect($configDb['host'], $configDb['username'], $configDb['password']);
-            $status = mysql_stat($link);
-            mysql_close($link);
-            $status = explode("  ", $status);
-        } else {
-            $fullStatus = Db::fetchAssoc('SHOW STATUS');
-            if (empty($fullStatus)) {
-                throw new Exception('Error, SHOW STATUS failed');
-            }
-
-            $status = array(
-                'Uptime'                 => $fullStatus['Uptime']['Value'],
-                'Threads'                => $fullStatus['Threads_running']['Value'],
-                'Questions'              => $fullStatus['Questions']['Value'],
-                'Slow queries'           => $fullStatus['Slow_queries']['Value'],
-                'Flush tables'           => $fullStatus['Flush_commands']['Value'],
-                'Open tables'            => $fullStatus['Open_tables']['Value'],
-                'Opens'                  => 'unavailable', // not available via SHOW STATUS
-                'Queries per second avg' => 'unavailable' // not available via SHOW STATUS
-            );
-        }
-
-        return $status;
+        return $this->dataAccess->getDBStatus();
     }
 
     /**
@@ -89,7 +75,7 @@ class MySQLMetadataProvider
         if (!is_null($this->tableStatuses) && isset($this->tableStatuses[$prefixed])) {
             return $this->tableStatuses[$prefixed];
         } else {
-            return Db::fetchRow("SHOW TABLE STATUS LIKE ?", array($prefixed));
+            return $this->dataAccess->getTableStatus($prefixed);
         }
     }
 
@@ -108,7 +94,7 @@ class MySQLMetadataProvider
             $tablesPiwik = DbHelper::getTablesInstalled();
 
             $this->tableStatuses = array();
-            foreach (Db::fetchAll("SHOW TABLE STATUS") as $t) {
+            foreach ($this->dataAccess->getAllTablesStatus() as $t) {
                 if (in_array($t['Name'], $tablesPiwik)) {
                     $this->tableStatuses[$t['Name']] = $t;
                 }
@@ -230,11 +216,8 @@ class MySQLMetadataProvider
             if ($cachedData !== false && !$forceCache) {
                 $table = DataTable::fromSerializedArray($cachedData);
             } else {
-                // otherwise, create data table & cache it
-                $sql = "SELECT name as 'label', COUNT(*) as 'row_count'$extraCols FROM {$status['Name']} GROUP BY name";
-
                 $table = new DataTable();
-                $table->addRowsFromSimpleArray(Db::fetchAll($sql));
+                $table->addRowsFromSimpleArray($this->dataAccess->getRowCountsByArchiveName($status['Name'], $extraCols));
 
                 $reduceArchiveRowName = array($this, 'reduceArchiveRowName');
                 $table->filter('GroupBy', array('label', $reduceArchiveRowName));
@@ -277,7 +260,7 @@ class MySQLMetadataProvider
         static $fixedSizeColumnLength = null;
         if (is_null($fixedSizeColumnLength)) {
             $fixedSizeColumnLength = 0;
-            foreach (Db::fetchAll("SHOW COLUMNS FROM " . $status['Name']) as $column) {
+            foreach ($this->dataAccess->getColumnsFromTable($status['Name']) as $column) {
                 $columnType = $column['Type'];
 
                 if (($paren = strpos($columnType, '(')) !== false) {
@@ -363,4 +346,3 @@ class MySQLMetadataProvider
         return $name;
     }
 }
-

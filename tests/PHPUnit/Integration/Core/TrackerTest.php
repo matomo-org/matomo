@@ -15,9 +15,14 @@ class Core_TrackerTest extends DatabaseTestCase
     {
         parent::setUp();
         \Piwik\Piwik::setUserHasSuperUserAccess(true);
-        Test_Piwik_BaseFixture::createWebsite('2014-02-04');
-
+        Fixture::createWebsite('2014-02-04');
     }
+
+    protected function configureFixture()
+    {
+        $this->fixture->createSuperUser = true;
+    }
+
     /**
      * Test the Bulk tracking API as documented in: http://developer.piwik.org/api-reference/tracking-api#bulk-tracking
      *
@@ -31,14 +36,14 @@ class Core_TrackerTest extends DatabaseTestCase
 
     public function test_trackingApiWithBulkRequests_viaCurl_withCorrectTokenAuth()
     {
-        $token_auth = Test_Piwik_BaseFixture::getTokenAuth();
+        $token_auth = Fixture::getTokenAuth();
         \Piwik\Filesystem::deleteAllCacheOnUpdate();
         $this->issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed = true);
     }
 
     protected function issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed)
     {
-        $piwikHost = Test_Piwik_BaseFixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php';
+        $piwikHost = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php';
 
         $command = 'curl -s -X POST -d \'{"requests":["?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&rec=1","?idsite=1&url=http://example.net/test.htm&action_name=Another bulk page view&rec=1"],"token_auth":"' . $token_auth . '"}\' ' . $piwikHost;
 

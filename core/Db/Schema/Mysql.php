@@ -527,7 +527,7 @@ class Mysql implements SchemaInterface
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = Db::get();
-        $db->query("INSERT INTO " . Common::prefixTable("user") . "
+        $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
 					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '" . Date::factory('now')->getDatetime() . "' );");
     }
 

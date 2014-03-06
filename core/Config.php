@@ -40,6 +40,10 @@ use Exception;
  */
 class Config extends Singleton
 {
+    public static $defaultLocalConfigPath = '/config/config.ini.php';
+    public static $defaultCommonConfigPath = '/config/common.config.ini.php';
+    public static $defaultGlobalConfigPath = '/config/global.ini.php';
+
     /**
      * Contains configuration files values
      *
@@ -139,7 +143,7 @@ class Config extends Singleton
      */
     protected static function getGlobalConfigPath()
     {
-        return PIWIK_USER_PATH . '/config/global.ini.php';
+        return PIWIK_USER_PATH . self::$defaultGlobalConfigPath;
     }
 
     /**
@@ -149,7 +153,7 @@ class Config extends Singleton
      */
     public static function getCommonConfigPath()
     {
-        return PIWIK_USER_PATH . '/config/common.config.ini.php';
+        return PIWIK_USER_PATH . self::$defaultCommonConfigPath;
     }
 
     /**
@@ -163,7 +167,7 @@ class Config extends Singleton
         if ($path) {
             return $path;
         }
-        return PIWIK_USER_PATH . '/config/config.ini.php';
+        return PIWIK_USER_PATH . self::$defaultLocalConfigPath;
     }
 
     private static function getLocalConfigInfoForHostname($hostname)
@@ -285,9 +289,8 @@ class Config extends Singleton
 
         $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
-        if ($reportError) {
-            $this->checkLocalConfigFound();
-        }
+        $this->checkLocalConfigFound();
+
         $this->configLocal = _parse_ini_file($this->pathLocal, true);
         if (empty($this->configLocal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
@@ -597,12 +600,15 @@ class Config extends Singleton
      * @param array $configCommon
      * @param array $configCache
      * @param string $pathLocal
+     * @param bool $clear
      *
      * @throws \Exception if config file not writable
      */
-    protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal)
+    protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal, $clear = true)
     {
-        if ($this->isTest) {
+        if ($this->isTest
+            && $pathLocal == $this->pathLocal
+        ) {
             return;
         }
 
@@ -614,13 +620,15 @@ class Config extends Singleton
             }
         }
 
-        $this->clear();
+        if ($clear) {
+            $this->clear();
+        }
     }
 
     /**
      * Writes the current configuration to the **config.ini.php** file. Only writes options whose
      * values are different from the default.
-     * 
+     *
      * @api
      */
     public function forceSave()
@@ -674,5 +682,4 @@ class Config extends Singleton
         }
         return $merged;
     }
-
 }

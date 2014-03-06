@@ -12,7 +12,7 @@ use Piwik\Plugins\Goals\API;
  * Add one site and track many visits with custom variables & campaign IDs and
  * use visit ID instead of heuristics.
  */
-class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;

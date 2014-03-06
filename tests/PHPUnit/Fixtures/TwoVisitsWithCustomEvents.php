@@ -11,7 +11,7 @@ use Piwik\Plugins\Goals\API as APIGoals;
 /**
  * Tracks custom events
  */
-class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;

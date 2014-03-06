@@ -12,7 +12,7 @@ use Piwik\Date;
  * Adds one site and tracks 13 visits all with custom variables and referrer URLs
  * w/ sub-dirs (ie, /path/to/page/has/many/dirs.htm).
  */
-class Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars extends Fixture
 {
     public $dateTime = '2010-03-05 11:22:33';
     public $idSite = 1;
