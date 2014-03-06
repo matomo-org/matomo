@@ -34,9 +34,7 @@ class API extends \Piwik\Plugin\API
      */
     protected function __construct()
     {
-        if ($this->metadataProvider === null) {
-            $this->metadataProvider = new MySQLMetadataProvider();
-        }
+        $this->metadataProvider = new MySQLMetadataProvider();
     }
 
     /**
