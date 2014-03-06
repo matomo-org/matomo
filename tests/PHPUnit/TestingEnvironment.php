@@ -169,13 +169,6 @@ class Piwik_TestingEnvironment
                 // pass
             }
         });
-        Piwik::addAction('Request.dispatch.end', function (&$result, $parameters) {
-            $enableZeitgeist = !empty($_REQUEST['zeitgeist']);
-            if ($enableZeitgeist) {
-                $replace = "action=getCss";
-                $result = str_replace($replace, $replace . "&zeitgeist=1", $result);
-            }
-        });
 
         Piwik::postEvent("TestingEnvironment.addHooks", array($testingEnvironment), $pending = true); // for plugins that need to inject special testing logic
     }
