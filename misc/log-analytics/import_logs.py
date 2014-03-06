@@ -581,6 +581,27 @@ class Configuration(object):
         if self.options.login and self.options.password:
             piwik_login = self.options.login
             piwik_password = hashlib.md5(self.options.password).hexdigest()
+
+            logging.debug('Using credentials: (login = %s, password = %s)', piwik_login, piwik_password)
+            try:
+                api_result = piwik.call_api('UsersManager.getTokenAuth',
+                    userLogin=piwik_login,
+                    md5Password=piwik_password,
+                    _token_auth='',
+                    _url=self.options.piwik_url,
+                )
+            except urllib2.URLError, e:
+                fatal_error('error when fetching token_auth from the API: %s' % e)
+
+            try:
+                return api_result['value']
+            except KeyError:
+                # Happens when the credentials are invalid.
+                message = api_result.get('message')
+                fatal_error(
+                    'error fetching authentication token token_auth%s' % (
+                    ': %s' % message if message else '')
+                )
         else:
             # Fallback to the given (or default) configuration file, then
             # get the token from the API.
@@ -901,7 +922,7 @@ class Piwik(object):
         try:
             return json.loads(res)
         except ValueError:
-            truncate_after = 1100
+            truncate_after = 4000
             raise urllib2.URLError('Piwik returned an invalid response: ' + res[:truncate_after])
 
 
@@ -918,7 +939,7 @@ class Piwik(object):
                     if on_failure is not None:
                         error_message = on_failure(response, kwargs.get('data'))
                     else:
-                        truncate_after = 1100
+                        truncate_after = 4000
                         truncated_response = (response[:truncate_after] + '..') if len(response) > truncate_after else response
                         error_message = "didn't receive the expected response. Response was %s " % truncated_response
 
