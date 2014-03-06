@@ -12,7 +12,7 @@ use Piwik\Plugins\Goals\API;
  * Adds one website and tracks visits on different days over a month
  * using referrer URLs with search engines.
  */
-class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
 {
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;

@@ -62,7 +62,6 @@ class Config
         $cache = Cache::getCacheGeneral();
 
         if (array_key_exists($name, $cache)) {
-
             $value = $cache[$name];
             settype($value, $config['type']);
             return $value;

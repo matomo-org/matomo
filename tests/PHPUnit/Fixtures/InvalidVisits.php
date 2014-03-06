@@ -12,7 +12,7 @@ use Piwik\Plugins\SitesManager\API;
  * Adds one site and sends several invalid tracking requests. The result should be
  * one website with no visits.
  */
-class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_InvalidVisits extends Fixture
 {
     public $idSite = 1;
     public $dateTime = '2009-01-04 00:11:42';

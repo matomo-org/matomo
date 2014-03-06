@@ -393,7 +393,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      */
     private function getStaticSrvUrl()
     {
-        $url = Test_Piwik_BaseFixture::getRootUrl();
+        $url = Fixture::getRootUrl();
         $url .= '/tests/resources/';
 
         return $url . "staticFileServer.php?" . FILE_MODE_REQUEST_VAR . "=" . STATIC_SERVER_MODE .

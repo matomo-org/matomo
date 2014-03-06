@@ -14,7 +14,7 @@ use Piwik\Date;
  *
  * This Simple fixture adds one website and tracks one visit with couple pageviews and an ecommerce conversion
  */
-class SimpleFixtureTrackFewVisits extends \Test_Piwik_BaseFixture
+class SimpleFixtureTrackFewVisits extends \Fixture
 {
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;

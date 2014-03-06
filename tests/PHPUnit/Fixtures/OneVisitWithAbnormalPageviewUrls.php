@@ -11,7 +11,7 @@ use Piwik\Date;
  * Adds one site and tracks one visit w/ pageview URLs that are not normalized.
  * These URLs use different protocols and a mix of lowercase & uppercase letters.
  */
-class Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;

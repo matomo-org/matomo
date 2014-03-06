@@ -109,7 +109,7 @@ class API extends \Piwik\Plugin\API
      */
     public function delete($idSite, $idNote)
     {
-        $this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot delete multiple notes.");
+        $this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot delete annotations from multiple sites.");
 
         $annotations = new AnnotationList($idSite);
 
@@ -118,6 +118,23 @@ class API extends \Piwik\Plugin\API
 
         // remove the note & save the list
         $annotations->remove($idSite, $idNote);
+        $annotations->save($idSite);
+    }
+
+    /**
+     * Removes all annotations for a single site. Only super users can use this method.
+     *
+     * @param string $idSite The ID of the site to remove annotations for.
+     */
+    public function deleteAll($idSite)
+    {
+        $this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot delete annotations from multiple sites.");
+        Piwik::checkUserHasSuperUserAccess();
+
+        $annotations = new AnnotationList($idSite);
+
+        // remove the notes & save the list
+        $annotations->removeAll($idSite);
         $annotations->save($idSite);
     }
 

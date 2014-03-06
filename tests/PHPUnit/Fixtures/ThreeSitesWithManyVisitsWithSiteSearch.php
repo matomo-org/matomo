@@ -12,7 +12,7 @@ use Piwik\Plugins\SitesManager\API;
  * Adds three websites with different site search configurations and adds
  * several visits to each of them.
  */
-class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Fixture
 {
     public $idSite1 = 1;
     public $idSite2 = 2;

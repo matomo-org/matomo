@@ -16,7 +16,16 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
     const FIXTURE_LOCATION = '/tests/resources/piwik-1.13-dump.sql';
 
     public static $fixture = null; // initialized below class
-    public static $defaultApiNotToCall = null; // initialized below class
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        // NOTE: VisitFrequency.get cannot be tested since it now uses a segment and thus requires archiving
+        //       to be enabled.
+        $this->defaultApiNotToCall[] = 'Referrers';
+        $this->defaultApiNotToCall[] = 'VisitFrequency.get';
+    }
 
     /**
      * @dataProvider getApiForTesting
@@ -44,8 +53,3 @@ Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture = new Piwik_Test_F
 Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture->dumpUrl =
     PIWIK_INCLUDE_PATH . Test_Piwik_Integration_BackwardsCompatibility1XTest::FIXTURE_LOCATION;
 Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture->tablesPrefix = 'piwiktests_';
-
-// NOTE: VisitFrequency.get cannot be tested since it now uses a segment and thus requires archiving
-//       to be enabled.
-Test_Piwik_Integration_BackwardsCompatibility1XTest::$defaultApiNotToCall =
-    array_merge(IntegrationTestCase::$defaultApiNotToCall, array('Referrers', 'VisitFrequency.get'));

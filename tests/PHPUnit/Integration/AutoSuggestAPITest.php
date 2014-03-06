@@ -32,11 +32,10 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
         $this->runApiTests($api, $params);
     }
 
-
     public function getApiForTesting()
     {
         // we will test all segments from all plugins
-        self::loadAllPlugins();
+        Fixture::loadAllPlugins();
 
         $idSite = self::$fixture->idSite;
         $apiForTesting = array();
@@ -47,7 +46,7 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
         }
 
         // Skip the test on Mysqli as it fails due to rounding Float errors on latitude/longitude
-        if(getenv('MYSQL_ADAPTER') != 'MYSQLI') {
+        if (getenv('MYSQL_ADAPTER') != 'MYSQLI') {
             $apiForTesting[] = array('Live.getLastVisitsDetails',
                                      array('idSite' => $idSite,
                                            'date'   => '1998-07-12,today',

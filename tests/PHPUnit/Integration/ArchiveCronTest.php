@@ -123,7 +123,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     private function runArchivePhpCron($options)
     {
         $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
-        $urlToProxy = Test_Piwik_BaseFixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
+        $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
         $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" ";

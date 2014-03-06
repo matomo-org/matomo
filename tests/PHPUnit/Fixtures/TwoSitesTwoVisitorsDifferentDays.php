@@ -12,7 +12,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 /**
  * Adds two websites and tracks visits from two visitors on different days.
  */
-class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Fixture
 {
     public $idSite1 = 1;
     public $idSite2 = 2;

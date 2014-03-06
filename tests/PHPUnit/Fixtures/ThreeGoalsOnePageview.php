@@ -12,7 +12,7 @@ use Piwik\Plugins\Goals\API;
  * Fixture that adds one site with three goals and tracks one pageview & one manual
  * goal conversion.
  */
-class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;

@@ -14,29 +14,9 @@ ob_start();
 
 Piwik_TestingEnvironment::addHooks();
 
-\Piwik\Tracker::setTestEnvironment();
 \Piwik\Profiler::setupProfilerXHProf();
 
 // Disable index.php dispatch since we do it manually below
-define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-$enableZeitgeist = !empty($_REQUEST['zeitgeist']);
-
-$controller = \Piwik\FrontController::getInstance();
-$controller->init();
-\Piwik\Filesystem::deleteAllCacheOnUpdate();
-
-$response = $controller->dispatch();
-
-if($enableZeitgeist) {
-    $replace = "action=getCss";
-    $response = str_replace($replace, $replace . "&zeitgeist=1", $response);
-}
-
-if (!is_null($response)) {
-    echo $response;
-}
-
 ob_flush();
-

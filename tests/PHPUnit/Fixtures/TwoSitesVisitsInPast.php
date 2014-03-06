@@ -10,7 +10,7 @@ use Piwik\Date;
 /**
  * Adds two sites and tracks several visits all in the past.
  */
-class Test_Piwik_Fixture_TwoSitesVisitsInPast extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoSitesVisitsInPast extends Fixture
 {
     public $dateTimeFirstDateWebsite1 = '2010-03-06 01:22:33';
     public $dateTimeDateInPastWebsite1 = '2010-01-06 01:22:33';

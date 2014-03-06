@@ -13,7 +13,7 @@ use Piwik\DbHelper;
 /**
  * Reusable fixture. Loads a SQL dump into the DB.
  */
-class Piwik_Test_Fixture_SqlDump
+class Piwik_Test_Fixture_SqlDump extends Fixture
 {
     public $date = '2012-09-03';
     public $dateTime = '2012-09-03';
@@ -59,10 +59,9 @@ class Piwik_Test_Fixture_SqlDump
         // load the data into the correct database
         $user = Config::getInstance()->database['username'];
         $password = Config::getInstance()->database['password'];
-        $dbName = Config::getInstance()->database['dbname'];
         Config::getInstance()->database['tables_prefix'] = $this->tablesPrefix;
 
-        $cmd = "mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1";
+        $cmd = "mysql -u \"$user\" \"--password=$password\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
         exec($cmd, $output, $return);
         if ($return !== 0) {
             throw new Exception("Failed to load sql dump: " . implode("\n", $output));
@@ -70,5 +69,10 @@ class Piwik_Test_Fixture_SqlDump
 
         // make sure archiving will be called
         Rules::setBrowserTriggerArchiving(true);
+    }
+
+    public function tearDown()
+    {
+        // empty
     }
 }

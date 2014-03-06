@@ -22,7 +22,7 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
     public function setUp()
     {
         // add one site
-        Test_Piwik_BaseFixture::createWebsite(
+        Fixture::createWebsite(
             $this->date, $ecommerce = 1, $siteName = "Site #0", $siteUrl = "http://whatever.com/");
 
         // add two goals
@@ -56,7 +56,7 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
                 
                 $t->setUrl($url);
                 $t->setUrlReferrer($referrerUrl);
-                Test_Piwik_BaseFixture::checkResponse($t->doTrackPageView($title));
+                Fixture::checkResponse($t->doTrackPageView($title));
                 ++$actionNum;
             }
         }

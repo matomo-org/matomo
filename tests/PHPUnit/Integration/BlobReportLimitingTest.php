@@ -21,9 +21,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 
     public static function setUpBeforeClass()
     {
-        parent::_setUpBeforeClass($dbName = false, $createEmptyDatabase = true);
         self::setUpConfigOptions();
-        parent::setUpFixture(self::$fixture);
+        parent::setUpBeforeClass();
     }
 
     public function getApiForTesting()
@@ -150,6 +149,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 
     protected static function setUpConfigOptions()
     {
+        Config::getInstance()->setTestEnvironment();
+
         $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
@@ -163,4 +164,4 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 }
 
 Test_Piwik_Integration_BlobReportLimitingTest::$fixture = new Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider();
-
+Test_Piwik_Integration_BlobReportLimitingTest::$fixture->createConfig = false;

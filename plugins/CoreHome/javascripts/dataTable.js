@@ -70,7 +70,7 @@ DataTable.registerFooterIconHandler = function (id, handler) {
  */
 DataTable.getDataTableByReport = function (report) {
     var result = undefined;
-    $('.dataTable').each(function () {
+    $('div.dataTable').each(function () {
         if ($(this).attr('data-report') == report) {
             result = this;
             return false;

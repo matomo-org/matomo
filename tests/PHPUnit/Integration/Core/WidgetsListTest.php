@@ -27,11 +27,9 @@ class Core_WidgetsListTest extends DatabaseTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42');
+        Fixture::createWebsite('2009-01-04 00:11:42');
 
         $_GET['idSite'] = 1;
-
-        IntegrationTestCase::loadAllPlugins();
 
         WidgetsList::_reset();
         $widgets = WidgetsList::get();
@@ -60,7 +58,6 @@ class Core_WidgetsListTest extends DatabaseTestCase
         foreach ($numberOfWidgets AS $category => $widgetCount) {
             $this->assertEquals($widgetCount, count($widgets[$category]), sprintf("Widget: %s", $category));
         }
-        IntegrationTestCase::unloadAllPlugins();
     }
 
     /**
@@ -73,12 +70,10 @@ class Core_WidgetsListTest extends DatabaseTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42');
+        Fixture::createWebsite('2009-01-04 00:11:42');
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
 
         $_GET['idSite'] = 1;
-
-        IntegrationTestCase::loadAllPlugins();
 
         WidgetsList::_reset();
         $widgets = WidgetsList::get();
@@ -108,12 +103,10 @@ class Core_WidgetsListTest extends DatabaseTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42', true);
+        Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
 
         $_GET['idSite'] = 1;
-
-        IntegrationTestCase::loadAllPlugins();
 
         WidgetsList::_reset();
         $widgets = WidgetsList::get();
@@ -143,12 +136,10 @@ class Core_WidgetsListTest extends DatabaseTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42', true);
+        Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
 
         $_GET['idSite'] = 1;
-
-        IntegrationTestCase::loadAllPlugins();
 
         WidgetsList::_reset();
         $widgets = WidgetsList::get();
@@ -188,7 +179,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
 
         \Piwik\Translate::loadEnglishTranslation();
 
-        Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42', true);
+        Fixture::createWebsite('2009-01-04 00:11:42', true);
 
         $_GET['idSite'] = 1;
 

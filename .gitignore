@@ -49,3 +49,8 @@ misc/.htaccess
 misc/cron/.htaccess
 plugins/.htaccess
 *.pyc
+tests/resources/overlay-test-site-real/
+tests/PHPUnit/proxy/libs
+tests/PHPUnit/proxy/piwik.js
+tests/PHPUnit/proxy/plugins
+tests/PHPUnit/proxy/tests

@@ -162,6 +162,22 @@ class AnnotationList
     }
 
     /**
+     * Removes all notes for a single site.
+     *
+     * Note: This method does not perist the change in the DB. The save method must
+     * be called for that.
+     *
+     * @param int $idSite The ID of the site to get an annotation for.
+     * @throws Exception if $idSite is not an ID that was supplied upon construction.
+     */
+    public function removeAll($idSite)
+    {
+        $this->checkIdSiteIsLoaded($idSite);
+
+        $this->annotations[$idSite] = array();
+    }
+
+    /**
      * Retrieves an annotation by ID.
      *
      * This function returns an array with the following elements:

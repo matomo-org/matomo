@@ -37,10 +37,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/spyc.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/UITest.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/UIUnitTest.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
     ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
     : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
@@ -48,7 +47,7 @@ require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
 \Piwik\Profiler::setupProfilerXHProf( $mainRun = true );
 
 // require test fixtures
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BaseFixture.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
 
 $fixturesToLoad = array(
     '/tests/PHPUnit/Fixtures/*.php',
@@ -79,7 +78,7 @@ Try again.
 -> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
         exit(1);
     }
-    $baseUrl = Test_Piwik_BaseFixture::getRootUrl();
+    $baseUrl = Fixture::getRootUrl();
 
     \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl);
 }

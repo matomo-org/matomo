@@ -10,7 +10,7 @@ use Piwik\Date;
 /**
  * Adds one site with a non UTC timezone and tracks a couple visits near the end of the day.
  */
-class Test_Piwik_Fixture_VisitsInDifferentTimezones extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_VisitsInDifferentTimezones extends Fixture
 {
     public $idSite = 1;
     public $dateTime = '2010-03-06';

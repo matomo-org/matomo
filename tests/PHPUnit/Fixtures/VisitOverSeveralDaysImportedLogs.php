@@ -11,7 +11,7 @@
  * useful to test there are three visits are created for this visitor, as expected
  *
  */
-class Test_Piwik_Fixture_VisitOverSeveralDaysImportedLogs extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_VisitOverSeveralDaysImportedLogs extends Fixture
 {
     public $dateTime = '2013-04-07 19:00:00';
     public $idSite = 1;

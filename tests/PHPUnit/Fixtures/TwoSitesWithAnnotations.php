@@ -12,7 +12,7 @@ use Piwik\Plugins\Annotations\API;
 /**
  * A fixture that adds two websites and annotations for each website.
  */
-class Test_Piwik_Fixture_TwoSitesWithAnnotations extends Test_Piwik_BaseFixture
+class Test_Piwik_Fixture_TwoSitesWithAnnotations extends Fixture
 {
     public $dateTime = '2011-01-01 00:11:42';
     public $idSite1 = 1;

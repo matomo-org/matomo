@@ -21,7 +21,7 @@ class Piwik_Test_Fixture_ManyThousandSitesOneVisitEach
     public function setUp()
     {
         for ($i = 0; $i != $this->siteCount; ++$i) {
-            $idSite = Test_Piwik_BaseFixture::createWebsite(
+            $idSite = Fixture::createWebsite(
                 $this->date, $ecommerce = 1, $siteName = "Site #$i", $siteUrl = "http://site$i.com/");
             
             API::getInstance()->addGoal($idSite, 'all', 'url', 'http', 'contains', false, 5);

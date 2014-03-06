@@ -25,7 +25,8 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
 
     public function getApiForTesting()
     {
-        IntegrationTestCase::loadAllPlugins();
+        // we will test all segments from all plugins
+        Fixture::loadAllPlugins();
 
         $apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
