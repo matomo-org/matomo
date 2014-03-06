@@ -11,6 +11,7 @@ use Piwik\DbHelper;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\AssetManager;
 use Piwik\Date;
 use Piwik\Common;
@@ -54,6 +55,7 @@ class UITestFixture extends OmniFixture
     {
         parent::performSetUp($testCase, $setupEnvironmentOnly);
 
+        $this->createSegments();
         $this->setupDashboards();
 
         AssetManager::getInstance()->removeMergedAssets();
@@ -272,5 +274,21 @@ class UITestFixture extends OmniFixture
         FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
 
         $_GET = $oldGet;
+    }
+    
+    public function createSegments()
+    {
+        Db::exec("TRUNCATE TABLE " . Common::prefixTable('segment'));
+
+        $segmentName = self::makeXssContent('segment');
+        $segmentDefinition = "browserCode==FF";
+        APISegmentEditor::getInstance()->add(
+            $segmentName, $segmentDefinition, $idSite = 1, $autoArchive = true, $enabledAllUsers = true);
+
+        // create two more segments
+        APISegmentEditor::getInstance()->add(
+            "From Europe", "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
+        APISegmentEditor::getInstance()->add(
+            "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
     }
 }
