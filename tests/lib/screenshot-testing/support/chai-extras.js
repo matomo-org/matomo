@@ -74,7 +74,11 @@ chai.Assertion.addChainableMethod('capture', function () {
     var timeout = setTimeout(function () {
         pageRenderer.abort();
 
-        done(new Error("Screenshot load timeout."));
+        var indent = "     ",
+            err = new Error("Screenshot load timeout.");
+        err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
+
+        done(err);
     }, 120 * 1000);
 
     try {
