@@ -18,13 +18,8 @@ use Piwik\Plugins\Insights\DataTable\Filter\Limit;
  * @group Unit
  * @group Core
  */
-class FilterLimitTest extends \PHPUnit_Framework_TestCase
+class FilterLimitTest extends BaseUnitTest
 {
-    /**
-     * @var DataTable
-     */
-    private $table;
-
     public function setUp()
     {
         $this->table = new DataTable();
@@ -75,12 +70,6 @@ class FilterLimitTest extends \PHPUnit_Framework_TestCase
         $this->applyLimit($limitIncreaser = 99, $limitDecreaser = 99);
 
         $this->assertOrder(array('pos1', 'pos2', 'neg1', 'pos3', 'neg2', 'neg3', 'pos4', 'pos5', 'neg4', 'neg5'));
-    }
-
-    private function assertOrder($expectedOrder)
-    {
-        $this->assertEquals($expectedOrder, $this->table->getColumn('label'));
-        $this->assertEquals(count($expectedOrder), $this->table->getRowsCount());
     }
 
     private function applyLimit($limitIncrease, $limitDecrease)

@@ -18,13 +18,8 @@ use Piwik\Plugins\Insights\DataTable\Filter\Insight;
  * @group Unit
  * @group Core
  */
-class FilterInsightTest extends \PHPUnit_Framework_TestCase
+class FilterInsightTest extends BaseUnitTest
 {
-    /**
-     * @var DataTable
-     */
-    private $table;
-
     /**
      * @var DataTable
      */
@@ -215,27 +210,6 @@ class FilterInsightTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertColumnValues($values);
-    }
-
-    private function assertOrder($expectedOrder)
-    {
-        $this->assertEquals($expectedOrder, $this->table->getColumn('label'));
-        $this->assertEquals(count($expectedOrder), $this->table->getRowsCount());
-    }
-
-    private function assertColumnValues($rowsWithValues)
-    {
-        $this->assertEquals(count($rowsWithValues), $this->table->getRowsCount());
-
-        $index = 0;
-        foreach ($this->table->getRows() as $row) {
-            $rowToCheck = $rowsWithValues[$index];
-            foreach ($rowToCheck as $columnToCheck => $expectedValue) {
-                $actualValue = $row->getColumn($columnToCheck);
-                $this->assertEquals($expectedValue, $actualValue, "$columnToCheck in row $index does not match assumed $actualValue is $expectedValue");
-            }
-            $index++;
-        }
     }
 
     private function applyInsight($considerMovers, $considerNew, $considerDisappeared)

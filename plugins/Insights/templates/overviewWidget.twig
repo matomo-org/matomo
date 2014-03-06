@@ -1,13 +1,7 @@
-{% set allMetadata = reports.getFirstRow.getAllTableMetadata %}
-
-{% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(allMetadata.minGrowthPercent, allMetadata.lastDate|prettyDate(allMetadata.period)) %}
-{% set consideredChanges = '' %}
-
-{% if allMetadata.minChangeMovers or allMetadata.minIncreaseNew or allMetadata.minDecreaseDisappeared %}
-    {% set consideredChanges = 'Insights_TitleConsideredChanges'|translate(allMetadata.minChangeMovers, allMetadata.minIncreaseNew, allMetadata.minDecreaseDisappeared, allMetadata.totalValue) %}
-{% endif %}
-
-<div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+<div class="insightsDataTable dataTable"
+     data-table-type="InsightsDataTable"
+     data-table-onlyinsightsinit="1"
+     title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
     {% if reports.getColumns|length > 0 %}
 
         <table class="dataTable">
@@ -26,6 +20,12 @@
 
             {% endfor %}
         </table>
+
+        <script type="text/javascript" defer="defer">
+            $(document).ready(function () {
+                require('piwik/UI/DataTable').initNewDataTables();
+            });
+        </script>
 
     {% else %}
 

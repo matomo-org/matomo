@@ -18,13 +18,8 @@ use Piwik\Plugins\Insights\DataTable\Filter\ExcludeLowValue;
  * @group Unit
  * @group Core
  */
-class FilterExcludeLowValueTest extends \PHPUnit_Framework_TestCase
+class FilterExcludeLowValueTest extends BaseUnitTest
 {
-    /**
-     * @var DataTable
-     */
-    private $table;
-
     public function setUp()
     {
         $this->table = new DataTable();
@@ -79,12 +74,6 @@ class FilterExcludeLowValueTest extends \PHPUnit_Framework_TestCase
         $this->excludeLowValues(21, 'isFooBar');
 
         $this->assertOrder(array('val1', 'val3', 'val5', 'val6', 'val7', 'val8', 'val9', 'val10'));
-    }
-
-    private function assertOrder($expectedOrder)
-    {
-        $this->assertEquals($expectedOrder, $this->table->getColumn('label'));
-        $this->assertEquals(count($expectedOrder), $this->table->getRowsCount());
     }
 
     private function excludeLowValues($minimumValue, $columnToCheck = null)

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Insights;
 
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * API for plugin Insights
@@ -30,24 +31,79 @@ class InsightReport
      * @param DataTable $currentReport
      * @param DataTable $lastReport
      * @param int $totalValue
-     * @param int $minVisitsMoversPercent      Exclude rows who moved and the difference is not at least min percent
+     * @param int $lastTotalValue
+     * @param string $orderBy
+     * @param int $limitIncreaser
+     * @param int $limitDecreaser
+     * @return DataTable
+     */
+    public function generateMoverAndShaker($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser)
+    {
+        $totalEvolution = Piwik::getPercentageSafe($totalValue - $lastTotalValue, $lastTotalValue, 1);
+
+        $minMoversPercent = 0.5;
+
+        if ($totalEvolution >= 100) {
+            // eg change from 50 to 150 = 200%
+            // $evolutionReverse = Piwik::getPercentageSafe($totalValue > $lastTotal ? $lastTotal : $totalValue, $totalValue > $lastTotal ? $totalValue : $lastTotal, 1);
+
+            $minGrowthPercentPositive = $totalEvolution + 40; // min +240%
+            $minGrowthPercentNegative = -70;         // min -70%
+            $minDisappearedPercent = 8;              // min 12
+            $minNewPercent = min(($totalEvolution / 100) * 3, 10);    // min 6% = min 10 of total visits up to max 10%
+
+        } elseif ($totalEvolution >= 0) {
+            // eg change from 50 to 75 = 50%
+            $minGrowthPercentPositive = $totalEvolution + 20;  // min 70%
+            $minGrowthPercentNegative = -1 * $minGrowthPercentPositive;  // min -70%
+            $minDisappearedPercent = 7;
+            $minNewPercent         = 5;
+        } else {
+            // eg change from 50 to 25 = -50%
+            $minGrowthPercentNegative = $totalEvolution - 20;                  // min -70%
+            $minGrowthPercentPositive = abs($minGrowthPercentNegative); // min 70%
+            $minDisappearedPercent = 7;
+            $minNewPercent         = 5;
+        }
+
+        $dataTable = $this->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
+
+        $dataTable->setMetadata('lastTotalValue', $lastTotalValue);
+        $dataTable->setMetadata('evolutionTotal', $totalEvolution);
+        $dataTable->setMetadata('evolutionDifference', $totalValue - $lastTotalValue);
+
+        return $dataTable;
+    }
+
+    /**
+     * @param array $reportMetadata
+     * @param string $period
+     * @param string $date
+     * @param string $lastDate
+     * @param string $metric
+     * @param DataTable $currentReport
+     * @param DataTable $lastReport
+     * @param int $totalValue
+     * @param int $minMoversPercent      Exclude rows who moved and the difference is not at least min percent
      *                                         visits of totalVisits. -1 excludes movers.
-     * @param int $minVisitsNewPercent         Exclude rows who are new and the difference is not at least min percent
+     * @param int $minNewPercent         Exclude rows who are new and the difference is not at least min percent
      *                                         visits of totalVisits. -1 excludes all new.
-     * @param int $minVisitsDisappearedPercent Exclude rows who are disappeared and the difference is not at least min
+     * @param int $minDisappearedPercent Exclude rows who are disappeared and the difference is not at least min
      *                                         percent visits of totalVisits. -1 excludes all disappeared.
-     * @param int $minGrowthPercent            The actual growth of a row must be at least percent compared to the
+     * @param int $minGrowthPercentPositive    The actual growth of a row must be at least percent compared to the
+     *                                         previous value (not total value)
+     * @param int $minGrowthPercentNegative    The actual growth of a row must be lower percent compared to the
      *                                         previous value (not total value)
      * @param string $orderBy                  Order by absolute, relative, importance
      * @param int $limitIncreaser
      * @param int $limitDecreaser
      * @return DataTable
      */
-    public function generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minVisitsMoversPercent, $minVisitsNewPercent, $minVisitsDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser)
+    public function generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser)
     {
-        $minChangeMovers = $this->getMinVisits($totalValue, $minVisitsMoversPercent);
-        $minIncreaseNew = $this->getMinVisits($totalValue, $minVisitsNewPercent);
-        $minDecreaseDisappeared = $this->getMinVisits($totalValue, $minVisitsDisappearedPercent);
+        $minChangeMovers = $this->getMinVisits($totalValue, $minMoversPercent);
+        $minIncreaseNew = $this->getMinVisits($totalValue, $minNewPercent);
+        $minDecreaseDisappeared = $this->getMinVisits($totalValue, $minDisappearedPercent);
 
         $dataTable = new DataTable();
         $dataTable->filter(
@@ -56,9 +112,9 @@ class InsightReport
                 $currentReport,
                 $lastReport,
                 $metric,
-                $considerMovers = (-1 !== $minVisitsMoversPercent),
-                $considerNew = (-1 !== $minVisitsNewPercent),
-                $considerDisappeared = (-1 !== $minVisitsDisappearedPercent)
+                $considerMovers = (-1 !== $minMoversPercent),
+                $considerNew = (-1 !== $minNewPercent),
+                $considerDisappeared = (-1 !== $minDisappearedPercent)
             )
         );
 
@@ -66,7 +122,8 @@ class InsightReport
             'Piwik\Plugins\Insights\DataTable\Filter\MinGrowth',
             array(
                 'growth_percent_numeric',
-                $minGrowthPercent,
+                $minGrowthPercentPositive,
+                $minGrowthPercentNegative
             )
         );
 
@@ -132,10 +189,11 @@ class InsightReport
             'minChangeMovers' => $minChangeMovers,
             'minIncreaseNew' => $minIncreaseNew,
             'minDecreaseDisappeared' => $minDecreaseDisappeared,
-            'minGrowthPercent' => $minGrowthPercent,
-            'minVisitsMoversPercent' => $minVisitsMoversPercent,
-            'minVisitsNewPercent' => $minVisitsNewPercent,
-            'minVisitsDisappearedPercent' => $minVisitsDisappearedPercent
+            'minGrowthPercentPositive' => $minGrowthPercentPositive,
+            'minGrowthPercentNegative' => $minGrowthPercentNegative,
+            'minMoversPercent' => $minMoversPercent,
+            'minNewPercent' => $minNewPercent,
+            'minDisappearedPercent' => $minDisappearedPercent
         ));
 
         return $dataTable;

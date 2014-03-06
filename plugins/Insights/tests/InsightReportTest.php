@@ -90,146 +90,249 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->insightReport = new InsightReport();
     }
 
-    public function testImportanceOrder()
+    /**
+     * @dataProvider provideOrderTestData
+     */
+    public function test_generateInsight_Order($orderBy, $expectedOrder)
     {
-        $report = $this->generateInsight(2, 2, 2, 17, InsightReport::ORDER_BY_IMPORTANCE, 99, 99);
-        $this->assertOrder($report, array('val6', 'val11', 'val107', 'val7', 'val3', 'val10', 'val2', 'val9', 'val8', 'val102', 'val4', 'val1', 'val12'));
+        $report = $this->generateInsight(2, 2, 2, 17, -17, $orderBy);
+
+        $this->assertOrder($report, $expectedOrder);
     }
 
-    public function testRelativeOrder()
+    public function provideOrderTestData()
     {
-        $report = $this->generateInsight(2, 2, 2, 17, InsightReport::ORDER_BY_RELATIVE, 99, 99);
-        $this->assertOrder($report, array('val11', 'val12', 'val7', 'val3', 'val10', 'val2', 'val1', 'val6', 'val107', 'val102', 'val9', 'val8', 'val4'));
+        return array(
+            array(InsightReport::ORDER_BY_IMPORTANCE, array('val6', 'val11', 'val107', 'val7', 'val3', 'val10', 'val2', 'val9', 'val8', 'val102', 'val4', 'val1', 'val12')),
+            array(InsightReport::ORDER_BY_RELATIVE, array('val11', 'val12', 'val7', 'val3', 'val10', 'val2', 'val1', 'val6', 'val107', 'val102', 'val9', 'val8', 'val4')),
+            array(InsightReport::ORDER_BY_ABSOLUTE, array('val11', 'val7', 'val3', 'val10', 'val2', 'val1', 'val12', 'val6', 'val107', 'val9', 'val8', 'val102', 'val4')),
+        );
     }
 
-    public function testMinGrowth()
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Unsupported orderBy
+     */
+    public function test_generateInsight_Order_ShouldThrowException_IfInvalid()
     {
-        $report = $this->generateInsight(2, 2, 2, 4000, 'absolute', 99, 99);
-        $this->assertOrder($report, array());
-
-        $report = $this->generateInsight(2, 2, 2, 1000, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11'));
-
-        $report = $this->generateInsight(2, 2, 2, 120, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11', 'val12'));
-
-        $report = $this->generateInsight(2, 2, 2, 80, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11', 'val7', 'val3', 'val10', 'val2', 'val12', 'val6', 'val107', 'val9', 'val102'));
-
-        $report = $this->generateInsight(2, 2, 2, 19, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11', 'val7', 'val3', 'val10', 'val2', 'val12', 'val6', 'val107', 'val9', 'val8', 'val102'));
-
-        $report = $this->generateInsight(2, 2, 2, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11', 'val7', 'val3', 'val10', 'val2', 'val1', 'val12', 'val6', 'val107', 'val9', 'val8', 'val102', 'val4'));
+        $this->generateInsight(2, 2, 2, 17, -17, 'InvalidOrDeRbY');
     }
 
-    public function testLimit()
+    /**
+     * @dataProvider provideMinGrowthTestData
+     */
+    public function test_generateInsight_MinGrowth($minGrowthPositive, $minGrowthNegative, $expectedOrder)
     {
-        $report = $this->generateInsight(2, 2, 2, 20, 'absolute', 1, 1);
-
-        $this->assertOrder($report, array('val11', 'val6'));
+        $report = $this->generateInsight(2, 2, 2, $minGrowthPositive, $minGrowthNegative, InsightReport::ORDER_BY_ABSOLUTE);
+        $this->assertOrder($report, $expectedOrder);
     }
 
-    public function testLimitOnlyIncrease()
+    public function provideMinGrowthTestData()
     {
-        $report = $this->generateInsight(2, 2, 2, 20, 'absolute', 1, 0);
-
-        $this->assertOrder($report, array('val11'));
+        return array(
+            array(4000, -4000, array()),
+            array(1000, -1000, array('val11')),
+            array(120, -120, array('val11', 'val12')),
+            array(80, -80, array('val11', 'val7', 'val3', 'val10', 'val2', 'val12', 'val6', 'val107', 'val9', 'val102')),
+            array(19, -19, array('val11', 'val7', 'val3', 'val10', 'val2', 'val12', 'val6', 'val107', 'val9', 'val8', 'val102')),
+            array(17, -17, array('val11', 'val7', 'val3', 'val10', 'val2', 'val1', 'val12', 'val6', 'val107', 'val9', 'val8', 'val102', 'val4')),
+            array(17, -80, array('val11', 'val7', 'val3', 'val10', 'val2', 'val1', 'val12', 'val6', 'val107', 'val9', 'val102')),
+            array(17, -4000, array('val11', 'val7', 'val3', 'val10', 'val2', 'val1', 'val12')),
+            array(4000, -17, array('val6', 'val107', 'val9', 'val8', 'val102', 'val4')),
+        );
     }
 
-    public function testLimitOnlyDecrease()
+    /**
+     * @dataProvider provideLimitTestData
+     */
+    public function test_generateInsight_Limit($limitIncrease, $limitDecrease, $expectedOrder)
     {
-        $report = $this->generateInsight(2, 2, 2, 20, 'absolute', 0, 1);
+        $report = $this->generateInsight(2, 2, 2, 20, -20, InsightReport::ORDER_BY_ABSOLUTE, $limitIncrease, $limitDecrease);
 
-        $this->assertOrder($report, array('val6'));
+        $this->assertOrder($report, $expectedOrder);
     }
 
-    public function testLimitOnlyNone()
+    public function provideLimitTestData()
     {
-        $report = $this->generateInsight(2, 2, 2, 20, 'absolute', 0, 0);
-
-        $this->assertOrder($report, array());
+        return array(
+            array(1, 1, array('val11', 'val6')),
+            array(1, 0, array('val11')), // only increase
+            array(0, 1, array('val6')),  // only decrease
+            array(0, 0, array()),  // neither increase nor decrease
+        );
     }
 
-    public function testNoMovers()
+    public function test_generateInsight_NoMovers()
     {
-        $report = $this->generateInsight(-1, 2, 2, 20, 'absolute', 99, 99);
+        $report = $this->generateInsight(-1, 2, 2, 20, -20);
 
         $this->assertOrder($report, array('val7', 'val3', 'val2', 'val107', 'val102'));
     }
 
-    public function testMinImpactMovers()
+    /**
+     * @dataProvider provideMinImpactMoversTestData
+     */
+    public function test_generateInsight_MinImpactMovers($minMoversPercent, $expectedOrder)
     {
-        $report = $this->generateInsight(2, -1, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11', 'val10', 'val1', 'val12', 'val6', 'val9', 'val8', 'val4'));
+        $report = $this->generateInsight($minMoversPercent, -1, -1, 17, -17);
 
-        $report = $this->generateInsight(20, -1, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11', 'val10', 'val6', 'val9', 'val8'));
-
-        $report = $this->generateInsight(80, -1, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val11', 'val6'));
-
-        $report = $this->generateInsight(10000, -1, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array());
+        $this->assertOrder($report, $expectedOrder);
     }
 
-    public function testNoNew()
+    public function provideMinImpactMoversTestData()
     {
-        $report = $this->generateInsight(2, -1, 2, 17, 'absolute', 99, 99);
+        return array(
+            array(2, array('val11', 'val10', 'val1', 'val12', 'val6', 'val9', 'val8', 'val4')),
+            array(20, array('val11', 'val10', 'val6', 'val9', 'val8')),
+            array(80, array('val11', 'val6')),
+            array(10000, array())
+        );
+    }
+
+    public function test_generateInsight_NoNew()
+    {
+        $report = $this->generateInsight(2, -1, 2, 17, -17);
+
         $this->assertOrder($report, array('val11', 'val10', 'val1', 'val12', 'val6', 'val107', 'val9', 'val8', 'val102', 'val4'));
     }
 
-    public function testMinImpactNew()
+    /**
+     * @dataProvider provideMinImpactNewTestData
+     */
+    public function test_generateInsight_MinImpactNew($minNewPercent, $expectedOrder)
     {
-        $report = $this->generateInsight(-1, 2, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val7', 'val3', 'val2'));
+        $report = $this->generateInsight(-1, $minNewPercent, -1, 17, -17);
 
-        $report = $this->generateInsight(-1, 22, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val7', 'val3', 'val2'));
-
-        $report = $this->generateInsight(-1, 36, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val7', 'val3'));
-
-        $report = $this->generateInsight(-1, 66, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val7'));
-
-        $report = $this->generateInsight(-1, 10000, -1, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array());
+        $this->assertOrder($report, $expectedOrder);
     }
 
-    public function testNoDisappeared()
+    public function provideMinImpactNewTestData()
     {
-        $report = $this->generateInsight(2, 2, -1, 17, 'absolute', 99, 99);
+        return array(
+            array(2, array('val7', 'val3', 'val2')),
+            array(22, array('val7', 'val3', 'val2')),
+            array(36, array('val7', 'val3')),
+            array(66, array('val7')),
+            array(10000, array())
+        );
+    }
+
+    public function test_generateInsight_NoDisappeared()
+    {
+        $report = $this->generateInsight(2, 2, -1, 17, -17);
+
         $this->assertOrder($report, array('val11', 'val7', 'val3', 'val10', 'val2', 'val1', 'val12', 'val6', 'val9', 'val8', 'val4'));
     }
 
-    public function testMinDisappeared()
+    /**
+     * @dataProvider provideMinImpactDisappearedData
+     */
+    public function test_generateInsight_MinDisappeared($minDisappearedPercent, $expectedOrder)
     {
-        $report = $this->generateInsight(-1, -1, 2, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val107', 'val102'));
-
-        $report = $this->generateInsight(-1, -1, 14, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val107', 'val102'));
-
-        $report = $this->generateInsight(-1, -1, 15, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val107'));
-
-        $report = $this->generateInsight(-1, -1, 75, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array('val107'));
-
-        $report = $this->generateInsight(-1, -1, 76, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array());
-
-        $report = $this->generateInsight(-1, -1, 10000, 17, 'absolute', 99, 99);
-        $this->assertOrder($report, array());
+        $report = $this->generateInsight(-1, -1, $minDisappearedPercent, 17, -17);
+        $this->assertOrder($report, $expectedOrder);
     }
 
-    private function generateInsight($minVisitsMoversPercent, $minVisitsNewPercent, $minVisitsDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser)
+    public function provideMinImpactDisappearedData()
     {
+        return array(
+            array(2, array('val107', 'val102')),
+            array(14, array('val107', 'val102')),
+            array(15, array('val107')),
+            array(75, array('val107')),
+            array(76, array()),
+            array(10000, array())
+        );
+    }
+
+    public function test_generateMoversAndShakers_Metadata()
+    {
+        $report   = $this->generateMoverAndShaker(50, 150);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(50, $metadata['lastTotalValue']);
+        $this->assertEquals(150, $metadata['totalValue']);
+        $this->assertEquals(100, $metadata['evolutionDifference']);
+        $this->assertEquals(200, $metadata['evolutionTotal']);
+
+
+        $report   = $this->generateMoverAndShaker(50, 75);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(50, $metadata['lastTotalValue']);
+        $this->assertEquals(75, $metadata['totalValue']);
+        $this->assertEquals(25, $metadata['evolutionDifference']);
+        $this->assertEquals(50, $metadata['evolutionTotal']);
+
+
+        $report   = $this->generateMoverAndShaker(50, 25);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(50, $metadata['lastTotalValue']);
+        $this->assertEquals(25, $metadata['totalValue']);
+        $this->assertEquals(-25, $metadata['evolutionDifference']);
+        $this->assertEquals(-50, $metadata['evolutionTotal']);
+    }
+
+    public function test_generateMoversAndShakers_ParameterCalculation()
+    {
+        $report   = $this->generateMoverAndShaker(50, 150);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(240, $metadata['minGrowthPercentPositive']);
+        $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
+        $this->assertEquals(0.5, $metadata['minMoversPercent']);
+        $this->assertEquals(6, $metadata['minNewPercent']);
+        $this->assertEquals(8, $metadata['minDisappearedPercent']);
+
+
+        $report   = $this->generateMoverAndShaker(50, 75);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
+        $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
+        $this->assertEquals(0.5, $metadata['minMoversPercent']);
+        $this->assertEquals(5, $metadata['minNewPercent']);
+        $this->assertEquals(7, $metadata['minDisappearedPercent']);
+
+
+        $report   = $this->generateMoverAndShaker(50, 25);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
+        $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
+        $this->assertEquals(0.5, $metadata['minMoversPercent']);
+        $this->assertEquals(5, $metadata['minNewPercent']);
+        $this->assertEquals(7, $metadata['minDisappearedPercent']);
+    }
+
+    private function generateMoverAndShaker($lastTotalValue, $totalValue, $orderBy = null, $limitIncreaser = 99, $limitDecreaser = 99)
+    {
+        if (is_null($orderBy)) {
+            $orderBy = InsightReport::ORDER_BY_ABSOLUTE;
+        }
+
         $reportMetadata = array('name' => 'TestReport',  'metrics' => array('nb_visits' => 'Visits'));
+
+        $report = $this->insightReport->generateMoverAndShaker(
+            $reportMetadata, 'day', 'today', 'yesterday', 'nb_visits', $this->currentTable, $this->pastTable,
+            $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
+
+        return $report;
+    }
+
+    private function generateInsight($minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy = null, $limitIncreaser = 99, $limitDecreaser = 99)
+    {
+        if (is_null($orderBy)) {
+            $orderBy = InsightReport::ORDER_BY_ABSOLUTE;
+        }
+
+        $reportMetadata = array('name' => 'TestReport',  'metrics' => array('nb_visits' => 'Visits'));
+
         $report = $this->insightReport->generateInsight(
-            $reportMetadata, 'day', 'today', 'yesterday', 'nb_visits', $this->currentTable, $this->pastTable, $totalValue = 200,
-            $minVisitsMoversPercent, $minVisitsNewPercent, $minVisitsDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser);
+                    $reportMetadata, 'day', 'today', 'yesterday', 'nb_visits', $this->currentTable, $this->pastTable,
+                    $totalValue = 200, $minMoversPercent, $minNewPercent, $minDisappearedPercent,
+            $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
 
         return $report;
     }

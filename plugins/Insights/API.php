@@ -33,16 +33,20 @@ class API extends \Piwik\Plugin\API
      */
     private $model;
 
+    /**
+     * Those reports will be included in the insight / moversAndShakers overview reports.
+     * You can configure any API parameter for each report such as "flat", "limitIncreaser", "minGrowth", ...
+     * @var array
+     */
     private $reportIds = array(
-        'Actions_getPageUrls',
-        'Actions_getPageTitles',
-        'Actions_getDownloads',
-        'Referrers_getAll',
-        'Referrers_getKeywords',
-        'Referrers_getCampaigns',
-        'Referrers_getSocials',
-        'Referrers_getSearchEngines',
-        'UserCountry_getCountry',
+        'Actions_getPageUrls' => array(),
+        'Actions_getPageTitles' => array(),
+        'Actions_getDownloads' => array('flat' => 1),
+        'Referrers_getWebsites' => array(),
+        'Referrers_getCampaigns' => array(),
+        'Referrers_getSocials' => array(),
+        'Referrers_getSearchEngines' => array(),
+        'UserCountry_getCountry' => array(),
     );
 
     protected function __construct()
@@ -52,45 +56,69 @@ class API extends \Piwik\Plugin\API
         $this->model = new Model();
     }
 
+    public function canGenerateInsights($period, $date)
+    {
+        try {
+            $model    = new Model();
+            $lastDate = $model->getLastDate($date, $period, 1);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        if (empty($lastDate)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function getInsightsOverview($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
-        $reportTableIds = array();
+        $defaultParams = array(
+            'limitIncreaser' => 3,
+            'limitDecreaser' => 3,
+            'minImpactPercent' => 2,
+            'minGrowthPercent' => 25,
+        );
 
-        /** @var DataTable[] $tables */
-        $tables = array();
-        foreach ($this->reportIds as $reportId) {
-            $firstTableId     = DataTable\Manager::getInstance()->getMostRecentTableId();
-            $table            = $this->getInsights($idSite, $period, $date, $reportId, $segment, 3, 3, '', 2, 25);
-            $reportTableIds[] = $table->getId();
-            DataTable\Manager::getInstance()->deleteTablesExceptIgnored($reportTableIds, $firstTableId);
-
-            $tables[] = $table;
-        }
-
-        $map = new DataTable\Map();
-
-        foreach ($tables as $table) {
-            $map->addTable($table, $table->getMetadata('reportName'));
-        }
+        $map = $this->generateOverviewReport('getInsights', $idSite, $period, $date, $segment, $defaultParams);
 
         return $map;
     }
 
-    public function getOverallMoversAndShakers($idSite, $period, $date, $segment = false)
+    public function getMoversAndShakersOverview($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess(array($idSite));
 
-        $reportTableIds = array();
+        $defaultParams = array(
+            'limitIncreaser' => 4,
+            'limitDecreaser' => 4
+        );
+
+        $map = $this->generateOverviewReport('getMoversAndShakers', $idSite, $period, $date, $segment, $defaultParams);
+
+        return $map;
+    }
+
+    private function generateOverviewReport($method, $idSite, $period, $date, $segment, array $defaultParams)
+    {
+        $tableManager = DataTable\Manager::getInstance();
 
         /** @var DataTable[] $tables */
         $tables = array();
-        foreach ($this->reportIds as $reportId) {
-            $firstTableId     = DataTable\Manager::getInstance()->getMostRecentTableId();
-            $table            = $this->getMoversAndShakers($idSite, $period, $date, $reportId, $segment, 4, 4);
+        foreach ($this->reportIds as $reportId => $reportParams) {
+            foreach ($defaultParams as $key => $defaultParam) {
+                if (!array_key_exists($key, $reportParams)) {
+                    $reportParams[$key] = $defaultParam;
+                }
+            }
+
+            $firstTableId     = $tableManager->getMostRecentTableId();
+            $table            = $this->requestApiMethod($method, $idSite, $period, $date, $reportId, $segment, $reportParams);
             $reportTableIds[] = $table->getId();
-            DataTable\Manager::getInstance()->deleteTablesExceptIgnored($reportTableIds, $firstTableId);
+            $tableManager->deleteTablesExceptIgnored($reportTableIds, $firstTableId);
 
             $tables[] = $table;
         }
@@ -105,37 +133,24 @@ class API extends \Piwik\Plugin\API
     }
 
     public function getMoversAndShakers($idSite, $period, $date, $reportUniqueId, $segment = false,
-                                        $limitIncreaser = 4, $limitDecreaser = 4)
+                                        $comparedToXPeriods = 1, $limitIncreaser = 4, $limitDecreaser = 4)
     {
-        $orderBy = 'absolute';
-        $minGrowthPercent = 30;
-        $minMoversPercent = 2;
-        $minNewPercent = 2;
-        $minDisappearedPercent = 2;
-
         Piwik::checkUserHasViewAccess(array($idSite));
 
-        $metric = 'nb_visits';
+        $metric  = 'nb_visits';
+        $orderBy = InsightReport::ORDER_BY_ABSOLUTE;
 
         $reportMetadata = $this->model->getReportByUniqueId($idSite, $reportUniqueId);
+
         $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric);
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
 
-        if ($period === 'day') {
-            // if website is too young, than use website creation date
-            // for faster performance just compare against last week?
-            $pastDate   = $this->model->getLastDate($date, $period, 7);
-            $lastReport = $this->model->requestReport($idSite, 'week', $pastDate, $reportUniqueId, $metric, $segment);
-            $lastReport->filter('Piwik\Plugins\Insights\DataTable\Filter\Average', array($metric, 7));
-            $lastDate   = Range::factory('week', $pastDate);
-            $lastDate   = $lastDate->getRangeString();
-        } else {
-            $lastDate   = $this->model->getLastDate($date, $period, 1);
-            $lastReport = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
-        }
+        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric);
+        $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
 
         $insight = new InsightReport();
-        return $insight->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser);
+        return $insight->generateMoverAndShaker($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
     }
 
     public function getInsights(
@@ -148,11 +163,15 @@ class API extends \Piwik\Plugin\API
         $metric = 'nb_visits';
 
         $reportMetadata = $this->model->getReportByUniqueId($idSite, $reportUniqueId);
-        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
-        $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $totalValue     = $this->model->getRelevantTotalValue($currentReport, $idSite, $period, $date, $metric);
 
+        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
+
+        $minGrowthPercentPositive = abs($minGrowthPercent);
+        $minGrowthPercentNegative = -1 * $minGrowthPercentPositive;
         $minMoversPercent = -1;
         $minNewPercent = -1;
         $minDisappearedPercent = -1;
@@ -174,6 +193,32 @@ class API extends \Piwik\Plugin\API
         }
 
         $insight = new InsightReport();
-        return $insight->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercent, $orderBy, $limitIncreaser, $limitDecreaser);
+        return $insight->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
     }
+
+    private function requestApiMethod($method, $idSite, $period, $date, $reportId, $segment, $additionalParams)
+    {
+        $params = array(
+            'method' => 'Insights.' . $method,
+            'idSite' => $idSite,
+            'date'   => $date,
+            'period' => $period,
+            'format' => 'original',
+            'reportUniqueId' => $reportId,
+        );
+
+        if ($segment) {
+            $params['segment'] = $segment;
+        }
+
+        if (!empty($additionalParams)) {
+            foreach ($additionalParams as $key => $value) {
+                $params[$key] = $value;
+            }
+        }
+
+        $request = new ApiRequest($params);
+        return $request->process();
+    }
+
 }

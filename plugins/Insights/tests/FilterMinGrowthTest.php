@@ -18,12 +18,8 @@ use Piwik\Plugins\Insights\DataTable\Filter\MinGrowth;
  * @group Unit
  * @group Core
  */
-class FilterMinGrowthTest extends \PHPUnit_Framework_TestCase
+class FilterMinGrowthTest extends BaseUnitTest
 {
-    /**
-     * @var DataTable
-     */
-    private $table;
 
     public function setUp()
     {
@@ -48,48 +44,47 @@ class FilterMinGrowthTest extends \PHPUnit_Framework_TestCase
         $rowsCountBefore = $this->table->getRowsCount();
         $this->assertGreaterThan(0, $rowsCountBefore);
 
-        $this->applyMinGrowthFilter(0);
+        $this->applyMinGrowthFilter(0, 0);
 
         $this->assertSame($rowsCountBefore, $this->table->getRowsCount());
     }
 
     public function testShouldKeepAllRowsHavingHigherGrowth()
     {
-        $this->applyMinGrowthFilter(15);
+        $this->applyMinGrowthFilter(15, -15);
 
         $this->assertOrder(array('pos1', 'neg1', 'pos3', 'neg2', 'neg3', 'pos4', 'pos5', 'neg4', 'neg5'));
     }
 
     public function testShouldKeepRowsIfTheyHaveGivenMinGrowth()
     {
-        $this->applyMinGrowthFilter(22);
+        $this->applyMinGrowthFilter(22, -22);
 
         $this->assertOrder(array('pos1', 'neg2', 'neg3'));
     }
 
-    public function testShouldIgnoreSign()
+    public function testDifferentGrowth()
     {
-        $this->applyMinGrowthFilter(-22);
+        $this->applyMinGrowthFilter(22, -16);
+        $this->assertOrder(array('pos1', 'neg1', 'neg2', 'neg3', 'neg5'));
+    }
 
-        $this->assertOrder(array('pos1', 'neg2', 'neg3'));
+    public function testDifferentGrowth2()
+    {
+        $this->applyMinGrowthFilter(15, -24);
+        $this->assertOrder(array('pos1', 'pos3', 'neg3', 'pos4', 'pos5'));
     }
 
     public function testShouldRemoveAllIfMinGrowthIsTooHigh()
     {
-        $this->applyMinGrowthFilter(999);
+        $this->applyMinGrowthFilter(999, -999);
 
         $this->assertOrder(array());
     }
 
-    private function assertOrder($expectedOrder)
+    private function applyMinGrowthFilter($minGrowthPercentPositive, $minGrowthPercentNegative)
     {
-        $this->assertEquals($expectedOrder, $this->table->getColumn('label'));
-        $this->assertEquals(count($expectedOrder), $this->table->getRowsCount());
-    }
-
-    private function applyMinGrowthFilter($minGrowthPercent)
-    {
-        $filter = new MinGrowth($this->table, 'growth', $minGrowthPercent);
+        $filter = new MinGrowth($this->table, 'growth', $minGrowthPercentPositive, $minGrowthPercentNegative);
         $filter->filter($this->table);
     }
 

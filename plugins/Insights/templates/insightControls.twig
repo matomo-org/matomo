@@ -1,21 +1,6 @@
 <div style="padding: 10px;padding-bottom: 0px;">
-    Minimum impact of
-    <select name="minImpactPercent" title="Based on a total of {{ dataTable.getMetadata('totalValue') }} visitors or metricname">
-        {% for i in range(0, 10) %}
-            <option {% if i == properties.min_impact_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
-        {% endfor %}
-        {% for i in range(12, 30, 2) %}
-            <option {% if i == properties.min_impact_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
-        {% endfor %}
-        {% for i in range(40, 100, 10) %}
-            <option {% if i == properties.min_impact_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
-        {% endfor %}
-        {% for i in range(200, 1000, 100) %}
-            <option {% if i == properties.min_impact_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
-        {% endfor %}
-    </select>
 
-    and growth of at least
+    Minimum growth of
     <select size="1" name="minGrowthPercent">
         {% for i in range(0, 1, 1) %}
             <option {% if i == properties.min_growth_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
@@ -28,7 +13,7 @@
         {% endfor %}
     </select>
 
-    {% if period == 'day' or period == 'month' %}
+    {% if period == 'day' or period == 'month' or period == 'week' %}
         compared to
         {% if period == 'day' %}
             <select size="1" name="comparedToXPeriodsAgo">
@@ -51,6 +36,8 @@
                     same month in previous year
                 </option>
             </select>
+        {% elseif period == 'week' %}
+            previous week
         {% endif %}
     {% endif %}
 
@@ -58,18 +45,16 @@
 
     Filter
 
-    {% if properties.show_filter_by %}
-        <select size="1" name="filterBy" title="Show all, only movers, only new, only disappeared">
-            <option {% if not properties.filter_by %}selected{% endif %} value="">All</option>
-            <option {% if properties.filter_by == 'movers' %}selected{% endif %} value="movers">Only movers</option>
-            <option {% if properties.filter_by == 'new' %}selected{% endif %} value="new">Only new</option>
-            <option {% if properties.filter_by == 'disappeared' %}selected{% endif %} value="disappeared">Only disappeared</option>
-        </select>
-    {% endif %}
+    <select size="1" name="filterBy" title="Show all, only movers, only new, only disappeared">
+        <option {% if not properties.filter_by %}selected{% endif %} value="">All</option>
+        <option {% if properties.filter_by == 'movers' %}selected{% endif %} value="movers">Only movers</option>
+        <option {% if properties.filter_by == 'new' %}selected{% endif %} value="new">Only new</option>
+        <option {% if properties.filter_by == 'disappeared' %}selected{% endif %} value="disappeared">Only disappeared</option>
+    </select>
 
     <select size="1" name="showIncreaseOrDecrease" title="Show increaser and/or decreaser">
         <option value="both" {% if properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>
-            All
+            Increaser & decreaser
         </option>
         <option value="increase" {% if properties.limit_increaser and not properties.limit_decreaser %}selected{%endif%}>
             Only increaser
