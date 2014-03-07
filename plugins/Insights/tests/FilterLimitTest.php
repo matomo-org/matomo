@@ -18,7 +18,7 @@ use Piwik\Plugins\Insights\DataTable\Filter\Limit;
  * @group Unit
  * @group Core
  */
-class FilterLimitTest extends BaseUnit
+class FilterLimitTest extends BaseUnitTest
 {
     public function setUp()
     {

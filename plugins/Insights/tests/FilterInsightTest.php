@@ -18,7 +18,7 @@ use Piwik\Plugins\Insights\DataTable\Filter\Insight;
  * @group Unit
  * @group Core
  */
-class FilterInsightTest extends BaseUnit
+class FilterInsightTest extends BaseUnitTest
 {
     /**
      * @var DataTable

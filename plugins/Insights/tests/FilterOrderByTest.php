@@ -18,7 +18,7 @@ use Piwik\Plugins\Insights\DataTable\Filter\OrderBy;
  * @group Unit
  * @group Core
  */
-class FilterOrderByTest extends BaseUnit
+class FilterOrderByTest extends BaseUnitTest
 {
     public function setUp()
     {

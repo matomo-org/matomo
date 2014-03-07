@@ -18,7 +18,7 @@ use Piwik\Plugins\Insights\DataTable\Filter\Average;
  * @group Unit
  * @group Core
  */
-class FilterAverageTest extends BaseUnit
+class FilterAverageTest extends BaseUnitTest
 {
     public function setUp()
     {

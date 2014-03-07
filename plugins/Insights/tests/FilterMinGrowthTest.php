@@ -18,7 +18,7 @@ use Piwik\Plugins\Insights\DataTable\Filter\MinGrowth;
  * @group Unit
  * @group Core
  */
-class FilterMinGrowthTest extends BaseUnit
+class FilterMinGrowthTest extends BaseUnitTest
 {
 
     public function setUp()

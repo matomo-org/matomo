@@ -12,11 +12,14 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
+ * Abstract class because it avoids it being picked up as a test case
+ * (which would trigger warning because it has no test)
+ *
  * @group Insights
  * @group Unit
  * @group Core
  */
-class BaseUnit extends \PHPUnit_Framework_TestCase
+abstract class BaseUnitTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var DataTable
