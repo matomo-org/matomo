@@ -63,10 +63,11 @@ class ApiTest extends \IntegrationTestCase
             'minChangeMovers' => 1,
             'minIncreaseNew'  => 1,
             'minDecreaseDisappeared' => 1,
-            'minGrowthPercent' => 20,
-            'minVisitsMoversPercent' => 2,
-            'minVisitsNewPercent' => 2,
-            'minVisitsDisappearedPercent' => 2,
+            'minGrowthPercentPositive' => 20,
+            'minGrowthPercentNegative' => -20,
+            'minMoversPercent' => 2,
+            'minNewPercent' => 2,
+            'minDisappearedPercent' => 2,
         );
 
         $this->assertInternalType('array', $metadata['report']);

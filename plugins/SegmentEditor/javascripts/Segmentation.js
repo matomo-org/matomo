@@ -335,7 +335,7 @@ Segmentation = (function($) {
             $(self.form).find(".segment-content > h3 > span").text(segment.name);
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
-            $(self.form).find('.available_segments a.dropList').html(self.shortenSegmentName(segment.name, 16));
+            $(self.form).find('.available_segments a.dropList').text(self.shortenSegmentName(segment.name, 16));
 
             if(segment.definition != ""){
                 revokeInitialStateRows();
@@ -1133,7 +1133,7 @@ $(document).ready(function() {
             ajaxHandler.send(true);
         };
 
-        var segmentFromRequest = self.props.selectedSegment
+        var segmentFromRequest = encodeURIComponent(self.props.selectedSegment)
                               || broadcast.getValueFromHash('segment')
                               || broadcast.getValueFromUrl('segment');
         if($.browser.mozilla) {

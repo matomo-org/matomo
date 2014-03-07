@@ -166,6 +166,7 @@ The page renderer object has the following methods:
  * **mouseup(selector, [waitTime])**: Sends a mouse up event to the element referenced by `selector`.
  * **sendKeys(selector, keyString, [waitTime])**: Clicks an element to bring it into focus and then simulates typing a string of keys.
  * **sendMouseEvent(type, pos. [waitTime])**: Sends a mouse event by name to a specific position. `type` is the name of an event that phantomjs will recognize. `pos` is a point, eg, `{x: 0, y: 0}`.
+ * **dragDrop(selectorStart, selectorEnd, waitTime)**: Performs a drag/drop of an element (mousedown, mousemove, mouseup) from the element referenced by `selectorStart` and the element referenced by `selectorEnd`.
  * **wait([waitTime])**: Waits without doing anything.
  * **load(url, [waitTime])**: Loads a URL.
  * **reload([waitTime])**: Reloads the current URL.

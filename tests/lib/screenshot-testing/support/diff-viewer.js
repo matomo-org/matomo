@@ -84,7 +84,8 @@ DiffViewerGenerator.prototype.generate = function (callback) {
             }
 
             var entryLocationHint = '',
-                m = entry.expected ? entry.expected.match(/\/plugins\/([^\/]*)\//) : null;
+                hintSource = entry.expected || entry.processed,
+                m = hintSource ? hintSource.match(/\/plugins\/([^\/]*)\//) : null;
             if (m) {
                 entryLocationHint = ' <em>(for ' + m[1] + ' plugin)</em>';
             }

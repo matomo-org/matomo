@@ -95,6 +95,12 @@ PageRenderer.prototype.evaluate = function (impl, waitTime) {
     this.queuedEvents.push([this._evaluate, waitTime, impl]);
 };
 
+PageRenderer.prototype.dragDrop = function (startSelector, endSelector, waitTime) {
+    this.mousedown(startSelector, waitTime);
+    this.mouseMove(endSelector, waitTime);
+    this.mouseup(endSelector, waitTime);
+};
+
 // event impl functions
 PageRenderer.prototype._wait = function (callback) {
     callback();
@@ -378,6 +384,10 @@ PageRenderer.prototype._setupWebpageEvents = function () {
 
     this.webpage.onConsoleMessage = function (message) {
         self.pageLogs.push('Log: ' + message);
+    };
+
+    this.webpage.onAlert = function (message) {
+        self.pageLogs.push('Alert: ' + message);
     };
 
     this.webpage.onLoadStarted = function () {

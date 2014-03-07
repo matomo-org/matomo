@@ -1,29 +1,36 @@
-{% set metadata = dataTable.getAllTableMetadata%}
-{% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(metadata.minGrowthPercent, metadata.lastDate|prettyDate(metadata.period)) %}
-{% set consideredChanges = '' %}
+{% if cannotDisplayReport is defined and cannotDisplayReport %}
+    {% include "@Insights/cannotDisplayReport.twig" %}
+{% else %}
+    {% set metadata = dataTable.getAllTableMetadata%}
+    {% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(metadata.minGrowthPercentPositive, metadata.lastDate|prettyDate(metadata.period)) %}
+    {% set consideredChanges = '' %}
 
-{% if metadata.minChangeMovers and metadata.minChangeMovers > 1 %}
-    {% set consideredChanges = 'Insights_TitleIgnoredChanges'|translate(metadata.minChangeMovers) %}
-{% endif %}
-
-<div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
-    {% if dataTable.getRowsCount > 0 %}
-        <table class="dataTable">
-            <thead>
-                {% include "@Insights/table_header.twig" %}
-            </thead>
-
-            <tbody>
-                {% for row in dataTable.getRows %}
-                    {% include "@Insights/table_row.twig" %}
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <div class="pk-emptyDataTable">
-            {{ 'Insights_NoResultMatchesCriteria'|translate }}
-        </div>
+    {% if metadata.minChangeMovers and metadata.minChangeMovers > 1 %}
+        {% set consideredChanges = 'Insights_TitleIgnoredChanges'|translate(metadata.minChangeMovers) %}
     {% endif %}
 
-    {% include "@Insights/insightControls.twig" %}
-</div>
+    <div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+        {% if dataTable.getRowsCount %}
+            <table class="dataTable">
+
+                <thead>
+                    {% include "@Insights/table_header.twig" %}
+                </thead>
+
+                <tbody>
+                    {% for row in dataTable.getRows %}
+                        {% set isShaker = shaker.getRowFromLabel(row.getColumn('label')) %}
+
+                        {% include "@Insights/table_row.twig" with {"isShaker": isShaker} %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="pk-emptyDataTable">
+                {{ 'Insights_NoResultMatchesCriteria'|translate }}
+            </div>
+        {% endif %}
+
+        {% include "@Insights/insightControls.twig" %}
+    </div>
+{% endif %}

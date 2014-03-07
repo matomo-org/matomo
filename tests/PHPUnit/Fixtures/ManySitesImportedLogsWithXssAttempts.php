@@ -11,7 +11,6 @@ use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
@@ -35,7 +34,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
 
         $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);
 
-        $this->setupXssSegment();
         $this->addAnnotations();
         $this->trackVisitsForRealtimeMap($this->now);
     }
@@ -57,20 +55,6 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
             self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
                 $siteUrl = 'http://example-site-two.com');
         }
-    }
-    
-    public function setupXssSegment()
-    {
-        $segmentName = self::makeXssContent('segment');
-        $segmentDefinition = "browserCode==FF";
-        APISegmentEditor::getInstance()->add(
-            $segmentName, $segmentDefinition, $this->idSite, $autoArchive = true, $enabledAllUsers = true);
-
-        // create two more segments
-        APISegmentEditor::getInstance()->add(
-            "From Europe", "continentCode==eur", $this->idSite, $autoArchive = false, $enabledAllUsers = true);
-        APISegmentEditor::getInstance()->add(
-            "Multiple actions", "actions>=2", $this->idSite, $autoArchive = false, $enabledAllUsers = true);
     }
     
     public function addAnnotations()

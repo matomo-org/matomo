@@ -15,7 +15,7 @@ span.plugin-version {
 }
 
 /* add some space around the segment editor & other controls so screenshots are clearer */
-.widget .segmentEditorPanel, .widget .dashboardSettings, .widget .sites_autocomplete, .widget .periodSelector {
+.widget>.segmentEditorPanel, .widget>.dashboardSettings, .widget>.sites_autocomplete, .widget>.periodSelector {
     margin-top:1em;
     margin-bottom:1em;
     margin-left:1em;

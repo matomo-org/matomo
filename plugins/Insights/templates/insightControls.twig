@@ -1,4 +1,5 @@
 <div style="padding: 10px;padding-bottom: 0px;">
+
     Minimum growth of
     <select size="1" name="minGrowthPercent">
         {% for i in range(0, 1, 1) %}
@@ -43,15 +44,13 @@
     <hr style="height: 1px;border: 0px;background-color: #cccccc;" />
 
     Filter
-    
-    {% if properties.show_filter_by %}
-        <select size="1" name="filterBy" title="Show all, only movers, only new, only disappeared">
-            <option {% if not properties.filter_by %}selected{% endif %} value="">All</option>
-            <option {% if properties.filter_by == 'movers' %}selected{% endif %} value="movers">Only movers</option>
-            <option {% if properties.filter_by == 'new' %}selected{% endif %} value="new">Only new</option>
-            <option {% if properties.filter_by == 'disappeared' %}selected{% endif %} value="disappeared">Only disappeared</option>
-        </select>
-    {% endif %}
+
+    <select size="1" name="filterBy" title="Show all, only movers, only new, only disappeared">
+        <option {% if not properties.filter_by %}selected{% endif %} value="">All</option>
+        <option {% if properties.filter_by == 'movers' %}selected{% endif %} value="movers">Only movers</option>
+        <option {% if properties.filter_by == 'new' %}selected{% endif %} value="new">Only new</option>
+        <option {% if properties.filter_by == 'disappeared' %}selected{% endif %} value="disappeared">Only disappeared</option>
+    </select>
 
     <select size="1" name="showIncreaseOrDecrease" title="Show increaser and/or decreaser">
         <option value="both" {% if properties.limit_increaser and properties.limit_decreaser %}selected{%endif%}>

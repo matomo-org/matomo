@@ -14,12 +14,12 @@ use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\Model;
 
 /**
  * InsightsVisualization Visualization.
  *
- * @property Insight\Config        $config
  * @property Insight\RequestConfig $requestConfig
  */
 class Insight extends Visualization
@@ -31,6 +31,10 @@ class Insight extends Visualization
 
     public function beforeLoadDataTable()
     {
+        if (!self::canDisplayViewDataTable($this)) {
+            return;
+        }
+
         $report = $this->requestConfig->apiMethodToRequestDataTable;
         $report = str_replace('.', '_', $report);
 
@@ -64,11 +68,6 @@ class Insight extends Visualization
         );
     }
 
-    public static function getDefaultConfig()
-    {
-        return new Insight\Config();
-    }
-
     public static function getDefaultRequestConfig()
     {
         return new Insight\RequestConfig();
@@ -81,14 +80,34 @@ class Insight extends Visualization
 
     public function beforeRender()
     {
-        $this->assignTemplateVar('period', Common::getRequestVar('period', null, 'string'));
-
         $this->config->datatable_js_type = 'InsightsDataTable';
         $this->config->show_limit_control = true;
         $this->config->show_pagination_control = false;
         $this->config->show_offset_information = false;
         $this->config->show_search = false;
-        $this->config->title = 'Insights of ' . $this->config->title;
+
+        if (!self::canDisplayViewDataTable($this)) {
+            $this->assignTemplateVar('cannotDisplayReport', true);
+            return;
+        }
+
+        $period  = Common::getRequestVar('period', null, 'string');
+        $date    = Common::getRequestVar('date', null, 'string');
+        $idSite  = Common::getRequestVar('idSite', null, 'string');
+        $segment = Common::getRequestVar('segment', false, 'string');
+
+        $this->assignTemplateVar('period', $period);
+
+        $reportId = $this->requestConfig->request_parameters_to_modify['reportUniqueId'];
+        $comparedToXPeriods = $this->requestConfig->compared_to_x_periods_ago;
+        $limitIncreaser = min($this->requestConfig->request_parameters_to_modify['limitIncreaser'], 2);
+        $limitDecreaser = min($this->requestConfig->request_parameters_to_modify['limitDecreaser'], 2);
+
+        $shaker = API::getInstance()->getMoversAndShakers(
+            $idSite, $period, $date, $reportId, $segment, $comparedToXPeriods, $limitIncreaser, $limitDecreaser
+        );
+
+        $this->assignTemplateVar('shaker', $shaker);
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
@@ -96,14 +115,9 @@ class Insight extends Visualization
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
 
-        try {
-            $model    = new Model();
-            $lastDate = $model->getLastDate($date, $period, 1);
-        } catch (\Exception $e) {
-            return false;
-        }
+        $canGenerateInsights = API::getInstance()->canGenerateInsights($period, $date);
 
-        if (empty($lastDate)) {
+        if (!$canGenerateInsights) {
             return false;
         }
 
