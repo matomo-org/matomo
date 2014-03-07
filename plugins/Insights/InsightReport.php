@@ -64,7 +64,7 @@ class InsightReport
             $minNewPercent         = 5;
         }
 
-        if ($totalValue < 100) {
+        if ($totalValue < 200) {
             // force at least a change of 2 visits
             $minMoversPercent = (int) ceil(2 / ($totalValue / 100));
             $minNewPercent    = max($minNewPercent, $minMoversPercent);

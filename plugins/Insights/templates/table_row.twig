@@ -6,6 +6,14 @@
         </span>
     </td>
 
+    {% if row.getColumn('isMover') %}
+        {% set typeOfChange = 'Moved'; %}
+    {% elseif row.getColumn('isNew') %}
+        {% set typeOfChange = 'New'; %}
+    {% elseif row.getColumn('isDisappeared') %}
+        {% set typeOfChange = 'Disappeared'; %}
+    {% endif %}
+
     {% if row.getColumn('grown') %}
         <td>+{{ row.getColumn('difference') }}</td>
         <td class="grown">+{{ row.getColumn('growth_percent') }}</td>

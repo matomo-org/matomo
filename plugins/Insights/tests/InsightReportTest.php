@@ -363,7 +363,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $metadata['minNewPercent']);
         $this->assertEquals(8, $metadata['minDisappearedPercent']);
 
-        $report   = $this->generateMoverAndShaker(150, 50);
+        $report   = $this->generateMoverAndShaker(300, 100);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(240, $metadata['minGrowthPercentPositive']);
@@ -383,7 +383,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(7, $metadata['minDisappearedPercent']);
 
 
-        $report   = $this->generateMoverAndShaker(150, 300);
+        $report   = $this->generateMoverAndShaker(300, 600);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
