@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Browser-versioner",
+        "Camera": "Kamera",
         "CarBrowser": "Bil browser",
         "Console": "Konsol",
         "dataTableLabelBrands": "Mærke",
