@@ -35,7 +35,7 @@ matrix:
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    # Mysqli tests need to run only on one PHP version
+    # Only run Mysqli tests on PHP 5.5
     - php: 5.4
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
     - php: 5.4
@@ -47,6 +47,12 @@ matrix:
     - php: 5.5
       env: TEST_SUITE=PluginTests MYSQL_ADAPTER=MYSQLI
     - php: 5.5
+      env: TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
+    - php: hhvm
+      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI
+    - php: hhvm
+      env: TEST_SUITE=PluginTests MYSQL_ADAPTER=MYSQLI
+    - php: hhvm
       env: TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
 
 script: ./travis.sh
