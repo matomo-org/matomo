@@ -24,5 +24,8 @@
         "leafo/lessphp": "~0.3",
         "symfony/console": ">=v2.3.5",
         "tedivm/jshrink": "v0.5.1"
-    }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    }    
 }
