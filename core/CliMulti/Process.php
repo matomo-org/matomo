@@ -146,11 +146,21 @@ class Process
             return false;
         }
 
+        if(!self::shellExecFunctionExists()) {
+            return false;
+        }
         if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
             return true;
         }
 
         return false;
+    }
+
+    private static function shellExecFunctionExists()
+    {
+        $command = 'pcntl_signal_dispatch';
+        $disabled = explode(',', ini_get('disable_functions'));
+        return !in_array($command, $disabled);
     }
 
     private static function returnsSuccessCode($command)

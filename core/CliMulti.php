@@ -148,7 +148,9 @@ class CliMulti {
      */
     private function supportsAsync()
     {
-        return !SettingsServer::isWindows() && Process::isSupported() && $this->findPhpBinary();
+        return !SettingsServer::isWindows()
+                && Process::isSupported()
+                && $this->findPhpBinary();
     }
 
     private function cleanup()
@@ -233,6 +235,7 @@ class CliMulti {
     private function executeNotAsyncHttp($url, Output $output)
     {
         try {
+            Log::debug("Execute HTTP API request: "  . $url);
             $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
             $output->write($response);
         } catch (\Exception $e) {
