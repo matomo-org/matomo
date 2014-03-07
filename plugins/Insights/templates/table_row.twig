@@ -7,11 +7,11 @@
     </td>
 
     {% if row.getColumn('isMover') %}
-        {% set typeOfChange = 'Moved'; %}
+        {% set typeOfChange = 'Moved' %}
     {% elseif row.getColumn('isNew') %}
-        {% set typeOfChange = 'New'; %}
+        {% set typeOfChange = 'New' %}
     {% elseif row.getColumn('isDisappeared') %}
-        {% set typeOfChange = 'Disappeared'; %}
+        {% set typeOfChange = 'Disappeared' %}
     {% endif %}
 
     {% if row.getColumn('grown') %}
