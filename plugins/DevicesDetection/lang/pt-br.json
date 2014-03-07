@@ -1,0 +1,24 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Versões de navegadores",
+        "Camera": "Câmera",
+        "Console": "Console",
+        "dataTableLabelBrands": "Marca",
+        "dataTableLabelBrowserFamily": "Família de navegadores",
+        "dataTableLabelModels": "Modelo",
+        "dataTableLabelSystemVersion": "Versão do Sistema Operacional",
+        "dataTableLabelTypes": "Tipo",
+        "Device": "Dispositivo",
+        "DeviceBrand": "Marca do dispositivo",
+        "DeviceDetection": "Detecção de dispositivo",
+        "DeviceModel": "Modelo do dispositivo",
+        "DeviceType": "Tipo de dispositivo",
+        "OperatingSystemFamilies": "Famílias de Sistemas Operacionais",
+        "OperatingSystemVersions": "Versões dos Sistemas Operacionais",
+        "Smartphone": "Smartphone",
+        "submenu": "Dispositivos",
+        "Tablet": "Tablet",
+        "TV": "Tv",
+        "UserAgent": "User-Agent"
+    }
+}
