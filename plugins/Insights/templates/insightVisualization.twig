@@ -19,9 +19,7 @@
 
                 <tbody>
                     {% for row in dataTable.getRows %}
-                        {% set isShaker = shaker.getRowFromLabel(row.getColumn('label')) %}
-
-                        {% include "@Insights/table_row.twig" with {"isShaker": isShaker} %}
+                        {% include "@Insights/table_row.twig" %}
                     {% endfor %}
                 </tbody>
             </table>

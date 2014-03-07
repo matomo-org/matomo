@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Insights\tests;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\InsightReport;
+use Piwik\Plugins\Insights\Visualizations\Insight;
 
 /**
  * @group Insights
@@ -245,9 +246,86 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function test_generateInsights_ShouldSetCorrectMetadata()
+    {
+        $report = $this->generateInsight(2, 4, 8, 17, -21);
+        $metadata = $report->getAllTableMetadata();
+
+        $expectedMetadata = array(
+            'reportName' => 'TestReport',
+            'metricName' => 'Visits',
+            'date'       => '2012-12-12',
+            'lastDate'   => '2012-12-11',
+            'period'     => 'day',
+            'orderBy'    => 'absolute',
+            'metric'     => 'nb_visits',
+            'totalValue' => 200,
+            'minChangeMovers' => 4,
+            'minIncreaseNew'  => 8,
+            'minDecreaseDisappeared' => 16,
+            'minGrowthPercentPositive' => 17,
+            'minGrowthPercentNegative' => -21,
+            'minMoversPercent' => 2,
+            'minNewPercent' => 4,
+            'minDisappearedPercent' => 8,
+        );
+
+        $this->assertInternalType('array', $metadata['report']);
+        $this->assertEquals('TestReport', $metadata['report']['name']);
+        unset($metadata['report']);
+        unset($metadata['totals']);
+
+        $this->assertEquals($expectedMetadata, $metadata);
+    }
+
+    public function test_markMoversAndShakers()
+    {
+        $report = $this->generateInsight(2, 2, 2, 5, -5);
+        $this->insightReport->markMoversAndShakers($report, $this->currentTable, $this->pastTable, 160, 100);
+
+        // increase by 60% --> minGrowth 80%
+        $movers = array('val11', 'val12', 'val7', 'val9', 'val3', 'val10', 'val2', 'val6', 'val107', 'val102');
+        $nonMovers = array('val1', 'val8', 'val4');
+
+        $this->assertMoversAndShakers($report, $movers, $nonMovers);
+    }
+
+    public function test_generateMoversAndShakers()
+    {
+        // increase by 60% --> minGrowth 80%
+        $report = $this->generateMoverAndShaker(160, 100);
+        $this->assertOrder($report, array('val11', 'val7', 'val3', 'val10', 'val2', 'val12', 'val6', 'val107', 'val9', 'val102'));
+
+        // increase by 1600% --> minGrowth 1640%
+        $report = $this->generateMoverAndShaker(1600, 100);
+        $this->assertOrder($report, array('val11', 'val6', 'val107', 'val9'));
+
+    }
+
+    private function assertMoversAndShakers(DataTable $report, $movers, $nonMovers)
+    {
+        foreach ($movers as $mover) {
+            $row = $report->getRowFromLabel($mover);
+            if (!$row) {
+                $this->fail("$mover is not a valid label");
+                continue;
+            }
+            $this->assertTrue($row->getColumn('isMoverAndShaker'), "$mover is not a mover but should be");
+        }
+
+        foreach ($nonMovers as $nonMover) {
+            $row = $report->getRowFromLabel($nonMover);
+            if (!$row) {
+                $this->fail("$nonMover is not a valid label");
+                continue;
+            }
+            $this->assertFalse($row->getColumn('isMoverAndShaker'), "$nonMover is a mover but should be not");
+        }
+    }
+
     public function test_generateMoversAndShakers_Metadata()
     {
-        $report   = $this->generateMoverAndShaker(50, 150);
+        $report   = $this->generateMoverAndShaker(150, 50);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(50, $metadata['lastTotalValue']);
@@ -256,7 +334,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $metadata['evolutionTotal']);
 
 
-        $report   = $this->generateMoverAndShaker(50, 75);
+        $report   = $this->generateMoverAndShaker(75, 50);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(50, $metadata['lastTotalValue']);
@@ -265,7 +343,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(50, $metadata['evolutionTotal']);
 
 
-        $report   = $this->generateMoverAndShaker(50, 25);
+        $report   = $this->generateMoverAndShaker(25, 50);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(50, $metadata['lastTotalValue']);
@@ -276,37 +354,68 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
 
     public function test_generateMoversAndShakers_ParameterCalculation()
     {
-        $report   = $this->generateMoverAndShaker(50, 150);
+        $report   = $this->generateMoverAndShaker(3000, 50); // evolution of 5900%
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(6380, $metadata['minGrowthPercentPositive']);
+        $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
+        $this->assertEquals(1, $metadata['minMoversPercent']);
+        $this->assertEquals(10, $metadata['minNewPercent']);
+        $this->assertEquals(8, $metadata['minDisappearedPercent']);
+
+        $report   = $this->generateMoverAndShaker(150, 50);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(240, $metadata['minGrowthPercentPositive']);
         $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
-        $this->assertEquals(0.5, $metadata['minMoversPercent']);
+        $this->assertEquals(1, $metadata['minMoversPercent']);
         $this->assertEquals(6, $metadata['minNewPercent']);
         $this->assertEquals(8, $metadata['minDisappearedPercent']);
 
 
-        $report   = $this->generateMoverAndShaker(50, 75);
+        $report   = $this->generateMoverAndShaker(225, 150);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
         $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
-        $this->assertEquals(0.5, $metadata['minMoversPercent']);
+        $this->assertEquals(1, $metadata['minMoversPercent']);
         $this->assertEquals(5, $metadata['minNewPercent']);
         $this->assertEquals(7, $metadata['minDisappearedPercent']);
 
 
-        $report   = $this->generateMoverAndShaker(50, 25);
+        $report   = $this->generateMoverAndShaker(150, 300);
         $metadata = $report->getAllTableMetadata();
 
         $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
         $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
-        $this->assertEquals(0.5, $metadata['minMoversPercent']);
+        $this->assertEquals(1, $metadata['minMoversPercent']);
+        $this->assertEquals(5, $metadata['minNewPercent']);
+        $this->assertEquals(7, $metadata['minDisappearedPercent']);
+
+
+        // make sure to force a change of at least 2 visits in all rows if total is soooo low
+        $report   = $this->generateMoverAndShaker(25, 50);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
+        $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
+        $this->assertEquals(8, $metadata['minMoversPercent']);
+        $this->assertEquals(8, $metadata['minNewPercent']);
+        $this->assertEquals(8, $metadata['minDisappearedPercent']);
+
+
+        // make sure to force a change of at least 2 visits
+        $report   = $this->generateMoverAndShaker(75, 150);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
+        $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
+        $this->assertEquals(3, $metadata['minMoversPercent']);
         $this->assertEquals(5, $metadata['minNewPercent']);
         $this->assertEquals(7, $metadata['minDisappearedPercent']);
     }
 
-    private function generateMoverAndShaker($lastTotalValue, $totalValue, $orderBy = null, $limitIncreaser = 99, $limitDecreaser = 99)
+    private function generateMoverAndShaker($totalValue, $lastTotalValue, $orderBy = null, $limitIncreaser = 99, $limitDecreaser = 99)
     {
         if (is_null($orderBy)) {
             $orderBy = InsightReport::ORDER_BY_ABSOLUTE;
@@ -315,7 +424,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $reportMetadata = array('name' => 'TestReport',  'metrics' => array('nb_visits' => 'Visits'));
 
         $report = $this->insightReport->generateMoverAndShaker(
-            $reportMetadata, 'day', 'today', 'yesterday', 'nb_visits', $this->currentTable, $this->pastTable,
+            $reportMetadata, 'day', '2012-12-12', '2012-12-11', 'nb_visits', $this->currentTable, $this->pastTable,
             $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
 
         return $report;
@@ -330,7 +439,7 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $reportMetadata = array('name' => 'TestReport',  'metrics' => array('nb_visits' => 'Visits'));
 
         $report = $this->insightReport->generateInsight(
-                    $reportMetadata, 'day', 'today', 'yesterday', 'nb_visits', $this->currentTable, $this->pastTable,
+                    $reportMetadata, 'day', '2012-12-12', '2012-12-11', 'nb_visits', $this->currentTable, $this->pastTable,
                     $totalValue = 200, $minMoversPercent, $minNewPercent, $minDisappearedPercent,
             $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
 

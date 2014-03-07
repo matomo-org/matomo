@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
  * @group Unit
  * @group Core
  */
-class BaseUnitTest extends \PHPUnit_Framework_TestCase
+class BaseUnit extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var DataTable

@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\Insights\Visualizations\Insight;
 
+use Piwik\Plugins\Insights\InsightReport;
+use Piwik\Plugins\Insights\Visualizations\Insight;
 use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
 
 class RequestConfig extends VisualizationRequestConfig
@@ -16,10 +18,10 @@ class RequestConfig extends VisualizationRequestConfig
     public $min_impact_percent = '0.1';
     public $min_growth_percent = 20;
     public $compared_to_x_periods_ago = 1;
-    public $order_by = 'absolute';
+    public $order_by = InsightReport::ORDER_BY_ABSOLUTE;
     public $filter_by = '';
-    public $limit_increaser = '13';
-    public $limit_decreaser = '12';
+    public $limit_increaser = '5';
+    public $limit_decreaser = '5';
 
     public function __construct()
     {

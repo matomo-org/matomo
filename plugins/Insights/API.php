@@ -56,8 +56,10 @@ class API extends \Piwik\Plugin\API
         $this->model = new Model();
     }
 
-    public function canGenerateInsights($period, $date)
+    public function canGenerateInsights($date, $period)
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         try {
             $model    = new Model();
             $lastDate = $model->getLastDate($date, $period, 1);
@@ -74,12 +76,12 @@ class API extends \Piwik\Plugin\API
 
     public function getInsightsOverview($idSite, $period, $date, $segment = false)
     {
-        Piwik::checkUserHasViewAccess(array($idSite));
+        Piwik::checkUserHasViewAccess($idSite);
 
         $defaultParams = array(
             'limitIncreaser' => 3,
             'limitDecreaser' => 3,
-            'minImpactPercent' => 2,
+            'minImpactPercent' => 1,
             'minGrowthPercent' => 25,
         );
 
@@ -90,7 +92,7 @@ class API extends \Piwik\Plugin\API
 
     public function getMoversAndShakersOverview($idSite, $period, $date, $segment = false)
     {
-        Piwik::checkUserHasViewAccess(array($idSite));
+        Piwik::checkUserHasViewAccess($idSite);
 
         $defaultParams = array(
             'limitIncreaser' => 4,
@@ -164,16 +166,20 @@ class API extends \Piwik\Plugin\API
 
         $reportMetadata = $this->model->getReportByUniqueId($idSite, $reportUniqueId);
 
+        $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric);
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
-        $totalValue     = $this->model->getRelevantTotalValue($currentReport, $idSite, $period, $date, $metric);
 
         $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
 
         $minGrowthPercentPositive = abs($minGrowthPercent);
         $minGrowthPercentNegative = -1 * $minGrowthPercentPositive;
-        $minMoversPercent = -1;
-        $minNewPercent = -1;
+
+        $relevantTotal = $this->model->getRelevantTotalValue($currentReport, $metric, $totalValue);
+
+        $minMoversPercent      = -1;
+        $minNewPercent         = -1;
         $minDisappearedPercent = -1;
 
         switch ($filterBy) {
@@ -193,7 +199,10 @@ class API extends \Piwik\Plugin\API
         }
 
         $insight = new InsightReport();
-        return $insight->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
+        $table   = $insight->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $relevantTotal, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
+        $insight->markMoversAndShakers($table, $currentReport, $lastReport, $totalValue, $lastTotalValue);
+
+        return $table;
     }
 
     private function requestApiMethod($method, $idSite, $period, $date, $reportId, $segment, $additionalParams)
@@ -207,7 +216,7 @@ class API extends \Piwik\Plugin\API
             'reportUniqueId' => $reportId,
         );
 
-        if ($segment) {
+        if (!empty($segment)) {
             $params['segment'] = $segment;
         }
 

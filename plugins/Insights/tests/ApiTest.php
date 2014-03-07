@@ -59,6 +59,8 @@ class ApiTest extends \IntegrationTestCase
             'date'       => self::$fixture->date1,
             'lastDate'   => self::$fixture->date2,
             'period'     => 'day',
+            'orderBy'    => 'absolute',
+            'metric'     => 'nb_visits',
             'totalValue' => 50,
             'minChangeMovers' => 1,
             'minIncreaseNew'  => 1,
@@ -218,6 +220,16 @@ class ApiTest extends \IntegrationTestCase
             '/Old2'
         );
         $this->assertRows($expectedLabels, $insights);
+    }
+
+    public function test_canGenerateInsights()
+    {
+        $this->assertTrue($this->api->canGenerateInsights('2012-12-12', 'day'));
+        $this->assertTrue($this->api->canGenerateInsights('2012-12-12', 'week'));
+        $this->assertTrue($this->api->canGenerateInsights('2012-12-12', 'month'));
+
+        $this->assertFalse($this->api->canGenerateInsights('last10', 'day'));
+        $this->assertFalse($this->api->canGenerateInsights('2012-11-11,2012-12-12', 'range'));
     }
 
     private function requestInsights($requestParams)

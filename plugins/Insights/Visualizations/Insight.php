@@ -35,37 +35,47 @@ class Insight extends Visualization
             return;
         }
 
-        $report = $this->requestConfig->apiMethodToRequestDataTable;
-        $report = str_replace('.', '_', $report);
-
         if (!$this->requestConfig->filter_limit) {
             $this->requestConfig->filter_limit = 10;
         }
 
-        $limit = $this->requestConfig->filter_limit;
-        $limitDecrease = 0;
-        $limitIncrease = 0;
-
-        if ($this->requestConfig->limit_increaser && !$this->requestConfig->limit_decreaser) {
-            $limitIncrease = $limit;
-        } elseif (!$this->requestConfig->limit_increaser && $this->requestConfig->limit_decreaser) {
-            $limitDecrease = $limit;
-        } elseif ($this->requestConfig->limit_increaser && $this->requestConfig->limit_decreaser) {
-            $limitIncrease = round($limit / 2);
-            $limitDecrease = $limit - $limitIncrease;
-        }
+        $report = $this->requestConfig->apiMethodToRequestDataTable;
+        $report = str_replace('.', '_', $report);
 
         $this->requestConfig->apiMethodToRequestDataTable = 'Insights.getInsights';
+
         $this->requestConfig->request_parameters_to_modify = array(
             'reportUniqueId' => $report,
             'minImpactPercent' => $this->requestConfig->min_impact_percent,
             'minGrowthPercent' => $this->requestConfig->min_growth_percent,
             'comparedToXPeriods' => $this->requestConfig->compared_to_x_periods_ago,
-            'orderBy' => $this->requestConfig->order_by,
+            'orderBy'  => $this->requestConfig->order_by,
             'filterBy' => $this->requestConfig->filter_by,
-            'limitIncreaser' => $limitIncrease,
-            'limitDecreaser' => $limitDecrease,
+            'limitIncreaser' => $this->getLimitIncrease(),
+            'limitDecreaser' => $this->getLimitDecrease(),
         );
+    }
+
+    private function getLimitIncrease()
+    {
+        $filterLimit   = $this->requestConfig->filter_limit;
+        $limitIncrease = 0;
+
+        if ($this->requestConfig->limit_increaser && !$this->requestConfig->limit_decreaser) {
+            $limitIncrease = $filterLimit;
+        } elseif ($this->requestConfig->limit_increaser && $this->requestConfig->limit_decreaser) {
+            $limitIncrease = round($filterLimit / 2);
+        }
+
+        return $limitIncrease;
+    }
+
+    private function getLimitDecrease()
+    {
+        $filterLimit   = $this->requestConfig->filter_limit;
+        $limitDecrease = $filterLimit - $this->getLimitIncrease();
+
+        return abs($limitDecrease);
     }
 
     public static function getDefaultRequestConfig()
@@ -91,23 +101,8 @@ class Insight extends Visualization
             return;
         }
 
-        $period  = Common::getRequestVar('period', null, 'string');
-        $date    = Common::getRequestVar('date', null, 'string');
-        $idSite  = Common::getRequestVar('idSite', null, 'string');
-        $segment = Common::getRequestVar('segment', false, 'string');
-
+        $period = Common::getRequestVar('period', null, 'string');
         $this->assignTemplateVar('period', $period);
-
-        $reportId = $this->requestConfig->request_parameters_to_modify['reportUniqueId'];
-        $comparedToXPeriods = $this->requestConfig->compared_to_x_periods_ago;
-        $limitIncreaser = min($this->requestConfig->request_parameters_to_modify['limitIncreaser'], 2);
-        $limitDecreaser = min($this->requestConfig->request_parameters_to_modify['limitDecreaser'], 2);
-
-        $shaker = API::getInstance()->getMoversAndShakers(
-            $idSite, $period, $date, $reportId, $segment, $comparedToXPeriods, $limitIncreaser, $limitDecreaser
-        );
-
-        $this->assignTemplateVar('shaker', $shaker);
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
@@ -115,7 +110,7 @@ class Insight extends Visualization
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
 
-        $canGenerateInsights = API::getInstance()->canGenerateInsights($period, $date);
+        $canGenerateInsights = API::getInstance()->canGenerateInsights($date, $period);
 
         if (!$canGenerateInsights) {
             return false;

@@ -12,9 +12,7 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
- * API for plugin Insights
- *
- * @method static \Piwik\Plugins\Insights\API getInstance()
+ * Insight report generator
  */
 class InsightReport
 {
@@ -41,13 +39,13 @@ class InsightReport
     {
         $totalEvolution = Piwik::getPercentageSafe($totalValue - $lastTotalValue, $lastTotalValue, 1);
 
-        $minMoversPercent = 0.5;
+        $minMoversPercent = 1;
 
         if ($totalEvolution >= 100) {
             // eg change from 50 to 150 = 200%
             // $evolutionReverse = Piwik::getPercentageSafe($totalValue > $lastTotal ? $lastTotal : $totalValue, $totalValue > $lastTotal ? $totalValue : $lastTotal, 1);
-
-            $minGrowthPercentPositive = $totalEvolution + 40; // min +240%
+            $factor = (int) ceil($totalEvolution / 500);
+            $minGrowthPercentPositive = $totalEvolution + ($factor * 40); // min +240%
             $minGrowthPercentNegative = -70;         // min -70%
             $minDisappearedPercent = 8;              // min 12
             $minNewPercent = min(($totalEvolution / 100) * 3, 10);    // min 6% = min 10 of total visits up to max 10%
@@ -66,6 +64,13 @@ class InsightReport
             $minNewPercent         = 5;
         }
 
+        if ($totalValue < 100) {
+            // force at least a change of 2 visits
+            $minMoversPercent = (int) ceil(2 / ($totalValue / 100));
+            $minNewPercent    = max($minNewPercent, $minMoversPercent);
+            $minDisappearedPercent = max($minDisappearedPercent, $minMoversPercent);
+        }
+
         $dataTable = $this->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
 
         $dataTable->setMetadata('lastTotalValue', $lastTotalValue);
@@ -73,6 +78,41 @@ class InsightReport
         $dataTable->setMetadata('evolutionDifference', $totalValue - $lastTotalValue);
 
         return $dataTable;
+    }
+
+    /**
+     * Extends an already generated insight report by adding a column "isMoverAndShaker" whether a row is also a
+     * "Mover and Shaker" or not.
+     *
+     * Avoids the need to fetch all reports again when we already have the currentReport/lastReport
+     */
+    public function markMoversAndShakers(DataTable $insight, $currentReport, $lastReport, $totalValue, $lastTotalValue)
+    {
+        if (!$insight->getRowsCount()) {
+            return;
+        }
+
+        $limitIncreaser = max($insight->getRowsCount(), 3);
+        $limitDecreaser = max($insight->getRowsCount(), 3);
+
+        $lastDate = $insight->getMetadata('lastDate');
+        $date     = $insight->getMetadata('date');
+        $period   = $insight->getMetadata('period');
+        $metric   = $insight->getMetadata('metric');
+        $orderBy  = $insight->getMetadata('orderBy');
+        $reportMetadata = $insight->getMetadata('report');
+
+        $shakers = $this->generateMoverAndShaker($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
+
+        foreach ($insight->getRows() as $row) {
+            $label = $row->getColumn('label');
+
+            if ($shakers->getRowFromLabel($label)) {
+                $row->setColumn('isMoverAndShaker', true);
+            } else {
+                $row->setColumn('isMoverAndShaker', false);
+            }
+        }
     }
 
     /**
@@ -186,6 +226,8 @@ class InsightReport
             'period' => $period,
             'report' => $reportMetadata,
             'totalValue' => $totalValue,
+            'orderBy' => $orderBy,
+            'metric' => $metric,
             'minChangeMovers' => $minChangeMovers,
             'minIncreaseNew' => $minIncreaseNew,
             'minDecreaseDisappeared' => $minDecreaseDisappeared,

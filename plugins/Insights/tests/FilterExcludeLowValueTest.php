@@ -18,7 +18,7 @@ use Piwik\Plugins\Insights\DataTable\Filter\ExcludeLowValue;
  * @group Unit
  * @group Core
  */
-class FilterExcludeLowValueTest extends BaseUnitTest
+class FilterExcludeLowValueTest extends BaseUnit
 {
     public function setUp()
     {

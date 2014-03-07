@@ -120,6 +120,14 @@ class ModelTest extends \IntegrationTestCase
         $this->model->getLastDate('last10', 'day', 1);
     }
 
+    /**
+     * @expectedException \Exception
+     */
+    public function test_getLastDate_shouldThrowExceptionInCaseOfRangePeriod()
+    {
+        $this->model->getLastDate('2012-11-11,2012-12-12', 'range', 1);
+    }
+
     public function test_getTotalValue_shouldCalculateTotals()
     {
         $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits');
@@ -140,25 +148,25 @@ class ModelTest extends \IntegrationTestCase
     public function test_getRelevantTotalValue_shouldReturnTotalValue_IfMetricTotalIsHighEnough()
     {
         $table = $this->getTableWithTotal(25);
-        $total = $this->model->getRelevantTotalValue($table, self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits');
+        $total = $this->model->getRelevantTotalValue($table, 'nb_visits', 50);
         $this->assertEquals(50, $total);
     }
 
     public function test_getRelevantTotalValue_shouldReturnMetricTotal_IfMetricTotalIsHigherThanTotalValue()
     {
         $table = $this->getTableWithTotal(80);
-        $total = $this->model->getRelevantTotalValue($table, self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits');
+        $total = $this->model->getRelevantTotalValue($table, 'nb_visits', 50);
         $this->assertEquals(80, $total);
     }
 
     public function test_getRelevantTotalValue_shouldReturnMetricTotal_IfMetricTotalIsTooLow()
     {
         $table = $this->getTableWithTotal(24);
-        $total = $this->model->getRelevantTotalValue($table, self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits');
+        $total = $this->model->getRelevantTotalValue($table, 'nb_visits', 50);
         $this->assertEquals(24, $total);
 
         $table = $this->getTableWithTotal(0);
-        $total = $this->model->getRelevantTotalValue($table, self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits');
+        $total = $this->model->getRelevantTotalValue($table, 'nb_visits', 50);
         $this->assertEquals(0, $total);
     }
 

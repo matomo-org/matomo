@@ -9,10 +9,7 @@
 namespace Piwik\Plugins\Insights;
 
 use Piwik\DataTable;
-use Piwik\Date;
-use Piwik\Log;
 use Piwik\Period\Range;
-use Piwik\Piwik;
 use Piwik\Plugins\API\ProcessedReport;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
@@ -64,10 +61,16 @@ class Model
         return $pastDate[0];
     }
 
-    public function getRelevantTotalValue(DataTable $currentReport, $idSite, $period, $date, $metric)
+    /**
+     * Returns either the $totalValue (eg 5500 visits) or the total value of the report
+     * (eg 2500 visits of 5500 total visits as for instance only 2500 visits came to the website using a search engine).
+     *
+     * If the metric total (2500) is much lower than $totalValue, the metric total will be returned, otherwise the
+     * $totalValue
+     */
+    public function getRelevantTotalValue(DataTable $currentReport, $metric, $totalValue)
     {
         $totalMetric = $this->getMetricTotalValue($currentReport, $metric);
-        $totalValue  = $this->getTotalValue($idSite, $period, $date, $metric);
 
         if ($totalMetric > $totalValue) {
             return $totalMetric;
