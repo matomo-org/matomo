@@ -158,7 +158,7 @@ class Process
 
     private static function shellExecFunctionExists()
     {
-        $command = 'pcntl_signal_dispatch';
+        $command = 'shell_exec';
         $disabled = explode(',', ini_get('disable_functions'));
         return !in_array($command, $disabled);
     }
