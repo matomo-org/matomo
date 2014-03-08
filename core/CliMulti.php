@@ -175,7 +175,12 @@ class CliMulti {
     {
         $timeOneWeekAgo = strtotime('-1 week');
 
-        foreach (_glob(self::getTmpPath() . '/*') as $file) {
+        $files = _glob(self::getTmpPath() . '/*');
+        if(empty($files)) {
+            return;
+        }
+
+        foreach ($files as $file) {
             $timeLastModified = filemtime($file);
 
             if ($timeOneWeekAgo > $timeLastModified) {
