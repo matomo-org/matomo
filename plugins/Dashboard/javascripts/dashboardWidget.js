@@ -166,7 +166,7 @@
          * @param {object} parameters
          */
         getParameters: function () {
-            return this.widgetParameters;
+            return $.extend({}, this.widgetParameters);
         },
 
         /**
