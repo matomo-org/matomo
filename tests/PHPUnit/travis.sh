@@ -26,6 +26,5 @@ else
         fi
     else
         phpunit --configuration phpunit.xml --coverage-text --colors
-      fi
     fi
 fi
