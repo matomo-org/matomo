@@ -397,7 +397,7 @@ Segmentation = (function($) {
             });
 
             self.target.on('click', '.add_new_segment', function (e) {
-                event.stopPropagation();
+                e.stopPropagation();
                 closeAllOpenLists();
                 addForm("new");
                 doDragDropBindings();
