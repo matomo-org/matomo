@@ -13,22 +13,18 @@ else
         then
             touch ../javascript/enable_sqlite
             phantomjs ../javascript/testrunner.js
-        else
-            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
-        fi
-    else
-      if [ -n "$TEST_DIR" ]
-      then
-        if [ "$TEST_DIR" = "UI" ]
+        elif [ "$TEST_SUITE" = "UITests" ]
         then
             echo ""
             echo "View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
             echo "If the new screenshots are valid, then you can copy them over to tests/PHPUnit/UI/expected-ui-screenshots/."
             echo ""
-        fi
 
-        phpunit --colors $TEST_DIR
-      else
+            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --use-github-expected "$PLUGIN_NAME"
+        else
+            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+        fi
+    else
         phpunit --configuration phpunit.xml --coverage-text --colors
       fi
     fi
