@@ -1,14 +1,15 @@
 <div class="insightsDataTable dataTable"
      data-table-type="InsightsDataTable"
-     data-table-onlyinsightsinit="1"
-     title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+     data-table-onlyinsightsinit="1">
     {% if reports.getColumns|length > 0 %}
 
-        <table class="dataTable">
-            {% for dataTable in reports.getDataTables() if dataTable.getRowsCount > 0 %}
-                {% set metadata = dataTable.getAllTableMetadata %}
+        {% for dataTable in reports.getDataTables() if dataTable.getRowsCount > 0 %}
+            {% set metadata = dataTable.getAllTableMetadata %}
 
-                <thead>
+            <table class="dataTable"
+                   title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+
+                <thead >
                     {% include "@Insights/table_header.twig" %}
                 </thead>
 
@@ -18,8 +19,8 @@
                     {% endfor %}
                 </tbody>
 
-            {% endfor %}
-        </table>
+            </table>
+        {% endfor %}
 
         <script type="text/javascript" defer="defer">
             $(document).ready(function () {
@@ -29,7 +30,8 @@
 
     {% else %}
 
-        <div class="pk-emptyDataTable">
+        <div class="pk-emptyDataTable"
+             title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
             {{ 'Insights_NoResultMatchesCriteria'|translate }}
         </div>
 

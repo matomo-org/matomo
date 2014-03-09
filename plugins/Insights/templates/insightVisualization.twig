@@ -2,14 +2,14 @@
     {% include "@Insights/cannotDisplayReport.twig" %}
 {% else %}
     {% set metadata = dataTable.getAllTableMetadata%}
-    {% set consideredVisits = 'Insights_TitleConsideredVisits'|translate(metadata.minGrowthPercentPositive, metadata.lastDate|prettyDate(metadata.period)) %}
+    {% set consideredGrowth = 'Insights_TitleConsideredInsightsGrowth'|translate(metadata.minGrowthPercentPositive, metadata.lastDate|prettyDate(metadata.period)) %}
     {% set consideredChanges = '' %}
 
     {% if metadata.minChangeMovers and metadata.minChangeMovers > 1 %}
-        {% set consideredChanges = 'Insights_TitleIgnoredChanges'|translate(metadata.minChangeMovers) %}
+        {% set consideredChanges = 'Insights_IgnoredChanges'|translate(metadata.minChangeMovers) %}
     {% endif %}
 
-    <div class="insightsDataTable" title="{{ consideredVisits|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+    <div class="insightsDataTable" title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
         {% if dataTable.getRowsCount %}
             <table class="dataTable">
 

@@ -1,10 +1,6 @@
 {% set allMetadata = reports.getFirstRow.getAllTableMetadata %}
 
-{% set consideredVisits = 'Insights_TitleConsideredMoversAndShakers'|translate(allMetadata.lastTotalValue, allMetadata.totalValue, allMetadata.lastDate|prettyDate(allMetadata.period), allMetadata.evolutionTotal) %}
-{% set consideredChanges = '' %}
-
-{% if allMetadata.minChangeMovers or allMetadata.minIncreaseNew or allMetadata.minDecreaseDisappeared %}
-    {% set consideredChanges = 'Insights_TitleConsideredChangesMoversAndShakers'|translate(allMetadata.minGrowthPercentPositive, allMetadata.minGrowthPercentNegative, allMetadata.minNewPercent, allMetadata.minIncreaseNew, allMetadata.minDisappearedPercent, allMetadata.minDecreaseDisappeared, allMetadata.totalValue) %}
-{% endif %}
+{% set consideredGrowth = 'Insights_TitleConsideredMoversAndShakersGrowth'|translate(allMetadata.metricName, allMetadata.lastTotalValue, allMetadata.totalValue, allMetadata.lastDate|prettyDate(allMetadata.period), allMetadata.evolutionTotal) %}
+{% set consideredChanges = 'Insights_TitleConsideredMoversAndShakersChanges'|translate(allMetadata.minGrowthPercentPositive, allMetadata.minGrowthPercentNegative, allMetadata.minNewPercent, allMetadata.minIncreaseNew, allMetadata.minDisappearedPercent, allMetadata.minDecreaseDisappeared, allMetadata.totalValue) %}
 
 {% include "@Insights/overviewWidget.twig" %}
