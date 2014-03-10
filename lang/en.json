@@ -1055,6 +1055,7 @@
         "DatePeriodCombinationNotSupported": "It is not possible to generate insights for this date / period combination.",
         "ControlGrowthDescription": "Minimum growth of",
         "ControlComparedToDescription": "compared to the",
+        "ControlFilterByDescription": "Show all, only movers, only new or only disappeared",
         "DayComparedToPreviousDay": "previous day",
         "DayComparedToPreviousWeek": "same day in the previous week",
         "DayComparedToPreviousYear": "same day in the previous year",
