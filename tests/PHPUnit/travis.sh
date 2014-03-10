@@ -18,9 +18,9 @@ then
     then
         if [ -n "$PLUGIN_NAME" ]
         then
-            branch_name="ui-tests.master.$PLUGIN_NAME"
+            artifacts_folder="ui-tests.master.$PLUGIN_NAME"
         else
-            branch_name="ui-tests.master"
+            artifacts_folder="ui-tests.master"
         fi
 
         echo ""
