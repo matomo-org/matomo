@@ -23,7 +23,7 @@ then
 
         if [ -n "$PLUGIN_NAME" ]
         then
-            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --use-github-expected
+            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --use-github-expected ActionsDataTable
         else
             phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected $PLUGIN_NAME
         fi
