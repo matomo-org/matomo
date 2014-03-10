@@ -37,13 +37,12 @@ class InsightReport
      */
     public function generateMoverAndShaker($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser)
     {
-        $totalEvolution = Piwik::getPercentageSafe($totalValue - $lastTotalValue, $lastTotalValue, 1);
+        $totalEvolution = $this->getTotalEvolution($totalValue, $lastTotalValue);
 
         $minMoversPercent = 1;
 
         if ($totalEvolution >= 100) {
             // eg change from 50 to 150 = 200%
-            // $evolutionReverse = Piwik::getPercentageSafe($totalValue > $lastTotal ? $lastTotal : $totalValue, $totalValue > $lastTotal ? $totalValue : $lastTotal, 1);
             $factor = (int) ceil($totalEvolution / 500);
             $minGrowthPercentPositive = $totalEvolution + ($factor * 40); // min +240%
             $minGrowthPercentNegative = -70;         // min -70%
@@ -64,7 +63,7 @@ class InsightReport
             $minNewPercent         = 5;
         }
 
-        if ($totalValue < 200 && $totalValue > 0) {
+        if ($totalValue < 200 && $totalValue != 0) {
             // force at least a change of 2 visits
             $minMoversPercent = (int) ceil(2 / ($totalValue / 100));
             $minNewPercent    = max($minNewPercent, $minMoversPercent);
@@ -73,9 +72,7 @@ class InsightReport
 
         $dataTable = $this->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
 
-        $dataTable->setMetadata('lastTotalValue', $lastTotalValue);
-        $dataTable->setMetadata('evolutionTotal', $totalEvolution);
-        $dataTable->setMetadata('evolutionDifference', $totalValue - $lastTotalValue);
+        $this->addMoversAndShakersMetadata($dataTable, $totalValue, $lastTotalValue);
 
         return $dataTable;
     }
@@ -113,6 +110,8 @@ class InsightReport
                 $row->setColumn('isMoverAndShaker', false);
             }
         }
+
+        $this->addMoversAndShakersMetadata($insight, $totalValue, $lastTotalValue);
     }
 
     /**
@@ -265,5 +264,19 @@ class InsightReport
         $minVisits = ceil(($totalValue / 100) * $percent);
 
         return (int) $minVisits;
+    }
+
+    private function addMoversAndShakersMetadata(DataTable $dataTable, $totalValue, $lastTotalValue)
+    {
+        $totalEvolution = $this->getTotalEvolution($totalValue, $lastTotalValue);
+
+        $dataTable->setMetadata('lastTotalValue', $lastTotalValue);
+        $dataTable->setMetadata('evolutionTotal', $totalEvolution);
+        $dataTable->setMetadata('evolutionDifference', $totalValue - $lastTotalValue);
+    }
+
+    private function getTotalEvolution($totalValue, $lastTotalValue)
+    {
+        return Piwik::getPercentageSafe($totalValue - $lastTotalValue, $lastTotalValue, 1);
     }
 }

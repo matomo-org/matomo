@@ -290,6 +290,19 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertMoversAndShakers($report, $movers, $nonMovers);
     }
 
+    public function test_markMoversAndShakers_shouldAddMetadata()
+    {
+        $report = $this->generateInsight(2, 2, 2, 5, -5);
+        $this->insightReport->markMoversAndShakers($report, $this->currentTable, $this->pastTable, 200, 100);
+
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(100, $metadata['lastTotalValue']);
+        $this->assertEquals(200, $metadata['totalValue']);
+        $this->assertEquals(100, $metadata['evolutionDifference']);
+        $this->assertEquals(100, $metadata['evolutionTotal']);
+    }
+
     public function test_generateMoversAndShakers()
     {
         // increase by 60% --> minGrowth 80%
@@ -411,6 +424,17 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(70, $metadata['minGrowthPercentPositive']);
         $this->assertEquals(-70, $metadata['minGrowthPercentNegative']);
         $this->assertEquals(3, $metadata['minMoversPercent']);
+        $this->assertEquals(5, $metadata['minNewPercent']);
+        $this->assertEquals(7, $metadata['minDisappearedPercent']);
+
+
+        // make sure no division by zero issue
+        $report   = $this->generateMoverAndShaker(0, 150);
+        $metadata = $report->getAllTableMetadata();
+
+        $this->assertEquals(120, $metadata['minGrowthPercentPositive']);
+        $this->assertEquals(-120, $metadata['minGrowthPercentNegative']);
+        $this->assertEquals(1, $metadata['minMoversPercent']);
         $this->assertEquals(5, $metadata['minNewPercent']);
         $this->assertEquals(7, $metadata['minDisappearedPercent']);
     }

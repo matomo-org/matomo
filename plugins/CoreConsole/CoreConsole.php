@@ -39,5 +39,7 @@ class CoreConsole extends \Piwik\Plugin
         $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateTest';
         $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateCommand';
         $commands[] = 'Piwik\Plugins\CoreConsole\Commands\SyncUITestScreenshots';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\ActivatePlugin';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\DeactivatePlugin';
     }
 }
