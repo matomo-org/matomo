@@ -51,9 +51,15 @@ class UserCountry extends \Piwik\Plugin
             'TaskScheduler.getScheduledTasks'        => 'getScheduledTasks',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral'
+            'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
+            'Insights.addReportToOverview'           => 'addReportToInsightsOverview'
         );
         return $hooks;
+    }
+
+    public function addReportToInsightsOverview(&$reports)
+    {
+        $reports['UserCountry_getCountry'] = array();
     }
 
     public function setTrackerCacheGeneral(&$cache)

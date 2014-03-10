@@ -40,9 +40,18 @@ class Referrers extends \Piwik\Plugin
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
-            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable'
+            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable',
+            'Insights.addReportToOverview'    => 'addReportToInsightsOverview'
         );
         return $hooks;
+    }
+
+    public function addReportToInsightsOverview(&$reports)
+    {
+        $reports['Referrers_getWebsites']  = array();
+        $reports['Referrers_getCampaigns'] = array();
+        $reports['Referrers_getSocials']   = array();
+        $reports['Referrers_getSearchEngines'] = array();
     }
 
     public function getReportMetadata(&$reports)

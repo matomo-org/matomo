@@ -1061,6 +1061,7 @@
         "WeekComparedToPreviousWeek": "previous week",
         "MonthComparedToPreviousMonth": "previous month",
         "MonthComparedToPreviousYear": "same month in the previous year",
+        "YearComparedToPreviousYear": "previous year",
         "Filter": "Filter",
         "FilterOnlyMovers": "Only movers",
         "FilterOnlyNew": "Only new",

@@ -9,17 +9,21 @@
 namespace Piwik\Plugins\Insights\DataTable\Filter;
 use Piwik\DataTable\BaseFilter;
 
+/**
+ * Limits the number of positive and negative values. A value is considered as positive if the value of $columnToRead
+ * is 0 or higher. A value is considered as negative in all other cases (< 0).
+ */
 class Limit extends BaseFilter
 {
-    private $limitIncreaser;
-    private $limitDecreaser;
+    private $limitPositive;
+    private $limitNegative;
     private $columnToRead;
 
-    public function __construct($table, $columnToRead, $limitIncreaser, $limitDecreaser)
+    public function __construct($table, $columnToRead, $limitPositiveValues, $limitNegativeValues)
     {
-        $this->columnToRead   = $columnToRead;
-        $this->limitIncreaser = (int) $limitIncreaser;
-        $this->limitDecreaser = (int) $limitDecreaser;
+        $this->columnToRead  = $columnToRead;
+        $this->limitPositive = (int) $limitPositiveValues;
+        $this->limitNegative = (int) $limitNegativeValues;
     }
 
     public function filter($table)
@@ -33,14 +37,14 @@ class Limit extends BaseFilter
 
                 $countIncreaser++;
 
-                if ($countIncreaser > $this->limitIncreaser) {
+                if ($countIncreaser > $this->limitPositive) {
                     $table->deleteRow($key);
                 }
 
             } else {
                 $countDecreaser++;
 
-                if ($countDecreaser > $this->limitDecreaser) {
+                if ($countDecreaser > $this->limitNegative) {
                     $table->deleteRow($key);
                 }
 

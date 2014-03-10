@@ -11,22 +11,27 @@ namespace Piwik\Plugins\Insights\DataTable\Filter;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 
+/**
+ * A row will be deleted if a positive value of $columnToRead is lower than the $minPositiveValue or if the negative
+ * value of $columnToRead is higher than the $minNegativeValue.
+ * That means a row will be deleted if the value is between $minNegativeValue and $minPositiveValue.
+ */
 class MinGrowth extends BaseFilter
 {
-    private $minPositiveGrowth;
-    private $minNegativeGrowth;
+    private $minPositiveValue;
+    private $minNegativeValue;
     private $columnToRead;
 
-    public function __construct($table, $columnToRead, $minPositiveGrowth, $minNegativeGrowth)
+    public function __construct($table, $columnToRead, $minPositiveValue, $minNegativeValue)
     {
         $this->columnToRead = $columnToRead;
-        $this->minPositiveGrowth = $minPositiveGrowth;
-        $this->minNegativeGrowth = $minNegativeGrowth;
+        $this->minPositiveValue = $minPositiveValue;
+        $this->minNegativeValue = $minNegativeValue;
     }
 
     public function filter($table)
     {
-        if (!$this->minPositiveGrowth && !$this->minNegativeGrowth) {
+        if (!$this->minPositiveValue && !$this->minNegativeValue) {
             return;
         }
 
@@ -34,9 +39,9 @@ class MinGrowth extends BaseFilter
 
             $growthNumeric = $row->getColumn($this->columnToRead);
 
-            if ($growthNumeric >= $this->minPositiveGrowth && $growthNumeric >= 0) {
+            if ($growthNumeric >= $this->minPositiveValue && $growthNumeric >= 0) {
                 continue;
-            } elseif ($growthNumeric <= $this->minNegativeGrowth && $growthNumeric < 0) {
+            } elseif ($growthNumeric <= $this->minNegativeValue && $growthNumeric < 0) {
                 continue;
             }
 
