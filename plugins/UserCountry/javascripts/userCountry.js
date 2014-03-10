@@ -153,7 +153,7 @@ $(document).ready(function () {
                         placeat: '#geoipdb-update-info-error',
                         context: 'error',
                         style: {display: 'inline-block'},
-                        id: 'userCountryGeoIpUpdate',
+                        id: 'userCountryGeoIpUpdate'
                     });
 
                 }
