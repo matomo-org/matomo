@@ -146,7 +146,7 @@ class Process
             return false;
         }
 
-        if(!self::shellExecFunctionExists()) {
+        if(self::shellExecFunctionIsDisabled()) {
             return false;
         }
         if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
@@ -156,11 +156,11 @@ class Process
         return false;
     }
 
-    private static function shellExecFunctionExists()
+    private static function shellExecFunctionIsDisabled()
     {
         $command = 'shell_exec';
         $disabled = explode(',', ini_get('disable_functions'));
-        return !in_array($command, $disabled);
+        return in_array($command, $disabled);
     }
 
     private static function returnsSuccessCode($command)
