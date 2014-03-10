@@ -46,3 +46,7 @@ body > .widget {
 #widgetExampleRssWidgetrssPiwik .rss {
     display:none;
 }
+
+* {
+    font-family: Arial !important;
+}

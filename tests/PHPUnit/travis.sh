@@ -23,9 +23,9 @@ then
 
         if [ -n "$PLUGIN_NAME" ]
         then
-            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --use-github-expected ActionsDataTable
-        else
             phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected $PLUGIN_NAME
+        else
+            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --use-github-expected
         fi
     else
         phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
