@@ -10,6 +10,9 @@ namespace Piwik\Plugins\Insights\DataTable\Filter;
 
 use Piwik\DataTable;
 
+/**
+ * Removes all rows whose value is too low.
+ */
 class ExcludeLowValue extends DataTable\BaseFilter
 {
     private $minimumValue;

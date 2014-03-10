@@ -1,4 +1,4 @@
-<div style="padding: 10px;padding-bottom: 0px;">
+<div class="controls">
 
     {{ 'Insights_ControlGrowthDescription'|translate }}
 
@@ -14,7 +14,7 @@
         {% endfor %}
     </select>
 
-    {% if period == 'day' or period == 'month' or period == 'week' %}
+    {% if period != 'range' %}
 
         {{ 'Insights_ControlComparedToDescription'|translate }}
 
@@ -41,6 +41,8 @@
             </select>
         {% elseif period == 'week' %}
             {{ 'Insights_WeekComparedToPreviousWeek'|translate }}
+        {% elseif period == 'year' %}
+            {{ 'Insights_YearComparedToPreviousYear'|translate }}
         {% endif %}
     {% endif %}
 
@@ -48,7 +50,7 @@
 
     {{ 'Insights_Filter'|translate }}
 
-    <select size="1" name="filterBy" title="Show all, only movers, only new, only disappeared">
+    <select size="1" name="filterBy" title="{{ 'Insights_ControlFilterByDescription'|translate|e('html_attr') }}">
         <option {% if not properties.filter_by %}selected{% endif %} value="">
             {{ 'General_All'|translate }}
         </option>

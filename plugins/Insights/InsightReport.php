@@ -136,6 +136,7 @@ class InsightReport
      * @param string $orderBy                  Order by absolute, relative, importance
      * @param int $limitIncreaser
      * @param int $limitDecreaser
+     *
      * @return DataTable
      */
     public function generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser)

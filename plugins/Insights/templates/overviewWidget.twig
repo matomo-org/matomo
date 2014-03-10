@@ -3,13 +3,12 @@
      data-table-onlyinsightsinit="1">
     {% if reports.getColumns|length > 0 %}
 
-        {% for dataTable in reports.getDataTables() if dataTable.getRowsCount > 0 %}
-            {% set metadata = dataTable.getAllTableMetadata %}
+        <table class="dataTable"
+               title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
+            {% for dataTable in reports.getDataTables() if dataTable.getRowsCount > 0 %}
+                {% set metadata = dataTable.getAllTableMetadata %}
 
-            <table class="dataTable"
-                   title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
-
-                <thead >
+                <thead>
                     {% include "@Insights/table_header.twig" %}
                 </thead>
 
@@ -19,8 +18,8 @@
                     {% endfor %}
                 </tbody>
 
-            </table>
-        {% endfor %}
+            {% endfor %}
+        </table>
 
         <script type="text/javascript" defer="defer">
             $(document).ready(function () {

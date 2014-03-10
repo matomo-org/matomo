@@ -42,9 +42,17 @@ class Actions extends \Piwik\Plugin
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles'
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Insights.addReportToOverview'    => 'addReportToInsightsOverview'
         );
         return $hooks;
+    }
+
+    public function addReportToInsightsOverview(&$reports)
+    {
+        $reports['Actions_getPageUrls']   = array();
+        $reports['Actions_getPageTitles'] = array();
+        $reports['Actions_getDownloads']  = array('flat' => 1);
     }
 
     public function getStylesheetFiles(&$stylesheets)
