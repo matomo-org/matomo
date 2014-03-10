@@ -51,10 +51,10 @@ class ProxyHttp
      *
      * @param string $file The location of the static file to serve
      * @param string $contentType The content type of the static file.
-     * @param bool $expireFarFuture If set to true, will set Expires: header in far future.
-     *                                  Should be set to false for files that don't have a cache buster (eg. piwik.js)
+     * @param bool $expireFarFuture Day in the far future to set the Expires header to.
+     *                              Should be set to false for files that don't have a cache buster (eg. piwik.js)
      */
-    public static function serverStaticFile($file, $contentType, $expireFarFuture = true)
+    public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100)
     {
         if (file_exists($file)) {
             // conditional GET
@@ -76,9 +76,9 @@ class ProxyHttp
             @header('Vary: Accept-Encoding');
             @header('Content-Disposition: inline; filename=' . basename($file));
 
-            if ($expireFarFuture) {
+            if ($expireFarFutureDays) {
                 // Required by proxy caches potentially in between the browser and server to cache the request indeed
-                @header("Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * 100) . ' GMT');
+                @header("Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * (int)$expireFarFutureDays) . ' GMT');
             }
 
             // Returns 304 if not modified since
