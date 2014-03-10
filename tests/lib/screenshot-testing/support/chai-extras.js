@@ -61,7 +61,6 @@ chai.Assertion.addChainableMethod('capture', function () {
 
         screenshotDiffDir = path.join(dirsBase, config.screenshotDiffDir);
 
-    console.log("Processed screenshot dir: " + processedScreenshotDir);
     if (!fs.isDirectory(processedScreenshotDir)) {
         fs.makeTree(processedScreenshotDir);
     }

@@ -14,12 +14,16 @@ then
 else
     if [ "$TEST_SUITE" = "UITests" ];
     then
-        url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&build_id=$TRAVIS_JOB_NUMBER&branch=ui-tests.$TRAVIS_BRANCH"
+        branch_name="ui-tests.$TRAVIS_BRANCH"
+        url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&build_id=$TRAVIS_JOB_NUMBER"
 
         if [ -n "$PLUGIN_NAME" ];
         then
-            url_base="$url_base.$PLUGIN_NAME&protected=1"
+            branch_name="$branch_name.$PLUGIN_NAME"
+            url_base="$url_base&protected=1"
         fi
+
+        url_base="$url_base&branch=$branch_name"
 
         echo "Uploading artifacts for $TEST_SUITE..."
 
@@ -42,7 +46,7 @@ else
             tar -cjf screenshot-diffs.tar.bz2 screenshot-diffs
             curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
 
-            echo "View UI failures (if any) here: http://builds-artifacts.piwik.org/ui-tests.master/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
+            echo "View UI failures (if any) here: http://builds-artifacts.piwik.org/$branch_name/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         fi
     else
         echo "No artifacts for $TEST_SUITE tests."

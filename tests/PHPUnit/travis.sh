@@ -16,8 +16,15 @@ then
         phantomjs ../javascript/testrunner.js
     elif [ "$TEST_SUITE" = "UITests" ]
     then
+        if [ -n "$PLUGIN_NAME" ]
+        then
+            branch_name="ui-tests.master.$PLUGIN_NAME"
+        else
+            branch_name="ui-tests.master"
+        fi
+
         echo ""
-        echo "View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
+        echo "View UI failures (if any) here http://builds-artifacts.piwik.org/$artifacts_folder/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         echo "If the new screenshots are valid, then you can copy them over to tests/PHPUnit/UI/expected-ui-screenshots/."
         echo ""
 
