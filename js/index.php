@@ -29,8 +29,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
 $file = '../piwik.js';
 
-// There is no cache buster parameter so we don't set Expires: header 
+
 $daysExpireFarFuture = 10;
+
 ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture);
 
 exit;
