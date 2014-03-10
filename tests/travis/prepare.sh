@@ -5,7 +5,7 @@ set -e
 sudo apt-get install -qq xmlstarlet
 
 # Install fonts for UI tests
-if [ "$TEST_DIR" = "UI" ];
+if [ "$TEST_SUITE" = "UITests" ];
 then
     sudo sh -c "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections"
     sudo apt-get install -qq ttf-mscorefonts-installer
