@@ -27,6 +27,7 @@ else
 
         echo "Uploading artifacts for $TEST_SUITE..."
 
+        base_dir=`pwd`
         if [ -n "$PLUGIN_NAME" ];
         then
             cd "./plugins/$PLUGIN_NAME/tests/UI"
@@ -39,6 +40,7 @@ else
         curl -X POST --data-binary @processed-ui-screenshots.tar.bz2 "$url_base&artifact_name=processed-ui-screenshots"
 
         # upload diff tarball if it exists
+        cd $base_dir/tests/PHPUnit/UI
         if [ -d "./screenshot-diffs" ];
         then
             echo "Uploading screenshot diffs..."
