@@ -12,11 +12,11 @@ then
     tar -cjf processed.tar.bz2 processed --exclude='.gitkeep'
     curl -X POST --data-binary @processed.tar.bz2 "$url"
 else
-    if [ "$TEST_DIR" = "UI" ];
+    if [ "$TEST_SUITE" = "UITests" ];
     then
         url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&branch=ui-tests.$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
 
-        echo "Uploading artifacts for $TEST_DIR..."
+        echo "Uploading artifacts for $TEST_SUITE..."
 
         cd ./tests/PHPUnit/UI
 

@@ -19,7 +19,7 @@ exports.parse = function () {
                 value = matches[2];
 
             result[key.toString()] = value || true;
-        } else {
+        } else if (arg) {
             result.tests.push(arg);
         }
     }
