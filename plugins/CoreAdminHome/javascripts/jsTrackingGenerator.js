@@ -323,7 +323,7 @@
 
             // allow plugins to modify tracking link code
             var eventData = {code: result};
-            $(TrackingCodeGeneratorSingleton).trigger('customizeTrackerLink', result);
+            $(TrackingCodeGeneratorSingleton).trigger('customizeTrackerLink', eventData);
             result = eventData.code;
 
             result = result.replace(/[&]/g, "&amp;");
