@@ -14,11 +14,21 @@ then
 else
     if [ "$TEST_SUITE" = "UITests" ];
     then
-        url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&branch=ui-tests.$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
+        url_base="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&build_id=$TRAVIS_JOB_NUMBER&branch=ui-tests.$TRAVIS_BRANCH"
+
+        if [ -n "$PLUGIN_NAME" ];
+        then
+            url_base="$url_base.$PLUGIN_NAME&protected=1"
+        fi
 
         echo "Uploading artifacts for $TEST_SUITE..."
 
-        cd ./tests/PHPUnit/UI
+        if [ -n "$PLUGIN_NAME" ];
+        then
+            cd "./plugins/$PLUGIN_NAME/tests/UI"
+        else
+            cd ./tests/PHPUnit/UI
+        fi
 
         # upload processed tarball
         tar -cjf processed-ui-screenshots.tar.bz2 processed-ui-screenshots --exclude='.gitkeep'
