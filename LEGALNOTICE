@@ -243,6 +243,11 @@ THIRD-PARTY CONTENT
 	Link: http://findicons.com/icon/94051/tools_wizard?id=396912
 	License: GNU/GPL
 
+    Name: plugins/Insights/images/idea.png
+    Link: https://www.iconfinder.com/icons/6074/brainstorm_bulb_idea_jabber_light_icon
+    License: GPL
+    By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
+
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
