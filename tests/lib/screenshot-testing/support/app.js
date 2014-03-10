@@ -85,7 +85,7 @@ Application.prototype.loadTestModules = function () {
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
 
     plugins.forEach(function (pluginPath) {
-        walk(path.join(pluginPath, 'tests'), /_spec\.js$/, modulePaths);
+        walk(path.join(pluginPath, 'Test'), /_spec\.js$/, modulePaths);
     });
 
     modulePaths.forEach(function (path) {
