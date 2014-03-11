@@ -39,7 +39,7 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors --group $PLUGIN_NAME
+            phpunit --configuration phpunit.xml --colors ../../plugins/$PLUGIN_NAME/Test
         else
             phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
