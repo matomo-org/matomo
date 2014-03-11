@@ -29,10 +29,10 @@ class Mail extends Zend_Mail
     {
         parent::__construct($charset);
         $this->initSmtpTransport();
-        $this->setDefaultFrom();
+        $this->setDefaultFromAddress();
     }
 
-    private function setDefaultFrom()
+    private function setDefaultFromAddress()
     {
         $customLogo = new CustomLogo();
         $fromEmailName = $customLogo->isEnabled()
