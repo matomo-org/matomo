@@ -69,7 +69,12 @@ class Rules
             // If the requested segment is one of the segments to pre-process
             // we ensure that any call to the API will trigger archiving of all reports for this segment
             $segment = $segment->getString();
-            if (in_array($segment, $segmentsToProcess)) {
+
+            // Turns out the getString() above returns the URL decoded segment string
+            $segmentsToProcessUrlDecoded = array_map('urldecode', $segmentsToProcess);
+
+            if (in_array($segment, $segmentsToProcess)
+                || in_array($segment, $segmentsToProcessUrlDecoded)) {
                 return true;
             }
         }
