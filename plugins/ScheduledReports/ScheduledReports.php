@@ -274,13 +274,7 @@ class ScheduledReports extends \Piwik\Plugin
 
             $mail = new Mail();
             $mail->setSubject($subject);
-            $customLogo = new CustomLogo();
-            $fromEmailName = $customLogo->isEnabled()
-                ? Piwik::translate('CoreHome_WebAnalyticsReports')
-                : Piwik::translate('ScheduledReports_PiwikReports');
-            $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
             $attachmentName = $subject;
-            $mail->setFrom($fromEmailAddress, $fromEmailName);
 
             $displaySegmentInfo = false;
             $segmentInfo = null;

@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Zend_Mail;
 
 /**
@@ -28,6 +29,17 @@ class Mail extends Zend_Mail
     {
         parent::__construct($charset);
         $this->initSmtpTransport();
+        $this->setDefaultFrom();
+    }
+
+    private function setDefaultFrom()
+    {
+        $customLogo = new CustomLogo();
+        $fromEmailName = $customLogo->isEnabled()
+            ? Piwik::translate('CoreHome_WebAnalyticsReports')
+            : Piwik::translate('ScheduledReports_PiwikReports');
+        $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
+        $this->setFrom($fromEmailAddress, $fromEmailName);
     }
 
     /**
