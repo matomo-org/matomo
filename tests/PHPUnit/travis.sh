@@ -30,12 +30,19 @@ then
 
         if [ -n "$PLUGIN_NAME" ]
         then
-            phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected $PLUGIN_NAME
+            fixture=${PLUGIN_NAME:-OmniFixture}
+
+            phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected --fixture=$fixture $PLUGIN_NAME
         else
             phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --use-github-expected
         fi
     else
-        phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+        if [ -n "$PLUGIN_NAME" ]
+        then
+            phpunit --configuration phpunit.xml --colors ../../plugins/$PLUGIN_NAME/Test
+        else
+            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+        fi
     fi
 else
     phpunit --configuration phpunit.xml --coverage-text --colors
