@@ -134,7 +134,7 @@ class View implements ViewInterface
         $this->initializeTwig();
 
         $this->piwik_version = Version::VERSION;
-        $this->piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+        $this->piwikUrl = SettingsPiwik::getPiwikUrl();
         $this->userLogin = Piwik::getCurrentUserLogin();
         $this->isSuperUser = Access::getInstance()->hasSuperUserAccess(); // TODO: redundancy w/ userIsSuperUser
     }
