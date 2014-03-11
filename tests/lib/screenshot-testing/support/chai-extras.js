@@ -59,7 +59,7 @@ chai.Assertion.addChainableMethod('capture', function () {
         processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.processedScreenshotsDir),
         processedScreenshotPath = path.join(processedScreenshotDir, screenshotFileName),
 
-        screenshotDiffDir = path.join(dirsBase, config.screenshotDiffDir);
+        screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
 
     if (!fs.isDirectory(processedScreenshotDir)) {
         fs.makeTree(processedScreenshotDir);

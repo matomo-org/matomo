@@ -54,6 +54,8 @@ Application.prototype.printHelpAndExit = function () {
     console.log("                            the tests are in another plugin. For use with travis build.");
     console.log("  --assume-artifacts:       Assume the diffviewer and processed screenshots will be stored on the.");
     console.log("                            builds artifacts server. For use with travis build.");
+    console.log("  --screenshot-repo:        Specifies the github repository that contains the expected screenshots");
+    console.log("                            to link to in the diffviewer. For use with travis build.");
 
     phantom.exit(0);
 };
