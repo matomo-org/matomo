@@ -273,6 +273,7 @@ class ScheduledReports extends \Piwik\Plugin
             $subject = Piwik::translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
 
             $mail = new Mail();
+            $mail->setDefaultFromPiwik();
             $mail->setSubject($subject);
             $attachmentName = $subject;
 

@@ -29,10 +29,9 @@ class Mail extends Zend_Mail
     {
         parent::__construct($charset);
         $this->initSmtpTransport();
-        $this->setDefaultFromAddress();
     }
 
-    private function setDefaultFromAddress()
+    public function setDefaultFromPiwik()
     {
         $customLogo = new CustomLogo();
         $fromEmailName = $customLogo->isEnabled()
