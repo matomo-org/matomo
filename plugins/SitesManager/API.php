@@ -76,7 +76,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         if (empty($piwikUrl)) {
-            $piwikUrl = Url::getCurrentUrlWithoutFileName();
+            $piwikUrl = SettingsPiwik::getPiwikUrl();
         }
         $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 

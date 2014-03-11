@@ -829,7 +829,7 @@ Notes:
                 $piwikUrl = self::$url;
             } else {
                 // example.org/piwik/misc/cron/
-                $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+                $piwikUrl = SettingsPiwik::getPiwikUrl();
                 // example.org/piwik/
                 $piwikUrl = $piwikUrl . "../../";
             }

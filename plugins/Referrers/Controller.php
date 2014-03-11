@@ -14,6 +14,7 @@ use Piwik\DataTable\Map;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory;
@@ -367,7 +368,7 @@ class Controller extends \Piwik\Plugin\Controller
         $url = $topPageUrl;
 
         // HTML
-        $api = Url::getCurrentUrlWithoutFileName()
+        $api = SettingsPiwik::getPiwikUrl()
             . '?module=API&method=Referrers.getKeywordsForPageUrl'
             . '&format=php'
             . '&filter_limit=10'

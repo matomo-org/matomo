@@ -330,7 +330,7 @@ class Tracker
             Translate::loadEnglishTranslation();
 
             ob_start();
-            CronArchive::$url = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
+            CronArchive::$url = SettingsPiwik::getPiwikUrl();
             $cronArchive = new CronArchive();
             $cronArchive->runScheduledTasksInTrackerMode();
 

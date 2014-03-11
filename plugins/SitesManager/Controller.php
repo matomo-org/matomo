@@ -15,6 +15,7 @@ use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Url;
@@ -132,7 +133,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $idSite = Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
-        $jsTag = Piwik::getJavascriptCode($idSite, Url::getCurrentUrlWithoutFileName());
+        $jsTag = Piwik::getJavascriptCode($idSite, SettingsPiwik::getPiwikUrl());
         $view = new View('@SitesManager/displayJavascriptCode');
         $this->setBasicVariablesView($view);
         $view->idSite = $idSite;
