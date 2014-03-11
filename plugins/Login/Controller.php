@@ -55,7 +55,7 @@ class Controller extends \Piwik\Plugin\Controller
      * Default action
      *
      * @param none
-     * @return void
+     * @return string
      */
     function index()
     {

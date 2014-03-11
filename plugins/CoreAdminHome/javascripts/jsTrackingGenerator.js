@@ -55,7 +55,7 @@
      */
     var TrackingCodeGenerator = function () {
         // empty
-    }
+    };
 
     var TrackingCodeGeneratorSingleton = exports.TrackingCodeGenerator = new TrackingCodeGenerator();
 
@@ -285,7 +285,7 @@
                 actionName: $('#image-tracker-action-name').val(),
                 piwikHost: piwikHost,
                 piwikPath: piwikPath
-            }
+            };
 
             if ($('#image-tracking-goal-check').is(':checked')) {
                 generateDataParams.idGoal = $('#image-tracker-goal').val();

@@ -86,7 +86,7 @@
             return;
         }
 
-        var $existingNode = $('.system.notification[data-id=' + options.id + ']')
+        var $existingNode = $('.system.notification[data-id=' + options.id + ']');
         if ($existingNode && $existingNode.length) {
             $existingNode.remove();
         }

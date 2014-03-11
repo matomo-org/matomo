@@ -38,7 +38,7 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
 
             this.getWebsite = function () {
                 return $scope.website;
-            }
+            };
 
             $scope.sparklineImage = function(website){
                 var append = '';

@@ -143,7 +143,7 @@ function bindUpdateSuperUserAccess() {
     }
 
     message = _pk_translate(message);
-    message = message.replace('%s', login)
+    message = message.replace('%s', login);
 
     $('#superUserAccessConfirm h2').text(message);
 
