@@ -217,6 +217,7 @@ class Core_UrlHelperTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array()));
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('/?foo=bar&foo2=bar2&test[]=1', array()));
+        $this->assertEquals('segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', UrlHelper::getQueryFromUrl('/?segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', array()));
     }
 
     /**
