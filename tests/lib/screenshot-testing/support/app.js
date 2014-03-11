@@ -52,8 +52,8 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --print-logs:             Prints webpage logs even if tests succeed.");
     console.log("  --store-in-ui-tests-repo: Stores processed screenshots within the UI tests repository even if");
     console.log("                            the tests are in another plugin. For use with travis build.");
-    console.log("  --use-github-expected:    Only show the github expected file links in diffviewer.html output.");
-    console.log("                            For use with travis build.");
+    console.log("  --assume-artifacts:       Assume the diffviewer and processed screenshots will be stored on the.");
+    console.log("                            builds artifacts server. For use with travis build.");
 
     phantom.exit(0);
 };

@@ -71,7 +71,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                                       + entry.name + '.png';
 
                 var expectedHtml = '';
-                if (!options['use-github-expected']) {
+                if (!options['assume-artifacts']) {
                     expectedHtml += '<a href="' + expectedUrl + '">Expected</a>&nbsp;';
                 }
                 expectedHtml += '<a href="' + expectedUrlGithub + '">[Github]</a>';
@@ -80,7 +80,11 @@ DiffViewerGenerator.prototype.generate = function (callback) {
             }
 
             if (entry.processed) {
-                entry.processedUrl = self.getUrlForPath(entry.processed);
+                if (options['assume-artifacts']) {
+                    entry.processedUrl = path.join("../processed-ui-screenshots", path.basename(entry.processed));
+                } else {
+                    entry.processedUrl = self.getUrlForPath(entry.processed);
+                }
             }
 
             var entryLocationHint = '',
