@@ -18,7 +18,7 @@ then
     then
         if [ -n "$PLUGIN_NAME" ]
         then
-            artifacts_folder="ui-tests.master.$PLUGIN_NAME"
+            artifacts_folder="protected/ui-tests.master.$PLUGIN_NAME"
         else
             artifacts_folder="ui-tests.master"
         fi
@@ -30,7 +30,7 @@ then
 
         if [ -n "$PLUGIN_NAME" ]
         then
-            fixture=${PLUGIN_NAME:-OmniFixture}
+            fixture=${FIXTURE_NAME:-OmniFixture}
 
             phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected --fixture=$fixture $PLUGIN_NAME
         else
