@@ -30,9 +30,9 @@ then
 
         if [ -n "$PLUGIN_NAME" ]
         then
-            phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected --persist-fixture-data $PLUGIN_NAME
+            phantomjs ../lib/screenshot-testing/run-tests.js --assume-artifacts --persist-fixture-data $PLUGIN_NAME
         else
-            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --persist-fixture-data --use-github-expected
+            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts
         fi
     else
         if [ -n "$PLUGIN_NAME" ]
