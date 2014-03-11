@@ -52,7 +52,7 @@ class ProxyHttp
      * @param string $file The location of the static file to serve
      * @param string $contentType The content type of the static file.
      * @param bool $expireFarFuture Day in the far future to set the Expires header to.
-     *                              Should be set to false for files that don't have a cache buster (eg. piwik.js)
+     *                              Should be set to false for files that should not be cached.
      */
     public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100)
     {
