@@ -82,4 +82,75 @@ TestingEnvironment.prototype._call = function (params, done) {
     });
 };
 
+TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
+    this.backup = JSON.stringify(this);
+
+    console.log("    Setting up fixture " + fixtureClass + "...");
+
+    var setupFile = path.join("./support", "setupDatabase.php"),
+        processArgs = [setupFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + fixtureClass];
+
+    if (options['persist-fixture-data']) {
+        processArgs.push('--persist-fixture-data');
+    }
+
+    if (options['drop']) {
+        processArgs.push('--drop');
+    }
+
+    var child = require('child_process').spawn(config.php, processArgs);
+
+    child.stdout.on("data", function (data) {
+        fs.write("/dev/stdout", data, "w");
+    });
+
+    child.stderr.on("data", function (data) {
+        fs.write("/dev/stderr", data, "w");
+    });
+
+    child.on("exit", function (code) {
+        if (code) {
+            done(new Error("Failed to setup fixture " + fixtureClass + " (error code = " + code + ")"));
+        } else {
+            done();
+        }
+    });
+};
+
+TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
+    if (options['persist-fixture-data']) {
+        done();
+        return;
+    }
+
+    console.log("    Tearing down fixture " + fixtureClass + "...");
+
+    var teardownFile = path.join("./support", "teardownDatabase.php"),
+        child = require('child_process').spawn(
+            config.php, [teardownFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + fixtureClass]);
+
+    child.stdout.on("data", function (data) {
+        fs.write("/dev/stdout", data, "w");
+    });
+
+    child.stderr.on("data", function (data) {
+        fs.write("/dev/stderr", data, "w");
+    });
+
+    var self = this;
+    child.on("exit", function (code) {
+        for (var key in self.backup) {
+            self[key] = self.backup[key];
+        }
+
+        self.backup = {};
+
+        if (code) {
+            done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));
+        } else {
+            done();
+        }
+    });
+};
+
 exports.TestingEnvironment = new TestingEnvironment();

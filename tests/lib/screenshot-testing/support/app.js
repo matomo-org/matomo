@@ -100,6 +100,22 @@ Application.prototype.loadTestModules = function () {
             return options.tests.indexOf(suite.title) != -1;
         });
     }
+
+    // configure suites (auto-add fixture setup/teardown)
+    mocha.suite.suites.forEach(function (suite) {
+        var fixture = suite.fixture || 'UITestFixture';
+
+        suite.beforeAll(function (done) {
+            testEnvironment.setupFixture(fixture, done);
+        });
+
+        // move to before other hooks
+        suite._beforeAll.unshift(suite._beforeAll.pop());
+
+        suite.afterAll(function (done) {
+            testEnvironment.teardownFixture(fixture, done);
+        });
+    });
 };
 
 Application.prototype.runTests = function () {
@@ -126,42 +142,7 @@ Application.prototype.runTests = function () {
         }
     });
 
-    this.setupDatabase();
-};
-
-Application.prototype.setupDatabase = function () {
-    console.log("Setting up database...");
-
-    var self = this,
-        setupFile = path.join("./support", "setupDatabase.php"),
-        processArgs = [setupFile, "--server=" + JSON.stringify(config.phpServer)];
-
-    if (options['persist-fixture-data']) {
-        processArgs.push('--persist-fixture-data');
-    }
-
-    if (options['drop']) {
-        processArgs.push('--drop');
-    }
-
-    var child = require('child_process').spawn(config.php, processArgs);
-
-    child.stdout.on("data", function (data) {
-        fs.write("/dev/stdout", data, "w");
-    });
-
-    child.stderr.on("data", function (data) {
-        fs.write("/dev/stderr", data, "w");
-    });
-
-    child.on("exit", function (code) {
-        if (code) {
-            console.log("\nERROR: Failed to setup database!");
-            phantom.exit(-1);
-        } else {
-            self.doRunTests();
-        }
-    });
+    this.doRunTests();
 };
 
 Application.prototype.doRunTests = function () {
@@ -186,39 +167,9 @@ Application.prototype.doRunTests = function () {
         // build diffviewer
         self.diffViewerGenerator.checkImageMagickCompare(function () {
             self.diffViewerGenerator.generate(function () {
-                if (options['persist-fixture-data']) {
-                    self.finish();
-                } else {
-                    // teardown database
-                    self.tearDownDatabase();
-                }
+                self.finish();
             });
         });
-    });
-};
-
-Application.prototype.tearDownDatabase = function () {
-    console.log("Tearing down database...");
-
-    var self = this,
-        teardownFile = path.join("./support", "teardownDatabase.php"),
-        child = require('child_process').spawn(config.php, [teardownFile, "--server=" + JSON.stringify(config.phpServer)]);
-
-    child.stdout.on("data", function (data) {
-        fs.write("/dev/stdout", data, "w");
-    });
-
-    child.stderr.on("data", function (data) {
-        fs.write("/dev/stderr", data, "w");
-    });
-
-    child.on("exit", function (code) {
-        if (code) {
-            console.log("\nERROR: Failed to teardown database!");
-            phantom.exit(-2);
-        } else {
-            self.finish();
-        }
     });
 };
 

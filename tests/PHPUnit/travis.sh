@@ -30,11 +30,9 @@ then
 
         if [ -n "$PLUGIN_NAME" ]
         then
-            fixture=${FIXTURE_NAME:-OmniFixture}
-
-            phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected --fixture=$fixture $PLUGIN_NAME
+            phantomjs ../lib/screenshot-testing/run-tests.js --use-github-expected --persist-fixture-data $PLUGIN_NAME
         else
-            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --use-github-expected
+            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --persist-fixture-data --use-github-expected
         fi
     else
         if [ -n "$PLUGIN_NAME" ]
