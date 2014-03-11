@@ -962,7 +962,7 @@ class Manager extends Singleton
         }
     }
 
-    protected function isTrackerPlugin(Plugin $plugin)
+    public function isTrackerPlugin(Plugin $plugin)
     {
         $hooks = $plugin->getListHooksRegistered();
         $hookNames = array_keys($hooks);

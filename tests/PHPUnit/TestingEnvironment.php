@@ -114,14 +114,18 @@ class Piwik_TestingEnvironment
 
             $config->setTestEnvironment();
 
-            $pluginsToLoad = \Piwik\Plugin\Manager::getInstance()->getPluginsToLoadDuringTests();
+            $manager = \Piwik\Plugin\Manager::getInstance();
+            $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
             $config->Plugins = array('Plugins' => $pluginsToLoad);
 
-            $trackerPluginsToLoad = array(
-                'Provider', 'Goals', 'PrivacyManager', 'UserCountry', 'DevicesDetection'
-            );
+            $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
+                return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
+            });
+
             $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
             $config->log['log_writers'] = array('file');
+
+            $manager->unloadPlugins();
 
             $testingEnvironment->logVariables();
         });
