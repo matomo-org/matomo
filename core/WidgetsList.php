@@ -163,6 +163,10 @@ class WidgetsList
      */
     static public function remove($widgetCategory, $widgetName = false)
     {
+        if (!isset(self::$widgets[$widgetCategory])) {
+            return;
+        }
+
         if (empty($widgetName)) {
             unset(self::$widgets[$widgetCategory]);
             return;
