@@ -366,7 +366,15 @@ class Request
         // we have to load all the child subtables.
         return Common::getRequestVar('filter_column_recursive', false) !== false
             && Common::getRequestVar('filter_pattern_recursive', false) !== false
-            && Common::getRequestVar('flat', false) === false;
+            && !self::shouldLoadFlatten();
+    }
+
+    /**
+     * @return bool
+     */
+    public static function shouldLoadFlatten()
+    {
+        return Common::getRequestVar('flat', false) == 1;
     }
 
     /**

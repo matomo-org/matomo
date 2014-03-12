@@ -54,18 +54,34 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         for ($i = 0; $i <= 1; $i++) {
             foreach ($segments as $segment) {
                 $result[] = array($apiToCall, array('idSite'  => $idSite, 'date' => '2010-12-15,2011-01-15',
-                                                    'periods' => array('range'), 'segment' => $segment));
+                                                    'periods' => array('range'),
+                                                    'segment' => $segment,
+                                                    'otherRequestParameters' => array(
+                                                        'flat'                   => '0',
+                                                        'expanded'               => '0'
+                                                    ),
+                ));
             }
         }
 
         // Testing Date range in January only
         // Because of flat=1, this test will archive all sub-tables
         $result[] = array('Actions.getPageUrls', array('idSite'  => $idSite, 'date' => '2011-01-01,2011-02-01',
-                                            'periods' => array('range'),
-                                            'otherRequestParameters' => array(
-                                                'flat'                   => '1',
-                                            ),
-                                            'testSuffix' => '_periodIsRange_flattened_')
+                                                       'periods' => array('range'),
+                                                       'otherRequestParameters' => array(
+                                                           'flat'                   => '1',
+                                                           'expanded'               => '0'
+                                                       ),
+                                                       'testSuffix' => '_periodIsRange_flattened_')
+        );
+        // testing the same with expanded=1 should not create new archive records
+        $result[] = array('Actions.getPageUrls', array('idSite'  => $idSite, 'date' => '2011-01-01,2011-02-01',
+                                                       'periods' => array('range'),
+                                                       'otherRequestParameters' => array(
+                                                           'flat'                   => '0',
+                                                           'expanded'               => '1'
+                                                       ),
+                                                       'testSuffix' => '_periodIsRange_expanded_')
         );
         return $result;
     }
@@ -88,8 +104,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 3;
 
         $tests = array(
-            // TODO Implement fix, then remove the +3 below
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+3) /*Actions*/
+            'archive_blob_2010_12'    => ( $expectedActionsBlobs /*Actions*/
                                             + 8 /* UserSettings */
                                             + 2 /* VisitTime */) * 3,
 
@@ -137,9 +152,28 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
             $countBlobs = Db::get()->fetchOne($sql);
 
             if($expectedRows != $countBlobs) {
-                var_export(Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table). " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC"));
+                $this->printDebugWhenTestFails($table);
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
+        }
+    }
+
+    /**
+     * @param $table
+     */
+    protected function printDebugWhenTestFails($table)
+    {
+        $data = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC");
+        var_export($data);
+
+        $idArchives = array();
+        foreach ($data as $row) {
+            $idArchives[] = $row['idarchive'];
+        }
+        $idArchives = array_unique($idArchives);
+        foreach ($idArchives as $idArchive) {
+            $numericTable = str_replace("blob", "numeric", Common::prefixTable($table));
+            var_export(Db::get()->fetchAll("SELECT idarchive, name FROM " . $numericTable . " WHERE idarchive = ? AND name LIKE 'done%' LIMIT 1 ", $idArchive));
         }
     }
 

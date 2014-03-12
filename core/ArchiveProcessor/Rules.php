@@ -50,10 +50,10 @@ class Rules
      * @param string $plugin
      * @return string
      */
-    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
+    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin, $isSkipAggregationOfSubTables)
     {
         if (!self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)) {
-            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
+            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
         }
         return self::getDoneFlagArchiveContainsAllPlugins($segment);
     }
@@ -98,9 +98,10 @@ class Rules
         return $segmentsToProcess;
     }
 
-    private static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin)
+    private static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin, $isSkipAggregationOfSubTables = false)
     {
-        return 'done' . $segment->getHash() . '.' . $plugin;
+        $partial = self::isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables);
+        return 'done' . $segment->getHash() . '.' . $plugin . $partial ;
     }
 
     private static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
@@ -109,17 +110,35 @@ class Rules
     }
 
     /**
+     * @param $plugin
+     * @param $isSkipAggregationOfSubTables
+     * @return string
+     */
+    private static function isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables)
+    {
+        $partialArchive = '';
+        if ($plugin != "VisitsSummary" // VisitsSummary is always called when segmenting and should not have its own .partial archive
+            && $isSkipAggregationOfSubTables
+        ) {
+            $partialArchive = '.partial';
+        }
+        return $partialArchive;
+    }
+
+    /**
      * @param array $plugins
      * @param $segment
      * @return array
      */
-    public static function getDoneFlags(array $plugins, $segment)
+    public static function getDoneFlags(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
     {
         $doneFlags = array();
         $doneAllPlugins = self::getDoneFlagArchiveContainsAllPlugins($segment);
         $doneFlags[$doneAllPlugins] = $doneAllPlugins;
+
+        $plugins = array_unique($plugins);
         foreach ($plugins as $plugin) {
-            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
+            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
             $doneFlags[$plugin] = $doneOnePlugin;
         }
         return $doneFlags;

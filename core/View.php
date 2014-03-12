@@ -134,9 +134,14 @@ class View implements ViewInterface
         $this->initializeTwig();
 
         $this->piwik_version = Version::VERSION;
-        $this->piwikUrl = SettingsPiwik::getPiwikUrl();
         $this->userLogin = Piwik::getCurrentUserLogin();
         $this->isSuperUser = Access::getInstance()->hasSuperUserAccess(); // TODO: redundancy w/ userIsSuperUser
+
+        try {
+            $this->piwikUrl = SettingsPiwik::getPiwikUrl();
+        } catch (Exception $ex) {
+            // pass (occurs when DB cannot be connected to, perhaps piwik URL cache should be stored in config file...)
+        }
     }
 
     /**
@@ -337,8 +342,8 @@ class View implements ViewInterface
      */
     static public function clearCompiledTemplates()
     {
-        $view = new View(null);
-        $view->twig->clearTemplateCache();
+        $twig = new Twig();
+        $twig->getTwigEnvironment()->clearTemplateCache();
     }
 
     /**

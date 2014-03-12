@@ -43,44 +43,5 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<subtable>
-			<row>
-				<label>sub2</label>
-				<nb_visits>3</nb_visits>
-				<nb_hits>3</nb_hits>
-				<sum_time_spent>0</sum_time_spent>
-				<exit_nb_visits>3</exit_nb_visits>
-				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<subtable>
-					<row>
-						<label>sub3</label>
-						<nb_visits>3</nb_visits>
-						<nb_hits>3</nb_hits>
-						<sum_time_spent>0</sum_time_spent>
-						<exit_nb_visits>3</exit_nb_visits>
-						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>0%</bounce_rate>
-						<exit_rate>100%</exit_rate>
-						<subtable>
-							<row>
-								<label>/news</label>
-								<nb_visits>3</nb_visits>
-								<nb_hits>3</nb_hits>
-								<sum_time_spent>0</sum_time_spent>
-								<exit_nb_visits>3</exit_nb_visits>
-								<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-								<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
-								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>0%</bounce_rate>
-								<exit_rate>100%</exit_rate>
-								<url>http://example.org/sub1/sub2/sub3/news</url>
-							</row>
-						</subtable>
-					</row>
-				</subtable>
-			</row>
-		</subtable>
 	</row>
 </result>

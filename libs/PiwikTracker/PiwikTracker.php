@@ -148,6 +148,8 @@ class PiwikTracker
     const CVAR_INDEX_ECOMMERCE_ITEM_NAME = 4;
     const CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY = 5;
 
+    const DEFAULT_COOKIE_PATH = '/';
+
     /**
      * Builds a PiwikTracker object, used to track visits, pages and Goal conversions
      * for a specific website, by using the Piwik Tracking API.
@@ -200,7 +202,7 @@ class PiwikTracker
         $this->setNewVisitorId();
 
         $this->configCookiesDisabled = false;
-        $this->configCookiePath = '/';
+        $this->configCookiePath = self::DEFAULT_COOKIE_PATH;
         $this->configCookieDomain = '';
 
         $this->currentTs = time();

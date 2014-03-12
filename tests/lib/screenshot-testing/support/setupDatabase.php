@@ -20,19 +20,21 @@ foreach ($argv as $arg) {
 require_once "PHPUnit/Autoload.php";
 require_once dirname(__FILE__) . "/../../../PHPUnit/bootstrap.php";
 
-if (!class_exists($fixtureClass)) {
-    $fixtureClass = "Piwik\\Tests\\Fixtures\\$fixtureClass";
-}
+if (!empty($fixtureClass)) {
+    if (!class_exists($fixtureClass)) {
+        $fixtureClass = "Piwik\\Tests\\Fixtures\\$fixtureClass";
+    }
 
-$fixture = new $fixtureClass();
-if (in_array("--persist-fixture-data", $argv)) {
-    $fixture->persistFixtureData = true;
+    $fixture = new $fixtureClass();
+    if (in_array("--persist-fixture-data", $argv)) {
+        $fixture->persistFixtureData = true;
+    }
+    if (in_array("--drop", $argv)) {
+        $fixture->resetPersistedFixture = true;
+    }
+    $fixture->printToScreen = true;
+    $fixture->performSetUp("");
 }
-if (in_array("--drop", $argv)) {
-    $fixture->resetPersistedFixture = true;
-}
-$fixture->printToScreen = true;
-$fixture->performSetUp("");
 
 // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
 foreach (array('libs', 'plugins', 'tests', 'piwik.js') as $linkName) {

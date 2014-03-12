@@ -669,6 +669,7 @@ class Manager extends Singleton
 
         $this->pluginsToLoad = array_unique($this->pluginsToLoad);
 
+        $pluginsToPostPendingEventsTo = array();
         foreach ($this->pluginsToLoad as $pluginName) {
             if (!$this->isPluginLoaded($pluginName)
                 && !$this->isPluginThirdPartyAndBogus($pluginName)
@@ -678,8 +679,13 @@ class Manager extends Singleton
                     continue;
                 }
 
-                EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
+                $pluginsToPostPendingEventsTo[] = $newPlugin;
             }
+        }
+
+        // post pending events after all plugins are successfully loaded
+        foreach ($pluginsToPostPendingEventsTo as $plugin) {
+            EventDispatcher::getInstance()->postPendingEventsTo($plugin);
         }
     }
 

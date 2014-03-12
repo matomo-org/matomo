@@ -88,7 +88,7 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
     console.log("    Setting up fixture " + fixtureClass + "...");
 
     var setupFile = path.join("./support", "setupDatabase.php"),
-        processArgs = [setupFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + fixtureClass];
+        processArgs = [setupFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + (fixtureClass || "")];
 
     if (options['persist-fixture-data']) {
         processArgs.push('--persist-fixture-data');
