@@ -127,7 +127,8 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
     private function getFirstPartyCookieDomainHash()
     {
         $host = \Piwik\Url::getHost();
-        return substr(sha1( $host . '/'), 0, 4);
+        $cookiePath = PiwikTracker::DEFAULT_COOKIE_PATH;
+        return substr(sha1( $host . $cookiePath), 0, 4);
     }
 
     /**
