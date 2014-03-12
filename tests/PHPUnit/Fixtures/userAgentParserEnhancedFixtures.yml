@@ -4815,6 +4815,22 @@
   os_family: Mac
   browser_family: Unknown
 - 
+  user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 1091) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next)
+  os:
+    name: Mac
+    short_name: MAC
+    version:
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 20.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Mac
+  browser_family: Opera
+- 
   user_agent: 'Mozilla/5.0 (Macintosh; Intel  Mac OS X 10_9_1; en-US) AppleWebKit/9537.73.11 (KHTML, like Gecko) Version/7.0 Safari/537.71 OmniWeb/v624.0'
   os:
     name: Mac
@@ -5743,6 +5759,22 @@
   os_family: Windows
   browser_family: Unknown
 - 
+  user_agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next-Campaign 21)
+  os:
+    name: Windows 7
+    short_name: WI7
+    version: 7
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 20.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Opera
+- 
   user_agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36 OPR/18.0.1284.49
   os:
     name: Windows 7
@@ -5928,6 +5960,22 @@
     name: Opera Next
     short_name: ON
     version: 15.0
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Opera
+- 
+  user_agent: Opera/9.80 (Windows NT 6.2; U; Edition Next; ru) Presto/2.11 Version/12.50
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 12.50
   device:
     type: desktop
     brand:
@@ -6206,6 +6254,22 @@
     model:
   os_family: Windows
   browser_family: Internet Explorer
+- 
+  user_agent: Opera/9.80 (Windows NT 6.0; Edition Next) Presto/2.12 Version/12.10
+  os:
+    name: Windows Vista
+    short_name: WVI
+    version: Vista
+  browser:
+    name: Opera Next
+    short_name: ON
+    version: 12.10
+  device:
+    type: desktop
+    brand:
+    model:
+  os_family: Windows
+  browser_family: Opera
 - 
   user_agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Avant Browser; InfoPath.1)
   os:
@@ -22190,67 +22254,3 @@
     model:
   os_family: WebTV
   browser_family: Internet Explorer
--
-  user_agent: Opera/9.80 (Windows NT 6.0; Edition Next) Presto/2.12 Version/12.10
-  os:
-    name: Windows Vista
-    short_name: WVI
-    version: Vista
-  browser:
-    name: Opera Next
-    short_name: ON
-    version: 12.10
-  device:
-    type: desktop
-    brand: 
-    model: 
-  os_family: Windows
-  browser_family: Opera
--
-  user_agent: Opera/9.80 (Windows NT 6.2; U; Edition Next; ru) Presto/2.11 Version/12.50
-  os:
-    name: Windows 8
-    short_name: WI8
-    version: 8
-  browser:
-    name: Opera Next
-    short_name: ON
-    version: 12.50
-  device:
-    type: desktop
-    brand: 
-    model: 
-  os_family: Windows
-  browser_family: Opera
--
-  user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 1091) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next)
-  os:
-    name: Mac
-    short_name: MAC
-    version: 
-  browser:
-    name: Opera Next
-    short_name: ON
-    version: 20.0
-  device:
-    type: desktop
-    brand: 
-    model: 
-  os_family: Mac
-  browser_family: Opera
--
-  user_agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next-Campaign 21)
-  os:
-    name: Windows 7
-    short_name: WI7
-    version: 7
-  browser:
-    name: Opera Next
-    short_name: ON
-    version: 20.0
-  device:
-    type: desktop
-    brand: 
-    model: 
-  os_family: Windows
-  browser_family: Opera
