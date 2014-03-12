@@ -27,7 +27,7 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
             allSitesText: '@',
             allSitesLocation: '@'
         },
-        templateUrl: 'plugins/CoreHome/javascripts/siteselector/siteselector.html?cb=' + piwik.cacheBuster,
+        templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.html?cb=' + piwik.cacheBuster,
         controller: 'SiteSelectorController',
         compile: function (element, attrs) {
 

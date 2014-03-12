@@ -92,29 +92,29 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/piwikAppConfig.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/piwikAppConfig.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/service.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik-service.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/services/piwik-api-service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api-service.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/filters/filter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/filters/translate-filter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/filters/startfrom-filter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/filters/evolution-filter.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate-filter.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/startfrom-filter.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution-filter.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/directive.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/autocomplete-matched-directive.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focus-anywhere-but-here-directive.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/ignore-click-directive.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/onenter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/directives/focusif.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focusif.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/piwikApp.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
 
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteselector-model.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteselector-controller.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/siteselector/siteselector-directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
