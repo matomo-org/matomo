@@ -42,13 +42,13 @@ class ArchiveSelector
 
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
-    static public function getArchiveIdAndVisits(Site $site, Period $period, Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
+    static public function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC)
     {
-        $dateStart = $period->getDateStart();
-        $bindSQL = array($site->getId(),
+        $dateStart = $params->getPeriod()->getDateStart();
+        $bindSQL = array($params->getSite()->getId(),
                          $dateStart->toString('Y-m-d'),
-                         $period->getDateEnd()->toString('Y-m-d'),
-                         $period->getId(),
+                         $params->getPeriod()->getDateEnd()->toString('Y-m-d'),
+                         $params->getPeriod()->getId(),
         );
 
         $timeStampWhere = '';
@@ -57,9 +57,12 @@ class ArchiveSelector
             $bindSQL[] = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
         }
 
-        $pluginOrVisitsSummary = array("VisitsSummary", $requestedPlugin);
-        $pluginOrVisitsSummary = array_unique($pluginOrVisitsSummary);
-        $sqlWhereArchiveName = self::getNameCondition($pluginOrVisitsSummary, $segment);
+        $requestedPlugin = $params->getRequestedPlugin();
+        $segment = $params->getSegment();
+        $isSkipAggregationOfSubTables = $params->isSkipAggregationOfSubTables();
+
+        $plugins = array("VisitsSummary", $requestedPlugin);
+        $sqlWhereArchiveName = self::getNameCondition($plugins, $segment, $isSkipAggregationOfSubTables);
 
         $sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
 						FROM " . ArchiveTableCreator::getNumericTable($dateStart) . "``
@@ -77,8 +80,8 @@ class ArchiveSelector
             return false;
         }
 
-        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
-        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
+        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $isSkipAggregationOfSubTables, $results);
+        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $isSkipAggregationOfSubTables, $results);
 
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
@@ -116,10 +119,10 @@ class ArchiveSelector
         return array($visits, $visitsConverted);
     }
 
-    protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $results)
+    protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $isSkipAggregationOfSubTables, $results)
     {
         $idArchive = false;
-        $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment);
+        $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment, $isSkipAggregationOfSubTables);
         foreach ($results as $result) {
             if ($idArchive === false
                 && in_array($result['name'], $namesRequestedPlugin)
@@ -138,6 +141,7 @@ class ArchiveSelector
      * @param array $periods
      * @param Segment $segment
      * @param array $plugins List of plugin names for which data is being requested.
+     * @param bool $isSkipAggregationOfSubTables Whether we are selecting an archive that may be partial (no sub-tables)
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
      *                   'VisitsSummary.done' => array(
@@ -145,12 +149,12 @@ class ArchiveSelector
      *                   )
      *               )
      */
-    static public function getArchiveIds($siteIds, $periods, $segment, $plugins)
+    static public function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
     {
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
                               WHERE %s
-                                AND " . self::getNameCondition($plugins, $segment) . "
+                                AND " . self::getNameCondition($plugins, $segment, $isSkipAggregationOfSubTables) . "
                                 AND idsite IN (" . implode(',', $siteIds) . ")
                            GROUP BY idsite, date1, date2";
 
@@ -270,20 +274,21 @@ class ArchiveSelector
      *
      * @param array $plugins
      * @param Segment $segment
+     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
-    static private function getNameCondition(array $plugins, $segment)
+    static private function getNameCondition(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
-        $doneFlags = Rules::getDoneFlags($plugins, $segment);
+        $doneFlags = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
 
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         // create the SQL to find archives that are DONE
-        return "(name IN ($allDoneFlags)) AND " .
+        return "((name IN ($allDoneFlags)) AND " .
         " (value = '" . ArchiveWriter::DONE_OK . "' OR " .
-        " value = '" . ArchiveWriter::DONE_OK_TEMPORARY . "')";
+        " value = '" . ArchiveWriter::DONE_OK_TEMPORARY . "'))";
     }
 
     static public function purgeOutdatedArchives(Date $dateStart)

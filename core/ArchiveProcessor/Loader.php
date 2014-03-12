@@ -163,12 +163,8 @@ class Loader
         if ($this->isArchivingForcedToTrigger()) {
             return $noArchiveFound;
         }
-        $site = $this->params->getSite();
-        $period = $this->params->getPeriod();
-        $segment = $this->params->getSegment();
-        $requestedPlugin = $this->params->getRequestedPlugin();
 
-        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
+        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
         if (!$idAndVisits) {
             return $noArchiveFound;
         }

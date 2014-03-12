@@ -48,11 +48,12 @@ class Parameters
      * 
      * @ignore
      */
-    public function __construct(Site $site, Period $period, Segment $segment)
+    public function __construct(Site $site, Period $period, Segment $segment, $skipAggregationOfSubTables = false)
     {
         $this->site = $site;
         $this->period = $period;
         $this->segment = $segment;
+        $this->skipAggregationOfSubTables = $skipAggregationOfSubTables;
     }
 
     /**
@@ -166,6 +167,11 @@ class Parameters
     public function isSingleSite()
     {
         return count($this->getIdSites()) == 1;
+    }
+
+    public function isSkipAggregationOfSubTables()
+    {
+        return $this->skipAggregationOfSubTables;
     }
 
     public function logStatusDebug($isTemporary)

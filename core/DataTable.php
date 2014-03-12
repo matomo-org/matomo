@@ -469,7 +469,7 @@ class DataTable implements DataTableInterface
      * 
      * @param \Piwik\DataTable $tableToSum
      */
-    public function addDataTable(DataTable $tableToSum)
+    public function addDataTable(DataTable $tableToSum, $doAggregateSubTables = true)
     {
         if($tableToSum instanceof Simple) {
             if($tableToSum->getRowsCount() > 1) {
@@ -479,7 +479,7 @@ class DataTable implements DataTableInterface
             $this->aggregateRowFromSimpleTable($row);
         } else {
             foreach ($tableToSum->getRows() as $row) {
-                $this->aggregateRowWithLabel($row);
+                $this->aggregateRowWithLabel($row, $doAggregateSubTables);
             }
         }
     }
@@ -891,12 +891,15 @@ class DataTable implements DataTableInterface
      * @param string $oldName Old column name.
      * @param string $newName New column name.
      */
-    public function renameColumn($oldName, $newName)
+    public function renameColumn($oldName, $newName, $doRenameColumnsOfSubTables = true)
     {
         foreach ($this->getRows() as $row) {
             $row->renameColumn($oldName, $newName);
-            if (($idSubDataTable = $row->getIdSubDataTable()) !== null) {
-                Manager::getInstance()->getTable($idSubDataTable)->renameColumn($oldName, $newName);
+
+            if($doRenameColumnsOfSubTables) {
+                if (($idSubDataTable = $row->getIdSubDataTable()) !== null) {
+                    Manager::getInstance()->getTable($idSubDataTable)->renameColumn($oldName, $newName);
+                }
             }
         }
         if (!is_null($this->summaryRow)) {
@@ -1582,7 +1585,7 @@ class DataTable implements DataTableInterface
      * @param $row
      * @throws \Exception
      */
-    protected function aggregateRowWithLabel(Row $row)
+    protected function aggregateRowWithLabel(Row $row, $doAggregateSubTables = true)
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
@@ -1598,15 +1601,17 @@ class DataTable implements DataTableInterface
         } else {
             $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
 
-            // if the row to add has a subtable whereas the current row doesn't
-            // we simply add it (cloning the subtable)
-            // if the row has the subtable already
-            // then we have to recursively sum the subtables
-            if (($idSubTable = $row->getIdSubDataTable()) !== null) {
-                $subTable = Manager::getInstance()->getTable($idSubTable);
-                $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
-                    = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-                $rowFound->sumSubtable($subTable);
+            if($doAggregateSubTables) {
+                // if the row to add has a subtable whereas the current row doesn't
+                // we simply add it (cloning the subtable)
+                // if the row has the subtable already
+                // then we have to recursively sum the subtables
+                if (($idSubTable = $row->getIdSubDataTable()) !== null) {
+                    $subTable = Manager::getInstance()->getTable($idSubTable);
+                    $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
+                        = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+                    $rowFound->sumSubtable($subTable);
+                }
             }
         }
     }
