@@ -23,8 +23,6 @@ ob_start();
 
 Piwik_TestingEnvironment::addHooks();
 
-Config::getInstance()->setTestEnvironment();
-
 try {
     $trackerPlugins = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
 }catch(Exception $e) {
