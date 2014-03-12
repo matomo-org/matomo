@@ -105,7 +105,7 @@ Application.prototype.loadTestModules = function () {
 
     // configure suites (auto-add fixture setup/teardown)
     mocha.suite.suites.forEach(function (suite) {
-        var fixture = suite.fixture || 'UITestFixture';
+        var fixture = typeof suite.fixture === 'undefined' ? 'UITestFixture' : suite.fixture;
 
         suite.beforeAll(function (done) {
             testEnvironment.setupFixture(fixture, done);
@@ -115,6 +115,11 @@ Application.prototype.loadTestModules = function () {
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
         suite.afterAll(function (done) {
+            if (!fixture) {
+                done();
+                return;
+            }
+
             testEnvironment.teardownFixture(fixture, done);
         });
     });
