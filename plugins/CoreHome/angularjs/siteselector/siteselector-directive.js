@@ -5,6 +5,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/**
+ * Usage:
+ * <div piwik-siteselector>
+ *
+ * More advanced example
+ * <div piwik-siteselector
+ *      show-selected-site="true" show-all-sites-item="true" switch-site-on-select="true"
+ *      all-sites-location="top|bottom" all-sites-text="test" show-selected-site="true"
+ *      show-all-sites-item="true">
+ *
+ * Within a form
+ * <div piwik-siteselector input-name="siteId">
+ *
+ * Events:
+ * Triggers a `change` event on any change
+ * <div piwik-siteselector id="mySelector">
+ * $('#mySelector').on('change', function (event) { event.id/event.name })
+ */
 angular.module('piwikApp').directive('piwikSiteselector', function($document, piwik, $filter){
     var defaults = {
         name: '',
