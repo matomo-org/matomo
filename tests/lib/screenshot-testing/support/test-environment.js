@@ -24,7 +24,14 @@ TestingEnvironment.prototype.reload = function () {
 };
 
 TestingEnvironment.prototype.save = function () {
-    fs.write(testingEnvironmentOverridePath, JSON.stringify(this));
+    var copy = {};
+    for (var key in this) {
+        copy[key] = this[key];
+    }
+
+    delete copy.backup;
+
+    fs.write(testingEnvironmentOverridePath, JSON.stringify(copy));
 };
 
 TestingEnvironment.prototype.callApi = function (method, params, done) {

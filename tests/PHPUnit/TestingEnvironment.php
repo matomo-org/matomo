@@ -103,32 +103,34 @@ class Piwik_TestingEnvironment
             }
         }
 
+        \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
                 $access = new Piwik_MockAccess($access);
                 \Piwik\Access::setSingletonInstance($access);
             }
         });
-        Piwik::addAction('Config.createConfigSingleton', function($config) use ($testingEnvironment) {
-            \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+        if (!$testingEnvironment->dontUseTestConfig) {
+            Piwik::addAction('Config.createConfigSingleton', function($config) use ($testingEnvironment) {
+                $config->setTestEnvironment();
 
-            $config->setTestEnvironment();
+                $manager = \Piwik\Plugin\Manager::getInstance();
+                $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
+                $config->Plugins = array('Plugins' => $pluginsToLoad);
 
-            $manager = \Piwik\Plugin\Manager::getInstance();
-            $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
-            $config->Plugins = array('Plugins' => $pluginsToLoad);
+                $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
+                    return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
+                });
 
-            $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
-                return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
+                $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
+                $config->log['log_writers'] = array('file');
+
+                $manager->unloadPlugins();
+
+                $testingEnvironment->logVariables();
             });
-
-            $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
-            $config->log['log_writers'] = array('file');
-
-            $manager->unloadPlugins();
-
-            $testingEnvironment->logVariables();
-        });
+        }
         Piwik::addAction('Db.getDatabaseConfig', function (&$dbConfig) use ($testingEnvironment) {
             if ($testingEnvironment->dbName) {
                 $dbConfig['dbname'] = $testingEnvironment->dbName;
@@ -168,7 +170,7 @@ class Piwik_TestingEnvironment
         });
         Piwik::addAction('Updater.checkForUpdates', function () {
             try {
-                \Piwik\Filesystem::deleteAllCacheOnUpdate();
+                @\Piwik\Filesystem::deleteAllCacheOnUpdate();
             } catch (Exception $ex) {
                 // pass
             }
