@@ -50,10 +50,14 @@ class Piwik_Test_Fixture_SqlDump extends Fixture
         }
 
         // unzip the dump
-        $deflatedDumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql'; // TODO: should depend on name of URL
-        exec("gunzip -c \"" . $dumpPath . "\" > \"$deflatedDumpPath\"", $output, $return);
-        if ($return !== 0) {
-            throw new Exception("gunzip failed: " . implode("\n", $output));
+        if (substr($dumpPath, -3) === ".gz") {
+            $deflatedDumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql'; // TODO: should depend on name of URL
+            exec("gunzip -c \"" . $dumpPath . "\" > \"$deflatedDumpPath\"", $output, $return);
+            if ($return !== 0) {
+                throw new Exception("gunzip failed: " . implode("\n", $output));
+            }
+        } else {
+            $deflatedDumpPath = $dumpPath;
         }
 
         // load the data into the correct database
