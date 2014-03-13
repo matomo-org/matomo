@@ -115,11 +115,6 @@ Application.prototype.loadTestModules = function () {
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
         suite.afterAll(function (done) {
-            if (!fixture) {
-                done();
-                return;
-            }
-
             testEnvironment.teardownFixture(fixture, done);
         });
     });

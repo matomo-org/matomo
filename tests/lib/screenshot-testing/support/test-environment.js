@@ -15,6 +15,10 @@ var TestingEnvironment = function () {
 };
 
 TestingEnvironment.prototype.reload = function () {
+    for (var key in this) {
+        delete this[key];
+    }
+
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
         for (var key in data) {
@@ -28,8 +32,6 @@ TestingEnvironment.prototype.save = function () {
     for (var key in this) {
         copy[key] = this[key];
     }
-
-    delete copy.backup;
 
     fs.write(testingEnvironmentOverridePath, JSON.stringify(copy));
 };
@@ -90,8 +92,6 @@ TestingEnvironment.prototype._call = function (params, done) {
 };
 
 TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
-    this.backup = JSON.stringify(this);
-
     console.log("    Setting up fixture " + fixtureClass + "...");
 
     var setupFile = path.join("./support", "setupDatabase.php"),
@@ -125,7 +125,11 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 };
 
 TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
-    if (options['persist-fixture-data']) {
+    if (options['persist-fixture-data']
+        || !fixtureClass
+    ) {
+        this.deleteAndSave();
+
         done();
         return;
     }
@@ -146,11 +150,7 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
 
     var self = this;
     child.on("exit", function (code) {
-        for (var key in self.backup) {
-            self[key] = self.backup[key];
-        }
-
-        self.backup = {};
+        self.deleteAndSave();
 
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));
@@ -158,6 +158,11 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
             done();
         }
     });
+};
+
+TestingEnvironment.prototype.deleteAndSave = function () {
+    fs.write(testingEnvironmentOverridePath, "{}");
+    this.reload();
 };
 
 exports.TestingEnvironment = new TestingEnvironment();
