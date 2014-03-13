@@ -58,6 +58,7 @@ matrix:
 script: ./travis.sh
 
 before_script:
+  - composer self-update
   - composer install
   - uname -a
   - date
