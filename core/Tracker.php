@@ -165,7 +165,7 @@ class Tracker
 
     protected function initRequests($args)
     {
-        $rawData = file_get_contents("php://input");
+        $rawData = self::getRawBulkRequest();
         if (!empty($rawData)) {
             $this->usingBulkTracking = strpos($rawData, '"requests"') || strpos($rawData, "'requests'");
             if ($this->usingBulkTracking) {
@@ -177,7 +177,7 @@ class Tracker
         $this->requests = $args ? $args : (!empty($_GET) || !empty($_POST) ? array($_GET + $_POST) : array());
     }
 
-    private function authenticateBulkTrackingRequests($rawData)
+    private static function getRequestsArrayFromBulkRequest($rawData)
     {
         $rawData = trim($rawData);
         $rawData = Common::sanitizeLineBreaks($rawData);
@@ -185,14 +185,23 @@ class Tracker
         // POST data can be array of string URLs or array of arrays w/ visit info
         $jsonData = json_decode($rawData, $assoc = true);
 
-        if (isset($jsonData['requests'])) {
-            $this->requests = $jsonData['requests'];
-        }
-
         $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $jsonData);
 
+        $requests = array();
+        if (isset($jsonData['requests'])) {
+            $requests = $jsonData['requests'];
+        }
+
+        return array( $requests, $tokenAuth);
+    }
+
+    private function authenticateBulkTrackingRequests($rawData)
+    {
+        list($this->requests, $tokenAuth) = $this->getRequestsArrayFromBulkRequest($rawData);
+
         if (empty($tokenAuth)) {
-            throw new Exception("token_auth must be specified when using Bulk Tracking Import. See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
+            throw new Exception( "token_auth must be specified when using Bulk Tracking Import. "
+                                ." See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
         }
         if (!empty($this->requests)) {
 
@@ -213,7 +222,8 @@ class Tracker
 
                 // a Bulk Tracking request that is not authenticated should fail
                 if (!$requestObj->isAuthenticated()) {
-                    throw new Exception(sprintf("token_auth specified does not have Admin permission for idsite=%s", $requestObj->getIdSite()));
+                    throw new Exception(sprintf("token_auth specified does not have Admin permission for idsite=%s",
+                                    $requestObj->getIdSite()));
                 }
 
                 $request = $requestObj;
@@ -730,7 +740,8 @@ class Tracker
     public static function setTestEnvironment($args = null, $requestMethod = null)
     {
         if (is_null($args)) {
-            $args = $_GET + $_POST;
+            $postData = self::getRequestsArrayFromBulkRequest(self::getRawBulkRequest());
+            $args = $_GET + $postData;
         }
         if (is_null($requestMethod) && array_key_exists('REQUEST_METHOD', $_SERVER)) {
             $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -753,7 +764,9 @@ class Tracker
         }
 
         // Tests using window_look_back_for_visitor
-        if (Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1) {
+        if (Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1
+            // also look for this in bulk requests (see fake_logs_replay.log)
+            || strpos( $args, '"forceLargeWindowLookBackForVisitor":"1"' ) !== false) {
             self::updateTrackerConfig('window_look_back_for_visitor', 2678400);
         }
 
@@ -865,5 +878,13 @@ class Tracker
         } catch (Exception $e) {
             $this->exitWithException($e);
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected static function getRawBulkRequest()
+    {
+        return file_get_contents("php://input");
     }
 }
