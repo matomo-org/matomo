@@ -5,8 +5,8 @@
 		<idVisit>40</idVisit>
 		<visitIp>174.97.139.63</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
@@ -54,7 +54,7 @@
 		
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
+		<visitCount>77</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
@@ -232,8 +232,8 @@
 		<idVisit>39</idVisit>
 		<visitIp>193.159.20.129</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
@@ -286,7 +286,7 @@
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceLastVisit>4</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
@@ -359,8 +359,8 @@
 		<idVisit>37</idVisit>
 		<visitIp>50.244.17.130</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
@@ -392,7 +392,7 @@
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.org/what-is-piwik/</url>
+				<url>http://piwik.org/what-is-piwisk/</url>
 				<pageTitle>What is Piwik? - Analytics - Piwik</pageTitle>
 				<pageIdAction>50</pageIdAction>
 				
@@ -419,7 +419,7 @@
 		<visitDuration>34</visitDuration>
 		<visitDurationPretty>34s</visitDurationPretty>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>579</daysSinceLastVisit>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>North America</continent>

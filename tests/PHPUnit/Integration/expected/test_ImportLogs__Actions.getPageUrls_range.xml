@@ -1353,7 +1353,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>what-is-piwik</label>
+		<label>what-is-piwisk</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -1381,7 +1381,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0</avg_time_generation>
-				<url>http://piwik.org/what-is-piwik/</url>
+				<url>http://piwik.org/what-is-piwisk/</url>
 			</row>
 		</subtable>
 	</row>
