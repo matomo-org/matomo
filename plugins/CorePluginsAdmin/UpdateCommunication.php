@@ -153,6 +153,7 @@ class UpdateCommunication
 
         foreach ($superUsers as $superUser) {
             $mail = new Mail();
+            $mail->setDefaultFromPiwik();
             $mail->addTo($superUser['email']);
             $mail->setSubject($subject);
             $mail->setBodyText($message);
