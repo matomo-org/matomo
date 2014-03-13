@@ -39,6 +39,7 @@ class OmniFixture extends \Fixture
             if (is_subclass_of($className, 'Fixture')
                 && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
+                && $className != "Piwik_Test_Fixture_SqlDump"
             ) {
                 $fixture = new $className();
                 if (!property_exists($fixture, 'dateTime')) {
