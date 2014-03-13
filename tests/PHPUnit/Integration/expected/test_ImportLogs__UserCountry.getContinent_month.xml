@@ -78,11 +78,11 @@
 	</row>
 	<row>
 		<label>Europe</label>
-		<nb_visits>6</nb_visits>
+		<nb_visits>7</nb_visits>
 		<nb_actions>9</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>17</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<sum_visit_length>10</sum_visit_length>
+		<bounce_count>6</bounce_count>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>
@@ -92,7 +92,8 @@
 		</goals>
 		<nb_conversions>6</nb_conversions>
 		<revenue>30</revenue>
-		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+		<nb_visits_converted>0</nb_visits_converted>
 		<code>Europe</code>
 	</row>
 	<row>

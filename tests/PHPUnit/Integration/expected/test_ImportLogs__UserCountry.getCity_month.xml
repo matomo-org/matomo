@@ -52,6 +52,33 @@
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 	</row>
 	<row>
+		<label>Maaseik, Limburg, Belgium</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<lat>51.1</lat>
+		<long>5.8</long>
+		<city_name>Maaseik</city_name>
+		<region>05</region>
+		<country>be</country>
+		<country_name>Belgium</country_name>
+		<region_name>Limburg</region_name>
+		<logo>plugins/UserCountry/images/flags/be.png</logo>
+	</row>
+	<row>
 		<label>Esentepe, Rize, Turkey</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -102,32 +129,6 @@
 		<country_name>United States</country_name>
 		<region_name>California</region_name>
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
-	</row>
-	<row>
-		<label>Maaseik, Limburg, Belgium</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>7</sum_visit_length>
-		<bounce_count>0</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<lat>51.1</lat>
-		<long>5.8</long>
-		<city_name>Maaseik</city_name>
-		<region>05</region>
-		<country>be</country>
-		<country_name>Belgium</country_name>
-		<region_name>Limburg</region_name>
-		<logo>plugins/UserCountry/images/flags/be.png</logo>
 	</row>
 	<row>
 		<label>Mainz, Rheinland-Pfalz, Germany</label>

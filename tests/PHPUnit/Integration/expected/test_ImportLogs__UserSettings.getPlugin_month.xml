@@ -2,56 +2,56 @@
 <result>
 	<row>
 		<label>Cookie</label>
-		<nb_visits>12</nb_visits>
-		<nb_visits_percentage>38.7%</nb_visits_percentage>
+		<nb_visits>13</nb_visits>
+		<nb_visits_percentage>40.6%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/cookie.gif</logo>
 	</row>
 	<row>
 		<label>Flash</label>
-		<nb_visits>11</nb_visits>
-		<nb_visits_percentage>35.5%</nb_visits_percentage>
+		<nb_visits>12</nb_visits>
+		<nb_visits_percentage>37.5%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/flash.gif</logo>
 	</row>
 	<row>
 		<label>Java</label>
-		<nb_visits>11</nb_visits>
-		<nb_visits_percentage>35.5%</nb_visits_percentage>
+		<nb_visits>12</nb_visits>
+		<nb_visits_percentage>37.5%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/java.gif</logo>
 	</row>
 	<row>
 		<label>Pdf</label>
-		<nb_visits>9</nb_visits>
-		<nb_visits_percentage>29%</nb_visits_percentage>
+		<nb_visits>10</nb_visits>
+		<nb_visits_percentage>31.3%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/pdf.gif</logo>
+	</row>
+	<row>
+		<label>Silverlight</label>
+		<nb_visits>6</nb_visits>
+		<nb_visits_percentage>18.8%</nb_visits_percentage>
+		<logo>plugins/UserSettings/images/plugins/silverlight.gif</logo>
 	</row>
 	<row>
 		<label>Quicktime</label>
 		<nb_visits>5</nb_visits>
-		<nb_visits_percentage>16.1%</nb_visits_percentage>
+		<nb_visits_percentage>15.6%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/quicktime.gif</logo>
-	</row>
-	<row>
-		<label>Silverlight</label>
-		<nb_visits>5</nb_visits>
-		<nb_visits_percentage>16.1%</nb_visits_percentage>
-		<logo>plugins/UserSettings/images/plugins/silverlight.gif</logo>
 	</row>
 	<row>
 		<label>Windowsmedia</label>
 		<nb_visits>3</nb_visits>
-		<nb_visits_percentage>9.7%</nb_visits_percentage>
+		<nb_visits_percentage>9.4%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/windowsmedia.gif</logo>
 	</row>
 	<row>
 		<label>Director</label>
 		<nb_visits>1</nb_visits>
-		<nb_visits_percentage>3.2%</nb_visits_percentage>
+		<nb_visits_percentage>3.1%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/director.gif</logo>
 	</row>
 	<row>
 		<label>Gears</label>
 		<nb_visits>1</nb_visits>
-		<nb_visits_percentage>3.2%</nb_visits_percentage>
+		<nb_visits_percentage>3.1%</nb_visits_percentage>
 		<logo>plugins/UserSettings/images/plugins/gears.gif</logo>
 	</row>
 	<row>

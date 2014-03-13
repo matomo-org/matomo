@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>39</idVisit>
+		<idVisit>40</idVisit>
 		<visitIp>174.97.139.63</visitIp>
 		
 		<visitorType>new</visitorType>
@@ -117,7 +117,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>32</idVisit>
+		<idVisit>33</idVisit>
 		<visitIp>206.190.75.8</visitIp>
 		
 		<visitorType>returning</visitorType>
@@ -136,7 +136,7 @@
 				<pageTitle>Changelog Archive - Analytics - Piwik</pageTitle>
 				<pageIdAction>43</pageIdAction>
 				
-				<pageId>37</pageId>
+				<pageId>38</pageId>
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<icon />
@@ -146,7 +146,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>37</goalPageId>
+				<goalPageId>38</goalPageId>
 				
 				<url>http://piwik.org/changelog/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -229,7 +229,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>38</idVisit>
+		<idVisit>39</idVisit>
 		<visitIp>193.159.20.129</visitIp>
 		
 		<visitorType>new</visitorType>
@@ -356,11 +356,11 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>36</idVisit>
+		<idVisit>37</idVisit>
 		<visitIp>50.244.17.130</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
@@ -375,7 +375,7 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>34</pageIdAction>
 				
-				<pageId>41</pageId>
+				<pageId>42</pageId>
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<icon />
@@ -385,7 +385,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>41</goalPageId>
+				<goalPageId>42</goalPageId>
 				
 				<url>http://piwik.org/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -419,7 +419,7 @@
 		<visitDuration>34</visitDuration>
 		<visitDurationPretty>34s</visitDurationPretty>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceLastVisit>7</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>North America</continent>
@@ -485,41 +485,19 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>37</idVisit>
+		<idVisit>38</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
 		<events>0</events>
-		<actions>2</actions>
+		<actions>1</actions>
 		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://piwik.org/</url>
-				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
-				<pageIdAction>34</pageIdAction>
-				
-				<pageId>42</pageId>
-				<generationTime>0.06s</generationTime>
-				<timeSpent>6</timeSpent>
-				<timeSpentPretty>6s</timeSpentPretty>
-				<icon />
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>42</goalPageId>
-				
-				<url>http://piwik.org/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
-			</row>
 			<row>
 				<type>outlink</type>
 				<url>http://demo.piwik.org/</url>
@@ -536,18 +514,18 @@
 				<customVariableValue1>piwik.org</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
+		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
-		<visitLocalTime>01:34:18</visitLocalTime>
+		<visitLocalTime>01:34:24</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		
 		
 		
 		
-		<visitDuration>7</visitDuration>
-		<visitDurationPretty>7s</visitDurationPretty>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -615,7 +593,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>35</idVisit>
+		<idVisit>36</idVisit>
 		<visitIp>108.211.181.12</visitIp>
 		
 		<visitorType>new</visitorType>
@@ -633,7 +611,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>40</goalPageId>
+				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -644,7 +622,7 @@
 				<pageTitle>Integrate Piwik into your Rails Application - Analytics - Piwik</pageTitle>
 				<pageIdAction>47</pageIdAction>
 				
-				<pageId>40</pageId>
+				<pageId>41</pageId>
 				<generationTime>0.39s</generationTime>
 				<icon />
 			</row>
@@ -742,7 +720,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>34</idVisit>
+		<idVisit>35</idVisit>
 		<visitIp>219.101.46.222</visitIp>
 		
 		<visitorType>returning</visitorType>
@@ -760,7 +738,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>39</goalPageId>
+				<goalPageId>40</goalPageId>
 				
 				<url>https://piwik.org/log-analytics/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -771,7 +749,7 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>41</pageIdAction>
 				
-				<pageId>39</pageId>
+				<pageId>40</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -856,7 +834,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>33</idVisit>
+		<idVisit>34</idVisit>
 		<visitIp>80.136.160.65</visitIp>
 		
 		<visitorType>returning</visitorType>
@@ -874,7 +852,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>38</goalPageId>
+				<goalPageId>39</goalPageId>
 				
 				<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -885,7 +863,7 @@
 				<pageTitle>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</pageTitle>
 				<pageIdAction>45</pageIdAction>
 				
-				<pageId>38</pageId>
+				<pageId>39</pageId>
 				<generationTime>0.12s</generationTime>
 				<icon />
 			</row>
@@ -963,7 +941,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>31</idVisit>
+		<idVisit>32</idVisit>
 		<visitIp>188.107.238.9</visitIp>
 		
 		<visitorType>new</visitorType>
@@ -981,7 +959,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>36</goalPageId>
+				<goalPageId>37</goalPageId>
 				
 				<url>http://piwik.org/log-analytics/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -992,7 +970,7 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>41</pageIdAction>
 				
-				<pageId>36</pageId>
+				<pageId>37</pageId>
 				<generationTime>0.15s</generationTime>
 				<icon />
 			</row>
@@ -1090,7 +1068,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>29</idVisit>
+		<idVisit>30</idVisit>
 		<visitIp>93.80.130.163</visitIp>
 		
 		<visitorType>new</visitorType>
@@ -1109,7 +1087,7 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>34</pageIdAction>
 				
-				<pageId>32</pageId>
+				<pageId>33</pageId>
 				<generationTime>0.18s</generationTime>
 				<timeSpent>2</timeSpent>
 				<timeSpentPretty>2s</timeSpentPretty>
@@ -1120,7 +1098,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>32</goalPageId>
+				<goalPageId>33</goalPageId>
 				
 				<url>http://piwik.org/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -1131,7 +1109,7 @@
 				<pageTitle>Download - Analytics - Piwik</pageTitle>
 				<pageIdAction>38</pageIdAction>
 				
-				<pageId>34</pageId>
+				<pageId>35</pageId>
 				<generationTime>0.11s</generationTime>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
@@ -1143,7 +1121,7 @@
 				<pageTitle />
 				<pageIdAction>39</pageIdAction>
 				
-				<pageId>35</pageId>
+				<pageId>36</pageId>
 				<icon>plugins/Zeitgeist/images/download.png</icon>
 			</row>
 		</actionDetails>
@@ -1224,7 +1202,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>30</idVisit>
+		<idVisit>31</idVisit>
 		<visitIp>176.41.226.154</visitIp>
 		
 		<visitorType>returning</visitorType>
@@ -1242,7 +1220,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>33</goalPageId>
+				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.org/docs/installation/</url>
 				<icon>plugins/Zeitgeist/images/goal.png</icon>
@@ -1253,7 +1231,7 @@
 				<pageTitle>Installing Piwik - Analytics - Piwik</pageTitle>
 				<pageIdAction>36</pageIdAction>
 				
-				<pageId>33</pageId>
+				<pageId>34</pageId>
 				<generationTime>0.13s</generationTime>
 				<icon />
 			</row>
@@ -1315,6 +1293,125 @@
 		<screenType>wide</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1366x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
+		<plugins>pdf, flash, java, silverlight</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/silverlight.gif</pluginIcon>
+				<pluginName>silverlight</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>29</idVisit>
+		<visitIp>84.194.72.21</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<events>0</events>
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>32</goalPageId>
+				
+				<url>http://piwik.org/</url>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.org/</url>
+				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
+				<pageIdAction>34</pageIdAction>
+				
+				<pageId>32</pageId>
+				<generationTime>0.06s</generationTime>
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName1>Domain landed</customVariableName1>
+				<customVariableValue1>piwik.org</customVariableValue1>
+			</row>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>01:34:18</visitLocalTime>
+		<visitLocalHour>1</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Belgium</country>
+		<countryCode>be</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
+		<region>Limburg</region>
+		<regionCode>05</regionCode>
+		<city>Maaseik</city>
+		<location>Maaseik, Limburg, Belgium</location>
+		<latitude>51.099998</latitude>
+		<longitude>5.800000</longitude>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>website</referrerType>
+		<referrerTypeName>Websites</referrerTypeName>
+		<referrerName>musicforeveryoneradio.be</referrerName>
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemCode>WI7</operatingSystemCode>
+		<operatingSystemShortName>Win 7</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WI7.gif</operatingSystemIcon>
+		<browserFamily>webkit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browserName>Chrome 33.0</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>33.0</browserVersion>
+		<screenType>wide</screenType>
+		<deviceType>Desktop</deviceType>
+		<resolution>1920x1080</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>

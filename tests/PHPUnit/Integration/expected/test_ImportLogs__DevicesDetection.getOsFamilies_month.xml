@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Windows</label>
-		<nb_visits>16</nb_visits>
+		<nb_visits>17</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>98</sum_visit_length>
-		<bounce_count>13</bounce_count>
+		<sum_visit_length>91</sum_visit_length>
+		<bounce_count>15</bounce_count>
 		<nb_visits_converted>16</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>16</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>17</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/os/WI7.gif</logo>
 	</row>
 	<row>

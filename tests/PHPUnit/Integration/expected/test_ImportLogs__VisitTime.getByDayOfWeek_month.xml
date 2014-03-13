@@ -32,22 +32,22 @@
 	</row>
 	<row>
 		<label>Friday</label>
-		<nb_visits>6</nb_visits>
-		<nb_uniq_visitors>6</nb_uniq_visitors>
-		<nb_actions>6</nb_actions>
+		<nb_visits>7</nb_visits>
+		<nb_uniq_visitors>7</nb_uniq_visitors>
+		<nb_actions>7</nb_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>6</bounce_count>
-		<nb_visits_converted>6</nb_visits_converted>
+		<bounce_count>7</bounce_count>
+		<nb_visits_converted>7</nb_visits_converted>
 		<day_of_week>5</day_of_week>
 	</row>
 	<row>
 		<label>Saturday</label>
 		<nb_visits>21</nb_visits>
 		<nb_uniq_visitors>21</nb_uniq_visitors>
-		<nb_actions>29</nb_actions>
-		<sum_visit_length>437</sum_visit_length>
-		<bounce_count>15</bounce_count>
-		<nb_visits_converted>19</nb_visits_converted>
+		<nb_actions>28</nb_actions>
+		<sum_visit_length>430</sum_visit_length>
+		<bounce_count>16</bounce_count>
+		<nb_visits_converted>18</nb_visits_converted>
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>

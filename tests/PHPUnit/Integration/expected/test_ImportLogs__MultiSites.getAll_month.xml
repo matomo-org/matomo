@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>Piwik test</label>
-		<nb_visits>38</nb_visits>
+		<nb_visits>39</nb_visits>
 		<nb_actions>46</nb_actions>
 		<nb_pageviews>40</nb_pageviews>
 		<revenue>180</revenue>

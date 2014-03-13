@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Chrome</label>
-		<nb_visits>15</nb_visits>
+		<nb_visits>16</nb_visits>
 		<nb_actions>19</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>312</sum_visit_length>
-		<bounce_count>12</bounce_count>
+		<sum_visit_length>305</sum_visit_length>
+		<bounce_count>14</bounce_count>
 		<nb_visits_converted>14</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>15</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>16</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 	</row>
 	<row>

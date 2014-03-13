@@ -4,20 +4,20 @@
 		<label> Liberate Web Analytics - Analytics - Piwik</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
-		<sum_time_spent>40</sum_time_spent>
+		<sum_time_spent>34</sum_time_spent>
 		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 		<min_time_generation>0.058</min_time_generation>
 		<max_time_generation>0.292</max_time_generation>
 		<entry_nb_visits>4</entry_nb_visits>
-		<entry_nb_actions>8</entry_nb_actions>
-		<entry_sum_visit_length>51</entry_sum_visit_length>
-		<entry_bounce_count>1</entry_bounce_count>
+		<entry_nb_actions>7</entry_nb_actions>
+		<entry_sum_visit_length>44</entry_sum_visit_length>
+		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>4</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
-		<avg_time_on_page>10</avg_time_on_page>
-		<bounce_rate>25%</bounce_rate>
+		<avg_time_on_page>9</avg_time_on_page>
+		<bounce_rate>50%</bounce_rate>
 		<exit_rate>50%</exit_rate>
 		<avg_time_generation>0.177</avg_time_generation>
 	</row>

@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>38</nb_visits>
+		<nb_visits>39</nb_visits>
 		<nb_actions>46</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>437</sum_visit_length>
-		<bounce_count>32</bounce_count>
+		<sum_visit_length>430</sum_visit_length>
+		<bounce_count>34</bounce_count>
 		<nb_visits_converted>36</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>38</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>39</sum_daily_nb_uniq_visitors>
 		<url>http://piwik.org/faq/general/#faq_52</url>
 	</row>
 </result>

@@ -2,11 +2,11 @@
 <result>
 	<row>
 		<label>Domain landed</label>
-		<nb_visits>11</nb_visits>
+		<nb_visits>12</nb_visits>
 		<nb_actions>16</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>132</sum_visit_length>
-		<bounce_count>7</bounce_count>
+		<sum_visit_length>125</sum_visit_length>
+		<bounce_count>9</bounce_count>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>11</nb_conversions>
@@ -16,15 +16,15 @@
 		</goals>
 		<nb_conversions>11</nb_conversions>
 		<revenue>55</revenue>
-		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>
 				<label>piwik.org</label>
-				<nb_visits>11</nb_visits>
+				<nb_visits>12</nb_visits>
 				<nb_actions>16</nb_actions>
 				<max_actions>3</max_actions>
-				<sum_visit_length>132</sum_visit_length>
-				<bounce_count>7</bounce_count>
+				<sum_visit_length>125</sum_visit_length>
+				<bounce_count>9</bounce_count>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>11</nb_conversions>
@@ -34,7 +34,7 @@
 				</goals>
 				<nb_conversions>11</nb_conversions>
 				<revenue>55</revenue>
-				<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>

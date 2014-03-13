@@ -111,6 +111,29 @@
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
+		<label>Belgium</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<code>be</code>
+		<logo>plugins/UserCountry/images/flags/be.png</logo>
+		<logoWidth>16</logoWidth>
+		<logoHeight>11</logoHeight>
+	</row>
+	<row>
 		<label>Australia</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -121,28 +144,6 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<code>au</code>
 		<logo>plugins/UserCountry/images/flags/au.png</logo>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
-	</row>
-	<row>
-		<label>Belgium</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>7</sum_visit_length>
-		<bounce_count>0</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<code>be</code>
-		<logo>plugins/UserCountry/images/flags/be.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
