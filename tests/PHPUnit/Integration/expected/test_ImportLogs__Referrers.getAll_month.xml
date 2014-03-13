@@ -20,39 +20,6 @@
 		<referer_type>3</referer_type>
 	</row>
 	<row>
-		<label>trends.builtwith.com</label>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<nb_visits>0</nb_visits>
-		<referer_type>3</referer_type>
-	</row>
-	<row>
-		<label>Keyword not defined</label>
-		<nb_visits>4</nb_visits>
-		<nb_actions>7</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>44</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>5</nb_conversions>
-				<nb_visits_converted>5</nb_visits_converted>
-				<revenue>25</revenue>
-			</row>
-		</goals>
-		<nb_conversions>5</nb_conversions>
-		<revenue>25</revenue>
-		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
-		<referer_type>2</referer_type>
-	</row>
-	<row>
 		<label>piwik.org</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -69,83 +36,6 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<referer_type>3</referer_type>
-	</row>
-	<row>
-		<label>forum.golem.de</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<referer_type>3</referer_type>
-	</row>
-	<row>
-		<label>berndjung.com</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<referer_type>3</referer_type>
-	</row>
-	<row>
-		<label>blog.comperiosearch.com</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<referer_type>3</referer_type>
-	</row>
-	<row>
-		<label>musicforeveryoneradio.be</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<referer_type>3</referer_type>
 	</row>
 </result>

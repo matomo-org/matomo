@@ -180,8 +180,8 @@
 		<visitDuration>81</visitDuration>
 		<visitDurationPretty>1 min 21s</visitDurationPretty>
 		<visitCount>2</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastVisit>181</daysSinceLastVisit>
+		<daysSinceFirstVisit>181</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -419,7 +419,7 @@
 		<visitDuration>34</visitDuration>
 		<visitDurationPretty>34s</visitDurationPretty>
 		<visitCount>1</visitCount>
-		<daysSinceLastVisit>7</daysSinceLastVisit>
+		<daysSinceLastVisit>579</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>North America</continent>
@@ -772,8 +772,8 @@
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<visitCount>4</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastVisit>1</daysSinceLastVisit>
+		<daysSinceFirstVisit>3</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -1228,7 +1228,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.org/docs/installation/</url>
-				<pageTitle>Installing Piwik - Analytics - Piwik</pageTitle>
+				<pageTitle>Hello Installing Piwik - Analytics - Piwik</pageTitle>
 				<pageIdAction>36</pageIdAction>
 				
 				<pageId>34</pageId>
@@ -1255,8 +1255,8 @@
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
 		<visitCount>5</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastVisit>8</daysSinceLastVisit>
+		<daysSinceFirstVisit>30</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1432,6 +1432,212 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>41</idVisit>
+		<visitIp>175.41.192.40</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<events>0</events>
+		<actions>10</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>48</goalPageId>
+				
+				<url>http://piwik.net/blog/category/meta/</url>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				
+				<pageId>56</pageId>
+				<generationTime>0.02s</generationTime>
+				<timeSpent>52</timeSpent>
+				<timeSpentPretty>52s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				
+				<pageId>52</pageId>
+				<generationTime>0.12s</generationTime>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				
+				<pageId>48</pageId>
+				<generationTime>0.12s</generationTime>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/faq/</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>57</pageId>
+				<generationTime>0.24s</generationTime>
+				<timeSpent>26</timeSpent>
+				<timeSpentPretty>26s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/faq/</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>49</pageId>
+				<generationTime>0.23s</generationTime>
+				<timeSpent>52</timeSpent>
+				<timeSpentPretty>52s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/faq/</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>53</pageId>
+				<generationTime>0.29s</generationTime>
+				<timeSpent>52</timeSpent>
+				<timeSpentPretty>52s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/blog/category/community/</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				<pageId>54</pageId>
+				<generationTime>0.62s</generationTime>
+				<timeSpent>7</timeSpent>
+				<timeSpentPretty>7s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/blog/category/community/</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				<pageId>50</pageId>
+				<generationTime>1.32s</generationTime>
+				<timeSpent>26</timeSpent>
+				<timeSpentPretty>26s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/docs/manage-websites/</url>
+				<pageTitle />
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>55</pageId>
+				<generationTime>0.34s</generationTime>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/docs/manage-websites/</url>
+				<pageTitle />
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>51</pageId>
+				<generationTime>0.54s</generationTime>
+				<timeSpent>7</timeSpent>
+				<timeSpentPretty>7s</timeSpentPretty>
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>08:10:38</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>54</visitDuration>
+		<visitDurationPretty>54s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
+		<screenType>unknown</screenType>
+		<deviceType>Desktop</deviceType>
+		<resolution>unknown</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
+		<plugins />
+		<pluginsIcons />
 		
 		
 		

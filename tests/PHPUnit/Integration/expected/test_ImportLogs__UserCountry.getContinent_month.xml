@@ -2,41 +2,22 @@
 <result>
 	<row>
 		<label>Asia</label>
-		<nb_visits>12</nb_visits>
-		<nb_actions>15</nb_actions>
+		<nb_visits>11</nb_visits>
+		<nb_actions>14</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>10</bounce_count>
+		<bounce_count>9</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>11</nb_conversions>
-				<nb_visits_converted>11</nb_visits_converted>
-				<revenue>55</revenue>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
 			</row>
 		</goals>
-		<nb_conversions>11</nb_conversions>
-		<revenue>55</revenue>
-		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
+		<nb_conversions>10</nb_conversions>
+		<revenue>50</revenue>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<code>Asia</code>
-	</row>
-	<row>
-		<label>North America</label>
-		<nb_visits>9</nb_visits>
-		<nb_actions>11</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>115</sum_visit_length>
-		<bounce_count>7</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>9</nb_conversions>
-				<nb_visits_converted>9</nb_visits_converted>
-				<revenue>45</revenue>
-			</row>
-		</goals>
-		<nb_conversions>9</nb_conversions>
-		<revenue>45</revenue>
-		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
-		<code>North America</code>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -58,6 +39,25 @@
 		<code>Unknown</code>
 	</row>
 	<row>
+		<label>North America</label>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>5</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>5</nb_conversions>
+				<nb_visits_converted>5</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>5</nb_conversions>
+		<revenue>25</revenue>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<code>North America</code>
+	</row>
+	<row>
 		<label>South America</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -75,26 +75,6 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<code>South America</code>
-	</row>
-	<row>
-		<label>Europe</label>
-		<nb_visits>7</nb_visits>
-		<nb_actions>9</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>10</sum_visit_length>
-		<bounce_count>6</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>6</nb_conversions>
-				<nb_visits_converted>6</nb_visits_converted>
-				<revenue>30</revenue>
-			</row>
-		</goals>
-		<nb_conversions>6</nb_conversions>
-		<revenue>30</revenue>
-		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
-		<nb_visits_converted>0</nb_visits_converted>
-		<code>Europe</code>
 	</row>
 	<row>
 		<label>Oceania</label>

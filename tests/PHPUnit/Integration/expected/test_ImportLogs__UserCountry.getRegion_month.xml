@@ -2,21 +2,21 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>24</nb_visits>
-		<nb_actions>28</nb_actions>
+		<nb_visits>22</nb_visits>
+		<nb_actions>25</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>339</sum_visit_length>
-		<bounce_count>21</bounce_count>
+		<sum_visit_length>305</sum_visit_length>
+		<bounce_count>20</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>22</nb_conversions>
-				<nb_visits_converted>22</nb_visits_converted>
-				<revenue>110</revenue>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
 			</row>
 		</goals>
-		<nb_conversions>22</nb_conversions>
-		<revenue>110</revenue>
-		<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
+		<nb_conversions>20</nb_conversions>
+		<revenue>100</revenue>
+		<sum_daily_nb_uniq_visitors>22</sum_daily_nb_uniq_visitors>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>
@@ -44,191 +44,6 @@
 		<country>us</country>
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
-		<logo>plugins/UserCountry/images/flags/us.png</logo>
-	</row>
-	<row>
-		<label>Limburg, Belgium</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<region>05</region>
-		<country>be</country>
-		<country_name>Belgium</country_name>
-		<region_name>Limburg</region_name>
-		<logo>plugins/UserCountry/images/flags/be.png</logo>
-	</row>
-	<row>
-		<label>California, United States</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>81</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>10</revenue>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<region>CA</region>
-		<country>us</country>
-		<country_name>United States</country_name>
-		<region_name>California</region_name>
-		<logo>plugins/UserCountry/images/flags/us.png</logo>
-	</row>
-	<row>
-		<label>Nordrhein-Westfalen, Germany</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<region>07</region>
-		<country>de</country>
-		<country_name>Germany</country_name>
-		<region_name>Nordrhein-Westfalen</region_name>
-		<logo>plugins/UserCountry/images/flags/de.png</logo>
-	</row>
-	<row>
-		<label>Rheinland-Pfalz, Germany</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<region>08</region>
-		<country>de</country>
-		<country_name>Germany</country_name>
-		<region_name>Rheinland-Pfalz</region_name>
-		<logo>plugins/UserCountry/images/flags/de.png</logo>
-	</row>
-	<row>
-		<label>Kanagawa, Japan</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<region>19</region>
-		<country>jp</country>
-		<country_name>Japan</country_name>
-		<region_name>Kanagawa</region_name>
-		<logo>plugins/UserCountry/images/flags/jp.png</logo>
-	</row>
-	<row>
-		<label>Moscow City, Russian Federation</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>10</sum_visit_length>
-		<bounce_count>0</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<region>48</region>
-		<country>ru</country>
-		<country_name>Russian Federation</country_name>
-		<region_name>Moscow City</region_name>
-		<logo>plugins/UserCountry/images/flags/ru.png</logo>
-	</row>
-	<row>
-		<label>Rize, Turkey</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<region>53</region>
-		<country>tr</country>
-		<country_name>Turkey</country_name>
-		<region_name>Rize</region_name>
-		<logo>plugins/UserCountry/images/flags/tr.png</logo>
-	</row>
-	<row>
-		<label>North Carolina, United States</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<region>NC</region>
-		<country>us</country>
-		<country_name>United States</country_name>
-		<region_name>North Carolina</region_name>
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 	</row>
 </result>
