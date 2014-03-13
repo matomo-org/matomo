@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>Domain landed</label>
+		<nb_visits>11</nb_visits>
+		<nb_actions>16</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>132</sum_visit_length>
+		<bounce_count>7</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>11</nb_conversions>
+				<nb_visits_converted>11</nb_visits_converted>
+				<revenue>55</revenue>
+			</row>
+		</goals>
+		<nb_conversions>11</nb_conversions>
+		<revenue>55</revenue>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<subtable>
+			<row>
+				<label>piwik.org</label>
+				<nb_visits>11</nb_visits>
+				<nb_actions>16</nb_actions>
+				<max_actions>3</max_actions>
+				<sum_visit_length>132</sum_visit_length>
+				<bounce_count>7</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>11</nb_conversions>
+						<nb_visits_converted>11</nb_visits_converted>
+						<revenue>55</revenue>
+					</row>
+				</goals>
+				<nb_conversions>11</nb_conversions>
+				<revenue>55</revenue>
+				<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+			</row>
+		</subtable>
+	</row>
+	<row>
 		<label>Not-Bot</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>10</nb_actions>
@@ -134,6 +172,44 @@
 		<subtable>
 			<row>
 				<label>Googlebot/2.1 ( http://www.googlebot.com/bot.html)</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Demo language</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<subtable>
+			<row>
+				<label>English</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<max_actions>1</max_actions>

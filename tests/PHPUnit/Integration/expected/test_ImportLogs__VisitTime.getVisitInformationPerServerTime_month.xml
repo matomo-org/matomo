@@ -2,13 +2,22 @@
 <result>
 	<row>
 		<label>0h</label>
-		<nb_visits>0</nb_visits>
-		<nb_actions>0</nb_actions>
-		<max_actions>0</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>0</bounce_count>
+		<nb_visits>11</nb_visits>
+		<nb_actions>16</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>132</sum_visit_length>
+		<bounce_count>7</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>11</nb_conversions>
+				<nb_visits_converted>11</nb_visits_converted>
+				<revenue>55</revenue>
+			</row>
+		</goals>
+		<nb_conversions>11</nb_conversions>
+		<revenue>55</revenue>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 	</row>
 	<row>
 		<label>1h</label>

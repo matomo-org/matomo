@@ -2,40 +2,112 @@
 <result>
 	<row>
 		<label>Direct Entry</label>
-		<nb_visits>25</nb_visits>
-		<nb_actions>28</nb_actions>
+		<nb_visits>28</nb_visits>
+		<nb_actions>32</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>23</bounce_count>
+		<sum_visit_length>386</sum_visit_length>
+		<bounce_count>25</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>23</nb_conversions>
-				<nb_visits_converted>23</nb_visits_converted>
-				<revenue>115</revenue>
+				<nb_conversions>24</nb_conversions>
+				<nb_visits_converted>24</nb_visits_converted>
+				<revenue>120</revenue>
 			</row>
 		</goals>
-		<nb_conversions>23</nb_conversions>
-		<revenue>115</revenue>
-		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
+		<nb_conversions>24</nb_conversions>
+		<revenue>120</revenue>
+		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
 	</row>
 	<row>
 		<label>Websites</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>2</bounce_count>
+		<nb_visits>6</nb_visits>
+		<nb_actions>7</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>7</sum_visit_length>
+		<bounce_count>5</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
+				<nb_conversions>7</nb_conversions>
+				<nb_visits_converted>7</nb_visits_converted>
+				<revenue>35</revenue>
 			</row>
 		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>10</revenue>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<nb_conversions>7</nb_conversions>
+		<revenue>35</revenue>
+		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<subtable>
+			<row>
+				<label>berndjung.com</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>blog.comperiosearch.com</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>forum.golem.de</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>musicforeveryoneradio.be</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>2</max_actions>
+				<sum_visit_length>7</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
 			<row>
 				<label>piwik.org</label>
 				<nb_visits>1</nb_visits>
@@ -71,6 +143,57 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>trends.builtwith.com</label>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<nb_visits>0</nb_visits>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Search Engines</label>
+		<nb_visits>4</nb_visits>
+		<nb_actions>7</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>44</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>5</nb_conversions>
+				<nb_visits_converted>5</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>5</nb_conversions>
+		<revenue>25</revenue>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<subtable>
+			<row>
+				<label>Keyword not defined</label>
+				<nb_visits>4</nb_visits>
+				<nb_actions>7</nb_actions>
+				<max_actions>3</max_actions>
+				<sum_visit_length>44</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>5</nb_conversions>
+						<nb_visits_converted>5</nb_visits_converted>
+						<revenue>25</revenue>
+					</row>
+				</goals>
+				<nb_conversions>5</nb_conversions>
+				<revenue>25</revenue>
+				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>

@@ -2,17 +2,17 @@
 <result>
 	<row>
 		<label>Piwik test</label>
-		<nb_visits>27</nb_visits>
-		<nb_actions>30</nb_actions>
-		<nb_pageviews>26</nb_pageviews>
-		<revenue>125</revenue>
+		<nb_visits>38</nb_visits>
+		<nb_actions>46</nb_actions>
+		<nb_pageviews>40</nb_pageviews>
+		<revenue>180</revenue>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>100%</revenue_evolution>
-        <group/>
-        <main_url>http://piwik.net</main_url>
-        <idsite>1</idsite>
+		<group />
+		<main_url>http://piwik.net</main_url>
+		<idsite>1</idsite>
 	</row>
 	<row>
 		<label>Piwik test two</label>
@@ -24,8 +24,8 @@
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<revenue_evolution>0%</revenue_evolution>
-        <group/>
-        <main_url>http://example-site-two.com</main_url>
-        <idsite>2</idsite>
+		<group />
+		<main_url>http://example-site-two.com</main_url>
+		<idsite>2</idsite>
 	</row>
 </result>

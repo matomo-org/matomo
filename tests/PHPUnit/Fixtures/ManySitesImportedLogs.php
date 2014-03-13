@@ -129,8 +129,8 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
         // automatically if needed
         $opts = array('--idsite'                    => $this->idSite,
                       '--enable-testmode'           => false,
-                      '--recorders'                 => '4',
-                      '--recorder-max-payload-size' => '2');
+                      '--recorders'                 => '1',
+                      '--recorder-max-payload-size' => '1');
 
         self::executeLogImporter($logFile, $opts);
     }
@@ -147,7 +147,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
         // automatically if needed
         $opts = array('--add-sites-new-hosts'       => false,
                       '--enable-testmode'           => false,
-                      '--recorders'                 => '4',
+                      '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1');
         self::executeLogImporter($logFile, $opts);
     }
@@ -163,7 +163,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth(),
                       '--recorders'                 => '1',
-                      '--recorder-max-payload-size' => '2',
+                      '--recorder-max-payload-size' => '1',
                       '--enable-static'             => false,
                       '--enable-bots'               => false,
                       '--enable-http-errors'        => false,
@@ -184,7 +184,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
 
         $opts = array('--token-auth'                => self::getTokenAuth(),
                       '--recorders'                 => '1',
-                      '--recorder-max-payload-size' => '2',
+                      '--recorder-max-payload-size' => '1',
                       '--replay-tracking'           => false);
 
         self::executeLogImporter($logFile, $opts);

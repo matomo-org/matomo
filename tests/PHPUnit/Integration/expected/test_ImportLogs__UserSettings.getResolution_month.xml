@@ -11,6 +11,46 @@
 		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
 	</row>
 	<row>
+		<label>1366x768</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>1920x1080</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>17</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>2560x1440</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>360x640</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
 		<label>1024x768</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -27,6 +67,46 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>1360x768</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>1536x864</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>81</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>1920x1200</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+	</row>
+	<row>
+		<label>2880x1800</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>34</sum_visit_length>
+		<bounce_count>0</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 	</row>

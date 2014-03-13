@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<result />
+<result>
+	<row>
+		<label>Keyword not defined</label>
+		<nb_visits>4</nb_visits>
+		<nb_actions>7</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>44</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>5</nb_conversions>
+				<nb_visits_converted>5</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>5</nb_conversions>
+		<revenue>25</revenue>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<subtable>
+			<row>
+				<label>Google</label>
+				<nb_visits>4</nb_visits>
+				<nb_actions>7</nb_actions>
+				<max_actions>3</max_actions>
+				<sum_visit_length>44</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>4</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+			</row>
+		</subtable>
+	</row>
+</result>
