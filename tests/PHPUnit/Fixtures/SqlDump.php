@@ -29,10 +29,9 @@ class Piwik_Test_Fixture_SqlDump extends Fixture
 
         // download data dump if url supplied
         if (is_file($this->dumpUrl)) {
-            $deflatedDumpPath = $this->dumpUrl;
+            $dumpPath = $this->dumpUrl;
         } else {
             $dumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql.gz';
-            $deflatedDumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql'; // TODO: should depend on name of URL
             $bufferSize = 1024 * 1024;
 
             $dump = fopen($this->dumpUrl, 'rb');
@@ -48,12 +47,13 @@ class Piwik_Test_Fixture_SqlDump extends Fixture
             if ($bytesRead <= 40 * 1024 * 1024) { // sanity check
                 throw new Exception("Could not download sql dump!");
             }
+        }
 
-            // unzip the dump
-            exec("gunzip -c \"" . $dumpPath . "\" > \"$deflatedDumpPath\"", $output, $return);
-            if ($return !== 0) {
-                throw new Exception("gunzip failed: " . implode("\n", $output));
-            }
+        // unzip the dump
+        $deflatedDumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql'; // TODO: should depend on name of URL
+        exec("gunzip -c \"" . $dumpPath . "\" > \"$deflatedDumpPath\"", $output, $return);
+        if ($return !== 0) {
+            throw new Exception("gunzip failed: " . implode("\n", $output));
         }
 
         // load the data into the correct database

@@ -112,7 +112,7 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function($config) use ($testingEnvironment) {
+            Piwik::addAction('Config.createConfigSingleton', function($config, &$cache) use ($testingEnvironment) {
                 $config->setTestEnvironment();
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
@@ -128,19 +128,17 @@ class Piwik_TestingEnvironment
 
                 $manager->unloadPlugins();
 
+                if ($testingEnvironment->tablesPrefix) {
+                    $cache['database']['tables_prefix'] = $testingEnvironment->tablesPrefix;
+                }
+
+                if ($testingEnvironment->dbName) {
+                    $cache['database']['dbname'] = $testingEnvironment->dbName;
+                }
+
                 $testingEnvironment->logVariables();
             });
         }
-        Piwik::addAction('Db.getDatabaseConfig', function (&$dbConfig) use ($testingEnvironment) {
-            if ($testingEnvironment->dbName) {
-                $dbConfig['dbname'] = $testingEnvironment->dbName;
-            }
-        });
-        Piwik::addAction('Tracker.getDatabaseConfig', function (&$dbConfig) use ($testingEnvironment) {
-            if ($testingEnvironment->dbName) {
-                $dbConfig['dbname'] = $testingEnvironment->dbName;
-            }
-        });
         Piwik::addAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;

@@ -51,6 +51,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
 
 $fixturesToLoad = array(
     '/tests/PHPUnit/Fixtures/*.php',
+    '/tests/PHPUnit/UI/Fixtures/*.php',
     '/plugins/*/tests/Fixtures/*.php',
     '/plugins/*/Test/Fixtures/*.php',
 );

@@ -360,7 +360,7 @@ class Config extends Singleton
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            Piwik::postTestEvent('Config.createConfigSingleton', array( $this ));
+            Piwik::postTestEvent('Config.createConfigSingleton', array( $this, &$this->configCache ));
         }
 
         // check cache for merged section

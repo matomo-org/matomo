@@ -100,7 +100,7 @@ abstract class Updates
             if (($key = array_search($pluginToDelete, $pluginsInstalled)) !== false) {
                 unset($pluginsInstalled[$key]);
             }
-            $config->PluginsInstalled = $pluginsInstalled;
+            $config->PluginsInstalled = array('PluginsInstalled' => $pluginsInstalled);
 
             $config->forceSave();
         }
