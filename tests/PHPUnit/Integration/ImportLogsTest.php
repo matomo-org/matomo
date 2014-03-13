@@ -26,18 +26,10 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 
     public function getApiForTesting()
     {
-        return array(
+        $apis = array(
             array('all', array('idSite'  => self::$fixture->idSite,
                                'date'    => '2012-08-09',
                                'periods' => 'month')),
-
-            array('Live.getLastVisitsDetails', array(
-                                'idSite'  => self::$fixture->idSite,
-                               'date'    => '2012-08-09',
-                               'periods' => 'month',
-                               'otherRequestParameters' => array(
-                                   'filter_limit' => 1000
-                               ))),
 
             array('MultiSites.getAll', array('idSite'   => self::$fixture->idSite,
                                              'date'     => '2012-08-09',
@@ -56,6 +48,18 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
                                              'periods'    => 'month',
                                              'testSuffix' => '_siteIdTwo_TrackedUsingLogReplay')),
         );
+
+
+        if (getenv('MYSQL_ADAPTER') != 'MYSQLI') { // Mysqli rounds latitude/longitude
+            $apis[] = array('Live.getLastVisitsDetails', array(
+                'idSite'  => self::$fixture->idSite,
+                'date'    => '2012-08-09,2014-04-01',
+                'periods' => 'range',
+                'otherRequestParameters' => array(
+                    'filter_limit' => 1000
+            )));
+        }
+        return $apis;
     }
 
     /**
