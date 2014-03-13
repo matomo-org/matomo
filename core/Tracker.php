@@ -766,7 +766,7 @@ class Tracker
         // Tests using window_look_back_for_visitor
         if (Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1
             // also look for this in bulk requests (see fake_logs_replay.log)
-            || strpos( $args, '"forceLargeWindowLookBackForVisitor":"1"' ) !== false) {
+            || strpos( json_encode($args, true), '"forceLargeWindowLookBackForVisitor":"1"' ) !== false) {
             self::updateTrackerConfig('window_look_back_for_visitor', 2678400);
         }
 

@@ -16,7 +16,7 @@
 		</goals>
 		<nb_conversions>11</nb_conversions>
 		<revenue>55</revenue>
-		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 		<code>jp</code>
 		<logo>plugins/UserCountry/images/flags/jp.png</logo>
 		<logoWidth>16</logoWidth>
