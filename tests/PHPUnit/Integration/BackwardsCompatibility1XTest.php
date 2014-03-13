@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Benchmarks/Fixtures/SqlDump.php';
-
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.13.
  */
