@@ -82,6 +82,16 @@ class UpdateCheck
     }
 
     /**
+     * Returns the latest available version number. Does not perform a check whether a later version is available.
+     *
+     * @return false|string
+     */
+    public static function getLatestVersion()
+    {
+        return Option::get(self::LATEST_VERSION);
+    }
+
+    /**
      * Returns version number of a newer Piwik release.
      *
      * @return string|bool  false if current version is the latest available,
@@ -89,7 +99,7 @@ class UpdateCheck
      */
     public static function isNewestVersionAvailable()
     {
-        $latestVersion = Option::get(self::LATEST_VERSION);
+        $latestVersion = self::getLatestVersion();
         if (!empty($latestVersion)
             && version_compare(Version::VERSION, $latestVersion) == -1
         ) {

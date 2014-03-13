@@ -18,6 +18,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -308,7 +309,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         Config::getInstance()->forceSave();
 
-
+        $pluginUpdateCommunication = new UpdateCommunication();
+        if (Common::getRequestVar('enablePluginUpdateCommunication', '0', 'int')) {
+            $pluginUpdateCommunication->enable();
+        } else {
+            $pluginUpdateCommunication->disable();
+        }
     }
 
     private function handleGeneralSettingsAdmin($view)
@@ -331,9 +337,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-
         $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];
         $view->mail = Config::getInstance()->mail;
+
+        $pluginUpdateCommunication = new UpdateCommunication();
+        $view->canUpdateCommunication              = $pluginUpdateCommunication->canBeEnabled();
+        $view->enableSendPluginUpdateCommunication = $pluginUpdateCommunication->isEnabled();
     }
 
 

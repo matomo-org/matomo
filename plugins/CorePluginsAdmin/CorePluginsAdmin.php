@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
-use Piwik\ScheduledTime\Daily;
 use Piwik\ScheduledTime;
 
 /**
@@ -46,6 +45,23 @@ class CorePluginsAdmin extends \Piwik\Plugin
             ScheduledTime::factory('daily'),
             ScheduledTask::LOWEST_PRIORITY
         );
+
+        if (self::isMarketplaceEnabled()) {
+            $sendUpdateNotification = new ScheduledTask ($this,
+                'sendNotificationIfUpdatesAvailable',
+                null,
+                ScheduledTime::factory('daily'),
+                ScheduledTask::LOWEST_PRIORITY);
+            $tasks[] = $sendUpdateNotification;
+        }
+    }
+
+    public function sendNotificationIfUpdatesAvailable()
+    {
+        $updateCommunication = new UpdateCommunication();
+        if ($updateCommunication->isEnabled()) {
+            $updateCommunication->sendNotificationIfUpdatesAvailable();
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)
