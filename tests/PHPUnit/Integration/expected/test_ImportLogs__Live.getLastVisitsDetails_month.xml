@@ -488,8 +488,8 @@
 		<idVisit>38</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitEcommerceStatus>none</visitEcommerceStatus>
@@ -1693,8 +1693,8 @@
 		<idVisit>25</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>

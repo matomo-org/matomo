@@ -43,7 +43,7 @@
 	<row>
 		<label>Saturday</label>
 		<nb_visits>21</nb_visits>
-		<nb_uniq_visitors>21</nb_uniq_visitors>
+		<nb_uniq_visitors>20</nb_uniq_visitors>
 		<nb_actions>28</nb_actions>
 		<sum_visit_length>430</sum_visit_length>
 		<bounce_count>16</bounce_count>

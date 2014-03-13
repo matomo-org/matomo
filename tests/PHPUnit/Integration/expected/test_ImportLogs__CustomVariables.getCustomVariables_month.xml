@@ -54,7 +54,7 @@
 		</goals>
 		<nb_conversions>5</nb_conversions>
 		<revenue>25</revenue>
-		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>
 				<label>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</label>
@@ -72,7 +72,7 @@
 				</goals>
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
-				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
 				<label>Apache-HttpClient/4.2.1 (java 1.5)</label>
