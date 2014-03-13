@@ -77,7 +77,7 @@ class Piwik_TestingEnvironment
     public function logVariables()
     {
         if (isset($_SERVER['QUERY_STRING'])) {
-            \Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+            \Piwik\Log::info("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
         }
     }
 
