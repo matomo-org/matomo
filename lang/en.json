@@ -517,6 +517,10 @@
         "MenuDiagnostic": "Diagnostic",
         "MenuGeneralSettings": "General settings",
         "MenuManage": "Manage",
+        "UpdateSettings": "Update settings",
+        "ArchivingSettings": "Archiving settings",
+        "SendPluginUpdateCommunication": "Send email notifications in case of available plugin updates",
+        "SendPluginUpdateCommunicationHelp": "An email will be sent to all users having Super User access once there is a plugin update available.",
         "Administration": "Administration",
         "EmailServerSettings": "Email server settings",
         "OptOutForYourVisitors": "Piwik opt-out for your visitors",
@@ -845,6 +849,7 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik has been successfully updated!",
         "UpdateAutomatically": "Update Automatically",
         "ThereIsNewVersionAvailableForUpdate": "There is a new version of Piwik available for update",
+        "ThereIsNewPluginVersionAvailableForUpdate": "Some plugins you use have been updated on the Marketplace:",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "You can update to version %s automatically or download the package and install it manually:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik is unable to overwrite your current installation. You can either fix the directory\/file permissions, or download the package and install version %s manually:",
         "DownloadX": "Download %s",
@@ -861,7 +866,12 @@
         "ExceptionArchiveEmpty": "Empty archive.",
         "ExceptionArchiveIncomplete": "Archive is incomplete: some files are missing (eg. %s).",
         "MajorUpdateWarning1": "This is a major update! It will take longer than usual.",
-        "MajorUpdateWarning2": "The following advice is especially important for large installations."
+        "MajorUpdateWarning2": "The following advice is especially important for large installations.",
+        "NotificationSubjectAvailableCoreUpdate": "New Piwik %s is available",
+        "NotificationSubjectAvailablePluginUpdate": "Updates available for your Piwik plugins",
+        "NotificationClickToUpdatePlugins": "Click here to update your plugins now:",
+        "NotificationClickToUpdateThemes": "Click here to update your themes now:",
+        "FeedbackRequest": "Feel free to share your ideas and suggestions with the Piwik Team here:"
     },
     "CustomVariables": {
         "PluginDescription": "Custom Variables are name,value pairs that you can set to a Visit using the Javascript API setVisitCustomVariables() function. Piwik will then report how many visits, pages, conversions for each of these custom names and values.",

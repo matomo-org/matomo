@@ -7,6 +7,7 @@
 
 function sendGeneralSettingsAJAX() {
     var enableBrowserTriggerArchiving = $('input[name=enableBrowserTriggerArchiving]:checked').val();
+    var enablePluginUpdateCommunication = $('input[name=enablePluginUpdateCommunication]:checked').val();
     var enableBetaReleaseCheck = $('input[name=enableBetaReleaseCheck]:checked').val();
     var todayArchiveTimeToLive = $('#todayArchiveTimeToLive').val();
 
@@ -20,6 +21,7 @@ function sendGeneralSettingsAJAX() {
     ajaxHandler.addParams({
         format: 'json',
         enableBrowserTriggerArchiving: enableBrowserTriggerArchiving,
+        enablePluginUpdateCommunication: enablePluginUpdateCommunication,
         enableBetaReleaseCheck: enableBetaReleaseCheck,
         todayArchiveTimeToLive: todayArchiveTimeToLive,
         mailUseSmtp: isSmtpEnabled(),

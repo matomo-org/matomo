@@ -9,7 +9,7 @@
     {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
 
-    <h2>{{ 'General_GeneralSettings'|translate }}</h2>
+    <h2>{{ 'CoreAdminHome_ArchivingSettings'|translate }}</h2>
     <table class="adminTable" style='width:900px;'>
 
     {% if isGeneralSettingsAdminEnabled %}
@@ -80,6 +80,12 @@
 
     {% if isGeneralSettingsAdminEnabled %}
         <tr>
+            <td colspan="3">
+
+                <h2>{{ 'CoreAdminHome_UpdateSettings'|translate }}</h2>
+            </td>
+        </tr>
+        <tr>
             <td style="width:400px;">{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
             <td style="width:220px;">
                 <fieldset>
@@ -101,6 +107,33 @@
                 {{ piwik.inlineHelp(checkReleaseHelp) }}
             </td>
         </tr>
+
+        {% if canUpdateCommunication %}
+
+            <tr>
+                <td style="width:400px;">{{ 'CoreAdminHome_SendPluginUpdateCommunication'|translate }}</td>
+                <td style="width:220px;">
+                    <fieldset>
+                        <input id="enablePluginUpdateCommunication-1" type="radio"
+                               name="enablePluginUpdateCommunication" value="1"
+                                {% if enableSendPluginUpdateCommunication==1 %} checked="checked"{% endif %}/>
+                        <label for="enablePluginUpdateCommunication-1">{{ 'General_Yes'|translate }}</label>
+                        <br />
+                        <br />
+                        <input class="indented-radio-button" id="enablePluginUpdateCommunication-0" type="radio"
+                               name="enablePluginUpdateCommunication" value="0"
+                               {% if enableSendPluginUpdateCommunication==0 %} checked="checked"{% endif %}/>
+                        <label for="enablePluginUpdateCommunication-0">{{ 'General_No'|translate }}</label>
+                        <br />
+                        <span class="form-description">{{ 'General_Default'|translate }}</span>
+                    </fieldset>
+                <td>
+                    {{ piwik.inlineHelp('CoreAdminHome_SendPluginUpdateCommunicationHelp'|translate) }}
+                </td>
+            </tr>
+
+        {% endif %}
+
     {% endif %}
     </table>
 

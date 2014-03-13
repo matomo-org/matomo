@@ -379,12 +379,17 @@ enable_geolocation_admin = 1
 enable_delete_old_data_settings_admin = 1
 
 ; By setting this option to 0, the following settings will be hidden and disabled from being set in the UI:
-; - "General Settings"
+; - "Archiving Settings"
+; - "Update settings"
 ; - "Email server settings"
 enable_general_settings_admin = 1
 
 ; By setting this option to 0, it will disable the "Auto update" feature
 enable_auto_update = 1
+
+; By setting this option to 0, no emails will be sent in case of an available core.
+; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
+enable_update_communication = 1
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,

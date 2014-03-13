@@ -15,7 +15,6 @@ use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
-use Piwik\ScheduledTime\Daily;
 use Piwik\ScheduledTime;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Settings\UserSetting;
