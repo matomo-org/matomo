@@ -92,7 +92,6 @@ class Plugins_CorePluginsAdmin_UpdateCommunicationTest extends DatabaseTestCase
         return array(
             array('33.0.0', '33.0.0', $this->never(), '33.0.0'), // shouldNotSend_IfAlreadyNotified
             array('31.0.0', '33.0.0', $this->never(), '33.0.0'), // shouldNotSend_IfAlreadyNotifiedAboutLaterRelease
-            array('3333.3333.3333-beta10', '31.0.0', $this->never(), '31.0.0'),  // shouldNotSend_IfLatestVersionIsNotVersionLike,
             array('33.0.0', false,    $this->once(), '33.0.0'),  // shouldSend_IfUpdateAvailableAndNeverSentAnyBefore
             array('33.0.0', '31.0.0', $this->once(), '33.0.0'),  // shouldSend_IfUpdateAvailable,
         );

@@ -58,10 +58,6 @@ class UpdateCommunication
     {
         $latestVersion = $this->getLatestVersion();
 
-        if (!$this->isVersionLike($latestVersion)) {
-            return;
-        }
-
         $host = SettingsPiwik::getPiwikUrl();
 
         $subject  = Piwik::translate('CoreUpdater_NotificationSubjectAvailableCoreUpdate', $latestVersion);
@@ -109,7 +105,18 @@ class UpdateCommunication
     {
         UpdateCheck::check();
 
-        return UpdateCheck::isNewestVersionAvailable();
+        $hasUpdate = UpdateCheck::isNewestVersionAvailable();
+
+        if (!$hasUpdate) {
+            return false;
+        }
+
+        $latestVersion = self::getLatestVersion();
+        if (!$this->isVersionLike($latestVersion)) {
+            return false;
+        }
+
+        return $hasUpdate;
     }
 
     private function hasNotificationAlreadyReceived()
