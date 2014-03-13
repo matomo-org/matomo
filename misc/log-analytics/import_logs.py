@@ -1664,6 +1664,7 @@ class Parser(object):
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
                 if not hit.query_string or not hit.path.lower().endswith('piwik.php'):
+                    invalid_line(line, 'no query string, or ' + hit.path.lower() + ' does not end with piwik.php')
                     continue
 
                 query_arguments = urlparse.parse_qs(hit.query_string)
