@@ -91,6 +91,7 @@ TestingEnvironment.prototype._call = function (params, done) {
     });
 };
 
+var droppedOnce = false;
 TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
     console.log("    Setting up fixture " + fixtureClass + "...");
 
@@ -101,8 +102,11 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
         processArgs.push('--persist-fixture-data');
     }
 
-    if (options['drop']) {
+    if (options['drop']
+        && !droppedOnce
+    ) {
         processArgs.push('--drop');
+        droppedOnce = true;
     }
 
     var child = require('child_process').spawn(config.php, processArgs);
