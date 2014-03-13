@@ -95,6 +95,8 @@ var droppedOnce = false;
 TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
     console.log("    Setting up fixture " + fixtureClass + "...");
 
+    testEnvironment.deleteAndSave();
+
     var setupFile = path.join("./support", "setupDatabase.php"),
         processArgs = [setupFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + (fixtureClass || "")];
 
@@ -120,6 +122,8 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
     });
 
     child.on("exit", function (code) {
+        testEnvironment.reload();
+        
         if (code) {
             done(new Error("Failed to setup fixture " + fixtureClass + " (error code = " + code + ")"));
         } else {
