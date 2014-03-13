@@ -859,8 +859,8 @@
 		<idVisit>33</idVisit>
 		<visitIp>80.136.160.65</visitIp>
 		
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
@@ -908,7 +908,7 @@
 		
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
