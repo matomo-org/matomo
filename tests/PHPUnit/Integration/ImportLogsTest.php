@@ -49,6 +49,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
                                              'testSuffix' => '_siteIdTwo_TrackedUsingLogReplay')),
         );
 
+        // Running a few interesting tests for Log Replay use case
         if (getenv('MYSQL_ADAPTER') != 'MYSQLI') { // Mysqli rounds latitude/longitude
             $apiMethods = array('Live.getLastVisitsDetails',
                                 'Actions',
