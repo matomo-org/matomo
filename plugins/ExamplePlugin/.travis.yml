@@ -21,6 +21,7 @@ install:
   - git checkout "$TEST_PIWIK_VERSION"
   - git submodule init
   - git submodule update || true
+  - composer self-update
   - composer install
   - rm -rf plugins/ExamplePlugin
   - cd ../
