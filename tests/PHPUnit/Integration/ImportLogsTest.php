@@ -50,7 +50,11 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
         );
 
         if (getenv('MYSQL_ADAPTER') != 'MYSQLI') { // Mysqli rounds latitude/longitude
-            $apiMethods = array('Live.getLastVisitsDetails', 'Actions', 'VisitorInterest');
+            $apiMethods = array('Live.getLastVisitsDetails',
+                                'Actions',
+                                'VisitorInterest',
+                                'VisitFrequency'
+            );
             $apis[] = array($apiMethods, array(
                 'idSite'  => self::$fixture->idSite,
                 'date'    => '2012-08-09,2014-04-01',
