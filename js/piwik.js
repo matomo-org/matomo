@@ -3069,6 +3069,7 @@ if (typeof Piwik !== 'object') {
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
         for (iterator = 0; iterator < _paq.length; iterator++) {
             if (_paq[iterator][0] === 'setTrackerUrl'
+                    || _paq[iterator][0] === 'setAPIUrl'
                     || _paq[iterator][0] === 'setSiteId') {
                 apply(_paq[iterator]);
                 delete _paq[iterator];
