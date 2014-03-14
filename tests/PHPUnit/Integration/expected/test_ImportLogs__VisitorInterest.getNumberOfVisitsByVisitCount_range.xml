@@ -2,8 +2,8 @@
 <result>
 	<row>
 		<label>1 visit</label>
-		<nb_visits>34</nb_visits>
-		<nb_visits_percentage>85%</nb_visits_percentage>
+		<nb_visits>33</nb_visits>
+		<nb_visits_percentage>83%</nb_visits_percentage>
 	</row>
 	<row>
 		<label>2 visits</label>
@@ -32,8 +32,8 @@
 	</row>
 	<row>
 		<label>7 visits</label>
-		<nb_visits>0</nb_visits>
-		<nb_visits_percentage>0%</nb_visits_percentage>
+		<nb_visits>1</nb_visits>
+		<nb_visits_percentage>3%</nb_visits_percentage>
 	</row>
 	<row>
 		<label>8 visits</label>
