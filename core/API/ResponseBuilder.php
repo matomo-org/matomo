@@ -72,6 +72,50 @@ class ResponseBuilder
         $this->apiModule = $apiModule;
         $this->apiMethod = $apiMethod;
 
+        if($this->outputFormat == 'original') {
+            @header('Content-Type: text/plain; charset=utf-8');
+        }
+        return $this->renderValue($value);
+    }
+
+    /**
+     * Returns an error $message in the requested $format
+     *
+     * @param Exception $e
+     * @throws Exception
+     * @return string
+     */
+    public function getResponseException(Exception $e)
+    {
+        $format = strtolower($this->outputFormat);
+
+        if ($format == 'original') {
+            throw $e;
+        }
+
+        try {
+            $renderer = Renderer::factory($format);
+        } catch (Exception $exceptionRenderer) {
+            return "Error: " . $e->getMessage() . " and: " . $exceptionRenderer->getMessage();
+        }
+
+        $e = $this->decorateExceptionWithDebugTrace($e);
+
+        $renderer->setException($e);
+
+        if ($format == 'php') {
+            $renderer->setSerialize($this->caseRendererPHPSerialize());
+        }
+
+        return $renderer->renderException();
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    protected function renderValue($value)
+    {
         // when null or void is returned from the api call, we handle it as a successful operation
         if (!isset($value)) {
             return $this->handleSuccess();
@@ -108,38 +152,6 @@ class ResponseBuilder
 
         // bool // integer // float // serialized object
         return $this->handleScalar($value);
-    }
-
-    /**
-     * Returns an error $message in the requested $format
-     *
-     * @param Exception $e
-     * @throws Exception
-     * @return string
-     */
-    public function getResponseException(Exception $e)
-    {
-        $format = strtolower($this->outputFormat);
-
-        if ($format == 'original') {
-            throw $e;
-        }
-
-        try {
-            $renderer = Renderer::factory($format);
-        } catch (Exception $exceptionRenderer) {
-            return "Error: " . $e->getMessage() . " and: " . $exceptionRenderer->getMessage();
-        }
-
-        $e = $this->decorateExceptionWithDebugTrace($e);
-
-        $renderer->setException($e);
-
-        if ($format == 'php') {
-            $renderer->setSerialize($this->caseRendererPHPSerialize());
-        }
-
-        return $renderer->renderException();
     }
 
     /**
