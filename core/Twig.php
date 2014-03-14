@@ -118,8 +118,17 @@ class Twig
     protected function addFunction_postEvent()
     {
         $postEventFunction = new Twig_SimpleFunction('postEvent', function ($eventName) {
+            // get parameters to twig function
+            $params = func_get_args();
+            // remove the first value (event name)
+            array_shift($params);
+
+            // make the first value the string that will get output in the template
+            // plugins can modify this string
             $str = '';
-            Piwik::postEvent($eventName, array(&$str));
+            $params = array_merge( array( &$str ), $params);
+
+            Piwik::postEvent($eventName, $params);
             return $str;
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($postEventFunction);
