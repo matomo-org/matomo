@@ -89,5 +89,7 @@ notifications:
     template:
       - "%{repository} (%{commit}) : %{message} %{foo} "
       - "Build details: %{build_url}"
-  email:
-    - piwik-builds@piwik.org
+  #email:
+  # if we specify piwik-builds@piwik.org then the developer doesn't get notified
+  #  - piwik-builds@piwik.org
+  # this is a missing feature by Travis to notify both list and committer
