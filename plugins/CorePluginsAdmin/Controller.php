@@ -359,6 +359,10 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
+        if(Common::isPhpCliMode()) {
+            Piwik_ExitWithMessage("Error:" . var_export($lastError, true));
+        }
+
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
