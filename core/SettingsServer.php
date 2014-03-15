@@ -27,7 +27,8 @@ class SettingsServer
     public static function isArchivePhpTriggered()
     {
         return !empty($_GET['trigger'])
-        && $_GET['trigger'] == 'archivephp';
+                && $_GET['trigger'] == 'archivephp'
+                && Piwik::hasUserSuperUserAccess();
     }
 
     /**
@@ -120,9 +121,7 @@ class SettingsServer
         }
         $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
 
-        if (self::isArchivePhpTriggered()
-            && Piwik::hasUserSuperUserAccess()
-        ) {
+        if (self::isArchivePhpTriggered()) {
             // archive.php: no time limit, high memory limit
             self::setMaxExecutionTime(0);
             $minimumMemoryLimitWhenArchiving = Config::getInstance()->General['minimum_memory_limit_when_archiving'];

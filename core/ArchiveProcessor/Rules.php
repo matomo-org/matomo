@@ -265,8 +265,7 @@ class Rules
         return !self::$archivingDisabledByTests &&
         (Rules::isBrowserTriggerEnabled()
             || Common::isPhpCliMode()
-            || (Piwik::hasUserSuperUserAccess()
-                && SettingsServer::isArchivePhpTriggered()));
+            || SettingsServer::isArchivePhpTriggered());
     }
 
     public static function isBrowserTriggerEnabled()
