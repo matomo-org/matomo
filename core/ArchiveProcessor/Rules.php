@@ -241,6 +241,9 @@ class Rules
         if ($periodLabel == 'range') {
             return false;
         }
+        if( SettingsServer::isArchivePhpTriggered() ) {
+            return false;
+        }
         $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
         $isArchivingDisabled = !self::isRequestAuthorizedToArchive();
 
