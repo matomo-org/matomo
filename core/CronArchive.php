@@ -182,6 +182,7 @@ Notes:
         $timer = new Timer;
 
         $this->logSection("START");
+        $this->log("Starting Piwik reports archiving...");
         foreach ($this->websites as $idsite) {
             flush();
             $requestsBefore = $this->requests;
@@ -296,10 +297,13 @@ Notes:
                 $skipped++;
                 continue;
             }
-            $visitsToday = end($response);
-            if(empty($visitsToday)) {
+            $metricsToday = end($response);
+            if(empty($metricsToday)) {
                 $visitsToday = 0;
+            } else {
+                $visitsToday = $metricsToday['nb_visits'];
             }
+
             $this->requests++;
             $processed++;
 
@@ -361,7 +365,6 @@ Notes:
                 . " done]");
 
         }
-        $this->log("Starting Piwik reports archiving...");
 
 
         $this->log("Done archiving!");
@@ -497,7 +500,7 @@ Notes:
             $dateLast = $dateLastForced;
         }
 
-        return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
+        return "?module=API&method=API.get&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
     }
 
     private function initSegmentsToArchive()
