@@ -23,6 +23,10 @@ class Archiver extends \Piwik\Plugin\Archiver
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
 
+    // Ecommerce reports use custom variables.
+    // We specifically set the limits high to get accurate Ecommerce reports
+    const MAX_ROWS_WHEN_ECOMMERCE = 50000;
+
     /**
      * @var DataArray
      */
@@ -34,8 +38,14 @@ class Archiver extends \Piwik\Plugin\Archiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
-        $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
+
+        if($processor->getParams()->getSite()->isEcommerceEnabled()) {
+            $this->maximumRowsInDataTableLevelZero = self::MAX_ROWS_WHEN_ECOMMERCE;
+            $this->maximumRowsInSubDataTable = self::MAX_ROWS_WHEN_ECOMMERCE;
+        } else {
+            $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
+            $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
+        }
     }
 
     public function aggregateMultipleReports()
