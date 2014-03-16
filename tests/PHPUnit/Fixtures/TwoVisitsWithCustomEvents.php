@@ -31,7 +31,9 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Fixture
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
-            APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+            // These two goals are to check events don't trigger for URL or Title matching
+            APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'url', 'webradio', 'contains');
+            APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'title', 'Music', 'contains');
         }
     }
 

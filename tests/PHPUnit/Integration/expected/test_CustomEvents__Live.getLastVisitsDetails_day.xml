@@ -163,8 +163,8 @@
 		
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -182,6 +182,16 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>triggered js</goalName>
+				<goalId>1</goalId>
+				<revenue>0</revenue>
+				<goalPageId>1</goalPageId>
+				
+				<url>http://example.org/webradio</url>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -413,7 +423,7 @@
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
+		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
@@ -641,8 +651,8 @@
 		
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -660,6 +670,16 @@
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>triggered js</goalName>
+				<goalId>1</goalId>
+				<revenue>0</revenue>
+				<goalPageId>21</goalPageId>
+				
+				<url>http://example.org/webradio</url>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -891,7 +911,7 @@
 				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
 			</row>
 		</customVariables>
-		<goalConversions>0</goalConversions>
+		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
