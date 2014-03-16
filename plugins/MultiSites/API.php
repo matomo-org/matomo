@@ -53,12 +53,6 @@ class API extends \Piwik\Plugin\API
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'actions_evolution',
             self::METRIC_RECORD_NAME_KEY        => self::NB_ACTIONS_METRIC,
             self::METRIC_IS_ECOMMERCE_KEY       => false,
-        ),
-        self::NB_PAGEVIEWS_LABEL => array(
-            self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
-            self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
-            self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
-            self::METRIC_IS_ECOMMERCE_KEY       => false,
         )
     );
 
@@ -341,6 +335,16 @@ class API extends \Piwik\Plugin\API
     public static function getApiMetrics($enhanced)
     {
         $metrics = self::$baseMetrics;
+
+        if(Common::isActionsPluginEnabled()) {
+            $metrics[self::NB_PAGEVIEWS_LABEL] = array(
+                self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
+                self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
+                self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
+                self::METRIC_IS_ECOMMERCE_KEY       => false,
+            );
+        }
+
         if (Common::isGoalPluginEnabled()) {
             // goal revenue metric
             $metrics[self::GOAL_REVENUE_METRIC] = array(
