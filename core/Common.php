@@ -111,6 +111,11 @@ class Common
         return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals');
     }
 
+    public static function isActionsPluginEnabled()
+    {
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Actions');
+    }
+
     /**
      * Returns true if PHP was invoked from command-line interface (shell)
      *

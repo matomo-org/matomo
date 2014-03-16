@@ -137,43 +137,51 @@ class Controller extends \Piwik\Plugin\Controller
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
 
-        $dataTableActions = APIActions::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
-            \Piwik\API\Request::getRawSegmentFromRequest());
-        $dataActionsRow =
-            $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
 
         $view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
         $nbVisits = (int)$dataRow->getColumn('nb_visits');
         $view->nbVisits = $nbVisits;
-        $view->nbPageviews = (int)$dataActionsRow->getColumn('nb_pageviews');
-        $view->nbUniquePageviews = (int)$dataActionsRow->getColumn('nb_uniq_pageviews');
-        $view->nbDownloads = (int)$dataActionsRow->getColumn('nb_downloads');
-        $view->nbUniqueDownloads = (int)$dataActionsRow->getColumn('nb_uniq_downloads');
-        $view->nbOutlinks = (int)$dataActionsRow->getColumn('nb_outlinks');
-        $view->nbUniqueOutlinks = (int)$dataActionsRow->getColumn('nb_uniq_outlinks');
+
         $view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
         $nbBouncedVisits = $dataRow->getColumn('bounce_count');
         $view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
         $view->maxActions = (int)$dataRow->getColumn('max_actions');
         $view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
-        $view->averageGenerationTime = $dataActionsRow->getColumn('avg_time_generation');
 
-        if ($displaySiteSearch) {
-            $view->nbSearches = (int)$dataActionsRow->getColumn('nb_searches');
-            $view->nbKeywords = (int)$dataActionsRow->getColumn('nb_keywords');
+        if(Common::isActionsPluginEnabled()) {
+            $view->showActionsPluginReports = true;
+            $dataTableActions = APIActions::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
+                \Piwik\API\Request::getRawSegmentFromRequest());
+            $dataActionsRow =
+                $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
+
+            $view->nbPageviews = (int)$dataActionsRow->getColumn('nb_pageviews');
+            $view->nbUniquePageviews = (int)$dataActionsRow->getColumn('nb_uniq_pageviews');
+            $view->nbDownloads = (int)$dataActionsRow->getColumn('nb_downloads');
+            $view->nbUniqueDownloads = (int)$dataActionsRow->getColumn('nb_uniq_downloads');
+            $view->nbOutlinks = (int)$dataActionsRow->getColumn('nb_outlinks');
+            $view->nbUniqueOutlinks = (int)$dataActionsRow->getColumn('nb_uniq_outlinks');
+            $view->averageGenerationTime = $dataActionsRow->getColumn('avg_time_generation');
+
+
+            if ($displaySiteSearch) {
+                $view->nbSearches = (int)$dataActionsRow->getColumn('nb_searches');
+                $view->nbKeywords = (int)$dataActionsRow->getColumn('nb_keywords');
+            }
+
+            // backward compatibility:
+            // show actions if the finer metrics are not archived
+            $view->showOnlyActions = false;
+            if ($dataActionsRow->getColumn('nb_pageviews')
+                + $dataActionsRow->getColumn('nb_downloads')
+                + $dataActionsRow->getColumn('nb_outlinks') == 0
+                && $dataRow->getColumn('nb_actions') > 0
+            ) {
+                $view->showOnlyActions = true;
+                $view->nbActions = $dataRow->getColumn('nb_actions');
+                $view->urlSparklineNbActions = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_actions')));
+            }
         }
 
-        // backward compatibility:
-        // show actions if the finer metrics are not archived
-        $view->showOnlyActions = false;
-        if ($dataActionsRow->getColumn('nb_pageviews')
-            + $dataActionsRow->getColumn('nb_downloads')
-            + $dataActionsRow->getColumn('nb_outlinks') == 0
-            && $dataRow->getColumn('nb_actions') > 0
-        ) {
-            $view->showOnlyActions = true;
-            $view->nbActions = $dataRow->getColumn('nb_actions');
-            $view->urlSparklineNbActions = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_actions')));
-        }
     }
 }
