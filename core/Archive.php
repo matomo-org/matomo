@@ -775,10 +775,7 @@ class Archive
         if (empty($plugin)
             || !\Piwik\Plugin\Manager::getInstance()->isPluginActivated($plugin)
         ) {
-            $pluginStr = empty($plugin) ? '' : "($plugin)";
-            throw new \Exception("Error: The report '$report' was requested but it is not available "
-                . "at this stage. You may also disable the related plugin $pluginStr "
-                . "to avoid this error.");
+            throw new \Exception("Error: The report '$report' was requested but it is not available at this stage. ");
         }
         return $plugin;
     }
