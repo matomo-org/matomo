@@ -557,7 +557,8 @@ Notes:
         }
 
         foreach ($this->getSegmentsForSite($idsite) as $segment) {
-            $urls[] = $url . '&segment=' . urlencode($segment);
+            $urlWithSegment = $url . '&segment=' . urlencode($segment);
+            $urls[] = $urlWithSegment;
             $this->requests++;
         }
 
@@ -683,7 +684,13 @@ Notes:
         $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
         $config->log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
-        $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
+
+        // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
+        $logLevel = $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION];
+        if($logLevel != 'VERBOSE'
+            && $logLevel != 'DEBUG') {
+            $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
+        }
 
         if (!function_exists("curl_multi_init")) {
             $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");
