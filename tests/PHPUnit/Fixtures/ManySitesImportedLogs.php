@@ -77,13 +77,13 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
 
-            'segmentAutoArchiveComposed' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
-                                                  'idSite'          => false,
+            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
+                                                  'idSite'          => 1,
                                                   'autoArchive'     => true,
                                                   'enabledAllUsers' => true),
 
-            'segmentAutoArchiveContainsEncoded' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
-                                                  'idSite'          => false,
+            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
+                                                  'idSite'          => 1,
                                                   'autoArchive'     => true,
                                                   'enabledAllUsers' => true)
 
