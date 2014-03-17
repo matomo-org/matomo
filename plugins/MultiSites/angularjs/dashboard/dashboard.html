@@ -66,6 +66,7 @@
                 piwik-multisites-site
                 date-sparkline="dateSparkline"
                 show-sparklines="showSparklines"
+                metric="predicate"
                 display-revenue-column="displayRevenueColumn"
                 ng-repeat="website in model.sites | orderBy:predicate:reverse | multiSitesGroupFilter:model.getCurrentPagingOffsetStart():model.pageSize">
             </tr>

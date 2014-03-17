@@ -142,6 +142,7 @@ class Process
 
     public static function isSupported()
     {
+        return false;
         if (SettingsServer::isWindows()) {
             return false;
         }
