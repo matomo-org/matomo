@@ -124,7 +124,8 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
 
     private function compareTimestamps($expected, $processed)
     {
-        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
+//        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
+        $messageIfFails = "Expected [$expected] but got [$processed]";
         $this->assertTrue( $expected == $processed || $expected == ($processed + 1) || ($expected + 1) == $processed, $messageIfFails);
     }
 
@@ -138,7 +139,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
 
         // min finished timestamp considered when looking at archive timestamp 
         $dateMinArchived = Date::factory('2010-01-02')->getTimestamp();
-        $this->assertEquals($archiveProcessor->public_getMinTimeArchiveProcessed() + 1, $dateMinArchived);
+        $this->assertEquals($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed() + 1);
 
         $this->assertEquals('2010-01-01 00:00:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
         $this->assertEquals('2010-01-01 23:59:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
@@ -155,7 +156,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         $archiveProcessor = $this->_createArchiveProcessor('day', '2010-01-01', $timezone);
         // min finished timestamp considered when looking at archive timestamp 
         $dateMinArchived = Date::factory('2010-01-01 18:30:00');
-        $this->assertEquals($archiveProcessor->public_getMinTimeArchiveProcessed() + 1, $dateMinArchived->getTimestamp());
+        $this->assertEquals($dateMinArchived->getTimestamp(), $archiveProcessor->public_getMinTimeArchiveProcessed() + 1);
 
         $this->assertEquals('2009-12-31 18:30:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
         $this->assertEquals('2010-01-01 18:29:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
@@ -172,7 +173,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         $archiveProcessor = $this->_createArchiveProcessor('month', '2010-01-02', $timezone);
         // min finished timestamp considered when looking at archive timestamp 
         $dateMinArchived = Date::factory('2010-02-01 05:30:00');
-        $this->assertEquals($archiveProcessor->public_getMinTimeArchiveProcessed() + 1, $dateMinArchived->getTimestamp());
+        $this->assertEquals($dateMinArchived->getTimestamp(), $archiveProcessor->public_getMinTimeArchiveProcessed() + 1);
 
         $this->assertEquals('2010-01-01 05:30:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
         $this->assertEquals('2010-02-01 05:29:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
@@ -200,16 +201,12 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed() );
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
 
-        // when browsers don't trigger archives, we force ArchiveProcessor
-        // to fetch any of the most recent archive
+        // when browsers don't trigger archives...
         Rules::setBrowserTriggerArchiving(false);
-        // see isArchivingDisabled()
-        // Running in CLI doesn't impact the time to live today's archive we are loading
-        // From CLI, we will not return data that is 'stale' 
-        if (!Common::isPhpCliMode()) {
-            $dateMinArchived = 0;
-        }
-        $this->compareTimestamps($archiveProcessor->public_getMinTimeArchiveProcessed(), $dateMinArchived);
+        // ...we force ArchiveProcessor to fetch any of the most recent archive
+        $dateMinArchived = false;
+
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
 
         $this->assertEquals(date('Y-m-d', $timestamp) . ' 01:00:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
         $this->assertEquals(date('Y-m-d', $timestamp + 86400) . ' 00:59:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
@@ -238,19 +235,14 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
 
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Rules::getTodayArchiveTimeToLive();
-        $minTimeArchivedProcessed = $archiveProcessor->public_getMinTimeArchiveProcessed();
-        $this->compareTimestamps($dateMinArchived, $minTimeArchivedProcessed);
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
 
-        // when browsers don't trigger archives, we force ArchiveProcessor
-        // to fetch any of the most recent archive
+        // when browsers don't trigger archives...
         Rules::setBrowserTriggerArchiving(false);
-        // see isArchivingDisabled()
-        // Running in CLI doesn't impact the time to live today's archive we are loading
-        // From CLI, we will not return data that is 'stale'
-        if (!Common::isPhpCliMode()) {
-            $dateMinArchived = 0;
-        }
+        // ...we force ArchiveProcessor to fetch any of the most recent archive
+        $dateMinArchived = false;
+
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
 
         // this test varies with DST
@@ -287,15 +279,10 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed() );
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
 
-        // when browsers don't trigger archives, we force ArchiveProcessor
-        // to fetch any of the most recent archive
+        // when browsers don't trigger archives...
         Rules::setBrowserTriggerArchiving(false);
-        // see isArchivingDisabled()
-        // Running in CLI doesn't impact the time to live today's archive we are loading
-        // From CLI, we will not return data that is 'stale'
-        if (!Common::isPhpCliMode()) {
-            $dateMinArchived = 0;
-        }
+        // ...we force ArchiveProcessor to fetch any of the most recent archive
+        $dateMinArchived = false;
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
 
         // this test varies with DST
