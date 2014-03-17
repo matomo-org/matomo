@@ -60,7 +60,10 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
                 $siteUrl = 'http://example-site-two.com');
         }
     }
-    
+
+    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=returning;daysSinceFirstVisit<=50';
+    const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50';
+
     public function getDefaultSegments()
     {
         return array(
@@ -68,10 +71,22 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
                                             'idSite'          => $this->idSite,
                                             'autoArchive'     => true,
                                             'enabledAllUsers' => true),
+
             'segmentNoAutoArchive' => array('definition'      => 'customVariableName1==Not-bot',
                                             'idSite'          => false,
                                             'autoArchive'     => false,
-                                            'enabledAllUsers' => true)
+                                            'enabledAllUsers' => true),
+
+            'segmentAutoArchiveComposed' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
+                                                  'idSite'          => false,
+                                                  'autoArchive'     => true,
+                                                  'enabledAllUsers' => true),
+
+            'segmentAutoArchiveContainsEncoded' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
+                                                  'idSite'          => false,
+                                                  'autoArchive'     => true,
+                                                  'enabledAllUsers' => true)
+
             // fails randomly and I really could not find why.
 //            'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),
 //                                            'idSite'          => false,
