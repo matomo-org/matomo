@@ -96,7 +96,8 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
             $translationWriter->saveTemporary();
             $this->fail(implode("\n", $translationWriter->getFilterMessages()) . "\n"
                 . 'Translation file errors detected in ' . $language . "...\n"
-                . "To overwrite you could manually fix the language files, or run the following command may work if you have access to oTrance: \n $ ./console translations:update \n");
+                . "To overwrite you could manually fix the language files, or run the following command may work if you have access to oTrance: \n"
+                . "$ ./console translations:update [--plugin=XYZ] \n");
         }
     }
 
