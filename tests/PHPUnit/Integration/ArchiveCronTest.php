@@ -41,17 +41,34 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 //
 //        }
 
+
+
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
                                                       'periods'    => array('day', 'week', 'month', 'year'),
                                                       'segment'    => 'browserCode==EP',
                                                       'testSuffix' => '_nonPreArchivedSegment'));
 
+        // Test with a pre-processed segment
+        $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails'),
+                           array('idSite'     => '1',
+                                 'date'       => '2012-08-09',
+                                 'periods'    => array('day', 'week', 'month', 'year'),
+                                 'segment'    => Test_Piwik_Fixture_ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
+                                 'testSuffix' => '_preArchivedSegment'));
+
+        // Different segment, but returns the same data set (so keep same suffix)
+        $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails'),
+                           array('idSite'     => '1',
+                                 'date'       => '2012-08-09',
+                                 'periods'    => array('day', 'week', 'month', 'year'),
+                                 'segment'    => Test_Piwik_Fixture_ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
+                                 'testSuffix' => '_preArchivedSegment'));
 
         // API Call Without segments
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
-                                                      'periods' => array('day', 'week', 'month', 'year')));
+                                                      'periods' => array('day', 'month', 'year', 'week')));
 
         return $results;
     }
@@ -89,14 +106,9 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             $params['testSuffix'] .= '_' . $optionGroupName;
             $params['disableArchiving'] = true;
 
-            // only do day for the last 3 option groups
-            if ($optionGroupName != 'noOptions') {
-                $params['periods'] = array('day');
-            }
-
             $success = $this->runApiTests($api, $params);
 
-            if(!$success) {
+            if (!$success) {
                 var_dump($output);
             }
         }
