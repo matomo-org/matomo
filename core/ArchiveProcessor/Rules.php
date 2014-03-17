@@ -245,12 +245,11 @@ class Rules
             return false;
         }
         $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
-        $isArchivingDisabled = !self::isRequestAuthorizedToArchive();
+        $isArchivingDisabled = !self::isRequestAuthorizedToArchive() || self::$archivingDisabledByTests;
 
         if ($processOneReportOnly) {
-            // When there is a segment, archiving is not necessary allowed
-            // If browser archiving is allowed, then archiving is enabled
-            // if browser archiving is not allowed, then archiving is disabled
+
+            // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
             if (!$segment->isEmpty()
                 && $isArchivingDisabled
                 && Config::getInstance()->General['browser_archiving_disabled_enforce']
@@ -258,6 +257,8 @@ class Rules
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
                 return true;
             }
+
+            // Always allow processing one report
             return false;
         }
         return $isArchivingDisabled;
@@ -265,10 +266,7 @@ class Rules
 
     protected static function isRequestAuthorizedToArchive()
     {
-        return !self::$archivingDisabledByTests &&
-        (Rules::isBrowserTriggerEnabled()
-            || Common::isPhpCliMode()
-            || SettingsServer::isArchivePhpTriggered());
+        return Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
     }
 
     public static function isBrowserTriggerEnabled()
