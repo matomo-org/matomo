@@ -77,15 +77,15 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
 
-            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
-                                                  'idSite'          => 1,
-                                                  'autoArchive'     => true,
-                                                  'enabledAllUsers' => true),
-
-            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
-                                                  'idSite'          => 1,
-                                                  'autoArchive'     => true,
-                                                  'enabledAllUsers' => true)
+//            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
+//                                                  'idSite'          => 1,
+//                                                  'autoArchive'     => true,
+//                                                  'enabledAllUsers' => true),
+//
+//            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
+//                                                  'idSite'          => 1,
+//                                                  'autoArchive'     => true,
+//                                                  'enabledAllUsers' => true)
 
             // fails randomly and I really could not find why.
 //            'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),
