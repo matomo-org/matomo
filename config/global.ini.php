@@ -352,6 +352,9 @@ overlay_following_pages_limit = 300
 ; With this option, you can disable the framed mode of the Overlay plugin. Use it if your website contains a framebuster.
 overlay_disable_framed_mode = 0
 
+; By default we check whether the Custom logo is writable or not, before we display the Custom logo file uploader
+enable_custom_logo_check = 1
+
 ; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
 ; Mysql will try to load the chrooted path (which is imcomplete). To prevent an error, here you can specify the
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'

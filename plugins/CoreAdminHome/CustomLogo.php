@@ -79,6 +79,9 @@ class CustomLogo
      */
     public function isCustomLogoWritable()
     {
+        if(Config::getInstance()->General['enable_custom_logo_check'] == 0) {
+            return true;
+        }
         $pathUserLogo = $this->getPathUserLogo();
 
         $directoryWritingTo = PIWIK_DOCUMENT_ROOT . '/' . dirname($pathUserLogo);
