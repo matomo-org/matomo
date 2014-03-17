@@ -537,6 +537,9 @@ class Log extends Singleton
 
     private static function logMessage($level, $message, $sprintfParams)
     {
+        if(!is_string($message)) {
+            $message = var_export($message, true);
+        }
         self::getInstance()->doLog($level, $message, $sprintfParams);
     }
 
