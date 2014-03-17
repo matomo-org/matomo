@@ -74,28 +74,15 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         return $results;
     }
 
-    public function getArchivePhpCronOptionsToTest()
-    {
-        return array(
-            array('noOptions', array()),
-            // segment archiving makes calling the script more than once impractical. if all 4 are
-            // called, this test can take up to 13min to complete.
-            /*array('forceAllWebsites', array('--force-all-websites' => false)),
-            array('forceAllPeriods_lastDay', array('--force-all-periods' => '86400')),
-            array('forceAllPeriods_allTime', array('--force-all-periods' => false)),*/
-        );
-    }
-
     /**
-     * @dataProvider getArchivePhpCronOptionsToTest
      * @group        Integration
      */
-    public function testArchivePhpCron($optionGroupName, $archivePhpOptions)
+    public function testArchivePhpCron()
     {
         self::deleteArchiveTables();
 
         $this->setLastRunArchiveOptions();
-        $output = $this->runArchivePhpCron($archivePhpOptions);
+        $output = $this->runArchivePhpCron();
 
         foreach ($this->getApiForTesting() as $testInfo) {
 
@@ -104,7 +91,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             if (!isset($params['testSuffix'])) {
                 $params['testSuffix'] = '';
             }
-            $params['testSuffix'] .= '_' . $optionGroupName;
+            $params['testSuffix'] .= '_noOptions';
             $params['disableArchiving'] = true;
 
             $success = $this->runApiTests($api, $params);
@@ -133,21 +120,13 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         }
     }
 
-    private function runArchivePhpCron($options)
+    private function runArchivePhpCron()
     {
         $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
-        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" ";
-        foreach ($options as $name => $value) {
-            $cmd .= $name;
-            if ($value !== false) {
-                $cmd .= '="' . $value . '"';
-            }
-            $cmd .= ' ';
-        }
-        $cmd .= '2>&1';
+        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" 2>&1";
 
         // run the command
         exec($cmd, $output, $result);
