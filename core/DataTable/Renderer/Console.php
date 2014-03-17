@@ -152,11 +152,13 @@ class Console extends Renderer
         $metadata = $table->getAllTableMetadata();
         if (!empty($metadata)) {
             $output .= "<hr />Metadata<br />";
-            foreach ($metadata as $id => $metadata) {
+            foreach ($metadata as $id => $metadataIn) {
                 $output .= "<br />";
                 $output .= $prefix . " <b>$id</b><br />";
-                foreach ($metadata as $name => $value) {
-                    $output .= $prefix . $prefix . "$name => $value";
+                if(is_array($metadataIn)) {
+                    foreach ($metadataIn as $name => $value) {
+                        $output .= $prefix . $prefix . "$name => $value";
+                    }
                 }
             }
         }
