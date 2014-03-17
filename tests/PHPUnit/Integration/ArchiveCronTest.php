@@ -69,7 +69,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         // API Call Without segments
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
-                                                      'periods' => array('day', 'week', 'month', 'year')));
+                                                      'periods' => array('day', 'month', 'year', 'week')));
 
         return $results;
     }
@@ -130,7 +130,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 
         // run the command
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0 || stripos($result, "error")) {
             throw new Exception("archive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
         }
 
