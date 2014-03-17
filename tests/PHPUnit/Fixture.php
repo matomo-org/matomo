@@ -241,7 +241,9 @@ class Fixture extends PHPUnit_Framework_Assert
 
         // Install plugins
         $messages = $pluginsManager->installLoadedPlugins();
-        Log::info("Plugin loading messages: %s", implode(" --- ", $messages));
+        if(!empty($messages)) {
+            Log::info("Plugin loading messages: %s", implode(" --- ", $messages));
+        }
 
         // Activate them
         foreach($plugins as $name) {
