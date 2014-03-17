@@ -592,6 +592,105 @@
 		<uniqueId>Actions_getDownloads</uniqueId>
 	</row>
 	<row>
+		<category>Site Search</category>
+		<name>Site Search Keywords</name>
+		<module>Actions</module>
+		<action>getSiteSearchKeywords</action>
+		<dimension>Keyword</dimension>
+		<metrics>
+			<nb_visits>Searches</nb_visits>
+			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
+			<exit_rate>% Search Exits</exit_rate>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>The number of visits that searched for this keyword on your website's search engine.</nb_visits>
+			<nb_pages_per_search>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</nb_pages_per_search>
+			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
+		</metricsDocumentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;http://piwik.org/docs/site-search/&quot; target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getSiteSearchKeywords</uniqueId>
+	</row>
+	<row>
+		<category>Site Search</category>
+		<name>Search Keywords with No Results</name>
+		<module>Actions</module>
+		<action>getSiteSearchNoResultKeywords</action>
+		<dimension>Keyword with No Search Result</dimension>
+		<metrics>
+			<nb_visits>Searches</nb_visits>
+			<exit_rate>% Search Exits</exit_rate>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>The number of visits that searched for this keyword on your website's search engine.</nb_visits>
+			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
+		</metricsDocumentation>
+		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getSiteSearchNoResultKeywords</uniqueId>
+	</row>
+	<row>
+		<category>Site Search</category>
+		<name>Search Categories</name>
+		<module>Actions</module>
+		<action>getSiteSearchCategories</action>
+		<dimension>Search Category</dimension>
+		<metrics>
+			<nb_visits>Searches</nb_visits>
+			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
+			<exit_rate>% Search Exits</exit_rate>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>The number of visits that searched for this keyword on your website's search engine.</nb_visits>
+			<nb_pages_per_search>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</nb_pages_per_search>
+			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
+		</metricsDocumentation>
+		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getSiteSearchCategories</uniqueId>
+	</row>
+	<row>
+		<category>Site Search</category>
+		<name>Pages Following a Site Search</name>
+		<module>Actions</module>
+		<action>getPageUrlsFollowingSiteSearch</action>
+		<dimension>Destination Page</dimension>
+		<metrics>
+			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
+			<nb_hits>Total Pageviews</nb_hits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+		</metricsDocumentation>
+		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrlsFollowingSiteSearch&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrlsFollowingSiteSearch&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getPageUrlsFollowingSiteSearch</uniqueId>
+	</row>
+	<row>
+		<category>Site Search</category>
+		<name>Page Titles Following a Site Search</name>
+		<module>Actions</module>
+		<action>getPageTitlesFollowingSiteSearch</action>
+		<dimension>Destination Page</dimension>
+		<metrics>
+			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
+			<nb_hits>Total Pageviews</nb_hits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+		</metricsDocumentation>
+		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitlesFollowingSiteSearch&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitlesFollowingSiteSearch&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getPageTitlesFollowingSiteSearch</uniqueId>
+	</row>
+	<row>
 		<category>Referrers</category>
 		<name>Referrer Type</name>
 		<module>Referrers</module>
