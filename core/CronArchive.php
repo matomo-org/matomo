@@ -297,12 +297,7 @@ Notes:
                 $skipped++;
                 continue;
             }
-            $metricsToday = end($response);
-            if(empty($metricsToday)) {
-                $visitsToday = 0;
-            } else {
-                $visitsToday = $metricsToday['nb_visits'];
-            }
+            $visitsToday = $this->getVisitsFromApiResponse($response);
 
             $this->requests++;
             $processed++;
@@ -543,7 +538,7 @@ Notes:
         $url .= $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed);
         $url .= self::APPEND_TO_API_REQUEST;
 
-        $visitsAllDaysInPeriod = false;
+        $visitsInLastPeriod = 0;
         $noSegmentUrl = '';
         $success = true;
 
@@ -552,7 +547,7 @@ Notes:
         // already processed above for "day"
         if ($period != "day") {
             $noSegmentUrl = $url;
-            $urls [] = $url;
+            $urls[] = $url;
             $this->requests++;
         }
 
@@ -576,12 +571,13 @@ Notes:
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
                 }
-                $visitsAllDaysInPeriod = @array_sum($stats);
+
+                $visitsInLastPeriod = $this->getVisitsFromApiResponse($stats);
             }
         }
 
         $this->log("Archived website id = $idsite, period = $period, "
-            . ($period != "day" ? (int)$visitsAllDaysInPeriod . " visits, " : "")
+            . ($period != "day" ? (int)$visitsInLastPeriod . " visits, " : "")
             . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
 
         return $success;
@@ -1100,6 +1096,17 @@ Notes:
     {
         $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
             . "\n--help for more information", $backtrace = false);
+    }
+
+    private function getVisitsFromApiResponse($stats)
+    {
+        $metricsToday = end($stats);
+        if (empty($metricsToday)) {
+            $visitsToday = 0;
+        } else {
+            $visitsToday = $metricsToday['nb_visits'];
+        }
+        return $visitsToday;
     }
 
 }
