@@ -27,7 +27,8 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
             evolutionMetric: '=',
             showSparklines: '=',
             dateSparkline: '=',
-            displayRevenueColumn: '='
+            displayRevenueColumn: '=',
+            metric: '='
         },
         templateUrl: 'plugins/MultiSites/angularjs/site/site.html?cb=' + piwik.cacheBuster,
         controller: function ($scope) {
@@ -47,7 +48,7 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
                     append = '&token_auth=' + token_auth;
                 }
 
-                return piwik.piwik_url + '?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' +$scope.evolutionMetric + '&columns=' + $scope.evolutionMetric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
+                return piwik.piwik_url + '?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' +$scope.metric + '&columns=' + $scope.metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
             }
         }
     }
