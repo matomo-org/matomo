@@ -136,8 +136,9 @@ class Core_CliMultiTest extends IntegrationTestCase
 
         $response = $this->cliMulti->request($urls);
 
-        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Piwik - Open Source Web Analytics"/>'));
-        $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard'));
+        $message = "Response was: " . substr($response, 0, 4000);
+        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Piwik - Open Source Web Analytics"/>'), $message);
+        $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard'). $message);
     }
 
     public function test_shouldFallback_IfAsyncIsNotSupported()
