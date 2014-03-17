@@ -241,9 +241,6 @@ class Rules
         if ($periodLabel == 'range') {
             return false;
         }
-        if( SettingsServer::isArchivePhpTriggered() ) {
-            return false;
-        }
         $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
         $isArchivingDisabled = !self::isRequestAuthorizedToArchive() || self::$archivingDisabledByTests;
 
@@ -253,6 +250,7 @@ class Rules
             if (!$segment->isEmpty()
                 && $isArchivingDisabled
                 && Config::getInstance()->General['browser_archiving_disabled_enforce']
+                && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running archive.php
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
                 return true;

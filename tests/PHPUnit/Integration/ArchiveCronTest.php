@@ -60,10 +60,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
                                      'date'       => '2012-08-09',
-
-                                     // test for this bug http://dev.piwik.org/trac/ticket/4857 (with period != range)
-                                     'disableArchivingEnforced' => true,
-
                                      'periods'    => array('day', 'year'),
                                      'segment'    => $segment,
                                      'testSuffix' => '_preArchivedSegment'));
