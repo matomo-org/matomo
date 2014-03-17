@@ -11,7 +11,11 @@ use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
 
 /**
- * Tests the archive.php cron script.
+ * Tests to call the archive.php cron script and check there is no error,
+ * Then call the API testing for "Browser archiving is disabled" (see disableArchiving)
+ * This tests that, when archiving is disabled,
+ *  then Piwik API will return data that was pre-processed during archive.php run
+ *
  */
 class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 {
@@ -42,6 +46,11 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 //        }
 
 
+        // API Call Without segments
+        // TODO uncomment week and year period
+        $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
+                                                      'date'    => '2012-08-09',
+                                                      'periods' => array('day', 'month', /* 'year',  'week' */)));
 
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
@@ -65,11 +74,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                                      'testSuffix' => '_preArchivedSegment'));
         }
 
-
-        // API Call Without segments
-        $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
-                                                      'date'    => '2012-08-09',
-                                                      'periods' => array('day', 'month', 'year', 'week')));
 
         return $results;
     }
@@ -107,7 +111,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         $periodTypes = array('day', 'periods');
         $idSites = API::getInstance()->getAllSitesId();
 
-        $daysAgoArchiveRanSuccessfully = 500;
+        $daysAgoArchiveRanSuccessfully = 1500;
         $this->assertTrue($daysAgoArchiveRanSuccessfully > (\Piwik\CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400));
         $time = Date::factory(self::$fixture->dateTime)->subDay($daysAgoArchiveRanSuccessfully)->getTimestamp();
 
