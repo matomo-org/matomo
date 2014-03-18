@@ -302,6 +302,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 totalWidth = totalWidthTable;
             }
 
+            if (!totalWidth) {
+                totalWidth = 0;
+            }
+
             return parseInt(totalWidth, 10);
         }
 
@@ -322,7 +326,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = tableWidth * 0.5;
             }
 
-            if (labelWidth > maxLabelWidth && -1 == location.search.indexOf('module=Widgetize')) {
+            if (labelWidth > maxLabelWidth
+                && -1 == location.search.indexOf('module=Widgetize')
+                && !domElem.parents('#dashboardWidgetsArea').length) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
