@@ -297,7 +297,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var minLabelWidth = 125;
         var maxLabelWidth = 440;
 
-        var totalWidth = domElem.width();
+        var totalWidth = $(domElem).width();
+        var totalWidthTable = $('table.dataTable', domElem).width();
+
+        if (totalWidthTable < totalWidth) {
+            totalWidth = totalWidthTable;
+        }
+
         var labelWidth = minLabelWidth;
 
         var widthOfAllOtherColumns = 0;
