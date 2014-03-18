@@ -322,7 +322,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = tableWidth * 0.5;
             }
 
-            if (labelWidth > maxLabelWidth && -1 == location.search.indexOf('&widget=1')) {
+            if (labelWidth > maxLabelWidth && -1 == location.search.indexOf('module=Widgetize')) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
