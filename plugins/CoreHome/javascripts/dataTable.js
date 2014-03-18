@@ -312,7 +312,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             labelWidth = totalWidth * 0.5;
         }
 
-        if (labelWidth > maxLabelWidth) {
+        if (labelWidth > maxLabelWidth && -1 == location.search.indexOf('&widget=1')) {
             labelWidth = maxLabelWidth;
         }
 
