@@ -295,7 +295,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     setFixWidthToMakeEllipsisWork: function (domElem) {
         var minLabelWidth = 125;
-        var maxLabelWidth = 400;
+        var maxLabelWidth = 440;
 
         var totalWidth = domElem.width();
         var labelWidth = minLabelWidth;
