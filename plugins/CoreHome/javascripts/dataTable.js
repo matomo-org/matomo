@@ -267,7 +267,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
      - such as column sorting, searching in the rows, displaying Next / Previous links, etc.
      - add styles to the cells and rows (odd / even styles)
      - modify some rows to add images if a span img is found, or add a link if a span urlLink is found
-     or truncate the labels when they are too big
      - bind new events onclick / hover / etc. to trigger AJAX requests,
      nice hovertip boxes for truncated cells
      */
@@ -290,29 +289,31 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 		self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
-        self.setFixWidthToMakeEllipsisWork(domElem);
         self.handleColumnHighlighting(domElem);
+        self.setFixWidthToMakeEllipsisWork(domElem);
     },
 
     setFixWidthToMakeEllipsisWork: function (domElem) {
+        var minLabelWidth = 125;
+        var maxLabelWidth = 400;
 
         var totalWidth = domElem.width();
-        var labelWidth = 125;
+        var labelWidth = minLabelWidth;
 
         var widthOfAllOtherColumns = 0;
-        var rows = $('tr:nth-child(1) td:not(.label)', domElem);
-        rows.each(function (index, row) {
-            widthOfAllOtherColumns += $(row).outerWidth();
+        var columnsFromFirstRow = $('tr:nth-child(1) td:not(.label)', domElem);
+        columnsFromFirstRow.each(function (index, column) {
+            widthOfAllOtherColumns += $(column).outerWidth();
         });
 
-        if (totalWidth - widthOfAllOtherColumns >= 125) {
+        if (totalWidth - widthOfAllOtherColumns >= minLabelWidth) {
             labelWidth = totalWidth - widthOfAllOtherColumns;
         } else if (widthOfAllOtherColumns >= totalWidth) {
             labelWidth = totalWidth * 0.5;
         }
 
-        if (labelWidth > 400) {
-            labelWidth = 400;
+        if (labelWidth > maxLabelWidth) {
+            labelWidth = maxLabelWidth;
         }
 
         var minWidthHead = $('thead .first.label', domElem).css('minWidth');
@@ -324,7 +325,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         }
 
-        var minWidthBody = $('tbody tr:nth-child(1) td.label', domElem).css('minWidth');
+        var firstLabelWithinBody = $('tbody tr:nth-child(1) td.label', domElem);
+
+        var minWidthBody = firstLabelWithinBody.css('minWidth');
 
         if (minWidthBody) {
             minWidthBody = minWidthBody.replace('px', '');
@@ -333,16 +336,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         }
 
-        var paddingLeft = $('tbody tr:nth-child(1) td.label', domElem).css('paddingLeft');
+        var paddingLeft = firstLabelWithinBody.css('paddingLeft');
         if (paddingLeft) {
-            paddingLeft = paddingLeft.replace('px', '');
+            paddingLeft = ('' + paddingLeft).replace('px', '');
         } else {
             paddingLeft = 0;
         }
 
-        var paddingRight = $('tbody tr:nth-child(1) td.label', domElem).css('paddingRight');
+        var paddingRight = firstLabelWithinBody.css('paddingRight');
         if (paddingRight) {
-            paddingRight = paddingRight.replace('px', '');
+            paddingRight = ('' + paddingRight).replace('px', '');
         } else {
             paddingRight = 0;
         }
@@ -352,6 +355,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (labelWidth) {
             $('td.label', domElem).width(parseInt(labelWidth, 10));
         }
+
+        var self = this;
+        $('td span.label', domElem).each(function () { self.tooltip($(this)); });
     },
 
     handleLimit: function (domElem) {
@@ -1164,61 +1170,28 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         widget.trigger('setParameters', parameters);
     },
 
-    truncate: function (domElemToTruncate, truncationOffset) {
-        var self = this;
+    tooltip: function (domElement) {
+        var $domElement = $(domElement);
 
-        domElemToTruncate = $(domElemToTruncate);
-
-        if (typeof domElemToTruncate.data('originalText') != 'undefined') {
-            // truncate only once. otherwise, the tooltip will show the truncated text as well.
+        if ($domElement.data('tooltip') == 'enabled') {
             return;
         }
 
-        if(domElemToTruncate.find('.truncationDisabled').length > 0) {
+        $domElement.data('tooltip', 'enabled');
+
+        if ($domElement && $domElement[0] && $domElement.outerWidth() >= $domElement[0].scrollWidth) {
+            // text is not ellipsized
             return;
         }
 
-        /*
-        // make the original text (before truncation) available for others.
-        // the .truncate plugins adds a title to the dom element but the .tooltip
-        // plugin removes that again.
-        domElemToTruncate.data('originalText', domElemToTruncate.text());
+        var customToolTipText = $domElement.attr('title') || $domElement.text();
 
-        if (typeof truncationOffset == 'undefined') {
-            truncationOffset = 0;
-        }
-        var truncationLimit = 50;
-
-        if (typeof self.param.idSubtable == 'undefined'
-            && self.param.viewDataTable == 'tableAllColumns') {
-            // when showing all columns in a subtable, space is restricted
-            truncationLimit = 25;
-        }
-
-        truncationLimit += truncationOffset;
-        domElemToTruncate.truncate(truncationLimit);
-
-        var tooltipElem = $('.truncated', domElemToTruncate),
-            customToolTipText = domElemToTruncate.attr('title');
-        */
-
-        var tooltipElem = domElemToTruncate,
-            customToolTipText = domElemToTruncate.text();
-
-        // if there's a title on the dom element, use this as the tooltip instead of
-        // the one set by the truncate plugin
         if (customToolTipText) {
-            // make sure browser doesn't add its own tooltip for the truncated element
-            if (tooltipElem[0]) {
-                tooltipElem.removeAttr('title');
-            }
-
-            tooltipElem = domElemToTruncate;
-            tooltipElem.attr('title', customToolTipText);
+            $domElement.attr('title', customToolTipText);
         }
 
         // use tooltip (tooltip text determined by the 'title' attribute)
-        tooltipElem.tooltip({
+        $domElement.tooltip({
             track: true,
             show: false,
             hide: false
@@ -1236,8 +1209,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $("td:first-child:even", domElem).addClass('label labelodd');
         $("tr:odd td", domElem).slice(1).addClass('column columnodd');
         $("tr:even td", domElem).slice(1).addClass('column columneven');
-
-        $('td span.label', domElem).each(function () { self.truncate($(this)); });
     },
 
     handleColumnHighlighting: function (domElem) {

@@ -100,7 +100,6 @@
             rowsWithSubtables.css('font-weight', 'bold');
 
             $("th:first-child", domElem).addClass('label');
-            $('td span.label', domElem).each(function () { self.truncate($(this)); });
             var imagePlusMinusWidth = 12;
             var imagePlusMinusHeight = 12;
             $('td:first-child', rowsWithSubtables)
