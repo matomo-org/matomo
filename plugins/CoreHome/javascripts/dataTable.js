@@ -294,72 +294,92 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     setFixWidthToMakeEllipsisWork: function (domElem) {
+        function getTableWidth(domElem) {
+            var totalWidth      = $(domElem).width();
+            var totalWidthTable = $('table.dataTable', domElem).width(); // fixes tables in dbstats, referrers, ...
+
+            if (totalWidthTable < totalWidth) {
+                totalWidth = totalWidthTable;
+            }
+
+            return parseInt(totalWidth, 10);
+        }
+
+        function getLabelWidth(domElem, tableWidth, minLabelWidth, maxLabelWidth)
+        {
+            var labelWidth = minLabelWidth;
+
+            var columnsInFirstRow = $('tr:nth-child(1) td:not(.label)', domElem);
+
+            var widthOfAllColumns = 0;
+            columnsInFirstRow.each(function (index, column) {
+                widthOfAllColumns += $(column).outerWidth();
+            });
+
+            if (tableWidth - widthOfAllColumns >= minLabelWidth) {
+                labelWidth = tableWidth - widthOfAllColumns;
+            } else if (widthOfAllColumns >= tableWidth) {
+                labelWidth = tableWidth * 0.5;
+            }
+
+            if (labelWidth > maxLabelWidth && -1 == location.search.indexOf('&widget=1')) {
+                labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
+            }
+
+            return parseInt(labelWidth, 10);
+        }
+
+        function getLabelColumnMinWidth(domElem)
+        {
+            var minWidth = 0;
+            var minWidthHead = $('thead .first.label', domElem).css('minWidth');
+
+            if (minWidthHead) {
+                minWidth = parseInt(minWidthHead, 10);
+            }
+
+            var minWidthBody = $('tbody tr:nth-child(1) td.label', domElem).css('minWidth');
+
+            if (minWidthBody) {
+                minWidthBody = parseInt(minWidthBody, 10);
+                if (minWidthBody && minWidthBody > minWidth) {
+                    minWidth = minWidthBody;
+                }
+            }
+
+            return parseInt(minWidth, 10);
+        }
+
+        function removePaddingFromWidth(domElem, labelWidth) {
+
+            var firstLabel = $('tbody tr:nth-child(1) td.label', domElem);
+            
+            var paddingLeft = firstLabel.css('paddingLeft');
+            paddingLeft     = paddingLeft ? parseInt(paddingLeft, 10) : 0;
+
+            var paddingRight = firstLabel.css('paddingRight');
+            paddingRight     = paddingRight ? parseInt(paddingRight, 10) : 0;
+
+            labelWidth = labelWidth - paddingLeft - paddingRight;
+
+            return labelWidth;
+        }
+
         var minLabelWidth = 125;
         var maxLabelWidth = 440;
 
-        var totalWidth = $(domElem).width();
-        var totalWidthTable = $('table.dataTable', domElem).width();
+        var tableWidth          = getTableWidth(domElem);
+        var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
+        var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
 
-        if (totalWidthTable < totalWidth) {
-            totalWidth = totalWidthTable;
+        if (labelColumnMinWidth > labelColumnWidth) {
+            labelColumnWidth = labelColumnMinWidth;
         }
 
-        var labelWidth = minLabelWidth;
+        labelColumnWidth = removePaddingFromWidth(domElem, labelColumnWidth);
 
-        var widthOfAllOtherColumns = 0;
-        var columnsFromFirstRow = $('tr:nth-child(1) td:not(.label)', domElem);
-        columnsFromFirstRow.each(function (index, column) {
-            widthOfAllOtherColumns += $(column).outerWidth();
-        });
-
-        if (totalWidth - widthOfAllOtherColumns >= minLabelWidth) {
-            labelWidth = totalWidth - widthOfAllOtherColumns;
-        } else if (widthOfAllOtherColumns >= totalWidth) {
-            labelWidth = totalWidth * 0.5;
-        }
-
-        if (labelWidth > maxLabelWidth && -1 == location.search.indexOf('&widget=1')) {
-            labelWidth = maxLabelWidth;
-        }
-
-        var minWidthHead = $('thead .first.label', domElem).css('minWidth');
-
-        if (minWidthHead) {
-            minWidthHead = minWidthHead.replace('px', '');
-            if (minWidthHead > labelWidth) {
-                labelWidth = minWidthHead;
-            }
-        }
-
-        var firstLabelWithinBody = $('tbody tr:nth-child(1) td.label', domElem);
-
-        var minWidthBody = firstLabelWithinBody.css('minWidth');
-
-        if (minWidthBody) {
-            minWidthBody = minWidthBody.replace('px', '');
-            if (minWidthBody > labelWidth) {
-                labelWidth = minWidthBody;
-            }
-        }
-
-        var paddingLeft = firstLabelWithinBody.css('paddingLeft');
-        if (paddingLeft) {
-            paddingLeft = ('' + paddingLeft).replace('px', '');
-        } else {
-            paddingLeft = 0;
-        }
-
-        var paddingRight = firstLabelWithinBody.css('paddingRight');
-        if (paddingRight) {
-            paddingRight = ('' + paddingRight).replace('px', '');
-        } else {
-            paddingRight = 0;
-        }
-
-        labelWidth = labelWidth - paddingLeft - paddingRight;
-
-        if (labelWidth) {
-            $('td.label', domElem).width(parseInt(labelWidth, 10));
+        if (labelColumnWidth) {
+            $('td.label', domElem).width(labelColumnWidth);
         }
 
         var self = this;
@@ -1177,6 +1197,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     tooltip: function (domElement) {
+
+        function isTextEllipsized($element)
+        {
+            return !($element && $element[0] && $element.outerWidth() >= $element[0].scrollWidth);
+        }
+
         var $domElement = $(domElement);
 
         if ($domElement.data('tooltip') == 'enabled') {
@@ -1185,8 +1211,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $domElement.data('tooltip', 'enabled');
 
-        if ($domElement && $domElement[0] && $domElement.outerWidth() >= $domElement[0].scrollWidth) {
-            // text is not ellipsized
+        if (!isTextEllipsized($domElement)) {
             return;
         }
 
@@ -1196,7 +1221,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $domElement.attr('title', customToolTipText);
         }
 
-        // use tooltip (tooltip text determined by the 'title' attribute)
         $domElement.tooltip({
             track: true,
             show: false,
