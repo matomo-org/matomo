@@ -67,7 +67,6 @@
                     self.onClickActionSubDataTable(this)
                 }).size();
             }
-
             self.applyCosmetics(domElem, rows);
             self.handleColumnHighlighting(domElem);
             self.handleRowActions(domElem, rows);
@@ -90,6 +89,7 @@
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);
+            self.setFixWidthToMakeEllipsisWork(domElem);
         },
 
         //see dataTable::applyCosmetics

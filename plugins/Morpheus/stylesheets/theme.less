@@ -424,6 +424,14 @@ table.dataTable {
             a {
                 text-decoration: none !important;
                 color: @brand-blue;
+
+              .label {
+                word-break: break-all;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: inherit;
+                display: inline-block;
+              }
             }
         }
         & td.columneven,

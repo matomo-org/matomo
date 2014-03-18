@@ -290,7 +290,68 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 		self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
+        self.setFixWidthToMakeEllipsisWork(domElem);
         self.handleColumnHighlighting(domElem);
+    },
+
+    setFixWidthToMakeEllipsisWork: function (domElem) {
+
+        var totalWidth = domElem.width();
+        var labelWidth = 125;
+
+        var widthOfAllOtherColumns = 0;
+        var rows = $('tr:nth-child(1) td:not(.label)', domElem);
+        rows.each(function (index, row) {
+            widthOfAllOtherColumns += $(row).outerWidth();
+        });
+
+        if (totalWidth - widthOfAllOtherColumns >= 125) {
+            labelWidth = totalWidth - widthOfAllOtherColumns;
+        } else if (widthOfAllOtherColumns >= totalWidth) {
+            labelWidth = totalWidth * 0.5;
+        }
+
+        if (labelWidth > 400) {
+            labelWidth = 400;
+        }
+
+        var minWidthHead = $('thead .first.label', domElem).css('minWidth');
+
+        if (minWidthHead) {
+            minWidthHead = minWidthHead.replace('px', '');
+            if (minWidthHead > labelWidth) {
+                labelWidth = minWidthHead;
+            }
+        }
+
+        var minWidthBody = $('tbody tr:nth-child(1) td.label', domElem).css('minWidth');
+
+        if (minWidthBody) {
+            minWidthBody = minWidthBody.replace('px', '');
+            if (minWidthBody > labelWidth) {
+                labelWidth = minWidthBody;
+            }
+        }
+
+        var paddingLeft = $('tbody tr:nth-child(1) td.label', domElem).css('paddingLeft');
+        if (paddingLeft) {
+            paddingLeft = paddingLeft.replace('px', '');
+        } else {
+            paddingLeft = 0;
+        }
+
+        var paddingRight = $('tbody tr:nth-child(1) td.label', domElem).css('paddingRight');
+        if (paddingRight) {
+            paddingRight = paddingRight.replace('px', '');
+        } else {
+            paddingRight = 0;
+        }
+
+        labelWidth = labelWidth - paddingLeft - paddingRight;
+
+        if (labelWidth) {
+            $('td.label', domElem).width(parseInt(labelWidth, 10));
+        }
     },
 
     handleLimit: function (domElem) {
@@ -1117,7 +1178,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-
+        /*
         // make the original text (before truncation) available for others.
         // the .truncate plugins adds a title to the dom element but the .tooltip
         // plugin removes that again.
@@ -1139,6 +1200,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var tooltipElem = $('.truncated', domElemToTruncate),
             customToolTipText = domElemToTruncate.attr('title');
+        */
+
+        var tooltipElem = domElemToTruncate,
+            customToolTipText = domElemToTruncate.text();
 
         // if there's a title on the dom element, use this as the tooltip instead of
         // the one set by the truncate plugin
@@ -1190,13 +1255,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 if (!maxWidth[nthChild]) {
                     maxWidth[nthChild] = 0;
-                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                    rows.find("td:nth-child(" + (nthChild) + ") .column .value").each(function (index, element) {
                         var width    = $(element).width();
                         if (width > maxWidth[nthChild]) {
                             maxWidth[nthChild] = width;
                         }
                     });
-                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                    rows.find("td:nth-child(" + (nthChild) + ") .column .value").each(function (index, element) {
                         $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
                     });
                 }
