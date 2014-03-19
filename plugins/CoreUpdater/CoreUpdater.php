@@ -33,7 +33,7 @@ class CoreUpdater extends \Piwik\Plugin
     {
         $hooks = array(
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',
-            'Updater.checkForUpdates'                    => 'updateCheck',
+            'Platform.initialized'                       => 'updateCheck',
             'Console.addCommands'                        => 'addConsoleCommands',
             'TaskScheduler.getScheduledTasks'            => 'getScheduledTasks',
         );

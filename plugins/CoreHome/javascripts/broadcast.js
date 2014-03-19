@@ -160,7 +160,7 @@ var broadcast = {
             // start page
             Piwik_Popover.close();
 
-            $('#content:not(.admin)').empty();
+            $('.pageWrap #content:not(.admin)').empty();
         }
     },
 
