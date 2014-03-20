@@ -267,7 +267,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
      - such as column sorting, searching in the rows, displaying Next / Previous links, etc.
      - add styles to the cells and rows (odd / even styles)
      - modify some rows to add images if a span img is found, or add a link if a span urlLink is found
-     or truncate the labels when they are too big
      - bind new events onclick / hover / etc. to trigger AJAX requests,
      nice hovertip boxes for truncated cells
      */
@@ -291,6 +290,109 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
         self.handleColumnHighlighting(domElem);
+        self.setFixWidthToMakeEllipsisWork(domElem);
+    },
+
+    setFixWidthToMakeEllipsisWork: function (domElem) {
+        function getTableWidth(domElem) {
+            var totalWidth      = $(domElem).width();
+            var totalWidthTable = $('table.dataTable', domElem).width(); // fixes tables in dbstats, referrers, ...
+
+            if (totalWidthTable < totalWidth) {
+                totalWidth = totalWidthTable;
+            }
+
+            if (!totalWidth) {
+                totalWidth = 0;
+            }
+
+            return parseInt(totalWidth, 10);
+        }
+
+        function getLabelWidth(domElem, tableWidth, minLabelWidth, maxLabelWidth)
+        {
+            var labelWidth = minLabelWidth;
+
+            var columnsInFirstRow = $('tr:nth-child(1) td:not(.label)', domElem);
+
+            var widthOfAllColumns = 0;
+            columnsInFirstRow.each(function (index, column) {
+                widthOfAllColumns += $(column).outerWidth();
+            });
+
+            if (tableWidth - widthOfAllColumns >= minLabelWidth) {
+                labelWidth = tableWidth - widthOfAllColumns;
+            } else if (widthOfAllColumns >= tableWidth) {
+                labelWidth = tableWidth * 0.5;
+            }
+
+            var isWidgetized  = -1 !== location.search.indexOf('module=Widgetize');
+            var isInDashboard = !!domElem.parents('#dashboardWidgetsArea').length;
+
+            if (labelWidth > maxLabelWidth
+                && !isWidgetized
+                && !isInDashboard) {
+                labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
+            }
+
+            return parseInt(labelWidth, 10);
+        }
+
+        function getLabelColumnMinWidth(domElem)
+        {
+            var minWidth = 0;
+            var minWidthHead = $('thead .first.label', domElem).css('minWidth');
+
+            if (minWidthHead) {
+                minWidth = parseInt(minWidthHead, 10);
+            }
+
+            var minWidthBody = $('tbody tr:nth-child(1) td.label', domElem).css('minWidth');
+
+            if (minWidthBody) {
+                minWidthBody = parseInt(minWidthBody, 10);
+                if (minWidthBody && minWidthBody > minWidth) {
+                    minWidth = minWidthBody;
+                }
+            }
+
+            return parseInt(minWidth, 10);
+        }
+
+        function removePaddingFromWidth(domElem, labelWidth) {
+
+            var firstLabel = $('tbody tr:nth-child(1) td.label', domElem);
+            
+            var paddingLeft = firstLabel.css('paddingLeft');
+            paddingLeft     = paddingLeft ? parseInt(paddingLeft, 10) : 0;
+
+            var paddingRight = firstLabel.css('paddingRight');
+            paddingRight     = paddingRight ? parseInt(paddingRight, 10) : 0;
+
+            labelWidth = labelWidth - paddingLeft - paddingRight;
+
+            return labelWidth;
+        }
+
+        var minLabelWidth = 125;
+        var maxLabelWidth = 440;
+
+        var tableWidth          = getTableWidth(domElem);
+        var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
+        var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
+
+        if (labelColumnMinWidth > labelColumnWidth) {
+            labelColumnWidth = labelColumnMinWidth;
+        }
+
+        labelColumnWidth = removePaddingFromWidth(domElem, labelColumnWidth);
+
+        if (labelColumnWidth) {
+            $('td.label', domElem).width(labelColumnWidth);
+        }
+
+        var self = this;
+        $('td span.label', domElem).each(function () { self.tooltip($(this)); });
     },
 
     handleLimit: function (domElem) {
@@ -1103,57 +1205,32 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         widget.trigger('setParameters', parameters);
     },
 
-    truncate: function (domElemToTruncate, truncationOffset) {
-        var self = this;
+    tooltip: function (domElement) {
 
-        domElemToTruncate = $(domElemToTruncate);
+        function isTextEllipsized($element)
+        {
+            return !($element && $element[0] && $element.outerWidth() >= $element[0].scrollWidth);
+        }
 
-        if (typeof domElemToTruncate.data('originalText') != 'undefined') {
-            // truncate only once. otherwise, the tooltip will show the truncated text as well.
+        var $domElement = $(domElement);
+
+        if ($domElement.data('tooltip') == 'enabled') {
             return;
         }
 
-        if(domElemToTruncate.find('.truncationDisabled').length > 0) {
+        $domElement.data('tooltip', 'enabled');
+
+        if (!isTextEllipsized($domElement)) {
             return;
         }
 
+        var customToolTipText = $domElement.attr('title') || $domElement.text();
 
-        // make the original text (before truncation) available for others.
-        // the .truncate plugins adds a title to the dom element but the .tooltip
-        // plugin removes that again.
-        domElemToTruncate.data('originalText', domElemToTruncate.text());
-
-        if (typeof truncationOffset == 'undefined') {
-            truncationOffset = 0;
-        }
-        var truncationLimit = 50;
-
-        if (typeof self.param.idSubtable == 'undefined'
-            && self.param.viewDataTable == 'tableAllColumns') {
-            // when showing all columns in a subtable, space is restricted
-            truncationLimit = 25;
-        }
-
-        truncationLimit += truncationOffset;
-        domElemToTruncate.truncate(truncationLimit);
-
-        var tooltipElem = $('.truncated', domElemToTruncate),
-            customToolTipText = domElemToTruncate.attr('title');
-
-        // if there's a title on the dom element, use this as the tooltip instead of
-        // the one set by the truncate plugin
         if (customToolTipText) {
-            // make sure browser doesn't add its own tooltip for the truncated element
-            if (tooltipElem[0]) {
-                tooltipElem.removeAttr('title');
-            }
-
-            tooltipElem = domElemToTruncate;
-            tooltipElem.attr('title', customToolTipText);
+            $domElement.attr('title', customToolTipText);
         }
 
-        // use tooltip (tooltip text determined by the 'title' attribute)
-        tooltipElem.tooltip({
+        $domElement.tooltip({
             track: true,
             show: false,
             hide: false
@@ -1171,8 +1248,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $("td:first-child:even", domElem).addClass('label labelodd');
         $("tr:odd td", domElem).slice(1).addClass('column columnodd');
         $("tr:even td", domElem).slice(1).addClass('column columneven');
-
-        $('td span.label', domElem).each(function () { self.truncate($(this)); });
     },
 
     handleColumnHighlighting: function (domElem) {
@@ -1190,13 +1265,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 if (!maxWidth[nthChild]) {
                     maxWidth[nthChild] = 0;
-                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                    rows.find("td:nth-child(" + (nthChild) + ") .column .value").each(function (index, element) {
                         var width    = $(element).width();
                         if (width > maxWidth[nthChild]) {
                             maxWidth[nthChild] = width;
                         }
                     });
-                    rows.find("td:nth-child(" + (nthChild) + ") .value").each(function (index, element) {
+                    rows.find("td:nth-child(" + (nthChild) + ") .column .value").each(function (index, element) {
                         $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
                     });
                 }

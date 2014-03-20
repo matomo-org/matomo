@@ -67,7 +67,6 @@
                     self.onClickActionSubDataTable(this)
                 }).size();
             }
-
             self.applyCosmetics(domElem, rows);
             self.handleColumnHighlighting(domElem);
             self.handleRowActions(domElem, rows);
@@ -90,6 +89,7 @@
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);
+            self.setFixWidthToMakeEllipsisWork(domElem);
         },
 
         //see dataTable::applyCosmetics
@@ -100,7 +100,6 @@
             rowsWithSubtables.css('font-weight', 'bold');
 
             $("th:first-child", domElem).addClass('label');
-            $('td span.label', domElem).each(function () { self.truncate($(this)); });
             var imagePlusMinusWidth = 12;
             var imagePlusMinusHeight = 12;
             $('td:first-child', rowsWithSubtables)

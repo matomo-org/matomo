@@ -45,6 +45,14 @@ table.dataTable img {
 
 table.dataTable tr.subDataTable {
   cursor: pointer;
+
+  td.label span.label {
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: inherit;
+    display: inline-block;
+  }
 }
 
 table.dataTable th {
@@ -440,11 +448,13 @@ tr.level12 td.label {
 .dataTableActions table.dataTable img.link {
   margin-right: 0.5em;
   margin-left: -0.5em;
+  margin-top: -8px;
 }
 
 tr td.label img.plusMinus {
   margin-left: -1em;
   margin-right: 3px;
+  margin-top: -5px;
 }
 
 .pk-emptyDataTable {

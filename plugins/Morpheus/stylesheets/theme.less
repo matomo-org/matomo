@@ -408,9 +408,16 @@ table.dataTable {
     tr {
         td {
             border-color: @silver-80 !important;
-            .font-default(13px, 16px);
             color: @brand-black;
             background: @silver-95;
+
+            .label {
+              line-height: normal;
+            }
+
+            .value {
+              .font-default(13px, 16px);
+            }
 
             &:first-child {
                 border-left: 0px;
@@ -424,6 +431,17 @@ table.dataTable {
             a {
                 text-decoration: none !important;
                 color: @brand-blue;
+                width: inherit;
+            }
+
+            div.label,
+            a.label,
+            span.label {
+              word-break: break-all;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: inherit;
+              display: inline-block;
             }
         }
         & td.columneven,
