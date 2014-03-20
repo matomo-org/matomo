@@ -26,7 +26,9 @@ if (!empty($fixtureClass)) {
     }
 
     $fixture = new $fixtureClass();
-    if (in_array("--persist-fixture-data", $argv)) {
+    if (in_array("--persist-fixture-data", $argv)
+        && get_class($fixture) != "Fixture"
+    ) {
         $fixture->persistFixtureData = true;
     }
     if (in_array("--drop", $argv)) {

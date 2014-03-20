@@ -365,7 +365,7 @@ class FrontController extends Singleton
              * 
              * Piwik uses this event to check for updates to Piwik.
              */
-            Piwik::postEvent('Updater.checkForUpdates');
+            Piwik::postEvent('Platform.initialized');
         } catch (Exception $e) {
 
             if (self::shouldRethrowException()) {
