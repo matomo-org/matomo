@@ -139,16 +139,25 @@ var piwikHelper = {
     modalConfirm: function( domSelector, handles )
     {
         var domElem = $(domSelector);
-        var buttons = {};
+        var buttons = [];
 
         $('[role]', domElem).each(function(){
-            var role = $(this).attr('role');
-            var text = $(this).val();
+            var role  = $(this).attr('role');
+            var title = $(this).attr('title');
+            var text  = $(this).val();
+
+            var button = {text: text};
+
             if(typeof handles[role] == 'function') {
-                buttons[text] = function(){$(this).dialog("close"); handles[role].apply()};
+                button.click = function(){$(this).dialog("close"); handles[role].apply()};
             } else {
-                buttons[text] = function(){$(this).dialog("close");};
+                button.click = function(){$(this).dialog("close");};
             }
+
+            if (title) {
+                button.title = title;
+            }
+            buttons.push(button);
             $(this).hide();
         });
 
