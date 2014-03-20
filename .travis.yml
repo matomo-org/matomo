@@ -58,6 +58,7 @@ matrix:
 script: ./travis.sh
 
 before_script:
+  - ./tests/travis/initiate_ui_tests.sh
   - composer self-update
   - composer install
   - uname -a
@@ -73,7 +74,6 @@ after_success:
   - ./tests/travis/generate_docs.sh
 
 after_script:
-  - ./tests/travis/initiate_ui_tests.sh
   - cat /var/log/nginx/error.log
   - cat $TRAVIS_BUILD_DIR/tmp/php-fpm.log
   - cat $TRAVIS_BUILD_DIR/tmp/logs/piwik.log
