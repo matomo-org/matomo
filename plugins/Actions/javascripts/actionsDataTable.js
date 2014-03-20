@@ -85,7 +85,6 @@
             }
 
             self.handleColumnDocumentation(domElem);
-            self.handleReportDocumentation(domElem);
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);

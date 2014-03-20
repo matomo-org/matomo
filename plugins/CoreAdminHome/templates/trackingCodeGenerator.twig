@@ -9,7 +9,9 @@
 {% block content %}
 <div id="js-tracking-generator-data" data-currencies="{{ currencySymbols|json_encode }}"></div>
 
-<h2>{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
+<h2 piwik-enriched-headline
+    feature-name="{{ 'CoreAdminHome_TrackingCode'|translate }}"
+    help-url="http://piwik.org/docs/tracking-api/">{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
 
 <div id="js-code-options" class="adminTable">
 

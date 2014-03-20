@@ -67,5 +67,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageLike';
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislike';
         $translationKeys[] = 'Feedback_SendFeedback';
+        $translationKeys[] = 'Feedback_RateFeatureSendFeedbackInformation';
+        $translationKeys[] = 'General_Ok';
     }
 }

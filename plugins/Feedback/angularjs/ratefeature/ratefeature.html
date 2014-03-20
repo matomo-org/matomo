@@ -14,9 +14,8 @@
              src="plugins/Feedback/angularjs/ratefeature/thumbs-down.png"/>
     </div>
 
-    <div class="ratefeatureDialog" piwik-dialog="view.showFeedbackForm" yes="sendFeedback(view.feedbackMessage)">
-        <h1>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h1>
-
+    <div class="ui-confirm ratefeatureDialog" piwik-dialog="view.showFeedbackForm" yes="sendFeedback(view.feedbackMessage)">
+        <h2>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h2>
         <p ng-if="like">{{ 'Feedback_RateFeatureLeaveMessageLike'|translate }}</p>
         <p ng-if="!like">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>
         <br />
@@ -25,7 +24,15 @@
             <textarea ng-model="view.feedbackMessage"></textarea>
         </div>
 
-        <input type="button" value="{{ 'Feedback_SendFeedback'|translate }}" role="yes"/>
+        <input type="button"
+               title="{{ 'Feedback_RateFeatureSendFeedbackInformation'|translate }}"
+               value="{{ 'Feedback_SendFeedback'|translate }}" role="yes"/>
+    </div>
+
+    <div class="ui-confirm ratefeatureDialog" piwik-dialog="ratingDone" yes="">
+        <h2>{{ 'Feedback_ThankYou'|translate:title }}</h2>
+
+        <input type="button" value="{{ 'General_Ok'|translate }}" role="yes"/>
     </div>
 
 </div>

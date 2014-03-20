@@ -51,7 +51,9 @@ angular.module('piwikApp').directive('piwikEnrichedHeadline', function($document
                 }
 
                 if (helpNode && helpNode.length) {
-                    scope.inlineHelp = helpNode.html();
+                    if ($.trim(helpNode.text())) {
+                        scope.inlineHelp = $.trim(helpNode.html());
+                    }
                     helpNode.remove();
                 }
 

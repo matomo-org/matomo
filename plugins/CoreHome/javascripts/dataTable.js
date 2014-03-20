@@ -284,7 +284,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleSubDataTable(domElem);
         self.handleConfigurationBox(domElem);
         self.handleColumnDocumentation(domElem);
-        self.handleReportDocumentation(domElem);
         self.handleRowActions(domElem);
 		self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
@@ -1399,86 +1398,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     $(this).prev().stop(true, true).fadeOut(400);
                 });
         });
-    },
-
-    // documentation for report
-    handleReportDocumentation: function (domElem) {
-
-        // don't display report documentation in dashboard
-        if ($('#dashboard').size() > 0
-            // or in Widgetize screen
-            || $('.widgetContent').size() > 0
-            // or in Widget export
-            || $('.widget').size() > 0
-            ) {
-            return;
-        }
-
-        var prev = domElem.prev();
-        if (prev && prev.length && prev.attr('piwik-enriched-headline') === '') {
-            // help is covered by piwik-enriched-headline
-            return;
-        }
-
-        domElem = $(domElem);
-        var doc = domElem.find('.reportDocumentation');
-
-        var h2 = this._findReportHeader(domElem);
-        if (doc.size() == 0 || doc.children().size() == 0) // if we can't find the element, or the element is empty
-        {
-            if (h2 && h2.size() > 0) {
-                h2.find('a.reportDocumentationIcon').addClass('hidden');
-            }
-            return;
-        }
-
-        var icon = $('<a href="#"></a>');
-        var docShown = false;
-
-        icon.click(function () {
-            if (docShown) {
-                doc.stop(true, true).fadeOut(250);
-            }
-            else {
-                var widthOrientation = domElem.find('table, canvas, object').eq(0);
-                if (widthOrientation.size() > 0) {
-                    var width = Math.min(widthOrientation.width(), doc.parent().innerWidth());
-                    doc.css('width', (width - 2) + 'px');
-                }
-                doc.stop(true, true).fadeIn(250);
-            }
-            docShown = !docShown;
-            return false;
-        });
-
-        icon.addClass('reportDocumentationIcon');
-        if (h2 && h2.size() > 0) {
-            // handle previously added icon
-            var existingIcon = h2.find('a.reportDocumentationIcon');
-            if (existingIcon.size() > 0) {
-                existingIcon.replaceWith(icon);
-            }
-            else {
-                // add icon
-                h2.append('&nbsp;&nbsp;&nbsp;');
-                h2.append(icon);
-
-                h2.hover(function () {
-                        $(this).find('a.reportDocumentationIcon').show();
-                    },
-                    function () {
-                        $(this).find('a.reportDocumentationIcon').hide();
-                    })
-                    .click(
-                    function () {
-                        $(this).find('a.reportDocumentationIcon').click();
-                    })
-                    .css('cursor', 'pointer');
-            }
-        }
-        else {
-            //domElem.prepend(icon);
-        }
     },
 
     handleRowActions: function (domElem) {

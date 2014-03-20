@@ -17,6 +17,7 @@ angular.module('piwikApp').controller('RateFeatureController', function($scope, 
 
     $scope.sendFeedback = function (message) {
         rateFeatureModel.sendFeedbackForFeature($scope.title, $scope.like, message);
-        alert($filter('translate')('Feedback_ThankYou'));
+        $scope.ratingDone = true;
+        // alert($filter('translate')('Feedback_ThankYou'));
     };
 });
