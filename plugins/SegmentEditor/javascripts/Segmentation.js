@@ -590,17 +590,21 @@ Segmentation = (function($) {
                     method: 'API.getSuggestedValuesForSegment',
                     segmentName: segmentName
                 }, 'GET');
+                ajaxHandler.useRegularCallbackInCaseOfError = true;
                 ajaxHandler.setCallback(function(response) {
                     loadingElement.hide();
 
-                    inputElement.autocomplete({
-                        source: response,
-                        minLength: 0,
-                        select: function(event, ui){
-                            event.preventDefault();
-                            $(inputElement).val(ui.item.value);
-                        }
-                    });
+                    if (response && response.result != 'error') {
+
+                        inputElement.autocomplete({
+                            source: response,
+                            minLength: 0,
+                            select: function(event, ui){
+                                event.preventDefault();
+                                $(inputElement).val(ui.item.value);
+                            }
+                        });
+                    }
 
                     inputElement.click(function (e) {
                         $(inputElement).autocomplete('search', $(inputElement).val());
