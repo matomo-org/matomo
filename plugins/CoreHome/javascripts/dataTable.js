@@ -1403,6 +1403,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // documentation for report
     handleReportDocumentation: function (domElem) {
+
         // don't display report documentation in dashboard
         if ($('#dashboard').size() > 0
             // or in Widgetize screen
@@ -1412,6 +1413,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             ) {
             return;
         }
+
+        var prev = domElem.prev();
+        if (prev && prev.length && prev.attr('piwik-enriched-headline') === '') {
+            // help is covered by piwik-enriched-headline
+            return;
+        }
+
         domElem = $(domElem);
         var doc = domElem.find('.reportDocumentation');
 

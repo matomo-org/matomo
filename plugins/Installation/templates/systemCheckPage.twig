@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if isSuperUser %}
-    <h2>{{ 'Installation_SystemCheck'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Installation_SystemCheck'|translate }}</h2>
     <p style="margin-left:1em;">
         {% if infos.has_errors %}
             <img src="plugins/Zeitgeist/images/error.png"/>

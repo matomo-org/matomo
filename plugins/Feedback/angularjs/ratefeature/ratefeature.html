@@ -1,0 +1,31 @@
+<div title="{{ 'Feedback_RateFeatureTitle'|translate:title }}" class="ratefeature">
+
+    <div class="iconContainer"
+         ng-mouseenter="view.expanded=true;"
+         ng-mouseleave="view.expanded=false">
+
+        <img ng-click="likeFeature();view.showFeedbackForm=true;"
+             class="like-icon"
+             src="plugins/Feedback/angularjs/ratefeature/thumbs-up.png"/>
+
+        <img ng-click="dislikeFeature();view.showFeedbackForm=true;"
+             class="dislike-icon"
+             ng-show="view.expanded"
+             src="plugins/Feedback/angularjs/ratefeature/thumbs-down.png"/>
+    </div>
+
+    <div class="ratefeatureDialog" piwik-dialog="view.showFeedbackForm" yes="sendFeedback(view.feedbackMessage)">
+        <h1>{{ 'Feedback_RateFeatureThankYouTitle'|translate:title }}</h1>
+
+        <p ng-if="like">{{ 'Feedback_RateFeatureLeaveMessageLike'|translate }}</p>
+        <p ng-if="!like">{{ 'Feedback_RateFeatureLeaveMessageDislike'|translate }}</p>
+        <br />
+
+        <div class="messageContainer">
+            <textarea ng-model="view.feedbackMessage"></textarea>
+        </div>
+
+        <input type="button" value="{{ 'Feedback_SendFeedback'|translate }}" role="yes"/>
+    </div>
+
+</div>

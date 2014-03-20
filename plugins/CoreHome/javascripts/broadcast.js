@@ -428,6 +428,8 @@ var broadcast = {
                 $(broadcast).trigger('locationChangeSuccess', {element: $('#content'), content: content});
                 piwikHelper.hideAjaxLoading();
                 broadcast.lastUrlRequested = null;
+
+                piwikHelper.compileAngularComponents('#content');
             }
 
             initTopControls();

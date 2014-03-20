@@ -1,10 +1,9 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
-<h2>{{ 'UsersManager_MenuUserSettings'|translate }}</h2>
+<h2 piwik-enriched-headline>{{ 'UsersManager_MenuUserSettings'|translate }}</h2>
 
 <br/>
-
 <div class="ui-confirm" id="confirmPasswordChange">
     <h2>{{ 'UsersManager_ChangePasswordConfirm'|translate }}</h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>

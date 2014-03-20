@@ -1,9 +1,10 @@
-<h2 data-graph-id="{{ nameGraphEvolutionReferrers }}">{{ 'General_EvolutionOverPeriod'|translate }}</h2>
+<h2 piwik-enriched-headline
+    data-graph-id="{{ nameGraphEvolutionReferrers }}">{{ 'General_EvolutionOverPeriod'|translate }}</h2>
 {{ graphEvolutionReferrers|raw }}
 
 <br/>
 <div id='leftcolumn' style="position:relative;">
-    <h2>{{ 'Referrers_Type'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Referrers_Type'|translate }}</h2>
 
     <div id='leftcolumn'>
         <div class="sparkline">{{ sparkline(urlSparklineDirectEntry) }}
@@ -103,14 +104,14 @@
 </div>
 
 <div id='rightcolumn'>
-    <h2>{{ 'Referrers_DetailsByReferrerType'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Referrers_DetailsByReferrerType'|translate }}</h2>
     {{ dataTableReferrerType|raw }}
 </div>
 
 <div style="clear:both;"></div>
 
 {% if totalVisits > 0 %}
-    <h2>{{ 'Referrers_ReferrersOverview'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Referrers_ReferrersOverview'|translate }}</h2>
     {{ referrersReportsByDimension|raw }}
 {% endif %}
 

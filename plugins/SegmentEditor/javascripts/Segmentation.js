@@ -842,6 +842,7 @@ Segmentation = (function($) {
 
             self.target.closest('.segmentEditorPanel').addClass('editing');
 
+            piwikHelper.compileAngularComponents(self.target);
         };
 
         var closeForm = function () {

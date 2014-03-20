@@ -111,6 +111,21 @@ var piwikHelper = {
 	},
 
     /**
+     * As we still have a lot of old jQuery code and copy html from node to node we sometimes have to trigger the
+     * compiling of angular components manually.
+     *
+     * @param selector
+     */
+    compileAngularComponents: function (selector) {
+        var $element = $(selector);
+
+        angular.element(document).injector().invoke(function($compile) {
+            var scope = angular.element($element).scope();
+            $compile($element)(scope);
+        });
+    },
+
+    /**
      * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
      * Given callback handles will be mapped to the buttons having a role attriute
      *

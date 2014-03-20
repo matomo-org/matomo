@@ -1,5 +1,7 @@
 {# This graphId must be unique for this report #}
-<h2 data-graph-id="VisitsSummary.getEvolutionGraph">{{ 'General_EvolutionOverPeriod'|translate }}</h2>
+<h2 piwik-enriched-headline
+    data-graph-id="VisitsSummary.getEvolutionGraph"
+        >{{ 'General_EvolutionOverPeriod'|translate }}</h2>
 
 {{ graphEvolutionVisitsSummary|raw }}
 

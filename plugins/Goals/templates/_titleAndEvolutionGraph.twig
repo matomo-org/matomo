@@ -1,7 +1,7 @@
 <span data-graph-id="{{ nameGraphEvolution }}"></span>
 
 {% if displayFullReport %}
-    <h2>{% if goalName is defined %}{{ 'Goals_GoalX'|translate(goalName)|raw }}{% else %}{{ 'Goals_GoalsOverview'|translate }}{% endif %}</h2>
+    <h2 piwik-enriched-headline>{% if goalName is defined %}{{ 'Goals_GoalX'|translate(goalName)|raw }}{% else %}{{ 'Goals_GoalsOverview'|translate }}{% endif %}</h2>
 {% endif %}
 {{ graphEvolution|raw }}
 

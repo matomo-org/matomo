@@ -2,7 +2,9 @@
 
 {% block content %}
     {% if accountManagedByCurrentUser %}
-        <h2>{{ 'MobileMessaging_Settings_SMSAPIAccount'|translate }}</h2>
+        <h2 piwik-enriched-headline
+            feature-name="{{ 'MobileMessaging_SettingsMenu'|translate }}"
+                >{{ 'MobileMessaging_Settings_SMSAPIAccount'|translate }}</h2>
         {% if credentialSupplied %}
             {{ 'MobileMessaging_Settings_CredentialProvided'|translate(provider) }}
             {{ creditLeft }}

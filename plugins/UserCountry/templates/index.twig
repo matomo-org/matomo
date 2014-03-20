@@ -1,7 +1,7 @@
 <div id="leftcolumn">
     {{ postEvent("Template.leftColumnUserCountry") }}
 
-    <h2>{{ 'UserCountry_Continent'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'UserCountry_Continent'|translate }}</h2>
     {{ dataTableContinent|raw }}
 
     <div class="sparkline">
@@ -14,13 +14,13 @@
 </div>
 
 <div id="rightcolumn">
-    <h2>{{ 'UserCountry_Country'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'UserCountry_Country'|translate }}</h2>
     {{ dataTableCountry|raw }}
 
-    <h2>{{ 'UserCountry_Region'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'UserCountry_Region'|translate }}</h2>
     {{ dataTableRegion|raw }}
 
-    <h2>{{ 'UserCountry_City'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'UserCountry_City'|translate }}</h2>
     {{ dataTableCity|raw }}
 </div>
 

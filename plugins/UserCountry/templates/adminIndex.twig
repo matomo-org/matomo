@@ -3,7 +3,9 @@
 {% block content %}
 {% import 'macros.twig' as piwik %}
 
-<h2 id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
+<h2 piwik-enriched-headline
+    help-url="http://piwik.org/docs/geo-locate/"
+    id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
 
 <div style="width:900px;">
 

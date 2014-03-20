@@ -650,7 +650,8 @@
         "ReportGeneratedOn": "Report generated on %s",
         "ReportGeneratedXAgo": "Report generated %s ago",
         "MakeOneTimeDonation": "Make a one time donation, instead.",
-        "TableNoData": "No data for this table."
+        "TableNoData": "No data for this table.",
+        "ExternalHelp": "Help (opens in new tab)"
     },
     "PrivacyManager": {
         "TeaserHeadline": "Privacy Settings",
@@ -945,6 +946,10 @@
         "ManuallySendEmailTo": "Please manually send your message to",
         "MessageSent": "Your message was sent to the Piwik team.",
         "ThankYou": "Thank you for helping us to make Piwik better!",
+        "RateFeatureTitle": "Do you like the '%s' feature? Please rate and leave a comment",
+        "RateFeatureThankYouTitle": "Thank you for rating the '%s' feature!",
+        "RateFeatureLeaveMessageLike": "We are glad you like it! Please let us know what you like the most or if you miss a feature.",
+        "RateFeatureLeaveMessageDislike": "We are sorry to hear! Please let us know what you don't like or which feature you miss so we can improve.",
         "ThePiwikTeam": "The Piwik Team",
         "ExceptionBodyLength": "Message must be at least %s characters long.",
         "ExceptionNoUrls": "The message cannot contain a URL, to avoid spam messages.",

@@ -3,7 +3,8 @@
 {% block content %}
 {% import 'macros.twig' as piwik %}
 {% if isSuperUser %}
-    <h2>{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
+    <h2 piwik-enriched-headline
+        help-url="http://piwik.org/docs/privacy/">{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
         {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<strong><a href="http://piwik.org/privacy/" target="_blank">','</a></strong>')|raw }}</p>
     <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>

@@ -22,7 +22,9 @@
 
         <div class="introduction">
 
-            <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwik'|translate }}</h2>
+            <h2 piwik-enriched-headline
+                feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}"
+                >{{ 'CorePluginsAdmin_TeaserExtendPiwik'|translate }}</h2>
 
             <p>{{ 'CorePluginsAdmin_DownloadAndInstallPluginsFromMarketplace'|translate("<a href='?module=Proxy&action=redirect&url=http://plugins.piwik.org/' target='_blank'>", "</a>")|raw }}</p>
 

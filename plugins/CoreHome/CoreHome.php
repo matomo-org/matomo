@@ -54,6 +54,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -109,6 +110,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/onenter.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focusif.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dialog.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
@@ -116,6 +118,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline-directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -135,6 +139,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_PageOf';
         $translationKeys[] = 'CoreHome_FlattenDataTable';
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
+        $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
@@ -190,5 +195,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DaySa';
         $translationKeys[] = 'General_DaySu';
         $translationKeys[] = 'General_Search';
+        $translationKeys[] = 'General_MoreDetails';
+        $translationKeys[] = 'General_Help';
     }
 }

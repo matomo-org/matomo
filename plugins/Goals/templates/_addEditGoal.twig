@@ -1,5 +1,5 @@
 {% if onlyShowAddNewGoal is defined %}
-    <h2>{{ 'Goals_AddNewGoal'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Goals_AddNewGoal'|translate }}</h2>
     <p>{{ 'Goals_NewGoalIntro'|translate }}</p>
     <p>{{ 'Goals_NewGoalDescription'|translate }}
         {{ 'Goals_NewWhatDoYouWantUsersToDo'|translate }}
@@ -8,7 +8,7 @@
     </p>
 {% else %}
     <div class="clear"></div>
-    <h2>{{ 'Goals_GoalsManagement'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ 'Goals_GoalsManagement'|translate }}</h2>
     <div class="entityList">
         <ul class='listCircle'>
             <li><a onclick='' name='linkAddNewGoal'>{{ 'Goals_CreateNewGOal'|translate }}</a></li>
