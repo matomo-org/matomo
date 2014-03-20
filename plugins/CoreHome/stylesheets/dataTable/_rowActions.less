@@ -5,6 +5,7 @@ table.dataTable .dataTableRowActions {
   display: none;
   overflow: hidden;
   margin-top: -5px;
+  z-index: 1000; /* Work around FF bug to make sure it displays over ellipsis */
 }
 
 *+html table.dataTable .dataTableRowActions {
