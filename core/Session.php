@@ -112,7 +112,8 @@ class Session extends Zend_Session
         }
 
         try {
-            Zend_Session::start();
+        	/* PHP-5.5: Call parent function */
+            parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
             Log::warning('Unable to start session: ' . $e->getMessage());
@@ -146,4 +147,31 @@ class Session extends Zend_Session
         $path = PIWIK_USER_PATH . '/tmp/sessions';
         return SettingsPiwik::rewriteTmpPathWithHostname($path);
     }
+    
+    /*
+     * Regenerate the Session PHP 5.5 compatible
+     * by PILLWAX Industrial Solutions Consulting
+     */
+    public static function regenerateId()
+    {
+    	/* PHP 5.5: */
+    	if (!self::$_unitTestEnabled && headers_sent($filename, $linenum)) {
+    		throw new Zend_Session_Exception("You must call " . __CLASS__ . '::' . __FUNCTION__ .
+    				"() before any output has been sent to the browser; output started in {$filename}/{$linenum}");
+    	}
+    	
+    	if ( !self::$sessionStarted ) {
+    		self::start();
+    	} else {
+    		if (!self::$_unitTestEnabled) {
+    			/* PHP-5.5: Regenerate Session-ID WITH keeping session data */
+    			session_regenerate_id(true);
+    			$sid = session_id();
+    			session_write_close();
+    			session_id($sid);
+    			session_start();
+    		}
+    	}
+    }    
+    
 }
