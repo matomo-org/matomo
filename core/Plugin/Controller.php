@@ -203,15 +203,16 @@ abstract class Controller
     /**
      * Convenience method that creates and renders a ViewDataTable for a API method.
      *
-     * @param string $pluginName The name of the plugin (eg, `'UserSettings'`).
      * @param string $apiAction The name of the API action (eg, `'getResolution'`).
+     * @param bool $controllerAction The name of the Controller action name  that is rendering the report. Defaults
+     *                               to the `$apiAction`.
      * @param bool $fetch If `true`, the rendered string is returned, if `false` it is `echo`'d.
      * @throws \Exception if `$pluginName` is not an existing plugin or if `$apiAction` is not an
      *                    existing method of the plugin's API.
      * @return string|void See `$fetch`.
      * @api
      */
-    protected function renderReport($apiAction)
+    protected function renderReport($apiAction, $controllerAction = false)
     {
         $pluginName = $this->pluginName;
 
@@ -224,7 +225,11 @@ abstract class Controller
 
         $apiAction = $apiProxy->buildApiActionName($pluginName, $apiAction);
 
-        $view      = ViewDataTableFactory::build(null, $apiAction);
+        if ($controllerAction !== false) {
+            $controllerAction = $pluginName . '.' . $controllerAction;
+        }
+
+        $view      = ViewDataTableFactory::build(null, $apiAction, $controllerAction);
         $rendered  = $view->render();
 
         return $rendered;
