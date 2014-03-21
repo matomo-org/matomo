@@ -436,7 +436,8 @@
         "ViewDocumentationFor": "View documentation for %1$s",
         "WellDone": "Well done!",
         "All": "All",
-        "Segment": "Segment"
+        "Segment": "Segment",
+        "TimeAgo": "%s ago"
     },
     "Actions": {
         "PluginDescription": "Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic! You can also track your internal website's Search Engine.",
@@ -2218,7 +2219,8 @@
         "ExceptionAccessValues": "The parameter access must have one of the following values : [ %s ]",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth is expecting a MD5-hashed password (32 chars long string). Please call the md5() function on the password before calling this method.",
         "InjectedHostCannotChangePwd": "You are currently visiting with an unknown host (%1$s). You cannot change your password until this problem is fixed.",
-        "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s."
+        "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s.",
+        "LastSeen": "Last seen"
     },
     "VisitFrequency": {
         "PluginDescription": "Reports various statistics about the Returning Visitor versus the First time visitor.",
