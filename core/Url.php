@@ -180,7 +180,7 @@ class Url
     static public function getCurrentScheme()
     {
         try {
-            $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
+            $assume_secure_protocol = Config::getInstance()->General['assume_secure_protocol'];
         } catch (Exception $e) {
             $assume_secure_protocol = false;
         }

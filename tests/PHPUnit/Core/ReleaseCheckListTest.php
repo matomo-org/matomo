@@ -325,7 +325,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 throw new \Exception("Unexpected error: $function function does not exist!");
             }
 
-            $handle = $function($file);
+            $handle = @$function($file);
             if (empty($handle)) {
                 $errors[] = $file;
             }

@@ -206,7 +206,7 @@ class Piwik
         } else {
             $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$piwikUrl}";';
         }
-        $codeImpl = array('setTrackerUrl' => $setTrackerUrl) + $codeImpl;
+        $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
 
         foreach ($codeImpl as $keyToReplace => $replaceWith) {
             $jsCode = str_replace('{$' . $keyToReplace . '}', $replaceWith, $jsCode);
