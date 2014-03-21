@@ -19,7 +19,7 @@ class Console
         $this->initPiwikHost();
         $this->initConfig();
         try {
-            $this->initPlugins();
+            self::initPlugins();
         } catch(\Exception $e) {
             // Piwik not installed yet, no config file?
         }
@@ -103,7 +103,7 @@ class Console
         }
     }
 
-    protected function initPlugins()
+    public static function initPlugins()
     {
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsManager = Plugin\Manager::getInstance();
