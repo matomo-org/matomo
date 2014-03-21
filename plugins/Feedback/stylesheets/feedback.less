@@ -41,4 +41,46 @@
     font-size: 1em;
     font-style: normal;
   }
+
+  .footer {
+    text-align: center;
+
+    a {
+      color: black;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    hr {
+      background-color: #CCC;
+      height: 1px;
+      border: 0px;
+    }
+  }
+
+  .claim {
+    font-size: 13px;
+    line-height: 16px;
+    color: #808080;
+    margin-bottom: 50px;
+  }
+
+  .menu,
+  .social {
+    margin: 10px 0 10px;
+    display: block;
+
+    li {
+      margin: 0 10px 10px;
+      display: inline-block;
+    }
+  }
+
+  .menu li {
+    &:before {
+      color: #333;
+      content: '· ';
+    }
+  }
 }

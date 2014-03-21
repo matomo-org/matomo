@@ -43,6 +43,34 @@
         <h2 id="donate">{{ 'Feedback_WantToThankConsiderDonating'|translate }}</h2>
         {% include "@CoreHome/_donate.twig" with { 'msg':""} %}
         <br/>
-        <br/>
+
+        <div class="footer">
+            <hr/>
+            <ul class="social">
+                <li>
+                    <a href="http://piwik.org/newsletter/"><i class="ficon-email"></i> Newsletter</a>
+                </li>
+                <li>
+                    <a target="_blank" href="http://www.facebook.com/Piwik"><i class="ficon-facebook"></i> Facebook</a>
+                </li>
+                <li>
+                    <a target="_blank" href="http://twitter.com/piwik"><i class="ficon-twitter"></i> Twitter</a>
+                </li>
+                <li>
+                    <a target="_blank" href="http://www.linkedin.com/groups?gid=867857"><i class="ficon-linkedin"></i> Linkedin</a>
+                </li>
+                <li>
+                    <a target="_blank" href="https://github.com/piwik/piwik"><i class="ficon-git"></i> Github</a>
+                </li>
+            </ul>
+            <ul class="menu">
+                <li><a target="_blank" href="http://piwik.org/privacy/">Privacy</a></li>
+                <li><a target="_blank" href="http://piwik.org/about/sponsors/">Sponsors</a></li>
+                <li><a target="_blank" href="http://piwik.orghttp://developer.piwik.org">Developers</a></li>
+                <li><a target="_blank" href="http://piwik.orghttp://plugins.piwik.org">Marketplace</a></li>
+                <li><a target="_blank" href="http://piwik.org/thank-you-all/">Credits</a></li>
+            </ul>
+            <p class="claim"><small>Piwik respects your privacy and gives you full control over your data.</small></p>
+        </div>
     </div>
 {% endblock %}
