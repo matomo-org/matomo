@@ -289,6 +289,7 @@ class Config extends Singleton
 
         $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
+        // Check config.ini.php last
         $this->checkLocalConfigFound();
 
         $this->configLocal = _parse_ini_file($this->pathLocal, true);

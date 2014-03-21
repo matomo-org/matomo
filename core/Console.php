@@ -18,7 +18,11 @@ class Console
     {
         $this->initPiwikHost();
         $this->initConfig();
-        $this->initPlugins();
+        try {
+            $this->initPlugins();
+        } catch(\Exception $e) {
+            // Piwik not installed yet, no config file?
+        }
     }
 
     public function run()
