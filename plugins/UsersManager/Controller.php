@@ -19,6 +19,7 @@ use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\MetricsFormatter;
 
 /**
  *
@@ -80,9 +81,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $usersAliasByLogin = array();
 
         if (Piwik::isUserHasSomeAdminAccess()) {
+            $view->showLastSeen = true;
+
             $users = APIUsersManager::getInstance()->getUsers();
-            foreach ($users as $user) {
+            foreach ($users as &$user) {
                 $usersAliasByLogin[$user['login']] = $user['alias'];
+
+                $lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login']);
+                $user['last_seen'] = $lastSeen == 0
+                                   ? false : MetricsFormatter::getPrettyTimeFromSeconds(time() - $lastSeen);
             }
 
             if (Piwik::hasUserSuperUserAccess()) {

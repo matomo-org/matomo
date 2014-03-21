@@ -89,15 +89,12 @@ class Session extends Zend_Session
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
-            $db = Db::get();
-
             $config = array(
                 'name'           => Common::prefixTable('session'),
                 'primary'        => 'id',
                 'modifiedColumn' => 'modified',
                 'dataColumn'     => 'data',
                 'lifetimeColumn' => 'lifetime',
-                'db'             => $db,
             );
 
             $saveHandler = new DbTable($config);

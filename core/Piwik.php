@@ -129,15 +129,16 @@ class Piwik
      * @param string $piwikUrl http://path/to/piwik/directory/
      * @return string
      */
-    static public function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false, $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false, $doNotTrack = false)
+    static public function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false,
+                                             $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
+                                             $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
+                                             $doNotTrack = false)
     {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = @$matches[2];
-        $jsCode = str_replace('{$idSite}', $idSite, $jsCode);
-        $jsCode = str_replace('{$piwikUrl}', Common::sanitizeInputValue($piwikUrl), $jsCode);
 
         // Build optional parameters to be added to text
         $options = '';
@@ -170,7 +171,46 @@ class Piwik
         if ($doNotTrack) {
             $options .= '  _paq.push(["setDoNotTrack", true]);' . PHP_EOL;
         }
-        $jsCode = str_replace('{$options}'.PHP_EOL, $options, $jsCode);
+
+        $codeImpl = array(
+            'idSite' => $idSite,
+            'piwikUrl' => Common::sanitizeInputValue($piwikUrl),
+            'options' => $options
+        );
+        $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
+                              'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
+                              'doNotTrack');
+
+        /**
+         * Triggered when generating JavaScript tracking code server side. Plugins can use
+         * this event to customise the JavaScript tracking code that is displayed to the
+         * user.
+         *
+         * @param array $codeImpl An array containing snippets of code that the event handler
+         *                        can modify. Will contain the following elements:
+         *
+         *                        - **idSite**: The ID of the site being tracked.
+         *                        - **piwikUrl**: The tracker URL to use.
+         *                        - **options**: A string of JavaScript code that customises
+         *                                       the JavaScript tracker.
+         *
+         *                        The **httpsPiwikUrl** element can be set if the HTTPS
+         *                        domain is different from the normal domain.
+         * @param array $parameters The parameters supplied to the `Piwik::getJavascriptCode()`.
+         */
+        self::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
+
+        if (isset($codeImpl['httpsPiwikUrl'])) {
+            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https://{$httpsPiwikUrl} }}/" : '
+                           + '"http://{$httpsPiwikUrl}/");';
+        } else {
+            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$piwikUrl}";';
+        }
+        $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
+
+        foreach ($codeImpl as $keyToReplace => $replaceWith) {
+            $jsCode = str_replace('{$' . $keyToReplace . '}', $replaceWith, $jsCode);
+        }
         return $jsCode;
     }
 

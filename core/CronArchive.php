@@ -89,6 +89,9 @@ Notes:
     // Flag used to record timestamp in Option::
     const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 
+    // Name of option used to store starting timestamp
+    const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
+
     // Show only first N characters from Piwik API output in case of errors
     const TRUNCATE_ERROR_MESSAGE_SUMMARY = 6000;
 
@@ -144,6 +147,9 @@ Notes:
         $this->logInitInfo();
         $this->checkPiwikUrlIsValid();
         $this->logArchiveTimeoutInfo();
+
+        // record archiving start time
+        Option::set(self::OPTION_ARCHIVING_STARTED_TS, time());
 
         $this->segments = $this->initSegmentsToArchive();
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();

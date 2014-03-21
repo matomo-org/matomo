@@ -119,6 +119,9 @@
                 <th>{{ 'UsersManager_Email'|translate }}</th>
                 <th>{{ 'UsersManager_Alias'|translate }}</th>
                 <th>token_auth</th>
+                {% if showLastSeen is defined and showLastSeen %}
+                <th>{{ 'UsersManager_LastSeen'|translate }}</th>
+                {% endif %}
                 <th>{{ 'General_Edit'|translate }}</th>
                 <th>{{ 'General_Delete'|translate }}</th>
             </tr>
@@ -133,6 +136,9 @@
                         <td id="email" class="editable">{{ user.email }}</td>
                         <td id="alias" class="editable">{{ user.alias|raw }}</td>
                         <td id="token_auth">{{ user.token_auth }}</td>
+                        {% if user.last_seen is defined %}
+                        <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
+                        {% endif %}
                         <td>
                             <span class="edituser link_but" id="row{{ i }}">
                                 <img title="{{ 'General_Edit'|translate }}" src='plugins/Zeitgeist/images/ico_edit.png'/>
