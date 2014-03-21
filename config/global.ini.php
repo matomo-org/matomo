@@ -245,7 +245,7 @@ noreply_email_address = "noreply@{DOMAIN}"
 
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
-feedback_email_address = "hello@piwik.org"
+feedback_email_address = "feedback@piwik.org"
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)
