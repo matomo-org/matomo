@@ -86,17 +86,9 @@ class Config extends Singleton
 
         $this->clear();
 
-        if ($pathLocal) {
-            $this->pathLocal = $pathLocal;
-        }
-
-        if ($pathGlobal) {
-            $this->pathGlobal = $pathGlobal;
-        }
-
-        if ($pathCommon) {
-            $this->pathCommon = $pathCommon;
-        }
+        $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
+        $this->pathGlobal = $pathGlobal ?: self::getGlobalConfigPath();
+        $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
 
         $this->init();
 
