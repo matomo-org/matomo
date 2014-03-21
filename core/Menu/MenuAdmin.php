@@ -106,7 +106,7 @@ class MenuAdmin extends MenuAbstract
         return false;
     }
 
-    public static function removeEntry($menuName, $subMenuName)
+    public static function removeEntry($menuName, $subMenuName = false)
     {
         MenuAdmin::getInstance()->remove($menuName, $subMenuName);
     }
