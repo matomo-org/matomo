@@ -202,7 +202,7 @@ class Piwik
 
         if (isset($codeImpl['httpsPiwikUrl'])) {
             $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https://{$httpsPiwikUrl} }}/" : '
-                           + '"http://{$httpsPiwikUrl}/");'
+                           + '"http://{$httpsPiwikUrl}/");';
         } else {
             $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$piwikUrl}";';
         }
