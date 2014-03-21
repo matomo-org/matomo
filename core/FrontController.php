@@ -53,6 +53,7 @@ use Piwik\Session;
  */
 class FrontController extends Singleton
 {
+    const DEFAULT_MODULE = 'CoreHome';
     /**
      * Set to false and the Front Controller will not dispatch the request
      *
@@ -380,8 +381,7 @@ class FrontController extends Singleton
     protected function prepareDispatch($module, $action, $parameters)
     {
         if (is_null($module)) {
-            $defaultModule = 'CoreHome';
-            $module = Common::getRequestVar('module', $defaultModule, 'string');
+            $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         }
 
         if (is_null($action)) {
