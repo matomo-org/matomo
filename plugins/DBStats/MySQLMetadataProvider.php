@@ -345,4 +345,12 @@ class MySQLMetadataProvider
 
         return $name;
     }
+
+    /**
+     * Clears the internal cache that stores TABLE STATUS results.
+     */
+    public function clearStatusCache()
+    {
+        $this->tableStatuses = null;
+    }
 }
