@@ -33,7 +33,7 @@ class Feedback extends \Piwik\Plugin
     public function addTopMenu()
     {
         MenuTop::addEntry(
-            'General_GiveUsYourFeedback',
+            'About Piwik',
             array('module' => 'Feedback', 'action' => 'index', 'segment' => false),
             true,
             $order = 20,
@@ -51,8 +51,6 @@ class Feedback extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/javascripts/feedback.js";
-
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-model.js";
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-directive.js";
@@ -60,7 +58,6 @@ class Feedback extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'Feedback_ThankYou';
         $translationKeys[] = 'Feedback_RateFeatureTitle';
         $translationKeys[] = 'Feedback_RateFeatureThankYouTitle';

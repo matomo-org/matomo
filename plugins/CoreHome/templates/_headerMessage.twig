@@ -3,51 +3,33 @@
 {% set test_piwikUrl='http://demo.piwik.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
 
+{% if isPiwikDemo or latest_version_available or isSuperUser %}
 <span id="header_message" class="{% if isPiwikDemo or not latest_version_available %}header_info{% else %}header_alert{% endif %}">
     <span class="header_short">
         {% if isPiwikDemo %}
             {{ 'General_YouAreViewingDemoShortMessage'|translate }}
         {% elseif latest_version_available %}
             {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
-        {% else %}
-            {{ 'General_AboutPiwikX'|translate(piwik_version) }}
+        {% elseif isSuperUser %}
+            <span class='loadingPiwik' style="display:none;"><img src='plugins/Zeitgeist/images/loading-blue.gif'/></span>
+            <img src="plugins/Zeitgeist/images/reload.png"/>
+            <a href="#" id="checkForUpdates"><em>{{ 'CoreHome_CheckForUpdates'|translate }}</em></a>
         {% endif %}
     </span>
 
-    <span class="header_full">
-        {% if isPiwikDemo %}
-            {{ 'General_YouAreViewingDemoShortMessage'|translate }}
-            <br/>
-            {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
-            <br/>
-        {% endif %}
-        {% if latest_version_available %}
-            {% if isSuperUser %}
+    {% if isPiwikDemo or latest_version_available %}
+        <span class="header_full">
+            {% if isPiwikDemo %}
+                <br />
+                {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
+                <br/>
+            {% endif %}
+            {% if latest_version_available and isSuperUser %}
                 {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
                 <br/>
                 {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
-            {% elseif not isPiwikDemo %}
-                {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>{{ latest_version_available }}</a>")|raw }}
             {% endif %}
-        {% elseif not isPiwikDemo %}
-            {{ 'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate(
-                    "<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>",
-                    piwik_version~"</a>",
-                    "<br />",
-                    "<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/get-involved/'>",
-                    "</a>",
-                    '<br/>',
-                    "<a href='http://piwik.org/donate/' target='_blank'><strong><em>",
-                    "</em></strong></a>"
-                )|raw }}
-        {% endif %}
-        {% if hasSomeAdminAccess %}
-            <br/>
-            <div id="updateCheckLinkContainer">
-                <span class='loadingPiwik' style="display:none;"><img src='plugins/Zeitgeist/images/loading-blue.gif'/></span>
-                <img src="plugins/Zeitgeist/images/reload.png"/>
-                <a href="#" id="checkForUpdates"><em>{{ 'CoreHome_CheckForUpdates'|translate }}</em></a>
-            </div>
-        {% endif %}
-    </span>
+        </span>
+    {% endif %}
 </span>
+{% endif %}

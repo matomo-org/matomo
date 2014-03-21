@@ -29,6 +29,11 @@
   display: none;
 }
 
+#header_message:hover:not(.header_full) .header_short,
+#header_message.active:not(.header_full) .header_short {
+  display: block;
+}
+
 #header_message:hover .header_short,
 #header_message.active .header_short {
   display: none;
