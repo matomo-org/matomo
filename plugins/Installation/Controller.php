@@ -1086,7 +1086,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function isFinishedInstallation()
     {
-        $isConfigFileFound = file_exists(Config::getLocalConfigPath());
+        $isConfigFileFound = file_exists(Config::getInstance()->getLocalPath());
 
         if (!$isConfigFileFound) {
             return false;

@@ -85,17 +85,11 @@ class Piwik_TestingEnvironment
     {
         $testingEnvironment = new Piwik_TestingEnvironment();
 
-        if ($testingEnvironment->configFileLocal) {
-            \Piwik\Config::$defaultLocalConfigPath = $testingEnvironment->configFileLocal;
-        }
-
-        if ($testingEnvironment->configFileCommon) {
-            \Piwik\Config::$defaultCommonConfigPath = $testingEnvironment->configFileCommon;
-        }
-
-        if ($testingEnvironment->configFileGlobal) {
-            \Piwik\Config::$defaultGlobalConfigPath = $testingEnvironment->configFileGlobal;
-        }
+        Config::setSingletonInstance(new Config(
+            $testingEnvironment->configFileGlobal,
+            $testingEnvironment->configFileLocal,
+            $testingEnvironment->configFileCommon
+        ));
 
         if ($testingEnvironment->queryParamOverride) {
             foreach ($testingEnvironment->queryParamOverride as $key => $value) {
