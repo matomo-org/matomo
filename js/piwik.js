@@ -2402,6 +2402,16 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Returns the URL to call piwik.php,
+                 * with the standard parameters (plugins, resolution, url, referrer, etc.).
+                 *
+                 * @return string Raw URL
+                 */
+                getRequest: function(request, customData, pluginMethod, currentEcommerceOrderTs){
+                    return getRequest(request, customData, pluginMethod, currentEcommerceOrderTs);
+                },
+
+                /**
                  * Specify the Piwik server URL
                  *
                  * @param string trackerUrl
