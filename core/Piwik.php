@@ -200,9 +200,9 @@ class Piwik
          */
         self::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
 
-        if (isset($codeImpl['httpsPiwikUrl'])) {
-            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https://{$httpsPiwikUrl} }}/" : '
-                           + '"http://{$httpsPiwikUrl}/");';
+        if (!empty($codeImpl['httpsPiwikUrl'])) {
+            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https://{$httpsPiwikUrl}/" : '
+                           . '"http://{$httpsPiwikUrl}/");';
         } else {
             $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$piwikUrl}";';
         }
