@@ -102,10 +102,10 @@ class DbHelper
     /**
      * Drop database, used in tests
      */
-    public static function dropDatabase()
+    public static function dropDatabase($dbName = null)
     {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-            Schema::getInstance()->dropDatabase();
+            Schema::getInstance()->dropDatabase($dbName);
         }
     }
 

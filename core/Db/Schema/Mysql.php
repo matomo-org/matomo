@@ -493,9 +493,10 @@ class Mysql implements SchemaInterface
     /**
      * Drop database
      */
-    public function dropDatabase()
+    public function dropDatabase($dbName = null)
     {
-        Db::exec("DROP DATABASE IF EXISTS " . $this->getDbName());
+        $dbName = $dbName ?: $this->getDbName();
+        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
     }
 
     /**

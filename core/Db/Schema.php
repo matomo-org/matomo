@@ -182,9 +182,9 @@ class Schema extends Singleton
     /**
      * Drop database
      */
-    public function dropDatabase()
+    public function dropDatabase($dbName = null)
     {
-        $this->getSchema()->dropDatabase();
+        $this->getSchema()->dropDatabase($dbName);
     }
 
     /**
