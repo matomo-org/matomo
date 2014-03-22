@@ -128,7 +128,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
             DbHelper::createTables();
 
-            \Piwik\Plugin\Manager::getInstance()->loadPlugins(array());
+            \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
         } catch (Exception $e) {
             static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
