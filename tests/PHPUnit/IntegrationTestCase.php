@@ -105,6 +105,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         // Make sure the browser running the test does not influence the Country detection code
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
 
