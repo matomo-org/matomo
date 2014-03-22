@@ -943,7 +943,7 @@ class Manager extends Singleton
         // is the plugin already installed or is it the first time we activate it?
         $pluginsInstalled = $this->getInstalledPluginsName();
 
-        if (!in_array($pluginName, $pluginsInstalled)) {
+        if (!$this->isPluginInstalled($pluginName)) {
             $this->executePluginInstall($plugin);
             $pluginsInstalled[] = $pluginName;
             $this->updatePluginsInstalledConfig($pluginsInstalled);
@@ -1109,6 +1109,16 @@ class Manager extends Singleton
             $plugin->uninstall();
         } catch (\Exception $e) {
         }
+    }
+
+    /**
+     * @param $pluginName
+     * @return bool
+     */
+    public function isPluginInstalled($pluginName)
+    {
+        $pluginsInstalled = $this->getInstalledPluginsName();
+        return in_array($pluginName, $pluginsInstalled);
     }
 }
 
