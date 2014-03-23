@@ -113,16 +113,29 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 
     var child = require('child_process').spawn(config.php, processArgs);
 
+    var firstLine = true;
     child.stdout.on("data", function (data) {
-        fs.write("/dev/stdout", data, "w");
+        if (firstLine) {
+            data = "    " + data;
+            firstLine = false;
+        }
+
+        fs.write("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
     });
 
     child.stderr.on("data", function (data) {
+        if (firstLine) {
+            data = "    " + data;
+            firstLine = false;
+        }
+
         fs.write("/dev/stderr", data, "w");
     });
 
     child.on("exit", function (code) {
         testEnvironment.reload();
+
+        console.log();
         
         if (code) {
             done(new Error("Failed to setup fixture " + fixtureClass + " (error code = " + code + ")"));
@@ -142,17 +155,29 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
         return;
     }
 
+    console.log();
     console.log("    Tearing down fixture " + fixtureClass + "...");
 
     var teardownFile = path.join("./support", "teardownDatabase.php"),
         child = require('child_process').spawn(
             config.php, [teardownFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + fixtureClass]);
 
+    var firstLine = true;
     child.stdout.on("data", function (data) {
-        fs.write("/dev/stdout", data, "w");
+        if (firstLine) {
+            data = "    " + data;
+            firstLine = false;
+        }
+
+        fs.write("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
     });
 
     child.stderr.on("data", function (data) {
+        if (firstLine) {
+            data = "    " + data;
+            firstLine = false;
+        }
+
         fs.write("/dev/stderr", data, "w");
     });
 
