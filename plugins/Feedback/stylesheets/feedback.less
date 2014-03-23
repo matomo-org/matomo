@@ -64,11 +64,37 @@
     line-height: 16px;
     color: #808080;
     margin-bottom: 50px;
+    margin-top: 15px;
+  }
+
+  .menu {
+    li {
+      margin: 0 10px 10px 0px
+    }
+
+    li:not(:first-child) {
+      &:before {
+        color: #333;
+        content: '· ';
+      }
+    }
+
+    a {
+      display: inline-block;
+      padding-right: 10px;
+      padding-left: 18px;
+    }
+  }
+
+  .social {
+    li {
+      margin: 0 20px 10px;
+    }
   }
 
   .menu,
   .social {
-    margin: 10px 0 10px;
+    margin: 15px 0 10px;
     display: block;
 
     .icon {
@@ -78,15 +104,7 @@
     }
 
     li {
-      margin: 0 10px 10px;
       display: inline-block;
-    }
-  }
-
-  .menu li {
-    &:before {
-      color: #333;
-      content: '· ';
     }
   }
 }

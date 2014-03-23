@@ -33,7 +33,7 @@ class Feedback extends \Piwik\Plugin
     public function addTopMenu()
     {
         MenuTop::addEntry(
-            'General_AboutPiwik',
+            'General_Help',
             array('module' => 'Feedback', 'action' => 'index', 'segment' => false),
             true,
             $order = 20,
