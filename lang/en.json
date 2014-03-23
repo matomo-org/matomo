@@ -813,7 +813,7 @@
         "ByInstallingNewThemeFromMarketplace": "by %sinstalling a new theme from the Marketplace%s",
         "ByWritingOwnPlugin": "by %swriting your own plugin%s",
         "OrByUploadingAPlugin": "or by %suploading a plugin%s",
-        "ByDesigningOwnTheme": "by %sdesign your own theme%s",
+        "ByDesigningOwnTheme": "by %sdesigning your own theme%s",
         "OrByUploadingATheme": "or by %suploading a theme%s",
         "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik.",
         "MissingRequirementsNotice": "Please update %1$s %2$s to a newer version, %1$s %3$s is required."
