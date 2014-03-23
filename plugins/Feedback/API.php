@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Translate;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -26,36 +27,37 @@ class API extends \Piwik\Plugin\API
      * Sends feedback for a specific feature to the Piwik team or alternatively to the email address configured in the
      * config: "feedback_email_address".
      *
-     * @param string   $featureName  The name of a feature you want to give feedback to.
-     * @param bool|int $like         Whether you like the feature or not
-     * @param string   $message      A message containing the actual feedback
+     * @param string      $featureName  The name of a feature you want to give feedback to.
+     * @param bool|int    $like         Whether you like the feature or not
+     * @param string|bool $message      A message containing the actual feedback
      */
-    public function sendFeedbackForFeature($featureName, $like, $message)
+    public function sendFeedbackForFeature($featureName, $like, $message = false)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
-        $translationKeyForFeature = $this->findTranslationKeyForFeatureName($featureName);
-
-        if (empty($translationKeyForFeature)) {
-            $translationKeyForFeature = $featureName;
-        }
+        $featureName = $this->getEnglishTranslationForFeatureName($featureName);
 
         $likeText = 'Yes';
         if (empty($like)) {
             $likeText = 'No';
         }
 
-        $body = sprintf("Feature: %s\nLike: %s\nFeedback:\n%s\n", $translationKeyForFeature, $likeText, $message);
+        $body = sprintf("Feature: %s\nLike: %s\n", $featureName, $likeText, $message);
+        if (!empty($message)) {
+            $body .= sprintf("Feedback:\n%s\n", $message);
+        } else {
+            $body .= "No feedback\n";
+        }
 
         $this->sendMail($featureName, $body);
     }
 
-    private function sendMail($name, $body)
+    private function sendMail($subject, $body)
     {
         $feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
 
-        $subject = '[ Feedback Feature - Piwik ] ' . $name;
+        $subject = '[ Feedback Feature - Piwik ] ' . $subject;
         $body    = Common::unsanitizeInputValue($body) . "\n"
                  . 'Piwik ' . Version::VERSION . "\n"
                  . 'IP: ' . IP::getIpFromHeader() . "\n"
@@ -81,5 +83,26 @@ class API extends \Piwik\Plugin\API
                 return $key . '_' . $possibleKey;
             }
         }
+    }
+
+    private function getEnglishTranslationForFeatureName($featureName)
+    {
+        $loadedLanguage = Translate::getLanguageLoaded();
+
+        if ($loadedLanguage == 'en') {
+            return $featureName;
+        }
+
+        $translationKeyForFeature = $this->findTranslationKeyForFeatureName($featureName);
+
+        if (!empty($translationKeyForFeature)) {
+            Translate::reloadLanguage('en');
+
+            $featureName = Piwik::translate($translationKeyForFeature);
+            Translate::reloadLanguage($loadedLanguage);
+            return $featureName;
+        }
+
+        return $featureName;
     }
 }
