@@ -238,6 +238,7 @@
         "YouAreCurrentlyUsing": "You are currently using Piwik %s.",
         "DownloadFullVersion": "%1$sDownload%2$s the full version! Check out %3$s",
         "NewUpdatePiwikX": "New Update: Piwik %s",
+        "AboutPiwik": "About Piwik",
         "AboutPiwikX": "About Piwik %s",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s is available. %2$sPlease update now!%3$s (see %4$schanges%5$s).",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s is available. Please notify the site administrator.",
