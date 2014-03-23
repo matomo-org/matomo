@@ -208,20 +208,31 @@ a.Piwik_Popover_Error_Back {
     margin: 10px auto 5px !important;
 }
 
+.header_full #updateCheckLinkContainer {
+  margin-top: -2px;
+}
+
+@-moz-document url-prefix() {
+  .header_full #updateCheckLinkContainer {
+    margin-top: -3px;
+  }
+}
+
 #updateCheckLinkContainer {
     float: right;
     cursor: pointer;
 }
 
 #updateCheckLinkContainer>* {
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
 #header_message #checkForUpdates {
-    font-size: .8em;
+    font-size: 10px;
     line-height: 16px;
     display: inline-block;
-    vertical-align: bottom;
+    vertical-align: middle;
+    text-transform: uppercase;
 }
 
 #header_message #checkForUpdates:hover {

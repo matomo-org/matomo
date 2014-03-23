@@ -3,6 +3,14 @@
 {% set test_piwikUrl='http://demo.piwik.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
 
+{% set updateCheck %}
+<div id="updateCheckLinkContainer">
+    <span class='loadingPiwik' style="display:none;"><img src='plugins/Zeitgeist/images/loading-blue.gif'/></span>
+    <img src="plugins/Zeitgeist/images/reload.png"/>
+    <a href="#" id="checkForUpdates"><em>{{ 'CoreHome_CheckForUpdates'|translate }}</em></a>
+</div>
+{% endset %}
+
 {% if isPiwikDemo or latest_version_available or isSuperUser %}
 <span id="header_message" class="{% if isPiwikDemo or not latest_version_available %}header_info{% else %}header_alert{% endif %}">
     <span class="header_short">
@@ -11,15 +19,14 @@
         {% elseif latest_version_available %}
             {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
         {% elseif isSuperUser %}
-            <span class='loadingPiwik' style="display:none;"><img src='plugins/Zeitgeist/images/loading-blue.gif'/></span>
-            <img src="plugins/Zeitgeist/images/reload.png"/>
-            <a href="#" id="checkForUpdates"><em>{{ 'CoreHome_CheckForUpdates'|translate }}</em></a>
+            {{ updateCheck|raw }}
         {% endif %}
     </span>
 
-    {% if isPiwikDemo or latest_version_available %}
+    {% if isPiwikDemo or latest_version_available or isSuperUser %}
         <span class="header_full">
             {% if isPiwikDemo %}
+                {{ 'General_YouAreViewingDemoShortMessage'|translate }}
                 <br />
                 {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
                 <br/>
@@ -27,6 +34,10 @@
             {% if latest_version_available and isSuperUser %}
                 {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
                 <br/>
+                {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
+            {% elseif isSuperUser %}
+                {{ updateCheck|raw }}
+                <br />
                 {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
             {% endif %}
         </span>
