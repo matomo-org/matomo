@@ -11,36 +11,34 @@
 </div>
 {% endset %}
 
-{% if isPiwikDemo or latest_version_available or isSuperUser %}
+{% if isPiwikDemo or isSuperUser %}
 <span id="header_message" class="{% if isPiwikDemo or not latest_version_available %}header_info{% else %}header_alert{% endif %}">
     <span class="header_short">
         {% if isPiwikDemo %}
             {{ 'General_YouAreViewingDemoShortMessage'|translate }}
-        {% elseif latest_version_available %}
+        {% elseif latest_version_available and isSuperUser %}
             {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
         {% elseif isSuperUser %}
             {{ updateCheck|raw }}
         {% endif %}
     </span>
 
-    {% if isPiwikDemo or latest_version_available or isSuperUser %}
-        <span class="header_full">
-            {% if isPiwikDemo %}
-                {{ 'General_YouAreViewingDemoShortMessage'|translate }}
-                <br />
-                {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
-                <br/>
-            {% endif %}
-            {% if latest_version_available and isSuperUser %}
-                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
-                <br/>
-                {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
-            {% elseif isSuperUser %}
-                {{ updateCheck|raw }}
-                <br />
-                {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
-            {% endif %}
-        </span>
-    {% endif %}
+    <span class="header_full">
+        {% if isPiwikDemo %}
+            {{ 'General_YouAreViewingDemoShortMessage'|translate }}
+            <br />
+            {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
+            <br/>
+        {% endif %}
+        {% if latest_version_available and isSuperUser %}
+            {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
+            <br/>
+            {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
+        {% elseif isSuperUser %}
+            {{ updateCheck|raw }}
+            <br />
+            {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
+        {% endif %}
+    </span>
 </span>
 {% endif %}
