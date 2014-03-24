@@ -69,11 +69,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public $testEnvironment = null;
 
-    public function __construct()
-    {
-        $this->testEnvironment = new Piwik_TestingEnvironment();
-    }
-
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
     {
@@ -88,7 +83,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performSetUp($testCase, $setupEnvironmentOnly = false)
     {
-        $this->testEnvironment->delete();
+        $this->getTestEnvironment()->delete();
 
         try {
             \Piwik\SettingsPiwik::$piwikUrlCache = '';
@@ -106,7 +101,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
                 Config::getInstance()->database_tests['dbname'] = Config::getInstance()->database['dbname'] = $this->dbName;
 
-                $this->testEnvironment->dbName = $this->dbName;
+                $this->getTestEnvironment()->dbName = $this->dbName;
             }
 
             if ($this->dbName === false) { // must be after test config is created
@@ -185,8 +180,8 @@ class Fixture extends PHPUnit_Framework_Assert
             return;
         }
 
-        $this->testEnvironment->save();
-        $this->testEnvironment->executeSetupTestEnvHook();
+        $this->getTestEnvironment()->save();
+        $this->getTestEnvironment()->executeSetupTestEnvHook();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
@@ -198,6 +193,14 @@ class Fixture extends PHPUnit_Framework_Assert
         } else {
             $this->log("Using existing database {$this->dbName}.");
         }
+    }
+
+    public function getTestEnvironment()
+    {
+        if ($this->testEnvironment === null) {
+            $this->testEnvironment = new Piwik_TestingEnvironment();
+        }
+        return $this->testEnvironment;
     }
 
     public function isFixtureSetUp()
