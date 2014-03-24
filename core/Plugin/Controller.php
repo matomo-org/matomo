@@ -551,6 +551,8 @@ abstract class Controller
         $view->debugTrackVisitsInsidePiwikUI = PiwikConfig::getInstance()->Debug['track_visits_inside_piwik_ui'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+        $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
+        $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
         $customLogo = new CustomLogo();
@@ -560,6 +562,7 @@ abstract class Controller
         $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
         $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
         $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
+        $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
