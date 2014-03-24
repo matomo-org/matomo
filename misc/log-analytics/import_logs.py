@@ -16,6 +16,7 @@
 import base64
 import bz2
 import ConfigParser
+import csv
 import datetime
 import fnmatch
 import gzip
@@ -242,6 +243,45 @@ class IisFormat(RegexFormat):
         return self.check_format_line(nextline)
 
 
+class CSVFormat(BaseFormat):
+
+    def __init__(self, name):
+        super(CSVFormat, self).__init__(name)
+        self.fieldnames = None
+        self.date_format = "%m/%d/%y %I:%M %p"
+
+    def check_format(self, file):
+        line = file.readline()
+        try:
+            self.fieldnames = csv.reader([line]).next()
+            if not all(re.match('[a-z_]+$', f) for f in self.fieldnames):
+                raise Exception()
+        except:
+            file.seek(0)
+            return False
+
+        pos = file.tell()
+        line = file.readline()
+        file.seek(pos)
+        return self.check_format_line(line)
+
+    def check_format_line(self, line):
+        self.data = self.match(line)
+        return None not in self.data.keys() and None not in self.data.values()
+
+    def match(self, line):
+        try:
+            self.data = csv.DictReader([line], fieldnames=self.fieldnames).next()
+        except:
+            return None
+        return self.data
+
+    def get(self, key):
+        return self.data.get(key)
+
+    def get_all(self):
+        return self.data
+
 
 _HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
 _COMMON_LOG_FORMAT = (
@@ -269,6 +309,7 @@ FORMATS = {
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
     'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
     'nginx_json': JsonFormat('nginx_json'),
+    'csv': CSVFormat('csv'),
 }
 
 

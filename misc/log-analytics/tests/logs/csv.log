@@ -1,0 +1,2 @@
+timezone,date,ip,host,path,referrer,user_agent,status,length
+-500,12/20/13 8:42 AM,1.2.3.4,www.example.com,/index,http://google.com,"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11",200,368
