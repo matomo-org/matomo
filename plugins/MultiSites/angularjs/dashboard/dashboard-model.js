@@ -140,11 +140,22 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     };
 
     model.getNumberOfFilteredSites = function () {
-        return model.sites.length;
+        var numSites = model.sites.length;
+
+        var groupNames = {};
+
+        for (var index = 0; index < model.sites.length; index++) {
+            var site = model.sites[index];
+            if (site && site.isGroup) {
+                numSites += site.sites.length;
+            }
+        }
+
+        return numSites;
     };
 
     model.getNumberOfPages = function () {
-        return Math.ceil(model.sites.length / model.pageSize - 1);
+        return Math.ceil(model.getNumberOfFilteredSites() / model.pageSize - 1);
     };
 
     model.getCurrentPagingOffsetStart = function() {
@@ -153,8 +164,9 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
     model.getCurrentPagingOffsetEnd = function() {
         var end = model.getCurrentPagingOffsetStart() + parseInt(model.pageSize, 10);
-        if (end > model.sites.length) {
-            end = model.sites.length
+        var max = model.getNumberOfFilteredSites();
+        if (end > max) {
+            end = max;
         }
         return parseInt(end, 10);
     };
