@@ -1068,12 +1068,16 @@ class Common
 
             Log::getInstance()->setLogLevel(Log::DEBUG);
 
-            if (is_array($info)) {
+            if (is_array($info) || is_object($info)) {
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
-                Log::debug($out);
+                foreach (explode("\n", $out) as $line) {
+                    Log::debug($line);
+                }
             } else {
-                Log::debug(htmlspecialchars($info, ENT_QUOTES));
+                foreach (explode("\n", $info) as $line) {
+                    Log::debug(htmlspecialchars($line, ENT_QUOTES));
+                }
             }
         }
     }
