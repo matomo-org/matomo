@@ -40,9 +40,9 @@ use Exception;
  */
 class Config extends Singleton
 {
-    public static $defaultLocalConfigPath = '/config/config.ini.php';
-    public static $defaultCommonConfigPath = '/config/common.config.ini.php';
-    public static $defaultGlobalConfigPath = '/config/global.ini.php';
+    const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
+    const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';
+    const DEFAULT_GLOBAL_CONFIG_PATH = '/config/global.ini.php';
 
     /**
      * Contains configuration files values
@@ -59,17 +59,49 @@ class Config extends Singleton
     protected $pathLocal = null;
 
     /**
-     * Constructor
-     */
-    protected function __construct()
-    {
-        $this->clear();
-    }
-
-    /**
      * @var boolean
      */
     protected $isTest = false;
+
+    /**
+     * Constructor
+     */
+    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
+    {
+        $this->pathGlobal = $pathGlobal ?: self::getGlobalConfigPath();
+        $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
+        $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
+    }
+
+    /**
+     * Returns the path to the local config file used by this instance.
+     *
+     * @return string
+     */
+    public function getLocalPath()
+    {
+        return $this->pathLocal;
+    }
+
+    /**
+     * Returns the path to the global config file used by this instance.
+     *
+     * @return string
+     */
+    public function getGlobalPath()
+    {
+        return $this->pathGlobal;
+    }
+
+    /**
+     * Returns the path to the common config file used by this instance.
+     *
+     * @return string
+     */
+    public function getCommonPath()
+    {
+        return $this->pathCommon;
+    }
 
     /**
      * Enable test environment
@@ -84,17 +116,9 @@ class Config extends Singleton
 
         $this->clear();
 
-        if ($pathLocal) {
-            $this->pathLocal = $pathLocal;
-        }
-
-        if ($pathGlobal) {
-            $this->pathGlobal = $pathGlobal;
-        }
-
-        if ($pathCommon) {
-            $this->pathCommon = $pathCommon;
-        }
+        $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
+        $this->pathGlobal = $pathGlobal ?: self::getGlobalConfigPath();
+        $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
 
         $this->init();
 
@@ -143,7 +167,7 @@ class Config extends Singleton
      */
     protected static function getGlobalConfigPath()
     {
-        return PIWIK_USER_PATH . self::$defaultGlobalConfigPath;
+        return PIWIK_USER_PATH . self::DEFAULT_GLOBAL_CONFIG_PATH;
     }
 
     /**
@@ -153,7 +177,7 @@ class Config extends Singleton
      */
     public static function getCommonConfigPath()
     {
-        return PIWIK_USER_PATH . self::$defaultCommonConfigPath;
+        return PIWIK_USER_PATH . self::DEFAULT_COMMON_CONFIG_PATH;
     }
 
     /**
@@ -167,7 +191,7 @@ class Config extends Singleton
         if ($path) {
             return $path;
         }
-        return PIWIK_USER_PATH . self::$defaultLocalConfigPath;
+        return PIWIK_USER_PATH . self::DEFAULT_LOCAL_CONFIG_PATH;
     }
 
     private static function getLocalConfigInfoForHostname($hostname)
@@ -260,10 +284,6 @@ class Config extends Singleton
         $this->configLocal = array();
         $this->configCache = array();
         $this->initialized = false;
-
-        $this->pathGlobal = self::getGlobalConfigPath();
-        $this->pathCommon = self::getCommonConfigPath();
-        $this->pathLocal = self::getLocalConfigPath();
     }
 
     /**
@@ -289,6 +309,7 @@ class Config extends Singleton
 
         $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
+        // Check config.ini.php last
         $this->checkLocalConfigFound();
 
         $this->configLocal = _parse_ini_file($this->pathLocal, true);
@@ -360,7 +381,8 @@ class Config extends Singleton
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            Piwik::postTestEvent('Config.createConfigSingleton', array( $this, &$this->configCache ));
+            Piwik::postTestEvent('Config.createConfigSingleton',
+                array($this, &$this->configCache, &$this->configLocal));
         }
 
         // check cache for merged section

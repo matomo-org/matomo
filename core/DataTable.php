@@ -402,7 +402,9 @@ class DataTable implements DataTableInterface
      */
     public function filter($className, $parameters = array())
     {
-        if ($className instanceof \Closure) {
+        if ($className instanceof \Closure
+            || is_array($className)
+        ) {
             array_unshift($parameters, $this);
             call_user_func_array($className, $parameters);
             return;

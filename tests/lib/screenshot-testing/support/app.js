@@ -108,14 +108,32 @@ Application.prototype.loadTestModules = function () {
         var fixture = typeof suite.fixture === 'undefined' ? 'UITestFixture' : suite.fixture;
 
         suite.beforeAll(function (done) {
+            var oldOptions = JSON.parse(JSON.stringify(options));
+            if (suite.optionsOverride) {
+                for (var key in suite.optionsOverride) {
+                    options[key] = suite.optionsOverride[key];
+                }
+            }
+
             testEnvironment.setupFixture(fixture, done);
+
+            options = oldOptions;
         });
 
         // move to before other hooks
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
         suite.afterAll(function (done) {
+            var oldOptions = JSON.parse(JSON.stringify(options));
+            if (suite.optionsOverride) {
+                for (var key in suite.optionsOverride) {
+                    options[key] = suite.optionsOverride[key];
+                }
+            }
+
             testEnvironment.teardownFixture(fixture, done);
+
+            options = oldOptions;
         });
     });
 };

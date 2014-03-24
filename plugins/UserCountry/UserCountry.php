@@ -15,6 +15,7 @@ use Piwik\IP;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -170,7 +171,8 @@ class UserCountry extends \Piwik\Plugin
             $providerValue = $location[LocationProvider::ORG_KEY];
         }
 
-        if (isset($providerValue)) {
+        if (isset($providerValue)
+            && Manager::getInstance()->isPluginInstalled('Provider')) {
             $visitorInfo['location_provider'] = $providerValue;
         }
     }

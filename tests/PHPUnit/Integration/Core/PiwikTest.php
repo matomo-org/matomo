@@ -65,7 +65,7 @@ class Core_PiwikTest extends DatabaseTestCase
 &lt;!-- End Piwik Code --&gt;
 ";
 
-        $this->assertEquals($jsTag, $expected);
+        $this->assertEquals($expected, $jsTag);
     }
 
     /**

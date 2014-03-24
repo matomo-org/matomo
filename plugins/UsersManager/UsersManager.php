@@ -35,8 +35,15 @@ class UsersManager extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Platform.initialized'                   => 'onPlatformInitialized'
         );
+    }
+
+    public function onPlatformInitialized()
+    {
+        $lastSeenTimeLogger = new LastSeenTimeLogger();
+        $lastSeenTimeLogger->logCurrentUserLastSeenTime();
     }
 
     /**
