@@ -122,12 +122,17 @@ class Piwik_TestingEnvironment
 
                 $manager->unloadPlugins();
 
+                // TODO: replace this and below w/ configOverride use
                 if ($testingEnvironment->tablesPrefix) {
                     $cache['database']['tables_prefix'] = $testingEnvironment->tablesPrefix;
                 }
 
                 if ($testingEnvironment->dbName) {
                     $cache['database']['dbname'] = $testingEnvironment->dbName;
+                }
+
+                if ($testingEnvironment->configOverride) {
+                    $cache = array_merge_recursive($cache, $testingEnvironment->configOverride);
                 }
 
                 $testingEnvironment->logVariables();
@@ -168,6 +173,14 @@ class Piwik_TestingEnvironment
             }
         });
 
-        Piwik::postEvent("TestingEnvironment.addHooks", array($testingEnvironment), $pending = true); // for plugins that need to inject special testing logic
+        $testingEnvironment->executeSetupTestEnvHook();
+    }
+
+    /**
+     * for plugins that need to inject special testing logic
+     */
+    public function executeSetupTestEnvHook()
+    {
+        Piwik::postEvent("TestingEnvironment.addHooks", array($this), $pending = true);
     }
 }

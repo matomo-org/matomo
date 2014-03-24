@@ -69,6 +69,11 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public $testEnvironment = null;
 
+    public function __construct()
+    {
+        $this->testEnvironment = new Piwik_TestingEnvironment();
+    }
+
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
     {
@@ -83,7 +88,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performSetUp($testCase, $setupEnvironmentOnly = false)
     {
-        $this->testEnvironment = new Piwik_TestingEnvironment();
         $this->testEnvironment->delete();
 
         try {
@@ -182,6 +186,7 @@ class Fixture extends PHPUnit_Framework_Assert
         }
 
         $this->testEnvironment->save();
+        $this->testEnvironment->executeSetupTestEnvHook();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
@@ -682,17 +687,19 @@ class Fixture extends PHPUnit_Framework_Assert
         Piwik::postEvent('Request.initAuthenticationObject');
     }
 
-    private function dropDatabase()
+    public function dropDatabase($dbName = null)
     {
+        $dbName = $dbName ?: $this->dbName;
+
         $config = _parse_ini_file(PIWIK_INCLUDE_PATH . '/config/config.ini.php', true);
         $originalDbName = $config['database']['dbname'];
-        if ($this->dbName == $originalDbName
-            && $this->dbName != 'piwik_tests'
+        if ($dbName == $originalDbName
+            && $dbName != 'piwik_tests'
         ) { // santity check
             throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }
 
-        DbHelper::dropDatabase();
+        DbHelper::dropDatabase($dbName);
     }
 
     public function log($message)
