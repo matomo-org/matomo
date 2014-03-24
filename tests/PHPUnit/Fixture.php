@@ -399,7 +399,7 @@ class Fixture extends PHPUnit_Framework_Assert
         $url = "\n =========================== \n URL was: " . PiwikTracker::$DEBUG_LAST_REQUESTED_URL;
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
             . var_export($response, true)
-            . "\n If you are stuck, you can enable \$GLOBALS['PIWIK_TRACKER_DEBUG']=true; in piwik.php to get more debug info."
+            . "\n If you are stuck, you can enable [Tracker] debug=1; in config.ini.php to get more debug info."
             . base64_encode($response)
             . $url
         );
