@@ -240,7 +240,7 @@
         "NewUpdatePiwikX": "New Update: Piwik %s",
         "AboutPiwikX": "About Piwik %s",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s is available. %2$sPlease update now!%3$s (see %4$schanges%5$s).",
-        "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s is available. Please notify the %2$ssite administrator%3$s.",
+        "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s is available. Please notify the %2$sPiwik administrator%3$s.",
         "NewReportsWillBeProcessedByCron": "When Piwik archiving is not triggered by the browser, new reports will be processed by the crontab.",
         "ReportsWillBeProcessedAtMostEveryHour": "Reports will therefore be processed at most every hour.",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Assuming archiving is fast for your setup, you can setup the crontab to run more frequently.",
