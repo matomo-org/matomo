@@ -26,10 +26,10 @@ def test_format_detection():
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
         assert(format.name == format_name)
-    
+
     def _test_junk(format_name):
         tmp_path = add_junk_to_file('logs/%s.log' % format_name)
-        
+
         file = open(tmp_path)
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
@@ -39,7 +39,7 @@ def test_format_detection():
         f = functools.partial(_test, format_name)
         f.description = 'Testing autodetection of format ' + format_name
         yield f
-        
+
         f = functools.partial(_test_junk, format_name)
         f.description = 'Testing autodetection of format ' + format_name + ' w/ garbage at end of line'
         yield f
@@ -256,6 +256,17 @@ def check_icecast2_groups(groups):
     check_ncsa_extended_groups(groups)
 
     assert groups['session_time'] == '1807'
+
+def check_csv_groups(groups):
+    assert groups['host'] == 'www.example.com'
+    assert groups['date'] == '12/20/13 8:42 AM'
+    assert groups['timezone'] == '-500'
+    assert groups['ip'] == '1.2.3.4'
+    assert groups['path'] == '/index'
+    assert groups['status'] == '200'
+    assert groups['length'] == '368'
+    assert groups['referrer'] == 'http://google.com'
+    assert groups['user_agent'] == 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11'
 
 def check_match_groups(format_name, groups):
     symbols = globals()
