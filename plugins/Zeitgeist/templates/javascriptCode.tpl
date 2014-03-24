@@ -12,5 +12,5 @@
   })();
 
 </script>
-<noscript><p><img src="http://{$piwikUrl}piwik.php?idsite={$idSite}" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="http://{$piwikUrl}/piwik.php?idsite={$idSite}" style="border:0;" alt="" /></p></noscript>
 <!-- End Piwik Code -->

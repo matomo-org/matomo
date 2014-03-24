@@ -138,7 +138,7 @@ class Piwik
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
-        $piwikUrl = @$matches[2];
+        $piwikUrl = rtrim(@$matches[2], "/");
 
         // Build optional parameters to be added to text
         $options = '';
@@ -203,8 +203,10 @@ class Piwik
         if (!empty($codeImpl['httpsPiwikUrl'])) {
             $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https://{$httpsPiwikUrl}/" : '
                            . '"http://{$piwikUrl}/");';
+
+            $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         } else {
-            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$piwikUrl}";';
+            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$piwikUrl}/";';
         }
         $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
 
