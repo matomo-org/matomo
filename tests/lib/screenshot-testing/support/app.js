@@ -46,6 +46,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --persist-fixture-data:   Persists test data in a database and does not execute tear down.");
     console.log("                            After the first run, the database setup will not be called, which");
     console.log("                            Makes running tests faster.");
+    console.log("  --plugin=name:            Runs all tests for a plugin.");
     console.log("  --keep-symlinks:          If supplied, the recursive symlinks created in tests/PHPUnit/proxy");
     console.log("                            aren't deleted after tests are run. Specify this option if you'd like");
     console.log("                            to view pages phantomjs captures in a browser.");
@@ -100,6 +101,12 @@ Application.prototype.loadTestModules = function () {
     if (options.tests.length) {
         mocha.suite.suites = mocha.suite.suites.filter(function (suite) {
             return options.tests.indexOf(suite.title) != -1;
+        });
+    }
+
+    if (options.plugin) {
+        mocha.suite.suites = mocha.suite.suites.filter(function (suite) {
+            return suite.baseDirectory.match(new RegExp("\/plugins\/" + options.plugin + "\/"));
         });
     }
 
