@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Timer;
 use Piwik\Tracker;
 
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 define('PIWIK_ENABLE_TRACKING', true);
 
@@ -84,6 +83,9 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
     ob_start();
 }
 
+\Piwik\FrontController::createConfigObject();
+
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = \Piwik\Config::getInstance()->Tracker['debug'];
 if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
@@ -93,10 +95,10 @@ if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     \Piwik\ExceptionHandler::setUp();
 
     $timer = new Timer();
-    Common::printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
+    Common::printDebug("Debug enabled - Input parameters: ");
+    Common::printDebug(var_export($_GET, true));
 
     \Piwik\Tracker\Db::enableProfiling();
-    \Piwik\FrontController::createConfigObject();
 }
 
 if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {

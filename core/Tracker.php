@@ -350,7 +350,10 @@ class Tracker
             // restore original user privilege
             Piwik::setUserHasSuperUserAccess($isSuperUser);
 
-            Common::printDebug($resultTasks);
+            foreach (explode('</pre>', $resultTasks) as $resultTask) {
+                Common::printDebug(str_replace('<pre>', '', $resultTask));
+            }
+
             Common::printDebug('Finished Scheduled Tasks.');
         } else {
             Common::printDebug("-> Scheduled tasks not triggered.");
@@ -851,7 +854,7 @@ class Tracker
                 Common::printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
             }
         } catch (DbException $e) {
-            Common::printDebug("<b>" . $e->getMessage() . "</b>");
+            Common::printDebug("Exception: " . $e->getMessage());
             $this->exitWithException($e, $isAuthenticated);
         } catch (Exception $e) {
             $this->exitWithException($e, $isAuthenticated);

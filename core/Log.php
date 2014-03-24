@@ -290,7 +290,7 @@ class Log extends Singleton
             if ($logLevel >= self::NONE // sanity check
                 && $logLevel <= self::VERBOSE
             ) {
-                $this->currentLogLevel = $logLevel;
+                $this->setLogLevel($logLevel);
             }
         }
     }
@@ -353,6 +353,11 @@ class Log extends Singleton
         $writers['screen'] = array($this, 'logToScreen');
         $writers['database'] = array($this, 'logToDatabase');
         return $writers;
+    }
+
+    public function setLogLevel($logLevel)
+    {
+        $this->currentLogLevel = $logLevel;
     }
 
     private function logToFile($level, $tag, $datetime, $message)

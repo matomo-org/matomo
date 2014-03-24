@@ -400,6 +400,10 @@ enable_update_communication = 1
 ; this is useful when you want to do cross websites analysis
 use_third_party_id_cookie = 0
 
+; If tracking does not work for you or you are stuck finding an issue, you might want to enable the tracker debug mode.
+; Once enabled (set to 1) messages will be logged to all loggers defined in "[log] log_writers" config.
+debug = 0
+
 ; There is a feature in the Tracking API that lets you create new visit at any given time, for example if you know that a different user/customer is using
 ; the app then you would want to tell Piwik to create a new visit (even though both users are using the same browser/computer).
 ; To prevent abuse and easy creation of fake visits, this feature requires admin token_auth by default

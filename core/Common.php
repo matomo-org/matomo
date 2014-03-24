@@ -31,7 +31,6 @@ class Common
 
     public static $isCliMode = null;
 
-
     /*
      * Database
      */
@@ -1062,17 +1061,19 @@ class Common
     static public function printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            if(is_object($info)) {
+
+            if (is_object($info)) {
                 $info = var_export($info, true);
             }
+
+            Log::getInstance()->setLogLevel(Log::DEBUG);
+
             if (is_array($info)) {
-                print("<pre>");
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
-                echo $out;
-                print("</pre>");
+                Log::debug($out);
             } else {
-                print(htmlspecialchars($info, ENT_QUOTES) . "<br />\n");
+                Log::debug(htmlspecialchars($info, ENT_QUOTES));
             }
         }
     }
