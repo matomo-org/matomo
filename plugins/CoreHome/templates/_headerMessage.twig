@@ -11,14 +11,14 @@
 </div>
 {% endset %}
 
-{% if isPiwikDemo or (latest_version_available and hasSomeViewAccess and not isUserIsAnonymous) or isSuperUser %}
+{% if isPiwikDemo or (latest_version_available and hasSomeViewAccess and not isUserIsAnonymous) or (isSuperUser and adminMenu is defined and adminMenu) %}
 <span id="header_message" class="{% if isPiwikDemo or not latest_version_available %}header_info{% else %}header_alert{% endif %}">
     <span class="header_short">
         {% if isPiwikDemo %}
             {{ 'General_YouAreViewingDemoShortMessage'|translate }}
         {% elseif latest_version_available %}
             {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
-        {% elseif isSuperUser %}
+        {% elseif isSuperUser and adminMenu is defined and adminMenu %}
             {{ updateCheck|raw }}
         {% endif %}
     </span>
@@ -37,7 +37,7 @@
         {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
             {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}
             {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
-        {% elseif isSuperUser %}
+        {% elseif isSuperUser and adminMenu is defined and adminMenu %}
             {{ updateCheck|raw }}
             <br />
             {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
