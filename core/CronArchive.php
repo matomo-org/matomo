@@ -8,7 +8,9 @@
  */
 namespace Piwik;
 
+use Piwik\ArchiveProcessor\FixedSiteIds;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor\SharedSiteIds;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Exception;
@@ -105,6 +107,10 @@ Notes:
     private $idSitesInvalidatedOldReports = array();
     private $shouldArchiveSpecifiedSites = array();
     private $shouldSkipSpecifiedSites = array();
+
+    /**
+     * @var SharedSiteIds|FixedSiteIds
+     */
     private $websites = array();
     private $allWebsites = array();
     private $segments = array();
@@ -153,9 +159,17 @@ Notes:
 
         $this->segments = $this->initSegmentsToArchive();
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
+
         $websitesIds = $this->initWebsiteIds();
         $this->filterWebsiteIds($websitesIds);
-        $this->websites = $websitesIds;
+
+        if (!empty($this->shouldArchiveSpecifiedSites)
+            || !empty($this->shouldArchiveAllSites)
+            || !SharedSiteIds::isSupported()) {
+            $this->websites = new FixedSiteIds($websitesIds);
+        } else {
+            $this->websites = new SharedSiteIds($websitesIds);
+        }
 
         if($this->shouldStartProfiler) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
@@ -189,7 +203,14 @@ Notes:
 
         $this->logSection("START");
         $this->log("Starting Piwik reports archiving...");
-        foreach ($this->websites as $idsite) {
+
+        do {
+            $idsite = $this->websites->getNextSiteId();
+
+            if (null === $idsite) {
+                break;
+            }
+
             flush();
             $requestsBefore = $this->requests;
             if ($idsite <= 0) {
@@ -207,9 +228,14 @@ Notes:
 
             $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
             if ($this->archiveAndRespectTTL) {
+                Option::clearCachedOption($this->lastRunKey($idsite, "periods"));
                 $lastTimestampWebsiteProcessedPeriods = Option::get($this->lastRunKey($idsite, "periods"));
+
+                Option::clearCachedOption($this->lastRunKey($idsite, "day"));
                 $lastTimestampWebsiteProcessedDay = Option::get($this->lastRunKey($idsite, "day"));
             }
+
+            $this->updateIdSitesInvalidatedOldReports();
 
             // For period other than days, we only re-process the reports at most
             // 1) every $processPeriodsMaximumEverySeconds
@@ -235,6 +261,7 @@ Notes:
             // (*) If there was some old reports invalidated for this website
             // we make sure all these old reports are triggered at least once
             $websiteIsOldDataInvalidate = in_array($idsite, $this->idSitesInvalidatedOldReports);
+
             if ($websiteIsOldDataInvalidate) {
                 $shouldArchivePeriods = true;
             }
@@ -256,12 +283,13 @@ Notes:
             $skipDayArchive = $skipDayArchive && !$websiteIsOldDataInvalidate;
 
             // Also reprocess when day has ended since last run
-            if($dayHasEndedMustReprocess
+            if ($dayHasEndedMustReprocess
+                && !$this->hasBeenProcessedSinceMidnight($idsite, $lastTimestampWebsiteProcessedDay) // it might have reprocessed for that day by another cron
                 && !$existingArchiveIsValid) {
                 $skipDayArchive = false;
             }
 
-            if($websiteIdIsForced) {
+            if ($websiteIdIsForced) {
                 $skipDayArchive = false;
             }
 
@@ -277,6 +305,13 @@ Notes:
             // Fake that the request is already done, so that other archive.php
             // running do not grab the same website from the queue
             Option::set($this->lastRunKey($idsite, "day"), time());
+
+            // Remove this website from the list of websites to be invalidated
+            // since it's now just about to being re-processed, makes sure another running cron archiving process
+            // does not archive the same idsite
+            if ($websiteIsOldDataInvalidate) {
+                $this->setSiteIsArchived($idsite);
+            }
 
             // when some data was purged from this website
             // we make sure we query all previous days/weeks/months
@@ -347,12 +382,6 @@ Notes:
             // Record succesful run of this website's periods archiving
             if ($success) {
                 Option::set($this->lastRunKey($idsite, "periods"), time());
-
-                // Remove this website from the list of websites to be invalidated
-                // since it's now just been re-processing the reports, job is done!
-                if ($websiteIsOldDataInvalidate) {
-                    $this->setSiteIsArchived($idsite);
-                }
             }
             $archivedPeriodsArchivesWebsite++;
 
@@ -361,12 +390,11 @@ Notes:
             Log::info("Archived website id = $idsite, today = $visitsToday visits"
                 . $debug . ", $requestsWebsite API requests, "
                 . $timerWebsite->__toString()
-                . " [" . ($websitesWithVisitsSinceLastRun + $skipped) . "/"
-                . count($this->websites)
+                . " [" . $this->websites->getNumProcessedWebsites() . "/"
+                . $this->websites->getNumSites()
                 . " done]");
 
-        }
-
+        } while (!empty($idsite));
 
         $this->log("Done archiving!");
 
@@ -383,11 +411,11 @@ Notes:
         $this->log("Total API requests: $this->requests");
 
         //DONE: done/total, visits, wtoday, wperiods, reqs, time, errors[count]: first eg.
-        $percent = count($this->websites) == 0
+        $percent = $this->websites->getNumSites() == 0
             ? ""
-            : " " . round($processed * 100 / count($this->websites), 0) . "%";
+            : " " . round($processed * 100 / $this->websites->getNumSites(), 0) . "%";
         $this->log("done: " .
-            $processed . "/" . count($this->websites) . "" . $percent . ", " .
+            $processed . "/" . $this->websites->getNumSites() . "" . $percent . ", " .
             $this->visits . " v, $websitesWithVisitsSinceLastRun wtoday, $archivedPeriodsArchivesWebsite wperiods, " .
             $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
             (empty($this->errors)
@@ -782,7 +810,7 @@ Notes:
         }
     }
 
-    private function filterWebsiteIds(&$websiteIds)
+    public function filterWebsiteIds(&$websiteIds)
     {
         // Keep only the websites that do exist
         $websiteIds = array_intersect($websiteIds, $this->allWebsites);
@@ -803,7 +831,7 @@ Notes:
      *  Returns the list of sites to loop over and archive.
      *  @return array
      */
-    private function initWebsiteIds()
+    public function initWebsiteIds()
     {
         if(count($this->shouldArchiveSpecifiedSites) > 0) {
             $this->log("- Will process " . count($this->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
@@ -817,7 +845,7 @@ Notes:
 
         $websiteIds = array_merge(
             $this->addWebsiteIdsWithVisitsSinceLastRun(),
-            $this->addWebsiteIdsToReprocess()
+            $this->getWebsiteIdsToInvalidate()
         );
         $websiteIds = array_merge($websiteIds, $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds));
         return array_unique($websiteIds);
@@ -921,6 +949,11 @@ Notes:
         return false;
     }
 
+    private function updateIdSitesInvalidatedOldReports()
+    {
+        $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
+    }
+
     /**
      * Return All websites that had reports in the past which were invalidated recently
      * (see API CoreAdminHome.invalidateArchivedReports)
@@ -928,9 +961,9 @@ Notes:
      *
      * @return array
      */
-    private function addWebsiteIdsToReprocess()
+    private function getWebsiteIdsToInvalidate()
     {
-        $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
+        $this->updateIdSitesInvalidatedOldReports();
 
         if (count($this->idSitesInvalidatedOldReports) > 0) {
             $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
@@ -938,6 +971,7 @@ Notes:
                 . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
                 . $ids);
         }
+
         return $this->idSitesInvalidatedOldReports;
     }
 
@@ -978,6 +1012,22 @@ Notes:
             }
         }
         return $timezoneToProcess;
+    }
+
+    private function hasBeenProcessedSinceMidnight($idsite, $lastTimestampWebsiteProcessedDay)
+    {
+        if (false === $lastTimestampWebsiteProcessedDay) {
+            return true;
+        }
+
+        $timezone = Site::getTimezoneFor($idsite);
+
+        $dateInTimezone     = Date::factory('now', $timezone);
+        $midnightInTimezone = $dateInTimezone->setTime('00:00:00');
+
+        $lastProcessedDateInTimezone = Date::factory((int) $lastTimestampWebsiteProcessedDay, $timezone);
+
+        return $lastProcessedDateInTimezone->getTimestamp() >= $midnightInTimezone->getTimestamp();
     }
 
     /**
@@ -1092,7 +1142,6 @@ Notes:
             $found = array_search($idsite, $websiteIdsInvalidated);
             if ($found !== false) {
                 unset($websiteIdsInvalidated[$found]);
-//								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
                 Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
             }
         }

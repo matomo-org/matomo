@@ -200,6 +200,8 @@ class API extends \Piwik\Plugin\API
     static public function getWebsiteIdsToInvalidate()
     {
         Piwik::checkUserHasSomeAdminAccess();
+
+        Option::clearCachedOption(self::OPTION_INVALIDATED_IDSITES);
         $invalidatedIdSites = Option::get(self::OPTION_INVALIDATED_IDSITES);
         if ($invalidatedIdSites
             && ($invalidatedIdSites = unserialize($invalidatedIdSites))

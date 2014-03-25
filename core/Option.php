@@ -94,6 +94,11 @@ class Option
         return self::getInstance()->deleteNameLike($namePattern, $value);
     }
 
+    public static function clearCachedOption($name)
+    {
+        self::getInstance()->clearCachedOptionByName($name);
+    }
+
     /**
      * Clears the option value cache and forces a reload from the Database.
      * Used in unit tests to reset the state of the object between tests.
@@ -142,6 +147,13 @@ class Option
      */
     private function __construct()
     {
+    }
+
+    protected function clearCachedOptionByName($name)
+    {
+        if (isset($this->all[$name])) {
+            unset($this->all[$name]);
+        }
     }
 
     protected function getValue($name)

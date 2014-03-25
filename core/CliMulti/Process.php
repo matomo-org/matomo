@@ -146,9 +146,10 @@ class Process
             return false;
         }
 
-        if(self::shellExecFunctionIsDisabled()) {
+        if (self::shellExecFunctionIsDisabled()) {
             return false;
         }
+
         if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
             return true;
         }
