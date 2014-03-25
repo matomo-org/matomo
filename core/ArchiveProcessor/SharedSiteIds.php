@@ -12,6 +12,10 @@ use Exception;
 use Piwik\Option;
 use Piwik\CliMulti\Process;
 
+/**
+ * This class saves all to be processed siteIds in an Option named 'SharedSiteIdsToArchive' and processes all sites
+ * within that list. If a user starts multiple archiver those archiver will help to finish processing that list.
+ */
 class SharedSiteIds
 {
     private $siteIds = array();
@@ -21,6 +25,8 @@ class SharedSiteIds
     {
         $self = $this;
         $this->siteIds = $this->runExclusive(function () use ($self, $websiteIds) {
+            // if there are already sites to be archived registered, prefer the list of existing archive, meaning help
+            // to finish this queue of sites instead of starting a new queue
             $existingWebsiteIds = $self->getAllSiteIdsToArchive();
 
             if (!empty($existingWebsiteIds)) {
@@ -33,11 +39,21 @@ class SharedSiteIds
         });
     }
 
+    /**
+     * Get the number of total websites that needs to be processed.
+     *
+     * @return int
+     */
     public function getNumSites()
     {
         return count($this->siteIds);
     }
 
+    /**
+     * Get the number of already processed websites (not necessarily all of those where processed by this archiver).
+     *
+     * @return int
+     */
     public function getNumProcessedWebsites()
     {
         if (empty($this->currentSiteId)) {
@@ -56,16 +72,16 @@ class SharedSiteIds
     public function setSiteIdsToArchive($siteIds)
     {
         if (!empty($siteIds)) {
-            Option::set('SiteIdsToArchive', implode(',', $siteIds));
+            Option::set('SharedSiteIdsToArchive', implode(',', $siteIds));
         } else {
-            Option::delete('SiteIdsToArchive');
+            Option::delete('SharedSiteIdsToArchive');
         }
     }
 
     public function getAllSiteIdsToArchive()
     {
-        Option::clearCachedOption('SiteIdsToArchive');
-        $siteIdsToArchive = Option::get('SiteIdsToArchive');
+        Option::clearCachedOption('SharedSiteIdsToArchive');
+        $siteIdsToArchive = Option::get('SharedSiteIdsToArchive');
 
         if (empty($siteIdsToArchive)) {
             return array();
@@ -86,7 +102,7 @@ class SharedSiteIds
      */
     private function runExclusive($closure)
     {
-        $process = new Process('archive.lock');
+        $process = new Process('archive.sharedsiteids');
         while ($process->isRunning() && $process->getSecondsSinceCreation() < 5) {
             // wait max 5 seconds, such an operation should not take longer
             usleep(25);
@@ -106,6 +122,11 @@ class SharedSiteIds
         return $result;
     }
 
+    /**
+     * Get the next site id that needs to be processed or null if all site ids where processed.
+     *
+     * @return int|null
+     */
     public function getNextSiteId()
     {
         $self = $this;

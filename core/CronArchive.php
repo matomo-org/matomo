@@ -171,7 +171,7 @@ Notes:
             $this->websites = new SharedSiteIds($websitesIds);
         }
 
-        if($this->shouldStartProfiler) {
+        if ($this->shouldStartProfiler) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
             $this->log("XHProf profiling is enabled.");
         }

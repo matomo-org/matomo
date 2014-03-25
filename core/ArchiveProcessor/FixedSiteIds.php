@@ -23,11 +23,21 @@ class FixedSiteIds
         $this->siteIds = $websiteIds;
     }
 
+    /**
+     * Get the number of total websites that needs to be processed.
+     *
+     * @return int
+     */
     public function getNumSites()
     {
         return count($this->siteIds);
     }
 
+    /**
+     * Get the number of already processed websites. All websites were processed by the current archiver.
+     *
+     * @return int
+     */
     public function getNumProcessedWebsites()
     {
         return $this->index + 1;
