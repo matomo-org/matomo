@@ -20,9 +20,14 @@ class SharedSiteIds
 {
     private $siteIds = array();
     private $currentSiteId;
+    private $done = false;
 
     public function __construct($websiteIds)
     {
+        if (empty($websiteIds)) {
+            $websiteIds = array();
+        }
+
         $self = $this;
         $this->siteIds = $this->runExclusive(function () use ($self, $websiteIds) {
             // if there are already sites to be archived registered, prefer the list of existing archive, meaning help
@@ -56,6 +61,10 @@ class SharedSiteIds
      */
     public function getNumProcessedWebsites()
     {
+        if ($this->done) {
+            return $this->getNumSites();
+        }
+
         if (empty($this->currentSiteId)) {
             return 0;
         }
@@ -103,6 +112,7 @@ class SharedSiteIds
     private function runExclusive($closure)
     {
         $process = new Process('archive.sharedsiteids');
+
         while ($process->isRunning() && $process->getSecondsSinceCreation() < 5) {
             // wait max 5 seconds, such an operation should not take longer
             usleep(25);
@@ -144,6 +154,10 @@ class SharedSiteIds
 
             return $nextSiteId;
         });
+
+        if (is_null($this->currentSiteId)) {
+            $this->done = true;
+        }
 
         return $this->currentSiteId;
     }

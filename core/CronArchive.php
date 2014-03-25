@@ -284,7 +284,8 @@ Notes:
 
             // Also reprocess when day has ended since last run
             if ($dayHasEndedMustReprocess
-                && !$this->hasBeenProcessedSinceMidnight($idsite, $lastTimestampWebsiteProcessedDay) // it might have reprocessed for that day by another cron
+                // it might have reprocessed for that day by another cron
+                && !$this->hasBeenProcessedSinceMidnight($idsite, $lastTimestampWebsiteProcessedDay)
                 && !$existingArchiveIsValid) {
                 $skipDayArchive = false;
             }

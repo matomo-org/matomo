@@ -20,7 +20,9 @@ class FixedSiteIds
 
     public function __construct($websiteIds)
     {
-        $this->siteIds = $websiteIds;
+        if (!empty($websiteIds)) {
+            $this->siteIds = $websiteIds;
+        }
     }
 
     /**
@@ -40,7 +42,13 @@ class FixedSiteIds
      */
     public function getNumProcessedWebsites()
     {
-        return $this->index + 1;
+        $numProcessed = $this->index + 1;
+
+        if ($numProcessed > $this->getNumSites()) {
+            return $this->getNumSites();
+        }
+
+        return $numProcessed;
     }
 
     public function getNextSiteId()
