@@ -1150,7 +1150,7 @@ Notes:
 
     private function logFatalErrorUrlExpected()
     {
-        $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
+        $this->logFatalError("archive.php expects the argument 'url' to be set to your Piwik URL, for example: url=http://example.org/piwik/ "
             . "\n--help for more information", $backtrace = false);
     }
 

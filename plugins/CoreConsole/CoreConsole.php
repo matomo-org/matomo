@@ -25,6 +25,7 @@ class CoreConsole extends \Piwik\Plugin
     public function addConsoleCommands(&$commands)
     {
         $commands[] = 'Piwik\Plugins\CoreConsole\Commands\CodeCoverage';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\CoreArchiver';
         $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateApi';
         $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateController';
         $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GeneratePlugin';
