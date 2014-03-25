@@ -115,7 +115,7 @@ class SharedSiteIds
 
         while ($process->isRunning() && $process->getSecondsSinceCreation() < 5) {
             // wait max 5 seconds, such an operation should not take longer
-            usleep(25);
+            usleep(25 * 1000);
         }
 
         $process->startProcess();
