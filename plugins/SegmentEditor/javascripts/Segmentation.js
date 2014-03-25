@@ -1195,6 +1195,10 @@ $(document).ready(function() {
             return this.impl.getSegment();
         },
 
+        setSegment: function (segment) {
+            return this.impl.setSegment(segment);
+        },
+
         rebuild: function () {
             this.impl.setAvailableSegments(this.props.availableSegments);
             this.impl.initHtml();
