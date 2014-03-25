@@ -85,7 +85,7 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
 
 \Piwik\FrontController::createConfigObject();
 
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = \Piwik\Config::getInstance()->Tracker['debug'];
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = (bool) \Piwik\Config::getInstance()->Tracker['debug'];
 if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 

@@ -159,9 +159,9 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
         $_GET = $oldGet;
 
+        $this->assertEquals(0, \Piwik\Config::getInstance()->Tracker['debug']);
         $this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
     }
-
 
     /**
      * This tests that all PHP files start with <?php
