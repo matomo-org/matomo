@@ -24,7 +24,7 @@ class SegmentSelectorControl extends UIControl
     /**
      * Constructor.
      */
-    public function __construct()
+    public function __construct($idSite = false)
     {
         parent::__construct();
 
@@ -32,7 +32,7 @@ class SegmentSelectorControl extends UIControl
         $this->cssIdentifier = "segmentEditorPanel";
         $this->cssClass = "piwikTopControl";
 
-        $this->idSite = Common::getRequestVar('idSite', false, 'int');
+        $this->idSite = $idSite ?: Common::getRequestVar('idSite', false, 'int');
 
         $this->selectedSegment = Common::getRequestVar('segment', false, 'string');
 
