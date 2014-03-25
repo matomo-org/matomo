@@ -167,6 +167,15 @@ class ArchiveWriter
         return $this->idArchive;
     }
 
+    /**
+     * Locks the archive table to generate a new archive ID.
+     *
+     * We lock to make sure that
+     * if several archiving processes are running at the same time (for different websites and/or periods)
+     * then they will each use a unique archive ID.
+     *
+     * @return int
+     */
     protected function insertNewArchiveId()
     {
         $numericTable = $this->getTableNumeric();
@@ -177,7 +186,7 @@ class ArchiveWriter
         $locked = self::PREFIX_SQL_LOCK . Common::generateUniqId();
         $date = date("Y-m-d H:i:s");
         $insertSql = "INSERT INTO $numericTable "
-            . " SELECT ifnull(max(idarchive),0)+1,
+            . " SELECT IFNULL( MAX(idarchive), 0 ) + 1,
 								'" . $locked . "',
 								" . (int)$idSite . ",
 								'" . $date . "',
@@ -187,7 +196,9 @@ class ArchiveWriter
 								0 "
             . " FROM $numericTable as tb1";
         Db::get()->exec($insertSql);
+
         $this->releaseArchiveTableLock();
+
         $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
         $id = Db::get()->fetchOne($selectIdSql, $locked);
         return $id;
@@ -204,6 +215,18 @@ class ArchiveWriter
         return self::makeLockName($this->idSite, $this->period, $this->segment);
     }
 
+    /**
+     * This lock is to ensure that a given archive is only processed once.
+     *
+     * When 10 widgets request the same site + date + segment at once,
+     * then this lock will ensure that only the first widget will process the data,
+     * while other are waiting for the lock to be released (and then will just read the archive data).
+     *
+     * @param $idsite
+     * @param Period $period
+     * @param Segment $segment
+     * @return string
+     */
     protected static function makeLockName($idsite, Period $period, Segment $segment)
     {
         $config = Config::getInstance();
@@ -225,7 +248,8 @@ class ArchiveWriter
         $this->acquireArchiveTableLock();
 
         Db::query("DELETE FROM " . $this->getTableNumeric() . "
-					WHERE idarchive = ? AND (name = '" . $this->doneFlag . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
+					WHERE idarchive = ? AND (name = '" . $this->doneFlag
+                    . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
             array($this->getIdArchive())
         );
 
