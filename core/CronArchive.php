@@ -179,75 +179,7 @@ class CronArchive
                 continue;
             }
 
-            $timerWebsite = new Timer;
-
-            $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
-            if ($this->archiveAndRespectTTL) {
-                Option::clearCachedOption($this->lastRunKey($idsite, "periods"));
-                $lastTimestampWebsiteProcessedPeriods = Option::get($this->lastRunKey($idsite, "periods"));
-
-                Option::clearCachedOption($this->lastRunKey($idsite, "day"));
-                $lastTimestampWebsiteProcessedDay = Option::get($this->lastRunKey($idsite, "day"));
-            }
-
-            $this->updateIdSitesInvalidatedOldReports();
-
-            // For period other than days, we only re-process the reports at most
-            // 1) every $processPeriodsMaximumEverySeconds
-            $secondsSinceLastExecution = time() - $lastTimestampWebsiteProcessedPeriods;
-
-            // if timeout is more than 10 min, we account for a 5 min processing time, and allow trigger 1 min earlier
-            if ($this->processPeriodsMaximumEverySeconds > 10 * 60) {
-                $secondsSinceLastExecution += 5 * 60;
-            }
-            $shouldArchivePeriods = $secondsSinceLastExecution > $this->processPeriodsMaximumEverySeconds;
-            if (empty($lastTimestampWebsiteProcessedPeriods)) {
-                // 2) OR always if script never executed for this website before
-                $shouldArchivePeriods = true;
-            }
-
-            // (*) If the website is archived because it is a new day in its timezone
-            // We make sure all periods are archived, even if there is 0 visit today
-            $dayHasEndedMustReprocess = in_array($idsite, $this->websiteDayHasFinishedSinceLastRun);
-            if ($dayHasEndedMustReprocess) {
-                $shouldArchivePeriods = true;
-            }
-
-            // (*) If there was some old reports invalidated for this website
-            // we make sure all these old reports are triggered at least once
-            $websiteIsOldDataInvalidate = in_array($idsite, $this->idSitesInvalidatedOldReports);
-
-            if ($websiteIsOldDataInvalidate) {
-                $shouldArchivePeriods = true;
-            }
-
-            $websiteIdIsForced = in_array($idsite, $this->shouldArchiveSpecifiedSites);
-            if($websiteIdIsForced) {
-                $shouldArchivePeriods = true;
-            }
-
-            // Test if we should process this website at all
-            $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
-
-            // Skip this day archive if last archive was older than TTL
-            $existingArchiveIsValid = ($elapsedSinceLastArchiving < $this->todayArchiveTimeToLive);
-
-            $skipDayArchive = $existingArchiveIsValid;
-
-            // Invalidate old website forces the archiving for this site
-            $skipDayArchive = $skipDayArchive && !$websiteIsOldDataInvalidate;
-
-            // Also reprocess when day has ended since last run
-            if ($dayHasEndedMustReprocess
-                // it might have reprocessed for that day by another cron
-                && !$this->hasBeenProcessedSinceMidnight($idsite, $lastTimestampWebsiteProcessedDay)
-                && !$existingArchiveIsValid) {
-                $skipDayArchive = false;
-            }
-
-            if ($websiteIdIsForced) {
-                $skipDayArchive = false;
-            }
+            Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idsite));
 
             $completed = $this->archiveSingleSite($idsite);
 
@@ -399,7 +331,8 @@ class CronArchive
 
         // Also reprocess when day has ended since last run
         if ($dayHasEndedMustReprocess
-            && !$this->hasBeenProcessedSinceMidnight($idsite, $lastTimestampWebsiteProcessedDay) // it might have reprocessed for that day by another cron
+            // it might have reprocessed for that day by another cron
+            && !$this->hasBeenProcessedSinceMidnight($idsite, $lastTimestampWebsiteProcessedDay)
             && !$existingArchiveIsValid) {
             $skipDayArchive = false;
         }
