@@ -181,7 +181,7 @@ class CronArchive
 
             Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idsite));
 
-            $completed = $this->archiveSingleSite($idsite);
+            $completed = $this->archiveSingleSite($idsite, $requestsBefore);
 
             Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idsite, $completed));
         } while (!empty($idsite));
@@ -269,7 +269,7 @@ class CronArchive
         $this->logSection("");
     }
 
-    private function archiveSingleSite($idsite)
+    private function archiveSingleSite($idsite, $requestsBefore)
     {
         $timerWebsite = new Timer;
 
