@@ -47,7 +47,7 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
 
         $this->defaultApiNotToCall[] = 'Referrers';
 
-        // changes made to test VisitFrequency 
+        // changes made to SQL dump to test VisitFrequency change the day of week
         $this->defaultApiNotToCall[] = 'VisitTime.getByDayOfWeek';
     }
 
