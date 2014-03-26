@@ -20,7 +20,7 @@ if (!defined('PIWIK_USER_PATH')) {
 if (!class_exists('Piwik\Console', false)) {
     define('PIWIK_ENABLE_DISPATCH', false);
     define('PIWIK_ENABLE_ERROR_HANDLER', false);
-    define('PIWIK_ENABLE_SESSION_START', PIWIK_INCLUDE_PATH);
+    define('PIWIK_ENABLE_SESSION_START', false);
     require_once PIWIK_INCLUDE_PATH . "/index.php";
 }
 
