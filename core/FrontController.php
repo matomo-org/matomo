@@ -153,6 +153,9 @@ class FrontController extends Singleton
         // if nothing returned we try to load something that was printed on the screen
         if (empty($output)) {
             $output = ob_get_contents();
+        } else {
+            // if something was returned, flush output buffer as it is meant to be written to the screen
+            ob_flush();
         }
         ob_end_clean();
         return $output;
