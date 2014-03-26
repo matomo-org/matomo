@@ -88,6 +88,8 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         $this->setLastRunArchiveOptions();
         $output = $this->runArchivePhpCron();
 
+        $this->compareArchivePhpOutputAgainstExpected($output);
+
         foreach ($this->getApiForTesting() as $testInfo) {
 
             list($api, $params) = $testInfo;
@@ -139,6 +141,26 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         }
 
         return $output;
+    }
+
+    private function compareArchivePhpOutputAgainstExpected($output)
+    {
+        $output = implode("\n", $output);
+
+        $fileName = 'test_ArchiveCronTest_archive_php_cron_output.txt';
+        list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
+
+        $expectedOutputFile = $pathExpected . $fileName;
+        $processedFile = $pathProcessed . $fileName;
+
+        file_put_contents($processedFile, $output);
+
+        try {
+            $this->assertTrue(is_readable($expectedOutputFile));
+            $this->assertEquals(file_get_contents($expectedOutputFile), $output);
+        } catch (Exception $ex) {
+            $this->comparisonFailures[] = $ex;
+        }
     }
 }
 
