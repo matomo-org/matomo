@@ -21,52 +21,6 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
  */
 class CronArchive
 {
-    static public function getUsage()
-    {
-        return "Usage:
-	/path/to/cli/php \"" . @$_SERVER['argv'][0] . "\" --url=http://your-website.org/path/to/piwik/ [arguments]
-
-Arguments:
-	--url=[piwik-server-url]
-			Mandatory argument. Must be set to the Piwik base URL.
-			For example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/
-	--force-all-websites
-			If specified, the script will trigger archiving on all websites and all past dates.
-			You may use --force-all-periods=[seconds] to trigger archiving on those websites that had visits in the last [seconds] seconds.
-	--force-all-periods[=seconds]
-			Limits archiving to websites with some traffic in the last [seconds] seconds.
-			For example --force-all-periods=86400 will archive websites that had visits in the last 24 hours.
-			If [seconds] is not specified, all websites with visits in the last ". CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
-            . " seconds (" . round( CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE/86400 ) ." days) will be archived.
-	--force-timeout-for-periods=[seconds]
-			The current week/ current month/ current year will be processed at most every [seconds].
-			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
-	--force-date-last-n=M
-			This script calls the API with period=lastN. You can force the N in lastN by specifying this value.
-	--force-idsites=1,2,n
-			Restricts archiving to the specified website IDs, comma separated list.
-	--skip-idsites=1,2,n
-			If the specified websites IDs were to be archived, skip them instead.
-	--disable-scheduled-tasks
-			Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).
-	--xhprof
-			Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).
-	--accept-invalid-ssl-certificate
-			It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!
-			It can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1
-	--help
-			Displays usage
-
-Notes:
-	* It is recommended to run the script with the argument --url=[piwik-server-url] only. Other arguments are not required.
-	* This script should be executed every hour via crontab, or as a deamon.
-	* You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
-	  but it is recommended to run it via command line/CLI instead.
-	* If you have any suggestion about this script, please let the team know at hello@piwik.org
-	* Enjoy!
-";
-    }
-
     // the url can be set here before the init, and it will be used instead of --url=
     static public $url = false;
 
@@ -141,7 +95,6 @@ Notes:
     public function init()
     {
         // Note: the order of methods call matters here.
-        $this->displayHelp();
         $this->initPiwikHost();
         $this->initLog();
         $this->initCore();
@@ -725,7 +678,6 @@ Notes:
 
         if (!function_exists("curl_multi_init")) {
             $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");
-            $this->usage();
             exit;
         }
     }
@@ -760,16 +712,6 @@ Notes:
             echo "ERROR: During Piwik init, Message: " . $e->getMessage();
             //echo $e->getTraceAsString();
             exit(1);
-        }
-    }
-
-    private function displayHelp()
-    {
-        $displayHelp = $this->getParameterFromCli('help') || $this->getParameterFromCli('h');
-
-        if ($displayHelp) {
-            $this->usage();
-            exit;
         }
     }
 
@@ -1150,7 +1092,7 @@ Notes:
 
     private function logFatalErrorUrlExpected()
     {
-        $this->logFatalError("archive.php expects the argument 'url' to be set to your Piwik URL, for example: url=http://example.org/piwik/ "
+        $this->logFatalError("archive.php expects the argument 'url' to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
             . "\n--help for more information", $backtrace = false);
     }
 

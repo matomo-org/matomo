@@ -9,30 +9,30 @@
  * @package Piwik
  */
 
-namespace Piwik;
-
-use Exception;
-
-if (!defined('PIWIK_INCLUDE_PATH')) {
-    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
+$callee = array_shift($_SERVER['argv']);
+$args   = array($callee);
+$args[] = 'core:archive';
+foreach ($_SERVER['argv'] as $arg) {
+    if (0 === strpos($arg, '--')) {
+        $args[] = $arg;
+    } elseif (0 === strpos($arg, '-')) {
+        $args[] = '-' . $arg;
+    } else {
+        $args[] = '--' . $arg;
+    }
 }
 
-if (!defined('PIWIK_USER_PATH')) {
-    define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+$_SERVER['argv'] = $args;
+
+$piwikHome = realpath(dirname(__FILE__) . "/../..");
+
+if (false !== strpos($callee, 'archive.php')) {
+echo "
+-------------------------------------------------------
+Using this 'archive.php' script is no longer recommended.
+Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', array_slice($args, 2)) . "' instead.
+-------------------------------------------------------
+\n\n";
 }
 
-define('PIWIK_ENABLE_DISPATCH', false);
-define('PIWIK_ENABLE_ERROR_HANDLER', false);
-define('PIWIK_ENABLE_SESSION_START', false);
-
-require_once PIWIK_INCLUDE_PATH . "/index.php";
-
-$archiving = new CronArchive();
-try {
-    $archiving->init();
-    $archiving->run();
-    $archiving->runScheduledTasks();
-    $archiving->end();
-} catch (Exception $e) {
-    $archiving->logFatalError($e->getMessage());
-}
+include $piwikHome . '/console';
