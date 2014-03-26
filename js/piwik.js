@@ -2082,7 +2082,7 @@ if (typeof Piwik !== 'object') {
                     linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
                     // does file extension indicate that it is a download?
-                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
+                    downloadExtensionsPattern = new RegExp('^[^\\?]+\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
 
                 // optimization of the if..elseif..else construct below
                 return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
