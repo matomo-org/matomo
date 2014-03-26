@@ -118,7 +118,7 @@ class Piwik_TestingEnvironment
                 });
 
                 $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
-                $config->log['log_writers'] = array('file');
+                $config->log['log_writers'] = array('screen', 'file');
 
                 $manager->unloadPlugins();
 
@@ -182,7 +182,7 @@ class Piwik_TestingEnvironment
 
         foreach ($array2 as $key => $value) {
             if (is_array($value)) {
-                $result[$key] = is_array($result[$key])
+                $result[$key] = isset($result[$key]) && is_array($result[$key])
                               ? $this->arrayMergeRecursiveDistinct($result[$key], $value)
                               : $value
                               ;
