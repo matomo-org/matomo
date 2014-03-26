@@ -150,8 +150,8 @@ class API extends \Piwik\Plugin\API
 
     private function addPrePiwik2DataIfNewDataAbsent($oldData, $newData)
     {
-        if ($oldData instanceof DataTable\Map) {
-            $newArray = $pastData->getDataTables();
+        if ($oldData instanceof \Piwik\DataTable\Map) {
+            $newArray = $oldData->getDataTables();
             foreach ($oldData->getDataTables() as $subTable) {
                 $this->addPrePiwik2DataIfMissing($subTable, current($newArray));
                 next($newArray);
