@@ -192,9 +192,9 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
                     clonedGroup.sites = matchingSites;
                     filteredSites.push(clonedGroup);
                 }
-            } else if (!site.group && (''+site.label).toLowerCase().indexOf(term) > -1) {
+            } else if ((''+site.label).toLowerCase().indexOf(term) > -1) {
                 filteredSites.push(site);
-            } else if (site.group && (''+site.label).toLowerCase().indexOf(term) > -1) {
+            } else if (site.group && (''+site.group).toLowerCase().indexOf(term) > -1) {
                 filteredSites.push(site);
             }
         }
