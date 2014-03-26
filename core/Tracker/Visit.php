@@ -942,7 +942,11 @@ class Visit implements VisitInterface
         }
 
         // Ecommerce buyer status
-        $valuesToUpdate['visit_goal_buyer'] = $this->goalManager->getBuyerType($this->visitorInfo['visit_goal_buyer']);
+        $visitEcommerceStatus = $this->goalManager->getBuyerType($this->visitorInfo['visit_goal_buyer']);
+
+        if($visitEcommerceStatus != GoalManager::TYPE_BUYER_NONE) {
+            $valuesToUpdate['visit_goal_buyer'] = $visitEcommerceStatus;
+        }
 
         // Custom Variables overwrite previous values on each page view
         $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
