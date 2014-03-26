@@ -554,7 +554,6 @@ class Archive
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
             if (!Rules::isArchivingDisabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())) {
-
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -769,13 +768,16 @@ class Archive
         } // Goal_* metrics are processed by the Goals plugin (HACK)
         else if (strpos($report, 'Goal_') === 0) {
             $report = 'Goals_Metrics';
+        } else if (strrpos($report, '_returning') === strlen($report) - strlen('_returning')) { // HACK
+            $report = 'VisitFrequency_Metrics';
         }
 
         $plugin = substr($report, 0, strpos($report, '_'));
         if (empty($plugin)
             || !\Piwik\Plugin\Manager::getInstance()->isPluginActivated($plugin)
         ) {
-            throw new \Exception("Error: The report '$report' was requested but it is not available at this stage. ");
+            throw new \Exception("Error: The report '$report' was requested but it is not available at this stage."
+                               . " (Plugin '$plugin' is not activated.)");
         }
         return $plugin;
     }

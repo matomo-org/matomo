@@ -132,7 +132,7 @@ class Piwik_TestingEnvironment
                 }
 
                 if ($testingEnvironment->configOverride) {
-                    $cache = array_merge_recursive($cache, $testingEnvironment->configOverride);
+                    $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
                 }
 
                 $testingEnvironment->logVariables();
@@ -174,6 +174,24 @@ class Piwik_TestingEnvironment
         });
 
         $testingEnvironment->executeSetupTestEnvHook();
+    }
+
+    public function arrayMergeRecursiveDistinct(array $array1, array $array2)
+    {
+        $result = $array1;
+
+        foreach ($array2 as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = is_array($result[$key])
+                              ? $this->arrayMergeRecursiveDistinct($result[$key], $value)
+                              : $value
+                              ;
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 
     /**

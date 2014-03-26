@@ -9,6 +9,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Piwik;
 
 /**
  * Reusable fixture. Loads a SQL dump into the DB.
@@ -73,6 +74,16 @@ class Piwik_Test_Fixture_SqlDump extends Fixture
 
         // make sure archiving will be called
         Rules::setBrowserTriggerArchiving(true);
+
+        // reload access
+        Piwik::setUserHasSuperUserAccess();
+
+        $this->getTestEnvironment()->configOverride = array(
+            'database' => array(
+                'tables_prefix' => $this->tablesPrefix
+            )
+        );
+        $this->getTestEnvironment()->save();
     }
 
     public function tearDown()
