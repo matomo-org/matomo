@@ -20,12 +20,18 @@ class SharedSiteIdsTest extends DatabaseTestCase
 
     public function setUp()
     {
+        parent::setUp();
+        $this->fixture->performSetUp(null, true);
+
         $this->sharedSiteIds = new SharedSiteIds(array(1,2,5,9));
     }
 
     public function tearDown()
     {
-        $this->sharedSiteIds->setSiteIdsToArchive(array());
+        $siteIdsToCleanup = new SharedSiteIds(array());
+        $siteIdsToCleanup->setSiteIdsToArchive(array());
+
+        parent::tearDown();
     }
 
     public function test_construct_withEmptyValue()
