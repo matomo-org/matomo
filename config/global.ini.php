@@ -156,6 +156,11 @@ datatable_default_limit = 10
 ; default number of rows returned in API responses
 API_datatable_default_limit = 100
 
+; When period=range, below the datatables, when user clicks on "export", the data will be aggregate of the range.
+; Here you can specify the comma separated list of formats for which the data will be exported aggregated by day
+; (ie. there will be a new "date" column). For example set to: "rss,tsv,csv"
+datatable_export_range_as_day = "rss"
+
 ; This setting is overriden in the UI, under "User Settings".
 ; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday

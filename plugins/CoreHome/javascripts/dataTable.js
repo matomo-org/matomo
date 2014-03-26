@@ -983,8 +983,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
                 var period = self.param.period;
 
-                // RSS does not work for period=range
-                if (format == 'RSS'
+                var formatsUseDayNotRange = piwik.config.datatable_export_range_as_day.toLowerCase();
+                if (formatsUseDayNotRange.indexOf(format.toLowerCase()) != -1
                     && self.param.period == 'range') {
                     period = 'day';
                 }
