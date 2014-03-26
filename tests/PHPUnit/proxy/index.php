@@ -8,15 +8,8 @@ use Piwik\Tracker\Cache;
 
 require realpath(dirname(__FILE__)) . "/includes.php";
 
-// Wrapping the request inside ob_start() calls to ensure that the Test
-// calling us waits for the full request to process before unblocking
-ob_start();
-
 Piwik_TestingEnvironment::addHooks();
 
 \Piwik\Profiler::setupProfilerXHProf();
 
-// Disable index.php dispatch since we do it manually below
 include PIWIK_INCLUDE_PATH . '/index.php';
-
-ob_flush();
