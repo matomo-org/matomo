@@ -17,52 +17,36 @@ if (!defined('PIWIK_USER_PATH')) {
     define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 }
 
-if (empty($_SERVER['argv'])) {
-
+if (!class_exists('Piwik\Console', false)) {
     define('PIWIK_ENABLE_DISPATCH', false);
     define('PIWIK_ENABLE_ERROR_HANDLER', false);
-    define('PIWIK_ENABLE_SESSION_START', false);
-
+    define('PIWIK_ENABLE_SESSION_START', PIWIK_INCLUDE_PATH);
     require_once PIWIK_INCLUDE_PATH . "/index.php";
-
-    $archiving = new Piwik\CronArchive();
-    try {
-        $archiving->init();
-        $archiving->run();
-        $archiving->runScheduledTasks();
-        $archiving->end();
-    } catch (Exception $e) {
-        $archiving->logFatalError($e->getMessage());
-    }
-
-    return;
 }
 
-$callee = array_shift($_SERVER['argv']);
-
-$args   = array($callee);
-$args[] = 'core:archive';
-foreach ($_SERVER['argv'] as $arg) {
-    if (0 === strpos($arg, '--')) {
-        $args[] = $arg;
-    } elseif (0 === strpos($arg, '-')) {
-        $args[] = '-' . $arg;
-    } else {
-        $args[] = '--' . $arg;
-    }
+if (!empty($_SERVER['argv'][0])) {
+    $callee = $_SERVER['argv'][0];
+} else {
+    $callee = '';
 }
-
-$_SERVER['argv'] = $args;
-
-$piwikHome = PIWIK_INCLUDE_PATH;
 
 if (false !== strpos($callee, 'archive.php')) {
-echo "
+    $piwikHome = PIWIK_INCLUDE_PATH;
+    echo "
 -------------------------------------------------------
 Using this 'archive.php' script is no longer recommended.
-Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', array_slice($args, 2)) . "' instead.
+Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', array_slice($_SERVER['argv'], 1)) . "' instead.
+To get help use '/path/to/php $piwikHome/console core:archive --help'
 -------------------------------------------------------
 \n\n";
 }
 
-include $piwikHome . '/console';
+$archiving = new Piwik\CronArchive();
+try {
+    $archiving->init();
+    $archiving->run();
+    $archiving->runScheduledTasks();
+    $archiving->end();
+} catch (Exception $e) {
+    $archiving->logFatalError($e->getMessage());
+}

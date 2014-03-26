@@ -44,31 +44,6 @@ class CoreArchiver extends ConsoleCommand
             $_SERVER['argv'][] = '--url=' . $input->getOption('piwik-domain');
         }
 
-        $this->initEnv();
-
-        $archiving = new CronArchive();
-        try {
-            $archiving->init();
-            $archiving->run();
-            $archiving->runScheduledTasks();
-            $archiving->end();
-        } catch (\Exception $e) {
-            $archiving->logFatalError($e->getMessage());
-        }
-    }
-
-    private function initEnv()
-    {
-        if (!defined('PIWIK_ENABLE_ERROR_HANDLER')) {
-            define('PIWIK_ENABLE_ERROR_HANDLER', false);
-        }
-
-        if (!defined('PIWIK_ENABLE_SESSION_START')) {
-            define('PIWIK_ENABLE_SESSION_START', false);
-        }
-
-        if (!defined('PIWIK_ENABLE_DISPATCH')) {
-            define('PIWIK_ENABLE_DISPATCH', false);
-        }
+        include PIWIK_INCLUDE_PATH . '/misc/cron/archive.php';
     }
 }
