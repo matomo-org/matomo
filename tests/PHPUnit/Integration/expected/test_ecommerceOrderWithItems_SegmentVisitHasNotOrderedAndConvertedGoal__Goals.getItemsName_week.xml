@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="SQLSTATE[42S22]: Column not found: 1054 Unknown column 'log_conversion_item' in 'field list'
+ 
+ --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php" />
+</result>

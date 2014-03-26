@@ -85,7 +85,8 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                 ),
 
                 // day tests
-                array($dayApi, array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('day'), 'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1))),
+                array($dayApi, array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('day'),
+                                     'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1))),
 
                 // goals API week tests
                 array($goalWeekApi, array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('week'))),
@@ -209,9 +210,22 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                           'segment' => 'visitConvertedGoalId==666',
                           'testSuffix' => '_SegmentNoVisit_HaveConvertedNonExistingGoal')),
 
+
+                // test segment visitEcommerceStatus and visitConvertedGoalId
+                array($apiWithSegments_visitConvertedGoal,
+                      array(
+                          'idSite' => $idSite,
+                          'date' => $dateTime,
+                          'periods' => array('week'),
+                          'segment' => 'visitEcommerceStatus!=ordered;visitConvertedGoalId==1',
+                          'testSuffix' => '_SegmentVisitHasNotOrderedAndConvertedGoal')),
+
+
                 // test segment pageTitle
-                array('VisitsSummary.get', array('idSite'     => $idSite, 'date' => $dateTime,
-                                                 'periods'    => array('day'), 'segment' => 'pageTitle==incredible title!',
+                array('VisitsSummary.get', array('idSite'     => $idSite,
+                                                 'date' => $dateTime,
+                                                 'periods'    => array('day'),
+                                                 'segment' => 'pageTitle==incredible title!',
                                                  'testSuffix' => '_SegmentPageTitleMatch')),
 
                 // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
