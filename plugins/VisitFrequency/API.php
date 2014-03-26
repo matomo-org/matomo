@@ -35,6 +35,7 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
+        $originalColumns = $columns;
         $newSegment = $this->appendReturningVisitorSegment($segment);
 
         $this->unsuffixColumns($columns);
@@ -50,7 +51,7 @@ class API extends \Piwik\Plugin\API
         $table = Request::processRequest('VisitsSummary.get', $params);
         $this->suffixColumns($table, $period);
 
-        $oldData = $this->getPrePiwik2Data($idSite, $period, $date, $segment, $columns);
+        $oldData = $this->getPrePiwik2Data($idSite, $period, $date, $segment, $originalColumns);
         if ($oldData->getRowsCount() > 0) {
             $this->addPrePiwik2DataIfNewDataAbsent($oldData, $table);
         }
