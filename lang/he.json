@@ -227,10 +227,6 @@
         "WidgetPreview": "הצגת יישומון",
         "WidgetsAndDashboard": "וידג'טים ולוח בקרה"
     },
-    "Feedback": {
-        "MyEmailAddress": "האימייל שלי:",
-        "MyMessage": "ההודעה שלי:"
-    },
     "General": {
         "AboutPiwikX": "אודות Piwik %s",
         "Action": "פעולה",
@@ -408,7 +404,6 @@
         "Password": "סיסמה",
         "Period": "תקופה",
         "Piechart": "גרף עוגה",
-        "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s עכשיו זמינה. אנא הודיעו לבעלי האתר.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s עכשיו זמינה. %2$s נא לשדרג עכשיו! %3$s (ראו %4$s שינויים %5$s)",
         "PleaseSpecifyValue": "יד להגדיר ערך עבור '%s'.",
         "PleaseUpdatePiwik": "יש לעדכן את ה-Piwik שלך",

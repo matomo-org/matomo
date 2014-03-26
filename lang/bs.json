@@ -132,11 +132,6 @@
         "Maximise": "Maksimiziraj",
         "Minimise": "Minimiziraj"
     },
-    "Feedback": {
-        "MyEmailAddress": "Moja email adresa:",
-        "MyMessage": "Moja poruka:",
-        "ThePiwikTeam": "Piwik tim"
-    },
     "General": {
         "AbandonedCarts": "Otkazane korpe",
         "AboutPiwikX": "O Piwik-u%s",
@@ -393,7 +388,6 @@
         "Password": "Lozinka",
         "Period": "Period",
         "Piechart": "Pita grafikon",
-        "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s je dostupan. Molimo obavijestite administratora.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s je važeća. %2$s Molimo nadogradite sada!%3$s (see %4$s promjene%5$s).",
         "PleaseSpecifyValue": "Molimo navedite vrijednost '%s'.",
         "PleaseUpdatePiwik": "Molimo nadogradite Piwik",

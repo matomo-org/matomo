@@ -238,20 +238,10 @@
         "WidgetsAndDashboard": "Widget-uri & Panoul de control"
     },
     "Feedback": {
-        "CategoryHire": "Angajază un consultant Piwik",
-        "CategorySponsor": "Devine sponsor Piwik",
         "ContactThePiwikTeam": "Contactează echipa Piwik!",
-        "DetailsPlease": "(te rog, adaugă detaili aici)",
         "DoYouHaveBugReportOrFeatureRequest": "Doreşti să raportezi o problemă sau să propui o înbunătăţire?",
-        "ExceptionBodyLength": "Mesajul trebuie să conţină cel puţin %s simboluri.",
-        "HowToExclude": "Cum să exclud urmărirea vizitelor mele?",
         "IWantTo": "Doresc să:",
-        "MessageSent": "Mesajul tău a fost expetiat către echipa Piwik.",
-        "MyEmailAddress": "Adresa mea e-mail:",
-        "MyMessage": "Mesajul meu:",
-        "SpecialRequest": "Ai o cerece deosebită către echipa Piwik?",
-        "ThePiwikTeam": "Echipa Piwik",
-        "WantToThankConsiderDonating": "Crezi că Piwik e superb şi doreşti să ne mulţumeşti? Ai putea să donezi"
+        "SpecialRequest": "Ai o cerece deosebită către echipa Piwik?"
     },
     "General": {
         "AbandonedCarts": "Cosuri abandonate",
@@ -520,7 +510,6 @@
         "Password": "Parola",
         "Period": "Perioada",
         "Piechart": "Diagrama",
-        "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s este disponibil. Va rugam notificati administratorul.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s este disponibil. %2$s Actualizeaza-l acum!%3$s (see %4$s changes%5$s).",
         "PleaseSpecifyValue": "Va rugam specificati o valoare pentru '%s'.",
         "PleaseUpdatePiwik": "Va rugam actualizati Piwik",

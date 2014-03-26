@@ -301,15 +301,8 @@
         "NbEvents": "Sündmuste arv"
     },
     "Feedback": {
-        "CategoryHire": "Palka Piwiku konsultant",
-        "CategorySecurity": "Raporteeri turvaprobleemi",
-        "CategoryShareStory": "Jaga Piwiku edulugu",
-        "CategorySponsor": "Toeta Piwikut",
         "IWantTo": "Ma tahan:",
-        "MyEmailAddress": "Minu e-posti aadress:",
-        "MyMessage": "Minu sõnum:",
-        "SendFeedback": "Saada tagasisidet",
-        "ThePiwikTeam": "Piwiku meeskond"
+        "SendFeedback": "Saada tagasisidet"
     },
     "General": {
         "AbandonedCarts": "Hüljatud ostukorvid",
@@ -549,8 +542,6 @@
         "Password": "Salasõna",
         "Period": "Periood",
         "Piechart": "Sektordiagramm",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s on koostööprojekt. %3$s Kui sa oled Piwiku fänn, siis saad abiks olla: vaata %4$s Kuidas Piwiku arenduses kaasa lüüa%5$s, või%6$s %7$sanneta kohe%8$s et aidata Piwiku arengut rahastada!",
-        "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s on saadaval. Palun teavita lehe haldajat.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s on saadaval. %2$sPalun uuenda kohe!%3$s (vaata %4$smuudatusi%5$s).",
         "PleaseSpecifyValue": "Palun täpsusta '%s' väärtust.",
         "PleaseUpdatePiwik": "Palun uuenda oma Piwikut",

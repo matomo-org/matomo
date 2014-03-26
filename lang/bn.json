@@ -23,9 +23,7 @@
         "RenameDashboard": "ড্যাশবোর্ডের নাম পরিবর্তন"
     },
     "Feedback": {
-        "IWantTo": "আমি চাই:",
-        "MyEmailAddress": "আমার ইমেইল ঠিকানা:",
-        "MyMessage": "আমার বার্তা:"
+        "IWantTo": "আমি চাই:"
     },
     "General": {
         "AllWebsitesDashboard": "সকল ওয়েবসাইটের ড্যাশবোর্ড",

@@ -57,10 +57,6 @@
         "LoadingWidget": "విడ్జెట్ లోడవుతూండి, దయచేసి వేచివుండండి...",
         "WidgetPreview": "విడ్జెట్ మునుజూపు"
     },
-    "Feedback": {
-        "DetailsPlease": "(దయచేసి వివరాలను ఇవ్వండి)",
-        "ThePiwikTeam": "పివిక్ జట్టు"
-    },
     "General": {
         "AboutPiwikX": "పివిక్ %s గురించి",
         "Action": "చర్య",

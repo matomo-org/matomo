@@ -153,10 +153,7 @@
     },
     "Feedback": {
         "IWantTo": "Chcem:",
-        "MyEmailAddress": "Moja emailová adresa:",
-        "MyMessage": "Moja správa",
-        "SendFeedback": "Odoslať spätnú väzbu",
-        "ThePiwikTeam": "Piwik tím"
+        "SendFeedback": "Odoslať spätnú väzbu"
     },
     "General": {
         "AbandonedCarts": "Opustené košíky",
@@ -433,7 +430,6 @@
         "Password": "Heslo",
         "Period": "Obdobie",
         "Piechart": "Koláčový graf",
-        "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s je k dispozícii. Notifikujte, prosím, administrátora webu.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s je k dispozícií. %2$s Prosím vykonajte aktualizáciu!%3$s (pozrieť %4$s zmeny%5$s).",
         "PleaseSpecifyValue": "Špecifikujte, prosím, hodnotu pre %s.",
         "PleaseUpdatePiwik": "Prosím aktualizujte svoj Piwik",
