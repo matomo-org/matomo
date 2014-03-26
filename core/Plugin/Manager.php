@@ -101,7 +101,7 @@ class Manager extends Singleton
             // Also load plugins which are Git repositories (eg. being developed)
             $isPluginHasGitRepository = file_exists( PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/.git/config');
 
-            $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported || $isPluginHasGitRepository;
+            $loadPlugin = ($isPluginBundledWithCore || $isPluginOfficiallySupported) && !$isPluginHasGitRepository;
 
             // Do not enable other Themes
             $disabledThemes = $this->coreThemesDisabledByDefault;
