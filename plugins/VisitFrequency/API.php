@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\API\Request;
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Archive;
@@ -148,12 +149,12 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    private function addPrePiwik2DataIfNewDataAbsent($oldData, $newData)
+    private function addPrePiwik2DataIfNewDataAbsent(DataTable\DataTableInterface $oldData, DataTable\DataTableInterface $newData)
     {
         if ($oldData instanceof \Piwik\DataTable\Map) {
             $newArray = $oldData->getDataTables();
             foreach ($oldData->getDataTables() as $subTable) {
-                $this->addPrePiwik2DataIfMissing($subTable, current($newArray));
+                $this->addPrePiwik2DataIfNewDataAbsent($subTable, current($newArray));
                 next($newArray);
             }
         } else {
