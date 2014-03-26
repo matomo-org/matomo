@@ -944,7 +944,9 @@ class Visit implements VisitInterface
         // Ecommerce buyer status
         $visitEcommerceStatus = $this->goalManager->getBuyerType($this->visitorInfo['visit_goal_buyer']);
 
-        if($visitEcommerceStatus != GoalManager::TYPE_BUYER_NONE) {
+        if($visitEcommerceStatus != GoalManager::TYPE_BUYER_NONE
+            // only update if the value has changed (prevents overwriting the value in case a request has updated it in the meantime)
+            && $visitEcommerceStatus != $this->visitorInfo['visit_goal_buyer']) {
             $valuesToUpdate['visit_goal_buyer'] = $visitEcommerceStatus;
         }
 
