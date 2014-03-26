@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use \Piwik\ArchiveProcessor\FixedSiteIds;
+use Piwik\CronArchive\FixedSiteIds;
 
 /**
  * @group Core

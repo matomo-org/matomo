@@ -8,12 +8,12 @@
  */
 namespace Piwik;
 
-use Piwik\ArchiveProcessor\FixedSiteIds;
-use Piwik\ArchiveProcessor\Rules;
-use Piwik\ArchiveProcessor\SharedSiteIds;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\CronArchive\FixedSiteIds;
+use Piwik\CronArchive\SharedSiteIds;
+use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
  * archive.php runs as a cron and is a useful tool for general maintenance,

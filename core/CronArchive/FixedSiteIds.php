@@ -6,12 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\ArchiveProcessor;
+namespace Piwik\CronArchive;
 
 use Piwik\CronArchive;
-use Exception;
-use Piwik\Option;
-use Piwik\CliMulti\Process;
 
 class FixedSiteIds
 {
