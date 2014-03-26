@@ -11,7 +11,7 @@ use \Piwik\CronArchive\SharedSiteIds;
 /**
  * @group Core
  */
-class SharedSiteIdsTest extends PHPUnit_Framework_TestCase
+class SharedSiteIdsTest extends DatabaseTestCase
 {
     /**
      * @var SharedSiteIds
