@@ -122,6 +122,9 @@ class CronArchive
             $this->websites = new FixedSiteIds($websitesIds);
         } else {
             $this->websites = new SharedSiteIds($websitesIds);
+            if ($this->websites->getInitialSiteIds() != $websitesIds) {
+                $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(',', $this->websites->getInitialSiteIds()));
+            }
         }
 
         if ($this->shouldStartProfiler) {
