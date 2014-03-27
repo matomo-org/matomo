@@ -330,6 +330,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         unset($row[Metrics::INDEX_NB_VISITS]);
         unset($row['label']);
+        unset($row['labelIdAction']);
         unset($row['ecommerceType']);
 
         return $label;
