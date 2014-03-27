@@ -100,7 +100,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
                             </ul>';
         }
         if ($optionalLinkBack) {
-            $optionalLinkBack = '<a href="javascript:window.back();">Go Back</a><br/>';
+            $optionalLinkBack = '<a href="javascript:window.history.back();">Go Back</a><br/>';
         }
         $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
         $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
