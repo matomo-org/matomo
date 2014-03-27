@@ -71,7 +71,6 @@ class API extends \Piwik\Plugin\API
 
         // remove temp metrics that were used to compute processed metrics
         $dataTable->deleteColumns($tempColumns);
-
         return $dataTable;
     }
 

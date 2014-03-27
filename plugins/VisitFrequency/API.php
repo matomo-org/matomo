@@ -13,7 +13,6 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Archive;
-use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
 use Piwik\SegmentExpression;
 
 /**
@@ -22,52 +21,8 @@ use Piwik\SegmentExpression;
  */
 class API extends \Piwik\Plugin\API
 {
-    // visitorType==returning,visitorType==returningCustomer
-    const RETURNING_VISITOR_SEGMENT = "visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer";
-    const COLUMN_SUFFIX = "_returning";
-
-    /**
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @param bool|array $columns
-     * @return mixed
-     */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
-        $originalColumns = $columns;
-        $newSegment = $this->appendReturningVisitorSegment($segment);
-
-        $this->unsuffixColumns($columns);
-        $params = array(
-            'idSite'    => $idSite,
-            'period'    => $period,
-            'date'      => $date,
-            'segment'   => $newSegment,
-            'columns'   => implode(',', $columns),
-            'format'    => 'original',
-            'serialize' => 0 // tests set this to 1
-        );
-        $table = Request::processRequest('VisitsSummary.get', $params);
-        $this->suffixColumns($table, $period);
-
-        $oldData = $this->getPrePiwik2Data($idSite, $period, $date, $segment, $originalColumns);
-        if ($oldData->getRowsCount() > 0) {
-            $this->addPrePiwik2DataIfNewDataAbsent($oldData, $table);
-        }
-
-        Common::destroy($oldData);
-
-        return $table;
-    }
-
-    /**
-     * Function body copied from Piwik 1.12.
-     */
-    private function getPrePiwik2Data($idSite, $period, $date, $segment, $columns)
-    {
-        // TODO: possible optimization, only select for periods w/o new data
         $archive = Archive::build($idSite, $period, $date, $segment);
 
         // array values are comma separated
@@ -120,10 +75,10 @@ class API extends \Piwik\Plugin\API
             $columns = array(
                 'nb_visits_returning',
                 'nb_actions_returning',
-                'max_actions_returning',
-                'sum_visit_length_returning',
-                'bounce_count_returning',
                 'nb_visits_converted_returning',
+                'bounce_count_returning',
+                'sum_visit_length_returning',
+                'max_actions_returning',
             );
 
             if ($period == 'day') {
@@ -147,59 +102,5 @@ class API extends \Piwik\Plugin\API
         $dataTable->deleteColumns($tempColumns);
 
         return $dataTable;
-    }
-
-    private function addPrePiwik2DataIfNewDataAbsent(DataTable\DataTableInterface $oldData, DataTable\DataTableInterface $newData)
-    {
-        if ($oldData instanceof \Piwik\DataTable\Map) {
-            $newArray = $newData->getDataTables();
-            foreach ($oldData->getDataTables() as $subTable) {
-                $this->addPrePiwik2DataIfNewDataAbsent($subTable, current($newArray));
-                next($newArray);
-            }
-        } else {
-            $newDataRow = $newData->getFirstRow();
-            $oldDataRow = $oldData->getFirstRow();
-
-            if ($oldDataRow) {
-                if (!$newDataRow) {
-                    $newData->addRow($oldDataRow);
-                } else {
-                    foreach ($oldDataRow->getColumns() as $name => $value) {
-                        if ($newDataRow->getColumn($name) == 0) {
-                            $newDataRow->setColumn($name, $value);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    protected function appendReturningVisitorSegment($segment)
-    {
-        if (empty($segment)) {
-            $segment = '';
-        } else {
-            $segment .= urlencode(SegmentExpression::AND_DELIMITER);
-        }
-        $segment .= self::RETURNING_VISITOR_SEGMENT;
-        return $segment;
-    }
-
-    protected function unsuffixColumns(&$columns)
-    {
-        $columns = Piwik::getArrayFromApiParameter($columns);
-        foreach ($columns as &$column) {
-            $column = str_replace(self::COLUMN_SUFFIX, "", $column);
-        }
-    }
-
-    protected function suffixColumns($table, $period)
-    {
-        $rename = array();
-        foreach (APIVisitsSummary::getInstance()->getColumns($period) as $oldColumn) {
-            $rename[$oldColumn] = $oldColumn . self::COLUMN_SUFFIX;
-        }
-        $table->filter('ReplaceColumnNames', array($rename));
     }
 }

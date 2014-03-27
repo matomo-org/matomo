@@ -9,6 +9,8 @@
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Db;
+use Piwik\Common;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
@@ -28,15 +30,21 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
         parent::setUpBeforeClass();
 
         self::updateDatabase();
-        Fixture::loadAllPlugins();
+
+        // truncate log tables so old data won't be re-archived
+        foreach (array('log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item') as $table) {
+            Db::query("TRUNCATE TABLE " . Common::prefixTable($table));
+        }
 
         // add two visits from same visitor on dec. 29
         $t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true);
         $t->setUrl('http://site.com/index.htm');
+        $t->setIp('136.5.3.2');
         Fixture::checkResponse($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime('2012-12-29 03:01:30');
         $t->setUrl('http://site.com/other/index.htm');
+        $t->DEBUG_APPEND_URL = '&_idvc=2'; // make sure visit is marked as returning
         Fixture::checkResponse($t->doTrackPageView('other incredible title!'));
 
         // launch archiving
@@ -68,6 +76,9 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
 
         // changes made to SQL dump to test VisitFrequency change the day of week
         $this->defaultApiNotToCall[] = 'VisitTime.getByDayOfWeek';
+
+        // we test VisitFrequency explicitly
+        $this->defaultApiNotToCall[] = 'VisitFrequency.get';
     }
 
     /**
@@ -90,10 +101,11 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
                                'disableArchiving' => true)),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
-                                              'disableArchiving' => true)),
+                                              'disableArchiving' => true, 'testSuffix' => '_multipleDates')),
 
-            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('year'),
-                                              'disableArchiving' => true)),
+            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => $dateTime,
+                                              'periods' => array('day', 'week', 'month', 'year'),
+                                              'disableArchiving' => false)),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
                                               'periods' => array('range'), 'disableArchiving' => true))

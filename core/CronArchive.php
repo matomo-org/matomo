@@ -1117,6 +1117,4 @@ class CronArchive
         }
         return $visitsToday;
     }
-
 }
-
