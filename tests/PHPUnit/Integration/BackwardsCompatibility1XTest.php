@@ -7,8 +7,11 @@
  */
 
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
+use Piwik\Updater;
+use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use \Fixture;
 
 /**
@@ -24,21 +27,37 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
     {
         parent::setUpBeforeClass();
 
-        // FIXME:
-        // we should run tests to see if old data + new data can be mixed successfully if a period spans both
-        // old + new data, but we can't track visits w/ piwik 1.12 data. need to run the updater first.
+        self::updateDatabase();
+        Fixture::loadAllPlugins();
 
         // add two visits from same visitor on dec. 29
-        //$t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true);
-        //$t->setUrl('http://site.com/index.htm');
-        //Fixture::checkResponse($t->doTrackPageView('incredible title!'));
+        $t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true);
+        $t->setUrl('http://site.com/index.htm');
+        Fixture::checkResponse($t->doTrackPageView('incredible title!'));
 
-        //$t->setForceVisitDateTime('2012-12-29 03:01:30');
-        //$t->setUrl('http://site.com/other/index.htm');
-        //Fixture::checkResponse($t->doTrackPageView('other incredible title!'));
+        $t->setForceVisitDateTime('2012-12-29 03:01:30');
+        $t->setUrl('http://site.com/other/index.htm');
+        Fixture::checkResponse($t->doTrackPageView('other incredible title!'));
 
         // launch archiving
-        //VisitFrequencyApi::getInstance()->get(1, 'month', '2012-12-29');
+        VisitFrequencyApi::getInstance()->get(1, 'year', '2012-12-29');
+    }
+
+    private static function updateDatabase()
+    {
+        $updater = new Updater();
+        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        if (empty($componentsWithUpdateFile)) {
+            throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
+        }
+
+        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        if (!empty($result['coreError'])
+            && !empty($result['warnings'])
+            && !empty($result['errors'])
+        ) {
+            throw new \Exception("Failed to update pre-2.0 database (errors or warnings found): " . print_r($result, true));
+        }
     }
 
     public function setUp()
@@ -73,14 +92,11 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
                                               'disableArchiving' => true)),
 
-            /* cannot test this (see above)
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('year'),
-                                              'compareAgainst' => 'OneVisitorTwoVisits',
                                               'disableArchiving' => true)),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
                                               'periods' => array('range'), 'disableArchiving' => true))
-            */
         );
     }
 }

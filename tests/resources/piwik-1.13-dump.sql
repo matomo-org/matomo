@@ -469,6 +469,7 @@ CREATE TABLE `piwiktests_log_visit` (
   `custom_var_v4` varchar(200) DEFAULT NULL,
   `custom_var_k5` varchar(200) DEFAULT NULL,
   `custom_var_v5` varchar(200) DEFAULT NULL,
+  `location_provider` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idvisit`),
   KEY `index_idsite_config_datetime` (`idsite`,`config_id`,`visit_last_action_time`),
   KEY `index_idsite_datetime` (`idsite`,`visit_last_action_time`),
@@ -482,7 +483,7 @@ CREATE TABLE `piwiktests_log_visit` (
 
 LOCK TABLES `piwiktests_log_visit` WRITE;
 /*!40000 ALTER TABLE `piwiktests_log_visit` DISABLE KEYS */;
-INSERT INTO `piwiktests_log_visit` VALUES (1,1,'¬¬nÂ5','12:34:06',0,1,0,0,0,'2012-03-06 11:22:33','2012-03-06 11:49:33',9,8,2,1,7,0,1621,1,0,3,'referer.com','http://referer.com/page.htm?param=valuewith some spaces','','|hQâ²C^','WXP','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'œ','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,'¬¬nÂ5','12:34:06',1,2,0,0,0,'2012-03-06 12:22:33','2012-03-06 12:22:33',11,10,11,10,1,0,0,1,0,2,'Yahoo!','http://search.yahoo.com/search?p=purchase','purchase','|hQâ²C^','WXP','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'œ','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `piwiktests_log_visit` VALUES (1,1,'¬¬nÂ5','12:34:06',0,1,0,0,0,'2012-03-06 11:22:33','2012-03-06 11:49:33',9,8,2,1,7,0,1621,1,0,3,'referer.com','http://referer.com/page.htm?param=valuewith some spaces','','|hQâ²C^','WXP','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'œ','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,'¬¬nÂ5','12:34:06',1,2,0,0,0,'2012-03-06 12:22:33','2012-03-06 12:22:33',11,10,11,10,1,0,0,1,0,2,'Yahoo!','http://search.yahoo.com/search?p=purchase','purchase','|hQâ²C^','WXP','XP','FF','3.6',0,NULL,NULL,'1024x768',0,1,1,0,0,0,0,0,0,1,'œ','fr','fr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `piwiktests_log_visit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -618,7 +619,7 @@ CREATE TABLE `piwiktests_option` (
 
 LOCK TABLES `piwiktests_option` WRITE;
 /*!40000 ALTER TABLE `piwiktests_option` DISABLE KEYS */;
-INSERT INTO `piwiktests_option` VALUES ('lastPurge_piwiktests_archive_blob_2012_03','1381269344',0),('lastPurge_piwiktests_archive_blob_2012_04','1381269345',0),('MobileMessaging_DelegatedManagement','false',0),('SitesManager_EnableSiteSpecificUserAgentExclude','',0);
+INSERT INTO `piwiktests_option` VALUES ('lastPurge_piwiktests_archive_blob_2012_03','1381269344',0),('lastPurge_piwiktests_archive_blob_2012_04','1381269345',0),('MobileMessaging_DelegatedManagement','false',0),('SitesManager_EnableSiteSpecificUserAgentExclude','',0),('version_Actions', '1.12',1),('version_Annotations', '1.12',1),('version_API', '1.12',1),('version_core', '1.12',1),('version_CoreAdminHome', '1.12',1),('version_CoreHome', '1.12',1),('version_CorePluginsAdmin', '1.12',1),('version_CoreUpdater', '1.12',1),('version_CustomVariables', '1.12',1),('version_Dashboard', '1.12',1),('version_DoNotTrack', '1.12',1),('version_ExampleAPI', '0.1',1),('version_ExamplePlugin', '0.1',1),('version_ExampleRssWidget', '0.1',1),('version_Feedback', '1.12',1),('version_Goals', '1.12',1),('version_ImageGraph', '1.12',1),('version_Installation', '1.12',1),('version_LanguagesManager', '1.12',1),('version_Live', '1.12',1),('version_Login', '1.12',1),('version_MobileMessaging', '1.12',1),('version_MultiSites', '1.12',1),('version_Overlay', '1.12',1),('version_PDFReports', '1.12',1),('version_PrivacyManager', '1.12',1),('version_Provider', '1.12',1),('version_Proxy', '1.12',1),('version_Referers', '1.12',1),('version_SegmentEditor', '1.12',1),('version_SEO', '1.12',1),('version_SitesManager', '1.12',1),('version_Transitions', '1.12',1),('version_UserCountry', '1.12',1),('version_UserCountryMap', '1.12',1),('version_UserSettings', '1.12',1),('version_UsersManager', '1.12',1),('version_VisitFrequency', '1.12',1),('version_VisitorGenerator', '1.12',1),('version_VisitorInterest', '1.12',1),('version_VisitsSummary', '1.12',1),('version_VisitTime', '1.12',1),('version_Widgetize', '1.12',1);
 /*!40000 ALTER TABLE `piwiktests_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
