@@ -419,7 +419,7 @@ class UserAgentParserEnhanced
     protected $userAgent;
     protected $os = '';
     protected $browser = '';
-    protected $device = '';
+    protected $device = 0;
     protected $brand = '';
     protected $model = '';
     protected $debug = false;
