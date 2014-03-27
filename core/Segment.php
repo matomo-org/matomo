@@ -364,10 +364,12 @@ class Segment
             $conversionItemAvailable = ($conversionItemAvailable || $table == "log_conversion_item");
         }
 
-        return array(
+        $return = array(
             'sql'               => $sql,
             'joinWithSubSelect' => $joinWithSubSelect
         );
+        return $return;
+
     }
 
     /**
@@ -421,7 +423,8 @@ class Segment
      */
     private function buildWrappedSelectQuery($select, $from, $where, $orderBy, $groupBy)
     {
-        preg_match_all("/(log_visit|log_conversion|log_action).[a-z0-9_\*]+/", $select, $matches);
+        $matchTables = "(log_visit|log_conversion_item|log_conversion|log_action)";
+        preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
         $neededFields = array_unique($matches[0]);
 
         if (count($neededFields) == 0) {
@@ -429,9 +432,9 @@ class Segment
                 . "Please use a table prefix.");
         }
 
-        $select = preg_replace('/(log_visit|log_conversion|log_action)\./', 'log_inner.', $select);
-        $orderBy = preg_replace('/(log_visit|log_conversion|log_action)\./', 'log_inner.', $orderBy);
-        $groupBy = preg_replace('/(log_visit|log_conversion|log_action)\./', 'log_inner.', $groupBy);
+        $select = preg_replace('/'.$matchTables.'\./', 'log_inner.', $select);
+        $orderBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $orderBy);
+        $groupBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $groupBy);
 
         $from = "(
 			SELECT
@@ -445,6 +448,7 @@ class Segment
 				) AS log_inner";
 
         $where = false;
-        return $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
+        $query = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
+        return $query;
     }
 }
