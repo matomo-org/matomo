@@ -739,7 +739,7 @@
         "OptionalSmtpPort": "Opcional. Por defecto 25 para SMTP sin encriptación y TLS, y 465 para SSL SMTP",
         "Options": "Opciones",
         "OrCancel": "o %s Cancelar %s",
-        "OriginalLanguageName": "Español",
+        "OriginalLanguageName": "Español (Argentina)",
         "Others": "Otros",
         "Outlink": "Enlace externo",
         "Outlinks": "Links de salida",
