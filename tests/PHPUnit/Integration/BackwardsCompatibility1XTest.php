@@ -70,6 +70,9 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
                                'compareAgainst' => 'OneVisitorTwoVisits',
                                'disableArchiving' => true)),
 
+            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
+                                              'disableArchiving' => true)),
+
             /* cannot test this (see above)
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => $dateTime, 'periods' => array('year'),
                                               'compareAgainst' => 'OneVisitorTwoVisits',
