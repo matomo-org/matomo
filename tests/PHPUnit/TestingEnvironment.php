@@ -118,7 +118,7 @@ class Piwik_TestingEnvironment
                 });
 
                 $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
-                $config->log['log_writers'] = array('file');
+                $config->log['log_writers'] = array('file', 'screen');
 
                 $manager->unloadPlugins();
 
