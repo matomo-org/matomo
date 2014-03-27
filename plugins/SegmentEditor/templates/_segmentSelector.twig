@@ -139,7 +139,7 @@
         </div>
     </div>
 </div>
-<div class="segmentListContainer"></div>
+<div class="segmentListContainer">
 <div class="ui-confirm segment-delete-confirm">
     <h2>{{ 'SegmentEditor_AreYouSureDeleteSegment'|translate }}</h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
@@ -150,4 +150,5 @@
     {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
     <p class="description">{{ 'SegmentEditor_SegmentNotAppliedExplanation'|translate(nameOfCurrentSegment, 'browser_archiving_disabled_enforce', segmentSetting)|raw }}</p>
     <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+</div>
 </div>

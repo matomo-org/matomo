@@ -503,7 +503,7 @@ Segmentation = (function($) {
                 };
                 $('.segment-delete-confirm', self.target).find('#name').text( segmentName );
                 if(segmentId != ""){
-                    piwikHelper.modalConfirm( '.segment-delete-confirm', {
+                    piwikHelper.modalConfirm(self.target.find('.segment-delete-confirm'), {
                         yes: function(){
                             self.deleteMethod(params);
                         }
@@ -797,8 +797,7 @@ Segmentation = (function($) {
         var addForm = function(mode, segment){
 
             self.target.find(".segment-element:visible").unbind().remove();
-            if(typeof self.form !== "undefined")
-            {
+            if (typeof self.form !== "undefined") {
                 closeForm();
             }
             // remove any remaining forms
@@ -1009,7 +1008,9 @@ $(document).ready(function() {
         if ((typeof this.props.isSegmentNotAppliedBecauseBrowserArchivingIsDisabled != "undefined")
             && this.props.isSegmentNotAppliedBecauseBrowserArchivingIsDisabled
         ) {
-            piwikHelper.modalConfirm('.pleaseChangeBrowserAchivingDisabledSetting', {yes: function () {}});
+            piwikHelper.modalConfirm($('.pleaseChangeBrowserAchivingDisabledSetting', this.$element), {
+                yes: function () {}
+            });
         }
 
         var self = this;
