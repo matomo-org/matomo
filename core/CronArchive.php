@@ -664,14 +664,6 @@ class CronArchive
     }
 
     /**
-     * Displays script usage
-     */
-    private function usage()
-    {
-        echo self::getUsage();
-    }
-
-    /**
      * Configures Piwik\Log so messages are written in output
      */
     private function initLog()
@@ -685,11 +677,7 @@ class CronArchive
         if($logLevel != 'VERBOSE'
             && $logLevel != 'DEBUG') {
             $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
-        }
-
-        if (!function_exists("curl_multi_init")) {
-            $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");
-            exit;
+            Log::getInstance()->setLogLevel(Log::INFO);
         }
     }
 
@@ -824,8 +812,13 @@ class CronArchive
             } else {
                 // example.org/piwik/misc/cron/
                 $piwikUrl = SettingsPiwik::getPiwikUrl();
-                // example.org/piwik/
-                $piwikUrl = $piwikUrl . "../../";
+
+                if (false !== strpos($piwikUrl, 'tests/PHPUnit/proxy/')) {
+                    // example.org/piwik/tests/PHPUnit/proxy/index.php
+                } else {
+                    // example.org/piwik/
+                    $piwikUrl = $piwikUrl . "../../";
+                }
             }
         } else {
             // If archive.php run as CLI/shell we require the piwik url to be set
