@@ -44,6 +44,11 @@ class SharedSiteIds
         });
     }
 
+    public function getInitialSiteIds()
+    {
+        return $this->siteIds;
+    }
+
     /**
      * Get the number of total websites that needs to be processed.
      *
