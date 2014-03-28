@@ -13,6 +13,7 @@ use Piwik\Plugins\SitesManager\API;
 
 /**
  * Tests to call the archive.php script via web and check there is no error,
+ * @group Integration
  */
 class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
 {
