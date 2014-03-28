@@ -111,7 +111,6 @@ class ArchiveWriter
 
     public function initNewArchive()
     {
-        $this->acquireLock();
         $this->allocateNewArchiveId();
         $this->logArchiveStatusAsIncomplete();
     }
@@ -120,16 +119,6 @@ class ArchiveWriter
     {
         $this->deletePreviousArchiveStatus();
         $this->logArchiveStatusAsFinal();
-        $this->releaseArchiveProcessorLock();
-    }
-
-    protected function acquireLock()
-    {
-        $lockName = $this->getArchiveProcessorLockName();
-        $result = Db::getDbLock($lockName, $maxRetries = 30);
-        if (!$result) {
-            Log::debug("SELECT GET_LOCK failed to acquire lock. Proceeding anyway.");
-        }
     }
 
     static protected function compress($data)
@@ -210,11 +199,6 @@ class ArchiveWriter
         $this->insertRecord($this->doneFlag, $statusWhileProcessing);
     }
 
-    protected function getArchiveProcessorLockName()
-    {
-        return self::makeLockName($this->idSite, $this->period, $this->segment);
-    }
-
     /**
      * This lock is to ensure that a given archive is only processed once.
      *
@@ -263,12 +247,6 @@ class ArchiveWriter
             $status = self::DONE_OK_TEMPORARY;
         }
         $this->insertRecord($this->doneFlag, $status);
-    }
-
-    protected function releaseArchiveProcessorLock()
-    {
-        $lockName = $this->getArchiveProcessorLockName();
-        return Db::releaseDbLock($lockName);
     }
 
     protected function insertBulkRecords($records)
