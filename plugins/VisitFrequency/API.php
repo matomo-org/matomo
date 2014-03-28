@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Archive;
 use Piwik\SegmentExpression;
+use Piwik\SettingsPiwik;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
@@ -81,7 +82,7 @@ class API extends \Piwik\Plugin\API
                 'max_actions_returning',
             );
 
-            if ($period == 'day') {
+            if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
                 $columns = array_merge(array('nb_uniq_visitors_returning'), $columns);
             }
         }

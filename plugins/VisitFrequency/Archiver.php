@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\SegmentExpression;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
+use Piwik\SettingsPiwik;
 
 /**
  * Introduced to provide backwards compatibility for pre-2.0 data. Uses a segment to archive
@@ -41,29 +42,42 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
+        $this->callVisitsSummaryApiAndArchive();
+    }
+
+    public function aggregateMultipleReports()
+    {
+        if (SettingsPiwik::isUniqueVisitorsEnabled($this->getProcessor()->getParams()->getPeriod()->getLabel())) {
+            // NOTE: this call CANNOT be after aggregateNumericMetrics. for some reason, it breaks the archiver.
+            $this->callVisitsSummaryApiAndArchive(array('nb_uniq_visitors'));
+        }
+
+        $this->getProcessor()->aggregateNumericMetrics(self::$visitFrequencyPeriodMetrics);
+    }
+
+    private function callVisitsSummaryApiAndArchive($columns = false)
+    {
         $archiveParams = $this->getProcessor()->getParams();
         $periodLabel = $archiveParams->getPeriod()->getLabel();
 
-        $this->unsuffixColumns($columns);
         $params = array(
-            'idSite'    => $archiveParams->getSite()->getId(),
-            'period'    => $periodLabel,
-            'date'      => $archiveParams->getPeriod()->getDateStart()->toString(),
-            'segment'   => $this->appendReturningVisitorSegment($archiveParams->getSegment()->getString()),
-            'format'    => 'original',
-            'serialize' => 0 // tests set this to 1
+            'idSite'     => $archiveParams->getSite()->getId(),
+            'period'     => $periodLabel,
+            'date'       => $archiveParams->getPeriod()->getDateStart()->toString(),
+            'segment'    => $this->appendReturningVisitorSegment($archiveParams->getSegment()->getString()),
+            'format'     => 'original',
+            'serialize'  => 0 // make sure we don't serialize (in case serialize is in the query parameters)
         );
+        if ($columns) {
+            $params['columns'] = implode(",", $columns);
+        }
+
         $table = Request::processRequest('VisitsSummary.get', $params);
         $this->suffixColumns($table, $periodLabel);
 
         if ($table->getRowsCount() > 0) {
             $this->getProcessor()->insertNumericRecords($table->getFirstRow()->getColumns());
         }
-    }
-
-    public function aggregateMultipleReports()
-    {
-        $this->getProcessor()->aggregateNumericMetrics(self::$visitFrequencyPeriodMetrics);
     }
 
     protected function appendReturningVisitorSegment($segment)

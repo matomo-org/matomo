@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	<nb_uniq_visitors_returning>0</nb_uniq_visitors_returning>
 	<nb_visits_returning>1</nb_visits_returning>
 	<nb_actions_returning>1</nb_actions_returning>
 	<nb_visits_converted_returning>1</nb_visits_converted_returning>

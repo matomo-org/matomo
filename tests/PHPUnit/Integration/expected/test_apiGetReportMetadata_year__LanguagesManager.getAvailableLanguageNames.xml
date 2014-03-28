@@ -21,12 +21,12 @@
 		<english_name>Bulgarian</english_name>
 	</row>
 	<row>
-        <code>bn</code>
-        <name>ইংরেজি</name>
-        <english_name>Bengali</english_name>
-    </row>
-    <row>
-        <code>bs</code>
+		<code>bn</code>
+		<name>ইংরেজি</name>
+		<english_name>Bengali</english_name>
+	</row>
+	<row>
+		<code>bs</code>
 		<name>bosanski jezik</name>
 		<english_name>Bosnian</english_name>
 	</row>
@@ -64,6 +64,11 @@
 		<code>en</code>
 		<name>English</name>
 		<english_name>English</english_name>
+	</row>
+	<row>
+		<code>es-ar</code>
+		<name>Español (Argentina)</name>
+		<english_name>Spanish (Argentina)</english_name>
 	</row>
 	<row>
 		<code>es</code>

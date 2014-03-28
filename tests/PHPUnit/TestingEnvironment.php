@@ -91,6 +91,8 @@ class Piwik_TestingEnvironment
             }
         }
 
+        Config::setSingletonInstance($testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon);
+
         \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
 
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
