@@ -9,11 +9,15 @@
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Parameters as ArchiveProcessorParams;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\API\Request;
 use Piwik\Piwik;
+use Piwik\Segment;
 use Piwik\SegmentExpression;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
 use Piwik\SettingsPiwik;
+use Piwik\Metrics;
 
 /**
  * Introduced to provide backwards compatibility for pre-2.0 data. Uses a segment to archive
@@ -48,8 +52,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         if (SettingsPiwik::isUniqueVisitorsEnabled($this->getProcessor()->getParams()->getPeriod()->getLabel())) {
-            // NOTE: this call CANNOT be after aggregateNumericMetrics. for some reason, it breaks the archiver.
-            $this->callVisitsSummaryApiAndArchive(array('nb_uniq_visitors'));
+            $this->computeUniqueVisitsForNonDay();
         }
 
         $this->getProcessor()->aggregateNumericMetrics(self::$visitFrequencyPeriodMetrics);
@@ -78,6 +81,24 @@ class Archiver extends \Piwik\Plugin\Archiver
         if ($table->getRowsCount() > 0) {
             $this->getProcessor()->insertNumericRecords($table->getFirstRow()->getColumns());
         }
+    }
+
+    private function computeUniqueVisitsForNonDay()
+    {
+        // NOTE: we cannot call the VisitsSummary API from within period archiving for some reason. it results in
+        //       a very hard to trace bug that breaks the OmniFixture severely (causes lots of data to not be shown).
+        //       no idea why it causes such an error.
+        $oldParams = $this->getProcessor()->getParams();
+        $site = $oldParams->getSite();
+        $newSegment = $this->appendReturningVisitorSegment($oldParams->getSegment()->getString());
+        $newParams = new ArchiveProcessorParams($site, $oldParams->getPeriod(), new Segment($newSegment, array($site->getId())));
+
+        $logAggregator = new LogAggregator($newParams);
+        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), array(Metrics::INDEX_NB_UNIQ_VISITORS));
+        $data = $query->fetch();
+        $nbUniqVisitors = (float)$data[Metrics::INDEX_NB_UNIQ_VISITORS];
+
+        $this->getProcessor()->insertNumericRecord('nb_uniq_visitors_returning', $nbUniqVisitors);
     }
 
     protected function appendReturningVisitorSegment($segment)
