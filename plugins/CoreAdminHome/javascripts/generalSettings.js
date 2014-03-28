@@ -126,19 +126,17 @@ $(document).ready(function () {
 
     // trusted hosts event handling
     var trustedHostSettings = $('#trustedHostSettings');
-    trustedHostSettings.find('.adminTable').on('click', '.remove-trusted-host', function (e) {
+    trustedHostSettings.on('click', '.remove-trusted-host', function (e) {
         e.preventDefault();
-        $(this).parent().parent().remove();
+        $(this).parent('li').remove();
         return false;
     });
     trustedHostSettings.find('.add-trusted-host').click(function (e) {
         e.preventDefault();
 
         // append new row to the table
-        $('#trustedHostSettings').find('tbody').append('<tr>'
-            + '<td><input name="trusted_host" type="text" value=""/></td>'
-            + '<td><a href="#" class="remove-trusted-host">x</a></td>'
-            + '</tr>');
+        trustedHostSettings.find('ul').append(trustedHostSettings.find('li:last').clone());
+        trustedHostSettings.find('li:last input').val('');
         return false;
     });
 });
