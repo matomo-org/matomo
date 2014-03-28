@@ -199,33 +199,6 @@ class ArchiveWriter
         $this->insertRecord($this->doneFlag, $statusWhileProcessing);
     }
 
-    /**
-     * This lock is to ensure that a given archive is only processed once.
-     *
-     * When 10 widgets request the same site + date + segment at once,
-     * then this lock will ensure that only the first widget will process the data,
-     * while other are waiting for the lock to be released (and then will just read the archive data).
-     *
-     * @param $idsite
-     * @param Period $period
-     * @param Segment $segment
-     * @return string
-     */
-    protected static function makeLockName($idsite, Period $period, Segment $segment)
-    {
-        $config = Config::getInstance();
-
-        $lockName = 'piwik.'
-            . $config->database['dbname'] . '.'
-            . $config->database['tables_prefix'] . '/'
-            . $idsite . '/'
-            . (!$segment->isEmpty() ? $segment->getHash() . '/' : '')
-            . $period->getId() . '/'
-            . $period->getDateStart()->toString('Y-m-d') . ','
-            . $period->getDateEnd()->toString('Y-m-d');
-        return $lockName . '/' . md5($lockName . SettingsPiwik::getSalt());
-    }
-
     protected function deletePreviousArchiveStatus()
     {
         // without advisory lock here, the DELETE would acquire Exclusive Lock
