@@ -76,8 +76,12 @@ class Piwik_TestingEnvironment
 
     public function logVariables()
     {
-        if (isset($_SERVER['QUERY_STRING'])) {
-            \Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+        try {
+            if (isset($_SERVER['QUERY_STRING'])) {
+                \Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+            }
+        } catch (Exception $ex) {
+            // ignore
         }
     }
 
@@ -91,7 +95,9 @@ class Piwik_TestingEnvironment
             }
         }
 
-        Config::setSingletonInstance($testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon);
+        Config::setSingletonInstance(new Config(
+            $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
+        ));
 
         \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
 

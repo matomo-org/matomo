@@ -33,7 +33,10 @@ class PrivacyManagerTest extends IntegrationTestCase
     // total archive count for each month.
     const TOTAL_JAN_ARCHIVE_COUNT = 37; // 31 + 4 + 1 + 1;
     const TOTAL_FEB_ARCHIVE_COUNT = 34; // 29 + 4 + 1;
-    const JAN_METRIC_RETURNING_VISIT_PERIODS = 9;
+    const JAN_DAYS_WITH_VISITS = 5;
+    const JAN_METRIC_RETURNING_VISIT_DAYS = 4;
+    const FEB_DAYS_WITH_VISITS = 6;
+    const FEB_METRIC_RETURNING_VISIT_DAYS = 6;
 
     // the number of archive entries for a single metric if no purging is done. this #
     // is dependent on the number of periods for which there were visits.
@@ -890,9 +893,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         // + 1 garbage metric
         // log_link_visit_action+ 2 entries per range period (4 total) + 2 'done...' entries per range period (4 total)
         // + 2 entries per segment (2 total) + 2 'done...' entries per segment (2 total)
-        // + 2 entries per period w/ returning visits (for visit frequency's segment) + 1 done entry for every period except year (no unique visitors calculated for year)
+        // + 2 entries per day w/ returning visits + 1 entry per day w/ visits (visit frequency's visit summary metrics & segment done entries)
         return self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1 + 8 + 4
-             + 2 * self::JAN_METRIC_RETURNING_VISIT_PERIODS + (self::TOTAL_JAN_ARCHIVE_COUNT - 1);
+             + 2 * self::JAN_METRIC_RETURNING_VISIT_DAYS + self::JAN_DAYS_WITH_VISITS;
     }
 
     protected function _getExpectedNumericArchiveCountFeb()
@@ -900,9 +903,10 @@ class PrivacyManagerTest extends IntegrationTestCase
         // (5 metrics per period w/ visits
         // + 1 'done' archive for every period)
         // + 1 garbage metric
-        // + 2 entries per period w/ returning visits (for visit frequency's segment) + 1 done entry for every period
+        // + 1 entry per period w/ returning visits
+        // + 2 entries per day w/ returning visits + 1 entry per day w/ visits (visit frequency's visit summary metrics & segment done entries)
         return self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1
-             + 2 * self::FEB_METRIC_ARCHIVE_COUNT + self::TOTAL_FEB_ARCHIVE_COUNT;
+             + 2 * self::FEB_METRIC_RETURNING_VISIT_DAYS + self::FEB_DAYS_WITH_VISITS;
     }
 
     /**
