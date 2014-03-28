@@ -33,6 +33,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     // total archive count for each month.
     const TOTAL_JAN_ARCHIVE_COUNT = 37; // 31 + 4 + 1 + 1;
     const TOTAL_FEB_ARCHIVE_COUNT = 34; // 29 + 4 + 1;
+    const JAN_METRIC_RETURNING_VISIT_PERIODS = 9;
 
     // the number of archive entries for a single metric if no purging is done. this #
     // is dependent on the number of periods for which there were visits.
@@ -219,9 +220,8 @@ class PrivacyManagerTest extends IntegrationTestCase
         // January numeric table should be dropped
         $this->assertFalse($this->_tableExists($archiveTables['numeric'][0])); // January
 
-        // Check february metric count (5 metrics per period w/ visits + 1 'done' archive for every period)
-        // + 1 garbage metric
-        $febRowCount = self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1;
+        // Check february metric count 
+        $febRowCount = $this->_getExpectedNumericArchiveCountFeb();
         $this->assertEquals($febRowCount, $this->_getTableCount($archiveTables['numeric'][1])); // February
 
         // January blob table should be dropped
@@ -890,7 +890,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         // + 1 garbage metric
         // log_link_visit_action+ 2 entries per range period (4 total) + 2 'done...' entries per range period (4 total)
         // + 2 entries per segment (2 total) + 2 'done...' entries per segment (2 total)
-        return self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1 + 8 + 4;
+        // + 2 entries per period w/ returning visits (for visit frequency's segment) + 1 done entry for every period except year (no unique visitors calculated for year)
+        return self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1 + 8 + 4
+             + 2 * self::JAN_METRIC_RETURNING_VISIT_PERIODS + (self::TOTAL_JAN_ARCHIVE_COUNT - 1);
     }
 
     protected function _getExpectedNumericArchiveCountFeb()
@@ -898,7 +900,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         // (5 metrics per period w/ visits
         // + 1 'done' archive for every period)
         // + 1 garbage metric
-        return self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1;
+        // + 2 entries per period w/ returning visits (for visit frequency's segment) + 1 done entry for every period
+        return self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1
+             + 2 * self::FEB_METRIC_ARCHIVE_COUNT + self::TOTAL_FEB_ARCHIVE_COUNT;
     }
 
     /**

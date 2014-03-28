@@ -676,9 +676,10 @@ class CronArchive
         $config->log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
 
         // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
-        $logLevel = $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION];
-        if($logLevel != 'VERBOSE'
-            && $logLevel != 'DEBUG') {
+        $logLevel = @$config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION];
+        if ($logLevel != 'VERBOSE'
+            && $logLevel != 'DEBUG'
+        ) {
             $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
         }
     }
