@@ -85,12 +85,6 @@ class Piwik_TestingEnvironment
     {
         $testingEnvironment = new Piwik_TestingEnvironment();
 
-        Config::setSingletonInstance(new Config(
-            $testingEnvironment->configFileGlobal,
-            $testingEnvironment->configFileLocal,
-            $testingEnvironment->configFileCommon
-        ));
-
         if ($testingEnvironment->queryParamOverride) {
             foreach ($testingEnvironment->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
@@ -106,7 +100,7 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function($config, &$cache) use ($testingEnvironment) {
+            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache) use ($testingEnvironment) {
                 $config->setTestEnvironment();
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
@@ -118,7 +112,8 @@ class Piwik_TestingEnvironment
                 });
 
                 $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
-                $config->log['log_writers'] = array('file', 'screen');
+
+                $config->log['log_writers'] = array('file');
 
                 $manager->unloadPlugins();
 
@@ -135,7 +130,6 @@ class Piwik_TestingEnvironment
                     $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
                 }
 
-                $testingEnvironment->logVariables();
             });
         }
         Piwik::addAction('Request.dispatch', function() {
@@ -173,6 +167,7 @@ class Piwik_TestingEnvironment
             }
         });
 
+        $testingEnvironment->logVariables();
         $testingEnvironment->executeSetupTestEnvHook();
     }
 

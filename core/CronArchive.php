@@ -95,8 +95,8 @@ class CronArchive
     public function init()
     {
         // Note: the order of methods call matters here.
-        $this->initPiwikHost();
         $this->initLog();
+        $this->initPiwikHost();
         $this->initCore();
         $this->initTokenAuth();
         $this->initCheckCli();
@@ -680,7 +680,6 @@ class CronArchive
         if($logLevel != 'VERBOSE'
             && $logLevel != 'DEBUG') {
             $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
-            Log::getInstance()->setLogLevel(Log::INFO);
         }
     }
 
@@ -813,15 +812,8 @@ class CronArchive
             if (!empty(self::$url)) {
                 $piwikUrl = self::$url;
             } else {
-                // example.org/piwik/misc/cron/
+                // example.org/piwik/
                 $piwikUrl = SettingsPiwik::getPiwikUrl();
-
-                if (false !== strpos($piwikUrl, 'tests/PHPUnit/proxy/')) {
-                    // example.org/piwik/tests/PHPUnit/proxy/index.php
-                } else {
-                    // example.org/piwik/
-                    $piwikUrl = $piwikUrl . "../../";
-                }
             }
         } else {
             // If archive.php run as CLI/shell we require the piwik url to be set
