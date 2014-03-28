@@ -616,25 +616,9 @@ class Configuration(object):
                     "couldn't open the configuration file, "
                     "required to get the authentication token"
                 )
-
-            updatetokenfile = os.path.abspath(
-                os.path.join(os.path.dirname(__file__),
-                    '../../misc/cron/updatetoken.php'),
-            )
-
-            command = ['php', updatetokenfile]
-            if self.options.enable_testmode:
-                command.append('--testmode')
-
-            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            [stdout, stderr] = process.communicate()
-            if process.returncode != 0:
-                fatal_error("misc/cron/updatetoken.php failed: " + stderr)
-
-            filename = stdout
-            credentials = open(filename, 'r').readline()
-            credentials = credentials.split('\t')
-            return credentials[1]
+            config_token_auth = config_file.get('superuser', 'token_auth').strip('"')
+            logging.debug(config_token_auth)
+            return config_token_auth
 
 
     def get_resolver(self):
