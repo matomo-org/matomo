@@ -20,6 +20,13 @@ expect.screenshot = function (file, prefix) {
     return chai.expect(prefix + '_' + file);
 };
 
+// add page keyword to `expect`
+expect.page = function (url) {
+    return chai.expect(url);
+};
+
+expect.current_page = expect.page(null);
+
 function getPageLogsString(pageLogs, indent) {
     var result = "";
     if (pageLogs.length) {
@@ -71,25 +78,12 @@ chai.Assertion.addChainableMethod('capture', function () {
 
     pageSetupFn(pageRenderer);
 
-    var timeout = setTimeout(function () {
-        pageRenderer.abort();
-
-        var indent = "     ",
-            err = new Error("Screenshot load timeout.");
-        err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
-
-        done(err);
-    }, 120 * 1000);
-
     try {
         pageRenderer.capture(processedScreenshotPath, function (err) {
-            if (pageRenderer.aborted) {
-                return;
-            }
-
-            clearTimeout(timeout);
-
             if (err) {
+                var indent = "     ";
+                err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
+
                 done(err);
                 return;
             }
@@ -152,4 +146,43 @@ chai.Assertion.addChainableMethod('capture', function () {
         err.stack = ex.message;
         done(err);
     }
+});
+
+// add `contains` assertion
+chai.Assertion.addChainableMethod('contains', function () {
+    var url = this.__flags['object'],
+        elementSelector = arguments[0],
+        pageSetupFn = arguments[1],
+        done = arguments[2];
+
+    if (url
+        && pageRenderer.getCurrentUrl() != url
+    ) {
+        pageRenderer.load(url);
+    }
+
+    pageSetupFn(pageRenderer);
+
+    if (!(done instanceof Function)) {
+        throw new Error("No 'done' callback specified in 'contains' assertion.");
+    }
+
+    pageRenderer.capture(null, function (err) {
+        if (err) {
+            var indent = "     ";
+            err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
+
+            done(err);
+            return;
+        }
+
+        if (!pageRenderer.contains(elementSelector)) {
+            var error = new AssertionError("Page does not contain element '" + elementSelector + "'.");
+            error.stack = getPageLogsString(pageRenderer.pageLogs, indent);
+
+            done(error);
+        } else {
+            done();
+        }
+    });
 });

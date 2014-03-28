@@ -204,8 +204,20 @@ PageRenderer.prototype._getPosition = function (selector) {
     return pos;
 };
 
+PageRenderer.prototype.contains = function (selector) {
+    return this.webpage.evaluate(function (selector) {
+        return $(selector).length != 0;
+    }, selector);
+};
+
 // main capturing function
 PageRenderer.prototype.capture = function (outputPath, callback) {
+    var self = this,
+        timeout = setTimeout(function () {
+            self.abort();
+            callback(new Error("Screenshot load timeout."));
+        }, 120 * 1000);
+
     if (this.webpage === null) {
         this._recreateWebPage();
     }
@@ -215,11 +227,18 @@ PageRenderer.prototype.capture = function (outputPath, callback) {
     this.pageLogs = [];
     this.aborted = false;
 
-    var self = this;
     this._executeEvents(events, function () {
+        if (self.aborted) {
+            return;
+        }
+
+        clearTimeout(timeout);
+
         try {
-            self._setCorrectViewportSize();
-            self.webpage.render(outputPath);
+            if (outputPath) {
+                self._setCorrectViewportSize();
+                self.webpage.render(outputPath);
+            }
 
             self._viewportSizeOverride = null;
 
