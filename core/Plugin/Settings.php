@@ -12,6 +12,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Settings\Setting;
 use Piwik\Settings\StorageInterface;
+use Piwik\SettingsServer;
 
 /**
  * Base class of all plugin settings providers. Plugins that define their own configuration settings
@@ -325,6 +326,11 @@ abstract class Settings implements StorageInterface
      */
     private function checkHasEnoughPermission(Setting $setting)
     {
+        // When the request is a Tracker request, allow plugins to read/write settings
+        if(SettingsServer::isTrackerApiRequest()) {
+            return;
+        }
+
         if (!$setting->canBeDisplayedForCurrentUser()) {
             $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingChangeNotAllowed', array($setting->getName(), $this->pluginName));
             throw new \Exception($errorMsg);

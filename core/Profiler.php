@@ -186,7 +186,7 @@ class Profiler
      */
     public static function setupProfilerXHProf($mainRun = false)
     {
-        if(!empty($GLOBALS['PIWIK_TRACKER_MODE'])) {
+        if(SettingsServer::isTrackerApiRequest()) {
             // do not profile Tracker
             return;
         }

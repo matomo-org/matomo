@@ -296,7 +296,7 @@ class Config extends Singleton
     public function init()
     {
         $this->initialized = true;
-        $reportError = !empty($GLOBALS['PIWIK_TRACKER_MODE']);
+        $reportError = SettingsServer::isTrackerApiRequest();
 
         // read defaults from global.ini.php
         if (!is_readable($this->pathGlobal) && $reportError) {
