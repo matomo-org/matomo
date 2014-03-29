@@ -108,7 +108,10 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
                                               'disableArchiving' => false)),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
-                                              'periods' => array('range'), 'disableArchiving' => true))
+                                              'periods' => array('range'), 'disableArchiving' => true)),
+
+            array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => array('month'),
+                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true))
         );
     }
 }
