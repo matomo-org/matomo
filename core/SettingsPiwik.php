@@ -191,6 +191,10 @@ class SettingsPiwik
             }
             $url = $currentUrl;
         }
+
+        if(ProxyHttp::isHttps()) {
+            $url = str_replace("http://", "https://", $url);
+        }
         return $url;
     }
 
