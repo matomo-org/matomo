@@ -369,7 +369,7 @@ class Tracker
      */
     static public function initCorePiwikInTrackerMode()
     {
-        if (!empty($GLOBALS['PIWIK_TRACKER_MODE'])
+        if (SettingsServer::isTrackerApiRequest()
             && self::$initTrackerMode === false
         ) {
             self::$initTrackerMode = true;

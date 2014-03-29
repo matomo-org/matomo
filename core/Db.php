@@ -42,7 +42,7 @@ class Db
      */
     public static function get()
     {
-        if (!empty($GLOBALS['PIWIK_TRACKER_MODE'])) {
+        if (SettingsServer::isTrackerApiRequest()) {
             return Tracker::getDatabase();
         }
 
