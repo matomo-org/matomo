@@ -149,8 +149,6 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     if (options['persist-fixture-data']
         || !fixtureClass
     ) {
-        this.deleteAndSave();
-
         done();
         return;
     }
@@ -183,8 +181,6 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
 
     var self = this;
     child.on("exit", function (code) {
-        self.deleteAndSave();
-
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));
         } else {
