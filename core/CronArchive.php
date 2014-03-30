@@ -92,6 +92,17 @@ class CronArchive
         return "lastRunArchive" . $period . "_" . $idsite;
     }
 
+    /**
+     * Initializes and runs the cron archiver.
+     */
+    public function main()
+    {
+        $this->init();
+        $this->run();
+        $this->runScheduledTasks();
+        $this->end();
+    }
+
     public function init()
     {
         // Note: the order of methods call matters here.
