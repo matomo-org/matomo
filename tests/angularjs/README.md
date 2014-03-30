@@ -15,6 +15,14 @@ On Ubuntu you might be able to use the `scripts/install-ubuntu.sh` script. Have 
 * [Mocha](http://visionmedia.github.io/mocha/)
 * You need more assertions? Have a look at [Chai plugins](http://chaijs.com/plugins)
 
+## File structure
+
+We do not have a general `tests` folder containing all test files. Instead we create a file having the same name appended by "_test.js" in the same directory.
+
+For instance you want to test a file named `startfrom.js` then we create a file named `startfrom_test.js`:
+`plugins/CoreHome/angularjs/common/filters/startfrom.js` => 
+`plugins/CoreHome/angularjs/common/filters/startfrom_test.js`
+
 ## Execution
 
 Run tests and run them automatically again once there is a file change:
@@ -31,7 +39,7 @@ You can change the `browsers: ['Chrome', 'Firefox', 'PhantomJS']` property in `k
 
 ## Testing existing jQuery code
 
-TBD
+Just in case you want to write a test for your jQuery code you can do this the same way. You might be interested in the [Chai jQuery](http://chaijs.com/plugins/chai-jquery) plugin. 
 
 ## Examples
 * [Testing a filter](plugins/CoreHome/angularjs/common/filters/startfrom_test.js)
