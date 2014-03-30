@@ -68,8 +68,9 @@ DiffViewerGenerator.prototype.generate = function (callback) {
             if (entry.expected) {
                 var expectedUrl = self.getUrlForPath(entry.expected),
                     screenshotRepo = options['screenshot-repo'] || 'piwik/piwik-ui-tests',
-                    expectedUrlGithub = 'https://raw.github.com/' + screenshotRepo + '/master/expected-ui-screenshots/'
-                                      + entry.name + '.png';
+                    pathPrefix = options['screenshot-repo'] ? '/Test/UI' : '',
+                    expectedUrlGithub = 'https://raw.github.com/' + screenshotRepo + '/master' + pathPrefix +
+                                      + '/expected-ui-screenshots/' + entry.name + '.png';
 
                 var expectedHtml = '';
                 if (!options['assume-artifacts']) {
