@@ -1,3 +1,4 @@
+sudo apt-get install npm
 DIR=`dirname $0`
 cd $DIR
 sudo npm install .
