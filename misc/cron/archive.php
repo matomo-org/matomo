@@ -47,6 +47,8 @@ try {
     $archiving->run();
     $archiving->runScheduledTasks();
     $archiving->end();
+} catch (Piwik\CronArchiveFatalException $ex) {
+    $ex->logAndExit($archiving);
 } catch (Exception $e) {
-    $archiving->logFatalError($e->getMessage());
-}
+    $archiving->logFatalExceptionAndExit($e);
+} 
