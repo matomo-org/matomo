@@ -1,5 +1,4 @@
-sudo apt-get install npm
 DIR=`dirname $0`
 cd $DIR
-sudo npm install .
+./install-ubuntu.sh
 ./node_modules/karma/bin/karma start --browsers PhantomJS --single-run karma.conf.js
