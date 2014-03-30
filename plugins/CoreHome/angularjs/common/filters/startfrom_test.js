@@ -5,18 +5,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-describe('startFromFilter filter', function() {
+describe('startFromFilter', function() {
     var startFrom;
 
-    beforeEach(function() {
-        module('piwikApp.filter');
-        inject(function($injector) {
-            var $filter = $injector.get('$filter');
-            startFrom = $filter('startFrom');
-        });
-    });
+    beforeEach(module('piwikApp.filter'));
+    beforeEach(inject(function($injector) {
+        var $filter = $injector.get('$filter');
+        startFrom = $filter('startFrom');
+    }));
 
-    describe('startFrom', function() {
+    describe('#startFrom()', function() {
 
         it('should return all entries if index is zero', function() {
 
