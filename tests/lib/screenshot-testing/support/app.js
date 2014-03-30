@@ -35,7 +35,9 @@ var walk = function (dir, pattern, result) {
 
 var Application = function () {
     this.runner = null;
-    this.diffViewerGenerator = new DiffViewerGenerator();
+
+    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
 };
 
 Application.prototype.printHelpAndExit = function () {
