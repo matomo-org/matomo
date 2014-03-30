@@ -2,12 +2,16 @@
     "author": "(c) piwik.org",
     "name": "PiwikJsTestRunner",
     "description": "Piwik AngularJS test runner",
+    "license": "GPLv3+",
+    "homepage": "http://piwik.org",
     "dependencies": {
-        "expect.js": ">= 0.3.1",
         "karma": ">= 0.12.1",
         "karma-mocha": ">= 0.1.3",
         "chai": ">= 1.9.1",
-        "phantomjs": ">= 1.9.7-1"
+        "phantomjs": ">= 1.9.7-1",
+        "karma-phantomjs-launcher": ">= 0.1.2",
+        "karma-chrome-launcher": ">= 0.1.2",
+        "karma-firefox-launcher": ">= 0.1.3"
     },
     "engines": {
         "node": ">= 0.10.0"

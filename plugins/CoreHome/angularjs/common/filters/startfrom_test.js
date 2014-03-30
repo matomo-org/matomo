@@ -6,7 +6,7 @@
  */
 
 describe('startFrom Filter Test', function() {
-    var $scope, $location, $rootScope, createController, $filter;
+    var $filter;
 
     beforeEach(function() {
         module('piwikApp.filter');
