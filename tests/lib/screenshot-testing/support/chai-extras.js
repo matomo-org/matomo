@@ -91,7 +91,8 @@ chai.Assertion.addChainableMethod('capture', function () {
             var testInfo = {
                 name: screenName,
                 processed: fs.isFile(processedScreenshotPath) ? processedScreenshotPath : null,
-                expected: fs.isFile(expectedScreenshotPath) ? expectedScreenshotPath : null
+                expected: fs.isFile(expectedScreenshotPath) ? expectedScreenshotPath : null,
+                baseDirectory: dirsBase
             };
 
             var fail = function (message) {

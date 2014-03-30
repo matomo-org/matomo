@@ -35,7 +35,7 @@ var walk = function (dir, pattern, result) {
 
 var Application = function () {
     this.runner = null;
-    this.diffViewerGenerator = new DiffViewerGenerator(path.join(uiTestsDir, config.screenshotDiffDir));
+    this.diffViewerGenerator = new DiffViewerGenerator();
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -69,6 +69,7 @@ Application.prototype.init = function () {
     describe = function () {
         var suite = oldDescribe.apply(null, arguments);
         suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
+        suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
         return suite;
     };
 };
@@ -122,6 +123,16 @@ Application.prototype.loadTestModules = function () {
                 }
             }
 
+            // remove existing diffs
+            fs.list(suite.diffDir).forEach(function (item) {
+                var file = path.join(suite.diffDir, item);
+                if (fs.exists(file)
+                    && item.slice(-4) == '.png'
+                ) {
+                    fs.remove(file);
+                }
+            });
+
             testEnvironment.setupFixture(fixture, done);
 
             options = oldOptions;
@@ -156,16 +167,6 @@ Application.prototype.runTests = function () {
     dirsToCreate.forEach(function (path) {
         if (!fs.isDirectory(path)) {
             fs.makeTree(path);
-        }
-    });
-
-    // remove existing diffs
-    fs.list(config.screenshotDiffDir).forEach(function (item) {
-        var file = path.join(uiTestsDir, config.screenshotDiffDir, item);
-        if (fs.exists(file)
-            && item.slice(-4) == '.png'
-        ) {
-            fs.remove(file);
         }
     });
 

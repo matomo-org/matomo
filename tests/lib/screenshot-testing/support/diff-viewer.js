@@ -33,7 +33,7 @@ DiffViewerGenerator.prototype.checkImageMagickCompare = function (callback) {
 };
 
 DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
-    return path.resolve(path.join(this.diffDir, testInfo.name + '.png'));
+    return path.resolve(path.join(testInfo.baseDirectory, config.screenshotDiffDir, testInfo.name + '.png'));
 };
 
 // TODO: diff output path shouldn't be stored in piwik-ui-tests repo
