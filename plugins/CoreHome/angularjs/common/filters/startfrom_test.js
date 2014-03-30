@@ -5,21 +5,38 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-describe('startFrom Filter Test', function() {
-    var $filter;
+describe('startFromFilter filter', function() {
+    var startFrom;
 
     beforeEach(function() {
         module('piwikApp.filter');
         inject(function($injector) {
-            $filter = $injector.get('$filter');
+            var $filter = $injector.get('$filter');
+            startFrom = $filter('startFrom');
         });
     });
 
-    it('should fetch all websites', function() {
-        var startFrom = $filter('startFrom');
+    describe('startFrom', function() {
 
-        var result = startFrom([1,2,3], 2);
+        it('should return all entries if index is zero', function() {
 
-        expect(result).to.eql([3]);
+            var result = startFrom([1,2,3], 0);
+
+            expect(result).to.eql([1,2,3]);
+        });
+
+        it('should return only partial entries if filter is higher than zero', function() {
+
+            var result = startFrom([1,2,3], 2);
+
+            expect(result).to.eql([3]);
+        });
+
+        it('should return no entries if start is higher than input length', function() {
+
+            var result = startFrom([1,2,3], 11);
+
+            expect(result).to.eql([]);
+        });
     });
 });

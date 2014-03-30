@@ -15,7 +15,7 @@ if [ -n "$TEST_SUITE" ]
 then
     if [ "$TEST_SUITE" = "AngularJSTests" ]
     then
-        sh ./../angularjs/travis.sh
+        sh ./../angularjs/scripts/travis.sh
     elif [ "$TEST_SUITE" = "JavascriptTests" ]
     then
         touch ../javascript/enable_sqlite

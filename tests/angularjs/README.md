@@ -3,7 +3,7 @@
 npm install .
 
 ### Ubuntu
-On Ubuntu you might be able to use the `install-ubuntu.sh` script. Have a look and give it a try
+On Ubuntu you might be able to use the `scripts/install-ubuntu.sh` script. Have a [look](https://github.com/piwik/piwik/blob/master/tests/angularjs/install-ubuntu.sh) and give it a try
 
 ## Used libs
 MochaJS + Chai
