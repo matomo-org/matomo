@@ -20,6 +20,7 @@ env:
     - TEST_SUITE=CoreTests MYSQL_ADAPTER=MYSQLI
     # Javascript tests
     - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
   global:
     - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
     - secure: "DySde80fX3dw0osGY5s5lGiGLjMleUkkONsuRDC4xjT1hAQP94FGHpPXVZV8\nAQY0s8MQmcK2eRLOQrmE9Bh1XXbGqh40s66XhSWq0hulFHxQH5OLaZXccFeu\n5WxGkHXnNDIc+CVhXW/IIbHZPO1K6hffS8fuvP1o6mYgxwFL6Xw="
@@ -35,6 +36,13 @@ matrix:
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
+    # AngularJS tests need to run only on one PHP version
+    - php: 5.4
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 5.5
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: hhvm
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
     # Only run Mysqli tests on PHP 5.5
     - php: 5.4
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=MYSQLI

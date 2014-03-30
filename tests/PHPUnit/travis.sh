@@ -13,7 +13,10 @@ fi
 
 if [ -n "$TEST_SUITE" ]
 then
-    if [ "$TEST_SUITE" = "JavascriptTests" ]
+    if [ "$TEST_SUITE" = "AngularJSTests" ]
+    then
+        sh ./../angularjs/travis.sh
+    elif [ "$TEST_SUITE" = "JavascriptTests" ]
     then
         touch ../javascript/enable_sqlite
         phantomjs ../javascript/testrunner.js
