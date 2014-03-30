@@ -43,4 +43,6 @@ Just in case you want to write a test for your jQuery code you can do this the s
 
 ## Examples
 * [Testing a filter](plugins/CoreHome/angularjs/common/filters/startfrom_test.js)
+* [Testing a directive](plugins/CoreHome/angularjs/common/directives/autocomplete-matched_test.js)
+* [Testing a service/provider/factory/model](plugins/CoreHome/angularjs/common/services/piwik_test.js)
 * See more examples in [AngularJS guide](http://docs.angularjs.org/guide/unit-testing)

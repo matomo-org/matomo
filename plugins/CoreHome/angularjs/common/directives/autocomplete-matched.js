@@ -30,7 +30,8 @@ angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', funct
             }
 
             var content   = element.html();
-            var startTerm = content.toLowerCase().indexOf(searchTerm);
+            var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
+
             if (-1 !== startTerm) {
                 var word = content.substr(startTerm, searchTerm.length);
                 content = content.replace(word, '<span class="autocompleteMatched">' + word + '</span>');
