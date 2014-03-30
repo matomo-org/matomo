@@ -43,10 +43,9 @@ To get help use '/path/to/php $piwikHome/console core:archive --help'
 
 $archiving = new Piwik\CronArchive();
 try {
-    $archiving->init();
-    $archiving->run();
-    $archiving->runScheduledTasks();
-    $archiving->end();
+    $archiving->main();
+} catch (Piwik\CronArchiveFatalException $ex) {
+    $ex->logAndExit($archiving);
 } catch (Exception $e) {
-    $archiving->logFatalError($e->getMessage());
-}
+    $archiving->logFatalExceptionAndExit($e);
+} 

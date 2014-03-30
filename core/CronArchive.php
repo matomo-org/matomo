@@ -92,6 +92,17 @@ class CronArchive
         return "lastRunArchive" . $period . "_" . $idsite;
     }
 
+    /**
+     * Initializes and runs the cron archiver.
+     */
+    public function main()
+    {
+        $this->init();
+        $this->run();
+        $this->runScheduledTasks();
+        $this->end();
+    }
+
     public function init()
     {
         // Note: the order of methods call matters here.
@@ -246,12 +257,13 @@ class CronArchive
 
     public function logFatalError($m, $backtrace = true)
     {
-        $this->logError($m);
-        $fe = fopen('php://stderr', 'w');
-        fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m . "\n"
-            . ($backtrace ? "\n\n Here is the full errors output:\n\n" . $this->output : '')
-        );
-        exit(1);
+        throw new CronArchiveFatalException($m, $backtrace ? $this->output : false);
+    }
+
+    public function logFatalExceptionAndExit($ex, $backtrace = true)
+    {
+        $wrapped = new CronArchiveFatalException($ex->getMessage(), $backtrace ? $this->output : false);
+        $wrapped->logAndExit($this);
     }
 
     public function runScheduledTasks()
@@ -644,7 +656,7 @@ class CronArchive
         return true;
     }
 
-    private function logError($m)
+    public function logError($m)
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
             $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
@@ -1105,5 +1117,28 @@ class CronArchive
             $visitsToday = $metricsToday['nb_visits'];
         }
         return $visitsToday;
+    }
+}
+
+class CronArchiveFatalException extends Exception
+{
+    private $fullOutput = null;
+
+    public function __construct($message, $fullOutput)
+    {
+        parent::__construct($message);
+
+        $this->fullOutput = $fullOutput;
+    }
+
+    public function logAndExit($cronArchiver)
+    {
+        $cronArchiver->logError($this->getMessage());
+
+        $fe = fopen('php://stderr', 'w');
+        fwrite($fe, "Error in the last Piwik archive.php run: \n" . $this->getMessage() . "\n"
+            . (!empty($this->fullOutput) ? "\n\n Here is the full errors output:\n\n" . $this->fullOutput : ''));
+
+        exit(1);
     }
 }

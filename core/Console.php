@@ -11,23 +11,14 @@ namespace Piwik;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class Console
+class Console extends Application
 {
-    public function init()
+    public function __construct()
     {
-        $this->initPiwikHost();
-        $this->initConfig();
-        try {
-            self::initPlugins();
-        } catch(\Exception $e) {
-            // Piwik not installed yet, no config file?
-        }
-    }
-
-    public function run()
-    {
-        $console = new Application();
+        parent::__construct();
 
         $option = new InputOption('piwik-domain',
             null,
@@ -35,27 +26,40 @@ class Console
             'Piwik URL (protocol and domain) eg. "http://piwik.example.org"'
         );
 
-        $console->getDefinition()->addOption($option);
+        $this->getDefinition()->addOption($option);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function init()
+    {
+        // TODO: remove
+    }
+
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        $this->initPiwikHost($input);
+        $this->initConfig();
+        try {
+            self::initPlugins();
+        } catch(\Exception $e) {
+            // Piwik not installed yet, no config file?
+        }
 
         $commands = $this->getAvailableCommands();
 
         foreach ($commands as $command) {
-
             if (!class_exists($command)) {
-
                 Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
-
             } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
-
                 Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
-
             } else {
-
-                $console->add(new $command);
+                $this->add(new $command);
             }
         }
 
-        $console->run();
+        return parent::doRun($input, $output);
     }
 
     /**
@@ -65,7 +69,7 @@ class Console
      */
     private function getAvailableCommands()
     {
-        $commands = $this->getDefaultCommands();
+        $commands = $this->getDefaultPiwikCommands();
 
         /**
          * Triggered to gather all available console commands. Plugins that want to expose new console commands
@@ -85,9 +89,9 @@ class Console
         return $commands;
     }
 
-    protected function initPiwikHost()
+    protected function initPiwikHost(InputInterface $input)
     {
-        $piwikHostname = CronArchive::getParameterFromCli('piwik-domain', true);
+        $piwikHostname = $input->getParameterOption('--piwik-domain');
         $piwikHostname = UrlHelper::getHostFromUrl($piwikHostname);
         Url::setHost($piwikHostname);
     }
@@ -110,7 +114,7 @@ class Console
         $pluginsManager->loadPlugins($pluginsToLoad);
     }
 
-    private function getDefaultCommands()
+    private function getDefaultPiwikCommands()
     {
         $commands = array(
             'Piwik\CliMulti\RequestCommand'
