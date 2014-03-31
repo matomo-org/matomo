@@ -32,7 +32,7 @@ module.exports = function(config) {
         'plugins/CoreHome/angularjs/common/directives/directive.js',
         'plugins/CoreHome/angularjs/piwikApp.js',
         'plugins/*/angularjs/**/*.js',
-        'plugins/*/angularjs/**/*_test.js'
+        'plugins/*/angularjs/**/*_spec.js'
     ],
 
 
