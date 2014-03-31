@@ -36,7 +36,7 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
 
-        $output = file_get_contents($host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token);
+        $output = file_get_contents($host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token . '&forcelogtoscreen=1');
 
         if (!empty($urlTmp)) {
             Option::set('piwikUrl', $urlTmp);

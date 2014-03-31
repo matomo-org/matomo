@@ -695,7 +695,10 @@ class CronArchive
         $log = $config->log;
         $log['log_only_when_debug_parameter'] = 0;
         $log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
-        Log::getInstance()->addLogWriter('screen');
+
+        if (!empty($_GET['forcelogtoscreen'])) {
+            Log::getInstance()->addLogWriter('screen');
+        }
 
         // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
         $logLevel = @$log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION];
