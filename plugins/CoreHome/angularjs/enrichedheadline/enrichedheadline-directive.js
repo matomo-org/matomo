@@ -60,7 +60,7 @@ angular.module('piwikApp').directive('piwikEnrichedHeadline', function($document
                 if (!attrs.featureName) {
                     attrs.featureName = $.trim(element.text());
                 }
-            }
+            };
         }
-    }
+    };
 });

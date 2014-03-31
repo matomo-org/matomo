@@ -46,7 +46,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             nb_pageviews: 0,
             revenue: 0,
             isGroup: true
-        }
+        };
     }
 
     // create a new group with empty site to make sure we do not change the original group in $allSites
@@ -59,7 +59,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             nb_pageviews: group.nb_pageviews,
             revenue: group.revenue,
             isGroup: true
-        }
+        };
     }
 
     function onError () {
@@ -231,13 +231,13 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
                 showColumns: 'label,nb_visits',
                 enhanced: 1,
                 date: lastDate
-            })
+            });
         }).then(function (response) {
             if (response && response.reportTotal) {
                 model.lastVisits = response.reportTotal.nb_visits;
             }
         });
-    };
+    }
 
     model.fetchAllSites = function (refreshInterval) {
 
@@ -263,7 +263,7 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
 
             if (refreshInterval && refreshInterval > 0) {
                 $timeout(function () {
-                    model.fetchAllSites(refreshInterval)
+                    model.fetchAllSites(refreshInterval);
                 }, refreshInterval * 1000);
             }
         });

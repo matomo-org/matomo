@@ -15,5 +15,5 @@ angular.module('piwikApp.filter').filter('translate', function() {
             }
         }
         return _pk_translate(key, values);
-    }
+    };
 });

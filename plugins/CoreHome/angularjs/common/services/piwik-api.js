@@ -30,7 +30,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         for (var key in params) {
             getParams[key] = params[key];
         }
-    };
+    }
 
     function reset () {
         getParams  = {};
@@ -43,7 +43,8 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
      */
     function send () {
 
-        var deferred = requestHandle = $q.defer();
+        var deferred = $q.defer();
+        var requestHandle = deferred;
 
         var onError = function (message) {
             deferred.reject(message);
@@ -93,7 +94,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         $http(ajaxCall).success(onSuccess).error(onError);
 
         return deferred.promise;
-    };
+    }
 
     /**
      * Get the parameters to send as POST
@@ -106,7 +107,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         return {
             token_auth: piwik.token_auth
         };
-    };
+    }
 
     /**
      * Mixin the default parameters to send as GET
@@ -144,7 +145,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
         }
 
         return getParamsToMixin;
-    };
+    }
 
     piwikApi.abort = function () {
         reset();

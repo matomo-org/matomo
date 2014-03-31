@@ -36,5 +36,5 @@ angular.module('piwikApp').directive('piwikMultisitesDashboard', function($docum
 
             controller.refresh(attrs.autoRefreshTodayReport);
         }
-    }
+    };
 });

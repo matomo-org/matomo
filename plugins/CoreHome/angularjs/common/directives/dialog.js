@@ -37,5 +37,5 @@ angular.module('piwikApp.directive').directive('piwikDialog', function(piwik) {
                 }
             });
         }
-    }
+    };
 });

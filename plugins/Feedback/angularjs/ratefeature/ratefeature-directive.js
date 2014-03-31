@@ -18,5 +18,5 @@ angular.module('piwikApp').directive('piwikRateFeature', function($document, piw
         },
         templateUrl: 'plugins/Feedback/angularjs/ratefeature/ratefeature.html?cb=' + piwik.cacheBuster,
         controller: 'RateFeatureController'
-    }
+    };
 });

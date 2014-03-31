@@ -17,5 +17,5 @@ angular.module('piwikApp.directive').directive('piwikIgnoreClick', function() {
         $(element).click(function(event) {
             event.preventDefault();
         });
-    }
+    };
 });

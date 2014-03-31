@@ -30,5 +30,5 @@ angular.module('piwikApp').controller('MultiSitesDashboardController', function(
 
     this.refresh = function (interval) {
         multisitesDashboardModel.fetchAllSites(interval);
-    }
+    };
 });

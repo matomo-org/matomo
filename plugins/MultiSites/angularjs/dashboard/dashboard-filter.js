@@ -58,6 +58,6 @@ angular.module('piwikApp').filter('multiSitesGroupFilter', function() {
         }
 
         return filteredSites;
-    }
+    };
 });
 

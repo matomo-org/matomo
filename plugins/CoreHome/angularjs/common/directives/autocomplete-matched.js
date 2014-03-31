@@ -36,7 +36,7 @@ angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', funct
                 var word = content.substr(startTerm, searchTerm.length);
                 content = content.replace(word, '<span class="autocompleteMatched">' + word + '</span>');
                 element.html(content);
-            };
+            }
         }
     };
 });
