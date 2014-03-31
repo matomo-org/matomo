@@ -1,6 +1,7 @@
 bootstrap.php
 build
 composer.phar
+composer.lock
 config/config.ini.php
 config/config*
 crossdomain.xml
@@ -47,6 +48,7 @@ lang/.htaccess
 libs/.htaccess
 misc/.htaccess
 misc/cron/.htaccess
+misc/user/.htaccess
 plugins/.htaccess
 *.pyc
 tests/resources/overlay-test-site-real/
