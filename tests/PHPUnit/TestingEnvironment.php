@@ -95,6 +95,12 @@ class Piwik_TestingEnvironment
             }
         }
 
+        if ($testingEnvironment->globalsOverride) {
+            foreach ($testingEnvironment->globalsOverride as $key => $value) {
+                $GLOBALS[$key] = $value;
+            }
+        }
+
         Config::setSingletonInstance(new Config(
             $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
         ));
@@ -139,7 +145,6 @@ class Piwik_TestingEnvironment
                 if ($testingEnvironment->configOverride) {
                     $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
                 }
-
             });
         }
         Piwik::addAction('Request.dispatch', function() {
