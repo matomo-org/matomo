@@ -17,11 +17,11 @@ On Ubuntu you might be able to use the `scripts/install-ubuntu.sh` script. Have 
 
 ## File structure
 
-We do not have a general `tests` folder containing all test files. Instead we create a file having the same name appended by "_test.js" in the same directory.
+We do not have a general `tests` folder containing all test files. Instead we create a file having the same name appended by `_spec.js` in the same directory.
 
-For instance you want to test a file named `startfrom.js` then we create a file named `startfrom_test.js`:
+For instance you want to test a file named `startfrom.js` then we create a file named `startfrom_spec.js`:
 `plugins/CoreHome/angularjs/common/filters/startfrom.js` => 
-`plugins/CoreHome/angularjs/common/filters/startfrom_test.js`
+`plugins/CoreHome/angularjs/common/filters/startfrom_spec.js`
 
 ## Execution
 
