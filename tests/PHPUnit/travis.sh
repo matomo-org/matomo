@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TEST_SUITE" != "UITests" ]
+if [ "$TEST_SUITE" != "UITests" ] && [ "$TEST_SUITE" != "AngularJSTests" ]
 then
     if [ `phpunit --group __nogroup__ | grep "No tests executed" | wc -l` -ne 1 ]
     then
