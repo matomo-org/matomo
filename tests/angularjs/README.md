@@ -37,6 +37,8 @@ Run test suites in a different browser:
 Run tests in different browser permanently:
 You can change the `browsers: ['Chrome', 'Firefox', 'PhantomJS']` property in `karma.conf.js` but you might have to be careful to not commit this change.
 
+Before executing a test it'll always run [JSHint](http://www.jshint.com/) to detect and report possible problems in the JavaScript code.
+
 ## Testing existing jQuery code
 
 Just in case you want to write a test for your jQuery code you can do this the same way. You might be interested in the [Chai jQuery](http://chaijs.com/plugins/chai-jquery) plugin. 
