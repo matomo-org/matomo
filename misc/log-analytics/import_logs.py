@@ -629,7 +629,7 @@ class Configuration(object):
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             [stdout, stderr] = process.communicate()
             if process.returncode != 0:
-                fatal_error("misc/cron/updatetoken.php failed: " + stderr)
+                fatal_error("`" + ' '.join(command) + "` failed with error: " + stderr + ".\nReponse code was: " + str(process.returncode))
 
             filename = stdout
             credentials = open(filename, 'r').readline()
