@@ -44,7 +44,7 @@ Before executing a test it'll always run [JSHint](http://www.jshint.com/) to det
 Just in case you want to write a test for your jQuery code you can do this the same way. You might be interested in the [Chai jQuery](http://chaijs.com/plugins/chai-jquery) plugin. 
 
 ## Examples
-* [Testing a filter](plugins/CoreHome/angularjs/common/filters/startfrom_test.js)
-* [Testing a directive](plugins/CoreHome/angularjs/common/directives/autocomplete-matched_test.js)
-* [Testing a service/provider/factory/model](plugins/CoreHome/angularjs/common/services/piwik_test.js)
+* [Testing a filter](../../plugins/CoreHome/angularjs/common/filters/startfrom_test.js)
+* [Testing a directive](../../plugins/CoreHome/angularjs/common/directives/autocomplete-matched_test.js)
+* [Testing a service/provider/factory/model](../../plugins/CoreHome/angularjs/common/services/piwik_test.js)
 * See more examples in [AngularJS guide](http://docs.angularjs.org/guide/unit-testing)
