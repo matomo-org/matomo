@@ -684,16 +684,29 @@ class CronArchive
     private function initLog()
     {
         $config = Config::getInstance();
-        $config->log['log_only_when_debug_parameter'] = 0;
-        $config->log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
+        /**
+         * access a property that is not overriden by TestingEnvironment before accessing log as the
+         * log section is used in TestingEnvironment. Otherwise access to magic __get('log') fails in
+         * TestingEnvironment as it tries to acccess it already here with __get('log').
+         * $config->log ==> __get('log') ==> Config.createConfigInstance ==> nested __get('log') ==> returns null
+         */
+        $initConfigToPreventErrorWhenAccessingLog = $config->mail;
+
+        $log = $config->log;
+        $log['log_only_when_debug_parameter'] = 0;
+        $log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
+        Log::getInstance()->addLogWriter('screen');
 
         // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
-        $logLevel = @$config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION];
+        $logLevel = @$log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION];
         if ($logLevel != 'VERBOSE'
             && $logLevel != 'DEBUG'
         ) {
-            $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
+            $log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
+            Log::getInstance()->setLogLevel(Log::INFO);
         }
+
+        $config->log = $log;
     }
 
     /**

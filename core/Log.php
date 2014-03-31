@@ -263,22 +263,31 @@ class Log extends Singleton
 
     private function setLogWritersFromConfig($logConfig)
     {
-        $availableWritersByName = $this->getAvailableWriters();
-
         // set the log writers
         $logWriters = $logConfig[self::LOG_WRITERS_CONFIG_OPTION];
 
         $logWriters = array_map('trim', $logWriters);
         foreach ($logWriters as $writerName) {
-            if (empty($availableWritersByName[$writerName])) {
-                continue;
-            }
+            $this->addLogWriter($writerName);
+        }
+    }
 
-            $this->writers[] = $availableWritersByName[$writerName];
+    public function addLogWriter($writerName)
+    {
+        if (array_key_exists($writerName, $this->writers)) {
+            return;
+        }
 
-            if ($writerName == 'screen') {
-                $this->loggingToScreen = true;
-            }
+        $availableWritersByName = $this->getAvailableWriters();
+
+        if (empty($availableWritersByName[$writerName])) {
+            return;
+        }
+
+        $this->writers[$writerName] = $availableWritersByName[$writerName];
+
+        if ($writerName == 'screen') {
+            $this->loggingToScreen = true;
         }
     }
 
