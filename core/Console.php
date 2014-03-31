@@ -40,7 +40,7 @@ class Console extends Application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->initPiwikHost($input);
-        $this->initConfig();
+        $this->initConfig($output);
         try {
             self::initPlugins();
         } catch(\Exception $e) {
@@ -96,14 +96,14 @@ class Console extends Application
         Url::setHost($piwikHostname);
     }
 
-    protected function initConfig()
+    protected function initConfig(OutputInterface $output)
     {
         $config = Config::getInstance();
         try {
             $config->checkLocalConfigFound();
             return $config;
         } catch (\Exception $e) {
-            echo ($e->getMessage() . "\n\n");
+            $output->writeln($e->getMessage() . "\n");
         }
     }
 
