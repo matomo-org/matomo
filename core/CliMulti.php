@@ -197,7 +197,7 @@ class CliMulti {
 
     private function findPhpBinary()
     {
-        if (defined('PHP_BINARY')) {
+        if (defined('PHP_BINARY') && false === strpos(PHP_BINARY, 'fpm')) {
             return PHP_BINARY;
         }
 
