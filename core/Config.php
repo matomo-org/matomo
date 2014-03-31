@@ -110,9 +110,11 @@ class Config extends Singleton
      * @param string $pathGlobal
      * @param string $pathCommon
      */
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null)
+    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
     {
-        $this->isTest = true;
+        if (!$allowSaving) {
+            $this->isTest = true;
+        }
 
         $this->clear();
 
