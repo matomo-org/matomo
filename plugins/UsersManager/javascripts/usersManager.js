@@ -7,7 +7,7 @@
 
 function sendUpdateUserAJAX(row) {
     var parameters = {};
-    parameters.userLogin = $(row).children('#userLogin').html();
+    parameters.userLogin = $(row).find('td').attr('data-target','userLogin').html();
     var password = $(row).find('input#password').val();
     if (password != '-') parameters.password = password;
     parameters.email = $(row).find('input#email').val();
@@ -210,7 +210,7 @@ $(document).ready(function () {
     $('.edituser')
         .click(function () {
             piwikHelper.hideAjaxError();
-            var idRow = $(this).attr('id');
+            var idRow = $(this).attr('data-pointer');
             if (alreadyEdited[idRow] == 1) return;
             alreadyEdited[idRow] = 1;
             $('tr#' + idRow + ' .editable').each(
@@ -218,9 +218,9 @@ $(document).ready(function () {
                 // change the EDIT button to VALID button
                 function (i, n) {
                     var contentBefore = $(n).text();
-                    var idName = $(n).attr('id');
+                    var idName = $(n).attr('data-target');
                     if (idName != 'userLogin') {
-                        var contentAfter = '<input id="' + idName + '" value="' + piwikHelper.htmlEntities(contentBefore) + '" size="25" />';
+                        var contentAfter = '<input type="text" id="' + idName + '" value="' + piwikHelper.htmlEntities(contentBefore) + '">';
                         $(n).html(contentAfter);
                     }
                 }
@@ -265,15 +265,16 @@ $(document).ready(function () {
 
         var numberOfRows = $('table#users')[0].rows.length;
         var newRowId = numberOfRows + 1;
-        newRowId = 'row' + newRowId;
+        newRowId = 'user-' + newRowId;
 
         $($.parseHTML(' <tr id="' + newRowId + '">\
-				<td><input id="useradd_login" value="login?" size="10" /></td>\
-				<td><input id="useradd_password" value="password" size="10" /></td>\
-				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
-				<td><input id="useradd_alias" value="alias" size="15" /></td>\
+				<td><input id="useradd_login" name="useradd_login" placeholder="login" type="text"></td>\
+				<td><input id="useradd_password" name="useradd_password" placeholder="password" type="password"></td>\
+				<td><input id="useradd_email" name="useradd_email" placeholder="email@domain.com" type="email"></td>\
+				<td><input id="useradd_alias" name="useradd_alias" placeholder="alias" type="text"></td>\
 				<td>-</td>\
-				<td><input type="submit" class="submit adduser"  value="' + _pk_translate('General_Save') + '" /></td>\
+				<td>-</td>\
+				<td><input type="submit" class="submit adduser"  value="' + _pk_translate('General_Save') + '"></td>\
 	  			<td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</span></td>\
 	 		</tr>'))
             .appendTo('#users')

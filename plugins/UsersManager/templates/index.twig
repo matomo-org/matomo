@@ -130,24 +130,24 @@
             <tbody>
             {% for i,user in users %}
                 {% if user.login != 'anonymous' %}
-                    <tr class="editable" id="row{{ i }}">
-                        <td id="userLogin" class="editable">{{ user.login }}</td>
-                        <td id="password" class="editable">-</td>
-                        <td id="email" class="editable">{{ user.email }}</td>
-                        <td id="alias" class="editable">{{ user.alias|raw }}</td>
-                        <td id="token_auth">{{ user.token_auth }}</td>
+                    <tr class="editable" id="user-{{ i }}">
+                        <td data-target="userLogin" class="editable">{{ user.login }}</td>
+                        <td data-target="password" class="editable">-</td>
+                        <td data-target="email" class="editable">{{ user.email }}</td>
+                        <td data-target="alias" class="editable">{{ user.alias|raw }}</td>
+                        <td data-target="token_auth">{{ user.token_auth }}</td>
                         {% if user.last_seen is defined %}
-                        <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
+                        <td data-target="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
                         {% endif %}
                         <td>
-                            <span class="edituser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Edit'|translate }}" src='plugins/Zeitgeist/images/ico_edit.png'/>
+                            <span data-pointer="user-{{ i }}" class="edituser link_but">
+                                <img alt="{{ 'General_Edit'|translate }}" src='plugins/Zeitgeist/images/ico_edit.png'/>
                                 <span>{{ 'General_Edit'|translate }}</span>
                             </span>
                         </td>
                         <td>
-                            <span class="deleteuser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Delete'|translate }}" src='plugins/Zeitgeist/images/ico_delete.png'/>
+                            <span class="deleteuser link_but">
+                                <img alt="{{ 'General_Delete'|translate }}" src='plugins/Zeitgeist/images/ico_delete.png'/>
                                 <span>{{ 'General_Delete'|translate }}</span>
                             </span>
                         </td>
