@@ -12,9 +12,9 @@ angular.module('piwikApp.filter').filter('evolution', function() {
         pastValue    = parseInt(pastValue, 10);
         currentValue = parseInt(currentValue, 10) - pastValue;
 
-        if (currentValue == 0 || isNaN(currentValue)) {
+        if (currentValue === 0 || isNaN(currentValue)) {
             evolution = 0;
-        } else if (pastValue == 0 || isNaN(pastValue)) {
+        } else if (pastValue === 0 || isNaN(pastValue)) {
             evolution = 100;
         } else {
             evolution = (currentValue / pastValue) * 100;
@@ -40,5 +40,5 @@ angular.module('piwikApp.filter').filter('evolution', function() {
         var evolution = calculateEvolution(currentValue, pastValue);
 
         return formatEvolution(evolution);
-    }
+    };
 });

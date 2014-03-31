@@ -23,5 +23,5 @@ angular.module('piwikApp.directive').directive('piwikFocusIf', function($timeout
                 }
             });
         }
-    }
+    };
 });

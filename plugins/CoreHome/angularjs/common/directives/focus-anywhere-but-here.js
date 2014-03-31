@@ -36,5 +36,5 @@ angular.module('piwikApp.directive').directive('piwikFocusAnywhereButHere', func
                 $document.off('keyup', onEscapeHandler);
             });
         }
-    }
+    };
 });

@@ -74,7 +74,7 @@ angular.module('piwikApp').directive('piwikSiteselector', function($document, pi
                 attrs.$observe('maxsitenamewidth', function(val) {
                     // for instance trigger a function or whatever
                 }) */
-            }
+            };
         }
-    }
+    };
 });

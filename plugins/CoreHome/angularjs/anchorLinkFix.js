@@ -40,7 +40,7 @@
             return;
         }
 
-        var $node = $('a[name='+ hash + ']')
+        $node = $('a[name='+ hash + ']');
 
         if ($node && $node.length) {
             scrollToAnchorNode($node);

@@ -43,7 +43,7 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
         var idSiteParam   = 'idSite=' + idSite;
         var newParameters = 'segment=&' + idSiteParam;
         var hash = piwik.broadcast.isHashExists() ? piwik.broadcast.getHashFromUrl() : "";
-        return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters)
-            + '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
+        return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters) +
+            '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
     };
 });
