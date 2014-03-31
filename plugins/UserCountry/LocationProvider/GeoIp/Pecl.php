@@ -24,6 +24,11 @@ class Pecl extends GeoIp
     const TITLE = 'GeoIP (PECL)';
 
     /**
+     * For tests.
+     */
+    public static $forceDisable = false;
+
+    /**
      * Uses the GeoIP PECL module to get a visitor's location based on their IP address.
      *
      * This function will return different results based on the data available. If a city
@@ -105,7 +110,7 @@ class Pecl extends GeoIp
      */
     public function isAvailable()
     {
-        return function_exists('geoip_db_avail');
+        return !self::$forceDisable && function_exists('geoip_db_avail');
     }
 
     /**
