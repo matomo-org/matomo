@@ -79,6 +79,7 @@ class CronArchive
     private $acceptInvalidSSLCertificate = false;
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
+    private $isCoreInited = false;
 
     /**
      * Returns the option name of the option that stores the time the archive.php script was last run.
@@ -738,11 +739,15 @@ class CronArchive
     {
         try {
             FrontController::getInstance()->init();
+            $this->isCoreInited = true;
         } catch (Exception $e) {
-            echo "ERROR: During Piwik init, Message: " . $e->getMessage();
-            //echo $e->getTraceAsString();
-            exit(1);
+            throw new CronArchiveFatalException("ERROR: During Piwik init, Message: " . $e->getMessage());
         }
+    }
+
+    public function isCoreInited()
+    {
+        return $this->isCoreInited;
     }
 
     /**
@@ -1140,7 +1145,7 @@ class CronArchiveFatalException extends Exception
 {
     private $fullOutput = null;
 
-    public function __construct($message, $fullOutput)
+    public function __construct($message, $fullOutput = null)
     {
         parent::__construct($message);
 
@@ -1149,7 +1154,9 @@ class CronArchiveFatalException extends Exception
 
     public function logAndExit($cronArchiver)
     {
-        $cronArchiver->logError($this->getMessage());
+        if ($cronArchiver->isCoreInited()) {
+            $cronArchiver->logError($this->getMessage());
+        }
 
         $fe = fopen('php://stderr', 'w');
         fwrite($fe, "Error in the last Piwik archive.php run: \n" . $this->getMessage() . "\n"
