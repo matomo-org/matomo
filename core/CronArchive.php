@@ -906,6 +906,9 @@ class CronArchive
             "-$parameter",
             $parameter
         );
+        if(empty($_SERVER['argv'])) {
+            return false;
+        }
         foreach ($parameters as $parameter) {
             foreach ($_SERVER['argv'] as $arg) {
                 if (strpos($arg, $parameter) === 0) {
