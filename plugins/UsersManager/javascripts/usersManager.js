@@ -252,8 +252,8 @@ $(document).ready(function () {
     $('.deleteuser')
         .click(function () {
             piwikHelper.hideAjaxError();
-            var idRow = $(this).attr('id');
-            var loginToDelete = $(this).parent().parent().find('#userLogin').html();
+            var idRow = $(this).attr('data-pointer');
+            var loginToDelete = $(this).parent().parent().find('td').attr('data-target','userLogin').html();
             $('#confirmUserRemove').find('h2').text(sprintf(_pk_translate('UsersManager_DeleteConfirm'), '"' + loginToDelete + '"'));
             piwikHelper.modalConfirm('#confirmUserRemove', {yes: function () { sendDeleteUserAJAX(loginToDelete); }});
         }
