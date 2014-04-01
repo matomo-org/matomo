@@ -31,7 +31,7 @@
         </tr>
         {% for id,provider in locationProviders %}
         <tr>
-            <td width="140">
+            <td width="150">
                 <p>
                     <input class="location-provider" name="location-provider" value="{{ id }}" type="radio" {% if currentProviderId == id %}checked="checked"{% endif %}
                            id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>

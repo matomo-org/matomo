@@ -14,7 +14,7 @@
 			<th></th>
 		</tr>
 		<tr>
-			<td width="140">{{ 'UserCountry_LocationDatabase'|translate }}</td>
+			<td width="150">{{ 'UserCountry_LocationDatabase'|translate }}</td>
 			<td><input type="text" id="geoip-location-db" value="{{ geoIPLocUrl }}"/></td>
 			<td width="164">
 				{% set locationHint %}
@@ -25,15 +25,15 @@
 			</td>
 		</tr>
 		<tr>
-			<td width="140">{{ 'UserCountry_ISPDatabase'|translate }}</td>
+			<td width="150">{{ 'UserCountry_ISPDatabase'|translate }}</td>
 			<td><input type="text" id="geoip-isp-db" value="{{ geoIPIspUrl }}"/></td>
 		</tr>
 		<tr>
-			<td width="140">{{ 'UserCountry_OrgDatabase'|translate }}</td>
+			<td width="150">{{ 'UserCountry_OrgDatabase'|translate }}</td>
 			<td><input type="text" id="geoip-org-db" value="{{ geoIPOrgUrl }}"/></td>
 		</tr>
 		<tr>
-			<td width="140">{{ 'UserCountry_DownloadNewDatabasesEvery'|translate }}</td>
+			<td width="150">{{ 'UserCountry_DownloadNewDatabasesEvery'|translate }}</td>
 			<td id="geoip-update-period-cell">
 				<input type="radio" name="geoip-update-period" value="month" id="geoip-update-period-month" {% if geoIPUpdatePeriod == 'month' %}checked="checked"{% endif %} />
 				<label for="geoip-update-period-month">{{ 'CoreHome_PeriodMonth'|translate }}</label>
