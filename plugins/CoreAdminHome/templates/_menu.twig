@@ -1,4 +1,5 @@
 {% if adminMenu|length > 1 %}
+    {{ postEvent("Template.addBeforeMenuContent", "Settings") }}
     <div class="Menu Menu--admin">
         <ul class="Menu-tabList">
         {% for name,submenu in adminMenu %}

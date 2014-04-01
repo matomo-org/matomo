@@ -38,6 +38,7 @@
 	    {% if 'General_LayoutDirection'|translate =='rtl' %}
 		<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
 	    {% endif %}
+    {{ postEvent("Template.loginScreenExtraAssets") }}
 	</head>
 	<body id="loginPage">
 
