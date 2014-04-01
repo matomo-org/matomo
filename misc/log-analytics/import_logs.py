@@ -622,14 +622,31 @@ class Configuration(object):
                     '../../misc/cron/updatetoken.php'),
             )
 
-            command = ['php', updatetokenfile]
+            phpBinary = 'php'
+
+            is_windows = sys.platform.startswith('win')
+            if is_windows:
+                try:
+                    processWin = subprocess.Popen('where php.exe', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    [stdout, stderr] = processWin.communicate()
+                    if processWin.returncode == 0:
+                        phpBinary = stdout.strip()
+                    else:
+                        fatal_error("We couldn't detect PHP. It might help to add your php.exe to the path or alternatively run the importer using the --login and --password option")
+                except:
+                    fatal_error("We couldn't detect PHP. You can run the importer using the --login and --password option to fix this issue")
+
+
+            command = [phpBinary, updatetokenfile]
             if self.options.enable_testmode:
                 command.append('--testmode')
 
-            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            command = subprocess.list2cmdline(command)
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             [stdout, stderr] = process.communicate()
             if process.returncode != 0:
-                fatal_error("`" + ' '.join(command) + "` failed with error: " + stderr + ".\nReponse code was: " + str(process.returncode))
+                fatal_error("`" + command + "` failed with error: " + stderr + ".\nReponse code was: " + str(process.returncode) + ". You can alternatively run the importer using the --login and --password option")
+
 
             filename = stdout
             credentials = open(filename, 'r').readline()
