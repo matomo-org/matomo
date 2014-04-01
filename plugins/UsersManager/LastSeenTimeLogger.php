@@ -52,9 +52,7 @@ class LastSeenTimeLogger
 
         // do not log if last known time is less than N minutes from now (so we don't make too many
         // queries)
-        if ($lastSeen == 0
-            || time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA
-        ) {
+        if (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA) {
             return;
         }
 

@@ -273,6 +273,7 @@ $(document).ready(function () {
 				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
 				<td><input id="useradd_alias" value="alias" size="15" /></td>\
 				<td>-</td>\
+                <td>-</td>\
 				<td><input type="submit" class="submit adduser"  value="' + _pk_translate('General_Save') + '" /></td>\
 	  			<td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</span></td>\
 	 		</tr>'))

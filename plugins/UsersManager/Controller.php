@@ -84,12 +84,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->showLastSeen = true;
 
             $users = APIUsersManager::getInstance()->getUsers();
-            foreach ($users as &$user) {
+            foreach ($users as $index => $user) {
                 $usersAliasByLogin[$user['login']] = $user['alias'];
 
                 $lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login']);
-                $user['last_seen'] = $lastSeen == 0
-                                   ? false : MetricsFormatter::getPrettyTimeFromSeconds(time() - $lastSeen);
+                $users[$index]['last_seen'] = $lastSeen == 0
+                                            ? false : MetricsFormatter::getPrettyTimeFromSeconds(time() - $lastSeen);
             }
 
             if (Piwik::hasUserSuperUserAccess()) {
