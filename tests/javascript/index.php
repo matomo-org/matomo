@@ -829,7 +829,7 @@ function PiwikTest() {
 
 <?php
 if ($sqlite) {
-	echo '
+	?>
 
 	module("request", {
 		setup: function () {
@@ -844,7 +844,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(85);
+		expect(88);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -896,7 +896,15 @@ if ($sqlite) {
 		deepEqual( tracker.getCustomVariable(1, "visit"), ["1", "0"], "setCustomVariable() with integer name/value" );
 		tracker.setCustomVariable(2, 1.05, 2.11, "visit");
 		deepEqual( tracker.getCustomVariable(2, "visit"), ["1.05", "2.11"], "setCustomVariable() with integer name/value" );
-		
+
+        // custom variables with undefined names or values
+        tracker.setCustomVariable(5);// setting a custom variable with no name and no value should not error
+        deepEqual( tracker.getCustomVariable(5), false, "getting a custom variable with no name nor value" );
+        deepEqual( tracker.getCustomVariable(55), false, "getting a custom variable with no name nor value" );
+        tracker.setCustomVariable(5, "new name");
+        deepEqual( tracker.getCustomVariable(5), ["new name", ""], "getting a custom variable with no value" );
+        tracker.deleteCustomVariable(5);
+
 		tracker.setDocumentTitle("PiwikTest");
 		
 		var referrerUrl = "http://referrer.example.com/page/sub?query=test&test2=test3";
@@ -996,7 +1004,7 @@ if ($sqlite) {
 		
 		// Custom variables
 		tracker.setCookieNamePrefix("PREFIX");
-		tracker.setCustomVariable(1, "cookiename", "cookievalue");
+        tracker.setCustomVariable(1, "cookiename", "cookievalue");
 		deepEqual( tracker.getCustomVariable(1), ["cookiename", "cookievalue"], "setCustomVariable(cvarExists), getCustomVariable()" );
 		tracker.setCustomVariable(2, "cookiename2", "cookievalue2", "visit");
 		deepEqual( tracker.getCustomVariable(2), ["cookiename2", "cookievalue2"], "setCustomVariable(cvarExists), getCustomVariable()" );
@@ -1170,7 +1178,7 @@ if ($sqlite) {
 			start();
 		}, 5000);
 	});
-	';
+	<?php
 }
 ?>
 }
