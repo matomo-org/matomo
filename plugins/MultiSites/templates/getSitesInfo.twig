@@ -1,6 +1,7 @@
 {% extends isWidgetized ? 'empty.twig' : 'dashboard.twig' %}
 
 {% block content %}
+{{ postEvent("Template.addBeforeMenuContent", "") }}
 {% if not isWidgetized %}
     <div class="top_controls">
         {% include "@CoreHome/_periodSelect.twig" %}
