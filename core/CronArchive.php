@@ -358,7 +358,7 @@ class CronArchive
         }
 
          if ($skipDayArchive) {
-            $this->log("Skipped website id $idsite, already processed today's report in recent run, "
+            $this->log("Skipped website id $idsite, already done "
                 . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
                 . " ago, " . $timerWebsite->__toString());
             $this->skippedDayArchivesWebsites++;
@@ -389,13 +389,12 @@ class CronArchive
 
 
         $timer = new Timer;
-        $dateLast = $this->getApiDateLastParameter($idsite, "day");
+        $dateLast = $this->getApiDateLastParameter($idsite, "day", $processDaysSince);
         $url = $this->getVisitsRequestUrl($idsite, "day", $dateLast);
         $content = $this->request($url);
         $response = @unserialize($content);
         $visitsToday = $this->getVisitsLastPeriodFromApiResponse($response);
         $visitsLastDays = $this->getVisitsFromApiResponse($response);
-        $this->logArchivedWebsite($idsite, "day", $dateLast, $visitsLastDays, $visitsToday, $timer);
 
         if (empty($content)
             || !is_array($response)
@@ -434,9 +433,10 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
         $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay);
+        $this->logArchivedWebsite($idsite, "day", $dateLast, $visitsLastDays, $visitsToday, $timer);
 
         if (!$shouldArchivePeriods) {
-            $this->log("Skipped website id $idsite, already processed period reports in recent run, "
+            $this->log("Skipped website id $idsite periods processing, already done "
                 . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
                 . " ago, " . $timerWebsite->__toString());
             $this->skippedDayArchivesWebsites++;
@@ -1181,9 +1181,10 @@ class CronArchive
      */
     private function logArchivedWebsite($idsite, $period, $dateLast, $visitsInLastPeriods, $visitsToday, Timer $timer)
     {
+        $thisPeriod = $period == "day" ? "today" : "this " . $period;
         $this->log("Archived website id = $idsite, period = $period, "
             . (int)$visitsInLastPeriods . " visits in last " . $dateLast . " " . $period . "s, "
-            . (int)$visitsToday . " visits this " . $period . ", "
+            . (int)$visitsToday . " visits " . $thisPeriod . ", "
             . $timer->__toString());
     }
 }
