@@ -119,9 +119,9 @@ class Console extends Application
         $commands = array(
             'Piwik\CliMulti\RequestCommand'
         );
-
-        if (class_exists('Piwik\Plugins\CloudAdmin\CloudAdmin')) {
-            $extra = new \Piwik\Plugins\CloudAdmin\CloudAdmin();
+        
+        if (class_exists('Piwik\Plugins\EnterpriseAdmin\EnterpriseAdmin')) {
+            $extra = new \Piwik\Plugins\EnterpriseAdmin\EnterpriseAdmin();
             $extra->addConsoleCommands($commands);
         }
         return $commands;
