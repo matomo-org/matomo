@@ -126,16 +126,18 @@ class TaskScheduler extends Singleton
                 }
 
                 $taskName = $task->getName();
-                if ($this->timetable->shouldExecuteTask($taskName)) {
+                $shouldExecuteTask = $this->timetable->shouldExecuteTask($taskName);
+
+                if ($this->timetable->taskShouldBeRescheduled($taskName)) {
+                    $this->timetable->rescheduleTask($task);
+                }
+
+                if ($shouldExecuteTask) {
                     $this->isRunning = true;
                     $message = self::executeTask($task);
                     $this->isRunning = false;
 
                     $executionResults[] = array('task' => $taskName, 'output' => $message);
-                }
-
-                if ($this->timetable->taskShouldBeRescheduled($taskName)) {
-                    $this->timetable->rescheduleTask($task);
                 }
             }
         }
