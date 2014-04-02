@@ -70,7 +70,7 @@ class CronArchive
     private $segments = array();
     private $piwikUrl = false;
     private $token_auth = false;
-    private $visits = 0;
+    private $visitsToday = 0;
     private $requests = 0;
     private $output = '';
     private $archiveAndRespectTTL = true;
@@ -204,7 +204,7 @@ class CronArchive
         $this->log("Done archiving!");
 
         $this->logSection("SUMMARY");
-        $this->log("Total daily visits archived: " . $this->visits);
+        $this->log("Total visits for today across archived websites: " . $this->visitsToday);
 
         $totalWebsites = count($this->allWebsites);
         $this->skipped = $totalWebsites - $this->websitesWithVisitsSinceLastRun;
@@ -221,7 +221,7 @@ class CronArchive
             : " " . round($this->processed * 100 / $this->websites->getNumSites(), 0) . "%";
         $this->log("done: " .
             $this->processed . "/" . $this->websites->getNumSites() . "" . $percent . ", " .
-            $this->visits . " v, $this->websitesWithVisitsSinceLastRun wtoday, {$this->archivedPeriodsArchivesWebsite} wperiods, " .
+            $this->visitsToday . " vtoday, $this->websitesWithVisitsSinceLastRun wtoday, {$this->archivedPeriodsArchivesWebsite} wperiods, " .
             $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
             (empty($this->errors)
                 ? "no error"
@@ -387,9 +387,15 @@ class CronArchive
             $processDaysSince = false;
         }
 
-        $url = $this->getVisitsRequestUrl($idsite, "day", $processDaysSince);
+
+        $timer = new Timer;
+        $dateLast = $this->getApiDateLastParameter($idsite, "day");
+        $url = $this->getVisitsRequestUrl($idsite, "day", $dateLast);
         $content = $this->request($url);
         $response = @unserialize($content);
+        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($response);
+        $visitsLastDays = $this->getVisitsFromApiResponse($response);
+        $this->logArchivedWebsite($idsite, "day", $dateLast, $visitsLastDays, $visitsToday, $timer);
 
         if (empty($content)
             || !is_array($response)
@@ -402,7 +408,6 @@ class CronArchive
             $this->skipped++;
             return false;
         }
-        $visitsToday = $this->getVisitsFromApiResponse($response);
 
         $this->requests++;
         $this->processed++;
@@ -416,18 +421,19 @@ class CronArchive
             return false;
         }
 
-        $visitsAllDays = array_sum($response);
-        if ($visitsAllDays == 0
+        if ($visitsLastDays == 0
             && !$shouldArchivePeriods
             && $this->shouldArchiveAllSites
         ) {
-            $this->log("Skipped website id $idsite, no visits in the last " . count($response) . " days, " . $timerWebsite->__toString());
+            $this->log("Skipped website id $idsite, no visits in the last " . $dateLast . " days, " . $timerWebsite->__toString());
             $this->skipped++;
             return false;
         }
-        $this->visits += $visitsToday;
+
+
+        $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
-        $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite);
+        $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay);
 
         if (!$shouldArchivePeriods) {
             $this->log("Skipped website id $idsite, already processed period reports in recent run, "
@@ -450,9 +456,8 @@ class CronArchive
         $this->archivedPeriodsArchivesWebsite++;
 
         $requestsWebsite = $this->requests - $requestsBefore;
-        $debug = $this->shouldArchiveAllSites ? ", last days = $visitsAllDays visits" : "";
-        Log::info("Archived website id = $idsite, today = $visitsToday visits"
-            . $debug . ", $requestsWebsite API requests, "
+        Log::info("Archived website id = $idsite, "
+            . $requestsWebsite . " API requests, "
             . $timerWebsite->__toString()
             . " [" . $this->websites->getNumProcessedWebsites() . "/"
             . $this->websites->getNumSites()
@@ -487,29 +492,8 @@ class CronArchive
     /**
      * Returns base URL to process reports for the $idsite on a given $period
      */
-    private function getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed = false)
+    private function getVisitsRequestUrl($idsite, $period, $dateLast)
     {
-        $dateLastMax = self::DEFAULT_DATE_LAST;
-        if($period=='year') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
-        } elseif($period == 'week') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
-        }
-        if (empty($lastTimestampWebsiteProcessed)) {
-            $lastTimestampWebsiteProcessed = strtotime( \Piwik\Site::getCreationDateFor($idsite) );
-        }
-
-        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
-        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
-        if ($dateLast > $dateLastMax) {
-            $dateLast = $dateLastMax;
-        }
-
-        $dateLastForced = $this->getParameterFromCli('--force-date-last-n', true);
-        if(!empty($dateLastForced)){
-            $dateLast = $dateLastForced;
-        }
-
         return "?module=API&method=API.get&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
     }
 
@@ -542,26 +526,28 @@ class CronArchive
      * @param $idsite int
      * @param $period
      * @param $lastTimestampWebsiteProcessed
-     * @param Timer $timerWebsite
      * @return bool True on success, false if some request failed
      */
-    private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Timer $timerWebsite = null)
+    private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed)
     {
         $timer = new Timer();
 
         $url  = $this->piwikUrl;
-        $url .= $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed);
+
+        $dateLast = $this->getApiDateLastParameter($idsite, $period, $lastTimestampWebsiteProcessed);
+        $url .= $this->getVisitsRequestUrl($idsite, $period, $dateLast);
+
+
         $url .= self::APPEND_TO_API_REQUEST;
 
-        $visitsInLastPeriod = 0;
-        $noSegmentUrl = '';
+        $visitsInLastPeriods = 0;
         $success = true;
 
         $urls = array();
 
+        $noSegmentUrl = $url;
         // already processed above for "day"
         if ($period != "day") {
-            $noSegmentUrl = $url;
             $urls[] = $url;
             $this->requests++;
         }
@@ -587,13 +573,15 @@ class CronArchive
                     $this->logError("Error unserializing the following response from $url: " . $content);
                 }
 
-                $visitsInLastPeriod = $this->getVisitsFromApiResponse($stats);
+                $visitsInLastPeriods = $this->getVisitsFromApiResponse($stats);
+                $visitsLastPeriod = $this->getVisitsLastPeriodFromApiResponse($stats);
             }
         }
 
-        $this->log("Archived website id = $idsite, period = $period, "
-            . ($period != "day" ? (int)$visitsInLastPeriod . " visits, " : "")
-            . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
+        // we have already logged the daily archive above
+        if($period != "day") {
+            $this->logArchivedWebsite($idsite, $period, $dateLast, $visitsInLastPeriods, $visitsLastPeriod, $timer);
+        }
 
         return $success;
     }
@@ -1132,15 +1120,71 @@ class CronArchive
             . "\n--help for more information", $backtrace = false);
     }
 
+    private function getVisitsLastPeriodFromApiResponse($stats)
+    {
+        $today = end($stats);
+        return $today['nb_visits'];
+    }
+
     private function getVisitsFromApiResponse($stats)
     {
-        $metricsToday = end($stats);
-        if (empty($metricsToday)) {
-            $visitsToday = 0;
-        } else {
-            $visitsToday = $metricsToday['nb_visits'];
+        $visits = 0;
+        foreach($stats as $metrics) {
+            if(empty($metrics['nb_visits'])) {
+                continue;
+            }
+            $visits += $metrics['nb_visits'];
         }
-        return $visitsToday;
+        return $visits;
+    }
+
+    /**
+     * @param $idsite
+     * @param $period
+     * @param $lastTimestampWebsiteProcessed
+     * @return float|int|true
+     */
+    private function getApiDateLastParameter($idsite, $period, $lastTimestampWebsiteProcessed = false)
+    {
+        $dateLastMax = self::DEFAULT_DATE_LAST;
+        if ($period == 'year') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
+        } elseif ($period == 'week') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
+        }
+        if (empty($lastTimestampWebsiteProcessed)) {
+            $lastTimestampWebsiteProcessed = strtotime(\Piwik\Site::getCreationDateFor($idsite));
+        }
+
+        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
+        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
+        if ($dateLast > $dateLastMax) {
+            $dateLast = $dateLastMax;
+        }
+
+        $dateLastForced = $this->getParameterFromCli('--force-date-last-n', true);
+        if (!empty($dateLastForced)) {
+            $dateLast = $dateLastForced;
+            return $dateLast;
+        }
+        return $dateLast;
+    }
+
+    /**
+     * @param $idsite
+     * @param $period
+     * @param $dateLast
+     * @param $visitsInLastPeriods
+     * @param $visitsToday
+     * @param Timer $timerWebsite
+     * @param $timer
+     */
+    private function logArchivedWebsite($idsite, $period, $dateLast, $visitsInLastPeriods, $visitsToday, Timer $timer)
+    {
+        $this->log("Archived website id = $idsite, period = $period, "
+            . (int)$visitsInLastPeriods . " visits in last " . $dateLast . " " . $period . "s, "
+            . ($period == "day" ? (int)$visitsToday . " visits today, " : "")
+            . $timer->__toString());
     }
 }
 
