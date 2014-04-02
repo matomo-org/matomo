@@ -163,10 +163,17 @@ abstract class MenuAbstract extends Singleton
             $mainMenuToEdit = $edit[0];
             $subMenuToEdit = $edit[1];
             $newUrl = $edit[2];
-            if (!isset($this->menu[$mainMenuToEdit][$subMenuToEdit])) {
+
+            if ($subMenuToEdit === null) {
+                $menuDataToEdit = @$this->menu[$mainMenuToEdit];
+            } else {
+                $menuDataToEdit = @$this->menu[$mainMenuToEdit][$subMenuToEdit];
+            }
+
+            if (empty($menuDataToEdit)) {
                 $this->buildMenuItem($mainMenuToEdit, $subMenuToEdit, $newUrl);
             } else {
-                $this->menu[$mainMenuToEdit][$subMenuToEdit]['_url'] = $newUrl;
+                $menuDataToEdit['_url'] = $newUrl;
             }
         }
     }
