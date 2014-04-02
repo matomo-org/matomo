@@ -89,7 +89,9 @@ class LanguagesManager extends \Piwik\Plugin
     private function getLanguagesSelector()
     {
         $view = new View("@LanguagesManager/getLanguagesSelector");
-        $view->languages = API::getInstance()->getAvailableLanguageNames();
+        $languages = API::getInstance()->getAvailableLanguageNames();
+        Piwik::postEvent('LanguageManager.alterAvailableLanguages', array(&$languages));
+        $view->languages = $languages;
         $view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
         $view->currentLanguageName = self::getLanguageNameForCurrentUser();
         return $view->render();
