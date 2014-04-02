@@ -928,7 +928,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Do you have a bug to report or a feature request?",
         "ViewUserGuides": "Learn how to configure Piwik and how to effectively analyze your data with our %1$suser guides%2$s",
         "ViewAnswersToFAQ": "View answers to %sFrequently Asked Questions%s",
-        "VisitTheForums": "Visit the %s Forums%s",
+        "VisitTheForums": "Visit the %s Forums%s and get help from the community of Piwik users",
         "LearnWaysToParticipate": "Learn about all the ways you can %s participate%s",
         "HowToCreateIssue": "Please read the recommendations on writing a good %1$sbug report%2$s or %3$sfeature request%4$s. Then %5$sregister%6$s or %7$slogin%8$s on our issue tracker and create a %9$snew issue%10$s.",
         "SpecialRequest": "Do you have a special request for the Piwik team?",
