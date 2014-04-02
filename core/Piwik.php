@@ -186,16 +186,16 @@ class Piwik
          * this event to customise the JavaScript tracking code that is displayed to the
          * user.
          *
-         * @param array $codeImpl An array containing snippets of code that the event handler
-         *                        can modify. Will contain the following elements:
+         * @param array &$codeImpl An array containing snippets of code that the event handler
+         *                         can modify. Will contain the following elements:
          *
-         *                        - **idSite**: The ID of the site being tracked.
-         *                        - **piwikUrl**: The tracker URL to use.
-         *                        - **options**: A string of JavaScript code that customises
-         *                                       the JavaScript tracker.
+         *                         - **idSite**: The ID of the site being tracked.
+         *                         - **piwikUrl**: The tracker URL to use.
+         *                         - **options**: A string of JavaScript code that customises
+         *                                        the JavaScript tracker.
          *
-         *                        The **httpsPiwikUrl** element can be set if the HTTPS
-         *                        domain is different from the normal domain.
+         *                         The **httpsPiwikUrl** element can be set if the HTTPS
+         *                         domain is different from the normal domain.
          * @param array $parameters The parameters supplied to the `Piwik::getJavascriptCode()`.
          */
         self::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
@@ -889,7 +889,7 @@ class Piwik
         }
         $options = '';
         if ($mergeSubdomains && !empty($websiteHosts)) {
-            $options .= PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
+            $options .= '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
             $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';
