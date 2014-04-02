@@ -38,6 +38,7 @@ class CustomVariables extends \Piwik\Plugin
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
+            'Console.addCommands'             => 'addConsoleCommands'
         );
         return $hooks;
     }
@@ -50,6 +51,16 @@ class CustomVariables extends \Piwik\Plugin
     public function addMenus()
     {
         MenuMain::getInstance()->add('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
+    }
+
+    public function install()
+    {
+        Model::install();
+    }
+
+    public function addConsoleCommands(&$commands)
+    {
+        $commands[] = __NAMESPACE__ . '\\Commands\\SetNumberOfCustomVariables';
     }
 
     /**
