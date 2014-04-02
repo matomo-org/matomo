@@ -2476,15 +2476,21 @@ if (typeof Piwik !== 'object') {
                     if (!isDefined(scope)) {
                         scope = 'visit';
                     }
-
+                    if (!isDefined(name)) {
+                        return;
+                    }
+                    if (!isDefined(value)) {
+                        value = "";
+                    }
                     if (index > 0) {
-                        name = isDefined(name) && !isString(name) ? String(name) : name;
-                        value = isDefined(value) && !isString(value) ? String(value) : value;
+                        name = !isString(name) ? String(name) : name;
+                        value = !isString(value) ? String(value) : value;
                         toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
-                        if (scope === 'visit' || scope === 2) { /* GA compatibility/misuse */
+                        // numeric scope is there for GA compatibility
+                        if (scope === 'visit' || scope === 2) {
                             loadCustomVariables();
                             customVariables[index] = toRecord;
-                        } else if (scope === 'page' || scope === 3) { /* GA compatibility/misuse */
+                        } else if (scope === 'page' || scope === 3) {
                             customVariablesPage[index] = toRecord;
                         } else if (scope === 'event') { /* GA does not have 'event' scope but we do */
                             customVariablesEvent[index] = toRecord;
@@ -2708,6 +2714,7 @@ if (typeof Piwik !== 'object') {
 
                 /**
                  * Set visitor cookie timeout (in seconds)
+                 * Defaults to 2 years (timeout=63072000000)
                  *
                  * @param int timeout
                  */
@@ -2716,7 +2723,8 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set session cookie timeout (in seconds)
+                 * Set session cookie timeout (in seconds).
+                 * Defaults to 30 minutes (timeout=1800000)
                  *
                  * @param int timeout
                  */
@@ -2725,7 +2733,8 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set referral cookie timeout (in seconds)
+                 * Set referral cookie timeout (in seconds).
+                 * Defaults to 6 months (15768000000)
                  *
                  * @param int timeout
                  */
@@ -3133,7 +3142,7 @@ if (typeof Piwik !== 'object') {
 
 /************************************************************
  * Deprecated functionality below
- * - for legacy piwik.js compatibility
+ * Legacy piwik.js compatibility ftw
  ************************************************************/
 
 /*
