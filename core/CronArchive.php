@@ -1183,7 +1183,7 @@ class CronArchive
     {
         $this->log("Archived website id = $idsite, period = $period, "
             . (int)$visitsInLastPeriods . " visits in last " . $dateLast . " " . $period . "s, "
-            . ($period == "day" ? (int)$visitsToday . " visits today, " : "")
+            . (int)$visitsToday . " visits this " . $period . ", "
             . $timer->__toString());
     }
 }
