@@ -3,11 +3,11 @@
         {% if menu._html is defined %}
             {{ menu._html|raw }}
         {% elseif (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
-            <span class="topBarElem topBarElemActive"><strong>{{ label|translate }}</strong></span> |
+            <span class="topBarElem topBarElemActive"><strong>{{ label|translate }}</strong></span>{% if not loop.last %} |{% endif %}
         {% else %}
             <span class="topBarElem" {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}>
                 <a id="topmenu-{{ menu._url.module|lower }}" href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ label|translate }}</a>
-            </span> |
+            </span>{% if not loop.last %} | {% endif %}
         {% endif %}
     {% endfor %}
 </div>

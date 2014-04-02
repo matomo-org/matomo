@@ -20,7 +20,7 @@ class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * anonymous = in the session
-     * authenticated user = in the session and in DB
+     * authenticated user = in the session
      */
     public function saveLanguage()
     {
@@ -30,13 +30,8 @@ class Controller extends \Piwik\Plugin\Controller
         if (DbHelper::isInstalled()) {
             $this->checkTokenInUrl();
         }
+
         LanguagesManager::setLanguageForSession($language);
-        if (\Piwik\Registry::isRegistered('access')) {
-            $currentUser = Piwik::getCurrentUserLogin();
-            if ($currentUser && $currentUser !== 'anonymous') {
-                API::getInstance()->setLanguageForUser($currentUser, $language);
-            }
-        }
         Url::redirectToReferrer();
     }
 }

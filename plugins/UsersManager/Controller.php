@@ -11,10 +11,11 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
@@ -180,6 +181,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'year'       => Piwik::translate('General_CurrentYear'),
         );
 
+        $view->languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
+        $view->currentLanguageCode = LanguagesManager::getLanguageCodeForCurrentUser();
         $view->ignoreCookieSet = IgnoreCookie::isIgnoreCookieFound();
         $this->initViewAnonymousUserSettings($view);
         $view->piwikHost = Url::getCurrentHost();
@@ -279,9 +282,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
+            $language = Common::getRequestVar('language');
             $userLogin = Piwik::getCurrentUserLogin();
 
             $this->processPasswordChange($userLogin);
+
+            LanguagesManager::setLanguageForSession($language);
+            APILanguagesManager::getInstance()->setLanguageForUser($userLogin, $language);
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,

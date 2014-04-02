@@ -37,6 +37,7 @@ function sendUserSettingsAJAX() {
     }
     postParams.defaultReport = defaultReport;
     postParams.defaultDate = defaultDate;
+    postParams.language = $('#userSettingsTable #language').val();
 
     var ajaxHandler = new ajaxHelper();
     ajaxHandler.addParams({
