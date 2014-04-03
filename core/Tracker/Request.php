@@ -14,9 +14,9 @@ use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Registry;
 use Piwik\Tracker;
-use Piwik\Plugins\CustomVariables\Model as CustomVariablesModel;
 
 /**
  * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
@@ -380,7 +380,7 @@ class Request
 
     public static function truncateCustomVariable($input)
     {
-        return substr(trim($input), 0, CustomVariablesModel::getMaxLengthCustomVariables());
+        return substr(trim($input), 0, CustomVariables::getMaxLengthCustomVariables());
     }
 
     protected function shouldUseThirdPartyCookie()

@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
-use Piwik\Tracker\Cache;
 
 class Model
 {
@@ -92,8 +91,6 @@ class Model
         Db::exec(sprintf('ALTER TABLE %s DROP COLUMN custom_var_k%d', $dbTable, $index));
         Db::exec(sprintf('ALTER TABLE %s DROP COLUMN custom_var_v%d', $dbTable, $index));
 
-        Cache::clearCacheGeneral();
-
         return $index;
     }
 
@@ -101,11 +98,10 @@ class Model
     {
         $dbTable = Common::prefixTable($this->scope);
         $index   = $this->getHighestCustomVarIndex() + 1;
+        $maxLen  = CustomVariables::getMaxLengthCustomVariables();
 
-        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_k%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, self::getMaxLengthCustomVariables()));
-        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, self::getMaxLengthCustomVariables()));
-
-        Cache::clearCacheGeneral();
+        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_k%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, $maxLen));
+        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, $maxLen));
 
         return $index;
     }
@@ -122,40 +118,6 @@ class Model
     public static function getScopes()
     {
         return array(self::SCOPE_PAGE, self::SCOPE_VISIT, self::SCOPE_CONVERSION);
-    }
-
-    public static function getMaxCustomVariables()
-    {
-        $cache    = Cache::getCacheGeneral();
-        $cacheKey = 'CustomVariables.MaxNumCustomVariables';
-
-        if (!array_key_exists($cacheKey, $cache)) {
-
-            $maxCustomVar = 0;
-
-            foreach (self::getScopes() as $scope) {
-                $model = new Model($scope);
-                $highestIndex = $model->getHighestCustomVarIndex();
-
-                if ($highestIndex > $maxCustomVar) {
-                    $maxCustomVar = $highestIndex;
-                }
-            }
-
-            $cache[$cacheKey] = $maxCustomVar;
-            Cache::setCacheGeneral($cache);
-        }
-
-        return $cache[$cacheKey];
-    }
-
-    /**
-     * There are also some hardcoded places in JavaScript
-     * @return int
-     */
-    public static function getMaxLengthCustomVariables()
-    {
-        return 200;
     }
 
     public static function install()

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CustomVariables\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Tracker\Cache;
 use Piwik\Plugins\CustomVariables\Model;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -65,6 +66,7 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             $this->performChange($scope, $numVarsToSet, $output);
         }
 
+        Cache::clearCacheGeneral();
         $this->progress->finish();
 
         $this->writeSuccessMessage($output, array(

@@ -15,7 +15,6 @@ use Piwik\DataArray;
 use Piwik\Metrics;
 use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
-use Piwik\Plugins\CustomVariables\Model as CustomVariablesModel;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -60,7 +59,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $this->dataArray = new DataArray();
 
-        for ($i = 1; $i <= CustomVariablesModel::getMaxCustomVariables(); $i++) {
+        for ($i = 1; $i <= CustomVariables::getMaxCustomVariables(); $i++) {
             $this->aggregateCustomVariable($i);
         }
 

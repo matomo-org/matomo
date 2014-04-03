@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Tracker;
 use Piwik\WidgetsList;
+use Piwik\Tracker\Cache;
 
 /**
  */
@@ -58,6 +59,40 @@ class CustomVariables extends \Piwik\Plugin
         Model::install();
     }
 
+    /**
+     * There are also some hardcoded places in JavaScript
+     * @return int
+     */
+    public static function getMaxLengthCustomVariables()
+    {
+        return 200;
+    }
+
+    public static function getMaxCustomVariables()
+    {
+        $cache    = Cache::getCacheGeneral();
+        $cacheKey = 'CustomVariables.MaxNumCustomVariables';
+
+        if (!array_key_exists($cacheKey, $cache)) {
+
+            $maxCustomVar = 0;
+
+            foreach (Model::getScopes() as $scope) {
+                $model = new Model($scope);
+                $highestIndex = $model->getHighestCustomVarIndex();
+
+                if ($highestIndex > $maxCustomVar) {
+                    $maxCustomVar = $highestIndex;
+                }
+            }
+
+            $cache[$cacheKey] = $maxCustomVar;
+            Cache::setCacheGeneral($cache);
+        }
+
+        return $cache[$cacheKey];
+    }
+
     public function addConsoleCommands(&$commands)
     {
         $commands[] = __NAMESPACE__ . '\\Commands\\SetNumberOfCustomVariables';
@@ -92,7 +127,7 @@ class CustomVariables extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        for ($i = 1; $i <= Model::getMaxCustomVariables(); $i++) {
+        for ($i = 1; $i <= self::getMaxCustomVariables(); $i++) {
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',
