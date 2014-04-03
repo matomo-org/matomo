@@ -96,6 +96,7 @@ class CustomVariables extends \Piwik\Plugin
     public function addConsoleCommands(&$commands)
     {
         $commands[] = __NAMESPACE__ . '\\Commands\\SetNumberOfCustomVariables';
+        $commands[] = __NAMESPACE__ . '\\Commands\\Info';
     }
 
     /**
@@ -127,7 +128,9 @@ class CustomVariables extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        for ($i = 1; $i <= self::getMaxCustomVariables(); $i++) {
+        $maxCustomVariables = self::getMaxCustomVariables();
+
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',

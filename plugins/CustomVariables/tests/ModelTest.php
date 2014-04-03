@@ -70,6 +70,20 @@ class ModelTest extends \DatabaseTestCase
         $this->assertEquals(4, $this->getConversionScope()->getCurrentNumCustomVars());
     }
 
+    public function test_getCustomVarIndexes()
+    {
+        $this->assertEquals(array(1,2,3,4,5), $this->getPageScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1,2,3,4,5), $this->getVisitScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1,2,3,4,5), $this->getConversionScope()->getCustomVarIndexes());
+
+        $this->getPageScope()->addCustomVariable();
+        $this->getConversionScope()->removeCustomVariable();
+
+        $this->assertEquals(array(1,2,3,4,5,6), $this->getPageScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1,2,3,4,5), $this->getVisitScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1,2,3,4), $this->getConversionScope()->getCustomVarIndexes());
+    }
+
     public function test_getHighestCustomVarIndex_addCustomVariable_removeCustomVariable()
     {
         $this->assertEquals(5, $this->getPageScope()->getHighestCustomVarIndex());

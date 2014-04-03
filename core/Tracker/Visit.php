@@ -513,7 +513,8 @@ class Visit implements VisitInterface
 
             // Custom Variables copied from Visit in potential later conversion
             if (!empty($selectCustomVariables)) {
-                for ($i = 1; $i <= CustomVariables::getMaxCustomVariables(); $i++) {
+                $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+                for ($i = 1; $i <= $maxCustomVariables; $i++) {
                     if (isset($visitRow['custom_var_k' . $i])
                         && strlen($visitRow['custom_var_k' . $i])
                     ) {

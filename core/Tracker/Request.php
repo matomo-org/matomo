@@ -353,10 +353,11 @@ class Request
             return array();
         }
         $customVariables = array();
+        $maxCustomVars = CustomVariables::getMaxCustomVariables();
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
             if ($id < 1
-                || $id > CustomVariables::getMaxCustomVariables()
+                || $id > $maxCustomVars
                 || count($keyValue) != 2
                 || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
             ) {

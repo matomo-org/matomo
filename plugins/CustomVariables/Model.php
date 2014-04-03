@@ -49,11 +49,9 @@ class Model
      */
     public function getCurrentNumCustomVars()
     {
-        $customVarColumns = $this->getCustomVarColumnNames();
+        $indexes = $this->getCustomVarIndexes();
 
-        $currentNumCustomVars = count($customVarColumns) / 2;
-
-        return (int) $currentNumCustomVars;
+        return count($indexes);
     }
 
     /**
@@ -71,22 +69,33 @@ class Model
      */
     public function getHighestCustomVarIndex()
     {
+        $indexes = $this->getCustomVarIndexes();
+
+        if (empty($indexes)) {
+            return 0;
+        }
+
+        return max($indexes);
+    }
+
+    public function getCustomVarIndexes()
+    {
         $columns = $this->getCustomVarColumnNames();
 
         if (empty($columns)) {
-            return 0;
+            return array();
         }
 
         $indexes = array_map(function ($column) {
             return Model::getCustomVariableIndexFromFieldName($column);
         }, $columns);
 
-        return max($indexes);
+        return array_values(array_unique($indexes));
     }
 
     private function getCustomVarColumnNames()
     {
-        $dbTable = Common::prefixTable($this->scope);
+        $dbTable = $this->getDbTableName();
         $columns = Db::getColumnNamesFromTable($dbTable);
 
         $customVarColumns = array_filter($columns, function ($column) {
@@ -98,7 +107,7 @@ class Model
 
     public function removeCustomVariable()
     {
-        $dbTable = Common::prefixTable($this->scope);
+        $dbTable = $this->getDbTableName();
         $index   = $this->getHighestCustomVarIndex();
 
         if ($index < 1) {
@@ -113,7 +122,7 @@ class Model
 
     public function addCustomVariable()
     {
-        $dbTable = Common::prefixTable($this->scope);
+        $dbTable = $this->getDbTableName();
         $index   = $this->getHighestCustomVarIndex() + 1;
         $maxLen  = CustomVariables::getMaxLengthCustomVariables();
 
@@ -121,6 +130,11 @@ class Model
         Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, $maxLen));
 
         return $index;
+    }
+
+    private function getDbTableName()
+    {
+        return Common::prefixTable($this->scope);
     }
 
     public static function getCustomVariableIndexFromFieldName($fieldName)
