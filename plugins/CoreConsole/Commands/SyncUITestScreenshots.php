@@ -22,8 +22,8 @@ class SyncUITestScreenshots extends ConsoleCommand
     protected function configure()
     {
         $this->setName('development:sync-ui-test-screenshots');
-        $this->setDescription('This command is intended for Piwik core developers. It copies all processed screenshot '
-                            . 'tests on Travis to the expected screenshot directory.');
+        $this->setDescription('For Piwik core devs. Copies screenshots '
+                            . 'from travis artifacts to tests/PHPUnit/UI/expected-ui-screenshots/');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
