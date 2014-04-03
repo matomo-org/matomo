@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Tracker\Cache;
 
 class Model
 {
@@ -91,6 +92,8 @@ class Model
         Db::exec(sprintf('ALTER TABLE %s DROP COLUMN custom_var_k%d', $dbTable, $index));
         Db::exec(sprintf('ALTER TABLE %s DROP COLUMN custom_var_v%d', $dbTable, $index));
 
+        Cache::clearCacheGeneral();
+
         return $index;
     }
 
@@ -101,6 +104,8 @@ class Model
 
         Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_k%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, self::getMaxLengthCustomVariables()));
         Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, self::getMaxLengthCustomVariables()));
+
+        Cache::clearCacheGeneral();
 
         return $index;
     }
@@ -121,7 +126,27 @@ class Model
 
     public static function getMaxCustomVariables()
     {
-        return 5;
+        $cache    = Cache::getCacheGeneral();
+        $cacheKey = 'CustomVariables.MaxNumCustomVariables';
+
+        if (!array_key_exists($cacheKey, $cache)) {
+
+            $maxCustomVar = 0;
+
+            foreach (self::getScopes() as $scope) {
+                $model = new Model($scope);
+                $highestIndex = $model->getHighestCustomVarIndex();
+
+                if ($highestIndex > $maxCustomVar) {
+                    $maxCustomVar = $highestIndex;
+                }
+            }
+
+            $cache[$cacheKey] = $maxCustomVar;
+            Cache::setCacheGeneral($cache);
+        }
+
+        return $cache[$cacheKey];
     }
 
     /**
