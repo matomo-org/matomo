@@ -287,16 +287,41 @@ class Updater
     static function updateDatabase($file, $sqlarray)
     {
         foreach ($sqlarray as $update => $ignoreError) {
-            try {
-                Db::exec($update);
-            } catch (\Exception $e) {
-                if (($ignoreError === false)
-                    || !Db::get()->isErrNo($e, $ignoreError)
-                ) {
-                    $message = $file . ":\nError trying to execute the query '" . $update . "'.\nThe error was: " . $e->getMessage();
-                    throw new UpdaterErrorException($message);
-                }
-            }
+            self::executeMigrationQuery($update, $ignoreError, $file);
+        }
+    }
+
+    /**
+     * Executes a database update query.
+     *
+     * @param string $updateSql Update SQL query.
+     * @param int|false $errorToIgnore A MySQL error code to ignore.
+     * @param string $file The Update file that's calling this method.
+     */
+    public static function executeMigrationQuery($updateSql, $errorToIgnore, $file)
+    {
+        try {
+            Db::exec($updateSql);
+        } catch (\Exception $e) {
+            self::handleQueryError($e, $updateSql, $errorToIgnore, $file);
+        }
+    }
+
+    /**
+     * Handle an error that is thrown from a database query.
+     *
+     * @param \Exception $e the exception thrown.
+     * @param string $updateSql Update SQL query.
+     * @param int|false $errorToIgnore A MySQL error code to ignore.
+     * @param string $file The Update file that's calling this method.
+     */
+    public static function handleQueryError($e, $updateSql, $errorToIgnore, $file)
+    {
+        if (($errorToIgnore === false)
+            || !Db::get()->isErrNo($e, $errorToIgnore)
+        ) {
+            $message = $file . ":\nError trying to execute the query '" . $updateSql . "'.\nThe error was: " . $e->getMessage();
+            throw new UpdaterErrorException($message);
         }
     }
 }
