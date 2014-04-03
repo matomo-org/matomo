@@ -156,16 +156,26 @@ class Model
         foreach (self::getScopes() as $scope) {
             $model = new Model($scope);
 
-            if ($model->getCurrentNumCustomVars() >= 5) {
-                continue;
-            }
-
             try {
-                for ($index = 0; $index < 5; $index++) {
+                $maxCustomVars   = 5;
+                $customVarsToAdd = $maxCustomVars - $model->getCurrentNumCustomVars();
+
+                for ($index = 0; $index < $customVarsToAdd; $index++) {
                     $model->addCustomVariable();
                 }
             } catch (\Exception $e) {
                 Log::warning('Failed to add custom variable: ' . $e->getMessage());
+            }
+        }
+    }
+
+    public static function uninstall()
+    {
+        foreach (self::getScopes() as $scope) {
+            $model = new Model($scope);
+
+            while ($model->getHighestCustomVarIndex()) {
+                $model->removeCustomVariable();
             }
         }
     }
