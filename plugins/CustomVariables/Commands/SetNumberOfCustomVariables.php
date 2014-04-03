@@ -27,13 +27,13 @@ class SetNumberOfCustomVariables extends ConsoleCommand
 
     protected function configure()
     {
-        $this->setName('customvariables:set-number-available-custom-variables');
+        $this->setName('customvariables:set-max-custom-variables');
         $this->setDescription('Change the number of available custom variables');
         $this->setHelp("Example:
-./console customvariables:set-number-available-custom-variables 10
+./console customvariables:set-max-custom-variables 10
 => 10 custom variables will be available in total
 ");
-        $this->addArgument('maxCustomVars', InputArgument::REQUIRED, 'The number of available custom variables');
+        $this->addArgument('maxCustomVars', InputArgument::REQUIRED, 'Set the number of max available custom variables');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,6 +48,11 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             return;
         }
 
+
+        $output->writeln('');
+        $output->writeln(sprintf('Configuring Piwik for %d custom variables', $numVarsToSet));
+
+
         foreach (Model::getScopes() as $scope) {
             $this->printChanges($scope, $numVarsToSet, $output);
         }
@@ -56,15 +61,18 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             return;
         }
 
+
         $output->writeln('');
         $output->writeln('Starting to apply changes');
         $output->writeln('');
+
 
         $this->progress = $this->initProgress($numChangesToPerform, $output);
 
         foreach (Model::getScopes() as $scope) {
             $this->performChange($scope, $numVarsToSet, $output);
         }
+
 
         Cache::clearCacheGeneral();
         $this->progress->finish();
@@ -139,14 +147,23 @@ class SetNumberOfCustomVariables extends ConsoleCommand
 
         if ($numVarsToSet > $numCurrentCustomVars) {
 
-            $indexes = implode(',', range($highestIndex + 1, $highestIndex + $numVarsDifference));
+            $indexes = $highestIndex + 1;
+            if (1 !== $numVarsDifference) {
+                $indexes .= ' - ' . ($highestIndex + $numVarsDifference);
+            }
+
             $output->writeln(
                 sprintf('%s new custom variables having the index(es) %s will be ADDED', $numVarsDifference, $indexes)
             );
 
         } elseif ($numVarsToSet < $numCurrentCustomVars) {
 
-            $indexes = implode(',', range($highestIndex - $numVarsDifference + 1, $highestIndex));
+            $indexes = $highestIndex - $numVarsDifference + 1;
+
+            if (1 !== $numVarsDifference) {
+                $indexes .= ' - ' . $highestIndex;
+            }
+
             $output->writeln(
                 sprintf("%s existing custom variables having the index(es) %s will be REMOVED.", $numVarsDifference, $indexes)
             );

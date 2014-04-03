@@ -43,6 +43,10 @@ class Model
         }
     }
 
+    /**
+     * @see getHighestCustomVarIndex()
+     * @return int
+     */
     public function getCurrentNumCustomVars()
     {
         $customVarColumns = $this->getCustomVarColumnNames();
@@ -52,6 +56,19 @@ class Model
         return (int) $currentNumCustomVars;
     }
 
+    /**
+     * result of getHighestCustomVarIndex() can be different to getCurrentNumCustomVars() in case there are some missing
+     * custom variable indexes. For instance in case of manual changes on the DB
+     *
+     * custom_var_v1
+     * custom_var_v2
+     * custom_var_v4
+     *
+     * getHighestCustomVarIndex() -> returns 4
+     * getCurrentNumCustomVars() -> returns 3
+     *
+     * @return int
+     */
     public function getHighestCustomVarIndex()
     {
         $columns = $this->getCustomVarColumnNames();

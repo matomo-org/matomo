@@ -17,6 +17,22 @@ use Piwik\Plugins\CustomVariables\Model;
  */
 class ModelTest extends \DatabaseTestCase
 {
+    /**
+     * @expectedException \Exception
+     */
+    public function test_construct_shouldFailInCaseOfEmptyScope()
+    {
+        new Model(null);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_construct_shouldFailInCaseOfInvalidScope()
+    {
+        new Model('inValId');
+    }
+
     public function testGetAllScopes()
     {
         $this->assertEquals(array('log_link_visit_action', 'log_visit', 'log_conversion'), Model::getScopes());
