@@ -73,7 +73,7 @@ class Updates_1_2_rc1 extends Updates
     			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
-			   ' => false,
+			   ' => 1060,
 
             // Migrate 128bits IDs inefficiently stored as 8bytes (256 bits) into 64bits
             'UPDATE ' . Common::prefixTable('log_visit') . '
