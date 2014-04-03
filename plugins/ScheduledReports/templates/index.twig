@@ -3,7 +3,7 @@
 {% block content %}
 
 {% include "@CoreHome/_siteSelectHeader.twig" %}
-
+    {{ postEvent("Template.addBeforeMenuContent", "Reports") }}
 <div class="top_controls">
     {% include "@CoreHome/_periodSelect.twig" %}
 </div>
