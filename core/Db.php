@@ -338,9 +338,14 @@ class Db
      */
     static public function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAssoc("SHOW COLUMNS FROM " . $table);
+        $columns = self::fetchAll("SHOW COLUMNS FROM " . $table);
 
-        return array_keys($columns);
+        $columnNames = array();
+        foreach ($columns as $column) {
+            $columnNames[] = $column['Field'];
+        }
+
+        return $columnNames;
     }
 
     /**
