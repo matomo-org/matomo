@@ -29,7 +29,7 @@ class Core_LogTest extends DatabaseTestCase
     public static $expectedExceptionOutput = array(
         'screen' => 'dummy error message<br />
  <br />
- --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php',
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php',
         'file' => '[Core_LogTest] LogTest.php(161): dummy error message
 dummy backtrace',
         'database' => '[Core_LogTest] LogTest.php(161): dummy error message

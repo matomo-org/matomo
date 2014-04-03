@@ -400,7 +400,6 @@
             $('object', this).show();
             $('.widgetHover', this).removeClass('widgetHover');
             $('.widgetTopHover', this).removeClass('widgetTopHover');
-            $('.button#close, .button#maximise', this).hide();
             if ($('.widget:has(".piwik-graph")', ui.item).length) {
                 reloadWidget($('.widget', ui.item).attr('id'));
             }

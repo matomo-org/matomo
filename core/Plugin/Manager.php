@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
@@ -101,7 +102,15 @@ class Manager extends Singleton
             // Also load plugins which are Git repositories (eg. being developed)
             $isPluginHasGitRepository = file_exists( PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/.git/config');
 
-            $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported || $isPluginHasGitRepository;
+            $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
+
+            $loadStandalonePluginsDuringTests = Config::getInstance()->Debug['enable_load_standalone_plugins_during_tests'];
+
+            if($loadStandalonePluginsDuringTests) {
+                $loadPlugin = $loadPlugin || $isPluginHasGitRepository;
+            } else {
+                $loadPlugin = $loadPlugin && !$isPluginHasGitRepository;
+            }
 
             // Do not enable other Themes
             $disabledThemes = $this->coreThemesDisabledByDefault;

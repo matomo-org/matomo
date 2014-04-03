@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Registry;
 use Piwik\Tracker;
 
@@ -352,10 +353,11 @@ class Request
             return array();
         }
         $customVariables = array();
+        $maxCustomVars = CustomVariables::getMaxCustomVariables();
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
             if ($id < 1
-                || $id > Tracker::MAX_CUSTOM_VARIABLES
+                || $id > $maxCustomVars
                 || count($keyValue) != 2
                 || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
             ) {
@@ -379,7 +381,7 @@ class Request
 
     public static function truncateCustomVariable($input)
     {
-        return substr(trim($input), 0, Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
+        return substr(trim($input), 0, CustomVariables::getMaxLengthCustomVariables());
     }
 
     protected function shouldUseThirdPartyCookie()

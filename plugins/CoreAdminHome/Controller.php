@@ -19,6 +19,7 @@ use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
+use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -210,6 +211,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = \Piwik\MetricsFormatter::getCurrencySymbol($view->idSite);
+        $view->maxCustomVariables = CustomVariables::getMaxCustomVariables();
 
         $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {

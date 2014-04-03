@@ -14,6 +14,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
+
         parent::setUp();
     }
     /**
@@ -88,8 +89,11 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         require_once PIWIK_INCLUDE_PATH . "/core/TaskScheduler.php";
         $this->assertFalse(DEBUG_FORCE_SCHEDULED_TASKS);
 
-        require_once PIWIK_INCLUDE_PATH . "/core/API/ResponseBuilder.php";
-        $this->assertFalse(\Piwik\API\ResponseBuilder::DISPLAY_BACKTRACE_DEBUG);
+
+        // Check the index.php has "backtrace disabled"
+        $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");
+        $expected = "define('PIWIK_PRINT_ERROR_BACKTRACE', false);";
+        $this->assertTrue( false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
     }
 
     private function _checkEqual($key, $valueExpected)
@@ -148,19 +152,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testPiwikTrackerDebugIsOff()
     {
         $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
-
-        $oldGet = $_GET;
-        $_GET = array('idsite' => 1);
-
-        // hiding echoed out message on empty request
-        ob_start();
-        include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
-        ob_end_clean();
-
-        $_GET = $oldGet;
-
-        $this->assertEquals(0, \Piwik\Config::getInstance()->Tracker['debug']);
-        $this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
+        $this->assertEquals(0, $this->globalConfig['Tracker']['debug']);
     }
 
     /**

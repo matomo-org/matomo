@@ -27,7 +27,8 @@ class Update extends ConsoleCommand
     protected function configure()
     {
         $this->setName('core:update');
-        $this->setDescription('Triggers the upgrades for Piwik core and plugins. Useful after Piwik core files or some plugins were updated to latest files.');
+
+        $this->setDescription('Triggers upgrades. Use it after Piwik core or any plugin files have been updated.');
 
         $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'Only prints out the SQL requests that would be executed during the upgrade');
     }

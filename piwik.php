@@ -12,6 +12,9 @@ use Piwik\Common;
 use Piwik\Timer;
 use Piwik\Tracker;
 
+// Note: if you wish to debug the Tracking API please see this documentation:
+// http://developer.piwik.org/api-reference/tracking-api#debugging-the-tracker
+
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 define('PIWIK_ENABLE_TRACKING', true);
 

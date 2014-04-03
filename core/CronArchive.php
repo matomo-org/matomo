@@ -540,7 +540,7 @@ class CronArchive
 
         $url .= self::APPEND_TO_API_REQUEST;
 
-        $visitsInLastPeriods = 0;
+        $visitsInLastPeriods = $visitsLastPeriod = 0;
         $success = true;
 
         $urls = array();
@@ -1122,12 +1122,18 @@ class CronArchive
 
     private function getVisitsLastPeriodFromApiResponse($stats)
     {
+        if(empty($stats)) {
+            return 0;
+        }
         $today = end($stats);
         return $today['nb_visits'];
     }
 
     private function getVisitsFromApiResponse($stats)
     {
+        if(empty($stats)) {
+            return 0;
+        }
         $visits = 0;
         foreach($stats as $metrics) {
             if(empty($metrics['nb_visits'])) {
@@ -1200,7 +1206,7 @@ class CronArchiveFatalException extends Exception
         $this->fullOutput = $fullOutput;
     }
 
-    public function logAndExit($cronArchiver)
+    public function logAndExit(CronArchive$cronArchiver)
     {
         if ($cronArchiver->isCoreInited()) {
             $cronArchiver->logError($this->getMessage());

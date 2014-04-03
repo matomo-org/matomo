@@ -86,6 +86,10 @@ tracker_always_new_visitor = 0
 ; Allow automatic upgrades to Beta or RC releases
 allow_upgrades_to_beta = 0
 
+; Set to 1 by default. If you set to 0, the standalone plugins (with their own git repositories)
+; will not be loaded when executing tests.
+enable_load_standalone_plugins_during_tests = 1
+
 [General]
 ; the following settings control whether Unique Visitors will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances

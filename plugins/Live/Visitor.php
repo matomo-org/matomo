@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
+use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker\Action;
@@ -338,10 +339,13 @@ class Visitor
     function getCustomVariables()
     {
         $customVariables = array();
-        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+
+        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (!empty($this->details['custom_var_k' . $i])) {
                 $customVariables[$i] = array(
-                    'customVariableName' . $i  => $this->details['custom_var_k' . $i],
+                    'customVariableName' .  $i => $this->details['custom_var_k' . $i],
                     'customVariableValue' . $i => $this->details['custom_var_v' . $i],
                 );
             }
@@ -723,8 +727,10 @@ class Visitor
     {
         $idVisit = $visitorDetailsArray['idVisit'];
 
+        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+
         $sqlCustomVariables = '';
-        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
             $sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
         }
         // The second join is a LEFT join to allow returning records that don't have a matching page title
@@ -761,7 +767,10 @@ class Visitor
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];
             $customVariablesPage = array();
-            for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+
+            $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+
+            for ($i = 1; $i <= $maxCustomVariables; $i++) {
                 if (!empty($actionDetail['custom_var_k' . $i])) {
                     $cvarKey = $actionDetail['custom_var_k' . $i];
                     $cvarKey = static::getCustomVariablePrettyKey($cvarKey);

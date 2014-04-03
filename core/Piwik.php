@@ -186,16 +186,16 @@ class Piwik
          * this event to customise the JavaScript tracking code that is displayed to the
          * user.
          *
-         * @param array $codeImpl An array containing snippets of code that the event handler
-         *                        can modify. Will contain the following elements:
+         * @param array &$codeImpl An array containing snippets of code that the event handler
+         *                         can modify. Will contain the following elements:
          *
-         *                        - **idSite**: The ID of the site being tracked.
-         *                        - **piwikUrl**: The tracker URL to use.
-         *                        - **options**: A string of JavaScript code that customises
-         *                                       the JavaScript tracker.
+         *                         - **idSite**: The ID of the site being tracked.
+         *                         - **piwikUrl**: The tracker URL to use.
+         *                         - **options**: A string of JavaScript code that customises
+         *                                        the JavaScript tracker.
          *
-         *                        The **httpsPiwikUrl** element can be set if the HTTPS
-         *                        domain is different from the normal domain.
+         *                         The **httpsPiwikUrl** element can be set if the HTTPS
+         *                         domain is different from the normal domain.
          * @param array $parameters The parameters supplied to the `Piwik::getJavascriptCode()`.
          */
         self::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
@@ -255,22 +255,6 @@ class Piwik
     {
         $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
         return $user['email'];
-    }
-
-    /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function getSuperUserLogin()
-    {
-        return Access::getInstance()->getSuperUserLogin();
-    }
-
-    /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function getSuperUserEmail()
-    {
-        return '';
     }
 
     /**
@@ -336,24 +320,6 @@ class Piwik
     }
 
     /**
-     * @see Piwik::hasUserSuperUserAccessOrIsTheUser()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function isUserIsSuperUserOrTheUser($theUser)
-    {
-        return self::hasUserSuperUserAccessOrIsTheUser($theUser);
-    }
-
-    /**
-     * @see Piwik::checkUserHasSuperUserAccessOrIsTheUser()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function checkUserIsSuperUserOrTheUser($theUser)
-    {
-        self::checkUserHasSuperUserAccessOrIsTheUser($theUser);
-    }
-
-    /**
      * Check that the current user is either the specified user or the superuser.
      *
      * @param string $theUser A username.
@@ -404,14 +370,6 @@ class Piwik
         return false;
     }
 
-    /**
-     * @see Piwik::hasUserSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function isUserIsSuperUser()
-    {
-        return self::hasUserSuperUserAccess();
-    }
 
     /**
      * Returns true if the current user has Super User access.
@@ -462,24 +420,6 @@ class Piwik
     static public function setUserHasSuperUserAccess($bool = true)
     {
         Access::getInstance()->setSuperUserAccess($bool);
-    }
-
-    /**
-     * @see Piwik::setUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function setUserIsSuperUser($bool = true)
-    {
-        self::setUserHasSuperUserAccess($bool);
-    }
-
-    /**
-     * @see Piwik::checkUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function checkUserIsSuperUser()
-    {
-        self::checkUserHasSuperUserAccess();
     }
 
     /**
@@ -889,7 +829,7 @@ class Piwik
         }
         $options = '';
         if ($mergeSubdomains && !empty($websiteHosts)) {
-            $options .= PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
+            $options .= '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
             $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';

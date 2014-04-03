@@ -24,6 +24,7 @@ use Piwik\TaskScheduler;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Piwik\ProxyHttp;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -71,7 +72,10 @@ class API extends \Piwik\Plugin\API
      * @internal param $
      * @return string The Javascript tag ready to be included on the HTML pages
      */
-    public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false, $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false, $doNotTrack = false)
+    public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
+                                     $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
+                                     $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
+                                     $doNotTrack = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -80,9 +84,54 @@ class API extends \Piwik\Plugin\API
         }
         $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 
-        $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain, $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables, $customCampaignNameQueryParam, $customCampaignKeywordParam, $doNotTrack);
+        $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
+                                                $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
+                                                $customCampaignNameQueryParam, $customCampaignKeywordParam,
+                                                $doNotTrack);
         $htmlEncoded = str_replace(array('<br>', '<br />', '<br/>'), '', $htmlEncoded);
         return $htmlEncoded;
+    }
+
+    /**
+     * Returns image link tracking code for a given site with specified options.
+     *
+     * @param int $idSite The ID to generate tracking code for.
+     * @param string $piwikUrl The domain and URL path to the Piwik installation.
+     * @param int $idGoal An ID for a goal to trigger a conversion for.
+     * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
+     * @return string The HTML tracking code.
+     */
+    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false)
+    {
+        $urlParams = array('idSite' => $idSite, 'rec' => 1);
+
+        if ($actionName !== false) {
+            $urlParams['action_name'] = urlencode(Common::unsanitizeInputValue($actionName));
+        }
+
+        if ($idGoal !== false) {
+            $urlParams['idGoal'] = $idGoal;
+            if ($revenue !== false) {
+                $urlParams['revenue'] = $revenue;
+            }
+        }
+
+        /**
+         * Triggered when generating image link tracking code server side. Plugins can use
+         * this event to customise the image tracking code that is displayed to the
+         * user.
+         *
+         * @param string &$piwikHost The domain and URL path to the Piwik installation, eg,
+         *                           `'examplepiwik.com/path/to/piwik'`.
+         * @param array &$urlParams The query parameters used in the <img> element's src
+         *                          URL. See Piwik's image tracking docs for more info.
+         */
+        Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
+
+        $piwikUrl = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php';
+        return "<!-- Piwik Image Tracker-->
+<img src=\"$piwikUrl?" . Url::getQueryStringFromParameters($urlParams) . "\" style=\"border:0\" alt=\"\" />
+<!-- End Piwik -->";
     }
 
     /**

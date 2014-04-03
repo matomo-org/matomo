@@ -56,27 +56,9 @@ class FakeAccess
         }
     }
 
-    /**
-     * @see FakeAccess::checkUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function checkUserIsSuperUser()
-    {
-        self::checkUserHasSuperUserAccess();
-    }
-
     public static function setSuperUserAccess($bool = true)
     {
         self::$superUser = $bool;
-    }
-
-    /**
-     * @see FakeAccess::setSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public static function setSuperUser($bool = true)
-    {
-        self::setSuperUserAccess($bool);
     }
 
     public static function reloadAccess()
@@ -188,11 +170,4 @@ class FakeAccess
         return $result;
     }
 
-    /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function getSuperUserLogin()
-    {
-        return self::$superUserLogin;
-    }
 }

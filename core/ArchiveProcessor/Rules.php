@@ -98,7 +98,7 @@ class Rules
         return $segmentsToProcess;
     }
 
-    private static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin, $isSkipAggregationOfSubTables = false)
+    public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin, $isSkipAggregationOfSubTables = false)
     {
         $partial = self::isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables);
         return 'done' . $segment->getHash() . '.' . $plugin . $partial ;
