@@ -540,7 +540,7 @@ class CronArchive
 
         $url .= self::APPEND_TO_API_REQUEST;
 
-        $visitsInLastPeriods = 0;
+        $visitsInLastPeriods = $visitsLastPeriod = 0;
         $success = true;
 
         $urls = array();
@@ -1206,7 +1206,7 @@ class CronArchiveFatalException extends Exception
         $this->fullOutput = $fullOutput;
     }
 
-    public function logAndExit(CronArchive $cronArchiver)
+    public function logAndExit(CronArchive$cronArchiver)
     {
         if ($cronArchiver->isCoreInited()) {
             $cronArchiver->logError($this->getMessage());
