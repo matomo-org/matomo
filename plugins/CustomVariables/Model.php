@@ -114,8 +114,9 @@ class Model
             return null;
         }
 
-        Db::exec(sprintf('ALTER TABLE %s DROP COLUMN custom_var_k%d', $dbTable, $index));
-        Db::exec(sprintf('ALTER TABLE %s DROP COLUMN custom_var_v%d', $dbTable, $index));
+        Db::exec(sprintf('ALTER TABLE %s ', $dbTable)
+               . sprintf('DROP COLUMN custom_var_k%d,', $index)
+               . sprintf('DROP COLUMN custom_var_v%d;', $index));
 
         return $index;
     }
@@ -126,8 +127,9 @@ class Model
         $index   = $this->getHighestCustomVarIndex() + 1;
         $maxLen  = CustomVariables::getMaxLengthCustomVariables();
 
-        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_k%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, $maxLen));
-        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, $maxLen));
+        Db::exec(sprintf('ALTER TABLE %s ', $dbTable)
+               . sprintf('ADD COLUMN custom_var_k%d VARCHAR(%d) DEFAULT NULL,', $index, $maxLen)
+               . sprintf('ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL;', $index, $maxLen));
 
         return $index;
     }
