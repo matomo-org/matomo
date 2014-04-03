@@ -1122,6 +1122,9 @@ class CronArchive
 
     private function getVisitsLastPeriodFromApiResponse($stats)
     {
+        if(empty($stats)) {
+            return 0;
+        }
         $today = end($stats);
         return $today['nb_visits'];
     }
