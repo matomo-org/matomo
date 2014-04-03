@@ -246,15 +246,6 @@ class Access
     }
 
     /**
-     * @see Access::setSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function setSuperUser($bool = true)
-    {
-        self::setSuperUserAccess($bool);
-    }
-
-    /**
      * Returns true if the current user is logged in as the Super User
      *
      * @return bool
@@ -262,15 +253,6 @@ class Access
     public function hasSuperUserAccess()
     {
         return $this->hasSuperUserAccess;
-    }
-
-    /**
-     * @see Access::hasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function isSuperUser()
-    {
-        return $this->hasSuperUserAccess();
     }
 
     /**
@@ -312,14 +294,6 @@ class Access
         }
 
         return $firstSuperUser['login'];
-    }
-
-    /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function getSuperUserLogin()
-    {
-        return $this->getAnySuperUserAccessLogin();
     }
 
     /**
@@ -375,15 +349,6 @@ class Access
         if (!$this->hasSuperUserAccess()) {
             throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
         }
-    }
-
-    /**
-     * @see Access::checkUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    public function checkUserIsSuperUser()
-    {
-        self::checkUserHasSuperUserAccess();
     }
 
     /**

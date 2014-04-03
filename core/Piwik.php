@@ -258,22 +258,6 @@ class Piwik
     }
 
     /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function getSuperUserLogin()
-    {
-        return Access::getInstance()->getSuperUserLogin();
-    }
-
-    /**
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function getSuperUserEmail()
-    {
-        return '';
-    }
-
-    /**
      * Get a list of all email addresses having Super User access.
      *
      * @return array
@@ -336,24 +320,6 @@ class Piwik
     }
 
     /**
-     * @see Piwik::hasUserSuperUserAccessOrIsTheUser()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function isUserIsSuperUserOrTheUser($theUser)
-    {
-        return self::hasUserSuperUserAccessOrIsTheUser($theUser);
-    }
-
-    /**
-     * @see Piwik::checkUserHasSuperUserAccessOrIsTheUser()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function checkUserIsSuperUserOrTheUser($theUser)
-    {
-        self::checkUserHasSuperUserAccessOrIsTheUser($theUser);
-    }
-
-    /**
      * Check that the current user is either the specified user or the superuser.
      *
      * @param string $theUser A username.
@@ -404,14 +370,6 @@ class Piwik
         return false;
     }
 
-    /**
-     * @see Piwik::hasUserSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function isUserIsSuperUser()
-    {
-        return self::hasUserSuperUserAccess();
-    }
 
     /**
      * Returns true if the current user has Super User access.
@@ -462,24 +420,6 @@ class Piwik
     static public function setUserHasSuperUserAccess($bool = true)
     {
         Access::getInstance()->setSuperUserAccess($bool);
-    }
-
-    /**
-     * @see Piwik::setUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function setUserIsSuperUser($bool = true)
-    {
-        self::setUserHasSuperUserAccess($bool);
-    }
-
-    /**
-     * @see Piwik::checkUserHasSuperUserAccess()
-     * @deprecated deprecated since version 2.0.4
-     */
-    static public function checkUserIsSuperUser()
-    {
-        self::checkUserHasSuperUserAccess();
     }
 
     /**
