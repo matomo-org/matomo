@@ -110,13 +110,13 @@ class SetNumberOfCustomVariables extends ConsoleCommand
         $maxCustomVars = $input->getArgument('maxCustomVars');
 
         if (!is_numeric($maxCustomVars)) {
-            throw new \Exception('The number of available custom variables has to be number');
+            throw new \Exception('The number of available custom variables has to be a number');
         }
 
         $maxCustomVars = (int) $maxCustomVars;
 
         if ($maxCustomVars <= 0) {
-            throw new \Exception('There has to be at least 1 custom variable');
+            throw new \Exception('There has to be at least one custom variable');
         }
 
         return $maxCustomVars;
