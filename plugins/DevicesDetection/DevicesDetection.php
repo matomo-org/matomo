@@ -21,9 +21,8 @@ use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\WidgetsList;
-use UserAgentParserEnhanced;
+use DeviceDetector;
 
-require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class DevicesDetection extends \Piwik\Plugin
@@ -61,10 +60,10 @@ class DevicesDetection extends \Piwik\Plugin
 
     protected function getRawMetadataDeviceType()
     {
-        $deviceTypeList = implode(", ", UserAgentParserEnhanced::$deviceTypes);
+        $deviceTypeList = implode(", ", DeviceDetector::$deviceTypes);
 
         $deviceTypeLabelToCode = function ($type) use ($deviceTypeList) {
-            $index = array_search(strtolower(trim(urldecode($type))), UserAgentParserEnhanced::$deviceTypes);
+            $index = array_search(strtolower(trim(urldecode($type))), DeviceDetector::$deviceTypes);
             if ($index === false) {
                 throw new Exception("deviceType segment must be one of: $deviceTypeList");
             }
@@ -259,7 +258,7 @@ class DevicesDetection extends \Piwik\Plugin
     {
         $userAgent = $request->getUserAgent();
 
-        $UAParser = new UserAgentParserEnhanced($userAgent);
+        $UAParser = new DeviceDetector($userAgent);
         $UAParser->setCache(new CacheFile('tracker', 86400));
         $UAParser->parse();
         $deviceInfo['config_browser_name'] = $UAParser->getBrowser("short_name");

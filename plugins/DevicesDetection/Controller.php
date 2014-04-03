@@ -14,7 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory;
-use UserAgentParserEnhanced;
+use DeviceDetector;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -75,7 +75,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $userAgent = Common::getRequestVar('ua', $_SERVER['HTTP_USER_AGENT'], 'string');
 
-        $parsedUA = UserAgentParserEnhanced::getInfoFromUserAgent($userAgent);
+        $parsedUA = DeviceDetector::getInfoFromUserAgent($userAgent);
 
         $view->userAgent           = $userAgent;
         $view->browser_name        = $parsedUA['browser']['name'];
@@ -111,15 +111,17 @@ class Controller extends \Piwik\Plugin\Controller
 
         switch ($type) {
             case 'brands':
-                $availableBrands = UserAgentParserEnhanced::$deviceBrands;
+                $availableBrands = DeviceDetector::$deviceBrands;
 
                 foreach ($availableBrands AS $short => $name) {
-                    $list[$name] = getBrandLogo($name);
+                    if ($name != 'Unknown') {
+                        $list[$name] = getBrandLogo($name);
+                    }
                 }
                 break;
 
             case 'browsers':
-                $availableBrowsers = UserAgentParserEnhanced::$browsers;
+                $availableBrowsers = DeviceDetector::$browsers;
 
                 foreach ($availableBrowsers AS $short => $name) {
                     $list[$name] = getBrowserLogoExtended($short);
@@ -127,7 +129,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'browserfamilies':
-                $availableBrowserFamilies = UserAgentParserEnhanced::$browserFamilies;
+                $availableBrowserFamilies = DeviceDetector::$browserFamilies;
 
                 foreach ($availableBrowserFamilies AS $name => $browsers) {
                     $list[$name] = getBrowserFamilyLogoExtended($name);
@@ -135,7 +137,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'os':
-                $availableOSs = UserAgentParserEnhanced::$osShorts;
+                $availableOSs = DeviceDetector::$osShorts;
 
                 foreach ($availableOSs AS $name => $short) {
                     if ($name != 'Bot') {
@@ -145,7 +147,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'osfamilies':
-                $osFamilies = UserAgentParserEnhanced::$osFamilies;
+                $osFamilies = DeviceDetector::$osFamilies;
 
                 foreach ($osFamilies AS $name => $oss) {
                     if ($name != 'Bot') {
@@ -155,7 +157,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'devicetypes':
-                $deviceTypes = UserAgentParserEnhanced::$deviceTypes;
+                $deviceTypes = DeviceDetector::$deviceTypes;
 
                 foreach ($deviceTypes AS $name) {
                     $list[$name] = getDeviceTypeLogo($name);

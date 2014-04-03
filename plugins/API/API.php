@@ -704,8 +704,7 @@ class Plugin extends \Piwik\Plugin
         if (empty($_SERVER['HTTP_USER_AGENT'])) {
             return;
         }
-        require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php';
-        $ua = new \UserAgentParserEnhanced($_SERVER['HTTP_USER_AGENT']);
+        $ua = new \DeviceDetector($_SERVER['HTTP_USER_AGENT']);
         $ua->parse();
         $os = $ua->getOs('short_name');
         if ($os && in_array($os, array('AND', 'IOS'))) {

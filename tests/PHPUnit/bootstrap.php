@@ -37,7 +37,6 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
-require_once PIWIK_INCLUDE_PATH . '/libs/spyc.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
