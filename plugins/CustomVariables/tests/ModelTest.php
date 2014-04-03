@@ -38,6 +38,33 @@ class ModelTest extends \DatabaseTestCase
         $this->assertEquals(array('log_link_visit_action', 'log_visit', 'log_conversion'), Model::getScopes());
     }
 
+    public function test_Install_Uninstall()
+    {
+        $this->assertEquals(5, $this->getPageScope()->getCurrentNumCustomVars());
+        $this->assertEquals(5, $this->getVisitScope()->getCurrentNumCustomVars());
+        $this->assertEquals(5, $this->getConversionScope()->getCurrentNumCustomVars());
+
+        Model::uninstall();
+
+        $this->assertEquals(0, $this->getPageScope()->getCurrentNumCustomVars());
+        $this->assertEquals(0, $this->getVisitScope()->getCurrentNumCustomVars());
+        $this->assertEquals(0, $this->getConversionScope()->getCurrentNumCustomVars());
+
+        $this->getPageScope()->addCustomVariable();
+        $this->getPageScope()->addCustomVariable();
+        $this->getVisitScope()->addCustomVariable();
+
+        $this->assertEquals(2, $this->getPageScope()->getCurrentNumCustomVars());
+        $this->assertEquals(1, $this->getVisitScope()->getCurrentNumCustomVars());
+        $this->assertEquals(0, $this->getConversionScope()->getCurrentNumCustomVars());
+
+        Model::install();
+
+        $this->assertEquals(5, $this->getPageScope()->getCurrentNumCustomVars());
+        $this->assertEquals(5, $this->getVisitScope()->getCurrentNumCustomVars());
+        $this->assertEquals(5, $this->getConversionScope()->getCurrentNumCustomVars());
+    }
+
     public function testGetCustomVariableIndexFromFieldName()
     {
         $this->assertSame(0, Model::getCustomVariableIndexFromFieldName('custom_var_k0'));

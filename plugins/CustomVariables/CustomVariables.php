@@ -59,6 +59,11 @@ class CustomVariables extends \Piwik\Plugin
         Model::install();
     }
 
+    public function uninstall()
+    {
+        Model::uninstall();
+    }
+
     /**
      * There are also some hardcoded places in JavaScript
      * @return int
