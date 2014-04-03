@@ -22,8 +22,6 @@ use Piwik\DataTable;
  */
 class ResponseBuilder
 {
-    const DISPLAY_BACKTRACE_DEBUG = false;
-
     private $request = null;
     private $outputFormat = null;
 
@@ -162,12 +160,10 @@ class ResponseBuilder
     {
         // If we are in tests, show full backtrace
         if (defined('PIWIK_PATH_TEST_TO_ROOT')) {
-            if (self::DISPLAY_BACKTRACE_DEBUG
-                || \Piwik_ShouldPrintBackTraceWithMessage()
-            ) {
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
-                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in " . basename(__FILE__);
+                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php";
             }
             return new Exception($message);
         }
