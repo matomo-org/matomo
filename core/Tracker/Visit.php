@@ -15,6 +15,7 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Tracker;
 use UserAgentParser;
+use Piwik\Plugins\CustomVariables\Model as CustomVariablesModel;
 
 /**
  * Class used to handle a Visit.
@@ -396,12 +397,11 @@ class Visit implements VisitInterface
         $selectCustomVariables = '';
         // No custom var were found in the request, so let's copy the previous one in a potential conversion later
         if (!$this->visitorCustomVariables) {
-            $selectCustomVariables = ',
-            custom_var_k1, custom_var_v1,
-            custom_var_k2, custom_var_v2,
-            custom_var_k3, custom_var_v3,
-            custom_var_k4, custom_var_v4,
-            custom_var_k5, custom_var_v5';
+            $maxCustomVariables = CustomVariablesModel::getMaxCustomVariables();
+
+            for ($index = 1; $index <= $maxCustomVariables; $index++) {
+                $selectCustomVariables .= ', custom_var_k' . $index . ', custom_var_v' . $index;
+            }
         }
 
         $persistedVisitAttributes = $this->getVisitFieldsPersist();
@@ -513,7 +513,7 @@ class Visit implements VisitInterface
 
             // Custom Variables copied from Visit in potential later conversion
             if (!empty($selectCustomVariables)) {
-                for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+                for ($i = 1; $i <= CustomVariablesModel::getMaxCustomVariables(); $i++) {
                     if (isset($visitRow['custom_var_k' . $i])
                         && strlen($visitRow['custom_var_k' . $i])
                     ) {

@@ -22,6 +22,17 @@ class ModelTest extends \DatabaseTestCase
         $this->assertEquals(array('log_link_visit_action', 'log_visit', 'log_conversion'), Model::getScopes());
     }
 
+    public function testGetCustomVariableIndexFromFieldName()
+    {
+        $this->assertSame(0, Model::getCustomVariableIndexFromFieldName('custom_var_k0'));
+        $this->assertSame(0, Model::getCustomVariableIndexFromFieldName('custom_var_v0'));
+        $this->assertSame(5, Model::getCustomVariableIndexFromFieldName('custom_var_k5'));
+        $this->assertSame(5, Model::getCustomVariableIndexFromFieldName('custom_var_v5'));
+        $this->assertSame(938, Model::getCustomVariableIndexFromFieldName('custom_var_k938'));
+        $this->assertSame(938, Model::getCustomVariableIndexFromFieldName('custom_var_v938'));
+        $this->assertSame(null, Model::getCustomVariableIndexFromFieldName('otherfield'));
+    }
+
     public function testGetScopeName()
     {
         $this->assertEquals('Page', $this->getPageScope()->getScopeName());

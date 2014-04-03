@@ -16,6 +16,7 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Registry;
 use Piwik\Tracker;
+use Piwik\Plugins\CustomVariables\Model as CustomVariablesModel;
 
 /**
  * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
@@ -355,7 +356,7 @@ class Request
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
             if ($id < 1
-                || $id > Tracker::MAX_CUSTOM_VARIABLES
+                || $id > CustomVariablesModel::getMaxCustomVariables()
                 || count($keyValue) != 2
                 || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
             ) {
@@ -379,7 +380,7 @@ class Request
 
     public static function truncateCustomVariable($input)
     {
-        return substr(trim($input), 0, Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
+        return substr(trim($input), 0, CustomVariablesModel::getMaxLengthCustomVariables());
     }
 
     protected function shouldUseThirdPartyCookie()

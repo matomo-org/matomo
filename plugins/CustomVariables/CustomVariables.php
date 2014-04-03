@@ -92,7 +92,7 @@ class CustomVariables extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Model::getMaxCustomVariables(); $i++) {
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\Log;
 
 class Model
 {
@@ -60,8 +61,7 @@ class Model
         }
 
         $indexes = array_map(function ($column) {
-            $onlyNumber = str_replace(array('custom_var_k', 'custom_var_v'), '', $column);
-            return (int) $onlyNumber;
+            return Model::getCustomVariableIndexFromFieldName($column);
         }, $columns);
 
         return max($indexes);
@@ -99,10 +99,19 @@ class Model
         $dbTable = Common::prefixTable($this->scope);
         $index   = $this->getHighestCustomVarIndex() + 1;
 
-        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_k%d VARCHAR(200) DEFAULT NULL', $dbTable, $index));
-        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_v%d VARCHAR(200) DEFAULT NULL', $dbTable, $index));
+        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_k%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, self::getMaxLengthCustomVariables()));
+        Db::exec(sprintf('ALTER TABLE %s ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL', $dbTable, $index, self::getMaxLengthCustomVariables()));
 
         return $index;
+    }
+
+    public static function getCustomVariableIndexFromFieldName($fieldName)
+    {
+        $onlyNumber = str_replace(array('custom_var_k', 'custom_var_v'), '', $fieldName);
+
+        if (is_numeric($onlyNumber)) {
+            return (int) $onlyNumber;
+        }
     }
 
     public static function getScopes()
@@ -110,12 +119,31 @@ class Model
         return array(self::SCOPE_PAGE, self::SCOPE_VISIT, self::SCOPE_CONVERSION);
     }
 
+    public static function getMaxCustomVariables()
+    {
+        return 5;
+    }
+
+    /**
+     * There are also some hardcoded places in JavaScript
+     * @return int
+     */
+    public static function getMaxLengthCustomVariables()
+    {
+        return 200;
+    }
+
     public static function install()
     {
         foreach (self::getScopes() as $scope) {
             $model = new Model($scope);
-            for ($index = 0; $index < 5; $index++) {
-                $model->addCustomVariable();
+
+            try {
+                for ($index = 0; $index < 5; $index++) {
+                    $model->addCustomVariable();
+                }
+            } catch (\Exception $e) {
+                Log::warning('Failed to add custom variable: ' . $e->getMessage());
             }
         }
     }
