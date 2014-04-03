@@ -156,6 +156,10 @@ class Model
         foreach (self::getScopes() as $scope) {
             $model = new Model($scope);
 
+            if ($model->getCurrentNumCustomVars() >= 5) {
+                continue;
+            }
+
             try {
                 for ($index = 0; $index < 5; $index++) {
                     $model->addCustomVariable();
