@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class Check extends ConsoleCommand
+class Info extends ConsoleCommand
 {
     protected function configure()
     {

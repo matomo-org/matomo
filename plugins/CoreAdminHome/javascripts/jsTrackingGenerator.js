@@ -27,6 +27,7 @@
         // get preloaded server-side data necessary for code generation
         var dataElement = $('#js-tracking-generator-data'),
             currencySymbols = JSON.parse(dataElement.attr('data-currencies')),
+            maxCustomVariables = parseInt(dataElement.attr('max-custom-variables'), 10),
             siteUrls = {},
             siteCurrencies = {},
             allGoals = {},
@@ -268,8 +269,8 @@
             row.before(newRow);
 
             // hide add button if max # of custom variables has been reached
-            // (5 custom variables + 1 row for add new row)
-            if ($('tr', row.parent()).length == 6) {
+            // (X custom variables + 1 row for add new row)
+            if ($('tr', row.parent()).length == (maxCustomVariables + 1)) {
                 $(this).hide();
             }
 

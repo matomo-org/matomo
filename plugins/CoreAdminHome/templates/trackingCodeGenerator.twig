@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="js-tracking-generator-data" data-currencies="{{ currencySymbols|json_encode }}"></div>
+<div id="js-tracking-generator-data" max-custom-variables="{{ maxCustomVariables|e('html_attr') }}" data-currencies="{{ currencySymbols|json_encode }}"></div>
 
 <h2 piwik-enriched-headline
     feature-name="{{ 'CoreAdminHome_TrackingCode'|translate }}"

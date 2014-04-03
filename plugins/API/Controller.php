@@ -62,7 +62,10 @@ class Controller extends \Piwik\Plugin\Controller
                 $segment['type'] = 'dimension';
             }
 
-            $onlyDisplay = array('customVariableName1', 'customVariableName2', 'customVariableValue1', 'customVariableValue2', 'customVariablePageName1', 'customVariablePageValue1');
+            $onlyDisplay = array('customVariableName1', 'customVariableName2',
+                                 'customVariableValue1', 'customVariableValue2',
+                                 'customVariablePageName1', 'customVariablePageValue1');
+
             $customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay);
             // Don't display more than 4 custom variables name/value rows
             if ($segment['category'] == 'Custom Variables'
