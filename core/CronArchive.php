@@ -1131,6 +1131,9 @@ class CronArchive
 
     private function getVisitsFromApiResponse($stats)
     {
+        if(empty($stats)) {
+            return 0;
+        }
         $visits = 0;
         foreach($stats as $metrics) {
             if(empty($metrics['nb_visits'])) {
