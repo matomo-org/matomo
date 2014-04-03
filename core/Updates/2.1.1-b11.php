@@ -107,7 +107,7 @@ class Updates_2_1_1_b11 extends Updates
                 $newMetricName = substr($metric, 0, strlen($metric) - strlen(VisitFrequencyApi::COLUMN_SUFFIX));
                 $updateSqlSuffix .= "WHEN '$metric' THEN '" . $newMetricName . "' ";
             }
-            $updateSqlSuffix .= " END WHERE idarchive IN (" . implode(',', array_keys($idArchiveMappings)) . ")
+            $updateSqlSuffix .= " END WHERE idarchive IN (%s)
                                         AND name IN ('" . implode("','", $returningMetrics) . "')";
 
             // update only 1000 rows at a time so we don't send too large an SQL query to MySQL
@@ -117,8 +117,10 @@ class Updates_2_1_1_b11 extends Updates
                 $updateSql = $updateSqlPrefix;
                 foreach ($chunk as $withMetricsIdArchive => $row) {
                     $updateSql .= "WHEN $withMetricsIdArchive THEN {$row['idarchive']} ";
+
+                    $idArchives[] = $withMetricsIdArchive;
                 }
-                $updateSql .= $updateSqlSuffix;
+                $updateSql .= sprintf($updateSqlSuffix, implode(',', $idArchives));
 
                 Updater::executeMigrationQuery($updateSql, false, __FILE__);
             }
