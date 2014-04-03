@@ -11,8 +11,8 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Log;
 use Piwik\Piwik;
+use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker;
 
 /**
@@ -227,7 +227,7 @@ class GoalManager
         }
 
         // Copy Custom Variables from Visit row to the Goal conversion
-        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= CustomVariables::getMaxCustomVariables(); $i++) {
             if (isset($visitorInformation['custom_var_k' . $i])
                 && strlen($visitorInformation['custom_var_k' . $i])
             ) {

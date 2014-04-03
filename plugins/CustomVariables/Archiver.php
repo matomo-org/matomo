@@ -59,7 +59,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $this->dataArray = new DataArray();
 
-        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= CustomVariables::getMaxCustomVariables(); $i++) {
             $this->aggregateCustomVariable($i);
         }
 
