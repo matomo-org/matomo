@@ -356,7 +356,7 @@ class Request
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
             if ($id < 1
-                || $id > CustomVariablesModel::getMaxCustomVariables()
+                || $id > CustomVariables::getMaxCustomVariables()
                 || count($keyValue) != 2
                 || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
             ) {
