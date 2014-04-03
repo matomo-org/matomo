@@ -24,7 +24,7 @@
         "leafo/lessphp": "~0.3",
         "symfony/console": ">=v2.3.5",
         "tedivm/jshrink": "v0.5.1",
-        "mustangostang/spyc": "*",
-        "piwik/device-detector": "dev-master"
+        "mustangostang/spyc": "0.5.*",
+        "piwik/device-detector": "*"
     }
 }
