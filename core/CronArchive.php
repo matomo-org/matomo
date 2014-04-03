@@ -1206,7 +1206,7 @@ class CronArchiveFatalException extends Exception
         $this->fullOutput = $fullOutput;
     }
 
-    public function logAndExit($cronArchiver)
+    public function logAndExit(CronArchive $cronArchiver)
     {
         if ($cronArchiver->isCoreInited()) {
             $cronArchiver->logError($this->getMessage());
