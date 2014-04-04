@@ -143,6 +143,15 @@ class CronArchive
             \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
             $this->log("XHProf profiling is enabled.");
         }
+
+        /**
+         * This event is triggered after a CronArchive instance is initialized.
+         *
+         * @param array $websiteIds The list of website IDs this CronArchive instance is processing.
+         *                          This will be the enitre list of IDs regardless of whether some have
+         *                          already been processed.
+         */
+        Piwik::postEvent('CronArchive.init.finish', array($this->websites->getInitialSiteIds()));
     }
 
     public function runScheduledTasksInTrackerMode()
@@ -194,10 +203,22 @@ class CronArchive
                 continue;
             }
 
+            /**
+             * This event is triggered before the cron archiving process starts archiving data for a single
+             * site.
+             *
+             * @param int $idSite The ID of the site we're archiving data for.
+             */
             Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idsite));
 
             $completed = $this->archiveSingleSite($idsite, $requestsBefore);
 
+            /**
+             * This event is triggered immediately after the cron archiving process starts archiving data for a single
+             * site.
+             *
+             * @param int $idSite The ID of the site we're archiving data for.
+             */
             Piwik::postEvent('CronArchive.archiveSingleSite.finish', array($idsite, $completed));
         } while (!empty($idsite));
 
