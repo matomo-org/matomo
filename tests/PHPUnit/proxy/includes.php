@@ -21,4 +21,3 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 if(\Piwik\SettingsServer::isArchivePhpTriggered()) {
     \Piwik\ArchiveProcessor\Rules::$purgeDisabledByTests = true;
 }
-
