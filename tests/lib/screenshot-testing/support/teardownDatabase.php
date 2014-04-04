@@ -27,5 +27,5 @@ if (!class_exists($fixtureClass)) {
 $fixture = new $fixtureClass();
 $fixture->dropDatabaseInSetUp = false;
 $fixture->printToScreen = true;
-$fixture->performSetUp("", $environmentOnly = true);
+$fixture->performSetUp($environmentOnly = true);
 $fixture->performTearDown("");

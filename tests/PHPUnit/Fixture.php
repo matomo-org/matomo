@@ -81,10 +81,8 @@ class Fixture extends PHPUnit_Framework_Assert
         // empty
     }
 
-    public function performSetUp($testCase, $setupEnvironmentOnly = false)
+    public function performSetUp($setupEnvironmentOnly = false)
     {
-        $this->getTestEnvironment()->delete();
-
         try {
             if ($this->createConfig) {
                 Config::getInstance()->setTestEnvironment();
@@ -197,6 +195,7 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         if ($this->testEnvironment === null) {
             $this->testEnvironment = new Piwik_TestingEnvironment();
+            $this->testEnvironment->delete();
         }
         return $this->testEnvironment;
     }

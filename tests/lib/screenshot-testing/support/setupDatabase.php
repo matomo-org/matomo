@@ -35,7 +35,7 @@ if (!empty($fixtureClass)) {
         $fixture->resetPersistedFixture = true;
     }
     $fixture->printToScreen = true;
-    $fixture->performSetUp("");
+    $fixture->performSetUp();
 }
 
 // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
