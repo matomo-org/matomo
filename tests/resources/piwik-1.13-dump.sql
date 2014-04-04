@@ -19,10 +19,6 @@
 -- Current Database: `piwik_tests`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `piwik_tests` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
-USE `piwik_tests`;
-
 --
 -- Table structure for table `piwiktests_access`
 --
