@@ -137,6 +137,9 @@ class Piwik
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
+        if(substr($piwikUrl, 0, 4) !== 'http') {
+            $piwikUrl = 'http://' . $piwikUrl;
+        }
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = rtrim(@$matches[2], "/");
 
