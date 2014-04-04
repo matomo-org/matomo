@@ -55,6 +55,9 @@ class SetupFixture extends ConsoleCommand
             throw new \Exception("Required argument --db-name is not set.");
         }
 
+        $this->requireFixtureFiles();
+        $this->setIncludePathAsInTestBootstrap();
+
         $file = $input->getOption('file');
         if ($file) {
             if (is_file($file)) {
@@ -70,9 +73,6 @@ class SetupFixture extends ConsoleCommand
             Url::setHost('localhost');
         }
 
-        $this->requireFixtureFiles();
-        $this->setIncludePathAsInTestBootstrap();
-
         // get the fixture class
         $fixtureClass = $input->getArgument('fixture');
         if (class_exists("Piwik\\Tests\\Fixtures\\" . $fixtureClass)) {
@@ -86,6 +86,7 @@ class SetupFixture extends ConsoleCommand
         // create the fixture
         $fixture = new $fixtureClass();
         $fixture->dbName = $dbName;
+        $fixture->printToScreen = true;
 
         Config::getInstance()->setTestEnvironment();
         $fixture->createConfig = false;
