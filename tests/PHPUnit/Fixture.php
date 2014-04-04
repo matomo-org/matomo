@@ -86,8 +86,6 @@ class Fixture extends PHPUnit_Framework_Assert
         $this->getTestEnvironment()->delete();
 
         try {
-            \Piwik\SettingsPiwik::$piwikUrlCache = '';
-
             if ($this->createConfig) {
                 Config::getInstance()->setTestEnvironment();
             }
@@ -219,7 +217,6 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         $this->tearDown();
 
-        \Piwik\SettingsPiwik::$piwikUrlCache = null;
         self::unloadAllPlugins();
 
         if ($this->dropDatabaseInTearDown) {
