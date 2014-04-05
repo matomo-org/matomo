@@ -541,7 +541,7 @@ class API extends \Piwik\Plugin\API
             /** @var DataTable $table */
             $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
 
-            $website       = new Site($idSite);
+            $website    = new Site($idSite);
             $timezone   = $website->getTimezone();
             $currencies = APISitesManager::getInstance()->getCurrencySymbols();
 
@@ -551,6 +551,9 @@ class API extends \Piwik\Plugin\API
                 $visitor = new Visitor($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
+                if(!is_object($website)) {
+                    var_dump($website);
+                }
                 $visitorDetailsArray['siteCurrency'] = $website->getCurrency();
                 $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
