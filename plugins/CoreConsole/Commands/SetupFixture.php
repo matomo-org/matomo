@@ -69,7 +69,8 @@ class SetupFixture extends ConsoleCommand
             }
         }
 
-        if (empty(Url::getHost())) {
+        $host = Url::getHost();
+        if (empty($host)) {
             Url::setHost('localhost');
         }
 
