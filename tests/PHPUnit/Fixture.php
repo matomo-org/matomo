@@ -237,6 +237,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public static function loadAllPlugins()
     {
+
+        DbHelper::createTables();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginsManager->getPluginsToLoadDuringTests();
 
