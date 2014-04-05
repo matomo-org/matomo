@@ -604,8 +604,8 @@ class Visit implements VisitInterface
         $deviceDetector->parse();
         $aBrowserInfo = $deviceDetector->getBrowser();
 
-        $browserName = ($aBrowserInfo !== false && $aBrowserInfo['short_name'] !== false) ? $aBrowserInfo['short_name'] : 'UNK';
-        $browserVersion = ($aBrowserInfo !== false && $aBrowserInfo['version'] !== false) ? $aBrowserInfo['version'] : '';
+        $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
+        $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
 
         $os = $deviceDetector->getOS();
         $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
