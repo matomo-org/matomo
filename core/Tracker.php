@@ -665,15 +665,8 @@ class Tracker
         }
 
         try {
-            $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
-            if (count($pluginsTracker) > 0) {
-                $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
-                \Piwik\Plugin\Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-
-                \Piwik\Plugin\Manager::getInstance()->loadPlugins($pluginsTracker);
-
-                Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
-            }
+            $pluginsTracker = \Piwik\Plugin\Manager::getInstance()->loadTrackerPlugins();
+            Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
         } catch (Exception $e) {
             Common::printDebug("ERROR: " . $e->getMessage());
         }

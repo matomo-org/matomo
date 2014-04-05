@@ -18,6 +18,7 @@ use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Theme;
+use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Updater;
 
@@ -81,9 +82,32 @@ class Manager extends Singleton
         'Zeitgeist',
     );
 
+    /**
+     * @return array names of plugins that have been loaded
+     */
+    public function loadTrackerPlugins()
+    {
+        $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+        if (empty($pluginsTracker)) {
+            return array();
+        }
+
+        $pluginsTracker = array_diff($pluginsTracker, Tracker::getPluginsNotToLoad());
+        if(defined('PIWIK_TEST_MODE')) {
+            $pluginsTracker = array_intersect($pluginsTracker, $this->getPluginsToLoadDuringTests());
+        }
+
+        \Piwik\Plugin\Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins($pluginsTracker);
+        return $pluginsTracker;
+    }
+
     public function getPluginsToLoadDuringTests()
     {
         $toLoad = array();
+
+        $loadStandalonePluginsDuringTests = Config::getInstance()->Debug['enable_load_standalone_plugins_during_tests'];
+
         foreach($this->readPluginsDirectory() as $plugin) {
             $forceDisable = array(
                 'ExampleVisualization', // adds an icon
@@ -103,8 +127,6 @@ class Manager extends Singleton
             $isPluginHasGitRepository = file_exists( PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/.git/config');
 
             $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
-
-            $loadStandalonePluginsDuringTests = Config::getInstance()->Debug['enable_load_standalone_plugins_during_tests'];
 
             if($loadStandalonePluginsDuringTests) {
                 $loadPlugin = $loadPlugin || $isPluginHasGitRepository;
@@ -713,8 +735,6 @@ class Manager extends Singleton
     /**
      * Returns the name of all plugins found in this Piwik instance
      * (including those not enabled and themes)
-     *
-     * Used in tests
      *
      * @return array
      */
