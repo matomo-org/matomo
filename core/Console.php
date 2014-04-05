@@ -47,6 +47,8 @@ class Console extends Application
             // Piwik not installed yet, no config file?
         }
 
+        Translate::reloadLanguage('en');
+
         $commands = $this->getAvailableCommands();
 
         foreach ($commands as $command) {
