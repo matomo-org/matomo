@@ -51,9 +51,9 @@ class UITestFixture extends OmniFixture
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
     }
 
-    public function performSetUp($testCase, $setupEnvironmentOnly = false)
+    public function performSetUp($setupEnvironmentOnly = false)
     {
-        parent::performSetUp($testCase, $setupEnvironmentOnly);
+        parent::performSetUp($setupEnvironmentOnly);
 
         $this->createSegments();
         $this->setupDashboards();

@@ -158,8 +158,29 @@ class Piwik_TestingEnvironment
         Piwik::addAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
         });
+        self::addSendMailHook();
+        Piwik::addAction('Updater.checkForUpdates', function () {
+            try {
+                @\Piwik\Filesystem::deleteAllCacheOnUpdate();
+            } catch (Exception $ex) {
+                // pass
+            }
+        });
+
+        $testingEnvironment->logVariables();
+        $testingEnvironment->executeSetupTestEnvHook();
+    }
+
+    public static function addSendMailHook()
+    {
+        static $added = false;
+        if ($added) {
+            return;
+        }
+        $added = true;
+
         Piwik::addAction('Test.Mail.send', function($mail) {
-            $outputFile = PIWIK_INCLUDE_PATH . 'tmp/' . Common::getRequestVar('module') . '.' . Common::getRequestVar('action') . '.mail.json';
+            $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
 
             $outputContent = str_replace("=\n", "", $mail->getBodyText($textOnly = true));
             $outputContent = str_replace("=0A", "\n", $outputContent);
@@ -174,16 +195,6 @@ class Piwik_TestingEnvironment
             
             file_put_contents($outputFile, Common::json_encode($outputContents));
         });
-        Piwik::addAction('Updater.checkForUpdates', function () {
-            try {
-                @\Piwik\Filesystem::deleteAllCacheOnUpdate();
-            } catch (Exception $ex) {
-                // pass
-            }
-        });
-
-        $testingEnvironment->logVariables();
-        $testingEnvironment->executeSetupTestEnvHook();
     }
 
     public function arrayMergeRecursiveDistinct(array $array1, array $array2)

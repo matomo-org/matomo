@@ -35,7 +35,7 @@ class Updates_1_6_b1 extends Updates
 				 CHANGE custom_var_k4 custom_var_k4 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(200) DEFAULT NULL,
-				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(200) DEFAULT NULL'             => false,
+				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(200) DEFAULT NULL' => 1060,
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(200) DEFAULT NULL,
@@ -46,7 +46,7 @@ class Updates_1_6_b1 extends Updates
 				 CHANGE custom_var_k4 custom_var_k4 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(200) DEFAULT NULL,
-				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(200) DEFAULT NULL'        => false,
+				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(200) DEFAULT NULL' => 1060,
             'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
 				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(200) DEFAULT NULL,
@@ -57,7 +57,7 @@ class Updates_1_6_b1 extends Updates
 				 CHANGE custom_var_k4 custom_var_k4 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(200) DEFAULT NULL,
 				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(200) DEFAULT NULL,
-				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(200) DEFAULT NULL' => false,
+				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(200) DEFAULT NULL' => 1060,
         );
     }
 

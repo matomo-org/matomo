@@ -136,8 +136,10 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function countDirectoriesInPathToRoot($uiAsset)
     {
         $rootDirectory = realpath($uiAsset->getBaseDirectory());
-        if ($rootDirectory != '/' && substr_compare($rootDirectory, '/', -1)) {
-            $rootDirectory .= '/';
+
+        if ($rootDirectory != PATH_SEPARATOR
+            && substr_compare($rootDirectory, PATH_SEPARATOR, -1)) {
+            $rootDirectory .= PATH_SEPARATOR;
         }
         $rootDirectoryLen = strlen($rootDirectory);
         return $rootDirectoryLen;

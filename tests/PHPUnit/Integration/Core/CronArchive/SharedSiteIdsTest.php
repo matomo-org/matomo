@@ -21,7 +21,7 @@ class SharedSiteIdsTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture->performSetUp(null, true);
+        $this->fixture->performSetUp(true);
 
         $this->sharedSiteIds = new SharedSiteIds(array(1,2,5,9));
     }

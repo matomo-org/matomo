@@ -115,8 +115,8 @@ class SetNumberOfCustomVariables extends ConsoleCommand
 
         $maxCustomVars = (int) $maxCustomVars;
 
-        if ($maxCustomVars <= 0) {
-            throw new \Exception('There has to be at least one custom variable');
+        if ($maxCustomVars <= 1) {
+            throw new \Exception('There has to be at least two custom variables');
         }
 
         return $maxCustomVars;

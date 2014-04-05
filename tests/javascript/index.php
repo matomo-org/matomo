@@ -668,7 +668,7 @@ function PiwikTest() {
 	});
 
 	test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
-		expect(24);
+		expect(25);
 
 		var tracker = Piwik.getTracker();
 
@@ -677,6 +677,7 @@ function PiwikTest() {
 		equal( tracker.hook.test._getLinkType('something', 'goofy.html', false), 'link', 'implicit link' );
 		equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false), 'download', 'external PDF files are downloads' );
 		equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true), 'download', 'local PDF are downloads' );
+		equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true), 'download', 'local PDF are downloads' );
 
 		equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', 'piwik_download' );
 		equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true), 'download', 'abc piwik_download xyz' );

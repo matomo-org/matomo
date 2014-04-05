@@ -16,6 +16,7 @@ use Exception;
  */
 class SettingsPiwik
 {
+    const OPTION_PIWIK_URL = 'piwikUrl';
     /**
      * Get salt from [General] section
      *
@@ -147,14 +148,6 @@ class SettingsPiwik
     }
 
     /**
-     * Cache for result of getPiwikUrl.
-     * Can be overwritten for testing purposes only.
-     *
-     * @var string
-     */
-    static public $piwikUrlCache = null;
-
-    /**
      * Returns the URL to this Piwik instance, eg. **http://demo.piwik.org/** or **http://example.org/piwik/**.
      *
      * @return string
@@ -162,13 +155,7 @@ class SettingsPiwik
      */
     public static function getPiwikUrl()
     {
-        // Only set in tests
-        if (self::$piwikUrlCache !== null) {
-            return self::$piwikUrlCache;
-        }
-
-        $key = 'piwikUrl';
-        $url = Option::get($key);
+        $url = Option::get(self::OPTION_PIWIK_URL);
 
         $isPiwikCoreDispatching = defined('PIWIK_ENABLE_DISPATCH') && PIWIK_ENABLE_DISPATCH;
         if (Common::isPhpCliMode()
@@ -187,7 +174,7 @@ class SettingsPiwik
             || $currentUrl != $url
         ) {
             if (strlen($currentUrl) >= strlen('http://a/')) {
-                Option::set($key, $currentUrl, $autoLoad = true);
+                self::overwritePiwikUrl($currentUrl);
             }
             $url = $currentUrl;
         }
@@ -355,6 +342,14 @@ class SettingsPiwik
             // Config file not found
         }
         return $configByHost;
+    }
+
+    /**
+     * @param $currentUrl
+     */
+    public static function overwritePiwikUrl($currentUrl)
+    {
+        Option::set(self::OPTION_PIWIK_URL, $currentUrl, $autoLoad = true);
     }
 
 }

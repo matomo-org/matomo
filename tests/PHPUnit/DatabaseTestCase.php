@@ -37,7 +37,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
 
         $this->fixture = new Fixture();
         $this->configureFixture();
-        $this->fixture->performSetUp(__CLASS__);
+        $this->fixture->performSetUp();
     }
 
     /**

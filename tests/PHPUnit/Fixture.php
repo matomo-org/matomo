@@ -81,13 +81,9 @@ class Fixture extends PHPUnit_Framework_Assert
         // empty
     }
 
-    public function performSetUp($testCase, $setupEnvironmentOnly = false)
+    public function performSetUp($setupEnvironmentOnly = false)
     {
-        $this->getTestEnvironment()->delete();
-
         try {
-            \Piwik\SettingsPiwik::$piwikUrlCache = '';
-
             if ($this->createConfig) {
                 Config::getInstance()->setTestEnvironment();
             }
@@ -182,6 +178,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
+        Piwik_TestingEnvironment::addSendMailHook();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
@@ -199,6 +196,7 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         if ($this->testEnvironment === null) {
             $this->testEnvironment = new Piwik_TestingEnvironment();
+            $this->testEnvironment->delete();
         }
         return $this->testEnvironment;
     }
@@ -219,7 +217,6 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         $this->tearDown();
 
-        \Piwik\SettingsPiwik::$piwikUrlCache = null;
         self::unloadAllPlugins();
 
         if ($this->dropDatabaseInTearDown) {
@@ -241,6 +238,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public static function loadAllPlugins()
     {
+
+        DbHelper::createTables();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginsManager->getPluginsToLoadDuringTests();
 
