@@ -41,7 +41,11 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
     {
         LocationProvider::$providers = null;
         GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        LocationProvider::setCurrentProvider('default');
+        try {
+            LocationProvider::setCurrentProvider('default');
+        } catch(Exception $e) {
+
+        }
     }
 
     public function setUpWebsitesAndGoals()

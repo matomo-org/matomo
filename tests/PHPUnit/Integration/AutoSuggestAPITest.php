@@ -18,11 +18,6 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     protected static $processed = 0;
     protected static $skipped = array();
 
-    public static function tearDownAfterClass()
-    {
-        parent::tearDownAfterClass();
-    }
-
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
