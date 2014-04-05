@@ -541,8 +541,8 @@ class API extends \Piwik\Plugin\API
             /** @var DataTable $table */
             $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
 
-            $site       = new Site($idSite);
-            $timezone   = $site->getTimezone();
+            $website       = new Site($idSite);
+            $timezone   = $website->getTimezone();
             $currencies = APISitesManager::getInstance()->getCurrencySymbols();
 
             foreach ($table->getRows() as $visitorDetailRow) {
@@ -551,8 +551,8 @@ class API extends \Piwik\Plugin\API
                 $visitor = new Visitor($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-                $visitorDetailsArray['siteCurrency'] = $site->getCurrency();
-                $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$site->getCurrency()];
+                $visitorDetailsArray['siteCurrency'] = $website->getCurrency();
+                $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
                 $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
                 $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
