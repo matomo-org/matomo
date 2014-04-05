@@ -551,11 +551,10 @@ class API extends \Piwik\Plugin\API
                 $visitor = new Visitor($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-                if(!is_object($website)) {
-                    var_dump($website);
+                if($website) {
+                    $visitorDetailsArray['siteCurrency'] = $website->getCurrency();
+                    $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 }
-                $visitorDetailsArray['siteCurrency'] = $website->getCurrency();
-                $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
                 $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
                 $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
