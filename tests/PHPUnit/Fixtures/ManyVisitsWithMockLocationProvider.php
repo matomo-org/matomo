@@ -34,7 +34,7 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Fixture
 
     public function tearDown()
     {
-        $this->unsetMockLocationProvider();
+        Test_Piwik_Fixture_ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
     private function setUpWebsitesAndGoals()
@@ -219,8 +219,4 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Fixture
         );
     }
 
-    private function unsetMockLocationProvider()
-    {
-        LocationProvider::setCurrentProvider('default');
-    }
 }

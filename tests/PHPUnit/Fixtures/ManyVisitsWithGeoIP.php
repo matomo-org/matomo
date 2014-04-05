@@ -236,9 +236,13 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Fixture
         );
     }
 
-    private function unsetLocationProvider()
+    static public function unsetLocationProvider()
     {
-        LocationProvider::setCurrentProvider('default');
+        try {
+            LocationProvider::setCurrentProvider('default');
+        } catch(Exception $e) {
+            // ignore error
+        }
     }
 
 }
