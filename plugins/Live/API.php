@@ -551,7 +551,7 @@ class API extends \Piwik\Plugin\API
                 $visitor = new Visitor($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-                if($website) {
+                if(is_object($website)) { // PHP 5.3 fail on travis
                     $visitorDetailsArray['siteCurrency'] = $website->getCurrency();
                     $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 }
