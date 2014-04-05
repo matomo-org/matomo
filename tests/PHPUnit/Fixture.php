@@ -178,6 +178,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
+        Piwik_TestingEnvironment::addSendMailHook();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
