@@ -134,22 +134,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getAvailableLanguageNames()
     {
-        if (!is_null($this->availableLanguageNames)) {
-            return $this->availableLanguageNames;
-        }
-
-        $filenames = $this->getAvailableLanguages();
-        $languagesInfo = array();
-        foreach ($filenames as $filename) {
-            $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$filename.json");
-            $translations = json_decode($data, true);
-            $languagesInfo[] = array(
-                'code'         => $filename,
-                'name'         => $translations['General']['OriginalLanguageName'],
-                'english_name' => $translations['General']['EnglishLanguageName']
-            );
-        }
-        $this->availableLanguageNames = $languagesInfo;
+        $this->loadAvailableLanguages();
         return $this->availableLanguageNames;
     }
 
@@ -250,5 +235,25 @@ class API extends \Piwik\Plugin\API
             ON DUPLICATE KEY UPDATE language=?',
             $paramsBind);
         return true;
+    }
+
+    private function loadAvailableLanguages()
+    {
+        if (!is_null($this->availableLanguageNames)) {
+            return;
+        }
+
+        $filenames = $this->getAvailableLanguages();
+        $languagesInfo = array();
+        foreach ($filenames as $filename) {
+            $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$filename.json");
+            $translations = json_decode($data, true);
+            $languagesInfo[] = array(
+                'code'         => $filename,
+                'name'         => $translations['General']['OriginalLanguageName'],
+                'english_name' => $translations['General']['EnglishLanguageName']
+            );
+        }
+        $this->availableLanguageNames = $languagesInfo;
     }
 }
