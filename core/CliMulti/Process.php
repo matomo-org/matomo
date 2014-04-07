@@ -146,6 +146,10 @@ class Process
             return false;
         }
 
+        if (self::isSystemNotSupported()) {
+            return false;
+        }
+
         if (self::shellExecFunctionIsDisabled()) {
             return false;
         }
@@ -154,6 +158,15 @@ class Process
             return true;
         }
 
+        return false;
+    }
+
+    private static function isSystemNotSupported()
+    {
+        $uname = php_uname();
+        if(strpos($uname, 'synology') !== false) {
+            return true;
+        }
         return false;
     }
 
