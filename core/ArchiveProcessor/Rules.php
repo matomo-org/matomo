@@ -64,21 +64,7 @@ class Rules
             return true;
         }
 
-        $segmentsToProcess = self::getSegmentsToProcess($idSites);
-        if (!empty($segmentsToProcess)) {
-            // If the requested segment is one of the segments to pre-process
-            // we ensure that any call to the API will trigger archiving of all reports for this segment
-            $segment = $segment->getString();
-
-            // Turns out the getString() above returns the URL decoded segment string
-            $segmentsToProcessUrlDecoded = array_map('urldecode', $segmentsToProcess);
-
-            if (in_array($segment, $segmentsToProcess)
-                || in_array($segment, $segmentsToProcessUrlDecoded)) {
-                return true;
-            }
-        }
-        return false;
+        return self::isSegmentPreProcessed($idSites, $segment);
     }
 
     /**
@@ -287,5 +273,32 @@ class Rules
         }
         Option::set(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoLoad = true);
         Cache::clearCacheGeneral();
+    }
+
+    /**
+     * @param array $idSites
+     * @param Segment $segment
+     * @return bool
+     */
+    protected static function isSegmentPreProcessed(array $idSites, Segment $segment)
+    {
+        $segmentsToProcess = self::getSegmentsToProcess($idSites);
+
+        if (empty($segmentsToProcess)) {
+            return false;
+        }
+        // If the requested segment is one of the segments to pre-process
+        // we ensure that any call to the API will trigger archiving of all reports for this segment
+        $segment = $segment->getString();
+
+        // Turns out the getString() above returns the URL decoded segment string
+        $segmentsToProcessUrlDecoded = array_map('urldecode', $segmentsToProcess);
+
+        if (in_array($segment, $segmentsToProcess)
+            || in_array($segment, $segmentsToProcessUrlDecoded)
+        ) {
+            return true;
+        }
+        return false;
     }
 }
