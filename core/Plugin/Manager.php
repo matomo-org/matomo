@@ -106,7 +106,7 @@ class Manager extends Singleton
     {
         $toLoad = array();
 
-        $loadStandalonePluginsDuringTests = Config::getInstance()->Debug['enable_load_standalone_plugins_during_tests'];
+        $loadStandalonePluginsDuringTests = 0;// Config::getInstance()->Debug['enable_load_standalone_plugins_during_tests'];
 
         foreach($this->readPluginsDirectory() as $plugin) {
             $forceDisable = array(
@@ -656,6 +656,26 @@ class Manager extends Singleton
     public function getLoadedPlugins()
     {
         return $this->loadedPlugins;
+    }
+
+    /**
+     * Returns an array of plugins that are currently loaded and activated,
+     * mapping loaded plugin names with their plugin objects, eg,
+     *
+     *     array(
+     *         'UserCountry' => Plugin $pluginObject,
+     *         'UserSettings' => Plugin $pluginObject,
+     *     );
+     *
+     * @return Plugin[]
+     */
+    public function getPluginsLoadedAndActivated()
+    {
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
+        $enabled = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
+        $enabled = array_combine($enabled, $enabled);
+        $plugins = array_intersect_key($plugins, $enabled);
+        return $plugins;
     }
 
     /**
