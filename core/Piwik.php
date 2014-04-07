@@ -277,7 +277,7 @@ class Piwik
         }
 
         foreach ($superUsers as $superUser) {
-            $emails[] = $superUser['email'];
+            $emails[$superUser['login']] = $superUser['email'];
         }
 
         return $emails;
