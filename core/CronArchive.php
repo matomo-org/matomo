@@ -81,6 +81,8 @@ class CronArchive
     private $errors = array();
     private $isCoreInited = false;
 
+    public $testmode = false;
+
     /**
      * Returns the option name of the option that stores the time the archive.php script was last run.
      *
@@ -637,6 +639,10 @@ class CronArchive
 
         if($this->shouldStartProfiler) {
             $url .= "&xhprof=2";
+        }
+
+        if ($this->testmode) {
+            $url .= "&testmode=1";
         }
 
         try {
