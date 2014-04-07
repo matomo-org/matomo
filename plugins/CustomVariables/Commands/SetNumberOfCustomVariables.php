@@ -14,6 +14,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Plugins\CustomVariables\Model;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -110,13 +111,13 @@ class SetNumberOfCustomVariables extends ConsoleCommand
         $maxCustomVars = $input->getArgument('maxCustomVars');
 
         if (!is_numeric($maxCustomVars)) {
-            throw new \Exception('The number of available custom variables has to be a number');
+            throw new \InvalidArgumentException('The number of available custom variables has to be a number');
         }
 
         $maxCustomVars = (int) $maxCustomVars;
 
         if ($maxCustomVars <= 1) {
-            throw new \Exception('There has to be at least two custom variables');
+            throw new \InvalidArgumentException('There has to be at least two custom variables');
         }
 
         return $maxCustomVars;
