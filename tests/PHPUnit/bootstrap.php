@@ -84,5 +84,5 @@ Try again.
     }
     $baseUrl = Fixture::getRootUrl();
 
-    \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl);
+    \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl, $acceptInvalidSSLCertificates = true);
 }

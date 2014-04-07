@@ -186,6 +186,19 @@ class SettingsPiwik
     }
 
     /**
+     * Return true if Piwik is installed (installation is done).
+     * @return bool
+     */
+    public static function isPiwikInstalled()
+    {
+        $config = Config::getInstance()->getLocalConfigPath();
+        $exists = file_exists($config);
+
+        // Piwik is installed if the config file is found
+        return $exists;
+    }
+
+    /**
      * Returns `true` if segmentation is allowed for this user, `false` if otherwise.
      *
      * @return bool
@@ -255,7 +268,7 @@ class SettingsPiwik
      * @param $piwikServerUrl
      * @return bool
      */
-    static public function checkPiwikServerWorking($piwikServerUrl)
+    static public function checkPiwikServerWorking($piwikServerUrl, $acceptInvalidSSLCertificates = false)
     {
         // Now testing if the webserver is running
         try {
@@ -267,11 +280,8 @@ class SettingsPiwik
                                                 $file = null,
                                                 $followDepth = 0,
                                                 $acceptLanguage = false,
-
-                                                // Accept self signed certificates for developers
-                                                $acceptInvalidSslCertificate = true
-        );
-
+                                                $acceptInvalidSSLCertificates
+            );
         } catch (Exception $e) {
             $fetched = "ERROR fetching: " . $e->getMessage();
         }
@@ -352,4 +362,11 @@ class SettingsPiwik
         Option::set(self::OPTION_PIWIK_URL, $currentUrl, $autoLoad = true);
     }
 
+    /**
+     * @return bool
+     */
+    public static function isHttpsForced()
+    {
+        return Config::getInstance()->General['force_ssl'] == 1;
+    }
 }

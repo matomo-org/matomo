@@ -449,12 +449,15 @@ class FrontController extends Singleton
         if(Common::isPhpCliMode()) {
             return;
         }
-        // force_ssl=1 -> whole of Piwik must run in SSL
-        $isSSLForced = Config::getInstance()->General['force_ssl'] == 1;
-        if ($isSSLForced) {
-            Url::redirectToHttps();
+        // Only enable this feature after Piwik is already installed
+        if(!SettingsPiwik::isPiwikInstalled()) {
+            return;
         }
-
+        // proceed only when force_ssl = 1
+        if(!SettingsPiwik::isHttpsForced()) {
+            return;
+        }
+        Url::redirectToHttps();
     }
 
     private function handleProfiler()
@@ -530,6 +533,7 @@ class FrontController extends Singleton
         Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
         return $result;
     }
+
 }
 
 /**

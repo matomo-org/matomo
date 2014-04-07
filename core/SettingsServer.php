@@ -31,7 +31,6 @@ class SettingsServer
                 && Piwik::hasUserSuperUserAccess();
     }
 
-
     /**
      * Returns true if the current request is a Tracker request.
      *
