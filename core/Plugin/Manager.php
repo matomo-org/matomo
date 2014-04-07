@@ -673,6 +673,10 @@ class Manager extends Singleton
     {
         $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
         $enabled = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
+
+        if(empty($enabled)) {
+            return array();
+        }
         $enabled = array_combine($enabled, $enabled);
         $plugins = array_intersect_key($plugins, $enabled);
         return $plugins;
