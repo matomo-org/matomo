@@ -55,19 +55,18 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function getKnownSegmentsToArchiveAllSites(&$segments)
     {
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return;
-        }
-
         $this->getKnownSegmentsToArchiveForSite($segments, $idSite = false);
     }
 
+    /**
+     * Adds the pre-processed segments to the list of Segments.
+     * Used by CronArchive, ArchiveProcessor\Rules, etc.
+     *
+     * @param $segments
+     * @param $idSite
+     */
     public function getKnownSegmentsToArchiveForSite(&$segments, $idSite)
     {
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return;
-        }
-
         $model = new Model();
         $segmentToAutoArchive = $model->getSegmentsToAutoArchive($idSite);
         foreach ($segmentToAutoArchive as $segmentInfo) {
