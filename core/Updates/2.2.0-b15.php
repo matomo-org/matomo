@@ -21,7 +21,7 @@ class Updates_2_2_0_b15 extends Updates
         // if the file is there, it can cause bugs (we don't have an archiver in VisitFrequency anymore)
         $path = PIWIK_INCLUDE_PATH . '/plugins/VisitFrequency/Archiver.php';
         if (file_exists($path)) {
-            Filesystem::unlinkRecursive($path);
+            @unlink($path);
         }
     }
 }
