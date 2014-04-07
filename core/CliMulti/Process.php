@@ -146,11 +146,11 @@ class Process
             return false;
         }
 
-        if (self::isSystemNotSupported()) {
+        if (self::shellExecFunctionIsDisabled()) {
             return false;
         }
 
-        if (self::shellExecFunctionIsDisabled()) {
+        if (self::isSystemNotSupported()) {
             return false;
         }
 
@@ -163,7 +163,7 @@ class Process
 
     private static function isSystemNotSupported()
     {
-        $uname = php_uname();
+        $uname = shell_exec('uname -a');
         if(strpos($uname, 'synology') !== false) {
             return true;
         }
