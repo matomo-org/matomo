@@ -426,10 +426,7 @@ class Log extends Singleton
         }
 
         if (is_string($message)) {
-            if ((!defined('PIWIK_TEST_MODE')
-                 || !PIWIK_TEST_MODE)
-                && !Common::isPhpCliMode()
-            ) {
+            if (!defined('PIWIK_TEST_MODE')) {
                 $message = '[' . $currentRequestKey . '] ' . $message;
             }
             $message = $this->formatMessage($level, $tag, $datetime, $message);
