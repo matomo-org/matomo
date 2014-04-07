@@ -791,8 +791,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'zlib',
             'SPL',
             'iconv',
-            'Reflection',
         );
+        // HHVM provides the required subset of Reflection but lists Reflections as missing
+        if (!defined('HHVM_VERSION')) {
+            $needed_extensions[] = 'Reflection';
+        }
         $infos['needed_extensions'] = $needed_extensions;
         $infos['missing_extensions'] = array();
         foreach ($needed_extensions as $needed_extension) {
