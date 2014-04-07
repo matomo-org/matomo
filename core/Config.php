@@ -632,9 +632,7 @@ class Config extends Singleton
      */
     protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal, $clear = true)
     {
-        if ($this->isTest
-            && $pathLocal == $this->pathLocal
-        ) {
+        if ($this->isTest) {
             return;
         }
 
