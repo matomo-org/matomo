@@ -27,7 +27,7 @@ class InfoTest extends \DatabaseTestCase
 {
     public function testExecute_ShouldOutputInfoSuccess_IfEverythingIsOk()
     {
-        $this->assertEquals('Your Piwik is configured for 5 custom variables.', $this->executeCommand());
+        $this->assertContains('Your Piwik is configured for 5 custom variables.', $this->executeCommand());
     }
 
     public function testExecute_ShouldOutputErrorMessage_IfColumnsDoNotMatch()
@@ -35,18 +35,18 @@ class InfoTest extends \DatabaseTestCase
         $model = new Model(Model::SCOPE_PAGE);
         $model->removeCustomVariable();
 
-        $this->assertEquals('There is a problem with your custom variables configuration', $this->executeCommand());
+        $this->assertContains('There is a problem with your custom variables configuration', $this->executeCommand());
     }
 
     private function executeCommand()
     {
+        $infoCmd = new Info();
+
         $application = new Application();
-        $application->add(new Info());
+        $application->add($infoCmd);
+        $commandTester = new CommandTester($infoCmd);
 
-        $command = $application->find('customvariables:info');
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute(array('command' => $command->getName()));
+        $commandTester->execute(array('command' => $infoCmd->getName()));
         $result = $commandTester->getDisplay();
 
         return $result;

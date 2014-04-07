@@ -31,7 +31,7 @@ class SetNumberOfCustomVariablesTest extends \DatabaseTestCase
      */
     public function testExecute_ShouldThrowException_IfArgumentIsMissing()
     {
-        $this->executeCommand(array(), true);
+        $this->executeCommand(null);
     }
 
     /**
@@ -40,53 +40,36 @@ class SetNumberOfCustomVariablesTest extends \DatabaseTestCase
      */
     public function testExecute_ShouldThrowException_HasToBeANumber()
     {
-        $this->executeCommand(array('maxCustomVars' => 'a'), true);
+        $this->executeCommand('a');
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage  There has to be at least two custom variables
+     * @expectedExceptionMessage  There has to be at least five custom variables
      */
     public function testExecute_ShouldThrowException_Minimum2CustomVarsRequired()
     {
-        $this->executeCommand(array('maxCustomVars' => 1), true);
+        $this->executeCommand(4);
     }
 
     public function testExecute_ShouldThrowException_IfUserCancelsConfirmation()
     {
-        $result = $this->executeCommand(array('maxCustomVars' => 4), false);
+        $result = $this->executeCommand(7, false);
         $this->assertStringEndsWith('Are you sure you want to perform these actions? (y/N)', $result);
     }
 
     public function testExecute_ShouldDoNothingIfExpectedResult_IsAlreadyTheCase()
     {
-        $result = $this->executeCommand(array('maxCustomVars' => 5), true);
+        $result = $this->executeCommand(5);
 
         $this->assertContains('Your Piwik is already configured for 5 custom variables', $result);
-    }
-
-    public function testExecute_ShouldRemoveMaxCustomVars_IfNumberIsLessThanActual()
-    {
-        $this->assertEquals(5, CustomVariables::getMaxCustomVariables());
-
-        $result = $this->executeCommand(array('maxCustomVars' => 4), true);
-
-        $this->assertContains('Configuring Piwik for 4 custom variables', $result);
-        $this->assertContains('1 existing custom variables having the index(es) 5 will be REMOVED.', $result);
-        $this->assertContains('Starting to apply changes', $result);
-        $this->assertContains('Removed a variable in scope "Page" having the index 5', $result);
-        $this->assertContains('Removed a variable in scope "Visit" having the index 5', $result);
-        $this->assertContains('Removed a variable in scope "Conversion" having the index 5', $result);
-        $this->assertContains('Your Piwik is now configured for 4 custom variables.', $result);
-
-        $this->assertEquals(4, CustomVariables::getMaxCustomVariables());
     }
 
     public function testExecute_ShouldAddMaxCustomVars_IfNumberIsHigherThanActual()
     {
         $this->assertEquals(5, CustomVariables::getMaxCustomVariables());
 
-        $result = $this->executeCommand(array('maxCustomVars' => 6), true);
+        $result = $this->executeCommand(6);
 
         $this->assertContains('Configuring Piwik for 6 custom variables', $result);
         $this->assertContains('1 new custom variables having the index(es) 6 will be ADDED', $result);
@@ -99,37 +82,60 @@ class SetNumberOfCustomVariablesTest extends \DatabaseTestCase
         $this->assertEquals(6, CustomVariables::getMaxCustomVariables());
     }
 
+    public function testExecute_ShouldRemoveMaxCustomVars_IfNumberIsLessThanActual()
+    {
+        $this->executeCommand(6, true);
+        $this->assertEquals(6, CustomVariables::getMaxCustomVariables());
+
+        $result = $this->executeCommand(5);
+
+        $this->assertContains('Configuring Piwik for 5 custom variables', $result);
+        $this->assertContains('1 existing custom variables having the index(es) 6 will be REMOVED.', $result);
+        $this->assertContains('Starting to apply changes', $result);
+        $this->assertContains('Removed a variable in scope "Page" having the index 6', $result);
+        $this->assertContains('Removed a variable in scope "Visit" having the index 6', $result);
+        $this->assertContains('Removed a variable in scope "Conversion" having the index 6', $result);
+        $this->assertContains('Your Piwik is now configured for 5 custom variables.', $result);
+
+        $this->assertEquals(5, CustomVariables::getMaxCustomVariables());
+    }
+
     public function testExecute_AddMultiple_RemoveMultiple()
     {
         $this->assertEquals(5, CustomVariables::getMaxCustomVariables());
 
-        $this->executeCommand(array('maxCustomVars' => 8), true);
-        $this->assertEquals(8, CustomVariables::getMaxCustomVariables());
+        $this->executeCommand(9);
+        $this->assertEquals(9, CustomVariables::getMaxCustomVariables());
 
-        $this->executeCommand(array('maxCustomVars' => 3), true);
-        $this->assertEquals(3, CustomVariables::getMaxCustomVariables());
+        $this->executeCommand(6);
+        $this->assertEquals(6, CustomVariables::getMaxCustomVariables());
     }
 
     /**
-     * @param array $params
+     * @param int|null $maxCustomVars
      * @param bool  $confirm
      *
      * @return string
      */
-    private function executeCommand(array $params, $confirm)
+    private function executeCommand($maxCustomVars, $confirm = true)
     {
-        $confirm = $confirm ? 'yes' : 'no';
+        $setNumberCmd = new SetNumberOfCustomVariables();
 
         $application = new Application();
-        $application->add(new SetNumberOfCustomVariables());
+        $application->add($setNumberCmd);
 
-        $command = $application->find('customvariables:set-max-custom-variables');
-        $commandTester = new CommandTester($command);
+        $commandTester = new CommandTester($setNumberCmd);
 
-        $dialog = $command->getHelper('dialog');
-        $dialog->setInputStream($this->getInputStream($confirm . '\n'));
+        $dialog = $setNumberCmd->getHelper('dialog');
+        $dialog->setInputStream($this->getInputStream($confirm ? 'yes' : 'no' . '\n'));
 
-        $params['command'] = $command->getName();
+        if (is_null($maxCustomVars)) {
+            $params = array();
+        } else {
+            $params = array('maxCustomVars' => $maxCustomVars);
+        }
+
+        $params['command'] = $setNumberCmd->getName();
         $commandTester->execute($params);
         $result = $commandTester->getDisplay();
 
