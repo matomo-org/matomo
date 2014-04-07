@@ -50,7 +50,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Piwik::hasUserSuperUserAccess()) {
             $this->handleGeneralSettingsAdmin($view);
 
-            $view->trustedHosts = Url::getTrustedHosts( $filterEnrich = false );
+            $view->trustedHosts = Url::getTrustedHostsFromConfig();
 
             $logo = new CustomLogo();
             $view->branding       = array('use_custom_logo' => $logo->isEnabled());
