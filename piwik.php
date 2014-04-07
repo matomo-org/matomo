@@ -82,6 +82,12 @@ require_once PIWIK_INCLUDE_PATH . '/core/Filesystem.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
+/*
+ * Manually require needed vendor libraries, as composers autorequire would do too much
+ */
+require_once PIWIK_INCLUDE_PATH . '/vendor/mustangostang/spyc/Spyc.php';
+require_once PIWIK_INCLUDE_PATH . '/vendor/piwik/device-detector/DeviceDetector.php';
+
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
 

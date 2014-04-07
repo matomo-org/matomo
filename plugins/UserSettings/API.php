@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets a DataTable displaying number of visits by operating system family. The operating
-     * system families are listed in /libs/UserAgentParser/UserAgentParser.php.
+     * system families are listed in vendor piwik/device-detector.
      */
     public function getOSFamily($idSite, $period, $date, $segment = false)
     {

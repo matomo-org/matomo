@@ -15,7 +15,7 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker;
-use UserAgentParser;
+use DeviceDetector;
 
 /**
  * Class used to handle a Visit.
@@ -593,20 +593,22 @@ class Visit implements VisitInterface
         if (is_array($this->userSettingsInformation)) {
             return $this->userSettingsInformation;
         }
-        require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 
         list($plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
             $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $this->request->getPlugins();
 
         $resolution = $this->request->getParam('res');
         $userAgent = $this->request->getUserAgent();
-        $aBrowserInfo = UserAgentParser::getBrowser($userAgent);
 
-        $browserName = ($aBrowserInfo !== false && $aBrowserInfo['id'] !== false) ? $aBrowserInfo['id'] : 'UNK';
-        $browserVersion = ($aBrowserInfo !== false && $aBrowserInfo['version'] !== false) ? $aBrowserInfo['version'] : '';
+        $deviceDetector = new DeviceDetector($userAgent);
+        $deviceDetector->parse();
+        $aBrowserInfo = $deviceDetector->getBrowser();
 
-        $os = UserAgentParser::getOperatingSystem($userAgent);
-        $os = $os === false ? 'UNK' : $os['id'];
+        $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
+        $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
+
+        $os = $deviceDetector->getOS();
+        $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
 
         $browserLang = substr($this->request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
         $configurationHash = $this->getConfigHash(
