@@ -39,12 +39,6 @@ class API extends \Piwik\Plugin\API
         return TaskScheduler::runTasks();
     }
 
-    public function getKnownSegmentsToArchive()
-    {
-        Piwik::checkUserHasSuperUserAccess();
-        return SettingsPiwik::getKnownSegmentsToArchive();
-    }
-
     /*
      * stores the list of websites IDs to re-reprocess in archive.php
      */

@@ -520,7 +520,7 @@ class CronArchive
 
     private function initSegmentsToArchive()
     {
-        $segments = APICoreAdminHome::getInstance()->getKnownSegmentsToArchive();
+        $segments = \Piwik\SettingsPiwik::getKnownSegmentsToArchive();
         if (empty($segments)) {
             return array();
         }
