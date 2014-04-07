@@ -672,10 +672,6 @@ class Manager extends Singleton
     public function getPluginsLoadedAndActivated()
     {
         $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
-        // TODO omg that's one shocking hack! See #4357
-        if(defined('PIWIK_TEST_MODE')) {
-            return $plugins;
-        }
         $enabled = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
 
         if(empty($enabled)) {
