@@ -451,7 +451,7 @@ class Fixture extends PHPUnit_Framework_Assert
         );
     }
 
-    private static function createSuperUser($removeExisting = true)
+    public static function createSuperUser($removeExisting = true)
     {
         $login = self::ADMIN_USER_LOGIN;
         $password = UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD);
