@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
-        "Camera": "Kamera"
+        "Camera": "Kamera",
+        "Device": "Enhet"
     }
 }

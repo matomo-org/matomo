@@ -73,6 +73,7 @@
         "PiwikIsInstalledAt": "Piwik er installert på",
         "PluginDescription": "Administrasjonsområdet for Piwik.",
         "TrackingCode": "Sporingskode",
+        "UpdateSettings": "Oppdater innstillinger",
         "UseCustomLogo": "Bruk en tilpasset logo",
         "YouAreOptedIn": "Du deltar i analysegrunnlaget",
         "YouAreOptedOut": "Du deltar ikke i analysegrunnlaget",
@@ -87,6 +88,7 @@
         "HowMuchIsPiwikWorth": "Hvor mye er Piwik verdt for deg?",
         "InjectedHostEmailSubject": "Piwik ble åpnet med et ukjent vertsnavn: %s",
         "JavascriptDisabled": "JavaScript må være aktivert for at du skal kunne bruke Piwik i standardvisning.<br \/>Det ser ut til at JavaScript enten er deaktivert eller ikke støttet av din nettleser.<br \/>For å bruke standardvisning, må du aktivere JavaScript i nettleserinnstillingene og deretter %1$sprøve igjen%2$s.<br \/>",
+        "LongMonthFormat": "%longYear%, %longMonth%",
         "PageOf": "%1$s av %2$s",
         "PeriodDay": "Dag",
         "PeriodDays": "dager",
@@ -100,7 +102,9 @@
         "ReportGeneratedOn": "Rapport generert %s",
         "ReportGeneratedXAgo": "Rapport generert %s siden",
         "SharePiwikShort": "Piwik! Gratis og åpen kildekode web analyse. Du eier dataene.",
+        "ShareThis": "Del dette",
         "ShortDateFormat": "%shortDay% %day% %shortMonth%",
+        "ShortDateFormatWithYear": "%day% %shortMonth% %shortYear%",
         "ShortMonthFormat": "%shortMonth% %longYear%",
         "ShowJSCode": "Vis JavaScript-koden til å sette inn på din nettside.",
         "SupportPiwik": "Støtt Piwik!",
@@ -113,6 +117,7 @@
         "Activated": "Påslått",
         "Active": "På",
         "Activity": "Aktivitet",
+        "Changelog": "Endringslogg",
         "Deactivate": "Slå av",
         "Developer": "Utvikler",
         "History": "Historikk",
@@ -126,6 +131,7 @@
         "Screenshots": "Skjermbilder",
         "SortByNewest": "nyeste",
         "Status": "Status",
+        "UpdatingPlugin": "Oppdaterer %s",
         "Version": "Versjon"
     },
     "CoreUpdater": {
@@ -299,6 +305,7 @@
         "Discount": "Rabatt",
         "DisplaySimpleTable": "Vis enkel tabell",
         "DisplayTableWithMoreMetrics": "Vis en tabell mer flere måltall",
+        "Documentation": "Dokumentasjon",
         "Donate": "Doner",
         "Done": "Ferdig",
         "Download": "Last ned",
@@ -346,6 +353,7 @@
         "Installed": "Installert",
         "InvalidDateRange": "Ugyldig datointervall, prøv igjen",
         "InvalidResponse": "De mottatte dataene er ugyldige.",
+        "IP": "IP",
         "JsTrackingTag": "JavaScript-sporingskoden",
         "Language": "Språk",
         "LastDays": "Siste %s dager (inkludert i dag)",
@@ -382,7 +390,9 @@
         "Monthly": "Månedlig",
         "MonthlyReport": "månedlig",
         "MonthlyReports": "Månedlige rapporter",
+        "More": "Mer",
         "MoreDetails": "Flere detaljer",
+        "MoreLowerCase": "mer",
         "MultiSitesSummary": "Alle nettsteder",
         "Name": "Navn",
         "NbActions": "Antall handlinger",
@@ -406,6 +416,7 @@
         "OneAction": "1 handling",
         "OneDay": "1 dag",
         "OneMinute": "1 minutt",
+        "OneVisit": "1 besøk",
         "OnlyEnterIfRequired": "Skriv bare inn et brukernavn hvis din SMTP-tjener krever det",
         "OnlyEnterIfRequiredPassword": "Skriv bare inn et passord hvis din SMTP-tjener krever det",
         "OnlyUsedIfUserPwdIsSet": "Brukes kun hvis et brukernavn\/passord er satt, spør din leverandør om du er usikker på hvilken metode som skal brukes.",
@@ -492,6 +503,7 @@
         "Source": "Kilde",
         "Table": "Tabell",
         "TagCloud": "Merkelappsky",
+        "TimeAgo": "%s siden",
         "Today": "I dag",
         "TotalVisitsPageviewsRevenue": "(Totalt: %s besøk, %s sidevisninger, %s inntekter)",
         "TranslatorEmail": "hans@nordhaug.priv.no",
@@ -555,6 +567,11 @@
         "UpdateGoal": "Oppdater mål",
         "URL": "URL",
         "WhenVisitors": "når besøkende"
+    },
+    "Insights": {
+        "DayComparedToPreviousDay": "forrige dag",
+        "MonthComparedToPreviousMonth": "forrige måned",
+        "WeekComparedToPreviousWeek": "forrige uke"
     },
     "Installation": {
         "CommunityNewsletter": "send meg e-post med oppdatering fra Piwik-samfunnet (nye tillegg, nye egenskaper, osv)",
@@ -660,6 +677,7 @@
         "PluginDescription": "Spioner på dine besøkende, live, i sanntid!",
         "RealTimeVisitorCount": "Besøkstall i sanntid",
         "Referrer_URL": "Henvisnings-URL",
+        "ShowMap": "vis kart",
         "VisitorLog": "Logg over besøkende"
     },
     "Login": {
@@ -675,6 +693,7 @@
         "RememberMe": "Husk meg"
     },
     "Mobile": {
+        "AboutPiwikMobile": "Om Piwik Mobile",
         "AddPiwikDemo": "Legg til Piwik Demo",
         "Advanced": "Avansert",
         "AnonymousAccess": "Anonym tilgang",
@@ -685,6 +704,7 @@
         "EvolutionGraph": "Historisk graf",
         "HttpTimeout": "HTTP-tidsavbrudd",
         "LastUpdated": "Sist oppdatert: %s",
+        "LoadingReport": "Laster %s",
         "LoginUseHttps": "Bruk HTTPS",
         "NavigationBack": "Tilbake",
         "NetworkNotReachable": "Nettverk kan ikke nås",
@@ -774,6 +794,7 @@
         "EmailHello": "Hei,",
         "EmailReports": "E-postrapporter",
         "EmailSchedule": "E-postplan",
+        "FrontPage": "Forside",
         "ManageEmailReports": "Administrer e-postrapporter",
         "MonthlyScheduleHelp": "Månedsplan: Rapportene blir sendt første dag i hver måned.",
         "Pagination": "Side %s av %s",
@@ -1157,6 +1178,7 @@
         "MinutesAgo": "%s minutter siden",
         "RealTimeMap": "Sanntidskart",
         "Regions": "Regioner",
+        "Searches": "%s søk",
         "Seconds": "sekunder",
         "SecondsAgo": "%s sekunder siden",
         "WorldWide": "Verdensbasis"
@@ -1391,6 +1413,7 @@
         "ExcludeVisitsViaCookie": "Ekskluder dine besøk med en informasjonskapsel",
         "ForAnonymousUsersReportDateToLoadByDefault": "Rapportdato som skal lastes som standard for anonyme brukere",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Hvis du vil endre passordet, skriv inn et nytt. Hvis ikke, lar du feltet være tomt.",
+        "LastSeen": "Sist sett",
         "MainDescription": "Bestem hvilke brukere som har tilgang til Piwik på dine nettsteder. Du kan også sette rettighetene på alle dine nettsteder på en gang.",
         "ManageAccess": "Administrer tilgang",
         "MenuAnonymousUserSettings": "Innstillinger for anonym bruker",
