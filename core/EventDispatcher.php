@@ -126,13 +126,21 @@ class EventDispatcher extends Singleton
     }
 
     /**
-     * Removes all registered observers for an event name. Only used for testing.
+     * Removes all registered extra observers for an event name. Only used for testing.
      *
      * @param string $eventName
      */
     public function clearObservers($eventName)
     {
         $this->extraObservers[$eventName] = array();
+    }
+
+    /**
+     * Removes all registered extra observers. Only used for testing.
+     */
+    public function clearAllObservers()
+    {
+        $this->extraObservers = array();
     }
 
     /**

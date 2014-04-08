@@ -231,6 +231,7 @@ class Fixture extends PHPUnit_Framework_Assert
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         \Piwik\Registry::unsetInstance();
+        \Piwik\EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();
         Translate::unloadEnglishTranslation();
