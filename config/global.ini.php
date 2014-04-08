@@ -158,6 +158,8 @@ default_language = en
 datatable_default_limit = 10
 
 ; default number of rows returned in API responses
+; this value is overwritten by the '# Rows to display' selector.
+; if set to -1, a click on 'Export as' will export all rows independently of the current '# Rows to display'.
 API_datatable_default_limit = 100
 
 ; When period=range, below the datatables, when user clicks on "export", the data will be aggregate of the range.
