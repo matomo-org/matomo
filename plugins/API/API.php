@@ -704,6 +704,10 @@ class Plugin extends \Piwik\Plugin
         if (empty($_SERVER['HTTP_USER_AGENT'])) {
             return;
         }
+        if (!class_exists("DeviceDetector")) {
+            throw new \Exception("DeviceDetector could not be found, maybe you are using Piwik from git and need to have update Composer. <br>php composer.phar update");
+        }
+
         $ua = new \DeviceDetector($_SERVER['HTTP_USER_AGENT']);
         $ua->parse();
         $os = $ua->getOs('short_name');
