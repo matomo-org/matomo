@@ -140,7 +140,13 @@ class EventDispatcher extends Singleton
      */
     public function clearAllObservers()
     {
-        $this->extraObservers = array();
+        foreach ($this->extraObservers as $eventName => $eventObservers) {
+            if (strpos($eventName, 'Log.format') === 0) {
+                continue;
+            }
+
+            $this->extraObservers[$eventName] = array();
+        }
     }
 
     /**
