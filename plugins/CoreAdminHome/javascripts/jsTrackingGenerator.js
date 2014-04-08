@@ -236,7 +236,7 @@
         // on js link tracker site change, change available goals
         $('#js-tracker-website').bind('change', function (e, site) {
             $('.current-site-name', '#optional-js-tracking-options').each(function () {
-                $(this).text(site.name);
+                $(this).html(site.name);
             });
 
             getSiteData(site.id, '#js-code-options', function () {
