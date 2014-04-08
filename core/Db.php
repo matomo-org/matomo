@@ -104,6 +104,17 @@ class Db
     }
 
     /**
+     * Disconnects and destroys the database connection.
+     *
+     * For tests.
+     */
+    public static function destroyDatabaseObject()
+    {
+        DbHelper::disconnectDatabase();
+        self::$connection = null;
+    }
+
+    /**
      * Executes an unprepared SQL query. Recommended for DDL statements like `CREATE`,
      * `DROP` and `ALTER`. The return value is DBMS-specific. For MySQLI, it returns the
      * number of rows affected. For PDO, it returns a
