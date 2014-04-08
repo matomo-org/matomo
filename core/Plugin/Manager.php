@@ -1108,7 +1108,8 @@ class Manager extends Singleton
     {
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
-        if ($themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+        if ($themeEnabled
+            && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
 
             $plugin = $this->loadPlugin($pluginName);
