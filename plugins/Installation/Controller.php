@@ -791,6 +791,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'zlib',
             'SPL',
             'iconv',
+            'php5-json',
         );
         // HHVM provides the required subset of Reflection but lists Reflections as missing
         if (!defined('HHVM_VERSION')) {
@@ -1009,6 +1010,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
             'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
             'pack'            => 'Installation_SystemCheckPackHelp',
+            'php5-json'       => 'Installation_SystemCheckJsonHelp',
         );
 
         $view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));

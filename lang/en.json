@@ -1163,6 +1163,7 @@
         "SystemCheckGzuncompressHelp": "You need to enable the zlib extension and gzuncompress function.",
         "SystemCheckPackHelp": "The pack() function is required to track visitors in Piwik.",
         "SystemCheckMbstring": "mbstring",
+        "SystemCheckJsonHelp": "The php5-json extension is required for Piwik to read and write JSON data.",
         "SystemCheckMbstringExtensionHelp": "The mbstring extension is required for multibyte characters in API responses using comma-separated values (CSV) or tab-separated values (TSV).",
         "SystemCheckMbstringExtensionGeoIpHelp": "It is also required for the GeoIP integration to work.",
         "SystemCheckMbstringFuncOverloadHelp": "You should set mbstring.func_overload to \"0\".",
