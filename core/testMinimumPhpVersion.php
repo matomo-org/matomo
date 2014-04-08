@@ -44,6 +44,12 @@ if ($minimumPhpInvalid) {
 					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
 
+    if (!function_exists('json_encode')) {
+        $piwik_errorMessage .= "<p><strong>Piwik requires the php5-json extension which provides the functions <code>json_encode()</code> and <code>json_decode()</code></strong></p>
+					<p>It appears your PHP has not yet installed the php5-json extension.
+					To use Piwik, please ask your web host to install php5-json or install it yourself, for example on debian system: <code>sudo apt-get install php5-json</code>. <br/>Then restart your webserver and refresh this page.</p>";
+    }
+
     if (!file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php') && !file_exists(PIWIK_INCLUDE_PATH . '/../../autoload.php')) {
         $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): \n\n"
             . "<pre> curl -sS https://getcomposer.org/installer | php \n\n php composer.phar install\n\n</pre> ";
