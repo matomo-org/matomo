@@ -114,8 +114,13 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache) use ($testingEnvironment) {
-                $config->setTestEnvironment();
+            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache, $local) use ($testingEnvironment) {
+                $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
+
+                if ($testingEnvironment->configFileLocal) {
+                    unset($cache['General']);
+                    $config->General['session_save_handler'] = 'dbtables';
+                }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
                 $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
