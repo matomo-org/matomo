@@ -791,7 +791,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'zlib',
             'SPL',
             'iconv',
-            'php5-json',
+            'json',
         );
         // HHVM provides the required subset of Reflection but lists Reflections as missing
         if (!defined('HHVM_VERSION')) {
