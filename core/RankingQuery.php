@@ -13,7 +13,7 @@ use Exception;
 
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
- * the number of results while aggregating the rest in an a new "Others" row. It als
+ * the number of results while aggregating the rest in an a new "Others" row. It also
  * allows for some more fancy things that can be configured via method calls of this
  * class. The advanced use cases are explained in the doc comments of the methods.
  *

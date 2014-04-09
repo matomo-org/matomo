@@ -67,7 +67,7 @@ class Events extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'metric',
             'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'Events_NbEvents',
+            'name'           => 'Events_TotalEvents',
             'segment'        => 'events',
             'sqlSegment'     => 'log_visit.visit_total_events',
             'acceptedValues' => 'To select all visits who triggered an Event, use: &segment=events>0',

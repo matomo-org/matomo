@@ -242,8 +242,6 @@ class Metrics
             'exit_rate'                     => 'General_ColumnExitRate',
         );
 
-        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
-
         $dailySum = ' (' . Piwik::translate('General_DailySum') . ')';
         $afterEntry = ' ' . Piwik::translate('General_AfterEntry');
 
@@ -261,6 +259,8 @@ class Metrics
          * @param string $translations The array mapping of column_name => Plugin_TranslationForColumn
          */
         Piwik::postEvent('Metrics.getDefaultMetricTranslations', array(&$translations));
+
+        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
         return $translations;
     }
