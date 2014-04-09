@@ -93,6 +93,9 @@ class PluginsArchiver
             /** @var Archiver $archiver */
             $archiver = new $archiverClass($this->archiveProcessor);
 
+            if(!$archiver->isEnabled()) {
+                continue;
+            }
             if($this->shouldProcessReportsForPlugin($pluginName)) {
                 if($this->isSingleSiteDayArchive) {
                     $archiver->aggregateDayReport();

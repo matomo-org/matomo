@@ -25,6 +25,7 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
     protected function getApiToCall()
     {
         return array(
+            'Events',
             'Actions.get',
             'Live.getLastVisitsDetails',
             'Actions.getPageUrls',

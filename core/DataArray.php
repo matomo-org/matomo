@@ -204,6 +204,43 @@ class DataArray
         );
     }
 
+    public function sumMetricsEvents($label, $row)
+    {
+        if (!isset($this->data[$label])) {
+            $this->data[$label] = self::makeEmptyEventRow();
+        }
+        $this->doSumEventsMetrics($row, $this->data[$label], $onlyMetricsAvailableInActionsTable = true);
+    }
+
+    static protected function makeEmptyEventRow()
+    {
+        return array(
+            Metrics::INDEX_NB_UNIQ_VISITORS => 0,
+            Metrics::INDEX_NB_VISITS        => 0,
+            Metrics::INDEX_EVENT_NB_HITS    => 0,
+            Metrics::INDEX_EVENT_SUM_EVENT_VALUE => 0,
+            Metrics::INDEX_EVENT_MIN_EVENT_VALUE => 0,
+            Metrics::INDEX_EVENT_MAX_EVENT_VALUE => 0,
+        );
+    }
+
+    const EVENT_VALUE_PRECISION = 2;
+
+    /**
+     * @param array $newRowToAdd
+     * @param array $oldRowToUpdate
+     * @return void
+     */
+    protected function doSumEventsMetrics($newRowToAdd, &$oldRowToUpdate)
+    {
+        $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
+        $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
+        $oldRowToUpdate[Metrics::INDEX_EVENT_NB_HITS] += $newRowToAdd[Metrics::INDEX_EVENT_NB_HITS];
+        $oldRowToUpdate[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] += round($newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE], self::EVENT_VALUE_PRECISION);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = (float)max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = (float)min($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE]);
+    }
+
     /**
      * Generic function that will sum all columns of the given row, at the specified label's row.
      *
@@ -250,6 +287,14 @@ class DataArray
             $this->dataTwoLevels[$parentLabel][$label] = $this->makeEmptyActionRow();
         }
         $this->doSumVisitsMetrics($row, $this->dataTwoLevels[$parentLabel][$label], $onlyMetricsAvailableInActionsTable = true);
+    }
+
+    public function sumMetricsEventsPivot($parentLabel, $label, $row)
+    {
+        if (!isset($this->dataTwoLevels[$parentLabel][$label])) {
+            $this->dataTwoLevels[$parentLabel][$label] = $this->makeEmptyEventRow();
+        }
+        $this->doSumEventsMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
     }
 
     public function setRowColumnPivot($parentLabel, $label, $column, $value)
@@ -336,5 +381,4 @@ class DataArray
         }
         return DataTable::makeFromIndexedArray($dataArray, $subtableByLabel);
     }
-
 }
