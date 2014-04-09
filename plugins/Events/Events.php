@@ -21,19 +21,34 @@ class Events extends \Piwik\Plugin
     {
         return array(
             'API.getSegmentDimensionMetadata'       => 'getSegmentsMetadata',
-            'Metrics.getDefaultMetricTranslations'  => 'getDefaultMetricTranslations',
+            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations',
+            'API.getReportMetadata'                 => 'getReportMetadata',
         );
     }
 
-    public function getDefaultMetricTranslations(&$translations)
+    public function addMetricTranslations(&$translations)
     {
-        $eventTranslations = array(
-            'nb_events'         => 'Events_TotalEvents',
-            'sum_event_value'   => 'Events_TotalValue',
-            'min_event_value'   => 'Events_MinValue',
-            'max_event_value'   => 'Events_MaxValue',
+        $translations = array_merge($translations, $this->getMetricTranslations());
+    }
+
+    public function getMetricDocumentation()
+    {
+        return array(
+            'nb_events'         => 'Events_TotalEventsDocumentation',
+            'sum_event_value'   => 'Events_TotalValueDocumentation',
+            'min_event_value'   => 'Events_MinValueDocumentation',
+            'max_event_value'   => 'Events_MaxValueDocumentation',
         );
-        $translations = array_merge($translations, $eventTranslations);
+    }
+
+    protected function getMetricTranslations()
+    {
+        return array(
+            'nb_events'       => 'Events_TotalEvents',
+            'sum_event_value' => 'Events_TotalValue',
+            'min_event_value' => 'Events_MinValue',
+            'max_event_value' => 'Events_MaxValue',
+        );
     }
 
     public function getSegmentsMetadata(&$segments)
@@ -92,4 +107,37 @@ class Events extends \Piwik\Plugin
 //            'bind' => $valueToMatch
 //        );
 //    }
+
+    public function getReportMetadata(&$reports)
+    {
+        $metrics = $this->getMetricTranslations();
+        $documentation = $this->getMetricDocumentation();
+
+        // Translate
+        $callback = array('\\Piwik\\Piwik', 'translate');
+        $metrics = array_map($callback, $metrics);
+        $documentation = array_map($callback, $documentation);
+
+        $reportsMetadata = array(
+            array('Events_EventCategories', 'Events_EventCategory', 'getCategory'),
+            array('Events_EventActions', 'Events_EventAction', 'getAction'),
+            array('Events_EventNames', 'Events_EventName', 'getName'),
+        );
+
+        foreach($reportsMetadata as $order => $reportMeta) {
+            $reports[] = array(
+                'category'              => Piwik::translate('Events_Events'),
+                'name'                  => Piwik::translate($reportMeta[0]),
+                'module'                => 'Events',
+                'action'                => $reportMeta[2],
+                'dimension'             => Piwik::translate($reportMeta[1]),
+                'metrics'               => $metrics,
+                'metricsDocumentation'  => $documentation,
+                'processedMetrics'      => false,
+                'actionToLoadSubTables' => API::getInstance()->getSubtableAction($reportMeta[2]),
+                'order'                 => $order
+            );
+
+        }
+    }
 }

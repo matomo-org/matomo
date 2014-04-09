@@ -3,13 +3,20 @@
         "Events": "Events",
         "Event": "Event",
         "EventCategory": "Event Category",
+        "EventCategories": "Event Categories",
         "EventAction": "Event Action",
+        "EventActions": "Event Actions",
         "EventName": "Event Name",
+        "EventNames": "Event Names",
         "EventValue": "Event Value",
-        "TotalValue": "Total value",
         "TotalEvents": "Total events",
+        "TotalValue": "Total value",
         "MinValue": "Minimum value",
         "MaxValue": "Maximum value",
+        "TotalEventsDocumentation": "Total number of events",
+        "TotalValueDocumentation": "Total value of events (sum of event values)",
+        "MinValueDocumentation": "Minimum value for this event",
+        "MaxValueDocumentation": "Maximum value for this event",
         "NameNotSet": "(event name not set)"
     }
 }

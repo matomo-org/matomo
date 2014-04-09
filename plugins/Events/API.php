@@ -22,6 +22,37 @@ use Piwik\Piwik;
  */
 class API extends \Piwik\Plugin\API
 {
+    protected $mappingApiToApiLoadsubtables = array(
+        'getCategory' => 'getActionFromCategoryId',
+        'getAction'   => 'getNameFromActionId',
+        'getName'     => 'getActionFromNameId',
+    );
+
+    protected $mappingApiToRecord = array(
+        'getCategory'             => Archiver::EVENTS_CATEGORY_ACTION_RECORD_NAME,
+        'getAction'               => Archiver::EVENTS_ACTION_NAME_RECORD_NAME,
+        'getName'                 => Archiver::EVENTS_NAME_ACTION_RECORD_NAME,
+        'getActionFromCategoryId' => Archiver::EVENTS_CATEGORY_ACTION_RECORD_NAME,
+        'getNameFromCategoryId'   => Archiver::EVENTS_CATEGORY_NAME_RECORD_NAME,
+        'getCategoryFromActionId' => Archiver::EVENTS_ACTION_CATEGORY_RECORD_NAME,
+        'getNameFromActionId'     => Archiver::EVENTS_ACTION_NAME_RECORD_NAME,
+        'getActionFromNameId'     => Archiver::EVENTS_NAME_ACTION_RECORD_NAME,
+        'getCategoryFromNameId'   => Archiver::EVENTS_NAME_CATEGORY_RECORD_NAME,
+    );
+
+    /**
+     * @ignore
+     */
+    public function getSubtableAction($api)
+    {
+        return $this->mappingApiToApiLoadsubtables[$api];
+    }
+
+    protected function getRecordNameForAction($method)
+    {
+        return $this->mappingApiToRecord[$method];
+    }
+
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -40,46 +71,46 @@ class API extends \Piwik\Plugin\API
 
     public function getCategory($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_CATEGORY_ACTION_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded);
     }
 
     public function getAction($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_ACTION_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded);
     }
 
     public function getName($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_NAME_ACTION_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded);
     }
 
     public function getActionFromCategoryId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_CATEGORY_ACTION_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
     }
 
     public function getNameFromCategoryId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_CATEGORY_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
     }
 
     public function getCategoryFromActionId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_ACTION_CATEGORY_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
     }
 
     public function getNameFromActionId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_ACTION_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
     }
 
     public function getActionFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_NAME_ACTION_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
     }
 
     public function getCategoryFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(Archiver::EVENTS_NAME_CATEGORY_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable($this->getRecordNameForAction(__FUNCTION__), $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
     }
 }

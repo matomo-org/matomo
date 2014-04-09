@@ -25,7 +25,9 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
     protected function getApiToCall()
     {
         return array(
-            'Events',
+            'Events.getCategory',
+            'Events.getAction',
+            'Events.getName',
             'Actions.get',
             'Live.getLastVisitsDetails',
             'Actions.getPageUrls',
@@ -42,20 +44,21 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
         $dateTime = self::$fixture->dateTime;
         $idSite1 = self::$fixture->idSite;
 
-        $apiToCall = $this->getApiToCall();
+        $apiToCallProcessedReportMetadata = $this->getApiToCall();
 
         $dayPeriod = 'day';
         $periods = array($dayPeriod, 'month');
 
+        $apiEventAndAction = array('Events', 'Actions.getPageUrls');
         $result = array(
-            array($apiToCall, array(
+            array($apiToCallProcessedReportMetadata, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $periods,
                 'setDateLastN' => false,
                 'testSuffix'   => '')),
 
-            array('Actions.getPageUrls', array(
+            array($apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
@@ -63,8 +66,7 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
                 'setDateLastN' => false,
                 'testSuffix'   => '')
             ),
-            // FIXMEA: Add Events.get* here
-            array('Actions.getPageUrls', array(
+            array($apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
@@ -74,13 +76,13 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
             ),
 
             // eventAction should not match any page view
-            array('Actions.getPageUrls', array(
+            array($apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
                 'segment'      => "eventAction=@play",
                 'setDateLastN' => false,
-                'testSuffix'   => '_eventSegmentMatchNoAction')
+                'testSuffix'   => '_segmentMatchesEventActionPlay')
             ),
 
             // eventValue should not match any page view
@@ -94,10 +96,13 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
 //            ),
         );
 
-        // testing metadata API for one metadata report
-        $apiToCall = array ( end($apiToCall) );
-
-        foreach ($apiToCall as $api) {
+        $apiToCallProcessedReportMetadata = array(
+            'Events.getCategory',
+            'Events.getAction',
+            'Events.getName',
+        );
+        // testing metadata API for Events reports
+        foreach ($apiToCallProcessedReportMetadata as $api) {
             list($apiModule, $apiAction) = explode(".", $api);
 
             $result[] = array(

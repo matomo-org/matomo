@@ -4,10 +4,10 @@
 	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
 	<metadata>
 		<category>Events</category>
-		<name>Event Actions</name>
+		<name>Event Names</name>
 		<module>Events</module>
-		<action>getAction</action>
-		<dimension>Event Action</dimension>
+		<action>getName</action>
+		<dimension>Event Name</dimension>
 		<metrics>
 			<nb_events>Total events</nb_events>
 			<sum_event_value>Total value</sum_event_value>
@@ -20,13 +20,13 @@
 			<min_event_value>Minimum value for this event</min_event_value>
 			<max_event_value>Maximum value for this event</max_event_value>
 		</metricsDocumentation>
-		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
-		<uniqueId>Events_getAction</uniqueId>
+		<actionToLoadSubTables>getActionFromNameId</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getName&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getName&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<uniqueId>Events_getName</uniqueId>
 	</metadata>
 	<columns>
-		<label>Event Action</label>
+		<label>Event Name</label>
 		<nb_events>Total events</nb_events>
 		<sum_event_value>Total value</sum_event_value>
 		<min_event_value>Minimum value</min_event_value>
@@ -35,84 +35,49 @@
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
-				<label>playTrailer</label>
-				<nb_events>6</nb_events>
-				<sum_event_value>0</sum_event_value>
+				<label>Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>16</nb_events>
+				<sum_event_value>19.32</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<max_event_value>9.66</max_event_value>
 			</row>
 			<row>
-				<label>Search</label>
-				<nb_events>6</nb_events>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-			</row>
-			<row>
-				<label>play25%</label>
-				<nb_events>4</nb_events>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-			</row>
-			<row>
-				<label>play50%</label>
-				<nb_events>4</nb_events>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-			</row>
-			<row>
-				<label>play75%</label>
-				<nb_events>4</nb_events>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-			</row>
-			<row>
-				<label>playEnd</label>
-				<nb_events>4</nb_events>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-			</row>
-			<row>
-				<label>rating</label>
-				<nb_events>6</nb_events>
-				<sum_event_value>57.32</sum_event_value>
+				<label>La fiancée de l&amp;#039;eau</label>
+				<nb_events>14</nb_events>
+				<sum_event_value>38</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>10</max_event_value>
 			</row>
 			<row>
-				<label>clickBuyNow</label>
-				<nb_events>2</nb_events>
+				<label>(event name not set)</label>
+				<nb_events>6</nb_events>
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 			</row>
 			<row>
-				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<label>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
 				<nb_events>2</nb_events>
 				<sum_event_value>19.32</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>9.66</max_event_value>
 			</row>
 			<row>
-				<label>play</label>
+				<label>Ponyo (崖の上のポニョ)</label>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 			</row>
 			<row>
-				<label>playStart</label>
+				<label>Princess Mononoke (もののけ姫)</label>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 			</row>
 			<row>
-				<label>Purchase</label>
+				<label>Search query here</label>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
@@ -128,18 +93,6 @@
 	</reportData>
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
-			<row>
-				
-			</row>
-			<row>
-				
-			</row>
-			<row>
-				
-			</row>
-			<row>
-				
-			</row>
 			<row>
 				
 			</row>
