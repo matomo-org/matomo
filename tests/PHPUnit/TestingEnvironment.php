@@ -178,12 +178,6 @@ class Piwik_TestingEnvironment
 
     public static function addSendMailHook()
     {
-        static $added = false;
-        if ($added) {
-            return;
-        }
-        $added = true;
-
         Piwik::addAction('Test.Mail.send', function($mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
 
