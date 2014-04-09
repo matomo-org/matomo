@@ -1,4 +1,5 @@
 {% extends '@CoreUpdater/layout.twig' %}
+{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% block content %}
 <br/>
@@ -11,6 +12,17 @@
     <p>{{ 'CoreUpdater_YouMustDownloadPackageOrFixPermissions'|translate(piwik_new_version) }}
         {{ makeWritableCommands|raw }}
     </p>
+{% endif %}
+
+{% if incompatiblePlugins %}
+    <p>{{ 'CoreUpdater_IncompatbilePluginsWillBeDisabledInfo'|translate(piwik_new_version) }}</p>
+
+    <ul style="list-style: disc;">
+    {% for plugin in incompatiblePlugins %}
+        <li>{{ pluginsMacro.missingRequirementsInfo(plugin.getPluginName, plugin.getInformation, plugin.getMissingDependencies(piwik_new_version), marketplacePlugins) }}</li>
+    {% endfor %}
+    </ul>
+    <p> </p>
 {% endif %}
 
 {% if can_auto_update %}

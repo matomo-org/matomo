@@ -9,27 +9,27 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
-use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Console;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin;
+use Piwik\Plugins\CorePluginsAdmin\Marketplace;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Unzip;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
-use Piwik\UpdaterErrorException;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\View\OneClickDone;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  *
@@ -44,6 +44,7 @@ class Controller extends \Piwik\Plugin\Controller
     private $errorMessages = array();
     private $deactivatedPlugins = array();
     private $pathPiwikZip = false;
+    private $newVersion;
 
     static protected function getLatestZipUrl($newVersion)
     {
@@ -60,11 +61,26 @@ class Controller extends \Piwik\Plugin\Controller
         $newVersion = $this->checkNewVersionIsAvailableOrDie();
 
         $view = new View('@CoreUpdater/newVersionAvailable');
+
         $view->piwik_version = Version::VERSION;
         $view->piwik_new_version = $newVersion;
+
+        $incompatiblePlugins = $this->getIncompatiblePlugins($newVersion);
+
+        $marketplacePlugins = array();
+        try {
+            if (!empty($incompatiblePlugins)) {
+                $marketplace = new Marketplace();
+                $marketplacePlugins = $marketplace->getAllAvailablePluginNames();
+            }
+        } catch (\Exception $e) {}
+
+        $view->marketplacePlugins = $marketplacePlugins;
+        $view->incompatiblePlugins = $incompatiblePlugins;
         $view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
-        $view->can_auto_update = Filechecks::canAutoUpdate();
+        $view->can_auto_update  = Filechecks::canAutoUpdate();
         $view->makeWritableCommands = Filechecks::getAutoUpdateMakeWritableMessage();
+
         return $view->render();
     }
 
@@ -80,10 +96,20 @@ class Controller extends \Piwik\Plugin\Controller
             array('oneClick_Download', Piwik::translate('CoreUpdater_DownloadingUpdateFromX', $url)),
             array('oneClick_Unpack', Piwik::translate('CoreUpdater_UnpackingTheUpdate')),
             array('oneClick_Verify', Piwik::translate('CoreUpdater_VerifyingUnpackedFiles')),
-            array('oneClick_CreateConfigFileBackup', Piwik::translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP)),
-            array('oneClick_Copy', Piwik::translate('CoreUpdater_InstallingTheLatestVersion')),
-            array('oneClick_Finished', Piwik::translate('CoreUpdater_PiwikUpdatedSuccessfully')),
+            array('oneClick_CreateConfigFileBackup', Piwik::translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP))
         );
+
+        $incompatiblePlugins = $this->getIncompatiblePlugins($this->newVersion);
+        if (!empty($incompatiblePlugins)) {
+            $namesToDisable = array();
+            foreach ($incompatiblePlugins as $incompatiblePlugin) {
+                $namesToDisable[] = $incompatiblePlugin->getPluginName();
+            }
+            $steps[] = array('oneClick_DisableIncompatiblePlugins', Piwik::translate('DisablingIncompatiblePlugins', implode(', ', $namesToDisable)));
+        }
+
+        $steps[] = array('oneClick_Copy', Piwik::translate('CoreUpdater_InstallingTheLatestVersion'));
+        $steps[] = array('oneClick_Finished', Piwik::translate('CoreUpdater_PiwikUpdatedSuccessfully'));
 
         $errorMessage = false;
         $messages = array();
@@ -202,6 +228,15 @@ class Controller extends \Piwik\Plugin\Controller
         $configFileBefore = PIWIK_USER_PATH . '/config/global.ini.php';
         $configFileAfter = PIWIK_USER_PATH . self::CONFIG_FILE_BACKUP;
         Filesystem::copy($configFileBefore, $configFileAfter);
+    }
+
+    private function oneClick_DisableIncompatiblePlugins()
+    {
+        $plugins = $this->getIncompatiblePlugins($this->newVersion);
+
+        foreach ($plugins as $plugin) {
+            $plugin->deactivate();
+        }
     }
 
     private function oneClick_Copy()
@@ -388,6 +423,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view->warningMessages = $this->warningMessages;
         $view->errorMessages = $this->errorMessages;
         $view->deactivatedPlugins = $this->deactivatedPlugins;
+    }
+
+    private function getIncompatiblePlugins($piwikVersion)
+    {
+        return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
     }
 
 }

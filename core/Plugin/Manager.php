@@ -297,7 +297,6 @@ class Manager extends Singleton
         $this->clearCache($pluginName);
     }
 
-
     /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled
@@ -379,7 +378,6 @@ class Manager extends Singleton
 
         if (!$this->isPluginInFilesystem($pluginName)) {
             throw new \Exception("Plugin '$pluginName' cannot be found in the filesystem in plugins/ directory.");
-            return;
         }
         $this->deactivateThemeIfTheme($pluginName);
 
@@ -387,7 +385,6 @@ class Manager extends Singleton
         $plugin = $this->loadPlugin($pluginName);
         if ($plugin === null) {
             throw new \Exception("The plugin '$pluginName' was found in the filesystem, but could not be loaded.'");
-            return;
         }
         $this->installPluginIfNecessary($plugin);
         $plugin->activate();
@@ -528,6 +525,7 @@ class Manager extends Singleton
         foreach ($loadedPlugins as $oPlugin) {
             $pluginName = $oPlugin->getPluginName();
             $plugins[$pluginName]['info'] = $oPlugin->getInformation();
+            $plugins[$pluginName]['missingRequirements'] = $oPlugin->getMissingDependencies();
         }
         return $plugins;
     }
@@ -580,10 +578,6 @@ class Manager extends Singleton
      */
     public function loadPlugins(array $pluginsToLoad)
     {
-        // case no plugins to load
-        if (is_null($pluginsToLoad)) {
-            $pluginsToLoad = array();
-        }
         $pluginsToLoad = array_unique($pluginsToLoad);
         $this->pluginsToLoad = $pluginsToLoad;
         $this->reloadPlugins();
@@ -659,6 +653,24 @@ class Manager extends Singleton
     }
 
     /**
+     * @param  string $piwikVersion
+     * @return Plugin[]
+     */
+    public function getIncompatiblePlugins($piwikVersion)
+    {
+        $plugins = $this->getLoadedPlugins();
+
+        $incompatible = array();
+        foreach ($plugins as $plugin) {
+            if ($plugin->hasMissingDependencies($piwikVersion)) {
+                $incompatible[] = $plugin;
+            }
+        }
+
+        return $incompatible;
+    }
+
+    /**
      * Returns an array of plugins that are currently loaded and activated,
      * mapping loaded plugin names with their plugin objects, eg,
      *
@@ -731,6 +743,11 @@ class Manager extends Singleton
             ) {
                 $newPlugin = $this->loadPlugin($pluginName);
                 if ($newPlugin === null) {
+                    continue;
+                }
+
+                if ($newPlugin->hasMissingDependencies()) {
+                    $this->deactivatePlugin($pluginName);
                     continue;
                 }
 

@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
 /**
@@ -273,6 +274,34 @@ class Plugin
     final public function getPluginName()
     {
         return $this->pluginName;
+    }
+
+    /**
+     * Detect whether there are any missing dependencies.
+     *
+     * @param null $piwikVersion Defaults to the current Piwik version
+     * @return bool
+     */
+    public function hasMissingDependencies($piwikVersion = null)
+    {
+        $requirements = $this->getMissingDependencies($piwikVersion);
+
+        return !empty($requirements);
+    }
+
+    public function getMissingDependencies($piwikVersion = null)
+    {
+        if (empty($this->pluginInformation['require'])) {
+            return array();
+        }
+
+        $dependency = new Dependency();
+
+        if (!is_null($piwikVersion)) {
+            $dependency->setPiwikVersion($piwikVersion);
+        }
+
+        return $dependency->getMissingDependencies($this->pluginInformation['require']);
     }
 
     /**

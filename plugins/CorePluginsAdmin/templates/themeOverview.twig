@@ -24,7 +24,7 @@
     <p class="updateAvailableNotice">{{ 'CorePluginsAdmin_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}</p>
 {% endif %}
 
-{{ plugins.missingRequirementsNotice(plugin) }}
+{{ plugins.missingRequirementsPleaseUpdateNotice(plugin) }}
 
 <a href="javascript:void(0);" class="more"><img  title="{{ 'General_MoreDetails'|translate }}"
             class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
