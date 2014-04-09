@@ -98,14 +98,13 @@ class Controller extends \Piwik\Plugin\Controller
             array('oneClick_Verify', Piwik::translate('CoreUpdater_VerifyingUnpackedFiles')),
             array('oneClick_CreateConfigFileBackup', Piwik::translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP))
         );
-
         $incompatiblePlugins = $this->getIncompatiblePlugins($this->newVersion);
         if (!empty($incompatiblePlugins)) {
             $namesToDisable = array();
             foreach ($incompatiblePlugins as $incompatiblePlugin) {
                 $namesToDisable[] = $incompatiblePlugin->getPluginName();
             }
-            $steps[] = array('oneClick_DisableIncompatiblePlugins', Piwik::translate('DisablingIncompatiblePlugins', implode(', ', $namesToDisable)));
+            $steps[] = array('oneClick_DisableIncompatiblePlugins', Piwik::translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $namesToDisable)));
         }
 
         $steps[] = array('oneClick_Copy', Piwik::translate('CoreUpdater_InstallingTheLatestVersion'));
@@ -235,7 +234,7 @@ class Controller extends \Piwik\Plugin\Controller
         $plugins = $this->getIncompatiblePlugins($this->newVersion);
 
         foreach ($plugins as $plugin) {
-            $plugin->deactivate();
+            PluginManager::getInstance()->deactivatePlugin($plugin->getPluginName());
         }
     }
 
