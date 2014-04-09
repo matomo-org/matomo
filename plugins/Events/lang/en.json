@@ -9,6 +9,7 @@
         "TotalValue": "Total value",
         "TotalEvents": "Total events",
         "MinValue": "Minimum value",
-        "MaxValue": "Maximum value"
+        "MaxValue": "Maximum value",
+        "NameNotSet": "(event name not set)"
     }
 }

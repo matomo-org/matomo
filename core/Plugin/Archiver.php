@@ -120,4 +120,14 @@ abstract class Archiver
     {
         return $this->getProcessor()->getLogAggregator();
     }
+
+    /**
+     * Whether this Archiver should be used or not.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return true;
+    }
 }

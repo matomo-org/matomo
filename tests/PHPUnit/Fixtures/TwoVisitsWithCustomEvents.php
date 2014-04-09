@@ -135,6 +135,17 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Fixture
         $this->moveTimeForward($vis, 244);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'play75%', 'Spirited Away (千と千尋の神隠し)'));
+
+        // trackEvent without a name
+        $this->moveTimeForward($vis, 150);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
+        $this->moveTimeForward($vis, 251);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search', 'Search query here'));
+        $this->moveTimeForward($vis, 352);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
+        $this->moveTimeForward($vis, 453);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Purchase'));
+
         $this->moveTimeForward($vis, 266);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'playEnd', 'Spirited Away (千と千尋の神隠し)'));
