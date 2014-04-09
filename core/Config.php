@@ -160,7 +160,7 @@ class Config extends Singleton
         }
 
         // to avoid weird session error in travis
-        $this->configLocal['General']['session_save_handler'] = 'dbtables';
+        $this->configCache['General']['session_save_handler'] = 'dbtables';
     }
 
     /**
