@@ -1,6 +1,10 @@
 {
     "DevicesDetection": {
         "Camera": "Kamera",
-        "Device": "Enhet"
+        "Device": "Enhet",
+        "Smartphone": "Smarttelefon",
+        "submenu": "Enheter",
+        "Tablet": "Nettbrett",
+        "TV": "TV"
     }
 }
