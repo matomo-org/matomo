@@ -736,7 +736,6 @@
         "Inactive": "Inactive",
         "Deactivate": "Deactivate",
         "Activate": "Activate",
-        "ActivationNotPossible": "Activation of %s is not possible",
         "PluginRequirement": "%1$s requires %2$s.",
         "EmailToEnquireUpdatedVersion": "Please email %1$s and enquire an updated version of %2$s.",
         "MenuPlatform": "Platform",

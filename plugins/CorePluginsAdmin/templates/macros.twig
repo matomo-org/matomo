@@ -171,8 +171,16 @@
                         {% endif %}
                     </td>
                     <td class="desc">
+                        <div class="plugin-desc-missingrequirements">
+                            {% if plugin.missingRequirements is defined and plugin.missingRequirements %}
+                                {{ _self.missingRequirementsInfo(name, plugin.info, plugin.missingRequirements, marketplacePluginNames) }}
+                                <br />
+                            {% endif %}
+                        </div>
                         <div class="plugin-desc-text">
+
                             {{ plugin.info.description|raw|nl2br }}
+
                             {% if plugin.info.homepage|default is not empty and plugin.info.homepage not in [
                                   'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/'
                             ] %}
@@ -229,13 +237,7 @@
                             {% if plugin.activated %}
                                 <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&nonce={{ deactivateNonce }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
                             {% elseif plugin.missingRequirements %}
-                                <a ng-click="{{ name }}.outdated=true" >{{ 'CorePluginsAdmin_Activate'|translate }}</a>
-                                <span ng-init="{{ name }}.outdated" piwik-dialog="{{ name }}.outdated" class="ui-confirm">
-                                    <h2>{{ 'CorePluginsAdmin_ActivationNotPossible'|translate(name) }}</h2>
-                                    <p style="text-align: center">
-                                    {{ _self.missingRequirementsInfo(name, plugin.info, plugin.missingRequirements, marketplacePluginNames) }}
-                                    </p>
-                                </span>
+                                -
                             {% else %}
                                 <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&nonce={{  activateNonce }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
                             {% endif %}
