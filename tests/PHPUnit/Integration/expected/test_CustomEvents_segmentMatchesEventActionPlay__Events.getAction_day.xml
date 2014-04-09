@@ -6,8 +6,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_events>6</nb_events>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<subtable>
 			<row>
 				<label>Ponyo (崖の上のポニョ)</label>
@@ -15,8 +15,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 			<row>
 				<label>Princess Mononoke (もののけ姫)</label>
@@ -24,8 +24,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 			<row>
 				<label>Spirited Away (千と千尋の神隠し)</label>
@@ -33,8 +33,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 		</subtable>
 	</row>
@@ -44,8 +44,8 @@
 		<nb_visits>4</nb_visits>
 		<nb_events>4</nb_events>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<subtable>
 			<row>
 				<label>La fiancée de l&amp;#039;eau</label>
@@ -53,8 +53,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 			<row>
 				<label>Spirited Away (千と千尋の神隠し)</label>
@@ -62,8 +62,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 		</subtable>
 	</row>
@@ -73,8 +73,8 @@
 		<nb_visits>4</nb_visits>
 		<nb_events>4</nb_events>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<subtable>
 			<row>
 				<label>La fiancée de l&amp;#039;eau</label>
@@ -82,8 +82,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 			<row>
 				<label>Spirited Away (千と千尋の神隠し)</label>
@@ -91,8 +91,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 		</subtable>
 	</row>
@@ -102,8 +102,8 @@
 		<nb_visits>4</nb_visits>
 		<nb_events>4</nb_events>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<subtable>
 			<row>
 				<label>La fiancée de l&amp;#039;eau</label>
@@ -111,8 +111,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 			<row>
 				<label>Spirited Away (千と千尋の神隠し)</label>
@@ -120,8 +120,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 		</subtable>
 	</row>
@@ -131,8 +131,8 @@
 		<nb_visits>4</nb_visits>
 		<nb_events>4</nb_events>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<subtable>
 			<row>
 				<label>La fiancée de l&amp;#039;eau</label>
@@ -140,8 +140,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 			<row>
 				<label>Spirited Away (千と千尋の神隠し)</label>
@@ -149,8 +149,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 		</subtable>
 	</row>
@@ -160,8 +160,8 @@
 		<nb_visits>2</nb_visits>
 		<nb_events>2</nb_events>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<subtable>
 			<row>
 				<label>La fiancée de l&amp;#039;eau</label>
@@ -169,8 +169,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 		</subtable>
 	</row>
@@ -180,8 +180,8 @@
 		<nb_visits>2</nb_visits>
 		<nb_events>2</nb_events>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<subtable>
 			<row>
 				<label>Spirited Away (千と千尋の神隠し)</label>
@@ -189,8 +189,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 			</row>
 		</subtable>
 	</row>
