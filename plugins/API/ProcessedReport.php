@@ -326,6 +326,7 @@ class ProcessedReport
                 Piwik::translate('VisitsSummary_VisitsSummary'),
                 Piwik::translate('Goals_Ecommerce'),
                 Piwik::translate('General_Actions'),
+                Piwik::translate('Events_Events'),
                 Piwik::translate('Actions_SubmenuSitesearch'),
                 Piwik::translate('Referrers_Referrers'),
                 Piwik::translate('Goals_Goals'),
