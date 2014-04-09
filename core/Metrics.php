@@ -69,6 +69,12 @@ class Metrics
     const INDEX_PAGE_MIN_TIME_GENERATION = 32;
     const INDEX_PAGE_MAX_TIME_GENERATION = 33;
 
+    // Events
+    const INDEX_EVENT_NB_HITS = 34;
+    const INDEX_EVENT_SUM_EVENT_VALUE = 35;
+    const INDEX_EVENT_MIN_EVENT_VALUE = 36;
+    const INDEX_EVENT_MAX_EVENT_VALUE = 37;
+
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
     const INDEX_GOAL_REVENUE = 2;
@@ -118,6 +124,13 @@ class Metrics
         Metrics::INDEX_ECOMMERCE_ITEM_PRICE                  => 'price',
         Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED           => 'price_viewed',
         Metrics::INDEX_ECOMMERCE_ORDERS                      => 'orders',
+
+        // Events
+        Metrics::INDEX_EVENT_NB_HITS                         => 'nb_hits',
+        Metrics::INDEX_EVENT_SUM_EVENT_VALUE                 => 'sum_event_value',
+        Metrics::INDEX_EVENT_MIN_EVENT_VALUE                 => 'min_event_value',
+        Metrics::INDEX_EVENT_MAX_EVENT_VALUE                 => 'max_event_value',
+
     );
 
     static public $mappingFromIdToNameGoal = array(
@@ -131,20 +144,6 @@ class Metrics
         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
     );
 
-    static public $mappingFromNameToId = array(
-        'nb_uniq_visitors'           => Metrics::INDEX_NB_UNIQ_VISITORS,
-        'nb_visits'                  => Metrics::INDEX_NB_VISITS,
-        'nb_actions'                 => Metrics::INDEX_NB_ACTIONS,
-        'max_actions'                => Metrics::INDEX_MAX_ACTIONS,
-        'sum_visit_length'           => Metrics::INDEX_SUM_VISIT_LENGTH,
-        'bounce_count'               => Metrics::INDEX_BOUNCE_COUNT,
-        'nb_visits_converted'        => Metrics::INDEX_NB_VISITS_CONVERTED,
-        'nb_conversions'             => Metrics::INDEX_NB_CONVERSIONS,
-        'revenue'                    => Metrics::INDEX_REVENUE,
-        'goals'                      => Metrics::INDEX_GOALS,
-        'sum_daily_nb_uniq_visitors' => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
-    );
-    
     static protected $metricsAggregatedFromLogs = array(
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_NB_VISITS,
