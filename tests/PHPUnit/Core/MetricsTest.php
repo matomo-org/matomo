@@ -66,6 +66,10 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
             'price' => 25,
             'price_viewed' => 27,
             'orders' => 26,
+            'nb_events' => 34,
+            'sum_event_value' => 35,
+            'min_event_value' => 36,
+            'max_event_value' => 37,
         );
         $this->assertEquals($expectedMapping, $mapping);
     }
