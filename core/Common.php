@@ -1023,6 +1023,10 @@ class Common
      */
     public static function sendHeader($header, $replace = true)
     {
+        // don't send header in CLI mode
+        if(Common::isPhpCliMode()) {
+            return;
+        }
         if (isset($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING']) && $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING']) {
             @header($header, $replace);
         } else {
