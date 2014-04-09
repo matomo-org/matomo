@@ -1410,7 +1410,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 			track: true,
 			items: 'span',
 			content: function() {
-				return $(this).data('tooltip');
+				return $(this).parent().data('tooltip');
 			},
 			show: false,
 			hide: false,
