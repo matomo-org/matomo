@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="Requested report Events.getAction for Website id=1 not found in the list of available reports. 
+
+ 
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
+</result>

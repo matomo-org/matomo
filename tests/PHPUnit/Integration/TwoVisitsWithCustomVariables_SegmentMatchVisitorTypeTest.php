@@ -79,8 +79,8 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
             'archive_numeric_2010_01' => 142,
 
             // 2) CHECK 'week' archive stored in December (week starts the month before)
-            // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the values of the name + 5 referrers blob)
-            'archive_blob_2009_12'    => 30,
+            // We expect 2 segments * (1 custom variable name + 2 ref metrics + 5 subtable for the values of the name + 5 referrers blob)
+            'archive_blob_2009_12'    => 28,
             // 6 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
             // 3 done flag (referrers, CustomVar, VisitsSummary),
