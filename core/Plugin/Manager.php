@@ -106,7 +106,7 @@ class Manager extends Singleton
     {
         $toLoad = array();
 
-        $loadStandalonePluginsDuringTests = @Config::getInstance()->Debug['enable_load_standalone_plugins_during_tests'];
+        $loadStandalonePluginsDuringTests = @Config::getInstance()->DebugTests['enable_load_standalone_plugins_during_tests'];
 
         foreach($this->readPluginsDirectory() as $plugin) {
             $forceDisable = array(

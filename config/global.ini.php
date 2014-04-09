@@ -86,6 +86,7 @@ tracker_always_new_visitor = 0
 ; Allow automatic upgrades to Beta or RC releases
 allow_upgrades_to_beta = 0
 
+[DebugTests]
 ; Set to 1 by default. If you set to 0, the standalone plugins (with their own git repositories)
 ; will not be loaded when executing tests.
 enable_load_standalone_plugins_during_tests = 1
@@ -276,6 +277,11 @@ datatable_archiving_maximum_rows_actions = 500
 ; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
+
+; maximum number of rows for any of the Events tables (Categories, Actions, Names)
+datatable_archiving_maximum_rows_events = 500
+; maximum number of rows for sub-tables of the Events tables (eg. for the subtables Categories>Actions or Categories>Names).
+datatable_archiving_maximum_rows_subtable_events = 100
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
