@@ -5,7 +5,7 @@ exit; // REMOVE this line to run the script
 // You can get the token on the API page inside your Piwik interface
 $token_auth = 'anonymous';
 
-// we call the REST API and request the 100 first keywords for the last month for the idsite=1
+// we call the REST API and request the 100 first keywords for the last month for the idsite=7
 $url = "http://demo.piwik.org/";
 $url .= "?module=API&method=Referrers.getKeywords";
 $url .= "&idSite=7&period=month&date=yesterday";
