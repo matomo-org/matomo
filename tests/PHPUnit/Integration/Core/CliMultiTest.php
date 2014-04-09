@@ -100,14 +100,14 @@ class Core_CliMultiTest extends IntegrationTestCase
 
     public function test_request_shouldCleanupAllTempFiles_OnceAllRequestsAreFinished()
     {
-        $numFilesBefore = $this->getNumberOfFilesInTmpFolder();
+        $filesBefore = $this->getFilesInTmpFolder();
 
         $this->cliMulti->request($this->buildUrls('getAnswerToLife', 'getAnswerToLife'));
 
-        $numFilesAfter = $this->getNumberOfFilesInTmpFolder();
+        $filesAfter = $this->getFilesInTmpFolder();
 
-        $this->assertSame($numFilesAfter, $numFilesBefore);
-        $this->assertGreaterThan(1, $numFilesAfter);
+        $this->assertSame($filesAfter, $filesBefore, "Diff is :" . implode(", ", array_diff($filesAfter, $filesBefore)));
+        $this->assertGreaterThan(1, $filesAfter);
     }
 
     public function test_request_shouldWorkInCaseItDoesNotRunFromCli()
@@ -216,13 +216,15 @@ class Core_CliMultiTest extends IntegrationTestCase
         return $host . 'tests/PHPUnit/proxy/index.php' . $query . 'testmode=1&token_auth=' . $this->authToken;
     }
 
-    private function getNumberOfFilesInTmpFolder()
+    private function getFilesInTmpFolder()
     {
         $dir = PIWIK_INCLUDE_PATH . '/tmp';
 
-        $numFilesInTmp        = count(\_glob($dir . "/*", null));
-        $numFilesInSubfolders = count(\_glob($dir . "/*/*", null));
+        $files = \_glob($dir . "/*", null);
+        $subFiles = \_glob($dir . "/*/*", null);
 
-        return $numFilesInTmp + $numFilesInSubfolders;
+        $files = array_merge($files, $subFiles);
+
+        return $files;
     }
 }

@@ -551,7 +551,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $expected = $this->normalizePdfContent($expected);
 
         if (empty($expected)) {
-
             if (empty($compareAgainst)) {
                 file_put_contents($processedFilePath, $response);
             }
@@ -563,7 +562,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             return;
         }
 
-        // @todo This should not vary between systems AFAIK... "idsubdatatable can differ"
         $expected = $this->removeXmlElement($expected, 'idsubdatatable', $testNotSmallAfter = false);
         $response = $this->removeXmlElement($response, 'idsubdatatable', $testNotSmallAfter = false);
 
