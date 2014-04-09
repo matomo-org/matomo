@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Version;
+use Piwik\Plugin\Dependency as PluginDependency;
 
 /**
  *
@@ -51,6 +51,14 @@ class Marketplace
         }
 
         return $names;
+    }
+
+    public function getAllAvailablePluginNames()
+    {
+        return array_merge(
+            $this->getAvailablePluginNames(true),
+            $this->getAvailablePluginNames(false)
+        );
     }
 
     public function searchPlugins($query, $sort, $themesOnly)

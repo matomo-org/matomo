@@ -6,15 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\CorePluginsAdmin;
+namespace Piwik\Plugin;
 
 use Piwik\Version;
 use Piwik\Plugin\Manager as PluginManager;
 /**
  *
  */
-class PluginDependency
+class Dependency
 {
+    private $piwikVersion;
+
+    public function __construct()
+    {
+        $this->setPiwikVersion(Version::VERSION);
+    }
 
     public function getMissingDependencies($requires)
     {
@@ -25,19 +31,15 @@ class PluginDependency
         }
 
         foreach ($requires as $name => $requiredVersion) {
-            $currentVersion = $this->getCurrentVersion($name);
-            $comparison     = '>=';
+            $currentVersion  = $this->getCurrentVersion($name);
+            $missingVersions = $this->getMissingVersions($currentVersion, $requiredVersion);
 
-            if (preg_match('{^(<>|!=|>=?|<=?|==?)\s*(.*)}', $requiredVersion, $matches)) {
-                $requiredVersion = $matches[2];
-                $comparison      = $matches[1];
-            }
-
-            if (false === version_compare($currentVersion, $requiredVersion, $comparison)) {
+            if (!empty($missingVersions)) {
                 $missingRequirements[] = array(
                     'requirement'     => $name,
                     'actualVersion'   => $currentVersion,
-                    'requiredVersion' => $comparison . $requiredVersion
+                    'requiredVersion' => $requiredVersion,
+                    'causedBy'        => implode(', ', $missingVersions)
                 );
             }
         }
@@ -45,11 +47,38 @@ class PluginDependency
         return $missingRequirements;
     }
 
+    public function getMissingVersions($currentVersion, $requiredVersion)
+    {
+        $requiredVersions = explode(',' , $requiredVersion);
+
+        $missingVersions = array();
+
+        foreach ($requiredVersions as $required) {
+
+            $comparison = '>=';
+
+            if (preg_match('{^(<>|!=|>=?|<=?|==?)\s*(.*)}', $required, $matches)) {
+                $required   = $matches[2];
+                $comparison = $matches[1];
+            }
+            if (false === version_compare($currentVersion, $required, $comparison)) {
+                $missingVersions[] = $comparison . $required;
+            }
+        }
+
+        return $missingVersions;
+    }
+
+    public function setPiwikVersion($piwikVersion)
+    {
+        $this->piwikVersion = $piwikVersion;
+    }
+
     private function getCurrentVersion($name)
     {
         switch (strtolower($name)) {
             case 'piwik':
-                return Version::VERSION;
+                return $this->piwikVersion;
             case 'php':
                 return PHP_VERSION;
             default:

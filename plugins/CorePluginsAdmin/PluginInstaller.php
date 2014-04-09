@@ -13,6 +13,7 @@ use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Unzip;
+use Piwik\Plugin\Dependency as PluginDependency;
 
 /**
  *

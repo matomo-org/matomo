@@ -74,6 +74,7 @@ class MetadataLoader
             'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
             'version'          => Version::VERSION,
             'theme'            => false,
+            'require'          => array()
         );
     }
 

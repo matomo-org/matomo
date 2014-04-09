@@ -28,7 +28,7 @@
                     </td>
                     <td class="desc">
                         {{ plugin.description }}
-                        {{ _self.missingRequirementsNotice(plugin) }}
+                        {{ _self.missingRequirementsPleaseUpdateNotice(plugin) }}
                     </td>
                     <td class="status">
                         {% if plugin.isActivated %}
@@ -93,7 +93,7 @@
 
 {% endmacro %}
 
-{% macro missingRequirementsNotice(plugin) %}
+{% macro missingRequirementsPleaseUpdateNotice(plugin) %}
     {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
         {% for req in plugin.missingRequirements -%}
             <p class="missingRequirementsNotice">
@@ -106,6 +106,26 @@
         {%- endfor %}
     {% endif %}
 {% endmacro %}
+
+{% macro missingRequirementsInfo(pluginName, metadata, missingRequirements, marketplacePluginNames) %}
+    {% set causedBy = '' %}
+    {% for dependency in missingRequirements %}
+        {% set causedBy = causedBy ~ dependency.requirement|capitalize ~ ' ' ~ dependency.causedBy  %}
+        {% if not loop.last %}
+            {% set causedBy = causedBy ~ ', '  %}
+        {% endif %}
+    {% endfor %}
+
+    {{ 'CorePluginsAdmin_PluginRequirement'|translate(pluginName, causedBy) }}
+
+    {% if metadata is defined
+        and metadata.support is defined
+        and metadata.support.email
+        and pluginName not in marketplacePluginNames %}
+        {{ 'CorePluginsAdmin_EmailToEnquireUpdatedVersion'|translate('<a href="mailto:' ~ metadata.support.email|e('html_attr') ~'">' ~ metadata.support.email ~ '</a>', pluginName)|raw }}
+    {% endif %}
+{% endmacro %}
+
 
 {% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames, displayAdminLinks) %}
 
@@ -208,6 +228,14 @@
                         {% else %}
                             {% if plugin.activated %}
                                 <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&nonce={{ deactivateNonce }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
+                            {% elseif plugin.missingRequirements %}
+                                <a ng-click="{{ name }}.outdated=true" >{{ 'CorePluginsAdmin_Activate'|translate }}</a>
+                                <span ng-init="{{ name }}.outdated" piwik-dialog="{{ name }}.outdated" class="ui-confirm">
+                                    <h2>{{ 'CorePluginsAdmin_ActivationNotPossible'|translate(name) }}</h2>
+                                    <p style="text-align: center">
+                                    {{ _self.missingRequirementsInfo(name, plugin.info, plugin.missingRequirements, marketplacePluginNames) }}
+                                    </p>
+                                </span>
                             {% else %}
                                 <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&nonce={{  activateNonce }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
                             {% endif %}
