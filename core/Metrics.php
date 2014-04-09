@@ -126,7 +126,7 @@ class Metrics
         Metrics::INDEX_ECOMMERCE_ORDERS                      => 'orders',
 
         // Events
-        Metrics::INDEX_EVENT_NB_HITS                         => 'nb_hits',
+        Metrics::INDEX_EVENT_NB_HITS                         => 'nb_events',
         Metrics::INDEX_EVENT_SUM_EVENT_VALUE                 => 'sum_event_value',
         Metrics::INDEX_EVENT_MIN_EVENT_VALUE                 => 'min_event_value',
         Metrics::INDEX_EVENT_MAX_EVENT_VALUE                 => 'max_event_value',
@@ -153,8 +153,6 @@ class Metrics
         Metrics::INDEX_BOUNCE_COUNT,
         Metrics::INDEX_NB_VISITS_CONVERTED,
     );
-
-    /* Used in DataTable Sort filter */
 
     static public function getVisitsMetricNames()
     {
@@ -219,7 +217,7 @@ class Metrics
 
     static public function getDefaultMetricTranslations()
     {
-        $trans = array(
+        $translations = array(
             'label'                         => 'General_ColumnLabel',
             'date'                          => 'General_Date',
             'avg_time_on_page'              => 'General_ColumnAverageTimeOnPage',
@@ -241,23 +239,30 @@ class Metrics
             'exit_nb_uniq_visitors'         => 'General_ColumnUniqueExits',
             'entry_bounce_count'            => 'General_ColumnBounces',
             'exit_bounce_count'             => 'General_ColumnBounces',
-            'exit_rate'                     => 'General_ColumnExitRate'
+            'exit_rate'                     => 'General_ColumnExitRate',
         );
 
-        $trans = array_map(array('\\Piwik\\Piwik','translate'), $trans);
+        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
         $dailySum = ' (' . Piwik::translate('General_DailySum') . ')';
         $afterEntry = ' ' . Piwik::translate('General_AfterEntry');
 
-        $trans['sum_daily_nb_uniq_visitors'] = Piwik::translate('General_ColumnNbUniqVisitors') . $dailySum;
-        $trans['sum_daily_entry_nb_uniq_visitors'] = Piwik::translate('General_ColumnUniqueEntrances') . $dailySum;
-        $trans['sum_daily_exit_nb_uniq_visitors'] = Piwik::translate('General_ColumnUniqueExits') . $dailySum;
-        $trans['entry_nb_actions'] = Piwik::translate('General_ColumnNbActions') . $afterEntry;
-        $trans['entry_sum_visit_length'] = Piwik::translate('General_ColumnSumVisitLength') . $afterEntry;
+        $translations['sum_daily_nb_uniq_visitors'] = Piwik::translate('General_ColumnNbUniqVisitors') . $dailySum;
+        $translations['sum_daily_entry_nb_uniq_visitors'] = Piwik::translate('General_ColumnUniqueEntrances') . $dailySum;
+        $translations['sum_daily_exit_nb_uniq_visitors'] = Piwik::translate('General_ColumnUniqueExits') . $dailySum;
+        $translations['entry_nb_actions'] = Piwik::translate('General_ColumnNbActions') . $afterEntry;
+        $translations['entry_sum_visit_length'] = Piwik::translate('General_ColumnSumVisitLength') . $afterEntry;
 
-        $trans = array_merge(self::getDefaultMetrics(), self::getDefaultProcessedMetrics(), $trans);
+        $translations = array_merge(self::getDefaultMetrics(), self::getDefaultProcessedMetrics(), $translations);
 
-        return $trans;
+        /**
+         * Use this event to register translations for metrics processed by your plugin.
+         *
+         * @param string $translations The array mapping of column_name => Plugin_TranslationForColumn
+         */
+        Piwik::postEvent('Metrics.getDefaultMetricTranslations', array(&$translations));
+
+        return $translations;
     }
 
     static public function getDefaultMetrics()

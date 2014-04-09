@@ -20,8 +20,20 @@ class Events extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
+            'API.getSegmentDimensionMetadata'       => 'getSegmentsMetadata',
+            'Metrics.getDefaultMetricTranslations'  => 'getDefaultMetricTranslations',
         );
+    }
+
+    public function getDefaultMetricTranslations(&$translations)
+    {
+        $eventTranslations = array(
+            'nb_events'         => 'Events_TotalEvents',
+            'sum_event_value'   => 'Events_TotalValue',
+            'min_event_value'   => 'Events_MinValue',
+            'max_event_value'   => 'Events_MaxValue',
+        );
+        $translations = array_merge($translations, $eventTranslations);
     }
 
     public function getSegmentsMetadata(&$segments)
