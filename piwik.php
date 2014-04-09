@@ -85,8 +85,13 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 /*
  * Manually require needed vendor libraries, as composers autorequire would do too much
  */
-require_once PIWIK_INCLUDE_PATH . '/vendor/mustangostang/spyc/Spyc.php';
-require_once PIWIK_INCLUDE_PATH . '/vendor/piwik/device-detector/DeviceDetector.php';
+if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
+    $vendorDirectory = PIWIK_INCLUDE_PATH . '/vendor';
+} else {
+    $vendorDirectory = PIWIK_INCLUDE_PATH . '/../..';
+}
+require_once $vendorDirectory . '/mustangostang/spyc/Spyc.php';
+require_once $vendorDirectory . '/piwik/device-detector/DeviceDetector.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
