@@ -38,8 +38,7 @@ class CustomVariables extends \Piwik\Plugin
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
-            'ViewDataTable.configure'         => 'configureViewDataTable',
-            'Console.addCommands'             => 'addConsoleCommands'
+            'ViewDataTable.configure'         => 'configureViewDataTable'
         );
         return $hooks;
     }
@@ -96,12 +95,6 @@ class CustomVariables extends \Piwik\Plugin
         }
 
         return $cache[$cacheKey];
-    }
-
-    public function addConsoleCommands(&$commands)
-    {
-        $commands[] = __NAMESPACE__ . '\\Commands\\SetNumberOfCustomVariables';
-        $commands[] = __NAMESPACE__ . '\\Commands\\Info';
     }
 
     /**

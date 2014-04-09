@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class GeneratePluginBase extends ConsoleCommand
+abstract class GeneratePluginBase extends ConsoleCommand
 {
     public function getPluginPath($pluginName)
     {

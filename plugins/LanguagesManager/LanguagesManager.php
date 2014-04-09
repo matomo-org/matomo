@@ -38,20 +38,8 @@ class LanguagesManager extends \Piwik\Plugin
             'User.getLanguage'                => 'getLanguageToLoad',
             'UsersManager.deleteUser'         => 'deleteUserLanguage',
             'Template.topBar'                 => 'addLanguagesManagerToOtherTopBar',
-            'Template.jsGlobalVariables'      => 'jsGlobalVariables',
-            'Console.addCommands'             => 'addConsoleCommands'
+            'Template.jsGlobalVariables'      => 'jsGlobalVariables'
         );
-    }
-
-    public function addConsoleCommands(&$commands)
-    {
-        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\CreatePull';
-        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\FetchFromOTrance';
-        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\LanguageCodes';
-        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\LanguageNames';
-        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\PluginsWithTranslations';
-        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\SetTranslations';
-        $commands[] = 'Piwik\Plugins\LanguagesManager\Commands\Update';
     }
 
     public function getStylesheetFiles(&$stylesheets)
