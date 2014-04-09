@@ -1,0 +1,10 @@
+{
+    "Events": {
+        "Event": "Händelse",
+        "EventAction": "Händelse Åtgärd",
+        "EventCategory": "Händelsekategori",
+        "EventName": "Händelse Namn",
+        "Events": "Händelser",
+        "EventValue": "Händelse Värde"
+    }
+}

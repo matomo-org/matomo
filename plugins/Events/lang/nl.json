@@ -1,0 +1,10 @@
+{
+    "Events": {
+        "Event": "Gebeurtenis",
+        "EventAction": "Gebeurtenis Actie",
+        "EventCategory": "Gebeurtenis Categorie",
+        "EventName": "Gebeurtenis Naam",
+        "Events": "Gebeurtenissen",
+        "EventValue": "Gebeurtenis Waarde"
+    }
+}

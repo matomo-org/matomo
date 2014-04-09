@@ -1,0 +1,10 @@
+{
+    "Events": {
+        "Event": "Sündmus",
+        "EventAction": "Sündmuse tegevus",
+        "EventCategory": "Sündmuse kategooria",
+        "EventName": "Sündmuse nimi",
+        "Events": "Sündmused",
+        "EventValue": "Sündmuse väärtus"
+    }
+}

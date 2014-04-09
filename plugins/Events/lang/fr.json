@@ -1,0 +1,10 @@
+{
+    "Events": {
+        "Event": "Evènement",
+        "EventAction": "Action de l'évènement",
+        "EventCategory": "Catégorie d'évènement",
+        "EventName": "Nom d'évènement",
+        "Events": "Evènements",
+        "EventValue": "Valeur d'évènement"
+    }
+}

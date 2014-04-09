@@ -1,0 +1,10 @@
+{
+    "Events": {
+        "Event": "Hændelse",
+        "EventAction": "Hændelsesaktion",
+        "EventCategory": "Hændelseskategori",
+        "EventName": "Hændelsesnavn",
+        "Events": "Hændelser",
+        "EventValue": "Hændelsesværdi"
+    }
+}

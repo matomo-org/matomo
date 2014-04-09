@@ -1,0 +1,10 @@
+{
+    "Events": {
+        "Event": "イベント",
+        "EventAction": "イベントのアクション",
+        "EventCategory": "イベントのカテゴリー",
+        "EventName": "イベントの名称",
+        "Events": "イベント",
+        "EventValue": "イベントの価値"
+    }
+}

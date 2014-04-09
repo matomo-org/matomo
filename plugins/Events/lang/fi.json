@@ -1,0 +1,10 @@
+{
+    "Events": {
+        "Event": "Tapahtuma",
+        "EventAction": "Tapahtuman toiminto",
+        "EventCategory": "Tapahtuman kategoria",
+        "EventName": "Tapahtuman nimi",
+        "Events": "Tapahtumat",
+        "EventValue": "Tapahtuman arvo"
+    }
+}
