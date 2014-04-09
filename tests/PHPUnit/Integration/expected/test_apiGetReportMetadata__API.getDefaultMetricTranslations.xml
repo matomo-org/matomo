@@ -35,5 +35,9 @@
 		<sum_daily_exit_nb_uniq_visitors>Unique exits (daily sum)</sum_daily_exit_nb_uniq_visitors>
 		<entry_nb_actions>Actions after entering here</entry_nb_actions>
 		<entry_sum_visit_length>Total time spent by visitors (in seconds) after entering here</entry_sum_visit_length>
+		<nb_events>Total events</nb_events>
+		<sum_event_value>Total value</sum_event_value>
+		<min_event_value>Minimum value</min_event_value>
+		<max_event_value>Maximum value</max_event_value>
 	</row>
 </result>

@@ -27,13 +27,6 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
-		<name>Number of Events</name>
-		<segment>events</segment>
-		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visit</category>
 		<name>Number of Internal Searches</name>
 		<segment>searches</segment>
 		<acceptedValues>To select all visits who used internal Site Search, use: &amp;segment=searches&gt;0</acceptedValues>
@@ -43,6 +36,13 @@
 		<category>Visit</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Total events</name>
+		<segment>events</segment>
+		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
