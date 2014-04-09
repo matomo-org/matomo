@@ -71,6 +71,61 @@ Friday,0,0,00:00:00,0%,0,0%
 Saturday,0,0,00:00:00,0%,0,0%
 Sunday,0,0,00:00:00,0%,0,0%
 
+Screen Resolution
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+1024x768,5,16,80%,3.2,00:22:49,20%
+
+Visitor Browser
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Firefox,5,16,80%,3.2,00:22:49,20%
+
+Browser Version
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Firefox 3.6,5,16,80%,3.2,00:22:49,20%
+
+Browser Family
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Gecko (Firefox),5,16,80%,3.2,00:22:49,20%
+
+Browser Plugins
+label,nb_visits,nb_visits_percentage
+Cookie,5,100%
+Flash,5,100%
+Java,5,100%
+Director,0,0%
+Gears,0,0%
+Pdf,0,0%
+Quicktime,0,0%
+Realplayer,0,0%
+Silverlight,0,0%
+Windowsmedia,0,0%
+
+Normal / Widescreen
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Normal,5,16,80%,3.2,00:22:49,20%
+
+Operating System
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Windows XP,5,16,80%,3.2,00:22:49,20%
+
+Visitor Configuration
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Windows XP / Firefox / 1024x768,5,16,80%,3.2,00:22:49,20%
+
+Operating system family
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Windows,5,16,80%,3.2,00:22:49,20%
+
+Mobile vs Desktop
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Desktop,5,16,80%,3.2,00:22:49,20%
+Mobile,0,0,0%,0,00:00:00,0%
+
+Browser language
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Polish,4,12,75%,3,00:25:32,25%
+French,1,4,100%,4,00:12:01,0%
+
 Ecommerce Orders
 nb_conversions,nb_visits_converted,conversion_rate,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue
 4,2,40%,$ 13351.11,$ 2700,$ 531,$ 120.11,$ 686,12,$ 3337.78
@@ -215,6 +270,15 @@ Outlinks
 No data available
 
 Downloads
+No data available
+
+Event Categories
+No data available
+
+Event Actions
+No data available
+
+Event Names
 No data available
 
 Referrer Type
@@ -432,59 +496,4 @@ Firefox,5,16,80%,3.2,00:22:49,20%
 Browser versions
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Firefox 3.6,5,16,80%,3.2,00:22:49,20%
-
-Screen Resolution
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-1024x768,5,16,80%,3.2,00:22:49,20%
-
-Visitor Browser
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Firefox,5,16,80%,3.2,00:22:49,20%
-
-Browser Version
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Firefox 3.6,5,16,80%,3.2,00:22:49,20%
-
-Browser Family
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Gecko (Firefox),5,16,80%,3.2,00:22:49,20%
-
-Browser Plugins
-label,nb_visits,nb_visits_percentage
-Cookie,5,100%
-Flash,5,100%
-Java,5,100%
-Director,0,0%
-Gears,0,0%
-Pdf,0,0%
-Quicktime,0,0%
-Realplayer,0,0%
-Silverlight,0,0%
-Windowsmedia,0,0%
-
-Normal / Widescreen
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Normal,5,16,80%,3.2,00:22:49,20%
-
-Operating System
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Windows XP,5,16,80%,3.2,00:22:49,20%
-
-Visitor Configuration
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Windows XP / Firefox / 1024x768,5,16,80%,3.2,00:22:49,20%
-
-Operating system family
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Windows,5,16,80%,3.2,00:22:49,20%
-
-Mobile vs Desktop
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Desktop,5,16,80%,3.2,00:22:49,20%
-Mobile,0,0,0%,0,00:00:00,0%
-
-Browser language
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Polish,4,12,75%,3,00:25:32,25%
-French,1,4,100%,4,00:12:01,0%
 

@@ -71,6 +71,66 @@ Friday,1,5,5,00:15:01,0%,0%
 Saturday,1,5,5,00:15:01,0%,0%
 Sunday,2,6,3,00:07:31,50%,0%
 
+Screen Resolution
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+800x300,9,41,4.56,00:13:21,11.11%,0%
+1024x768,1,2,2,00:06:01,0%,0%
+
+Visitor Browser
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Opera,9,41,4.56,00:13:21,11.11%,0%
+Firefox,1,2,2,00:06:01,0%,0%
+
+Browser Version
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Opera 9.63,9,41,4.56,00:13:21,11.11%,0%
+Firefox 3.6,1,2,2,00:06:01,0%,0%
+
+Browser Family
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Presto (Opera),9,41,4.56,00:13:21,11.11%,0%
+Gecko (Firefox),1,2,2,00:06:01,0%,0%
+
+Browser Plugins
+label,nb_visits,nb_visits_percentage
+Cookie,10,100%
+Flash,10,100%
+Java,10,100%
+Director,0,0%
+Gears,0,0%
+Pdf,0,0%
+Quicktime,0,0%
+Realplayer,0,0%
+Silverlight,0,0%
+Windowsmedia,0,0%
+
+Normal / Widescreen
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Dual,9,41,4.56,00:13:21,11.11%,0%
+Normal,1,2,2,00:06:01,0%,0%
+
+Operating System
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Windows XP,10,43,4.3,00:12:37,10%,0%
+
+Visitor Configuration
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Windows XP / Opera / 800x300,9,41,4.56,00:13:21,11.11%,0%
+Windows XP / Firefox / 1024x768,1,2,2,00:06:01,0%,0%
+
+Operating system family
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Windows,10,43,4.3,00:12:37,10%,0%
+
+Mobile vs Desktop
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+Desktop,10,43,4.3,00:12:37,10%,0%
+Mobile,0,0,0,00:00:00,0%,0%
+
+Browser language
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
+French,10,43,4.3,00:12:37,10%,0%
+
 Actions - Main metrics
 nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords,avg_time_generation
 43,27,0,0,0,0,0,0,0.3s
@@ -113,6 +173,15 @@ Outlinks
 No data available
 
 Downloads
+No data available
+
+Event Categories
+No data available
+
+Event Actions
+No data available
+
+Event Names
 No data available
 
 Referrer Type
@@ -267,64 +336,4 @@ Browser versions
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
 Opera 9.63,9,41,4.56,00:13:21,11.11%,0%
 Firefox 3.6,1,2,2,00:06:01,0%,0%
-
-Screen Resolution
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-800x300,9,41,4.56,00:13:21,11.11%,0%
-1024x768,1,2,2,00:06:01,0%,0%
-
-Visitor Browser
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Opera,9,41,4.56,00:13:21,11.11%,0%
-Firefox,1,2,2,00:06:01,0%,0%
-
-Browser Version
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Opera 9.63,9,41,4.56,00:13:21,11.11%,0%
-Firefox 3.6,1,2,2,00:06:01,0%,0%
-
-Browser Family
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Presto (Opera),9,41,4.56,00:13:21,11.11%,0%
-Gecko (Firefox),1,2,2,00:06:01,0%,0%
-
-Browser Plugins
-label,nb_visits,nb_visits_percentage
-Cookie,10,100%
-Flash,10,100%
-Java,10,100%
-Director,0,0%
-Gears,0,0%
-Pdf,0,0%
-Quicktime,0,0%
-Realplayer,0,0%
-Silverlight,0,0%
-Windowsmedia,0,0%
-
-Normal / Widescreen
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Dual,9,41,4.56,00:13:21,11.11%,0%
-Normal,1,2,2,00:06:01,0%,0%
-
-Operating System
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Windows XP,10,43,4.3,00:12:37,10%,0%
-
-Visitor Configuration
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Windows XP / Opera / 800x300,9,41,4.56,00:13:21,11.11%,0%
-Windows XP / Firefox / 1024x768,1,2,2,00:06:01,0%,0%
-
-Operating system family
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Windows,10,43,4.3,00:12:37,10%,0%
-
-Mobile vs Desktop
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-Desktop,10,43,4.3,00:12:37,10%,0%
-Mobile,0,0,0,00:00:00,0%,0%
-
-Browser language
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,conversion_rate
-French,10,43,4.3,00:12:37,10%,0%
 
