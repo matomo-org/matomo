@@ -49,7 +49,7 @@ class Dependency
 
     public function getMissingVersions($currentVersion, $requiredVersion)
     {
-        $requiredVersions = explode(',' , $requiredVersion);
+        $requiredVersions = explode(',' , (string) $requiredVersion);
 
         $missingVersions = array();
 

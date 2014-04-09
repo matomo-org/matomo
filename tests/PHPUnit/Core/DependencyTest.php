@@ -34,84 +34,6 @@ class DependencyTest extends PHPUnit_Framework_TestCase
         $this->assertMissingDependency(array('php' => ''), array());
     }
 
-    public function test_getMissingDependencies_NoComparisonDefined_ShouldUseGreatherThanOrEqualByDefault()
-    {
-        $this->assertMissingDependency(array('php' => '5.2'), array());
-        $this->assertMissingDependency(array('php' => PHP_VERSION), array());
-        $this->assertMissingDependency(array('php' => '9.2'), array(
-            $this->missingPhp('9.2', '>=9.2')
-        ));
-    }
-
-    public function test_getMissingDependencies_GreatherThanOrEqual()
-    {
-        $this->assertMissingDependency(array('php' => '>=5.2'), array());
-        $this->assertMissingDependency(array('php' => '>=' . PHP_VERSION), array());
-        $this->assertMissingDependency(array('php' => '>=9.2'), array(
-            $this->missingPhp('>=9.2')
-        ));
-    }
-
-    public function test_getMissingDependencies_GreatherThan()
-    {
-        $this->assertMissingDependency(array('php' => '>5.2'), array());
-        $this->assertMissingDependency(array('php' => '>' . PHP_VERSION), array(
-            $this->missingPhp('>' . PHP_VERSION)
-        ));
-        $this->assertMissingDependency(array('php' => '>9.2'), array(
-            $this->missingPhp('>9.2')
-        ));
-    }
-
-    public function test_getMissingDependencies_LowerThanOrEqual()
-    {
-        $this->assertMissingDependency(array('php' => '<=5.2'), array(
-            $this->missingPhp('<=5.2')
-        ));
-        $this->assertMissingDependency(array('php' => '<=' . PHP_VERSION), array());
-        $this->assertMissingDependency(array('php' => '<=9.2'), array());
-    }
-
-    public function test_getMissingDependencies_lowerThan()
-    {
-        $this->assertMissingDependency(array('php' => '<5.2'), array(
-            $this->missingPhp('<5.2')
-        ));
-        $this->assertMissingDependency(array('php' => '<' . PHP_VERSION), array(
-            $this->missingPhp('<' . PHP_VERSION)
-        ));
-        $this->assertMissingDependency(array('php' => '<9.2'), array());
-    }
-
-    public function test_getMissingDependencies_notEqual()
-    {
-        $this->assertMissingDependency(array('php' => '<>5.2'), array());
-        $this->assertMissingDependency(array('php' => '<>' . PHP_VERSION), array(
-            $this->missingPhp('<>' . PHP_VERSION)
-        ));
-        $this->assertMissingDependency(array('php' => '<>9.2'), array());
-    }
-
-    public function test_getMissingDependencies_notEqualUsingBang()
-    {
-        $this->assertMissingDependency(array('php' => '!=5.2'), array());
-        $this->assertMissingDependency(array('php' => '!=' . PHP_VERSION), array(
-            $this->missingPhp('!=' . PHP_VERSION)
-        ));
-        $this->assertMissingDependency(array('php' => '!=9.2'), array());
-    }
-
-    public function test_getMissingDependencies_exact()
-    {
-        $this->assertMissingDependency(array('php' => '==5.2'), array(
-            $this->missingPhp('==5.2')
-        ));
-        $this->assertMissingDependency(array('php' => '==' . PHP_VERSION), array());
-        $this->assertMissingDependency(array('php' => '==9.2'), array(
-            $this->missingPhp('==9.2')
-        ));
-    }
-
     public function test_getMissingDependencies_multipleConditions()
     {
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '<2.0'), array(
@@ -146,27 +68,8 @@ class DependencyTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    public function test_getMissingDependencies_AND_Condition()
+    public function test_getMissingVersion_AND_Condition()
     {
-        $this->assertMissingDependency(array('php' => '<5.2,>9.0'), array(
-            $this->missingPhp('<5.2,>9.0', '<5.2, >9.0')
-        ));
-
-        $this->assertMissingDependency(array('php' => '>5.2,<9.0'), array());
-        $this->assertMissingDependency(array('php' => '>5.2,<9.0,<2.0'), array(
-            $this->missingPhp('>5.2,<9.0,<2.0', '<2.0')
-        ));
-        $this->assertMissingDependency(array('php' => '>5.2,<9.0,<2.0,>=9.0'), array(
-            $this->missingPhp('>5.2,<9.0,<2.0,>=9.0', '<2.0, >=9.0')
-        ));
-        $this->assertMissingDependency(array('php' => '<2.0,>=9.0'), array(
-            $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0')
-        ));
-
-        $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '>2.0'), array(
-            $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0')
-        ));
-
         $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '<2.0'), array(
             $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0'),
             $this->missingPiwik('<2.0')
@@ -223,23 +126,103 @@ class DependencyTest extends PHPUnit_Framework_TestCase
 
     public function test_getMissingDependencies_setPiwikVersion()
     {
-        $missing = array($this->missingPiwik('>=9.2'));
-        $this->assertEquals($missing, $this->dependency->getMissingDependencies(array('piwik' => '>=9.2')));
+        $this->assertMissingDependency(array('piwik' => '>=9.2'), array($this->missingPiwik('>=9.2')));
 
         $this->dependency->setPiwikVersion('9.2');
-        $this->assertEquals(array(), $this->dependency->getMissingDependencies(array('piwik' => '>=9.2')));
+
+        $this->assertMissingDependency(array('piwik' => '>=9.2'), array());
+    }
+
+    public function test_getMissingVersion_EmptyCurrentAndRequiredVersion_ShouldBeIgnored()
+    {
+        $this->assertMissingVersion(null, null, array());
+        $this->assertMissingVersion('', '', array());
+    }
+
+    public function test_getMissingVersion_EmptyCurrentVersion_ShouldBeDeclaredAsMissing()
+    {
+        $this->assertMissingVersion('', '5.5', array('>=5.5'));
+    }
+
+    public function test_getMissingVersion_EmptyRequiredVersion_ShouldBeIgnored()
+    {
+        $this->assertMissingVersion('5.5', '', array());
+    }
+
+    public function test_getMissingVersion_NoComparisonDefined_ShouldUseGreatherThanOrEqualByDefault()
+    {
+        $this->assertMissingVersion('5.4', '5.2', array());
+        $this->assertMissingVersion('5.4', '5.4', array());
+        $this->assertMissingVersion('5.4', '9.2', array('>=9.2'));
+    }
+
+    public function test_getMissingVersion_GreatherThanOrEqual()
+    {
+        $this->assertMissingVersion('5.4', '>=5.2', array());
+        $this->assertMissingVersion('5.4', '>=5.4', array());
+        $this->assertMissingVersion('5.4', '>=9.2', array('>=9.2'));
+    }
+
+    public function test_getMissingVersion_GreatherThan()
+    {
+        $this->assertMissingVersion('5.4', '>5.2', array());
+        $this->assertMissingVersion('5.4', '>5.4', array('>5.4'));
+        $this->assertMissingVersion('5.4', '>9.2', array('>9.2'));
+    }
+
+    public function test_getMissingVersion_LowerThanOrEqual()
+    {
+        $this->assertMissingVersion('5.4', '<=5.2', array('<=5.2'));
+        $this->assertMissingVersion('5.4', '<=5.4', array());
+        $this->assertMissingVersion('5.4', '<=9.2', array());
+    }
+
+    public function test_getMissingVersion_lowerThan()
+    {
+        $this->assertMissingVersion('5.4', '<5.2', array('<5.2'));
+        $this->assertMissingVersion('5.4', '<5.4', array('<5.4'));
+        $this->assertMissingVersion('5.4', '<9.2', array());
+    }
+
+    public function test_getMissingVersion_notEqual()
+    {
+        $this->assertMissingVersion('5.4', '<>5.2', array());
+        $this->assertMissingVersion('5.4', '<>5.4', array('<>5.4'));
+        $this->assertMissingVersion('5.4', '<>9.2', array());
+    }
+
+    public function test_getMissingVersion_notEqualUsingBang()
+    {
+        $this->assertMissingVersion('5.4', '!=5.2', array());
+        $this->assertMissingVersion('5.4', '!=5.4', array('!=5.4'));
+        $this->assertMissingVersion('5.4', '!=9.2', array());
+    }
+
+    public function test_getMissingVersion_exact()
+    {
+        $this->assertMissingVersion('5.4', '==5.2', array('==5.2'));
+        $this->assertMissingVersion('5.4', '==5.4', array());
+        $this->assertMissingVersion('5.4', '==9.2', array('==9.2'));
+    }
+
+    public function test_getMissingVersion_AND_Condition_returnsOnlyNonMatchingVersions()
+    {
+        $this->assertMissingVersion('5.4', '<5.2,>9.0', array('<5.2', '>9.0'));
+        $this->assertMissingVersion('5.4', '>5.2,<9.0', array());
+        $this->assertMissingVersion('5.4', '>5.2,<9.0,<2.0', array('<2.0'));
+        $this->assertMissingVersion('5.4', '>5.2,<9.0,<2.0,>=9.0', array('<2.0', '>=9.0'));
+        $this->assertMissingVersion('5.4', '<2.0,>=9.0', array('<2.0', '>=9.0'));
     }
 
     public function test_getMissingVersion()
     {
-        $this->assertEquals(array('<5.2', '>9.0'), $this->dependency->getMissingVersions('5.2', '<5.2,>9.0'));
-        $this->assertEquals(array('>9.0'), $this->dependency->getMissingVersions('5.2', '<=5.2,>9.0'));
-        $this->assertEquals(array('>9.0'), $this->dependency->getMissingVersions('5.1', '<5.2,>9.0'));
-        $this->assertEquals(array('<5.2'), $this->dependency->getMissingVersions('9.1', '<5.2,>9.0'));
-
-        $this->assertEquals(array(), $this->dependency->getMissingVersions('5.2', '>=5.2,<=9.0'));
-        $this->assertEquals(array(), $this->dependency->getMissingVersions('9.0', '>=5.2,<=9.0'));
-        $this->assertEquals(array(), $this->dependency->getMissingVersions('6.4', '>=5.2,<=9.0'));
+        $this->assertMissingVersion('5.2', '<5.2,>9.0', array('<5.2', '>9.0'));
+        $this->assertMissingVersion('5.2', '<=5.2,>9.0', array('>9.0'));
+        $this->assertMissingVersion('5.1', '<5.2,>9.0', array('>9.0'));
+        $this->assertMissingVersion('9.1', '<5.2,>9.0', array('<5.2'));
+        $this->assertMissingVersion('5.2', '>=5.2,<=9.0', array());
+        $this->assertMissingVersion('9.0', '>=5.2,<=9.0', array());
+        $this->assertMissingVersion('6.4', '>=5.2,<=9.0', array());
     }
 
     private function missingPiwik($requiredVersion, $causedBy = null)
@@ -269,6 +252,13 @@ class DependencyTest extends PHPUnit_Framework_TestCase
     private function assertMissingDependency($requires, $expectedMissing)
     {
         $missing = $this->dependency->getMissingDependencies($requires);
+
+        $this->assertEquals($expectedMissing, $missing);
+    }
+
+    private function assertMissingVersion($currentVersion, $requiredVersion, $expectedMissing)
+    {
+        $missing = $this->dependency->getMissingVersions($currentVersion, $requiredVersion);
 
         $this->assertEquals($expectedMissing, $missing);
     }
