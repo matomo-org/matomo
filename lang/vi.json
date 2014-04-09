@@ -392,14 +392,6 @@
     "DoNotTrack": {
         "PluginDescription": "Bỏ qua việc thăm với X-Do-Not-Track hay tiêu đề DNT"
     },
-    "Events": {
-        "EventAction": "Hành động sự kiện",
-        "EventCategory": "Danh mục sự kiện",
-        "EventName": "Tên sự kiện",
-        "Events": "Các sự kiện",
-        "EventValue": "Giá trị sự kiện",
-        "NbEvents": "Số sự kiện"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Liên hệ với Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "Bạn đã có lỗi với báo cáo hoặc yêu cầu tính năng?",

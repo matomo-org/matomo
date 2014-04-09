@@ -2459,14 +2459,5 @@
         "AutoArchivePreProcessed": "segmented reports are pre-processed (faster, requires archive.php cron)",
         "SegmentNotApplied": "Segment '%s' not applied",
         "SegmentNotAppliedExplanation": "You are requesting data for the Custom Segment '%s', the current Piwik configuration prevents the real time processing of reports for this segment. Please ask your Piwik admin to change the setting in the config file (%s). You may also edit this Segment and choose '%s'."
-    },
-    "Events": {
-        "Events": "Events",
-        "Event": "Event",
-        "EventCategory": "Event Category",
-        "EventAction": "Event Action",
-        "EventName": "Event Name",
-        "EventValue": "Event Value",
-        "NbEvents": "Number of Events"
     }
 }

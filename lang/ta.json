@@ -268,14 +268,6 @@
         "WidgetPreview": "விட்ஜெட்டை முன்னோட்டமிடுக",
         "WidgetsAndDashboard": "விஜெட் மற்றும் கட்டுப்பாட்டறை அமைப்பு"
     },
-    "Events": {
-        "EventAction": "நிகழ்ச்சி செயல்",
-        "EventCategory": "நிகழ்ச்சி வகை",
-        "EventName": "நிகழ்ச்சி பெயர்",
-        "Events": "நிகழ்சிகள்",
-        "EventValue": "நிகழ்ச்சி பெறுமதி",
-        "NbEvents": "நிகழ்ச்சிகளின் எண்ணிக்கை"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "piwik குழுவை தொடர்புகொள்ளுங்கள்!",
         "DoYouHaveBugReportOrFeatureRequest": "நீங்கள் ஏதேனும் ஒரு பிழையை அல்லது புதிய அம்சம் பற்றி கோர வேண்டுமா?",

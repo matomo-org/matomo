@@ -439,15 +439,6 @@
     "DoNotTrack": {
         "PluginDescription": "Ignorer besøg med X-Do-Not-Track eller DNT header."
     },
-    "Events": {
-        "Event": "Hændelse",
-        "EventAction": "Hændelsesaktion",
-        "EventCategory": "Hændelseskategori",
-        "EventName": "Hændelsesnavn",
-        "Events": "Hændelser",
-        "EventValue": "Hændelsesværdi",
-        "NbEvents": "Antal hændelser"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Kontakt Piwik holdet",
         "DoYouHaveBugReportOrFeatureRequest": "Har du en fejlrapport eller en anmodning om en funktion?",

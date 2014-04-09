@@ -113,6 +113,8 @@
         "YouAreUsingTheLatestVersion": "Du bruker den nyeste versjonen av Piwik!"
     },
     "CorePluginsAdmin": {
+        "ActionInstall": "Installer",
+        "ActionUninstall": "Avinstaller",
         "Activate": "Slå på",
         "Activated": "Påslått",
         "Active": "På",
@@ -120,18 +122,24 @@
         "Changelog": "Endringslogg",
         "Deactivate": "Slå av",
         "Developer": "Utvikler",
+        "GetNewFunctionality": "Få ny funksjonalitet",
         "History": "Historikk",
         "Inactive": "Av",
+        "InstallingPlugin": "Installerer %s",
         "LastUpdated": "Sist oppdatert",
         "MainDescription": "Tillegg kan utvide eller begrense funksjonaliteten i Piwik. Når et tillegg har blitt installert, kan du slå det av eller på her.",
+        "NumUpdatesAvailable": "%s oppdatering(er) tilgjengelig",
         "PluginDescription": "Grensesnitt for administrasjon av tillegg",
         "PluginHomepage": "Hjemmeside for tillegg",
+        "PluginKeywords": "Nøkkelord",
         "PluginsManagement": "Administrasjon av tillegg",
         "PluginVersionInfo": "%1$s fra %2$s",
         "Screenshots": "Skjermbilder",
         "SortByNewest": "nyeste",
         "Status": "Status",
+        "Updated": "Oppdatert",
         "UpdatingPlugin": "Oppdaterer %s",
+        "UploadZipFile": "Last opp ZIP-fil",
         "Version": "Versjon"
     },
     "CoreUpdater": {
@@ -471,6 +479,7 @@
         "Search": "Søk",
         "SearchNoResults": "Ingen resultater",
         "Seconds": "%ss",
+        "SeeAll": "se alle",
         "SeeTheOfficialDocumentationForMoreInformation": "Se %sden offisielle dokumentasjonen%s for mer informasjon.",
         "SelectYesIfYouWantToSendEmailsViaServer": "Velg «Ja» hvis du vil sende e-post med en navngitt tjener istedenfor den lokale mail-funksjonen",
         "Settings": "Innstillinger",
@@ -501,6 +510,7 @@
         "SmtpServerAddress": "SMTP-tjeneradresse",
         "SmtpUsername": "SMTP-brukernavn",
         "Source": "Kilde",
+        "Summary": "Sammendrag",
         "Table": "Tabell",
         "TagCloud": "Merkelappsky",
         "TimeAgo": "%s siden",
@@ -516,6 +526,7 @@
         "Value": "Verdi",
         "VBarGraph": "Søylediagram",
         "View": "Vis",
+        "ViewDocumentationFor": "Vis dokumentasjon for %1$s",
         "Visit": "Besøk",
         "VisitDuration": "Gj. besøksvarighet (i sekunder)",
         "VisitorIP": "IP for besøkende",
@@ -530,6 +541,7 @@
         "WeeklyReport": "ukentlig",
         "WeeklyReports": "Ukentlige rapporter",
         "Widgets": "Element",
+        "XFromY": "%1$s fra %2$s",
         "YearlyReport": "årlig",
         "YearlyReports": "Årlige rapporter",
         "YearsDays": "%1$s år %2$s dager",
@@ -571,7 +583,8 @@
     "Insights": {
         "DayComparedToPreviousDay": "forrige dag",
         "MonthComparedToPreviousMonth": "forrige måned",
-        "WeekComparedToPreviousWeek": "forrige uke"
+        "WeekComparedToPreviousWeek": "forrige uke",
+        "YearComparedToPreviousYear": "forrige år"
     },
     "Installation": {
         "CommunityNewsletter": "send meg e-post med oppdatering fra Piwik-samfunnet (nye tillegg, nye egenskaper, osv)",
@@ -625,6 +638,7 @@
         "SystemCheckExtensions": "Andre nødvendige utvidelser",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckFunctions": "Nødvendige funksjoner",
+        "SystemCheckGDFreeType": "GD > 2.x + Freetype (grafikk)",
         "SystemCheckGDHelp": "Mindre grafiske elementer vil ikke fungere som ønsket.",
         "SystemCheckGzcompressHelp": "Du må aktivere zlib utvidelsen og gzcompress-funksjonen.",
         "SystemCheckGzuncompressHelp": "Du må aktivere zlib utvidelsen og gzuncompress-funksjonen.",
@@ -661,7 +675,8 @@
         "TablesWithSameNamesFound": "Noen %1$s tabeller i databasen din %2$s har samme navn som de tabellene Piwik prøver å opprette",
         "Timezone": "tidssone for nettsted",
         "Welcome": "Velkommen!",
-        "WelcomeHelp": "<p>Piwik er åpen kildekode nettstatistikk-programvare som gjør det enkelt å finne informasjonen du ønsker om dine besøkende.<\/p><p>Denne prossessen er delt opp i %s lette steg og vil ta ca 5 minutter.<\/p>"
+        "WelcomeHelp": "<p>Piwik er åpen kildekode nettstatistikk-programvare som gjør det enkelt å finne informasjonen du ønsker om dine besøkende.<\/p><p>Denne prossessen er delt opp i %s lette steg og vil ta ca 5 minutter.<\/p>",
+        "WelcomeToCommunity": "Velkommen til Piwik-fellesskapet!"
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "Om Piwik-oversettelser",
@@ -669,6 +684,7 @@
     },
     "Live": {
         "GoalType": "Type",
+        "HideMap": "skjul kart",
         "LastHours": "Siste %s timer",
         "LastMinutes": "Siste %s minutter",
         "LinkVisitorLog": "Vis detaljert logg over besøkende",
@@ -708,6 +724,7 @@
         "LoginUseHttps": "Bruk HTTPS",
         "NavigationBack": "Tilbake",
         "NetworkNotReachable": "Nettverk kan ikke nås",
+        "NoDataShort": "Ingen data",
         "PullDownToRefresh": "Trekk ned for å oppdatere...",
         "RatingNotNow": "Ikke nå",
         "ReleaseToRefresh": "Slipp for å oppdatere...",
@@ -735,6 +752,7 @@
         "Clicks": "%s klikk",
         "Domain": "Domene",
         "ErrorNotLoadingLink": "Klikk her for å få flere tips for feilsøking",
+        "Location": "Sted",
         "OneClick": "1 klikk"
     },
     "PrivacyManager": {
@@ -874,6 +892,7 @@
         "CannotLocalizeLocalIP": "IP-adressen %s er en lokal adresse og kan ikke lokaliseres.",
         "CannotUnzipDatFile": "Kunne ikke pakke ut dat-fil i %1$s: %2$s",
         "City": "By",
+        "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",
         "continent_afr": "Afrika",
         "continent_amc": "Mellom-Amerika",

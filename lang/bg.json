@@ -413,15 +413,6 @@
     "DoNotTrack": {
         "PluginDescription": "Игнориране на посещенията с X-Do-Not-Track или заглавие DNT."
     },
-    "Events": {
-        "Event": "Събитие",
-        "EventAction": "Действие на събитието",
-        "EventCategory": "Категория на събитие",
-        "EventName": "Име на събитие",
-        "Events": "Събития",
-        "EventValue": "Стойност за събитие",
-        "NbEvents": "Брой събития"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Свържете се с екипа на Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "Желаете да докладвате за грешка или имате предложение?",

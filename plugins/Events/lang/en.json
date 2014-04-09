@@ -1,0 +1,14 @@
+{
+    "Events": {
+        "Events": "Events",
+        "Event": "Event",
+        "EventCategory": "Event Category",
+        "EventAction": "Event Action",
+        "EventName": "Event Name",
+        "EventValue": "Event Value",
+        "TotalValue": "Total value",
+        "TotalEvents": "Total events",
+        "MinValue": "Minimum value",
+        "MaxValue": "Maximum value"
+    }
+}

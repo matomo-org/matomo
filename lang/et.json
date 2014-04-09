@@ -291,15 +291,6 @@
     "DoNotTrack": {
         "PluginDescription": "Ignoreeri külastusi, millel on brauseris seatud X-Do-Not-Track või DNT parameeter."
     },
-    "Events": {
-        "Event": "Sündmus",
-        "EventAction": "Sündmuse tegevus",
-        "EventCategory": "Sündmuse kategooria",
-        "EventName": "Sündmuse nimi",
-        "Events": "Sündmused",
-        "EventValue": "Sündmuse väärtus",
-        "NbEvents": "Sündmuste arv"
-    },
     "Feedback": {
         "IWantTo": "Ma tahan:",
         "SendFeedback": "Saada tagasisidet"

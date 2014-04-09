@@ -429,15 +429,6 @@
     "DoNotTrack": {
         "PluginDescription": "Ignorera besök med X-Do-Not-Track eller DNT-huvud."
     },
-    "Events": {
-        "Event": "Händelse",
-        "EventAction": "Händelse Åtgärd",
-        "EventCategory": "Händelsekategori",
-        "EventName": "Händelse Namn",
-        "Events": "Händelser",
-        "EventValue": "Händelse Värde",
-        "NbEvents": "Antal Event"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Kontakta Piwikteamet!",
         "DoYouHaveBugReportOrFeatureRequest": "Har du en bugg att rapportera eller en funktionsbegäran?",

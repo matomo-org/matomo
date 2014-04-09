@@ -427,15 +427,6 @@
     "DoNotTrack": {
         "PluginDescription": "Jätä huomiotta käynnit ylätunnisteilla X-Do-Not-Track tai DNT."
     },
-    "Events": {
-        "Event": "Tapahtuma",
-        "EventAction": "Tapahtuman toiminto",
-        "EventCategory": "Tapahtuman kategoria",
-        "EventName": "Tapahtuman nimi",
-        "Events": "Tapahtumat",
-        "EventValue": "Tapahtuman arvo",
-        "NbEvents": "Tapahtumien lukumäärä"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Ota yhteyttä Piwikin tiimiin!",
         "DoYouHaveBugReportOrFeatureRequest": "Onko sinulle virheraportti tai pyyntö uudesta ominaisuudesta?",

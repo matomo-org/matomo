@@ -439,15 +439,6 @@
     "DoNotTrack": {
         "PluginDescription": "Αγνοήστε τις επισκέψεις με X-Do-Not-Track ή DNT κεφαλίδα."
     },
-    "Events": {
-        "Event": "Γεγονός",
-        "EventAction": "Ενέργεια Συμβάντος",
-        "EventCategory": "Κατηγορία Συμβάντος",
-        "EventName": "Όνομα Συμβάντος",
-        "Events": "Συμβάντα",
-        "EventValue": "Τιμή Συμβάντος",
-        "NbEvents": "Αριθμός Συμβάντων"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Επικοινωνήστε με την ομάδα του Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "Έχετε να αναφέρετε ένα πρόβλημα ή ένα αίτημα για χαρακτηριστικό;",

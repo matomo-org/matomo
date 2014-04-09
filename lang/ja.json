@@ -361,15 +361,6 @@
         "WidgetPreview": "ウィジェットのプレビュー",
         "WidgetsAndDashboard": "ウィジェットとダッシュボード"
     },
-    "Events": {
-        "Event": "イベント",
-        "EventAction": "イベントのアクション",
-        "EventCategory": "イベントのカテゴリー",
-        "EventName": "イベントの名称",
-        "Events": "イベント",
-        "EventValue": "イベントの価値",
-        "NbEvents": "イベントの数"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Piwik チームと連絡を取る！",
         "DoYouHaveBugReportOrFeatureRequest": "報告するべきバグや機能要望がありますか？",

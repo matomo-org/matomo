@@ -401,14 +401,6 @@
     "DoNotTrack": {
         "PluginDescription": "忽略带 X-Do-Not-Track 或者 DNT 头的访问。"
     },
-    "Events": {
-        "EventAction": "事件行为",
-        "EventCategory": "事件分类",
-        "EventName": "事件名字",
-        "Events": "事件",
-        "EventValue": "事件值",
-        "NbEvents": "事件数目"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "联系 Piwik 小组！",
         "DoYouHaveBugReportOrFeatureRequest": "您有bug报告或要新增功能？",

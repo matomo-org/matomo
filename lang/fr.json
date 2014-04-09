@@ -429,15 +429,6 @@
     "DoNotTrack": {
         "PluginDescription": "Ignorer les visites avec l'entête X-Do-Not-Track ou DNT."
     },
-    "Events": {
-        "Event": "Evènement",
-        "EventAction": "Action de l'évènement",
-        "EventCategory": "Catégorie d'évènement",
-        "EventName": "Nom d'évènement",
-        "Events": "Evènements",
-        "EventValue": "Valeur d'évènement",
-        "NbEvents": "Nombre d'évènements"
-    },
     "Feedback": {
         "ContactThePiwikTeam": "Contactez l’Équipe Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "Avez-vous un bug à rapporter ou une fonctionnalité à demander?",
