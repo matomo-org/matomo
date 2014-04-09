@@ -49,6 +49,7 @@ class Dependency
 
     public function getMissingVersions($currentVersion, $requiredVersion)
     {
+        $currentVersion   = trim($currentVersion);
         $requiredVersions = explode(',' , (string) $requiredVersion);
 
         $missingVersions = array();
@@ -56,11 +57,13 @@ class Dependency
         foreach ($requiredVersions as $required) {
 
             $comparison = '>=';
+            $required   = trim($required);
 
             if (preg_match('{^(<>|!=|>=?|<=?|==?)\s*(.*)}', $required, $matches)) {
                 $required   = $matches[2];
-                $comparison = $matches[1];
+                $comparison = trim($matches[1]);
             }
+
             if (false === version_compare($currentVersion, $required, $comparison)) {
                 $missingVersions[] = $comparison . $required;
             }

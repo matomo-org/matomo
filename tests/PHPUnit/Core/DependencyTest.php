@@ -149,6 +149,14 @@ class DependencyTest extends PHPUnit_Framework_TestCase
         $this->assertMissingVersion('5.5', '', array());
     }
 
+    public function test_getMissingVersion_shouldIgnoreAnyWhitespace()
+    {
+        $this->assertMissingVersion('5.5 ', '5.5', array());
+        $this->assertMissingVersion(' 5.5 ', '5.5', array());
+        $this->assertMissingVersion('5.5', ' 5.5', array());
+        $this->assertMissingVersion('5.5', ' 5.5 ', array());
+    }
+
     public function test_getMissingVersion_NoComparisonDefined_ShouldUseGreatherThanOrEqualByDefault()
     {
         $this->assertMissingVersion('5.4', '5.2', array());
@@ -212,6 +220,15 @@ class DependencyTest extends PHPUnit_Framework_TestCase
         $this->assertMissingVersion('5.4', '>5.2,<9.0,<2.0', array('<2.0'));
         $this->assertMissingVersion('5.4', '>5.2,<9.0,<2.0,>=9.0', array('<2.0', '>=9.0'));
         $this->assertMissingVersion('5.4', '<2.0,>=9.0', array('<2.0', '>=9.0'));
+    }
+
+    public function test_getMissingVersion_AND_Condition_shouldIgnoreAnyWhitespace()
+    {
+        $this->assertMissingVersion('5.2', '5.5 , 5.4,   5.3', array('>=5.5', '>=5.4', '>=5.3'));
+        $this->assertMissingVersion('5.5', '5.5 , 5.4,   5.3', array());
+        $this->assertMissingVersion(' 5.2 ', '5.5 , 5.4,   5.3', array('>=5.5', '>=5.4', '>=5.3'));
+        $this->assertMissingVersion(' 5.2 ', '>5.5 , <5.4,   ==5.3', array('>5.5', '==5.3'));
+        $this->assertMissingVersion(' 5.2 ', '>5.5 , !=5.4,   ==5.3', array('>5.5', '==5.3'));
     }
 
     public function test_getMissingVersion()
