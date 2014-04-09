@@ -239,8 +239,8 @@ class DataArray
 
         $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE], self::EVENT_VALUE_PRECISION);
         $oldRowToUpdate[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] += $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE];
-        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = (float)max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]);
-        $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = (float)min($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE]);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = min($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE]);
     }
 
     /**
