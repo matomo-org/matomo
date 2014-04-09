@@ -1308,8 +1308,9 @@ class DataTable implements DataTableInterface
     public static function makeFromIndexedArray($array, $subtablePerLabel = null)
     {
         $table = new DataTable();
-        $cleanRow = array();
         foreach ($array as $label => $row) {
+            $cleanRow = array();
+
             // Support the case of an $array of single values
             if (!is_array($row)) {
                 $row = array('value' => $row);
