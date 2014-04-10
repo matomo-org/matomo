@@ -31,7 +31,8 @@ class Controller extends \Piwik\Plugin\Controller
         $reports = new View\ReportsByDimension('Events');
         foreach(Events::getLabelTranslations() as $apiAction => $translations) {
             // 'getCategory' is the API method, but we are loading 'indexCategory' which displays <h2>
-            $controllerAction = str_replace("get", "index", $apiAction, $count = 1);
+            $count = 1;
+            $controllerAction = str_replace("get", "index", $apiAction, $count);
             $reports->addReport('Events_TopEvents', $translations[0], 'Events.' . $controllerAction);
         }
         return $reports->render();
