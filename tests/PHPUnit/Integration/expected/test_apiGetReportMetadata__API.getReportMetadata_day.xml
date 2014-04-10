@@ -962,13 +962,15 @@
 			<sum_event_value>Total value</sum_event_value>
 			<min_event_value>Minimum value</min_event_value>
 			<max_event_value>Maximum value</max_event_value>
+			<avg_event_value>Average value</avg_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
-			<sum_event_value>Total value of events (sum of event values)</sum_event_value>
-			<min_event_value>Minimum value for this event</min_event_value>
-			<max_event_value>Maximum value for this event</max_event_value>
+			<sum_event_value>The sum of event values</sum_event_value>
+			<min_event_value>The minimum value for this event</min_event_value>
+			<max_event_value>The maximum value for this event</max_event_value>
+			<avg_event_value>The average of all values for this event</avg_event_value>
 			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 		</metricsDocumentation>
 		<actionToLoadSubTables>getActionFromCategoryId</actionToLoadSubTables>
@@ -987,13 +989,15 @@
 			<sum_event_value>Total value</sum_event_value>
 			<min_event_value>Minimum value</min_event_value>
 			<max_event_value>Maximum value</max_event_value>
+			<avg_event_value>Average value</avg_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
-			<sum_event_value>Total value of events (sum of event values)</sum_event_value>
-			<min_event_value>Minimum value for this event</min_event_value>
-			<max_event_value>Maximum value for this event</max_event_value>
+			<sum_event_value>The sum of event values</sum_event_value>
+			<min_event_value>The minimum value for this event</min_event_value>
+			<max_event_value>The maximum value for this event</max_event_value>
+			<avg_event_value>The average of all values for this event</avg_event_value>
 			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 		</metricsDocumentation>
 		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
@@ -1012,13 +1016,15 @@
 			<sum_event_value>Total value</sum_event_value>
 			<min_event_value>Minimum value</min_event_value>
 			<max_event_value>Maximum value</max_event_value>
+			<avg_event_value>Average value</avg_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
-			<sum_event_value>Total value of events (sum of event values)</sum_event_value>
-			<min_event_value>Minimum value for this event</min_event_value>
-			<max_event_value>Maximum value for this event</max_event_value>
+			<sum_event_value>The sum of event values</sum_event_value>
+			<min_event_value>The minimum value for this event</min_event_value>
+			<max_event_value>The maximum value for this event</max_event_value>
+			<avg_event_value>The average of all values for this event</avg_event_value>
 			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 		</metricsDocumentation>
 		<actionToLoadSubTables>getActionFromNameId</actionToLoadSubTables>
