@@ -395,7 +395,7 @@ if (typeof JSON2 !== 'object') {
     createElement, appendChild, characterSet, charset,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
-    location, top, document, referrer, parent, links, href, protocol, name, GearsFactory,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
@@ -2850,15 +2850,15 @@ if (typeof Piwik !== 'object') {
                     }
 
                     enableJSErrorTracking = true;
-                    var onError = window.onerror;
+                    var onError = windowAlias.onerror;
 
-                    window.onerror = function(message, url, linenumber, column, error) {
+                    windowAlias.onerror = function (message, url, linenumber, column, error) {
                         trackCallback(function () {
                             var category = 'JavaScript Errors';
 
                             var action = url + ':' + linenumber;
                             if (column) {
-                                action += ':' + column
+                                action += ':' + column;
                             }
 
                             logEvent(category, action, message);
