@@ -13,10 +13,14 @@
         "TotalValue": "Total value",
         "MinValue": "Minimum value",
         "MaxValue": "Maximum value",
+        "EventsWithValue": "Events with a value",
         "TotalEventsDocumentation": "Total number of events",
         "TotalValueDocumentation": "Total value of events (sum of event values)",
         "MinValueDocumentation": "Minimum value for this event",
         "MaxValueDocumentation": "Maximum value for this event",
-        "NameNotSet": "(event name not set)"
+        "EventsWithValueDocumentation": "Number of events where an Event value was set",
+        "NameNotSet": "(Event Name not set)",
+        "EventValueTooltip": "Total Event value based on %s events %s between %s and %s.",
+        "AvgEventValue": "Average Event value is: %s"
     }
 }

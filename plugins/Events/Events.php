@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 
 /**
  */
@@ -34,20 +35,22 @@ class Events extends \Piwik\Plugin
     public function getMetricDocumentation()
     {
         return array(
-            'nb_events'         => 'Events_TotalEventsDocumentation',
-            'sum_event_value'   => 'Events_TotalValueDocumentation',
-            'min_event_value'   => 'Events_MinValueDocumentation',
-            'max_event_value'   => 'Events_MaxValueDocumentation',
+            'nb_events'            => 'Events_TotalEventsDocumentation',
+            'sum_event_value'      => 'Events_TotalValueDocumentation',
+            'min_event_value'      => 'Events_MinValueDocumentation',
+            'max_event_value'      => 'Events_MaxValueDocumentation',
+            'nb_events_with_value' => 'Events_EventsWithValueDocumentation',
         );
     }
 
     protected function getMetricTranslations()
     {
         return array(
-            'nb_events'       => 'Events_TotalEvents',
-            'sum_event_value' => 'Events_TotalValue',
-            'min_event_value' => 'Events_MinValue',
-            'max_event_value' => 'Events_MaxValue',
+            'nb_events'            => 'Events_TotalEvents',
+            'sum_event_value'      => 'Events_TotalValue',
+            'min_event_value'      => 'Events_MinValue',
+            'max_event_value'      => 'Events_MaxValue',
+            'nb_events_with_value' => 'Events_EventsWithValue',
         );
     }
 
@@ -118,26 +121,55 @@ class Events extends \Piwik\Plugin
         $metrics = array_map($callback, $metrics);
         $documentation = array_map($callback, $documentation);
 
-        $reportsMetadata = array(
-            array('Events_EventCategories', 'Events_EventCategory', 'getCategory'),
-            array('Events_EventActions', 'Events_EventAction', 'getAction'),
-            array('Events_EventNames', 'Events_EventName', 'getName'),
-        );
+        $labelTranslations = $this->getLabelTranslations();
 
-        foreach($reportsMetadata as $order => $reportMeta) {
+        $order = 0;
+        foreach($labelTranslations as $action => $translations) {
             $reports[] = array(
                 'category'              => Piwik::translate('Events_Events'),
-                'name'                  => Piwik::translate($reportMeta[0]),
+                'name'                  => Piwik::translate($translations[0]),
                 'module'                => 'Events',
-                'action'                => $reportMeta[2],
-                'dimension'             => Piwik::translate($reportMeta[1]),
+                'action'                => $action,
+                'dimension'             => Piwik::translate($translations[1]),
                 'metrics'               => $metrics,
                 'metricsDocumentation'  => $documentation,
                 'processedMetrics'      => false,
-                'actionToLoadSubTables' => API::getInstance()->getSubtableAction($reportMeta[2]),
-                'order'                 => $order
+                'actionToLoadSubTables' => API::getInstance()->getSubtableAction($action),
+                'order'                 => $order++
             );
 
         }
     }
+
+    /**
+     * Given Events.getCategory, returns the translations to use
+     *
+     * @param $apiReport
+     * @throws \Exception
+     * @return array
+     */
+    protected function getLabelTranslation($apiReport)
+    {
+        $labels = $this->getLabelTranslations();
+        foreach($labels as $action => $translations) {
+            $action = 'Events.' . $action;
+            if($apiReport == $action) {
+                return $translations;
+            }
+        }
+        throw new \Exception("Translation not found for report $apiReport");
+    }
+
+    /**
+     * @return array
+     */
+    protected function getLabelTranslations()
+    {
+        return array(
+            'getCategory' => array('Events_EventCategories', 'Events_EventCategory'),
+            'getAction'   => array('Events_EventActions', 'Events_EventAction'),
+            'getName'     => array('Events_EventNames', 'Events_EventName'),
+        );
+    }
+
 }

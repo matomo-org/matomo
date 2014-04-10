@@ -66,6 +66,16 @@ class API extends \Piwik\Plugin\API
                 $row->setColumn('label', Piwik::translate(Archiver::EVENT_NAME_NOT_SET));
             }
         });
+
+        // add processed metric avg_event_value
+        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
+                                array('avg_event_value',
+                                      'sum_event_value',
+                                      'nb_events_with_value',
+                                      $precision = 2,
+                                      $shouldSkipRows = true)
+        );
+
         return $dataTable;
     }
 

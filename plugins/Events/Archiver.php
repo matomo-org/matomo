@@ -130,6 +130,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 						else " . Action::DB_COLUMN_CUSTOM_FLOAT . "
 					end
 				) as `" . Metrics::INDEX_EVENT_SUM_EVENT_VALUE . "`,
+				sum( case when " . Action::DB_COLUMN_CUSTOM_FLOAT . " is null then 0 else 1 end )
+				    as `" . Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE . "`,
 				min(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") as `" . Metrics::INDEX_EVENT_MIN_EVENT_VALUE . "`,
 				max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") as `" . Metrics::INDEX_EVENT_MAX_EVENT_VALUE . "`
         ";
@@ -171,7 +173,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('event_category', 'event_action', 'event_name'));
             $rankingQuery->addColumn(array(Metrics::INDEX_NB_UNIQ_VISITORS));
-            $rankingQuery->addColumn(array(Metrics::INDEX_EVENT_NB_HITS, Metrics::INDEX_NB_VISITS), 'sum');
+            $rankingQuery->addColumn(array(Metrics::INDEX_EVENT_NB_HITS, Metrics::INDEX_NB_VISITS, Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE), 'sum');
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_SUM_EVENT_VALUE, 'sum');
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_MIN_EVENT_VALUE, 'min');
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_MAX_EVENT_VALUE, 'max');
