@@ -14,6 +14,7 @@
             <meta name="apple-itunes-app" content="app-id=737216887" />
             <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
 {% include "_jsGlobalVariables.twig" %}
+{% include "_piwikTag.twig" %}
             <!--[if lt IE 9]>
             <script language="javascript" type="text/javascript" src="libs/jqplot/excanvas.min.js"></script>
             <![endif]-->
@@ -43,8 +44,6 @@
         {% block content %}
         {% endblock %}
     </div>
-
-    {% include "_piwikTag.twig" %}
     
     </body>
 </html>
