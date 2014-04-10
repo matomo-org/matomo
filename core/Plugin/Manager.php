@@ -179,10 +179,10 @@ class Manager extends Singleton
      *
      * @param array $plugins Plugins
      */
-    private function updatePluginsConfig()
+    private function updatePluginsConfig($pluginsToLoad)
     {
         $section = PiwikConfig::getInstance()->Plugins;
-        $section['Plugins'] = $this->pluginsToLoad;
+        $section['Plugins'] = $pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
     }
 
@@ -394,7 +394,7 @@ class Manager extends Singleton
 
         $this->pluginsToLoad[] = $pluginName;
 
-        $this->updatePluginsConfig();
+        $this->updatePluginsConfig($this->pluginsToLoad);
         PiwikConfig::getInstance()->forceSave();
 
         $this->clearCache($pluginName);
@@ -1075,6 +1075,19 @@ class Manager extends Singleton
         $this->updatePluginsInstalledConfig($pluginsInstalled);
     }
 
+    /**
+     * @param $pluginName
+     */
+    private function removePluginFromPluginsConfig($pluginName)
+    {
+        $pluginsEnabled = PiwikConfig::getInstance()->Plugins['Plugins'];
+        $key = array_search($pluginName, $pluginsEnabled);
+        if ($key !== false) {
+            unset($pluginsEnabled[$key]);
+        }
+        $this->updatePluginsConfig($pluginsEnabled);
+    }
+
     private function removePluginFromTrackerConfig($pluginName)
     {
         $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
@@ -1166,7 +1179,7 @@ class Manager extends Singleton
      */
     private function removePluginFromConfig($pluginName)
     {
-        $this->updatePluginsConfig();
+        $this->removePluginFromPluginsConfig($pluginName);
         $this->removePluginFromTrackerConfig($pluginName);
         PiwikConfig::getInstance()->forceSave();
     }
