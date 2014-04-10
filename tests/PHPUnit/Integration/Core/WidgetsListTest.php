@@ -43,6 +43,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
             'General_Visitors'             => 12,
             'UserSettings_VisitorSettings' => 11,
             'General_Actions'              => 8,
+            'Events_Events'                => 3,
             'Actions_SubmenuSitesearch'    => 5,
             'Referrers_Referrers'            => 7,
             'Goals_Goals'                  => 1,
@@ -80,7 +81,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
         WidgetsList::_reset();
 
         // number of main categories
-        $this->assertEquals(12, count($widgets));
+        $this->assertEquals(13, count($widgets));
 
         // check that the goal widget was added
         $numberOfWidgets = array(
@@ -113,7 +114,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
         WidgetsList::_reset();
 
         // number of main categories
-        $this->assertEquals(13, count($widgets));
+        $this->assertEquals(14, count($widgets));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -144,11 +145,11 @@ class Core_WidgetsListTest extends DatabaseTestCase
         WidgetsList::_reset();
         $widgets = WidgetsList::get();
 
-        $this->assertCount(13, $widgets);
+        $this->assertCount(14, $widgets);
         WidgetsList::remove('SEO', 'NoTeXiStInG');
 
         $widgets = WidgetsList::get();
-        $this->assertCount(13, $widgets);
+        $this->assertCount(14, $widgets);
 
         $this->assertArrayHasKey('SEO', $widgets);
         $this->assertCount(2, $widgets['SEO']);
