@@ -100,7 +100,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function indexEvent($controllerMethod)
     {
-        $apiMethod = str_replace('index', 'get', $controllerMethod, $count = 1);
+        $count = 1;
+        $apiMethod = str_replace('index', 'get', $controllerMethod, $count);
         $events = new Events;
         return View::singleReport(
             $events->getReportTitleTranslation($apiMethod),
