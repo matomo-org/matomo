@@ -39,5 +39,6 @@
 		<sum_event_value>Total value</sum_event_value>
 		<min_event_value>Minimum value</min_event_value>
 		<max_event_value>Maximum value</max_event_value>
+		<nb_events_with_value>Events with a value</nb_events_with_value>
 	</row>
 </result>

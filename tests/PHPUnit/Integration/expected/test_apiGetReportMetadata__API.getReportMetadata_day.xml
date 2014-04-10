@@ -962,12 +962,14 @@
 			<sum_event_value>Total value</sum_event_value>
 			<min_event_value>Minimum value</min_event_value>
 			<max_event_value>Maximum value</max_event_value>
+			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
 			<sum_event_value>Total value of events (sum of event values)</sum_event_value>
 			<min_event_value>Minimum value for this event</min_event_value>
 			<max_event_value>Maximum value for this event</max_event_value>
+			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 		</metricsDocumentation>
 		<actionToLoadSubTables>getActionFromCategoryId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
@@ -985,12 +987,14 @@
 			<sum_event_value>Total value</sum_event_value>
 			<min_event_value>Minimum value</min_event_value>
 			<max_event_value>Maximum value</max_event_value>
+			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
 			<sum_event_value>Total value of events (sum of event values)</sum_event_value>
 			<min_event_value>Minimum value for this event</min_event_value>
 			<max_event_value>Maximum value for this event</max_event_value>
+			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 		</metricsDocumentation>
 		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
@@ -1008,12 +1012,14 @@
 			<sum_event_value>Total value</sum_event_value>
 			<min_event_value>Minimum value</min_event_value>
 			<max_event_value>Maximum value</max_event_value>
+			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
 			<sum_event_value>Total value of events (sum of event values)</sum_event_value>
 			<min_event_value>Minimum value for this event</min_event_value>
 			<max_event_value>Maximum value for this event</max_event_value>
+			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 		</metricsDocumentation>
 		<actionToLoadSubTables>getActionFromNameId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getName&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
