@@ -43,14 +43,14 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    public function getSubtableAction($api)
+    public function getSubtableAction($apiMethod)
     {
-        return $this->mappingApiToApiLoadsubtables[$api];
+        return $this->mappingApiToApiLoadsubtables[$apiMethod];
     }
 
-    protected function getRecordNameForAction($method)
+    protected function getRecordNameForAction($apiMethod)
     {
-        return $this->mappingApiToRecord[$method];
+        return $this->mappingApiToRecord[$apiMethod];
     }
 
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
