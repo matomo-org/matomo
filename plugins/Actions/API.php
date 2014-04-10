@@ -11,10 +11,8 @@ namespace Piwik\Plugins\Actions;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
-
 use Piwik\Common;
 use Piwik\DataTable;
-
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -167,11 +165,11 @@ class API extends \Piwik\Plugin\API
     {
         // Keep only pages which are following site search
         $dataTable->filter('ColumnCallbackDeleteRow', array(
-                                                           'nb_hits_following_search',
-                                                           function ($value) {
-                                                               return $value <= 0;
-                                                           }
-                                                      ));
+            'nb_hits_following_search',
+            function ($value) {
+                return $value <= 0;
+            }
+        ));
     }
 
     /**
@@ -309,10 +307,10 @@ class API extends \Piwik\Plugin\API
         // Delete all rows that have some results
         $dataTable->filter('ColumnCallbackDeleteRow',
             array(
-                 Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
-                 function ($value) {
-                     return $value < 1;
-                 }
+                Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
+                function ($value) {
+                    return $value < 1;
+                }
             ));
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
         $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
@@ -478,20 +476,39 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('ColumnDelete', array($columnsToRemove));
 
         // Average time on page = total time on page / number visits on that page
-        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_time_on_page', 'sum_time_spent', 'nb_visits', 0));
+        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
+            array('avg_time_on_page',
+                  'sum_time_spent',
+                  'nb_visits',
+                  0)
+        );
 
         // Bounce rate = single page visits on this page / visits started on this page
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
+        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage',
+            array('bounce_rate',
+                  'entry_bounce_count',
+                  'entry_nb_visits',
+                  0));
 
         // % Exit = Number of visits that finished on this page / visits on this page
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
+        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage',
+            array('exit_rate',
+                  'exit_nb_visits',
+                  'nb_visits',
+                  0)
+        );
 
         // Handle performance analytics
         $hasTimeGeneration = (array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_SUM_TIME_GENERATION)) > 0);
         if ($hasTimeGeneration) {
             // Average generation time = total generation time / number of pageviews
             $precisionAvgTimeGeneration = 3;
-            $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_time_generation', 'sum_time_generation', 'nb_hits_with_time_generation', $precisionAvgTimeGeneration));
+            $dataTable->queueFilter('ColumnCallbackAddColumnQuotient',
+                array('avg_time_generation',
+                      'sum_time_generation',
+                      'nb_hits_with_time_generation',
+                      $precisionAvgTimeGeneration)
+            );
             $dataTable->queueFilter('ColumnDelete', array(array('sum_time_generation')));
         } else {
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that
@@ -540,7 +557,13 @@ class API extends \Piwik\Plugin\API
      */
     private function filterNonEntryActions($dataTable)
     {
-        $dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', function ($visits) { return !strlen($visits); }));
+        $dataTable->filter('ColumnCallbackDeleteRow',
+            array('entry_nb_visits',
+                  function ($visits) {
+                      return !strlen($visits);
+                  }
+            )
+        );
     }
 
     /**
@@ -550,16 +573,22 @@ class API extends \Piwik\Plugin\API
      */
     private function filterNonExitActions($dataTable)
     {
-        $dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', function ($visits) { return !strlen($visits); }));
+        $dataTable->filter('ColumnCallbackDeleteRow',
+            array('exit_nb_visits',
+                  function ($visits) {
+                      return !strlen($visits);
+                  })
+        );
     }
 
     protected function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null, $depth = null)
     {
         $skipAggregationOfSubTables = false;
-        if($period == 'range'
+        if ($period == 'range'
             && empty($idSubtable)
             && empty($expanded)
-            && !Request::shouldLoadFlatten()) {
+            && !Request::shouldLoadFlatten()
+        ) {
             $skipAggregationOfSubTables = true;
         }
         return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $skipAggregationOfSubTables, $depth);
