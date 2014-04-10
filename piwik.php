@@ -90,6 +90,7 @@ if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
 } else {
     $vendorDirectory = PIWIK_INCLUDE_PATH . '/../..';
 }
+require_once $vendorDirectory . '/autoload.php';
 require_once $vendorDirectory . '/mustangostang/spyc/Spyc.php';
 require_once $vendorDirectory . '/piwik/device-detector/DeviceDetector.php';
 

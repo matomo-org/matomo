@@ -52,7 +52,11 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
 
     protected function addThemeFiles()
     {
-        if(in_array($this->getTheme()->getThemeName(), $this->plugins)) {
+        $theme = $this->getTheme();
+        if(!$theme) {
+            return;
+        }
+        if(in_array($theme->getThemeName(), $this->plugins)) {
 
             $jsInThemes = $this->getTheme()->getJavaScriptFiles();
 

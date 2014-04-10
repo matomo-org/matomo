@@ -13,13 +13,15 @@
 			<sum_event_value>Total value</sum_event_value>
 			<min_event_value>Minimum value</min_event_value>
 			<max_event_value>Maximum value</max_event_value>
+			<avg_event_value>Average value</avg_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
-			<sum_event_value>Total value of events (sum of event values)</sum_event_value>
-			<min_event_value>Minimum value for this event</min_event_value>
-			<max_event_value>Maximum value for this event</max_event_value>
+			<sum_event_value>The sum of event values</sum_event_value>
+			<min_event_value>The minimum value for this event</min_event_value>
+			<max_event_value>The maximum value for this event</max_event_value>
+			<avg_event_value>The average of all values for this event</avg_event_value>
 			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 		</metricsDocumentation>
 		<actionToLoadSubTables>getActionFromCategoryId</actionToLoadSubTables>
@@ -33,6 +35,7 @@
 		<sum_event_value>Total value</sum_event_value>
 		<min_event_value>Minimum value</min_event_value>
 		<max_event_value>Maximum value</max_event_value>
+		<avg_event_value>Average value</avg_event_value>
 		<nb_events_with_value>Events with a value</nb_events_with_value>
 	</columns>
 	<reportData>
@@ -44,6 +47,7 @@
 				<sum_event_value>19.32</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
 				<label>Music</label>
@@ -52,6 +56,7 @@
 				<sum_event_value>38</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>10</max_event_value>
+				<avg_event_value>9.5</avg_event_value>
 			</row>
 			<row>
 				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
@@ -60,6 +65,7 @@
 				<sum_event_value>19.32</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />
