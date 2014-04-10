@@ -88,9 +88,6 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
             }
 
             $divisor = $this->getDivisor($row);
-            if ($divisor === false) {
-                continue;
-            }
 
             $formattedValue = $this->formatValue($value, $divisor);
             $row->addColumn($this->columnNameToAdd, $formattedValue);
