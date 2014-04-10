@@ -74,6 +74,7 @@ class Metrics
     const INDEX_EVENT_SUM_EVENT_VALUE = 35;
     const INDEX_EVENT_MIN_EVENT_VALUE = 36;
     const INDEX_EVENT_MAX_EVENT_VALUE = 37;
+    const INDEX_EVENT_NB_HITS_WITH_VALUE = 38;
 
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
@@ -130,6 +131,7 @@ class Metrics
         Metrics::INDEX_EVENT_SUM_EVENT_VALUE                 => 'sum_event_value',
         Metrics::INDEX_EVENT_MIN_EVENT_VALUE                 => 'min_event_value',
         Metrics::INDEX_EVENT_MAX_EVENT_VALUE                 => 'max_event_value',
+        Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE              => 'nb_events_with_value'
 
     );
 

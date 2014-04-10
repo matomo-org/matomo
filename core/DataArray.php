@@ -215,12 +215,13 @@ class DataArray
     static protected function makeEmptyEventRow()
     {
         return array(
-            Metrics::INDEX_NB_UNIQ_VISITORS => 0,
-            Metrics::INDEX_NB_VISITS        => 0,
-            Metrics::INDEX_EVENT_NB_HITS    => 0,
-            Metrics::INDEX_EVENT_SUM_EVENT_VALUE => 0,
-            Metrics::INDEX_EVENT_MIN_EVENT_VALUE => 0,
-            Metrics::INDEX_EVENT_MAX_EVENT_VALUE => 0,
+            Metrics::INDEX_NB_UNIQ_VISITORS         => 0,
+            Metrics::INDEX_NB_VISITS                => 0,
+            Metrics::INDEX_EVENT_NB_HITS            => 0,
+            Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE => 0,
+            Metrics::INDEX_EVENT_SUM_EVENT_VALUE    => 0,
+            Metrics::INDEX_EVENT_MIN_EVENT_VALUE    => 0,
+            Metrics::INDEX_EVENT_MAX_EVENT_VALUE    => 0,
         );
     }
 
@@ -236,11 +237,12 @@ class DataArray
         $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
         $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
         $oldRowToUpdate[Metrics::INDEX_EVENT_NB_HITS] += $newRowToAdd[Metrics::INDEX_EVENT_NB_HITS];
+        $oldRowToUpdate[Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE] += $newRowToAdd[Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE];
 
         $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE], self::EVENT_VALUE_PRECISION);
         $oldRowToUpdate[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] += $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE];
-        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]);
-        $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = min($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE]);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = round(max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]), self::EVENT_VALUE_PRECISION);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = round(min($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE]), self::EVENT_VALUE_PRECISION);
     }
 
     /**
