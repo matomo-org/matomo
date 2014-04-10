@@ -52,7 +52,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
      *                                       row iteration.
      */
     public function __construct($table, $columnNameToAdd, $columnValueToRead, $divisorValueOrDivisorColumnName,
-                                $quotientPrecision = 0,$shouldSkipRows = false, $getDivisorFromSummaryRow = false)
+                                $quotientPrecision = 0, $shouldSkipRows = false, $getDivisorFromSummaryRow = false)
     {
         parent::__construct($table);
         $this->table = $table;
@@ -88,6 +88,9 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
             }
 
             $divisor = $this->getDivisor($row);
+            if ($divisor === false) {
+                continue;
+            }
 
             $formattedValue = $this->formatValue($value, $divisor);
             $row->addColumn($this->columnNameToAdd, $formattedValue);
