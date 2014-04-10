@@ -141,7 +141,8 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function exec($sqlQuery)
     {
-        $rc = mysqli_query($this->_connection, $sqlQuery);
+        // Silent fail here to ignore warnings eg. https://travis-ci.org/piwik/piwik/jobs/22654252
+        $rc = @mysqli_query($this->_connection, $sqlQuery);
         $rowsAffected = mysqli_affected_rows($this->_connection);
         if (!is_bool($rc)) {
             mysqli_free_result($rc);
