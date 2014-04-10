@@ -2828,7 +2828,7 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Enable JavaScript Error Tracking
+                 * Enable tracking of uncatched JavaScript errors
                  *
                  * If enabled, uncaught JavaScript Errors will be tracked as an event by defining a
                  * window.onerror handler. If a window.onerror handler is already defined we will make
