@@ -6,146 +6,104 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Actions;
+namespace Piwik\Plugins\Events;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Events\Events;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory;
 
 /**
- * Actions controller
+ * Events controller
  *
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    //
-    // Actions that render whole pages
-    //
-
-    public function indexPageUrls()
+    public function index()
     {
-        return View::singleReport(
-            Piwik::translate('General_Pages'),
-            $this->getPageUrls(true));
-    }
-
-    public function indexEntryPageUrls()
-    {
-        return View::singleReport(
-            Piwik::translate('Actions_SubmenuPagesEntry'),
-            $this->getEntryPageUrls(true));
-    }
-
-    public function indexExitPageUrls()
-    {
-        return View::singleReport(
-            Piwik::translate('Actions_SubmenuPagesExit'),
-            $this->getExitPageUrls(true));
-    }
-
-    public function indexSiteSearch()
-    {
-        $view = new View('@Actions/indexSiteSearch');
-
-        $view->keywords = $this->getSiteSearchKeywords(true);
-        $view->noResultKeywords = $this->getSiteSearchNoResultKeywords(true);
-        $view->pagesUrlsFollowingSiteSearch = $this->getPageUrlsFollowingSiteSearch(true);
-
-        $categoryTrackingEnabled = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
-        if ($categoryTrackingEnabled) {
-            $view->categories = $this->getSiteSearchCategories(true);
-        }
-
+        $view = new View('@Events/index');
+        $view->leftMenuReports = $this->getLeftMenuReports();
         return $view->render();
     }
 
-    public function indexPageTitles()
+    private function getLeftMenuReports()
     {
+        $reports = new View\ReportsByDimension('Events');
+        foreach(Events::getLabelTranslations() as $apiAction => $translations) {
+            // 'getCategory' is the API method, but we are loading 'indexCategory' which displays <h2>
+            $controllerAction = str_replace("get", "index", $apiAction, $count = 1);
+            $reports->addReport('Events_TopEvents', $translations[0], 'Events.' . $controllerAction);
+        }
+        return $reports->render();
+    }
+
+    public function indexCategory()
+    {
+        return $this->indexEvent(__FUNCTION__);
+    }
+
+    public function indexAction()
+    {
+        return $this->indexEvent(__FUNCTION__);
+    }
+
+    public function indexName()
+    {
+        return $this->indexEvent(__FUNCTION__);
+    }
+
+    public function getCategory()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getAction()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getName()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getActionFromCategoryId()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getNameFromCategoryId()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getCategoryFromActionId()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getNameFromActionId()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getActionFromNameId()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getCategoryFromNameId()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    protected function indexEvent($controllerMethod)
+    {
+        $apiMethod = str_replace('index', 'get', $controllerMethod, $count = 1);
+        $events = new Events;
         return View::singleReport(
-            Piwik::translate('Actions_SubmenuPageTitles'),
-            $this->getPageTitles(true));
-    }
-
-    public function indexDownloads()
-    {
-        return View::singleReport(
-            Piwik::translate('General_Downloads'),
-            $this->getDownloads(true));
-    }
-
-    public function indexOutlinks()
-    {
-        return View::singleReport(
-            Piwik::translate('General_Outlinks'),
-            $this->getOutlinks(true));
-    }
-
-    //
-    // Actions that render individual reports
-    //
-
-    public function getPageUrls()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getEntryPageUrls()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getExitPageUrls()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchKeywords()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchNoResultKeywords()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchCategories()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageUrlsFollowingSiteSearch()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageTitlesFollowingSiteSearch()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageTitles()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getEntryPageTitles()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getExitPageTitles()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getDownloads()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOutlinks()
-    {
-        return $this->renderReport(__FUNCTION__);
+            $events->getReportTitleTranslation($apiMethod),
+            $this->$apiMethod()
+        );
     }
 }

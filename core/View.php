@@ -135,7 +135,7 @@ class View implements ViewInterface
 
         $this->piwik_version = Version::VERSION;
         $this->userLogin = Piwik::getCurrentUserLogin();
-        $this->isSuperUser = Access::getInstance()->hasSuperUserAccess(); // TODO: redundancy w/ userIsSuperUser
+        $this->isSuperUser = Access::getInstance()->hasSuperUserAccess();
 
         try {
             $this->piwikUrl = SettingsPiwik::getPiwikUrl();
@@ -320,7 +320,6 @@ class View implements ViewInterface
 
     /**
      * Assign value to a variable for use in a template
-     * ToDo: This is ugly.
      * @param string|array $var
      * @param mixed $value
      * @ignore
@@ -354,7 +353,6 @@ class View implements ViewInterface
      *
      * @param string $title The report title.
      * @param string $reportHtml The report body HTML.
-     * @param bool $fetch If true, return report contents as a string; otherwise echo to screen.
      * @return string|void The report contents if `$fetch` is true.
      */
     static public function singleReport($title, $reportHtml)
@@ -362,7 +360,6 @@ class View implements ViewInterface
         $view = new View('@CoreHome/_singleReport');
         $view->title = $title;
         $view->report = $reportHtml;
-
         return $view->render();
     }
 }
