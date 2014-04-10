@@ -104,6 +104,7 @@ class WidgetsList
             'UserSettings_VisitorSettings',
             'DevicesDetection_DevicesDetection',
             'General_Actions',
+            'Events_Events',
             'Actions_SubmenuSitesearch',
             'Referrers_Referrers',
             'Goals_Goals',
