@@ -70,6 +70,7 @@ class Core_MetricsTest extends PHPUnit_Framework_TestCase
             'sum_event_value' => 35,
             'min_event_value' => 36,
             'max_event_value' => 37,
+            'nb_events_with_value' => 38,
         );
         $this->assertEquals($expectedMapping, $mapping);
     }
