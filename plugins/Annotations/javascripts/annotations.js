@@ -539,7 +539,12 @@
                 loading.css('visibility', 'hidden');
 
                 // add & show annotation manager
-                $('.dataTableFeatures', domElem).append(manager);
+                if ($('#dashboardWidgetsArea').length) {
+                    manager.insertAfter($('.evolution-annotations', domElem));
+                } else {
+                    $('.dataTableFeatures', domElem).append(manager);
+                }
+
                 manager.slideDown('slow', function () {
                     loading.hide().css('visibility', 'visible');
                     loadingAnnotationManager = false;

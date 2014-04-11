@@ -88,6 +88,7 @@
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);
+            self.handleExpandFooter(domElem);
             self.setFixWidthToMakeEllipsisWork(domElem);
         },
 

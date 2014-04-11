@@ -1,19 +1,5 @@
 <div class="controls">
 
-    {{ 'Insights_ControlGrowthDescription'|translate }}
-
-    <select size="1" name="minGrowthPercent">
-        {% for i in range(0, 1, 1) %}
-            <option {% if i == properties.min_growth_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
-        {% endfor %}
-        {% for i in range(5, 100, 5) %}
-            <option {% if i == properties.min_growth_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
-        {% endfor %}
-        {% for i in range(200, 1000, 100) %}
-            <option {% if i == properties.min_growth_percent %}selected{% endif %} value="{{ i }}">{{ i }}%</option>
-        {% endfor %}
-    </select>
-
     {% if period != 'range' %}
 
         {{ 'Insights_ControlComparedToDescription'|translate }}
