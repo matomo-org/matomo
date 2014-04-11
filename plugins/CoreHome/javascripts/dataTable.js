@@ -233,10 +233,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var idToReplace = workingDivId || $(content).attr('id');
         var dataTableSel = $('#' + idToReplace);
 
-        // keep the original list of related reports
-        var oldReportsElem = $('.datatableRelatedReports', dataTableSel);
-        $('.datatableRelatedReports', content).replaceWith(oldReportsElem);
-
         // if the current dataTable is located inside another datatable
         table = $(content).parents('table.dataTable');
         if (dataTableSel.parents('.dataTable').is('table')) {
@@ -1473,8 +1469,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     // update header, if we can find it
                     var h2 = self._findReportHeader(newDomElem);
-                    if (h2)
-                        h2.text($(clicked).text());
+                    if (h2) {
+                        if(self.param.viewDataTable == 'tableEvents') {
+                            return;
+                        }
+                        var title = $(clicked).text();
+                        h2.text(title);
+                    }
                 });
             });
         });
