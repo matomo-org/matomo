@@ -80,7 +80,7 @@
                  title="{{ 'General_RowsToDisplay'|translate }}"></div>
             <div class="tableConfiguration">
                 <a class="tableConfigurationIcon" href="#"></a>
-                <ul>
+                <ul class="tableConfigurationCog">
                     {% if properties.show_flatten_table %}
                         {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
                         <li>
@@ -116,7 +116,7 @@
             {% else %}
                 {{ 'General_RelatedReports'|translate }}:
             {% endif %}
-            <ul style="list-style:none;{% if properties.related_reports|length == 1 %}display:inline-block;{% endif %}}">
+            <ul style="list-style:none;{% if properties.related_reports|length == 1 %}display:inline-block;{% endif %}">
                 <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
 
                 {% for reportUrl,reportTitle in properties.related_reports %}

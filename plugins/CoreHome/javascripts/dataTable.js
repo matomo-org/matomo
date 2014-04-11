@@ -1063,18 +1063,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // no manipulation when loading subtables
             return;
         }
-
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)) {
             // if there are no subtables, remove the flatten action
             $('.dataTableFlatten', domElem).parent().remove();
         }
 
-        var ul = $('div.tableConfiguration ul', domElem);
-
+        var ul = $('div.tableConfiguration ul.tableConfigurationCog', domElem);
         function hideConfigurationIcon() {
             // hide the icon when there are no actions available or we're not in a table view
-            $('div.tableConfiguration', domElem).remove();
+            $('div.tableConfiguration ul.tableConfigurationCog', domElem).hide();
         }
 
         if (ul.find('li').size() == 0) {
@@ -1316,7 +1314,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     handleSubDataTable: function (domElem) {
         var self = this;
         // When the TR has a subDataTable class it means that this row has a link to a subDataTable
-        this.numberOfSubtables = $('tr.subDataTable', domElem)
+        self.numberOfSubtables = $('tr.subDataTable', domElem)
             .click(
             function () {
                 // get the idSubTable
