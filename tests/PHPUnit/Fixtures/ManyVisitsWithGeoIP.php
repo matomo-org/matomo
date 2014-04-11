@@ -238,8 +238,8 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Fixture
 
     static public function unsetLocationProvider()
     {
-        // this randomly fails on MYSQLI
-        if(getenv('MYSQL_ADAPTER') == 'MYSQLI') {
+        // this randomly fails on PHP 5.3
+        if(strpos(PHP_VERSION, '5.3') === 0) {
             return;
         }
         try {
