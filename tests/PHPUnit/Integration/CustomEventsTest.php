@@ -62,14 +62,6 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
-                'segment'      => "events>0",
-                'setDateLastN' => false,
-                'testSuffix'   => '')
-            ),
-            array($apiEventAndAction, array(
-                'idSite'       => $idSite1,
-                'date'         => $dateTime,
-                'periods'      => $dayPeriod,
                 'segment'      => "eventCategory==Movie,eventName==".urlencode('La fiancée de l\'eau'),
                 'setDateLastN' => false,
                 'testSuffix'   => '_eventCategoryOrNameMatch')
@@ -115,6 +107,22 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
                                                 'testSuffix'   => '_' . $api . '_lastN')
             );
         }
+
+        // Test secondary dimensions
+        $secondaryDimensions = array('eventCategory', 'eventAction', 'eventName');
+        foreach($secondaryDimensions as $secondaryDimension) {
+            $result[] = array(array('Events'), array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $periods,
+                'otherRequestParameters' => array(
+                    'secondaryDimension' => $secondaryDimension
+                ),
+                'setDateLastN' => false,
+                'testSuffix'   => '_secondaryDimensionIs' . ucfirst($secondaryDimension))
+            );
+        }
+
         return $result;
     }
 

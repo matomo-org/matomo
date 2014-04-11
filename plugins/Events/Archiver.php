@@ -68,7 +68,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const EVENTS_ACTION_NAME_RECORD_NAME = 'Events_action_name';
     const EVENTS_NAME_ACTION_RECORD_NAME = 'Events_name_action';
     const EVENTS_NAME_CATEGORY_RECORD_NAME = 'Events_name_category';
-    const EVENT_NAME_NOT_SET = 'Events_NameNotSet';
+    const EVENT_NAME_NOT_SET = 'Piwik_EventNameNotSet';
 
     /**
      * @var DataArray[]
@@ -86,12 +86,12 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function getRecordToDimensions()
     {
         return array(
-            self::EVENTS_CATEGORY_ACTION_RECORD_NAME => array("event_category", "event_action"),
-            self::EVENTS_CATEGORY_NAME_RECORD_NAME   => array("event_category", "event_name"),
-            self::EVENTS_ACTION_NAME_RECORD_NAME     => array("event_action", "event_name"),
-            self::EVENTS_ACTION_CATEGORY_RECORD_NAME => array("event_action", "event_category"),
-            self::EVENTS_NAME_ACTION_RECORD_NAME     => array("event_name", "event_action"),
-            self::EVENTS_NAME_CATEGORY_RECORD_NAME   => array("event_name", "event_category"),
+            self::EVENTS_CATEGORY_ACTION_RECORD_NAME => array("eventCategory", "eventAction"),
+            self::EVENTS_CATEGORY_NAME_RECORD_NAME   => array("eventCategory", "eventName"),
+            self::EVENTS_ACTION_NAME_RECORD_NAME     => array("eventAction", "eventName"),
+            self::EVENTS_ACTION_CATEGORY_RECORD_NAME => array("eventAction", "eventCategory"),
+            self::EVENTS_NAME_ACTION_RECORD_NAME     => array("eventName", "eventAction"),
+            self::EVENTS_NAME_CATEGORY_RECORD_NAME   => array("eventName", "eventCategory"),
         );
     }
 
@@ -116,9 +116,9 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function aggregateDayEvents()
     {
         $select = "
-                log_action_event_category.name as event_category,
-                log_action_event_action.name as event_action,
-                log_action_event_name.name as event_name,
+                log_action_event_category.name as eventCategory,
+                log_action_event_action.name as eventAction,
+                log_action_event_name.name as eventName,
 
 				count(distinct log_link_visit_action.idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
 				count(distinct log_link_visit_action.idvisitor) as `" . Metrics::INDEX_NB_UNIQ_VISITORS . "`,
@@ -171,7 +171,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
-            $rankingQuery->addLabelColumn(array('event_category', 'event_action', 'event_name'));
+            $rankingQuery->addLabelColumn(array('eventCategory', 'eventAction', 'eventName'));
             $rankingQuery->addColumn(array(Metrics::INDEX_NB_UNIQ_VISITORS));
             $rankingQuery->addColumn(array(Metrics::INDEX_EVENT_NB_HITS, Metrics::INDEX_NB_VISITS, Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE), 'sum');
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_SUM_EVENT_VALUE, 'sum');
@@ -242,7 +242,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $mainLabel = $row[$mainDimension];
 
             // Event name is optional
-            if ($mainDimension == 'event_name'
+            if ($mainDimension == 'eventName'
                 && empty($mainLabel)) {
                 $mainLabel = self::EVENT_NAME_NOT_SET;
             }

@@ -151,7 +151,7 @@ class Events extends \Piwik\Plugin
                 'metrics'               => $metrics,
                 'metricsDocumentation'  => $documentation,
                 'processedMetrics'      => false,
-                'actionToLoadSubTables' => API::getInstance()->getSubtableAction($action),
+                'actionToLoadSubTables' => API::getInstance()->getActionToLoadSubtables($action),
                 'order'                 => $order++
             );
 
@@ -220,7 +220,7 @@ class Events extends \Piwik\Plugin
         $view->config->addTranslation('label', $this->getColumnTranslation($apiMethod));
         $view->config->addTranslations($this->getMetricTranslations());
         $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
-        $view->config->subtable_controller_action  = API::getInstance()->getSubtableAction($apiMethod);
+        $view->config->subtable_controller_action  = API::getInstance()->getActionToLoadSubtables($apiMethod);
 
         // Creates the tooltip message for Event Value column
         $tooltipCallback = function ($hits, $min, $max, $avg) {
