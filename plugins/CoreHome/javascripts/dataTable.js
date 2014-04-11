@@ -1066,13 +1066,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)) {
             // if there are no subtables, remove the flatten action
-            $('.dataTableFlatten', domElem).parent().remove();
+            $('div.tableConfiguration', domElem).parent().remove();
         }
 
         var ul = $('div.tableConfiguration ul.tableConfigurationCog', domElem);
         function hideConfigurationIcon() {
             // hide the icon when there are no actions available or we're not in a table view
-            $('div.tableConfiguration ul.tableConfigurationCog', domElem).hide();
+            $('div.tableConfiguration ul.tableConfigurationCog', domElem).remove();
         }
 
         if (ul.find('li').size() == 0) {
