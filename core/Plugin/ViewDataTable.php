@@ -228,6 +228,16 @@ abstract class ViewDataTable implements ViewInterface
         }
 
         $this->overrideViewPropertiesWithQueryParams();
+        $this->assignRelatedReportsTitle();
+    }
+
+    protected function assignRelatedReportsTitle()
+    {
+        if(count($this->config->related_reports) == 1) {
+            $this->config->related_reports_title = Piwik::translate('General_RelatedReport');
+        } else {
+            $this->config->related_reports_title = Piwik::translate('General_RelatedReports');
+        }
     }
 
     /**
