@@ -1066,13 +1066,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)) {
             // if there are no subtables, remove the flatten action
-            $('div.tableConfiguration', domElem).parent().remove();
+            $('.dataTableFlatten', domElem).parent().remove();
         }
 
-        var ul = $('div.tableConfiguration ul.tableConfigurationCog', domElem);
+        var ul = $('div.tableConfiguration ul', domElem);
         function hideConfigurationIcon() {
             // hide the icon when there are no actions available or we're not in a table view
-            $('div.tableConfiguration ul.tableConfigurationCog', domElem).remove();
+            $('div.tableConfiguration', domElem).remove();
         }
 
         if (ul.find('li').size() == 0) {
@@ -1185,7 +1185,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (!iconHighlighted
             && !(self.param.viewDataTable == 'table'
             || self.param.viewDataTable == 'tableAllColumns'
-            || self.param.viewDataTable == 'tableGoals')) {
+            || self.param.viewDataTable == 'tableGoals'
+            || self.param.viewDataTable == 'tableEvents')) {
             hideConfigurationIcon();
             return;
         }
