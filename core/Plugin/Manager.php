@@ -527,6 +527,7 @@ class Manager extends Singleton
             $pluginName = $oPlugin->getPluginName();
             $plugins[$pluginName]['info'] = $oPlugin->getInformation();
             $plugins[$pluginName]['missingRequirements'] = $oPlugin->getMissingDependencies();
+            $plugins[$pluginName]['uninstallable'] = true;
         }
         return $plugins;
     }
