@@ -181,7 +181,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>(Event Name not set)</label>
+		<label>Event Name not defined</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>6</nb_visits>
 		<nb_events>6</nb_events>

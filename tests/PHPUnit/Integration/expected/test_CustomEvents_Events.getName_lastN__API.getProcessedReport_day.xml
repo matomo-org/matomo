@@ -59,7 +59,7 @@
 				<avg_event_value>9.5</avg_event_value>
 			</row>
 			<row>
-				<label>(Event Name not set)</label>
+				<label>Event Name not defined</label>
 				<nb_events>6</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
