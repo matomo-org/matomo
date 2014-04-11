@@ -525,9 +525,15 @@ class Manager extends Singleton
         $loadedPlugins = $this->getLoadedPlugins();
         foreach ($loadedPlugins as $oPlugin) {
             $pluginName = $oPlugin->getPluginName();
-            $plugins[$pluginName]['info'] = $oPlugin->getInformation();
-            $plugins[$pluginName]['missingRequirements'] = $oPlugin->getMissingDependencies();
-            $plugins[$pluginName]['uninstallable'] = true;
+
+            $info = array(
+                'info' => $oPlugin->getInformation(),
+                'activated'       => $this->isPluginActivated($pluginName),
+                'alwaysActivated' => $this->isPluginAlwaysActivated($pluginName),
+                'missingRequirements' => $oPlugin->getMissingDependencies(),
+                'uninstallable' => $this->isPluginUninstallable($pluginName),
+            );
+            $plugins[$pluginName] = $info;
         }
         return $plugins;
     }
