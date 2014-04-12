@@ -1181,8 +1181,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (!iconHighlighted
             && !(self.param.viewDataTable == 'table'
             || self.param.viewDataTable == 'tableAllColumns'
-            || self.param.viewDataTable == 'tableGoals'
-            || self.param.viewDataTable == 'tableEvents')) {
+            || self.param.viewDataTable == 'tableGoals')) {
             hideConfigurationIcon();
             return;
         }
@@ -1466,16 +1465,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 self.reloadAjaxDataTable(true, function (newReport) {
                     var newDomElem = self.dataTableLoaded(newReport, self.workingDivId);
                     hideShowRelatedReports(clicked);
-
-                    // update header, if we can find it
-                    var h2 = self._findReportHeader(newDomElem);
-                    if (h2) {
-                        if(self.param.viewDataTable == 'tableEvents') {
-                            return;
-                        }
-                        var title = $(clicked).text();
-                        h2.text(title);
-                    }
                 });
             });
         });
