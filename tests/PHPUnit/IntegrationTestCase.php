@@ -113,6 +113,26 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $this->changeLanguage('en');
     }
 
+    /**
+     * Returns true if continuous integration running this request
+     * Useful to exclude tests which may fail only on this setup
+     */
+    static public function isTravisCI()
+    {
+        $travis = getenv('TRAVIS');
+        return !empty($travis);
+    }
+
+    static public function isPhpVersion53()
+    {
+        return strpos(PHP_VERSION, '5.3') === 0;
+    }
+
+    static public function isMysqli()
+    {
+        return getenv('MYSQL_ADAPTER') == 'MYSQLI';
+    }
+
     protected function alertWhenImagesExcludedFromTests()
     {
         if (!Fixture::canImagesBeIncludedInScheduledReports()) {
