@@ -190,7 +190,6 @@ abstract class ViewDataTable implements ViewInterface
         $this->config->self_url          = Request::getBaseReportUrl($controllerName, $controllerAction);
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
-        $this->assignRelatedReportsTitle();
 
         /**
          * Triggered during {@link ViewDataTable} construction. Subscribers should customize
@@ -215,6 +214,8 @@ abstract class ViewDataTable implements ViewInterface
          * @param ViewDataTable $view The instance to configure.
          */
         Piwik::postEvent('ViewDataTable.configure', array($this));
+
+        $this->assignRelatedReportsTitle();
 
         $this->config->show_footer_icons = (false == $this->requestConfig->idSubtable);
 
