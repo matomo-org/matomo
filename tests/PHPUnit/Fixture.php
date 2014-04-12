@@ -215,6 +215,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performTearDown()
     {
+        // Note: avoid run SQL in the *tearDown() metohds because it randomly fails on Travis CI
+        // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
         self::unloadAllPlugins();
