@@ -279,10 +279,7 @@ class FrontController extends Singleton
             $this->handleProfiler();
             $this->handleSSLRedirection();
 
-            $pluginsManager = \Piwik\Plugin\Manager::getInstance();
-            $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
-
-            $pluginsManager->loadPlugins($pluginsToLoad);
+            Plugin\Manager::getInstance()->loadActivatedPlugins();
 
             if ($exceptionToThrow) {
                 throw $exceptionToThrow;
@@ -361,7 +358,7 @@ class FrontController extends Singleton
             SettingsServer::raiseMemoryLimitIfNecessary();
 
             Translate::reloadLanguage();
-            $pluginsManager->postLoadPlugins();
+            \Piwik\Plugin\Manager::getInstance()->postLoadPlugins();
 
             /**
              * Triggered after the platform is initialized and after the user has been authenticated, but

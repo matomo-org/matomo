@@ -365,14 +365,7 @@ class Tracker
                 Db::createDatabaseObject();
             }
 
-            $pluginsManager = \Piwik\Plugin\Manager::getInstance();
-            $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
-            $pluginsForcedNotToLoad = Tracker::getPluginsNotToLoad();
-            $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
-            if(defined('PIWIK_TEST_MODE')) {
-                $pluginsToLoad = array_intersect($pluginsToLoad, $pluginsManager->getPluginsToLoadDuringTests());
-            }
-            $pluginsManager->loadPlugins($pluginsToLoad);
+            \Piwik\Plugin\Manager::getInstance()->loadCorePluginsDuringTracker();
         }
     }
 

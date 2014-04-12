@@ -84,6 +84,28 @@ class Manager extends Singleton
     );
 
     /**
+     * Loads plugin that are enabled
+     */
+    public function loadActivatedPlugins()
+    {
+        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
+        $this->loadPlugins($pluginsToLoad);
+    }
+
+    /**
+     * Called during Tracker
+     */
+    public function loadCorePluginsDuringTracker()
+    {
+        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
+        $pluginsToLoad = array_diff($pluginsToLoad, Tracker::getPluginsNotToLoad());
+        if(defined('PIWIK_TEST_MODE')) {
+            $pluginsToLoad = array_intersect($pluginsToLoad, $this->getPluginsToLoadDuringTests());
+        }
+        $this->loadPlugins($pluginsToLoad);
+    }
+
+    /**
      * @return array names of plugins that have been loaded
      */
     public function loadTrackerPlugins()

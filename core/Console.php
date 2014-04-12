@@ -148,9 +148,7 @@ class Console extends Application
 
     public static function initPlugins()
     {
-        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
-        $pluginsManager = Plugin\Manager::getInstance();
-        $pluginsManager->loadPlugins($pluginsToLoad);
+        Plugin\Manager::getInstance()->loadActivatedPlugins();
     }
 
     private function getDefaultPiwikCommands()
