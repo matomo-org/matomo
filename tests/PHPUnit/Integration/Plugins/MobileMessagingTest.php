@@ -36,6 +36,7 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
 
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging', 'MultiSites'));
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+        \Piwik\Translate::loadEnglishTranslation();
     }
 
 
