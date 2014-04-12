@@ -55,14 +55,20 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    public function getActionToLoadSubtables($apiMethod)
+    public function getActionToLoadSubtables($apiMethod, $secondaryDimension = false)
     {
-        $secondaryDimension = $this->getDefaultSecondaryDimension($apiMethod);
+        if(empty($secondaryDimension)) {
+            $secondaryDimension = $this->getDefaultSecondaryDimension($apiMethod);
+        }
         $recordName = $this->getRecordNameForAction($apiMethod, $secondaryDimension);
-        return array_search( $recordName, $this->mappingApiToRecord );
+        $apiMethod = array_search( $recordName, $this->mappingApiToRecord );
+        return $apiMethod;
     }
 
-    protected function getDefaultSecondaryDimension($apiMethod)
+    /**
+     * @ignore
+     */
+    public function getDefaultSecondaryDimension($apiMethod)
     {
         if(isset($this->defaultMappingApiToSecondaryDimension[$apiMethod])) {
             return $this->defaultMappingApiToSecondaryDimension[$apiMethod];
@@ -85,6 +91,17 @@ class API extends \Piwik\Plugin\API
         return $this->mappingApiToRecord[$apiMethod][$secondaryDimension];
     }
 
+    /**
+     * @ignore
+     * @param $apiMethod
+     * @return array
+     */
+    public function getSecondaryDimensions($apiMethod)
+    {
+        $records = $this->mappingApiToRecord[$apiMethod];
+        return array_keys($records);
+    }
+
     protected function checkSecondaryDimension($apiMethod, $secondaryDimension)
     {
         if (empty($secondaryDimension)) {
@@ -98,7 +115,7 @@ class API extends \Piwik\Plugin\API
         if (!$isSecondaryDimensionValid) {
             throw new \Exception(
                 "Secondary dimension '$secondaryDimension' is not valid for the API $apiMethod. ".
-                "Use one of: " . implode(", ", array_keys($this->mappingApiToRecord[$apiMethod]))
+                "Use one of: " . implode(", ", $this->getSecondaryDimensions($apiMethod))
             );
         }
     }

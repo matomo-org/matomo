@@ -24,6 +24,8 @@
         "EventValueTooltip": "Total Event value is the sum of %s events values %s between minimum of %s and maximum of %s.",
         "AvgEventValue": "Average Event value is: %s",
         "TopEvents": "Top Events",
+        "SecondaryDimension": "Secondary dimension is %s.",
+        "SwitchToSecondaryDimension": "Switch to %s",
         "ViewEvents": "View Events"
     }
 }

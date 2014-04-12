@@ -198,6 +198,12 @@ class RequestConfig
      */
     public $disable_queued_filters = false;
 
+    /**
+     * returns 'Plugin.apiMethodName' used for this ViewDataTable,
+     * eg. 'Actions.getPageUrls'
+     *
+     * @var string
+     */
     public $apiMethodToRequestDataTable = '';
 
     /**

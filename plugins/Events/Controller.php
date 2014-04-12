@@ -33,7 +33,11 @@ class Controller extends \Piwik\Plugin\Controller
             // 'getCategory' is the API method, but we are loading 'indexCategory' which displays <h2>
             $count = 1;
             $controllerAction = str_replace("get", "index", $apiAction, $count);
-            $reports->addReport('Events_TopEvents', $translations[0], 'Events.' . $controllerAction);
+            $params = array(
+                'viewDataTable' => 'tableEvents',
+                'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($apiAction)
+            );
+            $reports->addReport('Events_TopEvents', $translations[0], 'Events.' . $controllerAction, $params);
         }
         return $reports->render();
     }
@@ -103,8 +107,9 @@ class Controller extends \Piwik\Plugin\Controller
         $count = 1;
         $apiMethod = str_replace('index', 'get', $controllerMethod, $count);
         $events = new Events;
+        $title = $events->getReportTitleTranslation($apiMethod);
         return View::singleReport(
-            $events->getReportTitleTranslation($apiMethod),
+            $title,
             $this->$apiMethod()
         );
     }
