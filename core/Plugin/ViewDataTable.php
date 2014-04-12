@@ -235,9 +235,9 @@ abstract class ViewDataTable implements ViewInterface
     protected function assignRelatedReportsTitle()
     {
         if(count($this->config->related_reports) == 1) {
-            $this->config->related_reports_title = Piwik::translate('General_RelatedReport');
+            $this->config->related_reports_title = Piwik::translate('General_RelatedReport') . ':';
         } else {
-            $this->config->related_reports_title = Piwik::translate('General_RelatedReports');
+            $this->config->related_reports_title = Piwik::translate('General_RelatedReports') . ':';
         }
     }
 
