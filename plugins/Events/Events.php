@@ -150,10 +150,9 @@ class Events extends \Piwik\Plugin
         $documentation = $this->getMetricDocumentation();
         $labelTranslations = $this->getLabelTranslations();
 
-        $secondaryDimension = $this->getSecondaryDimensionFromRequest();
-
         $order = 0;
         foreach($labelTranslations as $action => $translations) {
+            $secondaryDimension = $this->getSecondaryDimensionFromRequest($action);
             $actionToLoadSubtables = API::getInstance()->getActionToLoadSubtables($action, $secondaryDimension);
             $reports[] = array(
                 'category'              => Piwik::translate('Events_Events'),
@@ -216,7 +215,7 @@ class Events extends \Piwik\Plugin
         // eg. 'Events.getCategory'
         $apiMethod = $view->requestConfig->getApiMethodToRequest();
 
-        $secondaryDimension = $this->getSecondaryDimensionFromRequest();
+        $secondaryDimension = $this->getSecondaryDimensionFromRequest($apiMethod);
 
         $view->config->subtable_controller_action = API::getInstance()->getActionToLoadSubtables($apiMethod, $secondaryDimension);
         $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
@@ -297,8 +296,9 @@ class Events extends \Piwik\Plugin
     /**
      * @return mixed
      */
-    protected function getSecondaryDimensionFromRequest()
+    protected function getSecondaryDimensionFromRequest($apiMethod)
     {
+        $defaultSecondaryDimension = API::getInstance()->getDefaultSecondaryDimension($apiMethod);
         return Common::getRequestVar('secondaryDimension', false, 'string');
     }
 }
