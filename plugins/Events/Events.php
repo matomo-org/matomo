@@ -36,7 +36,10 @@ class Events extends \Piwik\Plugin
     public function addWidgets()
     {
         foreach(self::getLabelTranslations() as $apiMethod => $labels) {
-            WidgetsList::add('Events_Events', $labels[0], 'Events', $apiMethod);
+            $params = array(
+                'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($apiMethod)
+            );
+            WidgetsList::add('Events_Events', $labels[0], 'Events', $apiMethod, $params);
         }
     }
 
