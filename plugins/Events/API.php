@@ -55,7 +55,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    public function getActionToLoadSubtables($apiMethod, $secondaryDimension)
+    public function getActionToLoadSubtables($apiMethod, $secondaryDimension = false)
     {
         $recordName = $this->getRecordNameForAction($apiMethod, $secondaryDimension);
         $apiMethod = array_search( $recordName, $this->mappingApiToRecord );
@@ -77,15 +77,17 @@ class API extends \Piwik\Plugin\API
     protected function getRecordNameForAction($apiMethod, $secondaryDimension = false)
     {
         if (empty($secondaryDimension)) {
-            $record = $this->mappingApiToRecord[$apiMethod];
-
-            if(!is_array($record)) {
-                return $record;
-            }
             $secondaryDimension = $this->getDefaultSecondaryDimension($apiMethod);
         }
-
-        return $this->mappingApiToRecord[$apiMethod][$secondaryDimension];
+        $record = $this->mappingApiToRecord[$apiMethod];
+        if(!is_array($record)) {
+            return $record;
+        }
+        // when secondaryDimension is incorrectly set
+        if(empty($record[$secondaryDimension])) {
+            return key($record);
+        }
+        return $record[$secondaryDimension];
     }
 
     /**
@@ -96,6 +98,9 @@ class API extends \Piwik\Plugin\API
     public function getSecondaryDimensions($apiMethod)
     {
         $records = $this->mappingApiToRecord[$apiMethod];
+        if(!is_array($records)) {
+            return false;
+        }
         return array_keys($records);
     }
 

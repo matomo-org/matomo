@@ -152,7 +152,7 @@ class Events extends \Piwik\Plugin
 
         $order = 0;
         foreach($labelTranslations as $action => $translations) {
-            $secondaryDimension = $this->getSecondaryDimensionFromRequest($action);
+            $secondaryDimension = $this->getSecondaryDimensionFromRequest();
             $actionToLoadSubtables = API::getInstance()->getActionToLoadSubtables($action, $secondaryDimension);
             $reports[] = array(
                 'category'              => Piwik::translate('Events_Events'),
@@ -215,22 +215,15 @@ class Events extends \Piwik\Plugin
         // eg. 'Events.getCategory'
         $apiMethod = $view->requestConfig->getApiMethodToRequest();
 
-        $secondaryDimension = $this->getSecondaryDimensionFromRequest($apiMethod);
-
+        $secondaryDimension = $this->getSecondaryDimensionFromRequest();
         $view->config->subtable_controller_action = API::getInstance()->getActionToLoadSubtables($apiMethod, $secondaryDimension);
         $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
         $view->config->show_flatten_table = true;
         $view->config->show_table = false;
         $view->config->show_table_all_columns = false;
-
-        //$view->config->custom_parameters['flat'] = 0;
-        //$view->config->custom_parameters['secondaryDimension'] = $secondaryDimension;
-
         $view->requestConfig->filter_sort_column = 'nb_events';
 
-
         $labelTranslation = $this->getColumnTranslation($apiMethod);
-
         $view->config->addTranslation('label', $labelTranslation);
         $view->config->addTranslations($this->getMetricTranslations());
         $this->addRelatedReports($view, $secondaryDimension);
@@ -243,6 +236,10 @@ class Events extends \Piwik\Plugin
 
         $apiMethod = $view->requestConfig->getApiMethodToRequest();
         $secondaryDimensions = API::getInstance()->getSecondaryDimensions($apiMethod);
+
+        if(empty($secondaryDimensions)) {
+            return;
+        }
 
         $secondaryDimensionTranslation = $this->getDimensionLabel($secondaryDimension);
         $view->config->related_reports_title =
@@ -296,9 +293,8 @@ class Events extends \Piwik\Plugin
     /**
      * @return mixed
      */
-    protected function getSecondaryDimensionFromRequest($apiMethod)
+    protected function getSecondaryDimensionFromRequest()
     {
-        $defaultSecondaryDimension = API::getInstance()->getDefaultSecondaryDimension($apiMethod);
         return Common::getRequestVar('secondaryDimension', false, 'string');
     }
 }
