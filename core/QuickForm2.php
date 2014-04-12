@@ -118,6 +118,8 @@ abstract class QuickForm2 extends HTML_QuickForm2
         return array_filter($messages);
     }
 
+    static protected $registered = false;
+
     /**
      * Returns the rendered form as an array.
      *
@@ -126,10 +128,9 @@ abstract class QuickForm2 extends HTML_QuickForm2
      */
     public function getFormData($groupErrors = true)
     {
-        static $registered = false;
-        if (!$registered) {
+        if (!self::$registered) {
             HTML_QuickForm2_Renderer::register('smarty', 'HTML_QuickForm2_Renderer_Smarty');
-            $registered = true;
+            self::$registered = true;
         }
 
         // Create the renderer object
