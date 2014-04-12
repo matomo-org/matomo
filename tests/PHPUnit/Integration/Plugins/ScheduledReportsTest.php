@@ -42,8 +42,6 @@ class Plugins_ScheduledReportsTest extends DatabaseTestCase
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
         FakeAccess::setIdSitesView(array($this->idSite, 2));
         APIScheduledReports::$cache = array();
-
-        \Piwik\Translate::loadEnglishTranslation();
     }
 
     /**
