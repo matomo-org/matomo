@@ -242,6 +242,7 @@ class Fixture extends PHPUnit_Framework_Assert
         DbHelper::createTables();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginsManager->getPluginsToLoadDuringTests();
+        $plugins[] = 'DeviceDetection';
 
         // Load all plugins
         $pluginsManager->loadPlugins($plugins);
