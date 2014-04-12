@@ -131,22 +131,6 @@ class Tracker
     }
 
     /**
-     * @return array
-     */
-    static public function getPluginsToLoad()
-    {
-        return self::$pluginsToLoad;
-    }
-
-    /**
-     * @param array $plugins
-     */
-    static public function setPluginsToLoad($plugins)
-    {
-        self::$pluginsToLoad = $plugins;
-    }
-
-    /**
      * Update Tracker config
      *
      * @param string $name Setting name
@@ -385,7 +369,9 @@ class Tracker
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
-            $pluginsToLoad = array_merge($pluginsToLoad, Tracker::getPluginsToLoad());
+            if(defined('PIWIK_TEST_MODE')) {
+                $pluginsToLoad = array_intersect($pluginsToLoad, $pluginsManager->getPluginsToLoadDuringTests());
+            }
             $pluginsManager->loadPlugins($pluginsToLoad);
         }
     }

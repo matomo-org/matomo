@@ -88,6 +88,7 @@ class Manager extends Singleton
      */
     public function loadTrackerPlugins()
     {
+        $this->unloadPlugins();
         $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         if (empty($pluginsTracker)) {
             return array();
@@ -97,9 +98,8 @@ class Manager extends Singleton
         if(defined('PIWIK_TEST_MODE')) {
             $pluginsTracker = array_intersect($pluginsTracker, $this->getPluginsToLoadDuringTests());
         }
-
-        \Piwik\Plugin\Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins($pluginsTracker);
+        $this->doNotLoadAlwaysActivatedPlugins();
+        $this->loadPlugins($pluginsTracker);
         return $pluginsTracker;
     }
 
@@ -691,8 +691,8 @@ class Manager extends Singleton
      */
     public function getPluginsLoadedAndActivated()
     {
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
-        $enabled = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
+        $plugins = $this->getLoadedPlugins();
+        $enabled = $this->getActivatedPlugins();
 
         if(empty($enabled)) {
             return array();
