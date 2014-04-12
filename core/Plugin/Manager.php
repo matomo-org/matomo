@@ -88,7 +88,6 @@ class Manager extends Singleton
      */
     public function loadTrackerPlugins()
     {
-        $this->unloadPlugins();
         $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         if (empty($pluginsTracker)) {
             return array();
@@ -97,7 +96,6 @@ class Manager extends Singleton
         $pluginsTracker = array_diff($pluginsTracker, Tracker::getPluginsNotToLoad());
         if(defined('PIWIK_TEST_MODE')) {
             $pluginsTracker = array_intersect($pluginsTracker, $this->getPluginsToLoadDuringTests());
-            $pluginsTracker[] = 'DevicesDetection';
         }
         $this->doNotLoadAlwaysActivatedPlugins();
         $this->loadPlugins($pluginsTracker);
