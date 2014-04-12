@@ -715,6 +715,9 @@ class Manager extends Singleton
      */
     public function getActivatedPlugins()
     {
+        if(defined('PIWIK_TEST_MODE')) {
+            return array_intersect($this->pluginsToLoad, $this->getPluginsToLoadDuringTests());
+        }
         return $this->pluginsToLoad;
     }
 
