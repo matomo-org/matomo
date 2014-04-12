@@ -1,0 +1,21 @@
+{
+    "Events": {
+        "Event": "Evento",
+        "EventAction": "Acción de evento",
+        "EventActions": "Acciones de evento",
+        "EventCategories": "Categorias del evento",
+        "EventCategory": "Categoría del evento",
+        "EventName": "Nombre del evento",
+        "EventNames": "Nombres de los eventos",
+        "Events": "Eventos",
+        "EventValue": "Valor del evento",
+        "MaxValue": "Valor máximo",
+        "MaxValueDocumentation": "El valor máximo de evento",
+        "MinValue": "Valor minimo",
+        "MinValueDocumentation": "El valor minimo de este evento",
+        "TotalEvents": "El total de eventos",
+        "TotalEventsDocumentation": "El numero total de eventos",
+        "TotalValue": "Valor total",
+        "TotalValueDocumentation": "Valor total de eventos (la suma del valor de los eventos)"
+    }
+}
