@@ -40,6 +40,11 @@ class PluginManagerMock extends Manager
         return null;
     }
 
+    public function getPluginsLoadedAndActivated()
+    {
+        return $this->getLoadedPlugins();
+    }
+
     public function getLoadedPluginsName()
     {
         $pluginNames = array();
