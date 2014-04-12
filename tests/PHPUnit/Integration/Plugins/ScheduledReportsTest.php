@@ -43,7 +43,7 @@ class Plugins_ScheduledReportsTest extends DatabaseTestCase
         FakeAccess::setIdSitesView(array($this->idSite, 2));
         APIScheduledReports::$cache = array();
 
-        Translate::loadEnglishTranslation();
+        \Piwik\Translate::loadEnglishTranslation();
     }
 
     /**
