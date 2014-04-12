@@ -425,7 +425,7 @@ class Fixture extends PHPUnit_Framework_Assert
         }
 
         self::assertArrayHasKey('status', $data);
-        self::assertEquals('success', $data['status']);
+        self::assertEquals('success', $data['status'], "expected success, got: " . var_export($data, true));
     }
 
     public static function makeLocation($city, $region, $country, $lat = null, $long = null, $isp = null)
