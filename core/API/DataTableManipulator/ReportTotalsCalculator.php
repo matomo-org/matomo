@@ -44,7 +44,14 @@ class ReportTotalsCalculator extends DataTableManipulator
             return $table;
         }
 
-        return $this->manipulate($table);
+        try {
+            return $this->manipulate($table);
+        } catch(\Exception $e) {
+            // eg. requests with idSubtable may trigger this exception
+            // (where idSubtable was removed in
+            // ?module=API&method=Events.getNameFromCategoryId&idSubtable=1&secondaryDimension=eventName&format=XML&idSite=1&period=day&date=yesterday&flat=0
+            return $table;
+        }
     }
 
     /**
@@ -192,14 +199,17 @@ class ReportTotalsCalculator extends DataTableManipulator
         $request['filter_limit']  = -1;
         $request['filter_offset'] = 0;
 
-        $parametersToRemove = array('flat', 'idSubtable');
+        $parametersToRemove = array('flat');
+
+        if (!array_key_exists('idSubtable', $this->request)) {
+            $parametersToRemove[] = 'idSubtable';
+        }
 
         foreach ($parametersToRemove as $param) {
             if (array_key_exists($param, $request)) {
                 unset($request[$param]);
             }
         }
-
         return $request;
     }
 

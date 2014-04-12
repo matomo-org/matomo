@@ -34,7 +34,6 @@ class Controller extends \Piwik\Plugin\Controller
             $count = 1;
             $controllerAction = str_replace("get", "index", $apiAction, $count);
             $params = array(
-                'viewDataTable' => 'tableEvents',
                 'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($apiAction)
             );
             $reports->addReport('Events_TopEvents', $translations[0], 'Events.' . $controllerAction, $params);

@@ -29,15 +29,10 @@ class Events extends \Piwik\Plugin
             'API.getReportMetadata'                 => 'getReportMetadata',
             'Menu.Reporting.addItems'               => 'addMenus',
             'WidgetsList.addWidgets'                => 'addWidgets',
-            'ViewDataTable.addViewDataTable'        => 'addAvailableVisualizations'
+            'ViewDataTable.configure'               => 'configureViewDataTable',
+
         );
     }
-
-    public function addAvailableVisualizations(&$visualizations)
-    {
-        $visualizations[] = __NAMESPACE__ . '\\Visualizations\\Events';
-    }
-
     public function addWidgets()
     {
         foreach(self::getLabelTranslations() as $apiMethod => $labels) {
@@ -155,10 +150,11 @@ class Events extends \Piwik\Plugin
         $documentation = $this->getMetricDocumentation();
         $labelTranslations = $this->getLabelTranslations();
 
-        $secondaryDimension = Common::getRequestVar('secondaryDimension', '', 'string');
+        $secondaryDimension = $this->getSecondaryDimensionFromRequest();
 
         $order = 0;
         foreach($labelTranslations as $action => $translations) {
+            $actionToLoadSubtables = API::getInstance()->getActionToLoadSubtables($action, $secondaryDimension);
             $reports[] = array(
                 'category'              => Piwik::translate('Events_Events'),
                 'name'                  => Piwik::translate($translations[0]),
@@ -168,7 +164,7 @@ class Events extends \Piwik\Plugin
                 'metrics'               => $metrics,
                 'metricsDocumentation'  => $documentation,
                 'processedMetrics'      => false,
-                'actionToLoadSubTables' => API::getInstance()->getActionToLoadSubtables($action, $secondaryDimension),
+                'actionToLoadSubTables' => $actionToLoadSubtables,
                 'order'                 => $order++
             );
 
@@ -209,5 +205,100 @@ class Events extends \Piwik\Plugin
             }
         }
         throw new \Exception("Translation not found for report $apiMethod");
+    }
+
+    public function configureViewDataTable(ViewDataTable $view)
+    {
+        if($view->requestConfig->getApiModuleToRequest() != 'Events') {
+            return;
+        }
+
+        // eg. 'Events.getCategory'
+        $apiMethod = $view->requestConfig->getApiMethodToRequest();
+
+        $secondaryDimension = $this->getSecondaryDimensionFromRequest();
+
+        $view->config->subtable_controller_action = API::getInstance()->getActionToLoadSubtables($apiMethod, $secondaryDimension);
+        $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
+        $view->config->show_flatten_table = true;
+        $view->config->show_table = false;
+        $view->config->show_table_all_columns = false;
+
+        //$view->config->custom_parameters['flat'] = 0;
+        //$view->config->custom_parameters['secondaryDimension'] = $secondaryDimension;
+
+        $view->requestConfig->filter_sort_column = 'nb_events';
+
+
+        $labelTranslation = $this->getColumnTranslation($apiMethod);
+
+        $view->config->addTranslation('label', $labelTranslation);
+        $view->config->addTranslations($this->getMetricTranslations());
+        $this->addRelatedReports($view, $secondaryDimension);
+        $this->addTooltipEventValue($view);
+    }
+
+    protected function addRelatedReports($view, $secondaryDimension)
+    {
+        $view->config->show_related_reports = true;
+
+        $apiMethod = $view->requestConfig->getApiMethodToRequest();
+        $secondaryDimensions = API::getInstance()->getSecondaryDimensions($apiMethod);
+
+        $secondaryDimensionTranslation = $this->getDimensionLabel($secondaryDimension);
+        $view->config->related_reports_title =
+            Piwik::translate('Events_SecondaryDimension', $secondaryDimensionTranslation)
+            . "<br/>"
+            . Piwik::translate('Events_SwitchToSecondaryDimension', '');
+
+        foreach($secondaryDimensions as $dimension) {
+            if($dimension == $secondaryDimension) {
+                // don't show as related report the currently selected dimension
+                continue;
+            }
+
+            $dimensionTranslation = $this->getDimensionLabel($dimension);
+            $view->config->addRelatedReport(
+                $view->requestConfig->apiMethodToRequestDataTable,
+                $dimensionTranslation,
+                array('secondaryDimension' => $dimension)
+            );
+        }
+
+    }
+
+    protected function addTooltipEventValue($view)
+    {
+        // Creates the tooltip message for Event Value column
+        $tooltipCallback = function ($hits, $min, $max, $avg) {
+            if (!$hits) {
+                return false;
+            }
+            $msgEventMinMax = Piwik::translate("Events_EventValueTooltip", array($hits, "<br />", $min, $max));
+            $msgEventAvg = Piwik::translate("Events_AvgEventValue", $avg);
+            return $msgEventMinMax . "<br/>" . $msgEventAvg;
+        };
+
+        // Add tooltip metadata column to the DataTable
+        $view->config->filters[] = array('ColumnCallbackAddMetadata',
+                                         array(
+                                             array(
+                                                 'nb_events',
+                                                 'min_event_value',
+                                                 'max_event_value',
+                                                 'avg_event_value'
+                                             ),
+                                             'sum_event_value_tooltip',
+                                             $tooltipCallback
+                                         )
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getSecondaryDimensionFromRequest()
+    {
+        return Common::getRequestVar('secondaryDimension', false, 'string');
     }
 }

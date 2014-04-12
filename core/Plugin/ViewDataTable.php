@@ -190,6 +190,7 @@ abstract class ViewDataTable implements ViewInterface
         $this->config->self_url          = Request::getBaseReportUrl($controllerName, $controllerAction);
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
+        $this->assignRelatedReportsTitle();
 
         /**
          * Triggered during {@link ViewDataTable} construction. Subscribers should customize
@@ -228,7 +229,6 @@ abstract class ViewDataTable implements ViewInterface
         }
 
         $this->overrideViewPropertiesWithQueryParams();
-        $this->assignRelatedReportsTitle();
     }
 
     protected function assignRelatedReportsTitle()
