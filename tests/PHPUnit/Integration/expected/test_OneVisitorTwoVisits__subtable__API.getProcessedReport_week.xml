@@ -56,7 +56,11 @@
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>4</nb_visits>
-		<nb_hits>4</nb_hits>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<entry_bounce_count>1</entry_bounce_count>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>1</entry_nb_actions>
+		<exit_nb_visits>1</exit_nb_visits>
 	</reportTotal>
 </result>
