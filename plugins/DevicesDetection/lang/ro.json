@@ -1,0 +1,25 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Versiunile browserului",
+        "CarBrowser": "Browser de masina",
+        "Console": "Consola",
+        "dataTableLabelBrands": "Brand",
+        "dataTableLabelBrowserFamily": "Familia browserului",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Versiunea Sistemului de Operare",
+        "dataTableLabelTypes": "Tip",
+        "Device": "Dispozitiv",
+        "DeviceBrand": "Brandul dispozitivului",
+        "DeviceDetection": "Detectarea dispozitivului",
+        "DeviceModel": "Modelul dispozitivului",
+        "DevicesDetection": "Dispozitivele Utilizatorilor",
+        "DeviceType": "Tipul dispozitivului",
+        "OperatingSystemFamilies": "Familiile Sistemului de Operare",
+        "OperatingSystemVersions": "Versiunile Sistemului de Operare",
+        "Smartphone": "Smartphone",
+        "submenu": "Dispozitive",
+        "Tablet": "Tableta",
+        "TV": "Tv",
+        "UserAgent": "User-Agent"
+    }
+}

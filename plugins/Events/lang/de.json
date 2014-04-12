@@ -2,9 +2,18 @@
     "Events": {
         "Event": "Ereignis",
         "EventAction": "Ereignisaktion",
+        "EventActions": "Ereignisaktionen",
+        "EventCategories": "Ereigniskategorien",
         "EventCategory": "Ereigniskategorie",
         "EventName": "Ereignisname",
+        "EventNames": "Ereignisnamen",
         "Events": "Ereignisse",
-        "EventValue": "Ereigniswert"
+        "EventValue": "Ereigniswert",
+        "MaxValue": "Maximaler Wert",
+        "MaxValueDocumentation": "Maximaler Wert für dieses Ereignis",
+        "MinValue": "Minimaler Wert",
+        "MinValueDocumentation": "Minimaler Wert für dieses Ereignis",
+        "TotalEvents": "Gesamtzahl an Ereignissen",
+        "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse"
     }
 }
