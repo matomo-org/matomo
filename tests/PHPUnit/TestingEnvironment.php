@@ -130,6 +130,7 @@ class Piwik_TestingEnvironment
                     return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
                 });
 
+                $trackerPluginsToLoad[] = 'DevicesDetection';
                 $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
 
                 $log = $config->log;

@@ -68,6 +68,9 @@ class Translate
 
     private static function loadCoreTranslationFile($language)
     {
+        if(empty($language)) {
+            return;
+        }
         $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.json';
         if (!Filesystem::isValidFilename($language) || !is_readable($path)) {
             throw new Exception(Piwik::translate('General_ExceptionLanguageFileNotFound', array($language)));

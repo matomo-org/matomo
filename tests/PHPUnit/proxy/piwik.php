@@ -23,14 +23,6 @@ ob_start();
 
 Piwik_TestingEnvironment::addHooks();
 
-try {
-    $trackerPlugins = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
-}catch(Exception $e) {
-    $trackerPlugins = array();
-}
-$trackerPlugins[] = 'DevicesDetection';
-Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
-
 GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Tracker::setTestEnvironment();
