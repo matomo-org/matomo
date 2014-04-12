@@ -110,6 +110,7 @@ class Manager extends Singleton
      */
     public function loadTrackerPlugins()
     {
+        $this->unloadPlugins();
         $pluginsTracker = PiwikConfig::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         if (empty($pluginsTracker)) {
             return array();
