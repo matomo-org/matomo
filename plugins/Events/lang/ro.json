@@ -1,0 +1,21 @@
+{
+    "Events": {
+        "Event": "Eveniment",
+        "EventAction": "Actiunea Evenimentului",
+        "EventActions": "Actiunile Evenimentului",
+        "EventCategories": "Categoriile Evenimentului",
+        "EventCategory": "Categoria Evenimentului",
+        "EventName": "Numele Evenimentului",
+        "EventNames": "Numele Evenimentelor",
+        "Events": "Evenimente",
+        "EventValue": "Valoarea Evenimentului",
+        "MaxValue": "Valoarea maxima",
+        "MaxValueDocumentation": "Valoarea maxima pentru acest eveniment",
+        "MinValue": "Valoarea minima",
+        "MinValueDocumentation": "Valoarea minima pentru acest eveniment",
+        "TotalEvents": "Totalul evenimentelor",
+        "TotalEventsDocumentation": "Numarul total al evenimentelor",
+        "TotalValue": "Valoarea totala",
+        "TotalValueDocumentation": "Valoarea totala a evenimentelor (suma valorilor evenimentelor)"
+    }
+}
