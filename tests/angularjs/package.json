@@ -1,23 +1,26 @@
 {
-    "author": "(c) piwik.org",
-    "name": "PiwikJsTestRunner",
-    "description": "Piwik AngularJS test runner",
-    "license": "GPLv3+",
-    "homepage": "http://piwik.org",
-    "dependencies": {
-        "karma": ">= 0.12.1",
-        "karma-mocha": ">= 0.1.3",
-        "chai": ">= 1.9.1",
-        "phantomjs": ">= 1.9.7-1",
-        "karma-phantomjs-launcher": ">= 0.1.2",
-        "karma-chrome-launcher": ">= 0.1.2",
-        "karma-firefox-launcher": ">= 0.1.3",
-        "karma-jshint-preprocessor": ">= 0.0.2",
-        "karma-mocha-reporter": ">= 0.2.2",
-        "karma-spec-reporter": ">= 0.0.12"
-    },
-    "engines": {
-        "node": ">= 0.10.0"
-    },
-    "version": "0.1.0"
+  "author": "(c) piwik.org",
+  "name": "PiwikJsTestRunner",
+  "description": "Piwik AngularJS test runner",
+  "license": "GPLv3+",
+  "homepage": "http://piwik.org",
+  "dependencies": {
+    "chai": ">= 1.9.1",
+    "clean-pattern": "^0.1.2",
+    "grunt": ">= 0.4.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "karma": ">= 0.12.1",
+    "karma-chrome-launcher": ">= 0.1.2",
+    "karma-firefox-launcher": ">= 0.1.3",
+    "karma-jshint-preprocessor": ">= 0.0.2",
+    "karma-mocha": ">= 0.1.3",
+    "karma-mocha-reporter": ">= 0.2.2",
+    "karma-phantomjs-launcher": ">= 0.1.2",
+    "karma-spec-reporter": ">= 0.0.12",
+    "phantomjs": ">= 1.9.7-1"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "version": "0.1.0"
 }
