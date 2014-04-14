@@ -27,13 +27,13 @@
         $(function () {
             $('#form_login').focus();
             $('input').placeholder();
-            $.smartbanner({
-  title: "Piwik Mobile 2", author: "Piwik team", icon: "plugins/CoreHome/images/googleplay.png"
-  });
+            $.smartbanner({title: "Piwik Mobile 2", author: "Piwik team", icon: "plugins/CoreHome/images/googleplay.png"});
         });
 	</script>
 	</head>
 	<body id="loginPage">
+    {{ postEvent("Template.beforeTopBar", "login") }}
+    {{ postEvent("Template.beforeContent", "login") }}
 
     {% include "_iframeBuster.twig" %}
 
