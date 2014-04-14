@@ -755,13 +755,11 @@ class Piwik
      * @param array $params The parameter array to forward to observer callbacks.
      * @param bool $pending If true, plugins that are loaded after this event is fired will
      *                      have their observers for this event executed.
-     * @param array|null $plugins The list of plugins to execute observers for. If null, all
-     *                            plugin observers will be executed.
      * @api
      */
-    public static function postEvent($eventName, $params = array(), $pending = false, $plugins = null)
+    public static function postEvent($eventName, $params = array(), $pending = false)
     {
-        EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
+        EventDispatcher::getInstance()->postEvent($eventName, $params, $pending);
     }
 
     /**

@@ -68,7 +68,7 @@ class JScriptUIAssetMerger extends UIAssetMerger
              *
              * @param string $mergedContent The minified and merged JavaScript.
              */
-            Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent), null, $plugins);
+            Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
         }
     }
 
