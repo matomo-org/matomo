@@ -519,6 +519,12 @@
 
             loadingAnnotationManager = true;
 
+            var isDashboard = !!$('#dashboardWidgetsArea').length;
+
+            if (isDashboard) {
+                $('.loadingPiwikBelow', domElem).insertAfter($('.evolution-annotations', domElem));
+            }
+
             var loading = $('.loadingPiwikBelow', domElem).css({display: 'block'});
 
             // the annotations for this report have not been retrieved yet, so do an ajax request
@@ -539,7 +545,7 @@
                 loading.css('visibility', 'hidden');
 
                 // add & show annotation manager
-                if ($('#dashboardWidgetsArea').length) {
+                if (isDashboard) {
                     manager.insertAfter($('.evolution-annotations', domElem));
                 } else {
                     $('.dataTableFeatures', domElem).append(manager);
