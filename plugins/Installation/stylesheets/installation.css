@@ -29,6 +29,7 @@ p {
 
 #logo {
     padding: 20px 30px;
+    padding-bottom: 35px;
 }
 #logo img {
     height:40px;
@@ -64,6 +65,7 @@ code {
 
 #topRightBar {
     float: right;
+    margin-top: -60px;
 }
 
 .error {
