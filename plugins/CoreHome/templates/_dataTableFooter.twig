@@ -23,16 +23,19 @@
     </div>
 
     <span class="loadingPiwik" style="display:none;"><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
+            <div class="foldDataTableFooterDrawer" title="{{ 'General_Close'|translate|e('html_attr') }}"
+                    ><img width="7" height="4" src="plugins/Morpheus/images/sortdesc_dark.png"></div>
             <div class="dataTableFooterWrap">
                 {% for footerIconGroup in footerIcons %}
-                <div class="tableIconsGroup">
+                    <div class="tableIconsGroup">
                     <span class="{{ footerIconGroup.class }}">
                     {% for footerIcon in footerIconGroup.buttons %}
                         <span>
                             {% if properties.show_active_view_icon and clientSideParameters.viewDataTable == footerIcon.id %}
-                            <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
+                                <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                             {% endif %}
                             <a class="tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
                                 <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
@@ -41,11 +44,11 @@
                         </span>
                     {% endfor %}
                     </span>
-                </div>
+                    </div>
                 {% endfor %}
                 <div class="tableIconsGroup">
                     {% if footerIcons is empty %}
-                    <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
+                        <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                     {% endif %}
                     <span class="exportToFormatIcons">
                         <a class="tableIcon" var="export">
@@ -59,12 +62,12 @@
 					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a> |
 					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a> |
 					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a>
-                    {% if properties.show_export_as_rss_feed %}
-                        |
-                        <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
-                            <img border="0" src="plugins/Zeitgeist/images/feed.png"/>
-                        </a>
-                    {% endif %}
+                        {% if properties.show_export_as_rss_feed %}
+                            |
+                            <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
+                                <img border="0" src="plugins/Zeitgeist/images/feed.png"/>
+                            </a>
+                        {% endif %}
 				    </span>
                     {% if properties.show_export_as_image_icon %}
                         <span id="dataTableFooterExportAsImageIcon">
@@ -83,9 +86,9 @@
                 <ul>
                     {% if properties.show_flatten_table %}
                         {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
-                        <li>
-                            <div class="configItem dataTableIncludeAggregateRows"></div>
-                        </li>
+                            <li>
+                                <div class="configItem dataTableIncludeAggregateRows"></div>
+                            </li>
                         {% endif %}
                         <li>
                             <div class="configItem dataTableFlatten"></div>
@@ -107,6 +110,8 @@
                 </div>
             {% endif %}
         </div>
+        <div class="expandDataTableFooterDrawer" title="{{ 'General_ExpandDataTableFooter'|translate|e('html_attr') }}"
+                ><img width="7" height="4" src="plugins/Morpheus/images/sortasc_dark.png" style=""></div>
     {% endif %}
 
     <div class="datatableRelatedReports">

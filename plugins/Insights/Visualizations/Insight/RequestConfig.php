@@ -16,7 +16,7 @@ use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
 class RequestConfig extends VisualizationRequestConfig
 {
     public $min_impact_percent = '0.1';
-    public $min_growth_percent = 20;
+    public $min_growth_percent = 1;
     public $compared_to_x_periods_ago = 1;
     public $order_by = InsightReport::ORDER_BY_ABSOLUTE;
     public $filter_by = '';

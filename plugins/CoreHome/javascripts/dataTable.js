@@ -122,6 +122,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.param.columns = columnName;
     },
 
+    isWithinDialog: function (domElem) {
+        return !!$(domElem).parents('.ui-dialog').length;
+    },
+
+    isDashboard: function () {
+        return !!$('#dashboardWidgetsArea').length;
+    },
+
     //Reset DataTable filters (used before a reload or view change)
     resetAllFilters: function () {
         var self = this;
@@ -285,10 +293,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
         self.handleColumnHighlighting(domElem);
+        self.handleExpandFooter(domElem);
         self.setFixWidthToMakeEllipsisWork(domElem);
     },
 
     setFixWidthToMakeEllipsisWork: function (domElem) {
+        var self = this;
+
         function getTableWidth(domElem) {
             var totalWidth      = $(domElem).width();
             var totalWidthTable = $('table.dataTable', domElem).width(); // fixes tables in dbstats, referrers, ...
@@ -322,11 +333,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var isWidgetized  = -1 !== location.search.indexOf('module=Widgetize');
-            var isInDashboard = !!domElem.parents('#dashboardWidgetsArea').length;
 
             if (labelWidth > maxLabelWidth
                 && !isWidgetized
-                && !isInDashboard) {
+                && !self.isDashboard()) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
@@ -386,7 +396,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $('td.label', domElem).width(labelColumnWidth);
         }
 
-        var self = this;
         $('td span.label', domElem).each(function () { self.tooltip($(this)); });
     },
 
@@ -602,6 +611,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             }
         );
+
+        if (this.isEmpty && !currentPattern) {
+            $('.dataTableSearchPattern', domElem).hide();
+        }
     },
 
     //behaviour for '< prev' 'next >' links and page count
@@ -623,6 +636,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (totalRows != 0) {
                     var str = sprintf(_pk_translate('CoreHome_PageOf'), offset + '-' + offsetEndDisp, totalRows);
                     $(this).text(str);
+                } else {
+                    $(this).hide();
                 }
             }
         );
@@ -675,6 +690,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             && $('.annotationView', domElem).length > 0) {
             // get dates w/ annotations across evolution period (have to do it through AJAX since we
             // determine placement using the elements created by jqplot)
+
+            $('.dataTableFeatures', domElem).addClass('hasEvolution');
+
             piwik.annotations.api.getEvolutionIcons(
                 self.param.idSite,
                 self.param.date,
@@ -687,16 +705,22 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         annotationAxisHeight = 30 // css height + padding + margin
                         ;
 
+                    var annotationsCss = {left: 6}; // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
+                    if (!self.isDashboard() && !self.isWithinDialog(domElem)) {
+                        annotationsCss['top'] = -datatableFeatures.height() - annotationAxisHeight + noteSize / 2;
+                    }
+
                     // set position of evolution annotation icons
-                    annotations.css({
-                        top: -datatableFeatures.height() - annotationAxisHeight + noteSize / 2,
-                        left: 6 // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
-                    });
+                    annotations.css(annotationsCss);
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
                     // add new section under axis
-                    datatableFeatures.append(annotations);
+                    if (self.isDashboard() || self.isWithinDialog(domElem)) {
+                        annotations.insertAfter($('.datatableRelatedReports', domElem));
+                    } else {
+                        datatableFeatures.append(annotations);
+                    }
 
                     // reposition annotation icons every time the graph is resized
                     $('.piwik-graph', domElem).on('resizeGraph', function () {
@@ -1251,6 +1275,54 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $("tr:even td", domElem).slice(1).addClass('column columneven');
     },
 
+    handleExpandFooter: function (domElem) {
+        if (!this.isDashboard() && !this.isWithinDialog(domElem)) {
+            return;
+        }
+
+        var footerIcons = $('.dataTableFooterIcons', domElem);
+
+        if (!footerIcons.length) {
+            return;
+        }
+
+        var self = this;
+        function toggleFooter()
+        {
+            var icons = $('.dataTableFooterIcons', domElem);
+            $('.dataTableFeatures', domElem).toggleClass('expanded');
+
+            self.notifyWidgetParametersChange(domElem, {
+                isFooterExpandedInDashboard: icons.is(':visible')
+            });
+        }
+
+        var moveNode = $('.datatableFooterMessage', domElem);
+        if (!moveNode.length) {
+            moveNode = $('.datatableRelatedReports', domElem);
+        }
+
+        footerIcons.after(moveNode);
+
+        $('.expandDataTableFooterDrawer', domElem).after(footerIcons);
+
+        var controls = $('.controls', domElem);
+        if (controls.length) {
+            $('.foldDataTableFooterDrawer', domElem).after(controls);
+        }
+
+        var loadingPiwikBelow = $('.loadingPiwikBelow', domElem);
+        if (loadingPiwikBelow.length) {
+            loadingPiwikBelow.insertBefore(moveNode);
+        }
+
+        if (this.param.isFooterExpandedInDashboard) {
+            toggleFooter();
+        }
+
+        $('.foldDataTableFooterDrawer, .expandDataTableFooterDrawer', domElem).on('click', toggleFooter);
+    },
+
     handleColumnHighlighting: function (domElem) {
 
         var maxWidth = {};
@@ -1370,7 +1442,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // tooltip for column documentation
     handleColumnDocumentation: function (domElem) {
-        if ($('#dashboard').size() > 0) {
+        if (this.isDashboard()) {
             // don't display column documentation in dashboard
             // it causes trouble in full screen view
             return;
@@ -1433,7 +1505,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             thisReport = $('.datatableRelatedReports span:hidden', domElem)[0];
 
         hideShowRelatedReports(thisReport);
-        $('.datatableRelatedReports span', domElem).each(function () {
+
+        var relatedReports = $('.datatableRelatedReports span', domElem);
+
+        if (!relatedReports.length) {
+            $('.datatableRelatedReports', domElem).hide();
+        }
+
+        relatedReports.each(function () {
             var clicked = this;
             $(this).unbind('click').click(function (e) {
                 var url = $(this).attr('href');
