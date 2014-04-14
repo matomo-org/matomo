@@ -43,7 +43,11 @@ class Updates_2_0_3_b7 extends Updates
         // disable & delete old plugins
         $oldPlugins = array('DoNotTrack', 'AnonymizeIP');
         foreach ($oldPlugins as $plugin) {
-            \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($plugin);
+            try {
+                \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($plugin);
+            } catch(\Exception $e) {
+
+            }
 
             $dir = PIWIK_INCLUDE_PATH . "/plugins/$plugin";
 
