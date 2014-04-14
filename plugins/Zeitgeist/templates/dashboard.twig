@@ -41,9 +41,10 @@
             <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
         </div>
 
+    {{ postEvent("Template.beforeContent", "dashboard", currentModule) }}
         {% block content %}
         {% endblock %}
     </div>
-    
+    {{ postEvent("Template.footer") }}
     </body>
 </html>
