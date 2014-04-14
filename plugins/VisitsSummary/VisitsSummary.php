@@ -30,6 +30,7 @@ class VisitsSummary extends \Piwik\Plugin
             'API.getReportMetadata'   => 'getReportMetadata',
             'WidgetsList.addWidgets'  => 'addWidgets',
             'Menu.Reporting.addItems' => 'addMenu',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
     }
 
@@ -55,6 +56,11 @@ class VisitsSummary extends \Piwik\Plugin
             'processedMetrics' => false,
             'order'            => 1
         );
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/VisitsSummary/stylesheets/datatable.less";
     }
 
     function addWidgets()
