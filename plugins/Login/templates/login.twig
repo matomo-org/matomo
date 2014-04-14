@@ -3,7 +3,7 @@
 <html class="old-ie"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
 <html><!--<![endif]-->
-<head>   
+<head>
     <meta charset="utf-8">
     <title>{% if isCustomLogo == false %}Piwik &rsaquo; {% endif %}{{ 'Login_LogIn'|translate }}</title>
 
@@ -15,29 +15,23 @@
     <meta name="description" content="{{ 'General_OpenSourceWebAnalytics'|translate }}"/>
     <meta name="apple-itunes-app" content="app-id=737216887" />
     <meta name="google-play-app" content="app-id=org.piwik.mobile2">
+    {% include "_jsCssIncludes.twig" %}
+    <script type="text/javascript" src="libs/jquery/jquery.placeholder.js"></script>
     <!--[if lt IE 9]>
     <script src="libs/html5shiv/html5shiv.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="libs/jquery/jquery.js"></script>
-    <script type="text/javascript" src="libs/jquery/jquery.placeholder.js"></script>
     <script type="text/javascript" src="libs/jquery/jquery.smartbanner.js"></script>
     <link rel="stylesheet" type="text/css" href="libs/jquery/stylesheets/jquery.smartbanner.css" />
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/require.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/notification.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/javascripts/notification_parser.js"></script>
+
     <script type="text/javascript">
         $(function () {
             $('#form_login').focus();
             $('input').placeholder();
             $.smartbanner({
   title: "Piwik Mobile 2", author: "Piwik team", icon: "plugins/CoreHome/images/googleplay.png"
-  });    
+  });
         });
 	</script>
-	    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
-	    {% if 'General_LayoutDirection'|translate =='rtl' %}
-		<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
-	    {% endif %}
 	</head>
 	<body id="loginPage">
 
