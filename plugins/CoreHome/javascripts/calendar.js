@@ -29,6 +29,10 @@
         currentWeek = currentDate.getWeek();
     }
 
+    if(!piwik.currentDateString) {
+        // eg. Login form
+        return;
+    }
     setCurrentDate(piwik.currentDateString);
 
     var todayDate = new Date;
