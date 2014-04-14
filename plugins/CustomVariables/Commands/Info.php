@@ -42,7 +42,7 @@ class Info extends ConsoleCommand
         $output->writeln('<error>Some database tables miss custom variables columns.</error>');
         $output->writeln('');
         $output->writeln('Your Piwik seems to be configured for ' . $maxVars . ' custom variables.');
-        $output->writeln('Executing "<comment>./console set-max-custom-variables ' . $maxVars . '</comment>" might fix this issue.');
+        $output->writeln('Executing "<comment>./console customvariables:set-max-custom-variables ' . $maxVars . '</comment>" might fix this issue.');
         $output->writeln('If not check the following tables whether they have the same columns starting with <comment>custom_var_</comment>: ');
         foreach (Model::getScopes() as $scope) {
             $output->writeln(Common::prefixTable($scope));
