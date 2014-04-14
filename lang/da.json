@@ -1544,7 +1544,6 @@
         "SegmentDisplayedThisWebsiteOnly": "kun dette websted",
         "SegmentIsDisplayedForWebsite": "og vises for",
         "SegmentNotApplied": "Segment '%s' anvendes ikke",
-        "SegmentNotAppliedExplanation": "Du beder om data til brugerdefineret Segment '%s', den nuværende Piwik konfiguration forhindrer tidstro behandling af rapporter for dette segment. Spørg Piwik admin om at ændre indstillingen i konfigurationsfilen (%s). Du kan også redigere dette segment, og vælge '%s'.",
         "SelectSegmentOfVisitors": "Vælg et segment af besøgende:",
         "ThisSegmentIsVisibleTo": "Segmentet er synligt for:",
         "VisibleToAllUsers": "Alle brugere",

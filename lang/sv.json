@@ -1522,7 +1522,6 @@
         "SegmentDisplayedThisWebsiteOnly": "endast denna webbsida",
         "SegmentIsDisplayedForWebsite": "och visas för",
         "SegmentNotApplied": "Segment '%s' tillämpas inte",
-        "SegmentNotAppliedExplanation": "Du efterfrågar data från kundsegmentet '%s', den nuvarande Piwik konfigureringen förhindrar rapporter i realtid från det här segmentet. Var snäll och fråga din Piwik administratör om de kan ändra inställningarna och konfigurera inställningarna i konfigurera fil(%s).Du kanske också borde redigera det här segmentet och välja '%s'.",
         "SelectSegmentOfVisitors": "Välj ett besökarsegment",
         "ThisSegmentIsVisibleTo": "Det här segmentet är synligt för:",
         "VisibleToAllUsers": "alla användare",

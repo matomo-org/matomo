@@ -1504,7 +1504,6 @@
         "SegmentDisplayedThisWebsiteOnly": "vain tällä verkkosivulla",
         "SegmentIsDisplayedForWebsite": "näytetään vain",
         "SegmentNotApplied": "Segmenttiä '%s' ei sovelleta",
-        "SegmentNotAppliedExplanation": "Pyydät tietoa asiakasryhmästä '%s', nykyinen Piwik konfiguraatio estää tämän ryhmän reaaliaikaisen raportoinnin. Pyydä Piwik ylläpitäjääsi muuttamaan asetuksia konfigurointitiedostossa (%s). Voit myös muokata ryhmää ja valita '%s'.",
         "SelectSegmentOfVisitors": "Valitse kävijäsegmentti:",
         "ThisSegmentIsVisibleTo": "Tämä segmentti näytetään seuraaville:",
         "VisibleToAllUsers": "kaikki käyttäjät",

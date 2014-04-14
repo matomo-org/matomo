@@ -1568,7 +1568,6 @@
         "SegmentDisplayedThisWebsiteOnly": "solo questo sito",
         "SegmentIsDisplayedForWebsite": "e mostrato per",
         "SegmentNotApplied": "Segmento '%s' non applicato",
-        "SegmentNotAppliedExplanation": "Stai richiedendo i dati per il Segmento Personalizzato '%s', l'attuale configurazione di Piwik impedisce l'elaborazione in tempo reale dei report per questo segmento. Chiedi al tuo amministratore di Piwik di cambiare le impostazioni nel file di configurazione (%s). Puoi anche modificare questo Segmento e scegliere '%s'.",
         "SelectSegmentOfVisitors": "Seleziona un segmento di visitatori:",
         "ThisSegmentIsVisibleTo": "Questo segmento è visibile a:",
         "VisibleToAllUsers": "tutti gli utenti",

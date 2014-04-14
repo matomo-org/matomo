@@ -1507,7 +1507,6 @@
         "SegmentDisplayedThisWebsiteOnly": "ce site web uniquement",
         "SegmentIsDisplayedForWebsite": "et affiché pour",
         "SegmentNotApplied": "Segment \"%s\" non appliqué",
-        "SegmentNotAppliedExplanation": "Vous êtes en train de demander des données du segment personnalisé \"%s\", la configuration actuelle de Piwik empêche le traitement en temps réel des rapports pour ce segment. Veuillez demander à votre administrateur Piwik de modifier le paramètre dans le fichier de configuration (%s). Vous devriez aussi modifier ce Segment et sélectionner \"%s\".",
         "SelectSegmentOfVisitors": "Choisir un segment de visiteurs :",
         "ThisSegmentIsVisibleTo": "Ce segment est visible pour :",
         "VisibleToAllUsers": "tous les utilisateurs",
