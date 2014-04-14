@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    // do not apply on the Login page
+    if($('#loginPage').length) {
+        return;
+    }
 
     function initICheck()
     {
