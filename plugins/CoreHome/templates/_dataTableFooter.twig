@@ -26,8 +26,6 @@
 
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
-            <div class="foldDataTableFooterDrawer" title="{{ 'General_Close'|translate|e('html_attr') }}"
-                    ><img width="7" height="4" src="plugins/Morpheus/images/sortdesc_dark.png"></div>
             <div class="dataTableFooterWrap">
                 {% for footerIconGroup in footerIcons %}
                     <div class="tableIconsGroup">
@@ -109,9 +107,13 @@
                     <span>{{ 'Annotations_Annotations'|translate }}</span>
                 </div>
             {% endif %}
+
+            <div class="foldDataTableFooterDrawer" title="{{ 'General_Close'|translate|e('html_attr') }}"
+                    ><img width="7" height="4" src="plugins/Morpheus/images/sortasc_dark.png"></div>
+
         </div>
         <div class="expandDataTableFooterDrawer" title="{{ 'General_ExpandDataTableFooter'|translate|e('html_attr') }}"
-                ><img width="7" height="4" src="plugins/Morpheus/images/sortasc_dark.png" style=""></div>
+                ><img width="7" height="4" src="plugins/Morpheus/images/sortdesc_dark.png" style=""></div>
     {% endif %}
 
     <div class="datatableRelatedReports">
