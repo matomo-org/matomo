@@ -28,7 +28,10 @@ p {
 }
 
 #logo {
-    padding: 20px 30px 40px;
+    padding: 20px 30px;
+}
+#logo img {
+    height:40px;
 }
 
 #installationPage #logo {
