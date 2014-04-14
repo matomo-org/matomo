@@ -45,7 +45,6 @@
         handleRowActions: function () {},
 
         _init: function (domElem) {
-            this.initMinGrowthPercentage(domElem);
             this.initShowIncreaseOrDecrease(domElem);
             this.initOrderBy(domElem);
             this.initComparedToXPeriodsAgo(domElem);
@@ -88,13 +87,6 @@
                     limit_increaser: (value == 'both' || value == 'increase') ? '5' : '0',
                     limit_decreaser: (value == 'both' || value == 'decrease') ? '5' : '0'
                 });
-            });
-        },
-
-        initMinGrowthPercentage: function (domElem) {
-            var self = this;
-            $('[name=minGrowthPercent]', domElem).bind('change', function (event) {
-                self._changeParameterAndReload({min_growth_percent: getValueFromEvent(event)});
             });
         },
 

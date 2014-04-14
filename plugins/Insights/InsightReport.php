@@ -218,9 +218,14 @@ class InsightReport
             )
         );
 
+        $metricName = $metric;
+        if (!empty($reportMetadata['metrics'][$metric])) {
+            $metricName = $reportMetadata['metrics'][$metric];
+        }
+
         $dataTable->setMetadataValues(array(
             'reportName' => $reportMetadata['name'],
-            'metricName' => $reportMetadata['metrics'][$metric],
+            'metricName' => $metricName,
             'date' => $date,
             'lastDate' => $lastDate,
             'period' => $period,
