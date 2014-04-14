@@ -201,8 +201,9 @@ class AssetManager extends Singleton
     {
         $loadedPlugins = array();
 
-        foreach(Manager::getInstance()->getLoadedPluginsName() as $pluginName) {
+        foreach(Manager::getInstance()->getPluginsLoadedAndActivated() as $plugin) {
 
+            $pluginName = $plugin->getPluginName();
             $pluginIsCore = Manager::getInstance()->isPluginBundledWithCore($pluginName);
 
             if(($pluginIsCore && $core) || (!$pluginIsCore && !$core))

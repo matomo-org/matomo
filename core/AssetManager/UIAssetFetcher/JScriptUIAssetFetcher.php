@@ -44,7 +44,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
              *
              * @param string[] $jsFiles The JavaScript files to load.
              */
-             Piwik::postEvent('AssetManager.getJavaScriptFiles', array(&$this->fileLocations));
+             Piwik::postEvent('AssetManager.getJavaScriptFiles', array(&$this->fileLocations), null, $this->plugins);
         }
 
         $this->addThemeFiles();
