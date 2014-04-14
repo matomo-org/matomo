@@ -9,19 +9,19 @@
   content: "";
 }
 
-#logo {
-  padding: 5px 0 0;
-  float: left;
-}
+#root {
+  #logo {
+    padding: 5px 0 0;
+    float: left;
+  }
+  #logo > a {
+    text-decoration: none;
+  }
 
-#logo > a {
-  text-decoration: none;
+  #logo img {
+    height: 40px;
+  }
 }
-
-#logo img {
-  height: 40px;
-}
-
 #javascriptDisabled,
 #javascriptDisabled a {
   font-weight: bold;
