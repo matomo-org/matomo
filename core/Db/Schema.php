@@ -212,16 +212,6 @@ class Schema extends Singleton
     }
 
     /**
-     * Drop specific tables
-     *
-     * @param array $doNotDelete
-     */
-    public function dropTables($doNotDelete = array())
-    {
-        $this->getSchema()->dropTables($doNotDelete);
-    }
-
-    /**
      * Names of all the prefixed tables in piwik
      * Doesn't use the DB
      *

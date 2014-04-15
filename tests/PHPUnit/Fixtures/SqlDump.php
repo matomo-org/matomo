@@ -26,7 +26,7 @@ class Piwik_Test_Fixture_SqlDump extends Fixture
     public function setUp()
     {
         // drop all tables
-        DbHelper::dropTables();
+        Db::dropAllTables();
 
         // download data dump if url supplied
         if (is_file($this->dumpUrl)) {

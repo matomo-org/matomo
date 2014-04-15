@@ -342,6 +342,15 @@ class Db
     }
 
     /**
+     * Drops all tables
+     */
+    static public function dropAllTables()
+    {
+        $tablesAlreadyInstalled = DbHelper::getTablesInstalled();
+        self::dropTables($tablesAlreadyInstalled);
+    }
+
+    /**
      * Get columns information from table
      *
      * @param string|array $table The name of the table you want to get the columns definition for.

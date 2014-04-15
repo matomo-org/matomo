@@ -514,29 +514,6 @@ class Mysql implements SchemaInterface
         }
     }
 
-    /**
-     * Drop specific tables
-     *
-     * @param array $doNotDelete Names of tables to not delete
-     */
-    public function dropTables($doNotDelete = array())
-    {
-        $tablesAlreadyInstalled = $this->getTablesInstalled();
-        $db = Db::get();
-
-        $doNotDeletePattern = '/(' . implode('|', $doNotDelete) . ')/';
-
-        foreach ($tablesAlreadyInstalled as $tableName) {
-            if (count($doNotDelete) == 0
-                || (!in_array($tableName, $doNotDelete)
-                    && !preg_match($doNotDeletePattern, $tableName)
-                )
-            ) {
-                $db->query("DROP TABLE `$tableName`");
-            }
-        }
-    }
-
     private function getTablePrefix()
     {
         $dbInfos = Db::getDatabaseConfig();

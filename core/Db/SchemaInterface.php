@@ -72,13 +72,6 @@ interface SchemaInterface
     public function truncateAllTables();
 
     /**
-     * Drop specific tables
-     *
-     * @param array $doNotDelete Names of tables to not delete
-     */
-    public function dropTables($doNotDelete = array());
-
-    /**
      * Names of all the prefixed tables in piwik
      * Doesn't use the DB
      *

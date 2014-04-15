@@ -274,7 +274,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->skipThisStep(__FUNCTION__);
 
         if (Common::getRequestVar('deleteTables', 0, 'int') == 1) {
-            DbHelper::dropTables();
+            Db::dropAllTables();
             $view->existingTablesDeleted = true;
 
             // when the user decides to drop the tables then we dont skip the next steps anymore
