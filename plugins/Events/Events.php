@@ -222,7 +222,6 @@ class Events extends \Piwik\Plugin
         $view->config->subtable_controller_action = API::getInstance()->getActionToLoadSubtables($apiMethod, $secondaryDimension);
         $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
         $view->config->show_flatten_table = true;
-        $view->config->show_table = false;
         $view->config->show_table_all_columns = false;
         $view->requestConfig->filter_sort_column = 'nb_events';
 
