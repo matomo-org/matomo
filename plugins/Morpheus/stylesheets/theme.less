@@ -48,18 +48,18 @@ body {
         right: -13px;
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
-        border-top: 5px solid @brand-blue;
+        border-top: 5px solid @color-blue-brand;
     }
 }
 
 #languageSelect {
-    border: 1px solid @silver-80 !important;
+    border: 1px solid @color-silver-l80 !important;
     li {
         a {
-            color: @brand-black !important;
+            color: @color-black-brand !important;
             &:hover {
-                background: @silver-80 !important;
-                color: @brand-black !important;
+                background: @color-silver-l80 !important;
+                color: @color-black-brand !important;
             }
         }
     }
@@ -67,7 +67,7 @@ body {
 
 .entityTable {
     .border-radius(0px)!important;
-    border:1px solid @silver-80!important;
+    border:1px solid @color-silver-l80!important;
     tr {
         &.first {
             th {
@@ -89,17 +89,17 @@ table.entityTable tr td a:hover {
         margin: 0 15px;
         #topBars {
             a {
-                color: @brand-blue;
+                color: @color-blue-brand;
                 text-decoration: none;
             }
         }
 
         .topBarElem {
           padding: 0 3px;
-          color: @silver-40;
+          color: @color-silver-l40;
             strong {
                 font-weight: normal;
-                color: @brand-black;
+                color: @color-black-brand;
             }
         }
     }
@@ -113,8 +113,8 @@ table.entityTable tr td a:hover {
     }
 
     .Menu--dashboard {
-        border-top: 1px solid @silver-80;
-        border-bottom: 1px solid @silver-80;
+        border-top: 1px solid @color-silver-l80;
+        border-bottom: 1px solid @color-silver-l80;
         > .Menu-tabList {
             margin: 0;
             a {
@@ -125,21 +125,21 @@ table.entityTable tr td a:hover {
                 .border-radius(0px);
                 border: 0;
                 background: none;
-                border-right: 1px solid @silver-80;
+                border-right: 1px solid @color-silver-l80;
                 margin-bottom: -1px;
                 border-bottom: 1px solid #ccc;
 
                 > ul {
                     li {
                         a {
-                            color: @silver-40;
+                            color: @color-silver-l40;
                             .font-default(15px, 18px);
                             padding: 14px 22px 11px;
                         }
 
                         &.sfHover {
                             a {
-                                color: @brand-black;
+                                color: @color-black-brand;
                                 font-weight: normal;
                             }
                
@@ -149,7 +149,7 @@ table.entityTable tr td a:hover {
 
                 &.sfActive {
                     > a {
-                        color: @brand-black;
+                        color: @color-black-brand;
                         text-decoration: none;
                         position: relative;
                         &:after {
@@ -159,7 +159,7 @@ table.entityTable tr td a:hover {
                             left: 0;
                             width: 100%;
                             height: 4px;
-                            background: @brand-red;
+                            background: @color-red-brand;
                         }
                     }
 
@@ -169,7 +169,7 @@ table.entityTable tr td a:hover {
                     > a {
                         border: 0;
                         text-decoration: none;
-                        color: @brand-black;
+                        color: @color-black-brand;
                     }
                 }
             }
@@ -177,10 +177,10 @@ table.entityTable tr td a:hover {
     }
 
     .nav_sep {
-        background: @silver-95;
+        background: @color-silver-l95;
         min-height: 57px;
         .border-radius(0px);
-        border-color: @silver-80 !important;
+        border-color: @color-silver-l80 !important;
         border-top: 0px !important;
         border-right: 0px !important;
         border-left: 0px !important;
@@ -193,7 +193,7 @@ table.entityTable tr td a:hover {
 }
 
 .dashboardSettings {
-  border: 1px solid @silver-80;
+  border: 1px solid @color-silver-l80;
   background: #fff;
   z-index: 10;
   padding: 8px 10px 8px 10px;
@@ -207,7 +207,7 @@ table.entityTable tr td a:hover {
       content: '';
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 5px solid @brand-red;
+      border-top: 5px solid @color-red-brand;
       position: absolute;
       top: 3px;
       right: 0;
@@ -220,14 +220,14 @@ table.entityTable tr td a:hover {
       list-style-type: none;
       > div {
         .font-default(11px, 14px);
-        color: @brand-black;
+        color: @color-black-brand;
       }
       text-transform: none;
-      color: @silver-20;
+      color: @color-silver-l20;
       &.widgetpreview-choosen {
-        color: @brand-black;
+        color: @color-black-brand;
         font-weight: normal;
-        background: @silver-95;
+        background: @color-silver-l95;
         position: relative;
         &:after {
           position: absolute;
@@ -236,7 +236,7 @@ table.entityTable tr td a:hover {
           right: 10px;
           border-top: 4px solid transparent;
           border-bottom: 4px solid transparent;
-          border-left: 5px solid @brand-red;
+          border-left: 5px solid @color-red-brand;
         }
       }
     }
@@ -244,7 +244,7 @@ table.entityTable tr td a:hover {
 }
 
 .segmentEditorPanel {
-  border: 1px solid @silver-80;
+  border: 1px solid @color-silver-l80;
   background: #fff;
   padding: 8px 10px 8px 10px;
   .border-radius(0px);
@@ -257,7 +257,7 @@ table.entityTable tr td a:hover {
       content: '';
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 5px solid @brand-red;
+      border-top: 5px solid @color-red-brand;
       position: absolute;
       top: 3px;
       right: 0;
@@ -267,26 +267,26 @@ table.entityTable tr td a:hover {
     background:#fff;
     padding:0 10px;
     .border-radius(0px);
-    border: 1px solid @silver-80;
+    border: 1px solid @color-silver-l80;
     border-top-width: 0px;
   }
   &:hover .dropdown-body {
     background:#fff;
-    border-color: @silver-80;
+    border-color: @color-silver-l80;
   }
   .segmentationContainer {
     > span > strong {
-      color: @brand-red;
+      color: @color-red-brand;
     }
     .submenu {
       li {
         font-weight: normal;
         .font-default(12px, 14px) !important;
-        color: @silver-30;
+        color: @color-silver-l30;
       }
 
       ul li:hover  {
-        color: @brand-black;
+        color: @color-black-brand;
       }
 
     }
@@ -306,7 +306,7 @@ table.entityTable tr td a:hover {
           .font-default(13px, 16px);
           color: #444;
           &:hover {
-              border-color: @silver-80 !important;
+              border-color: @color-silver-l80 !important;
               background: #fff !important;
               .border-radius(0px);
           }
@@ -318,7 +318,7 @@ table.entityTable tr td a:hover {
 
 .segmentEditorPanel:hover, .dashboardSettings:hover {
   background: #fff;
-  border: 1px solid @silver-80;
+  border: 1px solid @color-silver-l80;
 }
 
 /* Iframed Embed dashboard style */
@@ -333,7 +333,7 @@ table.entityTable tr td a:hover {
     ul {
 
       background: #fff;
-      border: 1px solid @silver-80;
+      border: 1px solid @color-silver-l80;
       padding: 8px 10px 8px 10px;
       color: #444;
       height: 12px;
@@ -344,7 +344,7 @@ table.entityTable tr td a:hover {
     > ul > li:hover a,
     > ul > li.sfHover,
     > ul > li.sfHover a {
-      color: @brand-red;
+      color: @color-red-brand;
     }
     > ul > li.sfHover,
     > ul > li.sfHover a {
@@ -354,7 +354,7 @@ table.entityTable tr td a:hover {
 }
 
 .rss-title {
-    color: @brand-blue !important;
+    color: @color-blue-brand !important;
     font-weight: normal;
     .font-default(15px, 18px);
     text-decoration: none;
@@ -364,7 +364,7 @@ table.entityTable tr td a:hover {
 
 .rss-date {
     display: block;
-    color: @silver-60;
+    color: @color-silver-l60;
     .font-default(11px, 14px);
     margin-top: 15px;
 }
@@ -372,7 +372,7 @@ table.entityTable tr td a:hover {
 .rss-description {
     p {
         margin: 0;
-        color: @silver-40;
+        color: @color-silver-l40;
         .font-default(13px, 18px);
     }
 }
@@ -383,13 +383,13 @@ table.dataTable {
             th {
                 background: #fff;
                 text-transform: uppercase;
-                color: @brand-black;
+                color: @color-black-brand;
                 .font-default(10px, 12px);
                 padding-top: 12px;
                 padding-bottom: 12px;
-                border-bottom: 1px solid @silver-85;
+                border-bottom: 1px solid @color-silver-l85;
                 &.columnSorted {
-                    background:  @silver-95 !important;
+                    background: @color-silver-l95 !important;
                     .sortIcon {
                         margin-top: -1px;
                     }
@@ -399,9 +399,9 @@ table.dataTable {
     }
     tr {
         td {
-            border-color: @silver-85 !important;
-            color: @brand-black;
-            background: @silver-95;
+            border-color: @color-silver-l85 !important;
+            color: @color-black-brand;
+            background: @color-silver-l95;
 
             &:not(.value) {
               .font-default(13px, 16px);
@@ -421,12 +421,12 @@ table.dataTable {
 
             &.labelodd,
             &.columnodd {
-                background-color: @silver-95 !important;
+                background-color: @color-silver-l95 !important;
             }
 
             a {
                 text-decoration: none !important;
-                color: @brand-blue;
+                color: @color-blue-brand;
                 width: inherit;
             }
 
@@ -457,7 +457,7 @@ table.dataTable {
         }
         &.inactive-plugin td,
         &:hover td {
-            background-color: @silver-95 !important;
+            background-color: @color-silver-l95 !important;
         }
     }
 
@@ -486,7 +486,7 @@ table.dataTable .dataTableRowActions {
 
 .dataTableFooterIcons {
   padding: 6px 8px;
-  border-top: 1px solid @silver-80;
+  border-top: 1px solid @color-silver-l80;
 }
 
 #dashboard .dataTableFooterIcons {
@@ -504,9 +504,9 @@ div.sparkline {
 }
 
 .widgetpreview-base li.widgetpreview-choosen {
-    background: @silver-95;
+    background: @color-silver-l95;
     position: relative;
-    color: @brand-black;
+    color: @color-black-brand;
     font-weight: normal;
     text-transform: none;
     &:after {
@@ -516,12 +516,12 @@ div.sparkline {
         right: 10px;
         border-top: 4px solid transparent;
         border-bottom: 4px solid transparent;
-        border-left: 5px solid @brand-red;
+        border-left: 5px solid @color-red-brand;
     }
 }
 
 .dataTableNext, .dataTablePrevious {
-    color: @brand-blue;
+    color: @color-blue-brand;
     text-transform: uppercase;
     .font-default(10px, 12px);
 }
@@ -532,7 +532,7 @@ div.sparkline {
 
 
 .widget {
-    border: 1px solid @silver-80;
+    border: 1px solid @color-silver-l80;
     .border-radius();
     .font-default(13px, 18px);
     .box-shadow-1(0 1px 1px rgba(204,204,204,.5));
@@ -550,11 +550,11 @@ div.sparkline {
     }
 
     .widgetTop {
-        background: @silver-95;
-        border-bottom: 1px solid @silver-80;
+        background: @color-silver-l95;
+        border-bottom: 1px solid @color-silver-l80;
         .widgetName {
             .font-default(15px, 18px);
-            color: @brand-black;
+            color: @color-black-brand;
             text-shadow: none;
             padding: 15px 15px 10px;
         }
@@ -570,7 +570,7 @@ div.sparkline {
     }
 
     .dataTableFooterIcons {
-        border-top: 1px solid @silver-80;
+        border-top: 1px solid @color-silver-l80;
     }
 }
 
@@ -578,21 +578,21 @@ div.sparkline {
     background: none;
     height: auto;
     input {
-        color: @brand-black !important;
+        color: @color-black-brand !important;
         .border-radius(0px);
         border: 0px;
         margin-left: 0;
         padding: 8px 10px;  
         min-height: 30px;  
         .box-sizing(border-box);
-        border: 1px solid @silver-80;
+        border: 1px solid @color-silver-l80;
         .opacity(1);
 
         &[type="text"] {
             width: 40% !important;
             padding-right: 4%;
             &:focus {
-                border-color: @silver-60;
+                border-color: @color-silver-l60;
             }
         }
 
@@ -615,7 +615,7 @@ div.sparkline {
 }
 
 .visitor-profile a {
-    color: @brand-blue;
+    color: @color-blue-brand;
     font-weight: normal;
 }
 
@@ -635,7 +635,7 @@ div.sparkline {
 }
 
 .visitor-profile-more-info > a {
-    color: @brand-blue;
+    color: @color-blue-brand;
     .font-default(12px, 16px);
 }
 
@@ -648,16 +648,16 @@ div.sparkline {
     margin: 0;
     li {
         margin: 0 !important;
-        background: @silver-95;
+        background: @color-silver-l95;
         padding: 5px 10px !important;
-        border-bottom: 1px solid @silver-80;
+        border-bottom: 1px solid @color-silver-l80;
         > div {
             border: 0px !important;
             margin: 0 !important;
         }
 
         &:first-child {
-            border-top: 1px solid @silver-80;
+            border-top: 1px solid @color-silver-l80;
         }
     }
 
@@ -665,7 +665,7 @@ div.sparkline {
         > li {
             padding: 0 0 0 !important;
             span {
-                color: @silver-40;
+                color: @color-silver-l40;
                 .font-default(13px, 18px);
                 font-weight: normal;
                 margin-right: 20px;
@@ -684,7 +684,7 @@ div.sparkline {
                     background: #fff !important;
                     .font-default(11px, 19px);
                     font-weight: normal;
-                    color: @silver-40;
+                    color: @color-silver-l40;
                     &:last-child {
                         border-bottom: 0px !important;
                     }
@@ -698,7 +698,7 @@ div.sparkline {
   padding-top:10px;
 
   &:hover {
-    background-color: @silver-90;
+    background-color: @color-silver-l90;
   }
 }
 
@@ -734,22 +734,22 @@ div.sparkline {
     h1 {
         .font-default(15px, 20px);
         font-weight: normal;
-        color: @brand-black;
+        color: @color-black-brand;
     }
 
     h2 {
         .font-default(13px, 18px);
-        color: @brand-black;
+        color: @color-black-brand;
     }
 
     p {
         margin-left: 0;
         margin-right: 0;
         .font-default(13px, 18px);
-        color: @silver-60;
+        color: @color-silver-l60;
         strong {
             .font-default(13px, 18px);
-            color: @brand-black;
+            color: @color-black-brand;
             font-weight: normal;
         }
         span {
@@ -768,13 +768,13 @@ div.sparkline {
                     border: 0px !important;
                 }
                 span {
-                    color: @silver-40;
+                    color: @color-silver-l40;
                     .font-default(13px, 18px);
                     padding-left: 0;
                 }
 
                 strong {
-                    color: @brand-black;
+                    color: @color-black-brand;
                     .font-default(13px, 18px);
                     font-weight: normal;
                 }
@@ -828,12 +828,12 @@ div.sparkline {
 .annotationView {
     .font-default(10px, 12px);
     text-transform: uppercase;
-    color: @brand-black;
+    color: @color-black-brand;
 }
 
 .datatableFooterMessage {
     .font-default(13px, 18px);
-    color: @silver;
+    color: @color-silver;
     font-weight: normal;
 }
 .multisites_asc,
@@ -843,11 +843,11 @@ div.sparkline {
 }
 
 .dataTableFooterIcons, .dataTableFooterIcons a {
-    color: @brand-blue;
+    color: @color-blue-brand;
 }
 
 #visitsLive .datetime {
-    background: @silver-95;
+    background: @color-silver-l95;
     border-top: 0px;
 }
 
@@ -863,7 +863,7 @@ div.sparkline {
 }
 
 #token_auth {
-    background: @silver-95;
+    background: @color-silver-l95;
 }
 
 tr:hover #token_auth {
