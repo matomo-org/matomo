@@ -14,6 +14,8 @@
         "MinValue": "Minimaler Wert",
         "MinValueDocumentation": "Minimaler Wert für dieses Ereignis",
         "TotalEvents": "Gesamtzahl an Ereignissen",
-        "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse"
+        "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse",
+        "TotalValue": "Gesamtwert",
+        "TotalValueDocumentation": "Gesamtanzahl der Ereignisse (Summe der Ereigniswerte)"
     }
 }

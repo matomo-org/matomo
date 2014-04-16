@@ -999,9 +999,7 @@
         "PluginDescription": "Generere flotte statiske PNG diagrammer til Piwik rapporter."
     },
     "Insights": {
-        "ControlComparedToDescription": "sammenlignet med",
         "ControlFilterByDescription": "Vis alle, kun ændringer, kun nye eller kun forsvundne",
-        "ControlGrowthDescription": "Min. vækst på",
         "DatePeriodCombinationNotSupported": "Det er ikke muligt at generere rapporter til disse datoer og kombination af perioder.",
         "DayComparedToPreviousDay": "Foregående dag",
         "DayComparedToPreviousWeek": "Samme dag i sidste uge",
