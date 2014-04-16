@@ -634,6 +634,7 @@
         "ExceptionUnableToStartSession": "Impossibile avviare la sessione.",
         "ExceptionUndeletableFile": "Impossibile cancellare %s",
         "ExceptionUnreadableFileDisabledMethod": "Il file di configurazione {%s} non può essere letto. Il tuo host può aver disabilitato %s.",
+        "ExpandDataTableFooter": "Cambia la visualizzazione o configura il report",
         "Export": "Esporta",
         "ExportAsImage": "Esporta come Immagine",
         "ExportThisReport": "Esporta questo dataset in altri formati",
@@ -1009,9 +1010,8 @@
         "PluginDescription": "Genera belle immagini PNG statiche dei grafici per qualsiasi report Piwik."
     },
     "Insights": {
-        "ControlComparedToDescription": "comparata alla",
+        "ControlComparedToDescription": "Crescita comparata a",
         "ControlFilterByDescription": "Mostra tutto, solo protagoniste, solo nuove o solo scomparse",
-        "ControlGrowthDescription": "Creascita minima di",
         "DatePeriodCombinationNotSupported": "Non è possibile generare approfondimenti per questa combinazione di data e periodo.",
         "DayComparedToPreviousDay": "giorno precedente",
         "DayComparedToPreviousWeek": "stesso giorno della settimana precedente",
