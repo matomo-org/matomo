@@ -1,0 +1,16 @@
+{
+    "DevicesDetection": {
+        "Camera": "Kamera",
+        "Console": "Konzola",
+        "dataTableLabelBrowserFamily": "Porodica brauzera",
+        "dataTableLabelSystemVersion": "Verzija operativnog sistema",
+        "Device": "Uređaj",
+        "DeviceDetection": "Prepoznavanje uređaja",
+        "DevicesDetection": "Uređaji posetilaca",
+        "FeaturePhone": "Telefon",
+        "OperatingSystemVersions": "Verzije operativnog sistema",
+        "SmartDisplay": "Pametan displej",
+        "submenu": "Uređaji",
+        "TV": "TV"
+    }
+}

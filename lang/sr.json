@@ -988,8 +988,6 @@
         "PluginDescription": "Kreirajte statične PNG slike grafika za bilo koji Piwik izveštaj."
     },
     "Insights": {
-        "ControlComparedToDescription": "u poređenju sa",
-        "ControlGrowthDescription": "Minimalni rast",
         "DayComparedToPreviousDay": "prethodni dan",
         "DayComparedToPreviousYear": "isti dan prethodne godine",
         "FilterIncreaserAndDecreaser": "Povećanje i smanjenje",

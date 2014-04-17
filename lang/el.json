@@ -1005,9 +1005,7 @@
         "PluginDescription": "Δημιουργία όμορφων στατικών εικόνων PNG Διαγραμμάτων για οποιαδήποτε αναφορά του Piwik."
     },
     "Insights": {
-        "ControlComparedToDescription": "συγκρινόμενο με",
         "ControlFilterByDescription": "Εμφάνιση όλων, μόνο μετακινητών, μόνο νέων ή μόνο εξαφανισθέντων",
-        "ControlGrowthDescription": "Ελάχιστη ανάπτυξη του",
         "DatePeriodCombinationNotSupported": "Δεν είναι δυνατή η δημιουργία προβλέψεων για αυτό το συνδυασμό ημερομηνίας και περιόδου.",
         "DayComparedToPreviousDay": "προηγούμενη ημέρα",
         "DayComparedToPreviousWeek": "ίδια ημέρα την προηγούμενη εβδομάδα",
