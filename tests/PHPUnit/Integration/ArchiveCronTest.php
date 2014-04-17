@@ -21,12 +21,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    }
-
     public function getApiForTesting()
     {
         $results = array();
