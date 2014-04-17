@@ -732,3 +732,13 @@ class Fixture extends PHPUnit_Framework_Assert
 class Test_Piwik_BaseFixture extends Fixture
 {
 }
+
+
+// needed by tests that use stored segments w/ the proxy index.php
+class Test_Access_OverrideLogin extends Access
+{
+    public function getLogin()
+    {
+        return 'superUserLogin';
+    }
+}
