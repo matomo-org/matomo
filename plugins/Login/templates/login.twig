@@ -76,7 +76,7 @@
                 {% if form_data.errors %}
                     <div class="message_error">
                         {% for data in form_data.errors %}
-                            <strong>{{ 'General_Error'|translate }}</strong>: {{ data }}<br/>
+                            <strong>{{ 'General_Error'|translate }}</strong>: {{ data|raw }}<br/>
                         {% endfor %}
                     </div>
                 {% endif %}
