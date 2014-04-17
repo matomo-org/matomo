@@ -20,7 +20,14 @@ class ZenMode extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'SitesManager_Sites';
+        $translations[] = 'General_Reports';
     }
 
     public function getJsFiles(&$jsFiles)
