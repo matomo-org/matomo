@@ -222,24 +222,6 @@
         </td>
     </tr>
     <tr>
-        <td class="label">{{ 'Installation_SystemCheckMbstring'|translate }}</td>
-        <td>
-            {% if infos.hasMbstring %}
-                {% if infos.multibyte_ok %}
-                    {{ ok }}
-                {% else %}
-                    {{ warning }}
-                    <span class="warn">{{ 'Installation_SystemCheckMbstring'|translate }}
-                        <br/> {{ 'Installation_SystemCheckMbstringFuncOverloadHelp'|translate }}</span>
-                {% endif %}
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ 'Installation_SystemCheckMbstringExtensionHelp'|translate }}
-                    &nbsp;{{ 'Installation_SystemCheckMbstringExtensionGeoIpHelp'|translate }}</span>
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
         <td class="label">{{ 'Installation_SystemCheckOtherExtensions'|translate }}</td>
         <td>
             {% for desired_extension in infos.desired_extensions %}
