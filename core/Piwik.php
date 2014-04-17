@@ -410,6 +410,9 @@ class Piwik
      */
     static public function checkUserIsNotAnonymous()
     {
+        if (Access::getInstance()->hasSuperUserAccess()) {
+            return;
+        }
         if (self::isUserIsAnonymous()) {
             throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
         }
