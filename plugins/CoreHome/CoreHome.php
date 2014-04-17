@@ -103,6 +103,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/startfrom.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/length.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";

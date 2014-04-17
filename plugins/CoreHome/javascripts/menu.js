@@ -53,7 +53,15 @@ menu.prototype =
         // for all sub menu we want to have a unique id based on their module and action
         // for main menu we want to add just the module as its id.
         this.menuNode.find('li').each(function () {
-            var url = $(this).find('a').attr('href').substr(1);
+            var link = $(this).find('a');
+            if (!link) {
+                return;
+            }
+            var href = link.attr('href');
+            if (!href) {
+                return;
+            }
+            var url = href.substr(1);
             var module = broadcast.getValueFromUrl("module", url);
             var action = broadcast.getValueFromUrl("action", url);
             var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);

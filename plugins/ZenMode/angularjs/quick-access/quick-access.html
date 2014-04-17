@@ -1,0 +1,13 @@
+<div class="quick-access">
+    <input ng-keydown="onKeypress($event)" ng-change="search.index=0" ng-model="search.term" type="text" placeholder="Search for anything"/>
+    <ul ng-show="search.term">
+        <li class="quick-access-category" ng-click="search.term='menu'">Menu</li>
+        <li class="no-result" ng-hide="menuEntries | filter:search.term | length">---</li>
+        <li class="result" ng-class="{selected: $index == search.index}" ng-click="selectMenuItem(entry.index)" ng-repeat="entry in menuEntries | filter:search.term"><a>{{ entry.name | trim }}</a></li>
+        <li class="quick-access-category">Websites</li>
+        <li class="no-result">---</li>
+        <li class="quick-access-category">Reports</li>
+        <li class="no-result" ng-hide="reportEntries | filter:search.term | length">---</li>
+        <li class="result" ng-class="{selected: ((menuEntries | filter:search.term | length) + $index) == search.index}" ng-click="selectMenuItem(entry.index)" ng-repeat="entry in reportEntries | filter:search.term"><a>{{ entry.name | trim }}</a></li>
+    </ul>
+</div>
