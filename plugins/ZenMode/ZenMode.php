@@ -34,7 +34,6 @@ class ZenMode extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/ZenMode/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/ZenMode/angularjs/quick-access/quick-access-directive.js";
-        $jsFiles[] = "plugins/ZenMode/angularjs/zen-mode/zen-mode-directive.js";
         $jsFiles[] = "plugins/ZenMode/angularjs/zen-mode/zen-mode-switcher-directive.js";
     }
 
