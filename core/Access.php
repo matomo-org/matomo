@@ -217,8 +217,6 @@ class Access
 
         $this->setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess();
 
-        Piwik::postTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
-
         return true;
     }
 
