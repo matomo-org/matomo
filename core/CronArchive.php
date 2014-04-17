@@ -850,7 +850,6 @@ class CronArchive
                                           FROM " . Common::prefixTable("user") . "
                                           WHERE superuser_access = 1
                                           ORDER BY date_registered ASC");
-        $this->login      = $superUser['login'];
         $this->token_auth = $superUser['token_auth'];
     }
 
@@ -1064,7 +1063,7 @@ class CronArchive
     {
         $this->logSection("INIT");
         $this->log("Piwik is installed at: {$this->piwikUrl}");
-        $this->log("Running Piwik " . Version::VERSION . " as Super User: " . $this->login);
+        $this->log("Running Piwik " . Version::VERSION . " as Super User");
     }
 
     private function logArchiveTimeoutInfo()

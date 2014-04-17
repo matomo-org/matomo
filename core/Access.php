@@ -215,8 +215,6 @@ class Access
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
 
-        $this->setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess();
-
         return true;
     }
 
@@ -230,16 +228,11 @@ class Access
     {
         if ($bool) {
             $this->previousLogin = self::getLogin();
-            $this->login = $this->getAnySuperUserAccessLogin();
             $this->reloadAccessSuperUser();
         } else {
             $this->hasSuperUserAccess = false;
             $this->idsitesByAccess['superuser'] = array();
 
-            if(!empty($this->previousLogin)) {
-                $this->login = $this->previousLogin;
-                $this->previousLogin = null;
-            }
         }
     }
 
