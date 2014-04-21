@@ -261,7 +261,7 @@ class DateTest extends PHPUnit_Framework_TestCase
         $date = Date::factory('2013-12-31');
         $this->assertFalse($date->isLeapYear());
 
-        $date = Date::factory('2052-01-01');
+        $date = Date::factory('2052-01-01'); // dates after 19/01/2038 03:14:07 fail on 32-bit arch
         $this->assertTrue($date->isLeapYear());
 
     }
