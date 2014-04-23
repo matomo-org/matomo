@@ -184,10 +184,12 @@ class Tracker
     {
         list($this->requests, $tokenAuth) = $this->getRequestsArrayFromBulkRequest($rawData);
 
-        if($this->isBulkTrackingRequireTokenAuth()
-            && empty($tokenAuth)) {
-            throw new Exception( "token_auth must be specified when using Bulk Tracking Import. "
-                ." See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
+        $bulkTrackingRequireTokenAuth = $this->isBulkTrackingRequireTokenAuth();
+        if($bulkTrackingRequireTokenAuth) {
+            if(empty($tokenAuth)) {
+                throw new Exception("token_auth must be specified when using Bulk Tracking Import. "
+                    . " See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
+            }
         }
 
         if (!empty($this->requests)) {
@@ -207,7 +209,7 @@ class Tracker
                 $requestObj = new Request($request, $tokenAuth);
                 $this->loadTrackerPlugins($requestObj);
 
-                if($this->isBulkTrackingRequireTokenAuth()
+                if($bulkTrackingRequireTokenAuth
                     && !$requestObj->isAuthenticated()) {
                     throw new Exception(sprintf("token_auth specified does not have Admin permission for idsite=%s", $requestObj->getIdSite()));
                 }

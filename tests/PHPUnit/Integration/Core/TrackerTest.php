@@ -26,12 +26,12 @@ class Core_TrackerTest extends DatabaseTestCase
     /**
      * Test the Bulk tracking API as documented in: http://developer.piwik.org/api-reference/tracking-api#bulk-tracking
      *
-     * @throws Exception
+     * With invalid token_auth the request would still work
      */
     public function test_trackingApiWithBulkRequests_viaCurl_withWrongTokenAuth()
     {
         $token_auth = '33dc3f2536d3025974cccb4b4d2d98f4';
-        $this->issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed = false);
+        $this->issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed = true);
     }
 
     public function test_trackingApiWithBulkRequests_viaCurl_withCorrectTokenAuth()
