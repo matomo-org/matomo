@@ -91,11 +91,27 @@ class Core_CliMultiTest extends IntegrationTestCase
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife'));
     }
 
+    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithConcurrentRequestLimit()
+    {
+        $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
+
+        $this->cliMulti->setConcurrentProcessesLimit(1);
+        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+    }
+
+    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithHighConcurrentRequestLimit()
+    {
+        $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
+
+        $this->cliMulti->setConcurrentProcessesLimit(10);
+        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+    }
+
     public function test_request_shouldReturnSameAmountOfResponses_IfSameUrlAppearsMultipleTimes()
     {
-        $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife');
+        $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion');
 
-        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife'));
+        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion'));
     }
 
     public function test_request_shouldCleanupAllTempFiles_OnceAllRequestsAreFinished()

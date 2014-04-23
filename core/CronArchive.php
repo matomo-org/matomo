@@ -24,6 +24,9 @@ class CronArchive
     // the url can be set here before the init, and it will be used instead of --url=
     static public $url = false;
 
+    // Max parallel requests for a same site's segments
+    const MAX_CONCURRENT_API_REQUESTS = 3;
+
     // force-timeout-for-periods default (1 hour)
     const SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES = 3600;
 
@@ -583,6 +586,7 @@ class CronArchive
 
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+        $cliMulti->setConcurrentProcessesLimit(self::MAX_CONCURRENT_API_REQUESTS);
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
