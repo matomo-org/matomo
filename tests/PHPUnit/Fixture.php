@@ -81,6 +81,19 @@ class Fixture extends PHPUnit_Framework_Assert
         // empty
     }
 
+    public function getDbName()
+    {
+        if ($this->dbName !== false) {
+            return $this->dbName;
+        }
+
+        if ($this->persistFixtureData) {
+            return str_replace("\\", "_", get_class($this));
+        }
+
+        return Config::getInstance()->database_tests['dbname'];
+    }
+
     public function performSetUp($setupEnvironmentOnly = false)
     {
         try {
@@ -88,8 +101,9 @@ class Fixture extends PHPUnit_Framework_Assert
                 Config::getInstance()->setTestEnvironment();
             }
 
+            $this->dbName = $this->getDbName();
+
             if ($this->persistFixtureData) {
-                $this->dbName = str_replace("\\", "_", get_class($this));
                 $this->dropDatabaseInSetUp = false;
                 $this->dropDatabaseInTearDown = false;
                 $this->overwriteExisting = false;
@@ -109,8 +123,6 @@ class Fixture extends PHPUnit_Framework_Assert
             if ($this->dropDatabaseInSetUp
                 || $this->resetPersistedFixture
             ) {
-                $this->log("Dropping database...");
-
                 $this->dropDatabase();
             }
 
@@ -135,7 +147,7 @@ class Fixture extends PHPUnit_Framework_Assert
         include "DataFiles/Currencies.php";
         include "DataFiles/LanguageToCountry.php";
         include "DataFiles/Providers.php";
-        
+
         if (!$this->isFixtureSetUp()) {
             DbHelper::truncateAllTables();
         }
@@ -157,9 +169,9 @@ class Fixture extends PHPUnit_Framework_Assert
             Translate::reloadLanguage('en');
             APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
-        
+
         FakeAccess::$superUserLogin = 'superUserLogin';
-        
+
         \Piwik\SettingsPiwik::$cachedKnownSegmentsToArchive = null;
         \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
 
@@ -669,7 +681,7 @@ class Fixture extends PHPUnit_Framework_Assert
         return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", array($idGoal, $idSite)) != 0;
     }
 
-    
+
     /**
      * Connects to MySQL w/o specifying a database.
      */
@@ -697,6 +709,8 @@ class Fixture extends PHPUnit_Framework_Assert
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->dbName;
+
+        $this->log("Dropping database '$dbName'...");
 
         $config = _parse_ini_file(PIWIK_INCLUDE_PATH . '/config/config.ini.php', true);
         $originalDbName = $config['database']['dbname'];
@@ -732,7 +746,6 @@ class Fixture extends PHPUnit_Framework_Assert
 class Test_Piwik_BaseFixture extends Fixture
 {
 }
-
 
 // needed by tests that use stored segments w/ the proxy index.php
 class Test_Access_OverrideLogin extends Access
