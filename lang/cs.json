@@ -779,8 +779,6 @@
         "SystemCheckIconvHelp": "Musíte nakonfigurovat a překompilovat PHP s podporou pro \"icont\", --with-iconv",
         "SystemCheckMailHelp": "Bez funkce mail(), nebudou odeslány zprávy s odezvou, nebo při zapomenutém heslu",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "Rozšíření mbstring je vyžadováno pro multibyte znaky v odezvách API při použití CSV, nebo TSV",
-        "SystemCheckMbstringFuncOverloadHelp": "Měli byste nastavit mbstring.func_overload na \"0\"",
         "SystemCheckMemoryLimit": "Limit paměti",
         "SystemCheckMemoryLimitHelp": "Na webech s vysokým provozem, může archivace vyžadovat více paměti něž je nyní povoleno.<br \/>Pokud je potřeba podívejte se na direktivu memory_limit ve vašem souboru php.ini.",
         "SystemCheckOpenURL": "Otevřít URL",

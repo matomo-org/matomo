@@ -16,6 +16,6 @@
         "TotalEvents": "Totalul evenimentelor",
         "TotalEventsDocumentation": "Numarul total al evenimentelor",
         "TotalValue": "Valoarea totala",
-        "TotalValueDocumentation": "Valoarea totala a evenimentelor (suma valorilor evenimentelor)"
+        "TotalValueDocumentation": "suma valorilor evenimentelor"
     }
 }

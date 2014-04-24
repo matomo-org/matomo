@@ -722,8 +722,6 @@
         "SystemCheckIconvHelp": "Lypset të formësoni dhe rindërtoni PHP-në me aktivizim të mbulimit të \"iconv\", --with-iconv.",
         "SystemCheckMailHelp": "Mesazhet mbi Përshtypjet dhe Fjalëkalim të Humbur nuk kanë për t'u dërguar pa mail().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "Zgjerimi mbstring është i nevojshëm për shenja shumëbajtshe në përgjigje API që përdorin vlera të ndara me presje (CSV) ose vlera të ndara me shenjën tab (TSV).",
-        "SystemCheckMbstringFuncOverloadHelp": "Do të duhej ta vinit mbstring.func_overload \"0\".",
         "SystemCheckMemoryLimit": "Kufi kujtese",
         "SystemCheckMemoryLimitHelp": "Në një \"site\" web me shumë trafik, procesi i arkivimit mund të dojë më tepër kujtesë se sa i është dhënë tani. Në u dashtë, ndryshojeni parametrin memory_limit te kartela juaj php.ini.",
         "SystemCheckOpenURL": "Hap URL",

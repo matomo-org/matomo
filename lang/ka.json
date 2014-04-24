@@ -478,8 +478,6 @@
         "SystemCheckIconvHelp": "საჭირო იქნება PHP კონფიგურირება და აღდგენა \"iconv\" მხარდაჭერის ჩართვით, --with-iconv.",
         "SystemCheckMailHelp": "გამოხმაურებები და პაროლის აღდგენის მოთხოვნები არ გაიგზავნება mail() ფუნქციის გარეშე.",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "mbstring გაფართოება მოითხოვება მრავალბიტიანი სიმბოლოებისთვის API ფუნქციებში მძიმით გამოყოფილი მნიშვნელობების (CSV) ან ტაბულაციით გამოყოფილი მნიშვნელობების (TSV) გამოყენებისას.",
-        "SystemCheckMbstringFuncOverloadHelp": "თქვენ უნდა მიანიჭოთ mbstring.func_overload მნიშვნელობა \"0\".",
         "SystemCheckMemoryLimit": "მეხსიერების ლიმიტი",
         "SystemCheckMemoryLimitHelp": "მაღალი ტრაფიკის ვებ საიტის არქივირებისას შეიძლება უფრო მეტი მეხსიერება იქნეს საჭირო, ვიდრე ახლაა გამოყოფილი. თუ ასე მოხდა, შეცვალეთ memory_limit მაჩვენებელი თქვენს php.ini ფაილში.",
         "SystemCheckOpenURL": "გახსენით URL",

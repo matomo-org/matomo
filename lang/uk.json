@@ -479,8 +479,6 @@
         "SystemCheckIconvHelp": "Необхідно переконфігурувати та перезібрати PHP з підтримкою \"iconv\", --with-iconv.",
         "SystemCheckMailHelp": "Е-майл повідомлення форми відгуку та відновлення паролю не будуть надсилатися без функції mail().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "Розширення mbstring необхідне для обробки багато-байтових символів в відповідях API що повертають значення розділені комою (CSV) або значення розділені табуляцією (TSV).",
-        "SystemCheckMbstringFuncOverloadHelp": "Необхідно встановити mbstring.func_overload в \"0\".",
         "SystemCheckMemoryLimit": "Граничний розмір пам'яті",
         "SystemCheckMemoryLimitHelp": "На сайті з високим трафіком процес стистення даних може потребувати більше пам'яті ніж дозволено зараз.<br\/>Дивіться детальніше про директиву memory_limit у файлі php.ini.",
         "SystemCheckOpenURL": "Відкрити URL",

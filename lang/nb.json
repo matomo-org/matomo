@@ -16,7 +16,6 @@
         "ColumnSearchCategory": "Søkekategori",
         "ColumnSearches": "Søk",
         "ColumnSearchesDocumentation": "Antall besøkende som søkte etter dette nøkkelordet i din søkemotor.",
-        "ColumnSearchExits": "% Søk Eksisterer",
         "ColumnSearchExitsDocumentation": "Antall besøkende som forlot nettsiden etter å ha søkt etter dette nøkkelordet.",
         "ColumnSearchResultsCount": "Antall søkeresultater",
         "ColumnSiteSearchKeywords": "Unike nøkkelord",
@@ -668,7 +667,6 @@
         "SystemCheckIconvHelp": "Du må konfigurere og bygge PHP på nytt med iconv-støtte aktivert, --with-iconv.",
         "SystemCheckMailHelp": "Tilbakemeldinger og \"Glemt passord\"-meldinger kan ikke sendes uten mail().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringFuncOverloadHelp": "Du bør sette mbstring.func_overload til \"0\".",
         "SystemCheckMemoryLimit": "Minnegrense",
         "SystemCheckMemoryLimitHelp": "På et høyt trafikkert nettsted, kan arkiveringsprossessen kreve mer minne enn det som nå er tillatt.<br \/>Se på memory_limit i din php.ini fil hvis nødvendig.",
         "SystemCheckOpenURL": "Åpne URL",
@@ -912,6 +910,7 @@
         "FromWebsites": "Fra nettsider",
         "IncomingTraffic": "Innkommende trafikk",
         "OutgoingTraffic": "Utgående trafikk",
+        "ToFollowingPages": "Til interne sider",
         "ToFollowingSiteSearches": "Interne søk",
         "ToFollowingSiteSearchesInline": "%s interne søk",
         "XOutOfYVisits": "%s (av %s)"
