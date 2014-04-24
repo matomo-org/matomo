@@ -510,8 +510,6 @@
         "SystemCheckIconvHelp": "Jums reikia sukonfigūruoti ir perdaryti PHP su įjungtu \"iconv\" palaikymu, --with-iconv.",
         "SystemCheckMailHelp": "Atsiliepimų ir prarastų slpatažodžių pranešimai nebus siunčiami be mail() funkcijos.",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "Mbstring plėtinys reikalingas daugiabitiniams simboliams API užklausose naudojant kableliu atskirtas reikšmes (CSV) arba tarpais atskirtas reikšmes (TSV)",
-        "SystemCheckMbstringFuncOverloadHelp": "Turite nustatyti mbstring.func_overload į \"0\".",
         "SystemCheckMemoryLimit": "Atminties limitas",
         "SystemCheckMemoryLimitHelp": "Didelio lankytojų srauto svetainėse archyvavimas gali reikalauti daugiau atminties nei šiuo metu yra.<br \/>Pasitikrinkite reikšmę memory_limit savo php.ini faile, jeigu būtina.",
         "SystemCheckOpenURL": "Open URL",

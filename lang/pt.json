@@ -664,8 +664,6 @@
         "SystemCheckIconvHelp": "Tem de configurar e reconstruir PHP com suporte \"iconv\" activado, --with-iconv.",
         "SystemCheckMailHelp": "Mensagens de Opinião e Palavra-Passe Perdida não serão enviadas sem mail().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "A extensão mbstring é necessária para caracteres multibyte em respostas do API em formato de valores separados por vírgulas (CSV) ou valores separados por tabulações (TSV).",
-        "SystemCheckMbstringFuncOverloadHelp": "Deve definir mbstring.func_overload a \"0\"",
         "SystemCheckMemoryLimit": "Limite de Memória",
         "SystemCheckMemoryLimitHelp": "Num website com tráfego elevado, o processo de arquivamento pode exigir mais memória do que o permitido actualmente.<br \/>Altere a directiva memory_limit no seu ficheiro php.ini se for necessário.",
         "SystemCheckOpenURL": "Abrir endereço",

@@ -792,8 +792,6 @@
         "SystemCheckIconvHelp": "Sa pead PHP seadistama ja uuesti laadima koos \"iconv\" toega, --with-iconv.",
         "SystemCheckMailHelp": "Tagasiside ja kaotatud salasõna sõnumeid ei saadeta ilma mail() funktsiooni toeta.",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionGeoIpHelp": "Samuti on see nõutud GeoIP integratsiooni tööle saamiseks.",
-        "SystemCheckMbstringFuncOverloadHelp": "Sa peaksid sättima mbstring.func_overload väärtuseks \"0\".",
         "SystemCheckMemoryLimit": "Mälu limiit",
         "SystemCheckMemoryLimitHelp": "Suure liiklusega veebileht võib vajada arhiveerimiseks rohkem mälu, kui hetkel lubatud.<br \/>Vaata üle oma memory_limit oma php.ini failis, kui see osutub vajalikuks.",
         "SystemCheckOpenURL": "Ava URL",

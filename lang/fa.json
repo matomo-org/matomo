@@ -972,8 +972,6 @@
         "SystemCheckIconvHelp": "شما نیاز به تنظیم و بازسازی PHP با پشتیبانی از \"iconv\" فعال باشد، - با iconv.",
         "SystemCheckMailHelp": "انتقادات و پیشنهادات و پیامهای رمز عبور را فراموش کرده اید بدون پست الکترونیکی () ارسال نخواهد شد.",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "فرمت mbstring را برای شخصیت های چند بایتی در پاسخ API با استفاده از کاما جدا ارزش (CSV) و یا تب جدا ارزش (TSV) مورد نیاز است.",
-        "SystemCheckMbstringFuncOverloadHelp": "شما باید mbstring.func_overload را به \"0\" را تنظیم کنید.",
         "SystemCheckMemoryLimit": "محدودیت حافظه",
         "SystemCheckMemoryLimitHelp": "در یک وب سایت با ترافیک بالا، فرایند آرشیو ممکن است نیاز به حافظه بیشتری از آنچه در حال حاضر اجازه. در صورت لزوم، تغییر بخشنامه memory_limit را در فایل php.ini خود را.",
         "SystemCheckOpenURL": "بازکردن آدرس",

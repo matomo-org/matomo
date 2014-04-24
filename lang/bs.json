@@ -293,6 +293,7 @@
         "HoursMinutes": "%1$s sati %2$s minute",
         "Id": "Id",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Pretpostavimo da je arhiviranje brzo za tvoje postavke, mozete postaviti crontab da procesuira mnogo češće.",
+        "Installed": "Instalirano",
         "InvalidDateRange": "Nevažeći raspon datuma, pokusajte ponovo",
         "InvalidResponse": "Primljeni podacu su nevažeći.",
         "IP": "IP",

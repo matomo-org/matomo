@@ -697,8 +697,6 @@
         "SystemCheckIconvHelp": "คุณจำเป็นต้องตั้งค่าคอนฟิก และสร้างใหม่ PHP ด้วย \"iconv\" เปิดใช้งานการสนับสนุน --with-iconv.",
         "SystemCheckMailHelp": "ความคิดเห็นและลืมรหัสผ่านจะไม่สามารถส่งข้อความโดยไม่ต้องรวมกับ mail()",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "mbstring นามสกุลถูกต้องสำหรับตีอักขระในคำตอบ API ที่ใช้ค่าที่คั่นด้วยเครื่องหมายจุลภาค (CSV) หรือค่าที่คั่นด้วยแท็บ (TSV)",
-        "SystemCheckMbstringFuncOverloadHelp": "คุณควรตั้งค่า mbstring.func_overload เป็น \"0\"",
         "SystemCheckMemoryLimit": "ขีดจำกัดของหน่วยความจำ",
         "SystemCheckMemoryLimitHelp": "บนเว็บไซต์การรับส่งข้อมูลสูง กระบวนการเก็บถาวรอาจต้องใช้หน่วยความจำเพิ่มเติมมากกว่าที่ได้รับอนุญาตในขณะนี้ ถ้าจำเป็น เปลี่ยนคำสั่ง memory_limit ในไฟล์ php.ini ของคุณ",
         "SystemCheckOpenURL": "เปิด URL",
