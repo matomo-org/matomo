@@ -71,7 +71,11 @@ Application.prototype.init = function () {
     describe = function () {
         var suite = oldDescribe.apply(null, arguments);
         suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
-        suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
+        if (options['assume-artifacts']) {
+            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+        } else {
+            suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
+        }
         return suite;
     };
 };
