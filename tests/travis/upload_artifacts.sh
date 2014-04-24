@@ -45,6 +45,9 @@ else
         then
             echo "Uploading screenshot diffs..."
 
+            echo "[NOTE] screenshot diff dir:"
+            echo "`pwd`/screenshot-diffs"
+
             echo "[NOTE] uploading following diffs:"
             ls screenshot-diffs
 
