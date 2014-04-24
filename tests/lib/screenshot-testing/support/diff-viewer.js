@@ -162,7 +162,9 @@ DiffViewerGenerator.prototype.generateDiffs = function (callback, i) {
             if (!code) {
                 console.log("Saved diff to " + diffPath);
 
-                entry.diffUrl = entry.name + '.png';
+                if (fs.exists(diffPath)) {
+                    entry.diffUrl = entry.name + '.png';
+                }
             }
 
             self.generateDiffs(callback, i + 1);
