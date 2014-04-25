@@ -165,7 +165,7 @@ class SetupFixture extends ConsoleCommand
             '/tests/PHPUnit/Fixtures/*.php',
             '/tests/PHPUnit/UI/Fixtures/*.php',
             '/plugins/*/tests/Fixtures/*.php',
-            '/plugins/*/Test/Fixtures/*.php'
+            '/plugins/*/Test/Fixtures/*.php',
         );
         foreach($fixturesToLoad as $fixturePath) {
             foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
