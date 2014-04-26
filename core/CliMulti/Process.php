@@ -154,7 +154,7 @@ class Process
             return false;
         }
 
-		if(self::isProcFSNotMounted()) {
+		if(!self::isProcFSMounted()) {
 			return false;
 		}
 
@@ -197,7 +197,7 @@ class Process
         return !empty($result);
     }
 
-	private static function isProcFSNotMounted() {
+	private static function isProcFSMounted() {
 		return is_resource(@fopen('/proc', 'r'));
 	}
 }
