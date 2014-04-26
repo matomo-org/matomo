@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr" dir="ltr"> 
+<head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+	<meta name="keywords" content="aldeid, googlehacks, google, hacks, hack the web, hacktheweb" /> 
+	<meta name="description" content="Aldeid HackTheWeb est un portage Web de GoogleHacks." /> 
+	<link rel="copyright" href="http://www.gnu.org/copyleft/fdl.html" /> 
+	<title>Aldeid HackTheWeb</title> 
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+	<script language="javascript" type="text/javascript" src="functions.js"></script>
+</head>
+<body onload="document.searchForm.q.focus();">
+
+<h1><div class="b">H</div><div class="r">4</div><div class="y">c</div><div class="g">k</div><div class="b">T</div><div class="r">h</div><div class="y">3</div><div class="g">W</div><div class="b">3</div><div class="r">b</div></h1>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<form name="searchForm">
+	Search string: <input type=text name=q style="width:400px" />
+	<input type="button" style="width:100px" value="Search" onclick="f_search();" />
+
+  <div>&nbsp;</div>
+  <!-- TYPE -->
+	<fieldset style="width:600px;">
+		<legend>Type</legend>
+		<table>
+			<tr>
+				<td width="150">
+					<p><input type="radio" name="type" value="music" id="Music" onclick="f_chgft('music');" checked /><label for="Music">Music</label></p>
+					<p><input type="radio" name="type" value="hacks" id="Hacks" onclick="f_chgft('hacks');" /><label for="Hacks">Hacks</label></p>
+					<p><input type="radio" name="type" value="applications" id="Applications" onclick="f_chgft('applications');" /><label for="Applications">Applications</label></dp>
+				</td>
+				<td width="150">
+					<p><input type="radio" name="type" value="book" id="Book" onclick="f_chgft('book');" /><label for="Book">Book</label></p>
+					<p><input type="radio" name="type" value="proxy" id="Proxy" onclick="f_chgft('proxy');" /><label for="Proxy">Proxy</label></p>
+					<p><input type="radio" name="type" value="torrent" id="Torrent" onclick="f_chgft('torrent');" /><label for="Torrent">Torrent</label></p>
+				</td>
+				<td width="150">
+					<p><input type="radio" name="type" value="video" id="Video" onclick="f_chgft('video');" /><label for="Video">Video</label></p>
+					<p><input type="radio" name="type" value="lyrics" id="Lyrics" onclick="f_chgft('lyrics');" /><label for="Lyrics">Lyrics</label></p>
+					<p><input type="radio" name="type" value="cache" id="Cache" onclick="f_chgft('cache');" /><label for="Cache">Cache</label></p>
+				</td>
+				<td width="150">
+					<p><input type="radio" name="type" value="tool" id="Tools" onclick="f_chgft('tools');" /><label for="Tools">Tools</label></p>
+					<p><input type="radio" name="type" value="fonts" id="Fonts" onclick="f_chgft('fonts');" /><label for="Fonts">Fonts</label></p>
+					<p><input type="radio" name="type" value="web_hosting" id="WebHosting" onclick="f_chgft('webhosting');" /><label for="WebHosting">Web hosting</label></p>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+
+  <div>&nbsp;</div>
+
+  <!-- MUSIC -->
+	<div id="div_music" style="display:block">
+		<fieldset style="width:200px;">
+			<legend>File Types</legend>
+			<table>
+				<tr>
+					<td width="150">
+						<p><input type="checkbox" name="music_ft" value="mp3" id="mp3" checked /><label for="mp3">.mp3</label></p>
+						<p><input type="checkbox" name="music_ft" value="wma" id="wma" /><label for="wma">.wma</label></p>
+						<p><input type="checkbox" name="music_ft" value="ogg" id="ogg" /><label for="ogg">.ogg</label></p>
+						<p><input type="checkbox" name="music_ft" value="wav" id="wav" /><label for="wav">.wav</label></p>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+
+
+  <!-- HACKS -->
+	<div id="div_hacks" style="display:none">
+		<fieldset style="width:200px;height:200px;float:left">
+			<legend>Find?</legend>
+			<table>
+				<tr>
+					<td width="150">
+						<p><input type="radio" name="filetype" value="passwords" id="passwords" checked /><label for="passwords">Passwords</label></p>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+    <fieldset style="width:400px;height:200px;">
+	    <legend>Technique</legend>
+	    <table>
+		    <tr>
+			    <td width="200">
+				    <p><input type="radio" name="technique" value="passwords_modified" id="passwords_modified" checked /><label for="passwords_modified">passwords modified</label></p>
+				    <p><input type="radio" name="technique" value="auth_user_file_txt" id="auth_user_file_txt" /><label for="auth_user_file_txt">auth_user_file.txt</label></p>
+				    <p><input type="radio" name="technique" value="passlist_txt" id="passlist_txt" /><label for="passlist_txt">passlist.txt</label></p>
+				  </td>
+				  <td>
+				    <p><input type="radio" name="technique" value="frontpage" id="frontpage" /><label for="frontpage">Frontpage</label></p>
+				    <p><input type="radio" name="technique" value="config_php" id="config_php" /><label for="config_php">config.php</label></p>
+				    <p><input type="radio" name="technique" value="inline_url_password" id="inline_url_password" /><label for="inline_url_password">Inline url password</label></p>
+			    </td>
+		    </tr>
+	    </table>
+    </fieldset>
+    <div style="margin-left:20px;">Type in the url</div>
+	</div>
+
+
+  <!-- APPLICATIONS -->
+	<div id="div_applications" style="display:none">
+		<fieldset style="width:200px;">
+			<legend>File Types</legend>
+			<table>
+				<tr>
+					<td width="150">
+						<p><input type="checkbox" name="applications_ft" value="exe" id="exe" checked /><label for="exe">.exe</label></p>
+						<p><input type="checkbox" name="applications_ft" value="rar" id="rar" checked /><label for="rar">.rar</label></p>
+						<p><input type="checkbox" name="applications_ft" value="zip" id="zip" checked /><label for="zip">.zip</label></p>
+						<p><input type="checkbox" name="applications_ft" value="ddl" id="ddl" checked /><label for="ddl">.ddl</label></p>
+						<p><input type="checkbox" name="applications_ft" value="nds" id="nds" checked /><label for="nds">.nds</label></p>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+
+  <!-- BOOK -->
+	<div id="div_book" style="display:none">
+		<fieldset style="width:200px;">
+			<legend>File Types</legend>
+			<table>
+				<tr>
+					<td width="150">
+						<p><input type="checkbox" name="book_ft" value="pdf" id="pdf" checked /><label for="pdf">.pdf</label></p>
+						<p><input type="checkbox" name="book_ft" value="txt" id="txt" checked /><label for="txt">.txt</label></p>
+						<p><input type="checkbox" name="book_ft" value="lit" id="lit" checked /><label for="lit">.lit</label></p>
+						<p><input type="checkbox" name="book_ft" value="rar" id="rar" checked /><label for="rar">.rar</label></p>
+						<p><input type="checkbox" name="book_ft" value="doc" id="doc" checked /><label for="doc">.doc</label></p>
+					</td>
+					<td width="150">
+						<p><input type="checkbox" name="book_ft" value="rtf" id="rtf" checked /><label for="rtf">.rtf</label></p>
+						<p><input type="checkbox" name="book_ft" value="chm" id="chm" checked /><label for="chm">.chm</label></p>
+						<p><input type="checkbox" name="book_ft" value="pps" id="pps" checked /><label for="pps">.pps</label></p>
+						<p><input type="checkbox" name="book_ft" value="zip" id="zip" checked /><label for="zip">.zip</label></p>
+						<p><input type="checkbox" name="book_ft" value="odt" id="odt" checked /><label for="odt">.odt</label></p>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+	
+	<!-- PROXY -->
+	<div id="div_proxy" style="display:none">
+		<fieldset style="width:300px;">
+			<legend>Method</legend>
+			<table>
+				<tr>
+					<td width="300">
+						<p><input type="radio" name="proxymethod" value="proxymethod1" id="proxymethod1" checked /><label for="proxymethod1">Method 1 (bad translation)</label></p>
+						<p><input type="radio" name="proxymethod" value="proxymethod2" id="proxymethod2" /><label for="proxymethod2">Method 2 (lynx style)</label></p>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+    <div style="margin-left:20px;">Type in the url</div>
+	</div>
+	
+  <!-- TORRENT -->	
+	<div id="div_torrent" style="display:none">
+    <div style="margin-left:20px;">Type in the torrent name</div>
+	</div>
+	
+  <!-- VIDEO -->	
+	<div id="div_video" style="display:none">
+		<fieldset style="width:200px;">
+			<legend>File Types</legend>
+			<table>
+				<tr>
+					<td width="150">
+						<p><input type="checkbox" name="video_ft" value="mpg" id="mpg" checked /><label for="mpg">.mpg</label></p>
+						<p><input type="checkbox" name="video_ft" value="avi" id="avi" checked /><label for="avi">.avi</label></p>
+						<p><input type="checkbox" name="video_ft" value="wmv" id="wmv" checked /><label for="wmv">.wmv</label></p>
+						<p><input type="checkbox" name="video_ft" value="divx" id="divx" checked /><label for="divx">.divx</label></p>
+						<p><input type="checkbox" name="video_ft" value="flv" id="flv" checked /><label for="flv">.flv</label></p>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+
+  <!-- LYRICS -->
+	<div id="div_lyrics" style="display:none">
+    <div style="margin-left:20px;">Type in the song title or artist name to find lyrics</div>
+	</div>
+	
+  <!-- CACHE -->	
+	<div id="div_cache" style="display:none">
+    <div style="margin-left:20px;">Type in the url</div>
+	</div>
+	
+	<!-- TOOLS -->
+	<div id="div_tools" style="display:none">
+		<fieldset style="width:600px;">
+			<legend>Tools</legend>
+			<table>
+				<tr>
+					<td width="600">
+						<p><input type="radio" name="tool" value="links" id="links" checked /><label for="links">Links (See who is linking to your site)</label></p>
+						<p><input type="radio" name="tool" value="add_url" id="add_url" /><label for="add_url">Add url (Add your url to Google Database)</label></p>
+						<p><input type="radio" name="tool" value="related" id="related" /><label for="related">Related (View websites or results relating to your query)</label></p>
+						<p><input type="radio" name="tool" value="indexing" id="indexing" /><label for="indexing">Indexing (See how well google is indexing your site)</label></p>
+						<p><input type="radio" name="tool" value="map" id="map" /><label for="map">Map (View a map of your search results)</label></p>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+	
+	<!-- FONTS -->
+	<div id="div_fonts" style="display:none">
+    <div style="margin-left:20px;">Type in search query to find fonts</div>
+	</div>
+	
+	<!-- WEB HOSTING -->
+	<div id="div_webhosting" style="display:none">
+    <div style="margin-left:20px;">Type in the name of the file</div>
+	</div>
+
+</form>
+
+<a href="http://www.xiti.com/xiti.asp?s=396866" title="WebAnalytics" target="_top">
+<script type="text/javascript">
+<!--
+Xt_param = 's=396866&p=hack.html';
+try {Xt_r = top.document.referrer;}
+catch(e) {Xt_r = document.referrer; }
+Xt_h = new Date();
+Xt_i = '<img width="39" height="25" border="0" alt="" ';
+Xt_i += 'src="http://logv6.xiti.com/hit.xiti?'+Xt_param;
+Xt_i += '&hl='+Xt_h.getHours()+'x'+Xt_h.getMinutes()+'x'+Xt_h.getSeconds();
+if(parseFloat(navigator.appVersion)>=4)
+{Xt_s=screen;Xt_i+='&r='+Xt_s.width+'x'+Xt_s.height+'x'+Xt_s.pixelDepth+'x'+Xt_s.colorDepth;}
+document.write(Xt_i+'&ref='+Xt_r.replace(/[<>"]/g, '').replace(/&/g, '$')+'" title="Internet Audience">');
+//-->
+</script>
+<noscript>
+Mesure d'audience ROI statistique webanalytics par <img width="39" height="25" src="http://logv6.xiti.com/hit.xiti?s=396866&p=" alt="WebAnalytics" />
+</noscript></a>
+
+
+</body>
+</html>
+
