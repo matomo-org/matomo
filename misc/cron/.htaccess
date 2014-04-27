@@ -1,0 +1,5 @@
+# Allow direct web access to selected files
+<FilesMatch "^(archive\.php|updatetoken\.php)$">
+	Order Allow,Deny
+	Allow from all
+</Files>
