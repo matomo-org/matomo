@@ -2,4 +2,4 @@
 <FilesMatch "^(archive\.php|updatetoken\.php)$">
 	Order Allow,Deny
 	Allow from all
-</Files>
+</FilesMatch>
