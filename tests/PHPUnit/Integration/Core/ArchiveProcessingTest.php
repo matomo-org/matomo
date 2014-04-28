@@ -126,7 +126,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
 //        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
         $messageIfFails = "Expected [$expected] but got [$processed]";
-        $this->assertTrue( $expected == $processed || $expected == ($processed + 1) || ($expected + 1) == $processed, $messageIfFails);
+        $this->assertTrue( abs($expected-$processed) <=2 , $messageIfFails);
     }
 
     /**
