@@ -26,7 +26,8 @@ class FetchFromOTrance extends ConsoleCommand
         $this->setName('translations:fetch')
              ->setDescription('Fetches translations files from oTrance to '.self::DOWNLOADPATH)
              ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'oTrance username')
-             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password');
+             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password')
+             ->addOption('keep-english', 'k', InputOption::VALUE_NONE, 'keep english file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -126,7 +127,9 @@ class FetchFromOTrance extends ConsoleCommand
         $unzipper = Unzip::factory('tar.gz', self::getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
         $unzipper->extract(self::getDownloadPath());
 
-        @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'en.php');
+        if (!$input->hasOption('keep-english')) {
+            @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'en.php');
+        }
         @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
 
         $filesToConvert = _glob(self::getDownloadPath() . DIRECTORY_SEPARATOR . '*.php');

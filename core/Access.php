@@ -37,11 +37,6 @@ class Access
     private static $instance = null;
 
     /**
-     * @var string
-     */
-    private $previousLogin;
-
-    /**
      * Gets the singleton instance. Creates it if necessary.
      */
     public static function getInstance()
@@ -215,10 +210,6 @@ class Access
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
 
-        $this->setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess();
-
-        Piwik::postTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
-
         return true;
     }
 
@@ -231,17 +222,11 @@ class Access
     public function setSuperUserAccess($bool = true)
     {
         if ($bool) {
-            $this->previousLogin = self::getLogin();
-            $this->login = $this->getAnySuperUserAccessLogin();
             $this->reloadAccessSuperUser();
         } else {
             $this->hasSuperUserAccess = false;
             $this->idsitesByAccess['superuser'] = array();
 
-            if(!empty($this->previousLogin)) {
-                $this->login = $this->previousLogin;
-                $this->previousLogin = null;
-            }
         }
     }
 
@@ -273,27 +258,6 @@ class Access
     public function getTokenAuth()
     {
         return $this->token_auth;
-    }
-
-    protected function getAnySuperUserAccessLogin()
-    {
-        try {
-            $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
-        } catch (\Exception $e) {
-            return;
-        }
-
-        if (empty($superUsers)) {
-            return;
-        }
-
-        $firstSuperUser = array_shift($superUsers);
-
-        if (empty($firstSuperUser)) {
-            return;
-        }
-
-        return $firstSuperUser['login'];
     }
 
     /**
@@ -441,13 +405,6 @@ class Access
             throw new NoAccessException("The parameter 'idSite=' is missing from the request.");
         }
         return $idSites;
-    }
-
-    private function setAnySuperUserLoginIfCurrentUserHasNotSuperUserAccess()
-    {
-        if (!Piwik::hasTheUserSuperUserAccess($this->login) || Piwik::isUserIsAnonymous()) {
-            $this->login = $this->getAnySuperUserAccessLogin();
-        }
     }
 }
 

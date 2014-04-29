@@ -9,6 +9,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
 
@@ -237,6 +238,25 @@ class VisitExcluded
                 if (stripos($this->userAgent, $excludedUserAgent) !== false) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the Referrer is a known spammer.
+     *
+     * @return bool
+     */
+    protected function isReferrerSpamExcluded()
+    {
+        $spamHosts = Config::getInstance()->Tracker['referrer_urls_spam'];
+        $spamHosts = explode(",", $spamHosts);
+
+        $referrerUrl = $this->request->getParam('urlref');
+        foreach($spamHosts as $spamHost) {
+            if( strpos($referrerUrl, $spamHost) !== false) {
+                return true;
             }
         }
         return false;

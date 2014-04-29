@@ -585,8 +585,6 @@
         "SystemCheckIconvHelp": "Konfigurálni és rebuildelni kell a PHP-t az \"iconv\" támogatás engedélyezésével: --with-iconv",
         "SystemCheckMailHelp": "A Piwik fejlesztőknek szóló visszajelzés és az elveszett jelszó pótlása céljából generált e-mail üzenetek nem lesznek elküldve a mail() nélkül.",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionHelp": "Az mbstring kiterjesztés a többbájtos karakterekhez szükséges, ha az API-val történő kommunikáció CSV vagy TSV formátumban történik.",
-        "SystemCheckMbstringFuncOverloadHelp": "Az mbstring.func_overload értékét \"0\"-ra kellene állítani.",
         "SystemCheckMemoryLimit": "Memória limit",
         "SystemCheckMemoryLimitHelp": "Egy nagy forgalmú weboldalon az archiválási folyamathoz több memória kell, mint a jelenleg engedélyezett. Ha szükséges, változtasd meg a memory_limit direktívát a php.ini fájlodban.",
         "SystemCheckOpenURL": "URL megnyitása",

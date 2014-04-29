@@ -33,7 +33,8 @@ DiffViewerGenerator.prototype.checkImageMagickCompare = function (callback) {
 };
 
 DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
-    return path.resolve(path.join(testInfo.baseDirectory, config.screenshotDiffDir, testInfo.name + '.png'));
+    var baseDir = options['assume-artifacts'] ? path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI') : testInfo.baseDirectory;
+    return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name + '.png'));
 };
 
 // TODO: diff output path shouldn't be stored in piwik-ui-tests repo
@@ -161,7 +162,9 @@ DiffViewerGenerator.prototype.generateDiffs = function (callback, i) {
             if (!code) {
                 console.log("Saved diff to " + diffPath);
 
-                entry.diffUrl = entry.name + '.png';
+                if (fs.exists(diffPath)) {
+                    entry.diffUrl = entry.name + '.png';
+                }
             }
 
             self.generateDiffs(callback, i + 1);

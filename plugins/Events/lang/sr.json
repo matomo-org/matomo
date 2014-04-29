@@ -1,0 +1,21 @@
+{
+    "Events": {
+        "Event": "Događaj",
+        "EventAction": "Akcija događaja",
+        "EventActions": "Akcije događaja",
+        "EventCategories": "Kategorije događaja",
+        "EventCategory": "Kategorije događaja",
+        "EventName": "Naziv događaja",
+        "EventNames": "Nazivi događaja",
+        "Events": "Događaji",
+        "EventValue": "Vrednost događaja",
+        "MaxValue": "Maksimalna vrednost",
+        "MaxValueDocumentation": "Maksimalna vrednost za ovaj događaj",
+        "MinValue": "Minimalna vrednost",
+        "MinValueDocumentation": "Minimalna vrednost za ovaj događaj",
+        "TotalEvents": "Ukupno događaja",
+        "TotalEventsDocumentation": "Ukupan broj događaja",
+        "TotalValue": "Ukupna vrednost",
+        "TotalValueDocumentation": "suma vrednosti događaja"
+    }
+}

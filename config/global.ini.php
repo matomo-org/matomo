@@ -494,12 +494,21 @@ page_maximum_length = 1024;
 ; TTL: Time to live for cache files, in seconds. Default to 5 minutes.
 tracker_cache_file_ttl = 300
 
+; Whether Bulk tracking requests to the Tracking API requires the token_auth to be set.
+bulk_requests_require_authentication = 0
+
+; All Visits with a Referrer URL host set to one of these will be excluded.
+; If you find new spam entries in Referrers>Websites, please report them here: http://dev.piwik.org/trac/ticket/2268
+; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field:
+referrer_urls_spam = "semalt.com"
+
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
 ; When using the Tracking API, to override either the datetime and/or the visitor IP, 
 ; token_auth with an "admin" access is required. If you set this setting to 0, the token_auth will not be required anymore.
 ; DO NOT USE THIS SETTING ON PUBLIC PIWIK SERVERS
 tracking_requests_require_authentication = 1
+
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.

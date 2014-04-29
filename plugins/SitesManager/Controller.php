@@ -35,11 +35,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@SitesManager/index');
 
         Site::clearCache();
-        if (Piwik::hasUserSuperUserAccess()) {
-            $sitesRaw = API::getInstance()->getAllSites();
-        } else {
-            $sitesRaw = API::getInstance()->getSitesWithAdminAccess();
-        }
+        $sitesRaw = API::getInstance()->getSitesWithAdminAccess();
+
         // Gets sites after Site.setSite hook was called
         $sites = array_values( Site::getSites() );
         if(count($sites) != count($sitesRaw)) {

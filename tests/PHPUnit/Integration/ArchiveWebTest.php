@@ -19,12 +19,6 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    }
-
     public function testWebArchiving()
     {
         if(self::isMysqli() && self::isTravisCI()) {

@@ -999,9 +999,7 @@
         "PluginDescription": "Generere flotte statiske PNG diagrammer til Piwik rapporter."
     },
     "Insights": {
-        "ControlComparedToDescription": "sammenlignet med",
         "ControlFilterByDescription": "Vis alle, kun ændringer, kun nye eller kun forsvundne",
-        "ControlGrowthDescription": "Min. vækst på",
         "DatePeriodCombinationNotSupported": "Det er ikke muligt at generere rapporter til disse datoer og kombination af perioder.",
         "DayComparedToPreviousDay": "Foregående dag",
         "DayComparedToPreviousWeek": "Samme dag i sidste uge",
@@ -1099,9 +1097,6 @@
         "SystemCheckIconvHelp": "PHP skal konfigureres og genstartes med \"iconv\" støtte aktiveret, --with-iconv.",
         "SystemCheckMailHelp": "Tilbagemelding og Glemt adgangskode vil ikke blive sendt uden mail() funktion",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionGeoIpHelp": "Det er også påkrævet for at GeoIP integrationen virker.",
-        "SystemCheckMbstringExtensionHelp": "mbstring udvidelse er nødvendig for multibyte tegn i API-svarene ved kommaseparerede værdier (CSV) eller tab-separeret værdier (TSV).",
-        "SystemCheckMbstringFuncOverloadHelp": "Angiv mbstring.func_overload til \"0\".",
         "SystemCheckMemoryLimit": "Hukommelses grænse",
         "SystemCheckMemoryLimitHelp": "På et stærkt trafikeret hjemmesider, kan arkiveringsprocessen kræve mere hukommelse end der er tilladt.<br \/>Se på memory_limit i php.ini filen hvis nødvendig.",
         "SystemCheckOpenURL": "Åbn netadresse",

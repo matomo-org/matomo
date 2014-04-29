@@ -589,7 +589,7 @@ class API extends \Piwik\Plugin\API
             && empty($expanded)
             && !Request::shouldLoadFlatten()
         ) {
-            $skipAggregationOfSubTables = true;
+            $skipAggregationOfSubTables = false;
         }
         return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $skipAggregationOfSubTables, $depth);
     }

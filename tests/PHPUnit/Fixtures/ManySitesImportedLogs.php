@@ -24,6 +24,12 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
     
     public $addSegments = false;
 
+    public static function createAccessInstance()
+    {
+        Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
+        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
+    }
+
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
@@ -61,7 +67,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
         }
     }
 
-    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=returning;daysSinceFirstVisit<=50';
+    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50';
     const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50';
 
     public function getDefaultSegments()
@@ -128,7 +134,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
             if (isset($info['enabledAllUsers'])) {
                 $enabledAllUsers = $info['enabledAllUsers'];
             }
-            
+
             APISegmentEditor::getInstance()->add($segmentName, $info['definition'], $idSite, $autoArchive, $enabledAllUsers);
         }
     }
@@ -220,13 +226,4 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Fixture
         self::executeLogImporter($logFile, $opts);
     }
 
-}
-
-// needed by tests that use stored segments w/ the proxy index.php
-class Test_Access_OverrideLogin extends Access
-{
-    public function getLogin()
-    {
-        return 'superUserLogin';
-    }
 }

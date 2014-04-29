@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\SettingsPiwik;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,7 +26,9 @@ class WatchLog extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cmd = sprintf('tail -f %s/tmp/logs/*.log', PIWIK_DOCUMENT_ROOT);
+        $path = sprintf('%s/tmp/logs/', PIWIK_DOCUMENT_ROOT);
+        $path = SettingsPiwik::rewriteTmpPathWithHostname($path);
+        $cmd = sprintf('tail -f %s*.log', $path);
 
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);

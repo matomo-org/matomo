@@ -28,6 +28,12 @@ class CliMulti {
     private $processes = array();
 
     /**
+     * If set it will issue at most concurrentProcessesLimit requests
+     * @var int
+     */
+    private $concurrentProcessesLimit = null;
+
+    /**
      * @var \Piwik\CliMulti\Output[]
      */
     private $outputs = array();
@@ -50,17 +56,14 @@ class CliMulti {
      */
     public function request(array $piwikUrls)
     {
-        $this->start($piwikUrls);
-
-        do {
-            usleep(100000); // 100 * 1000 = 100ms
-        } while (!$this->hasFinished());
-
-        $results = $this->getResponse($piwikUrls);
-        $this->cleanup();
-
-        self::cleanupNotRemovedFiles();
-
+        $chunks = array($piwikUrls);
+        if($this->concurrentProcessesLimit) {
+            $chunks = array_chunk( $piwikUrls, $this->concurrentProcessesLimit);
+        }
+        $results = array();
+        foreach($chunks as $urlsChunk) {
+            $results = array_merge($results, $this->requestUrls($urlsChunk));
+        }
         return $results;
     }
 
@@ -72,6 +75,14 @@ class CliMulti {
     public function setAcceptInvalidSSLCertificate($acceptInvalidSSLCertificate)
     {
         $this->acceptInvalidSSLCertificate = $acceptInvalidSSLCertificate;
+    }
+
+    /**
+     * @param $limit int Maximum count of requests to issue in parallel
+     */
+    public function setConcurrentProcessesLimit($limit)
+    {
+        $this->concurrentProcessesLimit = $limit;
     }
 
     private function start($piwikUrls)
@@ -276,5 +287,25 @@ class CliMulti {
                 return $path;
             }
         }
+    }
+
+    /**
+     * @param array $piwikUrls
+     * @return array
+     */
+    private function requestUrls(array $piwikUrls)
+    {
+        $this->start($piwikUrls);
+
+        do {
+            usleep(100000); // 100 * 1000 = 100ms
+        } while (!$this->hasFinished());
+
+        $results = $this->getResponse($piwikUrls);
+        $this->cleanup();
+
+        self::cleanupNotRemovedFiles();
+
+        return $results;
     }
 }
