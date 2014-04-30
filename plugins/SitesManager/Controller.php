@@ -35,13 +35,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@SitesManager/index');
 
         Site::clearCache();
-        $sitesRaw = API::getInstance()->getSitesWithAdminAccess();
-
-        // Gets sites after Site.setSite hook was called
-        $sites = array_values( Site::getSites() );
-        if(count($sites) != count($sitesRaw)) {
-            throw new Exception("One or more website are missing or invalid.");
-        }
+        $sites = API::getInstance()->getSitesWithAdminAccess();
 
         foreach ($sites as &$site) {
             $site['alias_urls'] = API::getInstance()->getSiteUrlsFromId($site['idsite']);
