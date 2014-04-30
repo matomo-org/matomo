@@ -12,6 +12,7 @@
         <li class="result"
             ng-class="{selected: $index == search.index}"
             ng-click="selectMenuItem(entry.index)"
+            ng-mouseenter="search.index=$index"
             ng-repeat="entry in menuItems"><a>{{ entry.name | trim }}</a></li>
 
         <li class="quick-access-category"
@@ -20,7 +21,8 @@
             ng-hide="reportEntries | length">---</li>
         <li class="result"
             ng-class="{selected: ((menuItems | length) + $index) == search.index}"
-            ng-click="selectMenuItem(entry.index)"
+            ng-mouseenter="search.index=((menuItems | length) + $index)"
+            ng-click="selectMenuItem(report.index)"
             ng-repeat="report in reportEntries"><a>{{ report.name | trim }}</a></li>
 
         <li class="quick-access-category"
@@ -31,7 +33,8 @@
             ng-show="sitesModel.isLoading">{{ 'MultiSites_LoadingWebsites' | translate }}</li>
         <li class="result"
             ng-show="!sitesModel.isLoading"
-            ng-class="{selected: ((menuItems | length) + $index + (sitesModel.sites | length)) == search.index}"
+            ng-mouseenter="search.index=((menuItems | length) + $index + (reportEntries | length))"
+            ng-class="{selected: ((menuItems | length) + $index + (reportEntries | length)) == search.index}"
             ng-click="selectSite(site.idsite)"
             ng-repeat="site in sitesModel.sites"><a>{{ site.name | trim }}</a></li>
     </ul>
