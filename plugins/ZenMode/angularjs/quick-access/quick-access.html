@@ -1,30 +1,38 @@
-<div class="quick-access" title="Search for menu entries, reports and websites (Shortcut: alt + /)">
-    <input ng-keydown="onKeypress($event)" ng-change="search(search.term)" ng-model="search.term" type="text" placeholder="Search for anything"/>
+<div class="quick-access" title="{{ 'ZenMode_QuickAccessTitle' | translate }}">
+    <input ng-keydown="onKeypress($event)"
+           ng-change="search(search.term)"
+           ng-model="search.term"
+           type="text"
+           placeholder="{{ 'ZenMode_SearchForAnything' | translate }}"/>
     <ul ng-show="search.term">
         <li class="quick-access-category"
-            ng-click="search.term='menu'">Menu</li>
+            ng-click="search('menuCategory')">Menu</li>
         <li class="no-result"
-            ng-hide="menuItems | filter:search.term | length">---</li>
+            ng-hide="menuItems | length">---</li>
         <li class="result"
             ng-class="{selected: $index == search.index}"
             ng-click="selectMenuItem(entry.index)"
-            ng-repeat="entry in menuItems | filter:search.term"><a>{{ entry.name | trim }}</a></li>
-        <li class="quick-access-category">{{ 'SitesManager_Sites' | translate }}</li>
+            ng-repeat="entry in menuItems"><a>{{ entry.name | trim }}</a></li>
+
+        <li class="quick-access-category"
+            ng-click="search('reportCategory')">{{ 'General_Reports' | translate }}</li>
         <li class="no-result"
-            ng-hide="sitesModel.sites | length">---</li>
+            ng-hide="reportEntries | length">---</li>
+        <li class="result"
+            ng-class="{selected: ((menuItems | length) + $index) == search.index}"
+            ng-click="selectMenuItem(entry.index)"
+            ng-repeat="report in reportEntries"><a>{{ report.name | trim }}</a></li>
+
+        <li class="quick-access-category"
+            ng-click="search('%')">{{ 'SitesManager_Sites' | translate }}</li>
+        <li class="no-result"
+            ng-hide="(sitesModel.sites | length) || sitesModel.isLoading">---</li>
         <li class="no-result"
             ng-show="sitesModel.isLoading">{{ 'MultiSites_LoadingWebsites' | translate }}</li>
         <li class="result"
             ng-show="!sitesModel.isLoading"
-            ng-class="{selected: ((menuItems | filter:search.term | length) + $index) == search.index}"
+            ng-class="{selected: ((menuItems | length) + $index + (sitesModel.sites | length)) == search.index}"
             ng-click="selectSite(site.idsite)"
             ng-repeat="site in sitesModel.sites"><a>{{ site.name | trim }}</a></li>
-        <li class="quick-access-category">{{ 'General_Reports' | translate }}</li>
-        <li class="no-result"
-            ng-hide="reportEntries | filter:search.term | length">---</li>
-        <li class="result"
-            ng-class="{selected: ((menuItems | filter:search.term | length) + $index + (sitesModel.sites | length)) == search.index}"
-            ng-click="selectMenuItem(entry.index)"
-            ng-repeat="report in reportEntries | filter:search.term"><a>{{ report.name | trim }}</a></li>
     </ul>
 </div>

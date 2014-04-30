@@ -72,6 +72,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/angularjs/angular.min.js";
         $jsFiles[] = "libs/angularjs/angular-sanitize.min.js";
         $jsFiles[] = "libs/angularjs/angular-animate.min.js";
+        $jsFiles[] = "libs/angularjs/angular-cookies.min.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";

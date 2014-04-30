@@ -85,6 +85,7 @@
   }
 
   /* DATATABLES */
+
   table.dataTable th.sortable {
     background: @theme-color-background-base !important;
     border-left: 0px;
@@ -111,8 +112,20 @@
     }
   }
 
-  .dataTableActions > .dataTableWrapper {
+  .dataTableActions.dataTableVizHtmlTable > .dataTableWrapper {
     width: 100%;
+  }
+
+  .dataTableActions table.dataTable  {
+    td.columnodd,
+    td.columneven,
+    th.sortable:not(.first) {
+      width: 50px;
+    }
+  }
+
+  .dataTableVizHtmlTable > .dataTableWrapper {
+    width: 500px;
   }
 
   table.dataTable tr td.columnodd {
@@ -141,15 +154,25 @@
     font-size: 24px;
   }
 
-  /*
-  table.dataTable tr td .value {
-    color: #999;
+  #content .goalEntry:first-of-type {
+    padding-top: 20px;
   }
 
-  table.dataTable tr:nth-child(-n+5) td .value,
-  table.dataTable tr:hover td .value {
-    color: inherit;
-  }*/
+  .goalEntry {
+    border-bottom: 0px;
+  }
+
+  .relatedReferrerReports {
+    display: none;
+  }
+
+  div[data-report="Referrers.getReferrerType"] > .dataTableWrapper {
+    width: 800px;
+  }
+
+  .reportsByDimensionView .entityList {
+    margin-left: 13px;
+  }
 
   table.dataTable tr:hover td.labeleven,
   table.dataTable tr:hover td.columneven,

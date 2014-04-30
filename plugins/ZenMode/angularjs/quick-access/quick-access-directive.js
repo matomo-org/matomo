@@ -12,7 +12,7 @@
  *
  * Will execute the "executeMyFunction" function in the current scope once the yes button is pressed.
  */
-angular.module('piwikApp.directive').directive('piwikQuickAccess', function($rootElement, $timeout, siteSelectorModel) {
+angular.module('piwikApp.directive').directive('piwikQuickAccess', function($rootElement, $timeout, $filter, siteSelectorModel) {
 
     return {
         restrict: 'A',
@@ -22,6 +22,40 @@ angular.module('piwikApp.directive').directive('piwikQuickAccess', function($roo
         link: function (scope, element, attrs) {
 
             var menuIndex = -1;
+            var menuItems = [];
+            var reportEntries = [];
+
+            scope.reportEntries = [];
+            scope.menuItems  = [];
+            scope.sitesModel = siteSelectorModel;
+
+            function getMenuItems()
+            {
+                if (menuItems && menuItems.length) {
+                    return menuItems;
+                }
+
+                $rootElement.find('#topLeftBar .topBarElem a, #topRightBar .topBarElem a').each(function (index, element) {
+                    menuItems.push({name: $(element).text(), index: ++menuIndex, category: 'menuCategory'});
+                    $(element).attr('quick_access', menuIndex);
+                });
+
+                return menuItems;
+            }
+
+            function getReportEntries()
+            {
+                if (reportEntries && reportEntries.length) {
+                    return reportEntries;
+                }
+
+                $rootElement.find('.Menu-tabList a').each(function (index, element) {
+                    reportEntries.push({name: $(element).text(), category: 'reportCategory', index: ++menuIndex});
+                    $(element).attr('quick_access', menuIndex);
+                });
+
+                return reportEntries;
+            }
 
             function highlightPreviousItem()
             {
@@ -54,25 +88,24 @@ angular.module('piwikApp.directive').directive('piwikQuickAccess', function($roo
                 }
             }
 
-            siteSelectorModel.loadInitialSites();
-
-            scope.menuItems = getMenuItems();
-            scope.reportEntries = getReportEntries();
-            scope.sitesModel = siteSelectorModel;
-
             scope.onKeypress = function (event) {
 
                 if (38 == event.which) {
                     highlightPreviousItem();
+                    event.preventDefault();
                 } else if (40 == event.which) {
                     highlightNextItem();
+                    event.preventDefault();
                 } else if (13 == event.which) {
                     executeMenuItem();
                 }
             };
 
             scope.search = function (searchTerm) {
-                this.search.index = 0;
+                this.search.index  = 0;
+
+                this.menuItems     = $filter('filter')(getMenuItems(), searchTerm)
+                this.reportEntries = $filter('filter')(getReportEntries(), searchTerm)
                 this.sitesModel.searchSite(searchTerm);
             };
 

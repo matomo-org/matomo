@@ -12,13 +12,27 @@
  *
  * Will execute the "executeMyFunction" function in the current scope once the yes button is pressed.
  */
-angular.module('piwikApp.directive').directive('piwikZenModeSwitcher', function($rootElement) {
+angular.module('piwikApp.directive').directive('piwikZenModeSwitcher', function($rootElement, $cookies) {
 
-    var zenMode = false;
+    var zenMode = !!parseInt($cookies.zenMode, 10);
+
+    var initDone = false;
 
     function updateZenMode()
     {
-        $rootElement.toggleClass('zenMode');
+        if (!initDone) {
+            initDone = true;
+            init();
+        }
+
+        $cookies.zenMode = zenMode ? '1' : '0';
+
+        if (zenMode) {
+            $rootElement.addClass('zenMode');
+        } else {
+            $rootElement.removeClass('zenMode');
+        }
+
         $rootElement.trigger('zen-mode', zenMode);
     }
 
@@ -46,14 +60,15 @@ angular.module('piwikApp.directive').directive('piwikZenModeSwitcher', function(
         $('.Menu--dashboard').find('ul ul').css('display', '')
     }
 
-    var initDone = false;
     function init () {
-        if (!initDone) {
-            initDone = true;
-            var menuNode = $('.Menu--dashboard');
-            menuNode.on('piwikSwitchPage', onItemSelect);
-            menuNode.find('li:has(ul)').hover(overMainLI, outMainLI);
-        }
+        var menuNode = $('.Menu--dashboard');
+        menuNode.on('piwikSwitchPage', onItemSelect);
+        menuNode.on('mouseenter', 'li:has(ul)', overMainLI);
+        menuNode.on('mouseleave', 'li:has(ul)', outMainLI);
+    }
+
+    if (zenMode) {
+        updateZenMode();
     }
 
     return {
@@ -62,13 +77,11 @@ angular.module('piwikApp.directive').directive('piwikZenModeSwitcher', function(
 
             element.on('click', function() {
                 zenMode = !zenMode;
-                init();
                 updateZenMode();
             });
 
             return function () {
             };
-
         }
     };
 });
