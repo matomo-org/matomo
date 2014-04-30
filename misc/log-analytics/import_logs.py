@@ -1359,7 +1359,7 @@ class Recorder(object):
                 idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
             )
             print('To re-process these reports with your new update data, execute the '
-                  'piwik/misc/cron/archive.php script, or see: http://piwik.org/setup-auto-archiving/ '
+                  '`piwik/console core:archive` script, or see: http://piwik.org/setup-auto-archiving/ '
                   'for more info.')
 
 

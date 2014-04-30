@@ -200,7 +200,7 @@ minimum_pgsql_version = 8.3
 ; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
-; Minimum memory limit enforced when archived via misc/cron/archive.php
+; Minimum memory limit enforced when archived via `./console core:archive`
 minimum_memory_limit_when_archiving = 768
 
 ; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
@@ -466,7 +466,7 @@ default_time_one_page_visit = 0
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = 1
 
-; When the misc/cron/archive.php cron hasn't been setup, we still need to regularly run some maintenance tasks.
+; When the `./console core:archive` cron hasn't been setup, we still need to regularly run some maintenance tasks.
 ; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF/HTML reports by email).
 ; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
 ; Tasks run once every hour maximum, they might not run every hour if traffic is low.

@@ -74,9 +74,10 @@ function checkPiwikSetupForTests()
     ) {
         echo "WARNING: for tests to pass, you must first:
 1) Install webserver on localhost, eg. apache
-2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/ - Piwik does need to be installed to run tests, but this URL must work.
-3) Copy phpunit.xml.dist to phpunit.xml
-4) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
+2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/
+3) Install Piwik by going through the installation process
+4) Copy phpunit.xml.dist to phpunit.xml
+5) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
 
 Try again.
 -> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
