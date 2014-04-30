@@ -28,6 +28,7 @@ class ZenMode extends \Piwik\Plugin
     {
         $translations[] = 'SitesManager_Sites';
         $translations[] = 'General_Reports';
+        $translations[] = 'MultiSites_LoadingWebsites';
     }
 
     public function getJsFiles(&$jsFiles)

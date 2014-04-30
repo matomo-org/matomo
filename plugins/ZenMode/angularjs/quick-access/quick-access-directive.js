@@ -12,7 +12,7 @@
  *
  * Will execute the "executeMyFunction" function in the current scope once the yes button is pressed.
  */
-angular.module('piwikApp.directive').directive('piwikQuickAccess', function($rootElement, $timeout) {
+angular.module('piwikApp.directive').directive('piwikQuickAccess', function($rootElement, $timeout, siteSelectorModel) {
 
     return {
         restrict: 'A',
@@ -23,59 +23,61 @@ angular.module('piwikApp.directive').directive('piwikQuickAccess', function($roo
 
             var menuIndex = -1;
 
-            function getMenuEntries()
+            function highlightPreviousItem()
             {
-                var menuEntries = [];
-
-                $rootElement.find('#topLeftBar .topBarElem a, #topRightBar .topBarElem a').each(function (index, element) {
-                    menuEntries.push({name: $(element).text(), index: ++menuIndex, category: 'menu'});
-                    $(element).attr('quick_access', menuIndex);
-                });
-
-                return menuEntries;
-            }
-            function getReportEntries()
-            {
-                var reportEntries = [];
-
-                $rootElement.find('.Menu-tabList a').each(function (index, element) {
-                    reportEntries.push({name: $(element).text(), menu: 'Report', index: ++menuIndex});
-                    $(element).attr('quick_access', menuIndex);
-                });
-
-                return reportEntries;
+                if (0 >= (scope.search.index - 1)) {
+                    scope.search.index = 0;
+                } else {
+                    scope.search.index--;
+                }
             }
 
-            scope.menuEntries = getMenuEntries();
+            function highlightNextItem()
+            {
+                var numTotal = element.find('li.result').length;
+
+                if (numTotal <= (scope.search.index + 1)) {
+                    scope.search.index = numTotal - 1;
+                } else {
+                    scope.search.index++;
+                }
+            }
+
+            function executeMenuItem()
+            {
+                var results = element.find('li.result');
+                if (results && results.length && results[scope.search.index]) {
+                    var selectedMenuElement = $(results[scope.search.index]);
+                    $timeout(function () {
+                        selectedMenuElement.click();
+                    }, 20);
+                }
+            }
+
+            siteSelectorModel.loadInitialSites();
+
+            scope.menuItems = getMenuItems();
             scope.reportEntries = getReportEntries();
+            scope.sitesModel = siteSelectorModel;
 
             scope.onKeypress = function (event) {
 
                 if (38 == event.which) {
-
-                    if (0 >= (this.search.index - 1)) {
-                        this.search.index = 0;
-                    } else {
-                        this.search.index--;
-                    }
+                    highlightPreviousItem();
                 } else if (40 == event.which) {
-                    // down
-                    var numTotal = element.find('li.result').length;
-
-                    if (numTotal <= (this.search.index + 1)) {
-                        this.search.index = numTotal - 1;
-                    } else {
-                        this.search.index++;
-                    }
+                    highlightNextItem();
                 } else if (13 == event.which) {
-                    var results = element.find('li.result');
-                    if (results && results.length && results[this.search.index]) {
-                        var selectedMenuElement = $(results[this.search.index]);
-                        $timeout(function () {
-                            selectedMenuElement.click();
-                        }, 20);
-                    }
+                    executeMenuItem();
                 }
+            };
+
+            scope.search = function (searchTerm) {
+                this.search.index = 0;
+                this.sitesModel.searchSite(searchTerm);
+            };
+
+            scope.selectSite = function (idsite) {
+                this.sitesModel.loadSite(idsite);
             };
 
             scope.selectMenuItem = function (index) {
