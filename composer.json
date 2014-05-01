@@ -26,6 +26,6 @@
         "tedivm/jshrink": "v0.5.1",
         "mustangostang/spyc": "0.5.*",
         "piwik/device-detector": "*",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "4.*"
     }
 }
