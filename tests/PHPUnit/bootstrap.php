@@ -1,11 +1,4 @@
 <?php
-// Note to devs: In Phpstorm I had to manually set these here as PHPUnit is not init properly.
-// Uncomment and set manually the path to Piwik if you get the WARNING message in your IDE.
-//$_SERVER['REQUEST_URI'] = '/piwik-master/index.php';
-//$_SERVER['HTTP_HOST'] = 'localhost';
-
-use Piwik\Http;
-
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
 
@@ -23,6 +16,7 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 }
 if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
     define('PIWIK_INCLUDE_SEARCH_PATH', get_include_path()
+        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
