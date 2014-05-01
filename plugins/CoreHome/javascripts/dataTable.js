@@ -706,7 +706,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         ;
 
                     var annotationsCss = {left: 6}; // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
-                    if (!self.isDashboard() && !self.isWithinDialog(domElem)) {
+                    if (self.isWithinDialog(domElem)) {
                         annotationsCss['top'] = -datatableFeatures.height() - annotationAxisHeight + noteSize / 2;
                     }
 
@@ -716,11 +716,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
                     // add new section under axis
-                    if (self.isDashboard() || self.isWithinDialog(domElem)) {
-                        annotations.insertAfter($('.datatableRelatedReports', domElem));
-                    } else {
-                        datatableFeatures.append(annotations);
-                    }
+                    annotations.insertAfter($('.datatableRelatedReports', domElem));
 
                     // reposition annotation icons every time the graph is resized
                     $('.piwik-graph', domElem).on('resizeGraph', function () {
@@ -1276,7 +1272,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleExpandFooter: function (domElem) {
-        if (!this.isDashboard() && !this.isWithinDialog(domElem)) {
+        if (this.isWithinDialog(domElem)) {
             return;
         }
 

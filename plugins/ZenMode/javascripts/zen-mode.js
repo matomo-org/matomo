@@ -60,14 +60,6 @@ $(document).ready(function () {
             updateZenMode();
         }
 
-        Mousetrap.bind('alt+f', function() {
-            if (isDashboardWidgetsArea()) {
-                return;
-            }
-
-            $('.dataTableFooterIcons').toggle();
-        });
-
         Mousetrap.bind('alt+z', function() {
             toggleZenMode();
         });
@@ -81,11 +73,6 @@ $(document).ready(function () {
 
             $('.quick-access input').focus();
         });
-    }
-
-    function isDashboardWidgetsArea()
-    {
-        return !!$('#dashboardWidgetsArea').length;
     }
 
     function isDashboard()

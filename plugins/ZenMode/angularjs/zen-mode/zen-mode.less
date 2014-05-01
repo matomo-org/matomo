@@ -146,8 +146,23 @@
     border-top: 0px;
   }
 
-  #content:not(#dashboardWidgetsArea) .dataTableFooterIcons {
-    display: none;
+  #content .foldDataTableFooterDrawer,
+  #content .dataTableFeatures .expandDataTableFooterDrawer {
+    opacity: 0;
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+  }
+
+  #content > div:not(#dashboard) .dataTableFeatures .expandDataTableFooterDrawer {
+    margin-bottom: -20px;
+  }
+
+  #content .dataTableFeatures:hover .foldDataTableFooterDrawer,
+  #content .dataTableFeatures:hover .expandDataTableFooterDrawer {
+    opacity: 1 !important;
   }
 
   #content h2:nth-of-type(n+2) {
@@ -179,10 +194,4 @@
     margin-left: 13px;
   }
 
-  table.dataTable tr:hover td.labeleven,
-  table.dataTable tr:hover td.columneven,
-  table.dataTable tr:hover td.labelodd,
-  table.dataTable tr:hover td.columnodd {
-    background-color: @silver-95 !important;
-  }
 }

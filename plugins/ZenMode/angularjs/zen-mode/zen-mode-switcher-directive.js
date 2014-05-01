@@ -15,7 +15,7 @@ angular.module('piwikApp').directive('piwikZenModeSwitcher', function($rootEleme
     function showZenModeIsActivatedNotification() {
         var UI = require('piwik/UI');
         var notification = new UI.Notification();
-        var message = '<ul><li>To search for menu items, reports or websites use the search box on the top right or press alt+s.</li><li>To show the footer icons in the tables press alt+f.</li><li>To leave the ZenMode press the arrow on the top right or press alt+z</li></ul>';
+        var message = '<ul><li>To search for menu items, reports or websites use the search box on the top right or press alt+s.</li><li>To leave the ZenMode press the arrow on the top right or press alt+z</li></ul>';
         notification.show(message, {
             title: 'ZenMode activated',
             context: 'info',
