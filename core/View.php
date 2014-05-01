@@ -336,7 +336,7 @@ class View implements ViewInterface
     }
 
     /**
-     * Clear compiled Smarty templates
+     * Clear compiled Twig templates
      * @ignore
      */
     static public function clearCompiledTemplates()
