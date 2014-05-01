@@ -16,7 +16,7 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 }
 if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
     define('PIWIK_INCLUDE_SEARCH_PATH', get_include_path()
-        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor'
+        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor/bin'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
