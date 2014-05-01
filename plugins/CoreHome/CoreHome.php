@@ -70,6 +70,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/jquery.mousewheel.js";
         $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
+        $jsFiles[] = "libs/mousetrap/mousetrap.min.js";
         $jsFiles[] = "libs/angularjs/angular.min.js";
         $jsFiles[] = "libs/angularjs/angular-sanitize.min.js";
         $jsFiles[] = "libs/angularjs/angular-animate.min.js";
