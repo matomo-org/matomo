@@ -43,13 +43,18 @@ To execute the tests:
 
 1. 	To install PHPUnit, run `php composer.phar update` in the Piwik root directory.
 
-    If you were already using PHPUnit using PEAR, delete the PEAR PHPUnit:
+    Add the PHPUnit binary path to the your PATH environment variable. For example on Linux:
+    Edit `.bashrc` in your home directory and add the following line:
 
-         sudo rm /usr/bin/phpunit
-         # Create a symlink to the piwik/vendor/bin/phpunit
-         sudo ln -s ~/dev/piwik-master/vendor/bin/phpunit /usr/bin/phpunit
+        export PATH=/path/to/dir:$PATH
 
-	See doc at: http://www.phpunit.de/manual/current/en/installation.html
+    You will need to source your `.bashrc` or logout/login (or restart the terminal) for the changes to take effect.
+    To source your `.bashrc`, in your home directory simply type
+
+        $ source .bashrc
+
+    See [PHPUnit doc](http://www.phpunit.de/manual/current/en/installation.html).
+    Note: if you were already using PHPUnit using PEAR, you may delete the PEAR PHPUnit with `sudo rm /usr/bin/phpunit`
 
 2. 	Configure PHPUnit: Copy the file `piwik/tests/PHPUnit/phpunit.xml.dist` to `phpunit.xml`.
 	In this file, you will find the following lines.
