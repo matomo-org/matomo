@@ -14,6 +14,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Config;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\FrontController;
@@ -175,6 +176,16 @@ abstract class Controller
     {
         $this->date = $date;
         $this->strDate = $date->toString();
+    }
+
+    /**
+     * @return array
+     */
+    private static function getAvailablePeriods()
+    {
+        $periods = Config::getInstance()->General['enabled_periods_UI'];
+        $periods = explode(",", $periods);
+        return $periods;
     }
 
     /**
@@ -679,7 +690,7 @@ abstract class Controller
 
         $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
-        $availablePeriods = array('day', 'week', 'month', 'year', 'range');
+        $availablePeriods = self::getAvailablePeriods();
         if (!in_array($currentPeriod, $availablePeriods)) {
             throw new Exception("Period must be one of: " . implode(",", $availablePeriods));
         }
@@ -691,6 +702,8 @@ abstract class Controller
             // Note: plural is not used for date range
             'range' => array('singular' => Piwik::translate('General_DateRangeInPeriodList'), 'plural' => Piwik::translate('General_DateRangeInPeriodList')),
         );
+
+        $periodNames = array_intersect_key($periodNames, array_fill_keys($availablePeriods, true));
 
         $found = array_search($currentPeriod, $availablePeriods);
         if ($found !== false) {
