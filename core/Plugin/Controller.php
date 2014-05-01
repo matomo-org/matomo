@@ -179,9 +179,10 @@ abstract class Controller
     }
 
     /**
-     * @return array
+     * Returns values that are enabled for the parameter &period=
+     * @return array eg. array('day', 'week', 'month', 'year', 'range')
      */
-    private static function getAvailablePeriods()
+    protected static function getEnabledPeriodsInUI()
     {
         $periods = Config::getInstance()->General['enabled_periods_UI'];
         $periods = explode(",", $periods);
@@ -690,7 +691,7 @@ abstract class Controller
 
         $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
-        $availablePeriods = self::getAvailablePeriods();
+        $availablePeriods = self::getEnabledPeriodsInUI();
         if (!in_array($currentPeriod, $availablePeriods)) {
             throw new Exception("Period must be one of: " . implode(",", $availablePeriods));
         }

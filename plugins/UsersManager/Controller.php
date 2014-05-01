@@ -143,6 +143,51 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
+     * Returns the enabled dates that users can select,
+     * in their User Settings page "Report date to load by default"
+     *
+     * @throws
+     * @return array
+     */
+    protected function getAvailableDefaultDates()
+    {
+        $dates = array(
+            'today'      => Piwik::translate('General_Today'),
+            'yesterday'  => Piwik::translate('General_Yesterday'),
+            'previous7'  => Piwik::translate('General_PreviousDays', 7),
+            'previous30' => Piwik::translate('General_PreviousDays', 30),
+            'last7'      => Piwik::translate('General_LastDays', 7),
+            'last30'     => Piwik::translate('General_LastDays', 30),
+            'week'       => Piwik::translate('General_CurrentWeek'),
+            'month'      => Piwik::translate('General_CurrentMonth'),
+            'year'       => Piwik::translate('General_CurrentYear'),
+        );
+
+        $mappingDatesToPeriods = array(
+            'today' => 'day',
+            'yesterday' => 'day',
+            'previous7' => 'range',
+            'previous30' => 'range',
+            'last7' => 'range',
+            'last30' => 'range',
+            'week' => 'week',
+            'month' => 'month',
+            'year' => 'year',
+        );
+
+        // assertion
+        if(count($dates) != count($mappingDatesToPeriods)) {
+            throw new Exception("some metadata is missing in getAvailableDefaultDates()");
+        }
+
+        $allowedPeriods = self::getEnabledPeriodsInUI();
+        $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
+        $dates = array_intersect_key($dates, $allowedDates);
+
+        return $dates;
+    }
+
+    /**
      * The "User Settings" admin UI screen view
      */
     public function userSettings()
@@ -169,17 +214,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
-        $view->availableDefaultDates = array(
-            'today'      => Piwik::translate('General_Today'),
-            'yesterday'  => Piwik::translate('General_Yesterday'),
-            'previous7'  => Piwik::translate('General_PreviousDays', 7),
-            'previous30' => Piwik::translate('General_PreviousDays', 30),
-            'last7'      => Piwik::translate('General_LastDays', 7),
-            'last30'     => Piwik::translate('General_LastDays', 30),
-            'week'       => Piwik::translate('General_CurrentWeek'),
-            'month'      => Piwik::translate('General_CurrentMonth'),
-            'year'       => Piwik::translate('General_CurrentYear'),
-        );
+        $view->availableDefaultDates = $this->getAvailableDefaultDates();
 
         $view->languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = LanguagesManager::getLanguageCodeForCurrentUser();
