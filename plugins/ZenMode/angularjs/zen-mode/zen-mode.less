@@ -57,6 +57,7 @@
   /* MENU LEVEL2 HOVER */
   .Menu--dashboard > .Menu-tabList > li li {
     float: none;
+    text-align: left;
   }
 
   .Menu--dashboard > .Menu-tabList > li li:hover {
@@ -82,116 +83,6 @@
     margin-top:0px;
     margin-right: 0px;
     display: none;
-  }
-
-  /* DATATABLES */
-
-  table.dataTable th.sortable {
-    background: @theme-color-background-base !important;
-    border-left: 0px;
-    border-bottom: 0px;
-  }
-
-  table.dataTable th.columnSorted {
-    font-weight: normal !important;
-  }
-
-  table.dataTable tr.subDataTable {
-    font-weight: normal !important;
-  }
-
-  table.dataTable tr.subDataTable td.label .plusMinus + .label .value {
-    font-weight: bold !important;
-  }
-
-  .widget {
-    border-color: @silver-85;
-
-    .widgetTop {
-      border-color: @silver-85;
-    }
-  }
-
-  .dataTableActions.dataTableVizHtmlTable > .dataTableWrapper {
-    width: 100%;
-  }
-
-  .dataTableActions table.dataTable  {
-    td.columnodd,
-    td.columneven,
-    th.sortable:not(.first) {
-      width: 50px;
-    }
-  }
-
-  .dataTableVizHtmlTable > .dataTableWrapper {
-    width: 500px;
-  }
-
-  table.dataTable tr td.columnodd {
-   // background-color: @theme-color-background-base !important;
-  }
-
-  table.dataTable tr td {
-    padding-top: 7px;
-    padding-bottom: 7px;
-  }
-
-  .dataTableFooterNavigation {
-    padding: 7px 0;
-  }
-
-
-  .dataTableFooterIcons {
-    border-top: 0px;
-  }
-
-  #content .foldDataTableFooterDrawer,
-  #content .dataTableFeatures .expandDataTableFooterDrawer {
-    opacity: 0;
-    -webkit-transition: all 300ms ease;
-    -moz-transition: all 300ms ease;
-    -ms-transition: all 300ms ease;
-    -o-transition: all 300ms ease;
-    transition: all 300ms ease;
-  }
-
-  #content > div:not(#dashboard) .dataTableFeatures .expandDataTableFooterDrawer {
-    margin-bottom: -20px;
-  }
-
-  #content .dataTableFeatures:hover .foldDataTableFooterDrawer,
-  #content .dataTableFeatures:hover .expandDataTableFooterDrawer {
-    opacity: 1 !important;
-  }
-
-  #content h2:nth-of-type(n+2) {
-    margin-top: 40px;
-  }
-
-  #content h2 {
-    padding-left: 10px;
-    font-size: 24px;
-  }
-
-  #content .goalEntry:first-of-type {
-    padding-top: 20px;
-  }
-
-  .goalEntry {
-    border-bottom: 0px;
-  }
-
-  .relatedReferrerReports {
-    display: none;
-  }
-
-  div[data-report="Referrers.getReferrerType"] > .dataTableWrapper {
-    width: 800px;
-  }
-
-  .reportsByDimensionView .entityList {
-    margin-left: 13px;
   }
 
 }

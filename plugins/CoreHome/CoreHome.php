@@ -54,6 +54,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
     }
 
