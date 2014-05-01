@@ -1,0 +1,125 @@
+{{ ajax.errorDiv() }}
+{{ ajax.loadingDiv() }}
+
+{% set createNewWebsite %}
+<a href="javascript:" class="addRowSite">
+    {{ 'SitesManager_AddSite'|translate }}
+</a>
+{% endset %}
+
+{% if adminSites|length == 0 %}
+    {{ 'SitesManager_NoWebsites'|translate }}
+{% else %}
+
+    <div class="ui-confirm" id="confirm">
+        <h2></h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+    <div class="entityContainer">
+        {% if isSuperUser %}
+            {{ createNewWebsite }}
+        {% endif %}
+        <table class="entityTable dataTable" id="editSites">
+            <thead>
+            <tr>
+                <th>{{ 'General_Id'|translate }}</th>
+                <th>{{ 'General_Name'|translate }}</th>
+                <th>{{ 'SitesManager_Urls'|translate }}</th>
+                <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
+                <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"})|raw }}</th>
+                <th id='exclude-user-agent-header'
+                    {% if not allowSiteSpecificUserAgentExclude %}style="display:none;"{% endif %}>{{ 'SitesManager_ExcludedUserAgents'|translate }}</th>
+                <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
+                <th>{{ 'SitesManager_Timezone'|translate }}</th>
+                <th>{{ 'SitesManager_Currency'|translate }}</th>
+                <th>{{ 'Goals_Ecommerce'|translate }}</th>
+                <th></th>
+                <th></th>
+                <th>{{ 'General_JsTrackingTag'|translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i,site in adminSites %}
+                <tr id="row{{ site.idsite }}" data-keep-url-fragments="{{ site.keep_url_fragment }}">
+                    <td id="idSite">{{ site.idsite }}</td>
+                    <td id="siteName" class="editableSite">
+                        {{- site.name|raw -}}
+                    </td>
+                    <td id="urls" class="editableSite">
+                        {%- for url in site.alias_urls -%}
+                            {{- url|trim|replace({'http://': ''})|raw -}}<br />
+                        {%- endfor -%}
+                    </td>
+                    <td id="excludedIps" class="editableSite">
+                        {%- for ip in site.excluded_ips -%}
+                            {{- ip -}}<br/>
+                        {%- endfor -%}
+                    </td>
+                    <td id="excludedQueryParameters" class="editableSite">
+                        {%- for parameter in site.excluded_parameters -%}
+                            {{- parameter|raw -}}<br />
+                        {%- endfor -%}
+                    </td>
+                    <td id="excludedUserAgents" class="editableSite"
+                        {% if not allowSiteSpecificUserAgentExclude %}style="display:none;"{% endif %}>
+                        {%- for ua in site.excluded_user_agents -%}
+                            {{- ua|raw -}}<br />
+                        {%- endfor -%}
+                    </td>
+                    <td id="sitesearch" class="editableSite">
+                        {% if site.sitesearch %}
+                            <span class="sitesearchActive">{{ 'General_Yes'|translate }}</span>
+                        {% else %}
+                            <span class="sitesearchInactive">-</span>
+                        {% endif %}
+                        <span class="sskp" sitesearch_keyword_parameters="{{- site.sitesearch_keyword_parameters -}}"
+                              sitesearch_category_parameters="{{- site.sitesearch_category_parameters -}}"
+                              id="sitesearch_parameters">
+                        </span>
+                    </td>
+                    <td id="timezone" class="editableSite">{{ site.timezone }}</td>
+                    <td id="currency" class="editableSite">{{ site.currency }}</td>
+                    <td id="ecommerce" class="editableSite">
+                        {% if site.ecommerce %}
+                            <span class='ecommerceActive'>{{ 'General_Yes'|translate }}</span>
+                        {% else %}
+                            <span class='ecommerceInactive'>-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                <span id="row{{ site.idsite }}" class='editSite link_but'>
+                    <img src='plugins/Zeitgeist/images/ico_edit.png' title="{{ 'General_Edit'|translate }}"
+                         border="0"/>
+                    <span>{{ 'General_Edit'|translate }}</span>
+                </span>
+                    </td>
+                    <td>
+                <span id="row{{ site.idsite }}" class="deleteSite link_but">
+                    <img src='plugins/Zeitgeist/images/ico_delete.png' title="{{ 'General_Delete'|translate }}"
+                         border="0"/>
+                    <span>{{ 'General_Delete'|translate }}</span>
+                </span>
+                    </td>
+                    <td>
+                        <a href='{{ linkTo({'module':'CoreAdminHome','action':'trackingCodeGenerator','idSite':site.idsite,'updated':false }) }}'>
+                            {{ 'SitesManager_ShowTrackingTag'|translate }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if isSuperUser %}
+            {{ createNewWebsite }}
+        {% endif %}
+    </div>
+{% endif %}
+
+{# Admin users use these values for Site Search column, when editing websites #}
+{% if not isSuperUser %}
+    <input type="hidden" size="15" id="globalSearchKeywordParameters"
+           value="{{ globalSearchKeywordParameters }}"/>
+    <input type="hidden" size="15" id="globalSearchCategoryParameters"
+           value="{{ globalSearchCategoryParameters }}"/>
+{% endif %}
