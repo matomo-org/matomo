@@ -7,68 +7,20 @@
 
 /**
  * Usage:
- * <div piwik-dialog="showDialog">...</div>
- * Will show dialog once showDialog evaluates to true.
- *
- * Will execute the "executeMyFunction" function in the current scope once the yes button is pressed.
+ * <div piwik-zen-mode-switcher>...</div>
+ * Will toggle the zen mode on click on this element.
  */
-angular.module('piwikApp.directive').directive('piwikZenModeSwitcher', function($rootElement, $cookies) {
+angular.module('piwikApp').directive('piwikZenModeSwitcher', function($rootElement) {
 
-    var zenMode = !!parseInt($cookies.zenMode, 10);
-
-    var initDone = false;
-
-    function updateZenMode()
-    {
-        if (!initDone) {
-            initDone = true;
-            init();
-        }
-
-        $cookies.zenMode = zenMode ? '1' : '0';
-
-        if (zenMode) {
-            $rootElement.addClass('zenMode');
-        } else {
-            $rootElement.removeClass('zenMode');
-        }
-
-        $rootElement.trigger('zen-mode', zenMode);
-    }
-
-    function overMainLI () {
-        if (!zenMode) {
-            return;
-        }
-        var $this = $(this);
-        var position = $this.position();
-        var width = $this.width();
-
-        $this.find('ul').css({left: position.left + 'px', display: 'block', minWidth: width+'px'});
-    };
-
-    function outMainLI () {
-        if (!zenMode) {
-            return;
-        }
-        var $this = $(this);
-        $this.find('ul').css({left: '', display: '', minWidth: ''});
-    };
-
-    function onItemSelect()
-    {
-        $('.Menu--dashboard').find('ul ul').css('display', '')
-    }
-
-    function init () {
-        var menuNode = $('.Menu--dashboard');
-        menuNode.on('piwikSwitchPage', onItemSelect);
-        menuNode.on('mouseenter', 'li:has(ul)', overMainLI);
-        menuNode.on('mouseleave', 'li:has(ul)', outMainLI);
-    }
-
-    if (zenMode) {
-        updateZenMode();
+    function showZenModeIsActivatedNotification() {
+        var UI = require('piwik/UI');
+        var notification = new UI.Notification();
+        var message = '<ul><li>To search for menu items, reports or websites use the search box on the top right or press alt+s.</li><li>To show the footer icons in the tables press alt+f.</li><li>To leave the ZenMode press the arrow on the top right or press alt+z</li></ul>';
+        notification.show(message, {
+            title: 'ZenMode activated',
+            context: 'info',
+            id: 'ZenMode_EnabledInfo'
+        });
     }
 
     return {
@@ -76,12 +28,16 @@ angular.module('piwikApp.directive').directive('piwikZenModeSwitcher', function(
         compile: function (element, attrs) {
 
             element.on('click', function() {
-                zenMode = !zenMode;
-                updateZenMode();
+                $rootElement.trigger('zen-mode-toggle', {});
+
+                if ($rootElement.hasClass('zenMode')) {
+                    showZenModeIsActivatedNotification();
+                }
             });
 
             return function () {
             };
         }
     };
+
 });

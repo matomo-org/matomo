@@ -35,6 +35,7 @@ class ZenMode extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "plugins/ZenMode/javascripts/mousetrap.min.js";
         $jsFiles[] = "plugins/ZenMode/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/ZenMode/angularjs/quick-access/quick-access-directive.js";
         $jsFiles[] = "plugins/ZenMode/angularjs/zen-mode/zen-mode-switcher-directive.js";

@@ -12,7 +12,7 @@
  *
  * Will execute the "executeMyFunction" function in the current scope once the yes button is pressed.
  */
-angular.module('piwikApp.directive').directive('piwikQuickAccess', function($rootElement, $timeout, $filter, siteSelectorModel) {
+angular.module('piwikApp').directive('piwikQuickAccess', function($rootElement, $timeout, $filter, siteSelectorModel) {
 
     return {
         restrict: 'A',
@@ -104,8 +104,8 @@ angular.module('piwikApp.directive').directive('piwikQuickAccess', function($roo
             scope.search = function (searchTerm) {
                 this.search.index  = 0;
 
-                this.menuItems     = $filter('filter')(getMenuItems(), searchTerm)
-                this.reportEntries = $filter('filter')(getReportEntries(), searchTerm)
+                this.menuItems     = $filter('filter')(getMenuItems(), searchTerm);
+                this.reportEntries = $filter('filter')(getReportEntries(), searchTerm);
                 this.sitesModel.searchSite(searchTerm);
             };
 
