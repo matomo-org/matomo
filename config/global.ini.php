@@ -610,6 +610,7 @@ Plugins[] = SegmentEditor
 Plugins[] = Insights
 
 Plugins[] = Morpheus
+Plugins[] = ZenMode
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

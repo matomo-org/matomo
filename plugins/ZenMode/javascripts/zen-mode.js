@@ -98,18 +98,26 @@ $(document).ready(function () {
 
         $('#Searchmenu').off('keydown focus', '.quick-access input', showQuickAccessMenu);
         $('#Searchmenu').off('blur', '.quick-access input', hideQuickAccessMenu);
+        menu.prototype.adaptSubMenuHeight();
     }
 
     function overMainLI () {
         var $this = $(this);
         var position = $this.position();
         var width = $this.width();
+        var height = $this.height();
 
-        $this.find('ul').css({left: position.left + 'px', display: 'block', minWidth: width+'px'});
+        $this.find('ul').css({
+            left: position.left + 'px',
+            display: 'block',
+            minWidth: width + 'px',
+            position: 'absolute',
+            top: (position.top + height) + 'px'
+        });
     }
 
     function outMainLI () {
-        $(this).find('ul').css({left: '', display: '', minWidth: ''});
+        $(this).find('ul').css({left: '', display: '', minWidth: '', position: '', top: ''});
     }
 
     function resetSubmenu()
