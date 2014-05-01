@@ -221,7 +221,7 @@ class ProxyHttp
      */
     protected static function setHttpStatus($status)
     {
-        if (strpos(PHP_SAPI, '-fcgi') !== false) {
+        if (strpos(PHP_SAPI, '-fcgi') === false) {
             @header($_SERVER['SERVER_PROTOCOL'] . ' ' . $status);
         } else {
             // FastCGI
