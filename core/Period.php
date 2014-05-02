@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Period\Day;
+use Piwik\Period\Factory;
 use Piwik\Period\Month;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
@@ -58,6 +59,17 @@ abstract class Period
     public function __construct(Date $date)
     {
         $this->date = clone $date;
+    }
+
+    /**
+     * @deprecated
+     * @param $period
+     * @param $date
+     * @return Period
+     */
+    public static function factory($period, $date)
+    {
+        return Factory::build($period, $date);
     }
 
     /**
