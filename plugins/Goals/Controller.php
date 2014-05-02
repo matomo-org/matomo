@@ -140,7 +140,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idGoal = $idGoal;
         $view->goalName = $goalDefinition['name'];
         $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
-        $view->graphEvolution = $this->getEvolutionGraph(array('nb_conversions'), $idGoal);
+        $view->graphEvolution = $this->getEvolutionGraph(array(), $idGoal, array('nb_conversions'));
         $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
@@ -189,7 +189,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/getOverviewView');
         $this->setGeneralVariablesView($view);
 
-        $view->graphEvolution = $this->getEvolutionGraph(array('nb_conversions'));
+        $view->graphEvolution = $this->getEvolutionGraph(array(), false, array('nb_conversions'));
         $view->nameGraphEvolution = 'GoalsgetEvolutionGraph';
 
         // sparkline for the historical data of the above values
@@ -247,14 +247,18 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph(array $columns = array(), $idGoal = false)
+    public function getEvolutionGraph(array $columns = array(), $idGoal = false, array $defaultColumns = array())
     {
         if (empty($columns)) {
-            $columns = Common::getRequestVar('columns');
-            $columns = Piwik::getArrayFromApiParameter($columns);
+            $columns = Common::getRequestVar('columns', false);
+            if (false !== $columns) {
+                $columns = Piwik::getArrayFromApiParameter($columns);
+            }
         }
 
-        $columns = !is_array($columns) ? array($columns) : $columns;
+        if (false !== $columns) {
+            $columns = !is_array($columns) ? array($columns) : $columns;
+        }
 
         if (empty($idGoal)) {
             $idGoal = Common::getRequestVar('idGoal', false, 'string');
@@ -278,7 +282,7 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns[] = 'avg_order_revenue';
         }
 
-        foreach (array_merge($columns, $selectableColumns) as $columnName) {
+        foreach (array_merge($columns ? $columns : array(), $selectableColumns) as $columnName) {
             $columnTranslation = '';
             // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
             foreach ($nameToLabel as $metric => $metricTranslation) {
@@ -294,7 +298,13 @@ class Controller extends \Piwik\Plugin\Controller
             }
             $view->config->translations[$columnName] = $columnTranslation;
         }
-        $view->config->columns_to_display = $columns;
+
+        if (!empty($columns)) {
+            $view->config->columns_to_display = $columns;
+        } elseif (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
+            $view->config->columns_to_display = $defaultColumns;
+        }
+
         $view->config->selectable_columns = $selectableColumns;
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';

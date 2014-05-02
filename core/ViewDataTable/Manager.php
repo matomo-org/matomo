@@ -272,6 +272,11 @@ class Manager
         );
     }
 
+    public static function clearAllViewDataTableParameters()
+    {
+        Option::deleteLike('viewDataTableParameters_%');
+    }
+
     public static function getViewDataTableParameters($login, $controllerAction)
     {
         $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
@@ -301,6 +306,6 @@ class Manager
 
     private static function buildViewDataTableParametersOptionKey($login, $controllerAction)
     {
-        return sprintf('ReportConfig_%s_%s', $login, $controllerAction);
+        return sprintf('viewDataTableParameters_%s_%s', $login, $controllerAction);
     }
 }
