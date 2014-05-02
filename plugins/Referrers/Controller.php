@@ -28,7 +28,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Referrers/index');
 
-        $view->graphEvolutionReferrers = $this->getEvolutionGraph(Common::REFERRER_TYPE_DIRECT_ENTRY, array('nb_visits'));
+        $view->graphEvolutionReferrers = $this->getEvolutionGraph(Common::REFERRER_TYPE_DIRECT_ENTRY, array(), array('nb_visits'));
         $view->nameGraphEvolutionReferrers = 'Referrers.getEvolutionGraph';
 
         // building the referrers summary report
@@ -254,7 +254,7 @@ class Controller extends \Piwik\Plugin\Controller
         Common::REFERRER_TYPE_CAMPAIGN      => 'Referrers_Campaigns',
     );
 
-    public function getEvolutionGraph($typeReferrer = false, array $columns = array())
+    public function getEvolutionGraph($typeReferrer = false, array $columns = array(), array $defaultColumns = array())
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referrers.getReferrerType');
 
@@ -262,11 +262,20 @@ class Controller extends \Piwik\Plugin\Controller
 
         // configure displayed columns
         if (empty($columns)) {
-            $columns = Common::getRequestVar('columns');
-            $columns = Piwik::getArrayFromApiParameter($columns);
+            $columns = Common::getRequestVar('columns', false);
+            if (false !== $columns) {
+                $columns = Piwik::getArrayFromApiParameter($columns);
+            }
         }
-        $columns = !is_array($columns) ? array($columns) : $columns;
-        $view->config->columns_to_display = $columns;
+        if (false !== $columns) {
+            $columns = !is_array($columns) ? array($columns) : $columns;
+        }
+
+        if (!empty($columns)) {
+            $view->config->columns_to_display = $columns;
+        } elseif (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
+            $view->config->columns_to_display = $defaultColumns;
+        }
 
         // configure selectable columns
         if (Common::getRequestVar('period', false) == 'day') {
@@ -291,7 +300,13 @@ class Controller extends \Piwik\Plugin\Controller
             }
             $label = self::getTranslatedReferrerTypeLabel($typeReferrer);
             $total = Piwik::translate('General_Total');
-            $visibleRows = array($label, $total);
+
+            if (!empty($view->config->rows_to_display)) {
+                $visibleRows = $view->config->rows_to_display;
+            } else {
+                $visibleRows = array($label, $total);
+            }
+
             $view->requestConfig->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
         $view->config->row_picker_match_rows_by = 'label';
