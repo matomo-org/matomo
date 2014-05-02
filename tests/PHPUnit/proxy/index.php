@@ -9,7 +9,10 @@ use Piwik\Tracker\Cache;
 require realpath(dirname(__FILE__)) . "/includes.php";
 
 Piwik_TestingEnvironment::addHooks();
-\Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+
+if (empty($_GET['ignoreClearAllViewDataTableParameters'])) {
+    \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+}
 
 \Piwik\Profiler::setupProfilerXHProf();
 
