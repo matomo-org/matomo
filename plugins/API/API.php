@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
 use Piwik\Period\Range;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Tracker\GoalManager;
@@ -570,6 +571,7 @@ class API extends \Piwik\Plugin\API
     public function getSuggestedValuesForSegment($segmentName, $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
+
         $maxSuggestionsToReturn = 30;
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
 
@@ -584,7 +586,12 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("Requested segment not found.");
         }
 
-            $startDate = Date::now()->subDay(60)->toString();
+        // if period=range is disabled, do not proceed
+        if(!Period\Factory::isPeriodEnabledForAPI('range')) {
+            return array();
+        }
+
+        $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range

@@ -186,6 +186,7 @@ abstract class Controller
     {
         $periods = Config::getInstance()->General['enabled_periods_UI'];
         $periods = explode(",", $periods);
+        $periods = array_map('trim', $periods);
         return $periods;
     }
 

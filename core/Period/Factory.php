@@ -9,6 +9,7 @@
 namespace Piwik\Period;
 
 use Exception;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -36,6 +37,7 @@ class Factory
         }
 
         self::checkPeriodIsEnabled($period);
+
         switch ($period) {
             case 'day':
                 return new Day($date);
@@ -53,14 +55,11 @@ class Factory
                 return new Year($date);
                 break;
         }
-
-        self::throwExceptionInvalidPeriod($period);
     }
 
     private static function checkPeriodIsEnabled($period)
     {
-        $enabledPeriodsInAPI = array();
-        if(!in_array($period, $enabledPeriodsInAPI)) {
+        if(!self::isPeriodEnabledForAPI($period)) {
             self::throwExceptionInvalidPeriod($period);
         }
     }
@@ -106,5 +105,18 @@ class Factory
             $oPeriod = Factory::build($period, $date);
         }
         return $oPeriod;
+    }
+
+    /**
+     * @param $period
+     * @return bool
+     */
+    public static function isPeriodEnabledForAPI($period)
+    {
+        $enabledPeriodsInAPI = Config::getInstance()->General['enabled_periods_API'];
+        $enabledPeriodsInAPI = explode(",", $enabledPeriodsInAPI);
+        $enabledPeriodsInAPI = array_map('trim', $enabledPeriodsInAPI);
+
+        return in_array($period, $enabledPeriodsInAPI);
     }
 }
