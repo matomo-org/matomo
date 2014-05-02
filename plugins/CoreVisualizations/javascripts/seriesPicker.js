@@ -272,7 +272,10 @@
                     $(this).trigger('seriesPicked', [columns, rows]);
 
                     // inform dashboard widget about changed parameters (to be restored on reload)
-                    $('#' + this.dataTableId).closest('[widgetId]').trigger('setParameters', {columns: columns, rows: rows});
+                    var UI = require('piwik/UI')
+                    var params = {columns: columns, rows: rows};
+                    var tableNode = $('#' + this.dataTableId);
+                    UI.DataTable.prototype.notifyWidgetParametersChange(tableNode, params);
                 }
             }
 

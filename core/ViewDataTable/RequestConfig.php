@@ -88,7 +88,9 @@ class RequestConfig
         'filter_excludelowpop_value',
         'filter_pattern',
         'filter_column',
-        'filter_offset'
+        'filter_offset',
+        'flat',
+        'expanded'
     );
 
     /**
@@ -104,7 +106,9 @@ class RequestConfig
         'filter_excludelowpop',
         'filter_excludelowpop_value',
         'disable_generic_filters',
-        'disable_queued_filters'
+        'disable_queued_filters',
+        'flat',
+        'expanded'
     );
 
     /**
@@ -129,6 +133,21 @@ class RequestConfig
      * Default value: false
      */
     public $filter_limit = false;
+
+    /**
+     * If set to true, the returned data will contain the flattened view of the table data set.
+     * The children of all first level rows will be aggregated under one row.
+     *
+     * Default value: false
+     */
+    public $flat = false;
+
+    /**
+     * If set to true, the returned data will contain the first level results, as well as all sub-tables.
+     *
+     * Default value: false
+     */
+    public $expanded = false;
 
     /**
      * The number of items from the start of the data set that should be ignored.

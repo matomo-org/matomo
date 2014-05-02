@@ -73,6 +73,8 @@ class Request
             'filter_excludelowpop_value',
             'filter_column',
             'filter_pattern',
+            'flat',
+            'expanded'
         );
 
         foreach ($toSetEventually as $varToSet) {

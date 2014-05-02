@@ -15,7 +15,9 @@ use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
 use Piwik\Notification\Manager as NotificationManager;
+use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
@@ -238,5 +240,17 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View("@CoreHome/_periodSelect");
         $this->setGeneralVariablesView($view);
         return $view->render();
+    }
+
+    public function saveViewDataTableParameters()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        $this->checkTokenInUrl();
+
+        $reportId   = Common::getRequestVar('report_id', null, 'string');
+        $parameters = (array) Common::getRequestVar('parameters', null, 'json');
+        $login      = Piwik::getCurrentUserLogin();
+
+        ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters);
     }
 }
