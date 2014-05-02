@@ -273,7 +273,8 @@
 
                     // inform dashboard widget about changed parameters (to be restored on reload)
                     var UI = require('piwik/UI')
-                    var params = {columns: columns, rows: rows};
+                    var params = {columns: columns,  columns_to_display: columns,
+                                  rows: rows, rows_to_display: rows};
                     var tableNode = $('#' + this.dataTableId);
                     UI.DataTable.prototype.notifyWidgetParametersChange(tableNode, params);
                 }
