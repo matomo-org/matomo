@@ -626,7 +626,7 @@ class API extends \Piwik\Plugin\API
                 ) {
                     $processedDate = $processedDate->subDay(1);
                 }
-                $processedPeriod = Period::factory($period, $processedDate);
+                $processedPeriod = Period\Factory::build($period, $processedDate);
             }
             $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
             $where[] = "log_visit.visit_last_action_time >= ?";

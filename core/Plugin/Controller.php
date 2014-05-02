@@ -190,6 +190,40 @@ abstract class Controller
     }
 
     /**
+     * @return array
+     */
+    private static function getEnabledPeriodsNames()
+    {
+        $availablePeriods = self::getEnabledPeriodsInUI();
+        $periodNames = array(
+            'day'   => array(
+                'singular' => Piwik::translate('CoreHome_PeriodDay'),
+                'plural' => Piwik::translate('CoreHome_PeriodDays')
+            ),
+            'week'  => array(
+                'singular' => Piwik::translate('CoreHome_PeriodWeek'),
+                'plural' => Piwik::translate('CoreHome_PeriodWeeks')
+            ),
+            'month' => array(
+                'singular' => Piwik::translate('CoreHome_PeriodMonth'),
+                'plural' => Piwik::translate('CoreHome_PeriodMonths')
+            ),
+            'year'  => array(
+                'singular' => Piwik::translate('CoreHome_PeriodYear'),
+                'plural' => Piwik::translate('CoreHome_PeriodYears')
+            ),
+            // Note: plural is not used for date range
+            'range' => array(
+                'singular' => Piwik::translate('General_DateRangeInPeriodList'),
+                'plural' => Piwik::translate('General_DateRangeInPeriodList')
+            ),
+        );
+
+        $periodNames = array_intersect_key($periodNames, array_fill_keys($availablePeriods, true));
+        return $periodNames;
+    }
+
+    /**
      * Returns the name of the default method that will be called
      * when visiting: index.php?module=PluginName without the action parameter.
      *
@@ -491,7 +525,7 @@ abstract class Controller
             $periodStr = Common::getRequestVar('period');
             if ($periodStr != 'range') {
                 $date = Date::factory($this->strDate);
-                $period = Period::factory($periodStr, $date);
+                $period = Period\Factory::build($periodStr, $date);
             } else {
                 $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
             }
@@ -693,26 +727,14 @@ abstract class Controller
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
         $availablePeriods = self::getEnabledPeriodsInUI();
         if (!in_array($currentPeriod, $availablePeriods)) {
-            throw new Exception("Period must be one of: " . implode(",", $availablePeriods));
+            throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
-        $periodNames = array(
-            'day'   => array('singular' => Piwik::translate('CoreHome_PeriodDay'), 'plural' => Piwik::translate('CoreHome_PeriodDays')),
-            'week'  => array('singular' => Piwik::translate('CoreHome_PeriodWeek'), 'plural' => Piwik::translate('CoreHome_PeriodWeeks')),
-            'month' => array('singular' => Piwik::translate('CoreHome_PeriodMonth'), 'plural' => Piwik::translate('CoreHome_PeriodMonths')),
-            'year'  => array('singular' => Piwik::translate('CoreHome_PeriodYear'), 'plural' => Piwik::translate('CoreHome_PeriodYears')),
-            // Note: plural is not used for date range
-            'range' => array('singular' => Piwik::translate('General_DateRangeInPeriodList'), 'plural' => Piwik::translate('General_DateRangeInPeriodList')),
-        );
-
-        $periodNames = array_intersect_key($periodNames, array_fill_keys($availablePeriods, true));
-
         $found = array_search($currentPeriod, $availablePeriods);
-        if ($found !== false) {
-            unset($availablePeriods[$found]);
-        }
+        unset($availablePeriods[$found]);
+
         $view->period = $currentPeriod;
         $view->otherPeriods = $availablePeriods;
-        $view->periodsNames = $periodNames;
+        $view->periodsNames = self::getEnabledPeriodsNames();
     }
 
     /**
@@ -895,7 +917,7 @@ abstract class Controller
      */
     public static function getPrettyDate($date, $period)
     {
-        return self::getCalendarPrettyDate(Period::factory($period, Date::factory($date)));
+        return self::getCalendarPrettyDate(Period\Factory::build($period, Date::factory($date)));
     }
 
     /**

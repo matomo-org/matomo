@@ -13,6 +13,7 @@ use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Range;
+use Piwik\Period\Factory;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -204,7 +205,7 @@ class Archive
             $allPeriods = $oPeriod->getSubperiods();
         } else {
             $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
-            $oPeriod = Period::makePeriodFromQueryParams($timezone, $period, $strDate);
+            $oPeriod = Factory::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
         $segment = new Segment($segment, $websiteIds);

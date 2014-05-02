@@ -326,7 +326,7 @@ class API extends \Piwik\Plugin\API
             if ($period == 'range') {
                 $oPeriod = new Range('day', $date);
             } else {
-                $oPeriod = Period::factory($period, Date::factory($date));
+                $oPeriod = Period\Factory::build($period, Date::factory($date));
             }
 
             $startDate = $oPeriod->getDateStart();

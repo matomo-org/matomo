@@ -41,7 +41,7 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
 
         Rules::$archivingDisabledByTests = true;
         
-        $period = Period::factory(self::$fixture->period, Date::factory(self::$fixture->date));
+        $period = Period\Factory::build(self::$fixture->period, Date::factory(self::$fixture->date));
         $dateRange = $period->getDateStart().','.$period->getDateEnd();
         
         API::getInstance()->get(self::$fixture->idSite, 'day', $dateRange);
