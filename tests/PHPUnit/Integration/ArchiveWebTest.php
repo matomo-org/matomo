@@ -42,7 +42,7 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
         if (empty($output) || stripos($output, "error")) {
             $message = "This test has failed. Because it sometimes randomly fails, we skip the test, and ignore this failure.\n";
             $message .= "If you see this message often, or in every build, please investigate as this should only be a random and rare occurence!\n";
-            $message .= "\n\narchive web failed: " . implode("\n", $output) . "\n\nurl used: $url";
+            $message .= "\n\narchive web failed: " . $output . "\n\nurl used: $url";
             $this->markTestSkipped($message);
         }
 
