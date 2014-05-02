@@ -332,6 +332,12 @@ class Config extends Singleton
         return is_readable($this->pathLocal);
     }
 
+    public function deleteLocalConfig()
+    {
+        $configLocal = $this->getLocalPath();
+        unlink($configLocal);
+    }
+
     public function checkLocalConfigFound()
     {
         if (!$this->existsLocalConfig()) {

@@ -30,6 +30,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\Session\SessionNamespace;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
@@ -192,7 +193,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 DbHelper::checkDatabaseVersion();
                 $this->session->databaseVersionOk = true;
 
-                $this->createConfigFileIfNeeded($dbInfos);
+                $this->deleteConfigFileIfNeeded();
+                $this->createConfigFile($dbInfos);
 
                 $this->redirectToNextStep(__FUNCTION__);
             } catch (Exception $e) {
@@ -278,7 +280,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->existingTablesDeleted = true;
 
             // when the user decides to drop the tables then we dont skip the next steps anymore
-            // workaround ZF-1743
             $tmp = $this->session->skipThisStep;
             $tmp['firstWebsiteSetup'] = false;
             $tmp['trackingCode'] = false;
@@ -302,7 +303,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ) {
                 $view->showReuseExistingTables = true;
                 // when the user reuses the same tables we skip the website creation step
-                // workaround ZF-1743
                 $tmp = $this->session->skipThisStep;
                 $tmp['firstWebsiteSetup'] = true;
                 $tmp['trackingCode'] = true;
@@ -569,21 +569,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Write configuration file from session-store
      */
-    protected function createConfigFileIfNeeded($dbInfos)
+    protected function createConfigFile($dbInfos)
     {
         $config = Config::getInstance();
 
-        try {
-            // expect exception since config.ini.php doesn't exist yet
-            $config->checkLocalConfigFound();
-
-        } catch (Exception $e) {
-
-            if (!empty($this->session->general_infos)) {
-                $config->General = $this->session->general_infos;
-            }
-        }
-
+        $config->General = $this->session->general_infos;
         $config->General['installation_in_progress'] = 1;
         $config->database = $dbInfos;
         $config->forceSave();
@@ -920,7 +910,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $infos;
     }
 
-
     /**
      * @param $infos
      * @return mixed
@@ -1090,9 +1079,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function isFinishedInstallation()
     {
-        $isConfigFileFound = file_exists(Config::getInstance()->getLocalPath());
-
-        if (!$isConfigFileFound) {
+        if (!SettingsPiwik::isPiwikInstalled()) {
             return false;
         }
 
@@ -1117,6 +1104,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $minimumCountPiwikTables = 12;
 
         return $baseTablesInstalled >= $minimumCountPiwikTables;
+    }
+
+    protected function deleteConfigFileIfNeeded()
+    {
+        $config = Config::getInstance();
+        if($config->existsLocalConfig()) {
+            $config->deleteLocalConfig();
+        }
     }
 
 }
