@@ -62,7 +62,7 @@ abstract class Period
     }
 
     /**
-     * @deprecated
+     * @deprecated Use Factory::build instead
      * @param $period
      * @param $date
      * @return Period

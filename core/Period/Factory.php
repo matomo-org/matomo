@@ -28,15 +28,15 @@ class Factory
      */
     static public function build($period, $date)
     {
+        self::checkPeriodIsEnabled($period);
+
         if (is_string($date)) {
             if (Period::isMultiplePeriod($date, $period) || $period == 'range') {
-                self::checkPeriodIsEnabled('range');
                 return new Range($period, $date);
             }
             $date = Date::factory($date);
         }
 
-        self::checkPeriodIsEnabled($period);
 
         switch ($period) {
             case 'day':
@@ -57,7 +57,7 @@ class Factory
         }
     }
 
-    private static function checkPeriodIsEnabled($period)
+    public static function checkPeriodIsEnabled($period)
     {
         if(!self::isPeriodEnabledForAPI($period)) {
             self::throwExceptionInvalidPeriod($period);
@@ -70,7 +70,9 @@ class Factory
      */
     private static function throwExceptionInvalidPeriod($strPeriod)
     {
-        $message = Piwik::translate('General_ExceptionInvalidPeriod', array($strPeriod, 'day, week, month, year, range'));
+        $periods = self::getPeriodsEnabledForAPI();
+        $periods = implode(", ", $periods);
+        $message = Piwik::translate('General_ExceptionInvalidPeriod', array($strPeriod, $periods));
         throw new Exception($message);
     }
 
@@ -92,7 +94,8 @@ class Factory
         }
 
         if ($period == 'range') {
-            $oPeriod = new Period\Range('range', $date, $timezone, Date::factory('today', $timezone));
+            self::checkPeriodIsEnabled('range');
+            $oPeriod = new Range('range', $date, $timezone, Date::factory('today', $timezone));
         } else {
             if (!($date instanceof Date)) {
                 if ($date == 'now' || $date == 'today') {
@@ -113,10 +116,18 @@ class Factory
      */
     public static function isPeriodEnabledForAPI($period)
     {
+        $enabledPeriodsInAPI = self::getPeriodsEnabledForAPI();
+        return in_array($period, $enabledPeriodsInAPI);
+    }
+
+    /**
+     * @return array
+     */
+    private static function getPeriodsEnabledForAPI()
+    {
         $enabledPeriodsInAPI = Config::getInstance()->General['enabled_periods_API'];
         $enabledPeriodsInAPI = explode(",", $enabledPeriodsInAPI);
         $enabledPeriodsInAPI = array_map('trim', $enabledPeriodsInAPI);
-
-        return in_array($period, $enabledPeriodsInAPI);
+        return $enabledPeriodsInAPI;
     }
 }

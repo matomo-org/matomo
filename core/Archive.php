@@ -201,7 +201,7 @@ class Archive
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
         if (Period::isMultiplePeriod($strDate, $period)) {
-            $oPeriod = new Range($period, $strDate);
+            $oPeriod = Factory::build($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
             $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
