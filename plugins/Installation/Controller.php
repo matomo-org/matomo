@@ -23,6 +23,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -309,6 +310,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $this->session->skipThisStep = $tmp;
             }
         } else {
+
+            Manager::getInstance()->clearPluginsInstalledConfig();
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
 
