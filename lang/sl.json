@@ -153,11 +153,15 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Sistem lahko na različico %s posodobite samodejno, ali pa prenesete paket, ter ga namestite ročno:",
         "YourDatabaseIsOutOfDate": "Vaša baza podatkov je dotrajana. Preden lahko nadaljujete mora biti nadgrajena."
     },
+    "CustomVariables": {
+        "CustomVariables": "Dodatni parametri"
+    },
     "Dashboard": {
         "AddAWidget": "Dodaj gradnik",
         "AddPreviewedWidget": "Kliknite, če želite dodati gradnik na kontrolno ploščo",
         "ChangeDashboardLayout": "Spremeni postavitev nadzorne plošče",
         "Dashboard": "Nadzorna Plošča",
+        "DashboardOf": "Nadzorna plošča od %s",
         "DeleteWidgetConfirm": "Ste prepričani da želite izbrisati ta gradnik s kontrolne plošče?",
         "LoadingWidget": "Nalagam gradnik...",
         "Maximise": "Povečaj",
@@ -259,9 +263,9 @@
         "ConfigFileIsNotWritable": "Piwik-ova konfiguracijska datoteka %s ni zapisljiva, zato nekaterih vaših sprememb ni bilo mogoče shraniti. %s Prosimo, da spremenite dovoljenja konfiguracijske datoteke tako, da bo zapisljiva.",
         "Continue": "Nadaljuj",
         "ContinueToPiwik": "Nadaljuj na Piwik",
-        "CurrentMonth": "Trenutni Mesec",
-        "CurrentWeek": "Trenutni Teden",
-        "CurrentYear": "Trenutno Leto",
+        "CurrentMonth": "Trenutni mesec",
+        "CurrentWeek": "Trenutni teden",
+        "CurrentYear": "Trenutno leto",
         "Daily": "Dnevno",
         "DailyReports": "Dnevna poročila",
         "DailySum": "dnevna vsota",
@@ -553,7 +557,7 @@
     "Goals": {
         "AbandonedCart": "Opuščen voziček",
         "AddGoal": "Dodaj Cilj",
-        "AddNewGoal": "Dodaj nov Cilj",
+        "AddNewGoal": "Dodaj nov cilj",
         "ColumnConversions": "Konverzije",
         "ColumnConversionsDocumentation": "Število konverzij za %s.",
         "ColumnRevenueDocumentation": "Skupni prihodki ustvarjeni z %s.",
@@ -635,8 +639,8 @@
     },
     "Live": {
         "GoalType": "Tip",
-        "LastHours": "Zadnjih %s urah",
-        "LastMinutes": "Zadnjih %s minutah",
+        "LastHours": "Zadnjih %s ur",
+        "LastMinutes": "Zadnjih %s minut",
         "LinkVisitorLog": "Ogled podrobnega dnevnika obiskovalcev",
         "NbVisitor": "1 obiskovalec",
         "NbVisitors": "%s obiskovalcev",
@@ -662,6 +666,8 @@
         "DefaultReportDate": "Datum poročila",
         "EnableGraphsLabel": "Prikaži grafe",
         "LastUpdated": "Zadnje posodobljeno: %s",
+        "LoadingReport": "Nalaganje %s",
+        "LoginUseHttps": "Uporabi https",
         "NavigationBack": "Nazaj",
         "PullDownToRefresh": "Potegnite navzdol za osvežitev...",
         "ReleaseToRefresh": "Izpustite za osvežitev...",
@@ -671,8 +677,13 @@
         "ShowLess": "Prikaži manj",
         "YouAreOffline": "Oprostite, trenutno ste offline"
     },
+    "MobileMessaging": {
+        "Settings_APIKey": "Ključ API",
+        "Settings_PhoneNumber": "Telefonska številka"
+    },
     "MultiSites": {
-        "Evolution": "Evolucija"
+        "Evolution": "Evolucija",
+        "LoadingWebsites": "Nalaganje strani"
     },
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Anonimiziraj zadnji bajt IP naslova obiskovalca, da se s tem izpolnijo zahteve lokalnih zakonov\/smernic o zasebnosti.",
@@ -1081,7 +1092,8 @@
         "WidgetLocation": "Lokacija obiskovalca"
     },
     "UserCountryMap": {
-        "map": "zemljevid"
+        "map": "zemljevid",
+        "RealTimeMap": "Zemljevid v realnem času"
     },
     "UserSettings": {
         "BrowserFamilies": "Družine brskalnikov",
@@ -1282,9 +1294,10 @@
         "Language_zh": "kitajščina",
         "Language_zu": "zulujščina",
         "LanguageCode": "Šifra jezika",
+        "MobileVsDesktop": "Mobilni proti namiznim",
         "OperatingSystems": "Operacijski sistemi",
         "Resolutions": "Resolucije",
-        "VisitorSettings": "Nastavitve Obiskovalcev",
+        "VisitorSettings": "Nastavitve obiskovalcev",
         "WideScreen": "Širok Zaslon",
         "WidgetBrowserFamilies": "Brskalniki po družini",
         "WidgetBrowsers": "Brskalnik obiskovalca",
@@ -1315,6 +1328,8 @@
         "PrivAdmin": "Admin",
         "PrivNone": "Ni dostopa",
         "PrivView": "Pogled",
+        "ReportDateToLoadByDefault": "Privzet časovni obseg",
+        "ReportToLoadByDefault": "Privzeto prikaži",
         "TheLoginScreen": "Obrazec za vpis",
         "ThereAreCurrentlyNRegisteredUsers": "Trenutno je %s registriranih uporabnikov.",
         "TypeYourPasswordAgain": "Ponovno vpišite vaše novo geslo.",
@@ -1337,6 +1352,7 @@
     "VisitorInterest": {
         "ColumnPagesPerVisit": "Strani na obisk",
         "ColumnVisitDuration": "Trajanje obiska",
+        "Engagement": "Interes",
         "NPages": "%s strani",
         "OneMinute": "1 min",
         "OnePage": "1 stran",
