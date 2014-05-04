@@ -1338,7 +1338,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var controls = $('.controls', domElem);
         if (controls.length) {
-            $('.foldDataTableFooterDrawer', domElem).after(controls);
+            $('.foldDataTableFooterDrawer', domElem).before(controls);
         }
 
         var loadingPiwikBelow = $('.loadingPiwikBelow', domElem);
