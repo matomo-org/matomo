@@ -10,14 +10,19 @@
  * <div piwik-zen-mode-switcher>...</div>
  * Will toggle the zen mode on click on this element.
  */
-angular.module('piwikApp').directive('piwikZenModeSwitcher', function($rootElement) {
+angular.module('piwikApp').directive('piwikZenModeSwitcher', function($rootElement, $filter) {
 
     function showZenModeIsActivatedNotification() {
+        var howToSearch = $filter('translate')('ZenMode_HowToSearch');
+        var howToToggle = $filter('translate')('ZenMode_HowToToggleZenMode');
+        var activated   = $filter('translate')('ZenMode_Activated');
+
+        var message = '<ul><li>' + howToSearch + '</li><li>' + howToToggle + '</li></ul>';
+
         var UI = require('piwik/UI');
         var notification = new UI.Notification();
-        var message = '<ul><li>To search for menu items, reports or websites use the search box on the top right or press alt+s.</li><li>To leave the ZenMode press the arrow on the top right or press alt+z</li></ul>';
         notification.show(message, {
-            title: 'ZenMode activated',
+            title: activated,
             context: 'info',
             id: 'ZenMode_EnabledInfo'
         });

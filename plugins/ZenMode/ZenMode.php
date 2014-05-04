@@ -31,6 +31,9 @@ class ZenMode extends \Piwik\Plugin
         $translations[] = 'MultiSites_LoadingWebsites';
         $translations[] = 'ZenMode_SearchForAnything';
         $translations[] = 'ZenMode_QuickAccessTitle';
+        $translations[] = 'ZenMode_HowToSearch';
+        $translations[] = 'ZenMode_HowToToggleZenMode';
+        $translations[] = 'ZenMode_Activated';
     }
 
     public function getJsFiles(&$jsFiles)
