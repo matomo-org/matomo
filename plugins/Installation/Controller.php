@@ -476,6 +476,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (count($headers = ProxyHeaders::getProxyHostHeaders()) > 0) {
             $config->General['proxy_host_headers'] = $headers;
         }
+
+        if (Common::getRequestVar('clientProtocol', 'http', 'string') == 'https') {
+            $protocol = 'https';
+        } else {
+            $protocol = ProxyHeaders::getProtocolInformation();
+        }
+
+        if (!empty($protocol)
+            && !\Piwik\ProxyHttp::isHttps()) {
+            $config->General['assume_secure_protocol'] = '1';
+        }
+
         $config->General['salt'] = Common::generateUniqId();
         $config->General['installation_in_progress'] = 1;
 
@@ -483,8 +495,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!DbHelper::isDatabaseConnectionUTF8()) {
             $config->database['charset'] = 'utf8';
         }
-        $config->forceSave();
 
+        $config->forceSave();
     }
 
     private function checkPiwikIsNotInstalled()

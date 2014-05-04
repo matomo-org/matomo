@@ -1135,8 +1135,6 @@
         "SystemCheckPdoAndMysqliHelp": "On a Linux server you can compile php with the following options: %1$s In your php.ini, add the following lines: %2$s",
         "SystemCheckPhp": "PHP version",
         "SystemCheckPhpPdoAndMysqli": "More information on: %1$sPHP PDO%2$s and %3$sMYSQLI%4$s.",
-        "SystemCheckSecureProtocol": "Secure protocol",
-        "SystemCheckSecureProtocolHelp": "It appears you're using https with your web server. These lines will be added to config\/config.ini.php:",
         "SystemCheckSplHelp": "You need to configure and rebuild PHP with the Standard PHP Library (SPL) enabled (by default).",
         "SystemCheckSummaryNoProblems": "Huzzah! There are no problems with your Piwik setup. Give yourself a pat on the back.",
         "SystemCheckSummaryThereWereErrors": "Uh-oh! Piwik has detected some %1$scritical issues%2$s with your Piwik setup. %3$sThese issues should be fixed immediately.%4$s",

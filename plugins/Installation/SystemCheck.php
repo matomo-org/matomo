@@ -177,11 +177,6 @@ class SystemCheck
 
         $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 
-        $infos['protocol'] = ProxyHeaders::getProtocolInformation();
-        if (!\Piwik\ProxyHttp::isHttps() && $infos['protocol'] !== null) {
-            $infos['assume_secure_protocol'] = '1';
-        }
-
         // check if filesystem is NFS, if it is file based sessions won't work properly
         $infos['is_nfs'] = Filesystem::checkIfFileSystemIsNFS();
         $infos = self::enrichSystemChecks($infos);
