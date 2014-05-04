@@ -277,6 +277,11 @@ class Manager
         Option::deleteLike('viewDataTableParameters_%');
     }
 
+    public static function clearUserViewDataTableParameters($userLogin)
+    {
+        Option::deleteLike('viewDataTableParameters_' . $userLogin . '_%');
+    }
+
     public static function getViewDataTableParameters($login, $controllerAction)
     {
         $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
