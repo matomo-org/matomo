@@ -77,8 +77,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
         $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
-                || !empty($GLOBALS['PIWIK_TRACKER_DEBUG'])
-                || defined('PIWIK_TEST_MODE');
+                || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
         return $bool;
     }
 

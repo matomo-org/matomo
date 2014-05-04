@@ -10,6 +10,9 @@ Piwik_TestingEnvironment::addHooks();
 
 if (\Piwik\DbHelper::isInstalled()) {
     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+} else {
+    // Not installed yet, display backtrace when error
+    define('PIWIK_PRINT_ERROR_BACKTRACE', true);
 }
 
 \Piwik\Profiler::setupProfilerXHProf();
