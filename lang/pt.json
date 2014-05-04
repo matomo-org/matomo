@@ -622,7 +622,6 @@
         "DatabaseSetupServer": "servidor da base de dados",
         "DatabaseSetupTablePrefix": "prefixo das tabelas",
         "Email": "email",
-        "ErrorInvalidState": "Erro: parece que tentou saltar um passo do processo de Instalação, ou os seus cookies estão desactivados, ou o ficheiro de configuração do Piwik já foi criado. %1$sConfirme que os seus cookies estão activados%2$s e volte à %3$s primeira página da instalação %4$s.",
         "Extension": "extensão",
         "GoBackAndDefinePrefix": "Retroceder e definir um Prefixo para as Tabelas Piwik",
         "Installation": "Instalação",

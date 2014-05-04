@@ -1031,7 +1031,6 @@
         "DatabaseSetupServer": "tietokantapalvelin",
         "DatabaseSetupTablePrefix": "taulujen etuliite",
         "Email": "sähköposti",
-        "ErrorInvalidState": "Virhe: yrität ohittaa vaiheen asennusprosessista tai keksit (cookies) ei ole sallittu. %1$sVarmista, että keksit on sallittu%2$s ja mene takaisin %3$s asennuksen ensimmäiselle sivulle %4$s.",
         "Extension": "lisäosa",
         "Filesystem": "Tiedostojärjestelmä",
         "GetInvolved": "Jos pidät näkemästäsi, myös sinä voit %1$sosallistua%2$s.",

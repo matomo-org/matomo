@@ -1002,7 +1002,6 @@
         "DatabaseSetupServer": "database server",
         "DatabaseSetupTablePrefix": "tabel voorvoegsel",
         "Email": "email",
-        "ErrorInvalidState": "Fout: Het lijkt erop dat u probeerde een stap van het installatieproces over te slaan, of dat cookies uitgeschakeld zijn, of dat uw Piwik configuratie bestand reeds was aangemaakt. %1$s Zorg ervoor dat uw cookies zijn ingeschakeld%2$s en ga terug %3$s naar de eerste pagina van de installatie %4$s.",
         "Extension": "extensie",
         "Filesystem": "Bestandsssysteem",
         "GoBackAndDefinePrefix": "Ga terug en definieer een voorvoegsel voor de Piwik tabellen",

@@ -838,7 +838,6 @@
         "DatabaseSetupServer": "データベースサーバー",
         "DatabaseSetupTablePrefix": "テーブルプレフィックス",
         "Email": "メールアドレス",
-        "ErrorInvalidState": "エラー： インストール処理のステップを省略しようとしたか、Cookie が無効か、Piwik 設定ファイルがすでに作成されています。%1$sCookie が有効になっていることを確認してから%2$s、%3$sインストールの最初のページ%4$sに戻ってください。",
         "Extension": "エクステンション",
         "GoBackAndDefinePrefix": "戻って、Piwik テーブルのプレフィックスを定義する",
         "Installation": "インストール",

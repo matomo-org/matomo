@@ -811,7 +811,6 @@
         "DatabaseSetupServer": "데이터베이스 서버",
         "DatabaseSetupTablePrefix": "테이블 접두사",
         "Email": "이메일",
-        "ErrorInvalidState": "에러: 설치 과정의 단계를 뛰어넘으려고 하는 것 같습니다, 또는 쿠키가 비활성화거나, 또는 Piwik 설정 파일이 이미 생성되었습니다. %1$s쿠키가 활성화되어 있는지 확인하시고%2$s 설치 첫페이지로 %3$s 돌아가세요 %4$s.",
         "Extension": "확장",
         "Filesystem": "파일시스템",
         "GoBackAndDefinePrefix": "돌아가서 Piwik 테이블을 위해 Prefix를 정의합니다",

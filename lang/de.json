@@ -1045,7 +1045,6 @@
         "DatabaseSetupServer": "Datenbank-Server",
         "DatabaseSetupTablePrefix": "Tabellen-Prefix",
         "Email": "E-Mail",
-        "ErrorInvalidState": "Fehler: Sie scheinen zu versuchen, einen Schritt des Installationsvorgangs zu überspringen oder Ihre Cookies sind deaktiviert, oder die Piwik-Konfigurationsdatei wurde bereits erstellt. %1$sStellen Sie sicher, dass Ihre Cookies aktiviert%2$s sind und gehen Sie zurück %3$s zur ersten Seite der Installation. %4$s",
         "Extension": "Erweiterung",
         "Filesystem": "Dateisystem",
         "GetInvolved": "Wenn Ihnen gefällt, was Sie sehen, können Sie %1$smitmachen%2$s.",

@@ -796,7 +796,6 @@
         "DatabaseSetupServer": "Servidor de la base de dades",
         "DatabaseSetupTablePrefix": "Prefix de les taules",
         "Email": "Correu-e",
-        "ErrorInvalidState": "Hi ha hagut un error: sembla que esteu intentant saltar-vos un pas de la instal·lació, o teniu les galetes desactivades o el fitxer de configuració del Piwik ja existeix. %1$sAssegureu-vos que teniu les galetes activades%2$s i torneu enrera %3$s al primer pas de la instal·lació %4$s.",
         "Extension": "extensió",
         "Filesystem": "Sistema de fitxers",
         "GoBackAndDefinePrefix": "Torna enrere i defineix un prefix per a les taules",

@@ -1017,7 +1017,6 @@
         "DatabaseSetupServer": "databasserver",
         "DatabaseSetupTablePrefix": "tabellprefix",
         "Email": "e-post",
-        "ErrorInvalidState": "Fel: det verkar som att du försökte hoppa över ett steg av installationsprocessen, eller att dina cookies är inaktiverade eller Piwik's konfigurationsfil redan skapats. %1$s Säkerställ att dina cookies är aktiverade%2$s och gå tillbaka %3$s till första sidan av installationen %4$s.",
         "Extension": "tillägg",
         "Filesystem": "Filsystem",
         "GetInvolved": "Om du tycker om det du ser, kan du %1$sinvolvera%2$s.",

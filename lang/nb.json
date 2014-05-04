@@ -625,7 +625,6 @@
         "DatabaseSetupServer": "databasetjener",
         "DatabaseSetupTablePrefix": "tabellprefiks",
         "Email": "e-post",
-        "ErrorInvalidState": "Feil: Det ser ut som om du prøver å hoppe over et steg i installasjonsprosessen eller informasjonskapsler (cookies) er deaktivert eller Piwik sin konfigurasjon er allerede opprettet. %1$sForsikre deg om at du har aktivert informasjonskapsler%2$s og gå tilbake %3$s til første side av installasjonen %4$s.",
         "Extension": "utvidelse",
         "Filesystem": "Filsystem",
         "GoBackAndDefinePrefix": "Gå tilbake og definer et prefiks for Piwik-tabellene",

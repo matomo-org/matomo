@@ -325,7 +325,6 @@
         "DatabaseSetupServer": "datu-basearen zerbitzaria",
         "DatabaseSetupTablePrefix": "taularen aurrizkia",
         "Email": "helbide elektronikoa",
-        "ErrorInvalidState": "Errorea: badirudi instalazio prozesuko urrats bat saltatu nahi duzula edo zure cookie-ak desgaituta daudela edo Piwik konfigurazio-fitxategia dagoeneko sortuta dagoela. %1$sZiurtatu zure cookie-ak gaituta daudela%2$s eta zoaz atzera %3$s instalazioaren lehenengo orrira %4$s.",
         "Extension": "hedapena",
         "GoBackAndDefinePrefix": "Zoaz atzera eta definitu aurrizki bat Piwik-en taulentzat",
         "Installation": "Instalazioa",

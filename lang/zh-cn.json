@@ -964,7 +964,6 @@
         "DatabaseSetupServer": "数据库服务器",
         "DatabaseSetupTablePrefix": "数据表前綴词",
         "Email": "邮箱",
-        "ErrorInvalidState": "错误: 看来您正在尝试停止安裝程序的某个步驟，或是您的 cookies 功能未启用，或者 Piwik 配置文件已经建立。%1$s请确定您的 cookies 功能已启用%2$s然后返回%3$s至安裝程序的初始画面 %4$s。",
         "Extension": "扩展",
         "Filesystem": "文件系统",
         "GoBackAndDefinePrefix": "返回并为 Piwik 数据表定义一个数据表前綴",

@@ -954,7 +954,6 @@
         "DatabaseSetupServer": "Máy chủ cơ sở dữ liệu",
         "DatabaseSetupTablePrefix": "Bảng tiền tố",
         "Email": "email",
-        "ErrorInvalidState": "Lỗi: dường như bạn cố gắng để bỏ qua một bước của quá trình cài đặt, hoặc các cookie của bạn bị vô hiệu hóa, hoặc các tập tin cấu hình Piwik đã được tạo ra. %1$s Hãy chắc chắn rằng các cookie của bạn được kích hoạt %2$s và quay trở lại %3$s đến trang đầu tiên của quá trình cài đặt %4$s.",
         "Extension": "Bổ sung",
         "Filesystem": "Tập tin hệ thống",
         "GoBackAndDefinePrefix": "Quay trở lại và xác định một số tiền tố cho các bảng Piwik",
