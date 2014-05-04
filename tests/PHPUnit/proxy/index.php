@@ -8,10 +8,8 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 
 Piwik_TestingEnvironment::addHooks();
 
-try {
+if (\Piwik\DbHelper::isInstalled()) {
     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
-} catch(Exception $e) {
-    // eg. Piwik not installed yet
 }
 
 \Piwik\Profiler::setupProfilerXHProf();
