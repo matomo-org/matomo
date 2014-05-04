@@ -680,7 +680,6 @@
         "DatabaseSetupServer": "Shërbyes i bazës së të dhënave",
         "DatabaseSetupTablePrefix": "parashtesë tabele",
         "Email": "email",
-        "ErrorInvalidState": "Gabim: duket se po provoni të anashkaloni një hap të procesit të Instalimit, ose keni të çaktivizuara \"cookies\", ose kartela e formësimit të Piwik-ut është e krijuar tashmë. %1$sSigurohuni që \"cookies\" janë të aktivizuara%2$s dhe kthehuni mbrapsht %3$s te faqja e parë e instalimit %4$s.",
         "Extension": "zgjerim",
         "GoBackAndDefinePrefix": "Kthehuni mbrapsht dhe përcaktoni një Prefiks për Tabelat e Piwik-ut",
         "Installation": "Instalim",

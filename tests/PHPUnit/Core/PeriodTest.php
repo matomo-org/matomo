@@ -57,7 +57,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryDay()
     {
-        $period = Period::factory('day', Date::today());
+        $period = Period\Factory::build('day', Date::today());
         $this->assertInstanceOf('\Piwik\Period\Day', $period);
     }
 
@@ -66,7 +66,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryMonth()
     {
-        $period = Period::factory('month', Date::today());
+        $period = Period\Factory::build('month', Date::today());
         $this->assertInstanceOf('\Piwik\Period\Month', $period);
     }
 
@@ -75,7 +75,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryWeek()
     {
-        $period = Period::factory('week', Date::today());
+        $period = Period\Factory::build('week', Date::today());
         $this->assertInstanceOf('\Piwik\Period\Week', $period);
     }
 
@@ -84,7 +84,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryYear()
     {
-        $period = Period::factory('year', Date::today());
+        $period = Period\Factory::build('year', Date::today());
         $this->assertInstanceOf('\Piwik\Period\Year', $period);
     }
 
@@ -94,7 +94,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryInvalid()
     {
         try {
-            $period = Period::factory('inValid', Date::today());
+            $period = Period\Factory::build('inValid', Date::today());
         } catch (Exception $e) {
             return;
         }

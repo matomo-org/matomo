@@ -1060,7 +1060,6 @@
         "DatabaseSetupServer": "database server",
         "DatabaseSetupTablePrefix": "Prefisso tabelle",
         "Email": "E-mail",
-        "ErrorInvalidState": "Errore: sembra che stia tentando di saltare un passaggio del processo di installazione, i tuoi Cookies sono disabilitati o il file di configurazione Piwik è stato già creato. %1$sControlla che i Cookies siano attivati%2$s e %3$s ripeti l'installazione dal primo passaggio %4$s.",
         "Extension": "estensione",
         "Filesystem": "Filesystem",
         "GetInvolved": "Se ti piace ciò che vedi, puoi %1$sessere coinvolto%2$s.",

@@ -1061,7 +1061,6 @@
         "DatabaseSetupServer": "server",
         "DatabaseSetupTablePrefix": "prefiks tabela",
         "Email": "elektronska adresa",
-        "ErrorInvalidState": "Greška: izgleda da ste pokušali da preskočite korak u instalalciji, ili vam je podrška za cookie onemogućena u vašem web čitaču, ili je Piwik datoteka sa podešavanjima već kreirana. %1$sPostarajte se da je podrška za cookie omogućena%2$s i vratite se nazad %3$s na prvu stranicu Piwik instalacije %4$s.",
         "Extension": "proširenje",
         "Filesystem": "Sistem datoteka",
         "GetInvolved": "Ukoliko vam se sviđa ono što vidite, možete %1$suzeti učešće%2$s.",

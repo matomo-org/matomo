@@ -105,7 +105,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
+        \Piwik\Period\Factory::checkPeriodIsEnabled('day');
         $_GET['period'] = 'day';
+
         $view = new View('@Live/getLastVisitsStart');
         $view->idSite = $this->idSite;
         $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");

@@ -72,9 +72,10 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
-; if set to 1, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
+; if set to > 0, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc.
+; data will be stored for idSite = enable_measure_piwik_usage_in_idsite
 ; this is useful for Piwik developers as an easy way to create data in their local Piwik
-track_visits_inside_piwik_ui = 0
+enable_measure_piwik_usage_in_idsite = 0
 
 ; if set to 1, javascript files will be included individually and neither merged nor minified.
 ; this option must be set to 1 when adding, removing or modifying javascript files
@@ -101,6 +102,12 @@ enable_processing_unique_visitors_week = 1
 enable_processing_unique_visitors_month = 1
 enable_processing_unique_visitors_year = 0
 enable_processing_unique_visitors_range = 0
+
+; The list of periods that are available in the Piwik calendar
+; Example use case: custom date range requests are processed in real time,
+; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
+enabled_periods_UI = "day,week,month,year,range"
+enabled_periods_API = "day,week,month,year,range"
 
 ; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
@@ -200,7 +207,7 @@ minimum_pgsql_version = 8.3
 ; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
-; Minimum memory limit enforced when archived via misc/cron/archive.php
+; Minimum memory limit enforced when archived via ./console core:archive
 minimum_memory_limit_when_archiving = 768
 
 ; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
@@ -466,7 +473,7 @@ default_time_one_page_visit = 0
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = 1
 
-; When the misc/cron/archive.php cron hasn't been setup, we still need to regularly run some maintenance tasks.
+; When the `./console core:archive` cron hasn't been setup, we still need to regularly run some maintenance tasks.
 ; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF/HTML reports by email).
 ; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
 ; Tasks run once every hour maximum, they might not run every hour if traffic is low.

@@ -978,7 +978,6 @@
         "DatabaseSetupServer": "servidor de banco de dados",
         "DatabaseSetupTablePrefix": "prefixo da tabela",
         "Email": "email",
-        "ErrorInvalidState": "Erro: parece que você está tentando pular um passo do processo de instalação, ou seus cookies estão desligados, ou o arquivo de configuração do Piwik já foi criado. %1$sTenha certeza de que seus cookies estão ativados%2$s e volte %3$spara a página inicial da instalação%4$s.",
         "Extension": "extensão",
         "Filesystem": "Sistema de arquivos",
         "GetInvolved": "Se você gosta do que você vê, você pode %1$sparticipar%2$s.",

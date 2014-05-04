@@ -16,8 +16,7 @@ namespace Piwik;
 class SettingsServer
 {
     /**
-     * Returns true if the current script execution was triggered by the cron archiving
-     * script (**misc/cron/archive.php**).
+     * Returns true if the current script execution was triggered by the cron archiving script.
      *
      * Helpful for error handling: directly throw error without HTML (eg. when DB is down).
      * 

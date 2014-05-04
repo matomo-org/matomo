@@ -123,7 +123,7 @@ class API extends \Piwik\Plugin\API
 
             // but also weeks overlapping several months stored in the month where the week is starting
             /* @var $week Week */
-            $week = Period::factory('week', $date);
+            $week = Period\Factory::build('week', $date);
             $weekAsString = $week->getDateStart()->toString('Y_m');
             $datesByMonth[$weekAsString][] = $date->toString();
 

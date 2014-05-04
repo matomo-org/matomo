@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Brauseri versioonid",
+        "Camera": "Kaamera",
         "CarBrowser": "Sõiduki sirvik",
         "Console": "Konsool",
         "dataTableLabelBrands": "Bränd",

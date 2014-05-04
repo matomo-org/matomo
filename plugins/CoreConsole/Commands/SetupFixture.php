@@ -154,8 +154,6 @@ class SetupFixture extends ConsoleCommand
 
     private function requireFixtureFiles()
     {
-        require_once "PHPUnit/Autoload.php";
-
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';

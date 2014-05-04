@@ -704,7 +704,6 @@
         "DatabaseSetupServer": "Serwer bazy danych",
         "DatabaseSetupTablePrefix": "prefix tabel",
         "Email": "e-mail",
-        "ErrorInvalidState": "Błąd: wygląda na to, że starasz się pominąć krok jakim jest proces instalacji, lub masz zablokowane ciasteczka cookies w przeglądarce, lub plik konfiguracyjny Piwik jest w trakcie tworzenia. %1$sUzyskaj pewność, że twoje ciasteczka cookies nie są blokowane%2$s i cofnij się %3$s na pierwszą stronę instalacji %4$s.",
         "Extension": "rozszerzenia",
         "GoBackAndDefinePrefix": "Cofnij się i zdefiniuj obowiązujący Prefix dla tabel",
         "Installation": "Instalacja",

@@ -232,6 +232,11 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->PluginsInstalled = $section;
     }
 
+    public function clearPluginsInstalledConfig()
+    {
+        $this->updatePluginsInstalledConfig( array() );
+    }
+
     /**
      * Returns true if plugin is always activated
      *
@@ -371,6 +376,7 @@ class Manager extends Singleton
     /**
      * Install loaded plugins
      *
+     * @throws
      * @return array Error messages of plugin install fails
      */
     public function installLoadedPlugins()

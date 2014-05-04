@@ -22,10 +22,6 @@ class ProxyHeaders
      */
     public static function getProtocolInformation()
     {
-        if (Common::getRequestVar('clientProtocol', 'http', 'string') == 'https') {
-            return 'https';
-        }
-
         if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) {
             return 'SERVER_PORT=443';
         }

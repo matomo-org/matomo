@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\CoreVisualizations;
 
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Cloud.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable.php';
@@ -29,8 +31,14 @@ class CoreVisualizations extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'UsersManager.deleteUser'                => 'deleteUser'
         );
+    }
+
+    public function deleteUser($userLogin)
+    {
+        ViewDataTableManager::clearUserViewDataTableParameters($userLogin);
     }
 
     public function getAvailableDataTableVisualizations(&$visualizations)

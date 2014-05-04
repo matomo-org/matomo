@@ -73,13 +73,13 @@ class API extends \Piwik\Plugin\API
         // prepare log aggregator
         $segment = new Segment($segment, $idSite);
         $site = new Site($idSite);
-        $period = Period::factory($period, $date);
+        $period = Period\Factory::build($period, $date);
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         $logAggregator = new LogAggregator($params);
 
         // prepare the report
         $report = array(
-            'date' => Period::factory($period->getLabel(), $date)->getLocalizedShortString()
+            'date' => Period\Factory::build($period->getLabel(), $date)->getLocalizedShortString()
         );
 
         $partsArray = explode(',', $parts);

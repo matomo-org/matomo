@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\View;
@@ -175,7 +176,7 @@ abstract class ViewDataTable implements ViewInterface
      * Posts the {@hook ViewDataTable.configure} event which plugins can use to configure the
      * way reports are displayed.
      */
-    public function __construct($controllerAction, $apiMethodToRequestDataTable)
+    public function __construct($controllerAction, $apiMethodToRequestDataTable, $overrideParams = array())
     {
         list($controllerName, $controllerAction) = explode('.', $controllerAction);
 
@@ -229,6 +230,7 @@ abstract class ViewDataTable implements ViewInterface
             $this->requestConfig->filter_excludelowpop_value = $function();
         }
 
+        $this->overrideViewPropertiesWithParams($overrideParams);
         $this->overrideViewPropertiesWithQueryParams();
     }
 
@@ -399,7 +401,7 @@ abstract class ViewDataTable implements ViewInterface
             if (property_exists($this->requestConfig, $name)) {
                 $this->requestConfig->$name = $this->getPropertyFromQueryParam($name, $this->requestConfig->$name);
             } elseif (property_exists($this->config, $name)) {
-                $this->config->$name  = $this->getPropertyFromQueryParam($name, $this->config->$name);
+                $this->config->$name = $this->getPropertyFromQueryParam($name, $this->config->$name);
             }
         }
 
@@ -456,4 +458,22 @@ abstract class ViewDataTable implements ViewInterface
     {
         return $view->config->show_all_views_icons;
     }
+
+    private function overrideViewPropertiesWithParams($overrideParams)
+    {
+        if (empty($overrideParams)) {
+            return;
+        }
+
+        foreach ($overrideParams as $key => $value) {
+            if (property_exists($this->requestConfig, $key)) {
+                $this->requestConfig->$key = $value;
+            } elseif (property_exists($this->config, $key)) {
+                $this->config->$key = $value;
+            } elseif ($key != 'enable_filter_excludelowpop') {
+                $this->config->custom_parameters[$key] = $value;
+            }
+        }
+    }
+
 }

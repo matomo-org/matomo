@@ -36,7 +36,7 @@ class RunTests extends ConsoleCommand
         $groups = array_map('ucfirst', $groups);
         $groups = array_filter($groups, 'strlen');
 
-        $command = 'phpunit';
+        $command = '../../vendor/phpunit/phpunit/phpunit';
 
         // force xdebug usage for coverage options
         if (false !== strpos($options, '--coverage') && !extension_loaded('xdebug')) {

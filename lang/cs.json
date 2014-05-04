@@ -736,7 +736,6 @@
         "DatabaseSetupServer": "server s databází",
         "DatabaseSetupTablePrefix": "prefix tabulek",
         "Email": "e-mail",
-        "ErrorInvalidState": "Chyba: zdá se, že se snažíte přeskočit krok instalace, nebo máte zakázány cookies, nebo již je konfigurační soubor Piwiku vytvořen. %1$sUjistěte se, že máte povoleny cookies%2$s a vraťte se zpět %3$s na první stránku instalace %4$s.",
         "Extension": "přípona",
         "Filesystem": "Souborový systém",
         "GoBackAndDefinePrefix": "Jít zpět a nastavit prefix pro tabulky Piwiku",

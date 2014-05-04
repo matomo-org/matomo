@@ -88,7 +88,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
         $site = $this->_createWebsite($siteTimezone);
         $date = Date::factory($dateLabel);
-        $period = Period::factory($periodLabel, $date);
+        $period = Period\Factory::build($periodLabel, $date);
         $segment = new Segment('', $site->getId());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);

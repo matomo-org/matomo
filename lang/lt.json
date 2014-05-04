@@ -473,7 +473,6 @@
         "DatabaseSetupServer": "duomenų bazių serveris",
         "DatabaseSetupTablePrefix": "lentelės priešdėlis",
         "Email": "el. paštas",
-        "ErrorInvalidState": "Klaida: Panašu, kad bandote praleisti įdiegimo procesą, arba Jūsų naršyklėje išjungti slapukai, arba Piwik konfigūracinis failas jau yra sukurtas. %1$sĮsitikinkite, kad slapukai įjungti%2$s ir grįžkite %3$s į pradinį įdiegimo puslapį %4$s.",
         "Extension": "plėtinys",
         "GoBackAndDefinePrefix": "Grįžkite atgal ir nurodykite Piwik lentelių priešdėlį",
         "Installation": "Įdiegimas",

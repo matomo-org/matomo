@@ -885,7 +885,6 @@
         "DatabaseSetupServer": "peladen basisdata",
         "DatabaseSetupTablePrefix": "awalan tabel",
         "Email": "surel",
-        "ErrorInvalidState": "Galat: tampaknya Anda mencoba melewati proses Instalasi, atau kuki Anda telah dimatikan, atau berkas konfigurasi Piwik telah tersedia. %1$sPeriksalah apakah kuki Anda telah aktif kemudian %2$s kembali %3$s ke halaman pertama instalasi %4$s.",
         "Extension": "ekstensi",
         "Filesystem": "Sistem Berkas",
         "GoBackAndDefinePrefix": "Kembali dan tetapkan kode awalan untuk tabel Piwik",

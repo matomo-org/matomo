@@ -18,7 +18,7 @@ use Piwik\QuickForm2;
 /**
  *
  */
-class FormGeneralSetup extends QuickForm2
+class FormSuperUser extends QuickForm2
 {
     function __construct($id = 'generalsetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {

@@ -1,16 +1,16 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
+
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
 
-    {% set excludedIpHelpPlain %}
+    {% set excludedIpHelp %}
         {{ 'SitesManager_HelpExcludedIps'|translate("1.2.3.*","1.2.*.*") }}
         <br/><br/>
         {{ 'SitesManager_YourCurrentIpAddressIs'|translate("<i>" ~ currentIpAddress ~ "</i>")|raw }}
     {% endset %}
-
-    {% set excludedIpHelp=piwik.inlineHelp(excludedIpHelpPlain) %}
+    {% set excludedIpHelp=piwik.inlineHelp(excludedIpHelp) %}
 
     {% set defaultTimezoneHelpPlain %}
         {% if timezoneSupported %}
@@ -21,21 +21,10 @@
         <br/><br/>
         {{ 'SitesManager_UTCTimeIs'|translate(utcTime) }}
     {% endset %}
-
-    {% set timezoneHelpPlain %}
-        {{ defaultTimezoneHelpPlain }}
-        <br/><br/>
-        {{ 'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward'|translate }}
-    {% endset %}
+    {% set defaultTimezoneHelp=piwik.inlineHelp(defaultTimezoneHelpPlain) %}
 
     {% set currencyHelpPlain %}
         {{ piwik.inlineHelp('SitesManager_CurrencySymbolWillBeUsedForGoals'|translate) }}
-    {% endset %}
-
-    {% set ecommerceHelpPlain %}
-        {{ 'SitesManager_EcommerceHelp'|translate }}
-        <br/>
-        {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate("<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>","</a>")|raw }}
     {% endset %}
 
     {% set excludedQueryParametersHelp %}
@@ -43,7 +32,6 @@
         <br/><br/>
         {{ 'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters'|translate("phpsessid, sessionid, ...") }}
     {% endset %}
-
     {% set excludedQueryParametersHelp=piwik.inlineHelp(excludedQueryParametersHelp) %}
 
     {% set excludedUserAgentsHelp %}
@@ -51,376 +39,28 @@
         <br/><br/>
         {{ 'SitesManager_GlobalListExcludedUserAgents_Desc'|translate }} {{ 'SitesManager_GlobalExcludedUserAgentHelp2'|translate }}
     {% endset %}
-
     {% set excludedUserAgentsHelp=piwik.inlineHelp(excludedUserAgentsHelp) %}
 
-    {% set keepURLFragmentSelectHTML %}
-        <h4 style="display:inline-block;">{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</h4>
-
-        <select id="keepURLFragmentSelect">
-            <option value="0"> {% if globalKeepURLFragments %}{{ 'General_Yes'|translate }}{% else %}{{ 'General_No'|translate }}{% endif %}
-                ({{ 'General_Default'|translate }})
-            </option>
-            <option value="1">{{ 'General_Yes'|translate }}</option>
-            <option value="2">{{ 'General_No'|translate }}</option>
-        </select>
-    {% endset %}
-
-    <script type="text/javascript">
-        var excludedIpHelp = '{{ excludedIpHelp|e('js') }}';
-        var aliasUrlsHelp = '{{ piwik.inlineHelp('SitesManager_AliasUrlHelp'|translate)|e('js') }}';
-        var excludedQueryParametersHelp = '{{ excludedQueryParametersHelp|e('js') }}';
-        var excludedUserAgentsHelp = '{{ excludedUserAgentsHelp|e('js') }}';
-        var timezoneHelp = '{{ piwik.inlineHelp(timezoneHelpPlain)|e('js') }}';
-        var currencyHelp = '{{ currencyHelpPlain|e('js') }}';
-        var ecommerceHelp = '{{ piwik.inlineHelp(ecommerceHelpPlain)|e('js') }}';
-        var ecommerceEnabled = '{{ 'SitesManager_EnableEcommerce'|translate|e('js') }}';
-        var ecommerceDisabled = '{{ 'SitesManager_NotAnEcommerceSite'|translate|e('js') }}';
-        {% set defaultTimezoneHelp=piwik.inlineHelp(defaultTimezoneHelpPlain) %}
-        {% set searchKeywordHelp=piwik.inlineHelp('SitesManager_SearchKeywordParametersDesc'|translate) %}
-        {% set searchCategoryHelpText %}
+    {% set searchCategoryHelpText %}
         {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryParametersDesc'|translate }}
-        {% endset %}
-        {% set searchCategoryHelp=piwik.inlineHelp(searchCategoryHelpText) %}
-        var sitesearchEnabled = '{{ 'SitesManager_EnableSiteSearch'|translate|e('js') }}';
-        var sitesearchDisabled = '{{ 'SitesManager_DisableSiteSearch'|translate|e('js') }}';
-        var searchKeywordHelp = '{{ searchKeywordHelp|e('js') }}';
-        var searchCategoryHelp = '{{ searchCategoryHelp|e('js') }}';
-        var sitesearchDesc = '{{ 'SitesManager_TrackingSiteSearch'|translate|e('js') }}';
-        var keepURLFragmentSelectHTML = '{{ keepURLFragmentSelectHTML|e('js') }}';
-
-        var sitesManager = new SitesManager({{ timezones|raw }}, {{ currencies|raw }}, '{{ defaultTimezone|raw }}', '{{ defaultCurrency|raw }}');
-        {% set searchKeywordLabel='SitesManager_SearchKeywordLabel'|translate %}
-        {% set searchCategoryLabel='SitesManager_SearchCategoryLabel'|translate %}
-        var searchKeywordLabel = '{{ searchKeywordLabel|e('js') }}';
-        var searchCategoryLabel = '{{ searchCategoryLabel|e('js') }}';
-        {% set sitesearchIntro='SitesManager_SiteSearchUse'|translate %}
-        var sitesearchIntro = '{{ piwik.inlineHelp(sitesearchIntro)|e('js') }}';
-        var sitesearchUseDefault = '{% if isSuperUser %}{{ 'SitesManager_SearchUseDefault'|translate('<a href="#globalSiteSearch">','</a>')|e('js') }}{% else %}{{ 'SitesManager_SearchUseDefault'|translate('','')|e('js') }}{% endif %}';
-        var strDefault = '{{ 'General_Default'|translate|e('js') }}';
-
-        $(function () {
-            sitesManager.init();
-        });
-    </script>
-
-    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/manage-websites/">{{ 'SitesManager_WebsitesManagement'|translate }}</h2>
-    <p>{{ 'SitesManager_MainDescription'|translate }}
-        {{ 'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate("<strong>" ~ adminSitesCount ~ "</strong>")|raw }}
-        {% if isSuperUser %}
-            <br/>
-            {{ 'SitesManager_SuperUserAccessCan'|translate("<a href='#globalSettings'>","</a>")|raw }}
-        {% endif %}
-    </p>
-    {{ ajax.errorDiv() }}
-    {{ ajax.loadingDiv() }}
-
-    {% set createNewWebsite %}
-        <a href="javascript:" class="addRowSite">
-            {{ 'SitesManager_AddSite'|translate }}
-        </a>
     {% endset %}
 
-    {% if adminSites|length == 0 %}
-        {{ 'SitesManager_NoWebsites'|translate }}
-    {% else %}
+    {% set searchCategoryHelp=piwik.inlineHelp(searchCategoryHelpText) %}
 
-        <div class="ui-confirm" id="confirm">
-            <h2></h2>
-            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-        </div>
-        <div class="entityContainer">
-            {% if isSuperUser %}
-                {{ createNewWebsite }}
-            {% endif %}
-            <table class="entityTable dataTable" id="editSites">
-                <thead>
-                <tr>
-                    <th>{{ 'General_Id'|translate }}</th>
-                    <th>{{ 'General_Name'|translate }}</th>
-                    <th>{{ 'SitesManager_Urls'|translate }}</th>
-                    <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
-                    <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"})|raw }}</th>
-                    <th id='exclude-user-agent-header'
-                        {% if not allowSiteSpecificUserAgentExclude %}style="display:none;"{% endif %}>{{ 'SitesManager_ExcludedUserAgents'|translate }}</th>
-                    <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
-                    <th>{{ 'SitesManager_Timezone'|translate }}</th>
-                    <th>{{ 'SitesManager_Currency'|translate }}</th>
-                    <th>{{ 'Goals_Ecommerce'|translate }}</th>
-                    <th></th>
-                    <th></th>
-                    <th>{{ 'General_JsTrackingTag'|translate }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for i,site in adminSites %}
-                    <tr id="row{{ site.idsite }}" data-keep-url-fragments="{{ site.keep_url_fragment }}">
-                        <td id="idSite">{{ site.idsite }}</td>
-                        <td id="siteName" class="editableSite">
-                            {{- site.name|raw -}}
-                        </td>
-                        <td id="urls" class="editableSite">
-                            {%- for url in site.alias_urls -%}
-                                {{- url|trim|replace({'http://': ''})|raw -}}<br />
-                            {%- endfor -%}
-                        </td>
-                        <td id="excludedIps" class="editableSite">
-                            {%- for ip in site.excluded_ips -%}
-                                {{- ip -}}<br/>
-                            {%- endfor -%}
-                        </td>
-                        <td id="excludedQueryParameters" class="editableSite">
-                            {%- for parameter in site.excluded_parameters -%}
-                                {{- parameter|raw -}}<br />
-                            {%- endfor -%}
-                        </td>
-                        <td id="excludedUserAgents" class="editableSite"
-                            {% if not allowSiteSpecificUserAgentExclude %}style="display:none;"{% endif %}>
-                            {%- for ua in site.excluded_user_agents -%}
-                                {{- ua|raw -}}<br />
-                            {%- endfor -%}
-                        </td>
-                        <td id="sitesearch" class="editableSite">
-                            {% if site.sitesearch %}
-                                <span class="sitesearchActive">{{ 'General_Yes'|translate }}</span>
-                            {% else %}
-                                <span class="sitesearchInactive">-</span>
-                            {% endif %}
-                            <span class="sskp" sitesearch_keyword_parameters="{{- site.sitesearch_keyword_parameters -}}"
-                                sitesearch_category_parameters="{{- site.sitesearch_category_parameters -}}"
-                                id="sitesearch_parameters">
-                            </span>
-                        </td>
-                        <td id="timezone" class="editableSite">{{ site.timezone }}</td>
-                        <td id="currency" class="editableSite">{{ site.currency }}</td>
-                        <td id="ecommerce" class="editableSite">
-                            {% if site.ecommerce %}
-                                <span class='ecommerceActive'>{{ 'General_Yes'|translate }}</span>
-                            {% else %}
-                                <span class='ecommerceInactive'>-</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                    <span id="row{{ site.idsite }}" class='editSite link_but'>
-                        <img src='plugins/Zeitgeist/images/ico_edit.png' title="{{ 'General_Edit'|translate }}"
-                             border="0"/>
-                        <span>{{ 'General_Edit'|translate }}</span>
-                    </span>
-                        </td>
-                        <td>
-                    <span id="row{{ site.idsite }}" class="deleteSite link_but">
-                        <img src='plugins/Zeitgeist/images/ico_delete.png' title="{{ 'General_Delete'|translate }}"
-                             border="0"/>
-                        <span>{{ 'General_Delete'|translate }}</span>
-                    </span>
-                        </td>
-                        <td>
-                            <a href='{{ linkTo({'module':'CoreAdminHome','action':'trackingCodeGenerator','idSite':site.idsite,'updated':false }) }}'>
-                                {{ 'SitesManager_ShowTrackingTag'|translate }}
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            {% if isSuperUser %}
-                {{ createNewWebsite }}
-            {% endif %}
-        </div>
-    {% endif %}
+    {% set searchCategoryLabel='SitesManager_SearchCategoryLabel'|translate %}
 
-    {# Admin users use these values for Site Search column, when editing websites #}
-    {% if not isSuperUser %}
-        <input type="hidden" size="15" id="globalSearchKeywordParameters"
-               value="{{ globalSearchKeywordParameters }}"/>
-        <input type="hidden" size="15" id="globalSearchCategoryParameters"
-               value="{{ globalSearchCategoryParameters }}"/>
-    {% endif %}
+    {% set searchKeywordHelp=piwik.inlineHelp('SitesManager_SearchKeywordParametersDesc'|translate) %}
 
-    {% if isSuperUser %}
-        <br/>
+    {% set sitesearchIntro='SitesManager_SiteSearchUse'|translate %}
 
-        <h2 id="globalSettings">{{ 'SitesManager_GlobalWebsitesSettings'|translate }}</h2>
-        <br/>
-        <table style="width:600px;" class="adminTable">
+    {% set searchKeywordLabel='SitesManager_SearchKeywordLabel'|translate %}
 
-            <tr>
-                <td colspan="2">
-                    <strong>{{ 'SitesManager_GlobalListExcludedIps'|translate }}</strong>
+    {% include '@SitesManager/sites-manager-heading.twig' %}
 
-                    <p>{{ 'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate }} </p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <textarea cols="30" rows="3" id="globalExcludedIps">
-                        {{- globalExcludedIps -}}
-                    </textarea>
-                </td>
-                <td>
-                    <label for="globalExcludedIps">{{ excludedIpHelp }}</label>
-                </td>
-            </tr>
+    {% include '@SitesManager/sites-management.twig' %}
 
-            <tr>
-                <td colspan="2">
-                    <strong>{{ 'SitesManager_GlobalListExcludedQueryParameters'|translate }}</strong>
+    {% include '@SitesManager/global-settings.twig' %}
 
-                    <p>{{ 'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites'|translate }} </p>
-                </td>
-            </tr>
+    {% include '@SitesManager/init-script.twig' %}
 
-            <tr>
-                <td>
-                    <textarea cols="30" rows="3" id="globalExcludedQueryParameters">
-                        {{- globalExcludedQueryParameters -}}
-                    </textarea>
-                </td>
-                <td>
-                    <label for="globalExcludedQueryParameters">{{ excludedQueryParametersHelp }}</label>
-                </td>
-            </tr>
-
-            {# global excluded user agents #}
-            <tr>
-                <td colspan="2">
-                    <strong>{{ 'SitesManager_GlobalListExcludedUserAgents'|translate }}</strong>
-
-                    <p>{{ 'SitesManager_GlobalListExcludedUserAgents_Desc'|translate }}</p>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <textarea cols="30" rows="3" id="globalExcludedUserAgents">
-                        {{- globalExcludedUserAgents -}}
-                    </textarea>
-                </td>
-                <td><label for="globalExcludedUserAgents">{{ excludedUserAgentsHelp }}</label>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="checkbox" id="enableSiteUserAgentExclude" name="enableSiteUserAgentExclude"
-                           {% if allowSiteSpecificUserAgentExclude %}checked="checked"{% endif %}/>
-                    <label for="enableSiteUserAgentExclude">
-                        {{ 'SitesManager_EnableSiteSpecificUserAgentExclude'|translate }}
-                    </label>
-            <span id="enableSiteUserAgentExclude-loading" class="loadingPiwik" style="display:none;">
-                <img src="plugins/Zeitgeist/images/loading-blue.gif"/>
-            </span>
-                </td>
-                <td>
-                    {{ piwik.inlineHelp('SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate('<a href="#editSites">','</a>'))|raw }}
-                </td>
-            </tr>
-
-            {# global keep URL fragments #}
-            <tr>
-                <td colspan="2">
-                    <strong>{{ 'SitesManager_KeepURLFragments'|translate }}</strong>
-
-                    <p>{{ 'SitesManager_KeepURLFragmentsHelp'|translate("<em>#</em>","<em>example.org/index.html#first_section</em>","<em>example.org/index.html</em>")|raw }}
-                    </p>
-                    <input type="checkbox" id="globalKeepURLFragments" name="globalKeepURLFragments"
-                           {% if globalKeepURLFragments %}checked="checked"{% endif %}/>
-                    <label for="globalKeepURLFragments">{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</label>
-
-                    <p>{{ 'SitesManager_KeepURLFragmentsHelp2'|translate }}</p>
-                </td>
-            </tr>
-
-            {# global site search #}
-            <tr>
-                <td colspan="2">
-                    <strong id="globalSiteSearch">{{ 'SitesManager_TrackingSiteSearch'|translate }}</strong>
-
-                    <p>{{ sitesearchIntro }}</p>
-            <span class="form-description" style="font-size:8pt;">
-                {{ 'SitesManager_SearchParametersNote'|translate }} {{ 'SitesManager_SearchParametersNote2'|translate }}
-            </span>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <label>{{ searchKeywordLabel }} &nbsp;
-                        <input type="text" size="15" id="globalSearchKeywordParameters"
-                               value="{{ globalSearchKeywordParameters|raw }}"/>
-
-                        <div style='width: 200px;float:right;'>{{ searchKeywordHelp }}</div>
-                    </label>
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2">
-                    {% if not isSearchCategoryTrackingEnabled %}
-                    <input value='globalSearchCategoryParametersIsDisabled' id="globalSearchCategoryParameters"
-                           type='hidden'/>
-                    <span class='form-description'>Note: you could also track your Internal Search Engine Categories, but the plugin Custom Variables is required. Please enable the plugin CustomVariables (or ask your Piwik admin).</span>
-                    {% else %}
-                    {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryDesc'|translate }} <br/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <label>{{ searchCategoryLabel }}  &nbsp;
-                        <input type="text" size="15" id="globalSearchCategoryParameters"
-                               value="{{ globalSearchCategoryParameters|raw }}"/>
-
-                        <div style='width: 200px;float:right;'>{{ searchCategoryHelp }}</div>
-                    </label>
-                    {% endif %}
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2">
-                    <strong>{{ 'SitesManager_DefaultTimezoneForNewWebsites'|translate }}</strong>
-
-                    <p>{{ 'SitesManager_SelectDefaultTimezone'|translate }} </p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id='defaultTimezone'></div>
-                </td>
-                <td>
-                    {{ defaultTimezoneHelp }}
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2">
-                    <strong>{{ 'SitesManager_DefaultCurrencyForNewWebsites'|translate }}</strong>
-
-                    <p>{{ 'SitesManager_SelectDefaultCurrency'|translate }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id='defaultCurrency'></div>
-                </td>
-                <td>
-                    {{ currencyHelpPlain }}
-                </td>
-            </tr>
-        </table>
-        <span style="margin-left:20px;">
-    <input type="submit" class="submit" id='globalSettingsSubmit' value="{{ 'General_Save'|translate }}"/>
-</span>
-        {{ ajax.errorDiv('ajaxErrorGlobalSettings') }}
-        {{ ajax.loadingDiv('ajaxLoadingGlobalSettings') }}
-    {% endif %}
-    {% if showAddSite %}
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.addRowSite:first').trigger('click');
-            });
-        </script>
-    {% endif %}
-
-    <br/><br/><br/><br/>
 {% endblock %}

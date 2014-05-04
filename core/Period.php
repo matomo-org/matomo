@@ -10,10 +10,11 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Period\Day;
+use Piwik\Period\Factory;
 use Piwik\Period\Month;
-use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Period\Range;
 
 /**
  * Date range representation.
@@ -26,16 +27,8 @@ use Piwik\Period\Year;
  * There are five types of periods in Piwik: day, week, month, year and range,
  * where **range** is any date range. The reason the other periods exist instead
  * of just **range** is that Piwik will pre-archive reports for days, weeks, months
- * and years, while every other date range is archived on-demand.
- * 
- * ### Examples
- * 
- * **Building a period from 'date' and 'period' query parameters**
- * 
- *     $date = Common::getRequestVar('date', null, 'string');
- *     $period = Common::getRequestVar('period', null, 'string');
- *     $periodObject = Period::advancedFactory($period, $date);
- * 
+ * and years, while every custom date range is archived on-demand.
+ *
  * @api
  */
 abstract class Period
@@ -69,48 +62,14 @@ abstract class Period
     }
 
     /**
-     * Creates a new Period instance with a period ID and {@link Date} instance.
-     * 
-     * _Note: This method cannot create {@link Period\Range} periods._
-     * 
-     * @param string $strPeriod `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
-     * @param Date|string $date A date within the period or the range of dates.
-     * @throws Exception If `$strPeriod` is invalid.
-     * @return \Piwik\Period
+     * @deprecated Use Factory::build instead
+     * @param $period
+     * @param $date
+     * @return Period
      */
-    static public function factory($strPeriod, $date)
+    public static function factory($period, $date)
     {
-        if (is_string($date)) {
-            if (Period::isMultiplePeriod($date, $strPeriod) || $strPeriod == 'range') {
-                return new Range($strPeriod, $date);
-            }
-
-            $date = Date::factory($date);
-        }
-
-        switch ($strPeriod) {
-            case 'day':
-                return new Day($date);
-                break;
-
-            case 'week':
-                return new Week($date);
-                break;
-
-            case 'month':
-                return new Month($date);
-                break;
-
-            case 'year':
-                return new Year($date);
-                break;
-
-            default:
-                $message = Piwik::translate(
-                    'General_ExceptionInvalidPeriod', array($strPeriod, 'day, week, month, year, range'));
-                throw new Exception($message);
-                break;
-        }
+        return Factory::build($period, $date);
     }
 
     /**
@@ -126,8 +85,8 @@ abstract class Period
      * etc.
      * 
      * @static
-     * @param  $dateString The **date** query parameter value.
-     * @param  $period The **period** query parameter value.
+     * @param  $dateString string The **date** query parameter value.
+     * @param  $period string The **period** query parameter value.
      * @return boolean
      */
     public static function isMultiplePeriod($dateString, $period)
@@ -138,37 +97,6 @@ abstract class Period
             && $period != 'range';
     }
 
-    /**
-     * Creates a Period instance using a period, date and timezone.
-     *
-     * @param string $timezone The timezone of the date. Only used if `$date` is `'now'`, `'today'`,
-     *                         `'yesterday'` or `'yesterdaySameTime'`.
-     * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
-     * @param string $date The date or date range string. Can be a special value including
-     *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
-     * @return \Piwik\Period
-     */
-    public static function makePeriodFromQueryParams($timezone, $period, $date)
-    {
-        if (empty($timezone)) {
-            $timezone = 'UTC';
-        }
-
-        if ($period == 'range') {
-            $oPeriod = new Period\Range('range', $date, $timezone, Date::factory('today', $timezone));
-        } else {
-            if (!($date instanceof Date)) {
-                if ($date == 'now' || $date == 'today') {
-                    $date = date('Y-m-d', Date::factory('now', $timezone)->getTimestamp());
-                } elseif ($date == 'yesterday' || $date == 'yesterdaySameTime') {
-                    $date = date('Y-m-d', Date::factory('now', $timezone)->subDay(1)->getTimestamp());
-                }
-                $date = Date::factory($date);
-            }
-            $oPeriod = Period::factory($period, $date);
-        }
-        return $oPeriod;
-    }
 
     /**
      * Returns the first day of the period.

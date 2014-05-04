@@ -1035,7 +1035,6 @@
         "DatabaseSetupServer": "Databaseserver",
         "DatabaseSetupTablePrefix": "Tabel præfiks",
         "Email": "E-mail",
-        "ErrorInvalidState": "Fejl: Det lader til at du forsøger at springe et skridt af installationen over, eller cookies er slået fra, eller Piwik konfigurationsfil allerede er oprettet. %1$sSørg for, at cookies er aktiveret%2$s og gå tilbage %3$s til den første side i installationen %4$s.",
         "Extension": "udvidelse",
         "Filesystem": "Filsystem",
         "GetInvolved": "Hvis du kan lide hvad du ser, kan du %1$sblive involveret%2$s.",

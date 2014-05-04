@@ -115,6 +115,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
         self.param.filter_offset = 0;
         self.param.filter_sort_column = newColumnToSort;
+
+        if (!self.isDashboard()) {
+            self.notifyWidgetParametersChange(domElem, {
+                filter_sort_column: newColumnToSort
+            });
+        }
+
         self.reloadAjaxDataTable();
     },
 
@@ -229,7 +236,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         ajaxRequest.setFormat('html');
 
         ajaxRequest.send(false);
-
     },
 
     // Function called when the AJAX request is successful
@@ -1079,6 +1085,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // no manipulation when loading subtables
             return;
         }
+
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)) {
             // if there are no subtables, remove the flatten action
@@ -1119,7 +1126,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var generateClickCallback = function (paramName, callbackAfterToggle) {
             return function () {
                 close();
-                self.param[paramName] = 1 - self.param[paramName];
+                self.param[paramName] = (1 - self.param[paramName]) + '';
                 self.param.filter_offset = 0;
                 delete self.param.totalRows;
                 if (callbackAfterToggle) callbackAfterToggle();
@@ -1223,7 +1230,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     notifyWidgetParametersChange: function (domWidget, parameters) {
         var widget = $(domWidget).closest('[widgetId]');
         // trigger setParameters event on base element
-        widget.trigger('setParameters', parameters);
+
+        if (widget && widget.length) {
+            widget.trigger('setParameters', parameters);
+        } else {
+
+            var reportId = $(domWidget).closest('[data-report]').attr('data-report');
+
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams({
+                module: 'CoreHome',
+                action: 'saveViewDataTableParameters',
+                report_id: reportId
+            }, 'get');
+            ajaxRequest.addParams({
+                parameters: JSON.stringify(parameters)
+            }, 'post');
+            ajaxRequest.setCallback(function () {});
+            ajaxRequest.setFormat('html');
+            ajaxRequest.send(false);
+        }
     },
 
     tooltip: function (domElement) {
@@ -1283,10 +1309,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         var self = this;
-        function toggleFooter()
+        function toggleFooter(event)
         {
             var icons = $('.dataTableFooterIcons', domElem);
             $('.dataTableFeatures', domElem).toggleClass('expanded');
+
+            if (event && event.doNotNotifyChange) {
+                return;
+            }
 
             self.notifyWidgetParametersChange(domElem, {
                 isFooterExpandedInDashboard: icons.is(':visible')
@@ -1302,9 +1332,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $('.expandDataTableFooterDrawer', domElem).after(footerIcons);
 
-        var controls = $('.controls', domElem);
-        if (controls.length) {
-            $('.foldDataTableFooterDrawer', domElem).after(controls);
+        var controls   = $('.controls', domElem);
+        var footerWrap = $('.dataTableFooterWrap', domElem);
+        if (controls.length && footerWrap.length) {
+            $('.dataTableFooterWrap', domElem).before(controls);
         }
 
         var loadingPiwikBelow = $('.loadingPiwikBelow', domElem);
@@ -1313,7 +1344,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         if (this.param.isFooterExpandedInDashboard) {
-            toggleFooter();
+            toggleFooter({doNotNotifyChange: true});
         }
 
         $('.foldDataTableFooterDrawer, .expandDataTableFooterDrawer', domElem).on('click', toggleFooter);

@@ -154,9 +154,9 @@ class Process
             return false;
         }
 
-		if(!self::isProcFSMounted()) {
-			return false;
-		}
+        if(!self::isProcFSMounted()) {
+            return false;
+        }
 
         if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
             return true;
@@ -197,7 +197,12 @@ class Process
         return !empty($result);
     }
 
-	private static function isProcFSMounted() {
-		return is_resource(@fopen('/proc', 'r'));
-	}
+    /**
+     * ps -e requires /proc
+     * @return bool
+     */
+    private static function isProcFSMounted() 
+    {
+        return is_resource(@fopen('/proc', 'r'));
+    }
 }
