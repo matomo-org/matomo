@@ -77,6 +77,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     function welcome($message = false)
     {
+        debug_print_backtrace();
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
 
