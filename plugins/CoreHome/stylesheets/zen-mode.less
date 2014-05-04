@@ -1,8 +1,16 @@
 
-#content:not(.admin) {
+#content:not(.admin), .widget {
 
   .UserCountryMap .dataTableFooterIcons {
     display: block;
+  }
+
+  .widget {
+    border-color: @silver-85;
+
+    .widgetTop {
+      border-color: @silver-85;
+    }
   }
 
   /* DATATABLES */
@@ -25,14 +33,6 @@
     tr td {
       padding-top: 7px;
       padding-bottom: 7px;
-    }
-  }
-
-  .widget {
-    border-color: @silver-85;
-
-    .widgetTop {
-      border-color: @silver-85;
     }
   }
 
