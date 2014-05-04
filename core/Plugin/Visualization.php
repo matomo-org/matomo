@@ -572,6 +572,10 @@ class Visualization extends ViewDataTable
             // this here might be ok as it can be changed after data loaded but before filters applied
             unset($diff['filter_sort_column']);
         }
+        if (!empty($diff['filter_sort_order'])) {
+            // this here might be ok as it can be changed after data loaded but before filters applied
+            unset($diff['filter_sort_order']);
+        }
 
         if (empty($diff)) {
             return;
