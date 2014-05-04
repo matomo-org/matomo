@@ -4,15 +4,14 @@
  * Used by tests/PHPUnit/Integration/ImportLogsTest.php and tests/PHPUnit/Integration/UITest.php
  */
 
+use Piwik\Tracker\Cache;
+
 require realpath(dirname(__FILE__)) . "/includes.php";
 
 Piwik_TestingEnvironment::addHooks();
 
-if (\Piwik\DbHelper::isInstalled()) {
+if (empty($_GET['ignoreClearAllViewDataTableParameters'])) {
     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
-} else {
-    // Not installed yet, display backtrace when error
-    define('PIWIK_PRINT_ERROR_BACKTRACE', true);
 }
 
 \Piwik\Profiler::setupProfilerXHProf();
