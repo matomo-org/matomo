@@ -4,14 +4,14 @@
  * Used by tests/PHPUnit/Integration/ImportLogsTest.php and tests/PHPUnit/Integration/UITest.php
  */
 
-use Piwik\Tracker\Cache;
-
 require realpath(dirname(__FILE__)) . "/includes.php";
 
 Piwik_TestingEnvironment::addHooks();
 
-if (\Piwik\SettingsPiwik::isPiwikInstalled()) {
+try {
     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+} catch(Exception $e) {
+    // eg. Piwik not installed yet
 }
 
 \Piwik\Profiler::setupProfilerXHProf();
