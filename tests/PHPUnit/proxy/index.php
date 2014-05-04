@@ -10,7 +10,7 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 
 Piwik_TestingEnvironment::addHooks();
 
-if (empty($_GET['ignoreClearAllViewDataTableParameters'])) {
+if (\Piwik\SettingsPiwik::isPiwikInstalled()) {
     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
 }
 
