@@ -1358,11 +1358,9 @@ class Recorder(object):
                 dates=','.join(dates),
                 idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
             )
-            print('To re-process these reports with your new update data, execute the '
-                  '`piwik/console core:archive` script, or see: http://piwik.org/setup-auto-archiving/ '
-                  'for more info.')
-
-
+            print('To re-process these reports with your new update data, execute the following command: \n '
+                  '`piwik/console core:archive --url=http://example/piwik/`\n'
+                  'Reference: http://piwik.org/docs/setup-auto-archiving/ ')
 
 
 class Hit(object):
