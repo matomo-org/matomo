@@ -1130,7 +1130,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var generateClickCallback = function (paramName, callbackAfterToggle) {
             return function () {
                 close();
-                self.param[paramName] = 1 - self.param[paramName];
+                self.param[paramName] = (1 - self.param[paramName]) + '';
                 self.param.filter_offset = 0;
                 delete self.param.totalRows;
                 if (callbackAfterToggle) callbackAfterToggle();
