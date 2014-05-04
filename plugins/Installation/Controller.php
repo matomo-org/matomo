@@ -86,7 +86,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             __FUNCTION__
         );
 
-        $view->newInstall = !$this->isFinishedInstallation();
+        $view->newInstall = !SettingsPiwik::isPiwikInstalled();
         $view->errorMessage = $message;
         $view->showNextStep = $view->newInstall;
         return $view->render();
@@ -343,6 +343,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
+        $this->markInstallationAsCompleted();
+
         $view = new View(
             '@Installation/trackingCode',
             $this->getInstallationSteps(),
@@ -378,10 +380,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $this->getInstallationSteps(),
             __FUNCTION__
         );
-
-        if (!$this->isFinishedInstallation()) {
-            $this->markInstallationAsCompleted();
-        }
 
         $view->showNextStep = false;
         $output = $view->render();
@@ -505,7 +503,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function checkPiwikIsNotInstalled()
     {
-        if(!$this->isFinishedInstallation()) {
+        if(!SettingsPiwik::isPiwikInstalled()) {
             return;
         }
         \Piwik\Plugins\Login\Controller::clearSession();
@@ -632,22 +630,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->initObjectsToCallAPI();
         $api->setSuperUserAccess($login, true);
-    }
-
-    private function isFinishedInstallation()
-    {
-        if (!SettingsPiwik::isPiwikInstalled()) {
-            return false;
-        }
-
-        $general = Config::getInstance()->General;
-
-        $isInstallationInProgress = false;
-        if (array_key_exists('installation_in_progress', $general)) {
-            $isInstallationInProgress = (bool) $general['installation_in_progress'];
-        }
-
-        return !$isInstallationInProgress;
     }
 
     private function hasEnoughTablesToReuseDb($tablesInstalled)

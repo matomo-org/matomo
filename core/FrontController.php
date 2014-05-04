@@ -270,10 +270,6 @@ class FrontController extends Singleton
 
             $exceptionToThrow = self::createConfigObject();
 
-            if (Session::isFileBasedSessions()) {
-                Session::start();
-            }
-
             $this->handleMaintenanceMode();
             $this->handleProfiler();
             $this->handleSSLRedirection();
@@ -387,7 +383,7 @@ class FrontController extends Singleton
             $action = Common::getRequestVar('action', false);
         }
 
-        if (!Session::isFileBasedSessions()
+        if (SettingsPiwik::isPiwikInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
             Session::start();

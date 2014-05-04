@@ -195,7 +195,18 @@ class SettingsPiwik
         $exists = file_exists($config);
 
         // Piwik is installed if the config file is found
-        return $exists;
+        if(!$exists) {
+            return false;
+        }
+
+        $general = Config::getInstance()->General;
+
+        $isInstallationInProgress = false;
+        if (array_key_exists('installation_in_progress', $general)) {
+            $isInstallationInProgress = (bool) $general['installation_in_progress'];
+        }
+        return !$isInstallationInProgress;
+
     }
 
     /**
