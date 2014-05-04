@@ -25,7 +25,6 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
@@ -46,7 +45,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         'systemCheck'       => 'Installation_SystemCheck',
         'databaseSetup'     => 'Installation_DatabaseSetup',
         'tablesCreation'    => 'Installation_Tables',
-        'generalSetup'      => 'Installation_SuperUser',
+        'setupSuperUser'    => 'Installation_SuperUser',
         'firstWebsiteSetup' => 'Installation_SetupWebsite',
         'trackingCode'      => 'General_JsTrackingTag',
         'finished'          => 'Installation_Congratulations',
@@ -251,17 +250,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 5: General Set-up (superuser login/password/email and subscriptions)
      */
-    function generalSetup()
+    function setupSuperUser()
     {
         $this->checkPiwikIsNotInstalled();
 
+        $this->initObjectsToCallAPI();
+        if(count(APIUsersManager::getInstance()->getUsersHavingSuperUserAccess()) > 0) {
+            $this->redirectToNextStep('setupSuperUser');
+        }
+
         $view = new View(
-            '@Installation/generalSetup',
+            '@Installation/setupSuperUser',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
 
-        $form = new FormGeneralSetup();
+        $form = new FormSuperUser();
 
         if ($form->validate()) {
 
@@ -295,7 +299,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->initObjectsToCallAPI();
 
-        if(count(API::getInstance()->getAllSitesId()) > 0) {
+        if(count(APISitesManager::getInstance()->getAllSitesId()) > 0) {
             // if there is a already a website, skip this step and trackingCode step
             $this->redirectToNextStep('trackingCode');
         }
