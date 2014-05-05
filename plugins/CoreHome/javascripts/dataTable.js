@@ -1336,9 +1336,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $('.expandDataTableFooterDrawer', domElem).after(footerIcons);
 
-        var controls = $('.controls', domElem);
-        if (controls.length) {
-            $('.foldDataTableFooterDrawer', domElem).after(controls);
+        var controls   = $('.controls', domElem);
+        var footerWrap = $('.dataTableFooterWrap', domElem);
+        if (controls.length && footerWrap.length) {
+            $('.dataTableFooterWrap', domElem).before(controls);
         }
 
         var loadingPiwikBelow = $('.loadingPiwikBelow', domElem);
