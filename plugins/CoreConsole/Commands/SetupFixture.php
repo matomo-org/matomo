@@ -109,7 +109,9 @@ class SetupFixture extends ConsoleCommand
             $fixture->resetPersistedFixture = true;
         }
 
-        Config::getInstance()->setTestEnvironment();
+        if($fixture->createConfig) {
+            Config::getInstance()->setTestEnvironment();
+        }
         $fixture->createConfig = false;
 
         // setup database overrides
