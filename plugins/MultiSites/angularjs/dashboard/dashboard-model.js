@@ -72,7 +72,11 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     {
         angular.forEach(groups, function (group) {
             angular.forEach(group.sites, function (site) {
-                var revenue = (site.revenue+'').match(/(\d+\.?\d*)/); // convert $ 0.00 to 0.00 or 5€ to 5
+                var revenue = 0;
+                if (site.revenue) {
+                    revenue = (site.revenue+'').match(/(\d+\.?\d*)/); // convert $ 0.00 to 0.00 or 5€ to 5
+                }
+                
                 group.nb_visits    += parseInt(site.nb_visits, 10);
                 group.nb_pageviews += parseInt(site.nb_pageviews, 10);
                 if (revenue.length) {
