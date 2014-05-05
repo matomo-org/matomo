@@ -205,7 +205,15 @@ class SettingsPiwik
         if (array_key_exists('installation_in_progress', $general)) {
             $isInstallationInProgress = (bool) $general['installation_in_progress'];
         }
-        return !$isInstallationInProgress;
+        if($isInstallationInProgress) {
+            return false;
+        }
+
+        // Check that the database section is really set, ie. file is not empty
+        if(empty(Config::getInstance()->database['username'])) {
+            return false;
+        }
+        return true;
 
     }
 

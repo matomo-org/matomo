@@ -74,12 +74,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      * Installation Step 1: Welcome
+     *
+     * Can also display an error message when there is a failure early (eg. DB connection failed)
+     *
+     * @param string Optional error message
      */
     function welcome($message = false)
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
 
+        if(empty($message)) {
+            $this->checkPiwikIsNotInstalled();
+        }
         $view = new View(
             '@Installation/welcome',
             $this->getInstallationSteps(),
