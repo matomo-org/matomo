@@ -146,6 +146,6 @@ class Session extends Zend_Session
 
     public static function close()
     {
-        parent::writeClose($readonly);
+        parent::writeClose();
     }
 }
