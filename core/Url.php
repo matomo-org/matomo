@@ -463,6 +463,8 @@ class Url
         if (UrlHelper::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {
+        	/* PHP-5.5: Close Session */
+        	Session::writeClose();
             @header("Location: $url");
         } else {
             echo "Invalid URL to redirect to.";

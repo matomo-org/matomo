@@ -37,6 +37,8 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
+/* PHP-5.5 */
+use Piwik\Session;
 
 /**
  * Base class of all plugin Controllers.
@@ -777,6 +779,9 @@ abstract class Controller
                 . "&period=" . $defaultPeriod
                 . "&date=" . $defaultDate
                 . $parametersString;
+
+            /* PHP-5.5: Close Session */
+            Session::writeClose();
             header($url);
             exit;
         }

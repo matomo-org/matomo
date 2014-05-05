@@ -78,6 +78,9 @@ class Auth implements \Piwik\Auth
     {
         $tokenAuth = API::getInstance()->getTokenAuth($login, $md5Password);
 
+        /* PHP-5.5: Regenerate Session before Cookie is created to keep session */
+        @Session::regenerateId();
+        
         $this->setLogin($login);
         $this->setTokenAuth($tokenAuth);
         $authResult = $this->authenticate();
@@ -97,7 +100,8 @@ class Auth implements \Piwik\Auth
         $cookie->setHttpOnly(true);
         $cookie->save();
 
-        @Session::regenerateId();
+        /* PHP-5-5: Do not regenerate Session here, cookie looses session */
+        /* @Session::regenerateId(); */
 
         // remove password reset entry if it exists
         Login::removePasswordResetInfo($login);
