@@ -124,9 +124,7 @@ class Controller extends \Piwik\Plugin\Controller
     function logme()
     {
         $password = Common::getRequestVar('password', null, 'string');
-        if (strlen($password) != 32) {
-            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
-        }
+        $this->checkPasswordHash($password);
 
         $login = Common::getRequestVar('login', null, 'string');
         if (Piwik::hasTheUserSuperUserAccess($login)) {
@@ -339,12 +337,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private function setNewUserPassword($user, $passwordHash)
     {
-        if (strlen($passwordHash) !== 32) // sanity check
-        {
-            throw new Exception(
-                "setNewUserPassword called w/ incorrect password hash. Something has gone terribly wrong.");
-        }
-
+        $this->checkPasswordHash($passwordHash);
         API::getInstance()->updateUser(
             $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
     }
@@ -457,6 +450,17 @@ class Controller extends \Piwik\Plugin\Controller
             Piwik::redirectToModule('CoreHome');
         } else {
             Url::redirectToUrl($logoutUrl);
+        }
+    }
+
+    /**
+     * @param $password
+     * @throws \Exception
+     */
+    protected function checkPasswordHash($password)
+    {
+        if (strlen($password) != 32) {
+            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
         }
     }
 }
