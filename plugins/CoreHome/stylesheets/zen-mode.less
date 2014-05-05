@@ -1,4 +1,3 @@
-
 #content:not(.admin), .widget {
 
   .UserCountryMap .dataTableFooterIcons {
@@ -71,10 +70,6 @@
     transition: all 300ms ease;
   }
 
-  &> div:not(#dashboard) .dataTableFeatures .expandDataTableFooterDrawer {
-    margin-bottom: -20px;
-  }
-
   .dataTableFeatures:hover .foldDataTableFooterDrawer,
   .dataTableFeatures:hover .expandDataTableFooterDrawer {
     opacity: 1 !important;
@@ -109,4 +104,10 @@
     margin-left: 13px;
   }
 
+}
+
+#content:not(.admin){
+  &> div:not(#dashboard) .dataTableFeatures .expandDataTableFooterDrawer {
+    margin-bottom: -20px;
+  }
 }
