@@ -106,6 +106,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
+        $this->deleteConfigFileIfNeeded();
+
         $view = new View(
             '@Installation/systemCheck',
             $this->getInstallationSteps(),
@@ -154,7 +156,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 Db::get()->checkClientVersion();
 
-                $this->deleteConfigFileIfNeeded();
                 $this->createConfigFile($dbInfos);
 
                 $this->redirectToNextStep(__FUNCTION__);
@@ -208,7 +209,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
 
+            $this->updateComponents();
+
             Updater::recordComponentSuccessfullyUpdated('core', Version::VERSION);
+
             $view->tablesCreated = true;
             $view->showNextStep = true;
         }
@@ -229,19 +233,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tablesCreation'
         );
 
-        Access::getInstance();
-        Piwik::setUserHasSuperUserAccess();
-
-        $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
-
-        if (empty($componentsWithUpdateFile)) {
-            return $this->redirectToNextStep('tablesCreation');
+        $result = $this->updateComponents();
+        if($result === false) {
+            $this->redirectToNextStep('tablesCreation');
         }
 
         $oldVersion = Option::get('version_core');
-
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
 
         $view->coreError       = $result['coreError'];
         $view->warningMessages = $result['warnings'];
@@ -691,6 +688,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // e.g., disable_functions = fsockopen; allow_url_open = Off
             }
         }
+    }
+
+    /**
+     * @return array|bool
+     */
+    protected function updateComponents()
+    {
+        Access::getInstance();
+        Piwik::setUserHasSuperUserAccess();
+
+        $updater = new Updater();
+        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+
+        if (empty($componentsWithUpdateFile)) {
+            return false;
+        }
+        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        return $result;
     }
 
 }
