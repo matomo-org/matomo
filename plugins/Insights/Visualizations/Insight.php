@@ -116,6 +116,11 @@ class Insight extends Visualization
             return false;
         }
 
+        if ($view->requestConfig->apiMethodToRequestDataTable 
+            && 0 === strpos($view->requestConfig->apiMethodToRequestDataTable, 'DBStats')) {
+            return false;
+        }
+
         return parent::canDisplayViewDataTable($view);
     }
 }
