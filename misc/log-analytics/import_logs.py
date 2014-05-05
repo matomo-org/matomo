@@ -1282,6 +1282,7 @@ class Recorder(object):
         if config.options.replay_tracking:
             # prevent request to be force recorded when option replay-tracking
             args['rec'] = '0'
+
         args.update(hit.args)
 
         if hit.is_download:
@@ -1294,15 +1295,16 @@ class Recorder(object):
             else:
                 args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
 
-        args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
+        # do not overwrite custom variables if it's already set (eg. when replaying ecommerce logs)
+        if not args['cvar']:
+            args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
+
         if hit.is_error or hit.is_redirect:
 			args['action_name'] = '%s/URL = %s%s' % (
 				hit.status,
 				urllib.quote(args['url'], ''),
 				("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
 			)
-        else:
-			args['action_name'] = urllib.quote(args['url'], '')
 
         if hit.generation_time_milli > 0:
             args['gt_ms'] = hit.generation_time_milli

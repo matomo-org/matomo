@@ -255,7 +255,7 @@ abstract class Action
                                                                Tracker\Action::TYPE_SITE_SEARCH
                                                          ))
             ? (int)$this->getIdActionName()
-            : null;
+            : 0;
 
         $visitAction = array(
             'idvisit'               => $idVisit,
