@@ -655,11 +655,20 @@ class ProcessedReport
             $enhancedRow = new Row();
             $enhancedDataTable->addRow($enhancedRow);
             $rowMetrics = $row->getColumns();
+
             foreach ($rowMetrics as $columnName => $columnValue) {
                 // filter metrics according to metadata definition
                 if (isset($metadataColumns[$columnName])) {
                     // generate 'human readable' metric values
-                    $prettyValue = MetricsFormatter::getPrettyValue($idSite, $columnName, $columnValue, $htmlAllowed = false);
+
+                    // if we handle MultiSites.getAll we do not always have the same idSite but different ones for
+                    // each site, see http://dev.piwik.org/trac/ticket/5006
+                    $idSiteForRow = $idSite;
+                    if ($row->getMetadata('idsite') && is_numeric($row->getMetadata('idsite'))) {
+                        $idSiteForRow = (int) $row->getMetadata('idsite');
+                    }
+
+                    $prettyValue = MetricsFormatter::getPrettyValue($idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
                 elseif ($returnRawMetrics) {
