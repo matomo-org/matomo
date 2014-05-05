@@ -94,9 +94,9 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
             site.group    = reportMetadata[index].group;
             site.main_url = reportMetadata[index].main_url;
             // casting evolution to int fixes sorting, see: http://dev.piwik.org/trac/ticket/4885
-            site.visits_evolution    = parseInt(site.visits_evolution);
-            site.pageviews_evolution = parseInt(site.pageviews_evolution);
-            site.revenue_evolution   = parseInt(site.revenue_evolution);
+            site.visits_evolution    = parseInt(site.visits_evolution, 10);
+            site.pageviews_evolution = parseInt(site.pageviews_evolution, 10);
+            site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
 
             if (site.group) {
 
