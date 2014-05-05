@@ -226,7 +226,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $url = "https://www.paypal.com/cgi-bin/webscr?" . Url::getQueryStringFromParameters($parameters);
 
-        header("Location: $url");
+        Url::redirectToUrl($url);
         exit;
     }
 

@@ -109,7 +109,7 @@ class Session extends Zend_Session
         }
 
         try {
-            Zend_Session::start();
+            parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
             Log::warning('Unable to start session: ' . $e->getMessage());
@@ -142,5 +142,10 @@ class Session extends Zend_Session
     {
         $path = PIWIK_USER_PATH . '/tmp/sessions';
         return SettingsPiwik::rewriteTmpPathWithHostname($path);
+    }
+
+    public static function close()
+    {
+        parent::writeClose($readonly);
     }
 }

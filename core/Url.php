@@ -460,6 +460,11 @@ class Url
      */
     static public function redirectToUrl($url)
     {
+        // Close the session manually.
+        // We should not have to call this because it was registered via register_shutdown_function,
+        // but it is not always called fast enough
+        Session::close();
+
         if (UrlHelper::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {

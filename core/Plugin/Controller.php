@@ -771,13 +771,13 @@ abstract class Controller
         }
 
         if ($websiteId) {
-            $url = "Location: index.php?module=" . $moduleToRedirect
+            $url = "index.php?module=" . $moduleToRedirect
                 . "&action=" . $actionToRedirect
                 . "&idSite=" . $websiteId
                 . "&period=" . $defaultPeriod
                 . "&date=" . $defaultDate
                 . $parametersString;
-            header($url);
+            Url::redirectToUrl($url);
             exit;
         }
 
