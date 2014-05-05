@@ -971,6 +971,12 @@
 				<pageIdAction>41</pageIdAction>
 				
 				<pageId>37</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.15s</generationTime>
 				<icon />
 			</row>
