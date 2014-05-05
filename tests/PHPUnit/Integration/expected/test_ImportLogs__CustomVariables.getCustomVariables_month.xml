@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>HTTP-code</label>
-		<nb_actions>30</nb_actions>
+		<nb_actions>29</nb_actions>
 		<subtable>
 			<row>
 				<label>200</label>
-				<nb_visits>24</nb_visits>
-				<nb_actions>26</nb_actions>
-				<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
+				<nb_visits>23</nb_visits>
+				<nb_actions>25</nb_actions>
+				<sum_daily_nb_uniq_visitors>23</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
 				<label>301</label>

@@ -1296,7 +1296,7 @@ class Recorder(object):
                 args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
 
         # do not overwrite custom variables if it's already set (eg. when replaying ecommerce logs)
-        if not args['cvar']:
+        if 'cvar' not in args:
             args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
 
         if hit.is_error or hit.is_redirect:
