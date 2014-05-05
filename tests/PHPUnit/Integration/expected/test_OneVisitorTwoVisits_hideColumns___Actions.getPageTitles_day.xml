@@ -34,6 +34,14 @@
 		<exit_rate>100%</exit_rate>
 	</row>
 	<row>
+		<label>Page Name not defined</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<min_time_generation />
+		<max_time_generation />
+		<avg_time_on_page>0</avg_time_on_page>
+		<exit_rate>0%</exit_rate>
+	</row>
+	<row>
 		<label> Second page view - should be registered as URL</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<min_time_generation>0.224</min_time_generation>

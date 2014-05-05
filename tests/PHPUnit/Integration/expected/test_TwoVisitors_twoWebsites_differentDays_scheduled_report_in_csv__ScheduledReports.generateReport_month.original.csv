@@ -155,9 +155,9 @@ label,nb_visits,exit_nb_visits,exit_rate
 Page titles
 label,nb_visits,nb_hits,avg_time_on_page,bounce_rate,exit_rate,avg_time_generation
 second visitor,16,16,00:07:30,0%,0%,0.25s
+Page Name not defined,9,17,00:00:00,0%,0%,0.22s
 Checkout,8,8,00:00:00,0%,100%,0.45s
  first page view,2,2,00:00:00,100%,50%,0.14s
-Page Name not defined,1,1,00:00:00,0%,0%,0.22s
 
 Entry page titles
 label,entry_nb_visits,entry_bounce_count,bounce_rate

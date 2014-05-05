@@ -38,6 +38,10 @@
 			<exit_rate>100%</exit_rate>
 		</row>
 		<row>
+			<label>Page Name not defined</label>
+			<exit_rate>0%</exit_rate>
+		</row>
+		<row>
 			<label> Second page view - should be registered as URL</label>
 			<exit_rate>0%</exit_rate>
 		</row>
