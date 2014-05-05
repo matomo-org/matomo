@@ -119,7 +119,7 @@ class Piwik_TestingEnvironment
 
                 if ($testingEnvironment->configFileLocal) {
                     unset($cache['General']);
-                    $config->General['session_save_handler'] = 'dbtables';
+                    $config->General['session_save_handler'] = 'dbtable';
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();

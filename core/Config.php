@@ -165,7 +165,7 @@ class Config extends Singleton
         } else {
             $configArray = &$this->configLocal;
         }
-        $configArray['General']['session_save_handler'] = 'dbtables';
+        $configArray['General']['session_save_handler'] = 'dbtable';
     }
 
     /**

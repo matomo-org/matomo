@@ -129,7 +129,7 @@ class Session extends Zend_Session
                 $e->getMessage()
             );
 
-            Piwik_ExitWithMessage($message);
+            Piwik_ExitWithMessage($message, $e->getTraceAsString());
         }
     }
 
