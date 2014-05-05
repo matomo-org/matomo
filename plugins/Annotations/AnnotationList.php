@@ -133,7 +133,7 @@ class AnnotationList
 
         $annotation =& $this->annotations[$idSite][$idNote];
         if ($date !== null) {
-            $annotation['date'] = $date;
+            $annotation['date'] = Date::factory($date)->toString('Y-m-d');
         }
         if ($note !== null) {
             $annotation['note'] = $note;
