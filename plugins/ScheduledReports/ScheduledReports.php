@@ -531,15 +531,21 @@ class ScheduledReports extends \Piwik\Plugin
             return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
         }
 
-        $reports = API::getInstance()->getReports();
-        $reportCount = count($reports);
+        try {
+            $reports = API::getInstance()->getReports();
+            $reportCount = count($reports);
 
-        // if there are no reports and the mobile account is
-        //  not configured, display 'Email reports'
-        //  configured, display 'Email & SMS reports'
-        if ($reportCount == 0)
-            return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
-                self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+            // if there are no reports and the mobile account is
+            //  - not configured: display 'Email reports'
+            //  - configured: display 'Email & SMS reports'
+            if ($reportCount == 0) {
+                return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
+                    self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+            }
+        } catch(\Exception $e) {
+            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+        }
+
 
         $anyMobileReport = false;
         foreach ($reports as $report) {
