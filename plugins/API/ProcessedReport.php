@@ -404,8 +404,13 @@ class ProcessedReport
                                                        'format'     => 'original',
                                                        'serialize'  => '0',
                                                        'language'   => $language,
-                                                       'idSubtable' => $idSubtable,
+                                                       'idSubtable' => $idSubtable
                                                   ));
+
+        if (isset($reportMetadata['processedMetrics'])) {
+            $parameters['filter_add_columns_when_show_all_columns'] = '1';
+        }
+
         if (!empty($segment)) $parameters['segment'] = $segment;
 
         $url = Url::getQueryStringFromParameters($parameters);
@@ -418,6 +423,7 @@ class ProcessedReport
         }
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
+
         foreach ($columns as $columnId => &$name) {
             $name = ucfirst($name);
         }
@@ -486,11 +492,6 @@ class ProcessedReport
                         $columns[$goalMetricId] = $reportMetadata['metricsGoal'][$goalMetricId];
                     }
                 }
-            }
-
-            if (isset($reportMetadata['processedMetrics'])) {
-                // Add processed metrics
-                $dataTable->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
             }
         }
 
