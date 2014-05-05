@@ -8,14 +8,6 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 
 Piwik_TestingEnvironment::addHooks();
 
-if( !empty($_GET['testWelcome'])) {
-    $config = \Piwik\Config::getInstance();
-    if($config->existsLocalConfig()) {
-        $config->deleteLocalConfig();
-        $config->clear();
-    }
-}
-
 if (empty($_GET['ignoreClearAllViewDataTableParameters'])) {
     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
 }
