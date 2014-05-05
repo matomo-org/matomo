@@ -68,6 +68,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->setGeneralVariablesView($view);
 
+        $view->siteName = Piwik::translate('General_AllWebsitesDashboard');
+
         return $view->render();
     }
 
