@@ -407,6 +407,10 @@ class UserSettings extends \Piwik\Plugin
                 $report['documentation'] = $translated;
             }
 
+            if ($apiAction == 'getMobileVsDesktop') {
+                $report['constantRowsCount'] = true;
+            }
+
             // getPlugin returns only a subset of metrics
             if ($apiAction == 'getPlugin') {
                 $report['metrics'] = array(
