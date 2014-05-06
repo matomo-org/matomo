@@ -64,7 +64,6 @@ class CronArchive
     private $idSitesInvalidatedOldReports = array();
     private $shouldArchiveSpecifiedSites = array();
     private $shouldSkipSpecifiedSites = array();
-
     /**
      * @var SharedSiteIds|FixedSiteIds
      */
@@ -83,6 +82,8 @@ class CronArchive
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
     private $isCoreInited = false;
+
+    const NO_ERROR = "no error";
 
     public $testmode = false;
 
@@ -250,7 +251,7 @@ class CronArchive
             $this->visitsToday . " vtoday, $this->websitesWithVisitsSinceLastRun wtoday, {$this->archivedPeriodsArchivesWebsite} wperiods, " .
             $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
             (empty($this->errors)
-                ? "no error"
+                ? self::NO_ERROR
                 : (count($this->errors) . " errors. eg. '" . reset($this->errors) . "'"))
         );
         $this->log($timer->__toString());
