@@ -504,9 +504,9 @@ tracker_cache_file_ttl = 300
 ; Whether Bulk tracking requests to the Tracking API requires the token_auth to be set.
 bulk_requests_require_authentication = 0
 
+; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
 ; All Visits with a Referrer URL host set to one of these will be excluded.
-; If you find new spam entries in Referrers>Websites, please report them here: http://dev.piwik.org/trac/ticket/2268
-; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field:
+; If you find new spam entries in Referrers>Websites, please report them here: http://dev.piwik.org/trac/ticket/5099
 referrer_urls_spam = "semalt.com"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
