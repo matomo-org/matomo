@@ -251,6 +251,7 @@ a.rowevolution-startmulti:hover {
 
 .jqplot-seriespicker-popover input.select {
     margin-right: 8px;
+    min-height: 5px;
 }
 
 .jqplot-seriespicker-popover p.pickColumn,
