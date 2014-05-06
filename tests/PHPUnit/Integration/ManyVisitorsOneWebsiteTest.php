@@ -66,6 +66,29 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
                                                   'testSuffix' => '_segment_continent',
                                                   'segment'    => 'continentCode==eur')),
 
+            // make sure it is possible to sort getProcessedReport by a processed metric
+            array('API.getProcessedReport', array('idSite'                 => $idSite,
+                                                  'date'                   => $dateTime,
+                                                  'periods'                => 'day',
+                                                  'apiModule'              => 'Actions',
+                                                  'apiAction'              => 'getPageUrls',
+                                                  'testSuffix'             => '_sortByProcessedMetric',
+                                                  'otherRequestParameters' => array(
+                                                      'filter_sort_column' => 'nb_actions_per_visit'
+                                                  ))),
+
+            // make sure it is possible to sort getProcessedReport by a processed metric
+            // it should not remove empty rows if report has constant rows count
+            array('API.getProcessedReport', array('idSite'                 => $idSite,
+                                                  'date'                   => $dateTime,
+                                                  'periods'                => 'day',
+                                                  'apiModule'              => 'VisitTime',
+                                                  'apiAction'              => 'getVisitInformationPerServerTime',
+                                                  'testSuffix'             => '_sortByProcessedMetric_constantRowsCountShouldKeepEmptyRows',
+                                                  'otherRequestParameters' => array(
+                                                      'filter_sort_column' => 'nb_actions_per_visit'
+                                                  ))),
+
             array(array('UserCountry.getLocationFromIP', 'Live.getLastVisitsDetails'), array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateTime,
