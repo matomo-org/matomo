@@ -145,8 +145,10 @@ class API extends \Piwik\Plugin\API
             $countVisitorsToFetch = $filter_limit + $filter_offset;
         }
 
+        $filterSortOrder = Common::getRequestVar('filter_sort_order', false, 'string');
+
         Piwik::checkUserHasViewAccess($idSite);
-        $dataTable = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId = false, $minTimestamp);
+        $dataTable = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId = false, $minTimestamp, $filterSortOrder);
         $this->addFilterToCleanVisitors($dataTable, $idSite, $flat, $doNotFetchActions);
 
         return $dataTable;
@@ -576,7 +578,7 @@ class API extends \Piwik\Plugin\API
         });
     }
 
-    private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $countVisitorsToFetch = 100, $visitorId = false, $minTimestamp = false)
+    private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $countVisitorsToFetch = 100, $visitorId = false, $minTimestamp = false, $filterSortOrder = false)
     {
         $where = $whereBind = array();
 
@@ -585,8 +587,13 @@ class API extends \Piwik\Plugin\API
         $where[] = $whereClause;
         $whereBind = $idSites;
 
-        $orderBy = "idsite, visit_last_action_time DESC";
-        $orderByParent = "sub.visit_last_action_time DESC";
+        if (strtolower($filterSortOrder) !== 'asc') {
+            $filterSortOrder = 'DESC';
+        }
+
+        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
+        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
+
         if (!empty($visitorId)) {
             $where[] = "log_visit.idvisitor = ? ";
             $whereBind[] = @Common::hex2bin($visitorId);

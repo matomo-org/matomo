@@ -8,6 +8,7 @@
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
+use Piwik\Date;
 /**
  * Tests w/ 14 visitors w/ 2 visits each.
  * Uses geoip location provider to test city/region reports.
@@ -32,6 +33,8 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
     {
         $idSite = self::$fixture->idSite;
         $dateTime = self::$fixture->dateTime;
+
+        $dateString = Date::factory($dateTime)->toString();
 
         // Note: we must set  'UserCountry.getLocationFromIP' since it's "excluded" by default in setApiNotToCall
         $apiToCall = array('UserCountry');
@@ -94,6 +97,22 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
                 'date'                   => $dateTime,
                 'periods'                => array('month'),
                 'otherRequestParameters' => array('ip' => '194.57.91.215')
+            )),
+
+            array('Live.getLastVisitsDetails', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateString,
+                'periods'                => 'month',
+                'testSuffix'             => '_Live.getLastVisitsDetails_sortAsc',
+                'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_limit' => 7)
+            )),
+
+            array('Live.getLastVisitsDetails', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateString,
+                'periods'                => 'month',
+                'testSuffix'             => '_Live.getLastVisitsDetails_sortDesc',
+                'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_limit' => 7)
             )),
         );
     }
