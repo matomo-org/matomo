@@ -140,7 +140,7 @@ class CronArchive
         } else {
             $this->websites = new SharedSiteIds($websitesIds);
             if ($this->websites->getInitialSiteIds() != $websitesIds) {
-                $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(',', $this->websites->getInitialSiteIds()));
+                $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
             }
         }
 
