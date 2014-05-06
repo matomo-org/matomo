@@ -408,7 +408,11 @@ class ProcessedReport
                                                   ));
 
         if (isset($reportMetadata['processedMetrics'])) {
-            $parameters['filter_add_columns_when_show_all_columns'] = '1';
+            $deleteRowsWithNoVisit = '1';
+            if (!empty($reportMetadata['constantRowsCount'])) {
+                $deleteRowsWithNoVisit = '0';
+            }
+            $parameters['filter_add_columns_when_show_all_columns'] = $deleteRowsWithNoVisit;
         }
 
         if (!empty($segment)) $parameters['segment'] = $segment;
