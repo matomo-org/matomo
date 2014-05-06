@@ -158,14 +158,6 @@ class Config extends Singleton
             $this->configCache['Plugins_Tracker'] = $this->configGlobal['Plugins_Tracker'];
             $this->configCache['Plugins_Tracker']['Plugins_Tracker'][] = 'DevicesDetection';
         }
-
-        // to avoid weird session error in travis
-        if (empty($pathGlobal)) {
-            $configArray = &$this->configCache;
-        } else {
-            $configArray = &$this->configLocal;
-        }
-        $configArray['General']['session_save_handler'] = 'dbtable';
     }
 
     /**
