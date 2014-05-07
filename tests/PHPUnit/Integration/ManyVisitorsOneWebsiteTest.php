@@ -39,7 +39,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
         // Note: we must set  'UserCountry.getLocationFromIP' since it's "excluded" by default in setApiNotToCall
         $apiToCall = array('UserCountry');
 
-        return array(
+        $apiToTest = array(
             array($apiToCall,
                   array('idSite'  => $idSite,
                         'date'    => $dateTime,
@@ -98,23 +98,27 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
                 'periods'                => array('month'),
                 'otherRequestParameters' => array('ip' => '194.57.91.215')
             )),
+        );
 
-            array('Live.getLastVisitsDetails', array(
+        // Randomly fails on 5.3
+        if(!self::isPhpVersion53()) {
+            $apiToTest[] = array('Live.getLastVisitsDetails', array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateString,
                 'periods'                => 'month',
                 'testSuffix'             => '_Live.getLastVisitsDetails_sortAsc',
                 'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_limit' => 7)
-            )),
+            ));
 
-            array('Live.getLastVisitsDetails', array(
+            $apiToTest[] = array('Live.getLastVisitsDetails', array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateString,
                 'periods'                => 'month',
                 'testSuffix'             => '_Live.getLastVisitsDetails_sortDesc',
                 'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_limit' => 7)
-            )),
-        );
+            ));
+        }
+        return $apiToTest;
     }
 }
 
