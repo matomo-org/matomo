@@ -12,6 +12,9 @@ use \Piwik\Plugins\PrivacyManager\ReportsPurger;
 use \Piwik\Plugins\PrivacyManager\PrivacyManager;
 use \Piwik\API\Request;
 
+/**
+ * @group Integration
+ */
 class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
