@@ -89,7 +89,8 @@ Segmentation = (function($) {
             var segmentationTitle = $(this.content).find(".segmentationTitle");
             if( current != "")
             {
-                var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
+                var currentDecoded = piwikHelper.htmlDecode(current);
+                var selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
                 var foundItems = $(selector, this.target);
                 var title = $('<strong></strong>');
                 if( foundItems.length > 0) {
