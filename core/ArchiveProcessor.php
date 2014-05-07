@@ -337,6 +337,12 @@ class ArchiveProcessor
             $dataTable = $this->getArchive()->getDataTable($name, $idSubTable = null);
         }
 
+        if ($dataTable instanceof Map) {
+            foreach ($dataTable->getDataTables() as $table) {
+                $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+            }
+        }
+
         $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
         $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
         return $dataTable;
