@@ -224,6 +224,16 @@ SUBSCRIBE_NEWSLETTER
 			echo $CMD
 			$CMD
 
+			echo -e "Sending email to Microsoft web team \n\n"
+			echo -e "Hello, \n \
+We are proud to announce this new release for Piwik. \n \
+Piwik $VERSION can be downloaded at: http://builds.piwik.org/piwik-$VERSION.zip \n \
+For more information, consult the changelog: http://piwik.org/changelog/ \n \
+We're looking forward to seeing this Piwik version on Microsoft Web App Gallery.\n\n \
+If you have any question, please let us know. \n\n \
+Thank you,\n \
+Matthieu\n \
+Piwik release manager" | mail -s"New Piwik Version $VERSION" "appgal@microsoft.com,team@piwik.org"
 
 			echo "build finished! http://builds.piwik.org/latest.zip"
 		fi
