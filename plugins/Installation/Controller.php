@@ -333,9 +333,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             } catch (Exception $e) {
                 $view->errorMessage = $e->getMessage();
             }
-        } else {
+        }
+
+        // Display previous step success message, when current step form was not submitted yet
+        if(count($form->getErrorMessages()) == 0) {
             $view->displayGeneralSetupSuccess = true;
         }
+
         $view->addForm($form);
         return $view->render();
     }
