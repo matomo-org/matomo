@@ -31,7 +31,6 @@ class VisitorLog extends Visualization
         ));
 
         $this->requestConfig->filter_sort_column = 'idVisit';
-        $this->requestConfig->filter_sort_order  = 'asc';
         $this->requestConfig->filter_limit       = 20;
         $this->requestConfig->disable_generic_filters = true;
 
