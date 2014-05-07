@@ -127,19 +127,24 @@ class ReportsPurger
 
         // deal with numeric tables
         if (!empty($oldNumericTables)) {
-            // if keep_basic_metrics is set, empty all numeric tables of metrics to purge
-            if ($this->keepBasicMetrics == 1 && !empty($this->metricsToKeep)) {
-                $where = "WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "') AND name NOT LIKE 'done%'";
+            if (empty($this->reportPeriodsToKeep)
+                && !$this->keepSegmentReports
+                && ($this->keepBasicMetrics != 1 || empty($this->metricsToKeep))) {
+
+                Db::dropTables($oldNumericTables);
+
+            } else {
+
                 foreach ($oldNumericTables as $table) {
+                    $where = "WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "') AND name NOT LIKE 'done%'";
+                    $where = $where . ' AND ' . $this->getBlobTableWhereExpr($oldNumericTables, $table);
+
                     Db::deleteAllRows($table, $where, "idarchive ASC", $this->maxRowsToDeletePerQuery);
                 }
 
                 if ($optimize) {
                     Db::optimizeTables($oldNumericTables);
                 }
-            } else // drop numeric tables
-            {
-                Db::dropTables($oldNumericTables);
             }
         }
     }
@@ -307,7 +312,7 @@ class ReportsPurger
      */
     private function findSegmentArchives($numericTables)
     {
-        if (!is_null($this->segmentArchiveIds)) {
+        if (!is_null($this->segmentArchiveIds) || empty($numericTables)) {
             return;
         }
 
