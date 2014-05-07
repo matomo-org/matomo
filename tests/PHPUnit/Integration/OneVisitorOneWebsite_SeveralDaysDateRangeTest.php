@@ -77,10 +77,14 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
                                                      'periods'    => 'range',
                                                      'testSuffix' => '_noIdSubtable')),
 
-            array('Referrers.getUrlsForSocial', array('idSite'        => 1, // test w/ idSubtable
+            array('Referrers.getUrlsForSocial', array('idSite'       => 1, // test w/ idSubtable
                                                      'date'          => '2010-12-13,2011-01-18',
                                                      'periods'       => 'range',
                                                      'supertableApi' => 'Referrers.getSocials')),
+
+            array('UserCountry.getCountry', array('idSite'  => $idSite,
+                                                  'date'    => '2010-12-01,2011-01-15',
+                                                  'periods' => array('range'))),
         );
     }
 
