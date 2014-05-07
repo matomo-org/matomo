@@ -137,7 +137,11 @@ class ReportsPurger
 
                 foreach ($oldNumericTables as $table) {
                     $where = "WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "') AND name NOT LIKE 'done%'";
-                    $where = $where . ' AND ' . $this->getBlobTableWhereExpr($oldNumericTables, $table);
+                    $keepWhere = $this->getBlobTableWhereExpr($oldNumericTables, $table);
+
+                    if (!empty($keepWhere)) {
+                        $where = $where . ' AND ' . $keepWhere;
+                    }
 
                     Db::deleteAllRows($table, $where, "idarchive ASC", $this->maxRowsToDeletePerQuery);
                 }
