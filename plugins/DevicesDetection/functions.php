@@ -19,7 +19,7 @@ function getBrandLogo($label)
     if (file_exists($path)) {
         return 'plugins/DevicesDetection/images/brand/' . $label . '.ico';
     } else {
-        return 'plugins/DevicesDetection/images/brand/unknown.ico';
+        return 'plugins/DevicesDetection/images/brand/Unknown.ico';
     }
 }
 
