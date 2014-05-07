@@ -903,8 +903,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $messages .= "\n#" . $i++ . ": " . $msg;
             }
             $messages .= " \n ";
-            print($messages);
-
             throw new Exception($messages);
         }
 
