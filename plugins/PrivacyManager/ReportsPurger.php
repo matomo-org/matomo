@@ -103,7 +103,6 @@ class ReportsPurger
      */
     public function purgeData($optimize = false)
     {
-        // find archive tables to purge
         list($oldNumericTables, $oldBlobTables) = $this->getArchiveTablesToPurge();
 
         // process blob tables first, since archive status is stored in the numeric archives
@@ -122,9 +121,7 @@ class ReportsPurger
             }
         }
 
-        // deal with numeric tables
         if (!empty($oldNumericTables)) {
-
             foreach ($oldNumericTables as $table) {
                 $conditions = array("name NOT LIKE 'done%'");
                 $bind       = array();

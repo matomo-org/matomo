@@ -37,10 +37,9 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
         $this->assertHasOneDownload('year');
 
         $deleteReportsOlderThan = 1;
-        $keepBasicMetrics = true;
-        $reportPeriodsToKeep = array(2,3,4,5);
-        $purger = $this->createReportsPurger($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
-        $purger->purgeData();
+        $keepBasicMetrics       = true;
+        $reportPeriodsToKeep    = array(2,3,4,5);
+        $this->purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
 
         $this->assertHasNoDownload('day');
         $this->assertHasOneDownload('week');
@@ -56,11 +55,12 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
         $this->assertHasOneDownload('year');
 
         $deleteReportsOlderThan = 1;
-        $keepBasicMetrics = true;
-        $reportPeriodsToKeep = array(1);
-        $purger = $this->createReportsPurger($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
-        $purger->purgeData();
+        $keepBasicMetrics       = true;
+        $reportPeriodsToKeep    = array(1);
+        $this->purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
 
+        $this->assertNumVisits(2, 'day');
+        $this->assertNumVisits(2, 'week');
         $this->assertHasOneDownload('day');
         $this->assertHasNoDownload('week');
         $this->assertHasNoDownload('month');
@@ -75,10 +75,9 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
         $this->assertHasOneDownload('year');
 
         $deleteReportsOlderThan = 1000;
-        $keepBasicMetrics = true;
-        $reportPeriodsToKeep = array(1,2,3,4,5);
-        $purger = $this->createReportsPurger($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
-        $purger->purgeData();
+        $keepBasicMetrics       = true;
+        $reportPeriodsToKeep    = array(1,2,3,4,5);
+        $this->purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
 
         $this->assertHasOneDownload('day');
         $this->assertHasOneDownload('week');
@@ -94,10 +93,9 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
         $this->assertHasOneDownload('year');
 
         $deleteReportsOlderThan = 1;
-        $keepBasicMetrics = true;
-        $reportPeriodsToKeep = array();
-        $purger = $this->createReportsPurger($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
-        $purger->purgeData();
+        $keepBasicMetrics       = true;
+        $reportPeriodsToKeep    = array();
+        $this->purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
 
         $this->assertNumVisits(2, 'day');
         $this->assertNumVisits(2, 'week');
@@ -117,10 +115,9 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
         $this->assertHasOneDownload('year');
 
         $deleteReportsOlderThan = 1;
-        $keepBasicMetrics = false;
-        $reportPeriodsToKeep = array();
-        $purger = $this->createReportsPurger($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
-        $purger->purgeData();
+        $keepBasicMetrics       = false;
+        $reportPeriodsToKeep    = array();
+        $this->purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics);
 
         $this->assertNumVisits(0, 'day');
         $this->assertNumVisits(0, 'week');
@@ -130,42 +127,6 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
         $this->assertHasNoDownload('week');
         $this->assertHasNoDownload('month');
         $this->assertHasNoDownload('year');
-    }
-
-    private function getDownloadApiRequestUrl($period)
-    {
-        return 'method=Actions.getDownloads'
-             . '&idSite=' . self::$fixture->idSite
-             . '&date=' . self::$fixture->dateTime
-             . '&period='. $period
-             . '&format=original';
-    }
-
-    private function createReportsPurger($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics)
-    {
-        $metricsToKeep = PrivacyManager::getAllMetricsToKeep();
-        $maxRowsToDeletePerQuery = 100000;
-        $keepSegmentReports = false;
-
-        return new ReportsPurger($deleteReportsOlderThan, $keepBasicMetrics, $reportPeriodsToKeep,
-            $keepSegmentReports, $metricsToKeep, $maxRowsToDeletePerQuery);
-    }
-
-    public function getApiForTesting()
-    {
-        $idSite = self::$fixture->idSite;
-        $dateTime = self::$fixture->dateTime;
-
-        $apiToCall = array('Actions.getDownloads');
-
-        $apiToTest = array(
-            array($apiToCall,
-                  array('idSite'  => $idSite,
-                        'date'    => $dateTime,
-                        'periods' => array('month')))
-        );
-
-        return $apiToTest;
     }
 
     private function assertNumVisits($expectedNumVisits, $period)
@@ -192,6 +153,26 @@ class Test_Piwik_Integration_PurgeDataTest extends IntegrationTestCase
         $api   = new Request($this->getDownloadApiRequestUrl($period));
         $table = $api->process();
         $this->assertEquals(0, $table->getRowsCount(), $period . ' should not have a download but has one');
+    }
+
+    private function getDownloadApiRequestUrl($period)
+    {
+        return 'method=Actions.getDownloads'
+             . '&idSite=' . self::$fixture->idSite
+             . '&date=' . self::$fixture->dateTime
+             . '&period='. $period
+             . '&format=original';
+    }
+
+    private function purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics)
+    {
+        $metricsToKeep           = PrivacyManager::getAllMetricsToKeep();
+        $maxRowsToDeletePerQuery = 100000;
+        $keepSegmentReports      = false;
+
+        $purger = new ReportsPurger($deleteReportsOlderThan, $keepBasicMetrics, $reportPeriodsToKeep,
+                                    $keepSegmentReports, $metricsToKeep, $maxRowsToDeletePerQuery);
+        $purger->purgeData();
     }
 }
 
