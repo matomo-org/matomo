@@ -87,6 +87,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -96,7 +97,6 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 	</row>
 	<row>
 		<label>8h</label>
