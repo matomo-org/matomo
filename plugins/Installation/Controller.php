@@ -383,6 +383,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function finished()
     {
+        $this->markInstallationAsCompleted();
+
         $view = new View(
             '@Installation/finished',
             $this->getInstallationSteps(),
