@@ -592,6 +592,15 @@ Segmentation = (function($) {
                     segmentName: segmentName
                 }, 'GET');
                 ajaxHandler.useRegularCallbackInCaseOfError = true;
+                ajaxHandler.setTimeout(20000);
+                ajaxHandler.setErrorCallback(function(response) {
+                    loadingElement.hide();
+                    inputElement.autocomplete({
+                        source: [],
+                        minLength: 0
+                    });
+                    $(inputElement).autocomplete('search', $(inputElement).val());
+                });
                 ajaxHandler.setCallback(function(response) {
                     loadingElement.hide();
 
