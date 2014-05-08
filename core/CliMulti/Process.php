@@ -192,7 +192,7 @@ class Process
 
     private static function commandExists($command)
     {
-        $result = shell_exec('which ' . escapeshellarg($command));
+        $result = shell_exec('which ' . escapeshellarg($command) . ' 2> /dev/null');
 
         return !empty($result);
     }
