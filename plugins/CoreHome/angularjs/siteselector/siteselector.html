@@ -12,7 +12,7 @@
 
     <input ng-if="inputName" type="hidden" name="{{ inputName }}" ng-value="selectedSite.id"/>
 
-    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites()"
+    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites();view.searchTerm=''"
        href="javascript:void(0)"
        class="custom_select_main_link"
        ng-class="{'loading': model.isLoading}">

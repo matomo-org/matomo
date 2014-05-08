@@ -46,4 +46,6 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
         return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters) +
             '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
     };
+
+    siteSelectorModel.loadInitialSites();
 });
