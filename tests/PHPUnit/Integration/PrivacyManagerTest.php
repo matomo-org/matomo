@@ -39,6 +39,8 @@ class PrivacyManagerTest extends IntegrationTestCase
     const JAN_METRIC_ARCHIVE_COUNT = 11; // 5 days + 4 weeks + 1 month + 1 year
     const FEB_METRIC_ARCHIVE_COUNT = 11; // 6 days + 4 weeks + 1 month
 
+    const JAN_DONE_FLAGS_COUNT = 43;
+
     // fake metric/report name used to make sure unwanted metrics are purged
     const GARBAGE_FIELD = 'abcdefg';
 
@@ -217,14 +219,14 @@ class PrivacyManagerTest extends IntegrationTestCase
         $archiveTables = self::_getArchiveTableNames();
 
         // January numeric table should be dropped
-        $this->assertFalse($this->_tableExists($archiveTables['numeric'][0])); // January
+        $this->assertEquals(self::JAN_DONE_FLAGS_COUNT, $this->_getTableCount($archiveTables['numeric'][0])); // January
 
         // Check february metric count
         $febRowCount = $this->_getExpectedNumericArchiveCountFeb();
         $this->assertEquals($febRowCount, $this->_getTableCount($archiveTables['numeric'][1])); // February
 
         // January blob table should be dropped
-        $this->assertFalse($this->_tableExists($archiveTables['blob'][0])); // January
+        $this->assertEquals(0, $this->_getTableCount($archiveTables['blob'][0])); // January
 
         // Check february blob count (1 blob per period w/ visits + 1 garbage report)
         $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->_getTableCount($archiveTables['blob'][1])); // February
@@ -339,16 +341,15 @@ class PrivacyManagerTest extends IntegrationTestCase
         $tableCount = $this->_getTableCount($tableName);
         $this->assertEquals($janRowCount, $tableCount); // January
 
-        if($janRowCount != $tableCount) {
-            var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($tableName) ));
+        if ($janRowCount != $tableCount) {
+            $this->dumpTable($tableName);
         }
 
         // check february numerics not deleted
         $febRowCount = $this->_getExpectedNumericArchiveCountFeb();
         $this->assertEquals($febRowCount, $this->_getTableCount($archiveTables['numeric'][1])); // February
 
-        // check that the january blob table was dropped
-        $this->assertFalse($this->_tableExists($archiveTables['blob'][0])); // January
+        $this->assertEquals(0, $this->_getTableCount($archiveTables['blob'][0])); // January
 
         // check for no changes in the february blob table
         $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->_getTableCount($archiveTables['blob'][1])); // February
@@ -387,7 +388,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 5); // 5 blobs for 5 days
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 68); // 5 blobs for 5 days
     }
 
     /**
@@ -423,7 +424,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 4); // 4 blobs for 4 weeks
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 4, $janNumericRemaining = 63); // 4 blobs for 4 weeks
     }
 
     /**
@@ -459,7 +460,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1);
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 48);
     }
 
     /**
@@ -495,7 +496,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1);
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 48);
     }
 
     /**
@@ -562,7 +563,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 2); // 2 range blobs
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 2, $janNumericRemaining = 47); // 2 range blobs
     }
 
     /**
@@ -599,7 +600,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 6); // 1 segmented blob + 5 day blobs
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 70); // 1 segmented blob + 5 day blobs
     }
 
     // --- utility functions follow ---
@@ -787,12 +788,11 @@ class PrivacyManagerTest extends IntegrationTestCase
      * was dropped, that the february metric & blob tables are unaffected, and that the january blob
      * table has a certain number of blobs.
      */
-    protected function _checkReportsAndMetricsPurged($janBlobsRemaining)
+    protected function _checkReportsAndMetricsPurged($janBlobsRemaining, $janNumericRemaining)
     {
         $archiveTables = self::_getArchiveTableNames();
 
-        // check that the january numeric table was dropped
-        $this->assertFalse($this->_tableExists($archiveTables['numeric'][0])); // January
+        $this->assertEquals($janNumericRemaining, $this->_getTableCount($archiveTables['numeric'][0]));
 
         // check february numerics not deleted
         $febRowCount = $this->_getExpectedNumericArchiveCountFeb();
@@ -858,6 +858,12 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         $sql = "SELECT COUNT(*) FROM " . Common::prefixTable($tableName) . " $where";
         return Db::fetchOne($sql);
+    }
+
+    protected function dumpTable($tableName, $where = '')
+    {
+        $sql = "SELECT * FROM " . Common::prefixTable($tableName) . " $where";
+        var_export(Db::fetchAll($sql));
     }
 
     protected function _tableExists($tableName)

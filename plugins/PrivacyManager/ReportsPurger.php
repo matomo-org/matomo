@@ -121,6 +121,8 @@ class ReportsPurger
             }
         }
 
+        $this->segmentArchiveIds = null;
+
         if (!empty($oldNumericTables)) {
             foreach ($oldNumericTables as $table) {
                 $conditions = array("name NOT LIKE 'done%'");
@@ -299,7 +301,7 @@ class ReportsPurger
 
                 if (!empty($this->segmentArchiveIds[$dateFromTable])) {
                     $archiveIds = $this->segmentArchiveIds[$dateFromTable];
-                    $where .= " OR idarchive IN (" . implode(',', $archiveIds) . ")";
+                    $where     .= " OR idarchive IN (" . implode(',', $archiveIds) . ")";
                 }
             }
 
