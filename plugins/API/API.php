@@ -606,10 +606,10 @@ class API extends \Piwik\Plugin\API
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
         if ($this->doesSegmentNeedActionsData($segmentName)) {
-            $requestLastVisits .= "&filter_limit=500";
+            $requestLastVisits .= "&filter_limit=400";
         } else {
             $requestLastVisits .= "&doNotFetchActions=1";
-            $requestLastVisits .= "&filter_limit=1000";
+            $requestLastVisits .= "&filter_limit=800";
         }
 
         $request = new Request($requestLastVisits);
