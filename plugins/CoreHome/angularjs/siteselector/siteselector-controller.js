@@ -28,11 +28,7 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
             return;
         }
 
-        if (site.idsite == 'all') {
-            piwik.broadcast.propagateNewPage('module=MultiSites&action=index');
-        } else {
-            piwik.broadcast.propagateNewPage('segment=&idSite=' + site.idsite, false);
-        }
+        $scope.model.loadSite(site.idsite);
     };
 
     $scope.getUrlAllSites = function () {

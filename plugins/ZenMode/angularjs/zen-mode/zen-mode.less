@@ -1,0 +1,88 @@
+.deactivateZenMode {
+  float:right;
+  margin-right: 13px;
+  margin-top: 4px;
+  display: none;
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.activateZenMode {
+  img {
+    margin-top: -3px;
+    margin-bottom: -3px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.Menu--dashboard #Searchmenu {
+  display: none;
+}
+
+.zenMode {
+
+  #header {
+    display: none;
+  }
+
+  .Menu--dashboard #Searchmenu {
+    display: block;
+  }
+
+  .quick-access {
+    display: inline-block;
+    color: #999;
+    padding: 8px 20px 7px 20px;
+    input {
+      border:0px;
+      border-bottom: 1px solid #CCC;
+    }
+  }
+
+  .deactivateZenMode {
+    display: block;
+  }
+
+  .activateZenMode {
+    display: none;
+  }
+
+  .nav_sep {
+    display: none;
+  }
+
+  /* MENU LEVEL2 HOVER */
+  .Menu--dashboard > .Menu-tabList > li li {
+    float: none;
+    text-align: left;
+  }
+
+  .Menu--dashboard > .Menu-tabList > li li:hover {
+    background-color: #f2f2f2;
+  }
+
+  .Menu--dashboard > .Menu-tabList > li ul {
+    display: none;
+  }
+
+  .Menu--dashboard > .Menu-tabList > li.sfHover ul,
+  .Menu--dashboard > .Menu-tabList > li:hover ul {
+    display: none;
+    z-index: 150;
+    background-color: #FFF;
+    width: auto;
+    border: 1px solid #D9D9D9;
+    padding-top: 0px;
+    border-top: 4px solid #D3291F;
+  }
+
+  #root .sites_selector_in_dashboard {
+    margin-top:0px;
+    margin-right: 0px;
+    display: none;
+  }
+
+}

@@ -5,7 +5,7 @@
 {% endif %}
 {{ graphEvolution|raw }}
 
-<div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
+<div id='leftcolumn' style="clear:both;{% if not isWidget and ecommerce is defined %}width:33%;'{% endif %}">
     <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
         {% if ecommerce is defined %}
             <strong>{{ nb_conversions }}</strong>
@@ -37,7 +37,7 @@
     {% endif %}
 
 </div>
-<div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
+<div id='leftcolumn' {% if not isWidget and ecommerce is defined %}style='width:33%;'{% endif %}>
     <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
         {% if ecommerce is defined %}
             {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
