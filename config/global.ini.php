@@ -47,7 +47,7 @@ log_writers[] = screen
 ; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
 log_level = WARN
 
-; if set to 1, only requests done in CLI mode (eg. the archive.php cron run) will be logged
+; if set to 1, only requests done in CLI mode (eg. the ./console core:archive cron run) will be logged
 ; NOTE: log_only_when_debug_parameter will also be checked for
 log_only_when_cli = 0
 
@@ -90,7 +90,7 @@ allow_upgrades_to_beta = 0
 [DebugTests]
 ; Set to 1 by default. If you set to 0, the standalone plugins (with their own git repositories)
 ; will not be loaded when executing tests.
-enable_load_standalone_plugins_during_tests = 1
+enable_load_standalone_plugins_during_tests = 0
 
 [General]
 ; the following settings control whether Unique Visitors will be processed for different period types.
