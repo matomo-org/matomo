@@ -78,6 +78,12 @@ function ajaxHelper() {
     this.async =          true;
 
     /**
+     * A timeout for the request which will override any global timeout
+     * @type {Boolean}
+     */
+    this.timeout =        null;
+
+    /**
      * Callback function to be executed on success
      */
     this.callback =       function () {};
@@ -179,6 +185,16 @@ function ajaxHelper() {
             urls: urls,
             format: 'json'
         }, 'post');
+    };
+
+    /**
+     * Set a timeout (in milliseconds) for the request. This will override any global timeout.
+     *
+     * @param {integer} timeout  Timeout in milliseconds
+     * @return {void}
+     */
+    this.setTimeout = function (timeout) {
+        this.timeout = timeout;
     };
 
     /**
@@ -380,6 +396,10 @@ function ajaxHelper() {
             },
             data:     this._mixinDefaultPostParams(this.postParams)
         };
+
+        if (this.timeout !== null) {
+            ajaxCall.timeout = this.timeout;
+        }
 
         return $.ajax(ajaxCall);
     };
