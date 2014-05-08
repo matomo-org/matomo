@@ -660,7 +660,7 @@ Segmentation = (function($) {
 
             matchSelector.append(optionsHtml);
 
-            if (matchSelector.find('[option=' + oldMatch + ']').length) {
+            if (matchSelector.find('[option="' + oldMatch + '"]').length) {
                 matchSelector.val(oldMatch);
             } else {
                 preselectFirstMetricMatch(matchSelector.parent());
