@@ -21,6 +21,7 @@ class OutputTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        \Piwik\Url::setHost(false);
         $this->output = new Output('myid');
     }
 
