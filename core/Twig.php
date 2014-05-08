@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Period\Range;
 use Piwik\Translate;
 use Piwik\Visualization\Sparkline;
@@ -65,6 +66,7 @@ class Twig
         $this->addFilter_notificiation();
         $this->addFilter_percentage();
         $this->addFilter_prettyDate();
+        $this->addFilter_safeDecodeRaw();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
 
@@ -196,6 +198,15 @@ class Twig
 
         }, array('is_safe' => array('html')));
         $this->twig->addFilter($notificationFunction);
+    }
+
+    protected function addFilter_safeDecodeRaw()
+    {
+        $rawSafeDecoded = new Twig_SimpleFilter('rawSafeDecoded', function ($string) {
+            return SafeDecodeLabel::decodeLabelSafe($string);
+
+        }, array('is_safe' => array('all')));
+        $this->twig->addFilter($rawSafeDecoded);
     }
 
     protected function addFilter_prettyDate()
