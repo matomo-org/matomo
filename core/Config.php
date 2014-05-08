@@ -234,9 +234,10 @@ class Config extends Singleton
         return false;
     }
 
-    protected static function getHostname()
+    public static function getHostname()
     {
-        $host = Url::getHost($checkIfTrusted = false); // Check trusted requires config file which is not ready yet
+        // Check trusted requires config file which is not ready yet
+        $host = Url::getHost($checkIfTrusted = false);
         return $host;
     }
 

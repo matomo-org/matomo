@@ -363,14 +363,12 @@ class SettingsPiwik
      */
     protected static function getConfigHostname()
     {
-        $configByHost = false;
-        try {
-            $configByHost = Config::getInstance()->getConfigHostnameIfSet();
-            return $configByHost;
-        } catch (Exception $e) {
-            // Config file not found
+        if(!self::isPiwikInstalled()
+            && Common::isPhpCliMode()) {
+            // enterprise:install use case
+            return Config::getHostname();
         }
-        return $configByHost;
+        return Config::getInstance()->getConfigHostnameIfSet();
     }
 
     /**
