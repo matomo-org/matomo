@@ -48,6 +48,7 @@
  *      $t->setTokenAuth( $token_auth );
  *      $t->setIp( "134.10.22.1" );
  *      $t->setForceVisitDateTime( '2011-04-05 23:55:02' );
+ *      $t->enableForceNewVisit();
  *
  *      // if you wanted to force to record the page view or conversion to a specific visitorId
  *      // $t->setVisitorId( "33c31e01394bdc63" );
@@ -170,6 +171,7 @@ class PiwikTracker
         $this->eventCustomVar = false;
         $this->customData = false;
         $this->forcedDatetime = false;
+        $this->forceNewVisit = false;
         $this->token_auth = false;
         $this->attributionInfo = false;
         $this->ecommerceLastOrderTimestamp = false;
@@ -1122,6 +1124,28 @@ class PiwikTracker
     }
 
     /**
+     * By default, new visits are only created after breaks of 30 minutes or more.  This
+	 * setting forces Piwik to create a new Visit beginning with this action.  Several
+	 * circumstances where this is beneficial are discussed in 
+	 * http://piwik.org/faq/how-to/#faq_187
+     *
+     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
+     */
+    public function enableForceNewVisit()
+    {
+        $this->forceNewVisit = true;
+    }
+
+    /**
+     * This prevents the API from forcing a new visit.  See enableForceNewVisit() for a
+	 * complete explanation of this feature.
+     */
+    public function disableForceNewVisit()
+    {
+        $this->forceNewVisit = false;
+    }
+
+    /**
      * Returns the maximum number of seconds the tracker will spend waiting for a response
      * from Piwik. Defaults to 600 seconds.
      */
@@ -1272,6 +1296,7 @@ class PiwikTracker
 
             // Only allowed for Super User, token_auth required,
             (!empty($this->ip) ? '&cip=' . $this->ip : '') .
+            ($this->forceNewVisit ? '&new_visit=1' : '') .
             (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             ((!empty($this->token_auth) && !$this->doBulkRequests) ? '&token_auth=' . urlencode($this->token_auth) : '') .
