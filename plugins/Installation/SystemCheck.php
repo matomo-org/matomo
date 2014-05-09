@@ -10,8 +10,8 @@ namespace Piwik\Plugins\Installation;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Db;
 use Piwik\Db\Adapter;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;

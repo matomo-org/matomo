@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\Insights\tests;
 use Piwik\API\Request as ApiRequest;
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
 

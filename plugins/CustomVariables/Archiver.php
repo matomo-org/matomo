@@ -13,8 +13,8 @@ use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\Metrics;
-use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
+use Piwik\Tracker\GoalManager;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 

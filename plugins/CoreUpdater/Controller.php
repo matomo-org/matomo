@@ -18,8 +18,8 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CorePluginsAdmin\Marketplace;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\SettingsPiwik;
@@ -28,8 +28,8 @@ use Piwik\Unzip;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
 use Piwik\Version;
-use Piwik\View\OneClickDone;
 use Piwik\View;
+use Piwik\View\OneClickDone;
 
 /**
  *
