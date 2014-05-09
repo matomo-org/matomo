@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, appendToTrackingUrl, setSiteId,
+    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -2443,6 +2443,15 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Get custom data
+                 *
+                 * @return mixed
+                 */
+                getCustomData: function () {
+                    return configCustomData;
+                },
+
+                /**
                  * Appends the specified query string to the piwik.php?... Tracking API URL
                  *
                  * @param string queryString eg. 'lat=140&long=100'
@@ -2452,14 +2461,15 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Get custom data
+                 * Returns the query string for the current HTTP Tracking API request.
+                 * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+                 * prior to sending the request.
                  *
-                 * @return mixed
+                 * @param request eg. "param=value&param2=value2"
                  */
-                getCustomData: function () {
-                    return configCustomData;
+                getRequest: function (request) {
+                    return getRequest(request);
                 },
-
 
                 /**
                  * Set custom variable within this visit

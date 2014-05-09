@@ -322,7 +322,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(53);
+		expect(54);
 
 		equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -344,6 +344,7 @@ function PiwikTest() {
 		equal( typeof tracker.getAttributionCampaignName, 'function', 'getAttributionCampaignName' );
 		equal( typeof tracker.getAttributionCampaignKeyword, 'function', 'getAttributionCampaignKeyword' );
 		equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
+		equal( typeof tracker.getRequest, 'function', 'getRequest' );
 		equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
 		equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
 		equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
@@ -710,19 +711,28 @@ function PiwikTest() {
 		equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', 'link (d)' );
 	});
 
-	test("utf8_encode(), sha1()", function() {
-		expect(6);
+    test("utf8_encode(), sha1()", function() {
+        expect(6);
 
-		var tracker = Piwik.getTracker();
+        var tracker = Piwik.getTracker();
 
-		equal( typeof tracker.hook.test._utf8_encode, 'function', 'utf8_encode' );
-		equal( tracker.hook.test._utf8_encode('hello world'), '<?php echo utf8_encode("hello world"); ?>', 'utf8_encode("hello world")' );
-		equal( tracker.hook.test._utf8_encode('Gesamtgröße'), '<?php echo utf8_encode("Gesamtgröße"); ?>', 'utf8_encode("Gesamtgröße")' );
-		equal( tracker.hook.test._utf8_encode('您好'), '<?php echo utf8_encode("您好"); ?>', 'utf8_encode("您好")' );
+        equal( typeof tracker.hook.test._utf8_encode, 'function', 'utf8_encode' );
+        equal( tracker.hook.test._utf8_encode('hello world'), '<?php echo utf8_encode("hello world"); ?>', 'utf8_encode("hello world")' );
+        equal( tracker.hook.test._utf8_encode('Gesamtgröße'), '<?php echo utf8_encode("Gesamtgröße"); ?>', 'utf8_encode("Gesamtgröße")' );
+        equal( tracker.hook.test._utf8_encode('您好'), '<?php echo utf8_encode("您好"); ?>', 'utf8_encode("您好")' );
 
-		equal( typeof tracker.hook.test._sha1, 'function', 'sha1' );
-		equal( tracker.hook.test._sha1('hello world'), '<?php echo sha1("hello world"); ?>', 'sha1("hello world")' );
-	});
+        equal( typeof tracker.hook.test._sha1, 'function', 'sha1' );
+        equal( tracker.hook.test._sha1('hello world'), '<?php echo sha1("hello world"); ?>', 'sha1("hello world")' );
+    });
+
+    test("getRequest()", function() {
+        expect(1);
+
+        var tracker = Piwik.getTracker();
+
+        tracker.setCustomData("key is X", "value is Y");
+        equal( tracker.getRequest('hello=world').indexOf('hello=world&idsite=&rec=1&r='), 0);
+    });
 
 	test("prefixPropertyName()", function() {
 		expect(3);
