@@ -76,7 +76,7 @@
             {% elseif action.goalName is not defined%}
                 {# Page view / Download / Outlink / Event #}
                 {% if action.pageTitle|default(false) is not empty %}
-                    <span class="truncated-text-line">{{ action.pageTitle }}</span>
+                    <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
                 {% endif %}
                 {% if action.siteSearchKeyword is defined %}
                     {% if action.type == 'search' %}
