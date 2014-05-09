@@ -10,6 +10,7 @@ namespace Piwik\DataTable;
 
 use Exception;
 use Piwik\DataTable;
+use Piwik\Log;
 use Piwik\Metrics;
 
 /**
@@ -455,8 +456,10 @@ class Row
             {
                 $thisColumnValue = $this->getColumn($columnToSumName);
 
-                $operation = (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName]) ?
-                    strtolower($aggregationOperations[$columnToSumName]) : 'sum');
+                $operation = 'sum';
+                if (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName])) {
+                    $operation = strtolower($aggregationOperations[$columnToSumName]);
+                }
 
                 // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
                 // present in any data table and is not part of the $aggregationOperations mechanism.
@@ -466,6 +469,7 @@ class Row
                 if(empty($operation)) {
                     throw new Exception("Unknown aggregation operation for column $columnToSumName.");
                 }
+
                 $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
 
                 $this->setColumn($columnToSumName, $newValue);
@@ -558,10 +562,15 @@ class Row
             return $thisColumnValue + $columnToSumValue;
         }
 
+        if ($columnToSumValue === false) {
+            return $thisColumnValue;
+        }
+
+        if ($thisColumnValue === false) {
+            return $columnToSumValue;
+        }
+
         if (is_array($columnToSumValue)) {
-            if ($thisColumnValue == false) {
-                return $columnToSumValue;
-            }
             $newValue = $thisColumnValue;
             foreach ($columnToSumValue as $arrayIndex => $arrayValue) {
                 if (!isset($newValue[$arrayIndex])) {
@@ -573,14 +582,8 @@ class Row
         }
 
         if (is_string($columnToSumValue)) {
-            if ($thisColumnValue === false) {
-                return $columnToSumValue;
-            } else if ($columnToSumValue === false) {
-                return $thisColumnValue;
-            } else {
-                throw new Exception("Trying to add two strings in DataTable\Row::sumRowArray: "
-                                  . "'$thisColumnValue' + '$columnToSumValue'" . " for row " . $this->__toString());
-            }
+            throw new Exception("Trying to add two strings in DataTable\Row::sumRowArray: "
+                              . "'$thisColumnValue' + '$columnToSumValue'" . " for row " . $this->__toString());
         }
 
         return 0;
