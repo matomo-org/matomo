@@ -47,13 +47,21 @@ menu.prototype =
     init: function () {
         this.menuNode = $('.Menu--dashboard');
 
-        this.menuNode.find("li:has(ul)").hover(this.overMainLI, this.outMainLI);
+        this.menuNode.find("li:has(ul),li#Searchmenu").hover(this.overMainLI, this.outMainLI);
 
         // add id to all li menu to support menu identification.
         // for all sub menu we want to have a unique id based on their module and action
         // for main menu we want to add just the module as its id.
         this.menuNode.find('li').each(function () {
-            var url = $(this).find('a').attr('href').substr(1);
+            var link = $(this).find('a');
+            if (!link) {
+                return;
+            }
+            var href = link.attr('href');
+            if (!href) {
+                return;
+            }
+            var url = href.substr(1);
             var module = broadcast.getValueFromUrl("module", url);
             var action = broadcast.getValueFromUrl("action", url);
             var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);

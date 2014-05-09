@@ -105,7 +105,7 @@
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
 {% set title %}
-{% if action.pageTitle is not empty %}{{ action.pageTitle }}{% endif %}
+{% if action.pageTitle is not empty %}{{ action.pageTitle|rawSafeDecoded }}{% endif %}
 
 {{ action.serverTimePretty }}
 {% if action.timeSpentPretty is defined %}{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}
