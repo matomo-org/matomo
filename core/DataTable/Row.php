@@ -578,8 +578,8 @@ class Row
             } else if ($columnToSumValue === false) {
                 return $thisColumnValue;
             } else {
-                throw new Exception("Trying to add two strings values in DataTable\Row::sumRowArray: "
-                    . "'$thisColumnValue' + '$columnToSumValue'");
+                throw new Exception("Trying to add two strings in DataTable\Row::sumRowArray: "
+                                  . "'$thisColumnValue' + '$columnToSumValue'" . " for row " . $this->__toString());
             }
         }
 
