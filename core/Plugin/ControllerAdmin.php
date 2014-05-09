@@ -8,12 +8,12 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Config;
 use Piwik\Config as PiwikConfig;
+use Piwik\Config;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Notification;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Url;
 use Piwik\Version;

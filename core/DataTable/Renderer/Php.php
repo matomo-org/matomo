@@ -10,9 +10,9 @@ namespace Piwik\DataTable\Renderer;
 
 use Exception;
 use Piwik\DataTable\Manager;
-use Piwik\DataTable;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
+use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**

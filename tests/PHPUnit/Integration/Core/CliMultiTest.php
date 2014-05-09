@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use \Piwik\Version;
-use \Piwik\CliMulti;
+use Piwik\CliMulti;
+use Piwik\Version;
 
 /**
  * Class Core_CliMultiTest

@@ -9,8 +9,8 @@
 namespace Piwik\DataAccess;
 
 use Exception;
-use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;

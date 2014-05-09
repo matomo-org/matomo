@@ -7,9 +7,9 @@
  */
 use Piwik\Date;
 use Piwik\Period\Day;
+use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Week;
-use Piwik\Period;
 use Piwik\Period\Year;
 
 class PeriodTest extends PHPUnit_Framework_TestCase

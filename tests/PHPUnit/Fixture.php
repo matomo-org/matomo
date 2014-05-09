@@ -8,27 +8,27 @@
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
+use Piwik\Log;
+use Piwik\Option;
+use Piwik\Piwik;
+use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
-use Piwik\Url;
-use Piwik\Log;
-use Piwik\DbHelper;
-use Piwik\Piwik;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
-use Piwik\Option;
-use Piwik\DataTable\Manager as DataTableManager;
-use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Url;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures

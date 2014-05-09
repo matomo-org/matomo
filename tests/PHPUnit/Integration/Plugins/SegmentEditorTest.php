@@ -9,8 +9,8 @@ use Piwik\Access;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SegmentEditor\Model;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
  * Class Plugins_SegmentEditorTest

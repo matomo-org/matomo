@@ -1,7 +1,7 @@
 <?php
 use Piwik\Plugin\Dependency;
-use Piwik\Version;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Version;
 
 /**
  * Piwik - Open source web analytics

@@ -11,7 +11,6 @@ use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
-use Piwik\Config;
 
 /**
  * Class Core_PiwikTest

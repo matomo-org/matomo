@@ -8,8 +8,8 @@
 use Piwik\Access;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * Imports visits from several log files using the python log importer.

@@ -9,8 +9,8 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
-use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer;
 
 /**
  * Simple HTML output

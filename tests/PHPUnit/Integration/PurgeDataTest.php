@@ -8,9 +8,9 @@
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
-use \Piwik\Plugins\PrivacyManager\ReportsPurger;
-use \Piwik\Plugins\PrivacyManager\PrivacyManager;
-use \Piwik\API\Request;
+use Piwik\API\Request;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\PrivacyManager\ReportsPurger;
 
 /**
  * @group Integration

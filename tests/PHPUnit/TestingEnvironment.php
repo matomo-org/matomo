@@ -1,9 +1,8 @@
 <?php
 
-use Piwik\Piwik;
-use Piwik\Config;
 use Piwik\Common;
-use Piwik\Session\SessionNamespace;
+use Piwik\Config;
+use Piwik\Piwik;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 

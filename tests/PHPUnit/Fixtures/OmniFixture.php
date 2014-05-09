@@ -8,8 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tracker\Visit;
-use \ReflectionClass;
+use ReflectionClass;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used

@@ -11,8 +11,8 @@ namespace Piwik\DataTable\Renderer;
 use Exception;
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Renderer;
+use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\SettingsPiwik;
 

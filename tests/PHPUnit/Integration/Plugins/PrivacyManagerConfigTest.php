@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Option;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**
  * Class Plugins_SitesManagerTest

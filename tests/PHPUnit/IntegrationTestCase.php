@@ -5,7 +5,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Access;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
@@ -13,15 +12,9 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\DataTable\Manager;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Plugins\LanguagesManager\API;
 use Piwik\ReportRenderer;
-use Piwik\Site;
-use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\UrlHelper;
 

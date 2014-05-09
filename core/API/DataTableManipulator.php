@@ -11,8 +11,8 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\API;
 

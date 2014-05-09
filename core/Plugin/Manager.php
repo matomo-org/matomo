@@ -10,8 +10,8 @@
 namespace Piwik\Plugin;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Config as PiwikConfig;
+use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;

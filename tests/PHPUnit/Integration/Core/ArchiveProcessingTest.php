@@ -7,14 +7,13 @@
  */
 
 use Piwik\Access;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
-use Piwik\Db\BatchInsert;
 use Piwik\Db;
+use Piwik\Db\BatchInsert;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;

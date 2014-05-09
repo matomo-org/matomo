@@ -10,8 +10,8 @@ namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
 use Piwik\Common;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 
 /**
  * This class is responsible for handling the label parameter that can be

@@ -7,21 +7,19 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Exception;
 use Piwik\Access;
-use Piwik\DbHelper;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\AssetManager;
-use Piwik\Date;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Option;
-use Piwik\Url;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\WidgetsList;
-use \Exception;
 
 /**
  * Fixture for UI tests.

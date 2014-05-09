@@ -7,13 +7,12 @@
  *
  */
 
-use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Site;
-use Piwik\Tracker;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker;
 
 require realpath(dirname(__FILE__)) . "/includes.php";
 

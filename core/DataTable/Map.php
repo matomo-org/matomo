@@ -9,8 +9,8 @@
 namespace Piwik\DataTable;
 
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer\Console;
 
 /**
  * Stores an array of {@link DataTable}s indexed by one type of {@link DataTable} metadata (such as site ID

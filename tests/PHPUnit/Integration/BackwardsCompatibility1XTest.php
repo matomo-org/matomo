@@ -6,15 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use Piwik\Date;
-use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Db;
 use Piwik\Common;
+use Piwik\Db;
+use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Updater;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
-use \Fixture;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.

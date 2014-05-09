@@ -9,6 +9,7 @@
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 use Piwik\Date;
+
 /**
  * Tests w/ 14 visitors w/ 2 visits each.
  * Uses geoip location provider to test city/region reports.

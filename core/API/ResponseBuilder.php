@@ -13,10 +13,10 @@ use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\DataTableManipulator\ReportTotalsCalculator;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
+use Piwik\DataTable;
 
 /**
  */

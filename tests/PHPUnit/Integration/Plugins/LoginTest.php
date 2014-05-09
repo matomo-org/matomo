@@ -7,7 +7,6 @@
  */
 use Piwik\Access;
 use Piwik\AuthResult;
-use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Plugins\Login\Auth;
 use Piwik\Plugins\UsersManager\API;
