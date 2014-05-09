@@ -235,6 +235,8 @@ class Manager extends Singleton
     public function clearPluginsInstalledConfig()
     {
         $this->updatePluginsInstalledConfig( array() );
+        PiwikConfig::getInstance()->forceSave();
+        PiwikConfig::getInstance()->init();
     }
 
     /**

@@ -182,6 +182,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         );
 
         if ($this->getParam('deleteTables')) {
+            Manager::getInstance()->clearPluginsInstalledConfig();
             Db::dropAllTables();
             $view->existingTablesDeleted = true;
         }
@@ -205,7 +206,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         } else {
 
-            Manager::getInstance()->clearPluginsInstalledConfig();
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
 
