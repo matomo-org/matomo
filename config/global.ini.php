@@ -154,6 +154,10 @@ browser_archiving_disabled_enforce = 0
 ;       this will only affect custom segments added or modified after this setting is changed.
 enable_create_realtime_segments = 1
 
+; Whether to enable the "Suggest values for segment" in the Segment Editor panel.
+; Set this to 0 in case your Piwik database is very big, and suggested values may not appear in time
+enable_segment_suggested_values = 1
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index

@@ -570,6 +570,9 @@ class API extends \Piwik\Plugin\API
      */
     public function getSuggestedValuesForSegment($segmentName, $idSite)
     {
+        if(empty(Config::getInstance()->General['enable_segment_suggested_values'])) {
+            return array();
+        }
         Piwik::checkUserHasViewAccess($idSite);
 
         $maxSuggestionsToReturn = 30;
