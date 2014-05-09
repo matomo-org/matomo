@@ -352,7 +352,6 @@
         "PluginDescription": "Các biến tùy chỉnh là các cặp tên-giá trị mà bạn sử dụng đối với mỗi lần thăm trang web sử dụng hàm setVisitCustomVariables() trong API. Piwik sau đó sẽ báo cáo có bao nhiêu lượt truy cập, bao nhiêu trang, bao nhiêu lần chuyển đổi trang đối với từng biến.",
         "ScopePage": "Trang phạm vi",
         "ScopeVisit": "sự viếng thăm trong phạm vi nào đó",
-        "TrackingHelp": "Giúp đỡ:%1$s theo dõi biến tùy chỉnh trong Piwik %2$s"
     },
     "Dashboard": {
         "AddAWidget": "Thêm một Widget",

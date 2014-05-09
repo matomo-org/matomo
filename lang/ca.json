@@ -245,7 +245,6 @@
         "PluginDescription": "Les variables personalitzades són parelles de nom,valor que podeu assignar a una visita utilitzant la funció setVisitCustomVariables() de l'API de Javascript. El piwik us reportarà quantes visites, pàgines, conversions heu tingut per cada un d'aquest noms i valors personaltizats.",
         "ScopePage": "àmbit de la pàgina",
         "ScopeVisit": "àmbit de la visita",
-        "TrackingHelp": "Ajuda: %1$s Rastrejant Variables Personalitzades amb Piwik%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Afegir un Giny",

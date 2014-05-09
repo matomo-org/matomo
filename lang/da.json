@@ -399,7 +399,6 @@
         "PluginDescription": "Brugerdefinerede variabler er navne, værdipar, du kan tildele en besøgende ved hjælp af funktionen Javascript API setVisitCustomVariables(). Piwik vil derefter rapportere hvor mange besøg, sider, konverteringer for hver af disse brugerdefinerede navne og værdier.",
         "ScopePage": "virkefelt side",
         "ScopeVisit": "virkefelt besøg",
-        "TrackingHelp": "Hjælp: %1$sSporing af egne variabler i Piwik%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Tilføj modul...",

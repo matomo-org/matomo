@@ -373,7 +373,6 @@
         "PluginDescription": "Variáveis ​​personalizados são nome, pares de valores que podem ser definidos para uma visita usando a função setVisitCustomVariables() da API Javascript. Piwik irá relatar quantas visitas, páginas, conversões para cada um desses nomes personalizados e valores.",
         "ScopePage": "página escopo",
         "ScopeVisit": "visita escopo",
-        "TrackingHelp": "Ajuda:%1$s variáveis de monitoramento personalizado em Piwik%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Adicionar um widget",

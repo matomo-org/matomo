@@ -377,7 +377,6 @@
         "PluginDescription": "Aangepaste variabelen zijn naam-waarde paren die u zelf kunt instellen om extra informatie te verzamelen tijdens ​bezoek. Dit werkt met behulp van de JavaScript-API setVisitCustomVariables () functie. Piwik zal dan het aantal bezoeken, pagina's en conversies rapporteren voor elk van deze aangepaste namen en waarden.",
         "ScopePage": "omvang pagina",
         "ScopeVisit": "omvang bezoek",
-        "TrackingHelp": "Help: %1$sCustom variabelen bijhouden in Piwik%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Voeg widget toe",

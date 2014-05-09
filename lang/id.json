@@ -296,7 +296,6 @@
         "PluginDescription": "Variabel Kustom harus `nama,nilai` terkait yang dapat Anda atur ke `Visit` menggunakan fungsi API Javascript setVisitCustomVariables(). Piwik akan melaporkan jumlah kunjungan, halaman, dan konversi untuk tiap nama dan nilai kustom.",
         "ScopePage": "cakupan halaman",
         "ScopeVisit": "cakupan kunjungan",
-        "TrackingHelp": "Bantuan: %1$sPelacakan Bariabel Kustom di Piwik%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Tambah sebuah gawit",

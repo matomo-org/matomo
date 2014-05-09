@@ -361,7 +361,6 @@
         "PluginDescription": "插件描述",
         "ScopePage": "访问页面",
         "ScopeVisit": "访问范围",
-        "TrackingHelp": "帮助: %1$s在 Piwik 中跟踪自定义变量%2$s"
     },
     "Dashboard": {
         "AddAWidget": "增加一个小工具",

@@ -397,7 +397,6 @@
         "PluginDescription": "Kustomoidut muuttujat ovat nimi-arvo-pareja, joita voit asettaa käynnin aikana Javascript-API:n setVisitCustomVariables()-funktiolla. Piwik raportoi, kuinka monta käyntiä, sivua ja konversiota jokaisella kustomoidulla muuttujalla oli.",
         "ScopePage": "alueena sivu",
         "ScopeVisit": "alueena käynti",
-        "TrackingHelp": "Ohjeet: %1$sSovellettujen muuttujien seuranta Piwikissä%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Lisää vimpain",

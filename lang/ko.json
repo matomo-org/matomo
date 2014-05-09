@@ -255,7 +255,6 @@
         "PluginDescription": "맞춤 변수는 이름과 값으로 이루어집니다. Javascript API의 setVisitCustomVariables() 함수를 사용하여 방문 수를 설정할 수 있습니다. Piwik은 그 이름과 값에 대한 방문수와 페이지 전환수를 보고합니다.",
         "ScopePage": "페이지 범위",
         "ScopeVisit": "방문 범위",
-        "TrackingHelp": "도움말: %1$sPiwik에서 사용자가 지정한 변수 추적%2$s"
     },
     "Dashboard": {
         "AddAWidget": "위젯 추가",

@@ -393,7 +393,6 @@
         "CustomVariables": "Variabile personalizate",
         "ScopePage": "scop pagină",
         "ScopeVisit": "scop vizită",
-        "TrackingHelp": "Ajutor: %1$sUrmărirea variabilelor personalizate în Piwik%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Adaugă un widget",

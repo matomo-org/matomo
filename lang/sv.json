@@ -389,7 +389,6 @@
         "PluginDescription": "Anpassade variabler är namn, värde-par som du kan ange för ett besök med hjälp av JavaScript API setVisitCustomVariables() funktionen. Piwik kommer därefter att rapportera hur många besök, sidor, omvandlingar för vart och ett av dessa anpassade namn och värden.",
         "ScopePage": "omfattning sida",
         "ScopeVisit": "omfattning besök",
-        "TrackingHelp": "Hjälp: %1$sSpåra anpassade variabler i Piwik%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Lägg till en widget",

@@ -403,7 +403,6 @@
         "PluginDescription": "Dodatni parametri predstavljaju uređene parove ime, vrednost koje možete sami postaviti pomoću JavaScript API funkcije setVisitCustomVariables(). U tom slučaju Piwik će prikazati koliko je bilo poseta, otvaranja stranica i ciljeva za svaki od zadatih parova.",
         "ScopePage": "oblast strana",
         "ScopeVisit": "oblast poseta",
-        "TrackingHelp": "Pomoć: %1$sPraćenje korisničkih promenljivih u Piwik-u%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Dodaj vidžet",

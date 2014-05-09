@@ -402,7 +402,6 @@
         "PluginDescription": "Benutzerdefinierte Variablen sind Namen-Werte-Paare, die Sie über die setVisitCustomVariables() Funktion der Javascript-API setzen können. Piwik wird dann für jeden dieser Namen und Werte die Anzahl der Besuche, die Seiten sowie die Konversionen erfassen.",
         "ScopePage": "Anwendungsbereich Seite",
         "ScopeVisit": "Anwendungsbereich Besuch",
-        "TrackingHelp": "Hilfe: %1$sBenutzerdefinierte Variablen in Piwik tracken%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Ein Widget hinzufügen",
