@@ -469,8 +469,6 @@
         "ConfirmDeleteExistingTables": "你確定要從你的資料庫刪除資料表 %s 嗎？ 警告： 這些資料表刪除後將無法復原！",
         "Congratulations": "恭喜你",
         "CongratulationsHelp": "<p>恭喜！ 你的 Piwik 安裝已經完成。<\/p><p>請確認你的 JavaScript 追蹤碼已插入至你的網頁中，然後等候你的首位訪客吧！<\/p>",
-        "DatabaseCheck": "資料庫檢查",
-        "DatabaseClientVersion": "資料庫客戶端版本",
         "DatabaseCreation": "資料庫建立",
         "DatabaseErrorConnect": "連線至資料庫伺服器時發生錯誤",
         "DatabaseServerVersion": "資料庫伺服器版本",

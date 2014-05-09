@@ -489,8 +489,6 @@
     "Installation": {
         "CommunityNewsletter": "sūtiet epastu par kopienas jaunumiem (jauniem spraudņiem, jaunām iespējām, utt.)",
         "Congratulations": "Apsveicam",
-        "DatabaseCheck": "Datubāzes pārbaude",
-        "DatabaseClientVersion": "Datubāzes klienta versija",
         "DatabaseCreation": "Datubāzes izveide",
         "DatabaseErrorConnect": "Kļūda mēģinot sasniegt datubāzes serveri",
         "DatabaseServerVersion": "Datubāzes servera versija",
