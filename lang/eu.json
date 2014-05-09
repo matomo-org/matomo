@@ -314,7 +314,6 @@
         "ConfirmDeleteExistingTables": "Ziur zaude ondorengo taulak: %s datu-basetik ezabatu nahi dituzula? OHARRA: TAULA HAUETAKO DATUAK EZINGO DIRA BERRESKURATU!",
         "Congratulations": "Zorionak",
         "CongratulationsHelp": "<p>Zorionak! Zure Piwik instalazioa osatu da.<\/p><p>Egiaztatu JavaScript kodea zure orrietan txertatuta dagoela eta ondoren itxaron lehenengo bisitei!<\/p>",
-        "DatabaseCheck": "Datu-basearen egiaztapena",
         "DatabaseCreation": "Datu-basea sortzea",
         "DatabaseErrorConnect": "Errorea datu-basearen zerbitzariarekin konektatzen saiatzean",
         "DatabaseServerVersion": "Datu-basearen zerbitzariaren bertsioa",
