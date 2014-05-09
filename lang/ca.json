@@ -244,7 +244,7 @@
         "CustomVariablesReportDocumentation": "Aquest informe conté informació sobre les variables personaltizades. Feu click al nom d'una variable per veure la distribució dels valors. %s Per més informació sobre les variables personalitzades, podeu llegir la %sdocumentació sobre variables peronalitzades a piwik.org%s",
         "PluginDescription": "Les variables personalitzades són parelles de nom,valor que podeu assignar a una visita utilitzant la funció setVisitCustomVariables() de l'API de Javascript. El piwik us reportarà quantes visites, pàgines, conversions heu tingut per cada un d'aquest noms i valors personaltizats.",
         "ScopePage": "àmbit de la pàgina",
-        "ScopeVisit": "àmbit de la visita",
+        "ScopeVisit": "àmbit de la visita"
     },
     "Dashboard": {
         "AddAWidget": "Afegir un Giny",

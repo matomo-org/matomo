@@ -396,7 +396,7 @@
         "CustomVariablesReportDocumentation": "Tämä raportti sisältää tietoa kustomoiduista muuttujastasi. Voit tarkastella eri arvojen määrää klikkaamalla muuttujan nimeä. %s Saat lisätietoa kustomoiduista muuttujista %sCustom Variables%s-sivulta piwik.orgista (englanninkielinen)",
         "PluginDescription": "Kustomoidut muuttujat ovat nimi-arvo-pareja, joita voit asettaa käynnin aikana Javascript-API:n setVisitCustomVariables()-funktiolla. Piwik raportoi, kuinka monta käyntiä, sivua ja konversiota jokaisella kustomoidulla muuttujalla oli.",
         "ScopePage": "alueena sivu",
-        "ScopeVisit": "alueena käynti",
+        "ScopeVisit": "alueena käynti"
     },
     "Dashboard": {
         "AddAWidget": "Lisää vimpain",
