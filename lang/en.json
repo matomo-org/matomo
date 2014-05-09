@@ -1059,7 +1059,6 @@
         "DatabaseSetupServer": "Database Server",
         "DatabaseSetupTablePrefix": "Table Prefix",
         "Email": "email",
-        "InvalidStateError": "Error: Piwik is already installed. %1$s Go back %3$s to Piwik%4$s.",
         "Extension": "extension",
         "Filesystem": "Filesystem",
         "GetInvolved": "If you like what you see, you can %1$sget involved%2$s.",

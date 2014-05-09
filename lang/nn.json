@@ -582,8 +582,6 @@
         "ConfirmDeleteExistingTables": "Er du sikker på at du vil sletta tabellane: %s frå databasen? ÅTVARING: DEI KAN IKKJE BLI GJENOPPRETTA!",
         "Congratulations": "Gratulerer",
         "CongratulationsHelp": "<p>Gratulerer! Piwik-installasjon er ferdig.<\/p><p>Sjå til at JavaScript-koden er lagt til på sidene dine, og vent på dine fyrste vitjarar!<\/p>",
-        "DatabaseCheck": "Databasesjekk",
-        "DatabaseClientVersion": "Databaseklientversjon",
         "DatabaseCreation": "Databaseoppretting",
         "DatabaseErrorConnect": "Feil under tilkopling til databasetenar",
         "DatabaseServerVersion": "Databasetenarversjon",

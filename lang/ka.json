@@ -427,8 +427,6 @@
         "ConfirmDeleteExistingTables": "დარწმუნებული ხართ, რომ გსურთ ცხრილების წაშლა: %s თქვენი მონაცემთა ბაზიდან?",
         "Congratulations": "მილოცვა",
         "CongratulationsHelp": "<p>გილოცავთ! Piwik–ის ინსტალირება დასრულდა.<\/p><p>დარწმუნდით, რომ JavaScript კოდი ჩაწერილია თქვენს გვერდებზე და დაელოდეთ პირველ ვიზიტორებს!<\/p>",
-        "DatabaseCheck": "მონაცემთა ბაზის შემოწმება",
-        "DatabaseClientVersion": "მონაცემთა ბაზის კლიენტის ვერსია",
         "DatabaseCreation": "მონაცემთა ბაზის შექმნა",
         "DatabaseErrorConnect": "მონაცემთა ბაზის სერვერთან დაკავშირების დროს მოხდა შეცდომა",
         "DatabaseServerVersion": "მონაცემთა ბაზის სერვერის ვერსია",
