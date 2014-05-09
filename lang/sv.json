@@ -1384,7 +1384,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Den här rapporten visar all din hänvisningstrafik i en sammanslagen rapport, den listar alla webbsidor, sökord och kampanjer som dina besökare har använt sig av för att hitta din webbsida.",
-        "CampaignFooterHelp": "Hjälp: %s spåra kampanjer i Piwik %s URL byggnadsverktyg%s",
         "Campaigns": "Kampanjer",
         "CampaignsDocumentation": "Besökare som kom till din webbplats som resulterades av en kampanj. %s Se rapporten %s för mer information.",
         "CampaignsReportDocumentation": "Rapporten visar vilka kampanjer som har lett besökare till din webbplats. %s För mer information om hur du spårar kampanjer, läs %skampanjernas dokumentation på piwik.org%s",

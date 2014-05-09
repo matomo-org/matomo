@@ -1432,7 +1432,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Ovaj izveštaj prikazuje sve vaše reference na unificiran način preko spiska svih sajtova, traženih ključnih reči i kampanja koje su koristili posetioci kako bi došli do vašeg sajta.",
-        "CampaignFooterHelp": "Pomoć: %sPraćenje kampanja u Piwik-u %s Alat za pravljenje URL-ova%s",
         "Campaigns": "Kampanje",
         "CampaignsDocumentation": "Korisnik koji je došao na vaš sajt putem kampanje. %sPogledajte%s izveštaj za više detalja.",
         "CampaignsReportDocumentation": "Ovaj izveštaj prikazuje koje kampanje su dovele posetioce na vaš sajt. %s Za više informacija o praćenju kampanja pogledajte %scampaigns na piwik.org%s",

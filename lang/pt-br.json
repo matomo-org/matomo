@@ -1341,7 +1341,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Este relatório mostra todos os seus encminhadores em um relatório unificado, listando todos os sites, palavras-chave de pesquisa e campanhas usados ​​por seus visitantes para encontrar seu site.",
-        "CampaignFooterHelp": "Ajuda:%s Rastreamento de Campanhas no Piwik%s Ferramenta criação de URL%s",
         "Campaigns": "Campanhas",
         "CampaignsDocumentation": "Os visitantes que vieram para o seu site como o resultado de uma campanha. %s Ver relatório %s para mais detalhes.",
         "CampaignsReportDocumentation": "Este relatório mostra quais as campanhas lideradas visitantes para o seu site. %s para mais informações sobre as campanhas de monitoramento, leia a documentação %s campanhas em piwik.org %s",

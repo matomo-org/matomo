@@ -1402,7 +1402,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Tämä raportti näyttää kaikki viittaukset yhdessä raportissa, listaten kaikki verkkosivut, hakusanat ja kampanjat, joita käyttäjäsi käyttivät löytääkseen verkkosivusi.",
-        "CampaignFooterHelp": "Apua: %sKampanjoiden seuranta Piwikin %s URL rakennustyökalulla%s",
         "Campaigns": "Kampanjat",
         "CampaignsDocumentation": "Vierailijat, jotka tulivat sivullesi kampanjan mukana. %s Katso %s raportista lisätietoja.",
         "CampaignsReportDocumentation": "Tässä raportissa on tietoa kampanjoista, joilla käyttäjiä tuli sivuillesi. %s Lisätietoa kampanjoiden seuraamisesta löytyy %senglanninkielisestä dokumentista piwik.orgissa%s",

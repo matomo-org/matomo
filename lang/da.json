@@ -1406,7 +1406,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Rapporten viser alle henvisninger i én samlet rapport, over alle hjemmesider, Søg i nøgleord og kampagner som bruges af de besøgende til at finde hjemmesiden.",
-        "CampaignFooterHelp": "Hjælp til: %sSporingskampagner i Piwik %s URL bygge værktøj%s",
         "Campaigns": "Kampagner",
         "CampaignsDocumentation": "Besøgende kom til hjemmesiden som følge af en kampagne. %s Se %s rapport for yderligere oplysninger.",
         "CampaignsReportDocumentation": "Rapporten viser, hvilke kampagner der førte besøgende til hjemmesiden. %s Finde flere oplysninger om sporing af kampagner, læs %skampagne dokumentation på piwik.org%s",

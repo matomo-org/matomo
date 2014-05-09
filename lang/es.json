@@ -1432,7 +1432,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Este informe muestra todas las Referencias en un solo informe enumerando todos los sitios web, las Palabras claves y las Campañas que utilizan tus visitantes para encontrar tu sitio web.",
-        "CampaignFooterHelp": "Ayuda: %sLas campañas de seguimiento en Piwik %s Herramienta Creador de URL %s",
         "Campaigns": "Campañas",
         "CampaignsDocumentation": "Visitantes que visitan su sitio de internet como resultado de una campaña. %s Vea el %s informe para mayores detalles.",
         "CampaignsReportDocumentation": "Este reporte muestra qué campaña llevó visitantes a su sitio de internet. %s Para una mayor información acerca del rastreo de las campañas, lea la documentación %scampañas en piwik.org%s",
