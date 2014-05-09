@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
-
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;

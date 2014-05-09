@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DBStats;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\DbHelper;

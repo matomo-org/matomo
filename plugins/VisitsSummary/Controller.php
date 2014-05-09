@@ -10,8 +10,8 @@ namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\API as APIActions;
 use Piwik\Site;

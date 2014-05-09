@@ -9,19 +9,17 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
+use DeviceDetector;
 use Exception;
-
 use Piwik\ArchiveProcessor;
 use Piwik\CacheFile;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\WidgetsList;
-use DeviceDetector;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 

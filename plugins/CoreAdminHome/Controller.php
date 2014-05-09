@@ -16,7 +16,6 @@ use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
 use Piwik\Nonce;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\CustomVariables\CustomVariables;

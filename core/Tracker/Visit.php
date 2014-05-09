@@ -9,13 +9,13 @@
 
 namespace Piwik\Tracker;
 
+use DeviceDetector;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker;
-use DeviceDetector;
 
 /**
  * Class used to handle a Visit.

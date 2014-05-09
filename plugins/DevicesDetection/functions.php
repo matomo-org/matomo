@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use Piwik\Piwik;
 use DeviceDetector;
+use Piwik\Piwik;
 
 function getBrandLogo($label)
 {

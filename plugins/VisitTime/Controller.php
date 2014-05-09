@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\VisitTime;
 
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  *

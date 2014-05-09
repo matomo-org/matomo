@@ -11,11 +11,9 @@ namespace Piwik\Plugins\Insights\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Period\Range;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\Insights\API;
-use Piwik\Plugins\Insights\Model;
 
 /**
  * InsightsVisualization Visualization.

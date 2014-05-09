@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\Db;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
 
 /**
  * Singleton that manages user access to Piwik resources.

@@ -8,14 +8,6 @@
  */
 namespace Piwik\Plugins\Feedback;
 
-use Exception;
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\IP;
-use Piwik\Mail;
-use Piwik\Nonce;
-use Piwik\Piwik;
-use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
 

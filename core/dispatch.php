@@ -11,7 +11,7 @@
 use Piwik\Error;
 use Piwik\ExceptionHandler;
 use Piwik\FrontController;
-use \Piwik\Plugin\ControllerAdmin as PluginControllerAdmin;
+use Piwik\Plugin\ControllerAdmin as PluginControllerAdmin;
 
 PluginControllerAdmin::disableEacceleratorIfEnabled();
 

@@ -11,7 +11,6 @@ namespace Piwik\Plugins\LanguagesManager;
 
 use Piwik\Common;
 use Piwik\DbHelper;
-use Piwik\Piwik;
 use Piwik\Url;
 
 /**

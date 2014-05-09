@@ -8,12 +8,11 @@
  */
 namespace Piwik\View;
 
+use Twig_Node_Expression_Array;
+use Twig_Node_Expression_MethodCall;
+use Twig_Node_Include;
 use Twig_Token;
 use Twig_TokenParser;
-use Twig_Node_Expression_MethodCall;
-use Twig_Node_Expression_Array;
-use Twig_Node_Include;
-use Exception;
 
 /**
  * Defines a new Twig tag that will render a Piwik View.

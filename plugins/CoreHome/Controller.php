@@ -15,9 +15,7 @@ use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
 use Piwik\Notification\Manager as NotificationManager;
-use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
@@ -27,6 +25,7 @@ use Piwik\Site;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 /**
  *

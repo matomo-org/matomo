@@ -11,9 +11,9 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Piwik;
+use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\SettingsPiwik;
 use Piwik\Unzip;
-use Piwik\Plugin\Dependency as PluginDependency;
 
 /**
  *

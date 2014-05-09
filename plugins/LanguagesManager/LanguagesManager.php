@@ -12,7 +12,6 @@ namespace Piwik\Plugins\LanguagesManager;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-
 use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\DbHelper;

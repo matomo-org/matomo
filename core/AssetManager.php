@@ -9,19 +9,19 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAsset\InMemoryUIAsset;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
+use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher\StylesheetUIAssetFetcher;
-use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
+use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
 use Piwik\Translate;
-use Piwik\Config as PiwikConfig;
 
 /**
  * AssetManager is the class used to manage the inclusion of UI assets:

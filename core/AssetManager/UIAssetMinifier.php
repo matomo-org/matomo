@@ -10,8 +10,8 @@
 namespace Piwik\AssetManager;
 
 use Exception;
-use Piwik\Singleton;
 use JShrink\Minifier;
+use Piwik\Singleton;
 
 class UIAssetMinifier extends Singleton
 {

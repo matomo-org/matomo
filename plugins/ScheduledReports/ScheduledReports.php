@@ -10,13 +10,11 @@ namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;

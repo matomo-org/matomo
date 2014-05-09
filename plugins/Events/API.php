@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Archive;
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 

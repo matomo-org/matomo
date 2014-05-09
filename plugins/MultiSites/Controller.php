@@ -11,12 +11,8 @@ namespace Piwik\Plugins\MultiSites;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\MetricsFormatter;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\MultiSites\API as APIMultiSites;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Site;
 use Piwik\View;
 
 /**

@@ -8,12 +8,7 @@
  */
 namespace Piwik;
 
-use Exception;
-use Piwik\Period\Day;
 use Piwik\Period\Factory;
-use Piwik\Period\Month;
-use Piwik\Period\Week;
-use Piwik\Period\Year;
 use Piwik\Period\Range;
 
 /**

@@ -10,8 +10,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
-use Piwik\Tracker;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker;
 
 /**
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.

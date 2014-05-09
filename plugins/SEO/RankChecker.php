@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SEO;
 
 use Exception;
-
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\MetricsFormatter;

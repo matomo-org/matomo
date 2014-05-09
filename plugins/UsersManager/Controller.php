@@ -11,16 +11,16 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\MetricsFormatter;
 
 /**
  *

@@ -9,17 +9,12 @@
 namespace Piwik\DataAccess;
 
 use Exception;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
-
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-use Piwik\Log;
 use Piwik\Period;
-use Piwik\Segment;
-use Piwik\SettingsPiwik;
 
 /**
  * This class is used to create a new Archive.

@@ -11,15 +11,12 @@ namespace Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Piwik\Url;
-use Piwik\UrlHelper;
 use Piwik\View;
 
 /**

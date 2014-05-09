@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
-use Piwik\Common;
 use Piwik\ProxyHttp;
 
 /**

@@ -8,9 +8,9 @@
  */
 namespace Piwik\AssetManager;
 
+use Piwik\AssetManager;
 use Piwik\AssetManager\PiwikLessCompiler;
 use Piwik\AssetManager\UIAsset\StylesheetUIAsset;
-use Piwik\AssetManager;
 
 abstract class UIAssetMerger
 {

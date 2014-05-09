@@ -11,8 +11,6 @@ namespace Piwik\Plugins\Provider;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Config;
-
 use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\IP;

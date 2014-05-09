@@ -15,9 +15,7 @@ use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
-use Piwik\Url;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  *

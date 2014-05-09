@@ -18,7 +18,6 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\ProxyHttp;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\SettingsPiwik;

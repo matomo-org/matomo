@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
-use Exception;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\DataTable\DataTableInterface;
@@ -17,8 +16,8 @@ use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Metrics;
 use Piwik\Option;
-use Piwik\Period\Range;
 use Piwik\Period;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\ScheduledTask;

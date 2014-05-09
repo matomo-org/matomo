@@ -11,14 +11,13 @@ namespace Piwik\Plugins\Goals;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as APIReferrers;
-use Piwik\View\ReportsByDimension;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
+use Piwik\View\ReportsByDimension;
 
 /**
  *

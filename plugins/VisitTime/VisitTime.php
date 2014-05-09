@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\VisitTime;
 
 use Exception;
-
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Menu\MenuMain;

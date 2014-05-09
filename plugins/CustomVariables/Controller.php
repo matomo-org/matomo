@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  */

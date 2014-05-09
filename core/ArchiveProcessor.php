@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\ArchiveProcessor\Parameters;
-
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;

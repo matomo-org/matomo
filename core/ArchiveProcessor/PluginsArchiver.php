@@ -11,7 +11,6 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
-use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;

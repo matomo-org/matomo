@@ -10,8 +10,8 @@ namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 
 /**
  * This class is responsible for flattening data tables.

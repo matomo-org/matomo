@@ -9,10 +9,10 @@
 namespace Piwik\AssetManager\UIAssetMerger;
 
 use Exception;
+use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Piwik;
-use lessc;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
 {

@@ -12,8 +12,8 @@ use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
-use Piwik\Tracker\Db;
 use Piwik\Tracker\Db\DbException;
+use Piwik\Tracker\Db;
 
 /**
  * PDO MySQL wrapper

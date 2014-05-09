@@ -12,9 +12,9 @@ use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\SettingsPiwik;
 use Piwik\UpdateCheck;
-use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 
 /**
  * Class to check and notify users via email if there is a core update available.

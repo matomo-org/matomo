@@ -14,13 +14,12 @@ use Piwik\DataTable\Renderer\Json;
 use Piwik\Http;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\ServerBased;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
-use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\ServerBased;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  *

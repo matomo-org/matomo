@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Insights\tests\Fixtures;
 
 use Piwik\Date;
+
 /**
  * Adds one website and tracks several visits from one visitor on
  * different days that span about a month apart.

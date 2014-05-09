@@ -17,7 +17,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\ScheduledTask;
-use Piwik\ScheduledTime\Weekly;
 use Piwik\ScheduledTime;
 
 /**

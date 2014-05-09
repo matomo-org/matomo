@@ -16,7 +16,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  */

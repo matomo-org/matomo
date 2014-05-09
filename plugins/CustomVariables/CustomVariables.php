@@ -12,9 +12,9 @@ use Piwik\ArchiveProcessor;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker;
 use Piwik\WidgetsList;
-use Piwik\Tracker\Cache;
 
 /**
  */

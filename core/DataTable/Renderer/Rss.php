@@ -11,11 +11,10 @@ namespace Piwik\DataTable\Renderer;
 use Exception;
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer;
 use Piwik\Date;
 use Piwik\SettingsPiwik;
-use Piwik\Url;
 
 /**
  * RSS Feed.

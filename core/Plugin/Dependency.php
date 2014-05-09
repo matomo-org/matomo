@@ -8,8 +8,9 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Version;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Version;
+
 /**
  *
  */

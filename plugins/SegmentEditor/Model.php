@@ -8,12 +8,8 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
-use Exception;
 use Piwik\Common;
-use Piwik\Date;
 use Piwik\Db;
-use Piwik\Piwik;
-use Piwik\Segment;
 
 /**
  * The SegmentEditor Model lets you persist and read custom Segments from the backend without handling any logic.

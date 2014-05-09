@@ -8,11 +8,8 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
-use Exception;
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Piwik;
 use Piwik\Version;
 
 /**

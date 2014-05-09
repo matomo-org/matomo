@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Insights;
 
+use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\ProcessedReport;
-use Piwik\API\Request as ApiRequest;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 
 /**

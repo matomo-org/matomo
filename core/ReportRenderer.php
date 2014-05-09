@@ -11,8 +11,8 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable\Row;
-use Piwik\DataTable\Simple;
 use Piwik\DataTable;
+use Piwik\DataTable\Simple;
 use Piwik\Plugins\ImageGraph\API;
 
 /**

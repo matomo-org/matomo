@@ -13,14 +13,14 @@ use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
-use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Url;
 use Piwik\Site;
+use Piwik\Url;
 
 /**
  * This class generates a Row evolution dataset, from input request

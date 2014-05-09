@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\ExampleAPI;
 
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Version;
 

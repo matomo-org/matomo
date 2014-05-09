@@ -9,10 +9,9 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Db\Adapter;
-
-use Piwik\Db\Schema;
 use Piwik\Db;
+use Piwik\Db\Adapter;
+use Piwik\Db\Schema;
 use Piwik\Plugin;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;

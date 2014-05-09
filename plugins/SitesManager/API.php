@@ -17,6 +17,7 @@ use Piwik\IP;
 use Piwik\MetricsFormatter;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\ProxyHttp;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
@@ -24,7 +25,6 @@ use Piwik\TaskScheduler;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\ProxyHttp;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.

@@ -10,8 +10,8 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 
 class DataTableGenericFilter
 {

@@ -8,13 +8,12 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Piwik\Url;
-use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Url;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**

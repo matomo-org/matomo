@@ -9,14 +9,12 @@
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Controller;
-use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;

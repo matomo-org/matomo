@@ -8,11 +8,11 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
-use Piwik\Plugin\Visualization;
-use Piwik\View;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\Period;
-use Piwik\API\Request as ApiRequest;
+use Piwik\Plugin\Visualization;
+use Piwik\View;
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.

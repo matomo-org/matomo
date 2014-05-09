@@ -10,13 +10,13 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
-use Piwik\Config;
 
 /**
  */

@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Db\Mysqli;
@@ -16,7 +17,6 @@ use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
-use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.

@@ -8,12 +8,9 @@
  */
 namespace Piwik\DataAccess;
 
-use PDOStatement;
 use Piwik\ArchiveProcessor\Parameters;
-use Piwik\Common;
 use Piwik\DataArray;
 use Piwik\Db;
-
 use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
 
