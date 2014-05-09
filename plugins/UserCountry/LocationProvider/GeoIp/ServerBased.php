@@ -12,8 +12,8 @@ namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * A LocationProvider that uses an GeoIP module installed in an HTTP Server.
