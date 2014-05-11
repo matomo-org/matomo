@@ -111,6 +111,14 @@ class VisitExcluded
             }
         }
 
+        // Check if Referrer URL is a known spam
+        if (!$excluded) {
+            $excluded = $this->isReferrerSpamExcluded();
+            if ($excluded) {
+                Common::printDebug("Referrer URL is blacklisted as spam.");
+            }
+        }
+
         if (!$excluded) {
             if ($this->isPrefetchDetected()) {
                 $excluded = true;
@@ -256,6 +264,7 @@ class VisitExcluded
         $referrerUrl = $this->request->getParam('urlref');
         foreach($spamHosts as $spamHost) {
             if( strpos($referrerUrl, $spamHost) !== false) {
+                Common::printDebug('Referrer URL is a known spam: ' . $spamHost);
                 return true;
             }
         }
