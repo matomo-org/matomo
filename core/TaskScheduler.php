@@ -21,7 +21,7 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  * weekly, monthly, etc.). They are registered with **TaskScheduler** through the
  * {@hook TaskScheduler.getScheduledTasks} event.
  * 
- * Tasks are executed when the cron archive.php script is executed.
+ * Tasks are executed when the cron core:archive command is executed.
  * 
  * ### Examples
  * 

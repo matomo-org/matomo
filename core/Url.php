@@ -305,7 +305,7 @@ class Url
     }
 
     /**
-     * Sets the host. Useful for CLI scripts, eg. archive.php
+     * Sets the host. Useful for CLI scripts, eg. core:archive command
      * 
      * @param $host string
      */

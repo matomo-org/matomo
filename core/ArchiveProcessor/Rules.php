@@ -164,7 +164,7 @@ class Rules
                 // We delete more often which is safe, since reports are re-processed on demand
                 $purgeArchivesOlderThan = Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
             } else {
-                // If archive.php via Cron is building the reports, we should keep all temporary reports from today
+                // If cron core:archive command is building the reports, we should keep all temporary reports from today
                 $purgeArchivesOlderThan = Date::factory('today')->getDateTime();
             }
             return $purgeArchivesOlderThan;
@@ -234,7 +234,7 @@ class Rules
             if (!$segment->isEmpty()
                 && $isArchivingDisabled
                 && Config::getInstance()->General['browser_archiving_disabled_enforce']
-                && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running archive.php
+                && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
                 return true;

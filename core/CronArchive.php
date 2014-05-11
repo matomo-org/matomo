@@ -16,7 +16,7 @@ use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
- * archive.php runs as a cron and is a useful tool for general maintenance,
+ * ./console core:archive runs as a cron and is a useful tool for general maintenance,
  * and pre-process reports for a Fast dashboard rendering.
  */
 class CronArchive
@@ -88,7 +88,7 @@ class CronArchive
     public $testmode = false;
 
     /**
-     * Returns the option name of the option that stores the time the archive.php script was last run.
+     * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idsite
      * @param string $period
@@ -382,7 +382,7 @@ class CronArchive
             return false;
         }
 
-        // Fake that the request is already done, so that other archive.php
+        // Fake that the request is already done, so that other core:archive commands
         // running do not grab the same website from the queue
         Option::set($this->lastRunKey($idsite, "day"), time());
 
@@ -803,7 +803,7 @@ class CronArchive
         $websiteIds = array_intersect($websiteIds, $this->allWebsites);
 
         /**
-         * Triggered by the **archive.php** cron script so plugins can modify the list of
+         * Triggered by the **core:archive** console command so plugins can modify the list of
          * websites that the archiving process will be launched for.
          * 
          * Plugins can use this hook to add websites to archive, remove websites to archive, or change
@@ -849,7 +849,7 @@ class CronArchive
 
     private function initPiwikHost()
     {
-        // If archive.php run as a web cron, we use the current hostname+path
+        // If core:archive command run as a web cron, we use the current hostname+path
         if (!Common::isPhpCliMode()) {
             if (!empty(self::$url)) {
                 $piwikUrl = self::$url;
@@ -858,7 +858,7 @@ class CronArchive
                 $piwikUrl = SettingsPiwik::getPiwikUrl();
             }
         } else {
-            // If archive.php run as CLI/shell we require the piwik url to be set
+            // If core:archive command run as CLI/shell we require the piwik url to be set
             $piwikUrl = $this->getParameterFromCli("url", true);
 
             if (!$piwikUrl) {

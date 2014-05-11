@@ -159,7 +159,7 @@ class SettingsPiwik
 
         $isPiwikCoreDispatching = defined('PIWIK_ENABLE_DISPATCH') && PIWIK_ENABLE_DISPATCH;
         if (Common::isPhpCliMode()
-            // in case archive.php is triggered with domain localhost
+            // in case core:archive command is triggered (often with localhost domain)
             || SettingsServer::isArchivePhpTriggered()
             // When someone else than core is dispatching this request then we return the URL as it is read only
             || !$isPiwikCoreDispatching

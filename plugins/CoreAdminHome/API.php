@@ -37,7 +37,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /*
-     * stores the list of websites IDs to re-reprocess in archive.php
+     * stores the list of websites IDs to re-reprocess in core:archive command
      */
     const OPTION_INVALIDATED_IDSITES = 'InvalidatedOldReports_WebsiteIds';
 
@@ -51,7 +51,7 @@ class API extends \Piwik\Plugin\API
      *      to be reprocessed by visiting the script as the Super User:
      *      http://example.net/piwik/misc/cron/archive.php?token_auth=$SUPER_USER_TOKEN_AUTH_HERE
      * REQUIREMENTS: On large piwik setups, you will need in PHP configuration: max_execution_time = 0
-     *    We recommend to use an hourly schedule of the script at misc/cron/archive.php
+     *    We recommend to use an hourly schedule of the script.
      *    More information: http://piwik.org/setup-auto-archiving/
      *
      * @param string $idSites Comma separated list of idSite that have had data imported for the specified dates
@@ -160,7 +160,7 @@ class API extends \Piwik\Plugin\API
         }
         \Piwik\Plugins\SitesManager\API::getInstance()->updateSiteCreatedTime($idSites, $minDate);
 
-        // Force to re-process data for these websites in the next archive.php cron run
+        // Force to re-process data for these websites in the next cron core:archive command run
         $invalidatedIdSites = self::getWebsiteIdsToInvalidate();
         $invalidatedIdSites = array_merge($invalidatedIdSites, $idSites);
         $invalidatedIdSites = array_unique($invalidatedIdSites);
@@ -183,7 +183,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns array of idSites to force re-process next time archive.php runs
+     * Returns array of idSites to force re-process next time core:archive command runs
      *
      * @ignore
      * @return mixed

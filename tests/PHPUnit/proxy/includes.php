@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 
 \Piwik\SettingsServer::setMaxExecutionTime(0);
 
-// Make sure Data processed in archive.php is not being purged instantly (useful for: Integration/ArchiveCronTest)
+// Make sure Data processed in cron core:archive command is not being purged instantly (useful for: Integration/ArchiveCronTest)
 if(\Piwik\SettingsServer::isArchivePhpTriggered()) {
     \Piwik\ArchiveProcessor\Rules::$purgeDisabledByTests = true;
 }

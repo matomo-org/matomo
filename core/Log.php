@@ -43,7 +43,7 @@ use Piwik\Db;
  *                severe than the current log level will be outputted. Others will be
  *                ignored. The default level is **WARN**.
  * - `log_only_when_cli`: 0 or 1. If 1, logging is only enabled when Piwik is executed
- *                        in the command line (for example, by the archive.php cron
+ *                        in the command line (for example, by the core:archive command
  *                        script). Default: 0.
  * - `log_only_when_debug_parameter`: 0 or 1. If 1, logging is only enabled when the
  *                                    `debug` query parameter is 1. Default: 0.
