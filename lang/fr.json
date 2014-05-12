@@ -98,8 +98,8 @@
         "ArchivingSettings": "Paramètres d'archivage",
         "BrandingSettings": "Paramètres de l'image de marque",
         "CheckReleaseGetVersion": "Quand vous vérifiez la présence d'une nouvelle version de Piwik, obtenez toujours",
-        "ClickHereToOptIn": "Cliquez ici pour participer",
-        "ClickHereToOptOut": "Cliquez ici pour ne pas participer",
+        "ClickHereToOptIn": "Cliquez ici pour l'être.",
+        "ClickHereToOptOut": "Cliquez ici pour ne plus l'être.",
         "CustomLogoFeedbackInfo": "Si vous personnalisez le logo Piwi, vous pouvez être aussi intéressé de cacher le lien %s du menu du haut. Pour ce faire, vous pouvez désactiver le plugin de Feedback dans la page de %sGestionnaire de Plugins%s",
         "CustomLogoHelpText": "Vous pouvez personnaliser le logo Piwik qui sera affichée dans l'interface utilisateur et les rapports par courriel.",
         "DevelopmentProcess": "Bien que notre %sprocessus de développement%s inclue des milliers de tests automatisés, les béta testeurs jouent un rôle clef dans la réalisation de la \"politique zéro bug\" de Piwik.",
@@ -169,9 +169,9 @@
         "ValidPiwikHostname": "Nom d'hôte Piwik valide",
         "WithOptionalRevenue": "avec revenu optimal",
         "YouAreOptedIn": "Vous êtes actuellement suivi(e).",
-        "YouAreOptedOut": "Vous n'êtes actuellement pas suivi.",
-        "YouMayOptOut": "Vous pouvez choisir de ne pas avoir un cookie de numéro d'identification unique d'analyse web attribué à votre ordinateur pour éviter l'agrégation et l'analyse des données collectées sur ce site",
-        "YouMayOptOutBis": "Pour faire ce choix, merci de cliquer en dessous pour recevoir un cookie d'exclusion."
+        "YouAreOptedOut": "Vous n'êtes actuellement pas suivi(e).",
+        "YouMayOptOut": "Vous pouvez refuser d'enregistrer le cookie contenant un numéro d'identification unique sur votre ordinateur afin d'éviter l'agrégation et l'analyse des données collectées sur ce site.",
+        "YouMayOptOutBis": "Pour faire ce choix, veuillez cliquer ci-dessous pour enregistrer un cookie d'exclusion."
     },
     "CoreHome": {
         "CategoryNoData": "Aucune donnée pour cette catégorie. Essayez \"d'inclure toute la population\".",
