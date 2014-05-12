@@ -528,7 +528,7 @@ class Url
         }
 
         // drop port numbers from hostnames and IP addresses
-        $hosts = array_map(array('Piwik\IP', 'sanitizeIp'), $hosts);
+        $hosts = array_map(array('self', 'getHostSanitized'), $hosts);
 
         $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host
@@ -563,5 +563,16 @@ class Url
         Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
 
         return $trustedHosts;
+    }
+
+    /**
+     * Returns hostname, without port numbers
+     *
+     * @param $host
+     * @return array
+     */
+    public static function getHostSanitized($host)
+    {
+        return IP::sanitizeIp($host);
     }
 }
