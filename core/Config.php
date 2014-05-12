@@ -343,6 +343,7 @@ class Config extends Singleton
     public function checkLocalConfigFound()
     {
         if (!$this->existsLocalConfig()) {
+            Translate::loadEnglishTranslation();
             throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
         }
     }
