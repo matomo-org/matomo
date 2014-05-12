@@ -609,7 +609,7 @@
         "EvolutionOverPeriod": "Evolution over the period",
         "EvolutionSummaryGeneric": "%1$s in %2$s compared to %3$s in %4$s. Evolution: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "The user has to be either a Super User or the user '%s' itself.",
-        "ExceptionConfigurationFileNotFound": "The configuration file {%s} has not been found.",
+        "ExceptionConfigurationFileNotFound": "The configuration file {%s} has not been found or could not be read.",
         "ExceptionDatabaseVersion": "Your %1$s version is %2$s but Piwik requires at least %3$s.",
         "ExceptionFileIntegrity": "Integrity check failed: %s",
         "ExceptionFilesizeMismatch": "File size mismatch: %1$s (expected length: %2$s, found: %3$s)",
