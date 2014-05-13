@@ -547,6 +547,9 @@ class API extends \Piwik\Plugin\API
             $timezone   = $website->getTimezone();
             $currencies = APISitesManager::getInstance()->getCurrencySymbols();
 
+            // live api is not summable, prevents errors like "Unexpected ECommerce status value"
+            $table->deleteRow(DataTable::ID_SUMMARY_ROW);
+
             foreach ($table->getRows() as $visitorDetailRow) {
                 $visitorDetailsArray = Visitor::cleanVisitorDetails($visitorDetailRow->getColumns());
 
@@ -686,6 +689,15 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray($data);
+       // $dataTable->disableFilter('Truncate');
+
+        if (!empty($data[0])) {
+            $columnsToNotAggregate = array_map(function () {
+                return 'skip';
+            }, $data[0]);
+
+            $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsToNotAggregate);
+        }
 
         return $dataTable;
     }
