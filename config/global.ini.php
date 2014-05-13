@@ -6,6 +6,7 @@
 ; edit config/config.ini.php and add the following:
 ; [General]
 ; action_title_category_delimiter = "-"
+; segment_editor_required_access = "admin"
 
 ;--------
 ; WARNING - YOU SHOULD NOT EDIT THIS FILE DIRECTLY - Edit config.ini.php instead.
