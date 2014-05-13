@@ -10,6 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Exception;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Tracker\GoalManager;
@@ -66,6 +67,8 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
      */
     const GOALS_FULL_TABLE = 0;
 
+    private $expectedColumns = array();
+
     /**
      * Constructor.
      * 
@@ -85,6 +88,12 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
         $this->deleteRowsWithNoVisit = false;
     }
 
+    private function addColumn(Row $row, $columnName, $callback)
+    {
+        $this->expectedColumns[$columnName] = true;
+        $row->addColumn($columnName, $callback);
+    }
+
     /**
      * Adds the processed metrics. See {@link AddColumnsProcessedMetrics} for
      * more information.
@@ -95,130 +104,91 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     {
         // Add standard processed metrics
         parent::filter($table);
-        $roundingPrecision = GoalManager::REVENUE_PRECISION;
-        $expectedColumns = array();
-        foreach ($table->getRows() as $key => $row) {
-            $currentColumns = $row->getColumns();
-            $newColumns = array();
 
-            // visits could be undefined when there is a conversion but no visit
-            $nbVisits = (int)$this->getColumn($row, Metrics::INDEX_NB_VISITS);
-            $conversions = (int)$this->getColumn($row, Metrics::INDEX_NB_CONVERSIONS);
-            $goals = $this->getColumn($currentColumns, Metrics::INDEX_GOALS);
-            if ($goals) {
-                $revenue = 0;
-                foreach ($goals as $goalId => $goalMetrics) {
-                    if ($goalId == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-                        continue;
-                    }
-                    if ($goalId >= GoalManager::IDGOAL_ORDER
-                        || $goalId == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
-                    ) {
-                        $revenue += (int)$this->getColumn($goalMetrics, Metrics::INDEX_GOAL_REVENUE, Metrics::$mappingFromIdToNameGoal);
-                    }
-                }
+        $this->expectedColumns = array();
 
-                if ($revenue == 0) {
-                    $revenue = (int)$this->getColumn($currentColumns, Metrics::INDEX_REVENUE);
-                }
-                if (!isset($currentColumns['revenue_per_visit'])) {
-                    // If no visit for this metric, but some conversions, we still want to display some kind of "revenue per visit"
-                    // even though it will actually be in this edge case "Revenue per conversion"
-                    $revenuePerVisit = $this->invalidDivision;
-                    if ($nbVisits > 0
-                        || $conversions > 0
-                    ) {
-                        $revenuePerVisit = round($revenue / ($nbVisits == 0 ? $conversions : $nbVisits), $roundingPrecision);
-                    }
-                    $newColumns['revenue_per_visit'] = $revenuePerVisit;
-                }
-                if ($this->processOnlyIdGoal == self::GOALS_MINIMAL_REPORT) {
-                    $row->addColumns($newColumns);
+        $metrics = new Metrics\ProcessedGoals();
+
+        foreach ($table->getRows() as $row) {
+            $goals = $metrics->getColumn($row, Metrics::INDEX_GOALS);
+
+            if (!$goals) {
+                continue;
+            }
+
+            $this->addColumn($row, 'revenue_per_visit', function (Row $row) use ($metrics) {
+                return $metrics->getRevenuePerVisit($row);
+            });
+
+            if ($this->processOnlyIdGoal == self::GOALS_MINIMAL_REPORT) {
+                continue;
+            }
+
+            foreach ($goals as $goalId => $goalMetrics) {
+                $goalId = str_replace("idgoal=", "", $goalId);
+
+                if (($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
+                        || $this->isEcommerce)
+                    && $this->processOnlyIdGoal != $goalId
+                ) {
                     continue;
                 }
-                // Display per goal metrics
-                // - conversion rate
-                // - conversions
-                // - revenue per visit
-                foreach ($goals as $goalId => $goalMetrics) {
-                    $goalId = str_replace("idgoal=", "", $goalId);
-                    if (($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
-                            || $this->isEcommerce)
-                        && $this->processOnlyIdGoal != $goalId
-                    ) {
-                        continue;
-                    }
-                    $conversions = (int)$this->getColumn($goalMetrics, Metrics::INDEX_GOAL_NB_CONVERSIONS, Metrics::$mappingFromIdToNameGoal);
 
-                    // Goal Conversion rate
-                    $name = 'goal_' . $goalId . '_conversion_rate';
-                    if ($nbVisits == 0) {
-                        $value = $this->invalidDivision;
-                    } else {
-                        $value = round(100 * $conversions / $nbVisits, $roundingPrecision);
-                    }
-                    $newColumns[$name] = $value . "%";
-                    $expectedColumns[$name] = true;
+                $columnPrefix = 'goal_' . $goalId;
 
-                    // When the table is displayed by clicking on the flag icon, we only display the columns
-                    // Visits, Conversions, Per goal conversion rate, Revenue
-                    if ($this->processOnlyIdGoal == self::GOALS_OVERVIEW) {
-                        continue;
-                    }
+                $this->addColumn($row, $columnPrefix . '_conversion_rate', function (Row $row) use ($metrics, $goalMetrics) {
+                    return $metrics->getConversionRate($row, $goalMetrics);
+                });
 
-                    // Goal Conversions
-                    $name = 'goal_' . $goalId . '_nb_conversions';
-                    $newColumns[$name] = $conversions;
-                    $expectedColumns[$name] = true;
+                // When the table is displayed by clicking on the flag icon, we only display the columns
+                // Visits, Conversions, Per goal conversion rate, Revenue
+                if ($this->processOnlyIdGoal == self::GOALS_OVERVIEW) {
+                    continue;
+                }
 
-                    // Goal Revenue per visit
-                    $name = 'goal_' . $goalId . '_revenue_per_visit';
-                    // See comment above for $revenuePerVisit
-                    $goalRevenue = (float)$this->getColumn($goalMetrics, Metrics::INDEX_GOAL_REVENUE, Metrics::$mappingFromIdToNameGoal);
-                    $revenuePerVisit = round($goalRevenue / ($nbVisits == 0 ? $conversions : $nbVisits), $roundingPrecision);
-                    $newColumns[$name] = $revenuePerVisit;
-                    $expectedColumns[$name] = true;
+                // Goal Conversions
+                $this->addColumn($row, $columnPrefix . '_nb_conversions', function () use ($metrics, $goalMetrics) {
+                    return $metrics->getNbConversions($goalMetrics);
+                });
 
-                    // Total revenue
-                    $name = 'goal_' . $goalId . '_revenue';
-                    $newColumns[$name] = $goalRevenue;
-                    $expectedColumns[$name] = true;
+                // Goal Revenue per visit
+                $this->addColumn($row, $columnPrefix . '_revenue_per_visit', function (Row $row) use ($metrics, $goalMetrics) {
+                    return $metrics->getRevenuePerVisitForGoal($row, $goalMetrics);
+                });
 
-                    if ($this->isEcommerce) {
+                // Total revenue
+                $this->addColumn($row, $columnPrefix . '_revenue', function () use ($metrics, $goalMetrics) {
+                    return $metrics->getRevenue($goalMetrics);
+                });
 
-                        // AOV Average Order Value
-                        $name = 'goal_' . $goalId . '_avg_order_revenue';
-                        $newColumns[$name] = $goalRevenue / $conversions;
-                        $expectedColumns[$name] = true;
+                if ($this->isEcommerce) {
 
-                        // Items qty
-                        $name = 'goal_' . $goalId . '_items';
-                        $newColumns[$name] = $this->getColumn($goalMetrics, Metrics::INDEX_GOAL_ECOMMERCE_ITEMS, Metrics::$mappingFromIdToNameGoal);
-                        $expectedColumns[$name] = true;
-                    }
+                    // AOV Average Order Value
+                    $this->addColumn($row, $columnPrefix . '_avg_order_revenue', function () use ($metrics, $goalMetrics) {
+                        return $metrics->getAvgOrderRevenue($goalMetrics);
+                    });
+
+                    // Items qty
+                    $this->addColumn($row, $columnPrefix . '_items', function () use ($metrics, $goalMetrics) {
+                        return $metrics->getItems($goalMetrics);
+                    });
+
                 }
             }
-
-            // conversion_rate can be defined upstream apparently? FIXME
-            try {
-                $row->addColumns($newColumns);
-            } catch (Exception $e) {
-            }
         }
-        $expectedColumns['revenue_per_visit'] = true;
 
-        // make sure all goals values are set, 0 by default
-        // if no value then sorting would put at the end
-        $expectedColumns = array_keys($expectedColumns);
+        $expectedColumns = array_keys($this->expectedColumns);
         $rows = $table->getRows();
-        foreach ($rows as &$row) {
+        foreach ($rows as $row) {
             foreach ($expectedColumns as $name) {
-                if (false === $row->getColumn($name)) {
-                    $value = 0;
+                if (!$row->hasColumn($name)) {
                     if (strpos($name, 'conversion_rate') !== false) {
-                        $value = '0%';
+                        $row->addColumn($name, function () {
+                            return '0%';
+                        });
+                    } else {
+                        $row->addColumn($name, 0);
                     }
-                    $row->addColumn($name, $value);
                 }
             }
         }
