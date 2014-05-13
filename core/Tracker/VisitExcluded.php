@@ -163,6 +163,7 @@ class VisitExcluded
             || strpos($this->userAgent, 'facebookexternalhit') !== false // http://www.facebook.com/externalhit_uatext.php
             || strpos($this->userAgent, 'baidu') !== false // Baidu
             || strpos($this->userAgent, 'bingbot') !== false // Bingbot
+            || strpos($this->userAgent, 'BingPreview') !== false // BingPreview
             || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
             || strpos($this->userAgent, 'CloudFlare') !== false // CloudFlare-AlwaysOnline
 
