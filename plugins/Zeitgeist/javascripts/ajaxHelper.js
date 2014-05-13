@@ -182,12 +182,9 @@ function ajaxHelper() {
         this.addParams({
             module: 'API',
             method: 'API.getBulkRequest',
+            urls: urls,
             format: 'json'
-        }, 'get');
-
-        this.addParams({
-            urls: urls
-        }, 'post')
+        }, 'post');
     };
 
     /**
