@@ -44,6 +44,7 @@
 
         <div class="custom_select_search" ng-show="autocompleteMinSites <= model.sites.length || view.searchTerm">
             <input type="text"
+                   piwik-focus-if="view.showSitesList"
                    ng-click="view.searchTerm=''"
                    ng-model="view.searchTerm"
                    ng-change="model.searchSite(view.searchTerm)"
