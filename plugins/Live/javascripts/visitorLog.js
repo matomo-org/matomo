@@ -24,6 +24,10 @@
 
     $.extend(exports.VisitorLog.prototype, dataTablePrototype, {
 
+        handleColumnHighlighting: function () {
+
+        },
+
         /**
          * Initializes this class.
          */
