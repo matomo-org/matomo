@@ -74,6 +74,14 @@ class Sort extends BaseFilter
         $valA = $a->getColumn($this->columnToSort);
         $valB = $b->getColumn($this->columnToSort);
 
+        if ($valA === false) {
+            $valA = null;
+        }
+
+        if ($valB === false) {
+            $valB = null;
+        }
+
         return !isset($valA)
         && !isset($valB)
             ? 0
@@ -111,6 +119,14 @@ class Sort extends BaseFilter
         $valA = $a->getColumn($this->columnToSort);
         $valB = $b->getColumn($this->columnToSort);
 
+        if ($valA === false) {
+            $valA = null;
+        }
+
+        if ($valB === false) {
+            $valB = null;
+        }
+
         return !isset($valA)
         && !isset($valB)
             ? 0
@@ -137,6 +153,14 @@ class Sort extends BaseFilter
     {
         $valA = $a->getColumn($this->columnToSort);
         $valB = $b->getColumn($this->columnToSort);
+
+        if ($valA === false) {
+            $valA = null;
+        }
+
+        if ($valB === false) {
+            $valB = null;
+        }
 
         return !isset($valA)
         && !isset($valB)
@@ -224,6 +248,7 @@ class Sort extends BaseFilter
                 $methodToUse = "sortString";
             }
         }
+
         $table->sort(array($this, $methodToUse), $this->columnToSort);
     }
 }
