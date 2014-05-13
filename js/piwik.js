@@ -391,7 +391,7 @@ if (typeof JSON2 !== 'object') {
 /*global unescape */
 /*global ActiveXObject */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift,
+    shift, unshift, piwikAsyncInit,
     createElement, appendChild, characterSet, charset,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
@@ -2090,25 +2090,6 @@ if (typeof Piwik !== 'object') {
 
                 // optimization of the if..elseif..else construct below
                 return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
-
-/*
-                var linkType = 0;
-
-                if (linkPattern.test(className)) {
-                    // class attribute contains 'piwik_link' (or user's override)
-                    linkType = 'link';
-                } else if (downloadPattern.test(className)) {
-                    // class attribute contains 'piwik_download' (or user's override)
-                    linkType = 'download';
-                } else if (downloadExtensionsPattern.test(sourceHref)) {
-                    // file extension matches a defined download extension
-                    linkType = 'download';
-                } else if (!isInLink) {
-                    linkType = 'link';
-                }
-
-                return linkType;
- */
             }
 
             /*
@@ -3208,6 +3189,10 @@ if (typeof Piwik !== 'object') {
 
         return Piwik;
     }());
+}
+
+if (window && window.piwikAsyncInit) {
+    window.piwikAsyncInit();
 }
 
 /************************************************************
