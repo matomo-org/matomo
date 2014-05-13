@@ -1177,10 +1177,13 @@ $(document).ready(function() {
             segmentFromRequest = decodeURIComponent(segmentFromRequest);
         }
 
+        console.log(this.props);
+        var userSegmentAccess = (this.props.authorizedToCreateSegments) ? "write" : "read";
+
         this.impl = new Segmentation({
             "target"   : this.$element.find(".segmentListContainer"),
             "editorTemplate": $('.SegmentEditor', self.$element),
-            "segmentAccess" : "write",
+            "segmentAccess" : userSegmentAccess,
             "availableSegments" : this.props.availableSegments,
             "addMethod": addSegment,
             "updateMethod": updateSegment,

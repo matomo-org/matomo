@@ -13,6 +13,8 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Config;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Segment;
 
 /**
@@ -110,6 +112,28 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+
+    protected function checkUserHasAccess($siteid = false)
+    {
+        if($this->isUserHasAccess($siteid) == false) {
+            throw new Exception("You don't have the required access level to do this.");
+        }
+    }
+
+    public function isUserHasAccess($siteid = false)
+    {
+        $requiredAccess = isset(Config::getInstance()->General['segment_editor_required_access']) ? Config::getInstance()->General['segment_editor_required_access'] : "view";
+
+        if(false ==
+            (($requiredAccess == 'superadmin' && Piwik::hasUserSuperUserAccess())
+                || ($requiredAccess == 'view' && (Piwik::isUserHasViewAccess($siteid) || ($siteid == 0 && Piwik::isUserHasSomeViewAccess())))
+                || ($requiredAccess == 'admin' && (Piwik::isUserHasAdminAccess($siteid) || ($siteid == 0 && Piwik::isUserHasSomeAdminAccess()))))
+        ) {
+            return false;
+        }
+        return true;
+    }
+
     protected function checkUserCanModifySegment($segment)
     {
         if(Piwik::hasUserSuperUserAccess()) {
@@ -128,7 +152,10 @@ class API extends \Piwik\Plugin\API
      */
     public function delete($idSegment)
     {
-        $this->checkUserIsNotAnonymous();
+        $segment = $this->get($idSegment);
+        $idSite = $segment['enable_only_idsite'];
+
+        $this->checkUserHasAccess($idSite);
 
         $segment = $this->getSegmentOrFail($idSegment);
 
@@ -155,7 +182,7 @@ class API extends \Piwik\Plugin\API
      */
     public function update($idSegment, $name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
-        $this->checkUserIsNotAnonymous();
+        $this->checkUserHasAccess($idSite);
         $segment = $this->getSegmentOrFail($idSegment);
 
         $this->checkUserCanModifySegment($segment);
@@ -200,7 +227,7 @@ class API extends \Piwik\Plugin\API
      */
     public function add($name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
-        $this->checkUserIsNotAnonymous();
+        $this->checkUserHasAccess($idSite);
         $idSite = $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
         $definition = $this->checkSegmentValue($definition, $idSite);
