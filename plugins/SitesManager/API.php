@@ -103,7 +103,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false)
     {
-        $urlParams = array('idSite' => $idSite, 'rec' => 1);
+        $urlParams = array('idsite' => $idSite, 'rec' => 1);
 
         if ($actionName !== false) {
             $urlParams['action_name'] = urlencode(Common::unsanitizeInputValue($actionName));

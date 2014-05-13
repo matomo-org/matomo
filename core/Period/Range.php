@@ -23,7 +23,7 @@ use Piwik\Piwik;
  * date=2007-07-24,2013-11-15).
  *
  * The range period differs from other periods mainly in that since it is arbitrary,
- * range periods are not pre-archived by the **archive.php** cron script.
+ * range periods are not pre-archived by the cron core:archive command.
  *
  * @api
  */

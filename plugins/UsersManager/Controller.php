@@ -149,7 +149,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @throws
      * @return array
      */
-    protected function getAvailableDefaultDates()
+    protected function getDefaultDates()
     {
         $dates = array(
             'today'      => Piwik::translate('General_Today'),
@@ -177,12 +177,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // assertion
         if(count($dates) != count($mappingDatesToPeriods)) {
-            throw new Exception("some metadata is missing in getAvailableDefaultDates()");
+            throw new Exception("some metadata is missing in getDefaultDates()");
         }
 
         $allowedPeriods = self::getEnabledPeriodsInUI();
         $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
         $dates = array_intersect_key($dates, $allowedDates);
+
+        /**
+         * Triggered when the list of available dates is requested, for example for the
+         * User Settings > Report date to load by default.
+         *
+         * @param array &$dates Array of (date => translation)
+         */
+        Piwik::postEvent('UsersManager.getDefaultDates', array(&$dates));
 
         return $dates;
     }
@@ -214,7 +222,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
-        $view->availableDefaultDates = $this->getAvailableDefaultDates();
+        $view-> availableDefaultDates = $this->getDefaultDates();
 
         $view->languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = LanguagesManager::getLanguageCodeForCurrentUser();

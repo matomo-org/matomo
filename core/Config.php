@@ -234,10 +234,19 @@ class Config extends Singleton
         return false;
     }
 
+    /**
+     * Returns the hostname of the current request (without port number)
+     *
+     * @return string
+     */
     public static function getHostname()
     {
         // Check trusted requires config file which is not ready yet
         $host = Url::getHost($checkIfTrusted = false);
+
+        // Remove any port number to get actual hostname
+        $host = Url::getHostSanitized($host);
+
         return $host;
     }
 

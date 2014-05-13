@@ -15,11 +15,18 @@ use Piwik\View;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
+ *
+ * @property VisitorLog\Config $config
  */
 class VisitorLog extends Visualization
 {
     const ID = 'Piwik\Plugins\Live\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
+
+    public static function getDefaultConfig()
+    {
+        return new VisitorLog\Config();
+    }
 
     public function beforeLoadDataTable()
     {
@@ -45,6 +52,7 @@ class VisitorLog extends Visualization
      */
     public function beforeRender()
     {
+        $this->config->disable_row_actions = true;
         $this->config->datatable_js_type = 'VisitorLog';
         $this->config->enable_sort       = false;
         $this->config->show_search       = false;

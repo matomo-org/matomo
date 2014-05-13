@@ -111,6 +111,14 @@ class VisitExcluded
             }
         }
 
+        // Check if Referrer URL is a known spam
+        if (!$excluded) {
+            $excluded = $this->isReferrerSpamExcluded();
+            if ($excluded) {
+                Common::printDebug("Referrer URL is blacklisted as spam.");
+            }
+        }
+
         if (!$excluded) {
             if ($this->isPrefetchDetected()) {
                 $excluded = true;
@@ -155,6 +163,7 @@ class VisitExcluded
             || strpos($this->userAgent, 'facebookexternalhit') !== false // http://www.facebook.com/externalhit_uatext.php
             || strpos($this->userAgent, 'baidu') !== false // Baidu
             || strpos($this->userAgent, 'bingbot') !== false // Bingbot
+            || strpos($this->userAgent, 'BingPreview') !== false // BingPreview
             || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
             || strpos($this->userAgent, 'CloudFlare') !== false // CloudFlare-AlwaysOnline
 
@@ -256,6 +265,7 @@ class VisitExcluded
         $referrerUrl = $this->request->getParam('urlref');
         foreach($spamHosts as $spamHost) {
             if( strpos($referrerUrl, $spamHost) !== false) {
+                Common::printDebug('Referrer URL is a known spam: ' . $spamHost);
                 return true;
             }
         }

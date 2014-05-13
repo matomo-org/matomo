@@ -71,21 +71,31 @@ class Sort extends BaseFilter
      */
     public function numberSort($a, $b)
     {
-        return !isset($a->c[Row::COLUMNS][$this->columnToSort])
-        && !isset($b->c[Row::COLUMNS][$this->columnToSort])
+        $valA = $a->getColumn($this->columnToSort);
+        $valB = $b->getColumn($this->columnToSort);
 
+        if ($valA === false) {
+            $valA = null;
+        }
+
+        if ($valB === false) {
+            $valB = null;
+        }
+
+        return !isset($valA)
+        && !isset($valB)
             ? 0
             : (
-            !isset($a->c[Row::COLUMNS][$this->columnToSort])
+            !isset($valA)
                 ? 1
                 : (
-            !isset($b->c[Row::COLUMNS][$this->columnToSort])
+            !isset($valB)
                 ? -1
-                : (($a->c[Row::COLUMNS][$this->columnToSort] != $b->c[Row::COLUMNS][$this->columnToSort]
+                : (($valA != $valB
                 || !isset($a->c[Row::COLUMNS]['label']))
                 ? ($this->sign * (
-                    $a->c[Row::COLUMNS][$this->columnToSort]
-                    < $b->c[Row::COLUMNS][$this->columnToSort]
+                    $valA
+                    < $valB
                         ? -1
                         : 1)
                 )
@@ -106,16 +116,27 @@ class Sort extends BaseFilter
      */
     function naturalSort($a, $b)
     {
-        return !isset($a->c[Row::COLUMNS][$this->columnToSort])
-        && !isset($b->c[Row::COLUMNS][$this->columnToSort])
+        $valA = $a->getColumn($this->columnToSort);
+        $valB = $b->getColumn($this->columnToSort);
+
+        if ($valA === false) {
+            $valA = null;
+        }
+
+        if ($valB === false) {
+            $valB = null;
+        }
+
+        return !isset($valA)
+        && !isset($valB)
             ? 0
-            : (!isset($a->c[Row::COLUMNS][$this->columnToSort])
+            : (!isset($valA)
                 ? 1
-                : (!isset($b->c[Row::COLUMNS][$this->columnToSort])
+                : (!isset($valB)
                     ? -1
                     : $this->sign * strnatcasecmp(
-                        $a->c[Row::COLUMNS][$this->columnToSort],
-                        $b->c[Row::COLUMNS][$this->columnToSort]
+                        $valA,
+                        $valB
                     )
                 )
             );
@@ -130,16 +151,27 @@ class Sort extends BaseFilter
      */
     function sortString($a, $b)
     {
-        return !isset($a->c[Row::COLUMNS][$this->columnToSort])
-        && !isset($b->c[Row::COLUMNS][$this->columnToSort])
+        $valA = $a->getColumn($this->columnToSort);
+        $valB = $b->getColumn($this->columnToSort);
+
+        if ($valA === false) {
+            $valA = null;
+        }
+
+        if ($valB === false) {
+            $valB = null;
+        }
+
+        return !isset($valA)
+        && !isset($valB)
             ? 0
-            : (!isset($a->c[Row::COLUMNS][$this->columnToSort])
+            : (!isset($valA)
                 ? 1
-                : (!isset($b->c[Row::COLUMNS][$this->columnToSort])
+                : (!isset($valB)
                     ? -1
                     : $this->sign *
-                    strcasecmp($a->c[Row::COLUMNS][$this->columnToSort],
-                        $b->c[Row::COLUMNS][$this->columnToSort]
+                    strcasecmp($valA,
+                        $valB
                     )
                 )
             );
@@ -216,6 +248,7 @@ class Sort extends BaseFilter
                 $methodToUse = "sortString";
             }
         }
+
         $table->sort(array($this, $methodToUse), $this->columnToSort);
     }
 }

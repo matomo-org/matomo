@@ -12,7 +12,7 @@
 
     <input ng-if="inputName" type="hidden" name="{{ inputName }}" ng-value="selectedSite.id"/>
 
-    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites();view.searchTerm=''"
+    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites();"
        href="javascript:void(0)"
        class="custom_select_main_link"
        ng-class="{'loading': model.isLoading}">
@@ -44,6 +44,7 @@
 
         <div class="custom_select_search" ng-show="autocompleteMinSites <= model.sites.length || view.searchTerm">
             <input type="text"
+                   piwik-focus-if="view.showSitesList"
                    ng-click="view.searchTerm=''"
                    ng-model="view.searchTerm"
                    ng-change="model.searchSite(view.searchTerm)"

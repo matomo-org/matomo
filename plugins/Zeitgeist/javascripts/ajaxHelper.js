@@ -108,10 +108,16 @@ function ajaxHelper() {
 
     /**
      * Base URL used in the AJAX request. Can be set by setUrl.
+     *
+     * It is set to '?' rather than 'index.php?' to increase chances that it works
+     * including for users who have an automatic 301 redirection from index.php? to ?
+     * POST values are missing when there is such 301 redirection. So by by-passing
+     * this 301 redirection, we avoid this issue.
+     *
      * @type {String}
      * @see ajaxHelper.setUrl
      */
-    this.getUrl = 'index.php?';
+    this.getUrl = '?';
 
     /**
      * Params to be passed as GET params

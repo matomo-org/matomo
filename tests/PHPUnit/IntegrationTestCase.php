@@ -897,7 +897,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
             $messages .= " \n ";
             print($messages);
-            throw new Exception($messages);
+            $first = reset($this->comparisonFailures);
+            throw $first;
         }
 
         return count($this->comparisonFailures) == 0;

@@ -393,6 +393,7 @@ class ProcessedReport
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
         }
+
         $reportMetadata = reset($reportMetadata);
 
         // Generate Api call URL passing custom parameters
@@ -646,20 +647,19 @@ class ProcessedReport
             $enhancedDataTable = new Simple();
         }
 
-        // add missing metrics
         foreach ($simpleDataTable->getRows() as $row) {
             $rowMetrics = $row->getColumns();
+
+            // add missing metrics
             foreach ($metadataColumns as $id => $name) {
                 if (!isset($rowMetrics[$id])) {
-                    $row->addColumn($id, 0);
+                    $row->setColumn($id, 0);
+                    $rowMetrics[$id] = 0;
                 }
             }
-        }
 
-        foreach ($simpleDataTable->getRows() as $row) {
             $enhancedRow = new Row();
             $enhancedDataTable->addRow($enhancedRow);
-            $rowMetrics = $row->getColumns();
 
             foreach ($rowMetrics as $columnName => $columnValue) {
                 // filter metrics according to metadata definition
@@ -677,6 +677,9 @@ class ProcessedReport
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
                 elseif ($returnRawMetrics) {
+                    if (!isset($columnValue)) {
+                        $columnValue = 0;
+                    }
                     $enhancedRow->addColumn($columnName, $columnValue);
                 }
             }
