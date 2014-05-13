@@ -438,6 +438,8 @@ if (typeof JSON2 !== 'object') {
 /*members initialize */
 /*global define */
 /*members amd */
+/*global console:true */
+/*members error */
 
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
@@ -3133,17 +3135,18 @@ if (typeof Piwik !== 'object') {
         asyncTracker = new Tracker();
 
         var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1};
+        var methodName;
 
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
         for (iterator = 0; iterator < _paq.length; iterator++) {
-            var methodName = _paq[iterator][0];
+            methodName = _paq[iterator][0];
 
             if (applyFirst[methodName]) {
                 apply(_paq[iterator]);
                 delete _paq[iterator];
 
                 if (applyFirst[methodName] > 1) {
-                    if (typeof console !== 'undefined' && console && console.error) {
+                    if (console !== undefined && console && console.error) {
                         console.error('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/api-reference/tracking-javascript#multiple-piwik-trackers');
                     }
                 }
