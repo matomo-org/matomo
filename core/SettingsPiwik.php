@@ -304,7 +304,7 @@ class SettingsPiwik
         } catch (Exception $e) {
             $fetched = "ERROR fetching: " . $e->getMessage();
         }
-        $expectedString = 'plugins/CoreHome/images/favicon.ico';
+        $expectedString = 'app-id=737216887';
 
         if (strpos($fetched, $expectedString) === false) {
             throw new Exception("\nPiwik should be running at: "
