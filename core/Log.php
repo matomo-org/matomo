@@ -592,6 +592,10 @@ class Log extends Singleton
      */
     private function writeErrorToStandardErrorOutput($message)
     {
+        if(defined('PIWIK_TEST_MODE')) {
+            // do not log on stderr during tests (prevent display of errors in CI output)
+            return;
+        }
         $fe = fopen('php://stderr', 'w');
         fwrite($fe, $message);
     }
