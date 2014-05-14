@@ -8,7 +8,7 @@
             <meta charset="utf-8">
             <title>{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}</title>
             <meta name="generator" content="Piwik - Open Source Web Analytics"/>
-            <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
+            <link rel="shortcut icon" href="{{ customFavicon|default('plugins/CoreHome/images/favicon.ico') }}"/>
 
 {% include "_jsGlobalVariables.twig" %}
 {% include "_piwikTag.twig" %}

@@ -12,6 +12,7 @@ misc/*.dat
 misc/user/logo-header.png
 misc/user/logo.png
 misc/user/logo.svg
+misc/user/favicon.png
 php_errors.log
 piwik-min.js
 plugins/*.zip

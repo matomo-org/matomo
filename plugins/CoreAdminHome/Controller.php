@@ -55,6 +55,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->branding       = array('use_custom_logo' => $logo->isEnabled());
             $view->logosWriteable = $logo->isCustomLogoWritable();
             $view->pathUserLogo      = CustomLogo::getPathUserLogo();
+            $view->pathUserFavicon   = CustomLogo::getPathUserFavicon();
             $view->pathUserLogoSmall = CustomLogo::getPathUserLogoSmall();
             $view->pathUserLogoSVG   = CustomLogo::getPathUserSvgLogo();
             $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
@@ -260,9 +261,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSuperUserAccess();
 
         $logo = new CustomLogo();
-        $success = $logo->copyUploadedLogoToFilesystem();
+        $successLogo    = $logo->copyUploadedLogoToFilesystem();
+        $successFavicon = $logo->copyUploadedFaviconToFilesystem();
 
-        if($success) {
+        if($successLogo || $successFavicon) {
             return '1';
         }
         return '0';

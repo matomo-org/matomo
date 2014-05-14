@@ -606,6 +606,7 @@ abstract class Controller
 
         $customLogo = new CustomLogo();
         $view->isCustomLogo = $customLogo->isEnabled();
+        $view->customFavicon = $customLogo->getPathUserFavicon();
 
         $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
         $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
