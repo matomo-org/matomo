@@ -81,15 +81,6 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
-			<row>
-				<label>Page Name not defined</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>2</nb_hits>
-				<avg_time_on_page>00:00:00</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<avg_time_generation>0s</avg_time_generation>
-			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010">
 			<row>
@@ -109,15 +100,6 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.45s</avg_time_generation>
-			</row>
-			<row>
-				<label>Page Name not defined</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>2</nb_hits>
-				<avg_time_on_page>00:00:00</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<avg_time_generation>0s</avg_time_generation>
 			</row>
 		</result>
 		<result prettyDate="Thursday 7 January 2010">
@@ -139,15 +121,6 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
-			<row>
-				<label>Page Name not defined</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>2</nb_hits>
-				<avg_time_on_page>00:00:00</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<avg_time_generation>0s</avg_time_generation>
-			</row>
 		</result>
 		<result prettyDate="Friday 8 January 2010">
 			<row>
@@ -168,15 +141,6 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
-			<row>
-				<label>Page Name not defined</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>2</nb_hits>
-				<avg_time_on_page>00:00:00</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<avg_time_generation>0s</avg_time_generation>
-			</row>
 		</result>
 		<result prettyDate="Saturday 9 January 2010">
 			<row>
@@ -196,15 +160,6 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.45s</avg_time_generation>
-			</row>
-			<row>
-				<label>Page Name not defined</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>2</nb_hits>
-				<avg_time_on_page>00:00:00</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<avg_time_generation>0s</avg_time_generation>
 			</row>
 		</result>
 	</reportData>
@@ -253,9 +208,9 @@
 		</result>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>23</nb_visits>
+		<nb_visits>18</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
-		<nb_hits>28</nb_hits>
+		<nb_hits>18</nb_hits>
 		<entry_bounce_count>1</entry_bounce_count>
 		<entry_nb_visits>6</entry_nb_visits>
 		<entry_nb_actions>26</entry_nb_actions>

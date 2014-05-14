@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Page Name not defined</label>
-		<nb_visits>50</nb_visits>
-		<nb_uniq_visitors>10</nb_uniq_visitors>
-		<nb_hits>50</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
-		<avg_time_on_page>0</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
-	</row>
-	<row>
 		<label>title_0</label>
 		<nb_visits>3</nb_visits>
 		<nb_hits>3</nb_hits>
