@@ -35,7 +35,7 @@
 }
 
 .ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
-    background: @color-black-brand !important;
+    background: @theme-color-text !important;
 }
 
 .ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
@@ -74,19 +74,19 @@
         h3 {
             font-weight: normal;
             .font-default(13px, 15px);
-            color: @color-black-brand;
+            color: @theme-color-text;
         }
         
         .segment-add-row > div a span,
         .segment-add-or > div a span {
-            color: @color-brand-main;
+            color: @theme-color-brand;
             text-shadow: none;
         }
 
         .segment-input {
             select, input {
                 .font-default(12px, 14px);
-                color: @color-black-brand;
+                color: @theme-color-text;
                 font-weight: 500;
                 margin: 0px;
                 min-height: auto;
@@ -122,7 +122,7 @@
 
     .segment-top {
         .font-default(10px, 12px);
-        color: #444;
+        color: @theme-color-text-light;
         text-transform: uppercase;
 
         h4 {
@@ -137,7 +137,7 @@
         }
 
         a.dropdown {
-            color: @color-black-brand;
+            color: @theme-color-text;
             background: url('plugins/Zeitgeist/images/sort_subtable_desc.png') 100% -2px no-repeat;
             &.ui-autocomplete-input {
                 background-position: 100% -2px;
@@ -153,27 +153,27 @@
         }
 
         a.delete {
-            color: @color-brand-main;
+            color: @theme-color-brand;
         }
         .segmentFooterNote, .segment-element .segment-footer .segmentFooterNote a {
-            color: #444;
+            color: @theme-color-text-light;
         }
     }
 }
 
 .available_segments a.dropdown  {
-    color: @color-black-brand !important;
+    color: @theme-color-text !important;
     text-transform: uppercase;
     .font-default(10px, 12px);
 }
 
 
 #periodString {
-    border: 1px solid @color-silver-l80;
+    border: 1px solid @theme-color-background-lowContrast;
     .border-radius(0px);
-    background: #fff;
+    background: @theme-color-background-base;
     &:hover {
-        background: #fff;
+        background: @theme-color-background-base;
         border-color: @color-silver-l80;
     }
 
@@ -193,7 +193,7 @@
     h6 {
         .font-default(13px, 16px);
         font-weight: normal;
-        color: @color-black-brand;
+        color: @theme-color-text;
     }
 
     #periodMore {
@@ -206,15 +206,14 @@
 
     #date {
         .border-radius(0px);
-        background-color: #fff;
         .box-shadow(~"inset 1px 1px 3px #d8d8d8");
         padding: 8px 10px;
-        color: @color-silver-l20;
+        color: @theme-color-text-lighter;
         text-transform: uppercase;
         .font-default(10px, 12px);
 
         strong {
-            color: @color-black-brand;
+            color: @theme-color-text;
 
         }
     }
@@ -258,7 +257,7 @@
     table {
         td {
             .font-default(12px, 14px) !important;
-            color: @color-black-brand;
+            color: @theme-color-text;
             padding: 6px 5px;
         }
     }
@@ -301,9 +300,6 @@
 
         .Transitions_CenterBoxMetrics {
             padding: 0;
-            p {
-                font-family: Verdana, sans-serif;
-            }
             p.Transitions_Margin {
                 text-align: left;
                 .font-default(15px, 20px);

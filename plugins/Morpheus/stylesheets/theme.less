@@ -1,4 +1,4 @@
-@import "less/_colors";
+@import "less/_variables";
 @import "less/_mixins";
 @import "general/_typography";
 @import "general/_forms";
@@ -10,7 +10,8 @@
 @import "ui/_map";
 
 body {
-    font-family: Verdana, sans-serif;
+    background: @theme-color-background-base;
+    font-family: @theme-fontFamily-base;
 }
 
 .pageWrap {
@@ -46,7 +47,7 @@ body {
         right: -13px;
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
-        border-top: 5px solid @color-blue-brand;
+        border-top: 5px solid @theme-color-link;
     }
 }
 
@@ -54,10 +55,10 @@ body {
     border: 1px solid @color-silver-l80 !important;
     li {
         a {
-            color: @color-black-brand !important;
+            color: @theme-color-text !important;
             &:hover {
                 background: @color-silver-l80 !important;
-                color: @color-black-brand !important;
+                color: @theme-color-text !important;
             }
         }
     }
@@ -87,17 +88,17 @@ table.entityTable tr td a:hover {
         margin: 0 15px;
         #topBars {
             a {
-                color: @color-blue-brand;
+                color: @theme-color-link;
                 text-decoration: none;
             }
         }
 
         .topBarElem {
           padding: 0 3px;
-          color: @color-silver-l40;
+          color: @theme-color-text-lighter;
             strong {
                 font-weight: normal;
-                color: @color-black-brand;
+                color: @theme-color-text;
             }
         }
     }
@@ -130,14 +131,14 @@ table.entityTable tr td a:hover {
                 > ul {
                     li {
                         a {
-                            color: @color-silver-l40;
+                            color: @theme-color-text-lighter;
                             .font-default(15px, 18px);
                             padding: 14px 22px 11px;
                         }
 
                         &.sfHover {
                             a {
-                                color: @color-black-brand;
+                                color: @theme-color-text;
                                 font-weight: normal;
                             }
                
@@ -147,7 +148,7 @@ table.entityTable tr td a:hover {
 
                 &.sfActive {
                     > a {
-                        color: @color-black-brand;
+                        color: @theme-color-text;
                         text-decoration: none;
                         position: relative;
                         &:after {
@@ -157,7 +158,7 @@ table.entityTable tr td a:hover {
                             left: 0;
                             width: 100%;
                             height: 4px;
-                            background: @color-brand-main;
+                            background: @theme-color-brand;
                         }
                     }
 
@@ -167,7 +168,7 @@ table.entityTable tr td a:hover {
                     > a {
                         border: 0;
                         text-decoration: none;
-                        color: @color-black-brand;
+                        color: @theme-color-text;
                     }
                 }
             }
@@ -175,7 +176,7 @@ table.entityTable tr td a:hover {
     }
 
     .nav_sep {
-        background: @color-silver-l95;
+        background: @theme-color-background-tinyContrast;
         min-height: 57px;
         .border-radius(0px);
         border-color: @color-silver-l80 !important;
@@ -191,8 +192,8 @@ table.entityTable tr td a:hover {
 }
 
 .dashboardSettings {
-  border: 1px solid @color-silver-l80;
-  background: #fff;
+  border: 1px solid @theme-color-background-lowContrast;
+  background: @theme-color-background-base;
   z-index: 10;
   padding: 8px 10px 8px 10px;
   .border-radius(0px);
@@ -205,7 +206,7 @@ table.entityTable tr td a:hover {
       content: '';
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 5px solid @color-brand-main;
+      border-top: 5px solid @theme-color-brand;
       position: absolute;
       top: 3px;
       right: 0;
@@ -218,12 +219,12 @@ table.entityTable tr td a:hover {
       list-style-type: none;
       > div {
         .font-default(11px, 14px);
-        color: @color-black-brand;
+        color: @theme-color-text;
       }
       text-transform: none;
       color: @color-silver-l20;
       &.widgetpreview-choosen {
-        color: @color-black-brand;
+        color: @theme-color-text;
         font-weight: normal;
         background: @color-silver-l95;
         position: relative;
@@ -234,7 +235,7 @@ table.entityTable tr td a:hover {
           right: 10px;
           border-top: 4px solid transparent;
           border-bottom: 4px solid transparent;
-          border-left: 5px solid @color-brand-main;
+          border-left: 5px solid @theme-color-brand;
         }
       }
     }
@@ -242,8 +243,8 @@ table.entityTable tr td a:hover {
 }
 
 .segmentEditorPanel {
-  border: 1px solid @color-silver-l80;
-  background: #fff;
+  border: 1px solid @theme-color-background-lowContrast;
+  background: @theme-color-background-base;
   padding: 8px 10px 8px 10px;
   .border-radius(0px);
   .segmentationTitle {
@@ -255,7 +256,7 @@ table.entityTable tr td a:hover {
       content: '';
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 5px solid @color-brand-main;
+      border-top: 5px solid @theme-color-brand;
       position: absolute;
       top: 3px;
       right: 0;
@@ -274,7 +275,7 @@ table.entityTable tr td a:hover {
   }
   .segmentationContainer {
     > span > strong {
-      color: @color-brand-main;
+      color: @theme-color-brand;
     }
     .submenu {
       li {
@@ -284,7 +285,7 @@ table.entityTable tr td a:hover {
       }
 
       ul li:hover  {
-        color: @color-black-brand;
+        color: @theme-color-text;
       }
 
     }
@@ -302,7 +303,7 @@ table.entityTable tr td a:hover {
       .submenu {
           li {
           .font-default(13px, 16px);
-          color: #444;
+          color: @theme-color-text-light;
           &:hover {
               border-color: @color-silver-l80 !important;
               background: #fff !important;
@@ -314,9 +315,10 @@ table.entityTable tr td a:hover {
   }
 }
 
-.segmentEditorPanel:hover, .dashboardSettings:hover {
-  background: #fff;
-  border: 1px solid @color-silver-l80;
+.segmentEditorPanel:hover,
+.dashboardSettings:hover {
+  background: @theme-color-background-base;
+  border: 1px solid @theme-color-background-lowContrast;
 }
 
 /* Iframed Embed dashboard style */
@@ -333,7 +335,7 @@ table.entityTable tr td a:hover {
       background: #fff;
       border: 1px solid @color-silver-l80;
       padding: 8px 10px 8px 10px;
-      color: #444;
+      color: @theme-color-text-light;
       height: 12px;
       line-height:0.5em;
       .border-radius(0px);
@@ -342,7 +344,7 @@ table.entityTable tr td a:hover {
     > ul > li:hover a,
     > ul > li.sfHover,
     > ul > li.sfHover a {
-      color: @color-brand-main;
+      color: @theme-color-brand;
     }
     > ul > li.sfHover,
     > ul > li.sfHover a {
@@ -352,7 +354,7 @@ table.entityTable tr td a:hover {
 }
 
 .rss-title {
-    color: @color-blue-brand !important;
+    color: @theme-color-link !important;
     font-weight: normal;
     .font-default(15px, 18px);
     text-decoration: none;
@@ -370,7 +372,7 @@ table.entityTable tr td a:hover {
 .rss-description {
     p {
         margin: 0;
-        color: @color-silver-l40;
+        color: @theme-color-text-lighter;
         .font-default(13px, 18px);
     }
 }
@@ -381,7 +383,7 @@ table.dataTable {
             th {
                 background: #fff;
                 text-transform: uppercase;
-                color: @color-black-brand;
+                color: @theme-color-text;
                 .font-default(10px, 12px);
                 padding-top: 12px;
                 padding-bottom: 12px;
@@ -398,7 +400,7 @@ table.dataTable {
     tr {
         td {
             border-color: @color-silver-l85 !important;
-            color: @color-black-brand;
+            color: @theme-color-text;
             background: @color-silver-l95;
 
             &:not(.value) {
@@ -424,7 +426,7 @@ table.dataTable {
 
             a {
                 text-decoration: none !important;
-                color: @color-blue-brand;
+                color: @theme-color-link;
                 width: inherit;
             }
 
@@ -504,7 +506,7 @@ div.sparkline {
 .widgetpreview-base li.widgetpreview-choosen {
     background: @color-silver-l95;
     position: relative;
-    color: @color-black-brand;
+    color: @theme-color-text;
     font-weight: normal;
     text-transform: none;
     &:after {
@@ -514,12 +516,12 @@ div.sparkline {
         right: 10px;
         border-top: 4px solid transparent;
         border-bottom: 4px solid transparent;
-        border-left: 5px solid @color-brand-main;
+        border-left: 5px solid @theme-color-brand;
     }
 }
 
 .dataTableNext, .dataTablePrevious {
-    color: @color-blue-brand;
+    color: @theme-color-link;
     text-transform: uppercase;
     .font-default(10px, 12px);
 }
@@ -530,6 +532,7 @@ div.sparkline {
 
 
 .widget {
+    background: @theme-color-background-base;
     border: 1px solid @color-silver-l80;
     .border-radius();
     .font-default(13px, 18px);
@@ -548,11 +551,11 @@ div.sparkline {
     }
 
     .widgetTop {
-        background: @color-silver-l95;
+        background: @theme-color-background-tinyContrast;
         border-bottom: 1px solid @color-silver-l80;
         .widgetName {
             .font-default(15px, 18px);
-            color: @color-black-brand;
+            color: @theme-color-text;
             text-shadow: none;
             padding: 15px 15px 10px;
         }
@@ -576,7 +579,7 @@ div.sparkline {
     background: none;
     height: auto;
     input {
-        color: @color-black-brand !important;
+        color: @theme-color-text !important;
         .border-radius(0px);
         border: 0px;
         margin-left: 0;
@@ -613,7 +616,7 @@ div.sparkline {
 }
 
 .visitor-profile a {
-    color: @color-blue-brand;
+    color: @theme-color-link;
     font-weight: normal;
 }
 
@@ -633,7 +636,7 @@ div.sparkline {
 }
 
 .visitor-profile-more-info > a {
-    color: @color-blue-brand;
+    color: @theme-color-link;
     .font-default(12px, 16px);
 }
 
@@ -663,7 +666,7 @@ div.sparkline {
         > li {
             padding: 0 0 0 !important;
             span {
-                color: @color-silver-l40;
+                color: @theme-color-text-lighter;
                 .font-default(13px, 18px);
                 font-weight: normal;
                 margin-right: 20px;
@@ -682,7 +685,7 @@ div.sparkline {
                     background: #fff !important;
                     .font-default(11px, 19px);
                     font-weight: normal;
-                    color: @color-silver-l40;
+                    color: @theme-color-text-lighter;
                     &:last-child {
                         border-bottom: 0px !important;
                     }
@@ -732,12 +735,12 @@ div.sparkline {
     h1 {
         .font-default(15px, 20px);
         font-weight: normal;
-        color: @color-black-brand;
+        color: @theme-color-text;
     }
 
     h2 {
         .font-default(13px, 18px);
-        color: @color-black-brand;
+        color: @theme-color-text;
     }
 
     p {
@@ -747,7 +750,7 @@ div.sparkline {
         color: @color-silver-l60;
         strong {
             .font-default(13px, 18px);
-            color: @color-black-brand;
+            color: @theme-color-text;
             font-weight: normal;
         }
         span {
@@ -766,13 +769,13 @@ div.sparkline {
                     border: 0px !important;
                 }
                 span {
-                    color: @color-silver-l40;
+                    color: @theme-color-text-lighter;
                     .font-default(13px, 18px);
                     padding-left: 0;
                 }
 
                 strong {
-                    color: @color-black-brand;
+                    color: @theme-color-text;
                     .font-default(13px, 18px);
                     font-weight: normal;
                 }
@@ -826,7 +829,7 @@ div.sparkline {
 .annotationView {
     .font-default(10px, 12px);
     text-transform: uppercase;
-    color: @color-black-brand;
+    color: @theme-color-text;
 }
 
 .datatableFooterMessage {
@@ -841,7 +844,7 @@ div.sparkline {
 }
 
 .dataTableFooterIcons, .dataTableFooterIcons a {
-    color: @color-blue-brand;
+    color: @theme-color-link;
 }
 
 #visitsLive .datetime {

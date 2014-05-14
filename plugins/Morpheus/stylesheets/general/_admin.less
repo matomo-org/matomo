@@ -8,7 +8,7 @@
         > li {
             padding-bottom: 0px;
             > span {
-                color: @color-black-brand;
+                color: @theme-color-text;
                 .font-default(18px, 26px);
                 border-top: 1px solid @color-gray;
                 border-bottom: 1px solid @color-gray;
@@ -17,10 +17,10 @@
             ul {
                 li {
                     a {
-                        color: @color-silver-l40 !important;
+                        color: @theme-color-text-lighter !important;
                         padding: 0.6em 1.1em;
                         &:hover {
-                            color: @color-black-brand;
+                            color: @theme-color-text;
                             text-decoration: none;
                         }
                     }
@@ -36,7 +36,7 @@
         margin-right:0;
     }
     h3 {
-        color: @color-black-brand;
+        color: @theme-color-text;
         .font-default(18px, 24px);
         font-weight: normal;
     }
@@ -73,7 +73,7 @@
 }
 
 #loadingError {
-    color: @color-brand-main;
+    color: @theme-color-brand;
     font-weight: normal;
 }
 
@@ -87,7 +87,7 @@
 }
 
 .adminTable a {
-    color: @color-blue-brand;
+    color: @theme-color-link;
 }
 
 .addRowSite,
@@ -109,7 +109,7 @@
 
 code {
     border-color: @color-silver-l80;
-    border-left: 5px solid @color-brand-main;
+    border-left: 5px solid @theme-color-brand;
 }
 
 #geoipdb-screen1>div>p {

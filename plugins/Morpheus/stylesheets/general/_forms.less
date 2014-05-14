@@ -1,5 +1,5 @@
 input, select, textarea {
-    color: @color-black-brand;
+    color: @theme-color-text;
     .border-radius(0px);
     margin-left: 0;
     padding: 8px 10px;  
@@ -45,18 +45,18 @@ button[type="button"],
       min-height: 0;
     }
     .custom_select {
-        border-color: @color-silver-l80;
+        border-color: @theme-color-background-lowContrast;
         .border-radius(0px);
-        background: #fff;
+        background: @theme-color-background-base;
         .box-shadow(~"inset 1px 1px 3px #d8d8d8");
         padding: 9px 5px 7px;
-        color: @color-silver-l20;
+        color: @theme-color-text;
         text-transform: uppercase;
         .font-default(10px, 12px);
         min-height: 30px;
         .box-sizing(border-box);
         a {
-            color: @color-silver-l20;
+            color: @theme-color-text;
         }
         .custom_select_block {
             .custom_select_container{
@@ -69,7 +69,7 @@ button[type="button"],
 }
 
 .ajaxError {
-    background: @color-brand-main;
+    background: @theme-color-brand;
     color: #fff;
     border:0px;
     .border-radius(6px);
@@ -81,14 +81,14 @@ button[type="button"],
 
 .sites_autocomplete--dropdown {
     .custom_select_main_link:not(.loading):before {
-        color: @color-brand-main;
+        color: @theme-color-brand;
         font-size: 0.7em;
         top: 2px;
         right: 5px;
         content: '';
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
-        border-top: 5px solid @color-brand-main;
+        border-top: 5px solid @theme-color-brand;
     }
 }
 
@@ -110,14 +110,14 @@ button[type="button"],
         span {
             position: relative;
             background: none;
-            color: @color-black-brand;
+            color: @theme-color-text;
             display: block;
             padding-right: 3px;
             &:after {
                 content: '';
                 border-left: 4px solid transparent;
                 border-right: 4px solid transparent;
-                border-top: 5px solid @color-brand-main;
+                border-top: 5px solid @theme-color-brand;
                 position: absolute;
                 top: 7px;
                 right: -9px;
@@ -126,7 +126,7 @@ button[type="button"],
     }
 
     span {
-        color: @color-black-brand;
+        color: @theme-color-text;
         font-weight: normal;
     }
 
