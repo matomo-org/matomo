@@ -58,6 +58,8 @@ if (empty($_GET)) {
     exit;
 }
 
+@ini_set('magic_quotes_runtime', 0);
+
 // 2) PIWIK.PHP PROXY: GET parameters found, this is a tracking request, we redirect it to Piwik
 $url = sprintf("%spiwik.php?cip=%s&token_auth=%s&", $PIWIK_URL, @$_SERVER['REMOTE_ADDR'], $TOKEN_AUTH);
 foreach ($_GET as $key => $value) {
