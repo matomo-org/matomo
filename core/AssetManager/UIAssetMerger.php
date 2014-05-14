@@ -95,8 +95,9 @@ abstract class UIAssetMerger
 
     protected function getConcatenatedAssets()
     {
-        if(empty($this->mergedContent))
+        if (empty($this->mergedContent)) {
             $this->concatenateAssets();
+        }
 
         return $this->mergedContent;
     }

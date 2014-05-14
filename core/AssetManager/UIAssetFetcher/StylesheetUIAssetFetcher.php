@@ -59,7 +59,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
 
         if ($themeStylesheet) {
             $this->fileLocations[] = $themeStylesheet;
-            $this->fileLocations[] = 'plugins/WhiteLabel/stylesheets/override.less';
+            $this->fileLocations[] = 'plugins/WhiteLabel/stylesheets/theme.less';
         }
     }
 }
