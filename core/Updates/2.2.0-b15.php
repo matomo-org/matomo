@@ -8,7 +8,6 @@
 namespace Piwik\Updates;
 
 use Piwik\Db;
-use Piwik\Filesystem;
 use Piwik\Updates;
 
 /**

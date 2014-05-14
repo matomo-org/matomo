@@ -17,6 +17,8 @@ use Zend_Session;
  */
 class Session extends Zend_Session
 {
+    const SESSION_NAME = 'PIWIK_SESSID';
+
     protected static $sessionStarted = false;
 
     /**
@@ -62,8 +64,7 @@ class Session extends Zend_Session
         @ini_set('session.cookie_httponly', '1');
 
         // don't use the default: PHPSESSID
-        $sessionName = defined('PIWIK_SESSION_NAME') ? PIWIK_SESSION_NAME : 'PIWIK_SESSID';
-        @ini_set('session.name', $sessionName);
+        @ini_set('session.name', self::SESSION_NAME);
 
         // proxies may cause the referer check to fail and
         // incorrectly invalidate the session
@@ -109,7 +110,7 @@ class Session extends Zend_Session
         }
 
         try {
-            Zend_Session::start();
+            parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
             Log::warning('Unable to start session: ' . $e->getMessage());
@@ -129,7 +130,7 @@ class Session extends Zend_Session
                 $e->getMessage()
             );
 
-            Piwik_ExitWithMessage($message);
+            Piwik_ExitWithMessage($message, $e->getTraceAsString());
         }
     }
 
@@ -142,5 +143,10 @@ class Session extends Zend_Session
     {
         $path = PIWIK_USER_PATH . '/tmp/sessions';
         return SettingsPiwik::rewriteTmpPathWithHostname($path);
+    }
+
+    public static function close()
+    {
+        parent::writeClose();
     }
 }

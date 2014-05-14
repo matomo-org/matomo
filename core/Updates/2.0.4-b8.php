@@ -9,12 +9,12 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Db;
 use Piwik\Config;
-use Piwik\Updates;
-use Piwik\UpdaterErrorException;
+use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\UpdaterErrorException;
+use Piwik\Updates;
 
 /**
  */

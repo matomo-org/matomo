@@ -7,20 +7,19 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\DbHelper;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
+use Exception;
+use Piwik\Access;
 use Piwik\AssetManager;
-use Piwik\Date;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Option;
-use Piwik\Url;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\WidgetsList;
-use \Exception;
 
 /**
  * Fixture for UI tests.
@@ -290,5 +289,11 @@ class UITestFixture extends OmniFixture
             "From Europe", "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
+    }
+
+    public static function createAccessInstance()
+    {
+        Access::setSingletonInstance($access = new \Test_Access_OverrideLogin());
+        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

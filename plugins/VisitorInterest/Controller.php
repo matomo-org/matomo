@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  */

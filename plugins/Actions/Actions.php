@@ -603,10 +603,6 @@ class Actions extends \Piwik\Plugin
             $view->config->show_embedded_subtable = true;
         }
 
-        // if the flat parameter is not provided, make sure it is set to 0 in the URL,
-        // so users can see that they can set it to 1 (see #3365)
-        $view->config->custom_parameters = array('flat' => 0);
-
         if (Request::shouldLoadExpanded()) {
 
             if ($view->isViewDataTableId(HtmlTable::ID)) {

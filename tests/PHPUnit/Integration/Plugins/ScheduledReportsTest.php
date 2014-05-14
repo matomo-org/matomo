@@ -12,9 +12,8 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ScheduledTask;
-use Piwik\ScheduledTime\Daily;
-use Piwik\ScheduledTime;
 use Piwik\ScheduledTime\Monthly;
+use Piwik\ScheduledTime;
 use Piwik\Site;
 
 require_once 'ScheduledReports/ScheduledReports.php';

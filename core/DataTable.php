@@ -12,7 +12,6 @@ namespace Piwik;
 use Closure;
 use Exception;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;
@@ -139,7 +138,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * 
  *     $dataTable = \Piwik\Plugins\Referrers\API::getInstance()->getSearchEngines($idSite = 1, $period = 'day', $date = '2007-07-24');
  *     $oldPeriod = $dataTable->metadata['period'];
- *     $dataTable->metadata['period'] = Period::factory('week', Date::factory('2013-10-18'));
+ *     $dataTable->metadata['period'] = Period\Factory::build('week', Date::factory('2013-10-18'));
  * 
  * **Serializing & unserializing**
  * 

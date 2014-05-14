@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
-
 use Piwik\Db\Schema;
 use Piwik\Db;
 use Piwik\Plugin;
@@ -154,14 +153,14 @@ class Piwik
         $maxCustomVars = Plugins\CustomVariables\CustomVariables::getMaxCustomVariables();
         if ($visitorCustomVariables) {
             $options .=  '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . PHP_EOL;
-            $index = 0;
+            $index = 1;
             foreach ($visitorCustomVariables as $visitorCustomVariable) {
                 $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$visitorCustomVariable[0].'", "'.$visitorCustomVariable[1].'", "visit"]);' . PHP_EOL;
             }
         }
         if ($pageCustomVariables) {
             $options .=  '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . PHP_EOL;
-            $index = 0;
+            $index = 1;
             foreach ($pageCustomVariables as $pageCustomVariable) {
                 $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$pageCustomVariable[0].'", "'.$pageCustomVariable[1].'", "page"]);' . PHP_EOL;
             }
@@ -410,6 +409,9 @@ class Piwik
      */
     static public function checkUserIsNotAnonymous()
     {
+        if (Access::getInstance()->hasSuperUserAccess()) {
+            return;
+        }
         if (self::isUserIsAnonymous()) {
             throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
         }

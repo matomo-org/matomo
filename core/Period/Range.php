@@ -23,7 +23,7 @@ use Piwik\Piwik;
  * date=2007-07-24,2013-11-15).
  *
  * The range period differs from other periods mainly in that since it is arbitrary,
- * range periods are not pre-archived by the **archive.php** cron script.
+ * range periods are not pre-archived by the cron core:archive command.
  *
  * @api
  */
@@ -338,14 +338,14 @@ class Range extends Period
     protected function fillArraySubPeriods($startDate, $endDate, $period)
     {
         $arrayPeriods = array();
-        $endSubperiod = Period::factory($period, $endDate);
+        $endSubperiod = Period\Factory::build($period, $endDate);
         $arrayPeriods[] = $endSubperiod;
 
         // set end date to start of end period since we're comparing against start date.
         $endDate = $endSubperiod->getDateStart();
         while ($endDate->isLater($startDate)) {
             $endDate = $endDate->addPeriod(-1, $period);
-            $subPeriod = Period::factory($period, $endDate);
+            $subPeriod = Period\Factory::build($period, $endDate);
             $arrayPeriods[] = $subPeriod;
         }
         $arrayPeriods = array_reverse($arrayPeriods);

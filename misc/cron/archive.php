@@ -37,6 +37,7 @@ if (false !== strpos($callee, 'archive.php')) {
 Using this 'archive.php' script is no longer recommended.
 Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', array_slice($_SERVER['argv'], 1)) . "' instead.
 To get help use '/path/to/php $piwikHome/console core:archive --help'
+See also: http://piwik.org/docs/setup-auto-archiving/
 -------------------------------------------------------
 \n\n";
 }
@@ -44,8 +45,6 @@ To get help use '/path/to/php $piwikHome/console core:archive --help'
 $archiving = new Piwik\CronArchive();
 try {
     $archiving->main();
-} catch (Piwik\CronArchiveFatalException $ex) {
-    $ex->logAndExit($archiving);
 } catch (Exception $e) {
-    $archiving->logFatalExceptionAndExit($e);
+    $archiving->logFatalError($e->getMessage());
 } 

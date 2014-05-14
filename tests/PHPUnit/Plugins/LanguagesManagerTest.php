@@ -7,7 +7,6 @@
  */
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\API;
-use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\EmptyTranslations;
 use Piwik\Translate\Filter\EncodedEntities;

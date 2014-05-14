@@ -8,8 +8,8 @@
  */
 namespace Piwik\View;
 
-use Piwik\View;
 use Exception;
+use Piwik\View;
 
 /**
  * Base type of UI controls.

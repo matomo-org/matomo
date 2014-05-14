@@ -1,10 +1,10 @@
 <?php
 namespace Piwik\ReportRenderer;
 
+use Piwik\DataTable\DataTableInterface;
+use Piwik\DataTable\Renderer\Csv as CsvDataTableRenderer;
 use Piwik\Piwik;
 use Piwik\ReportRenderer;
-use Piwik\DataTable\Renderer\Csv as CsvDataTableRenderer;
-use Piwik\DataTable\DataTableInterface;
 
 class Csv extends ReportRenderer
 {

@@ -35,7 +35,6 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
 
             $scope.period   = piwik.period;
             $scope.date     = piwik.broadcast.getValueFromUrl('date');
-            $scope.parseInt = parseInt;
 
             this.getWebsite = function () {
                 return $scope.website;

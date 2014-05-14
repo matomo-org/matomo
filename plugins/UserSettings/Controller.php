@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  *

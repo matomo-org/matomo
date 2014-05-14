@@ -1,9 +1,8 @@
 <?php
 
-use Piwik\Piwik;
-use Piwik\Config;
 use Piwik\Common;
-use Piwik\Session\SessionNamespace;
+use Piwik\Config;
+use Piwik\Piwik;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -119,7 +118,7 @@ class Piwik_TestingEnvironment
 
                 if ($testingEnvironment->configFileLocal) {
                     unset($cache['General']);
-                    $config->General['session_save_handler'] = 'dbtables';
+                    $config->General['session_save_handler'] = 'dbtable';
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();

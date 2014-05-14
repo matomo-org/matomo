@@ -11,12 +11,13 @@ namespace Piwik\Plugins\API;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Config;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
-use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -569,7 +570,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getSuggestedValuesForSegment($segmentName, $idSite)
     {
+        if(empty(Config::getInstance()->General['enable_segment_suggested_values'])) {
+            return array();
+        }
         Piwik::checkUserHasViewAccess($idSite);
+
         $maxSuggestionsToReturn = 30;
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
 
@@ -584,7 +589,12 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("Requested segment not found.");
         }
 
-            $startDate = Date::now()->subDay(60)->toString();
+        // if period=range is disabled, do not proceed
+        if(!Period\Factory::isPeriodEnabledForAPI('range')) {
+            return array();
+        }
+
+        $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range
@@ -599,10 +609,10 @@ class API extends \Piwik\Plugin\API
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
         if ($this->doesSegmentNeedActionsData($segmentName)) {
-            $requestLastVisits .= "&filter_limit=500";
+            $requestLastVisits .= "&filter_limit=400";
         } else {
             $requestLastVisits .= "&doNotFetchActions=1";
-            $requestLastVisits .= "&filter_limit=1000";
+            $requestLastVisits .= "&filter_limit=800";
         }
 
         $request = new Request($requestLastVisits);

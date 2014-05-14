@@ -7,8 +7,6 @@
  */
 
 namespace Piwik\Plugins\CustomVariables\tests;
-use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Tracker\Cache;
 
 /**
  * @group CustomVariables

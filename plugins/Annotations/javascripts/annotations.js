@@ -160,6 +160,7 @@
      */
     var toggleAnnotationMode = function (inAnnotationElement) {
         var annotation = $(inAnnotationElement).closest('.annotation');
+        annotation.toggleClass('edit')
         $('.annotation-period,.annotation-period-edit,.delete-annotation,' +
             '.annotation-edit-mode,.annotation-view-mode', annotation).toggle();
 
@@ -519,11 +520,7 @@
 
             loadingAnnotationManager = true;
 
-            var isDashboard = !!$('#dashboardWidgetsArea').length;
-
-            if (isDashboard) {
-                $('.loadingPiwikBelow', domElem).insertAfter($('.evolution-annotations', domElem));
-            }
+            $('.loadingPiwikBelow', domElem).insertAfter($('.evolution-annotations', domElem));
 
             var loading = $('.loadingPiwikBelow', domElem).css({display: 'block'});
 
@@ -545,11 +542,7 @@
                 loading.css('visibility', 'hidden');
 
                 // add & show annotation manager
-                if (isDashboard) {
-                    manager.insertAfter($('.evolution-annotations', domElem));
-                } else {
-                    $('.dataTableFeatures', domElem).append(manager);
-                }
+                manager.insertAfter($('.evolution-annotations', domElem));
 
                 manager.slideDown('slow', function () {
                     loading.hide().css('visibility', 'visible');

@@ -5,13 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAsset;
+use Piwik\AssetManager;
 use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\Config;
-use Piwik\Plugin\Manager;
 use Piwik\Plugin;
+use Piwik\Plugin\Manager;
 
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/UIAssetCacheBusterMock.php";
 require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/Core/AssetManager/PluginManagerMock.php";

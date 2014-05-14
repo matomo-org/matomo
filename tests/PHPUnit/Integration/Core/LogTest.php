@@ -10,10 +10,10 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Error;
 use Piwik\ExceptionHandler;
-
-require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
+
+require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 
 /**
  * Class Core_LogTest

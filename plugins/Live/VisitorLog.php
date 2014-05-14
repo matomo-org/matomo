@@ -15,11 +15,18 @@ use Piwik\View;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
+ *
+ * @property VisitorLog\Config $config
  */
 class VisitorLog extends Visualization
 {
     const ID = 'Piwik\Plugins\Live\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
+
+    public static function getDefaultConfig()
+    {
+        return new VisitorLog\Config();
+    }
 
     public function beforeLoadDataTable()
     {
@@ -30,9 +37,11 @@ class VisitorLog extends Visualization
             'filter_sort_order',
         ));
 
+        if (!is_numeric($this->requestConfig->filter_limit)) {
+            $this->requestConfig->filter_limit = 20;
+        }
+
         $this->requestConfig->filter_sort_column = 'idVisit';
-        $this->requestConfig->filter_sort_order  = 'asc';
-        $this->requestConfig->filter_limit       = 20;
         $this->requestConfig->disable_generic_filters = true;
 
         $offset = Common::getRequestVar('filter_offset', 0);
@@ -46,6 +55,7 @@ class VisitorLog extends Visualization
      */
     public function beforeRender()
     {
+        $this->config->disable_row_actions = true;
         $this->config->datatable_js_type = 'VisitorLog';
         $this->config->enable_sort       = false;
         $this->config->show_search       = false;
@@ -58,15 +68,16 @@ class VisitorLog extends Visualization
         $this->config->documentation = Piwik::translate('Live_VisitorLogDocumentation', array('<br />', '<br />'));
 
         $filterEcommerce = Common::getRequestVar('filterEcommerce', 0, 'int');
-        $this->config->custom_parameters = array(
-            // set a very high row count so that the next link in the footer of the data table is always shown
-            'totalRows'         => 10000000,
 
-            'filterEcommerce'   => $filterEcommerce,
-            'pageUrlNotDefined' => Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL')),
+        if (!is_array($this->config->custom_parameters)) {
+            $this->config->custom_parameters = array();
+        }
 
-            'smallWidth'        => 1 == Common::getRequestVar('small', 0, 'int'),
-        );
+        // set a very high row count so that the next link in the footer of the data table is always shown
+        $this->config->custom_parameters['totalRows'] = 10000000;
+        $this->config->custom_parameters['smallWidth'] = (1 == Common::getRequestVar('small', 0, 'int'));
+        $this->config->custom_parameters['filterEcommerce'] = $filterEcommerce;
+        $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
         $this->config->footer_icons = array(
             array(

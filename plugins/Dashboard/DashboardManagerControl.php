@@ -7,8 +7,6 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
-use Piwik\View\UIControl;
-
 /**
  * Generates the HTML for the dashboard manager control.
  */

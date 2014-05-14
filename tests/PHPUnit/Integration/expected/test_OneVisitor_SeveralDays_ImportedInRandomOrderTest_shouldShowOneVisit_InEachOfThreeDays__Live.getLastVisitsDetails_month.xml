@@ -21,6 +21,12 @@
 				<pageIdAction>1</pageIdAction>
 				<serverTimePretty>Sun 7 Apr 10:00:00</serverTimePretty>
 				<pageId>1</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -107,6 +113,12 @@
 				<pageIdAction>1</pageIdAction>
 				<serverTimePretty>Sat 6 Apr 11:00:00</serverTimePretty>
 				<pageId>2</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -193,6 +205,12 @@
 				<pageIdAction>1</pageIdAction>
 				<serverTimePretty>Fri 5 Apr 12:00:00</serverTimePretty>
 				<pageId>3</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\FrontController;
@@ -19,7 +20,6 @@ use Piwik\UpdateCheck;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
 use Piwik\Version;
-use Piwik\Access;
 
 /**
  *
@@ -111,13 +111,17 @@ class CoreUpdater extends \Piwik\Plugin
     public static function getComponentUpdates(Updater $updater)
     {
         $updater->addComponentToCheck('core', Version::VERSION);
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
+        $manager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $manager->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
-            $updater->addComponentToCheck($pluginName, $plugin->getVersion());
+            if($manager->isPluginInstalled($pluginName)) {
+                $updater->addComponentToCheck($pluginName, $plugin->getVersion());
+            }
         }
 
         $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
-        if (count($componentsWithUpdateFile) == 0 && !$updater->hasNewVersion('core')) {
+        if (count($componentsWithUpdateFile) == 0
+            && !$updater->hasNewVersion('core')) {
             return null;
         }
 

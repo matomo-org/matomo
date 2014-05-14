@@ -10,10 +10,10 @@ namespace Piwik\Plugins\Actions;
 
 use PDOStatement;
 use Piwik\Config;
+use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
-use Piwik\DataTable;
-use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Tracker\Action;

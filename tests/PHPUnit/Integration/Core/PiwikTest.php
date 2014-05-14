@@ -11,7 +11,6 @@ use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
-use Piwik\Config;
 
 /**
  * Class Core_PiwikTest
@@ -43,10 +42,10 @@ class Core_PiwikTest extends DatabaseTestCase
   var _paq = _paq || [];
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
-  _paq.push([\"setCustomVariable\", 0, \"name\", \"value\", \"visit\"]);
-  _paq.push([\"setCustomVariable\", 1, \"name 2\", \"value 2\", \"visit\"]);
+  _paq.push([\"setCustomVariable\", 1, \"name\", \"value\", \"visit\"]);
+  _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
-  _paq.push([\"setCustomVariable\", 0, \"page cvar\", \"page cvar value\", \"page\"]);
+  _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);

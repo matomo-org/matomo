@@ -9,6 +9,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
 
@@ -110,6 +111,14 @@ class VisitExcluded
             }
         }
 
+        // Check if Referrer URL is a known spam
+        if (!$excluded) {
+            $excluded = $this->isReferrerSpamExcluded();
+            if ($excluded) {
+                Common::printDebug("Referrer URL is blacklisted as spam.");
+            }
+        }
+
         if (!$excluded) {
             if ($this->isPrefetchDetected()) {
                 $excluded = true;
@@ -154,6 +163,7 @@ class VisitExcluded
             || strpos($this->userAgent, 'facebookexternalhit') !== false // http://www.facebook.com/externalhit_uatext.php
             || strpos($this->userAgent, 'baidu') !== false // Baidu
             || strpos($this->userAgent, 'bingbot') !== false // Bingbot
+            || strpos($this->userAgent, 'BingPreview') !== false // BingPreview
             || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
             || strpos($this->userAgent, 'CloudFlare') !== false // CloudFlare-AlwaysOnline
 
@@ -237,6 +247,26 @@ class VisitExcluded
                 if (stripos($this->userAgent, $excludedUserAgent) !== false) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the Referrer is a known spammer.
+     *
+     * @return bool
+     */
+    protected function isReferrerSpamExcluded()
+    {
+        $spamHosts = Config::getInstance()->Tracker['referrer_urls_spam'];
+        $spamHosts = explode(",", $spamHosts);
+
+        $referrerUrl = $this->request->getParam('urlref');
+        foreach($spamHosts as $spamHost) {
+            if( strpos($referrerUrl, $spamHost) !== false) {
+                Common::printDebug('Referrer URL is a known spam: ' . $spamHost);
+                return true;
             }
         }
         return false;

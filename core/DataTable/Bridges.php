@@ -13,8 +13,8 @@
  */
 namespace {
 
-    use Piwik\DataTable\Row\DataTableSummaryRow;
     use Piwik\DataTable\Row;
+    use Piwik\DataTable\Row\DataTableSummaryRow;
 
     class Piwik_DataTable_Row_DataTableSummary extends DataTableSummaryRow
     {

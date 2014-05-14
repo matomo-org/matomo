@@ -235,8 +235,7 @@
         "ColumnCustomVariableValue": "தனிப்பயன் மாறி அளவுரு",
         "CustomVariables": "தனிபயன் மாறி",
         "ScopePage": "நோக்க பக்கம்",
-        "ScopeVisit": "வருகை நோக்கம்",
-        "TrackingHelp": "உதவி: %1$sPiwik இல் கண்காணிக்கும் தனிப்பயன் மாறி%2$s"
+        "ScopeVisit": "வருகை நோக்கம்"
     },
     "Dashboard": {
         "AddAWidget": "புதிய அமைப்பை சேர்க்க",
@@ -508,8 +507,6 @@
     },
     "Installation": {
         "DatabaseAbilities": "தரவுத்தள திறன்கள்",
-        "DatabaseCheck": "தரவுத்தள சோதனை",
-        "DatabaseClientVersion": "தரவுத்தள வாடிக்கையாளர் பதிப்பு",
         "DatabaseCreation": "தரவுத்தள உருவாக்கம்",
         "DatabaseServerVersion": "தரவுத்தள சர்வர் பதிப்பு",
         "DatabaseSetup": "தரவுத்தள அமைப்பு முறை",

@@ -79,14 +79,53 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Others</label>
-		<nb_visits>15</nb_visits>
-		<nb_hits>15</nb_hits>
+		<label>cloudsite7.com</label>
+		<nb_visits>5</nb_visits>
+		<nb_hits>5</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<entry_nb_visits>15</entry_nb_visits>
-		<entry_nb_actions>15</entry_nb_actions>
+		<entry_nb_visits>5</entry_nb_visits>
+		<entry_nb_actions>5</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
-		<entry_bounce_count>15</entry_bounce_count>
-		<exit_nb_visits>15</exit_nb_visits>
+		<entry_bounce_count>5</entry_bounce_count>
+		<exit_nb_visits>5</exit_nb_visits>
+		<subtable>
+			<row>
+				<label>/28/download</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<url>http://cloudsite7.com/28/download</url>
+			</row>
+			<row>
+				<label>Others</label>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_visits>4</entry_nb_visits>
+				<entry_nb_actions>4</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>4</entry_bounce_count>
+				<exit_nb_visits>4</exit_nb_visits>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<entry_nb_visits>10</entry_nb_visits>
+		<entry_nb_actions>10</entry_nb_actions>
+		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_bounce_count>10</entry_bounce_count>
+		<exit_nb_visits>10</exit_nb_visits>
 	</row>
 </result>

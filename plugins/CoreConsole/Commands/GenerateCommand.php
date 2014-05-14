@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Piwik\Common;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

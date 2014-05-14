@@ -44,13 +44,20 @@ class API extends \Piwik\Plugin\API
         }
 
         $body = sprintf("Feature: %s\nLike: %s\n", $featureName, $likeText, $message);
-        if (!empty($message)) {
-            $body .= sprintf("Feedback:\n%s\n", $message);
-        } else {
-            $body .= "No feedback\n";
-        }
 
-        $this->sendMail($featureName, $body);
+        $feedbackMessage = '';
+        if (!empty($message) && $message != 'undefined') {
+            $feedbackMessage = sprintf("Feedback:\n%s\n", trim($message));
+        }
+        $body .= $feedbackMessage;
+
+        $subject = sprintf("%s for %s %s",
+            empty($like) ? "-1" : "+1",
+            $featureName,
+            empty($feedbackMessage) ? "" : "(w/ feedback)"
+        );
+
+        $this->sendMail($subject, $body);
     }
 
     private function sendMail($subject, $body)

@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Piwik\Plugin\Manager;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

@@ -610,7 +610,6 @@
         "Congratulations": "Blahoželanie",
         "CongratulationsHelp": "<p>Blahoželáme Vám! Inštalácia Piwik je dokončená.<\/p><p>Uistite sa, že Váš javascript kód je vložený od Vašich stránok a počkajte si na prvých návštevníkov!<\/p>",
         "Email": "e-mail",
-        "ErrorInvalidState": "Chyba: zdá sa, že sa pokúšate preskočiť krok v inštalačnom procese, alebo máte zakázané „cookies“, alebo je Piwik konfiguračný súbor už vytvorený. %1$sUistite sa, že máte povolené „cookies“%2$s a potom choďte späť %3$s na prvú stránku inštalácie %4$s.",
         "GoBackAndDefinePrefix": "Choďte späť a zadefinujte predponu pre Piwik tabuľky",
         "Installation": "Inštalácia",
         "InstallationStatus": "Stav inštalácie",

@@ -9,14 +9,10 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
-use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
-use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Updater;
-use Piwik\Config;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
 

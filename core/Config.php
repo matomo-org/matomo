@@ -158,14 +158,6 @@ class Config extends Singleton
             $this->configCache['Plugins_Tracker'] = $this->configGlobal['Plugins_Tracker'];
             $this->configCache['Plugins_Tracker']['Plugins_Tracker'][] = 'DevicesDetection';
         }
-
-        // to avoid weird session error in travis
-        if (empty($pathGlobal)) {
-            $configArray = &$this->configCache;
-        } else {
-            $configArray = &$this->configLocal;
-        }
-        $configArray['General']['session_save_handler'] = 'dbtables';
     }
 
     /**
@@ -242,9 +234,19 @@ class Config extends Singleton
         return false;
     }
 
-    protected static function getHostname()
+    /**
+     * Returns the hostname of the current request (without port number)
+     *
+     * @return string
+     */
+    public static function getHostname()
     {
-        $host = Url::getHost($checkIfTrusted = false); // Check trusted requires config file which is not ready yet
+        // Check trusted requires config file which is not ready yet
+        $host = Url::getHost($checkIfTrusted = false);
+
+        // Remove any port number to get actual hostname
+        $host = Url::getHostSanitized($host);
+
         return $host;
     }
 
@@ -330,6 +332,12 @@ class Config extends Singleton
     public function existsLocalConfig()
     {
         return is_readable($this->pathLocal);
+    }
+
+    public function deleteLocalConfig()
+    {
+        $configLocal = $this->getLocalPath();
+        unlink($configLocal);
     }
 
     public function checkLocalConfigFound()

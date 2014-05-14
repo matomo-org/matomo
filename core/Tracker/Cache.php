@@ -12,7 +12,6 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Tracker;

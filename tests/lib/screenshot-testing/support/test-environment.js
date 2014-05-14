@@ -91,27 +91,10 @@ TestingEnvironment.prototype._call = function (params, done) {
     });
 };
 
-var droppedOnce = false;
-TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
-    console.log("    Setting up fixture " + fixtureClass + "...");
-
-    testEnvironment.deleteAndSave();
-
-    var setupFile = path.join("./support", "setupDatabase.php"),
-        processArgs = [setupFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + (fixtureClass || "")];
-
-    if (options['persist-fixture-data']) {
-        processArgs.push('--persist-fixture-data');
-    }
-
-    if (options['drop']
-        && !droppedOnce
-    ) {
-        processArgs.push('--drop');
-        droppedOnce = true;
-    }
-
-    var child = require('child_process').spawn(config.php, processArgs);
+TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
+    var consoleFile = path.join(PIWIK_INCLUDE_PATH, 'console'),
+        commandArgs = [consoleFile, command].concat(args),
+        child = require('child_process').spawn(config.php, commandArgs);
 
     var firstLine = true;
     child.stdout.on("data", function (data) {
@@ -132,11 +115,34 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
         fs.write("/dev/stderr", data, "w");
     });
 
-    child.on("exit", function (code) {
-        testEnvironment.reload();
+    child.on("exit", callback);
+};
+
+var droppedOnce = false;
+TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
+    console.log("    Setting up fixture " + fixtureClass + "...");
+
+    this.deleteAndSave();
+
+    var args = [fixtureClass || "UITestFixture", '--set-phantomjs-symlinks', '--server-global=' + JSON.stringify(config.phpServer)];
+
+    if (options['persist-fixture-data']) {
+        args.push('--persist-fixture-data');
+    }
+
+    if (options['drop']
+        && !droppedOnce
+    ) {
+        args.push('--drop');
+        droppedOnce = true;
+    }
+
+    var self = this;
+    this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
+        self.reload();
 
         console.log();
-        
+
         if (code) {
             done(new Error("Failed to setup fixture " + fixtureClass + " (error code = " + code + ")"));
         } else {
@@ -156,37 +162,14 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     console.log();
     console.log("    Tearing down fixture " + fixtureClass + "...");
 
-    var teardownFile = path.join("./support", "teardownDatabase.php"),
-        child = require('child_process').spawn(
-            config.php, [teardownFile, "--server=" + JSON.stringify(config.phpServer), "--fixture=" + fixtureClass]);
-
-    var firstLine = true;
-    child.stdout.on("data", function (data) {
-        if (firstLine) {
-            data = "    " + data;
-            firstLine = false;
-        }
-
-        fs.write("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
-    });
-
-    child.stderr.on("data", function (data) {
-        if (firstLine) {
-            data = "    " + data;
-            firstLine = false;
-        }
-
-        fs.write("/dev/stderr", data, "w");
-    });
-
-    var self = this;
-    child.on("exit", function (code) {
+    var args = [fixtureClass || "UITestFixture", "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
+    this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));
         } else {
             done();
         }
-    });
+    })
 };
 
 TestingEnvironment.prototype.deleteAndSave = function () {

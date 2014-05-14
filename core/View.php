@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
@@ -336,7 +335,7 @@ class View implements ViewInterface
     }
 
     /**
-     * Clear compiled Smarty templates
+     * Clear compiled Twig templates
      * @ignore
      */
     static public function clearCompiledTemplates()

@@ -9,10 +9,11 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Period\Range;
 use Piwik\Translate;
-use Piwik\Visualization\Sparkline;
 use Piwik\View\RenderTokenParser;
+use Piwik\Visualization\Sparkline;
 use Twig_Environment;
 use Twig_Extension_Debug;
 use Twig_Loader_Chain;
@@ -37,11 +38,25 @@ class Twig
     public function __construct()
     {
         $loader = $this->getDefaultThemeLoader();
+		$this->addPluginNamespaces($loader);
 
-        $this->addPluginNamespaces($loader);
-
-        // If theme != default we need to chain
-        $chainLoader = new Twig_Loader_Chain(array($loader));
+		//get current theme
+		$manager = Plugin\Manager::getInstance();
+		$theme = $manager->getThemeEnabled();
+		$loaders = array();
+		
+		//create loader for custom theme to overwrite twig templates
+		if($theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME){
+			$customLoader = $this->getCustomThemeLoader($theme);
+			if($customLoader){
+				//make it possible to overwrite plugin templates
+				$this->addCustomPluginNamespaces($customLoader,$theme->getPluginName());
+				$loaders[] = $customLoader;
+			}
+		}
+		$loaders[] = $loader;
+        
+        $chainLoader = new Twig_Loader_Chain($loaders);
 
         // Create new Twig Environment and set cache dir
         $templatesCompiledPath = PIWIK_USER_PATH . '/tmp/templates_c';
@@ -65,6 +80,7 @@ class Twig
         $this->addFilter_notificiation();
         $this->addFilter_percentage();
         $this->addFilter_prettyDate();
+        $this->addFilter_safeDecodeRaw();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
 
@@ -164,6 +180,22 @@ class Twig
         return $themeLoader;
     }
 
+	/**
+	 * create template loader for a custom theme
+	 * @param \Piwik\Plugin $theme
+	 * @return \Twig_Loader_Filesystem
+	 */
+	protected function getCustomThemeLoader(Plugin $theme){
+		if(!file_exists(sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName()))){
+			return false;
+		}
+		$themeLoader = new Twig_Loader_Filesystem(array(
+                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName())
+                                                  ));
+
+        return $themeLoader;
+	}
+
     public function getTwigEnvironment()
     {
         return $this->twig;
@@ -196,6 +228,15 @@ class Twig
 
         }, array('is_safe' => array('html')));
         $this->twig->addFilter($notificationFunction);
+    }
+
+    protected function addFilter_safeDecodeRaw()
+    {
+        $rawSafeDecoded = new Twig_SimpleFilter('rawSafeDecoded', function ($string) {
+            return SafeDecodeLabel::decodeLabelSafe($string);
+
+        }, array('is_safe' => array('all')));
+        $this->twig->addFilter($rawSafeDecoded);
     }
 
     protected function addFilter_prettyDate()
@@ -285,6 +326,22 @@ class Twig
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {
                 $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);
+            }
+        }
+    }
+
+	/**
+	*
+	* Plugin-Templates can be overwritten by putting identically named templates in plugins/[theme]/templates/plugins/[plugin]/
+	*
+	*/
+	private function addCustomPluginNamespaces(Twig_Loader_Filesystem $loader, $pluginName)
+    {
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+        foreach ($plugins as $name) {
+            $path = sprintf("%s/plugins/%s/templates/plugins/%s/", PIWIK_INCLUDE_PATH, $pluginName, $name);
+            if (is_dir($path)) {
+                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/templates/plugins/'. $name , $name);
             }
         }
     }

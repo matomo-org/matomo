@@ -12,12 +12,12 @@ namespace Piwik\Plugins\LanguagesManager;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-
 use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Translate;
 use Piwik\View;
 
@@ -54,7 +54,7 @@ class LanguagesManager extends \Piwik\Plugin
 
     public function showLanguagesSelector()
     {
-        if (Piwik::isUserIsAnonymous() || !DbHelper::isInstalled()) {
+        if (Piwik::isUserIsAnonymous() || !SettingsPiwik::isPiwikInstalled()) {
             MenuTop::addEntry('LanguageSelector', $this->getLanguagesSelector(), true, $order = 30, true);
         }
     }

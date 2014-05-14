@@ -45,6 +45,12 @@ else
         then
             echo "Uploading screenshot diffs..."
 
+            echo "[NOTE] screenshot diff dir:"
+            echo "`pwd`/screenshot-diffs"
+
+            echo "[NOTE] uploading following diffs:"
+            ls screenshot-diffs
+
             tar -cjf screenshot-diffs.tar.bz2 screenshot-diffs
             curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
 

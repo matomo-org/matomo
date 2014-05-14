@@ -30,7 +30,7 @@ class Row
      */
     private static $unsummableColumns = array(
         'label'    => true,
-        'full_url' => true // column used w/ old Piwik versions
+        'full_url' => true // column used w/ old Piwik versions,
     );
 
     /**
@@ -165,7 +165,7 @@ class Row
      */
     public function deleteColumn($name)
     {
-        if (!array_key_exists($name, $this->c[self::COLUMNS])) {
+        if (!$this->hasColumn($name)) {
             return false;
         }
         unset($this->c[self::COLUMNS][$name]);
@@ -198,7 +198,32 @@ class Row
         if (!isset($this->c[self::COLUMNS][$name])) {
             return false;
         }
+
+        if ($this->isColumnValueCallable($this->c[self::COLUMNS][$name])) {
+            $value = $this->resolveCallableColumn($name);
+
+            if (!isset($value)) {
+                return false;
+            }
+
+            return $value;
+        }
+
         return $this->c[self::COLUMNS][$name];
+    }
+
+    private function isColumnValueCallable($name)
+    {
+        if (is_object($name) && ($name instanceof \Closure)) {
+            return true;
+        }
+
+        return is_array($name) && array_key_exists(0, $name) && is_object($name[0]) && is_callable($name);
+    }
+
+    private function resolveCallableColumn($columnName)
+    {
+        return call_user_func($this->c[self::COLUMNS][$columnName], $this);
     }
 
     /**
@@ -218,6 +243,23 @@ class Row
         return $this->c[self::METADATA][$name];
     }
 
+    private function getColumnsRaw()
+    {
+        return $this->c[self::COLUMNS];
+    }
+
+    /**
+     * Returns true if a column having the given name is already registered. The value will not be evaluated, it will
+     * just check whether a column exists independent of its value.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function hasColumn($name)
+    {
+        return array_key_exists($name, $this->c[self::COLUMNS]);
+    }
+
     /**
      * Returns the array containing all the columns.
      *
@@ -231,7 +273,16 @@ class Row
      */
     public function getColumns()
     {
-        return $this->c[self::COLUMNS];
+        $values = array();
+        foreach ($this->c[self::COLUMNS] as $columnName => $val) {
+            if ($this->isColumnValueCallable($val)) {
+                $values[$columnName] = $this->resolveCallableColumn($columnName);
+            } else {
+                $values[$columnName] = $val;
+            }
+        }
+
+        return $values;
     }
 
     /**
@@ -388,7 +439,7 @@ class Row
      * Add a new column to the row. If the column already exists, throws an exception.
      *
      * @param string $name name of the column to add.
-     * @param mixed $value value of the column to set.
+     * @param mixed $value value of the column to set or a PHP callable.
      * @throws Exception if the column already exists.
      */
     public function addColumn($name, $value)
@@ -396,7 +447,7 @@ class Row
         if (isset($this->c[self::COLUMNS][$name])) {
             throw new Exception("Column $name already in the array!");
         }
-        $this->c[self::COLUMNS][$name] = $value;
+        $this->setColumn($name, $value);
     }
 
     /**
@@ -432,7 +483,12 @@ class Row
         if (isset($this->c[self::METADATA][$name])) {
             throw new Exception("Metadata $name already in the array!");
         }
-        $this->c[self::METADATA][$name] = $value;
+        $this->setMetadata($name, $value);
+    }
+
+    private function isSummableColumn($columnName)
+    {
+        return empty(self::$unsummableColumns[$columnName]);
     }
 
     /**
@@ -450,26 +506,35 @@ class Row
      */
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
-        foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
-            if (!isset(self::$unsummableColumns[$columnToSumName])) // make sure we can add this column
-            {
-                $thisColumnValue = $this->getColumn($columnToSumName);
-
-                $operation = (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName]) ?
-                    strtolower($aggregationOperations[$columnToSumName]) : 'sum');
-
-                // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
-                // present in any data table and is not part of the $aggregationOperations mechanism.
-                if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
-                    $operation = 'max';
-                }
-                if(empty($operation)) {
-                    throw new Exception("Unknown aggregation operation for column $columnToSumName.");
-                }
-                $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
-
-                $this->setColumn($columnToSumName, $newValue);
+        foreach ($rowToSum->getColumnsRaw() as $columnToSumName => $columnToSumValue) {
+            if (!$this->isSummableColumn($columnToSumName)) {
+                continue;
             }
+
+            if ($this->isColumnValueCallable($columnToSumValue)) {
+                $this->setColumn($columnToSumName, $columnToSumValue);
+                continue;
+            }
+
+            $thisColumnValue = $this->getColumn($columnToSumName);
+
+            $operation = 'sum';
+            if (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName])) {
+                $operation = strtolower($aggregationOperations[$columnToSumName]);
+            }
+
+            // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
+            // present in any data table and is not part of the $aggregationOperations mechanism.
+            if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
+                $operation = 'max';
+            }
+            if(empty($operation)) {
+                throw new Exception("Unknown aggregation operation for column $columnToSumName.");
+            }
+
+            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
+
+            $this->setColumn($columnToSumName, $newValue);
         }
 
         if ($enableCopyMetadata) {
@@ -558,10 +623,15 @@ class Row
             return $thisColumnValue + $columnToSumValue;
         }
 
+        if ($columnToSumValue === false) {
+            return $thisColumnValue;
+        }
+
+        if ($thisColumnValue === false) {
+            return $columnToSumValue;
+        }
+
         if (is_array($columnToSumValue)) {
-            if ($thisColumnValue == false) {
-                return $columnToSumValue;
-            }
             $newValue = $thisColumnValue;
             foreach ($columnToSumValue as $arrayIndex => $arrayValue) {
                 if (!isset($newValue[$arrayIndex])) {
@@ -573,14 +643,8 @@ class Row
         }
 
         if (is_string($columnToSumValue)) {
-            if ($thisColumnValue === false) {
-                return $columnToSumValue;
-            } else if ($columnToSumValue === false) {
-                return $thisColumnValue;
-            } else {
-                throw new Exception("Trying to add two strings values in DataTable\Row::sumRowArray: "
-                    . "'$thisColumnValue' + '$columnToSumValue'");
-            }
+            throw new Exception("Trying to add two strings in DataTable\Row::sumRowArray: "
+                              . "'$thisColumnValue' + '$columnToSumValue'" . " for row " . $this->__toString());
         }
 
         return 0;

@@ -15,12 +15,10 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
-
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Segment;
-use Piwik\Site;
 
 /**
  * Data Access object used to query archives

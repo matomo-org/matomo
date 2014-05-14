@@ -1,11 +1,4 @@
 <?php
-// Note to devs: In Phpstorm I had to manually set these here as PHPUnit is not init properly.
-// Uncomment and set manually the path to Piwik if you get the WARNING message in your IDE.
-//$_SERVER['REQUEST_URI'] = '/piwik-master/index.php';
-//$_SERVER['HTTP_HOST'] = 'localhost';
-
-use Piwik\Http;
-
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
 
@@ -23,6 +16,7 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 }
 if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
     define('PIWIK_INCLUDE_SEARCH_PATH', get_include_path()
+        . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor/bin'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
@@ -74,9 +68,10 @@ function checkPiwikSetupForTests()
     ) {
         echo "WARNING: for tests to pass, you must first:
 1) Install webserver on localhost, eg. apache
-2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/ - Piwik does need to be installed to run tests, but this URL must work.
-3) Copy phpunit.xml.dist to phpunit.xml
-4) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
+2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/
+3) Install Piwik by going through the installation process
+4) Copy phpunit.xml.dist to phpunit.xml
+5) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
 
 Try again.
 -> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";

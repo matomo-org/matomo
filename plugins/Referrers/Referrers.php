@@ -13,8 +13,8 @@ use Piwik\Common;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\SettingsPiwik;
 use Piwik\WidgetsList;
@@ -483,14 +483,6 @@ class Referrers extends \Piwik\Plugin
         $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnCampaign'));
 
         $view->requestConfig->filter_limit = 25;
-
-        if (Common::getRequestVar('viewDataTable', false) != 'graphEvolution') {
-            $view->config->show_footer_message = Piwik::translate('Referrers_CampaignFooterHelp',
-                array('<a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">',
-                      '</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">',
-                      '</a>')
-            );
-        }
     }
 
     private function configureViewForGetKeywordsFromCampaignId(ViewDataTable $view)

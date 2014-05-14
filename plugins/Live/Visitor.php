@@ -19,9 +19,9 @@ use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tracker;
 use Piwik\Tracker\Visit;
 use Piwik\UrlHelper;
 

@@ -84,6 +84,7 @@ class AnnotationList
     public function add($idSite, $date, $note, $starred = 0)
     {
         $this->checkIdSiteIsLoaded($idSite);
+        $date = Date::factory($date)->toString('Y-m-d');
 
         $this->annotations[$idSite][] = self::makeAnnotation($date, $note, $starred);
 
@@ -132,7 +133,7 @@ class AnnotationList
 
         $annotation =& $this->annotations[$idSite][$idNote];
         if ($date !== null) {
-            $annotation['date'] = $date;
+            $annotation['date'] = Date::factory($date)->toString('Y-m-d');
         }
         if ($note !== null) {
             $annotation['note'] = $note;

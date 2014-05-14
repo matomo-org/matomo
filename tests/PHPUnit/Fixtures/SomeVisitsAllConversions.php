@@ -84,5 +84,11 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Fixture
         // 1st goal should Now be tracked
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.61)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 656));
+
+        // few minutes later, create a new_visit
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.7)->getDatetime());
+        $t->setTokenAuth($this->getTokenAuth());
+        $t->setForceNewVisit();
+        $t->doTrackPageView('This is tracked in a new visit.');
     }
 }

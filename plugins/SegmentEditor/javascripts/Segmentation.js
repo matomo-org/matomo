@@ -7,6 +7,12 @@
 
 Segmentation = (function($) {
 
+    function preselectFirstMetricMatch(rowNode)
+    {
+        var matchValue = $(rowNode).find('.metricMatchBlock option:first').attr('value');
+        $(rowNode).find('.metricMatchBlock select').val(matchValue);
+    }
+
     var segmentation = function segmentation(config) {
         if (!config.target) {
             throw new Error("target property must be set in config to segment editor control element");
@@ -89,7 +95,8 @@ Segmentation = (function($) {
             var segmentationTitle = $(this.content).find(".segmentationTitle");
             if( current != "")
             {
-                var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
+                var currentDecoded = piwikHelper.htmlDecode(current);
+                var selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
                 var foundItems = $(selector, this.target);
                 var title = $('<strong></strong>');
                 if( foundItems.length > 0) {
@@ -120,26 +127,25 @@ Segmentation = (function($) {
         };
 
         var getMockedInputSet = function(){
-            if(typeof mockedInputSet === "undefined"){
-                var mockedInputSet = self.editorTemplate.find("div.segment-row-inputs").clone();
-            }
-            return mockedInputSet.clone();
+            var mockedInputSet = self.editorTemplate.find("div.segment-row-inputs").clone();
+            var clonedInput    = mockedInputSet.clone();
+            preselectFirstMetricMatch(clonedInput);
+
+            return clonedInput;
         };
 
         var getMockedInputRowHtml = function(){
-            if(typeof mockedInputRow === "undefined"){
-                var mockedInputRow = '<div class="segment-row"><a class="segment-close" href="#"></a><div class="segment-row-inputs">'+getMockedInputSet().html()+'</div></div>';
-            }
+            var mockedInputRow = '<div class="segment-row"><a class="segment-close" href="#"></a><div class="segment-row-inputs">'+getMockedInputSet().html()+'</div></div>';
             return mockedInputRow;
         };
 
         var getMockedFormRow = function(){
-            if(typeof mockedFormRow === "undefined")
-            {
-                var mockedFormRow = self.editorTemplate.find("div.segment-rows").clone();
-                $(mockedFormRow).find(".segment-row").append(getMockedInputSet()).after(getAddOrBlockButtonHtml).after(getOrDiv());
-            }
-            return mockedFormRow.clone();
+            var mockedFormRow = self.editorTemplate.find("div.segment-rows").clone();
+            $(mockedFormRow).find(".segment-row").append(getMockedInputSet()).after(getAddOrBlockButtonHtml).after(getOrDiv());
+            var clonedRow = mockedFormRow.clone();
+            preselectFirstMetricMatch(clonedRow);
+
+            return clonedRow;
         };
 
         var getInitialStateRowsHtml = function(){
@@ -156,11 +162,13 @@ Segmentation = (function($) {
         };
 
         var appendSpecifiedRowHtml= function(metric) {
-            $(self.form).find(".segment-content > h3").after(getMockedFormRow());
+            var mockedRow = getMockedFormRow();
+            $(self.form).find(".segment-content > h3").after(mockedRow);
             $(self.form).find(".segment-content").append(getAndDiv());
             $(self.form).find(".segment-content").append(getAddNewBlockButtonHtml());
             doDragDropBindings();
             $(self.form).find(".metricList").val(metric).trigger("change");
+            preselectFirstMetricMatch(mockedRow);
         };
 
         var appendComplexRowHtml = function(block){
@@ -407,7 +415,7 @@ Segmentation = (function($) {
                 if (typeof persist === "undefined") {
                     persist = false;
                 }
-                alterMatchesList(this, persist);
+                alterMatchesList(this, true);
 
                 doDragDropBindings();
 
@@ -529,29 +537,38 @@ Segmentation = (function($) {
 
             // upon clicking - add new segment block, then bind 'x' action to newly added row
             self.target.on('click', ".segment-add-row a", function(event, data){
-                $(self.form).find(".segment-and:last").after(getAndDiv()).after(getMockedFormRow());
+                var mockedRow = getMockedFormRow();
+                $(self.form).find(".segment-and:last").after(getAndDiv()).after(mockedRow);
                 if(typeof data !== "undefined"){
                     $(self.form).find(".metricList:last").val(data);
                 }
                 $(self.form).find(".metricList:last").trigger('change');
+                preselectFirstMetricMatch(mockedRow);
                 doDragDropBindings();
             });
 
             self.target.on("click", ".segment-add-row span", function(event, data){
                 if(typeof data !== "undefined") {
-                    $(self.form).find(".segment-and:last").after(getAndDiv()).after(getMockedFormRow());
+                    var mockedRow = getMockedFormRow();
+                    $(self.form).find(".segment-and:last").after(getAndDiv()).after(mockedRow);
+                    preselectFirstMetricMatch(mockedRow);
                     $(self.form).find(".metricList:last").val(data).trigger('change');
                     doDragDropBindings();
                 }
             });
 
             // add new OR block
-            self.target.on("click", ".segment-add-or  a", function(event, data){
-                $(event.currentTarget).parents(".segment-rows").find(".segment-or:last").after(getOrDiv()).after(getMockedInputRowHtml());
+            self.target.on("click", ".segment-add-or a", function(event, data){
+                var parentRows = $(event.currentTarget).parents(".segment-rows");
+
+                parentRows.find(".segment-or:last").after(getOrDiv()).after(getMockedInputRowHtml());
                 if(typeof data !== "undefined"){
-                    $(event.currentTarget).parents(".segment-rows").find(".metricList:last").val(data);
+                    parentRows.find(".metricList:last").val(data);
                 }
-                $(event.currentTarget).parents(".segment-rows").find(".metricList:last").trigger('change');
+                parentRows.find(".metricList:last").trigger('change');
+
+                var addedRow = parentRows.find('.segment-row:last');
+                preselectFirstMetricMatch(addedRow);
                 doDragDropBindings();
             });
 
@@ -591,6 +608,15 @@ Segmentation = (function($) {
                     segmentName: segmentName
                 }, 'GET');
                 ajaxHandler.useRegularCallbackInCaseOfError = true;
+                ajaxHandler.setTimeout(20000);
+                ajaxHandler.setErrorCallback(function(response) {
+                    loadingElement.hide();
+                    inputElement.autocomplete({
+                        source: [],
+                        minLength: 0
+                    });
+                    $(inputElement).autocomplete('search', $(inputElement).val());
+                });
                 ajaxHandler.setCallback(function(response) {
                     loadingElement.hide();
 
@@ -633,7 +659,12 @@ Segmentation = (function($) {
             }
 
             matchSelector.append(optionsHtml);
-            matchSelector.val(oldMatch);
+
+            if (matchSelector.find('option[value="' + oldMatch + '"]').length) {
+                matchSelector.val(oldMatch);
+            } else {
+                preselectFirstMetricMatch(matchSelector.parent());
+            }
         };
 
         var getAddNewBlockButtonHtml = function()

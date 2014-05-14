@@ -8,7 +8,6 @@
 use Piwik\EventDispatcher;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTaskTimetable;
-use Piwik\ScheduledTime\Daily;
 use Piwik\TaskScheduler;
 
 class TaskSchedulerTest extends PHPUnit_Framework_TestCase

@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use Piwik\Plugins\CoreUpdater\UpdateCommunication;
 use Piwik\Config;
 use Piwik\Option;
+use Piwik\Plugins\CoreUpdater\UpdateCommunication;
 use Piwik\UpdateCheck;
 use Piwik\Version;
 

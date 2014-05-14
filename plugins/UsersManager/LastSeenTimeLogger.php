@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Option;
+use Piwik\Piwik;
 
 /**
  * Class that logs the time the current user is accessing the current resource (which

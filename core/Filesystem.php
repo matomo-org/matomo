@@ -100,7 +100,7 @@ class Filesystem
     {
         if (!is_dir($path)) {
             // the mode in mkdir is modified by the current umask
-            @mkdir($path, $mode = 0755, $recursive = true);
+            @mkdir($path, $mode = 0750, $recursive = true);
         }
 
         // try to overcome restrictive umask (mis-)configuration

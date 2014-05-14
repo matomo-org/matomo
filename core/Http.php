@@ -443,7 +443,7 @@ class Http
                 CURLOPT_HEADER         => is_resource($file) ? false : true,
                 CURLOPT_CONNECTTIMEOUT => $timeout,
             );
-            // Case archive.php is triggering archiving on https:// and the certificate is not valid
+            // Case core:archive command is triggering archiving on https:// and the certificate is not valid
             if ($acceptInvalidSslCertificate) {
                 $curl_options += array(
                     CURLOPT_SSL_VERIFYHOST => false,

@@ -398,8 +398,7 @@
         "CustomVariablesReportDocumentation": "Rapporten indeholder oplysninger om brugerdefinerede variabler. Klik på et variabelnavn se fordeling af værdier. %s Yderligere oplysninger om brugerdefinerede variabler generelt, læs %sBrugerdefinerede variabel dokumentation på piwik.org%s",
         "PluginDescription": "Brugerdefinerede variabler er navne, værdipar, du kan tildele en besøgende ved hjælp af funktionen Javascript API setVisitCustomVariables(). Piwik vil derefter rapportere hvor mange besøg, sider, konverteringer for hver af disse brugerdefinerede navne og værdier.",
         "ScopePage": "virkefelt side",
-        "ScopeVisit": "virkefelt besøg",
-        "TrackingHelp": "Hjælp: %1$sSporing af egne variabler i Piwik%2$s"
+        "ScopeVisit": "virkefelt besøg"
     },
     "Dashboard": {
         "AddAWidget": "Tilføj modul...",
@@ -999,9 +998,7 @@
         "PluginDescription": "Generere flotte statiske PNG diagrammer til Piwik rapporter."
     },
     "Insights": {
-        "ControlComparedToDescription": "sammenlignet med",
         "ControlFilterByDescription": "Vis alle, kun ændringer, kun nye eller kun forsvundne",
-        "ControlGrowthDescription": "Min. vækst på",
         "DatePeriodCombinationNotSupported": "Det er ikke muligt at generere rapporter til disse datoer og kombination af perioder.",
         "DayComparedToPreviousDay": "Foregående dag",
         "DayComparedToPreviousWeek": "Samme dag i sidste uge",
@@ -1025,8 +1022,6 @@
         "Congratulations": "Tillykke",
         "CongratulationsHelp": "<p>Tillykke! Piwik installationen er færdig.<\/p><p>Sørg for at JavaScript-koden er tilføjet på dine sider, og vent på de første besøgende!<\/p>",
         "DatabaseAbilities": "Database egenskaber",
-        "DatabaseCheck": "Database check",
-        "DatabaseClientVersion": "Database klient version",
         "DatabaseCreation": "Database oprettet",
         "DatabaseErrorConnect": "Fejl ved tilkobling til databaseserveren",
         "DatabaseServerVersion": "Databaseserver version",
@@ -1037,7 +1032,6 @@
         "DatabaseSetupServer": "Databaseserver",
         "DatabaseSetupTablePrefix": "Tabel præfiks",
         "Email": "E-mail",
-        "ErrorInvalidState": "Fejl: Det lader til at du forsøger at springe et skridt af installationen over, eller cookies er slået fra, eller Piwik konfigurationsfil allerede er oprettet. %1$sSørg for, at cookies er aktiveret%2$s og gå tilbage %3$s til den første side i installationen %4$s.",
         "Extension": "udvidelse",
         "Filesystem": "Filsystem",
         "GetInvolved": "Hvis du kan lide hvad du ser, kan du %1$sblive involveret%2$s.",
@@ -1099,9 +1093,6 @@
         "SystemCheckIconvHelp": "PHP skal konfigureres og genstartes med \"iconv\" støtte aktiveret, --with-iconv.",
         "SystemCheckMailHelp": "Tilbagemelding og Glemt adgangskode vil ikke blive sendt uden mail() funktion",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionGeoIpHelp": "Det er også påkrævet for at GeoIP integrationen virker.",
-        "SystemCheckMbstringExtensionHelp": "mbstring udvidelse er nødvendig for multibyte tegn i API-svarene ved kommaseparerede værdier (CSV) eller tab-separeret værdier (TSV).",
-        "SystemCheckMbstringFuncOverloadHelp": "Angiv mbstring.func_overload til \"0\".",
         "SystemCheckMemoryLimit": "Hukommelses grænse",
         "SystemCheckMemoryLimitHelp": "På et stærkt trafikeret hjemmesider, kan arkiveringsprocessen kræve mere hukommelse end der er tilladt.<br \/>Se på memory_limit i php.ini filen hvis nødvendig.",
         "SystemCheckOpenURL": "Åbn netadresse",
@@ -1113,8 +1104,6 @@
         "SystemCheckPdoAndMysqliHelp": "På en linux-server kan php kompileres med følgende valg: %1$sn i php.ini, tilføj følgende linjer: %2$s",
         "SystemCheckPhp": "PHP version",
         "SystemCheckPhpPdoAndMysqli": "Mere information på: %1$sPHP PDO%2$s og %3$sMYSQLI%4$s.",
-        "SystemCheckSecureProtocol": "Sikkerheds protokol",
-        "SystemCheckSecureProtocolHelp": "Det ser ud til du bruger https på din webserver. Disse linjer vil blive tilføjet til config\/config.ini.php:",
         "SystemCheckSplHelp": "Konfigurer og genstart PHP med standard PHP Biblioteket (SPL) aktiveret (som standard).",
         "SystemCheckSummaryNoProblems": "Sådan! Der er ingen problemer med din Piwik opsætning. Giv dig selv et klap på skulderen.",
         "SystemCheckSummaryThereWereErrors": "Ups! Piwik har opdaget nogle %1$skritiske problemer%2$s med din Piwik opsætning. %3$sDisse problemer skal løses øjeblikkeligt.%4$s",
@@ -1412,7 +1401,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Rapporten viser alle henvisninger i én samlet rapport, over alle hjemmesider, Søg i nøgleord og kampagner som bruges af de besøgende til at finde hjemmesiden.",
-        "CampaignFooterHelp": "Hjælp til: %sSporingskampagner i Piwik %s URL bygge værktøj%s",
         "Campaigns": "Kampagner",
         "CampaignsDocumentation": "Besøgende kom til hjemmesiden som følge af en kampagne. %s Se %s rapport for yderligere oplysninger.",
         "CampaignsReportDocumentation": "Rapporten viser, hvilke kampagner der førte besøgende til hjemmesiden. %s Finde flere oplysninger om sporing af kampagner, læs %skampagne dokumentation på piwik.org%s",

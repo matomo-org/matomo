@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\Insights\tests;
 
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Plugins\Insights\InsightReport;
 use Piwik\Plugins\Insights\Visualizations\Insight;
 

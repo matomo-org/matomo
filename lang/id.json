@@ -295,8 +295,7 @@
         "CustomVariablesReportDocumentation": "Laporan ini mengandung informasi tentang Variabel Kustom Anda. Klik di nama variabel untuk melihat distribusi nilai. %s Informasi lebih lengkap tentang Vabiabel Kustom, baca %sdokumentasi Vabiabel Kustom di piwik.org%s",
         "PluginDescription": "Variabel Kustom harus `nama,nilai` terkait yang dapat Anda atur ke `Visit` menggunakan fungsi API Javascript setVisitCustomVariables(). Piwik akan melaporkan jumlah kunjungan, halaman, dan konversi untuk tiap nama dan nilai kustom.",
         "ScopePage": "cakupan halaman",
-        "ScopeVisit": "cakupan kunjungan",
-        "TrackingHelp": "Bantuan: %1$sPelacakan Bariabel Kustom di Piwik%2$s"
+        "ScopeVisit": "cakupan kunjungan"
     },
     "Dashboard": {
         "AddAWidget": "Tambah sebuah gawit",
@@ -873,8 +872,6 @@
         "Congratulations": "Selesai",
         "CongratulationsHelp": "<p>Selamat! Instalasi Piwik selesai.<\/p><p>Pastikan kode JavaScript Anda telah dimasukkan pada halaman Anda, lalu tunggu pengunjung pertama Anda!<\/p>",
         "DatabaseAbilities": "Kemampuan Basisdata",
-        "DatabaseCheck": "Pemeriksaan Basisdata",
-        "DatabaseClientVersion": "Versi klien basisdata",
         "DatabaseCreation": "Pembuatan basisdata",
         "DatabaseErrorConnect": "Galat ketika coba sambungan ke peladen basisdata",
         "DatabaseServerVersion": "Versi peladen basisdata",
@@ -885,7 +882,6 @@
         "DatabaseSetupServer": "peladen basisdata",
         "DatabaseSetupTablePrefix": "awalan tabel",
         "Email": "surel",
-        "ErrorInvalidState": "Galat: tampaknya Anda mencoba melewati proses Instalasi, atau kuki Anda telah dimatikan, atau berkas konfigurasi Piwik telah tersedia. %1$sPeriksalah apakah kuki Anda telah aktif kemudian %2$s kembali %3$s ke halaman pertama instalasi %4$s.",
         "Extension": "ekstensi",
         "Filesystem": "Sistem Berkas",
         "GoBackAndDefinePrefix": "Kembali dan tetapkan kode awalan untuk tabel Piwik",
@@ -941,9 +937,6 @@
         "SystemCheckIconvHelp": "Anda dapat mengonfigurasi dan membangun ulang PHP dengan dukungan \"iconv\" diaktifkan, --with-iconv.",
         "SystemCheckMailHelp": "Pesan Umpanbalik dan Pemulihan Sandi tidak terkirim tanpa fungsi mail().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionGeoIpHelp": "Ini juga membutuhkan pemaduan GeoIP untuk berkerja.",
-        "SystemCheckMbstringExtensionHelp": "Ekstensi mbstring dibutuhkan untuk karakter banyak-bita dalam respon API menggunakan nilai dipisahkan-koma (comma-separated values, CSV) atau nilai dipisahkan-tabulasi (tab-separated values, TSV).",
-        "SystemCheckMbstringFuncOverloadHelp": "Anda harus mengeset mbstring.func_overload ke \"0\".",
         "SystemCheckMemoryLimit": "Batas Memori",
         "SystemCheckMemoryLimitHelp": "Dalam situs dengan kunjungan tinggi, kemungkinan pengarsipan membutuhkan memori lebih banyak daripada yang diperbolehkan saat ini. Bila dibutuhkan, ubah nilai memory_limit dalam berkas php.ini Anda.",
         "SystemCheckOpenURL": "Buka URL",
@@ -955,8 +948,6 @@
         "SystemCheckPdoAndMysqliHelp": "Dalam peladen Linux Anda dapat mengompilasi php dengan opsi berikut: %1$s Di php.ini Anda, tambah baris berikut: %2$s",
         "SystemCheckPhp": "Versi PHP",
         "SystemCheckPhpPdoAndMysqli": "Informasi lebih lanjut di: %1$sPHP PDO%2$s dan %3$sMYSQLI%4$s.",
-        "SystemCheckSecureProtocol": "Protokol Keamanan",
-        "SystemCheckSecureProtocolHelp": "Tampaknya Anda menggunakan https di peladen ramatraya Anda. Baris tersebut akan ditambahkan ke config\/config.ini.php:",
         "SystemCheckSplHelp": "Anda dapat mengonfigurasi dan membangun ulang PHP dengan Standard PHP Library (SPL) diaktifkan (secara asali).",
         "SystemCheckSummaryNoProblems": "Hore! Tidak ada permasalahan dalam pemasangan Piwik Anda. Beri diri Anda sebuah tepukan punggung.",
         "SystemCheckSummaryThereWereErrors": "Uh-oh! Piwik mendeteksi beberapa %1$spermsalahan kritis%2$s dalam with your Piwik setup. %3$sPermasalahan tersebut harus segera diperbaiki segera.%4$s",
@@ -1204,7 +1195,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Laporan ini menampilkan seluruh Pengarah Anda dalam laporan satu kompak, mendaftar seluruh Situs, dan kata kunci Pencarian serta Kampanye yang digunakan pengunjung Anda menemukan situs Anda.",
-        "CampaignFooterHelp": "Batuan: %sPelacakan Kampanye%s di peralatan Pembangun URL Piwik%s",
         "Campaigns": "Kampanye",
         "CampaignsDocumentation": "Pengunjung yang datang ke situs Anda sebagai hasil dari kampanye. %s Lihat laporan %s untuk selengkapnya.",
         "CampaignsReportDocumentation": "Laporan ini menampilan kampanye mana yang mengarahkan pengungunjung ke situs Anda. %s Informasi selengkapnya tentang kampanye pelacakan, baca %sdokumentasi kampanye di piwik.org%s",

@@ -8,14 +8,9 @@
  */
 namespace Piwik\Plugins\Insights;
 
-use Piwik\DataTable;
-use Piwik\Date;
-use Piwik\Log;
-use Piwik\Period\Range;
-use Piwik\Piwik;
-use Piwik\Plugins\API\ProcessedReport;
 use Piwik\API\Request as ApiRequest;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * API for plugin Insights

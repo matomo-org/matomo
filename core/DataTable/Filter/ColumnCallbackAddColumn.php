@@ -79,16 +79,23 @@ class ColumnCallbackAddColumn extends BaseFilter
      */
     public function filter($table)
     {
+        $columns = $this->columns;
+        $functionParams  = $this->functionParameters;
+        $functionToApply = $this->functionToApply;
+
         foreach ($table->getRows() as $row) {
-            $columnValues = array();
-            foreach ($this->columns as $column) {
-                $columnValues[] = $row->getColumn($column);
-            }
 
-            $parameters = array_merge($columnValues, $this->functionParameters);
-            $value = call_user_func_array($this->functionToApply, $parameters);
+            $row->setColumn($this->columnToAdd, function (DataTable\Row $row) use ($columns, $functionParams, $functionToApply) {
 
-            $row->setColumn($this->columnToAdd, $value);
+                $columnValues = array();
+                foreach ($columns as $column) {
+                    $columnValues[] = $row->getColumn($column);
+                }
+
+                $parameters = array_merge($columnValues, $functionParams);
+                
+                return call_user_func_array($functionToApply, $parameters);
+            });
 
             $this->filterSubTable($row);
         }

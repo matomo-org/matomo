@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;

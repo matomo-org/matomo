@@ -1,12 +1,12 @@
 {# Disabled by default, tracks activity of this Piwik instance #}
 
-{% if (piwikUrl == 'http://demo.piwik.org/' or debugTrackVisitsInsidePiwikUI) %}
+{% if (piwikUrl == 'http://demo.piwik.org/' or enableMeasurePiwikForSiteId) %}
     <div class="clear"></div>
     <!-- Piwik -->
     <script type="text/javascript">
     var _paq = _paq || [];
     _paq.push(['setTrackerUrl', 'piwik.php']);
-    _paq.push(['setSiteId', 1]);
+    _paq.push(['setSiteId', {{ enableMeasurePiwikForSiteId }}]);
     _paq.push(['setCookieDomain', '*.piwik.org']);
     // set the domain the visitor landed on, in the Custom Variable
     _paq.push([function () {

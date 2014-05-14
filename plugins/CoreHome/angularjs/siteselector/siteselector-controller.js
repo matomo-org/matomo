@@ -28,11 +28,7 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
             return;
         }
 
-        if (site.idsite == 'all') {
-            piwik.broadcast.propagateNewPage('module=MultiSites&action=index');
-        } else {
-            piwik.broadcast.propagateNewPage('segment=&idSite=' + site.idsite, false);
-        }
+        $scope.model.loadSite(site.idsite);
     };
 
     $scope.getUrlAllSites = function () {
@@ -46,4 +42,6 @@ angular.module('piwikApp').controller('SiteSelectorController', function($scope,
         return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters) +
             '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
     };
+
+    siteSelectorModel.loadInitialSites();
 });

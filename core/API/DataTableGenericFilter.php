@@ -10,13 +10,11 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
+use Piwik\DataTable;
 
 class DataTableGenericFilter
 {
-    private static $genericFiltersInfo = null;
-
     /**
      * Constructor
      *
@@ -51,43 +49,47 @@ class DataTableGenericFilter
      */
     public static function getGenericFiltersInformation()
     {
-        if (is_null(self::$genericFiltersInfo)) {
-            self::$genericFiltersInfo = array(
-                'Pattern'                        => array(
-                    'filter_column'  => array('string', 'label'),
-                    'filter_pattern' => array('string'),
-                ),
-                'PatternRecursive'               => array(
-                    'filter_column_recursive'  => array('string', 'label'),
-                    'filter_pattern_recursive' => array('string'),
-                ),
-                'ExcludeLowPopulation'           => array(
-                    'filter_excludelowpop'       => array('string'),
-                    'filter_excludelowpop_value' => array('float', '0'),
-                ),
-                'AddColumnsProcessedMetrics'     => array(
-                    'filter_add_columns_when_show_all_columns' => array('integer')
-                ),
-                'AddColumnsProcessedMetricsGoal' => array(
-                    'filter_update_columns_when_show_all_goals' => array('integer'),
-                    'idGoal'                                    => array('string', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
-                ),
-                'Sort'                           => array(
-                    'filter_sort_column' => array('string'),
-                    'filter_sort_order'  => array('string', 'desc'),
-                ),
-                'Truncate'                       => array(
-                    'filter_truncate' => array('integer'),
-                ),
-                'Limit'                          => array(
-                    'filter_offset'    => array('integer', '0'),
-                    'filter_limit'     => array('integer'),
-                    'keep_summary_row' => array('integer', '0'),
-                ),
-            );
-        }
-
-        return self::$genericFiltersInfo;
+        return array(
+            array('Pattern',
+                  array(
+                      'filter_column'  => array('string', 'label'),
+                      'filter_pattern' => array('string')
+                  )),
+            array('PatternRecursive',
+                  array(
+                      'filter_column_recursive'  => array('string', 'label'),
+                      'filter_pattern_recursive' => array('string'),
+                  )),
+            array('ExcludeLowPopulation',
+                  array(
+                      'filter_excludelowpop'       => array('string'),
+                      'filter_excludelowpop_value' => array('float', '0'),
+                  )),
+            array('AddColumnsProcessedMetrics',
+                  array(
+                      'filter_add_columns_when_show_all_columns' => array('integer')
+                  )),
+            array('AddColumnsProcessedMetricsGoal',
+                  array(
+                      'filter_update_columns_when_show_all_goals' => array('integer'),
+                      'idGoal'                                    => array('string', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
+                  )),
+            array('Sort',
+                  array(
+                      'filter_sort_column' => array('string'),
+                      'filter_sort_order'  => array('string', 'desc'),
+                  )),
+            array('Truncate',
+                  array(
+                      'filter_truncate' => array('integer'),
+                  )),
+            array('Limit',
+                  array(
+                      'filter_offset'    => array('integer', '0'),
+                      'filter_limit'     => array('integer'),
+                      'keep_summary_row' => array('integer', '0'),
+                  )),
+        );
     }
 
     /**
@@ -110,10 +112,12 @@ class DataTableGenericFilter
         $genericFilters = self::getGenericFiltersInformation();
 
         $filterApplied = false;
-        foreach ($genericFilters as $filterName => $parameters) {
+        foreach ($genericFilters as $filterMeta) {
+            $filterName = $filterMeta[0];
+            $filterParams = $filterMeta[1];
             $filterParameters = array();
             $exceptionRaised = false;
-            foreach ($parameters as $name => $info) {
+            foreach ($filterParams as $name => $info) {
                 // parameter type to cast to
                 $type = $info[0];
 

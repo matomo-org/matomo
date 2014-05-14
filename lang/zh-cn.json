@@ -360,8 +360,7 @@
         "CustomVariablesReportDocumentation": "本报表包含您的自定义变量的资料，点击变量名查看数据。%s 关于自定义变量的详情，请阅读 %spiwik.org 上的自定义变量文档%s",
         "PluginDescription": "插件描述",
         "ScopePage": "访问页面",
-        "ScopeVisit": "访问范围",
-        "TrackingHelp": "帮助: %1$s在 Piwik 中跟踪自定义变量%2$s"
+        "ScopeVisit": "访问范围"
     },
     "Dashboard": {
         "AddAWidget": "增加一个小工具",
@@ -952,8 +951,6 @@
         "Congratulations": "恭喜您",
         "CongratulationsHelp": "<p>恭喜您！ 您的 Piwik 安装已经完成！<\/p><p>请确认您的 Javascript 跟踪代码已插入至您的页面之中，并等候您的首位访客！<\/p>",
         "DatabaseAbilities": "数据库能力",
-        "DatabaseCheck": "数据库检查",
-        "DatabaseClientVersion": "数据库客户端版本",
         "DatabaseCreation": "数据库建立",
         "DatabaseErrorConnect": "连接至数据库服务器时发生错误",
         "DatabaseServerVersion": "数据库服务器版本",
@@ -964,7 +961,6 @@
         "DatabaseSetupServer": "数据库服务器",
         "DatabaseSetupTablePrefix": "数据表前綴词",
         "Email": "邮箱",
-        "ErrorInvalidState": "错误: 看来您正在尝试停止安裝程序的某个步驟，或是您的 cookies 功能未启用，或者 Piwik 配置文件已经建立。%1$s请确定您的 cookies 功能已启用%2$s然后返回%3$s至安裝程序的初始画面 %4$s。",
         "Extension": "扩展",
         "Filesystem": "文件系统",
         "GoBackAndDefinePrefix": "返回并为 Piwik 数据表定义一个数据表前綴",
@@ -1021,9 +1017,6 @@
         "SystemCheckIconvHelp": "您需要设定及重建 PHP, 然后启用\"iconv\"支持, --with-iconv.",
         "SystemCheckMailHelp": "意见反馈及忘记密码信息若沒有 mail() 将无法寄送。",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionGeoIpHelp": "需要集成 GeoIP 才能正常工作。",
-        "SystemCheckMbstringExtensionHelp": "在 API 中使用逗号分隔 (CSV) 或制表符分隔 (TSV) 的多字节字符需要 mbstring 扩展。",
-        "SystemCheckMbstringFuncOverloadHelp": "您应该将 mbstring.func_overload 设定为 \"0\"。",
         "SystemCheckMemoryLimit": "内存限制",
         "SystemCheckMemoryLimitHelp": "在一个高流量的网站，数据处理过程中使用的内存可能超出当前系统的允许值！如果需要，请修改 php.ini文件中的 memory_limit 值！",
         "SystemCheckOpenURL": "开启网址",
@@ -1035,8 +1028,6 @@
         "SystemCheckPdoAndMysqliHelp": "在 Linux 服务器上您可以使用以下选项编译 PHP: 在您的php.ini 中 %1$s, 加入以下几行: %2$s",
         "SystemCheckPhp": "PHP 版本",
         "SystemCheckPhpPdoAndMysqli": "更多资讯: %1$sPHP PDO%2$s 和 %3$sMYSQLI%4$s.",
-        "SystemCheckSecureProtocol": "安全协议",
-        "SystemCheckSecureProtocolHelp": "您的服务器正使用 https，config\/config.ini.php 文件中将加入这些行:",
         "SystemCheckSplHelp": "您需要设定及重建 PHP, 然后启用 Standard PHP Library (SPL)。",
         "SystemCheckSummaryNoProblems": "太好了! 您的 Piwik 没有问题，放心使用吧。",
         "SystemCheckSummaryThereWereErrors": "糟糕! Piwik 检查到一些 %1$s严重的问题%2$s，%3$s这些问题需要马上修复。%4$s",
@@ -1327,7 +1318,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "本报表集中显示所有访问来源，列出了访客用于查找您的网站而用到的所有的网站、搜索关键词和广告。",
-        "CampaignFooterHelp": "帮助: %s跟踪 Piwik 广告活动的 %s 网址优化工具%s",
         "Campaigns": "广告活动",
         "CampaignsDocumentation": "广告活动带来的访客。%s 查看 %s 报表了解详情。",
         "CampaignsReportDocumentation": "本报表显示哪些广告活动带来了访客，%s 广告跟踪的详情，请看 %s piwik.org 上的广告活动文档 %s",

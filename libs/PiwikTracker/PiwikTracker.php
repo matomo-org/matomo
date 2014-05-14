@@ -170,6 +170,7 @@ class PiwikTracker
         $this->eventCustomVar = false;
         $this->customData = false;
         $this->forcedDatetime = false;
+        $this->forcedNewVisit = false;
         $this->token_auth = false;
         $this->attributionInfo = false;
         $this->ecommerceLastOrderTimestamp = false;
@@ -627,15 +628,16 @@ class PiwikTracker
      */
     public function doBulkTrack()
     {
-        if (empty($this->token_auth)) {
-            throw new Exception("Token auth is required for bulk tracking.");
-        }
-
         if (empty($this->storedTrackingActions)) {
             throw new Exception("Error:  you must call the function doTrackPageView or doTrackGoal from this class, before calling this method doBulkTrack()");
         }
 
-        $data = array('requests' => $this->storedTrackingActions, 'token_auth' => $this->token_auth);
+        $data = array('requests' => $this->storedTrackingActions);
+
+        // token_auth is not required by default, except if bulk_requests_require_authentication=1
+        if(!empty($this->token_auth)) {
+            $data['token_auth'] = $this->token_auth;
+        }
 
         $postData = json_encode($data);
         $response = $this->sendRequest($this->getBaseUrl(), 'POST', $postData, $force = true);
@@ -899,6 +901,21 @@ class PiwikTracker
     public function setForceVisitDateTime($dateTime)
     {
         $this->forcedDatetime = $dateTime;
+    }
+
+    /**
+     * Forces Piwik to create a new visit for the tracking request.
+     *
+     * By default, Piwik will create a new visit if the last request by this user was more than 30 minutes ago.
+     * If you call setForceNewVisit() before calling doTrack*, then a new visit will be created for this request.
+     *
+     * Allowed only for Super User, must be used along with setTokenAuth()
+     *
+     * @see setTokenAuth()
+     */
+    public function setForceNewVisit()
+    {
+        $this->forcedNewVisit = true;
     }
 
     /**
@@ -1273,6 +1290,7 @@ class PiwikTracker
             (!empty($this->ip) ? '&cip=' . $this->ip : '') .
             (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
+            (!empty($this->forcedNewVisit) ? '&new_visit=1' : '') .
             ((!empty($this->token_auth) && !$this->doBulkRequests) ? '&token_auth=' . urlencode($this->token_auth) : '') .
 
             // Values collected from cookie
@@ -1322,6 +1340,9 @@ class PiwikTracker
         // Reset page level custom variables after this page view
         $this->pageCustomVar = false;
         $this->eventCustomVar = false;
+
+        // force new visit only once, user must call again setForceNewVisit()
+        $this->forcedNewVisit = false;
 
         return $url;
     }

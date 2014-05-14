@@ -5,6 +5,10 @@
         "EventCategory": "Категория на събитие",
         "EventName": "Име на събитие",
         "Events": "Събития",
-        "EventValue": "Стойност за събитие"
+        "EventValue": "Стойност за събитие",
+        "TotalEvents": "Общо събития",
+        "TotalEventsDocumentation": "Общ брой събития",
+        "TotalValue": "Обща стойност",
+        "ViewEvents": "Преглед на събития"
     }
 }

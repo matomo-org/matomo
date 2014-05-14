@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\DataTable\Manager;
-use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable\Row;
 
 class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase

@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\DBStats\Mocks;
 
-use Piwik\Piwik;
 use Piwik\Common;
 
 class MockDataAccess

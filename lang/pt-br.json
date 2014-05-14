@@ -372,8 +372,7 @@
         "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as suas variáveis ​​personalizadas. Clique em um nome de variável para ver a distribuição dos valores. %s para mais informações sobre variáveis ​​personalizadas em geral, leia a documentação %sCustom Variáveis ​​em piwik.org%s",
         "PluginDescription": "Variáveis ​​personalizados são nome, pares de valores que podem ser definidos para uma visita usando a função setVisitCustomVariables() da API Javascript. Piwik irá relatar quantas visitas, páginas, conversões para cada um desses nomes personalizados e valores.",
         "ScopePage": "página escopo",
-        "ScopeVisit": "visita escopo",
-        "TrackingHelp": "Ajuda:%1$s variáveis de monitoramento personalizado em Piwik%2$s"
+        "ScopeVisit": "visita escopo"
     },
     "Dashboard": {
         "AddAWidget": "Adicionar um widget",
@@ -966,8 +965,6 @@
         "Congratulations": "Parabéns",
         "CongratulationsHelp": "<p>Parabéns! A sua instalação do Piwik está completa.<\/p><p>Certifique-se de ter colocado o código JavaScript em todas as suas páginas, e aguarde os seus primeiros visitantes!<\/p>",
         "DatabaseAbilities": "Capacidades de banco de dados",
-        "DatabaseCheck": "check do banco de dados",
-        "DatabaseClientVersion": "versão do banco de dados client",
         "DatabaseCreation": "Criação do banco de dados",
         "DatabaseErrorConnect": "Erro enquanto tentando conectar ao servidor do banco de dados",
         "DatabaseServerVersion": "versão do servidor de banco de dados",
@@ -978,7 +975,6 @@
         "DatabaseSetupServer": "servidor de banco de dados",
         "DatabaseSetupTablePrefix": "prefixo da tabela",
         "Email": "email",
-        "ErrorInvalidState": "Erro: parece que você está tentando pular um passo do processo de instalação, ou seus cookies estão desligados, ou o arquivo de configuração do Piwik já foi criado. %1$sTenha certeza de que seus cookies estão ativados%2$s e volte %3$spara a página inicial da instalação%4$s.",
         "Extension": "extensão",
         "Filesystem": "Sistema de arquivos",
         "GetInvolved": "Se você gosta do que você vê, você pode %1$sparticipar%2$s.",
@@ -1039,9 +1035,6 @@
         "SystemCheckIconvHelp": "Você precisa configurar e reconstruir PHP com suporte \"iconv\" habilitado, --with-iconv.",
         "SystemCheckMailHelp": "Mensagens de feedback e senha perdida não serão enviadas sem mail().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionGeoIpHelp": "Isto também é necessário para a integração GeoIP funcionar.",
-        "SystemCheckMbstringExtensionHelp": "A extensão mbstring é requisitada para caracteres multibyte na resposta da API usando valores separados por vírgula (CSV) ou valores separados por tab (TSB).",
-        "SystemCheckMbstringFuncOverloadHelp": "Você deveria definir mbstring.func_overload para \"0\".",
         "SystemCheckMemoryLimit": "Limite de Memória",
         "SystemCheckMemoryLimitHelp": "Em um site com alto tráfego, o processo de arquivamento pode exigir mais memória do que o atualmente permitido. Se necessário, mude a diretiva memory_limit no seu arquivo php.ini.",
         "SystemCheckOpenURL": "Abre URL",
@@ -1053,8 +1046,6 @@
         "SystemCheckPdoAndMysqliHelp": "Num servidor Linux você poderá compilar o php com as seguintes opções: %1$s No seu php.ini, adicione as seguintes linhas: %2$s",
         "SystemCheckPhp": "Versão do PHP",
         "SystemCheckPhpPdoAndMysqli": "Mais informações em: %1$sPHP PDO%2$s e %3$sMYSQLI%4$s.",
-        "SystemCheckSecureProtocol": "Protocolo seguro",
-        "SystemCheckSecureProtocolHelp": "Parece que você esta usando https com o seu servidor web. Estas linhas serão adicionados à config \/ config.ini.php:",
         "SystemCheckSplHelp": "Você precisa configurar e remontar o PHP com a Standard PHP Library (SPL) habilitada (por padrão).",
         "SystemCheckSummaryNoProblems": "Huzzah! Não há problemas com sua configuração Piwik. Dê a você mesmo um tapinha nas costas.",
         "SystemCheckSummaryThereWereErrors": "Uh-oh! Piwik detectou algunas %1$squestões críticas%2$s com as suas configurações. %3$s Estas questões devem ser corrigidas imediatamente. %4$s",
@@ -1345,7 +1336,6 @@
     },
     "Referrers": {
         "AllReferrersReportDocumentation": "Este relatório mostra todos os seus encminhadores em um relatório unificado, listando todos os sites, palavras-chave de pesquisa e campanhas usados ​​por seus visitantes para encontrar seu site.",
-        "CampaignFooterHelp": "Ajuda:%s Rastreamento de Campanhas no Piwik%s Ferramenta criação de URL%s",
         "Campaigns": "Campanhas",
         "CampaignsDocumentation": "Os visitantes que vieram para o seu site como o resultado de uma campanha. %s Ver relatório %s para mais detalhes.",
         "CampaignsReportDocumentation": "Este relatório mostra quais as campanhas lideradas visitantes para o seu site. %s para mais informações sobre as campanhas de monitoramento, leia a documentação %s campanhas em piwik.org %s",

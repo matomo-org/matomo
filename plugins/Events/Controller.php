@@ -8,10 +8,7 @@
  */
 namespace Piwik\Plugins\Events;
 
-use Piwik\Piwik;
-use Piwik\Plugins\Events\Events;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  * Events controller

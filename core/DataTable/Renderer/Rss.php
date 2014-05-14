@@ -15,7 +15,6 @@ use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\SettingsPiwik;
-use Piwik\Url;
 
 /**
  * RSS Feed.

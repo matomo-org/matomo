@@ -32,6 +32,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>47</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.29s</generationTime>
 				<icon />
 			</row>
@@ -137,6 +143,12 @@
 				<pageIdAction>43</pageIdAction>
 				
 				<pageId>38</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<icon />
@@ -158,6 +170,12 @@
 				<pageIdAction>54</pageIdAction>
 				
 				<pageId>46</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -259,6 +277,12 @@
 				<pageIdAction>52</pageIdAction>
 				
 				<pageId>45</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.41s</generationTime>
 				<icon />
 			</row>
@@ -376,6 +400,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>42</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<icon />
@@ -397,6 +427,12 @@
 				<pageIdAction>50</pageIdAction>
 				
 				<pageId>44</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -505,6 +541,12 @@
 				<pageIdAction>48</pageIdAction>
 				
 				<pageId>43</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon>plugins/Zeitgeist/images/link.gif</icon>
 			</row>
 		</actionDetails>
@@ -623,6 +665,12 @@
 				<pageIdAction>47</pageIdAction>
 				
 				<pageId>41</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.39s</generationTime>
 				<icon />
 			</row>
@@ -750,6 +798,12 @@
 				<pageIdAction>41</pageIdAction>
 				
 				<pageId>40</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -864,6 +918,12 @@
 				<pageIdAction>45</pageIdAction>
 				
 				<pageId>39</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.12s</generationTime>
 				<icon />
 			</row>
@@ -971,6 +1031,12 @@
 				<pageIdAction>41</pageIdAction>
 				
 				<pageId>37</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.15s</generationTime>
 				<icon />
 			</row>
@@ -1088,6 +1154,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>33</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.18s</generationTime>
 				<timeSpent>2</timeSpent>
 				<timeSpentPretty>2s</timeSpentPretty>
@@ -1110,6 +1182,12 @@
 				<pageIdAction>38</pageIdAction>
 				
 				<pageId>35</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.11s</generationTime>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
@@ -1122,6 +1200,12 @@
 				<pageIdAction>39</pageIdAction>
 				
 				<pageId>36</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon>plugins/Zeitgeist/images/download.png</icon>
 			</row>
 		</actionDetails>
@@ -1232,6 +1316,12 @@
 				<pageIdAction>36</pageIdAction>
 				
 				<pageId>34</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.13s</generationTime>
 				<icon />
 			</row>
@@ -1351,6 +1441,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>32</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.06s</generationTime>
 				<icon />
 			</row>
@@ -1470,6 +1566,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>56</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.02s</generationTime>
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
@@ -1482,6 +1584,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>52</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.12s</generationTime>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -1494,6 +1602,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>48</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.12s</generationTime>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -1506,6 +1620,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>57</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.24s</generationTime>
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
@@ -1518,6 +1638,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>49</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.23s</generationTime>
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
@@ -1530,6 +1656,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>53</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.29s</generationTime>
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
@@ -1542,6 +1674,12 @@
 				<pageIdAction>3</pageIdAction>
 				
 				<pageId>54</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.62s</generationTime>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
@@ -1554,6 +1692,12 @@
 				<pageIdAction>3</pageIdAction>
 				
 				<pageId>50</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>1.32s</generationTime>
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
@@ -1566,6 +1710,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>55</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.34s</generationTime>
 				<icon />
 			</row>
@@ -1576,6 +1726,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>51</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.54s</generationTime>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
@@ -1800,6 +1956,12 @@
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>30</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -1926,6 +2088,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>28</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2141,6 +2309,12 @@
 				<pageIdAction>21</pageIdAction>
 				
 				<pageId>23</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/download.png</icon>
@@ -2152,6 +2326,12 @@
 				<pageIdAction>22</pageIdAction>
 				
 				<pageId>24</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<icon>plugins/Zeitgeist/images/download.png</icon>
@@ -2163,6 +2343,12 @@
 				<pageIdAction>23</pageIdAction>
 				
 				<pageId>25</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon>plugins/Zeitgeist/images/download.png</icon>
 			</row>
 		</actionDetails>
@@ -2264,6 +2450,12 @@
 				<pageIdAction>5</pageIdAction>
 				
 				<pageId>22</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2462,6 +2654,12 @@
 				<pageIdAction>16</pageIdAction>
 				
 				<pageId>18</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon>plugins/Zeitgeist/images/download.png</icon>
 			</row>
 		</actionDetails>
@@ -2670,6 +2868,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>19</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2771,6 +2975,12 @@
 				<pageIdAction>15</pageIdAction>
 				
 				<pageId>17</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2868,6 +3078,12 @@
 				<pageIdAction>14</pageIdAction>
 				
 				<pageId>16</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2965,6 +3181,12 @@
 				<pageIdAction>13</pageIdAction>
 				
 				<pageId>15</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3062,6 +3284,12 @@
 				<pageIdAction>12</pageIdAction>
 				
 				<pageId>14</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3159,6 +3387,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>13</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3256,6 +3490,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>12</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3353,6 +3593,12 @@
 				<pageIdAction>11</pageIdAction>
 				
 				<pageId>11</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3450,6 +3696,12 @@
 				<pageIdAction>10</pageIdAction>
 				
 				<pageId>10</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3547,6 +3799,12 @@
 				<pageIdAction>9</pageIdAction>
 				
 				<pageId>9</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3644,6 +3902,12 @@
 				<pageIdAction>8</pageIdAction>
 				
 				<pageId>8</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3741,6 +4005,12 @@
 				<pageIdAction>7</pageIdAction>
 				
 				<pageId>7</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3838,6 +4108,12 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>6</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3935,6 +4211,12 @@
 				<pageIdAction>5</pageIdAction>
 				
 				<pageId>5</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4032,6 +4314,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>4</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4129,6 +4417,12 @@
 				<pageIdAction>3</pageIdAction>
 				
 				<pageId>3</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4226,6 +4520,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>2</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4323,6 +4623,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>1</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>

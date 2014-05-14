@@ -48,8 +48,9 @@ class ZipArchive implements UncompressInterface
      */
     public function extract($pathExtracted)
     {
-        if (substr_compare($pathExtracted, '/', -1))
+        if (substr($pathExtracted, -1) !== '/') {
             $pathExtracted .= '/';
+        }
 
         $fileselector = array();
         $list = array();

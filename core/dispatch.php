@@ -11,7 +11,7 @@
 use Piwik\Error;
 use Piwik\ExceptionHandler;
 use Piwik\FrontController;
-use \Piwik\Plugin\ControllerAdmin as PluginControllerAdmin;
+use Piwik\Plugin\ControllerAdmin as PluginControllerAdmin;
 
 PluginControllerAdmin::disableEacceleratorIfEnabled();
 
@@ -33,7 +33,9 @@ if (PIWIK_ENABLE_DISPATCH) {
     $controller->init();
     $response = $controller->dispatch();
 
-    if (!is_null($response)) {
+    if(is_array($response)) {
+        var_export($response);
+    } elseif (!is_null($response)) {
         echo $response;
     }
 }

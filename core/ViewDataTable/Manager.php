@@ -9,6 +9,7 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\Common;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
@@ -269,5 +270,47 @@ class Manager
             'title' => Piwik::translate($klass::FOOTER_ICON_TITLE),
             'icon'  => $klass::FOOTER_ICON,
         );
+    }
+
+    public static function clearAllViewDataTableParameters()
+    {
+        Option::deleteLike('viewDataTableParameters_%');
+    }
+
+    public static function clearUserViewDataTableParameters($userLogin)
+    {
+        Option::deleteLike('viewDataTableParameters_' . $userLogin . '_%');
+    }
+
+    public static function getViewDataTableParameters($login, $controllerAction)
+    {
+        $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
+        $params    = Option::get($paramsKey);
+
+        if (empty($params)) {
+            return array();
+        }
+
+        $params = json_decode($params);
+        $params = (array) $params;
+
+        return $params;
+    }
+
+    public static function saveViewDataTableParameters($login, $controllerAction, $parametersToOverride)
+    {
+        $params = self::getViewDataTableParameters($login, $controllerAction);
+
+        foreach ($parametersToOverride as $key => $value) {
+            $params[$key] = $value;
+        }
+
+        $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
+        Option::set($paramsKey, json_encode($params));
+    }
+
+    private static function buildViewDataTableParametersOptionKey($login, $controllerAction)
+    {
+        return sprintf('viewDataTableParameters_%s_%s', $login, $controllerAction);
     }
 }

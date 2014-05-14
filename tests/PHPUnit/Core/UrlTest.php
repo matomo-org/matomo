@@ -1,7 +1,6 @@
 <?php
 use Piwik\Config;
 use Piwik\Url;
-use Piwik\UrlHelper;
 
 /**
  * Piwik - Open source web analytics

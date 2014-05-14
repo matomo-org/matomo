@@ -8,13 +8,12 @@
  */
 namespace Piwik\Plugins\DevicesDetection;
 
+use DeviceDetector;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
-use DeviceDetector;
 
 class Controller extends \Piwik\Plugin\Controller
 {

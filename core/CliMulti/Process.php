@@ -154,6 +154,10 @@ class Process
             return false;
         }
 
+        if(!self::isProcFSMounted()) {
+            return false;
+        }
+
         if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
             return true;
         }
@@ -180,7 +184,7 @@ class Process
 
     private static function returnsSuccessCode($command)
     {
-        $exec = $command . ' > /dev/null 2>&1 & echo $?';
+        $exec = $command . ' > /dev/null 2>&1; echo $?';
         $returnCode = shell_exec($exec);
         $returnCode = trim($returnCode);
         return 0 == (int) $returnCode;
@@ -188,8 +192,17 @@ class Process
 
     private static function commandExists($command)
     {
-        $result = shell_exec('which ' . escapeshellarg($command));
+        $result = shell_exec('which ' . escapeshellarg($command) . ' 2> /dev/null');
 
         return !empty($result);
+    }
+
+    /**
+     * ps -e requires /proc
+     * @return bool
+     */
+    private static function isProcFSMounted() 
+    {
+        return is_resource(@fopen('/proc', 'r'));
     }
 }

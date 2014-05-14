@@ -234,6 +234,10 @@ class Events extends \Piwik\Plugin
 
     protected function addRelatedReports($view, $secondaryDimension)
     {
+        if(empty($secondaryDimension)) {
+            // eg. Row Evolution
+            return;
+        }
         $view->config->show_related_reports = true;
 
         $apiMethod = $view->requestConfig->getApiMethodToRequest();

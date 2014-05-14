@@ -11,7 +11,6 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  */

@@ -343,7 +343,7 @@ class Request
         // unless the filter param was in $queryParams
         $genericFiltersInfo = DataTableGenericFilter::getGenericFiltersInformation();
         foreach ($genericFiltersInfo as $filter) {
-            foreach ($filter as $queryParamName => $queryParamInfo) {
+            foreach ($filter[1] as $queryParamName => $queryParamInfo) {
                 if (!isset($params[$queryParamName])) {
                     $params[$queryParamName] = null;
                 }

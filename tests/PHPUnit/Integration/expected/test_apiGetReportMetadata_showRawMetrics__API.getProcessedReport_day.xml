@@ -69,6 +69,7 @@
 			</goals>
 			<nb_conversions>1</nb_conversions>
 			<revenue>$ 42.26</revenue>
+			<conversion_rate>0</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:18:06</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Filechecks;
@@ -18,9 +19,8 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Url;
-use Piwik\View;
 use Piwik\Version;
-use Exception;
+use Piwik\View;
 
 /**
  */

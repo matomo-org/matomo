@@ -222,24 +222,6 @@
         </td>
     </tr>
     <tr>
-        <td class="label">{{ 'Installation_SystemCheckMbstring'|translate }}</td>
-        <td>
-            {% if infos.hasMbstring %}
-                {% if infos.multibyte_ok %}
-                    {{ ok }}
-                {% else %}
-                    {{ warning }}
-                    <span class="warn">{{ 'Installation_SystemCheckMbstring'|translate }}
-                        <br/> {{ 'Installation_SystemCheckMbstringFuncOverloadHelp'|translate }}</span>
-                {% endif %}
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ 'Installation_SystemCheckMbstringExtensionHelp'|translate }}
-                    &nbsp;{{ 'Installation_SystemCheckMbstringExtensionGeoIpHelp'|translate }}</span>
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
         <td class="label">{{ 'Installation_SystemCheckOtherExtensions'|translate }}</td>
         <td>
             {% for desired_extension in infos.desired_extensions %}
@@ -305,18 +287,6 @@
             {% endif %}
         </td>
     </tr>
-    {% endif %}
-    {% if infos.general_infos.assume_secure_protocol is defined %}
-        <tr>
-            <td class="label">{{ 'Installation_SystemCheckSecureProtocol'|translate }}</td>
-            <td>
-                {{ warning }} <span class="warn">{{ infos.protocol }} </span><br/>
-                {{ 'Installation_SystemCheckSecureProtocolHelp'|translate }}
-                <br/><br/>
-                <code>[General]<br/>
-                    assume_secure_protocol = 1</code><br/>
-            </td>
-        </tr>
     {% endif %}
     {% if infos.extra.load_data_infile_available is defined %}
         <tr>

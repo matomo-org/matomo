@@ -26,5 +26,8 @@
         "tedivm/jshrink": "v0.5.1",
         "mustangostang/spyc": "0.5.*",
         "piwik/device-detector": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
     }
 }

@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\Insights\DataTable\Filter;
 
-use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * A row will be deleted if a positive value of $columnToRead is lower than the $minPositiveValue or if the negative

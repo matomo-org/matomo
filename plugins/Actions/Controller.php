@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Actions;
 
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  * Actions controller

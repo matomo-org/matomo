@@ -19,9 +19,9 @@ use Piwik\AssetManager\UIAssetFetcher\StylesheetUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
+use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
 use Piwik\Translate;
-use Piwik\Config as PiwikConfig;
 
 /**
  * AssetManager is the class used to manage the inclusion of UI assets:

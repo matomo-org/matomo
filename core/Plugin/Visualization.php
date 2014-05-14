@@ -144,7 +144,7 @@ class Visualization extends ViewDataTable
     private $reportLastUpdatedMessage = null;
     private $metadata = null;
 
-    final public function __construct($controllerAction, $apiMethodToRequestDataTable)
+    final public function __construct($controllerAction, $apiMethodToRequestDataTable, $params = array())
     {
         $templateFile = static::TEMPLATE_FILE;
 
@@ -152,7 +152,7 @@ class Visualization extends ViewDataTable
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
 
-        parent::__construct($controllerAction, $apiMethodToRequestDataTable);
+        parent::__construct($controllerAction, $apiMethodToRequestDataTable, $params);
     }
 
     protected function buildView()
@@ -304,6 +304,11 @@ class Visualization extends ViewDataTable
         }
 
         $this->beforeGenericFiltersAreAppliedToLoadedDataTable();
+
+        if (!in_array($this->requestConfig->filter_sort_column, $this->config->columns_to_display)) {
+            $hasNbUniqVisitors = in_array('nb_uniq_visitors', $this->config->columns_to_display);
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
+        }
 
         if (!$this->requestConfig->areGenericFiltersDisabled()) {
             $this->applyGenericFilters();
@@ -562,6 +567,15 @@ class Visualization extends ViewDataTable
 
         $diff = array_diff_assoc($this->makeSureArrayContainsOnlyStrings($requestProperties),
                                  $this->makeSureArrayContainsOnlyStrings($requestPropertiesBefore));
+
+        if (!empty($diff['filter_sort_column'])) {
+            // this here might be ok as it can be changed after data loaded but before filters applied
+            unset($diff['filter_sort_column']);
+        }
+        if (!empty($diff['filter_sort_order'])) {
+            // this here might be ok as it can be changed after data loaded but before filters applied
+            unset($diff['filter_sort_order']);
+        }
 
         if (empty($diff)) {
             return;

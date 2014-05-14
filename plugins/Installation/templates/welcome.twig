@@ -16,11 +16,6 @@
 <script type="text/javascript">
     <!--
     $(function () {
-        // client-side test for https to handle the case where the server is behind a reverse proxy
-        if (document.location.protocol === 'https:') {
-            $('p.nextStep a').attr('href', $('p.nextStep a').attr('href') + '&clientProtocol=https');
-        }
-
         // client-side test for broken tracker (e.g., mod_security rule)
         $('p.nextStep').hide();
         $.ajax({

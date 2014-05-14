@@ -8,6 +8,7 @@
 
 namespace Piwik\CliMulti;
 
+use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -15,9 +16,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\FrontController;
 
 /**
  * RequestCommand

@@ -7,14 +7,13 @@
  */
 
 use Piwik\Access;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
-use Piwik\Db\BatchInsert;
 use Piwik\Db;
+use Piwik\Db\BatchInsert;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
@@ -88,7 +87,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
         $site = $this->_createWebsite($siteTimezone);
         $date = Date::factory($dateLabel);
-        $period = Period::factory($periodLabel, $date);
+        $period = Period\Factory::build($periodLabel, $date);
         $segment = new Segment('', $site->getId());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
@@ -126,7 +125,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
 //        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
         $messageIfFails = "Expected [$expected] but got [$processed]";
-        $this->assertTrue( $expected == $processed || $expected == ($processed + 1) || ($expected + 1) == $processed, $messageIfFails);
+        $this->assertTrue( abs($expected-$processed) <=4 , $messageIfFails);
     }
 
     /**

@@ -11,13 +11,13 @@ namespace Piwik\Plugins\Live;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\MetricsFormatter;
-use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -145,8 +145,10 @@ class API extends \Piwik\Plugin\API
             $countVisitorsToFetch = $filter_limit + $filter_offset;
         }
 
+        $filterSortOrder = Common::getRequestVar('filter_sort_order', false, 'string');
+
         Piwik::checkUserHasViewAccess($idSite);
-        $dataTable = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId = false, $minTimestamp);
+        $dataTable = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId = false, $minTimestamp, $filterSortOrder);
         $this->addFilterToCleanVisitors($dataTable, $idSite, $flat, $doNotFetchActions);
 
         return $dataTable;
@@ -545,6 +547,9 @@ class API extends \Piwik\Plugin\API
             $timezone   = $website->getTimezone();
             $currencies = APISitesManager::getInstance()->getCurrencySymbols();
 
+            // live api is not summable, prevents errors like "Unexpected ECommerce status value"
+            $table->deleteRow(DataTable::ID_SUMMARY_ROW);
+
             foreach ($table->getRows() as $visitorDetailRow) {
                 $visitorDetailsArray = Visitor::cleanVisitorDetails($visitorDetailRow->getColumns());
 
@@ -576,7 +581,7 @@ class API extends \Piwik\Plugin\API
         });
     }
 
-    private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $countVisitorsToFetch = 100, $visitorId = false, $minTimestamp = false)
+    private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $countVisitorsToFetch = 100, $visitorId = false, $minTimestamp = false, $filterSortOrder = false)
     {
         $where = $whereBind = array();
 
@@ -585,8 +590,13 @@ class API extends \Piwik\Plugin\API
         $where[] = $whereClause;
         $whereBind = $idSites;
 
-        $orderBy = "idsite, visit_last_action_time DESC";
-        $orderByParent = "sub.visit_last_action_time DESC";
+        if (strtolower($filterSortOrder) !== 'asc') {
+            $filterSortOrder = 'DESC';
+        }
+
+        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
+        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
+
         if (!empty($visitorId)) {
             $where[] = "log_visit.idvisitor = ? ";
             $whereBind[] = @Common::hex2bin($visitorId);
@@ -626,7 +636,7 @@ class API extends \Piwik\Plugin\API
                 ) {
                     $processedDate = $processedDate->subDay(1);
                 }
-                $processedPeriod = Period::factory($period, $processedDate);
+                $processedPeriod = Period\Factory::build($period, $processedDate);
             }
             $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
             $where[] = "log_visit.visit_last_action_time >= ?";
@@ -679,6 +689,15 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray($data);
+       // $dataTable->disableFilter('Truncate');
+
+        if (!empty($data[0])) {
+            $columnsToNotAggregate = array_map(function () {
+                return 'skip';
+            }, $data[0]);
+
+            $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsToNotAggregate);
+        }
 
         return $dataTable;
     }

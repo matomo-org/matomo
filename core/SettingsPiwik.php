@@ -159,7 +159,7 @@ class SettingsPiwik
 
         $isPiwikCoreDispatching = defined('PIWIK_ENABLE_DISPATCH') && PIWIK_ENABLE_DISPATCH;
         if (Common::isPhpCliMode()
-            // in case archive.php is triggered with domain localhost
+            // in case core:archive command is triggered (often with localhost domain)
             || SettingsServer::isArchivePhpTriggered()
             // When someone else than core is dispatching this request then we return the URL as it is read only
             || !$isPiwikCoreDispatching
@@ -195,7 +195,26 @@ class SettingsPiwik
         $exists = file_exists($config);
 
         // Piwik is installed if the config file is found
-        return $exists;
+        if(!$exists) {
+            return false;
+        }
+
+        $general = Config::getInstance()->General;
+
+        $isInstallationInProgress = false;
+        if (array_key_exists('installation_in_progress', $general)) {
+            $isInstallationInProgress = (bool) $general['installation_in_progress'];
+        }
+        if($isInstallationInProgress) {
+            return false;
+        }
+
+        // Check that the database section is really set, ie. file is not empty
+        if(empty(Config::getInstance()->database['username'])) {
+            return false;
+        }
+        return true;
+
     }
 
     /**
@@ -344,14 +363,12 @@ class SettingsPiwik
      */
     protected static function getConfigHostname()
     {
-        $configByHost = false;
-        try {
-            $configByHost = Config::getInstance()->getConfigHostnameIfSet();
-            return $configByHost;
-        } catch (Exception $e) {
-            // Config file not found
+        if(!self::isPiwikInstalled()
+            && Common::isPhpCliMode()) {
+            // enterprise:install use case
+            return Config::getHostname();
         }
-        return $configByHost;
+        return Config::getInstance()->getConfigHostnameIfSet();
     }
 
     /**

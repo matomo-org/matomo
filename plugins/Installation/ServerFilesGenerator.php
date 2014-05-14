@@ -30,12 +30,17 @@ class ServerFilesGenerator
         }
 
         // Allow/Deny lives in different modules depending on the Apache version
-        $allow = "<IfModule mod_access.c>\nAllow from all\nRequire all granted\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nAllow from all\nRequire all granted\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nAllow from all\nRequire all granted\n</IfModule>\n";
-        $deny = "<IfModule mod_access.c>\nDeny from all\nRequire all denied\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\nRequire all denied\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\nRequire all denied\n</IfModule>\n";
+        $allow = "<IfModule mod_access.c>\nAllow from all\nRequire all granted\n</IfModule>\n".
+                 "<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nAllow from all\nRequire all granted\n</IfModule>\n</IfModule>\n".
+                 "<IfModule mod_access_compat>\nAllow from all\nRequire all granted\n</IfModule>\n".
+                 "<IfModule !mod_authz_host.c>\nSatisfy any</IfModule>\n";
+        $deny = "<IfModule mod_access.c>\nDeny from all\nRequire all denied\n</IfModule>\n".
+                "<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\nRequire all denied\n</IfModule>\n</IfModule>\n".
+                "<IfModule mod_access_compat>\nDeny from all\nRequire all denied\n</IfModule>\n";
 
         // more selective allow/deny filters
-        $allowAny = "<Files \"*\">\n" . $allow . "Satisfy any\n</Files>\n";
-        $allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|swf)$\">\n" . $allow . "Satisfy any\n</Files>\n";
+        $allowAny = "<Files \"*\">\n" . $allow . "\n</Files>\n";
+        $allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|htm|html|swf)$\">\n" . $allow . "\n</Files>\n";
         $denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in|twig)$\">\n" . $deny . "</Files>\n";
 
         $directoriesToProtect = array(

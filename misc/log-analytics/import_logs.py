@@ -1282,6 +1282,7 @@ class Recorder(object):
         if config.options.replay_tracking:
             # prevent request to be force recorded when option replay-tracking
             args['rec'] = '0'
+
         args.update(hit.args)
 
         if hit.is_download:
@@ -1294,13 +1295,17 @@ class Recorder(object):
             else:
                 args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
 
-        if hit.is_error or hit.is_redirect:
+        # do not overwrite custom variables if it's already set (eg. when replaying ecommerce logs)
+        if 'cvar' not in args:
             args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
-            args['action_name'] = '%s/URL = %s%s' % (
-                hit.status,
-                urllib.quote(args['url'], ''),
-                ("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
-            )
+
+        if hit.is_error or hit.is_redirect:
+			args['action_name'] = '%s/URL = %s%s' % (
+				hit.status,
+				urllib.quote(args['url'], ''),
+				("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
+			)
+
         if hit.generation_time_milli > 0:
             args['gt_ms'] = hit.generation_time_milli
         return args
@@ -1358,11 +1363,9 @@ class Recorder(object):
                 dates=','.join(dates),
                 idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
             )
-            print('To re-process these reports with your new update data, execute the '
-                  'piwik/misc/cron/archive.php script, or see: http://piwik.org/setup-auto-archiving/ '
-                  'for more info.')
-
-
+            print('To re-process these reports with your new update data, execute the following command: \n '
+                  '`piwik/console core:archive --url=http://example/piwik/`\n'
+                  'Reference: http://piwik.org/docs/setup-auto-archiving/ ')
 
 
 class Hit(object):

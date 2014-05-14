@@ -252,26 +252,21 @@ class Updater
                     throw $e;
                 }
             }
-            if ($currentVersion === false) {
-                if ($name === 'core') {
-                    // This should not happen
-                    $currentVersion = Version::VERSION;
-                } else {
-                    // When plugins have been installed since Piwik 2.0 this should not happen
-                    // We "fix" the data for any plugin that may have been ported from Piwik 1.x
-                    $currentVersion = $version;
-                }
+
+            if ($name === 'core' && $currentVersion === false) {
+                // This should not happen
+                $currentVersion = Version::VERSION;
                 self::recordComponentSuccessfullyUpdated($name, $currentVersion);
             }
 
-            $versionCompare = version_compare($currentVersion, $version);
-            if ($versionCompare == -1) {
+            // note: when versionCompare == 1, the version in the DB is newer, we choose to ignore
+            $currentVersionIsOutdated = version_compare($currentVersion, $version) == -1;
+            $isComponentOutdated = $currentVersion === false || $currentVersionIsOutdated;
+            if ($isComponentOutdated) {
                 $componentsToUpdate[$name] = array(
                     self::INDEX_CURRENT_VERSION => $currentVersion,
                     self::INDEX_NEW_VERSION     => $version
                 );
-            } else if ($versionCompare == 1) {
-                // the version in the DB is newest.. we choose to ignore
             }
         }
         return $componentsToUpdate;

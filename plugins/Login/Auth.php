@@ -76,6 +76,8 @@ class Auth implements \Piwik\Auth
      */
     public function initSession($login, $md5Password, $rememberMe)
     {
+        Session::regenerateId();
+
         $tokenAuth = API::getInstance()->getTokenAuth($login, $md5Password);
 
         $this->setLogin($login);
@@ -97,7 +99,6 @@ class Auth implements \Piwik\Auth
         $cookie->setHttpOnly(true);
         $cookie->save();
 
-        @Session::regenerateId();
 
         // remove password reset entry if it exists
         Login::removePasswordResetInfo($login);

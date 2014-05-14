@@ -8,8 +8,8 @@
 
 use Piwik\Common;
 use Piwik\DataTable\Manager;
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Timer;
 
 class DataTableTest extends PHPUnit_Framework_TestCase

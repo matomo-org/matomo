@@ -10,13 +10,11 @@ namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -531,15 +529,21 @@ class ScheduledReports extends \Piwik\Plugin
             return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
         }
 
-        $reports = API::getInstance()->getReports();
-        $reportCount = count($reports);
+        try {
+            $reports = API::getInstance()->getReports();
+            $reportCount = count($reports);
 
-        // if there are no reports and the mobile account is
-        //  not configured, display 'Email reports'
-        //  configured, display 'Email & SMS reports'
-        if ($reportCount == 0)
-            return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
-                self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+            // if there are no reports and the mobile account is
+            //  - not configured: display 'Email reports'
+            //  - configured: display 'Email & SMS reports'
+            if ($reportCount == 0) {
+                return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
+                    self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+            }
+        } catch(\Exception $e) {
+            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+        }
+
 
         $anyMobileReport = false;
         foreach ($reports as $report) {

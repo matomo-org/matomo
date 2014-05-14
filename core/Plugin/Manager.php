@@ -16,7 +16,6 @@ use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Plugin;
-use Piwik\SettingsServer;
 use Piwik\Singleton;
 use Piwik\Theme;
 use Piwik\Tracker;
@@ -232,6 +231,13 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->PluginsInstalled = $section;
     }
 
+    public function clearPluginsInstalledConfig()
+    {
+        $this->updatePluginsInstalledConfig( array() );
+        PiwikConfig::getInstance()->forceSave();
+        PiwikConfig::getInstance()->init();
+    }
+
     /**
      * Returns true if plugin is always activated
      *
@@ -371,6 +377,7 @@ class Manager extends Singleton
     /**
      * Install loaded plugins
      *
+     * @throws
      * @return array Error messages of plugin install fails
      */
     public function installLoadedPlugins()

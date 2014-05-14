@@ -9,7 +9,6 @@
 
 namespace Piwik\Archive;
 
-use Exception;
 use Piwik\Period;
 use Piwik\Segment;
 

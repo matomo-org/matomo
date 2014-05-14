@@ -8,8 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tracker\Visit;
-use \ReflectionClass;
+use ReflectionClass;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
@@ -36,6 +35,7 @@ class OmniFixture extends \Fixture
         $date = $this->month . '-01';
 
         $classes = get_declared_classes();
+        sort($classes);
         foreach ($classes as $className) {
             if (is_subclass_of($className, 'Fixture')
                 && !is_subclass_of($className, __CLASS__)

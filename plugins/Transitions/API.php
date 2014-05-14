@@ -14,9 +14,9 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
+use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
-use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -73,13 +73,13 @@ class API extends \Piwik\Plugin\API
         // prepare log aggregator
         $segment = new Segment($segment, $idSite);
         $site = new Site($idSite);
-        $period = Period::factory($period, $date);
+        $period = Period\Factory::build($period, $date);
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         $logAggregator = new LogAggregator($params);
 
         // prepare the report
         $report = array(
-            'date' => Period::factory($period->getLabel(), $date)->getLocalizedShortString()
+            'date' => Period\Factory::build($period->getLabel(), $date)->getLocalizedShortString()
         );
 
         $partsArray = explode(',', $parts);

@@ -25,6 +25,7 @@ use Piwik\Site;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 /**
  *
@@ -224,7 +225,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $url = "https://www.paypal.com/cgi-bin/webscr?" . Url::getQueryStringFromParameters($parameters);
 
-        header("Location: $url");
+        Url::redirectToUrl($url);
         exit;
     }
 
@@ -238,5 +239,17 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View("@CoreHome/_periodSelect");
         $this->setGeneralVariablesView($view);
         return $view->render();
+    }
+
+    public function saveViewDataTableParameters()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        $this->checkTokenInUrl();
+
+        $reportId   = Common::getRequestVar('report_id', null, 'string');
+        $parameters = (array) Common::getRequestVar('parameters', null, 'json');
+        $login      = Piwik::getCurrentUserLogin();
+
+        ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters);
     }
 }

@@ -17,10 +17,10 @@ use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
-use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Url;
 use Piwik\WidgetsList;
 

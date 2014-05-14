@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\DBStats;
 
-use Piwik\Db;
+use Exception;
 use Piwik\Config;
-use \Exception;
+use Piwik\Db;
 
 /**
  * Data Access Object that serves MySQL stats.

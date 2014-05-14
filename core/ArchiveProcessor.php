@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\ArchiveProcessor\Parameters;
-
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -335,6 +334,13 @@ class ArchiveProcessor
             // In some cases (eg. Actions plugin when period=range),
             // for better performance we will only aggregate the parent table
             $dataTable = $this->getArchive()->getDataTable($name, $idSubTable = null);
+        }
+
+        if ($dataTable instanceof Map) {
+            // see http://dev.piwik.org/trac/ticket/4377
+            foreach ($dataTable->getDataTables() as $table) {
+                $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+            }
         }
 
         $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);

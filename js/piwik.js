@@ -391,7 +391,7 @@ if (typeof JSON2 !== 'object') {
 /*global unescape */
 /*global ActiveXObject */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift,
+    shift, unshift, piwikAsyncInit,
     createElement, appendChild, characterSet, charset,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, appendToTrackingUrl, setSiteId,
+    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -438,6 +438,8 @@ if (typeof JSON2 !== 'object') {
 /*members initialize */
 /*global define */
 /*members amd */
+/*global console:true */
+/*members error */
 
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
@@ -2088,25 +2090,6 @@ if (typeof Piwik !== 'object') {
 
                 // optimization of the if..elseif..else construct below
                 return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
-
-/*
-                var linkType = 0;
-
-                if (linkPattern.test(className)) {
-                    // class attribute contains 'piwik_link' (or user's override)
-                    linkType = 'link';
-                } else if (downloadPattern.test(className)) {
-                    // class attribute contains 'piwik_download' (or user's override)
-                    linkType = 'download';
-                } else if (downloadExtensionsPattern.test(sourceHref)) {
-                    // file extension matches a defined download extension
-                    linkType = 'download';
-                } else if (!isInLink) {
-                    linkType = 'link';
-                }
-
-                return linkType;
- */
             }
 
             /*
@@ -2443,6 +2426,15 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Get custom data
+                 *
+                 * @return mixed
+                 */
+                getCustomData: function () {
+                    return configCustomData;
+                },
+
+                /**
                  * Appends the specified query string to the piwik.php?... Tracking API URL
                  *
                  * @param string queryString eg. 'lat=140&long=100'
@@ -2452,14 +2444,15 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Get custom data
+                 * Returns the query string for the current HTTP Tracking API request.
+                 * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+                 * prior to sending the request.
                  *
-                 * @return mixed
+                 * @param request eg. "param=value&param2=value2"
                  */
-                getCustomData: function () {
-                    return configCustomData;
+                getRequest: function (request) {
+                    return getRequest(request);
                 },
-
 
                 /**
                  * Set custom variable within this visit
@@ -3122,13 +3115,24 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
+        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1};
+        var methodName;
+
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
         for (iterator = 0; iterator < _paq.length; iterator++) {
-            if (_paq[iterator][0] === 'setTrackerUrl'
-                    || _paq[iterator][0] === 'setAPIUrl'
-                    || _paq[iterator][0] === 'setSiteId') {
+            methodName = _paq[iterator][0];
+
+            if (applyFirst[methodName]) {
                 apply(_paq[iterator]);
                 delete _paq[iterator];
+
+                if (applyFirst[methodName] > 1) {
+                    if (console !== undefined && console && console.error) {
+                        console.error('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/api-reference/tracking-javascript#multiple-piwik-trackers');
+                    }
+                }
+
+                applyFirst[methodName]++;
             }
         }
 
@@ -3185,6 +3189,10 @@ if (typeof Piwik !== 'object') {
 
         return Piwik;
     }());
+}
+
+if (window && window.piwikAsyncInit) {
+    window.piwikAsyncInit();
 }
 
 /************************************************************

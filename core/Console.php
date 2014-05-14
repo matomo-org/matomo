@@ -8,12 +8,12 @@
  */
 namespace Piwik;
 
+use Piwik\Plugin\Manager as PluginManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Piwik\Plugin\Manager as PluginManager;
 
 class Console extends Application
 {

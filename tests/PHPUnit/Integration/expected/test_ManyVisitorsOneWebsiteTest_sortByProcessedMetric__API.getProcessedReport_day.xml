@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Site 1</website>
+	<prettyDate>Sunday 3 January 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<name>Page URLs</name>
+		<module>Actions</module>
+		<action>getPageUrls</action>
+		<dimension>Page URL</dimension>
+		<metrics>
+			<nb_hits>Pageviews</nb_hits>
+			<nb_visits>Unique Pageviews</nb_visits>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<avg_time_on_page>Avg. time on page</avg_time_on_page>
+			<exit_rate>Exit rate</exit_rate>
+		</metrics>
+		<metricsDocumentation>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+		</metricsDocumentation>
+		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-12-05,2010-01-03</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getPageUrls</uniqueId>
+	</metadata>
+	<columns>
+		<label>Page URL</label>
+		<nb_hits>Pageviews</nb_hits>
+		<nb_visits>Unique Pageviews</nb_visits>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<avg_time_on_page>Avg. time on page</avg_time_on_page>
+		<exit_rate>Exit rate</exit_rate>
+	</columns>
+	<reportData>
+		<row>
+			<label>space</label>
+			<nb_visits>4</nb_visits>
+			<nb_hits>4</nb_hits>
+			<avg_time_on_page>00:06:00</avg_time_on_page>
+			<bounce_rate>0%</bounce_rate>
+			<exit_rate>0%</exit_rate>
+		</row>
+		<row>
+			<label>grue</label>
+			<nb_visits>4</nb_visits>
+			<nb_hits>4</nb_hits>
+			<avg_time_on_page>00:00:00</avg_time_on_page>
+			<bounce_rate>100%</bounce_rate>
+			<exit_rate>100%</exit_rate>
+		</row>
+	</reportData>
+	<reportMetadata>
+		<row>
+			
+		</row>
+		<row>
+			
+		</row>
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>8</nb_visits>
+		<nb_hits>8</nb_hits>
+		<entry_bounce_count>4</entry_bounce_count>
+		<entry_nb_visits>8</entry_nb_visits>
+		<entry_nb_actions>16</entry_nb_actions>
+		<exit_nb_visits>4</exit_nb_visits>
+	</reportTotal>
+</result>

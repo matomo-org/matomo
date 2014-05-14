@@ -136,7 +136,38 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
         foreach ($tests as $ua => $expected) {
             $excluded = new VisitExcluded_public($request, $ip = false, $ua);
             
-            $this->assertSame($expected, $excluded->public_isUserAgentExcluded($ua), "Result if isUserAgentExcluded('$ua') was not " . ($expected ? 'true' : 'false') . ".");
+            $this->assertSame($expected, $excluded->public_isUserAgentExcluded(), "Result if isUserAgentExcluded('$ua') was not " . ($expected ? 'true' : 'false') . ".");
+        }
+    }
+
+    /**
+     * @group Core
+     * @group referrerIsKnownSpam
+     */
+    public function testIsVisitor_referrerIsKnownSpam()
+    {
+        $knownSpammers = array(
+            'http://semalt.com' => true,
+            'http://semalt.com/random/sub/page' => true,
+            'http://semalt.com/out/of/here?mate' => true,
+            'http://valid.domain/' => false,
+            'http://valid.domain/page' => false,
+        );
+        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
+
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
+
+
+        // test that user agents that contain excluded user agent strings are excluded
+        foreach ($knownSpammers as $spamUrl => $expectedIsReferrerSpam) {
+            $spamUrl = urlencode($spamUrl);
+            $request = new Request(array(
+                'idsite' => $idsite,
+                'urlref' => $spamUrl
+            ));
+            $excluded = new VisitExcluded_public($request);
+
+            $this->assertSame($expectedIsReferrerSpam, $excluded->public_isReferrerSpamExcluded(), $spamUrl);
         }
     }
 }
@@ -148,8 +179,12 @@ class VisitExcluded_public extends VisitExcluded
         return $this->isVisitorIpExcluded($ip);
     }
 
-    public function public_isUserAgentExcluded($ua)
+    public function public_isUserAgentExcluded()
     {
-        return $this->isUserAgentExcluded($ua);
+        return $this->isUserAgentExcluded();
+    }
+    public function public_isReferrerSpamExcluded()
+    {
+        return $this->isReferrerSpamExcluded();
     }
 }

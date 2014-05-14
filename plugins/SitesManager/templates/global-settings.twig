@@ -1,0 +1,178 @@
+{% if isSuperUser %}
+    <br/>
+
+    <h2 id="globalSettings">{{ 'SitesManager_GlobalWebsitesSettings'|translate }}</h2>
+    <br/>
+    <table style="width:600px;" class="adminTable">
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_GlobalListExcludedIps'|translate }}</strong>
+
+                <p>{{ 'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate }} </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <textarea cols="30" rows="3" id="globalExcludedIps">
+                    {{- globalExcludedIps -}}
+                </textarea>
+            </td>
+            <td>
+                <label for="globalExcludedIps">{{ excludedIpHelp }}</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_GlobalListExcludedQueryParameters'|translate }}</strong>
+
+                <p>{{ 'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites'|translate }} </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <textarea cols="30" rows="3" id="globalExcludedQueryParameters">
+                    {{- globalExcludedQueryParameters -}}
+                </textarea>
+            </td>
+            <td>
+                <label for="globalExcludedQueryParameters">{{ excludedQueryParametersHelp }}</label>
+            </td>
+        </tr>
+
+        {# global excluded user agents #}
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_GlobalListExcludedUserAgents'|translate }}</strong>
+
+                <p>{{ 'SitesManager_GlobalListExcludedUserAgents_Desc'|translate }}</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <textarea cols="30" rows="3" id="globalExcludedUserAgents">
+                    {{- globalExcludedUserAgents -}}
+                </textarea>
+            </td>
+            <td><label for="globalExcludedUserAgents">{{ excludedUserAgentsHelp }}</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox" id="enableSiteUserAgentExclude" name="enableSiteUserAgentExclude"
+                       {% if allowSiteSpecificUserAgentExclude %}checked="checked"{% endif %}/>
+                <label for="enableSiteUserAgentExclude">
+                    {{ 'SitesManager_EnableSiteSpecificUserAgentExclude'|translate }}
+                </label>
+            <span id="enableSiteUserAgentExclude-loading" class="loadingPiwik" style="display:none;">
+                <img src="plugins/Zeitgeist/images/loading-blue.gif"/>
+            </span>
+            </td>
+            <td>
+                {{ piwik.inlineHelp('SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate('<a href="#editSites">','</a>'))|raw }}
+            </td>
+        </tr>
+
+        {# global keep URL fragments #}
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_KeepURLFragments'|translate }}</strong>
+
+                <p>{{ 'SitesManager_KeepURLFragmentsHelp'|translate("<em>#</em>","<em>example.org/index.html#first_section</em>","<em>example.org/index.html</em>")|raw }}
+                </p>
+                <input type="checkbox" id="globalKeepURLFragments" name="globalKeepURLFragments"
+                       {% if globalKeepURLFragments %}checked="checked"{% endif %}/>
+                <label for="globalKeepURLFragments">{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</label>
+
+                <p>{{ 'SitesManager_KeepURLFragmentsHelp2'|translate }}</p>
+            </td>
+        </tr>
+
+        {# global site search #}
+        <tr>
+            <td colspan="2">
+                <strong id="globalSiteSearch">{{ 'SitesManager_TrackingSiteSearch'|translate }}</strong>
+
+                <p>{{ sitesearchIntro }}</p>
+            <span class="form-description" style="font-size:8pt;">
+                {{ 'SitesManager_SearchParametersNote'|translate }} {{ 'SitesManager_SearchParametersNote2'|translate }}
+            </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label>{{ searchKeywordLabel }} &nbsp;
+                    <input type="text" size="15" id="globalSearchKeywordParameters"
+                           value="{{ globalSearchKeywordParameters|raw }}"/>
+
+                    <div style='width: 200px;float:right;'>{{ searchKeywordHelp }}</div>
+                </label>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                {% if not isSearchCategoryTrackingEnabled %}
+                <input value='globalSearchCategoryParametersIsDisabled' id="globalSearchCategoryParameters"
+                       type='hidden'/>
+                <span class='form-description'>Note: you could also track your Internal Search Engine Categories, but the plugin Custom Variables is required. Please enable the plugin CustomVariables (or ask your Piwik admin).</span>
+                {% else %}
+                {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryDesc'|translate }} <br/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label>{{ searchCategoryLabel }}  &nbsp;
+                    <input type="text" size="15" id="globalSearchCategoryParameters"
+                           value="{{ globalSearchCategoryParameters|raw }}"/>
+
+                    <div style='width: 200px;float:right;'>{{ searchCategoryHelp }}</div>
+                </label>
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_DefaultTimezoneForNewWebsites'|translate }}</strong>
+
+                <p>{{ 'SitesManager_SelectDefaultTimezone'|translate }} </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id='defaultTimezone'></div>
+            </td>
+            <td>
+                {{ defaultTimezoneHelp }}
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_DefaultCurrencyForNewWebsites'|translate }}</strong>
+
+                <p>{{ 'SitesManager_SelectDefaultCurrency'|translate }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id='defaultCurrency'></div>
+            </td>
+            <td>
+                {{ currencyHelpPlain }}
+            </td>
+        </tr>
+    </table>
+
+    <span style="margin-left:20px;">
+        <input type="submit" class="submit" id='globalSettingsSubmit' value="{{ 'General_Save'|translate }}"/>
+    </span>
+
+    {{ ajax.errorDiv('ajaxErrorGlobalSettings') }}
+    {{ ajax.loadingDiv('ajaxLoadingGlobalSettings') }}
+{% endif %}

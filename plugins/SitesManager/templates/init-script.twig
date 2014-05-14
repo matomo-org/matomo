@@ -1,0 +1,63 @@
+{% set ecommerceHelpPlain %}
+    {{ 'SitesManager_EcommerceHelp'|translate }}
+    <br/>
+    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate("<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>","</a>")|raw }}
+{% endset %}
+
+{% set timezoneHelpPlain %}
+    {{ defaultTimezoneHelpPlain }}
+    <br/><br/>
+    {{ 'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward'|translate }}
+{% endset %}
+
+{% set keepURLFragmentSelectHTML %}
+    <h4 style="display:inline-block;">{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</h4>
+
+    <select id="keepURLFragmentSelect">
+        <option value="0"> {% if globalKeepURLFragments %}{{ 'General_Yes'|translate }}{% else %}{{ 'General_No'|translate }}{% endif %}
+            ({{ 'General_Default'|translate }})
+        </option>
+        <option value="1">{{ 'General_Yes'|translate }}</option>
+        <option value="2">{{ 'General_No'|translate }}</option>
+    </select>
+{% endset %}
+
+<script type="text/javascript">
+
+    var excludedIpHelp = '{{ excludedIpHelp|e('js') }}';
+    var aliasUrlsHelp = '{{ piwik.inlineHelp('SitesManager_AliasUrlHelp'|translate)|e('js') }}';
+    var excludedQueryParametersHelp = '{{ excludedQueryParametersHelp|e('js') }}';
+    var excludedUserAgentsHelp = '{{ excludedUserAgentsHelp|e('js') }}';
+    var timezoneHelp = '{{ piwik.inlineHelp(timezoneHelpPlain)|e('js') }}';
+    var currencyHelp = '{{ currencyHelpPlain|e('js') }}';
+    var ecommerceHelp = '{{ piwik.inlineHelp(ecommerceHelpPlain)|e('js') }}';
+    var searchKeywordHelp = '{{ searchKeywordHelp|e('js') }}';
+    var searchCategoryHelp = '{{ searchCategoryHelp|e('js') }}';
+    var sitesearchDesc = '{{ 'SitesManager_TrackingSiteSearch'|translate|e('js') }}';
+
+    var ecommerceEnabled = '{{ 'SitesManager_EnableEcommerce'|translate|e('js') }}';
+    var ecommerceDisabled = '{{ 'SitesManager_NotAnEcommerceSite'|translate|e('js') }}';
+    var sitesearchEnabled = '{{ 'SitesManager_EnableSiteSearch'|translate|e('js') }}';
+    var sitesearchDisabled = '{{ 'SitesManager_DisableSiteSearch'|translate|e('js') }}';
+
+    var keepURLFragmentSelectHTML = '{{ keepURLFragmentSelectHTML|e('js') }}';
+
+    var searchKeywordLabel = '{{ searchKeywordLabel|e('js') }}';
+    var searchCategoryLabel = '{{ searchCategoryLabel|e('js') }}';
+
+    var sitesearchIntro = '{{ piwik.inlineHelp(sitesearchIntro)|e('js') }}';
+    var sitesearchUseDefault = '{% if isSuperUser %}{{ 'SitesManager_SearchUseDefault'|translate('<a href="#globalSiteSearch">','</a>')|e('js') }}{% else %}{{ 'SitesManager_SearchUseDefault'|translate('','')|e('js') }}{% endif %}';
+    var strDefault = '{{ 'General_Default'|translate|e('js') }}';
+
+    var sitesManager = new SitesManager({{ timezones|raw }}, {{ currencies|raw }}, '{{ defaultTimezone|raw }}', '{{ defaultCurrency|raw }}');
+
+    $(function () {
+        sitesManager.init();
+    });
+
+    {% if showAddSite %}
+        $(document).ready(function () {
+            $('.addRowSite:first').trigger('click');
+        });
+    {% endif %}
+</script>

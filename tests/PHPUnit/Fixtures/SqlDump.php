@@ -8,7 +8,6 @@
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Piwik;
 
 /**

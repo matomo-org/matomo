@@ -52,6 +52,8 @@ class IPTest extends PHPUnit_Framework_TestCase
             array('localhost:80', 'localhost'),
             array('www.example.com', 'www.example.com'),
             array('example.com:80', 'example.com'),
+            array('example.com:8080', 'example.com'),
+            array('sub.example.com:8080', 'sub.example.com'),
         );
     }
 

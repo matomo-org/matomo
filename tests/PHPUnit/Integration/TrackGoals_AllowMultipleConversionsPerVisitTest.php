@@ -43,7 +43,10 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
 
     public function getApiForTesting()
     {
-        $apiToCall = array('VisitTime.getVisitInformationPerServerTime', 'VisitsSummary.get');
+        $apiToCall = array(
+            'VisitTime.getVisitInformationPerServerTime',
+            'VisitsSummary.get'
+        );
 
         return array(
             array($apiToCall, array('idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime))

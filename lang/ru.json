@@ -365,8 +365,7 @@
         "CustomVariablesReportDocumentation": "Этот отчет отображает информацию по вашим Пользовательским Переменным. Кликните по переменной, чтобы увидеть распределение значений. %s Для большей информации о Пользов. Переменных в общих чертах ознакомьтесь с %sдокументацией по Пользов. переменных на сайте Piwik%s",
         "PluginDescription": "Пользовательскими переменными являются пары имя,значение, которые вы можете прикрепить к посещению, используя функцию Javascript API setVisitCustomVariables(). Piwik потом сообщит, сколько посещений, страниц, конверсий применено для каждого из этих пользовательских имен и значений.",
         "ScopePage": "scope page",
-        "ScopeVisit": "scope visit",
-        "TrackingHelp": "Помощь: %1$sОтслеживание пользовательских переменных в Piwik%2$s"
+        "ScopeVisit": "scope visit"
     },
     "Dashboard": {
         "AddAWidget": "Добавить виджет",
@@ -950,8 +949,6 @@
         "Congratulations": "Поздравляем",
         "CongratulationsHelp": "<p>Поздравляем! Установка Piwik закончена.<\/p><p>Убедитесь, что JavaScript-код размещен на всех страницах, и ожидайте первых посетителей!",
         "DatabaseAbilities": "Возможности базы данных",
-        "DatabaseCheck": "Проверка базы данных",
-        "DatabaseClientVersion": "Версия клиента БД",
         "DatabaseCreation": "Создание базы данных",
         "DatabaseErrorConnect": "Возникла ошибка при попытке подключения к серверу БД",
         "DatabaseServerVersion": "Версия сервера БД",
@@ -962,7 +959,6 @@
         "DatabaseSetupServer": "сервер баз данных",
         "DatabaseSetupTablePrefix": "префикс таблиц",
         "Email": "Адрес электронной почты (email)",
-        "ErrorInvalidState": "Ошибка: Похоже, Вы пытаетесь пропустить шаг установочной программы, или cookie запрещены в брауезере, или файл конфигурации Piwik уже существует. %1$sУбедитесь, что cookies разрешены%2$s и вернитесь назад %3$s к первому шагу установки %4$s.",
         "Extension": "модуль",
         "Filesystem": "Файловая система",
         "GoBackAndDefinePrefix": "Вернитесь назад и введите префикс для таблиц Piwik",
@@ -1016,9 +1012,6 @@
         "SystemCheckIconvHelp": "Вам необходимо сконфигурировать или перекомпилировать PHP со включенной поддержкой \"iconv\" --with-iconv.",
         "SystemCheckMailHelp": "Отзывы разработчиков и письма восстановления паролей не будут отправляться без mail().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringExtensionGeoIpHelp": "Это также необходимо для работы GeoIP.",
-        "SystemCheckMbstringExtensionHelp": "Модуль mbstring необходим для многобайтных символов в API откликах, искользуя значения, разделенные запятыми (CSV), или значения, разделенные символом табуляции (TSV).",
-        "SystemCheckMbstringFuncOverloadHelp": "Необходимо установить mbstring.func_overload в \"0\".",
         "SystemCheckMemoryLimit": "Ограничение памяти",
         "SystemCheckMemoryLimitHelp": "На высоконагруженном сайте, процесс архивации может занять больше памяти, чем разрешено в данный момент. Если необходимо, измените директиву memory_limit в вашем php.ini файле.",
         "SystemCheckOpenURL": "Открыть URL",
@@ -1030,8 +1023,6 @@
         "SystemCheckPdoAndMysqliHelp": "На сервере с Linux вы можете откомпилировать php со следующими опциями: %1$s В вашем php.ini добавьте следующие строки: %2$s",
         "SystemCheckPhp": "Версия PHP",
         "SystemCheckPhpPdoAndMysqli": "Узнайте больше на страница: %1$sPHP PDO%2$s и %3$sMYSQLI%4$s.",
-        "SystemCheckSecureProtocol": "Безопасный протокол",
-        "SystemCheckSecureProtocolHelp": "Похоже, вы используете https на вашем сервере. Эти строки будут добавлены в файл config\/config.ini.php:",
         "SystemCheckSplHelp": "Вам необходимо сконфигурировать или перекомпилировать PHP со включенной стандартной библиотекой PHP (SPL), обычно включенной по умолчанию.",
         "SystemCheckSummaryNoProblems": "Ура! Нет никаких проблем с настройками Piwik. Молодец, возьми с полки пирожок.",
         "SystemCheckSummaryThereWereErrors": "Ой-ой! Piwik обнаружил некоторые %1$sкритические ошибки%2$s. %3$sЭти ошибки должны быть исправленные немедленно.%4$s",
@@ -1278,7 +1269,6 @@
         "WidgetProviders": "Провайдеры"
     },
     "Referrers": {
-        "CampaignFooterHelp": "Помощь: %sОтслеживание кампаний в Piwik %s инструментом URL Builder%s",
         "Campaigns": "Кампании",
         "CampaignsDocumentation": "Посетитель перешел на ваш сайт с рекламной кампании. %s Детальная информация в отчете %s",
         "CampaignsReportDocumentation": "Этот отчет показывает, какие рекламные кампании привели посетителей на ваш сайт. %s Для большей информации об отслеживании кампаний читайте %sДокументацию по кампаниям на сайте piwik.org%s",

@@ -14,7 +14,6 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;
-use Piwik\Plugin\Manager as PluginManager;
 
 /**
  *

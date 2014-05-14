@@ -9,10 +9,10 @@
 namespace Piwik\AssetManager\UIAssetMerger;
 
 use Exception;
+use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Piwik;
-use lessc;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
 {
@@ -158,7 +158,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $rootDirectory = realpath($uiAsset->getBaseDirectory());
 
         if ($rootDirectory != PATH_SEPARATOR
-            && substr_compare($rootDirectory, PATH_SEPARATOR, -1)) {
+            && substr($rootDirectory, -strlen(PATH_SEPARATOR)) !== PATH_SEPARATOR) {
             $rootDirectory .= PATH_SEPARATOR;
         }
         $rootDirectoryLen = strlen($rootDirectory);
