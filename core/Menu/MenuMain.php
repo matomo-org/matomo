@@ -71,11 +71,11 @@ class MenuMain extends MenuAbstract
              *
              * **Example**
              * 
-             *     use Piwik\Menu\Main;
+             *     use Piwik\Menu\MenuMain;
              * 
              *     public function addMenuItems()
              *     {
-             *         Main::getInstance()->add(
+             *         MenuMain::getInstance()->add(
              *             'CustomMenuName',
              *             'CustomSubmenuName',
              *             array('module' => 'MyPlugin', 'action' => 'index'),
