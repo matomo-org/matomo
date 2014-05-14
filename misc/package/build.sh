@@ -225,14 +225,18 @@ SUBSCRIBE_NEWSLETTER
             echo $CMD
             $CMD
 
+            SHA1_WINDOWS="$(sha1sum $HTTP_PATH/WebAppGallery/piwik-$VERSION.zip | cut -d' ' -f1)"
+
             echo -e "Sending email to Microsoft web team \n\n"
             echo -e "Hello, \n\n\
 We are proud to announce a new release for Piwik! \n\
 Piwik $VERSION can be downloaded at: http://builds.piwik.org/WebAppGallery/piwik-$VERSION.zip \n\
-For more information, consult the changelog: http://piwik.org/changelog/ \n\n\
-We're looking forward to seeing this Piwik version on Microsoft Web App Gallery. If you have any question, please let us know. \n\n\
+SHA1 checksum is: $SHA1_WINDOWS \n\n\
+Please consult the changelog for list of closed tickets: http://piwik.org/changelog/ \n\n\
+We're looking forward to seeing this Piwik version on Microsoft Web App Gallery. \n\
+If you have any question, feel free to ask. \n\n\
 Thank you,\n\n\
-Piwik team" | mail -s"New Piwik Version $VERSION" "appgal@microsoft.com,feedback@piwik.org"
+Piwik team" | mail -s"New Piwik Version $VERSION" "appgal@microsoft.com,hello@piwik.org"
 
             echo "build finished! http://builds.piwik.org/latest.zip"
         fi
