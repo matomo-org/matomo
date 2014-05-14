@@ -89,7 +89,7 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Get CSS files
      */
-    function getStylesheetFiles(&$stylesheets)
+    public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/UsersManager/stylesheets/usersManager.less";
     }
@@ -97,7 +97,7 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Add admin menu items
      */
-    function addMenu()
+    public function addMenu()
     {
         MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers',
             array('module' => 'UsersManager', 'action' => 'index'),

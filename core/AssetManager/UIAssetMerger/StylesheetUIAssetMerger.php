@@ -38,7 +38,6 @@ class StylesheetUIAssetMerger extends UIAssetMerger
             }
 
         }
-
         return $this->lessCompiler->compile($this->getConcatenatedAssets());
     }
 
