@@ -204,6 +204,7 @@ class Controller extends \Piwik\Plugin\Controller
         $message = nl2br(htmlentities($message));
 
         $view = new View('@Overlay/showErrorWrongDomain');
+        $this->addCustomLogoInfo($view);
         $view->message = $message;
 
         if (Piwik::isUserHasAdminAccess($idSite)) {

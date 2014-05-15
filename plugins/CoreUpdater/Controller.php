@@ -61,6 +61,7 @@ class Controller extends \Piwik\Plugin\Controller
         $newVersion = $this->checkNewVersionIsAvailableOrDie();
 
         $view = new View('@CoreUpdater/newVersionAvailable');
+        $this->addCustomLogoInfo($view);
 
         $view->piwik_version = Version::VERSION;
         $view->piwik_new_version = $newVersion;
@@ -127,14 +128,19 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
         $view->coreError = $errorMessage;
         $view->feedbackMessages = $messages;
+
+        $this->addCustomLogoInfo($view);
+
         return $view->render();
     }
+
 
     public function oneClickResults()
     {
         $view = new View('@CoreUpdater/oneClickResults');
         $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        $this->addCustomLogoInfo($view);
         return $view->render();
     }
 
@@ -320,8 +326,13 @@ class Controller extends \Piwik\Plugin\Controller
         $cli = Common::isPhpCliMode() ? '_cli' : '';
         $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
         $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
+
         $viewWelcome = new View($welcomeTemplate);
+        $this->addCustomLogoInfo($viewWelcome);
+
         $viewDone = new View($doneTemplate);
+        $this->addCustomLogoInfo($viewDone);
+
         $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
 
         if(is_null($doDryRun)) {

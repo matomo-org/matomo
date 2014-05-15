@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <title>{% if isCustomLogo == false %}Piwik &rsaquo; {% endif %}{{ 'Login_LogIn'|translate }}</title>
 
-    <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
+    {% include "@CoreHome/_favicon.twig" %}
     {% autoescape false %}
     {{ includeAssets({"type": "css"}) }}
     {% endautoescape %}

@@ -563,7 +563,7 @@ abstract class Controller
 
             $this->setBasicVariablesView($view);
 
-            $view->topMenu       = MenuTop::getInstance()->getMenu();
+            $view->topMenu = MenuTop::getInstance()->getMenu();
 
             $notifications = $view->notifications;
             if (empty($notifications)) {
@@ -609,9 +609,7 @@ abstract class Controller
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
-        $customLogo = new CustomLogo();
-        $view->isCustomLogo = $customLogo->isEnabled();
-        $view->customFavicon = $customLogo->getPathUserFavicon();
+        $this->addCustomLogoInfo($view);
 
         $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
         $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
@@ -627,6 +625,13 @@ abstract class Controller
         }
 
         self::setHostValidationVariablesView($view);
+    }
+
+    protected function addCustomLogoInfo($view)
+    {
+        $customLogo = new CustomLogo();
+        $view->isCustomLogo  = $customLogo->isEnabled();
+        $view->customFavicon = $customLogo->getPathUserFavicon();
     }
 
     /**
