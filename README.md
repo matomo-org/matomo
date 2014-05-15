@@ -1,5 +1,13 @@
 # Piwik - piwik.org   
 
+## We’re seeking a talented open source Software Engineer!
+
+Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source philosophy and usable interface design.
+
+[View Job Description](http://piwik.org/blog/2014/05/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
+
+We are grateful if you can share the Job Description with your friends and colleagues. We can help the right candidate relocate to beautiful New Zealand.
+
 ## Description
 
 Piwik is the leading Free/Libre open source Web Analytics platform.
