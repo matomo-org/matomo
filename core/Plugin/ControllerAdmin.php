@@ -178,8 +178,11 @@ abstract class ControllerAdmin extends Controller
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;
 
-        $view->notifications = NotificationManager::getAllNotificationsToDisplay();
-        NotificationManager::cancelAllNonPersistent();
+        $notifications = $view->notifications;
+        if (empty($notifications)) {
+            $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+            NotificationManager::cancelAllNonPersistent();
+        }
     }
 
     static public function isDataPurgeSettingsEnabled()

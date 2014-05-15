@@ -564,8 +564,13 @@ abstract class Controller
             $this->setBasicVariablesView($view);
 
             $view->topMenu       = MenuTop::getInstance()->getMenu();
-            $view->notifications = NotificationManager::getAllNotificationsToDisplay();
-            NotificationManager::cancelAllNonPersistent();
+
+            $notifications = $view->notifications;
+            if (empty($notifications)) {
+                $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+                NotificationManager::cancelAllNonPersistent();
+            }
+
         } catch (Exception $e) {
             Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
         }
