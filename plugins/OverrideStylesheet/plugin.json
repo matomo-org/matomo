@@ -1,6 +1,0 @@
-{
-    "name": "WhiteLabel",
-    "description": "WhiteLabel is a test to override theme of Piwik 2.",
-    "theme": true,
-    "stylesheet": "stylesheets/theme.less"
-}
