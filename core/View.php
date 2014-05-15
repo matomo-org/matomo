@@ -9,7 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\AssetManager\UIAssetCacheBuster;a
+use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
