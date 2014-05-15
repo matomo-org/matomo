@@ -304,9 +304,14 @@ class SettingsPiwik
         } catch (Exception $e) {
             $fetched = "ERROR fetching: " . $e->getMessage();
         }
-        $expectedString = 'app-id=737216887';
+        // this will match when Piwik not installed yet, or favicon not customised
+        $expectedStringAlt = 'plugins/CoreHome/images/favicon.ico';
 
-        if (strpos($fetched, $expectedString) === false) {
+        // this will match when Piwik is installed and favicon has been customised
+        $expectedString = 'misc/user/favicon.png';
+
+        $expectedStringNotFound = strpos($fetched, $expectedString) === false && strpos($fetched, $expectedStringAlt) === false;
+        if ($expectedStringNotFound) {
             throw new Exception("\nPiwik should be running at: "
                 . $piwikServerUrl
                 . " but this URL returned an unexpected response: '"
