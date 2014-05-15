@@ -136,6 +136,7 @@ class DocumentationGenerator
             'ip'             => '194.57.91.215',
             'idSites'             => '1,2',
             'idAlert'             => '1',
+            'seconds'        => '3600',
 //            'segmentName'    => 'browserCode',
         );
 
