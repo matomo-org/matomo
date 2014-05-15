@@ -498,6 +498,12 @@ class Configuration(object):
             '--enable-testmode', dest='enable_testmode', default=False, action='store_true',
             help="If set, it will try to get the token_auth from the piwik_tests directory"
         )
+
+        option_parser.add_option(
+            '--queue-size', dest='queue_size', default=2, 
+            help="Defines maximum Thread-Queue size"
+        )
+
         return option_parser
 
 
@@ -1158,11 +1164,12 @@ class Recorder(object):
     recorders = []
 
     def __init__(self):
-        self.queue = Queue.Queue(maxsize=2)
+        self.queue = Queue.Queue(maxsize=config.options.queue_size)
 
         # if bulk tracking disabled, make sure we can store hits outside of the Queue
         if not config.options.use_bulk_tracking:
             self.unrecorded_hits = []
+            self._id = ''
 
     @classmethod
     def launch(cls, recorder_count):
@@ -1171,6 +1178,7 @@ class Recorder(object):
         """
         for i in xrange(recorder_count):
             recorder = Recorder()
+            recorder._id = i
             cls.recorders.append(recorder)
 
             run = recorder._run_bulk if config.options.use_bulk_tracking else recorder._run_single
@@ -1319,6 +1327,8 @@ class Recorder(object):
             'requests': [self._get_hit_args(hit) for hit in hits]
         }
 
+        requesttime = datetime.datetime.now()
+
         if not config.options.dry_run:
             piwik.call(
                 '/piwik.php', args={},
@@ -1327,6 +1337,8 @@ class Recorder(object):
                 data=data,
                 on_failure=self._on_tracking_failure
             )
+
+        logging.debug("Recorder ID %s: Piwik Call took %s; QueueLength: %s", self._id, datetime.datetime.now() - requesttime, self.queue.qsize());
         stats.count_lines_recorded.advance(len(hits))
 
     def _on_tracking_failure(self, response, data):
