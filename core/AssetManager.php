@@ -373,7 +373,7 @@ class AssetManager extends Singleton
     /**
      * @return UIAsset
      */
-    private function getMergedStylesheetAsset()
+    public function getMergedStylesheetAsset()
     {
         return $this->getMergedUIAsset(self::MERGED_CSS_FILE);
     }

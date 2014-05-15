@@ -163,7 +163,7 @@ class Option
             return $this->all[$name];
         }
         $value = Db::fetchOne('SELECT option_value ' .
-            'FROM `' . Common::prefixTable('option') . '`' .
+            'FROM `' . Common::prefixTable('option') . '` ' .
             'WHERE option_name = ?', $name);
         if ($value === false) {
             return false;
