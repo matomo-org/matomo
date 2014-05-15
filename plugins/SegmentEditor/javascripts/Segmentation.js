@@ -1177,7 +1177,6 @@ $(document).ready(function() {
             segmentFromRequest = decodeURIComponent(segmentFromRequest);
         }
 
-        console.log(this.props);
         var userSegmentAccess = (this.props.authorizedToCreateSegments) ? "write" : "read";
 
         this.impl = new Segmentation({
