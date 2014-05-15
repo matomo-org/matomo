@@ -214,7 +214,7 @@ class Option
 
     protected function getNameLike($name)
     {
-        $sql = 'SELECT option_name, option_value FROM ' . Common::prefixTable('option') . ' WHERE option_name LIKE ?';
+        $sql = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind = array($name);
 
         $result = array();
