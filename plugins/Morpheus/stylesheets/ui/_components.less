@@ -3,6 +3,7 @@
 @calendarHeaderColor: #999;
 @calendarCurrentStateHover: #f5f5f5;
 @calendarBorder: #ccc;
+
 .ui-datepicker {
 
     th, th.ui-datepicker-week-end {
@@ -17,14 +18,14 @@
 
     .ui-datepicker-header {
         background: @calendarHeaderBackground !important;
-        border-color: @gray;
+        border-color: @color-gray;
         border-bottom-width: 0px;
     }
 
     .ui-datepicker-calendar {
-        border: 1px solid @gray;
+        border: 1px solid @color-gray;
         thead {
-            border-bottom: 1px solid @gray;
+            border-bottom: 1px solid @color-gray;
         }
     }
 
@@ -33,8 +34,8 @@
     }
 }
 
-.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, td .ui-state-default.ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
-    background: @brand-black !important;
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+    background: @theme-color-text !important;
 }
 
 .ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
@@ -50,8 +51,8 @@
 }
 
 .segment-element {
-    background: @white;
-    border-color: @silver-80;
+    background: @color-white;
+    border-color: @color-silver-l80;
 
     .segment-add-row {
         .border-radius(5px);
@@ -73,19 +74,19 @@
         h3 {
             font-weight: normal;
             .font-default(13px, 15px);
-            color: @brand-black;
+            color: @theme-color-text;
         }
         
         .segment-add-row > div a span,
         .segment-add-or > div a span {
-            color: @brand-red;
+            color: @theme-color-brand;
             text-shadow: none;
         }
 
         .segment-input {
             select, input {
                 .font-default(12px, 14px);
-                color: @brand-black;
+                color: @theme-color-text;
                 font-weight: 500;
                 margin: 0px;
                 min-height: auto;
@@ -121,22 +122,22 @@
 
     .segment-top {
         .font-default(10px, 12px);
-        color: #444;
+        color: @theme-color-text-light;
         text-transform: uppercase;
 
         h4 {
-            color: @silver-30;
+            color: @color-silver-l30;
             text-transform: uppercase;
             .font-default(10px, 12px);
             a.dropdown {
-                color: @silver-30;
+                color: @color-silver-l30;
                 text-transform: uppercase;
                 .font-default(10px, 12px);
             }
         }
 
         a.dropdown {
-            color: @brand-black;
+            color: @theme-color-text;
             background: url('plugins/Zeitgeist/images/sort_subtable_desc.png') 100% -2px no-repeat;
             &.ui-autocomplete-input {
                 background-position: 100% -2px;
@@ -144,7 +145,7 @@
         }
     }
     .segment-footer {
-        background: @white;
+        background: @color-white;
         button {
             height: auto;
             font-weight: normal;
@@ -152,28 +153,28 @@
         }
 
         a.delete {
-            color: @brand-red;
+            color: @theme-color-brand;
         }
         .segmentFooterNote, .segment-element .segment-footer .segmentFooterNote a {
-            color: #444;
+            color: @theme-color-text-light;
         }
     }
 }
 
 .available_segments a.dropdown  {
-    color: @brand-black !important;
+    color: @theme-color-text !important;
     text-transform: uppercase;
     .font-default(10px, 12px);
 }
 
 
 #periodString {
-    border: 1px solid @silver-80;
+    border: 1px solid @theme-color-background-lowContrast;
     .border-radius(0px);
-    background: #fff;
+    background: @theme-color-background-base;
     &:hover {
-        background: #fff;
-        border-color: @silver-80;
+        background: @theme-color-background-base;
+        border-color: @color-silver-l80;
     }
 
     select {
@@ -192,7 +193,7 @@
     h6 {
         .font-default(13px, 16px);
         font-weight: normal;
-        color: @brand-black;
+        color: @theme-color-text;
     }
 
     #periodMore {
@@ -205,22 +206,21 @@
 
     #date {
         .border-radius(0px);
-        background-color: #fff;
         .box-shadow(~"inset 1px 1px 3px #d8d8d8");
         padding: 8px 10px;
-        color: @silver-20;
+        color: @theme-color-text-lighter;
         text-transform: uppercase;
         .font-default(10px, 12px);
 
         strong {
-            color: @brand-black;
+            color: @theme-color-text;
 
         }
     }
 }
 
 #header_message {
-    border: 1px solid @silver-80;
+    border: 1px solid @color-silver-l80;
     padding: 8px 10px 8px 10px;
     height: auto;
     background: #fff;
@@ -238,7 +238,7 @@
 .ui-menu {
     .ui-menu-item {
         a {
-            color: @silver-20;
+            color: @color-silver-l20;
             text-transform: uppercase;
             .font-default(10px, 18px);
             padding: 2px;
@@ -249,7 +249,7 @@
 .loadingPiwikBelow,
 .loadingPiwik {
     .font-default(10px, 12px);
-    color: @silver-60;
+    color: @color-silver-l60;
     font-weight: normal;
 }
 
@@ -257,7 +257,7 @@
     table {
         td {
             .font-default(12px, 14px) !important;
-            color: @brand-black;
+            color: @theme-color-text;
             padding: 6px 5px;
         }
     }
@@ -265,12 +265,12 @@
 
 //reports box 
 .reports {
-    border: 1px solid @gray;
+    border: 1px solid @color-gray;
     .border-radius(6px);
 
     h2 {
         background: #f2f2f2;
-        border-bottom: 1px solid @gray;
+        border-bottom: 1px solid @color-gray;
         padding: 11px 15px 10px;
     }
 }
@@ -282,7 +282,7 @@
 // transition box
 #Transitions_Container {
     #Transitions_CenterBox {
-        border: 1px solid @gray;
+        border: 1px solid @color-gray;
         .box-shadow-1(none);
         .border-radius(6px);
         margin: 27px 0 0 319px;
@@ -291,7 +291,7 @@
         background: #fff;
         h2 {
             color: #1e93d1;
-            border-bottom: 1px solid @gray;
+            border-bottom: 1px solid @color-gray;
             font-weight: normal;
             padding: 15px;
             background: #f5f5f5;
@@ -300,13 +300,10 @@
 
         .Transitions_CenterBoxMetrics {
             padding: 0;
-            p {
-                font-family: Verdana, sans-serif;
-            }
             p.Transitions_Margin {
                 text-align: left;
                 .font-default(15px, 20px);
-                border-bottom: 1px solid @gray;
+                border-bottom: 1px solid @color-gray;
                 padding: 13px;
                 .Transitions_Metric {
                     font-weight: normal;
@@ -358,5 +355,5 @@ table.dataTable tr td.labeleven .dataTableRowActions {
 }
 
 table.dataTable th .columnDocumentation {
-    color: @silver-90;
+    color: @color-silver-l90;
 }

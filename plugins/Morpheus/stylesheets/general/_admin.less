@@ -1,26 +1,26 @@
 .Menu--admin {
     .Menu-tabList {
         .border-radius(0px);
-        border-color: @gray;
+        border-color: @color-gray;
         background-image: none;
         padding-left: 0;
         border-top: 0;
         > li {
             padding-bottom: 0px;
             > span {
-                color: @brand-black;
+                color: @theme-color-text;
                 .font-default(18px, 26px);
-                border-top: 1px solid @gray;
-                border-bottom: 1px solid @gray;
+                border-top: 1px solid @color-gray;
+                border-bottom: 1px solid @color-gray;
                 padding: 12px 15px;
             }
             ul {
                 li {
                     a {
-                        color: @silver-40 !important;
+                        color: @theme-color-text-lighter !important;
                         padding: 0.6em 1.1em;
                         &:hover {
-                            color: @brand-black;
+                            color: @theme-color-text;
                             text-decoration: none;
                         }
                     }
@@ -32,11 +32,11 @@
 
 .admin {
     h2 {
-        border-bottom: 1px solid @gray;
+        border-bottom: 1px solid @color-gray;
         margin-right:0;
     }
     h3 {
-        color: @brand-black;
+        color: @theme-color-text;
         .font-default(18px, 24px);
         font-weight: normal;
     }
@@ -46,8 +46,8 @@
 }
 
 .ui-state-highlight {
-    border-color: @silver-80 !important;
-    background: @silver-95 !important;
+    border-color: @color-silver-l80 !important;
+    background: @color-silver-l95 !important;
     .ui-icon {
         background-image: url('plugins/Morpheus/images/info.png');
         background-position: 0 0;
@@ -73,7 +73,7 @@
 }
 
 #loadingError {
-    color: @brand-red;
+    color: @theme-color-brand;
     font-weight: normal;
 }
 
@@ -87,7 +87,7 @@
 }
 
 .adminTable a {
-    color: @brand-blue;
+    color: @theme-color-link;
 }
 
 .addRowSite,
@@ -108,8 +108,8 @@
 }
 
 code {
-    border-color: @silver-80;
-    border-left: 5px solid @brand-red;
+    border-color: @color-silver-l80;
+    border-left: 5px solid @theme-color-brand;
 }
 
 #geoipdb-screen1>div>p {
