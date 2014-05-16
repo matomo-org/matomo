@@ -522,7 +522,7 @@ class FrontController extends Singleton
          * @param mixed &$result The controller action result.
          * @param array $parameters The arguments passed to the controller action.
          */
-        Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
+        Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
     }
 
