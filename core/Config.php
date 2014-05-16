@@ -196,6 +196,8 @@ class Config extends Singleton
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
+        // Remove any port number to get actual hostname
+        $hostname = Url::getHostSanitized($hostname);
         $perHostFilename  = $hostname . '.config.ini.php';
         $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
 
