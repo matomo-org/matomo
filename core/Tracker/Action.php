@@ -267,7 +267,7 @@ abstract class Action
         }
 
         foreach($this->actionIdsCached as $field => $idAction) {
-            $visitAction[$field] = $idAction;
+            $visitAction[$field] = ($idAction === false) ? 0 : $idAction;
         }
 
         $customValue = $this->getCustomFloatValue();
