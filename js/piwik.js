@@ -3195,6 +3195,13 @@ if (window && window.piwikAsyncInit) {
     window.piwikAsyncInit();
 }
 
+(function () {
+    var jsTrackerType = (typeof AnalyticsTracker);
+    if (jsTrackerType === 'undefined') {
+        AnalyticsTracker = Piwik;
+    }
+})();
+
 /************************************************************
  * Deprecated functionality below
  * Legacy piwik.js compatibility ftw

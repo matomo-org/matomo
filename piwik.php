@@ -126,6 +126,7 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
         $process->main();
     } catch (Exception $e) {
         echo "Error:" . $e->getMessage();
+        exit(1);
     }
     ob_end_flush();
     if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {

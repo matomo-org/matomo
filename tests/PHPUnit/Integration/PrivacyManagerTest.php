@@ -743,19 +743,19 @@ class PrivacyManagerTest extends IntegrationTestCase
         $febDate1 = '2012-02-04';
 
         $sql = "INSERT INTO %s (idarchive,name,idsite,date1,date2,period,ts_archived,value)
-                        VALUES (10000,    ?,   1,     ?,    ?,    ?,     ?,          ?)";
+                        VALUES (10000,?,1,?,?,?,?,?)";
 
         // one metric for jan & one for feb
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][0])),
-            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 1, $janDate1, 100));
+            array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 1, 100));
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][1])),
-            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 1, $febDate1, 200));
+            array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 1, 200));
 
         // add garbage reports
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][0])),
-            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 10, $janDate1, 'blobval'));
+            array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 10, 'blobval'));
         Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][1])),
-            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 20, $febDate1, 'blobval'));
+            array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 20, 'blobval'));
     }
 
     protected function _checkNoDataChanges()
