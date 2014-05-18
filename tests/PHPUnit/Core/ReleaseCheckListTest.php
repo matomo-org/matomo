@@ -249,7 +249,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc)$/', $file)) {
                 continue;
             }
 
