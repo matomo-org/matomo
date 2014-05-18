@@ -92,6 +92,7 @@ before_script:
   - "sudo /etc/init.d/mysql.server start"
   - mysql --version
   - mysql -e "SELECT VERSION();"
+  - mysql -e "SELECT @@sql_mode;"
   # Setup Piwik stack
   - ./tests/travis/initiate_ui_tests.sh
   - composer self-update
