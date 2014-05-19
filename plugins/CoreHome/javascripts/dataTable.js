@@ -378,16 +378,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         function removePaddingFromWidth(domElem, labelWidth) {
+            var maxPaddingLeft  = 0;
+            var maxPaddingRight = 0;
 
-            var firstLabel = $('tbody tr:nth-child(1) td.label', domElem);
-            
-            var paddingLeft = firstLabel.css('paddingLeft');
-            paddingLeft     = paddingLeft ? parseInt(paddingLeft, 10) : 0;
+            $('tbody tr td.label', domElem).each(function (i, node) {
+                $node = $(node);
 
-            var paddingRight = firstLabel.css('paddingRight');
-            paddingRight     = paddingRight ? parseInt(paddingRight, 10) : 0;
+                var paddingLeft  = $node.css('paddingLeft');
+                paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
+                var paddingRight = $node.css('paddingRight');
+                paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
 
-            labelWidth = labelWidth - paddingLeft - paddingRight;
+                if (paddingLeft > maxPaddingLeft) {
+                    maxPaddingLeft = paddingLeft;
+                }
+                if (paddingRight > maxPaddingRight) {
+                    maxPaddingRight = paddingRight;
+                }
+            });
+
+            labelWidth = labelWidth - maxPaddingLeft - maxPaddingRight;
 
             return labelWidth;
         }
