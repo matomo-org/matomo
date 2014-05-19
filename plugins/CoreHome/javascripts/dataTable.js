@@ -340,8 +340,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             var isWidgetized  = -1 !== location.search.indexOf('module=Widgetize');
 
+            var innerWidth = 0;
+            var innerWrapper = domElem.find('.dataTableWrapper');
+            if (innerWrapper && innerWrapper.length) {
+                innerWidth = innerWrapper.width();
+            }
+
             if (labelWidth > maxLabelWidth
                 && !isWidgetized
+                && innerWidth !== domElem.width()
                 && !self.isDashboard()) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
