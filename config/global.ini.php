@@ -358,6 +358,11 @@ enable_trusted_host_check = 1
 ;trusted_hosts[] = example.com
 ;trusted_hosts[] = stats.example.com
 
+; If you use this Piwik instance over multiple hostnames, Piwik will need to know
+; a unique instance_id for this instance, so that Piwik can serve the right custom logo and tmp/* assets,
+; independantly of the hostname Piwik is currently running under.
+; instance_id = stats.example.com
+
 ; The release server is an essential part of the Piwik infrastructure/ecosystem
 ; to provide the latest software version.
 latest_version_url = http://builds.piwik.org/latest.zip

@@ -203,7 +203,7 @@ class CliMulti {
     public static function getTmpPath()
     {
         $dir = PIWIK_INCLUDE_PATH . '/tmp/climulti';
-        return SettingsPiwik::rewriteTmpPathWithHostname($dir);
+        return SettingsPiwik::rewriteTmpPathWithInstanceId($dir);
     }
 
     private function findPhpBinary()

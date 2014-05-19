@@ -557,12 +557,7 @@ class Url
 
     public static function getTrustedHosts()
     {
-        $trustedHosts = self::getTrustedHostsFromConfig();
-
-        /* used by Piwik PRO */
-        Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
-
-        return $trustedHosts;
+        return self::getTrustedHostsFromConfig();
     }
 
     /**

@@ -27,7 +27,7 @@ class WatchLog extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = sprintf('%s/tmp/logs/', PIWIK_DOCUMENT_ROOT);
-        $path = SettingsPiwik::rewriteTmpPathWithHostname($path);
+        $path = SettingsPiwik::rewriteTmpPathWithInstanceId($path);
         $cmd = sprintf('tail -f %s*.log', $path);
 
         $output->writeln('Executing command: ' . $cmd);

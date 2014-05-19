@@ -257,15 +257,23 @@ class SettingsPiwik
     }
 
     /**
+     * @deprecated Use SettingsPiwik::rewriteTmpPathWithInstanceId instead
+     */
+    public static function rewriteTmpPathWithHostname($path)
+    {
+        return self::rewriteTmpPathWithInstanceId($path);
+    }
+
+    /**
      * If Piwik uses per-domain config file, also make tmp/ folder per-domain
      * @param $path
      * @return string
      * @throws \Exception
      */
-    public static function rewriteTmpPathWithHostname($path)
+    public static function rewriteTmpPathWithInstanceId($path)
     {
         $tmp = '/tmp/';
-        $path = self::rewritePathAppendHostname($path, $tmp);
+        $path = self::rewritePathAppendPiwikInstanceId($path, $tmp);
         return $path;
     }
 
@@ -274,10 +282,10 @@ class SettingsPiwik
      * @param $path
      * @return mixed
      */
-    public static function rewriteMiscUserPathWithHostname($path)
+    public static function rewriteMiscUserPathWithInstanceId($path)
     {
         $tmp = 'misc/user/';
-        $path = self::rewritePathAppendHostname($path, $tmp);
+        $path = self::rewritePathAppendPiwikInstanceId($path, $tmp);
         return $path;
     }
 
@@ -345,10 +353,10 @@ class SettingsPiwik
      * @return mixed
      * @throws \Exception
      */
-    protected static function rewritePathAppendHostname($pathToRewrite, $leadingPathToAppendHostnameTo)
+    protected static function rewritePathAppendPiwikInstanceId($pathToRewrite, $leadingPathToAppendHostnameTo)
     {
-        $hostname = self::getConfigHostname();
-        if (empty($hostname)) {
+        $instanceId = self::getPiwikInstanceId();
+        if (empty($instanceId)) {
             return $pathToRewrite;
         }
 
@@ -356,7 +364,7 @@ class SettingsPiwik
             throw new Exception("The path $pathToRewrite was expected to contain the string  $leadingPathToAppendHostnameTo");
         }
 
-        $tmpToReplace = $leadingPathToAppendHostnameTo . $hostname . '/';
+        $tmpToReplace = $leadingPathToAppendHostnameTo . $instanceId . '/';
 
         // replace only the latest occurrence (in case path contains twice /tmp)
         $pathToRewrite = substr_replace($pathToRewrite, $tmpToReplace, $posTmp, strlen($leadingPathToAppendHostnameTo));
@@ -364,16 +372,31 @@ class SettingsPiwik
     }
 
     /**
-     * @return bool|string
+     * @throws \Exception
+     * @return string or False if not set
      */
-    protected static function getConfigHostname()
+    protected static function getPiwikInstanceId()
     {
+        // until Piwik is installed, we use hostname as instance_id
         if(!self::isPiwikInstalled()
             && Common::isPhpCliMode()) {
             // enterprise:install use case
             return Config::getHostname();
         }
-        return Config::getInstance()->getConfigHostnameIfSet();
+
+        $instanceId = @Config::getInstance()->General['instance_id'];
+        if(!empty($instanceId)) {
+            return $instanceId;
+        }
+
+        // Backward compatbility, in case the instance_id is not in the config file yet
+        $configHostname = Config::getInstance()->getConfigHostnameIfSet();
+        if(!empty($configHostname)) {
+            return $configHostname;
+        }
+
+        // do not rewrite the path as Piwik uses the standard config.ini.php file
+        return false;
     }
 
     /**

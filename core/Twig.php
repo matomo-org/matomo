@@ -60,7 +60,7 @@ class Twig
 
         // Create new Twig Environment and set cache dir
         $templatesCompiledPath = PIWIK_USER_PATH . '/tmp/templates_c';
-        $templatesCompiledPath = SettingsPiwik::rewriteTmpPathWithHostname($templatesCompiledPath);
+        $templatesCompiledPath = SettingsPiwik::rewriteTmpPathWithInstanceId($templatesCompiledPath);
 
         $this->twig = new Twig_Environment($chainLoader,
             array(

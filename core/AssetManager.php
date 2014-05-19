@@ -253,7 +253,7 @@ class AssetManager extends Singleton
     public function getAssetDirectory()
     {
         $mergedFileDirectory = PIWIK_USER_PATH . "/tmp/assets";
-        $mergedFileDirectory = SettingsPiwik::rewriteTmpPathWithHostname($mergedFileDirectory);
+        $mergedFileDirectory = SettingsPiwik::rewriteTmpPathWithInstanceId($mergedFileDirectory);
 
         if (!is_dir($mergedFileDirectory)) {
             Filesystem::mkdir($mergedFileDirectory);

@@ -122,7 +122,7 @@ class Session extends Zend_Session
             }
 
             $pathToSessions = Filechecks::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/');
-            $pathToSessions = SettingsPiwik::rewriteTmpPathWithHostname($pathToSessions);
+            $pathToSessions = SettingsPiwik::rewriteTmpPathWithInstanceId($pathToSessions);
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
@@ -142,7 +142,7 @@ class Session extends Zend_Session
     public static function getSessionsDirectory()
     {
         $path = PIWIK_USER_PATH . '/tmp/sessions';
-        return SettingsPiwik::rewriteTmpPathWithHostname($path);
+        return SettingsPiwik::rewriteTmpPathWithInstanceId($path);
     }
 
     public static function close()

@@ -240,7 +240,7 @@ abstract class StaticGraph
     protected static function getOutputPath($filename)
     {
         $outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
-        $outputFilename = SettingsPiwik::rewriteTmpPathWithHostname($outputFilename);
+        $outputFilename = SettingsPiwik::rewriteTmpPathWithInstanceId($outputFilename);
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);

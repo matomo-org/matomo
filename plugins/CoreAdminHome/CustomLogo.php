@@ -147,7 +147,7 @@ class CustomLogo
 
     protected static function rewritePath($path)
     {
-        return SettingsPiwik::rewriteMiscUserPathWithHostname($path);
+        return SettingsPiwik::rewriteMiscUserPathWithInstanceId($path);
     }
 
     public function copyUploadedLogoToFilesystem()

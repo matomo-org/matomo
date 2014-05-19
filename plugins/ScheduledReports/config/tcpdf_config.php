@@ -15,7 +15,7 @@
 define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/libs/tcpdf/');
 
 $pathTmpTCPDF = PIWIK_USER_PATH . '/tmp/tcpdf/';
-$pathTmpTCPDF = \Piwik\SettingsPiwik::rewriteTmpPathWithHostname($pathTmpTCPDF);
+$pathTmpTCPDF = \Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId($pathTmpTCPDF);
 
 define('K_PATH_CACHE', $pathTmpTCPDF);
 define('K_PATH_IMAGES', $pathTmpTCPDF);

@@ -43,7 +43,7 @@ class CacheFile
     public function __construct($directory, $timeToLiveInSeconds = 300)
     {
         $cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
-        $this->cachePath = SettingsPiwik::rewriteTmpPathWithHostname($cachePath);
+        $this->cachePath = SettingsPiwik::rewriteTmpPathWithInstanceId($cachePath);
 
         if ($timeToLiveInSeconds < self::MINIMUM_TTL) {
             $timeToLiveInSeconds = self::MINIMUM_TTL;

@@ -35,8 +35,8 @@ class PluginInstaller
         $tmpPluginZip = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName . '.zip';
         $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
 
-        $tmpPluginZip = SettingsPiwik::rewriteTmpPathWithHostname($tmpPluginZip);
-        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithHostname($tmpPluginFolder);
+        $tmpPluginZip = SettingsPiwik::rewriteTmpPathWithInstanceId($tmpPluginZip);
+        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithInstanceId($tmpPluginFolder);
 
         try {
             $this->makeSureFoldersAreWritable();
@@ -63,7 +63,7 @@ class PluginInstaller
     public function installOrUpdatePluginFromFile($pathToZip)
     {
         $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
-        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithHostname($tmpPluginFolder);
+        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithInstanceId($tmpPluginFolder);
 
         try {
             $this->makeSureFoldersAreWritable();

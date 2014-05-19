@@ -323,7 +323,7 @@ class Log extends Singleton
         ) {
             $logPath = PIWIK_USER_PATH . DIRECTORY_SEPARATOR . $logPath;
         }
-        $logPath = SettingsPiwik::rewriteTmpPathWithHostname($logPath);
+        $logPath = SettingsPiwik::rewriteTmpPathWithInstanceId($logPath);
         if (is_dir($logPath)) {
             $logPath .= '/piwik.log';
         }

@@ -270,7 +270,7 @@ dummy backtrace'
     public static function getLogFileLocation()
     {
         $path = self::getDefaultLogFileLocation();
-        $path = \Piwik\SettingsPiwik::rewriteTmpPathWithHostname($path);
+        $path = \Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId($path);
         return $path;
     }
 
