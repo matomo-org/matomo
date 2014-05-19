@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -461,9 +462,9 @@ class UserSettings extends \Piwik\Plugin
     /**
      * Adds the User Settings menu
      */
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('General_Visitors', 'General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
+        $menu->add('General_Visitors', 'General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
     }
 
 }

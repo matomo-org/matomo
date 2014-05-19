@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\VisitsSummary;
 
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
@@ -70,10 +71,10 @@ class VisitsSummary extends \Piwik\Plugin
         WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitsSummary_WidgetOverviewGraph', 'VisitsSummary', 'index');
     }
 
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('General_Visitors', '', array('module' => 'VisitsSummary', 'action' => 'index'), true, 10);
-        MenuMain::getInstance()->add('General_Visitors', 'General_Overview', array('module' => 'VisitsSummary', 'action' => 'index'), true, 1);
+        $menu->add('General_Visitors', '', array('module' => 'VisitsSummary', 'action' => 'index'), true, 10);
+        $menu->add('General_Visitors', 'General_Overview', array('module' => 'VisitsSummary', 'action' => 'index'), true, 1);
     }
 }
 

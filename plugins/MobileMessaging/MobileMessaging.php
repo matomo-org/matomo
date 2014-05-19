@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -82,9 +83,9 @@ class MobileMessaging extends \Piwik\Plugin
         );
     }
 
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
-        MenuAdmin::addEntry('MobileMessaging_SettingsMenu',
+        $menu->add('MobileMessaging_SettingsMenu',
             array('module' => 'MobileMessaging', 'action' => 'index'),
             true,
             $order = 12

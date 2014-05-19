@@ -10,6 +10,7 @@ namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\ArchiveProcessor;
 use Piwik\FrontController;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -107,10 +108,10 @@ class VisitorInterest extends \Piwik\Plugin
         WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetVisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
     }
 
-    public function addMenu()
+    public function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->rename('General_Visitors', 'VisitFrequency_SubmenuFrequency',
-            'General_Visitors', 'VisitorInterest_Engagement');
+        $menu->rename('General_Visitors', 'VisitFrequency_SubmenuFrequency',
+                      'General_Visitors', 'VisitorInterest_Engagement');
     }
 
     function postLoad()

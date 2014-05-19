@@ -84,7 +84,7 @@ class MenuMain extends MenuAbstract
              *         );
              *     }
              */
-            Piwik::postEvent('Menu.Reporting.addItems');
+            Piwik::postEvent('Menu.Reporting.addItems', array($this));
         }
         return parent::getMenu();
     }

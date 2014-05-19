@@ -30,12 +30,12 @@ class Widgetize extends \Piwik\Plugin
         );
     }
 
-    public function addTopMenu()
+    public function addTopMenu(MenuTop $menu)
     {
-        $tooltip = Piwik::translate('Widgetize_TopLinkTooltip');
+        $tooltip   = Piwik::translate('Widgetize_TopLinkTooltip');
         $urlParams = array('module' => 'Widgetize', 'action' => 'index', 'segment' => false);
 
-        MenuTop::addEntry('General_Widgets', $urlParams, true, 5, $isHTML = false, $tooltip);
+        $menu->add('General_Widgets', null, $urlParams, true, 5, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

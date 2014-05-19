@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\WidgetsList;
@@ -48,9 +49,9 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
     }
 
-    public function addMenu()
+    public function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
+        $menu->add('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
     }
 
     public function addWidget()

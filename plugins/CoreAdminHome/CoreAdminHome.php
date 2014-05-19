@@ -12,6 +12,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
@@ -86,21 +87,21 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
     }
 
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 1);
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuDiagnostic', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 10);
-        MenuAdmin::getInstance()->add('General_Settings', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 5);
-        MenuAdmin::getInstance()->add('General_Settings', 'CoreAdminHome_MenuGeneralSettings',
+        $menu->add('CoreAdminHome_MenuManage', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 1);
+        $menu->add('CoreAdminHome_MenuDiagnostic', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 10);
+        $menu->add('General_Settings', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 5);
+        $menu->add('General_Settings', 'CoreAdminHome_MenuGeneralSettings',
             array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 6);
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'CoreAdminHome_TrackingCode',
+        $menu->add('CoreAdminHome_MenuManage', 'CoreAdminHome_TrackingCode',
             array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 4);
 
-        MenuAdmin::getInstance()->add('General_Settings', 'CoreAdminHome_PluginSettings',
+        $menu->add('General_Settings', 'CoreAdminHome_PluginSettings',
             array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
             SettingsManager::hasPluginsSettingsForCurrentUser(),
             $order = 7);

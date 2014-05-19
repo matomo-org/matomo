@@ -504,14 +504,14 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    function addTopMenu()
+    function addTopMenu(MenuTop $menu)
     {
-        MenuTop::addEntry(
+        $menu->add(
             $this->getTopMenuTranslationKey(),
+            null,
             array('module' => 'ScheduledReports', 'action' => 'index', 'segment' => false),
             true,
             13,
-            $isHTML = false,
             $tooltip = Piwik::translate(
                 \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')
                     ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip'

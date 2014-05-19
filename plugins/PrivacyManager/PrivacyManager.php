@@ -13,6 +13,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Metrics;
 use Piwik\Option;
@@ -174,12 +175,12 @@ class PrivacyManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/PrivacyManager/javascripts/privacySettings.js";
     }
 
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
-        MenuAdmin::addEntry('PrivacyManager_MenuPrivacySettings',
-            array('module' => 'PrivacyManager', 'action' => 'privacySettings'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 7);
+        $menu->add('PrivacyManager_MenuPrivacySettings',
+                   array('module' => 'PrivacyManager', 'action' => 'privacySettings'),
+                   Piwik::isUserHasSomeAdminAccess(),
+                   $order = 7);
     }
 
     /**

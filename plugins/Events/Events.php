@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -43,9 +44,9 @@ class Events extends \Piwik\Plugin
         }
     }
 
-    public function addMenus()
+    public function addMenus(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('General_Actions', 'Events_Events', array('module' => 'Events', 'action' => 'index'), true, 30);
+        $menu->add('General_Actions', 'Events_Events', array('module' => 'Events', 'action' => 'index'), true, 30);
     }
 
     public function addMetricTranslations(&$translations)

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserCountryMap;
 
 use Piwik\FrontController;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Version;
@@ -57,9 +58,9 @@ class UserCountryMap extends \Piwik\Plugin
         return $hooks;
     }
 
-    public function addMenu()
+    public function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('General_Visitors', 'UserCountryMap_RealTimeMap',
+        $menu->add('General_Visitors', 'UserCountryMap_RealTimeMap',
             array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
     }
 

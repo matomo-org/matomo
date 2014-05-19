@@ -52,10 +52,10 @@ class LanguagesManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/LanguagesManager/javascripts/languageSelector.js";
     }
 
-    public function showLanguagesSelector()
+    public function showLanguagesSelector(MenuTop $menu)
     {
         if (Piwik::isUserIsAnonymous() || !SettingsPiwik::isPiwikInstalled()) {
-            MenuTop::addEntry('LanguageSelector', $this->getLanguagesSelector(), true, $order = 30, true);
+            $menu->addHtml('LanguageSelector', $this->getLanguagesSelector(), true, $order = 30, false);
         }
     }
 

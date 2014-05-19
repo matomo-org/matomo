@@ -93,11 +93,11 @@ class MultiSites extends \Piwik\Plugin
         );
     }
 
-    public function addTopMenu()
+    public function addTopMenu(MenuTop $menu)
     {
         $urlParams = array('module' => 'MultiSites', 'action' => 'index', 'segment' => false);
         $tooltip = Piwik::translate('MultiSites_TopLinkTooltip');
-        MenuTop::addEntry('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
+        $menu->add('General_MultiSitesSummary', null, $urlParams, true, 3, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

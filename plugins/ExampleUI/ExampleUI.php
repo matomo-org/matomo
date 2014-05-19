@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\ExampleUI;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Menu\MenuTop;
 
@@ -26,30 +27,30 @@ class ExampleUI extends \Piwik\Plugin
         );
     }
 
-    function addReportingMenuItems()
+    function addReportingMenuItems(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);
+        $menu->add('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);
 
-        $this->addSubMenu('Data tables', 'dataTables', 1);
-        $this->addSubMenu('Bar graph', 'barGraph', 2);
-        $this->addSubMenu('Pie graph', 'pieGraph', 3);
-        $this->addSubMenu('Tag clouds', 'tagClouds', 4);
-        $this->addSubMenu('Sparklines', 'sparklines', 5);
-        $this->addSubMenu('Evolution Graph', 'evolutionGraph', 6);
+        $this->addSubMenu($menu, 'Data tables', 'dataTables', 1);
+        $this->addSubMenu($menu, 'Bar graph', 'barGraph', 2);
+        $this->addSubMenu($menu, 'Pie graph', 'pieGraph', 3);
+        $this->addSubMenu($menu, 'Tag clouds', 'tagClouds', 4);
+        $this->addSubMenu($menu, 'Sparklines', 'sparklines', 5);
+        $this->addSubMenu($menu, 'Evolution Graph', 'evolutionGraph', 6);
 
         if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('TreemapVisualization')) {
-            $this->addSubMenu('Treemap', 'treemap', 7);
+            $this->addSubMenu($menu, 'Treemap', 'treemap', 7);
         }
     }
 
-    function addTopMenuItems()
+    function addTopMenuItems(MenuTop $menu)
     {
         $urlParams = array('module' => 'ExampleUI', 'action' => 'notifications');
-        MenuTop::getInstance()->addEntry('UI Notifications', $urlParams, $displayedForCurrentUser = true, $order = 3);
+        $menu->addEntry('UI Notifications', null, $urlParams, $displayedForCurrentUser = true, $order = 3);
     }
 
-    private function addSubMenu($subMenu, $action, $order)
+    private function addSubMenu(MenuAbstract $menu, $subMenu, $action, $order)
     {
-        MenuMain::getInstance()->add('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order);
+        $menu->add('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order);
     }
 }

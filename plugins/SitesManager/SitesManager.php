@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SitesManager;
 
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 
@@ -34,9 +35,9 @@ class SitesManager extends \Piwik\Plugin
         );
     }
 
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'SitesManager_Sites',
+        $menu->add('CoreAdminHome_MenuManage', 'SitesManager_Sites',
             array('module' => 'SitesManager', 'action' => 'index'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 1);

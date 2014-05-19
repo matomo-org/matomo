@@ -46,6 +46,7 @@ class MenuTop extends MenuAbstract
      * @param bool $isHTML Whether `$url` is an HTML string or a URL that will be rendered as a link.
      * @param bool|string $tooltip Optional tooltip to display.
      * @api
+     * @deprecated since version 2.3.0
      */
     public static function addEntry($topMenuName, $url, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
     {
@@ -56,6 +57,9 @@ class MenuTop extends MenuAbstract
         }
     }
 
+    /**
+     * @deprecated since version 2.3.0
+     */
     public static function removeEntry($menuName, $subMenuName = false)
     {
         MenuTop::getInstance()->remove($menuName, $subMenuName);
@@ -114,7 +118,7 @@ class MenuTop extends MenuAbstract
              *         );
              *     }
              */
-            Piwik::postEvent('Menu.Top.addItems');
+            Piwik::postEvent('Menu.Top.addItems', array($this));
         }
         return parent::getMenu();
     }

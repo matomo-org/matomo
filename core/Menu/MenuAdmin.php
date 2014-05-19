@@ -42,10 +42,16 @@ class MenuAdmin extends MenuAbstract
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
      * @api
+     * @deprecated since version 2.3.0
      */
     public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
     {
         self::getInstance()->add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
+    }
+
+    public function add($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
+    {
+        parent::add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
     }
 
     /**
@@ -78,7 +84,7 @@ class MenuAdmin extends MenuAbstract
              *         );
              *     }
              */
-            Piwik::postEvent('Menu.Admin.addItems');
+            Piwik::postEvent('Menu.Admin.addItems', array($this));
         }
         return parent::getMenu();
     }
@@ -106,6 +112,9 @@ class MenuAdmin extends MenuAbstract
         return false;
     }
 
+    /**
+     * @deprecated since version 2.3.0
+     */
     public static function removeEntry($menuName, $subMenuName = false)
     {
         MenuAdmin::getInstance()->remove($menuName, $subMenuName);

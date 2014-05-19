@@ -699,17 +699,17 @@ class Plugin extends \Piwik\Plugin
         );
     }
 
-    public function addTopMenu()
+    public function addTopMenu(MenuTop $menu)
     {
         $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
-        $tooltip = Piwik::translate('API_TopLinkTooltip');
+        $tooltip      = Piwik::translate('API_TopLinkTooltip');
 
-        MenuTop::addEntry('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
+        $menu->add('General_API', null, $apiUrlParams, true, 7, $tooltip);
 
-        $this->addTopMenuMobileApp();
+        $this->addTopMenuMobileApp($menu);
     }
 
-    protected function addTopMenuMobileApp()
+    protected function addTopMenuMobileApp(MenuTop $menu)
     {
         if (empty($_SERVER['HTTP_USER_AGENT'])) {
             return;
@@ -722,7 +722,7 @@ class Plugin extends \Piwik\Plugin
         $ua->parse();
         $os = $ua->getOs('short_name');
         if ($os && in_array($os, array('AND', 'IOS'))) {
-            MenuTop::addEntry('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
+            $menu->add('Piwik Mobile App', null, array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
         }
     }
 

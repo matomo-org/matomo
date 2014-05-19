@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\IP;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -93,10 +94,10 @@ class Provider extends \Piwik\Plugin
         WidgetsList::add('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
     }
 
-    public function addMenu()
+    public function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->rename('General_Visitors', 'UserCountry_SubmenuLocations',
-            'General_Visitors', 'Provider_SubmenuLocationsProvider');
+        $menu->rename('General_Visitors', 'UserCountry_SubmenuLocations',
+                      'General_Visitors', 'Provider_SubmenuLocationsProvider');
     }
 
     public function postLoad()

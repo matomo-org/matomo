@@ -30,14 +30,14 @@ class Feedback extends \Piwik\Plugin
         );
     }
 
-    public function addTopMenu()
+    public function addTopMenu(MenuTop $menu)
     {
-        MenuTop::addEntry(
+        $menu->add(
             'General_Help',
+            null,
             array('module' => 'Feedback', 'action' => 'index', 'segment' => false),
             true,
             $order = 20,
-            $isHTML = false,
             $tooltip = Piwik::translate('Feedback_TopLinkTooltip')
         );
     }

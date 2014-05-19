@@ -11,6 +11,7 @@ namespace Piwik\Plugins\VisitTime;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -85,10 +86,10 @@ class VisitTime extends \Piwik\Plugin
         WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitTime_VisitsByDayOfWeek', 'VisitTime', 'getByDayOfWeek');
     }
 
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('General_Visitors', 'VisitTime_SubmenuTimes',
-            array('module' => 'VisitTime', 'action' => 'index'), true, $order = 65);
+        $menu->add('General_Visitors', 'VisitTime_SubmenuTimes',
+                   array('module' => 'VisitTime', 'action' => 'index'), true, $order = 65);
     }
 
     public function getReportsWithGoalMetrics(&$dimensions)

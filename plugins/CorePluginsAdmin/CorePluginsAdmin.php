@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Config;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -71,7 +72,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
     }
 
-    function addMenu()
+    function addMenu(MenuAbstract $menu)
     {
         $pluginsUpdateMessage = '';
         $themesUpdateMessage = '';
@@ -89,19 +90,19 @@ class CorePluginsAdmin extends \Piwik\Plugin
             }
         }
 
-        MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', null, "", !Piwik::isUserIsAnonymous(), $order = 7);
-        MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
+        $menu->add('CorePluginsAdmin_MenuPlatform', null, "", !Piwik::isUserIsAnonymous(), $order = 7);
+        $menu->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
             array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
             Piwik::hasUserSuperUserAccess(),
             $order = 1);
-        MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
+        $menu->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
             array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
             Piwik::hasUserSuperUserAccess(),
             $order = 3);
 
         if (static::isMarketplaceEnabled()) {
 
-            MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Marketplace',
+            $menu->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Marketplace',
                 array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
                 !Piwik::isUserIsAnonymous(),
                 $order = 5);

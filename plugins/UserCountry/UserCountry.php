@@ -12,6 +12,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
@@ -194,18 +195,18 @@ class UserCountry extends \Piwik\Plugin
         WidgetsList::add('General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
     }
 
-    public function addMenu()
+    public function addMenu(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
+        $menu->add('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
     }
 
     /**
      * Event handler. Adds menu items to the MenuAdmin menu.
      */
-    public function addAdminMenu()
+    public function addAdminMenu(MenuAbstract $menu)
     {
         if($this->isGeoLocationAdminEnabled()) {
-            MenuAdmin::getInstance()->add('General_Settings', 'UserCountry_Geolocation',
+            $menu->add('General_Settings', 'UserCountry_Geolocation',
                 array('module' => 'UserCountry', 'action' => 'adminIndex'),
                 Piwik::hasUserSuperUserAccess(),
                 $order = 8);

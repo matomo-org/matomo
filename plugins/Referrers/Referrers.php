@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -248,13 +249,13 @@ class Referrers extends \Piwik\Plugin
     /**
      * Adds Web Analytics menus
      */
-    function addMenus()
+    function addMenus(MenuAbstract $menu)
     {
-        MenuMain::getInstance()->add('Referrers_Referrers', '', array('module' => 'Referrers', 'action' => 'index'), true, 20);
-        MenuMain::getInstance()->add('Referrers_Referrers', 'General_Overview', array('module' => 'Referrers', 'action' => 'index'), true, 1);
-        MenuMain::getInstance()->add('Referrers_Referrers', 'Referrers_SubmenuSearchEngines', array('module' => 'Referrers', 'action' => 'getSearchEnginesAndKeywords'), true, 2);
-        MenuMain::getInstance()->add('Referrers_Referrers', 'Referrers_SubmenuWebsites', array('module' => 'Referrers', 'action' => 'indexWebsites'), true, 3);
-        MenuMain::getInstance()->add('Referrers_Referrers', 'Referrers_Campaigns', array('module' => 'Referrers', 'action' => 'indexCampaigns'), true, 4);
+        $menu->add('Referrers_Referrers', '', array('module' => 'Referrers', 'action' => 'index'), true, 20);
+        $menu->add('Referrers_Referrers', 'General_Overview', array('module' => 'Referrers', 'action' => 'index'), true, 1);
+        $menu->add('Referrers_Referrers', 'Referrers_SubmenuSearchEngines', array('module' => 'Referrers', 'action' => 'getSearchEnginesAndKeywords'), true, 2);
+        $menu->add('Referrers_Referrers', 'Referrers_SubmenuWebsites', array('module' => 'Referrers', 'action' => 'indexWebsites'), true, 3);
+        $menu->add('Referrers_Referrers', 'Referrers_Campaigns', array('module' => 'Referrers', 'action' => 'indexCampaigns'), true, 4);
     }
 
     /**

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\Db;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -97,13 +98,13 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Add admin menu items
      */
-    public function addMenu()
+    public function addMenu(MenuAbstract $menu)
     {
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers',
+        $menu->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers',
             array('module' => 'UsersManager', 'action' => 'index'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 2);
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings',
+        $menu->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings',
             array('module' => 'UsersManager', 'action' => 'userSettings'),
             Piwik::isUserHasSomeViewAccess(),
             $order = 3);
