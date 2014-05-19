@@ -12,7 +12,7 @@ $(document).ready(function () {
     }
 
     var addedElement = $('#topRightBar').append(
-          '<span class="topBarElem activateZenMode" piwik-zen-mode-switcher>'
+          ' | <span class="topBarElem activateZenMode" piwik-zen-mode-switcher>'
         + '<img src="plugins/CoreHome/images/navigation_expand.png">'
         + ' </span>'
     );
@@ -64,7 +64,7 @@ $(document).ready(function () {
             toggleZenMode();
         });
 
-        Mousetrap.bind('alt+s', function(event) {
+        Mousetrap.bind('alt+f', function(event) {
             if (event.preventDefault) {
                 event.preventDefault();
             } else {
