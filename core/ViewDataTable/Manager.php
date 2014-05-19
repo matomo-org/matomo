@@ -302,6 +302,13 @@ class Manager
         $params = self::getViewDataTableParameters($login, $controllerAction);
 
         foreach ($parametersToOverride as $key => $value) {
+            if ($key === 'viewDataTable'
+                && !empty($params['columns'])
+                && !empty($params[$key])
+                && $params[$key] !== $value) {
+                unset($params['columns']);
+            }
+
             $params[$key] = $value;
         }
 
