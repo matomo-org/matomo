@@ -1164,7 +1164,7 @@ class Recorder(object):
     recorders = []
 
     def __init__(self):
-        self.queue = Queue.Queue(maxsize=config.options.queue_size)
+        self.queue = Queue.Queue(maxsize = int(config.options.queue_size))
 
         # if bulk tracking disabled, make sure we can store hits outside of the Queue
         if not config.options.use_bulk_tracking:
