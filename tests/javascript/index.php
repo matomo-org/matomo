@@ -422,6 +422,16 @@ function PiwikTest() {
 		ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
 	});
 
+
+    test("AnalyticsTracker alias", function() {
+        expect(1);
+
+        var tracker = AnalyticsTracker.getTracker();
+        equal( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
+    });
+
+
+
 	test("Tracker encode, decode, urldecode wrappers", function() {
 		expect(6);
 
