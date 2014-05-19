@@ -25,7 +25,7 @@
         "symfony/console": ">=v2.3.5",
         "tedivm/jshrink": "v0.5.1",
         "mustangostang/spyc": "0.5.*",
-        "piwik/device-detector": "*"
+        "piwik/device-detector": "1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*"
