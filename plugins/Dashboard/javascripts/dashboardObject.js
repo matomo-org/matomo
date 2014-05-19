@@ -439,7 +439,6 @@
             if (dashboards.length > 1
                 || dashboardMenuListItems.length >= 1
             ) {
-                dashboardMenuList.show();
                 var items = [];
                 for (var i = 0; i < dashboards.length; i++) {
                     var $link = $('<a/>').attr('data-idDashboard', dashboards[i].iddashboard).text(dashboards[i].name);
