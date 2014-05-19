@@ -306,7 +306,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     setFixWidthToMakeEllipsisWork: function (domElem) {
         var self = this;
 
-        function getTableWidth(domElem) {
+        function isWidgetized()
+        {
+            return -1 !== location.search.indexOf('module=Widgetize');
+        }
+
+        function getTableWidth(domElem)
+        {
             var totalWidth      = $(domElem).width();
             var totalWidthTable = $('table.dataTable', domElem).width(); // fixes tables in dbstats, referrers, ...
 
@@ -319,6 +325,28 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             return parseInt(totalWidth, 10);
+        }
+
+        function setMaxTableWidthIfNeeded (domElem, maxTableWidth)
+        {
+            var tableWidth = getTableWidth(domElem);
+
+            if (tableWidth <= maxTableWidth) {
+                return;
+            }
+
+            if (isWidgetized() || self.isDashboard()) {
+                return;
+            }
+
+            $(domElem).width(maxTableWidth);
+
+            var parentDataTable = $(domElem).parent('.dataTable');
+            if (parentDataTable && parentDataTable.length) {
+                // makes sure dataTableWrapper and DataTable has same size => makes sure maxLabelWidth does not get
+                // applied in getLabelWidth() since they will have the same size.
+                parentDataTable.width(maxTableWidth);
+            }
         }
 
         function getLabelWidth(domElem, tableWidth, minLabelWidth, maxLabelWidth)
@@ -338,8 +366,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = tableWidth * 0.5;
             }
 
-            var isWidgetized  = -1 !== location.search.indexOf('module=Widgetize');
-
             var innerWidth = 0;
             var innerWrapper = domElem.find('.dataTableWrapper');
             if (innerWrapper && innerWrapper.length) {
@@ -347,7 +373,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             if (labelWidth > maxLabelWidth
-                && !isWidgetized
+                && !isWidgetized()
                 && innerWidth !== domElem.width()
                 && !self.isDashboard()) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
@@ -405,7 +431,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var minLabelWidth = 125;
         var maxLabelWidth = 440;
 
-        var tableWidth          = getTableWidth(domElem);
+        setMaxTableWidthIfNeeded(domElem, 1200);
+        var tableWidth = getTableWidth(domElem);
         var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
         var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
 
