@@ -435,6 +435,7 @@ if (typeof JSON2 !== 'object') {
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker */
 /*global Piwik_Overlay_Client */
+/*global AnalyticsTracker:true */
 /*members initialize */
 /*global define */
 /*members amd */
@@ -3195,12 +3196,14 @@ if (window && window.piwikAsyncInit) {
     window.piwikAsyncInit();
 }
 
+/*jslint sloppy: true */
 (function () {
     var jsTrackerType = (typeof AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
         AnalyticsTracker = Piwik;
     }
-})();
+}());
+/*jslint sloppy: false */
 
 /************************************************************
  * Deprecated functionality below
