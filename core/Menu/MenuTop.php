@@ -65,7 +65,6 @@ class MenuTop extends MenuAbstract
         MenuTop::getInstance()->remove($menuName, $subMenuName);
     }
 
-
     /**
      * Directly adds a menu entry containing html.
      *
@@ -119,7 +118,12 @@ class MenuTop extends MenuAbstract
              *     }
              */
             Piwik::postEvent('Menu.Top.addItems', array($this));
+
+            foreach ($this->getAvailableMenus() as $menu) {
+                $menu->configureTopMenu($this);
+            }
         }
+
         return parent::getMenu();
     }
 }

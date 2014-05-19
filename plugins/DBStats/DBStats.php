@@ -34,20 +34,11 @@ class DBStats extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'ViewDataTable.configure'         => 'configureViewDataTable',
             'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable',
             "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
         );
-    }
-
-    function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('CoreAdminHome_MenuDiagnostic', 'DBStats_DatabaseUsage',
-            array('module' => 'DBStats', 'action' => 'index'),
-            Piwik::hasUserSuperUserAccess(),
-            $order = 6);
     }
 
     /**

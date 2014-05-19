@@ -35,7 +35,6 @@ class CustomVariables extends \Piwik\Plugin
     {
         $hooks = array(
             'WidgetsList.addWidgets'          => 'addWidgets',
-            'Menu.Reporting.addItems'         => 'addMenus',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
@@ -47,11 +46,6 @@ class CustomVariables extends \Piwik\Plugin
     public function addWidgets()
     {
         WidgetsList::add('General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
-    }
-
-    public function addMenus(MenuAbstract $menu)
-    {
-        $menu->add('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
     }
 
     public function install()

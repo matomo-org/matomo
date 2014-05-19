@@ -90,23 +90,11 @@ class DevicesDetection extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Reporting.addItems'         => 'addMenu',
-            'Menu.Admin.addItems'             => 'addAdminMenu',
             'Tracker.newVisitorInformation'   => 'parseMobileVisitData',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
-        );
-    }
-
-    public function addAdminMenu(MenuAbstract $menu)
-    {
-        $menu->add(
-            'CoreAdminHome_MenuDiagnostic', 'DevicesDetection_DeviceDetection',
-            array('module' => 'DevicesDetection', 'action' => 'deviceDetection'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 40
         );
     }
 
@@ -271,11 +259,6 @@ class DevicesDetection extends \Piwik\Plugin
         $visitorInfo = array_merge($visitorInfo, $deviceInfo);
         Common::printDebug("Device Detection:");
         Common::printDebug($deviceInfo);
-    }
-
-    public function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('General_Visitors', 'DevicesDetection_submenu', array('module' => 'DevicesDetection', 'action' => 'index'));
     }
 
     public function configureViewDataTable(ViewDataTable $view)

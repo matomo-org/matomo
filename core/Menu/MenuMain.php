@@ -7,15 +7,15 @@
  *
  */
 namespace Piwik\Menu;
-use Piwik\Piwik;
+
 
 /**
  * Contains menu entries for the Main menu (the menu displayed under the Piwik logo).
  * Plugins can subscribe to the {@hook Menu.Reporting.addItems} event to add new pages to
  * the main menu.
- * 
+ *
  * **Example**
- * 
+ *
  *     // add a new page in an observer to Menu.Admin.addItems
  *     public function addMainMenuItem()
  *     {
@@ -27,65 +27,10 @@ use Piwik\Piwik;
  *             $order = 2
  *         );
  *     }
- * 
+ *
  * @api
  * @method static \Piwik\Menu\MenuMain getInstance()
  */
-class MenuMain extends MenuAbstract
+class MenuMain extends MenuReporting
 {
-    /**
-     * Returns if the URL was found in the menu.
-     *
-     * @param string $url
-     * @return boolean
-     */
-    public function isUrlFound($url)
-    {
-        $menu = MenuMain::getInstance()->getMenu();
-
-        foreach ($menu as $subMenus) {
-            foreach ($subMenus as $subMenuName => $menuUrl) {
-                if (strpos($subMenuName, '_') !== 0 && $menuUrl['_url'] == $url) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Triggers the Menu.Reporting.addItems hook and returns the menu.
-     *
-     * @return Array
-     */
-    public function getMenu()
-    {
-        // We trigger the Event only once!
-        if (!$this->menu) {
-
-            /**
-             * Triggered when collecting all available reporting menu items. Subscribe to this event if you
-             * want to add one or more items to the Piwik reporting menu.
-             * 
-             * Menu items should be added via the {@link add()} method.
-             *
-             * **Example**
-             * 
-             *     use Piwik\Menu\MenuMain;
-             * 
-             *     public function addMenuItems()
-             *     {
-             *         MenuMain::getInstance()->add(
-             *             'CustomMenuName',
-             *             'CustomSubmenuName',
-             *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
-             *             $order = 6
-             *         );
-             *     }
-             */
-            Piwik::postEvent('Menu.Reporting.addItems', array($this));
-        }
-        return parent::getMenu();
-    }
 }

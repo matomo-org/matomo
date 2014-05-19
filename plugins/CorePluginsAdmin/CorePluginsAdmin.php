@@ -27,7 +27,6 @@ class CorePluginsAdmin extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Admin.addItems'                    => 'addMenu',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'TaskScheduler.getScheduledTasks'        => 'getScheduledTasks',
@@ -70,44 +69,6 @@ class CorePluginsAdmin extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
-    }
-
-    function addMenu(MenuAbstract $menu)
-    {
-        $pluginsUpdateMessage = '';
-        $themesUpdateMessage = '';
-
-        if (Piwik::hasUserSuperUserAccess() && static::isMarketplaceEnabled()) {
-            $marketplace = new Marketplace();
-            $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
-            $themesHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = true);
-
-            if (!empty($pluginsHavingUpdate)) {
-                $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));
-            }
-            if (!empty($themesHavingUpdate)) {
-                $themesUpdateMessage = sprintf(' (%d)', count($themesHavingUpdate));
-            }
-        }
-
-        $menu->add('CorePluginsAdmin_MenuPlatform', null, "", !Piwik::isUserIsAnonymous(), $order = 7);
-        $menu->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
-            array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
-            Piwik::hasUserSuperUserAccess(),
-            $order = 1);
-        $menu->add('CorePluginsAdmin_MenuPlatform', Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
-            array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
-            Piwik::hasUserSuperUserAccess(),
-            $order = 3);
-
-        if (static::isMarketplaceEnabled()) {
-
-            $menu->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Marketplace',
-                array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
-                !Piwik::isUserIsAnonymous(),
-                $order = 5);
-
-        }
     }
 
     public static function isMarketplaceEnabled()

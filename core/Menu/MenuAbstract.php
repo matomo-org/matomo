@@ -11,6 +11,7 @@ namespace Piwik\Menu;
 use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Base class for classes that manage one of Piwik's menus.
@@ -30,6 +31,7 @@ abstract class MenuAbstract extends Singleton
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
+    protected static $menus = array();
 
     /**
      * Builds the menu, applies edits, renames
@@ -45,6 +47,48 @@ abstract class MenuAbstract extends Singleton
         $this->applyRemoves();
         $this->applyOrdering();
         return $this->menu;
+    }
+
+    /**
+     * Returns a list of available plugin menu instances.
+     *
+     * @return \Piwik\Plugin\Menu[]
+     */
+    protected function getAvailableMenus()
+    {
+        if (!empty(self::$menus)) {
+            return self::$menus;
+        }
+
+        $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
+
+        self::$menus = array();
+        foreach ($pluginNames as $pluginName) {
+            $menu = $this->findMenuInPlugin($pluginName);
+
+            if (!empty($menu)) {
+                self::$menus[] = $menu;
+            }
+        }
+
+        return self::$menus;
+    }
+
+    private function findMenuInPlugin($pluginName)
+    {
+        $menuFile = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/Menu.php';
+
+        if (!file_exists($menuFile)) {
+            return;
+        }
+
+        $klassName = sprintf('Piwik\\Plugins\\%s\\Menu', $pluginName);
+
+        if (!class_exists($klassName) || !is_subclass_of($klassName, 'Piwik\\Plugin\\Menu')) {
+            return;
+        }
+
+        return new $klassName;
     }
 
     /**
