@@ -809,6 +809,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Snap.do
         'search.snap.do'                 => array('Snap.do', 'q', '?q={k}'),
 
+        // So-net
+        'www.so-net.ne.jp'               => array('So-net', 'query', 'search/web/?query=k{}'),
+
         // Sogou
         'www.sogou.com'                  => array('Sogou', 'query', 'web?query={k}', 'gb2312'),
 

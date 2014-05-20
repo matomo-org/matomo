@@ -422,6 +422,10 @@
   engine: 'Biglobe Images'
   keywords: 'サーリンク（'
 
+- url: 'http://www.so-net.ne.jp/search/web/?query=piwik&from=gp&kz=&suggest=gp_suggest_on'
+  engine: 'So-net'
+  keywords: 'piwik'
+
 - url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
   engine: 'SmartAddressbar'
   keywords: 'habillage aikatsu'
