@@ -444,6 +444,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         '{}.wow.com'                     => array('Google'),
         'search.leonardo.it'             => array('Google'),
         'www.optuszoo.com.au'            => array('Google'),
+        'search.dolphin-browser.jp'      => array('Google'),
         'search.smt.docomo.ne.jp'        => array('Google', 'MT'),
         'image.search.smt.docomo.ne.jp'     => array('Google', 'MT'),
 
@@ -703,7 +704,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.neti.ee'                    => array('Neti', 'query', 'cgi-bin/otsing?query={k}', 'iso-8859-1'),
 
         // Nifty
-        'search.nifty.com'               => array('Nifty', 'q', 'websearch/search?q={k}'),
+        'search.nifty.com'               => array('Nifty', array('q', 'Text'), 'websearch/search?q={k}'),
 
         // Nigma
         'nigma.ru'                       => array('Nigma', 's', 'index.php?s={k}'),
