@@ -46,7 +46,7 @@ class LanguagesManager extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/LanguagesManager/javascripts/languageSelector.js";
+        $jsFiles[] = "plugins/LanguagesManager/angularjs/languageselector/languageselector-directive.js";
     }
 
     /**
@@ -58,7 +58,8 @@ class LanguagesManager extends \Piwik\Plugin
     {
         // piwik object & scripts aren't loaded in 'other' topbars
         $str .= "<script type='text/javascript'>if (!window.piwik) window.piwik={};</script>";
-        $str .= "<script type='text/javascript' src='plugins/LanguagesManager/javascripts/languageSelector.js'></script>";
+        $str .= "<script type='text/javascript' src='plugins/CoreHome/angularjs/menudropdown/menudropdown-directive.js'></script>";
+        $str .= "<script type='text/javascript' src='plugins/LanguagesManager/angularjs/languageselector/languageselector-directive.js'></script>";
         $str .= $this->getLanguagesSelector();
     }
 
@@ -83,6 +84,7 @@ class LanguagesManager extends \Piwik\Plugin
         $view = new View("@LanguagesManager/getLanguagesSelector");
         $view->languages = API::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
+        $view->currentLanguageName = self::getLanguageNameForCurrentUser();
         return $view->render();
     }
 
