@@ -424,7 +424,7 @@ enable_update_communication = 1
 
 ; Change the following value to set the required access level for creating, editing and removing segments
 ; Possible values are "view", "admin" and "superadmin"
-segment_editor_required_access = "admin"
+segment_editor_required_access = "view"
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,

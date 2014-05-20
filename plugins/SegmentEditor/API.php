@@ -112,17 +112,16 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-
     protected function checkUserCanEditSegment($siteid = false)
     {
         if($this->isUserCanEditSegment($siteid) == false) {
-            throw new Exception("You don't have the required access level to do this.");
+            throw new Exception(Piwik::translate('SegmentEditor_YouDontHaveAccessToCreateSegments'));
         }
     }
 
     public function isUserCanEditSegment($siteid = false)
     {
-        $requiredAccess = isset(Config::getInstance()->General['segment_editor_required_access']) ? Config::getInstance()->General['segment_editor_required_access'] : "view";
+        $requiredAccess = Config::getInstance()->General['segment_editor_required_access'];
 
         return ($this->checkSuperAdminAccess($requiredAccess) ||
                 $this->checkViewAccess($requiredAccess, $siteid) ||
@@ -131,34 +130,19 @@ class API extends \Piwik\Plugin\API
 
     private function checkSuperAdminAccess($requiredAccess)
     {
-        if ($requiredAccess == 'superadmin' && Piwik::hasUserSuperUserAccess()) {
-            return true;
-        }
-        return false;
+        return ($requiredAccess == 'superadmin' && Piwik::hasUserSuperUserAccess());
     }
 
     private function checkViewAccess($requiredAccess, $siteid)
     {
-        if (
-            $requiredAccess == 'view' && (
-                Piwik::isUserHasViewAccess($siteid) || ($siteid === 0 && Piwik::isUserHasSomeViewAccess())
-            )
-        ) {
-            return true;
-        }
-        return false;
+        return ($requiredAccess == 'view' && (
+                Piwik::isUserHasViewAccess($siteid) || ($siteid === 0 && Piwik::isUserHasSomeViewAccess())));
     }
 
     private function checkAdminAccess($requiredAccess, $siteid)
     {
-        if (
-            $requiredAccess == 'admin' && (
-                Piwik::isUserHasAdminAccess($siteid) || ($siteid === 0 && Piwik::isUserHasSomeAdminAccess())
-            )
-        ) {
-            return true;
-        }
-        return false;
+        return ($requiredAccess == 'admin' && (
+                Piwik::isUserHasAdminAccess($siteid) || ($siteid === 0 && Piwik::isUserHasSomeAdminAccess())));
     }
 
     protected function checkUserCanModifySegment($segment)
