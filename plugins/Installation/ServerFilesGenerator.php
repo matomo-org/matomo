@@ -33,7 +33,7 @@ class ServerFilesGenerator
         $allow = "<IfModule mod_access.c>\nAllow from all\nRequire all granted\n</IfModule>\n".
                  "<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nAllow from all\nRequire all granted\n</IfModule>\n</IfModule>\n".
                  "<IfModule mod_access_compat>\nAllow from all\nRequire all granted\n</IfModule>\n".
-                 "<IfModule !mod_authz_host.c>\nSatisfy any</IfModule>\n";
+                 "<IfModule !mod_authz_host.c>\nSatisfy any\n</IfModule>\n";
         $deny = "<IfModule mod_access.c>\nDeny from all\nRequire all denied\n</IfModule>\n".
                 "<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\nRequire all denied\n</IfModule>\n</IfModule>\n".
                 "<IfModule mod_access_compat>\nDeny from all\nRequire all denied\n</IfModule>\n";
