@@ -208,6 +208,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Biglobe
         'cgi.search.biglobe.ne.jp'       => array('Biglobe', 'q', 'cgi-bin/search-st?q={k}'),
+        'images.search.biglobe.ne.jp'    => array('Biglobe Images', 'q', 'cgi-bin/search-st?q={k}'),
 
         // Bing
         'bing.com'                       => array('Bing', array('q', 'Q'), 'search?q={k}'),

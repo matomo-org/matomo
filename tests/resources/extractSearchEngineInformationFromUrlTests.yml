@@ -406,6 +406,14 @@
   engine: 'Google'
   keywords: 'ふたりはプリキュアmaxheart'
 
+- url: 'http://cgi.search.biglobe.ne.jp/cgi-bin/search-st?search=%E6%A4%9C%E7%B4%A2&web_s.x=1&q=piwik&x=0&y=0&ie=utf8'
+  engine: 'Biglobe'
+  keywords: 'piwik'
+
+- url: 'http://images.search.biglobe.ne.jp/cgi-bin/search?q=%E3%82%B5%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%AF%EF%BC%88'
+  engine: 'Biglobe Images'
+  keywords: 'サーリンク（'
+
 - url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
   engine: 'SmartAddressbar'
   keywords: 'habillage aikatsu'
