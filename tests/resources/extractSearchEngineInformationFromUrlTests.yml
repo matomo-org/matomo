@@ -434,6 +434,14 @@
   engine: 'SeeSaa'
   keywords: '日本テレビ放送網'
 
+- url: 'http://chercherfr.aguea.com/s.py?q=piwik'
+  engine: 'Aguea'
+  keywords: 'piwik'
+
+- url: 'http://search.tb.ask.com/search/GGmain.jhtml?searchfor=Drinkable+sunscreen&tpr=tt-pop-h&n=&st=hp&qs='
+  engine: 'Ask'
+  keywords: 'drinkable sunscreen'
+
 - url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
   engine: 'SmartAddressbar'
   keywords: 'habillage aikatsu'

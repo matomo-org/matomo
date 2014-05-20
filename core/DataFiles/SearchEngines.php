@@ -86,6 +86,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Acoon
         'www.acoon.de'                   => array('Acoon', 'begriff', 'cgi-bin/search.exe?begriff={k}'),
 
+        // Aguea
+        'chercherfr.aguea.com'           => array('Aguea', 'q', 's.py?q={k}'),
+
         // Alexa
         'alexa.com'                      => array('Alexa', 'q', 'search?q={k}'),
         'search.toolbars.alexa.com'      => array('Alexa'),
@@ -183,6 +186,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         '{}.search.ask.com'              => array('Ask'),
         'avira-int.ask.com'              => array('Ask'),
         'searchqu.com'                   => array('Ask'),
+        'search.tb.ask.com'              => array('Ask'),
 
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
