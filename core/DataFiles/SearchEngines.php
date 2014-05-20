@@ -187,11 +187,14 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
 
+        // auone
+        'search.auone.jp'                => array('auone', 'q', '?q={k}'),
+
         // Austronaut
         'www2.austronaut.at'             => array('Austronaut', 'q'),
         'www1.austronaut.at'             => array('Austronaut'),
 
-        // Babylon (Enhanced by Google)
+        // Babylon (Enhanced by Google),
         'search.babylon.com'             => array('Babylon', array('q', '/\/web\/(.*)/'), '?q={k}'),
         'searchassist.babylon.com'       => array('Babylon'),
 
@@ -945,6 +948,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Yahoo! Japan
         'search.yahoo.co.jp'             => array('Yahoo! Japan', 'p', 'search?p={k}'),
+        'jp.hao123.com'                  => array('Yahoo! Japan', 'query'),
         'video.search.yahoo.co.jp'       => array('Yahoo! Japan Videos', 'p', 'search?p={k}'),
         'image.search.yahoo.co.jp'       => array('Yahoo! Japan Images', 'p', 'search?p={k}'),
 
