@@ -12,6 +12,7 @@
  *     <a class="item disabled">Disabled</a>
  *     <a class="item active">Active item</a>
  *     <hr class="item separator"/>
+ *     <a class="item disabled category">Category</a>
  *     <a class="item" href="/url"></a>
  * </div>
  */

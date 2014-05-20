@@ -9,7 +9,7 @@
 
     {% macro userMenuItem(label, menu, currentModule, currentAction) %}
         {% if (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
-            <a class="active item"
+            <a class="item active"
                {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
                     >{{ label|translate }}</a>
         {% else %}
@@ -41,6 +41,8 @@
                 {% endif %}
 
                 {% if lev1UserMenu._hasSubmenu is defined and lev1UserMenu._hasSubmenu %}
+                    <a class="item disabled category">{{ lev1UserLabel|translate }}</a>
+
                     {% for lev2Label,lev2Menu in lev1UserMenu if lev2Label|slice(0,1) != '_' %}
                         {{ _self.userMenuItem(lev2Label, lev2Menu, currentModule, currentAction) }}
                     {% endfor %}
