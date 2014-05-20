@@ -427,8 +427,12 @@
   keywords: 'piwik'
 
 - url: 'http://video.so-net.ne.jp/search/?kw=piwik&from='
-  engine: 'So-net Video'
+  engine: 'So-net Videos'
   keywords: 'piwik'
+
+- url: 'http://search.seesaa.jp/%E6%97%A5%E6%9C%AC%E3%83%86%E3%83%AC%E3%83%93%E6%94%BE%E9%80%81%E7%B6%B2/index.html'
+  engine: 'SeeSaa'
+  keywords: '日本テレビ放送網'
 
 - url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
   engine: 'SmartAddressbar'
