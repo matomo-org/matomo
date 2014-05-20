@@ -941,6 +941,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Wirtualna Polska
         'szukaj.wp.pl'                   => array('Wirtualna Polska', 'szukaj', 'http://szukaj.wp.pl/szukaj.html?szukaj={k}'),
 
+        // Woopie
+        'www.woopie.jp'                  => array('Woopie', 'kw', 'search?kw={k}'),
+
         // WWW
         'search.www.ee'                  => array('www värav', 'query'),
 

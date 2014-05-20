@@ -418,6 +418,10 @@
   engine: 'SmartAddressbar'
   keywords: 'habillage aikatsu'
 
+- url: 'http://www.woopie.jp/search?kw=piwik&return=authorization&res=fail&code=213'
+  engine: 'Woopie'
+  keywords: 'piwik'
+
 - url: 'http://lemoteur.ke.voila.fr/?module=orange&bhv=images&kw=negi%20ma%20ala%20alba%20eva'
   engine: 'Orange'
   keywords: 'negi ma ala alba eva'
