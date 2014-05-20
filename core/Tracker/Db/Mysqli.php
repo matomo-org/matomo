@@ -289,7 +289,7 @@ class Mysqli extends Db
 			return;
 		}
 
-		if( $this->connection->begin_transaction() ) {
+		if( $this->connection->autocommit(false) ) {
 			$this->_activeTransaction = true;
 		}
 	}
@@ -308,6 +308,7 @@ class Mysqli extends Db
 		if(!$this->connection->commit() ) {
 			throw new DbException("Commit failed"); 
 		}
+		$this->connection->autocommit(true) 
 	}
 
 	/**
@@ -324,5 +325,6 @@ class Mysqli extends Db
 		if(!$this->connection->rollback() ) {
 			throw new DbException("Rollback failed"); 
 		}
+		$this->connection->autocommit(true) 
 	}
 }
