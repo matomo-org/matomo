@@ -243,7 +243,7 @@ class Mysql extends Db
 
 	public function beginTransaction()
 	{
-		if(!$this->_activeTransaction === true ) {
+		if($this->_activeTransaction === true ) {
 			return;
 		}
 

@@ -285,11 +285,11 @@ class Mysqli extends Db
 
 	public function beginTransaction()
 	{
-		if(!$this->_activeTransaction === true ) {
+		if($this->_activeTransaction === true ) {
 			return;
 		}
 
-		if( $this->connection->beginTransaction() ) {
+		if( $this->connection->begin_transaction() ) {
 			$this->_activeTransaction = true;
 		}
 	}
@@ -321,7 +321,7 @@ class Mysqli extends Db
 		}
 		$this->_activeTransaction = false;
 
-		if(!$this->connection->rollBack() ) {
+		if(!$this->connection->rollback() ) {
 			throw new DbException("Rollback failed"); 
 		}
 	}

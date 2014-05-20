@@ -123,7 +123,7 @@ class Pgsql extends Mysql
 
 	public function beginTransaction()
 	{
-		if(!$this->_activeTransaction === true ) {
+		if($this->_activeTransaction === true ) {
 			return;
 		}
 
