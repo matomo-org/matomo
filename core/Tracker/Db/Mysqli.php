@@ -277,20 +277,39 @@ class Mysqli extends Db
         return mysqli_affected_rows($this->connection);
     }
 
+
+	/** 
+	 * Start Transaction
+	 */ 
+
+
 	public function beginTransaction()
 	{
-		$this->connection->autocommit(false);
+		if( $this->_in_transaction === 0 ) {
+			$this->connection->autocommit(false);
+			$this->_in_transaction = 1;
+		}
 	}
+
+	/** 
+	 * Commit Transaction
+	 */ 
 
 	public function commit()
 	{
 		$this->connection->commit();
 		$this->connection->autocommit(true);
+		$this->_in_transaction = 0;
 	}
+
+	/** 
+	 * Rollback Transaction
+	 */ 
 
 	public function rollBack()
 	{
 		$this->connection->rollback();
 		$this->connection->autocommit(true);
+		$this->_in_transaction = 0;
 	}
 }
