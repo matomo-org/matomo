@@ -1,9 +1,9 @@
 <div id="topRightBar">
     {% set helloAlias %}
         {% if userAlias is not empty %}
-            {{ userAlias }}
+            {{ userAlias|raw }}
         {% else %}
-            {{ userLogin }}
+            {{ userLogin|raw }}
         {% endif %}
     {% endset %}
 
@@ -21,7 +21,9 @@
     {% endmacro %}
 
     <span class="topBarElem">
-        <div title="{{ helloAlias|trim|raw }}"
+        <div id="userMenu"
+             title="{{ 'General_HelloUser'|translate(helloAlias|trim)|raw }}"
+             menu-title="{{ helloAlias|trim }}"
              piwik-menudropdown>
 
             {% if userLogin != 'anonymous' %}
@@ -35,7 +37,7 @@
             {% for lev1UserLabel,lev1UserMenu in userMenu if lev1UserLabel|slice(0,1) != '_' %}
 
                 {% if userLogin != 'anonymous' or not loop.first %}
-                    <span class="item disabled">--------</span>
+                    <hr class="item separator"/>
                 {% endif %}
 
                 {% if lev1UserMenu._hasSubmenu is defined and lev1UserMenu._hasSubmenu %}

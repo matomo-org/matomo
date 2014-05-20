@@ -9,6 +9,7 @@
 namespace Piwik\Menu;
 
 use Piwik\Common;
+use Piwik\Log;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
@@ -84,7 +85,12 @@ abstract class MenuAbstract extends Singleton
 
         $klassName = sprintf('Piwik\\Plugins\\%s\\Menu', $pluginName);
 
-        if (!class_exists($klassName) || !is_subclass_of($klassName, 'Piwik\\Plugin\\Menu')) {
+        if (!class_exists($klassName)) {
+            return;
+        }
+
+        if (!is_subclass_of($klassName, 'Piwik\\Plugin\\Menu')) {
+            Log::warning(sprintf('Cannot use menu for plugin %s, class %s does not extend Piwik\Plugin\Menu', $pluginName, $klassName));
             return;
         }
 
@@ -125,6 +131,13 @@ abstract class MenuAbstract extends Singleton
         );
     }
 
+    /**
+     * Removes an existing entry from the menu.
+     *
+     * @param string      $menuName    The menu's category name. Can be a translation token.
+     * @param bool|string $subMenuName The menu item's name. Can be a translation token.
+     * @api
+     */
     public function remove($menuName, $subMenuName = false)
     {
         $this->menuEntriesToRemove[] = array(
@@ -157,6 +170,7 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName][$subMenuName]['_url'] = $url;
             $this->menu[$menuName][$subMenuName]['_order'] = $order;
             $this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
+            $this->menu[$menuName][$subMenuName]['_tooltip'] = $tooltip;
             $this->menu[$menuName]['_hasSubmenu'] = true;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
         }
@@ -179,6 +193,7 @@ abstract class MenuAbstract extends Singleton
      * @param $subMenuOriginal
      * @param $mainMenuRenamed
      * @param $subMenuRenamed
+     * @api
      */
     public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
     {

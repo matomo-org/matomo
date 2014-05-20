@@ -26,7 +26,7 @@ class Menu extends \Piwik\Plugin\Menu
         );
     }
 
-    public function configureReporingMenu(MenuReporting $menu)
+    public function configureReportingMenu(MenuReporting $menu)
     {
         $menu->add('General_Visitors', 'DevicesDetection_submenu', array('module' => 'DevicesDetection', 'action' => 'index'));
     }

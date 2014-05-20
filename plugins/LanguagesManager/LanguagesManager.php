@@ -15,9 +15,7 @@ use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\SettingsPiwik;
 use Piwik\Translate;
 use Piwik\View;
 
@@ -34,7 +32,6 @@ class LanguagesManager extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Menu.Top.addItems'               => 'showLanguagesSelector',
             'User.getLanguage'                => 'getLanguageToLoad',
             'UsersManager.deleteUser'         => 'deleteUserLanguage',
             'Template.topBar'                 => 'addLanguagesManagerToOtherTopBar',
@@ -50,13 +47,6 @@ class LanguagesManager extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/LanguagesManager/javascripts/languageSelector.js";
-    }
-
-    public function showLanguagesSelector(MenuTop $menu)
-    {
-        if (Piwik::isUserIsAnonymous() || !SettingsPiwik::isPiwikInstalled()) {
-            $menu->addHtml('LanguageSelector', $this->getLanguagesSelector(), true, $order = 30, false);
-        }
     }
 
     /**
@@ -88,7 +78,7 @@ class LanguagesManager extends \Piwik\Plugin
      *
      * @return string
      */
-    private function getLanguagesSelector()
+    public function getLanguagesSelector()
     {
         $view = new View("@LanguagesManager/getLanguagesSelector");
         $view->languages = API::getInstance()->getAvailableLanguageNames();

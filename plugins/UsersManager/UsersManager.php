@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\Db;
-use Piwik\Menu\MenuAbstract;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -30,7 +29,6 @@ class UsersManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Admin.addItems'                    => 'addMenu',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
@@ -92,21 +90,6 @@ class UsersManager extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/UsersManager/stylesheets/usersManager.less";
-    }
-
-    /**
-     * Add admin menu items
-     */
-    public function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers',
-            array('module' => 'UsersManager', 'action' => 'index'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 2);
-        $menu->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings',
-            array('module' => 'UsersManager', 'action' => 'userSettings'),
-            Piwik::isUserHasSomeViewAccess(),
-            $order = 3);
     }
 
     /**

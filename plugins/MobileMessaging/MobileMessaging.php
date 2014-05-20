@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
-use Piwik\Menu\MenuAbstract;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIPlugins;
@@ -66,7 +65,6 @@ class MobileMessaging extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Admin.addItems'                       => 'addMenu',
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
             'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
@@ -79,15 +77,6 @@ class MobileMessaging extends \Piwik\Plugin
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
-        );
-    }
-
-    function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('General_Settings', 'MobileMessaging_SettingsMenu',
-            array('module' => 'MobileMessaging', 'action' => 'index'),
-            true,
-            $order = 12
         );
     }
 

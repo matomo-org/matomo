@@ -31,7 +31,6 @@ class Installation extends \Piwik\Plugin
             'Config.NoConfigurationFile'      => 'dispatch',
             'Config.badConfigurationFile'     => 'dispatch',
             'Request.dispatch'                => 'dispatchIfNotInstalledYet',
-            'Menu.Admin.addItems'             => 'addMenu',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
         return $hooks;
@@ -90,17 +89,6 @@ class Installation extends \Piwik\Plugin
         }
 
         exit;
-    }
-
-    /**
-     * Adds the 'System Check' admin page if the user is the Super User.
-     */
-    public function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('General_Settings', 'Installation_SystemCheck',
-            array('module' => 'Installation', 'action' => 'systemCheckPage'),
-            Piwik::hasUserSuperUserAccess(),
-            $order = 15);
     }
 
     /**

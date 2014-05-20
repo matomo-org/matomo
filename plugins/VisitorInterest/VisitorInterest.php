@@ -10,8 +10,6 @@ namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\ArchiveProcessor;
 use Piwik\FrontController;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -30,11 +28,10 @@ class VisitorInterest extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.addWidgets'           => 'addWidgets',
-            'Menu.Reporting.addItems'          => 'addMenu',
-            'API.getReportMetadata'            => 'getReportMetadata',
-            'ViewDataTable.configure'          => 'configureViewDataTable',
-            'ViewDataTable.getDefaultType'     => 'getDefaultTypeViewDataTable'
+            'WidgetsList.addWidgets'       => 'addWidgets',
+            'API.getReportMetadata'        => 'getReportMetadata',
+            'ViewDataTable.configure'      => 'configureViewDataTable',
+            'ViewDataTable.getDefaultType' => 'getDefaultTypeViewDataTable'
         );
         return $hooks;
     }
@@ -106,12 +103,6 @@ class VisitorInterest extends \Piwik\Plugin
         WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
         WidgetsList::add('General_Visitors', 'VisitorInterest_visitsByVisitCount', 'VisitorInterest', 'getNumberOfVisitsByVisitCount');
         WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetVisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
-    }
-
-    public function addMenu(MenuAbstract $menu)
-    {
-        $menu->rename('General_Visitors', 'VisitFrequency_SubmenuFrequency',
-                      'General_Visitors', 'VisitorInterest_Engagement');
     }
 
     function postLoad()

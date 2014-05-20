@@ -11,8 +11,6 @@ namespace Piwik\Plugins\Feedback;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
-/**
- */
 class Menu extends \Piwik\Plugin\Menu
 {
     public function configureUserMenu(MenuUser $menu)

@@ -8,9 +8,6 @@
  */
 namespace Piwik\Plugins\SitesManager;
 
-use Piwik\Menu\MenuAbstract;
-use Piwik\Piwik;
-
 /**
  *
  */
@@ -28,18 +25,9 @@ class SitesManager extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Menu.Admin.addItems'                    => 'addMenu',
             'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
-    }
-
-    function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('CoreAdminHome_MenuManage', 'SitesManager_Sites',
-            array('module' => 'SitesManager', 'action' => 'index'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 1);
     }
 
     /**

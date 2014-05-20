@@ -13,12 +13,10 @@ use Piwik\Config as PiwikConfig;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Menu\MenuAbstract;
 use Piwik\Metrics;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Period\Range;
-use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;
@@ -139,7 +137,6 @@ class PrivacyManager extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'Tracker.setTrackerCacheGeneral'  => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
@@ -172,14 +169,6 @@ class PrivacyManager extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/PrivacyManager/javascripts/privacySettings.js";
-    }
-
-    function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('General_Settings', 'PrivacyManager_MenuPrivacySettings',
-                   array('module' => 'PrivacyManager', 'action' => 'privacySettings'),
-                   Piwik::isUserHasSomeAdminAccess(),
-                   $order = 7);
     }
 
     /**

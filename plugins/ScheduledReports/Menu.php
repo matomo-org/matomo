@@ -15,6 +15,9 @@ use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 
 class Menu extends \Piwik\Plugin\Menu
 {
+    const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
+    const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
+
     public function configureUserMenu(MenuUser $menu)
     {
         $tooltip = Piwik::translate(
@@ -35,10 +38,10 @@ class Menu extends \Piwik\Plugin\Menu
     {
         // if MobileMessaging is not activated, display 'Email reports'
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging'))
-            return ScheduledReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
 
         if (Piwik::isUserIsAnonymous()) {
-            return ScheduledReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
+            return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
         }
 
         try {
@@ -50,12 +53,11 @@ class Menu extends \Piwik\Plugin\Menu
             //  - configured: display 'Email & SMS reports'
             if ($reportCount == 0) {
                 return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
-                    ScheduledReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : ScheduledReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+                    self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
             }
         } catch(\Exception $e) {
-            return ScheduledReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
         }
-
 
         $anyMobileReport = false;
         foreach ($reports as $report) {
@@ -67,10 +69,10 @@ class Menu extends \Piwik\Plugin\Menu
 
         // if there is at least one sms report, display 'Email & SMS reports'
         if ($anyMobileReport) {
-            return ScheduledReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
+            return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
         }
 
-        return ScheduledReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+        return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
     }
 
 }

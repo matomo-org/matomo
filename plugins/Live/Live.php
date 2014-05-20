@@ -30,7 +30,6 @@ class Live extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'WidgetsList.addWidgets'                 => 'addWidget',
-            'Menu.Reporting.addItems'                => 'addMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'ViewDataTable.getDefaultType'           => 'getDefaultTypeViewDataTable'
         );
@@ -47,11 +46,6 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/live.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
-    }
-
-    public function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
     }
 
     public function addWidget()

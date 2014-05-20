@@ -6,28 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-
 namespace Piwik\Plugins\ExampleUI;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
+
+use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  */
-class ExampleUI extends \Piwik\Plugin
+class Menu extends \Piwik\Plugin\Menu
 {
-    /**
-     * @see Piwik\Plugin::getListHooksRegistered
-     */
-    public function getListHooksRegistered()
-    {
-        return array(
-            'Menu.Reporting.addItems' => 'addReportingMenuItems',
-            'Menu.Top.addItems'       => 'addTopMenuItems',
-        );
-    }
-
-    function addReportingMenuItems(MenuAbstract $menu)
+    public function configureReportingMenu(MenuReporting $menu)
     {
         $menu->add('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);
 
@@ -38,18 +27,18 @@ class ExampleUI extends \Piwik\Plugin
         $this->addSubMenu($menu, 'Sparklines', 'sparklines', 5);
         $this->addSubMenu($menu, 'Evolution Graph', 'evolutionGraph', 6);
 
-        if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('TreemapVisualization')) {
+        if (PluginManager::getInstance()->isPluginActivated('TreemapVisualization')) {
             $this->addSubMenu($menu, 'Treemap', 'treemap', 7);
         }
     }
 
-    function addTopMenuItems(MenuTop $menu)
+    public function configureTopMenu(MenuTop $menu)
     {
         $urlParams = array('module' => 'ExampleUI', 'action' => 'notifications');
-        $menu->addEntry('UI Notifications', null, $urlParams, $displayedForCurrentUser = true, $order = 3);
+        $menu->add('UI Notifications', null, $urlParams, $displayedForCurrentUser = true, $order = 3);
     }
 
-    private function addSubMenu(MenuAbstract $menu, $subMenu, $action, $order)
+    private function addSubMenu(MenuReporting $menu, $subMenu, $action, $order)
     {
         $menu->add('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order);
     }

@@ -7,10 +7,11 @@
 
 /**
  * Usage:
- * <div piwik-menudropdown title="MyMenuItem">
- *     <a class="item" href="/url"></a>
- *     <a class="item active">test</a>
- *     <a class="item disabled">-------</a>
+ * <div piwik-menudropdown menu-title="MyMenuItem">
+ *     <a class="item" href="/url">An Item</a>
+ *     <a class="item disabled">Disabled</a>
+ *     <a class="item active">Active item</a>
+ *     <hr class="item separator"/>
  *     <a class="item" href="/url"></a>
  * </div>
  */
@@ -21,7 +22,7 @@ angular.module('piwikApp').directive('piwikMenudropdown', function(){
         replace: true,
         restrict: 'A',
         scope: {
-            title: '@'
+            menuTitle: '@'
         },
         templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster
     };

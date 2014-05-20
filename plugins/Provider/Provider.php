@@ -14,8 +14,6 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\IP;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
@@ -34,7 +32,6 @@ class Provider extends \Piwik\Plugin
         $hooks = array(
             'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
             'WidgetsList.addWidgets'          => 'addWidget',
-            'Menu.Reporting.addItems'         => 'addMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -92,12 +89,6 @@ class Provider extends \Piwik\Plugin
     public function addWidget()
     {
         WidgetsList::add('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
-    }
-
-    public function addMenu(MenuAbstract $menu)
-    {
-        $menu->rename('General_Visitors', 'UserCountry_SubmenuLocations',
-                      'General_Visitors', 'Provider_SubmenuLocationsProvider');
     }
 
     public function postLoad()

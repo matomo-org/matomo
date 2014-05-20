@@ -12,7 +12,6 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
-use Piwik\Menu\MenuAbstract;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\ViewDataTable;
@@ -40,8 +39,6 @@ class UserCountry extends \Piwik\Plugin
     {
         $hooks = array(
             'WidgetsList.addWidgets'                 => 'addWidgets',
-            'Menu.Reporting.addItems'                => 'addMenu',
-            'Menu.Admin.addItems'                    => 'addAdminMenu',
             'Goals.getReportsWithGoalMetrics'        => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                  => 'getReportMetadata',
             'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
@@ -191,24 +188,6 @@ class UserCountry extends \Piwik\Plugin
         WidgetsList::add('General_Visitors', $widgetCountryLabel, 'UserCountry', 'getCountry');
         WidgetsList::add('General_Visitors', $widgetRegionLabel, 'UserCountry', 'getRegion');
         WidgetsList::add('General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
-    }
-
-    public function addMenu(MenuAbstract $menu)
-    {
-        $menu->add('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
-    }
-
-    /**
-     * Event handler. Adds menu items to the MenuAdmin menu.
-     */
-    public function addAdminMenu(MenuAbstract $menu)
-    {
-        if($this->isGeoLocationAdminEnabled()) {
-            $menu->add('General_Settings', 'UserCountry_Geolocation',
-                array('module' => 'UserCountry', 'action' => 'adminIndex'),
-                Piwik::hasUserSuperUserAccess(),
-                $order = 8);
-        }
     }
 
     public function getSegmentsMetadata(&$segments)

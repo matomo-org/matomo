@@ -29,8 +29,6 @@ use Zend_Mime;
  */
 class ScheduledReports extends \Piwik\Plugin
 {
-    const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
-    const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
 
     const DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS = 1; // Display Tables Only (Graphs only for key metrics)
     const DISPLAY_FORMAT_GRAPHS_ONLY = 2; // Display Graphs Only for all reports
