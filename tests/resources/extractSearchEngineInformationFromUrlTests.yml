@@ -426,6 +426,10 @@
   engine: 'So-net'
   keywords: 'piwik'
 
+- url: 'http://video.so-net.ne.jp/search/?kw=piwik&from='
+  engine: 'So-net Video'
+  keywords: 'piwik'
+
 - url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
   engine: 'SmartAddressbar'
   keywords: 'habillage aikatsu'
