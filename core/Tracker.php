@@ -233,9 +233,9 @@ class Tracker
         }
 
         $this->initOutputBuffer();
+		self::getDatabase()->beginTransaction();
 
         if (!empty($this->requests)) {
-			self::getDatabase()->beginTransaction();
 
             try {
                 foreach ($this->requests as $params) {
@@ -247,10 +247,11 @@ class Tracker
 				self::getDatabase()->rollback();
             }
 
-			self::getDatabase()->commit();
         } else {
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
+
+		self::getDatabase()->commit();
         $this->end();
 
         $this->flushOutputBuffer();
