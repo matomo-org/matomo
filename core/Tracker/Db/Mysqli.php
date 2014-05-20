@@ -308,7 +308,7 @@ class Mysqli extends Db
 		if(!$this->connection->commit() ) {
 			throw new DbException("Commit failed"); 
 		}
-		$this->connection->autocommit(true) 
+		$this->connection->autocommit(true);
 	}
 
 	/**
@@ -325,6 +325,6 @@ class Mysqli extends Db
 		if(!$this->connection->rollback() ) {
 			throw new DbException("Rollback failed"); 
 		}
-		$this->connection->autocommit(true) 
+		$this->connection->autocommit(true); 
 	}
 }
