@@ -30,6 +30,8 @@ class Mysql extends Db
     protected $password;
     protected $charset;
 
+    private $_activeTransaction = false;
+
     /**
      * Builds the DB object
      *
@@ -241,9 +243,9 @@ class Mysql extends Db
 
 	public function beginTransaction()
 	{
-		if( $this->_in_transaction === 0 ) { 
-			$this->connection->autocommit(false);
-			$this->_in_transaction = 1;
+		if( $this->_activeTransaction === false )  { 
+			$this->connection->beginTransaction();
+			$this->activeTransaction = true;
 		}
 	}
 
@@ -254,8 +256,7 @@ class Mysql extends Db
 	public function commit()
 	{
 		$this->connection->commit();
-		$this->connection->autocommit(true);
-		$this->_in_transaction = 0;
+		$this->_activeTransaction = false;
 	}
 
 	/**
@@ -264,8 +265,7 @@ class Mysql extends Db
 
 	public function rollBack()
 	{
-		$this->connection->rollback();
-		$this->connection->autocommit(true);
-		$this->_in_transaction = 0;
+		$this->connection->rollBack();
+		$this->_activeTransaction = false;
 	}
 }

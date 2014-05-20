@@ -25,6 +25,8 @@ class Mysqli extends Db
     protected $username;
     protected $password;
     protected $charset;
+    private $_activeTransaction = false;
+
 
     /**
      * Builds the DB object
@@ -277,39 +279,31 @@ class Mysqli extends Db
         return mysqli_affected_rows($this->connection);
     }
 
+    public function beginTransaction()
+    {
+	    if( $this->_activeTransaction === false )  {
+		    $this->connection->beginTransaction();
+		    $this->activeTransaction = true;
+	    }
+    }
 
-	/** 
-	 * Start Transaction
-	 */ 
+    /**
+     * Commit Transaction
+     */
 
+    public function commit()
+    {
+	    $this->connection->commit();
+	    $this->_activeTransaction = false;
+    }
 
-	public function beginTransaction()
-	{
-		if( $this->_in_transaction === 0 ) {
-			$this->connection->autocommit(false);
-			$this->_in_transaction = 1;
-		}
-	}
+    /**
+     * Rollback Transaction
+     */
 
-	/** 
-	 * Commit Transaction
-	 */ 
-
-	public function commit()
-	{
-		$this->connection->commit();
-		$this->connection->autocommit(true);
-		$this->_in_transaction = 0;
-	}
-
-	/** 
-	 * Rollback Transaction
-	 */ 
-
-	public function rollBack()
-	{
-		$this->connection->rollback();
-		$this->connection->autocommit(true);
-		$this->_in_transaction = 0;
-	}
+    public function rollBack()
+    {
+	    $this->connection->rollBack();
+	    $this->_activeTransaction = false;
+    }
 }
