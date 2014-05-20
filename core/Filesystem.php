@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Tracker\Cache;
 
 /**
@@ -36,25 +37,6 @@ class Filesystem
     public static function getPathToPiwikRoot()
     {
         return realpath(dirname(__FILE__) . "/..");
-    }
-
-    /**
-     * Create .htaccess file in specified directory
-     *
-     * Apache-specific; for IIS @see web.config
-     *
-     * @param string $path without trailing slash
-     * @param bool $overwrite whether to overwrite an existing file or not
-     * @param string $content
-     */
-    public static function createHtAccess($path, $overwrite = true, $content = "<Files \"*\">\n<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n</Files>\n")
-    {
-        if (SettingsServer::isApache()) {
-            $file = $path . '/.htaccess';
-            if ($overwrite || !file_exists($file)) {
-                @file_put_contents($file, $content);
-            }
-        }
     }
 
     /**
@@ -113,7 +95,7 @@ class Filesystem
         }
 
         if ($denyAccess) {
-            self::createHtAccess($path, $overwrite = false);
+            ServerFilesGenerator::createHtAccessDenyAll($path);
         }
     }
 

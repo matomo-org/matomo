@@ -694,20 +694,6 @@ class Visit implements VisitInterface
         return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
 
-    /**
-     * Returns either
-     * - "-1" for a known visitor
-     * - at least 16 char identifier in hex @see Common::generateUniqId()
-     * @return int|string
-     */
-    protected function getVisitorUniqueId()
-    {
-        if ($this->isVisitorKnown()) {
-            return -1;
-        }
-        return Common::generateUniqId();
-    }
-
     // is the referrer host any of the registered URLs for this website?
     static public function isHostKnownAliasHost($urlHost, $idSite)
     {

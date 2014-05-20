@@ -379,8 +379,28 @@
   keywords: 'searchterm'
 
 - url: 'http://image.search.yahoo.co.jp/search?ei=UTF-8&fr=top_ga1_sa&p=%EF%BD%94%EF%BD%8F+%EF%BD%88%EF%BD%85%EF%BD%81%EF%BD%92%EF%BD%94+%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BD%8F'
-  engine: 'Yahoo!'
+  engine: 'Yahoo! Japan Images'
   keywords: 'ｔｏ ｈｅａｒｔ ｌｏｇｏ'
+
+- url: 'http://video.search.yahoo.co.jp/search?tt=c&ei=UTF-8&fr=sfp_as&aq=-1&oq=&p=piwik&meta=vc%3D'
+  engine: 'Yahoo! Japan Videos'
+  keywords: 'piwik'
+
+- url: 'http://search.yahoo.co.jp/search?ei=UTF-8&p=piwik'
+  engine: 'Yahoo! Japan'
+  keywords: 'piwik'
+
+- url: 'http://search.auone.jp/?q=piwik&sr=0001&ie=UTF-8&lr='
+  engine: 'auone'
+  keywords: 'piwik'
+
+- url: 'http://search.nifty.com/websearch/search?select=2&ss=up&cflg=%E6%A4%9C%E7%B4%A2&chartype=&Text=%E3%82%A6%E3%82%A7%E3%83%96%E6%A4%9C%E7%B4%A2%E7%B5%90%E6%9E%9C%E7%B4%84'
+  engine: 'Nifty'
+  keywords: 'ウェブ検索結果約'
+
+- url: 'http://videosearch.nifty.com/search?kw=piwik'
+  engine: 'Nifty Videos'
+  keywords: 'piwik'
 
 - url: 'http://www.claro-search.com/?q=logiciels+pour+%C3%A9crire+en+japonais+avec+windows+xp&s=web&as=0&rlz=0&babsrc=SP_clro'
   engine: 'Claro Search'
@@ -394,9 +414,49 @@
   engine: 'Google'
   keywords: 'ふたりはプリキュアmaxheart'
 
+- url: 'http://cgi.search.biglobe.ne.jp/cgi-bin/search-st?search=%E6%A4%9C%E7%B4%A2&web_s.x=1&q=piwik&x=0&y=0&ie=utf8'
+  engine: 'Biglobe'
+  keywords: 'piwik'
+
+- url: 'http://images.search.biglobe.ne.jp/cgi-bin/search?q=%E3%82%B5%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%AF%EF%BC%88'
+  engine: 'Biglobe Images'
+  keywords: 'サーリンク（'
+
+- url: 'http://www.so-net.ne.jp/search/web/?query=piwik&from=gp&kz=&suggest=gp_suggest_on'
+  engine: 'So-net'
+  keywords: 'piwik'
+
+- url: 'http://video.so-net.ne.jp/search/?kw=piwik&from='
+  engine: 'So-net Videos'
+  keywords: 'piwik'
+
+- url: 'http://search.seesaa.jp/%E6%97%A5%E6%9C%AC%E3%83%86%E3%83%AC%E3%83%93%E6%94%BE%E9%80%81%E7%B6%B2/index.html'
+  engine: 'SeeSaa'
+  keywords: '日本テレビ放送網'
+
+- url: 'http://chercherfr.aguea.com/s.py?q=piwik'
+  engine: 'Aguea'
+  keywords: 'piwik'
+
+- url: 'http://www.lookany.com/search/piwik+guide'
+  engine: 'LookAny'
+  keywords: 'piwik guide'
+
+- url: 'http://www.lookany.com/images/piwik+guide'
+  engine: 'LookAny'
+  keywords: 'piwik guide'
+
+- url: 'http://search.tb.ask.com/search/GGmain.jhtml?searchfor=Drinkable+sunscreen&tpr=tt-pop-h&n=&st=hp&qs='
+  engine: 'Ask'
+  keywords: 'drinkable sunscreen'
+
 - url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
   engine: 'SmartAddressbar'
   keywords: 'habillage aikatsu'
+
+- url: 'http://www.woopie.jp/search?kw=piwik&return=authorization&res=fail&code=213'
+  engine: 'Woopie'
+  keywords: 'piwik'
 
 - url: 'http://lemoteur.ke.voila.fr/?module=orange&bhv=images&kw=negi%20ma%20ala%20alba%20eva'
   engine: 'Orange'

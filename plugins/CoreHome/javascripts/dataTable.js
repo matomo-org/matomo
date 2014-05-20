@@ -450,7 +450,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleLimit: function (domElem) {
-        var tableRowLimits = [5, 10, 25, 50, 100, 250, 500],
+            var tableRowLimits = piwik.config.datatable_row_limits,
             evolutionLimits =
             {
                 day: [30, 60, 90, 180, 365, 500],

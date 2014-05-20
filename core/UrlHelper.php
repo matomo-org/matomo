@@ -286,8 +286,18 @@ class UrlHelper
         $searchEngines = Common::getSearchEngineUrls();
 
         $hostPattern = self::getLossyUrl($referrerHost);
+        /*
+         * Try to get the best matching 'host' in definitions
+         * 1. check if host + path matches an definition
+         * 2. check if host only matches
+         * 3. check if host pattern + path matches
+         * 4. check if host pattern matches
+         * 5. special handling
+         */
         if (array_key_exists($referrerHost . $referrerPath, $searchEngines)) {
             $referrerHost = $referrerHost . $referrerPath;
+        } elseif (array_key_exists($referrerHost, $searchEngines)) {
+            // no need to change host
         } elseif (array_key_exists($hostPattern . $referrerPath, $searchEngines)) {
             $referrerHost = $hostPattern . $referrerPath;
         } elseif (array_key_exists($hostPattern, $searchEngines)) {

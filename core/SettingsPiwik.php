@@ -389,12 +389,6 @@ class SettingsPiwik
             return $instanceId;
         }
 
-        // Backward compatbility, in case the instance_id is not in the config file yet
-        $configHostname = Config::getInstance()->getConfigHostnameIfSet();
-        if(!empty($configHostname)) {
-            return $configHostname;
-        }
-
         // do not rewrite the path as Piwik uses the standard config.ini.php file
         return false;
     }
