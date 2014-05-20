@@ -820,8 +820,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.seesaa.jp'               => array('SeeSaa', '/\/([^\/]+)\/index\.html/', '{k}/index.html'),
 
         // So-net
-        'www.so-net.ne.jp'               => array('So-net', 'query', 'search/web/?query=k{}'),
-        'video.so-net.ne.jp'             => array('So-net Videos', 'kw', 'search/?kw=k{}'),
+        'www.so-net.ne.jp'               => array('So-net', 'query', 'search/web/?query={k}'),
+        'video.so-net.ne.jp'             => array('So-net Videos', 'kw', 'search/?kw={k}'),
 
         // Sogou
         'www.sogou.com'                  => array('Sogou', 'query', 'web?query={k}', 'gb2312'),
