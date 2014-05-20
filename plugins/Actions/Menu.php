@@ -8,16 +8,8 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Exception;
-use Piwik\Common;
-use Piwik\Db;
-use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuReporting;
-use Piwik\Piwik;
-use Piwik\Site;
 
-/**
- */
 class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)

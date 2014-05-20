@@ -25,20 +25,7 @@ class Feedback extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Menu.Top.addItems'                      => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
-        );
-    }
-
-    public function addTopMenu(MenuTop $menu)
-    {
-        $menu->add(
-            'General_Help',
-            null,
-            array('module' => 'Feedback', 'action' => 'index', 'segment' => false),
-            true,
-            $order = 20,
-            $tooltip = Piwik::translate('Feedback_TopLinkTooltip')
         );
     }
 

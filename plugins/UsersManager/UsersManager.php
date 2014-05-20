@@ -11,7 +11,6 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\Db;
 use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;

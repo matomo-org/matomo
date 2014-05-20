@@ -9,9 +9,6 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Config;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuAdmin;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;

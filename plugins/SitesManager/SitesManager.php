@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 
 /**

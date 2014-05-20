@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\DBStats;
 
 use Piwik\Date;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;

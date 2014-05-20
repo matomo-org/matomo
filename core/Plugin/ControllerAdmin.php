@@ -12,6 +12,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
+use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
@@ -160,7 +161,8 @@ abstract class ControllerAdmin extends Controller
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
 
-        $view->topMenu = MenuTop::getInstance()->getMenu();
+        $view->topMenu  = MenuTop::getInstance()->getMenu();
+        $view->userMenu = MenuUser::getInstance()->getMenu();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();

@@ -13,8 +13,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\ViewDataTable;

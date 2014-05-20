@@ -49,11 +49,6 @@ class MenuAdmin extends MenuAbstract
         self::getInstance()->add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
     }
 
-    public function add($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
-    {
-        parent::add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
-    }
-
     /**
      * Triggers the Menu.MenuAdmin.addItems hook and returns the admin menu.
      *

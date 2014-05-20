@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
+use Piwik\Menu\MenuUser;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
@@ -202,7 +203,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view = new View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
-        $view->topMenu = MenuTop::getInstance()->getMenu();
+        $view->topMenu  = MenuTop::getInstance()->getMenu();
+        $view->userMenu = MenuUser::getInstance()->getMenu();
 
         $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
 

@@ -13,9 +13,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Mail;
-use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -76,7 +74,6 @@ class ScheduledReports extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Top.addItems'                         => 'addTopMenu',
             'TaskScheduler.getScheduledTasks'           => 'getScheduledTasks',
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
             'MobileMessaging.deletePhoneNumber'         => 'deletePhoneNumber',
@@ -502,63 +499,6 @@ class ScheduledReports extends \Piwik\Plugin
             $errorMessage = Piwik::translate('ScheduledReports_Segment_Deletion_Error', $reportList);
             throw new Exception($errorMessage);
         }
-    }
-
-    function addTopMenu(MenuTop $menu)
-    {
-        $menu->add(
-            $this->getTopMenuTranslationKey(),
-            null,
-            array('module' => 'ScheduledReports', 'action' => 'index', 'segment' => false),
-            true,
-            13,
-            $tooltip = Piwik::translate(
-                \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')
-                    ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip'
-            )
-        );
-    }
-
-    function getTopMenuTranslationKey()
-    {
-        // if MobileMessaging is not activated, display 'Email reports'
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging'))
-            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
-
-        if (Piwik::isUserIsAnonymous()) {
-            return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
-        }
-
-        try {
-            $reports = API::getInstance()->getReports();
-            $reportCount = count($reports);
-
-            // if there are no reports and the mobile account is
-            //  - not configured: display 'Email reports'
-            //  - configured: display 'Email & SMS reports'
-            if ($reportCount == 0) {
-                return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
-                    self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
-            }
-        } catch(\Exception $e) {
-            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
-        }
-
-
-        $anyMobileReport = false;
-        foreach ($reports as $report) {
-            if ($report['type'] == MobileMessaging::MOBILE_TYPE) {
-                $anyMobileReport = true;
-                break;
-            }
-        }
-
-        // if there is at least one sms report, display 'Email & SMS reports'
-        if ($anyMobileReport) {
-            return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
-        }
-
-        return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
     }
 
     public function deleteUserReport($userLogin)

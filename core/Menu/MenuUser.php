@@ -31,7 +31,7 @@ use Piwik\Piwik;
  * 
  * @method static \Piwik\Menu\MenuUser getInstance()
  */
-class MenuUser extends MenuTop
+class MenuUser extends MenuAbstract
 {
 
     /**

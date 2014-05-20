@@ -9,24 +9,26 @@
 namespace Piwik\Plugins\API;
 
 use Piwik\Menu\MenuTop;
+use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
-/**
- */
 class Menu extends \Piwik\Plugin\Menu
 {
 
     public function configureTopMenu(MenuTop $menu)
     {
-        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
-        $tooltip      = Piwik::translate('API_TopLinkTooltip');
-
-        $menu->add('General_API', null, $apiUrlParams, true, 7, $tooltip);
-
         $this->addTopMenuMobileApp($menu);
     }
 
-    protected function addTopMenuMobileApp(MenuTop $menu)
+    public function configureUserMenu(MenuUser $menu)
+    {
+        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
+        $tooltip      = Piwik::translate('API_TopLinkTooltip');
+
+        $menu->add('CorePluginsAdmin_MenuPlatform', 'General_API', $apiUrlParams, true, 6, $tooltip);
+    }
+
+    private function addTopMenuMobileApp(MenuTop $menu)
     {
         if (empty($_SERVER['HTTP_USER_AGENT'])) {
             return;

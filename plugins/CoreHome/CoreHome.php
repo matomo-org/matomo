@@ -56,6 +56,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -124,6 +125,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown-directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline-directive.js";
     }

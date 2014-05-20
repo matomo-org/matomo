@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\FrontController;
 use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Translate;
 
@@ -98,7 +97,7 @@ class Installation extends \Piwik\Plugin
      */
     public function addMenu(MenuAbstract $menu)
     {
-        $menu->add('Installation_SystemCheck',
+        $menu->add('General_Settings', 'Installation_SystemCheck',
             array('module' => 'Installation', 'action' => 'systemCheckPage'),
             Piwik::hasUserSuperUserAccess(),
             $order = 15);
