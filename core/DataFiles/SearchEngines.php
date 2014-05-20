@@ -943,6 +943,12 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // X-recherche
         'www.x-recherche.com'            => array('X-Recherche', 'MOTS', 'cgi-bin/websearch?MOTS={k}'),
 
+        // Yahoo! Japan
+        'search.yahoo.co.jp'             => array('Yahoo! Japan', 'p', 'search?p={k}'),
+        'video.search.yahoo.co.jp'       => array('Yahoo! Japan Videos', 'p', 'search?p={k}'),
+        'image.search.yahoo.co.jp'       => array('Yahoo! Japan Images', 'p', 'search?p={k}'),
+
+
         // Yahoo
         'search.yahoo.com'               => array('Yahoo!', array('p', 'q'), 'search?p={k}'),
 //		'*.search.yahoo.com'		=> array('Yahoo!'), // see built-in helper in Common.php
@@ -953,8 +959,6 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'espanol.yahoo.com'              => array('Yahoo!'),
         'qc.yahoo.com'                   => array('Yahoo!'),
         'one.cn.yahoo.com'               => array('Yahoo!'),
-        'video.search.yahoo.co.jp'       => array('Yahoo!'),
-        'image.search.yahoo.co.jp'       => array('Yahoo!'),
 
         // Powered by Yahoo APIs
         'www.cercato.it'                 => array('Yahoo!', 'q'),
