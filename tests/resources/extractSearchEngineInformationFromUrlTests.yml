@@ -438,6 +438,14 @@
   engine: 'Aguea'
   keywords: 'piwik'
 
+- url: 'http://www.lookany.com/search/piwik+guide'
+  engine: 'LookAny'
+  keywords: 'piwik guide'
+
+- url: 'http://www.lookany.com/images/piwik+guide'
+  engine: 'LookAny'
+  keywords: 'piwik guide'
+
 - url: 'http://search.tb.ask.com/search/GGmain.jhtml?searchfor=Drinkable+sunscreen&tpr=tt-pop-h&n=&st=hp&qs='
   engine: 'Ask'
   keywords: 'drinkable sunscreen'

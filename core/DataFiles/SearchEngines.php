@@ -626,6 +626,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.toile.com'                  => array('La Toile Du Québec (Google)', 'q', 'search?q={k}'),
         'web.toile.com'                  => array('La Toile Du Québec (Google)'),
 
+        // LookAny
+        'www.lookany.com'                => array('LookAny', '/(?:search|images|videos)\/([^\/]+)/'),
+
         // Looksmart
         'www.looksmart.com'              => array('Looksmart', 'key'),
 
