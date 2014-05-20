@@ -234,4 +234,22 @@ class Mysql extends Db
     {
         return $queryResult->rowCount();
     }
+
+
+	public function beginTransaction()
+	{
+		$this->connection->autocommit(false);
+	}
+
+	public function commit()
+	{
+		$this->connection->commit();
+		$this->connection->autocommit(true);
+	}
+
+	public function rollBack()
+	{
+		$this->connection->rollback();
+		$this->connection->autocommit(true);
+	}
 }

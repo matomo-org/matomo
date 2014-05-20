@@ -276,4 +276,21 @@ class Mysqli extends Db
     {
         return mysqli_affected_rows($this->connection);
     }
+
+	public function beginTransaction()
+	{
+		$this->connection->autocommit(false);
+	}
+
+	public function commit()
+	{
+		$this->connection->commit();
+		$this->connection->autocommit(true);
+	}
+
+	public function rollBack()
+	{
+		$this->connection->rollback();
+		$this->connection->autocommit(true);
+	}
 }
