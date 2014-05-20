@@ -124,16 +124,9 @@ class API extends \Piwik\Plugin\API
     {
         $requiredAccess = isset(Config::getInstance()->General['segment_editor_required_access']) ? Config::getInstance()->General['segment_editor_required_access'] : "view";
 
-        if(
-            false == (
-                $this->checkSuperAdminAccess($requiredAccess) ||
+        return ($this->checkSuperAdminAccess($requiredAccess) ||
                 $this->checkViewAccess($requiredAccess, $siteid) ||
-                $this->checkAdminAccess($requiredAccess, $siteid)
-            )
-        ) {
-            return false;
-        }
-        return true;
+                $this->checkAdminAccess($requiredAccess, $siteid));
     }
 
     private function checkSuperAdminAccess($requiredAccess)

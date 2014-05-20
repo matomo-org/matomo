@@ -6,9 +6,6 @@
 ; edit config/config.ini.php and add the following:
 ; [General]
 ; action_title_category_delimiter = "-"
-; Change the following value to set the required access level for creating, editing and removing segments
-; Possible values are "view", "admin" and "superadmin"
-segment_editor_required_access = "admin"
 
 ;--------
 ; WARNING - YOU SHOULD NOT EDIT THIS FILE DIRECTLY - Edit config.ini.php instead.
@@ -424,6 +421,10 @@ enable_auto_update = 1
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
+; Change the following value to set the required access level for creating, editing and removing segments
+; Possible values are "view", "admin" and "superadmin"
+segment_editor_required_access = "admin"
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
