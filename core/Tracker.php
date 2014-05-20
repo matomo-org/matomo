@@ -193,7 +193,6 @@ class Tracker
         }
 
         if (!empty($this->requests)) {
-
             foreach ($this->requests as &$request) {
                 // if a string is sent, we assume its a URL and try to parse it
                 if (is_string($request)) {
@@ -236,6 +235,7 @@ class Tracker
         $this->initOutputBuffer();
 
         if (!empty($this->requests)) {
+			self::getDatabase()->beginTransaction();
 
             try {
                 foreach ($this->requests as $params) {
@@ -243,8 +243,11 @@ class Tracker
                 }
                 $this->runScheduledTasksIfAllowed($isAuthenticated);
             } catch(DbException $e) {
-                Common::printDebug($e->getMessage());
+				Common::printDebug($e->getMessage());
+				self::getDatabase()->rollback();
             }
+
+			self::getDatabase()->commit();
         } else {
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
