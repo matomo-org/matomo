@@ -169,6 +169,10 @@ default_language = en
 ; default number of elements in the datatable
 datatable_default_limit = 10
 
+; Each datatable report has a Row Limit selector at the bottom right.
+; By default you can select from 5 to 500 rows. You may customise the values below:
+datatable_row_limits = "5,10,25,50,100,250,500"
+
 ; default number of rows returned in API responses
 ; this value is overwritten by the '# Rows to display' selector.
 ; if set to -1, a click on 'Export as' will export all rows independently of the current '# Rows to display'.

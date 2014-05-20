@@ -219,8 +219,21 @@ class Config extends Singleton
         return array(
             'action_url_category_delimiter' => $general['action_url_category_delimiter'],
             'autocomplete_min_sites' => $general['autocomplete_min_sites'],
-            'datatable_export_range_as_day' => $general['datatable_export_range_as_day']
+            'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
+            'datatable_row_limits' => $this->getDatatableRowLimits()
         );
+    }
+
+    /**
+     * @param $general
+     * @return mixed
+     */
+    private function getDatatableRowLimits()
+    {
+        $limits = $this->General['datatable_row_limits'];
+        $limits = explode(",", $limits);
+        $limits = array_map('trim', $limits);
+        return $limits;
     }
 
     protected static function getByDomainConfigPath()
@@ -721,4 +734,5 @@ class Config extends Singleton
         }
         return $merged;
     }
+
 }
