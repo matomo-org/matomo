@@ -242,6 +242,7 @@ class Tracker
                     $isAuthenticated = $this->trackRequest($params, $tokenAuth);
                 }
                 $this->runScheduledTasksIfAllowed($isAuthenticated);
+				self::getDatabase()->commit();
             } catch(DbException $e) {
 				Common::printDebug($e->getMessage());
 				self::getDatabase()->rollback();
@@ -251,7 +252,6 @@ class Tracker
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
 
-		self::getDatabase()->commit();
         $this->end();
 
         $this->flushOutputBuffer();
