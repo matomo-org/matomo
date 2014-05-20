@@ -238,34 +238,49 @@ class Mysql extends Db
     }
 
 	/**
-	 * Starts Transaction
-	*/
+	 * Start Transaction
+	 */
 
 	public function beginTransaction()
 	{
-		if( $this->_activeTransaction === false )  { 
-			$this->connection->beginTransaction();
-			$this->activeTransaction = true;
+		if(!$this->_activeTransaction === true ) {
+			return;
+		}
+
+		if( $this->connection->beginTransaction() ) {
+			$this->_activeTransaction = true;
 		}
 	}
 
 	/**
 	 * Commit Transaction
-	*/
+	 */
 
 	public function commit()
 	{
-		$this->connection->commit();
+		if(!$this->_activeTransaction === true ) {
+			return;
+		}
 		$this->_activeTransaction = false;
+
+		if(!$this->connection->commit() ) {
+			throw new DbException("Commit failed"); 
+		}
 	}
 
 	/**
 	 * Rollback Transaction
-	*/
+	 */
 
 	public function rollBack()
 	{
-		$this->connection->rollBack();
+		if(!$this->_activeTransaction === true ) {
+			return;
+		}
 		$this->_activeTransaction = false;
+
+		if(!$this->connection->rollBack() ) {
+			throw new DbException("Rollback failed"); 
+		}
 	}
 }

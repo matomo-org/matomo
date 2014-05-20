@@ -279,31 +279,50 @@ class Mysqli extends Db
         return mysqli_affected_rows($this->connection);
     }
 
-    public function beginTransaction()
-    {
-	    if( $this->_activeTransaction === false )  {
-		    $this->connection->beginTransaction();
-		    $this->activeTransaction = true;
-	    }
-    }
+	/**
+	 * Start Transaction
+	 */
 
-    /**
-     * Commit Transaction
-     */
+	public function beginTransaction()
+	{
+		if(!$this->_activeTransaction === true ) {
+			return;
+		}
 
-    public function commit()
-    {
-	    $this->connection->commit();
-	    $this->_activeTransaction = false;
-    }
+		if( $this->connection->beginTransaction() ) {
+			$this->_activeTransaction = true;
+		}
+	}
 
-    /**
-     * Rollback Transaction
-     */
+	/**
+	 * Commit Transaction
+	 */
 
-    public function rollBack()
-    {
-	    $this->connection->rollBack();
-	    $this->_activeTransaction = false;
-    }
+	public function commit()
+	{
+		if(!$this->_activeTransaction === true ) {
+			return;
+		}
+		$this->_activeTransaction = false;
+
+		if(!$this->connection->commit() ) {
+			throw new DbException("Commit failed"); 
+		}
+	}
+
+	/**
+	 * Rollback Transaction
+	 */
+
+	public function rollBack()
+	{
+		if(!$this->_activeTransaction === true ) {
+			return;
+		}
+		$this->_activeTransaction = false;
+
+		if(!$this->connection->rollBack() ) {
+			throw new DbException("Rollback failed"); 
+		}
+	}
 }
