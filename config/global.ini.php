@@ -431,6 +431,10 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
+; Change the following value to set the required access level for creating, editing and removing segments
+; Possible values are "view", "admin" and "superadmin"
+segment_editor_required_access = "view"
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
