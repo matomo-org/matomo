@@ -1066,7 +1066,6 @@
         "Installation": "Instalacija",
         "InstallationStatus": "Status instalacije",
         "InsufficientPrivilegesHelp": "Ove privilegije možete dodati alatima poput phpMyAdmin ili izvršavanjem odgovarajućih SQL komandi. Ukoliko to niste u stanju, zamolite administratora sistema da vam omogući ove privilegije.",
-        "InsufficientPrivilegesMain": "Ili baza podataka ne postoji (i ne može biti kreirana) ili ovaj korisnik nema dovoljne privilegije. Korisnik baze podataka mora da poseduje sledeće privilegije: %s",
         "JsTagArchivingHelp1": "Za sajtove sa srednjim i velikim saobraćajem potrebno je izvršiti izvesne optimizacije kako bi Piwik radio brže (npr, %1$spodešavanje automatskog arhiviranja%2$s).",
         "JSTracking_EndNote": "Nakon završene instalacije možete da generišete kod u sekciji %1$sKod za praćenje%2$s Administracije",
         "JSTracking_Intro": "Da biste bili u stanju da pratite saobraćaj pomoću Piwik-a, potrebno je da dodate poseban kod na svaku stranicu sajta.",

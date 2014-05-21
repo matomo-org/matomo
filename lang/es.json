@@ -1066,7 +1066,6 @@
         "Installation": "Instalación",
         "InstallationStatus": "Estado de la instalación",
         "InsufficientPrivilegesHelp": "Puedes agregar estos privilegios utilizando una herramienta como phpMyAdmin o ejecutando las consultas SQL correspondientes. Si no sabes cómo hacer ninguna de estas operaciones, por favor solicita asistencia a tu sysadmin para que te conceda estos privilegios.",
-        "InsufficientPrivilegesMain": "O no existe la base de datos (y no se podía crear), o el usuario especificado no tiene suficientes privilegios. El usuario de la base de datos debe tener los siguentes privilegios: %s",
         "JSTracking_EndNote": "Nota: Después del proceso de instalación, puedes generar código de seguimiento personalizado en la sección de administración %1$sCódigo de Seguimiento%2$s.",
         "JSTracking_Intro": "Para rastrear su tráfico web con Piwik necesitas asegurarte de que algún código extra fue agregado a cada uno de tus sitios web.",
         "LargePiwikInstances": "Ayuda para las grandes instancias de Piwik",
