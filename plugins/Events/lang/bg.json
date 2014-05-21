@@ -6,9 +6,15 @@
         "EventName": "Име на събитие",
         "Events": "Събития",
         "EventValue": "Стойност за събитие",
+        "MaxValue": "Максимална стойност",
+        "MaxValueDocumentation": "Максималната стойност за това събитие",
+        "MinValue": "Минимална стойност",
+        "MinValueDocumentation": "Минималната стойност за това събитие",
+        "TopEvents": "Най-важните събития",
         "TotalEvents": "Общо събития",
         "TotalEventsDocumentation": "Общ брой събития",
         "TotalValue": "Обща стойност",
+        "TotalValueDocumentation": "Сумата от стойностите за събитие",
         "ViewEvents": "Преглед на събития"
     }
 }
