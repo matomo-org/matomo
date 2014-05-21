@@ -129,6 +129,7 @@ class FetchFromOTrance extends ConsoleCommand
 
         if (!$input->hasOption('keep-english')) {
             @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'en.php');
+            @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'en.json');
         }
         @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
 
