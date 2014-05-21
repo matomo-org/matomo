@@ -131,14 +131,15 @@ table.entityTable tr td a:hover {
                 > ul {
                     li {
                         a {
-                            color: @theme-color-text-lighter;
+                            color: @theme-color-menu-contrast-text;
                             .font-default(15px, 18px);
                             padding: 14px 22px 11px;
                         }
 
+                        &:hover,
                         &.sfHover {
                             a {
-                                color: @theme-color-text;
+                                color: @theme-color-menu-contrast-textActive;
                                 font-weight: normal;
                             }
                
@@ -176,7 +177,7 @@ table.entityTable tr td a:hover {
     }
 
     .nav_sep {
-        background: @theme-color-background-tinyContrast;
+        background: @theme-color-menu-contrast-background;
         min-height: 57px;
         .border-radius(0px);
         border-color: @color-silver-l80 !important;
@@ -551,11 +552,11 @@ div.sparkline {
     }
 
     .widgetTop {
-        background: @theme-color-background-tinyContrast;
+        background: @theme-color-widget-title-background;
         border-bottom: 1px solid @color-silver-l80;
         .widgetName {
             .font-default(15px, 18px);
-            color: @theme-color-text;
+            color: @theme-color-widget-title-text;
             text-shadow: none;
             padding: 15px 15px 10px;
         }
