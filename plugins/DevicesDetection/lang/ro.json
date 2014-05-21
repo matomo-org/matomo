@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserVersions": "Versiunile browserului",
+        "Camera": "Camera",
         "CarBrowser": "Browser de masina",
         "Console": "Consola",
         "dataTableLabelBrands": "Brand",
@@ -14,8 +15,11 @@
         "DeviceModel": "Modelul dispozitivului",
         "DevicesDetection": "Dispozitivele Utilizatorilor",
         "DeviceType": "Tipul dispozitivului",
+        "FeaturePhone": "Caracteristica telefon",
         "OperatingSystemFamilies": "Familiile Sistemului de Operare",
         "OperatingSystemVersions": "Versiunile Sistemului de Operare",
+        "PluginDescription": "Acest plug-in oferă informații extinse despre dispozitive mobile, cum ar fi marcă (producător), model (versiune dispozitiv), o mai bună detectare tip de dispozitiv (TV, console, telefoane inteligente, desktop, etc), și mai multe. Acest plugin adaugă un nou raport în \"Vizitatori> Devices\".",
+        "SmartDisplay": "Display inteligent",
         "Smartphone": "Smartphone",
         "submenu": "Dispozitive",
         "Tablet": "Tableta",
