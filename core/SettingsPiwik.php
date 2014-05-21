@@ -384,6 +384,11 @@ class SettingsPiwik
             return Config::getHostname();
         }
 
+        // config.ini.php not ready yet, instance_id will not be set
+        if(!Config::getInstance()->existsLocalConfig()) {
+            return false;
+        }
+
         $instanceId = @Config::getInstance()->General['instance_id'];
         if(!empty($instanceId)) {
             return $instanceId;
