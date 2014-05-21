@@ -1065,7 +1065,6 @@
         "Installation": "Installazione",
         "InstallationStatus": "Stato dell'installazione",
         "InsufficientPrivilegesHelp": "È possibile aggiungere questi privilegi utilizzando uno strumento come phpMyAdmin o per l'esecuzione di corrette query SQL. Se non sai come fare queste cose, chiedi al tuo amministratore di sistema di concederti questi privilegi.",
-        "InsufficientPrivilegesMain": "O il database non esiste (e non poteva essere creato), oppure l'utente specificato dispone di privilegi insufficienti. L'utente del database deve disporre dei seguenti privilegi:%s",
         "JsTagArchivingHelp1": "Per i siti con un traffico medio-alto ci sono alcune ottimizzazioni che andrebbero fatte per aiutare Piwik a girare più velocemente (come %1$simpostare l'autoarchiviazione%2$s).",
         "JSTracking_EndNote": "Nota: dopo l'installazione, è possibile generare un codice personalizzato di tracking nella cartella%1$s Codice Tracking%2$s nella admin.",
         "JSTracking_Intro": "Per tracciare il tuo traffico web devi assicurarti che sia stato aggiunto a tutte le pagine del codice aggiuntivo.",

@@ -1005,7 +1005,6 @@
         "Installation": "Installatie",
         "InstallationStatus": "Installatie status",
         "InsufficientPrivilegesHelp": "U kunt deze privileges toeveoegen door gebruik te maken van een tool als phpMyAdmin of door het uitvoeren van de juiste SQL queries. Als u niet weet hoe dit moet, dan kunt u het beste de beheerder van uw webserver vragen om de privileges aan te passen.",
-        "InsufficientPrivilegesMain": "Oftwel bestaat de Database niet (en kon ze niet worden aangemaakt), of de opgegeven Gebruiker heeft onvoldoende rechten. Database gebruiker heeft de volgende rechten nodig: %s",
         "JsTagArchivingHelp1": "Voor middelgrote en grote websites, zijn er enkele optimalisaties die Piwik moeten helpen sneller te werken (zoals %1$s auto-archivering instellen%2$s).",
         "JSTracking_EndNote": "Opmerking: Na het installatie proces, kun je custom tracking code genereren in het %1$sTracking Code%2$s admin gedeelte.",
         "JSTracking_Intro": "Om je web verkeer te volgen met Piwik, moet je zorgen dat je wat extra vode toevoegt aan het einde van je webpagina's.",
