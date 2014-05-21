@@ -1055,7 +1055,6 @@
         "Installation": "Installation",
         "InstallationStatus": "Installationsstatus",
         "InsufficientPrivilegesHelp": "Du kan lägga till dessa behörigheter genom att använda ett verktyg som tex phpMyAdmin eller genom att köra rätt SQL-frågor. Om du inte vet hur man gör dessa saker, vänd dig till din systemadministratör för hjälp med dessa behörigheter.",
-        "InsufficientPrivilegesMain": "Antingen existerar inte databasen (och kan inte skapas), eller också har den unika användaren inte tillräcklig åtkomst. Databasens användare måste ha följande åtkomst: %s",
         "JsTagArchivingHelp1": "För medium och högtraffikerade webbsidor finns det specifika optimeringar som bör göras för att hjälpa Piwik att bli snabbare (exempel på sådana är %1$sinställningar och automatisk-akrivering%2$s).",
         "JSTracking_EndNote": "Observera: Efter installationen, kommer du kunna skräddarsy din spårningskod i %1$sSpårnings Kod%2$s admin delen.",
         "JSTracking_Intro": "För att spåra din trafik med hjälp av Piwik behöver du lägga till extrakod på var och en av dina webbsidor.",

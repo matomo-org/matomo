@@ -967,7 +967,6 @@
         "Installation": "安装",
         "InstallationStatus": "安装状态",
         "InsufficientPrivilegesHelp": "您可以使用 phpMyAdmin 等工具或运行 SQL 语句来添加权限，如果您不知道如何操作，请联系管理员帮忙设置权限。",
-        "InsufficientPrivilegesMain": "数据库不存在(且无法创建)，或者指定用户权限不够。数据库用户需要具有以下权限: %s",
         "JsTagArchivingHelp1": "对中高流量的网站，应该采取一些优化手段加速 Piwik (例如 %1$s设定自动处理%2$s)。",
         "JSTracking_EndNote": "提示: 安装结束后，您可以在管理页面 %1$s跟踪代码%2$s 选项下生成自定义的跟踪代码。",
         "JSTracking_Intro": "用 Piwik 统计网站流量，需要确认在您的网站的每个页面都增加一些代码。",

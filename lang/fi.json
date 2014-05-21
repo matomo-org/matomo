@@ -1036,7 +1036,6 @@
         "Installation": "Asennus",
         "InstallationStatus": "Asennuksen tila",
         "InsufficientPrivilegesHelp": "Voit lisätä nämä oikeudet esim. phpMyAdminilla tai ajamalla oikeat SQL-kyselyt. Jos et tiedä miten tehdä nämä asiat, pyydä järjestelmän ylläpitäjää säätämään oikeudet oikein.",
-        "InsufficientPrivilegesMain": "Joko tietokantaa ei ole olemassa (eikä sitä voitu luoda), tai tällä käyttäjällä ei ole tarvittavia oikeuksia. Tietokannan käyttäjällä täytyy olla seuraavat oikeudet: %s",
         "JsTagArchivingHelp1": "Kohtalaisen ja korkean liikenteen verkkosivuille on tiettyjä optimointeja, jotka tulisi tehdä, jotta Piwik voi toimia nopeammin (kuten %1$sautomaattisen arkistoinnin asettaminen%2$s).",
         "JSTracking_EndNote": "Huom: Asennuksen jälkeen voit luoda omia seurantakoodeja ylläpitosivun osastolla %1$sSeurantakoodi%2$s",
         "JSTracking_Intro": "Voidaksesi seurata liikennettä Piwikin avulla, sinun tulee lisätä ekstrakoodi jokaiselle verkkosivullesi.",

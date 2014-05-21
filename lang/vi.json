@@ -957,7 +957,6 @@
         "Installation": "Cài đặt",
         "InstallationStatus": "Trạng thái cài đặt",
         "InsufficientPrivilegesHelp": "Bạn có thể thêm các đặc quyền này bằng cách sử dụng một công cụ như phpMyAdmin hoặc bằng cách thực hiện các truy vấn SQL chuẩn. Nếu bạn không biết cách để làm những việc này, hãy hỏi quản trị hệ thống của bạn cấp các đặc quyền cho bạn.",
-        "InsufficientPrivilegesMain": "Hoặc là cơ sở dữ liệu không tồn tại (và không thể được tạo ra), hoặc người dùng xác định không có đủ đặc quyền. Cơ sở dữ liệu người dùng phải có những quyền lợi sau: %s",
         "JsTagArchivingHelp1": "Cho các trang web lưu lượng truy cập trung bình và cao có tối ưu hóa nhất định cần được thực hiện giúp Piwik chạy nhanh hơn (chẳng hạn như %1$s thiết lập tự động lưu trữ %2$s).",
         "JSTracking_EndNote": "Lưu ý: Sau quá trình cài đặt, bạn có thể tạo ra mã theo dõi tùy chỉnh trong mã Theo dõi %1$s phần quản trị %2$s.",
         "JSTracking_Intro": "Để theo dõi lưu lượng truy cập web của bạn với Piwik bạn cần phải chắc chắn một số mã bổ sung được thêm vào mỗi trang web của bạn.",
