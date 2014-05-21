@@ -23,7 +23,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param  bool $truth
      *
-     * @return bool
+     * @return int
      */
     public function getAnswerToLife($truth = true)
     {
