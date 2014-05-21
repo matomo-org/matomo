@@ -127,7 +127,7 @@ class FetchFromOTrance extends ConsoleCommand
         $unzipper = Unzip::factory('tar.gz', self::getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
         $unzipper->extract(self::getDownloadPath());
 
-        if (!$input->hasOption('keep-english')) {
+        if (!$input->getOption('keep-english')) {
             @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'en.php');
             @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'en.json');
         }
