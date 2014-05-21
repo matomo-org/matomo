@@ -17,10 +17,10 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $menu->add(
             'General_Help',
-            'General_Help',
+            null,
             array('module' => 'Feedback', 'action' => 'index', 'segment' => false),
             true,
-            $order = 20,
+            $order = 99,
             $tooltip = Piwik::translate('Feedback_TopLinkTooltip')
         );
     }

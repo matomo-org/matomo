@@ -35,7 +35,7 @@ angular.module('piwikApp').directive('piwikQuickAccess', function($rootElement, 
                     return menuItems;
                 }
 
-                $rootElement.find('#topLeftBar .topBarElem a, #topRightBar .topBarElem a').each(function (index, element) {
+                $rootElement.find('#topRightBar .topBarElem a').each(function (index, element) {
                     menuItems.push({name: $(element).text(), index: ++menuIndex, category: 'menuCategory'});
                     $(element).attr('quick_access', menuIndex);
                 });

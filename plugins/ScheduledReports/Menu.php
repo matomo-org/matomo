@@ -26,6 +26,13 @@ class Menu extends \Piwik\Plugin\Menu
 
         $menu->add(
             'CoreAdminHome_MenuManage',
+            null,
+            array('module' => '', 'action' => '', 'segment' => false),
+            true,
+            10
+        );
+        $menu->add(
+            'CoreAdminHome_MenuManage',
             $this->getTopMenuTranslationKey(),
             array('module' => 'ScheduledReports', 'action' => 'index', 'segment' => false),
             true,
