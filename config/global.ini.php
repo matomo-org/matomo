@@ -635,8 +635,6 @@ Plugins[] = MobileMessaging
 Plugins[] = Overlay
 Plugins[] = SegmentEditor
 Plugins[] = Insights
-
-Plugins[] = Morpheus
 Plugins[] = ZenMode
 
 [PluginsInstalled]

@@ -151,7 +151,7 @@
         </thead>
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
-            {% set isZeitgeist = isTheme and name == 'Zeitgeist' %}
+            {% set isZeitgeist = isTheme and (name == 'Morpheus' or name == 'Zeitgeist') %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name" style="white-space:nowrap;">
