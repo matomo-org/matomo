@@ -41,7 +41,7 @@ class Manager extends Singleton
     /**
      * Default theme used in Piwik.
      */
-    const DEFAULT_THEME = "Zeitgeist";
+    const DEFAULT_THEME = "Morpheus";
 
     protected $doLoadAlwaysActivatedPlugins = true;
 
@@ -80,6 +80,7 @@ class Manager extends Singleton
         'ExampleTheme',
         'LeftMenu',
         'Zeitgeist',
+        'Morpheus',
     );
 
     /**

@@ -24,7 +24,7 @@ use Piwik\View;
 class Goals extends HtmlTable
 {
     const ID = 'tableGoals';
-    const FOOTER_ICON       = 'plugins/Zeitgeist/images/goal.png';
+    const FOOTER_ICON       = 'plugins/Morpheus/images/goal.png';
     const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeLoadDataTable()

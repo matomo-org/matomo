@@ -168,7 +168,7 @@ class Manager
         if ($view->config->show_goals) {
             $goalButton = static::getFooterIconFor(Goals::ID);
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
-                $goalButton['icon'] = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
+                $goalButton['icon'] = 'plugins/Morpheus/images/ecommerceOrder.gif';
             }
 
             $normalViewIcons['buttons'][] = $goalButton;
@@ -178,14 +178,14 @@ class Manager
             $normalViewIcons['buttons'][] = array(
                 'id'    => 'ecommerceOrder',
                 'title' => Piwik::translate('General_EcommerceOrders'),
-                'icon'  => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
+                'icon'  => 'plugins/Morpheus/images/ecommerceOrder.gif',
                 'text'  => Piwik::translate('General_EcommerceOrders')
             );
 
             $normalViewIcons['buttons'][] = array(
                 'id'    => 'ecommerceAbandonedCart',
                 'title' => Piwik::translate('General_AbandonedCarts'),
-                'icon'  => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
+                'icon'  => 'plugins/Morpheus/images/ecommerceAbandonedCart.gif',
                 'text'  => Piwik::translate('General_AbandonedCarts')
             );
         }

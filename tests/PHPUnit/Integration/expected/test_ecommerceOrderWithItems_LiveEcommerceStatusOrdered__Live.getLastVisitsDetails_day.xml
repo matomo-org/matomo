@@ -8,9 +8,9 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<events>0</events>
 		<actions>0</actions>
@@ -34,7 +34,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -48,7 +48,7 @@
 				
 				<itemDetails>
 				</itemDetails>
-				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -142,9 +142,9 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<events>0</events>
 		<actions>3</actions>
@@ -258,7 +258,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>

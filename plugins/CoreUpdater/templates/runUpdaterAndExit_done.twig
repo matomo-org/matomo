@@ -8,7 +8,7 @@
     <br/>
     <br/>
     <div class="error">
-        <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
+        <img src="plugins/Morpheus/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
         {% for message in errorMessages %}
             <pre>{{ message }}</pre>
             <br/>
@@ -32,7 +32,7 @@
 {% else %}
     {% if warningMessages|length > 0 %}
         <div class="warning">
-            <p><img src="plugins/Zeitgeist/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}</p>
+            <p><img src="plugins/Morpheus/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}</p>
             {% for message in warningMessages %}
                 <pre>{{ message }}</pre>
                 <br/>
@@ -42,7 +42,7 @@
 
     {% if errorMessages|length > 0 %}
         <div class="warning">
-            <p><img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
+            <p><img src="plugins/Morpheus/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
             {% for message in errorMessages %}
                 <pre>{{ message }}</pre>
                 <br/>
@@ -51,7 +51,7 @@
             {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
                 {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
                 <p style="color:red;">
-                    <img src="plugins/Zeitgeist/images/error_medium.png"/>
+                    <img src="plugins/Morpheus/images/error_medium.png"/>
                     {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
                 </p>
             {% endif %}

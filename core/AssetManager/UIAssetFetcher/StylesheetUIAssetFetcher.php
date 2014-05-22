@@ -20,8 +20,10 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
             'plugins/Zeitgeist/stylesheets/base.less',
             'plugins/Zeitgeist/stylesheets/',
-            'plugins/',
+            'plugins\/((?!Morpheus).)*\/',
             'plugins/Dashboard/stylesheets/dashboard.less',
+            'plugins/Morpheus/stylesheets/theme.less',
+            'plugins/Morpheus/stylesheets/',
             'tests/',
         );
     }
