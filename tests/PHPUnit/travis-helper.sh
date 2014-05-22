@@ -7,7 +7,7 @@ travis_wait() {
   local cmd="$@"
   local log_file=travis_wait_$$.log
 
-  $cmd
+  $cmd &
   local cmd_pid=$!
 
   travis_jigger $! $timeout $cmd &
