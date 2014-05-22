@@ -112,14 +112,14 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    protected function checkUserCanEditSegment($siteid = false)
+    protected function checkUserCanEditSegment($idSite = false)
     {
-        if(!$this->isUserCanEditSegment($siteid)) {
+        if(!$this->isUserCanEditSegment($idSite)) {
             throw new Exception(Piwik::translate('SegmentEditor_YouDontHaveAccessToCreateSegments'));
         }
     }
 
-    public function isUserCanEditSegment($siteid = false)
+    public function isUserCanEditSegment($idSite = false)
     {
         if(Piwik::isUserIsAnonymous()) {
             return false;
@@ -128,8 +128,8 @@ class API extends \Piwik\Plugin\API
         $requiredAccess = Config::getInstance()->General['segment_editor_required_access'];
 
         return ($this->checkSuperUserAccess($requiredAccess) ||
-                $this->checkViewAccess($requiredAccess, $siteid) ||
-                $this->checkAdminAccess($requiredAccess, $siteid));
+                $this->checkViewAccess($requiredAccess, $idSite) ||
+                $this->checkAdminAccess($requiredAccess, $idSite));
     }
 
     private function checkSuperUserAccess($requiredAccess)
@@ -137,16 +137,16 @@ class API extends \Piwik\Plugin\API
         return ($requiredAccess == 'superuser' && Piwik::hasUserSuperUserAccess());
     }
 
-    private function checkViewAccess($requiredAccess, $siteid)
+    private function checkViewAccess($requiredAccess, $idSite)
     {
         return ($requiredAccess == 'view' && (
-                Piwik::isUserHasViewAccess($siteid) || ($siteid === 0 && Piwik::isUserHasSomeViewAccess())));
+                Piwik::isUserHasViewAccess($idSite) || ($idSite === 0 && Piwik::isUserHasSomeViewAccess())));
     }
 
-    private function checkAdminAccess($requiredAccess, $siteid)
+    private function checkAdminAccess($requiredAccess, $idSite)
     {
         return ($requiredAccess == 'admin' && (
-                Piwik::isUserHasAdminAccess($siteid) || ($siteid === 0 && Piwik::isUserHasSomeAdminAccess())));
+                Piwik::isUserHasAdminAccess($idSite) || ($idSite === 0 && Piwik::isUserHasSomeAdminAccess())));
     }
 
     protected function checkUserCanModifySegment($segment)
@@ -167,12 +167,10 @@ class API extends \Piwik\Plugin\API
      */
     public function delete($idSegment)
     {
-        $segment = $this->get($idSegment);
-        $idSite = $segment['enable_only_idsite'];
-
-        $this->checkUserCanEditSegment($idSite);
-
         $segment = $this->getSegmentOrFail($idSegment);
+
+        $idSite = $segment['enable_only_idsite'];
+        $this->checkUserCanEditSegment($idSite);
 
         $this->checkUserCanModifySegment($segment);
 
