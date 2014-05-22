@@ -43,9 +43,9 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
+            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
         else
-            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+            travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
     fi
 else
