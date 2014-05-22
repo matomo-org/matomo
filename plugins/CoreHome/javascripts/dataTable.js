@@ -544,24 +544,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     handleSort: function (domElem) {
         var self = this;
 
-        function getSortImageSrc() {
-            var imageSortSrc = false;
-            if (currentIsSubDataTable) {
-                if (self.param.filter_sort_order == 'asc') {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sort_subtable_asc.png';
-                } else {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sort_subtable_desc.png';
-                }
-            } else {
-                if (self.param.filter_sort_order == 'asc') {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sortasc.png';
-                } else {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sortdesc.png';
-                }
-            }
-            return imageSortSrc;
-        }
-
         if (self.props.enable_sort) {
             $('.sortable', domElem).off('click.dataTableSort').on('click.dataTableSort',
                 function () {
@@ -574,7 +556,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (self.param.filter_sort_column) {
             // are we in a subdatatable?
             var currentIsSubDataTable = $(domElem).parent().hasClass('cellSubDataTable');
-            var imageSortSrc = getSortImageSrc();
+            var imageSortClassType = currentIsSubDataTable ? 'sortSubtable' : ''
             var imageSortWidth = 16;
             var imageSortHeight = 16;
 
@@ -585,7 +567,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // adding an image and the class columnSorted to the TD
             $("th#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
                 .addClass('columnSorted')
-                .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + '"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
+                .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + ' ' + imageSortClassType + '"><span class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" /></div>');
         }
     },
 

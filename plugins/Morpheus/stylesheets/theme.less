@@ -394,6 +394,30 @@ table.dataTable {
                     .sortIcon {
                         margin-top: -1px;
                     }
+
+                    .sortIconContainerAsc .sortIcon {
+                      margin-top: -6px;
+                    }
+
+                    .sortIconContainer.sortSubtable {
+                      color: @theme-color-text-light;
+                    }
+
+                    .sortIconContainerAsc .sortIcon:after {
+                      content: " \25B2";
+                      border-bottom: 5px solid @theme-color-brand;
+                      border-top: 0px;
+                    }
+
+                    .sortIcon:after {
+                      content: " \25BC";
+                      font-size: 1px;
+                      color: @theme-color-brand;
+                      border-left: 4px solid rgba(0, 0, 0, 0);
+                      border-right: 4px solid rgba(0, 0, 0, 0);
+                      border-top: 5px solid @theme-color-brand;
+                    }
+
                 }
             }
         }

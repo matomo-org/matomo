@@ -87,12 +87,41 @@ div.ui-state-highlight {
   padding: 0;
 }
 
-.ui-datepicker-header .ui-icon-circle-triangle-w {
-  background: url(plugins/Zeitgeist/images/datepicker_arr_l.png) no-repeat 5px 4px !important;
+.ui-datepicker-header .ui-icon-circle-triangle-w,
+.ui-datepicker-header .ui-icon-circle-triangle-e {
+  content: " \25BC";
+  font-size: 1px;
+  color: @theme-color-brand;
+  border-top: 4px solid rgba(0, 0, 0, 0);
+  border-bottom: 4px solid rgba(0, 0, 0, 0);
+  border-left: 5px solid @theme-color-brand;
+  margin-left: 7px;
+  display: inline-block;
+  vertical-align: sub;
+  background: none !important;
+  height: auto;
+  width: auto;
 }
 
-.ui-datepicker-header .ui-icon-circle-triangle-e {
-  background: url(plugins/Zeitgeist/images/datepicker_arr_r.png) no-repeat 6px 4px !important;
+.ui-datepicker-header .ui-icon-circle-triangle-w {
+  border-left: 0px;
+  border-right: 5px solid @theme-color-brand;
+}
+
+.ui-datepicker-prev {
+  background: none !important;
+  left: 5px !important;
+  top: 3px !important;
+}
+.ui-datepicker-next {
+  background: none !important;
+  right: 2px !important;
+  top: 3px !important;
+}
+
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+  margin-left: -5px;
+  margin-top: -5px;
 }
 
 .ui-datepicker .ui-datepicker-next-hover,
