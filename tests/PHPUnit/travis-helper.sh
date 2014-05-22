@@ -3,17 +3,8 @@
 # Sourced from https://github.com/travis-ci/travis-build/blob/master/lib/travis/build/script/templates/header.sh
 # + Tweaked to display output and not show the status line
 travis_wait() {
-  local timeout=$1
-
-  if [[ $timeout =~ ^[0-9]+$ ]]; then
-    # looks like an integer, so we assume it's a timeout
-    shift
-else
-    # default value
-    timeout=20
-  fi
-
-local cmd="$@"
+  local timeout=40
+  local cmd="$@"
   local log_file=travis_wait_$$.log
 
   $cmd
