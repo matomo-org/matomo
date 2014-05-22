@@ -158,9 +158,10 @@ enable_create_realtime_segments = 1
 ; Set this to 0 in case your Piwik database is very big, and suggested values may not appear in time
 enable_segment_suggested_values = 1
 
-; Set the required access level for creating, editing and removing segments
+; By default, only Set the required access level for creating, editing and removing segments
 ; Possible values are "view", "admin", "superuser"
-segment_editor_required_access = "view"
+; Note: anonymous user (even if it has view access) will not be allowed to create or edit segment.
+adding_segment_requires_access = "view"
 
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
