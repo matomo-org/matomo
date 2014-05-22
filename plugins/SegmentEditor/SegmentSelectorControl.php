@@ -68,7 +68,7 @@ class SegmentSelectorControl extends UIControl
             }
         }
 
-        $this->authorizedToCreateSegments = SegmentEditorAPI::getInstance()->isUserCanEditSegment($idSite);
+        $this->authorizedToCreateSegments = SegmentEditorAPI::getInstance()->isUserCanEditSegment($this->idSite);
         $this->isUserAnonymous = Piwik::isUserIsAnonymous();
         $this->segmentTranslations = $this->getTranslations();
     }
