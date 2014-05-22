@@ -136,11 +136,13 @@ class API extends \Piwik\Plugin\API
         return $authorized;
     }
 
-    protected function checkUserCanModifySegment($segment)
+    protected function checkUserCanEditOrDeleteSegment($segment)
     {
         if(Piwik::hasUserSuperUserAccess()) {
             return;
         }
+
+        $this->checkUserIsNotAnonymous();
 
         if($segment['login'] != Piwik::getCurrentUserLogin()) {
             throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
@@ -156,8 +158,7 @@ class API extends \Piwik\Plugin\API
     public function delete($idSegment)
     {
         $segment = $this->getSegmentOrFail($idSegment);
-
-        $this->checkUserCanModifySegment($segment);
+        $this->checkUserCanEditOrDeleteSegment($segment);
 
         $this->sendSegmentDeactivationEvent($idSegment);
 
@@ -181,7 +182,7 @@ class API extends \Piwik\Plugin\API
     public function update($idSegment, $name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
         $segment = $this->getSegmentOrFail($idSegment);
-        $this->checkUserCanModifySegment($segment);
+        $this->checkUserCanEditOrDeleteSegment($segment);
 
         $idSite = $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
