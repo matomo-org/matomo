@@ -114,23 +114,27 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanEditSegment($siteid = false)
     {
-        if($this->isUserCanEditSegment($siteid) == false) {
+        if(!$this->isUserCanEditSegment($siteid)) {
             throw new Exception(Piwik::translate('SegmentEditor_YouDontHaveAccessToCreateSegments'));
         }
     }
 
     public function isUserCanEditSegment($siteid = false)
     {
+        if(Piwik::isUserIsAnonymous()) {
+            return false;
+        }
+
         $requiredAccess = Config::getInstance()->General['segment_editor_required_access'];
 
-        return ($this->checkSuperAdminAccess($requiredAccess) ||
+        return ($this->checkSuperUserAccess($requiredAccess) ||
                 $this->checkViewAccess($requiredAccess, $siteid) ||
                 $this->checkAdminAccess($requiredAccess, $siteid));
     }
 
-    private function checkSuperAdminAccess($requiredAccess)
+    private function checkSuperUserAccess($requiredAccess)
     {
-        return ($requiredAccess == 'superadmin' && Piwik::hasUserSuperUserAccess());
+        return ($requiredAccess == 'superuser' && Piwik::hasUserSuperUserAccess());
     }
 
     private function checkViewAccess($requiredAccess, $siteid)

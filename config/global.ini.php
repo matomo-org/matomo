@@ -158,6 +158,10 @@ enable_create_realtime_segments = 1
 ; Set this to 0 in case your Piwik database is very big, and suggested values may not appear in time
 enable_segment_suggested_values = 1
 
+; Set the required access level for creating, editing and removing segments
+; Possible values are "view", "admin", "superuser"
+segment_editor_required_access = "view"
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
@@ -431,9 +435,6 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
-; Change the following value to set the required access level for creating, editing and removing segments
-; Possible values are "view", "admin" and "superadmin"
-segment_editor_required_access = "view"
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
