@@ -160,21 +160,58 @@
   }
 
   .heading {
-    display: inline-block;
+    display: inline;
     margin-top: 4px;
   }
+
+  #evolution_selector {
+    margin: 0px;
+    margin-top: -3px;
+  }
+
+  .multisites_asc,
   .multisites_desc {
-    width: 16px;
-    height: 13px;
+    float: none;
     display: inline-block;
-    background-image: url(plugins/Zeitgeist/images/sortdesc.png);
+    vertical-align: top;
+    margin: 0px;
+    margin-left: 6px;
+    margin-top: -1px;
   }
+
+  #evolution {
+    .multisites_asc,
+    .multisites_desc {
+      margin-right: 6px;
+      margin-left: 0px;
+    }
+    .evolution {
+      vertical-align: top;
+    }
+  }
+
   .multisites_asc {
-    width: 16px;
-    height: 13px;
-    display: inline-block;
-    background-image: url(plugins/Zeitgeist/images/sortasc.png);
+    margin-top: -7px;
+    vertical-align: top;
   }
+
+  .multisites_desc:after {
+    content: " \25BC";
+    font-size: 1px;
+    color: @theme-color-brand;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-top: 5px solid @theme-color-brand;
+  }
+  .multisites_asc:after {
+    content: " \25BC";
+    font-size: 1px;
+    color: @theme-color-brand;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid @theme-color-brand;
+  }
+
   div.sparkline {
     float:none;
   }

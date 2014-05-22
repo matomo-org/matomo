@@ -125,7 +125,7 @@
                 $.each(series, function(index, value) {
                     if ($.isArray(value) && value[1]) {
                         sum = sum + value[1];
-                    } else {
+                    } else if (!$.isArray(value)) {
                         sum = sum + value;
                     }
                 });

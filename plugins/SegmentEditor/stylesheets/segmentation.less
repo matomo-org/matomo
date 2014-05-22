@@ -396,11 +396,6 @@ div.scrollable {
   text-decoration: none;
 }
 
-.segment-element .segment-top a.dropdown {
-  padding: 0 17px 0 0;
-  background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) 100% -2px no-repeat;
-}
-
 .segment-element .segment-footer {
   background: #eae8e3;
   border-top: 1px solid #a9a399;
@@ -701,4 +696,28 @@ a.metric_category {
 .segment-element.anchorRight {
     right:-1px;
     left:auto;
+}
+
+.available_segments {
+  display: inline-block;
+  width: 160px;
+}
+
+.available_segments a.dropdown,
+.segment-element .segment-top a.dropdown {
+  padding: 0 17px 0 0;
+  background: none !important;
+}
+
+.available_segments a.dropdown:after,
+.segment-element .segment-top a.dropdown:after {
+  content: " \25BC";
+  font-size: 0px;
+  color: @theme-color-brand;
+  border-left: 4px solid rgba(0, 0, 0, 0);
+  border-right: 4px solid rgba(0, 0, 0, 0);
+  border-top: 5px solid @theme-color-brand;
+  margin-left: 7px;
+  display: inline-block;
+  vertical-align: sub;
 }
