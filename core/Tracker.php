@@ -233,19 +233,19 @@ class Tracker
         }
 
         $this->initOutputBuffer();
-		self::getDatabase()->beginTransaction();
 
         if (!empty($this->requests)) {
+	        self::getDatabase()->beginTransaction();
 
             try {
                 foreach ($this->requests as $params) {
                     $isAuthenticated = $this->trackRequest($params, $tokenAuth);
                 }
                 $this->runScheduledTasksIfAllowed($isAuthenticated);
-				self::getDatabase()->commit();
+                self::getDatabase()->commit();
             } catch(DbException $e) {
-				Common::printDebug($e->getMessage());
-				self::getDatabase()->rollback();
+                Common::printDebug($e->getMessage());
+                self::getDatabase()->rollback();
             }
 
         } else {
