@@ -303,7 +303,8 @@ class Mysqli extends Db
 
 	public function commit($xid)
 	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) 
+		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) { 
+		
 			return;
 		}
 		$this->activeTransaction = false;
@@ -321,7 +322,7 @@ class Mysqli extends Db
 
 	public function rollBack($xid)
 	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) 
+		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) { 
 			return;
 		}
 		$this->activeTransaction = false;
