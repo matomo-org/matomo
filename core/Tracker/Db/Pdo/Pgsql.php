@@ -18,9 +18,6 @@ use PDO;
  */
 class Pgsql extends Mysql
 {
-
-    private $_activeTransaction = false;
-
     /**
      * Builds the DB object
      *
@@ -116,53 +113,4 @@ class Pgsql extends Mysql
     {
         return $queryResult->rowCount();
     }
-
-	/**
-	 * Start Transaction
-	 */
-
-	public function beginTransaction()
-	{
-		if($this->_activeTransaction === true ) {
-			return;
-		}
-
-		if($this->connection->beginTransaction()) {
-			$this->_activeTransaction = true;
-		}
-	}
-
-	/**
-	 * Commit Transaction
-	 */
-
-	public function commit()
-	{
-		if(!$this->_activeTransaction === true ) {
-			return;
-		}
-		$this->_activeTransaction = false;
-
-		if(!$this->connection->commit() ) {
-			throw new DbException("Commit failed"); 
-		}
-	}
-
-	/**
-	 * Rollback Transaction
-	 */
-
-	public function rollBack()
-	{
-		if(!$this->_activeTransaction === true ) {
-			return;
-		}
-		$this->_activeTransaction = false;
-
-		if(!$this->connection->rollBack() ) {
-			throw new DbException("Rollback failed"); 
-		}
-	}
 }
-
-
