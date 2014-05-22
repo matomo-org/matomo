@@ -25,7 +25,7 @@ class Mysqli extends Db
     protected $username;
     protected $password;
     protected $charset;
-    private $_activeTransaction = false;
+    protected $activeTransaction = false;
 
 
     /**
@@ -285,12 +285,12 @@ class Mysqli extends Db
 
 	public function beginTransaction()
 	{
-		if($this->_activeTransaction === true ) {
+		if($this->activeTransaction === true ) {
 			return;
 		}
 
 		if( $this->connection->autocommit(false) ) {
-			$this->_activeTransaction = true;
+			$this->activeTransaction = true;
 		}
 	}
 
@@ -300,10 +300,10 @@ class Mysqli extends Db
 
 	public function commit()
 	{
-		if(!$this->_activeTransaction === true ) {
+		if(!$this->activeTransaction === true ) {
 			return;
 		}
-		$this->_activeTransaction = false;
+		$this->activeTransaction = false;
 
 		if(!$this->connection->commit() ) {
 			throw new DbException("Commit failed"); 
@@ -317,10 +317,10 @@ class Mysqli extends Db
 
 	public function rollBack()
 	{
-		if(!$this->_activeTransaction === true ) {
+		if(!$this->activeTransaction === true ) {
 			return;
 		}
-		$this->_activeTransaction = false;
+		$this->activeTransaction = false;
 
 		if(!$this->connection->rollback() ) {
 			throw new DbException("Rollback failed"); 
