@@ -473,7 +473,7 @@ class API extends \Piwik\Plugin\API
     {
         $today = Date::today();
 
-        $serverDate = $visit->getColumn('serverDate');
+        $serverDate = $visit->getColumn('firstActionTimestamp');
         return array(
             'date'            => $serverDate,
             'prettyDate'      => Date::factory($serverDate)->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT),
