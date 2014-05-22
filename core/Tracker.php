@@ -235,17 +235,17 @@ class Tracker
         $this->initOutputBuffer();
 
         if (!empty($this->requests)) {
-	        self::getDatabase()->beginTransaction();
+	        $xid = self::getDatabase()->beginTransaction();
 
             try {
                 foreach ($this->requests as $params) {
                     $isAuthenticated = $this->trackRequest($params, $tokenAuth);
                 }
                 $this->runScheduledTasksIfAllowed($isAuthenticated);
-                self::getDatabase()->commit();
+                self::getDatabase()->commit($xid);
             } catch(DbException $e) {
                 Common::printDebug($e->getMessage());
-                self::getDatabase()->rollback();
+                self::getDatabase()->rollback($xid);
             }
 
         } else {

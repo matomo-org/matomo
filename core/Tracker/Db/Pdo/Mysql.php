@@ -239,26 +239,29 @@ class Mysql extends Db
 
 	/**
 	 * Start Transaction
+	 * @return string TransactionID
 	 */
 
 	public function beginTransaction()
 	{
-		if($this->activeTransaction === true ) {
+		if(!$this->activeTransaction === false ) {
 			return;
 		}
 
 		if( $this->connection->beginTransaction() ) {
-			$this->activeTransaction = true;
+			$this->activeTransaction = uniqid();
+			return $this->activeTransaction;
 		}
 	}
 
 	/**
 	 * Commit Transaction
+	 * @param string TransactionID from beginTransaction
 	 */
 
-	public function commit()
+	public function commit($xid)
 	{
-		if(!$this->activeTransaction === true ) {
+		if($this->activeTransaction != $xid || $this->activeTransaction === false ) {
 			return;
 		}
 		$this->activeTransaction = false;
@@ -270,11 +273,12 @@ class Mysql extends Db
 
 	/**
 	 * Rollback Transaction
+	 * @param string TransactionID from beginTransaction
 	 */
 
-	public function rollBack()
+	public function rollBack($xid)
 	{
-		if(!$this->activeTransaction === true ) {
+		if($this->activeTransaction != $xid || $this->activeTransaction === false ) {
 			return;
 		}
 		$this->activeTransaction = false;
