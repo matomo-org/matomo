@@ -44,7 +44,7 @@ class LanguagesManager extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
+        $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
     }
 
     public function getJsFiles(&$jsFiles)

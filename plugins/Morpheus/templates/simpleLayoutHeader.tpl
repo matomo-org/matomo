@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>{$HTML_TITLE}</title>
 	<link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/simple_structure.css" />
+	<link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/simple_structure.css" />
 </head>
 <body id="simple">
 <div id="contentsimple">
