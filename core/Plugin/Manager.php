@@ -79,7 +79,6 @@ class Manager extends Singleton
     protected $coreThemesDisabledByDefault = array(
         'ExampleTheme',
         'LeftMenu',
-        'Morpheus',
     );
 
     /**
