@@ -854,7 +854,7 @@
         "TimeOnPage": "Χρόνος στη σελίδα",
         "Today": "Σήμερα",
         "Total": "Σύνολο",
-        "TotalRatioTooltip": "Αυτό είναι το %1$s από όλα τα %2$s %3$s.",
+        "TotalRatioTooltip": "Αυτό είναι το %1$s από όλες τις %2$s %3$s.",
         "TotalRevenue": "Συνολική Πρόσοδος",
         "TotalVisitsPageviewsRevenue": "(Σύνολο: %s επισκέψεις, %s προβολές σελίδων, %s πρόσοδος)",
         "TransitionsRowActionTooltip": "Δείτε τι έκαναν οι επισκέπτες πριν και μετά την προβολή αυτής της σελίδας",
