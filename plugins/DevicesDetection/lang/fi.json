@@ -2,7 +2,7 @@
     "DevicesDetection": {
         "BrowserVersions": "Selainversiot",
         "Camera": "Kamera",
-        "CarBrowser": "Car browser",
+        "CarBrowser": "Auton selain",
         "Console": "Konsoli",
         "dataTableLabelBrands": "Merkki",
         "dataTableLabelBrowserFamily": "Selainperhe",
@@ -19,7 +19,7 @@
         "OperatingSystemFamilies": "Käyttöjärjestelmäperheet",
         "OperatingSystemVersions": "Käyttöjärjestelmäversiot",
         "PluginDescription": "Tämä liitännäinen tarjoaa laajennettua tietoa mobiililaitteista, kuten merkki (valmistaja), malli (laitteen malli), paremman laitetyypin tunnistuksen (tv, konsolit, älypuhelimet, tietokoneet jne) sekä muuta. Liitännäinen lisää uuden raportin 'Kävijät > Laitteet'.",
-        "SmartDisplay": "Smart näyttö",
+        "SmartDisplay": "Älynäyttö",
         "Smartphone": "Älypuhelin",
         "submenu": "Laitteet",
         "Tablet": "Tabletti",
