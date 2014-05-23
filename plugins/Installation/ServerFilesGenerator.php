@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Installation;
 
+use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
 class ServerFilesGenerator
@@ -244,6 +245,39 @@ HTACCESS_DENY;
 </IfModule>
 HTACCESS_ALLOW;
         return $allow;
+    }
+
+    /**
+     * Deletes all existing .htaccess files that Piwik may have created
+     *
+     */
+    public static function deleteHtAccessFiles()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, ".htaccess");
+
+        // that match the list of directories we create htaccess files
+        // (ie. not the root /.htaccess)
+        $directoriesWithAutoHtaccess = array(
+            '/js',
+            '/libs',
+            '/vendor',
+            '/plugins',
+            '/misc/user',
+            '/config',
+            '/core',
+            '/lang',
+            '/tmp',
+        );
+
+        foreach ($files as $file) {
+            foreach ($directoriesWithAutoHtaccess as $dirToDelete) {
+                // only delete the first .htaccess and not the ones in sub-directories
+                $pathToDelete = $dirToDelete . '/.htaccess';
+                if (strpos($file, $pathToDelete) !== false) {
+                    @unlink($file);
+                }
+            }
+        }
     }
 
 }
