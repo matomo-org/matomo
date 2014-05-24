@@ -29,7 +29,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $pluginPath = $this->getPluginPath($pluginName);
 
         if (!file_exists($pluginName . $folder)) {
-            Filesystem::mkdir($pluginPath . $folder, true);
+            Filesystem::mkdir($pluginPath . $folder);
         }
     }
 

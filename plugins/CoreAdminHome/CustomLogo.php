@@ -88,7 +88,7 @@ class CustomLogo
         $directoryWritingTo = PIWIK_DOCUMENT_ROOT . '/' . dirname($pathUserLogo);
 
         // Create directory if not already created
-        Filesystem::mkdir($directoryWritingTo, $denyAccess = false);
+        Filesystem::mkdir($directoryWritingTo);
 
         $directoryWritable = is_writable($directoryWritingTo);
         $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $pathUserLogo)

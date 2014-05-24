@@ -74,11 +74,9 @@ class Filesystem
      * _Note: This function does **not** create directories recursively._
      *
      * @param string $path The path of the directory to create.
-     * @param bool $denyAccess Whether to deny browser access to this new folder by
-     *                         creating an **.htaccess** file.
      * @api
      */
-    public static function mkdir($path, $denyAccess = true)
+    public static function mkdir($path)
     {
         if (!is_dir($path)) {
             // the mode in mkdir is modified by the current umask
@@ -92,10 +90,6 @@ class Filesystem
                 @chmod($path, 0775);
                 // enough! we're not going to make the directory world-writeable
             }
-        }
-
-        if ($denyAccess) {
-            ServerFilesGenerator::createHtAccessDenyAll($path);
         }
     }
 
@@ -256,7 +250,7 @@ class Filesystem
     public static function copyRecursive($source, $target, $excludePhp = false)
     {
         if (is_dir($source)) {
-            self::mkdir($target, false);
+            self::mkdir($target);
             $d = dir($source);
             while (false !== ($entry = $d->read())) {
                 if ($entry == '.' || $entry == '..') {
