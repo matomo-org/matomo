@@ -9,7 +9,7 @@
 
 namespace Piwik\Tracker;
 
-use DeviceDetector;
+use DeviceDetector\DeviceDetector;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
@@ -602,7 +602,11 @@ class Visit implements VisitInterface
 
         $deviceDetector = new DeviceDetector($userAgent);
         $deviceDetector->parse();
-        $aBrowserInfo = $deviceDetector->getBrowser();
+        $aBrowserInfo = $deviceDetector->getClient();
+        if ($aBrowserInfo['type'] != 'browser') {
+            // for now only track browsers
+            unset($aBrowserInfo);
+        }
 
         $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
         $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';

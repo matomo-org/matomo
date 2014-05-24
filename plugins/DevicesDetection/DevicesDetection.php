@@ -9,7 +9,8 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use DeviceDetector;
+use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
+use DeviceDetector\DeviceDetector;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\CacheFile;
@@ -58,10 +59,10 @@ class DevicesDetection extends \Piwik\Plugin
 
     protected function getRawMetadataDeviceType()
     {
-        $deviceTypeList = implode(", ", DeviceDetector::$deviceTypes);
+        $deviceTypeList = implode(", ", DeviceParser::getAvailableDeviceTypeNames());
 
         $deviceTypeLabelToCode = function ($type) use ($deviceTypeList) {
-            $index = array_search(strtolower(trim(urldecode($type))), DeviceDetector::$deviceTypes);
+            $index = array_search(strtolower(trim(urldecode($type))), DeviceParser::getAvailableDeviceTypeNames());
             if ($index === false) {
                 throw new Exception("deviceType segment must be one of: $deviceTypeList");
             }
@@ -257,10 +258,10 @@ class DevicesDetection extends \Piwik\Plugin
         $userAgent = $request->getUserAgent();
 
         $UAParser = new DeviceDetector($userAgent);
-        $UAParser->setCache(new CacheFile('tracker', 86400));
+        #$UAParser->setCache(new CacheFile('tracker', 86400));
         $UAParser->parse();
-        $deviceInfo['config_browser_name'] = $UAParser->getBrowser("short_name");
-        $deviceInfo['config_browser_version'] = $UAParser->getBrowser("version");
+        $deviceInfo['config_browser_name'] = $UAParser->getClient("type") == 'browser' ? $UAParser->getClient("short_name") : 'UNK';
+        $deviceInfo['config_browser_version'] = $UAParser->getClient("type") == 'browser' ?  $UAParser->getClient("version") : 'UNK';
         $deviceInfo['config_os'] = $UAParser->getOs("short_name");
         $deviceInfo['config_os_version'] = $UAParser->getOs("version");
         $deviceInfo['config_device_type'] = $UAParser->getDevice();

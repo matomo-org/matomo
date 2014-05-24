@@ -91,8 +91,6 @@ if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
     $vendorDirectory = PIWIK_INCLUDE_PATH . '/../..';
 }
 require_once $vendorDirectory . '/autoload.php';
-require_once $vendorDirectory . '/mustangostang/spyc/Spyc.php';
-require_once $vendorDirectory . '/piwik/device-detector/DeviceDetector.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
