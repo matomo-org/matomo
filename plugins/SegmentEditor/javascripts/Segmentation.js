@@ -71,22 +71,12 @@ Segmentation = (function($) {
 
         segmentation.prototype.shortenSegmentName = function(name, length){
 
-            if(typeof length === "undefined") length = 16;
+            if(typeof length === "undefined") length = 20;
             if(typeof name === "undefined") name = "";
             var i;
             
-            if(name.length > length)
-            {
-                for(i = length; i > 0; i--){
-                    if(name[i] === " "){
-                        break;
-                    }
-                }
-                if(i == 0){ 
-                    i = length-3;
-                }
-                
-                return name.slice(0,i)+"...";
+            if(name.length > length) {
+                return name.slice(0, length).trim() + "...";
             }
             return name;
         };
@@ -345,7 +335,7 @@ Segmentation = (function($) {
             $(self.form).find(".segment-content > h3 > span").text(segment.name);
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
-            $(self.form).find('.available_segments a.dropList').text(self.shortenSegmentName(segment.name, 16));
+            $(self.form).find('.available_segments a.dropList').text(self.shortenSegmentName(segment.name));
 
             if(segment.definition != ""){
                 revokeInitialStateRows();
