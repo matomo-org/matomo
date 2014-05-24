@@ -82,7 +82,7 @@ class Filesystem
     {
         if (!is_dir($path)) {
             // the mode in mkdir is modified by the current umask
-            @mkdir($path, $mode = 0750, $recursive = true);
+            @mkdir($path, self::getChmodForPath($path), $recursive = true);
         }
 
         // try to overcome restrictive umask (mis-)configuration
@@ -292,5 +292,20 @@ class Filesystem
         }
 
         return @unlink($pathToFile);
+    }
+
+    /**
+     * @param $path
+     * @return int
+     */
+    private static function getChmodForPath($path)
+    {
+        $pathIsTmp = self::getPathToPiwikRoot() . '/tmp';
+        if (strpos($path, $pathIsTmp) === 0) {
+            // tmp/* folder
+            return 0750;
+        }
+        // plugins/* and all others
+        return 0755;
     }
 }
