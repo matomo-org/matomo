@@ -236,7 +236,7 @@ Segmentation = (function($) {
                                 + injClass +' title="'+segment.name+'"><span class="segname">'
                                 + self.shortenSegmentName(segment.name)+'</span>';
                     if(self.segmentAccess == "write") {
-                        listHtml += '<span class="editSegment"></span>';
+                        listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
                     listHtml += '</li>';
                 }
@@ -369,7 +369,7 @@ Segmentation = (function($) {
             $(self.target).find(".segmentList li").each(function () {
                 curTitle = $(this).prop('title');
                 $(this).hide();
-                if (curTitle.toLowerCase().indexOf(keyword) !== -1) {
+                if (curTitle.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
                     $(this).show();
                 }
             });
