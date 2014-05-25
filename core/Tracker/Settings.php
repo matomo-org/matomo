@@ -13,9 +13,10 @@ use Piwik\Tracker;
 
 class Settings
 {
-    function __construct(Request $request)
+    function __construct(Request $request, $ip)
     {
         $this->request = $request;
+        $this->ipAddress = $ip;
         $this->params = array();
     }
 
@@ -60,7 +61,7 @@ class Settings
             $plugin_Gears,
             $plugin_Silverlight,
             $plugin_Cookie,
-            $this->getVisitorIp(),
+            $this->ipAddress,
             $browserLang);
 
         $this->params = array(

@@ -594,7 +594,7 @@ class Visit implements VisitInterface
     protected function getUserSettingsInformation()
     {
         if(is_null($this->userSettings)) {
-            $this->userSettings = new Settings( $this->request );
+            $this->userSettings = new Settings( $this->request, $this->getVisitorIp() );
         }
         return $this->userSettings->getInfo();
     }
