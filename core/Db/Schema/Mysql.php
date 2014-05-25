@@ -285,6 +285,7 @@ class Mysql implements SchemaInterface
 								  query TEXT NOT NULL,
 								  count INTEGER UNSIGNED NULL,
 								  sum_time_ms FLOAT NULL,
+								  PRIMARY KEY (query),
 								  UNIQUE KEY query(query(100))
 								) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
