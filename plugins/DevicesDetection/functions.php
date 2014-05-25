@@ -37,8 +37,9 @@ function getBrowserFamilyFullNameExtended($label)
 
 function getBrowserFamilyLogoExtended($label)
 {
-    if (!empty($label) && array_key_exists($label, BrowserParser::getAvailableBrowserFamilies())) {
-        return getBrowserLogoExtended(BrowserParser::getAvailableBrowserFamilies()[$label][0]);
+    $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
+    if (!empty($label) && array_key_exists($label, $browserFamilies)) {
+        return getBrowserLogoExtended($browserFamilies[$label][0]);
     }
     return getBrowserLogoExtended($label);
 }
@@ -47,8 +48,9 @@ function getBrowserNameExtended($label)
 {
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
-    if (array_key_exists($short, BrowserParser::getAvailableBrowsers())) {
-        return trim(ucfirst(BrowserParser::getAvailableBrowsers()[$short]) . ' ' . $ver);
+    $browsers = BrowserParser::getAvailableBrowsers();
+    if (array_key_exists($short, $browsers)) {
+        return trim(ucfirst($browsers[$short]) . ' ' . $ver);
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -82,10 +84,12 @@ function getBrowserLogoExtended($short)
 
     $family = getBrowserFamilyFullNameExtended($short);
 
+    $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
+
     if (!empty($short) && array_key_exists($short, BrowserParser::getAvailableBrowsers()) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
         return sprintf($path, $short);
-    } elseif (!empty($short) && array_key_exists($family, BrowserParser::getAvailableBrowserFamilies()) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, BrowserParser::getAvailableBrowserFamilies()[$family][0]))) {
-        return sprintf($path, BrowserParser::getAvailableBrowserFamilies()[$family][0]);
+    } elseif (!empty($short) && array_key_exists($family, $browserFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $browserFamilies[$family][0]))) {
+        return sprintf($path, $browserFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
 }
@@ -112,8 +116,11 @@ function getDeviceTypeLabel($label)
         'smart display' => 'DevicesDetection_SmartDisplay',
         'camera'        => 'DevicesDetection_Camera'
     );
-    if (in_array($label, DeviceParser::getAvailableDeviceTypes()) && isset($translations[array_search($label, DeviceParser::getAvailableDeviceTypes())])) {
-        return Piwik::translate($translations[array_search($label, DeviceParser::getAvailableDeviceTypes())]);
+
+    $deviceTypes = DeviceParser::getAvailableDeviceTypes();
+
+    if (in_array($label, $deviceTypes) && isset($translations[array_search($label, $deviceTypes)])) {
+        return Piwik::translate($translations[array_search($label, $deviceTypes)]);
     } else if (isset($translations[$label])) {
         return Piwik::translate($translations[$label]);
     } else {
@@ -167,8 +174,9 @@ function getOSFamilyFullNameExtended($label)
 
 function getOsFamilyLogoExtended($label)
 {
-    if (!empty($label) && array_key_exists($label, OperatingSystemParser::getAvailableOperatingSystemFamilies())) {
-        return getOsLogoExtended(OperatingSystemParser::getAvailableOperatingSystemFamilies()[$label][0]);
+    $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
+    if (!empty($label) && array_key_exists($label, $osFamilies)) {
+        return getOsLogoExtended($osFamilies[$label][0]);
     }
     return getOsLogoExtended($label);
 }
@@ -212,11 +220,12 @@ function getOsLogoExtended($short)
     }
 
     $family = getOsFamilyFullNameExtended($short);
+    $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
 
     if (!empty($short) && array_key_exists($short, OperatingSystemParser::getAvailableOperatingSystems()) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
         return sprintf($path, $short);
-    } elseif (!empty($family) && array_key_exists($family, OperatingSystemParser::getAvailableOperatingSystemFamilies()) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, OperatingSystemParser::getAvailableOperatingSystemFamilies()[$family][0]))) {
-        return sprintf($path, OperatingSystemParser::getAvailableOperatingSystemFamilies()[$family][0]);
+    } elseif (!empty($family) && array_key_exists($family, $osFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $osFamilies[$family][0]))) {
+        return sprintf($path, $osFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
 }
