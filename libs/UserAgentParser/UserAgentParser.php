@@ -656,8 +656,9 @@ class UserAgentParser
             return self::$browserIdToName[$browserId];
         }
         if(class_exists('DeviceDetector\\Parser\\Client\\Browser')) {
-            if( array_key_exists($browserId, DeviceDetector\Parser\Client\Browser::getAvailableBrowsers())) {
-                return DeviceDetector\Parser\Client\Browser::getAvailableBrowsers()[$browserId];
+            $browsers = DeviceDetector\Parser\Client\Browser::getAvailableBrowsers();
+            if( array_key_exists($browserId, $browsers)) {
+                return $browsers[$browserId];
             }
         }
         return false;
