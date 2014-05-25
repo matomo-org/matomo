@@ -8,7 +8,7 @@
  */
 namespace Piwik\Tracker;
 
-
+use Piwik\CacheFile;
 use Piwik\Tracker;
 
 class Settings
@@ -37,11 +37,12 @@ class Settings
         $userAgent = $this->request->getUserAgent();
 
         $deviceDetector = new \DeviceDetector($userAgent);
+        $deviceDetector->setCache(new CacheFile('tracker', 86400));
         $deviceDetector->parse();
         $aBrowserInfo = $deviceDetector->getBrowser();
 
         $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
-        $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
+        $browserVersion = !empty($aBrowserIntfo['version']) ? $aBrowserInfo['version'] : '';
 
         $os = $deviceDetector->getOS();
         $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
