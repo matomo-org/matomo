@@ -38,6 +38,7 @@ class Settings
 
         $deviceDetector = new \DeviceDetector($userAgent);
         $deviceDetector->setCache(new CacheFile('tracker', 86400));
+        $deviceDetector->parse();
         $aBrowserInfo = $deviceDetector->getBrowser();
 
         $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
