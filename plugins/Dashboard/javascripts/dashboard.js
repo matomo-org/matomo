@@ -8,6 +8,7 @@
 function initDashboard(dashboardId, dashboardLayout) {
 
     $('.dashboardSettings').show();
+    initTopControls();
 
     // Embed dashboard
     if (!$('#topBars').length) {
