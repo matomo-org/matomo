@@ -195,21 +195,20 @@ class CustomLogo
                 return false;
         }
 
-        $smallWidthExpected = round($width * $targetHeight / $height);
+        $targetWidth = round($width * $targetHeight / $height);
 
-        $logoSmall = imagecreatetruecolor($smallWidthExpected, $targetHeight);
-
-        // Handle transparency
-        $backgroundSmall = imagecolorallocate($logoSmall, 0, 0, 0);
-        imagecolortransparent($logoSmall, $backgroundSmall);
+        $newImage = imagecreatetruecolor($targetWidth, $targetHeight);
 
         if ($_FILES[$uploadFieldName]['type'] == 'image/png') {
-            imagealphablending($logoSmall, false);
-            imagesavealpha($logoSmall, true);
+            imagealphablending($newImage, false);
+            imagesavealpha($newImage, true);
         }
 
-        imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, $targetHeight, $width, $height);
-        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
+        $backgroundColor = imagecolorallocate($newImage, 0, 0, 0);
+        imagecolortransparent($newImage, $backgroundColor);
+
+        imagecopyresampled($newImage, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
+        imagepng($newImage, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
         return true;
     }
 
