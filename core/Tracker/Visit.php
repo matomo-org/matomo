@@ -44,7 +44,11 @@ class Visit implements VisitInterface
     protected $request;
 
     protected $visitorInfo = array();
-    protected $userSettingsInformation = null;
+
+    /**
+     * @var Settings
+     */
+    protected $userSettings;
     protected $visitorCustomVariables = array();
     protected $visitorKnown;
 
@@ -589,68 +593,10 @@ class Visit implements VisitInterface
      */
     protected function getUserSettingsInformation()
     {
-        // we already called this method before, simply returns the result
-        if (is_array($this->userSettingsInformation)) {
-            return $this->userSettingsInformation;
+        if(is_null($this->userSettings)) {
+            $this->userSettings = new Settings( $this->request, $this->getVisitorIp() );
         }
-
-        list($plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-            $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $this->request->getPlugins();
-
-        $resolution = $this->request->getParam('res');
-        $userAgent = $this->request->getUserAgent();
-
-        $deviceDetector = new DeviceDetector($userAgent);
-        $deviceDetector->parse();
-        $aBrowserInfo = $deviceDetector->getClient();
-        if ($aBrowserInfo['type'] != 'browser') {
-            // for now only track browsers
-            unset($aBrowserInfo);
-        }
-
-        $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
-        $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
-
-        $os = $deviceDetector->getOS();
-        $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
-
-        $browserLang = substr($this->request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
-        $configurationHash = $this->getConfigHash(
-            $os,
-            $browserName,
-            $browserVersion,
-            $plugin_Flash,
-            $plugin_Java,
-            $plugin_Director,
-            $plugin_Quicktime,
-            $plugin_RealPlayer,
-            $plugin_PDF,
-            $plugin_WindowsMedia,
-            $plugin_Gears,
-            $plugin_Silverlight,
-            $plugin_Cookie,
-            $this->getVisitorIp(),
-            $browserLang);
-
-        $this->userSettingsInformation = array(
-            'config_id'              => $configurationHash,
-            'config_os'              => $os,
-            'config_browser_name'    => $browserName,
-            'config_browser_version' => $browserVersion,
-            'config_resolution'      => $resolution,
-            'config_pdf'             => $plugin_PDF,
-            'config_flash'           => $plugin_Flash,
-            'config_java'            => $plugin_Java,
-            'config_director'        => $plugin_Director,
-            'config_quicktime'       => $plugin_Quicktime,
-            'config_realplayer'      => $plugin_RealPlayer,
-            'config_windowsmedia'    => $plugin_WindowsMedia,
-            'config_gears'           => $plugin_Gears,
-            'config_silverlight'     => $plugin_Silverlight,
-            'config_cookie'          => $plugin_Cookie,
-            'location_browser_lang'  => $browserLang,
-        );
-        return $this->userSettingsInformation;
+        return $this->userSettings->getInfo();
     }
 
     /**
@@ -671,31 +617,6 @@ class Visit implements VisitInterface
     protected function isVisitorKnown()
     {
         return $this->visitorKnown === true;
-    }
-
-    /**
-     * Returns a 64-bit hash of all the configuration settings
-     * @param $os
-     * @param $browserName
-     * @param $browserVersion
-     * @param $plugin_Flash
-     * @param $plugin_Java
-     * @param $plugin_Director
-     * @param $plugin_Quicktime
-     * @param $plugin_RealPlayer
-     * @param $plugin_PDF
-     * @param $plugin_WindowsMedia
-     * @param $plugin_Gears
-     * @param $plugin_Silverlight
-     * @param $plugin_Cookie
-     * @param $ip
-     * @param $browserLang
-     * @return string
-     */
-    protected function getConfigHash($os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
-    {
-        $hash = md5($os . $browserName . $browserVersion . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true);
-        return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
 
     // is the referrer host any of the registered URLs for this website?
