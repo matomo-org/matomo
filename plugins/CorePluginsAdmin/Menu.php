@@ -17,7 +17,7 @@ use Piwik\Piwik;
 class Menu extends \Piwik\Plugin\Menu
 {
 
-    public function confiugreAdminMenu(MenuAdmin $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         $hasSuperUserAcess    = Piwik::hasUserSuperUserAccess();
         $isAnonymous          = Piwik::isUserIsAnonymous();
