@@ -211,7 +211,7 @@ PageRenderer.prototype.contains = function (selector) {
 };
 
 // main capturing function
-PageRenderer.prototype.capture = function (outputPath, callback) {
+PageRenderer.prototype.capture = function (outputPath, callback, selector) {
     var self = this,
         timeout = setTimeout(function () {
             self.abort();
@@ -227,6 +227,32 @@ PageRenderer.prototype.capture = function (outputPath, callback) {
     this.pageLogs = [];
     this.aborted = false;
 
+    function setClipRect (page, selector) {
+        if (!selector) {
+
+            return;
+        }
+
+        var result = page.evaluate(function(selector) {
+            var element = window.jQuery(selector);
+
+            if (element && element.length) {
+                return element[0].getBoundingClientRect();
+            }
+
+        }, selector);
+
+        if (!result) {
+            throw new Error("Cannot find element " + selector);
+        }
+
+        if (result && result.__isCallError) {
+            throw new Error("Error while detecting element clipRect " + selector + ": " + result.message);
+        }
+
+        page.clipRect = result;
+    }
+
     this._executeEvents(events, function () {
         if (self.aborted) {
             return;
@@ -235,16 +261,22 @@ PageRenderer.prototype.capture = function (outputPath, callback) {
         clearTimeout(timeout);
 
         try {
+            var previousClipRect = self.webpage.clipRect;
+
             if (outputPath) {
+                setClipRect(self.webpage, selector)
+
                 self._setCorrectViewportSize();
                 self.webpage.render(outputPath);
             }
 
             self._viewportSizeOverride = null;
+            self.webpage.clipRect = previousClipRect;
 
             callback();
         } catch (e) {
             self._viewportSizeOverride = null;
+            self.webpage.clipRect = previousClipRect;
 
             callback(e);
         }
