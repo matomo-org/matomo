@@ -1,15 +1,17 @@
 #!/bin/bash
-# Syntax: build.sh version|'nightly'|'webtest'
+# Syntax: build.sh version
+
+# Setup environment once:
+# $ curl -sS https://getcomposer.org/installer | php
+# git clone -- https://github.com/piwik/piwik.git /home/piwik-builds/builds/piwik_last_version || die "Problem checking out the last version tag"
+
+# Before running this script, tag a new version:
 # $ git tag 1.11-b3
 # $ git push origin tags/1.11-b3
-
-# SETUP:  
-# $ curl -sS https://getcomposer.org/installer | php
 
 VERSION="$1"
 DEST_PATH=/home/piwik-builds/builds
 URL_REPO=https://github.com/piwik/piwik.git
-# git clone -- https://github.com/piwik/piwik.git /home/piwik-builds/builds/piwik_last_version || die "Problem checking out the last version tag"
 # repo should be in DEST_PATH/piwik_last_version eg. /home/piwik-builds/builds/piwik_last_version
 HTTP_PATH=/home/piwik-builds/www/builds.piwik.org
 API_SCP_LATEST=piwik-api@localhost:/home/piwik-api/www/api.piwik.org/
@@ -33,10 +35,7 @@ function cleanupWorkspace() {
 
 # organize files for packaging
 function organizePackage() {
-#        cd piwik/
-    #ls -la
     curl -sS https://getcomposer.org/installer | php
-#        php composer.phar install #REMOVED
     php composer.phar install
     cd ../
     rm -rf piwik/composer.phar
