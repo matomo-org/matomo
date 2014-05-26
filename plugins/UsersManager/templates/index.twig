@@ -47,7 +47,7 @@
         </thead>
 
         <tbody>
-        {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />{% endset %}
+        {% set accesValid %}<img src='plugins/Morpheus/images/ok.png' class='accessGranted' />{% endset %}
         {% set accesInvalid %}<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />{% endset %}
         {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
         {% for login,access in usersAccessByWebsite %}
@@ -156,7 +156,7 @@
             {% endfor %}
             </tbody>
         </table>
-        <div class="addrow"><img src='plugins/UsersManager/images/add.png'/> {{ 'UsersManager_AddUser'|translate }}</div>
+        <div class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'UsersManager_AddUser'|translate }}</div>
     </div>
 
     <h2 id="super_user_access">{{ 'UsersManager_SuperUserAccessManagement'|translate }}</h2>
@@ -182,7 +182,7 @@
                     <td id='login'>{{ login }}</td>
                     <td>{{ alias|raw }}</td>
                     <td id='superuser' data-login="{{ login|e('html_attr') }}">
-                        <img src='plugins/UsersManager/images/ok.png' class='accessGranted' data-hasaccess="1" {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
+                        <img src='plugins/Morpheus/images/ok.png' class='accessGranted' data-hasaccess="1" {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
                         <img src='plugins/UsersManager/images/no-access.png' class='updateAccess' data-hasaccess="0" {% if login in superUserLogins %}style="display:none"{% endif %} />
                         &nbsp;
                     </td>
