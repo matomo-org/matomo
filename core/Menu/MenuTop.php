@@ -45,8 +45,7 @@ class MenuTop extends MenuAbstract
      * @param int $order The order hint.
      * @param bool $isHTML Whether `$url` is an HTML string or a URL that will be rendered as a link.
      * @param bool|string $tooltip Optional tooltip to display.
-     * @api
-     * @deprecated since version 2.3.0
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
      */
     public static function addEntry($topMenuName, $url, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
     {
@@ -58,7 +57,7 @@ class MenuTop extends MenuAbstract
     }
 
     /**
-     * @deprecated since version 2.3.0
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
      */
     public static function removeEntry($menuName, $subMenuName = false)
     {
@@ -73,6 +72,7 @@ class MenuTop extends MenuAbstract
      * @param boolean $displayedForCurrentUser
      * @param int $order
      * @param string $tooltip Tooltip to display.
+     * @api
      */
     public function addHtml($menuName, $data, $displayedForCurrentUser, $order, $tooltip)
     {
@@ -96,26 +96,7 @@ class MenuTop extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * Triggered when collecting all available menu items that are be displayed on the very top of every
-             * page, next to the login/logout links.
-             * 
-             * Subscribe to this event if you want to add one or more items to the top menu.
-             * 
-             * Menu items should be added via the {@link addEntry()} method.
-             *
-             * **Example**
-             * 
-             *     use Piwik\Menu\MenuTop;
-             *
-             *     public function addMenuItems()
-             *     {
-             *         MenuTop::addEntry(
-             *             'TopMenuName',
-             *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
-             *             $order = 6
-             *         );
-             *     }
+             * @ignore
              */
             Piwik::postEvent('Menu.Top.addItems', array());
 

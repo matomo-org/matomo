@@ -35,7 +35,7 @@
 
     <span class="topBarElem">
         <div id="userMenu"
-             title="{{ 'General_HelloUser'|translate(helloAlias|trim)|raw }}"
+             tooltip="{{ 'General_HelloUser'|translate(helloAlias|trim)|rawSafeDecoded }}"
              menu-title="{{ helloAlias|trim }}"
              piwik-menudropdown>
 

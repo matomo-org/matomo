@@ -41,8 +41,7 @@ class MenuAdmin extends MenuAbstract
      * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
-     * @api
-     * @deprecated since version 2.3.0
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
      */
     public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
     {
@@ -59,25 +58,7 @@ class MenuAdmin extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * Triggered when collecting all available admin menu items. Subscribe to this event if you want
-             * to add one or more items to the Piwik admin menu.
-             *
-             * Menu items should be added via the {@link add()} method.
-             *
-             * **Example**
-             * 
-             *     use Piwik\Menu\MenuAdmin;
-             * 
-             *     public function addMenuItems()
-             *     {
-             *         MenuAdmin::getInstance()->add(
-             *             'MenuName',
-             *             'SubmenuName',
-             *             array('module' => 'MyPlugin', 'action' => 'index'),
-             *             $showOnlyIf = Piwik::hasUserSuperUserAccess(),
-             *             $order = 6
-             *         );
-             *     }
+             * @ignore
              */
             Piwik::postEvent('Menu.Admin.addItems', array());
 
@@ -113,7 +94,7 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * @deprecated since version 2.3.0
+     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
      */
     public static function removeEntry($menuName, $subMenuName = false)
     {

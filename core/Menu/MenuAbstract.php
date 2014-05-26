@@ -107,7 +107,7 @@ abstract class MenuAbstract extends Singleton
      * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
-     * @param false|string $tooltip An optional tooltip to display.
+     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
      * @api
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
@@ -207,6 +207,7 @@ abstract class MenuAbstract extends Singleton
      * @param $mainMenuToEdit
      * @param $subMenuToEdit
      * @param $newUrl
+     * @api
      */
     public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
     {

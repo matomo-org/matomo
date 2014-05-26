@@ -7,7 +7,7 @@
 
 /**
  * Usage:
- * <div piwik-menudropdown menu-title="MyMenuItem">
+ * <div piwik-menudropdown menu-title="MyMenuItem" tooltip="My Tooltip">
  *     <a class="item" href="/url">An Item</a>
  *     <a class="item disabled">Disabled</a>
  *     <a class="item active">Active item</a>
@@ -23,7 +23,8 @@ angular.module('piwikApp').directive('piwikMenudropdown', function(){
         replace: true,
         restrict: 'A',
         scope: {
-            menuTitle: '@'
+            menuTitle: '@',
+            tooltip: '@',
         },
         templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.html?cb=' + piwik.cacheBuster
     };

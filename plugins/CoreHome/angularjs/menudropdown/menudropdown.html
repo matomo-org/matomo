@@ -2,6 +2,7 @@
 
     <span class="title"
           ng-click="view.showItems=!view.showItems"
+          title="{{ tooltip }}"
           ng-bind-html="menuTitle"/>
 
     <div class="items" ng-show="view.showItems" ng-transclude></div>
