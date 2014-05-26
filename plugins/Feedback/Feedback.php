@@ -7,8 +7,6 @@
  *
  */
 namespace Piwik\Plugins\Feedback;
-use Piwik\Menu\MenuTop;
-use Piwik\Piwik;
 
 
 /**

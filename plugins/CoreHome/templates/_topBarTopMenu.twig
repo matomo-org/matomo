@@ -21,16 +21,13 @@
     {% endset %}
 
     {% macro userMenuItem(label, menu, currentModule, currentAction) %}
-        {% if (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
-            <a class="item active"
-               {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
-                    >{{ label|translate }}</a>
-        {% else %}
-            <a class="item"
-               href="index.php{{ menu._url|urlRewriteWithParameters }}"
-               {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
-                    >{{ label|translate }}</a>
-        {% endif %}
+
+        <a class="item {% if (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}"
+           href="index.php{{ menu._url|urlRewriteWithParameters }}"
+           id="usermenu-{{ menu._url.module|lower }}-{{ menu._url.action|default('index')|lower }}"
+           {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
+                >{{ label|translate }}</a>
+
     {% endmacro %}
 
     <span class="topBarElem">
