@@ -79,6 +79,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/angularjs/angular-cookies.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/morpheus.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
