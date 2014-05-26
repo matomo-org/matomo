@@ -110,7 +110,7 @@ class GeneratePlugin extends GeneratePluginBase
     protected function generatePluginFolder($pluginName)
     {
         $pluginPath = $this->getPluginPath($pluginName);
-        Filesystem::mkdir($pluginPath, true);
+        Filesystem::mkdir($pluginPath);
     }
 
     /**

@@ -316,7 +316,7 @@ class SettingsPiwik
         $expectedStringAlt = 'plugins/CoreHome/images/favicon.ico';
 
         // this will match when Piwik is installed and favicon has been customised
-        $expectedString = 'misc/user/favicon.png';
+        $expectedString = 'misc/user/';
 
         $expectedStringNotFound = strpos($fetched, $expectedString) === false && strpos($fetched, $expectedStringAlt) === false;
         if ($expectedStringNotFound) {

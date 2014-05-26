@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Common;
 use Piwik\CronArchive;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,8 +24,14 @@ class CoreArchiver extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('piwik-domain') && !$input->getOption('url')) {
+        $url = $input->getOption('url');
+        if ($input->getOption('piwik-domain') && !$url) {
             $_SERVER['argv'][] = '--url=' . $input->getOption('piwik-domain');
+        }
+
+        if (is_string($url) && $url && in_array($url, array('http://', 'https://'))) {
+            // see http://dev.piwik.org/trac/ticket/5180 and http://forum.piwik.org/read.php?2,115274
+            throw new \InvalidArgumentException('No valid URL given. If you have specified a valid URL try --piwik-domain instead of --url');
         }
 
         include PIWIK_INCLUDE_PATH . '/misc/cron/archive.php';
@@ -36,6 +43,7 @@ class CoreArchiver extends ConsoleCommand
         $command->setName('core:archive');
         $command->setDescription("Runs the CLI archiver. It is an important tool for general maintenance and to keep Piwik very fast.");
         $command->setHelp("* It is recommended to run the script with the option --url=[piwik-server-url] only. Other options are not required.
+  Try --piwik-domain if --url does not work for you
 * This script should be executed every hour via crontab, or as a daemon.
 * You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
   but it is recommended to run it via command line/CLI instead.

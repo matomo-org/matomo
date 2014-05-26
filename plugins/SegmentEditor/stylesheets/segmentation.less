@@ -494,6 +494,7 @@ div.scrollable {
   padding-top: 5px;
   display: none;
   float: left;
+  margin-bottom: 5px;
 }
 
 .segmentationContainer ul.submenu > li span.editSegment {
@@ -502,6 +503,9 @@ div.scrollable {
   text-align: center;
   margin-right:4px;
   font-weight: normal;
+  background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
+  width: 16px;
+  height: 16px;
 }
 
 .segmentEditorPanel.visible .segmentationContainer {
@@ -513,6 +517,37 @@ div.scrollable {
 .segmentEditorPanel.visible ul.submenu {
   display: block;
   list-style: none;
+}
+
+.segmentFilterContainer {
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: 10px;
+}
+
+.segmentEditorPanel.visible .segmentFilterContainer > input[type="text"] {
+  font: 13px Verdana;
+  width: 100%;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-width: 1px 0;
+  color: #999;
+  padding: 11px 32px 11px 12px;
+}
+
+.segmentEditorPanel.visible .segmentFilterContainer > span {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  right: 12px;
+  top: 16px;
+  cursor: pointer;
+}
+.segmentEditorPanel.visible .segmentFilterContainer:hover > span {
+  background: url(plugins/SegmentEditor/images/reset_search.png);
+}
+.segmentEditorPanel.visible .filterNoResults{
+  font-style: italic;
 }
 
 .segmentEditorPanel.visible .add_new_segment {
@@ -545,6 +580,11 @@ span.segmentationTitle {
 
 .add_new_segment {
   display: none;
+}
+
+.segmentList {
+  max-height:300px;
+  margin-top: 5px;
 }
 
 .segmentListContainer {

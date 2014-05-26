@@ -8,25 +8,19 @@
  */
 namespace Piwik\Updates;
 
-use Faker\Provider\File;
-use Piwik\Filesystem;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updates;
 
 /**
  */
-class Updates_2_2_3_b7 extends Updates
+class Updates_2_3_0_rc2 extends Updates
 {
     public static function update()
     {
-        // Delete all existing htaccess files
-        $files = Filesystem::globr( PIWIK_INCLUDE_PATH, ".htaccess");
+        ServerFilesGenerator::deleteHtAccessFiles();
 
-        foreach($files as $file) {
-            @unlink($file);
-        }
-
-        // Re-create them
         ServerFilesGenerator::createHtAccessFiles();
     }
+
+
 }
