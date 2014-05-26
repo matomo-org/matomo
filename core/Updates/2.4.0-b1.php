@@ -13,13 +13,14 @@ use Piwik\Filesystem;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updates;
 
-class Updates_2_2_3_b8 extends Updates
+class Updates_2_4_0_b1 extends Updates
 {
     public static function update()
     {
         try {
-            \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('Morpheus');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('Morpheus');
             \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('Zeitgeist');
+            self::deletePluginFromConfigFile('Zeitgeist');
         } catch(\Exception $e) {
         }
     }
