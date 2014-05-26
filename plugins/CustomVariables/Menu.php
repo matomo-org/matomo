@@ -16,7 +16,7 @@ use Piwik\Menu\MenuReporting;
 class Menu extends \Piwik\Plugin\Menu
 {
 
-    public function confiugreReportingMenu(MenuReporting $menu)
+    public function configureReportingMenu(MenuReporting $menu)
     {
         $menu->add('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
     }
