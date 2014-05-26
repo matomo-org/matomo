@@ -45,11 +45,11 @@ class API extends \Piwik\Plugin\API
 
         $body = sprintf("Feature: %s\nLike: %s\n", $featureName, $likeText, $message);
 
-        $feedbackMessage = " \n";
+        $feedbackMessage = "";
         if (!empty($message) && $message != 'undefined') {
             $feedbackMessage = sprintf("Feedback:\n%s\n", trim($message));
         }
-        $body .= $feedbackMessage;
+        $body .= $feedbackMessage ? $feedbackMessage : " \n";
 
         $subject = sprintf("%s for %s %s",
             empty($like) ? "-1" : "+1",
