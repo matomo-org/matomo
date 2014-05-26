@@ -93,6 +93,13 @@ if [ -z "$VERSION" ]; then
 fi
 
 
+# Fail script, if Piwik has already been built, to prevent re-building a given release
+destination=$HTTP_PATH/piwik-$VERSION.zip
+if [ -f "$destination" ]
+then
+	die "Piwik $VERSION has already been packaged. You must increase Piwik version number before packaging Piwik."
+fi
+
 ############################
 echo "Starting build...."
 ############################
