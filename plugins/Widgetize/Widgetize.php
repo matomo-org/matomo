@@ -25,17 +25,8 @@ class Widgetize extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Menu.Top.addItems'                      => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
-    }
-
-    public function addTopMenu()
-    {
-        $tooltip = Piwik::translate('Widgetize_TopLinkTooltip');
-        $urlParams = array('module' => 'Widgetize', 'action' => 'index', 'segment' => false);
-
-        MenuTop::addEntry('General_Widgets', $urlParams, true, 5, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

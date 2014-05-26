@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 9 ]>
+<html class="old-ie" id="ng-app" ng-app="piwikApp"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html id="ng-app" ng-app="piwikApp"><!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <title>Piwik &rsaquo; {{ 'CoreUpdater_UpdateTitle'|translate }}</title>
@@ -16,6 +19,18 @@
     <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/donate.js"></script>
     <script type="text/javascript" src="plugins/CoreUpdater/javascripts/updateLayout.js"></script>
+
+    <script type="text/javascript" src="libs/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="libs/angularjs/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="libs/angularjs/angular-animate.min.js"></script>
+    <script type="text/javascript" src="libs/angularjs/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/services/service.js"></script>
+    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/filters/filter.js"></script>
+    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/directives/directive.js"></script>
+    <script type="text/javascript" src="plugins/CoreHome/angularjs/piwikAppConfig.js"></script>
+    <script type="text/javascript" src="plugins/CoreHome/angularjs/piwikApp.js"></script>
+    <script type="text/javascript" src="plugins/Installation/javascripts/installation.js"></script>
+
     <script type="text/javascript">{{ getJavascriptTranslations()|raw }}</script>
     {% if 'General_LayoutDirection'|translate =='rtl' %}
         <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
@@ -23,7 +38,7 @@
 
     {% include "@CoreHome/_favicon.twig" %}
 </head>
-<body id="simple">
+<body id="simple" ng-app="app">
 <div id="contentsimple">
     <div id="title">
         <img title='Piwik' alt="Piwik" src="plugins/Morpheus/images/logo-header.png" style="margin-left:10px;"/>

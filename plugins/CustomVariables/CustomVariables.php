@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -34,7 +35,6 @@ class CustomVariables extends \Piwik\Plugin
     {
         $hooks = array(
             'WidgetsList.addWidgets'          => 'addWidgets',
-            'Menu.Reporting.addItems'         => 'addMenus',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
@@ -46,11 +46,6 @@ class CustomVariables extends \Piwik\Plugin
     public function addWidgets()
     {
         WidgetsList::add('General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
-    }
-
-    public function addMenus()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
     }
 
     public function install()

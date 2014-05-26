@@ -19,6 +19,7 @@ use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuTop;
+use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Period\Month;
@@ -563,7 +564,8 @@ abstract class Controller
 
             $this->setBasicVariablesView($view);
 
-            $view->topMenu = MenuTop::getInstance()->getMenu();
+            $view->topMenu  = MenuTop::getInstance()->getMenu();
+            $view->userMenu = MenuUser::getInstance()->getMenu();
 
             $notifications = $view->notifications;
             if (empty($notifications)) {

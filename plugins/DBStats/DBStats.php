@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\DBStats;
 
 use Piwik\Date;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -33,20 +32,11 @@ class DBStats extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'ViewDataTable.configure'         => 'configureViewDataTable',
             'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable',
             "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
         );
-    }
-
-    function addMenu()
-    {
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuDiagnostic', 'DBStats_DatabaseUsage',
-            array('module' => 'DBStats', 'action' => 'index'),
-            Piwik::hasUserSuperUserAccess(),
-            $order = 6);
     }
 
     /**
