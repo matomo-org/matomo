@@ -79,7 +79,7 @@ class MenuAdmin extends MenuAbstract
              *         );
              *     }
              */
-            Piwik::postEvent('Menu.Admin.addItems', array($this));
+            Piwik::postEvent('Menu.Admin.addItems', array());
 
             foreach ($this->getAvailableMenus() as $menu) {
                 $menu->configureAdminMenu($this);

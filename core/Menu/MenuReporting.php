@@ -84,7 +84,7 @@ class MenuReporting extends MenuAbstract
              *         );
              *     }
              */
-            Piwik::postEvent('Menu.Reporting.addItems', array($this));
+            Piwik::postEvent('Menu.Reporting.addItems', array());
 
             foreach ($this->getAvailableMenus() as $menu) {
                 $menu->configureReportingMenu($this);

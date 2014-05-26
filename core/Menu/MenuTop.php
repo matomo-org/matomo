@@ -117,7 +117,7 @@ class MenuTop extends MenuAbstract
              *         );
              *     }
              */
-            Piwik::postEvent('Menu.Top.addItems', array($this));
+            Piwik::postEvent('Menu.Top.addItems', array());
 
             foreach ($this->getAvailableMenus() as $menu) {
                 $menu->configureTopMenu($this);
