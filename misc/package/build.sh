@@ -89,8 +89,9 @@ namespace Piwik;\nclass Manifest {\n\tstatic $files=array(\n/; $ s/$/\n\t);\n}/'
 }
 
 if [ -z "$VERSION" ]; then
-    die "Expected a version number, 'nightly', or 'webtest' as a parameter"
+    die "Expected a version number as a parameter"
 fi
+
 
 ############################
 echo "Starting build...."
@@ -115,6 +116,10 @@ echo "checkout repository for tag $VERSION..."
 cd $DEST_PATH/piwik_last_version
 git pull
 git checkout tags/$VERSION
+
+if [ $? -eq 1 ] ; then
+    echo "Tag $VERSION does not exist in repository"
+fi
 
 echo "copying files to a new directory..."
 cd ..
