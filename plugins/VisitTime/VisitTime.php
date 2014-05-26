@@ -11,7 +11,6 @@ namespace Piwik\Plugins\VisitTime;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Menu\MenuMain;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -32,7 +31,6 @@ class VisitTime extends \Piwik\Plugin
     {
         $hooks = array(
             'WidgetsList.addWidgets'          => 'addWidgets',
-            'Menu.Reporting.addItems'         => 'addMenu',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
@@ -83,12 +81,6 @@ class VisitTime extends \Piwik\Plugin
         WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitTime_WidgetLocalTime', 'VisitTime', 'getVisitInformationPerLocalTime');
         WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitTime_WidgetServerTime', 'VisitTime', 'getVisitInformationPerServerTime');
         WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitTime_VisitsByDayOfWeek', 'VisitTime', 'getByDayOfWeek');
-    }
-
-    function addMenu()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'VisitTime_SubmenuTimes',
-            array('module' => 'VisitTime', 'action' => 'index'), true, $order = 65);
     }
 
     public function getReportsWithGoalMetrics(&$dimensions)
