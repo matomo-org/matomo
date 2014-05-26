@@ -151,6 +151,7 @@
         "PluginSettings": "Настройки на добавките",
         "PluginSettingsIntro": "Тук могат да се променят настройките за следните добавки от трети страни:",
         "PluginSettingsValueNotAllowed": "Стойността за поле \"%s\" за добавка \"%s\" не е позволена",
+        "SendPluginUpdateCommunicationHelp": "Ще бъде изпратено съобщение на привилигирован потребител когато е налична нова версия за добавка.",
         "StableReleases": "Ако Piwik е критично важен за вашият бизнес, използвайте последната стабилна версия. Ако използвате последна бета и откриете бъг или имате предложение, моля %sвижте тук%s.",
         "TrackAGoal": "Проследяване на цел",
         "TrackingCode": "Код за проследяване",
@@ -180,6 +181,7 @@
         "DonateCall3": "В случай, че Piwik помага на вашия бизнес или услуги, които сте пуснали, %1$sмоля, направете дарение!%2$s",
         "DonateFormInstructions": "Изберете стойност посредством плъзгача, след което натиснете бутона за абониране, за да направите дарение.",
         "ExcludeRowsWithLowPopulation": "Всички редове са показани %s С изключение на тези с ниски стойности",
+        "ExternalHelp": "Помощ (отваря се в нов прозорец)",
         "FlattenDataTable": "Този доклад е йерархичен %s Направете го плосък",
         "HowMuchIsPiwikWorth": "Каква стойност има Piwik за вас?",
         "IncludeRowsWithLowPopulation": "Редове с ниски стойности са скрити %s Покажи всички редове",
@@ -281,6 +283,7 @@
         "PluginKeywords": "Ключови думи",
         "PluginNotCompatibleWith": "%1$s добавка не е съвместима с %2$s.",
         "PluginNotWorkingAlternative": "Ако сте използвали тази добавка, може би ще намерите по-нова версия в магазина за приложения. В случай, че няма по-нова версия, може би ще желаете да деинсталирате добавката.",
+        "PluginRequirement": "%1$s изисква %2$s.",
         "PluginsManagement": "Управление на добавките",
         "PluginUpdateAvailable": "Използва се версия %s и е налична нова версия %s.",
         "PluginVersionInfo": "%1$s от %2$s",
@@ -323,6 +326,7 @@
         "CreatingBackupOfConfigurationFile": "Създадено е резервно копие на конфигурационния файл в %s",
         "CriticalErrorDuringTheUpgradeProcess": "Открита е КРИТИЧНА грешка по време на обновяването:",
         "DatabaseUpgradeRequired": "Необходимо е да се обнови базата от данни (БД)",
+        "DisablingIncompatiblePlugins": "Изключване на несъвместими добавки: %s",
         "DownloadingUpdateFromX": "Изтегляне на обновлението от %s",
         "DownloadX": "Изтегляне %s",
         "EmptyDatabaseError": "Базата от данни (БД) %s е празна. Трябва да редактирате или изтриете конфигурационният файл на Piwik.",
@@ -426,6 +430,7 @@
         "LearnWaysToParticipate": "Научете повече за начините, как бихте могли да %sучаствате%s",
         "ManuallySendEmailTo": "Моля изпратете ръчно Вашето съобщение до",
         "PluginDescription": "Изпратете обратна връзка към екипа на Piwik. Споделете вашите идеи и предложения с нас!",
+        "RateFeatureThankYouTitle": "Благодарим ви, че оценихте '%s'!",
         "SendFeedback": "Изпрати съобщението",
         "SpecialRequest": "Имате ли специална молба към екипа на Piwik?",
         "ThankYou": "Благодаря, че помогнахте да направим Piwik по-добър!",
@@ -705,7 +710,7 @@
         "OnlyEnterIfRequired": "Въведете само потребителя ако Вашият SMTP сървър го изисква",
         "OnlyEnterIfRequiredPassword": "Въведете само паролата ако Вашият SMTP сървър го изисква",
         "OnlyUsedIfUserPwdIsSet": "Изисква се ако потребителят или паролата са зададени, посъветвайте се с Вашия доставчик, ако не сте сигурни кой метод да използвате.",
-        "OpenSourceWebAnalytics": "Уеб Брояч с Отворен Код",
+        "OpenSourceWebAnalytics": "Уеб брояч с отворен код",
         "OperationAtLeast": "Най-малко",
         "OperationAtMost": "Най-много",
         "OperationContains": "Съдържа",
@@ -962,6 +967,13 @@
     "ImageGraph": {
         "ColumnOrdinateMissing": "Колоната '%s' не е намерена в този доклад. Опитайте с %s",
         "PluginDescription": "Генерирайте красиви статични PNG графични изображения за всеки Piwik доклад."
+    },
+    "Insights": {
+        "DayComparedToPreviousDay": "предишен ден",
+        "Filter": "Филтър",
+        "FilterOnlyNew": "Само нови",
+        "WeekComparedToPreviousWeek": "предишна седмица",
+        "YearComparedToPreviousYear": "предишна година"
     },
     "Installation": {
         "CollaborativeProject": "Piwik е съвместен проект, изграден с много любов от хора от всички краища на света.",
@@ -1231,6 +1243,7 @@
     },
     "MultiSites": {
         "Evolution": "Развитие",
+        "LoadingWebsites": "Зарежда сайтовете",
         "PluginDescription": "Показва обобщена статистика\/резюме. В момента се поддържа като основна добавка в Piwik.",
         "TopLinkTooltip": "Сравнете статистиката за всички ваши уебсайтове."
     },
@@ -1436,6 +1449,7 @@
         "SegmentDisplayedAllWebsites": "всички сайтове",
         "SegmentDisplayedThisWebsiteOnly": "само този уебсайт",
         "SegmentIsDisplayedForWebsite": "и се показва за",
+        "SegmentNotApplied": "Сегмент '%s' не е приложен",
         "SelectSegmentOfVisitors": "Изберете сегмент на посетителите:",
         "ThisSegmentIsVisibleTo": "Този сегмент е видим за:",
         "VisibleToAllUsers": "всички потребители",

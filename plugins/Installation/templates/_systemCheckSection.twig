@@ -267,6 +267,20 @@
             {% endif %}
         </td>
     </tr>
+
+    <tr>
+        <td class="label">{{ 'Installation_SystemCheckCronArchiveProcess'|translate }}</td>
+        <td>
+            {# Both results are OK, but we report the status to help troubleshoot #}
+            {% if infos.cli_process_ok %}
+                {{ ok }} {{ 'Installation_SystemCheckCronArchiveProcessCLI'|translate }}: {{ 'General_Ok'|translate }}
+            {% else %}
+                {{ ok }} {{ 'Installation_SystemCheckCronArchiveProcessCLI'|translate }}:
+                {{ 'Installation_NotSupported'|translate }} {{ 'Goals_Optional'|translate }}
+            {% endif %}
+        </td>
+    </tr>
+
     {% if duringInstall is empty %}
     <tr>
         <td class="label">{{ 'UserCountry_Geolocation'|translate }}</td>
@@ -311,6 +325,7 @@
             </td>
         </tr>
     {% endif %}
+
 
 </table>
 

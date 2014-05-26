@@ -32,7 +32,7 @@ class Process
         }
 
         $pidDir = CliMulti::getTmpPath();
-        Filesystem::mkdir($pidDir, true);
+        Filesystem::mkdir($pidDir);
 
         $this->isSupported  = self::isSupported();
         $this->pidFile      = $pidDir . '/' . $pid . '.pid';

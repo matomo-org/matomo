@@ -1150,6 +1150,9 @@
         "SystemCheckWriteDirs": "Directories with write access",
         "SystemCheckWriteDirsHelp": "To fix this error on your Linux system, try typing in the following command(s)",
         "SystemCheckZlibHelp": "You need to configure and rebuild PHP with \"zlib\" support enabled, --with-zlib.",
+        "SystemCheckCronArchiveProcess": "Archive Cron",
+        "SystemCheckCronArchiveProcessCLI": "Managing processes via CLI",
+        "NotSupported": "not supported",
         "Tables": "Creating the Tables",
         "TablesCreatedSuccess": "Tables created with success!",
         "TablesDelete": "Delete the detected tables",
@@ -1569,7 +1572,8 @@
         "VisibleToAllUsers": "all users",
         "VisibleToMe": "me",
         "YouMayChangeSetting": "Alternatively you may change the setting in the config file (%s), or edit this Segment and choose '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "You must be logged in to create and edit custom visitor segments."
+        "YouMustBeLoggedInToCreateSegments": "You must be logged in to create and edit custom visitor segments.",
+        "YouDontHaveAccessToCreateSegments": "You don't have the required access level to create and edit segments."
     },
     "SEO": {
         "AlexaRank": "Alexa Rank",

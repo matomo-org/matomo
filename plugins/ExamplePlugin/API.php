@@ -19,11 +19,11 @@ class API extends \Piwik\Plugin\API
      * Example method. Please remove if you do not need this API method.
      * You can call this API method like this:
      * /index.php?module=API&method=ExamplePlugin.getAnswerToLife
-     * /index.php?module=API&method=ExamplePlugin.getAnswerToLife?truth=0
+     * /index.php?module=API&method=ExamplePlugin.getAnswerToLife&truth=0
      *
      * @param  bool $truth
      *
-     * @return bool
+     * @return int
      */
     public function getAnswerToLife($truth = true)
     {

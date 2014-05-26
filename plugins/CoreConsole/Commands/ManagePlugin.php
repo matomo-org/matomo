@@ -43,7 +43,7 @@ class ManagePlugin extends ConsoleCommand
         $plugins = $input->getArgument('plugins');
 
         if (empty($this->operations[$operation])) {
-            throw new Exception("Invalid operation '$operation'.");
+            throw new \Exception("Invalid operation '$operation'.");
         }
 
         $fn = $this->operations[$operation];

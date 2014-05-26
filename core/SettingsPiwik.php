@@ -316,7 +316,7 @@ class SettingsPiwik
         $expectedStringAlt = 'plugins/CoreHome/images/favicon.ico';
 
         // this will match when Piwik is installed and favicon has been customised
-        $expectedString = 'misc/user/favicon.png';
+        $expectedString = 'misc/user/';
 
         $expectedStringNotFound = strpos($fetched, $expectedString) === false && strpos($fetched, $expectedStringAlt) === false;
         if ($expectedStringNotFound) {
@@ -382,6 +382,11 @@ class SettingsPiwik
             && Common::isPhpCliMode()) {
             // enterprise:install use case
             return Config::getHostname();
+        }
+
+        // config.ini.php not ready yet, instance_id will not be set
+        if(!Config::getInstance()->existsLocalConfig()) {
+            return false;
         }
 
         $instanceId = @Config::getInstance()->General['instance_id'];

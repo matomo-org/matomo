@@ -32,6 +32,8 @@ Segmentation = (function($) {
 
         self.timer = ""; // variable for further use in timing events
         self.searchAllowed = true;
+        self.filterTimer = "";
+        self.filterAllowed = true;
 
         self.availableMatches = [];
         self.availableMatches["metric"] = [];
@@ -69,22 +71,12 @@ Segmentation = (function($) {
 
         segmentation.prototype.shortenSegmentName = function(name, length){
 
-            if(typeof length === "undefined") length = 16;
+            if(typeof length === "undefined") length = 20;
             if(typeof name === "undefined") name = "";
             var i;
             
-            if(name.length > length)
-            {
-                for(i = length; i > 0; i--){
-                    if(name[i] === " "){
-                        break;
-                    }
-                }
-                if(i == 0){ 
-                    i = length-3;
-                }
-                
-                return name.slice(0,i)+"...";
+            if(name.length > length) {
+                return name.slice(0, length).trim() + "...";
             }
             return name;
         };
@@ -234,7 +226,7 @@ Segmentation = (function($) {
                                 + injClass +' title="'+segment.name+'"><span class="segname">'
                                 + self.shortenSegmentName(segment.name)+'</span>';
                     if(self.segmentAccess == "write") {
-                        listHtml += '<span class="editSegment">['+ self.translations['General_Edit'].toLocaleLowerCase() +']</span>';
+                        listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
                     listHtml += '</li>';
                 }
@@ -343,7 +335,7 @@ Segmentation = (function($) {
             $(self.form).find(".segment-content > h3 > span").text(segment.name);
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
-            $(self.form).find('.available_segments a.dropList').text(self.shortenSegmentName(segment.name, 16));
+            $(self.form).find('.available_segments a.dropList').text(self.shortenSegmentName(segment.name));
 
             if(segment.definition != ""){
                 revokeInitialStateRows();
@@ -359,11 +351,40 @@ Segmentation = (function($) {
             doDragDropBindings();
         };
 
-        var bindEvents = function() {
+        var filterSegmentList = function (keyword) {
+            var curTitle;
+            clearFilterSegmentList();
+            $(self.target).find(" .filterNoResults").remove();
+
+            $(self.target).find(".segmentList li").each(function () {
+                curTitle = $(this).prop('title');
+                $(this).hide();
+                if (curTitle.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
+                    $(this).show();
+                }
+            });
+
+            if ($(self.target).find(".segmentList li:visible").length == 0) {
+                $(self.target).find(".segmentList li:first")
+                    .before("<li class=\"filterNoResults grayed\">" + self.translations['General_SearchNoResults'] + "</li>");
+            }
+        }
+
+        var clearFilterSegmentList = function () {
+            $(self.target).find(" .filterNoResults").remove();
+            $(self.target).find(".segmentList li").each(function () {
+                $(this).show();
+            });
+        }
+
+        var bindEvents = function () {
             self.target.on('click', '.segmentationContainer', function (e) {
                 // hide all other modals connected with this widget
                 if (self.content.closest('.segmentEditorPanel').hasClass("visible")) {
-                    if ($(e.target).hasClass("jspDrag") === true) {
+                    if ($(e.target).hasClass("jspDrag") === true
+                        || $(e.target).hasClass("segmentFilterContainer") === true
+                        || $(e.target).parents().hasClass("segmentFilterContainer") === true
+                        || $(e.target).hasClass("filterNoResults")) {
                         e.stopPropagation();
                     } else {
                         self.jscroll.destroy();
@@ -373,7 +394,7 @@ Segmentation = (function($) {
                     // for each visible segmentationContainer -> trigger click event to close and kill scrollpane - very important !
                     closeAllOpenLists();
                     self.target.closest('.segmentEditorPanel').addClass('visible');
-
+                    self.target.find('.segmentFilter').val(self.translations['General_Search']).trigger('keyup');
                     self.jscroll = self.target.find(".segmentList").jScrollPane({
                         autoReinitialise: true,
                         showArrows:true
@@ -420,6 +441,42 @@ Segmentation = (function($) {
                 doDragDropBindings();
 
                 autoSuggestValues(this, persist);
+            });
+
+            // attach event that will clear segment list filtering input after clicking x
+            self.target.on('click', ".segmentFilterContainer span", function (e) {
+                $(e.target).parent().find(".segmentFilter").val(self.translations['General_Search']).trigger('keyup');
+            });
+
+            self.target.on('blur', ".segmentFilter", function (e) {
+                if ($(e.target).parent().find(".segmentFilter").val() == "") {
+                    $(e.target).parent().find(".segmentFilter").val(self.translations['General_Search'])
+                }
+            });
+
+            self.target.on('click', ".segmentFilter", function (e) {
+                if ($(e.target).val() == self.translations['General_Search']) {
+                    $(e.target).val("");
+                }
+            });
+
+            self.target.on('keyup', ".segmentFilter", function (e) {
+                var search = $(e.currentTarget).val();
+                if (search == self.translations['General_Search']) {
+                    search = "";
+                }
+
+                if (search.length >= 2) {
+                    clearTimeout(self.filterTimer);
+                    self.filterAllowed = true;
+                    self.filterTimer = setTimeout(function () {
+                        filterSegmentList(search);
+                    }, 500);
+                }
+                else {
+                    self.filterTimer = false;
+                    clearFilterSegmentList();
+                }
             });
 
             //
@@ -1177,10 +1234,12 @@ $(document).ready(function() {
             segmentFromRequest = decodeURIComponent(segmentFromRequest);
         }
 
+        var userSegmentAccess = (this.props.authorizedToCreateSegments) ? "write" : "read";
+
         this.impl = new Segmentation({
             "target"   : this.$element.find(".segmentListContainer"),
             "editorTemplate": $('.SegmentEditor', self.$element),
-            "segmentAccess" : "write",
+            "segmentAccess" : userSegmentAccess,
             "availableSegments" : this.props.availableSegments,
             "addMethod": addSegment,
             "updateMethod": updateSegment,

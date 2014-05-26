@@ -1,10 +1,14 @@
 {
     "Events": {
+        "AvgValue": "Valeur moyenne",
         "Event": "Evènement",
         "EventAction": "Action de l'évènement",
         "EventCategory": "Catégorie d'évènement",
         "EventName": "Nom d'évènement",
         "Events": "Evènements",
-        "EventValue": "Valeur d'évènement"
+        "EventValue": "Valeur d'évènement",
+        "MaxValue": "Valeur maximum",
+        "MinValue": "Valeur minimum",
+        "TotalValue": "Valeur totale"
     }
 }

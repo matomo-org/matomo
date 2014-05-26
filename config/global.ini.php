@@ -158,6 +158,12 @@ enable_create_realtime_segments = 1
 ; Set this to 0 in case your Piwik database is very big, and suggested values may not appear in time
 enable_segment_suggested_values = 1
 
+; By default, any user with a "view" access for a website can create segment assigned to this website.
+; Set this to "admin" or "superuser" to require that users should have at least this access to create new segments.
+; Note: anonymous user (even if it has view access) is not allowed to create or edit segment.
+; Possible values are "view", "admin", "superuser"
+adding_segment_requires_access = "view"
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
@@ -430,6 +436,7 @@ enable_auto_update = 1
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,

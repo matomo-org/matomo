@@ -21,7 +21,8 @@ class Output {
         }
 
         $dir = CliMulti::getTmpPath();
-        Filesystem::mkdir($dir, true);
+        Filesystem::mkdir($dir);
+
         $this->tmpFile = $dir . '/' . $outputId . '.output';
     }
 
