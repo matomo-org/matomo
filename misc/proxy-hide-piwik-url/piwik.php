@@ -61,7 +61,8 @@ if (empty($_GET)) {
 @ini_set('magic_quotes_runtime', 0);
 
 // 2) PIWIK.PHP PROXY: GET parameters found, this is a tracking request, we redirect it to Piwik
-$url = sprintf("%spiwik.php?cip=%s&token_auth=%s&", $PIWIK_URL, @$_SERVER['REMOTE_ADDR'], $TOKEN_AUTH);
+$url = sprintf("%spiwik.php?cip=%s&token_auth=%s&", $PIWIK_URL, getVisitIp(), $TOKEN_AUTH);
+
 foreach ($_GET as $key => $value) {
     $url .= $key . '=' . urlencode($value) . '&';
 }
@@ -73,3 +74,20 @@ $stream_options = array('http' => array(
 ));
 $ctx = stream_context_create($stream_options);
 echo file_get_contents($url, 0, $ctx);
+
+function getVisitIp()
+{
+    $matchIp = '/^([0-9]{1,3}\.){3}[0-9]{1,3}$/';
+    $ipKeys = array(
+        'HTTP_X_FORWARDED_FOR',
+        'HTTP_CLIENT_IP',
+        'HTTP_CF_CONNECTING_IP',
+    );
+    foreach($ipKeys as $ipKey) {
+        if (isset($_SERVER[$ipKey])
+            && preg_match($matchIp, $_SERVER[$ipKey])) {
+            return $_SERVER[$ipKey];
+        }
+    }
+    return @$_SERVER['REMOTE_ADDR'];
+}
