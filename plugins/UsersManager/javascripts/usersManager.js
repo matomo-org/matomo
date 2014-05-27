@@ -164,7 +164,7 @@ function bindUpdateAccess() {
             .click(bindUpdateAccess)
         ;
         $(self)
-            .attr('src', "plugins/Morpheus/images/ok.png")
+            .attr('src', "plugins/UsersManager/images/ok.png")
             .attr('class', "accessGranted")
         ;
 
