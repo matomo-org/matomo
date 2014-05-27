@@ -46,8 +46,8 @@ class SegmentEditor extends \Piwik\Plugin
 
     function getSegmentEditorHtml(&$out)
     {
-        $controller = new Controller();
-        $out .= $controller->getSelector();
+        $selector = new SegmentSelectorControl();
+        $out .= $selector->render();
     }
 
     public function getKnownSegmentsToArchiveAllSites(&$segments)
