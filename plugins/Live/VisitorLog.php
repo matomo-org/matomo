@@ -86,7 +86,7 @@ class VisitorLog extends Visualization
                     array(
                         'id'    => static::ID,
                         'title' => Piwik::translate('Live_LinkVisitorLog'),
-                        'icon'  => 'plugins/Zeitgeist/images/table.png'
+                        'icon'  => 'plugins/Morpheus/images/table.png'
                     )
                 )
             )

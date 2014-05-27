@@ -21,7 +21,7 @@ class CustomLogo
 
     public function getLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo.png';
+        $defaultLogo = 'plugins/Morpheus/images/logo.png';
         $themeLogo = 'plugins/%s/images/logo.png';
         $userLogo = CustomLogo::getPathUserLogo();
         return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $userLogo);
@@ -29,7 +29,7 @@ class CustomLogo
 
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo-header.png';
+        $defaultLogo = 'plugins/Morpheus/images/logo-header.png';
         $themeLogo = 'plugins/%s/images/logo-header.png';
         $customLogo = CustomLogo::getPathUserLogoSmall();
         return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
@@ -37,7 +37,7 @@ class CustomLogo
 
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo.svg';
+        $defaultLogo = 'plugins/Morpheus/images/logo.svg';
         $themeLogo = 'plugins/%s/images/logo.svg';
         $customLogo = CustomLogo::getPathUserSvgLogo();
         $svg = $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);

@@ -3,9 +3,9 @@
         <div class="annotation-star{% if annotation.canEditOrDelete %} annotation-star-changeable{% endif %}" data-starred="{{ annotation.starred }}"
             {% if annotation.canEditOrDelete %}title="{{ 'Annotations_ClickToStarOrUnstar'|translate }}"{% endif %}>
             {% if annotation.starred %}
-                <img src="plugins/Zeitgeist/images/star.png"/>
+                <img src="plugins/Morpheus/images/star.png"/>
             {% else %}
-                <img src="plugins/Zeitgeist/images/star_empty.png"/>
+                <img src="plugins/Morpheus/images/star_empty.png"/>
             {% endif %}
         </div>
         <div class="annotation-period {% if annotation.canEditOrDelete %}annotation-enter-edit-mode{% endif %}">({{ annotation.date }})</div>

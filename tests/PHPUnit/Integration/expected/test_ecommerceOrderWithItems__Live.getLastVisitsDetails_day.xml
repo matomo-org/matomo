@@ -10,7 +10,7 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<events>0</events>
 		<actions>3</actions>
@@ -124,7 +124,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -218,9 +218,9 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<events>0</events>
 		<actions>6</actions>
@@ -314,7 +314,7 @@
 						<quantity>6</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -342,7 +342,7 @@
 						<quantity>1</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -453,7 +453,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -547,7 +547,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -562,7 +562,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>

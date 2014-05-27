@@ -69,7 +69,7 @@ class AssetManager extends Singleton
     function __construct()
     {
         $this->cacheBuster = UIAssetCacheBuster::getInstance();
-        $this->minimalStylesheetFetcher =  new StaticUIAssetFetcher(array('plugins/Zeitgeist/stylesheets/base.less'), array(), $this->theme);
+        $this->minimalStylesheetFetcher =  new StaticUIAssetFetcher(array('plugins/Morpheus/stylesheets/base.less', 'plugins/Morpheus/stylesheets/general/_forms.less'), array(), $this->theme);
 
         $theme = Manager::getInstance()->getThemeEnabled();
         if(!empty($theme)) {

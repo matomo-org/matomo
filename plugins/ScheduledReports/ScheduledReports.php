@@ -57,11 +57,11 @@ class ScheduledReports extends \Piwik\Plugin
     );
 
     static private $managedReportTypes = array(
-        self::EMAIL_TYPE => 'plugins/Zeitgeist/images/email.png'
+        self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png'
     );
 
     static private $managedReportFormats = array(
-        ReportRenderer::HTML_FORMAT => 'plugins/Zeitgeist/images/html_icon.png',
+        ReportRenderer::HTML_FORMAT => 'plugins/Morpheus/images/html_icon.png',
         ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
     );
