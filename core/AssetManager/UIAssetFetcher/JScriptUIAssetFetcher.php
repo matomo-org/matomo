@@ -78,8 +78,10 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'libs/jquery/jquery.browser.js',
             'libs/',
             'plugins/CoreHome/javascripts/require.js',
-            'plugins/Zeitgeist/javascripts/piwikHelper.js',
-            'plugins/Zeitgeist/javascripts/',
+            'plugins/Morpheus/javascripts/piwikHelper.js',
+            'plugins/Morpheus/javascripts/jquery.icheck.min.js',
+            'plugins/Morpheus/javascripts/morpheus.js',
+            'plugins/Morpheus/javascripts/',
             'plugins/CoreHome/javascripts/uiControl.js',
             'plugins/CoreHome/javascripts/broadcast.js',
             'plugins/CoreHome/javascripts/', // load CoreHome JS before other plugins

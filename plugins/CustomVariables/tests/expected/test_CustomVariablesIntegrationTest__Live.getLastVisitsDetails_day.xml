@@ -8,7 +8,7 @@
         <visitorType>new</visitorType>
         <visitorTypeIcon />
         <visitConverted>1</visitConverted>
-        <visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+        <visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
         <visitEcommerceStatus>none</visitEcommerceStatus>
         <visitEcommerceStatusIcon />
         <searches>0</searches>
@@ -23,7 +23,7 @@
                 <goalPageId />
 
                 <url>http://localhost</url>
-                <icon>plugins/Zeitgeist/images/goal.png</icon>
+                <icon>plugins/Morpheus/images/goal.png</icon>
             </row>
             <row>
                 <type>action</type>

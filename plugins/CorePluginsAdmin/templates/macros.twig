@@ -53,7 +53,7 @@
 {% endmacro %}
 
 {% macro pluginDeveloper(owner) %}
-    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="plugins/Zeitgeist/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
+    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="plugins/Morpheus/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
 {% endmacro %}
 
 {% macro featuredIcon(align='') %}
@@ -151,7 +151,7 @@
         </thead>
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
-            {% set isZeitgeist = isTheme and name == 'Zeitgeist' %}
+            {% set isDefaultTheme = isTheme and name == 'Morpheus' %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name" style="white-space:nowrap;">
@@ -214,8 +214,8 @@
                         </div>
                         {% endif %}
                     </td>
-                    <td class="status" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
-                        {% if not isZeitgeist -%}
+                    <td class="status" {% if isDefaultTheme %}style="border-left-width:0px;"{% endif %}>
+                        {% if not isDefaultTheme -%}
 
                         {% if plugin.activated %}
                             {{ 'CorePluginsAdmin_Active'|translate }}
@@ -228,8 +228,8 @@
                     </td>
 
                     {% if displayAdminLinks %}
-                    <td class="togl action-links" {% if isZeitgeist %}style="border-left-width:0px;"{% endif %}>
-                        {% if not isZeitgeist -%}
+                    <td class="togl action-links" {% if isDefaultTheme %}style="border-left-width:0px;"{% endif %}>
+                        {% if not isDefaultTheme -%}
 
                         {% if plugin.invalid is defined or plugin.alwaysActivated %}
                             -

@@ -22,7 +22,7 @@
         {% endif %}
     </div>
 
-    <span class="loadingPiwik" style="display:none;"><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+    <span class="loadingPiwik" style="display:none;"><img src="plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
 
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
@@ -33,7 +33,7 @@
                     {% for footerIcon in footerIconGroup.buttons %}
                         <span>
                             {% if properties.show_active_view_icon and clientSideParameters.viewDataTable == footerIcon.id %}
-                                <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
+                                <img src="plugins/Morpheus/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                             {% endif %}
                             <a class="tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
                                 <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
@@ -46,11 +46,11 @@
                 {% endfor %}
                 <div class="tableIconsGroup">
                     {% if footerIcons is empty %}
-                        <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
+                        <img src="plugins/Morpheus/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                     {% endif %}
                     <span class="exportToFormatIcons">
                         <a class="tableIcon" var="export">
-                            <img width="16" height="16" src="plugins/Zeitgeist/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
+                            <img width="16" height="16" src="plugins/Morpheus/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
                         </a>
                     </span>
 				    <span class="exportToFormatItems" style="display:none;">
@@ -63,14 +63,14 @@
                         {% if properties.show_export_as_rss_feed %}
                             |
                             <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
-                                <img border="0" src="plugins/Zeitgeist/images/feed.png"/>
+                                <img border="0" src="plugins/Morpheus/images/feed.png"/>
                             </a>
                         {% endif %}
 				    </span>
                     {% if properties.show_export_as_image_icon %}
                         <span id="dataTableFooterExportAsImageIcon">
                             <a class="tableIcon" href="#" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
-                                <img title="{{ 'General_ExportAsImage'|translate }}" src="plugins/Zeitgeist/images/image.png"/>
+                                <img title="{{ 'General_ExportAsImage'|translate }}" src="plugins/Morpheus/images/image.png"/>
                             </a>
                         </span>
                     {% endif %}
@@ -102,7 +102,7 @@
             {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
                 <div class="annotationView" title="{{ 'Annotations_IconDesc'|translate }}">
                     <a class="tableIcon">
-                        <img width="16" height="16" src="plugins/Zeitgeist/images/annotations.png"/>
+                        <img width="16" height="16" src="plugins/Morpheus/images/annotations.png"/>
                     </a>
                     <span>{{ 'Annotations_Annotations'|translate }}</span>
                 </div>
@@ -135,6 +135,6 @@
 
 </div>
 
-<span class="loadingPiwikBelow" style="display:none;"><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+<span class="loadingPiwikBelow" style="display:none;"><img src="plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
 
 <div class="dataTableSpacer"></div>

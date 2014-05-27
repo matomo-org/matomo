@@ -42,18 +42,19 @@ class Twig
 
 		//get current theme
 		$manager = Plugin\Manager::getInstance();
-		$theme = $manager->getThemeEnabled();
+		$theme   = $manager->getThemeEnabled();
 		$loaders = array();
 		
 		//create loader for custom theme to overwrite twig templates
-		if($theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME){
+		if($theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
 			$customLoader = $this->getCustomThemeLoader($theme);
-			if($customLoader){
+			if ($customLoader) {
 				//make it possible to overwrite plugin templates
-				$this->addCustomPluginNamespaces($customLoader,$theme->getPluginName());
+				$this->addCustomPluginNamespaces($customLoader, $theme->getPluginName());
 				$loaders[] = $customLoader;
 			}
 		}
+
 		$loaders[] = $loader;
         
         $chainLoader = new Twig_Loader_Chain($loaders);

@@ -23,7 +23,7 @@
 				<pageId>21</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -124,7 +124,7 @@
 				<pageId>20</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -228,7 +228,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -241,7 +241,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -254,7 +254,7 @@
 				<eventName>Search query here</eventName>
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -267,7 +267,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -281,7 +281,7 @@
 				<eventValue>9.66</eventValue>
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -293,7 +293,7 @@
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
 				<eventValue>9.66</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -394,7 +394,7 @@
 				<pageId>18</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -480,7 +480,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -507,7 +507,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/webradio</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -526,7 +526,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -545,7 +545,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -564,7 +564,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -583,7 +583,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -602,7 +602,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -622,7 +622,7 @@
 				<eventValue>9</eventValue>
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -642,7 +642,7 @@
 				<eventValue>10</eventValue>
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -667,7 +667,7 @@
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -680,7 +680,7 @@
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -693,7 +693,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -706,7 +706,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -719,7 +719,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -730,7 +730,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -831,7 +831,7 @@
 				<pageId>45</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -928,7 +928,7 @@
 				<pageId>44</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1028,7 +1028,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1041,7 +1041,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1054,7 +1054,7 @@
 				<eventName>Search query here</eventName>
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1067,7 +1067,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1081,7 +1081,7 @@
 				<eventValue>9.66</eventValue>
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1093,7 +1093,7 @@
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
 				<eventValue>9.66</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1190,7 +1190,7 @@
 				<pageId>42</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1272,7 +1272,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1299,7 +1299,7 @@
 				<goalPageId>25</goalPageId>
 				
 				<url>http://example.org/webradio</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1318,7 +1318,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1337,7 +1337,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1356,7 +1356,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1375,7 +1375,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1394,7 +1394,7 @@
 				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1414,7 +1414,7 @@
 				<eventValue>9</eventValue>
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1434,7 +1434,7 @@
 				<eventValue>10</eventValue>
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1459,7 +1459,7 @@
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1472,7 +1472,7 @@
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1485,7 +1485,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1498,7 +1498,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1511,7 +1511,7 @@
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1522,7 +1522,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>

@@ -80,7 +80,7 @@
         <tr ng-if="hasSuperUserAccess">
             <td colspan="8" class="add_new_site">
                 <a href="{{ url }}?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}">
-                    <img src='plugins/UsersManager/images/add.png' alt=""/> {{ 'SitesManager_AddSite'|translate }}
+                    <img src='plugins/Morpheus/images/add.png' alt=""/> {{ 'SitesManager_AddSite'|translate }}
                 </a>
             </td>
         </tr>
@@ -114,7 +114,7 @@
                 <img title="Search"
                      ng-show="!searchTerm"
                      class="search_ico"
-                     src="plugins/Zeitgeist/images/search_ico.png"/>
+                     src="plugins/Morpheus/images/search_ico.png"/>
                 <img title="Clear"
                      ng-show="searchTerm"
                      ng-click="searchTerm='';model.searchSite('')"
