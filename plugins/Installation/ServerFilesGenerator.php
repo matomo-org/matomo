@@ -111,8 +111,6 @@ class ServerFilesGenerator
           <add fileExtension=".csv" allowed="false" />
           <add fileExtension=".pdf" allowed="false" />
           <add fileExtension=".log" allowed="false" />
-          <add fileExtension=".htm" allowed="false" />
-          <add fileExtension=".html" allowed="false" />
         </fileExtensions>
       </requestFiltering>
     </security>
