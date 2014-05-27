@@ -140,22 +140,35 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
     }
 }
 
-chai.Assertion.addChainableMethod('captureSelector', function (selector, pageSetupFn, done) {
-    var screenName = this.__flags['object'];
+chai.Assertion.addChainableMethod('captureSelector', function () {
+    var compareAgainst = this.__flags['object'];
 
-    capture(screenName, screenName, selector, pageSetupFn, done);
+    if (arguments.length == 3) {
+        var screenName  = compareAgainst,
+            selector    = arguments[0],
+            pageSetupFn = arguments[1],
+            done        = arguments[2];
+    } else {
+        var screenName  = app.runner.suite.title + "_" + arguments[0],
+            selector    = arguments[1],
+            pageSetupFn = arguments[2],
+            done        = arguments[3];
+    }
+
+    capture(screenName, compareAgainst, selector, pageSetupFn, done);
 });
 
 chai.Assertion.addChainableMethod('capture', function () {
     var compareAgainst = this.__flags['object'];
+
     if (arguments.length == 2) {
-        var screenName = compareAgainst,
+        var screenName  = compareAgainst,
             pageSetupFn = arguments[0],
-            done = arguments[1];
+            done        = arguments[1];
     } else {
-        var screenName = app.runner.suite.title + "_" + arguments[0],
+        var screenName  = app.runner.suite.title + "_" + arguments[0],
             pageSetupFn = arguments[1],
-            done = arguments[2];
+            done        = arguments[2];
     }
 
     capture(screenName, compareAgainst, null, pageSetupFn, done);
