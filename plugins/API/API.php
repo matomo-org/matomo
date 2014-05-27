@@ -694,36 +694,8 @@ class Plugin extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Menu.Top.addItems'               => 'addTopMenu',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
-    }
-
-    public function addTopMenu()
-    {
-        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
-        $tooltip = Piwik::translate('API_TopLinkTooltip');
-
-        MenuTop::addEntry('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
-
-        $this->addTopMenuMobileApp();
-    }
-
-    protected function addTopMenuMobileApp()
-    {
-        if (empty($_SERVER['HTTP_USER_AGENT'])) {
-            return;
-        }
-        if (!class_exists("DeviceDetector\\DeviceDetector")) {
-            throw new \Exception("DeviceDetector could not be found, maybe you are using Piwik from git and need to have update Composer. <br>php composer.phar update");
-        }
-
-        $ua = new \DeviceDetector\DeviceDetector($_SERVER['HTTP_USER_AGENT']);
-        $ua->parse();
-        $os = $ua->getOs('short_name');
-        if ($os && in_array($os, array('AND', 'IOS'))) {
-            MenuTop::addEntry('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
-        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

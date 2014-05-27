@@ -460,9 +460,9 @@
                     // modify the starred count & make sure the correct image is used
                     var newStarCount = starredCount + starAmt;
                     if (newStarCount > 0) {
-                        var newImg = 'plugins/Zeitgeist/images/annotations_starred.png';
+                        var newImg = 'plugins/Morpheus/images/annotations_starred.png';
                     } else {
-                        var newImg = 'plugins/Zeitgeist/images/annotations.png';
+                        var newImg = 'plugins/Morpheus/images/annotations.png';
                     }
                     $(this).attr('data-starred', newStarCount).find('img').attr('src', newImg);
 

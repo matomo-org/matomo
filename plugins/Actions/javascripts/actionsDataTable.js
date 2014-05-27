@@ -26,12 +26,12 @@
 
     // helper function for ActionDataTable
     function setImageMinus(domElem) {
-        $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/minus.png');
+        $('img.plusMinus', domElem).attr('src', 'plugins/Morpheus/images/minus.png');
     }
 
     // helper function for ActionDataTable
     function setImagePlus(domElem) {
-        $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/plus.png');
+        $('img.plusMinus', domElem).attr('src', 'plugins/Morpheus/images/plus.png');
     }
 
     /**
@@ -181,7 +181,7 @@
                 $(domElem).after('\
                 <tr id="' + divIdToReplaceWithSubTable + '" class="cellSubDataTable">\
                     <td colspan="' + numberOfColumns + '">\
-                            <span class="loadingPiwik" style="display:inline"><img src="plugins/Zeitgeist/images/loading-blue.gif" /> Loading...</span>\
+                            <span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" /> Loading...</span>\
                     </td>\
                 </tr>\
                 ');

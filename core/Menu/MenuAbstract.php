@@ -9,8 +9,10 @@
 namespace Piwik\Menu;
 
 use Piwik\Common;
+use Piwik\Log;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Base class for classes that manage one of Piwik's menus.
@@ -30,6 +32,7 @@ abstract class MenuAbstract extends Singleton
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
+    protected static $menus = array();
 
     /**
      * Builds the menu, applies edits, renames
@@ -48,6 +51,53 @@ abstract class MenuAbstract extends Singleton
     }
 
     /**
+     * Returns a list of available plugin menu instances.
+     *
+     * @return \Piwik\Plugin\Menu[]
+     */
+    protected function getAvailableMenus()
+    {
+        if (!empty(self::$menus)) {
+            return self::$menus;
+        }
+
+        $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
+
+        self::$menus = array();
+        foreach ($pluginNames as $pluginName) {
+            $menu = $this->findMenuInPlugin($pluginName);
+
+            if (!empty($menu)) {
+                self::$menus[] = $menu;
+            }
+        }
+
+        return self::$menus;
+    }
+
+    private function findMenuInPlugin($pluginName)
+    {
+        $menuFile = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/Menu.php';
+
+        if (!file_exists($menuFile)) {
+            return;
+        }
+
+        $klassName = sprintf('Piwik\\Plugins\\%s\\Menu', $pluginName);
+
+        if (!class_exists($klassName)) {
+            return;
+        }
+
+        if (!is_subclass_of($klassName, 'Piwik\\Plugin\\Menu')) {
+            Log::warning(sprintf('Cannot use menu for plugin %s, class %s does not extend Piwik\Plugin\Menu', $pluginName, $klassName));
+            return;
+        }
+
+        return new $klassName;
+    }
+
+    /**
      * Adds a new entry to the menu.
      *
      * @param string $menuName The menu's category name. Can be a translation token.
@@ -57,7 +107,7 @@ abstract class MenuAbstract extends Singleton
      * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
-     * @param false|string $tooltip An optional tooltip to display.
+     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
      * @api
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
@@ -81,6 +131,13 @@ abstract class MenuAbstract extends Singleton
         );
     }
 
+    /**
+     * Removes an existing entry from the menu.
+     *
+     * @param string      $menuName    The menu's category name. Can be a translation token.
+     * @param bool|string $subMenuName The menu item's name. Can be a translation token.
+     * @api
+     */
     public function remove($menuName, $subMenuName = false)
     {
         $this->menuEntriesToRemove[] = array(
@@ -113,6 +170,7 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName][$subMenuName]['_url'] = $url;
             $this->menu[$menuName][$subMenuName]['_order'] = $order;
             $this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
+            $this->menu[$menuName][$subMenuName]['_tooltip'] = $tooltip;
             $this->menu[$menuName]['_hasSubmenu'] = true;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
         }
@@ -135,6 +193,7 @@ abstract class MenuAbstract extends Singleton
      * @param $subMenuOriginal
      * @param $mainMenuRenamed
      * @param $subMenuRenamed
+     * @api
      */
     public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
     {
@@ -148,6 +207,7 @@ abstract class MenuAbstract extends Singleton
      * @param $mainMenuToEdit
      * @param $subMenuToEdit
      * @param $newUrl
+     * @api
      */
     public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
     {

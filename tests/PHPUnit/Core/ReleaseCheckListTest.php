@@ -212,7 +212,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 continue;
             }
             $manager = \Piwik\Plugin\Manager::getInstance();
-            $isGitSubmodule = Manager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
+            $isGitSubmodule = $manager->isPluginOfficialAndNotBundledWithCore($pluginName);
             $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
 
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);

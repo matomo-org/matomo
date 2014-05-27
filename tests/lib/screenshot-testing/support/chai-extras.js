@@ -41,17 +41,8 @@ function getPageLogsString(pageLogs, indent) {
 
 // add capture assertion
 var pageRenderer = new PageRenderer(path.join(config.piwikUrl, "tests", "PHPUnit", "proxy"));
-chai.Assertion.addChainableMethod('capture', function () {
-    var compareAgainst = this.__flags['object'];
-    if (arguments.length == 2) {
-        var screenName = compareAgainst,
-            pageSetupFn = arguments[0],
-            done = arguments[1];
-    } else {
-        var screenName = app.runner.suite.title + "_" + arguments[0],
-            pageSetupFn = arguments[1],
-            done = arguments[2];
-    }
+
+function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
 
     if (!(done instanceof Function)) {
         throw new Error("No 'done' callback specified in capture assertion.");
@@ -141,12 +132,33 @@ chai.Assertion.addChainableMethod('capture', function () {
             }
 
             done();
-        });
+        }, selector);
     } catch (ex) {
         var err = new Error(ex.message);
         err.stack = ex.message;
         done(err);
     }
+}
+
+chai.Assertion.addChainableMethod('captureSelector', function (selector, pageSetupFn, done) {
+    var screenName = this.__flags['object'];
+
+    capture(screenName, screenName, selector, pageSetupFn, done);
+});
+
+chai.Assertion.addChainableMethod('capture', function () {
+    var compareAgainst = this.__flags['object'];
+    if (arguments.length == 2) {
+        var screenName = compareAgainst,
+            pageSetupFn = arguments[0],
+            done = arguments[1];
+    } else {
+        var screenName = app.runner.suite.title + "_" + arguments[0],
+            pageSetupFn = arguments[1],
+            done = arguments[2];
+    }
+
+    capture(screenName, compareAgainst, null, pageSetupFn, done);
 });
 
 // add `contains` assertion

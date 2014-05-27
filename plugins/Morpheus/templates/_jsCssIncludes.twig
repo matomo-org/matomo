@@ -1,0 +1,7 @@
+{% autoescape false %}
+    {{ includeAssets({"type": "css"}) }}
+    {{ includeAssets({"type":"js"}) }}
+{% endautoescape %}
+{% if 'General_LayoutDirection'|translate =='rtl' %}
+    <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/rtl.css"/>
+{% endif %}

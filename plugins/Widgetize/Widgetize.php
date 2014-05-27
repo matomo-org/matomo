@@ -25,24 +25,17 @@ class Widgetize extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Menu.Top.addItems'                      => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
-    }
-
-    public function addTopMenu()
-    {
-        $tooltip = Piwik::translate('Widgetize_TopLinkTooltip');
-        $urlParams = array('module' => 'Widgetize', 'action' => 'index', 'segment' => false);
-
-        MenuTop::addEntry('General_Widgets', $urlParams, true, 5, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
-        $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/morpheus.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/widgetMenu.js";
         $jsFiles[] = "plugins/Widgetize/javascripts/widgetize.js";

@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserCountryMap;
 
 use Piwik\FrontController;
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Version;
 use Piwik\WidgetsList;
@@ -51,16 +50,9 @@ class UserCountryMap extends \Piwik\Plugin
     {
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Menu.Reporting.addItems'         => 'addMenu'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
         return $hooks;
-    }
-
-    public function addMenu()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'UserCountryMap_RealTimeMap',
-            array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
     }
 
     public function getJsFiles(&$jsFiles)

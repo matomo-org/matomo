@@ -15,7 +15,34 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**
- * Custom Events API
+ * The Events API lets you request reports about your users' Custom Events.
+ *
+ * Events are tracked using the Javascript Tracker trackEvent() function, or using the [Tracking HTTP API](http://developer.piwik.org/api-reference/tracking-api).
+ *
+ * <br/>An event is defined by an event category (Videos, Music, Games...),
+ * an event action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...),
+ * and an optional event name (a movie name, a song title, etc.) and an optional numeric value.
+ *
+ * <br/>This API exposes the following Custom Events reports: `getCategory` lists the top Event Categories,
+ * `getAction` lists the top Event Actions, `getName` lists the top Event Names.
+ *
+ * <br/>These Events report define the following metrics: nb_uniq_visitors, nb_visits, nb_events.
+ * If you define values for your events, you can expect to see the following metrics: nb_events_with_value,
+ * sum_event_value, min_event_value, max_event_value, avg_event_value
+ *
+ * <br/>The Events.get* reports can be used with an optional `&secondaryDimension` parameter.
+ * Secondary dimension is the dimension used in the sub-table of the Event report you are requesting.
+ *
+ * <br/>Here are the possible values of `secondaryDimension`: <ul>
+ * <li>For `Events.getCategory` you can set `secondaryDimension` to `eventAction` or `eventName`.</li>
+ * <li>For `Events.getAction` you can set `secondaryDimension` to `eventName` or `eventCategory`.</li>
+ * <li>For `Events.getName` you can set `secondaryDimension` to `eventAction` or `eventCategory`.</li>
+ * </ul>
+ *
+ * <br/>For example, to request all Custom Events Categories, and for each, the top Event actions,
+ * you would request: `method=Events.getCategory&secondaryDimension=eventAction&flat=1`.
+ * You may also omit `&flat=1` in which case, to get top Event actions for one Event category,
+ * use `method=Events.getActionFromCategoryId` passing it the `&idSubtable=` of this Event category.
  *
  * @package Events
  * @method static \Piwik\Plugins\Events\API getInstance()

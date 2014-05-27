@@ -12,11 +12,8 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Menu\MenuAdmin;
-use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;
-use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Settings\UserSetting;
 
 /**
@@ -32,7 +29,6 @@ class CoreAdminHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'UsersManager.deleteUser'         => 'cleanupUser'
         );
@@ -66,7 +62,8 @@ class CoreAdminHome extends \Piwik\Plugin
     {
         $stylesheets[] = "libs/jquery/themes/base/jquery-ui.css";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/menu.less";
-        $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
+        $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
+        $stylesheets[] = "plugins/Morpheus/stylesheets/theme.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/pluginSettings.less";
     }
@@ -77,34 +74,15 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/jquery-ui.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
-        $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
-        $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/morpheus.js";
         $jsFiles[] = "libs/jquery/jquery.history.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/generalSettings.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
-    }
-
-    function addMenu()
-    {
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 1);
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuDiagnostic', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 10);
-        MenuAdmin::getInstance()->add('General_Settings', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 5);
-        MenuAdmin::getInstance()->add('General_Settings', 'CoreAdminHome_MenuGeneralSettings',
-            array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 6);
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'CoreAdminHome_TrackingCode',
-            array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 4);
-
-        MenuAdmin::getInstance()->add('General_Settings', 'CoreAdminHome_PluginSettings',
-            array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
-            SettingsManager::hasPluginsSettingsForCurrentUser(),
-            $order = 7);
-
     }
 
     function purgeOutdatedArchives()
