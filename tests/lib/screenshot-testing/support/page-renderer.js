@@ -242,6 +242,11 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
                 element.each(function (index, node) {
                     var rect = node.getBoundingClientRect();
 
+                    if (!rect.width || !rect.height) {
+                        // element is not visible
+                        return;
+                    }
+
                     if (null === clipRect.left || rect.left < clipRect.left) {
                         clipRect.left = rect.left;
                     }
@@ -270,6 +275,13 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
 
         if (result && result.__isCallError) {
             throw new Error("Error while detecting element clipRect " + selector + ": " + result.message);
+        }
+
+        if (null === result.left
+            || null === result.top
+            || null === result.bottom
+            || null === result.right) {
+            throw new Error("Element(s) " + selector + " found but none is visible");
         }
 
         page.clipRect = result;
