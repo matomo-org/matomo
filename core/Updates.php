@@ -40,6 +40,9 @@ abstract class Updates
      * Tell the updater that this is a major update.
      * Leads to a more visible notice.
      *
+     * NOTE to release manager: Remember to mention in the Changelog
+     * that this update contains major DB upgrades and will take some time!
+     *
      * @return bool
      */
     static function isMajorUpdate()
