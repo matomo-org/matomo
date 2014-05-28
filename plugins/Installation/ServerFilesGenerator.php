@@ -18,6 +18,9 @@ class ServerFilesGenerator
      */
     public static function createHtAccessFiles()
     {
+        if(!SettingsServer::isApache()) {
+            return;
+        }
         $denyAll = self::getDenyAllHtaccessContent();
         $allow = self::getAllowHtaccessContent();
 
@@ -81,7 +84,6 @@ class ServerFilesGenerator
         }
     }
 
-
     /**
      * Generate IIS web.config files to restrict access
      *
@@ -89,6 +91,9 @@ class ServerFilesGenerator
      */
     public static function createWebConfigFiles()
     {
+        if (!SettingsServer::isIIS()) {
+            return;
+        }
         @file_put_contents(PIWIK_INCLUDE_PATH . '/web.config',
             '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>

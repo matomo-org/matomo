@@ -309,11 +309,9 @@ class SystemCheck
 
     protected static function initServerFilesForSecurity()
     {
-        if (SettingsServer::isIIS()) {
-            ServerFilesGenerator::createWebConfigFiles();
-        } else {
-            ServerFilesGenerator::createHtAccessFiles();
-        }
+        ServerFilesGenerator::createWebConfigFiles();
+        ServerFilesGenerator::createHtAccessFiles();
+
         ServerFilesGenerator::createWebRootFiles();
     }
 
