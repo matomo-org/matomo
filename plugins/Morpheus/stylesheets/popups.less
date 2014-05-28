@@ -1,0 +1,46 @@
+.ui-dialog-title {
+    color: @brand-black;
+    font-weight: normal;
+}
+
+.ui-dialog .ui-widget-header {
+    color: @brand-black;
+    .font-default(18px, 24px);
+    font-weight: bold;
+}
+
+#feedback-sent,
+#feedback-faq {
+    a {
+        color: @brand-blue;
+    }
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 0px !important;
+    .ui-icon {
+        .opacity(0.5);
+    }
+    &:hover {
+        .opacity(1);
+        background: none !important;
+    }
+}
+
+button.ui-state-default, .ui-widget-content button.ui-state-default, .ui-widget-header button.ui-state-default {
+  &:hover {
+    background: @brand-red !important;
+  }
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    border: 0px !important;
+}
+
+.ui-menu .ui-menu-item a.ui-state-focus {
+    background: @silver-90; 
+}
+
+button:hover, .add-trusted-host:hover, input[type="submit"]:hover, button[type="button"]:hover, .submit:hover { 
+    background-color: @brand-red !important;
+}

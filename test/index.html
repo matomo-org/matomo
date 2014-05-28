@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lindab</title>
+
+<!-- Bootstrap -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<style>
+
+.navbar-lindab{
+	border-bottom: 3px solid #1e83d7;
+	color:#1e83d7;
+}
+
+h1, h2, h3, label, strong, a{
+	color:#1e83d7;
+}
+
+.navbar-brand{
+	padding:0;
+	height:auto;
+	margin:8px 0 0 15px;
+}
+
+.navbar-lindab .navbar-toggle {
+	border-color: #ddd;
+}
+
+.navbar-lindab .navbar-toggle .icon-bar {
+	background-color: #888;
+}
+
+.btn-info{
+	background-image: -webkit-linear-gradient(top,#1e83d7 0,#2aabd2 100%);
+	background-image: linear-gradient(to bottom,#1e83d7 0,#2aabd2 100%); 
+}
+
+@media (min-width: 768px){
+	.navbar-brand{
+		margin:8px 0 0 0;
+	}
+	
+	.navbar-nav > li > a {
+		font-size: 21px;
+	}
+	
+	.navbar-collapse{
+		padding:0;
+	}
+	
+	.navbar-lindab{
+		margin-bottom: 0;
+	}
+}
+
+@media (min-width: 1200px){
+	.container {
+		width: 970px;
+	}
+}
+
+</style>
+
+</head>
+<body>
+    <nav class="navbar navbar-lindab" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header navbar-right">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><img src="u20_normal.gif" alt="logo lindab" /></a>
+			</div>
+		
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Link</a></li>
+					<li><a href="#">Link</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	
+	<div class="container">
+		<img src="u4_normal.jpg" alt="house" class="img-responsive" />
+	</div>
+	
+	<div class="container">
+		<h1>Headings 1</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra commodo mauris, nec tristique lacus lobortis non. Ut aliquam tempus elit ut egestas. Ut vel faucibus leo. Sed in gravida neque. Aenean rhoncus vehicula vulputate. Vestibulum aliquet faucibus arcu id semper. Cras sed vehicula ipsum. Vestibulum in risus ac neque ultricies fringilla. In eget accumsan dolor.</p>
+		<h2>Headings 2</h2>
+		<p>Suspendisse placerat viverra ultrices. Nunc nec massa risus. Integer posuere, quam non luctus bibendum, ligula est ultricies diam, hendrerit condimentum neque neque vel quam. Morbi vitae pharetra tortor. In molestie enim vel auctor iaculis. Morbi in enim congue, egestas orci id, sodales odio. </p>
+	
+		<hr />
+	
+		<h2>Contact Form <small>Easy</small></h2>
+		<form class="form-horizontal" action="form-handler.php" method="post" role="form">
+			<div class="form-group">
+				<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+				<div class="col-sm-8">
+					<input type="email" class="form-control" id="inputEmail3" placeholder="Name">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword3" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" id="inputPassword3" placeholder="Email">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" id="inputPassword3" placeholder="Phone">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword3" class="col-sm-2 control-label">Message</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" placeholder="Message"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-8">
+					<button type="submit" class="btn btn-info">Submit</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{# The following parameters can be used to customize this widget when 'include'-ing:
+ * 
+ * - showAllSitesItem true if the 'All Websites' option should be shown, false if otherwise. Default = true.
+ * - allSitesItemText The text to use for the 'All Websites' option. Default = 'All Websites'.
+ * - allWebsitesLinkLocation The location of the 'All Websites' option. Can be 'top' or 'bottom'. Default = 'bottom'.
+ * - showSelectedSite false if the currently selected site should be excluded from the list of sites. Default = false.
+ * - sites The list of sites to use. By default, the first N sites are used. They are retrieved in View.
+ * - show_autocompleter Whether to show the autocompleter or not. Default true.
+ * - switchSiteOnSelect Whether to change the page w/ a new idSite value when a site is selected, or not.
+ *                      Default = true.
+ * - inputName If set, a hidden <input> w/ name == $inputName is created which will hold the selected site's ID. For
+ *             use with <form> elements.
+ * - siteName The currently selected site name. Defaults to the first name in $sites set by View.
+ * - idSite The currently selected idSite. Defaults to the first id in $sites set by View.
+ #}
+{% set sitesSelector_allWebsitesLink %}
+    <div class="custom_select_all" style="clear: both;">
+        <a href="#" {% if showAllSitesItem is defined and showAllSitesItem == false %}style="display:none;"{% endif %}>
+            {% if allSitesItemText is defined %}
+                {{ allSitesItemText }}
+            {% else %}
+                {{ 'General_MultiSitesSummary'|translate }}
+            {% endif %}
+        </a>
+    </div>
+{% endset %}
+<div class="sites_autocomplete {% if sites|length > 1 %}sites_autocomplete--dropdown{% endif %}"
+        {% if siteSelectorId is defined %}id="{{ siteSelectorId }}"{% endif %}
+        {% if switchSiteOnSelect is not defined or switchSiteOnSelect %}data-switch-site-on-select="1"{% endif %}>
+    <div class="custom_select">
+
+        <a href="#" onclick="return false" class="custom_select_main_link" data-loading="0" data-siteid="{% if idSite is defined %}{{ idSite }}{% else %}{{ sites[0].idsite }}{% endif %}">
+            <span>{% if siteName is defined %}{{ siteName|raw }}{% else %}{{ sites[0].name|raw }}{% endif %}</span>
+        </a>
+
+        <div class="custom_select_block">
+            {% if allWebsitesLinkLocation is defined and allWebsitesLinkLocation == 'top' %}
+                {{ sitesSelector_allWebsitesLink }}
+            {% endif %}
+            <div class="custom_select_container">
+                <ul class="custom_select_ul_list">
+                    {% for info in sites %}
+                        <li {% if (showSelectedSite is not defined or showSelectedSite == false) and idSite == info.idsite %} style="display: none;"{% endif %}>
+                            <a href="#" data-siteid="{{ info.idsite }}">{{ info.name|raw }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if allWebsitesLinkLocation is not defined or allWebsitesLinkLocation == 'bottom' %}
+                {{ sitesSelector_allWebsitesLink }}
+            {% endif %}
+            <div class="custom_select_search" {% if show_autocompleter == false %}style="display:none;"{% endif %}>
+                <input type="text" length="15" class="websiteSearch inp"/>
+                <input type="hidden" class="max_sitename_width" value="130"/>
+                <input type="submit" value="Search" class="but"/>
+                <img title="Clear" class="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer; display: none;"
+                     src="plugins/CoreHome/images/reset_search.png"/>
+            </div>
+        </div>
+    </div>
+    {% if inputName is defined %}
+        <input type="hidden" name="{{ inputName }}" value="{% if idSite is defined %}{{ idSite }}{% else %}{{ sites[0].idsite }}{% endif %}"/>
+    {% endif %}
+</div>
+<script type="text/javascript">
+    $(document).ready(function () { piwik.initSiteSelectors(); });
+</script>
