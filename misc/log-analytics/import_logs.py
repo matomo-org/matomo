@@ -1528,7 +1528,10 @@ class Parser(object):
             logging.debug("Detecting format against line %i" % lineno)
             format = Parser.check_format(line)
 
-        file.seek(0)
+        try:
+            file.seek(0)
+        except IOError:
+            pass
 
         if not format:
             fatal_error("cannot automatically determine the log format using the first %d lines of the log file. " % limit +
@@ -1574,7 +1577,10 @@ class Parser(object):
             data = file.read(100)
             if len(data.strip()) == 0:
                 return
-            file.seek(0)
+            try:
+                file.seek(0)
+            except IOError:
+                pass
 
             format = self.detect_format(file)
             if format is None:

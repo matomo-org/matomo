@@ -2,6 +2,10 @@ angular.module('piwikApp').factory('http404CheckInterceptor', function($q) {
 
     function isClientError(rejection)
     {
+        if (rejection.status === 500) {
+            return true;
+        }
+
         return rejection.status >= 400 && rejection.status < 408;
     }
 

@@ -10,7 +10,7 @@
 
 {% if coreError %}
     <div class="error">
-        <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
+        <img src="plugins/Morpheus/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
         <ul>
             {% for message in errorMessages %}
                 <li>{{ message }}</li>
@@ -34,7 +34,7 @@
 {% else %}
     {% if warningMessages|length > 0 %}
         <div class="warning">
-            <img src="plugins/Zeitgeist/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}
+            <img src="plugins/Morpheus/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}
             <ul>
                 {% for message in warningMessages %}
                     <li>{{ message }}</li>
@@ -45,7 +45,7 @@
 
     {% if errorMessages|length > 0 %}
         <div class="error">
-            <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}
+            <img src="plugins/Morpheus/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}
             <ul>
                 {% for message in errorMessages %}
                     <li>{{ message }}</li>
@@ -55,7 +55,7 @@
             {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
                 {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
                 <p style="color:red;">
-                    <img src="plugins/Zeitgeist/images/error_medium.png"/>
+                    <img src="plugins/Morpheus/images/error_medium.png"/>
                     {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
                 </p>
             {% endif %}
@@ -70,7 +70,7 @@
         </p>
     {% else %}
         <div class="success"> {{ 'Installation_TablesUpdatedSuccess'|translate(oldVersion, currentVersion) }}
-            <img src="plugins/Zeitgeist/images/success_medium.png"/></div>
+            <img src="plugins/Morpheus/images/success_medium.png"/></div>
         <br />
 
     {% endif %}

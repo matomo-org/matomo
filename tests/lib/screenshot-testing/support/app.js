@@ -199,10 +199,8 @@ Application.prototype.doRunTests = function () {
         }
 
         // build diffviewer
-        self.diffViewerGenerator.checkImageMagickCompare(function () {
-            self.diffViewerGenerator.generate(function () {
-                self.finish();
-            });
+        self.diffViewerGenerator.generate(function () {
+            self.finish();
         });
     });
 };

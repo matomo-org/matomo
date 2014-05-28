@@ -21,7 +21,7 @@ class CustomLogo
 
     public function getLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo.png';
+        $defaultLogo = 'plugins/Morpheus/images/logo.png';
         $themeLogo = 'plugins/%s/images/logo.png';
         $userLogo = CustomLogo::getPathUserLogo();
         return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $userLogo);
@@ -29,7 +29,7 @@ class CustomLogo
 
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo-header.png';
+        $defaultLogo = 'plugins/Morpheus/images/logo-header.png';
         $themeLogo = 'plugins/%s/images/logo-header.png';
         $customLogo = CustomLogo::getPathUserLogoSmall();
         return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
@@ -37,7 +37,7 @@ class CustomLogo
 
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Zeitgeist/images/logo.svg';
+        $defaultLogo = 'plugins/Morpheus/images/logo.svg';
         $themeLogo = 'plugins/%s/images/logo.svg';
         $customLogo = CustomLogo::getPathUserSvgLogo();
         $svg = $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
@@ -195,21 +195,20 @@ class CustomLogo
                 return false;
         }
 
-        $smallWidthExpected = round($width * $targetHeight / $height);
+        $targetWidth = round($width * $targetHeight / $height);
 
-        $logoSmall = imagecreatetruecolor($smallWidthExpected, $targetHeight);
-
-        // Handle transparency
-        $backgroundSmall = imagecolorallocate($logoSmall, 0, 0, 0);
-        imagecolortransparent($logoSmall, $backgroundSmall);
+        $newImage = imagecreatetruecolor($targetWidth, $targetHeight);
 
         if ($_FILES[$uploadFieldName]['type'] == 'image/png') {
-            imagealphablending($logoSmall, false);
-            imagesavealpha($logoSmall, true);
+            imagealphablending($newImage, false);
+            imagesavealpha($newImage, true);
         }
 
-        imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, $targetHeight, $width, $height);
-        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
+        $backgroundColor = imagecolorallocate($newImage, 0, 0, 0);
+        imagecolortransparent($newImage, $backgroundColor);
+
+        imagecopyresampled($newImage, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
+        imagepng($newImage, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
         return true;
     }
 

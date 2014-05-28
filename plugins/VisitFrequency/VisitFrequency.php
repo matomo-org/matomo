@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\VisitFrequency;
 
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 
@@ -24,7 +23,6 @@ class VisitFrequency extends \Piwik\Plugin
     {
         $hooks = array(
             'WidgetsList.addWidgets'  => 'addWidgets',
-            'Menu.Reporting.addItems' => 'addMenu',
             'API.getReportMetadata'   => 'getReportMetadata',
         );
         return $hooks;
@@ -60,11 +58,5 @@ class VisitFrequency extends \Piwik\Plugin
         WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
         WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph',
                             array('columns' => array('nb_visits_returning')));
-    }
-
-    function addMenu()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'VisitFrequency_SubmenuFrequency',
-            array('module' => 'VisitFrequency', 'action' => 'index'), true, $order = 55);
     }
 }

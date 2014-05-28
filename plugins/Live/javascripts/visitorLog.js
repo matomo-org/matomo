@@ -28,6 +28,10 @@
 
         },
 
+        setFixWidthToMakeEllipsisWork: function () {
+
+        },
+
         /**
          * Initializes this class.
          */

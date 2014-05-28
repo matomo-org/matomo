@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
@@ -166,7 +165,6 @@ class UserSettings extends \Piwik\Plugin
     {
         $hooks = array(
             'WidgetsList.addWidgets'          => 'addWidgets',
-            'Menu.Reporting.addItems'         => 'addMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -456,14 +454,6 @@ class UserSettings extends \Piwik\Plugin
             if ($category == false) continue;
             WidgetsList::add($category, $name, $controllerName, $controllerAction);
         }
-    }
-
-    /**
-     * Adds the User Settings menu
-     */
-    function addMenu()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
     }
 
 }

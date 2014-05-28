@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -27,7 +28,6 @@ class Events extends \Piwik\Plugin
             'API.getSegmentDimensionMetadata'       => 'getSegmentsMetadata',
             'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations',
             'API.getReportMetadata'                 => 'getReportMetadata',
-            'Menu.Reporting.addItems'               => 'addMenus',
             'WidgetsList.addWidgets'                => 'addWidgets',
             'ViewDataTable.configure'               => 'configureViewDataTable',
 
@@ -41,11 +41,6 @@ class Events extends \Piwik\Plugin
             );
             WidgetsList::add('Events_Events', $labels[0], 'Events', $apiMethod, $params);
         }
-    }
-
-    public function addMenus()
-    {
-        MenuMain::getInstance()->add('General_Actions', 'Events_Events', array('module' => 'Events', 'action' => 'index'), true, 30);
     }
 
     public function addMetricTranslations(&$translations)

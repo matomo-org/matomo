@@ -25,7 +25,7 @@
 }
 
 #logo .description .arrow {
-    background: url(../../Zeitgeist/images/affix-arrow.png);
+    background: url(../../Morpheus/images/affix-arrow.png);
     width: 50px;
     height: 68px;
     position: absolute;
@@ -132,7 +132,7 @@
 #reset_form_password_bis,
 #login_form_login,
 #reset_form_login {
-    background: #fff url(../../Zeitgeist/images/login-sprite.png) no-repeat;
+    background: #fff url(../../Morpheus/images/login-sprite.png) no-repeat;
 }
 
 #login_form_password,

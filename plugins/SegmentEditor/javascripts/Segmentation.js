@@ -71,7 +71,7 @@ Segmentation = (function($) {
 
         segmentation.prototype.shortenSegmentName = function(name, length){
 
-            if(typeof length === "undefined") length = 20;
+            if(typeof length === "undefined") length = 18;
             if(typeof name === "undefined") name = "";
             var i;
             

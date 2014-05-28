@@ -18,6 +18,9 @@ class ServerFilesGenerator
      */
     public static function createHtAccessFiles()
     {
+        if(!SettingsServer::isApache()) {
+            return;
+        }
         $denyAll = self::getDenyAllHtaccessContent();
         $allow = self::getAllowHtaccessContent();
 
@@ -30,7 +33,7 @@ class ServerFilesGenerator
 
         $allowStaticAssets =
             "# Allow to serve static files which are safe\n" .
-            "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .
+            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .
                  $allow . "\n" .
             "</Files>\n";
 
@@ -81,7 +84,6 @@ class ServerFilesGenerator
         }
     }
 
-
     /**
      * Generate IIS web.config files to restrict access
      *
@@ -89,6 +91,9 @@ class ServerFilesGenerator
      */
     public static function createWebConfigFiles()
     {
+        if (!SettingsServer::isIIS()) {
+            return;
+        }
         @file_put_contents(PIWIK_INCLUDE_PATH . '/web.config',
             '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -111,8 +116,6 @@ class ServerFilesGenerator
           <add fileExtension=".csv" allowed="false" />
           <add fileExtension=".pdf" allowed="false" />
           <add fileExtension=".log" allowed="false" />
-          <add fileExtension=".htm" allowed="false" />
-          <add fileExtension=".html" allowed="false" />
         </fileExtensions>
       </requestFiltering>
     </security>
@@ -123,6 +126,10 @@ class ServerFilesGenerator
         <add value="index.php" />
       </files>
     </defaultDocument>
+    <staticContent>
+      <remove fileExtension=".svg" />
+      <mimeMap fileExtension=".svg" mimeType="image/svg+xml" />
+    </staticContent>
   </system.webServer>
 </configuration>');
 
@@ -147,6 +154,15 @@ class ServerFilesGenerator
   </system.webServer>
 </configuration>');
         }
+    }
+
+    public static function deleteWebConfigFiles()
+    {
+        $path = PIWIK_INCLUDE_PATH;
+        @unlink($path . '/web.config');
+        @unlink($path . '/libs/web.config');
+        @unlink($path . '/vendor/web.config');
+        @unlink($path . '/plugins/web.config');
     }
 
     /**
@@ -248,8 +264,7 @@ HTACCESS_ALLOW;
     }
 
     /**
-     * Deletes all existing .htaccess files that Piwik may have created
-     *
+     * Deletes all existing .htaccess files and web.config files that Piwik may have created,
      */
     public static function deleteHtAccessFiles()
     {

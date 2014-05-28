@@ -136,7 +136,21 @@ If you want to compare a screenshot against an already existing expected screens
         }, done);
     });
 
-`"OptionalPrefix"` will default to the name of the test.
+If you want to compare only parts (all content within an element / selector) of a page you can do the following:
+
+    it("should load correctly", function (done) {
+        expect.screenshot("screenshot_name").to.be.captureSelector("#content", function (page) {
+            page.load(url);
+        }, done);
+    });
+
+If you want to compare a screenshot against an already existing expected screenshot and capture a selector you can do the following:
+
+    it("should load correctly", function (done) {
+        expect.screenshot("screenshot_name").to.be.captureSelector("processed_screenshot_name", "#content", function (page) {
+            page.load(url);
+        }, done);
+    });
 
 ### Manipulating Pages Before Capture
 

@@ -211,7 +211,7 @@ PageRenderer.prototype.contains = function (selector) {
 };
 
 // main capturing function
-PageRenderer.prototype.capture = function (outputPath, callback) {
+PageRenderer.prototype.capture = function (outputPath, callback, selector) {
     var self = this,
         timeout = setTimeout(function () {
             self.abort();
@@ -227,6 +227,66 @@ PageRenderer.prototype.capture = function (outputPath, callback) {
     this.pageLogs = [];
     this.aborted = false;
 
+    function setClipRect (page, selector) {
+        if (!selector) {
+
+            return;
+        }
+
+        var result = page.evaluate(function(selector) {
+            var element = window.jQuery(selector);
+
+            if (element && element.length) {
+                var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
+
+                element.each(function (index, node) {
+                    var rect = node.getBoundingClientRect();
+
+                    if (!rect.width || !rect.height) {
+                        // element is not visible
+                        return;
+                    }
+
+                    if (null === clipRect.left || rect.left < clipRect.left) {
+                        clipRect.left = rect.left;
+                    }
+                    if (null === clipRect.top || rect.top < clipRect.top) {
+                        clipRect.top = rect.top;
+                    }
+                    if (null === clipRect.right || rect.right > clipRect.right) {
+                        clipRect.right = rect.right;
+                    }
+                    if (null === clipRect.bottom || rect.bottom > clipRect.bottom) {
+                        clipRect.bottom = rect.bottom;
+                    }
+                });
+
+                clipRect.width  = clipRect.right - clipRect.left;
+                clipRect.height = clipRect.bottom - clipRect.top;
+
+                return clipRect;
+            }
+
+        }, selector);
+
+        if (!result) {
+            throw new Error("Cannot find element " + selector);
+        }
+
+        if (result && result.__isCallError) {
+            throw new Error("Error while detecting element clipRect " + selector + ": " + result.message);
+        }
+
+        if (null === result.left
+            || null === result.top
+            || null === result.bottom
+            || null === result.right) {
+            throw new Error("Element(s) " + selector + " found but none is visible");
+        }
+
+        page.clipRect = result;
+    }
+
     this._executeEvents(events, function () {
         if (self.aborted) {
             return;
@@ -235,16 +295,22 @@ PageRenderer.prototype.capture = function (outputPath, callback) {
         clearTimeout(timeout);
 
         try {
+            var previousClipRect = self.webpage.clipRect;
+
             if (outputPath) {
+                setClipRect(self.webpage, selector)
+
                 self._setCorrectViewportSize();
                 self.webpage.render(outputPath);
             }
 
             self._viewportSizeOverride = null;
+            self.webpage.clipRect = previousClipRect;
 
             callback();
         } catch (e) {
             self._viewportSizeOverride = null;
+            self.webpage.clipRect = previousClipRect;
 
             callback(e);
         }

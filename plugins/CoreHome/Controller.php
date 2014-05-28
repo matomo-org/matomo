@@ -229,18 +229,6 @@ class Controller extends \Piwik\Plugin\Controller
         exit;
     }
 
-    public function getSiteSelector()
-    {
-        return "<div piwik-siteselector class=\"sites_autocomplete\" switch-site-on-select=\"false\"></div>";
-    }
-
-    public function getPeriodSelector()
-    {
-        $view = new View("@CoreHome/_periodSelect");
-        $this->setGeneralVariablesView($view);
-        return $view->render();
-    }
-
     public function saveViewDataTableParameters()
     {
         Piwik::checkUserIsNotAnonymous();

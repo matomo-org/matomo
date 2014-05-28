@@ -41,7 +41,7 @@ class Manager extends Singleton
     /**
      * Default theme used in Piwik.
      */
-    const DEFAULT_THEME = "Zeitgeist";
+    const DEFAULT_THEME = "Morpheus";
 
     protected $doLoadAlwaysActivatedPlugins = true;
 
@@ -79,7 +79,6 @@ class Manager extends Singleton
     protected $coreThemesDisabledByDefault = array(
         'ExampleTheme',
         'LeftMenu',
-        'Zeitgeist',
     );
 
     /**
@@ -441,7 +440,7 @@ class Manager extends Singleton
     /**
      * Returns the currently enabled theme.
      * 
-     * If no theme is enabled, the **Zeitgeist** plugin is returned (this is the base and default theme).
+     * If no theme is enabled, the **Morpheus** plugin is returned (this is the base and default theme).
      *
      * @return Plugin
      * @api
@@ -865,7 +864,7 @@ class Manager extends Singleton
 
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
-            // Eg. Used for Zeitgeist default theme which does not have a Zeitgeist.php file
+            // Eg. Used for Morpheus default theme which does not have a Morpheus.php file
             return new Plugin($pluginName);
         }
 

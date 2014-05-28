@@ -7,7 +7,7 @@
  *
  */
 namespace Piwik\Plugins\MultiSites;
-use Piwik\Menu\MenuTop;
+
 use Piwik\Piwik;
 
 
@@ -31,7 +31,6 @@ class MultiSites extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Menu.Top.addItems'               => 'addTopMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
@@ -56,6 +55,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'Actions_SubmenuSitesearch';
         $translations[] = 'MultiSites_LoadingWebsites';
         $translations[] = 'General_ErrorRequest';
+        $translations[] = 'MultiSites_Pagination';
     }
 
     public function getReportMetadata(&$reports)
@@ -91,13 +91,6 @@ class MultiSites extends \Piwik\Plugin
             'constantRowsCount' => false,
             'order'             => 5
         );
-    }
-
-    public function addTopMenu()
-    {
-        $urlParams = array('module' => 'MultiSites', 'action' => 'index', 'segment' => false);
-        $tooltip = Piwik::translate('MultiSites_TopLinkTooltip');
-        MenuTop::addEntry('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)
