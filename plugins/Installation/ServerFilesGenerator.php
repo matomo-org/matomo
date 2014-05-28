@@ -121,6 +121,10 @@ class ServerFilesGenerator
         <add value="index.php" />
       </files>
     </defaultDocument>
+    <staticContent>
+      <remove fileExtension=".svg" />
+      <mimeMap fileExtension=".svg" mimeType="image/svg+xml" />
+    </staticContent>
   </system.webServer>
 </configuration>');
 
