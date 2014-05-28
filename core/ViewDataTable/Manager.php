@@ -303,10 +303,14 @@ class Manager
 
         foreach ($parametersToOverride as $key => $value) {
             if ($key === 'viewDataTable'
-                && !empty($params['columns'])
                 && !empty($params[$key])
                 && $params[$key] !== $value) {
-                unset($params['columns']);
+                if (!empty($params['columns'])) {
+                    unset($params['columns']);
+                }
+                if (!empty($params['columns_to_display'])) {
+                    unset($params['columns_to_display']);
+                }
             }
 
             $params[$key] = $value;
