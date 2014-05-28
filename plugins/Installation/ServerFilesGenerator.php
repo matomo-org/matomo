@@ -151,6 +151,15 @@ class ServerFilesGenerator
         }
     }
 
+    public static function deleteWebConfigFiles()
+    {
+        $path = PIWIK_INCLUDE_PATH;
+        @unlink($path . '/web.config');
+        @unlink($path . '/libs/web.config');
+        @unlink($path . '/vendor/web.config');
+        @unlink($path . '/plugins/web.config');
+    }
+
     /**
      * Generate default robots.txt, favicon.ico, etc to suppress
      * 404 (Not Found) errors in the web server logs, if Piwik
@@ -250,8 +259,7 @@ HTACCESS_ALLOW;
     }
 
     /**
-     * Deletes all existing .htaccess files that Piwik may have created
-     *
+     * Deletes all existing .htaccess files and web.config files that Piwik may have created,
      */
     public static function deleteHtAccessFiles()
     {
