@@ -41,6 +41,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
     <tr>\
         <th>Name</th>\
         <th>Expected</th>\
+        <th>Expected Latest (Master)</th>\
         <th>Processed</th>\
         <th>Difference</th>\
     </tr>";
@@ -48,6 +49,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
         for (var i = 0; i != this.failures.length; ++i) {
             var entry = this.failures[i];
             var expectedUrl = null;
+            var githubUrl   = '';
 
             if (entry.expected) {
                 if (options['assume-artifacts']) {
@@ -68,7 +70,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 }
 
                 expectedHtml += '<a href="' + expectedUrl + '">Expected</a>&nbsp;';
-                expectedHtml += '<a href="' + expectedUrlGithub + '">[Github Master]</a>';
+                githubUrl     = '<a href="' + expectedUrlGithub + '">Github</a>';
             } else {
                 var expectedHtml = '<em>Not found</em>';
             }
@@ -92,6 +94,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
     <tr>\
         <td>' + entry.name + entryLocationHint + '</td>\
         <td>' + expectedHtml + '</td>\
+        <td>' + githubUrl + '</td>\
         <td>' + (entry.processed ? ('<a href="' + entry.processedUrl + '">Processed</a>') : '<em>Not found</em>') + '</td>\
         <td>' + (expectedUrl ? ('<a href="singlediff.html?processed=' + entry.processedUrl + '&expected=' + expectedUrl + '&github=' + path.basename(entry.processed) + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
     </tr>';
