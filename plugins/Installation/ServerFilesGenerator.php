@@ -30,7 +30,7 @@ class ServerFilesGenerator
 
         $allowStaticAssets =
             "# Allow to serve static files which are safe\n" .
-            "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .
+            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .
                  $allow . "\n" .
             "</Files>\n";
 

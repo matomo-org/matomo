@@ -19,7 +19,8 @@ class Updates_2_4_0_b2 extends Updates
     {
         ServerFilesGenerator::deleteWebConfigFiles();
         ServerFilesGenerator::createWebConfigFiles();
+
+        ServerFilesGenerator::deleteHtAccessFiles();
+        ServerFilesGenerator::createHtAccessFiles();
     }
-
-
 }
