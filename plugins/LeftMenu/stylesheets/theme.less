@@ -2,6 +2,19 @@
   clear: left;
 }
 
+.top_controls {
+  clear: none;
+}
+
+#root .Menu--dashboard {
+  border-top: 0px !important;
+}
+
+.sites_selector_in_dashboard {
+  margin-top: 0px;
+  margin-left: 5px;
+}
+
 #content.home {
     padding-top: 15px;
     display:inline-block;
@@ -23,7 +36,7 @@
 }
 
 .Menu--dashboard > .Menu-tabList {
-  padding-left: 5px;
+  margin-left: 5px !important;
   margin-bottom: 0;
   margin-top: 0.1em;
   border: 1px solid #ddd;
@@ -64,9 +77,12 @@
   padding: 5px 10px;
   font-size: 18px;
   line-height: 24px;
-  color: #7E7363;
   text-decoration: none;
   float: none;
+}
+
+.Menu--dashboard > .Menu-tabList a {
+  height: auto !important;
 }
 
 .Menu--dashboard > .Menu-tabList li li {

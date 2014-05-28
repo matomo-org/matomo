@@ -327,7 +327,7 @@ abstract class Settings implements StorageInterface
     private function checkHasEnoughPermission(Setting $setting)
     {
         // When the request is a Tracker request, allow plugins to read/write settings
-        if(SettingsServer::isTrackerApiRequest()) {
+        if (SettingsServer::isTrackerApiRequest()) {
             return;
         }
 
