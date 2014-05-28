@@ -13,6 +13,7 @@ namespace Piwik\Menu;
  * @deprecated since 2.4.0
  * @see MenuReporting
  * @method static \Piwik\Menu\MenuMain getInstance()
+ * @ignore
  */
 class MenuMain extends MenuReporting
 {

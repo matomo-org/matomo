@@ -8,19 +8,16 @@
  */
 namespace Piwik\Menu;
 
-use Piwik\Piwik;
-
 /**
  * Contains menu entries for the User menu (the menu at the very top of the page).
- * Plugins can subscribe to the {@hook Menu.User.addItems} event to add new pages to
- * the user menu.
+ * Plugins can implement the `configureUserMenu()` method of the `Menu` plugin class to add, rename of remove
+ * items. If your plugin does not have a `Menu` class yet you can create one using `./console generate:menu`.
  * 
  * **Example**
- * 
- *     // add a new page in an observer to Menu.User.addItems
- *     public function addUserMenuItem()
+ *
+ *     public function configureUserMenu(MenuUser $menu)
  *     {
- *         MenuUser::getInstance()->add(
+ *         $menu->add(
  *             'MyPlugin_MyTranslatedMenuCategory',
  *             'MyPlugin_MyTranslatedMenuName',
  *             array('module' => 'MyPlugin', 'action' => 'index'),
