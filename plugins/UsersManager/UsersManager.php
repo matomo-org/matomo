@@ -111,9 +111,27 @@ class UsersManager extends \Piwik\Plugin
 
     public static function checkPassword($password)
     {
-        if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
-                                                                                                        self::PASSWORD_MAX_LENGTH)));
+        $validators = array(
+            new PasswordValidator\LengthValidator()
+        );
+        Piwik::postEvent('UsersManager.getPasswordValidators', array(&$validators));
+
+        $errors = array();
+        foreach ($validators as $validator) {
+            if ($validator instanceof PasswordValidator) {
+                if (!$validator->validate($password)) {
+                    $errors[] = $validator->getErrorMessage();
+                }
+            }
+        }
+
+        if (!empty($errors)) {
+            $initialMessage = '%s';
+            Piwik::postEvent('UsersManager.getPasswordValidatorsErrorInitialMessage', array(&$initialMessage));
+
+            throw new Exception(
+                sprintf($initialMessage, implode(', ', $errors))
+            );
         }
     }
 
