@@ -357,14 +357,16 @@ class Plugins_LoginTest extends DatabaseTestCase
         $user = $this->_setUpUser();
         $auth = $this->getMockedAuth($mockCreateLoginCookieBasedOnAuthResult = false);
 
+        $test = $this;
+
         \Piwik\Piwik::addAction(
             'Login.preventInitSession',
-            function ($loginData) use ($user) {
-                $this->assertArrayHasKey('login', $loginData);
-                $this->assertEquals($user['login'], $loginData['login']);
+            function ($loginData) use ($user, $test) {
+                $test->assertArrayHasKey('login', $loginData);
+                $test->assertEquals($user['login'], $loginData['login']);
 
-                $this->assertArrayHasKey('md5Password', $loginData);
-                $this->assertEquals(md5($user['password']), $loginData['md5Password']);
+                $test->assertArrayHasKey('md5Password', $loginData);
+                $test->assertEquals(md5($user['password']), $loginData['md5Password']);
 
                 throw new \Exception('Prevent session initialize.');
             }
@@ -385,14 +387,16 @@ class Plugins_LoginTest extends DatabaseTestCase
             $mockAuthenticate = true
         );
 
+        $test = $this;
+
         \Piwik\Piwik::addAction(
             'Login.initSession',
-            function ($loginData) use ($user) {
-                $this->assertArrayHasKey('login', $loginData);
-                $this->assertEquals($user['login'], $loginData['login']);
+            function ($loginData) use ($user, $test) {
+                $test->assertArrayHasKey('login', $loginData);
+                $test->assertEquals($user['login'], $loginData['login']);
 
-                $this->assertArrayHasKey('md5Password', $loginData);
-                $this->assertEquals(md5($user['password']), $loginData['md5Password']);
+                $test->assertArrayHasKey('md5Password', $loginData);
+                $test->assertEquals(md5($user['password']), $loginData['md5Password']);
 
                 throw new \Exception('Prevent session initialize after successful login.');
             }
