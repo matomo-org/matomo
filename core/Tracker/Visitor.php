@@ -34,6 +34,8 @@ class Visitor
      */
     function recognize()
     {
+        $this->visitorKnown = false;
+
         $configId = $this->userInfo['config_id'];
 
         $idVisitor = $this->request->getVisitorId();
@@ -179,6 +181,7 @@ class Visitor
                 }
             }
 
+            $this->visitorKnown = true;
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($this->visitorInfo['idvisitor']) . ",
                     config_id = " . bin2hex($configId) . ",
                     idvisit = {$this->visitorInfo['idvisit']},
@@ -194,5 +197,15 @@ class Visitor
     function getVisitorInfo()
     {
         return $this->visitorInfo;
+    }
+
+    function getCustomVariables()
+    {
+        return $this->customVariables;
+    }
+
+    function isVisitorKnown()
+    {
+        return $this->visitorKnown === true;
     }
 }

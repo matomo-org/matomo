@@ -144,6 +144,9 @@ class Visit implements VisitInterface
         // the visitor and session
         $visitor = New Visitor($this->request, $this->visitorInfo, $this->visitorCustomVariables);
         $visitor->recognize();
+        $this->visitorKnown = $visitor->isVisitorKnown();
+        $this->visitorInfo = $visitor->getVisitorInfo();
+        $this->visitorCustomVariables = $visitor->getCustomVariables();
 
         $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit();
 
