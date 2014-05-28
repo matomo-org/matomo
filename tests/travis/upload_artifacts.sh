@@ -43,7 +43,7 @@ else
         cd $base_dir/tests/PHPUnit/UI
         if [ -d "./screenshot-diffs" ];
         then
-            echo "Uploading screenshot diffs..."
+            echo "Uploading artifcats..."
 
             echo "[NOTE] screenshot diff dir:"
             echo "`pwd`/screenshot-diffs"

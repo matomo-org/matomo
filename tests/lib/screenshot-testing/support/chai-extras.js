@@ -97,7 +97,6 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
                 failureInfo += indent + "Url to reproduce: " + pageRenderer.getCurrentUrl() + "\n";
                 failureInfo += indent + "Generated screenshot: " + processedPath + "\n";
                 failureInfo += indent + "Expected screenshot: " + expectedPath + "\n";
-                failureInfo += indent + "Screenshot diff: " + app.diffViewerGenerator.getDiffPath(testInfo);
 
                 failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
 
