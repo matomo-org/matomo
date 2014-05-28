@@ -1318,12 +1318,11 @@ class Recorder(object):
         """
         Inserts several hits into Piwik.
         """
-        data = {
-            'token_auth': config.options.piwik_token_auth,
-            'requests': [self._get_hit_args(hit) for hit in hits]
-        }
-
         if not config.options.dry_run:
+            data = {
+                'token_auth': config.options.piwik_token_auth,
+                'requests': [self._get_hit_args(hit) for hit in hits]
+            }
             piwik.call(
                 '/piwik.php', args={},
                 expected_content=None,
