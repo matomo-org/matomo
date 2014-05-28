@@ -48,7 +48,7 @@ class SyncUITestScreenshots extends ConsoleCommand
             $columns = $row->getElementsByTagName("td");
 
             $nameColumn = $columns->item(0);
-            $processedColumn = $columns->item(2);
+            $processedColumn = $columns->item(3);
 
             $testPlugin = null;
             if ($nameColumn
