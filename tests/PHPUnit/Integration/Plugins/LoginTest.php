@@ -348,6 +348,107 @@ class Plugins_LoginTest extends DatabaseTestCase
         $this->assertUserLogin($rc);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Prevent session initialize.
+     */
+    public function testPreventSessionHook()
+    {
+        $user = $this->_setUpUser();
+        $auth = $this->getMockedAuth($mockCreateLoginCookieBasedOnAuthResult = false);
+
+        \Piwik\Piwik::addAction(
+            'Login.preventInitSession',
+            function ($loginData) use ($user) {
+                $this->assertArrayHasKey('login', $loginData);
+                $this->assertEquals($user['login'], $loginData['login']);
+
+                $this->assertArrayHasKey('md5Password', $loginData);
+                $this->assertEquals(md5($user['password']), $loginData['md5Password']);
+
+                throw new \Exception('Prevent session initialize.');
+            }
+        );
+
+        $auth->initSession($user['login'], md5($user['password']), false);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Prevent session initialize after successful login.
+     */
+    public function testInitSessionHook()
+    {
+        $user = $this->_setUpUser();
+        $auth = $this->getMockedAuth(
+            $mockCreateLoginCookieBasedOnAuthResult = false,
+            $mockAuthenticate = true
+        );
+
+        \Piwik\Piwik::addAction(
+            'Login.initSession',
+            function ($loginData) use ($user) {
+                $this->assertArrayHasKey('login', $loginData);
+                $this->assertEquals($user['login'], $loginData['login']);
+
+                $this->assertArrayHasKey('md5Password', $loginData);
+                $this->assertEquals(md5($user['password']), $loginData['md5Password']);
+
+                throw new \Exception('Prevent session initialize after successful login.');
+            }
+        );
+
+        $auth->initSession($user['login'], md5($user['password']), false);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Login_LoginPasswordNotCorrect
+     */
+    public function testInitSessionHookWithBadCredentials()
+    {
+        $user = $this->_setUpUser();
+        $auth = $this->getMockedAuth(
+            $mockCreateLoginCookieBasedOnAuthResult = false,
+            $mockAuthenticate = true,
+            $mockedAuthenticateShouldReturn = false,
+            3
+        );
+
+        \Piwik\Piwik::addAction(
+            'Login.initSession',
+            function () {
+                throw new \Exception('Prevent session initialize after successful login.');
+            }
+        );
+
+        $auth->initSession($user['login'], md5($user['password']), false);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Login successful.
+     */
+    public function testSuccessfulHook()
+    {
+        $user = $this->_setUpUser();
+        $auth = $this->getMockedAuth(
+            $mockCreateLoginCookieBasedOnAuthResult = true,
+            $mockAuthenticate = true,
+            $mockedAuthenticateShouldReturn = true,
+            2
+        );
+
+        \Piwik\Piwik::addAction(
+            'Login.successful',
+            function () {
+                throw new \Exception('Login successful.');
+            }
+        );
+
+        $auth->initSession($user['login'], md5($user['password']), false);
+    }
+
     protected function _setUpUser()
     {
         $user = array('login'    => 'user',
@@ -393,6 +494,79 @@ class Plugins_LoginTest extends DatabaseTestCase
         $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode());
         $this->assertEquals($login, $authResult->getIdentity());
         $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
+    }
+
+    /**
+     * @param bool $mockCreateLoginCookieBasedOnAuthResult
+     * @param bool $mockAuthenticate
+     * @param bool $mockedAuthenticateShouldReturn
+     * @param int $authenticateCalls
+     * @return Auth|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getMockedAuth($mockCreateLoginCookieBasedOnAuthResult = true, $mockAuthenticate = false,
+                                     $mockedAuthenticateShouldReturn = true, $authenticateCalls = 1)
+    {
+        $methods = array('regenerateSessionId');
+        if ($mockCreateLoginCookieBasedOnAuthResult) {
+            $methods[] = 'createLoginCookieBasedOnAuthResult';
+        }
+
+        if ($mockAuthenticate) {
+            $methods[] = 'authenticate';
+        }
+
+        /**
+         * @var \Piwik\Plugins\Login\Auth|\PHPUnit_Framework_MockObject_MockObject $auth
+         */
+        $auth = $this->getMockBuilder('\Piwik\Plugins\Login\Auth')
+            ->setMethods($methods)
+            ->getMock();
+
+        $auth->expects($this->once())
+            ->method('regenerateSessionId')
+            ->will($this->returnValue(null));
+
+        if ($mockCreateLoginCookieBasedOnAuthResult) {
+            $auth->expects($this->once())
+                ->method('createLoginCookieBasedOnAuthResult')
+                ->will($this->returnSelf());
+        }
+
+        if ($mockAuthenticate) {
+            $auth->expects($this->once())
+                ->method('authenticate')
+                ->will($this->returnValue(
+                    $this->getMockedAuthResult(
+                        $mockedAuthenticateShouldReturn,
+                        $authenticateCalls
+                    )
+                )
+            );
+        }
+
+        return $auth;
+    }
+
+    /**
+     * @param bool $wasAuthenticationSuccessful
+     * @param int $authenticateCalls
+     * @return PHPUnit_Framework_MockObject_MockObject|\Piwik\AuthResult
+     */
+    public function getMockedAuthResult($wasAuthenticationSuccessful = true, $authenticateCalls = 1)
+    {
+        /**
+         * @var \Piwik\AuthResult|\PHPUnit_Framework_MockObject_MockObject $authResult
+         */
+        $authResult = $this->getMockBuilder('\Piwik\AuthResult')
+            ->setMethods(array('wasAuthenticationSuccessful'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $authResult->expects($this->exactly($authenticateCalls))
+            ->method('wasAuthenticationSuccessful')
+            ->will($this->returnValue($wasAuthenticationSuccessful));
+
+        return $authResult;
     }
 
 }
