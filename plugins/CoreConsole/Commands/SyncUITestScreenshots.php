@@ -40,6 +40,7 @@ class SyncUITestScreenshots extends ConsoleCommand
 
         $urlBase = sprintf('http://builds-artifacts.piwik.org/ui-tests.master/%s', $buildNumber);
         $diffviewer = Http::sendHttpRequest($urlBase . "/screenshot-diffs/diffviewer.html", $timeout = 60);
+        $diffviewer = str_replace('&', '&amp;', $diffviewer);
 
         $dom = new \DOMDocument();
         $dom->loadHTML($diffviewer);

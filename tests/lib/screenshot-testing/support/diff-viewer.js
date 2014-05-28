@@ -68,7 +68,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 }
 
                 expectedHtml += '<a href="' + expectedUrl + '">Expected</a>&nbsp;';
-                expectedHtml += '<a href="' + expectedUrlGithub + '">[Github]</a>';
+                expectedHtml += '<a href="' + expectedUrlGithub + '">[Github Master]</a>';
             } else {
                 var expectedHtml = '<em>Not found</em>';
             }
@@ -93,7 +93,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
         <td>' + entry.name + entryLocationHint + '</td>\
         <td>' + expectedHtml + '</td>\
         <td>' + (entry.processed ? ('<a href="' + entry.processedUrl + '">Processed</a>') : '<em>Not found</em>') + '</td>\
-        <td>' + (expectedUrl ? ('<a href="singlediff.html?processed=' + entry.processedUrl + '&expected=' + expectedUrl + '&github=' + expectedUrlGithub + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
+        <td>' + (expectedUrl ? ('<a href="singlediff.html?processed=' + entry.processedUrl + '&expected=' + expectedUrl + '&github=' + path.basename(entry.processed) + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
     </tr>';
         }
 
