@@ -237,7 +237,34 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             var element = window.jQuery(selector);
 
             if (element && element.length) {
-                return element[0].getBoundingClientRect();
+                var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
+
+                element.each(function (index, node) {
+                    var rect = node.getBoundingClientRect();
+
+                    if (!rect.width || !rect.height) {
+                        // element is not visible
+                        return;
+                    }
+
+                    if (null === clipRect.left || rect.left < clipRect.left) {
+                        clipRect.left = rect.left;
+                    }
+                    if (null === clipRect.top || rect.top < clipRect.top) {
+                        clipRect.top = rect.top;
+                    }
+                    if (null === clipRect.right || rect.right > clipRect.right) {
+                        clipRect.right = rect.right;
+                    }
+                    if (null === clipRect.bottom || rect.bottom > clipRect.bottom) {
+                        clipRect.bottom = rect.bottom;
+                    }
+                });
+
+                clipRect.width  = clipRect.right - clipRect.left;
+                clipRect.height = clipRect.bottom - clipRect.top;
+
+                return clipRect;
             }
 
         }, selector);
@@ -248,6 +275,13 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
 
         if (result && result.__isCallError) {
             throw new Error("Error while detecting element clipRect " + selector + ": " + result.message);
+        }
+
+        if (null === result.left
+            || null === result.top
+            || null === result.bottom
+            || null === result.right) {
+            throw new Error("Element(s) " + selector + " found but none is visible");
         }
 
         page.clipRect = result;

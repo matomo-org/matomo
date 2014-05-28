@@ -66,19 +66,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getDashboardSettingsControl()
-    {
-        $view = new DashboardManagerControl();
-        $result = $view->render();
-
-        if (Common::getRequestVar('includeWidgetFactory', false)) {
-            $factoryTemplateView = new View("@Dashboard/_widgetFactoryTemplate");
-            $result .= $factoryTemplateView->render();
-        }
-
-        return $result;
-    }
-
     public function getAvailableWidgets()
     {
         $this->checkTokenInUrl();

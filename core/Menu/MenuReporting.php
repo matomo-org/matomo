@@ -11,15 +11,14 @@ use Piwik\Piwik;
 
 /**
  * Contains menu entries for the Reporting menu (the menu displayed under the Piwik logo).
- * Plugins can subscribe to the {@hook Menu.Reporting.addItems} event to add new pages to
- * the reporting menu.
+ * Plugins can implement the `configureReportingMenu()` method of the `Menu` plugin class to add, rename of remove
+ * items. If your plugin does not have a `Menu` class yet you can create one using `./console generate:menu`.
  *
  * **Example**
  *
- *     // add a new page in an observer to Menu.Admin.addItems
- *     public function addReportingMenuItem()
+ *     public function configureReportingMenu(MenuReporting $menu)
  *     {
- *         MenuReporting::getInstance()->add(
+ *         $menu->add(
  *             'MyPlugin_MyTranslatedMenuCategory',
  *             'MyPlugin_MyTranslatedMenuName',
  *             array('module' => 'MyPlugin', 'action' => 'index'),

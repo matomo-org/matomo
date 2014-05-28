@@ -229,11 +229,6 @@ class Controller extends \Piwik\Plugin\Controller
         exit;
     }
 
-    public function getSiteSelector()
-    {
-        return "<div piwik-siteselector class=\"sites_autocomplete\" switch-site-on-select=\"false\"></div>";
-    }
-
     public function saveViewDataTableParameters()
     {
         Piwik::checkUserIsNotAnonymous();

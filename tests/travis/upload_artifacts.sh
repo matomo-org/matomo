@@ -43,10 +43,13 @@ else
         cd $base_dir/tests/PHPUnit/UI
         if [ -d "./screenshot-diffs" ];
         then
-            echo "Uploading screenshot diffs..."
+            echo "Uploading artifcats..."
 
             echo "[NOTE] screenshot diff dir:"
             echo "`pwd`/screenshot-diffs"
+
+            cp $base_dir/tests/lib/resemblejs/resemble.js screenshot-diffs
+            cp $base_dir/libs/jquery/jquery.js screenshot-diffs
 
             echo "[NOTE] uploading following diffs:"
             ls screenshot-diffs
