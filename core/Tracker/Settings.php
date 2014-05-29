@@ -38,8 +38,10 @@ class Settings
         $userAgent = $this->request->getUserAgent();
 
         $deviceDetector = new DeviceDetector($userAgent);
-        #$deviceDetector->setCache(new CacheFile('tracker', 86400));
+        $deviceDetector->discardBotInformation();
+        $deviceDetector->setCache(new CacheFile('tracker', 86400));
         $deviceDetector->parse();
+
         $aBrowserInfo = $deviceDetector->getClient();
         if ($aBrowserInfo['type'] != 'browser') {
             // for now only track browsers
@@ -49,8 +51,12 @@ class Settings
         $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
         $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
 
-        $os = $deviceDetector->getOS();
-        $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+        if ($deviceDetector->isBot()) {
+            $os = 'BOT';
+        } else {
+            $os = $deviceDetector->getOS();
+            $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+        }
 
         $browserLang = substr($this->request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
         $configurationHash = $this->getConfigHash(

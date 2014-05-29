@@ -16,7 +16,7 @@ use Exception;
  * It is for example used by the Tracker process to cache various settings and websites attributes in tmp/cache/tracker/*
  *
  */
-class CacheFile
+class CacheFile implements \DeviceDetector\Cache\CacheInterface
 {
     // for testing purposes since tests run on both CLI/FPM (changes in CLI can't invalidate
     // opcache in FPM, so we have to invalidate before reading)

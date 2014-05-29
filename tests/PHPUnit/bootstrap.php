@@ -27,6 +27,9 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 error_reporting(E_ALL | E_NOTICE);
 @date_default_timezone_set('UTC');
 
+require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
+    ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
+    : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
@@ -37,9 +40,6 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
-require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
-    ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
-    : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
 
 \Piwik\Profiler::setupProfilerXHProf( $mainRun = true );
 

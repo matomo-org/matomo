@@ -244,7 +244,7 @@ class DevicesDetection extends \Piwik\Plugin
         $userAgent = $request->getUserAgent();
 
         $UAParser = new DeviceDetector($userAgent);
-        #$UAParser->setCache(new CacheFile('tracker', 86400));
+        $UAParser->setCache(new CacheFile('tracker', 86400));
         $UAParser->parse();
         $deviceInfo['config_browser_name'] = $UAParser->getClient("type") == 'browser' ? $UAParser->getClient("short_name") : 'UNK';
         $deviceInfo['config_browser_version'] = $UAParser->getClient("type") == 'browser' ?  $UAParser->getClient("version") : 'UNK';

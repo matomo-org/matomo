@@ -694,6 +694,9 @@ class UserAgentParser
         }
 
         if(class_exists('DeviceDetector\\Parser\\OperatingSystem')) {
+            if ($osId == 'BOT') {
+                return 'Bot';
+            }
             return DeviceDetector\Parser\OperatingSystem::getNameFromId($osId);
         }
         return false;

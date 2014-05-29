@@ -165,6 +165,9 @@ function getModelName($label)
 
 function getOSFamilyFullNameExtended($label)
 {
+    if ($label == 'BOT') {
+        return 'Bot';
+    }
     $label = OperatingSystemParser::getOsFamily($label);
     if($label !== false) {
         return $label;
@@ -183,6 +186,9 @@ function getOsFamilyLogoExtended($label)
 
 function getOsFullNameExtended($label)
 {
+    if ($label == 'BOT') {
+        return 'Bot';
+    }
     if (!empty($label) && $label != ";") {
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
