@@ -57,18 +57,18 @@ except ImportError:
 ## Constants.
 ##
 
-STATIC_EXTENSIONS = (
+STATIC_EXTENSIONS = set((
     'gif jpg jpeg png bmp ico svg ttf eot woff class swf css js xml robots.txt'
-).split()
+).split())
 
 
-DOWNLOAD_EXTENSIONS = (
+DOWNLOAD_EXTENSIONS = set((
     '7z aac arc arj asf asx avi bin csv deb dmg doc exe flv gz gzip hqx '
     'jar mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
     'ods odt ogg ogv pdf phps ppt qt qtm ra ram rar rpm sea sit tar tbz '
     'bz2 tbz tgz torrent txt wav wma wmv wpd xls xml xsd z zip '
     'azw3 epub mobi'
-).split()
+).split())
 
 
 # A good source is: http://phpbb-bots.blogspot.com/
@@ -524,18 +524,20 @@ class Configuration(object):
             level=logging.DEBUG if self.options.debug >= 1 else logging.INFO,
         )
 
-        self.options.excluded_useragents = [s.lower() for s in self.options.excluded_useragents]
+        self.options.excluded_useragents = {s.lower() for s in self.options.excluded_useragents}
 
         if self.options.exclude_path_from:
             paths = [path.strip() for path in open(self.options.exclude_path_from).readlines()]
             self.options.excluded_paths.extend(path for path in paths if len(path) > 0)
         if self.options.excluded_paths:
+            self.options.excluded_paths = set(self.options.excluded_paths)
             logging.debug('Excluded paths: %s', ' '.join(self.options.excluded_paths))
 
         if self.options.include_path_from:
             paths = [path.strip() for path in open(self.options.include_path_from).readlines()]
             self.options.included_paths.extend(path for path in paths if len(path) > 0)
         if self.options.included_paths:
+            self.options.included_paths = set(self.options.included_paths)
             logging.debug('Included paths: %s', ' '.join(self.options.included_paths))
 
         if self.options.hostnames:
