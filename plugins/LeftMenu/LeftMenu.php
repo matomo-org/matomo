@@ -14,15 +14,21 @@ class LeftMenu extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => array('function' => 'getStylesheetFiles', 'after' => true)
+            'AssetManager.getStylesheetFiles' => array('function' => 'getStylesheetFiles', 'after' => true),
+            'Template.bodyClass' => 'addClassToBody'
         );
+    }
+
+    public function addClassToBody($str)
+    {
+        if (API::getInstance()->isEnabled()) {
+            $str .= ' leftMenuPlugin';
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        if (API::getInstance()->isEnabled()) {
-            $stylesheets[] = "plugins/LeftMenu/stylesheets/theme.less";
-        }
+        $stylesheets[] = "plugins/LeftMenu/stylesheets/theme.less";
     }
 
 }

@@ -1,147 +1,151 @@
-#container {
-  clear: left;
-}
+.leftMenuPlugin {
 
-.top_controls {
-  clear: none;
-}
+  #container {
+    clear: left;
+  }
 
-#root .Menu--dashboard {
-  border-top: 0px !important;
-}
+  .top_controls {
+    clear: none;
+  }
 
-.sites_selector_in_dashboard {
-  margin-top: 0px;
-  margin-left: 5px;
-}
+  #root .Menu--dashboard {
+    border-top: 0px;
+  }
 
-#content.home {
+  .sites_selector_in_dashboard {
+    margin-top: 0px;
+    margin-left: 5px;
+  }
+
+  #content.home {
     padding-top: 15px;
     display:inline-block;
     width:100%;
-}
+  }
 
-.Menu--dashboard {
-  padding: 0;
-  float: left;
-  width: 240px;
-  padding-top: 10px;
-}
+  .Menu--dashboard {
+    padding: 0;
+    float: left;
+    width: 240px;
+    padding-top: 10px;
+  }
 
-.Menu--dashboard > .Menu-tabList {
-  -moz-background-size: 5px 100%;
-  background-size: 5px 100%;
-  background-position: 0 0, 100% 0;
-  background-repeat: no-repeat;
-}
+  .Menu--dashboard > .Menu-tabList {
+    -moz-background-size: 5px 100%;
+    background-size: 5px 100%;
+    background-position: 0 0, 100% 0;
+    background-repeat: no-repeat;
+  }
 
-.Menu--dashboard > .Menu-tabList {
-  margin-left: 5px !important;
-  margin-bottom: 0;
-  margin-top: 0.1em;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
+  #root .Menu--dashboard > .Menu-tabList {
+    margin-left: 5px;
+    margin-bottom: 0;
+    margin-top: 0.1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
 
-.Menu--dashboard > .Menu-tabList > li > ul {
-  min-height: 0;
-  max-height: 0;
-  padding: 0;
-  overflow: hidden;
-  position: static;
-  float: none;
-}
+  .Menu--dashboard > .Menu-tabList > li > ul {
+    min-height: 0;
+    max-height: 0;
+    padding: 0;
+    overflow: hidden;
+    position: static;
+    float: none;
+  }
 
-.Menu--dashboard > .Menu-tabList > .sfActive > ul {
-  padding-bottom: 5px;
-  max-height: 500px; /* That's a hack for CSS transitions */
-}
+  .Menu--dashboard > .Menu-tabList > .sfActive > ul {
+    padding-bottom: 5px;
+    max-height: 500px; /* That's a hack for CSS transitions */
+  }
 
-.Menu--dashboard > .Menu-tabList li {
-  list-style: none;
-  margin: 0;
-  float: none;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
+  .Menu--dashboard > .Menu-tabList li {
+    list-style: none;
+    margin: 0;
+    float: none;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
 
-.Menu--dashboard > .Menu-tabList li a:hover {
-  text-decoration: underline;
-}
+  .Menu--dashboard > .Menu-tabList li a:hover {
+    text-decoration: underline;
+  }
 
-.Menu--dashboard > .Menu-tabList > li > span,
-.Menu--dashboard > .Menu-tabList > li > a {
-  border-bottom: 1px dotted #778;
-  display: block;
-  padding: 5px 10px;
-  font-size: 18px;
-  line-height: 24px;
-  text-decoration: none;
-  float: none;
-}
+  .Menu--dashboard > .Menu-tabList > li > span,
+  .Menu--dashboard > .Menu-tabList > li > a {
+    border-bottom: 1px dotted #778;
+    display: block;
+    padding: 5px 10px;
+    font-size: 18px;
+    line-height: 24px;
+    text-decoration: none;
+    float: none;
+  }
 
-.Menu--dashboard > .Menu-tabList a {
-  height: auto !important;
-}
+  .Menu--dashboard > .Menu-tabList a {
+    height: auto;
+  }
 
-.Menu--dashboard > .Menu-tabList li li {
-  float: none;
-  text-align: left;
-}
+  .Menu--dashboard > .Menu-tabList li li {
+    float: none;
+    text-align: left;
+  }
 
-.Menu--dashboard > .Menu-tabList li li a {
-  text-decoration: none;
-  padding: 0.6em 0.9em;
-  font: 14px Arial, Helvetica, sans-serif;
-  display: block;
-}
+  .Menu--dashboard > .Menu-tabList li li a {
+    text-decoration: none;
+    padding: 0.6em 0.9em;
+    font: 14px Arial, Helvetica, sans-serif;
+    display: block;
+  }
 
-.Menu--dashboard > .Menu-tabList li li a:link,
-.Menu--dashboard > .Menu-tabList li li a:visited {
-  color: #000;
-}
+  .Menu--dashboard > .Menu-tabList li li a:link,
+  .Menu--dashboard > .Menu-tabList li li a:visited {
+    color: #000;
+  }
 
-.Menu--dashboard > .Menu-tabList > .sfActive > a,
-.Menu--dashboard > .Menu-tabList > li > a:hover {
-  background: #f1f1f1;
-  border-bottom: 1px dotted #777788 !important;
-}
+  .Menu--dashboard > .Menu-tabList > .sfActive > a,
+  .Menu--dashboard > .Menu-tabList > li > a:hover {
+    background: #f1f1f1;
+    border-bottom: 1px dotted #777788 !important;
+  }
 
-.Menu--dashboard > .Menu-tabList li li a:hover,
-.Menu--dashboard > .Menu-tabList li li a.active {
-  color: @theme-color-link;
-}
+  .Menu--dashboard > .Menu-tabList li li a:hover,
+  .Menu--dashboard > .Menu-tabList li li a.active {
+    color: @theme-color-link;
+  }
 
-.Menu--dashboard > .Menu-tabList > .sfActive .sfHover > a {
-  color: @theme-color-link;
-  font-weight: bold;
-}
+  .Menu--dashboard > .Menu-tabList > .sfActive .sfHover > a {
+    color: @theme-color-link;
+    font-weight: bold;
+  }
 
-.Menu--dashboard > .Menu-tabList li li a.current {
-  background: #defdbb;
-}
+  .Menu--dashboard > .Menu-tabList li li a.current {
+    background: #defdbb;
+  }
 
-/* Fixes */
-.nav_sep {
-  display: none;
-}
+  /* Fixes */
+  .nav_sep {
+    display: none;
+  }
 
-.top_bar_sites_selector {
-  float: left;
-}
+  .top_bar_sites_selector {
+    float: left;
+  }
 
-.Menu--dashboard {
-  clear: left;
-}
+  .Menu--dashboard {
+    clear: left;
+  }
 
-.pageWrap {
-  margin-left: 240px;
-  border-width: 0;
-  padding-top: 0;
-  max-height: none;
-}
+  .pageWrap {
+    margin-left: 240px;
+    border-width: 0;
+    padding-top: 0;
+    max-height: none;
+  }
 
-.widget:first-child {
+  .widget:first-child {
     margin-top: 0;
+  }
+
 }
