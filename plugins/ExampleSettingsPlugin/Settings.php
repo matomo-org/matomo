@@ -117,6 +117,7 @@ class Settings extends \Piwik\Plugin\Settings
         $this->metric->introduction  = 'Only Super Users can change the following settings:';
         $this->metric->description   = 'Choose the metric that should be displayed in the browser tab';
         $this->metric->defaultValue  = 'nb_visits';
+        $this->metric->readableByCurrentUser = true;
 
         $this->addSetting($this->metric);
     }

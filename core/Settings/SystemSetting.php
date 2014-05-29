@@ -23,6 +23,14 @@ use Piwik\Piwik;
 class SystemSetting extends Setting
 {
     /**
+     * By default the value of the system setting is only readable by SuperUsers but someone the value should be
+     * readable by everyone.
+     *
+     * @var bool
+     */
+    public $readableByCurrentUser = false;
+
+    /**
      * Constructor.
      * 
      * @param string $name The persisted name of the setting.
@@ -32,7 +40,8 @@ class SystemSetting extends Setting
     {
         parent::__construct($name, $title);
 
-        $this->displayedForCurrentUser = Piwik::hasUserSuperUserAccess();
+        $this->writableByCurrentUser = Piwik::hasUserSuperUserAccess();
+        $this->readableByCurrentUser = $this->writableByCurrentUser;
     }
 
     /**

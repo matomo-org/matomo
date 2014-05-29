@@ -38,6 +38,7 @@ class Settings extends \Piwik\Plugin\Settings
         $this->globalEnabled->description   = 'Defines the system default for all of your users.';
         $this->globalEnabled->inlineHelp    = 'Users are able to disable/enable the left menu independent of the system default';
         $this->globalEnabled->defaultValue  = true;
+        $this->globalEnabled->readableByCurrentUser = true;
 
         $this->addSetting($this->globalEnabled);
     }

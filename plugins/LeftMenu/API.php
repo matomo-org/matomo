@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Plugins\LeftMenu;
+use Piwik\Piwik;
 
 /**
  * API for plugin LeftMenu
@@ -22,18 +23,20 @@ class API extends \Piwik\Plugin\API
      */
     public function isEnabled()
     {
-        return true;
-
         $settings = new Settings('LeftMenu');
+        $default  = $settings->globalEnabled->getValue();
 
-        $global = $settings->globalEnabled->getValue();
-        $user   = $settings->userEnabled->getValue();
-
-        if (empty($user) || 'no' === $user) {
-            return false;
+        if (!$settings->userEnabled->isReadableByCurrentUser()) {
+            return $default;
         }
 
-        if ($user === 'default' && !$global) {
+        $user = $settings->userEnabled->getValue();
+
+        if (empty($user) || $user === 'default') {
+            return $default;
+        }
+
+        if ($user === 'no') {
             return false;
         }
 
