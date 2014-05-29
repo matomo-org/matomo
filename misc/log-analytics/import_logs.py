@@ -1676,7 +1676,11 @@ class Parser(object):
             # We parse it after calling check_methods as it's quite CPU hungry, and
             # we want to avoid that cost for excluded hits.
             # To mitigate CPU usage, parsed dates are cached.
-            date_key = format.get('date') + '|' + format.get('timezone')
+            try:
+                timezone_key = format.get('timezone')
+            except BaseFormatException:
+                timezone_key = ''
+            date_key = format.get('date') + '|' + timezone_key
             hit.date = cache_dates.get(date_key)
             if not hit.date:
                 date_string = format.get('date')
