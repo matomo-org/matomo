@@ -1414,8 +1414,7 @@ class Parser(object):
         return result
 
     def check_static(self, hit):
-        extension = hit.path.rsplit('.')[-1].lower()
-        if extension in STATIC_EXTENSIONS:
+        if hit.extension in STATIC_EXTENSIONS:
             if config.options.enable_static:
                 hit.is_download = True
                 return True
@@ -1425,8 +1424,7 @@ class Parser(object):
         return True
 
     def check_download(self, hit):
-        extension = hit.path.rsplit('.')[-1].lower()
-        if extension in DOWNLOAD_EXTENSIONS:
+        if hit.extension in DOWNLOAD_EXTENSIONS:
             stats.count_lines_downloads.increment()
             hit.is_download = True
         return True
@@ -1629,6 +1627,8 @@ class Parser(object):
                 hit.path = hit.full_path
             except BaseFormatException:
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
+
+            hit.extension = hit.path.rsplit('.')[-1].lower()
 
             try:
                 hit.referrer = format.get('referrer')
