@@ -1719,13 +1719,11 @@ class Parser(object):
                     invalid_line(line, 'invalid encoding')
                     continue
 
-            # Check if the hit must be excluded.
-            if all((method(hit) for method in self.check_methods)):
-                hits.append(hit)
+            hits.append(hit)
 
-                if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
-                    Recorder.add_hits(hits)
-                    hits = []
+            if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
+                Recorder.add_hits(hits)
+                hits = []
 
         # add last chunk of hits
         if len(hits) > 0:
