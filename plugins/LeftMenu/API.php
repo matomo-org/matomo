@@ -7,7 +7,6 @@
  *
  */
 namespace Piwik\Plugins\LeftMenu;
-use Piwik\Piwik;
 
 /**
  * API for plugin LeftMenu

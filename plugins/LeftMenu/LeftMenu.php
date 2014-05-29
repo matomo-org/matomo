@@ -19,9 +19,9 @@ class LeftMenu extends \Piwik\Plugin
         );
     }
 
-    public function addClassToBody($str)
+    public function addClassToBody($str, $layout)
     {
-        if (API::getInstance()->isEnabled()) {
+        if (API::getInstance()->isEnabled() && 'dashboard' === $layout) {
             $str .= ' leftMenuPlugin';
         }
     }

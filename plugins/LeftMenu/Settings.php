@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\LeftMenu;
 
+use Piwik\Piwik;
 use Piwik\Settings\SystemSetting;
 use Piwik\Settings\UserSetting;
 
@@ -24,7 +25,7 @@ class Settings extends \Piwik\Plugin\Settings
 
     protected function init()
     {
-        $this->setIntroduction('The left menu plugin will move the reporting menu from the top to the left if enabled. This is especially useful for large displays.');
+        $this->setIntroduction($this->t('SettingsIntroduction'));
 
         $this->createGlobalEnabledSetting();
 
@@ -33,11 +34,11 @@ class Settings extends \Piwik\Plugin\Settings
 
     private function createGlobalEnabledSetting()
     {
-        $this->globalEnabled = new SystemSetting('globalEnabled', 'Left menu enabled by default');
+        $this->globalEnabled = new SystemSetting('globalEnabled', $this->t('GlobalSettingTitle'));
         $this->globalEnabled->type = static::TYPE_BOOL;
-        $this->globalEnabled->description   = 'Defines the system default for all of your users.';
-        $this->globalEnabled->inlineHelp    = 'Users are able to disable/enable the left menu independent of the system default';
-        $this->globalEnabled->defaultValue  = false;
+        $this->globalEnabled->description  = $this->t('GlobalSettingDescription');
+        $this->globalEnabled->inlineHelp   = $this->t('GlobalSettingInlineHelp');
+        $this->globalEnabled->defaultValue = false;
         $this->globalEnabled->readableByCurrentUser = true;
 
         $this->addSetting($this->globalEnabled);
@@ -45,14 +46,23 @@ class Settings extends \Piwik\Plugin\Settings
 
     private function createUserEnabledSetting()
     {
-        $this->userEnabled = new UserSetting('userEnabled', 'Enable left reporting menu');
+        $this->userEnabled = new UserSetting('userEnabled', $this->t('UserSettingTitle'));
         $this->userEnabled->type            = static::TYPE_STRING;
         $this->userEnabled->uiControlType   = static::CONTROL_RADIO;
-        $this->userEnabled->availableValues = array('system' => 'System Default', 'yes' => 'Yes', 'no' => 'No');
-        $this->userEnabled->inlineHelp      = 'This will enable or disable the left menu only for you and not affect any other users. A Super User can change the default for all users.';
         $this->userEnabled->defaultValue    = 'system';
+        $this->userEnabled->inlineHelp      = $this->t('UserSettingInlineHelp');
+        $this->userEnabled->availableValues = array(
+            'system' => Piwik::translate('General_Default'),
+            'yes'    => Piwik::translate('General_Yes'),
+            'no'     => Piwik::translate('General_No')
+        );
 
         $this->addSetting($this->userEnabled);
+    }
+
+    private function t($key)
+    {
+        return Piwik::translate('LeftMenu_' . $key);
     }
 
 }
