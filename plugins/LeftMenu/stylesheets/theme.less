@@ -9,7 +9,7 @@
   }
 
   #root .Menu--dashboard {
-    border-top: 0px;
+    border: 0px;
   }
 
   .sites_selector_in_dashboard {
@@ -74,7 +74,6 @@
 
   .Menu--dashboard > .Menu-tabList > li > span,
   .Menu--dashboard > .Menu-tabList > li > a {
-    border-bottom: 1px dotted #778;
     display: block;
     padding: 5px 10px;
     font-size: 18px;
@@ -101,22 +100,15 @@
 
   .Menu--dashboard > .Menu-tabList li li a:link,
   .Menu--dashboard > .Menu-tabList li li a:visited {
-    color: #000;
+    text-decoration: none;
   }
 
   .Menu--dashboard > .Menu-tabList > .sfActive > a,
   .Menu--dashboard > .Menu-tabList > li > a:hover {
     background: #f1f1f1;
-    border-bottom: 1px dotted #777788 !important;
-  }
-
-  .Menu--dashboard > .Menu-tabList li li a:hover,
-  .Menu--dashboard > .Menu-tabList li li a.active {
-    color: @theme-color-link;
   }
 
   .Menu--dashboard > .Menu-tabList > .sfActive .sfHover > a {
-    color: @theme-color-link;
     font-weight: bold;
   }
 
