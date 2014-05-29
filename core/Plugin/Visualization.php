@@ -505,6 +505,8 @@ class Visualization extends ViewDataTable
      * 
      * Use this method to change the request parameters that is sent to the API when requesting
      * data.
+     *
+     * @api
      */
     public function beforeLoadDataTable()
     {
@@ -515,6 +517,8 @@ class Visualization extends ViewDataTable
      * 
      * Use this method if you need access to the entire dataset (since generic filters will
      * limit and truncate reports).
+     *
+     * @api
      */
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
@@ -522,6 +526,8 @@ class Visualization extends ViewDataTable
 
     /**
      * Hook that is executed after generic filters are applied.
+     *
+     * @api
      */
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
@@ -530,6 +536,8 @@ class Visualization extends ViewDataTable
     /**
      * Hook that is executed after the report data is loaded and after all filters have been applied.
      * Use this method to format the report data before the view is rendered.
+     *
+     * @api
      */
     public function afterAllFiltersAreApplied()
     {
@@ -538,6 +546,8 @@ class Visualization extends ViewDataTable
     /**
      * Hook that is executed directly before rendering. Use this hook to force display properties to
      * be a certain value, despite changes from plugins and query parameters.
+     *
+     * @api
      */
     public function beforeRender()
     {
