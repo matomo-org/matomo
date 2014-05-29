@@ -32,7 +32,7 @@ class API extends \Piwik\Plugin\API
 
         $user = $settings->userEnabled->getValue();
 
-        if (empty($user) || $user === 'default') {
+        if (empty($user) || $user === 'system') {
             return $default;
         }
 

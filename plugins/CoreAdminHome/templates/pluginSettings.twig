@@ -130,7 +130,7 @@
 
                             {% endif %}
 
-                            {% if setting.defaultValue and setting.uiControlType != 'checkbox' %}
+                            {% if setting.defaultValue and setting.uiControlType != 'checkbox' and setting.uiControlType != 'radio' %}
                                 <br/>
                                 <span class='form-description'>
                                     {{ 'General_Default'|translate }}

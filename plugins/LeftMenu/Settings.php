@@ -48,8 +48,9 @@ class Settings extends \Piwik\Plugin\Settings
         $this->userEnabled = new UserSetting('userEnabled', 'Enable left reporting menu');
         $this->userEnabled->type            = static::TYPE_STRING;
         $this->userEnabled->uiControlType   = static::CONTROL_RADIO;
-        $this->userEnabled->availableValues = array('default' => 'System Default', 'yes' => 'Yes', 'no' => 'No');
+        $this->userEnabled->availableValues = array('system' => 'System Default', 'yes' => 'Yes', 'no' => 'No');
         $this->userEnabled->inlineHelp      = 'This will enable or disable the left menu only for you and not affect any other users. A Super User can change the default for all users.';
+        $this->userEnabled->defaultValue    = 'system';
 
         $this->addSetting($this->userEnabled);
     }
