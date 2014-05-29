@@ -8,6 +8,7 @@
  */
 namespace Piwik\Tracker;
 
+use DeviceDetector\Parser\Bot;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
@@ -73,9 +74,9 @@ class VisitExcluded
 
         /**
          * Triggered on every tracking request.
-         * 
+         *
          * This event can be used to tell the Tracker not to record this particular action or visit.
-         * 
+         *
          * @param bool &$excluded Whether the request should be excluded or not. Initialized
          *                        to `false`. Event subscribers should set it to `true` in
          *                        order to exclude the request.
@@ -147,32 +148,19 @@ class VisitExcluded
      * As a result, these sophisticated bots exhibit characteristics of
      * browsers (cookies enabled, executing JavaScript, etc).
      *
+     * @see \DeviceDetector\Parser\Bot
+     *
      * @return boolean
      */
     protected function isNonHumanBot()
     {
         $allowBots = $this->request->getParam('bots');
 
-        return !$allowBots
-            // Seen in the wild
-        && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
-            || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
-            || strpos($this->userAgent, 'AdsBot-Google') !== false // Google Adwords landing pages
-            || strpos($this->userAgent, 'Google Page Speed Insights') !== false // #4049
-            || strpos($this->userAgent, 'Google (+https://developers.google.com') !== false // Google Snippet https://developers.google.com/+/web/snippet/
-            || strpos($this->userAgent, 'facebookexternalhit') !== false // http://www.facebook.com/externalhit_uatext.php
-            || strpos($this->userAgent, 'baidu') !== false // Baidu
-            || strpos($this->userAgent, 'bingbot') !== false // Bingbot
-            || strpos($this->userAgent, 'BingPreview') !== false // BingPreview
-            || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
-            || strpos($this->userAgent, 'CloudFlare') !== false // CloudFlare-AlwaysOnline
+        $botParser = new Bot($this->userAgent);
+        $botParser->discardDetails();
 
-            // Added as they are popular bots
-            || strpos($this->userAgent, 'pingdom') !== false // pingdom
-            || strpos($this->userAgent, 'yandex') !== false // yandex
-            || strpos($this->userAgent, 'exabot') !== false // Exabot
-            || strpos($this->userAgent, 'sogou') !== false // Sogou
-            || strpos($this->userAgent, 'soso') !== false // Soso
+        return !$allowBots
+        && ($botParser->parse() === true
             || IP::isIpInRange($this->ip, $this->getBotIpRanges()));
     }
 
