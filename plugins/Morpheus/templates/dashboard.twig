@@ -24,7 +24,7 @@
             <![endif]-->
         {% endblock %}
     </head>
-    <body ng-app="app">
+    <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'dashboard') }}">
     {% include "_iframeBuster.twig" %}
     {% include "@CoreHome/_javaScriptDisabled.twig" %}
 

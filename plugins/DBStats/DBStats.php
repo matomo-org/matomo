@@ -95,7 +95,7 @@ class DBStats extends \Piwik\Plugin
     public function configureViewDataTable(ViewDataTable $view)
     {
         switch ($view->requestConfig->apiMethodToRequestDataTable) {
-            case 'DBStats.getDatabaseUsageSummar':
+            case 'DBStats.getDatabaseUsageSummary':
                 $this->configureViewForGetDatabaseUsageSummary($view);
                 break;
             case 'DBStats.getTrackerDataSummary':
@@ -266,6 +266,10 @@ class DBStats extends \Piwik\Plugin
             $view->config->highlight_summary_row = true;
         }
 
+        if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->show_series_picker = false;
+        }
+
         $view->config->addTranslations(array(
             'label'          => Piwik::translate('DBStats_Table'),
             'year'           => Piwik::translate('CoreHome_PeriodYear'),
@@ -334,6 +338,7 @@ class DBStats extends \Piwik\Plugin
                 $view->requestConfig->filter_sort_column = 'row_count';
                 $view->requestConfig->filter_sort_order  = 'desc';
             }
+            $view->config->selectable_rows = array();
         }
 
         $getPrettySize = array('\Piwik\MetricsFormatter', 'getPrettySizeFromBytes');

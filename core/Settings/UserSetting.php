@@ -35,7 +35,8 @@ class UserSetting extends Setting
 
         $this->setUserLogin($userLogin);
 
-        $this->displayedForCurrentUser = Piwik::isUserHasSomeViewAccess();
+        $this->writableByCurrentUser = Piwik::isUserHasSomeViewAccess();
+        $this->readableByCurrentUser = Piwik::isUserHasSomeViewAccess();
     }
 
     /**

@@ -77,8 +77,7 @@ class Manager extends Singleton
 
     // Themes bundled with core package, disabled by default
     protected $coreThemesDisabledByDefault = array(
-        'ExampleTheme',
-        'LeftMenu',
+        'ExampleTheme'
     );
 
     /**

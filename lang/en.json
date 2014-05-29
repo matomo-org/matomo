@@ -155,6 +155,7 @@
         "PiwikIsInstalledAt": "Piwik is installed at",
         "PluginDescription": "Administration area of Piwik.",
         "PluginSettingChangeNotAllowed": "You are not allowed to change the value of the setting \"%s\" in plugin \"%s\"",
+        "PluginSettingReadNotAllowed": "You are not allowed to read the value of the setting \"%s\" in plugin \"%s\"",
         "PluginSettings": "Plugin settings",
         "PluginSettingsIntro": "Here you can change the settings for the following 3rd party plugins:",
         "PluginSettingsValueNotAllowed": "The value for field \"%s\" in plugin \"%s\" is not allowed",
