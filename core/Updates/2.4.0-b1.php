@@ -19,6 +19,10 @@ class Updates_2_4_0_b1 extends Updates
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Morpheus');
+        } catch(\Exception $e) {
+        }
+
+        try {
             \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('Zeitgeist');
             self::deletePluginFromConfigFile('Zeitgeist');
         } catch(\Exception $e) {

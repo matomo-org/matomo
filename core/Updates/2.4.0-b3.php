@@ -17,8 +17,15 @@ class Updates_2_4_0_b3 extends Updates
 {
     public static function update()
     {
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+
         try {
-            \Piwik\Plugin\Manager::getInstance()->uninstallPlugin('Zeitgeist');
+            $pluginManager->activatePlugin('LeftMenu');
+        } catch(\Exception $e) {
+        }
+
+        try {
+            $pluginManager->uninstallPlugin('Zeitgeist');
         } catch(\Exception $e) {
         }
     }

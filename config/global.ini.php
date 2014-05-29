@@ -636,6 +636,7 @@ Plugins[] = Overlay
 Plugins[] = SegmentEditor
 Plugins[] = Insights
 Plugins[] = ZenMode
+Plugins[] = LeftMenu
 Plugins[] = Morpheus
 
 [PluginsInstalled]

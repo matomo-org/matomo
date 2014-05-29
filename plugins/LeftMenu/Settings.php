@@ -24,7 +24,7 @@ class Settings extends \Piwik\Plugin\Settings
 
     protected function init()
     {
-        $this->setIntroduction('The left menu plugin will move the reporting menu from the top to the left if enabled. This is especially useful for large screens.');
+        $this->setIntroduction('The left menu plugin will move the reporting menu from the top to the left if enabled. This is especially useful for large displays.');
 
         $this->createGlobalEnabledSetting();
 
@@ -33,11 +33,11 @@ class Settings extends \Piwik\Plugin\Settings
 
     private function createGlobalEnabledSetting()
     {
-        $this->globalEnabled = new SystemSetting('globalEnabled', 'Left menu enabled by default for all users');
+        $this->globalEnabled = new SystemSetting('globalEnabled', 'Left menu enabled by default');
         $this->globalEnabled->type = static::TYPE_BOOL;
         $this->globalEnabled->description   = 'Defines the system default for all of your users.';
         $this->globalEnabled->inlineHelp    = 'Users are able to disable/enable the left menu independent of the system default';
-        $this->globalEnabled->defaultValue  = true;
+        $this->globalEnabled->defaultValue  = false;
         $this->globalEnabled->readableByCurrentUser = true;
 
         $this->addSetting($this->globalEnabled);
