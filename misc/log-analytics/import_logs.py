@@ -1535,7 +1535,7 @@ class Parser(object):
 
         if not format:
             fatal_error("cannot automatically determine the log format using the first %d lines of the log file. " % limit +
-                        "\Maybe try specifying the format with the --log-format-name command line argument." )
+                        "\nMaybe try specifying the format with the --log-format-name command line argument." )
             return
 
         logging.debug('Format %s is the best match', format.name)
