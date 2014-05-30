@@ -186,7 +186,7 @@ function getOsFamilyLogoExtended($label)
 
 function getOsFullNameExtended($label)
 {
-    if ($label == 'BOT') {
+    if (substr($label, 0, 3) == 'BOT') {
         return 'Bot';
     }
     if (!empty($label) && $label != ";") {
