@@ -488,7 +488,8 @@ class Http
             } else if ($response === false) {
                 $errstr = curl_error($ch);
                 if ($errstr != '') {
-                    throw new Exception('curl_exec: ' . $errstr);
+                    throw new Exception('curl_exec: ' . $errstr
+                        . '. Hostname requested was: ' . UrlHelper::getHostFromUrl($aUrl));
                 }
                 $response = '';
             } else {
