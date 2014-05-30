@@ -1,0 +1,4 @@
+[Timer]
+OnStartupSec=20m
+OnUnitInactiveSec=30m
+
