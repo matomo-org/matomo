@@ -119,7 +119,7 @@ function getDeviceTypeLabel($label)
 
     $deviceTypes = DeviceParser::getAvailableDeviceTypes();
 
-    if (in_array($label, $deviceTypes) && isset($translations[array_search($label, $deviceTypes)])) {
+    if (is_numeric($label) && in_array($label, $deviceTypes) && isset($translations[array_search($label, $deviceTypes)])) {
         return Piwik::translate($translations[array_search($label, $deviceTypes)]);
     } else if (isset($translations[$label])) {
         return Piwik::translate($translations[$label]);

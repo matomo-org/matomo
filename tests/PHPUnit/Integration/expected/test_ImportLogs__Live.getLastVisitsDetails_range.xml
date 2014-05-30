@@ -983,7 +983,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<screenType>mobile</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>360x640</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/mobile.gif</screenTypeIcon>
 		<plugins>flash</plugins>
@@ -1789,7 +1789,7 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
@@ -2514,7 +2514,7 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
@@ -2718,7 +2718,7 @@
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
