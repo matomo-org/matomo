@@ -19,6 +19,7 @@ use Piwik\Tracker\GoalManager;
  * Adds goal related metrics to a {@link DataTable} using metrics that already exist.
  *
  * Metrics added are:
+ *
  * - **revenue_per_visit**: total goal and ecommerce revenue / nb_visits
  * - **goal_%idGoal%_conversion_rate**: the conversion rate. There will be one of
  *                                      these columns for each goal that exists

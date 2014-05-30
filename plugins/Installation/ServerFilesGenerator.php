@@ -32,6 +32,10 @@ class ServerFilesGenerator
             "</Files>\n";
 
         $allowStaticAssets =
+            "# Serve HTML files as text/html mime type\n" .
+            "AddHandler text/html .html\n" .
+            "AddHandler text/html .htm\n\n" .
+
             "# Allow to serve static files which are safe\n" .
             "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .
                  $allow . "\n" .
@@ -74,7 +78,7 @@ class ServerFilesGenerator
      * @param bool $overwrite whether to overwrite an existing file or not
      * @param string $content
      */
-    public static function createHtAccess($path, $overwrite = true, $content)
+    protected static function createHtAccess($path, $overwrite = true, $content)
     {
         if (SettingsServer::isApache()) {
             $file = $path . '/.htaccess';
