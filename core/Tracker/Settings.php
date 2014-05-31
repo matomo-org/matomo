@@ -8,7 +8,7 @@
  */
 namespace Piwik\Tracker;
 
-use Piwik\CacheFile;
+use Piwik\DeviceDetectorCache;
 use Piwik\Tracker;
 use DeviceDetector\DeviceDetector;
 
@@ -39,7 +39,7 @@ class Settings
 
         $deviceDetector = new DeviceDetector($userAgent);
         $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new CacheFile('tracker', 86400));
+        $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
         $deviceDetector->parse();
 
         $aBrowserInfo = $deviceDetector->getClient();

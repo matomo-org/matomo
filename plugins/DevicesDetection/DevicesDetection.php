@@ -13,9 +13,9 @@ use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
 use DeviceDetector\DeviceDetector;
 use Exception;
 use Piwik\ArchiveProcessor;
-use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DeviceDetectorCache;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\WidgetsList;
@@ -245,7 +245,7 @@ class DevicesDetection extends \Piwik\Plugin
 
         $UAParser = new DeviceDetector($userAgent);
         $UAParser->discardBotInformation();
-        $UAParser->setCache(new CacheFile('tracker', 86400));
+        $UAParser->setCache(new DeviceDetectorCache('tracker', 86400));
         $UAParser->parse();
         $deviceInfo['config_browser_name'] = $UAParser->getClient("type") == 'browser' ? $UAParser->getClient("short_name") : 'UNK';
         $deviceInfo['config_browser_version'] = $UAParser->getClient("type") == 'browser' ?  $UAParser->getClient("version") : 'UNK';

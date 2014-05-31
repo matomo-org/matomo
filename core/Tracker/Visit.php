@@ -9,7 +9,6 @@
 
 namespace Piwik\Tracker;
 
-use DeviceDetector\DeviceDetector;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;

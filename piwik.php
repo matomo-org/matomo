@@ -40,9 +40,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 
 @ignore_user_abort(true);
 
-/*
- * Manually require needed vendor libraries, as composers autorequire would do too much
- */
 if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
     $vendorDirectory = PIWIK_INCLUDE_PATH . '/vendor';
 } else {
