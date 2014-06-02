@@ -193,7 +193,6 @@ class Tracker
         }
 
         if (!empty($this->requests)) {
-
             foreach ($this->requests as &$request) {
                 // if a string is sent, we assume its a URL and try to parse it
                 if (is_string($request)) {
@@ -236,18 +235,23 @@ class Tracker
         $this->initOutputBuffer();
 
         if (!empty($this->requests)) {
+            $this->beginTransaction();
 
             try {
                 foreach ($this->requests as $params) {
                     $isAuthenticated = $this->trackRequest($params, $tokenAuth);
                 }
                 $this->runScheduledTasksIfAllowed($isAuthenticated);
+                $this->commitTransaction();
             } catch(DbException $e) {
                 Common::printDebug($e->getMessage());
+                $this->rollbackTransaction();
             }
+
         } else {
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
+
         $this->end();
 
         $this->flushOutputBuffer();
@@ -268,6 +272,47 @@ class Tracker
         return ob_get_contents();
     }
 
+    protected function beginTransaction()
+    {
+        $this->transactionId = null;
+        if(!$this->shouldUseTransactions()) {
+            return;
+        }
+        $this->transactionId = self::getDatabase()->beginTransaction();
+    }
+
+    protected function commitTransaction()
+    {
+        if(empty($this->transactionId)) {
+            return;
+        }
+        self::getDatabase()->commit($this->transactionId);
+    }
+
+    protected function rollbackTransaction()
+    {
+        if(empty($this->transactionId)) {
+            return;
+        }
+        self::getDatabase()->rollback($this->transactionId);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function shouldUseTransactions()
+    {
+        $isBulkRequest = count($this->requests) > 1;
+        return $isBulkRequest && $this->isTransactionSupported();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isTransactionSupported()
+    {
+        return (bool) Config::getInstance()->Tracker['bulk_requests_use_transaction'];
+    }
 
     protected function shouldRunScheduledTasks()
     {
@@ -865,4 +910,6 @@ class Tracker
     {
         return file_get_contents("php://input");
     }
+
+
 }
