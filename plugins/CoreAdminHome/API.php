@@ -69,9 +69,10 @@ class API extends \Piwik\Plugin\API
 
         // Ensure the specified dates are valid
         $toInvalidate = $invalidDates = array();
-        $dates = explode(',', $dates);
+        $dates = explode(',', trim($dates));
         $dates = array_unique($dates);
         foreach ($dates as $theDate) {
+            $theDate = trim($theDate);
             try {
                 $date = Date::factory($theDate);
             } catch (Exception $e) {
