@@ -438,6 +438,10 @@ class FrontController extends Singleton
         if(Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
             return;
         }
+        // Disable Https for VisitorGenerator
+        if(Piwik::getModule() == 'VisitorGenerator') {
+            return;
+        }
         if(Common::isPhpCliMode()) {
             return;
         }
