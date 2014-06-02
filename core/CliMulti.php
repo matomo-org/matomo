@@ -206,7 +206,7 @@ class CliMulti {
 
     private function findPhpBinary()
     {
-        if (defined('PHP_BINARY') && false === strpos(PHP_BINARY, 'fpm')) {
+        if (defined('PHP_BINARY') && $this->isValidPhpType(PHP_BINARY)) {
             return PHP_BINARY;
         }
 
@@ -220,17 +220,18 @@ class CliMulti {
             $bin = $this->getPhpCommandIfValid($_SERVER['argv'][0]);
         }
 
-        if (empty($bin)) {
+        if (!$this->isValidPhpType($bin)) {
             $bin = shell_exec('which php');
         }
 
-        if (empty($bin)) {
+        if (!$this->isValidPhpType($bin)) {
             $bin = shell_exec('which php5');
         }
 
-        if (!empty($bin)) {
+        if ($this->isValidPhpType($bin)) {
             return trim($bin);
         }
+
         return false;
     }
 
@@ -238,10 +239,10 @@ class CliMulti {
     {
         $this->processes[] = new Process($cmdId);
 
-        $url  = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query   = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $url      = $this->appendTestmodeParamToUrlIfNeeded($url);
+        $query    = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
         $hostname = UrlHelper::getHostFromUrl($url);
-        $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
+        $command  = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
         Log::debug($command);
         shell_exec($command);
@@ -279,10 +280,18 @@ class CliMulti {
         return $url;
     }
 
+    private function isValidPhpType($path)
+    {
+        return !empty($path)
+            && false === strpos($path, 'fpm')
+            && false === strpos($path, 'cgi')
+            && false === strpos($path, 'phpunit');
+    }
+
     private function getPhpCommandIfValid($path)
     {
         if (!empty($path) && is_executable($path)) {
-            if (0 === strpos($path, PHP_BINDIR) && false === strpos($path, 'phpunit')) {
+            if (0 === strpos($path, PHP_BINDIR) && $this->isValidPhpType($path)) {
                 return $path;
             }
         }
