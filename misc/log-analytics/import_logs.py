@@ -524,7 +524,7 @@ class Configuration(object):
             level=logging.DEBUG if self.options.debug >= 1 else logging.INFO,
         )
 
-        self.options.excluded_useragents = {s.lower() for s in self.options.excluded_useragents}
+        self.options.excluded_useragents = set([s.lower() for s in self.options.excluded_useragents])
 
         if self.options.exclude_path_from:
             paths = [path.strip() for path in open(self.options.exclude_path_from).readlines()]
