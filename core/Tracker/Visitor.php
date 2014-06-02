@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Piwik;
 use Piwik\Tracker;
 
 class Visitor
@@ -21,7 +22,7 @@ class Visitor
         $this->visitorInfo = $visitorInfo;
         $this->customVariables = $customVariables;
 
-        $settings = new Tracker\Settings($request);
+        $settings = new Tracker\Settings($request, $this->visitorInfo['location_ip']);
         $this->userInfo = $settings->getInfo();
     }
 
@@ -58,7 +59,7 @@ class Visitor
             }
         }
 
-        $persistedVisitAttributes = Visit::getVisitFieldsPersist();
+        $persistedVisitAttributes = self::getVisitFieldsPersist();
 
         $selectFields = implode(", ", $persistedVisitAttributes);
 
@@ -70,9 +71,9 @@ class Visitor
         ";
         $from = "FROM " . Common::prefixTable('log_visit');
 
-        list($timeLookBack, $timeLookAhead) = Visit::getWindowLookupThisVisit($this->request);
+        list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit();
 
-        $shouldMatchOneFieldOnly = Visit::shouldLookupOneVisitorFieldOnly($this->request, $isVisitorIdToLookup);
+        $shouldMatchOneFieldOnly = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup);
 
         // Two use cases:
         // 1) there is no visitor ID so we try to match only on config_id (heuristics)
@@ -192,6 +193,97 @@ class Visitor
         } else {
             Common::printDebug("The visitor was not matched with an existing visitor...");
         }
+    }
+
+    /**
+     * By default, we look back 30 minutes to find a previous visitor (for performance reasons).
+     * In some cases, it is useful to look back and count unique visitors more accurately. You can set custom lookback window in
+     * [Tracker] window_look_back_for_visitor
+     *
+     * The returned value is the window range (Min, max) that the matched visitor should fall within
+     *
+     * @return array( datetimeMin, datetimeMax )
+     */
+    protected function getWindowLookupThisVisit()
+    {
+        $visitStandardLength = Config::getInstance()->Tracker['visit_standard_length'];
+        $lookBackNSecondsCustom = Config::getInstance()->Tracker['window_look_back_for_visitor'];
+
+        $lookAheadNSeconds = $visitStandardLength;
+        $lookBackNSeconds = $visitStandardLength;
+        if ($lookBackNSecondsCustom > $lookBackNSeconds) {
+            $lookBackNSeconds = $lookBackNSecondsCustom;
+        }
+
+        $timeLookBack = date('Y-m-d H:i:s', $this->request->getCurrentTimestamp() - $lookBackNSeconds);
+        $timeLookAhead = date('Y-m-d H:i:s', $this->request->getCurrentTimestamp() + $lookAheadNSeconds);
+
+        return array($timeLookBack, $timeLookAhead);
+    }
+
+    protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup)
+    {
+        // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
+        // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
+        $trustCookiesOnly = Config::getInstance()->Tracker['trust_visitors_cookies'];
+
+        // If a &cid= was set, we force to select this visitor (or create a new one)
+        $isForcedVisitorIdMustMatch = ($this->request->getForcedVisitorId() != null);
+
+        $shouldMatchOneFieldOnly = (($isVisitorIdToLookup && $trustCookiesOnly)
+            || $isForcedVisitorIdMustMatch
+            || !$isVisitorIdToLookup);
+        return $shouldMatchOneFieldOnly;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getVisitFieldsPersist()
+    {
+        $fields = array(
+            'idvisitor',
+            'idvisit',
+            'visit_exit_idaction_url',
+            'visit_exit_idaction_name',
+            'visitor_returning',
+            'visitor_days_since_first',
+            'visitor_days_since_order',
+            'visitor_count_visits',
+            'visit_goal_buyer',
+
+            'location_country',
+            'location_region',
+            'location_city',
+            'location_latitude',
+            'location_longitude',
+
+            'referer_name',
+            'referer_keyword',
+            'referer_type',
+        );
+
+        /**
+         * Triggered when checking if the current action being tracked belongs to an existing visit.
+         *
+         * This event collects a list of [visit entity]() properties that should be loaded when reading
+         * the existing visit. Properties that appear in this list will be available in other tracking
+         * events such as {@hook Tracker.newConversionInformation} and {@hook Tracker.newVisitorInformation}.
+         *
+         * Plugins can use this event to load additional visit entity properties for later use during tracking.
+         * When you add fields to this $fields array, they will be later available in Tracker.newConversionInformation
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Tracker.getVisitFieldsToPersist', function (&$fields) {
+         *         $fields[] = 'custom_visit_property';
+         *     });
+         *
+         * @param array &$fields The list of visit properties to load.
+         */
+        Piwik::postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
+
+        return $fields;
     }
 
     function getVisitorInfo()

@@ -13,10 +13,10 @@ use Piwik\Tracker;
 
 class Settings
 {
-    function __construct(Request $request)
+    function __construct(Request $request, $ip)
     {
         $this->request = $request;
-        $this->ipAddress = $request->getIp();
+        $this->ipAddress = $ip;
         $this->params = array();
     }
 
