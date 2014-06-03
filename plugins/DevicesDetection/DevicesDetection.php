@@ -88,7 +88,6 @@ class DevicesDetection extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Tracker.newVisitorInformation'   => 'parseMobileVisitData',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
@@ -237,27 +236,6 @@ class DevicesDetection extends \Piwik\Plugin
                 throw $e;
             }
         }
-    }
-
-    public function parseMobileVisitData(&$visitorInfo, \Piwik\Tracker\Request $request)
-    {
-        $userAgent = $request->getUserAgent();
-
-        $UAParser = new DeviceDetector($userAgent);
-        $UAParser->discardBotInformation();
-        $UAParser->setCache(new DeviceDetectorCache('tracker', 86400));
-        $UAParser->parse();
-        $deviceInfo['config_browser_name'] = $UAParser->getClient("type") == 'browser' ? $UAParser->getClient("short_name") : 'UNK';
-        $deviceInfo['config_browser_version'] = $UAParser->getClient("type") == 'browser' ?  $UAParser->getClient("version") : 'UNK';
-        $deviceInfo['config_os'] = $UAParser->isBot() ? 'BOT' : $UAParser->getOs("short_name");
-        $deviceInfo['config_os_version'] = $UAParser->getOs("version");
-        $deviceInfo['config_device_type'] = $UAParser->getDevice();
-        $deviceInfo['config_device_model'] = $UAParser->getModel();
-        $deviceInfo['config_device_brand'] = $UAParser->getBrand();
-
-        $visitorInfo = array_merge($visitorInfo, $deviceInfo);
-        Common::printDebug("Device Detection:");
-        Common::printDebug($deviceInfo);
     }
 
     public function configureViewDataTable(ViewDataTable $view)
