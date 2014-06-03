@@ -170,6 +170,36 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
             $this->assertSame($expectedIsReferrerSpam, $excluded->public_isReferrerSpamExcluded(), $spamUrl);
         }
     }
+    /**
+     * @group Core
+     * @group IpIsKnownBot
+     */
+    public function testIsVisitor_ipIsKnownBot()
+    {
+        $isIpBot = array(
+            // Source: http://forum.piwik.org/read.php?3,108926
+            '66.249.85.36' => true,
+            '66.249.91.150' => true,
+            '64.233.172.1' => true,
+
+            // ddos bot
+            '1.202.218.8' => true,
+
+            // Not bots
+            '66.248.91.150' => false,
+            '66.250.91.150' => false,
+        );
+
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
+        $request = new Request(array('idsite' => $idsite, 'bots' => 0));
+
+        // test that user agents that contain excluded user agent strings are excluded
+        foreach ($isIpBot as $ip => $isBot) {
+            $excluded = new VisitExcluded_public($request, IP::P2N($ip));
+
+            $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $ip);
+        }
+    }
 }
 
 class VisitExcluded_public extends VisitExcluded
@@ -186,5 +216,9 @@ class VisitExcluded_public extends VisitExcluded
     public function public_isReferrerSpamExcluded()
     {
         return $this->isReferrerSpamExcluded();
+    }
+    public function public_isNonHumanBot()
+    {
+        return $this->isNonHumanBot();
     }
 }

@@ -153,6 +153,7 @@ class VisitExcluded
     {
         $allowBots = $this->request->getParam('bots');
 
+        var_dump('ip = '. $this->ip);
         return !$allowBots
             // Seen in the wild
         && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
@@ -176,9 +177,12 @@ class VisitExcluded
             || IP::isIpInRange($this->ip, $this->getBotIpRanges()));
     }
 
-    protected function  getBotIpRanges()
+    protected function getBotIpRanges()
     {
         return array(
+            // Google
+            '66.249.0.0/16',
+            '64.233.172.0/24',
             // Live/Bing/MSN
             '64.4.0.0/18',
             '65.52.0.0/14',
