@@ -16,13 +16,11 @@ use Piwik\Tracker;
 
 class Visitor
 {
-    function __construct(Request $request, $visitorInfo = array(), $customVariables = null)
+    function __construct(Request $request, Tracker\Settings $settings, $visitorInfo = array(), $customVariables = null)
     {
         $this->request = $request;
         $this->visitorInfo = $visitorInfo;
         $this->customVariables = $customVariables;
-
-        $settings = new Tracker\Settings($request, $this->visitorInfo['location_ip']);
         $this->userInfo = $settings->getInfo();
     }
 

@@ -144,7 +144,7 @@ class Visit implements VisitInterface
         /***
          * Visitor recognition
          */
-        $visitor = New Visitor($this->request, $this->visitorInfo, $this->visitorCustomVariables);
+        $visitor = new Visitor($this->request, $this->getSettingsObject(), $this->visitorInfo, $this->visitorCustomVariables);
         $visitor->recognize();
 
         $this->visitorKnown = $visitor->isVisitorKnown();
@@ -381,16 +381,16 @@ class Visit implements VisitInterface
     }
 
     /**
-     * Gets the UserSettings information and returns them in an array of name => value
+     * Gets the UserSettings object
      *
-     * @return array
+     * @return Settings
      */
-    protected function getUserSettingsInformation()
+    protected function getSettingsObject()
     {
         if(is_null($this->userSettings)) {
             $this->userSettings = new Settings( $this->request, $this->getVisitorIp() );
         }
-        return $this->userSettings->getInfo();
+        return $this->userSettings;
     }
 
     /**
@@ -521,7 +521,8 @@ class Visit implements VisitInterface
         }
 
         // User settings
-        $userInfo = $this->getUserSettingsInformation();
+        $userInfo = $this->getSettingsObject();
+        $userInfo = $userInfo->getInfo();
 
         // Referrer data
         $referrer = new Referrer();
