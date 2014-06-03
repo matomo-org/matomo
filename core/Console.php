@@ -13,6 +13,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Console extends Application
@@ -30,12 +31,9 @@ class Console extends Application
         $this->getDefinition()->addOption($option);
     }
 
-    /**
-     * @deprecated
-     */
     public function init()
     {
-        // TODO: remove
+        $this->checkCompatibility();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -126,6 +124,15 @@ class Console extends Application
         }
 
         return $commands;
+    }
+
+    private function checkCompatibility()
+    {
+        if (Common::isPhpCgiType()) {
+            echo 'Piwik Console is known to be not compatible with PHP-CGI. Please execute console using PHP-CLI. For instance "/usr/bin/php-cli console ..."';
+            echo "\n";
+            exit(1);
+        }
     }
 
     protected function initPiwikHost(InputInterface $input)

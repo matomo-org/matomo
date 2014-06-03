@@ -129,7 +129,20 @@ class Common
 
         $remoteAddr = @$_SERVER['REMOTE_ADDR'];
         return PHP_SAPI == 'cli' ||
-        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
+        (self::isPhpCgiType() && empty($remoteAddr));
+    }
+
+    /**
+     * Returns true if PHP is executed as CGI type.
+     *
+     * @since added in 0.4.4
+     * @return bool true if PHP invoked as a CGI
+     */
+    public static function isPhpCgiType()
+    {
+        $sapiType = php_sapi_name();
+
+        return substr($sapiType, 0, 3) === 'cgi';
     }
 
     /**
