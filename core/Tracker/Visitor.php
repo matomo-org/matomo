@@ -291,11 +291,6 @@ class Visitor
         return $this->visitorInfo;
     }
 
-    function getCustomVariables()
-    {
-        return $this->customVariables;
-    }
-
     function isVisitorKnown()
     {
         return $this->visitorKnown === true;

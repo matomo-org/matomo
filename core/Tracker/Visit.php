@@ -149,7 +149,6 @@ class Visit implements VisitInterface
 
         $this->visitorKnown = $visitor->isVisitorKnown();
         $this->visitorInfo = $visitor->getVisitorInfo();
-        $this->visitorCustomVariables = $visitor->getCustomVariables();
 
         $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit();
 
