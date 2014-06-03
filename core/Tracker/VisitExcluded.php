@@ -153,7 +153,6 @@ class VisitExcluded
     {
         $allowBots = $this->request->getParam('bots');
 
-        var_dump('ip = '. $this->ip);
         return !$allowBots
             // Seen in the wild
         && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
