@@ -193,7 +193,6 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
         $request = new Request(array('idsite' => $idsite, 'bots' => 0));
 
-        // test that user agents that contain excluded user agent strings are excluded
         foreach ($isIpBot as $ip => $isBot) {
             $excluded = new VisitExcluded_public($request, IP::P2N($ip));
 

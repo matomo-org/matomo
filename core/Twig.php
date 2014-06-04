@@ -234,6 +234,8 @@ class Twig
     protected function addFilter_safeDecodeRaw()
     {
         $rawSafeDecoded = new Twig_SimpleFilter('rawSafeDecoded', function ($string) {
+            $string = str_replace('+', '%2B', $string);
+
             return SafeDecodeLabel::decodeLabelSafe($string);
 
         }, array('is_safe' => array('all')));

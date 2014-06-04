@@ -8,9 +8,6 @@ php:
 #  - 5.6
 #  - hhvm
 
-python:
-  - "2.6"
-
 # Separate different test suites
 env:
   matrix:
@@ -95,7 +92,12 @@ before_script:
   - date
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_tests;'
-  # Log Analytics uses Python
+  # Make sure we use Python 2.6
+  - sudo add-apt-repository ppa:fkrull/deadsnakes -y
+  - sudo apt-get update
+  - sudo apt-get install python2.6 python2.6-dev
+  # Log Analytics works with Python 2.6 or 2.7 but we want to test on 2.6
+  - python2.6 --version
   - python --version
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
