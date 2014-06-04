@@ -69,6 +69,20 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public $testEnvironment = null;
 
+    /**
+     * @return string
+     */
+    protected static function getPythonBinary()
+    {
+        if(\Piwik\SettingsServer::isWindows()) {
+            return "C:\Python27\python.exe";
+        }
+        if(IntegrationTestCase::isTravisCI()) {
+            return 'python2.6';
+        }
+        return 'python';
+    }
+
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
     {
@@ -643,7 +657,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
     protected static function executeLogImporter($logFile, $options)
     {
-        $python = \Piwik\SettingsServer::isWindows() ? "C:\Python27\python.exe" : 'python';
+        $python = self::getPythonBinary();
 
         // create the command
         $cmd = $python
