@@ -1687,7 +1687,7 @@ class Parser(object):
                     timezone_key = format.get('timezone')
                 except BaseFormatException:
                     timezone_key = ''
-                date_key = format.get('date') + '|' + timezone_key
+                date_key = (format.get('date'), timezone_key)
                 hit.date = cache_dates.get(date_key)
             if not hit.date:
                 date_string = format.get('date')
