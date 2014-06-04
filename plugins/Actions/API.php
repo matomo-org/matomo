@@ -458,6 +458,15 @@ class API extends \Piwik\Plugin\API
             // match found on this level and more levels remaining: go deeper
             $idSubTable = $row->getIdSubDataTable();
             $callBackParameters[6] = $idSubTable;
+
+            /**
+             * @var \Piwik\Period $period
+             */
+            $period = $table->getMetadata('period');
+            if (!empty($period)) {
+                $callBackParameters[3] = $period->getDateStart() . ',' . $period->getDateEnd();
+            }
+
             $table = call_user_func_array(array($this, 'getDataTableFromArchive'), $callBackParameters);
             return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
         }
