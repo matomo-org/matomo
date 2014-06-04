@@ -50,7 +50,10 @@ except ImportError:
 try:
     from collections import OrderedDict
 except ImportError:
-    from ordereddict import OrderedDict
+    try:
+        from ordereddict import OrderedDict
+    except ImportError:
+        print >> sys.stderr, 'ordereddict (https://pypi.python.org/pypi/ordereddict) is required to enable dates caching.'
 
 
 ##
@@ -1595,7 +1598,10 @@ class Parser(object):
         resolver.check_format(format)
 
         hits = []
-        cache_dates = OrderedDict()
+        try:
+            cache_dates = OrderedDict()
+        except NameError:
+            cache_dates = None
         for lineno, line in enumerate(file):
             try:
                 line = line.decode(config.options.encoding)
@@ -1675,13 +1681,14 @@ class Parser(object):
             # Parse date.
             # We parse it after calling check_methods as it's quite CPU hungry, and
             # we want to avoid that cost for excluded hits.
-            # To mitigate CPU usage, parsed dates are cached.
-            try:
-                timezone_key = format.get('timezone')
-            except BaseFormatException:
-                timezone_key = ''
-            date_key = format.get('date') + '|' + timezone_key
-            hit.date = cache_dates.get(date_key)
+            if cache_dates is not None:
+                # To mitigate CPU usage, parsed dates are cached.
+                try:
+                    timezone_key = format.get('timezone')
+                except BaseFormatException:
+                    timezone_key = ''
+                date_key = format.get('date') + '|' + timezone_key
+                hit.date = cache_dates.get(date_key)
             if not hit.date:
                 date_string = format.get('date')
                 try:
@@ -1702,9 +1709,10 @@ class Parser(object):
                 if timezone:
                     hit.date -= datetime.timedelta(hours=timezone/100)
 
-                if len(cache_dates) > 3600:
-                    cache_dates.popitem(False)
-                cache_dates[date_key] = hit.date
+                if cache_dates is not None:
+                    if len(cache_dates) > 3600:
+                        cache_dates.popitem(False)
+                    cache_dates[date_key] = hit.date
 
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
