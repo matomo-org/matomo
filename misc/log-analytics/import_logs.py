@@ -1627,6 +1627,7 @@ class Parser(object):
                 is_robot=False,
                 is_error=False,
                 is_redirect=False,
+                date=None,
                 args={},
             )
 
