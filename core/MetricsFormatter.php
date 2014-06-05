@@ -155,9 +155,11 @@ class MetricsFormatter
         }
 
         $currencyAfter = '';
-        // manually put the currency symbol after the amount for euro
         // (maybe more currencies prefer this notation?)
-        if (in_array($currencyBefore, array('€', 'kr'))) {
+        $currencySymbolToAppend = array('€', 'kr', 'zł');
+
+        // manually put the currency symbol after the amount
+        if (in_array($currencyBefore, $currencySymbolToAppend)) {
             $currencyAfter = $space . $currencyBefore;
             $currencyBefore = '';
         }
