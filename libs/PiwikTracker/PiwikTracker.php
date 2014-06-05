@@ -160,22 +160,9 @@ class PiwikTracker
      */
     function __construct($idSite, $apiUrl = '')
     {
-        $this->userAgent = false;
-        $this->localHour = false;
-        $this->localMinute = false;
-        $this->localSecond = false;
-        $this->hasCookies = false;
-        $this->plugins = false;
-        $this->pageCustomVar = false;
-        $this->eventCustomVar = false;
-        $this->customData = false;
-        $this->forcedDatetime = false;
-        $this->forcedNewVisit = false;
         $this->token_auth = false;
-        $this->attributionInfo = false;
-        $this->ecommerceLastOrderTimestamp = false;
-        $this->ecommerceItems = array();
-        $this->generationTime = false;
+
+        $this->init();
 
         $this->idSite = $idSite;
         $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
@@ -195,23 +182,12 @@ class PiwikTracker
         // Life of the session cookie (in sec)
         $this->configReferralCookieTimeout = 15768000; // 6 months
 
-        // Visitor Ids in order
-        $this->forcedVisitorId = false;
-        $this->cookieVisitorId = false;
-        $this->randomVisitorId = false;
-
         $this->setNewVisitorId();
 
         $this->configCookiesDisabled = false;
         $this->configCookiePath = self::DEFAULT_COOKIE_PATH;
         $this->configCookieDomain = '';
 
-        $this->currentTs = time();
-        $this->createTs = $this->currentTs;
-        $this->visitCount = 0;
-        $this->currentVisitTs = false;
-        $this->lastVisitTs = false;
-        $this->lastEcommerceOrderTs = false;
 
         // Allow debug while blocking the request
         $this->requestTimeout = 600;
@@ -1182,6 +1158,11 @@ class PiwikTracker
                 = $url
                 . (!empty($this->userAgent) ? ('&ua=' . urlencode($this->userAgent)) : '')
                 . (!empty($this->acceptLanguage) ? ('&lang=' . urlencode($this->acceptLanguage)) : '');
+
+            // if we run in bulk tracking mode, the next tracking request
+            // may be from a completely different visitor, so we clean up properties
+            $this->init();
+
             return true;
         }
 
@@ -1526,6 +1507,41 @@ class PiwikTracker
             return false;
         }
         return json_decode($cookie, $assoc = true);
+    }
+
+    /**
+     * Initializes properties
+     */
+    protected function init()
+    {
+        $this->userAgent = false;
+        $this->localHour = false;
+        $this->localMinute = false;
+        $this->localSecond = false;
+        $this->hasCookies = false;
+        $this->plugins = false;
+        $this->pageCustomVar = false;
+        $this->eventCustomVar = false;
+        $this->customData = false;
+        $this->forcedDatetime = false;
+        $this->forcedNewVisit = false;
+        $this->attributionInfo = false;
+        $this->ecommerceLastOrderTimestamp = false;
+        $this->ecommerceItems = array();
+        $this->generationTime = false;
+
+        // Visitor Ids in order
+        $this->forcedVisitorId = false;
+        $this->cookieVisitorId = false;
+        $this->randomVisitorId = false;
+
+        // Times
+        $this->currentTs = time();
+        $this->createTs = $this->currentTs;
+        $this->visitCount = 0;
+        $this->currentVisitTs = false;
+        $this->lastVisitTs = false;
+        $this->lastEcommerceOrderTs = false;
     }
 }
 
