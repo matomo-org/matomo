@@ -58,7 +58,7 @@ class Tasks
      */
     protected function hourly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'hourly', $priority);
+        return $this->custom(get_class($this), $methodName, $methodParameter, 'hourly', $priority);
     }
 
     /**
@@ -69,7 +69,7 @@ class Tasks
      */
     protected function daily($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'daily', $priority);
+        return $this->custom(get_class($this), $methodName, $methodParameter, 'daily', $priority);
     }
 
     /**
@@ -80,7 +80,7 @@ class Tasks
      */
     protected function weekly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'weekly', $priority);
+        return $this->custom(get_class($this), $methodName, $methodParameter, 'weekly', $priority);
     }
 
     /**
@@ -91,7 +91,7 @@ class Tasks
      */
     protected function monthly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'monthly', $priority);
+        return $this->custom(get_class($this), $methodName, $methodParameter, 'monthly', $priority);
     }
 
     /**
@@ -120,10 +120,6 @@ class Tasks
 
         if (!($time instanceof ScheduledTime)) {
             throw new \Exception('$time should be an instance of ScheduledTime');
-        }
-
-        if (!is_string($objectOrClassName)) {
-            $objectOrClassName = get_class($objectOrClassName);
         }
 
         $this->scheduleTask(new ScheduledTask($objectOrClassName, $methodName, $methodParameter, $time, $priority));
