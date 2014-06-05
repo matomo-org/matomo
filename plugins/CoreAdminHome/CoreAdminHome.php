@@ -8,12 +8,7 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
-use Piwik\DataAccess\ArchiveSelector;
-use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\Date;
 use Piwik\Db;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime;
 use Piwik\Settings\UserSetting;
 
 /**
@@ -29,7 +24,6 @@ class CoreAdminHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'UsersManager.deleteUser'         => 'cleanupUser'
         );
     }
@@ -37,25 +31,6 @@ class CoreAdminHome extends \Piwik\Plugin
     public function cleanupUser($userLogin)
     {
         UserSetting::removeAllUserSettingsForUser($userLogin);
-    }
-
-    public function getScheduledTasks(&$tasks)
-    {
-        // general data purge on older archive tables, executed daily
-        $purgeArchiveTablesTask = new ScheduledTask ($this,
-            'purgeOutdatedArchives',
-            null,
-            ScheduledTime::factory('daily'),
-            ScheduledTask::HIGH_PRIORITY);
-        $tasks[] = $purgeArchiveTablesTask;
-
-        // lowest priority since tables should be optimized after they are modified
-        $optimizeArchiveTableTask = new ScheduledTask ($this,
-            'optimizeArchiveTable',
-            null,
-            ScheduledTime::factory('daily'),
-            ScheduledTask::LOWEST_PRIORITY);
-        $tasks[] = $optimizeArchiveTableTask;
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -85,23 +60,4 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
     }
 
-    function purgeOutdatedArchives()
-    {
-        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-        foreach ($archiveTables as $table) {
-            $date = ArchiveTableCreator::getDateFromTableName($table);
-            list($year, $month) = explode('_', $date);
-
-            // Somehow we may have archive tables created with older dates, prevent exception from being thrown
-            if($year > 1990) {
-                ArchiveSelector::purgeOutdatedArchives(Date::factory("$year-$month-15"));
-            }
-        }
-    }
-
-    function optimizeArchiveTable()
-    {
-        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-        Db::optimizeTables($archiveTables);
-    }
 }
