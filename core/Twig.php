@@ -78,7 +78,7 @@ class Twig
         $this->addFilter_sumTime();
         $this->addFilter_money();
         $this->addFilter_truncate();
-        $this->addFilter_notificiation();
+        $this->addFilter_notification();
         $this->addFilter_percentage();
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
@@ -202,7 +202,7 @@ class Twig
         return $this->twig;
     }
 
-    protected function addFilter_notificiation()
+    protected function addFilter_notification()
     {
         $twigEnv = $this->getTwigEnvironment();
         $notificationFunction = new Twig_SimpleFilter('notification', function ($message, $options) use ($twigEnv) {
