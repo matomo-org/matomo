@@ -11,6 +11,12 @@ namespace Piwik\Plugin;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;
 
+/**
+ * Base class for all Tasks declarations.
+ * Tasks are usually meant as scheduled tasks that are executed regularily by Piwik in the background. For instance
+ * once every hour or every day. This could be for instance checking for updates, sending email reports, etc.
+ * Please don't mix up tasks with console commands which can be executed on the CLI.
+ */
 class Tasks
 {
     /**
