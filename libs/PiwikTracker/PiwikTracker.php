@@ -361,6 +361,20 @@ class PiwikTracker
     }
 
     /**
+     * Clears any Custom Variable that may be have been set.
+     *
+     * This can be useful when you have enabled bulk requests,
+     * and you wish to clear Custom Variables of 'visit' scope.
+     */
+    public function clearCustomVariables()
+    {
+        $this->visitorCustomVar = false;
+        $this->pageCustomVar = false;
+        $this->eventCustomVar = false;
+    }
+
+
+    /**
      * Sets the current visitor ID to a random new one.
      */
     public function setNewVisitorId()
@@ -465,8 +479,8 @@ class PiwikTracker
      * Enables the bulk request feature. When used, each tracking action is stored until the
      * doBulkTrack method is called. This method will send all tracking data at once.
      *
-     * Note: when you enable bulk tracking, all the properties of this object will be reset
-     * after each request is sent (ie. datetimes, settings, visitor id, etc. will be initialized to "false").
+     * Note: when you enable bulk tracking, consider calling clearCustomVariables() before setting other
+     * attributes to your visitors and requests to track.
      */
     public function enableBulkTracking()
     {
@@ -1340,6 +1354,8 @@ class PiwikTracker
 
             // DEBUG
             $this->DEBUG_APPEND_URL;
+
+
         // Reset page level custom variables after this page view
         $this->pageCustomVar = false;
         $this->eventCustomVar = false;
