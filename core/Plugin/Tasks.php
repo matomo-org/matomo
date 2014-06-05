@@ -24,8 +24,13 @@ class Tasks
     const HIGH_PRIORITY    = ScheduledTask::HIGH_PRIORITY;
     const HIGHEST_PRIORITY = ScheduledTask::HIGHEST_PRIORITY;
 
+    /**
+     * This method is called to collect all schedule tasks. Register all your tasks here that should be executed
+     * regularily such as daily or monthly.
+     */
     public function schedule()
     {
+        // eg $this->daily('myMethodName')
     }
 
     /**
@@ -121,12 +126,18 @@ class Tasks
             $objectOrClassName = get_class($objectOrClassName);
         }
 
-        $this->addScheduledTask(new ScheduledTask($objectOrClassName, $methodName, $methodParameter, $time, $priority));
+        $this->scheduleTask(new ScheduledTask($objectOrClassName, $methodName, $methodParameter, $time, $priority));
 
         return $time;
     }
 
-    protected function addScheduledTask(ScheduledTask $task)
+    /**
+     * In case you need very high flexibility and none of the other convenient methods such as {@link hourly()} or
+     * {@link custom()} suit you, you can use this method to add a custom scheduled task.
+     *
+     * @param ScheduledTask $task
+     */
+    protected function scheduleTask(ScheduledTask $task)
     {
         $this->tasks[] = $task;
     }

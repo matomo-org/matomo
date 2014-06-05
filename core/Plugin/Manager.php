@@ -342,11 +342,10 @@ class Manager extends Singleton
      */
     public function findComponents($componentName, $expectedSubclass)
     {
-        $pluginNames = $this->getLoadedPlugins();
-
+        $plugins    = $this->getLoadedPlugins();
         $components = array();
 
-        foreach ($pluginNames as $plugin) {
+        foreach ($plugins as $plugin) {
             $component = $plugin->findComponent($componentName, $expectedSubclass);
 
             if (!empty($component)) {
