@@ -46,7 +46,7 @@ class Twig
 		$loaders = array();
 		
 		//create loader for custom theme to overwrite twig templates
-		if($theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
+		if($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
 			$customLoader = $this->getCustomThemeLoader($theme);
 			if ($customLoader) {
 				//make it possible to overwrite plugin templates
