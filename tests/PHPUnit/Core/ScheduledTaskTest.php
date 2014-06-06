@@ -18,7 +18,7 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
     public function testGetClassName()
     {
         $scheduledTask = new ScheduledTask (new ScheduledReports(), null, null, null);
-        $this->assertEquals('ScheduledReports', $scheduledTask->getClassName());
+        $this->assertEquals('Piwik\Plugins\ScheduledReports\ScheduledReports', $scheduledTask->getClassName());
     }
 
     /**
