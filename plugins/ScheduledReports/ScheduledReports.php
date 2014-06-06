@@ -15,12 +15,9 @@ use Piwik\DbHelper;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
-use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;
-use Piwik\Site;
 use Piwik\View;
 use Zend_Mime;
 
@@ -72,7 +69,6 @@ class ScheduledReports extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'TaskScheduler.getScheduledTasks'           => 'getScheduledTasks',
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
             'MobileMessaging.deletePhoneNumber'         => 'deletePhoneNumber',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
@@ -461,25 +457,6 @@ class ScheduledReports extends \Piwik\Plugin
     private static function manageEvent($reportType)
     {
         return in_array($reportType, array_keys(self::$managedReportTypes));
-    }
-
-    public function getScheduledTasks(&$tasks)
-    {
-        foreach (API::getInstance()->getReports() as $report) {
-            if (!$report['deleted'] && $report['period'] != ScheduledTime::PERIOD_NEVER) {
-
-                $timezone = Site::getTimezoneFor($report['idsite']);
-
-                $schedule = ScheduledTime::getScheduledTimeForPeriod($report['period']);
-                $schedule->setHour($report['hour']);
-                $schedule->setTimezone($timezone);
-                $tasks[] = new ScheduledTask (
-                    API::getInstance(),
-                    'sendReport',
-                    $report['idreport'], $schedule
-                );
-            }
-        }
     }
 
     public function segmentUpdated($idSegment, $updatedSegment)

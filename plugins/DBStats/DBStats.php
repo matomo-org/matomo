@@ -8,19 +8,13 @@
  */
 namespace Piwik\Plugins\DBStats;
 
-use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime;
 
-/**
- *
- */
 class DBStats extends \Piwik\Plugin
 {
     const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
@@ -32,40 +26,10 @@ class DBStats extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'ViewDataTable.configure'         => 'configureViewDataTable',
             'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable',
             "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
         );
-    }
-
-    /**
-     * Gets all scheduled tasks executed by this plugin.
-     */
-    public function getScheduledTasks(&$tasks)
-    {
-        $cacheDataByArchiveNameReportsTask = new ScheduledTask(
-            $this,
-            'cacheDataByArchiveNameReports',
-            null,
-            ScheduledTime::factory('weekly'),
-            ScheduledTask::LOWEST_PRIORITY
-        );
-        $tasks[] = $cacheDataByArchiveNameReportsTask;
-    }
-
-    /**
-     * Caches the intermediate DataTables used in the getIndividualReportsSummary and
-     * getIndividualMetricsSummary reports in the option table.
-     */
-    public function cacheDataByArchiveNameReports()
-    {
-        $api = API::getInstance();
-        $api->getIndividualReportsSummary(true);
-        $api->getIndividualMetricsSummary(true);
-
-        $now = Date::now()->getLocalized("%longYear%, %shortMonth% %day%");
-        Option::set(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
     }
 
     public function getStylesheetFiles(&$stylesheets)

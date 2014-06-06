@@ -10,6 +10,7 @@ use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\Menu;
+use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ScheduledTask;
@@ -383,9 +384,9 @@ class Plugins_ScheduledReportsTest extends DatabaseTestCase
             new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
         );
 
-        $pdfReportPlugin = new ScheduledReports();
-        $tasks = array();
-        $pdfReportPlugin->getScheduledTasks($tasks);
+        $pdfReportPlugin = new Tasks();
+        $pdfReportPlugin->schedule();
+        $tasks = $pdfReportPlugin->getScheduledTasks();
         $this->assertEquals($expectedTasks, $tasks);
 
         \Piwik\Plugins\ScheduledReports\API::unsetInstance();

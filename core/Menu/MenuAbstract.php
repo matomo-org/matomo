@@ -61,40 +61,9 @@ abstract class MenuAbstract extends Singleton
             return self::$menus;
         }
 
-        $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
-
-        self::$menus = array();
-        foreach ($pluginNames as $pluginName) {
-            $menu = $this->findMenuInPlugin($pluginName);
-
-            if (!empty($menu)) {
-                self::$menus[] = $menu;
-            }
-        }
+        self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
 
         return self::$menus;
-    }
-
-    private function findMenuInPlugin($pluginName)
-    {
-        $menuFile = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/Menu.php';
-
-        if (!file_exists($menuFile)) {
-            return;
-        }
-
-        $klassName = sprintf('Piwik\\Plugins\\%s\\Menu', $pluginName);
-
-        if (!class_exists($klassName)) {
-            return;
-        }
-
-        if (!is_subclass_of($klassName, 'Piwik\\Plugin\\Menu')) {
-            Log::warning(sprintf('Cannot use menu for plugin %s, class %s does not extend Piwik\Plugin\Menu', $pluginName, $klassName));
-            return;
-        }
-
-        return new $klassName;
     }
 
     /**
