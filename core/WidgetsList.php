@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Piwik\Plugin\Manager as PluginManager;
+
 /**
  * Manages the global list of reports that can be displayed as dashboard widgets.
  * 
@@ -15,8 +17,9 @@ namespace Piwik;
  * event. Observers for this event should call the {@link add()} method to add reports.
  * 
  * @api
+ * @method static \Piwik\WidgetsList getInstance()
  */
-class WidgetsList
+class WidgetsList extends Singleton
 {
     /**
      * List of widgets
@@ -71,20 +74,17 @@ class WidgetsList
             self::$hookCalled = true;
 
             /**
-             * Used to collect all available dashboard widgets.
-             * 
-             * Subscribe to this event to make your plugin's reports or other controller actions available
-             * as dashboard widgets. Event handlers should call the {@link WidgetsList::add()} method for each
-             * new dashboard widget.
-             *
-             * **Example**
-             * 
-             *     public function addWidgets()
-             *     {
-             *         WidgetsList::add('General_Actions', 'General_Pages', 'Actions', 'getPageUrls');
-             *     }
+             * @ignore
+             * @deprecated
              */
             Piwik::postEvent('WidgetsList.addWidgets');
+
+            /** @var \Piwik\Plugin\Widgets[] $widgets */
+            $widgets = PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
+
+            foreach ($widgets as $widget) {
+                $widget->configure(WidgetsList::getInstance());
+            }
         }
     }
 

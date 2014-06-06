@@ -59,6 +59,7 @@ class MenuAdmin extends MenuAbstract
 
             /**
              * @ignore
+             * @deprecated
              */
             Piwik::postEvent('Menu.Admin.addItems', array());
 

@@ -16,7 +16,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\SettingsPiwik;
-use Piwik\WidgetsList;
 
 /**
  * @see plugins/Referrers/functions.php
@@ -33,7 +32,6 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.addWidgets'          => 'addWidgets',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',

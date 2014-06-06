@@ -90,6 +90,7 @@ class TaskScheduler extends Singleton
 
         /**
          * @ignore
+         * @deprecated
          */
         Piwik::postEvent(self::GET_TASKS_EVENT, array(&$tasks));
 

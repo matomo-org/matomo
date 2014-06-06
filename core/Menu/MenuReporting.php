@@ -63,6 +63,7 @@ class MenuReporting extends MenuAbstract
 
             /**
              * @ignore
+             * @deprecated
              */
             Piwik::postEvent('Menu.Reporting.addItems', array());
 

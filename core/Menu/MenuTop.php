@@ -96,6 +96,7 @@ class MenuTop extends MenuAbstract
 
             /**
              * @ignore
+             * @deprecated
              */
             Piwik::postEvent('Menu.Top.addItems', array());
 
