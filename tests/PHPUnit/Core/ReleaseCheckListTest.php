@@ -191,7 +191,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function test_directoriesShouldBeWorldWritable()
+    public function test_directoriesShouldBeChmod755()
     {
         $pluginsPath = realpath(PIWIK_INCLUDE_PATH . '/plugins/');
 
@@ -209,12 +209,12 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         // to prevent errors with un-readable assets,
         // we ensure all directories in plugins/* are added to git with CHMOD 755
         foreach($paths as $pathToTest) {
-            $command = "find $pluginsPath -type d -exec chmod 755 {} +";
 
             $chmod = substr(decoct(fileperms($pathToTest)), -3);
             $valid = '755';
+            $command = "find $pluginsPath -type d -exec chmod 755 {} +";
             $this->assertSame($chmod, $valid,
-                    "Some directories within plugins/ are not chmod 755. \n".
+                    "Some directories within plugins/ are not chmod 755. \n For example: $pathToTest \n\n".
                     "Run this command to set all directories to 755: \n$command\n");;
         }
     }
