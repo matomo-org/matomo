@@ -53,7 +53,7 @@ except ImportError:
     try:
         from ordereddict import OrderedDict
     except ImportError:
-        print >> sys.stderr, 'ordereddict (https://pypi.python.org/pypi/ordereddict) is required to enable dates caching.'
+        pass
 
 
 ##
