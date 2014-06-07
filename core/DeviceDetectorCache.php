@@ -15,7 +15,7 @@ use Exception;
  *
  * Combines Piwik\CacheFile with an additional caching in static property
  *
- * Static caching speeds up multiple detections in one request, which is mostly the case when importing logs
+ * Static caching speeds up multiple detections in one request, which is the case when sending bulk requests
  */
 class DeviceDetectorCache extends CacheFile implements \DeviceDetector\Cache\CacheInterface
 {
