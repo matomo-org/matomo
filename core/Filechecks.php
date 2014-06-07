@@ -198,7 +198,7 @@ class Filechecks
             $message .= "On Windows, check that the folder is not read only and is writable.\n
 						You can try to execute:<br />";
         } else {
-            $message .= "For example, on a Linux server if your Apache httpd user
+            $message .= "For example, on a GNU/Linux server if your Apache httpd user
 						is www-data, you can try to execute:<br />\n"
                 . "<code>chown -R www-data:www-data " . $path . "</code><br />";
         }
