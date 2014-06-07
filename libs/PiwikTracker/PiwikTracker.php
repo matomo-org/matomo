@@ -368,9 +368,9 @@ class PiwikTracker
      */
     public function clearCustomVariables()
     {
-        $this->visitorCustomVar = false;
-        $this->pageCustomVar = false;
-        $this->eventCustomVar = false;
+        $this->visitorCustomVar = array();
+        $this->pageCustomVar = array();
+        $this->eventCustomVar = array();
     }
 
 
@@ -1357,8 +1357,8 @@ class PiwikTracker
 
 
         // Reset page level custom variables after this page view
-        $this->pageCustomVar = false;
-        $this->eventCustomVar = false;
+        $this->pageCustomVar = array();
+        $this->eventCustomVar = array();
 
         // force new visit only once, user must call again setForceNewVisit()
         $this->forcedNewVisit = false;
