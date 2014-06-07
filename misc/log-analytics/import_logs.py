@@ -47,24 +47,31 @@ except ImportError:
             print >> sys.stderr, 'simplejson (http://pypi.python.org/pypi/simplejson/) is required.'
             sys.exit(1)
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    try:
+        from ordereddict import OrderedDict
+    except ImportError:
+        pass
 
 
 ##
 ## Constants.
 ##
 
-STATIC_EXTENSIONS = (
+STATIC_EXTENSIONS = set((
     'gif jpg jpeg png bmp ico svg ttf eot woff class swf css js xml robots.txt'
-).split()
+).split())
 
 
-DOWNLOAD_EXTENSIONS = (
+DOWNLOAD_EXTENSIONS = set((
     '7z aac arc arj asf asx avi bin csv deb dmg doc exe flv gz gzip hqx '
     'jar mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
     'ods odt ogg ogv pdf phps ppt qt qtm ra ram rar rpm sea sit tar tbz '
     'bz2 tbz tgz torrent txt wav wma wmv wpd xls xml xsd z zip '
     'azw3 epub mobi'
-).split()
+).split())
 
 
 # A good source is: http://phpbb-bots.blogspot.com/
@@ -520,18 +527,20 @@ class Configuration(object):
             level=logging.DEBUG if self.options.debug >= 1 else logging.INFO,
         )
 
-        self.options.excluded_useragents = [s.lower() for s in self.options.excluded_useragents]
+        self.options.excluded_useragents = set([s.lower() for s in self.options.excluded_useragents])
 
         if self.options.exclude_path_from:
             paths = [path.strip() for path in open(self.options.exclude_path_from).readlines()]
             self.options.excluded_paths.extend(path for path in paths if len(path) > 0)
         if self.options.excluded_paths:
+            self.options.excluded_paths = set(self.options.excluded_paths)
             logging.debug('Excluded paths: %s', ' '.join(self.options.excluded_paths))
 
         if self.options.include_path_from:
             paths = [path.strip() for path in open(self.options.include_path_from).readlines()]
             self.options.included_paths.extend(path for path in paths if len(path) > 0)
         if self.options.included_paths:
+            self.options.included_paths = set(self.options.included_paths)
             logging.debug('Included paths: %s', ' '.join(self.options.included_paths))
 
         if self.options.hostnames:
@@ -1314,12 +1323,11 @@ class Recorder(object):
         """
         Inserts several hits into Piwik.
         """
-        data = {
-            'token_auth': config.options.piwik_token_auth,
-            'requests': [self._get_hit_args(hit) for hit in hits]
-        }
-
         if not config.options.dry_run:
+            data = {
+                'token_auth': config.options.piwik_token_auth,
+                'requests': [self._get_hit_args(hit) for hit in hits]
+            }
             piwik.call(
                 '/piwik.php', args={},
                 expected_content=None,
@@ -1411,8 +1419,7 @@ class Parser(object):
         return result
 
     def check_static(self, hit):
-        extension = hit.path.rsplit('.')[-1].lower()
-        if extension in STATIC_EXTENSIONS:
+        if hit.extension in STATIC_EXTENSIONS:
             if config.options.enable_static:
                 hit.is_download = True
                 return True
@@ -1422,8 +1429,7 @@ class Parser(object):
         return True
 
     def check_download(self, hit):
-        extension = hit.path.rsplit('.')[-1].lower()
-        if extension in DOWNLOAD_EXTENSIONS:
+        if hit.extension in DOWNLOAD_EXTENSIONS:
             stats.count_lines_downloads.increment()
             hit.is_download = True
         return True
@@ -1592,6 +1598,10 @@ class Parser(object):
         resolver.check_format(format)
 
         hits = []
+        try:
+            cache_dates = OrderedDict()
+        except NameError:
+            cache_dates = None
         for lineno, line in enumerate(file):
             try:
                 line = line.decode(config.options.encoding)
@@ -1617,6 +1627,7 @@ class Parser(object):
                 is_robot=False,
                 is_error=False,
                 is_redirect=False,
+                date=None,
                 args={},
             )
 
@@ -1625,6 +1636,8 @@ class Parser(object):
                 hit.path = hit.full_path
             except BaseFormatException:
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
+
+            hit.extension = hit.path.rsplit('.')[-1].lower()
 
             try:
                 hit.referrer = format.get('referrer')
@@ -1669,24 +1682,39 @@ class Parser(object):
             # Parse date.
             # We parse it after calling check_methods as it's quite CPU hungry, and
             # we want to avoid that cost for excluded hits.
-            date_string = format.get('date')
-            try:
-                hit.date = datetime.datetime.strptime(date_string, format.date_format)
-            except ValueError:
-                invalid_line(line, 'invalid date')
-                continue
+            if cache_dates is not None:
+                # To mitigate CPU usage, parsed dates are cached.
+                try:
+                    timezone_key = format.get('timezone')
+                except BaseFormatException:
+                    timezone_key = ''
+                date_key = (format.get('date'), timezone_key)
+                hit.date = cache_dates.get(date_key)
+            if not hit.date:
+                date_string = format.get('date')
+                try:
+                    hit.date = datetime.datetime.strptime(date_string, format.date_format)
+                except ValueError:
+                    invalid_line(line, 'invalid date')
+                    continue
 
-            # Parse timezone and substract its value from the date
-            try:
-                timezone = float(format.get('timezone'))
-            except BaseFormatException:
-                timezone = 0
-            except ValueError:
-                invalid_line(line, 'invalid timezone')
-                continue
+                # Parse timezone and substract its value from the date
+                try:
+                    timezone = float(format.get('timezone'))
+                except BaseFormatException:
+                    timezone = 0
+                except ValueError:
+                    invalid_line(line, 'invalid timezone')
+                    continue
 
-            if timezone:
-                hit.date -= datetime.timedelta(hours=timezone/100)
+                if timezone:
+                    hit.date -= datetime.timedelta(hours=timezone/100)
+
+                if cache_dates is not None:
+                    if len(cache_dates) > 3600:
+                        cache_dates.popitem(False)
+                    cache_dates[date_key] = hit.date
+
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
                 if not hit.query_string or not hit.path.lower().endswith('piwik.php'):
@@ -1704,13 +1732,11 @@ class Parser(object):
                     invalid_line(line, 'invalid encoding')
                     continue
 
-            # Check if the hit must be excluded.
-            if all((method(hit) for method in self.check_methods)):
-                hits.append(hit)
+            hits.append(hit)
 
-                if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
-                    Recorder.add_hits(hits)
-                    hits = []
+            if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
+                Recorder.add_hits(hits)
+                hits = []
 
         # add last chunk of hits
         if len(hits) > 0:
