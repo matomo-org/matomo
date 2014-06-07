@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use Piwik\DeviceDetectorCache;
 use Piwik\Tracker;
 use DeviceDetector\DeviceDetector;
+use DeviceDetector\Cache\CacheStatic;
 
 class Settings
 {
@@ -37,10 +38,17 @@ class Settings
         $resolution = $this->request->getParam('res');
         $userAgent = $this->request->getUserAgent();
 
-        $deviceDetector = new DeviceDetector($userAgent);
-        $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
-        $deviceDetector->parse();
+        static $deviceDetectorsCache;
+        $deviceDetectorsCache = new CacheStatic();
+        $deviceDetector = false;//$deviceDetectorsCache->get($userAgent);
+        if (! $deviceDetector) {
+            $deviceDetector = new DeviceDetector($userAgent);
+            $deviceDetector->discardBotInformation();
+            $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
+            $deviceDetector->parse();
+
+            $deviceDetectorsCache->set($userAgent, $deviceDetector);
+        }
 
         $aBrowserInfo = $deviceDetector->getClient();
         if ($aBrowserInfo['type'] != 'browser') {
