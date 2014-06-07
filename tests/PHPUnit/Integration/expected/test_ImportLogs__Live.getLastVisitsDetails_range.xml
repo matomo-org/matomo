@@ -1787,7 +1787,7 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>unknown</screenType>
 		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
@@ -2512,7 +2512,7 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>unknown</screenType>
 		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
@@ -2716,7 +2716,7 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>unknown</screenType>
 		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>

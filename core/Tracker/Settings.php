@@ -49,7 +49,7 @@ class Settings
         }
 
         $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
-        $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : 'UNK';
+        $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
 
         if ($deviceDetector->isBot()) {
             $os = 'BOT';
