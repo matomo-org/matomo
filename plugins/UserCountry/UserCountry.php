@@ -45,7 +45,6 @@ class UserCountry extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Tracker.newVisitorInformation'          => 'enrichVisitWithLocation',
-            'TaskScheduler.getScheduledTasks'        => 'getScheduledTasks',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
@@ -62,14 +61,6 @@ class UserCountry extends \Piwik\Plugin
     public function setTrackerCacheGeneral(&$cache)
     {
         $cache['currentLocationProviderId'] = LocationProvider::getCurrentProviderId();
-    }
-
-    public function getScheduledTasks(&$tasks)
-    {
-        // add the auto updater task if GeoIP admin is enabled
-        if($this->isGeoLocationAdminEnabled()) {
-            $tasks[] = new GeoIPAutoUpdater();
-        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

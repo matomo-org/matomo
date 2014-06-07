@@ -1665,14 +1665,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -2223,14 +2215,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -2885,14 +2869,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -3984,14 +3960,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>

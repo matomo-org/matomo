@@ -31,30 +31,10 @@ class CoreUpdater extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
+        return array(
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',
             'Platform.initialized'                       => 'updateCheck',
-            'TaskScheduler.getScheduledTasks'            => 'getScheduledTasks',
         );
-        return $hooks;
-    }
-
-    public function getScheduledTasks(&$tasks)
-    {
-        $sendUpdateNotification = new ScheduledTask($this,
-            'sendNotificationIfUpdateAvailable',
-            null,
-            ScheduledTime::factory('daily'),
-            ScheduledTask::LOWEST_PRIORITY);
-        $tasks[] = $sendUpdateNotification;
-    }
-
-    public function sendNotificationIfUpdateAvailable()
-    {
-        $coreUpdateCommunication = new UpdateCommunication();
-        if ($coreUpdateCommunication->isEnabled()) {
-            $coreUpdateCommunication->sendNotificationIfUpdateAvailable();
-        }
     }
 
     public static function updateComponents(Updater $updater, $componentsWithUpdateFile)

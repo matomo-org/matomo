@@ -18,8 +18,6 @@ use Piwik\Option;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -137,7 +135,6 @@ class PrivacyManager extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'Tracker.setTrackerCacheGeneral'  => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'            => array($this->ipAnonymizer, 'setVisitorIpAddress'),
@@ -148,22 +145,6 @@ class PrivacyManager extends \Piwik\Plugin
     {
         $config       = new Config();
         $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
-    }
-
-    public function getScheduledTasks(&$tasks)
-    {
-        // both tasks are low priority so they will execute after most others, but not lowest, so
-        // they will execute before the optimize tables task
-
-        $purgeReportDataTask = new ScheduledTask(
-            $this, 'deleteReportData', null, ScheduledTime::factory('daily'), ScheduledTask::LOW_PRIORITY
-        );
-        $tasks[] = $purgeReportDataTask;
-
-        $purgeLogDataTask = new ScheduledTask(
-            $this, 'deleteLogData', null, ScheduledTime::factory('daily'), ScheduledTask::LOW_PRIORITY
-        );
-        $tasks[] = $purgeLogDataTask;
     }
 
     public function getJsFiles(&$jsFiles)

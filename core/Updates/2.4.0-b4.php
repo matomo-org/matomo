@@ -10,15 +10,15 @@ namespace Piwik\Updates;
 
 use Piwik\Updates;
 
-class Updates_2_4_0_b3 extends Updates
+class Updates_2_4_0_b4 extends Updates
 {
     public static function update()
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $pluginNames   = $pluginManager->getAllPluginsNames();
 
-        try {
-            $pluginManager->activatePlugin('LeftMenu');
-        } catch(\Exception $e) {
+        if (!in_array('Zeitgeist', $pluginNames)) {
+            return;
         }
 
         try {

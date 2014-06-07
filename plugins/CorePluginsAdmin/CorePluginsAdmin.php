@@ -10,12 +10,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Config;
 use Piwik\Plugin;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime;
 
-/**
- *
- */
 class CorePluginsAdmin extends \Piwik\Plugin
 {
     /**
@@ -26,40 +21,8 @@ class CorePluginsAdmin extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'TaskScheduler.getScheduledTasks'        => 'getScheduledTasks',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
-    }
-
-    /**
-     * Gets all scheduled tasks executed by this plugin.
-     */
-    public function getScheduledTasks(&$tasks)
-    {
-        $tasks[] = new ScheduledTask(
-            'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
-            'clearAllCacheEntries',
-            null,
-            ScheduledTime::factory('daily'),
-            ScheduledTask::LOWEST_PRIORITY
-        );
-
-        if (self::isMarketplaceEnabled()) {
-            $sendUpdateNotification = new ScheduledTask ($this,
-                'sendNotificationIfUpdatesAvailable',
-                null,
-                ScheduledTime::factory('daily'),
-                ScheduledTask::LOWEST_PRIORITY);
-            $tasks[] = $sendUpdateNotification;
-        }
-    }
-
-    public function sendNotificationIfUpdatesAvailable()
-    {
-        $updateCommunication = new UpdateCommunication();
-        if ($updateCommunication->isEnabled()) {
-            $updateCommunication->sendNotificationIfUpdatesAvailable();
-        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

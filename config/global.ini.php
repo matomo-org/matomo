@@ -88,8 +88,8 @@ tracker_always_new_visitor = 0
 allow_upgrades_to_beta = 0
 
 [DebugTests]
-; Set to 1 by default. If you set to 0, the standalone plugins (with their own git repositories)
-; will not be loaded when executing tests.
+; When set to 1, standalone plugins (those with their own git repositories)
+; will be loaded when executing tests.
 enable_load_standalone_plugins_during_tests = 0
 
 [General]

@@ -17,6 +17,9 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
         parent::setUp();
     }
+
+
+
     /**
      * @group Core
      */
@@ -186,6 +189,37 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group Core
+     */
+    public function disabled_test_directoriesShouldBeChmod755()
+    {
+        $pluginsPath = realpath(PIWIK_INCLUDE_PATH . '/plugins/');
+
+        $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pluginsPath), RecursiveIteratorIterator::SELF_FIRST);
+        $paths = array();
+        foreach($objects as $name => $object){
+            if (is_dir($name)
+                && strpos($name, "/.") === false) {
+                $paths[] = $name;
+            }
+        }
+
+        $this->assertGreaterThan(50, count($paths), 'test at latest 50 directories, got ' . count($paths));
+
+        // to prevent errors with un-readable assets,
+        // we ensure all directories in plugins/* are added to git with CHMOD 755
+        foreach($paths as $pathToTest) {
+
+            $chmod = substr(decoct(fileperms($pathToTest)), -3);
+            $valid = array('775', '755');
+            $command = "find $pluginsPath -type d -exec chmod 755 {} +";
+            $this->assertTrue(in_array($chmod, $valid),
+                    "Some directories within plugins/ are not chmod 755. \n For example: $pathToTest \n\n".
+                    "Run this command to set all directories to 755: \n$command\n");;
+        }
+    }
+
+    /**
      * Check that directories in plugins/ folder are specifically either enabled or disabled.
      *
      * This fails when a new folder is added to plugins/* and forgot to enable or mark as disabled in Manager.php.
@@ -204,8 +238,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         foreach($plugins as $pluginPath) {
             $pluginName = basename($pluginPath);
 
-            $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
-            $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
+            $addedToGit = $this->isPathAddedToGit($pluginPath);
 
             if(!$addedToGit) {
                 // if not added to git, then it is not part of the release checklist.
@@ -232,10 +265,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      */
     public function testEndOfLines()
     {
-        if (SettingsServer::isWindows()) {
-            // SVN native does not make this work on windows
-            return;
-        }
         foreach (Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*') as $file) {
             // skip files in these folders
             if (strpos($file, '/.git/') !== false ||
@@ -345,6 +374,17 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $isLib = strpos($file, "lib/xhprof") !== false || strpos($file, "phpunit/phpunit") !== false;
 
         return ($isIniFile && $isIniFileInTests) || $isTestResultFile || $isLib;
+    }
+
+    /**
+     * @param $pluginPath
+     * @return bool
+     */
+    protected function isPathAddedToGit($pluginPath)
+    {
+        $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
+        $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
+        return $addedToGit;
     }
 
 
