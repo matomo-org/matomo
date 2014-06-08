@@ -31,20 +31,23 @@
             display: block;
         }
 
+        .detection {
+            padding-top:10px;
+        }
         .detection td {
             width: 50%;
         }
 
     </style>
-    <h1>{{ 'DevicesDetection_DeviceDetection'|translate }}</h1>
+    <h2>{{ 'DevicesDetection_DeviceDetection'|translate }}</h2>
 
-    <h2>{{ 'DevicesDetection_UserAgent'|translate }}</h2>
+    <h3>{{ 'DevicesDetection_UserAgent'|translate }}</h3>
     <form action="{{ linkTo({}) }}" method="POST">
         <textarea name="ua">{{ userAgent }}</textarea>
         <input type="submit" value="{{ 'General_Refresh'|translate }}" />
     </form>
 
-    <h2>{{ 'UserSettings_ColumnOperatingSystem'|translate }}</h2>
+    <h3>{{ 'UserSettings_ColumnOperatingSystem'|translate }}</h3>
     <table class="dataTable detection">
         <tr>
             <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('os');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
@@ -60,7 +63,7 @@
         </tr>
     </table>
 
-    <h2>{{ 'UserSettings_ColumnBrowser'|translate }}</h2>
+    <h3>{{ 'UserSettings_ColumnBrowser'|translate }}</h3>
     <table class="dataTable detection">
         <tr>
             <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('browsers');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
@@ -76,7 +79,7 @@
         </tr>
     </table>
 
-    <h2>{{ 'DevicesDetection_Device'|translate }}</h2>
+    <h3>{{ 'DevicesDetection_Device'|translate }}</h3>
     <table class="dataTable detection">
         <tr>
             <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }} <small>(<a href="javascript:showList('devicetypes');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
