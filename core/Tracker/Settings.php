@@ -37,10 +37,18 @@ class Settings
         $resolution = $this->request->getParam('res');
         $userAgent = $this->request->getUserAgent();
 
-        $deviceDetector = new DeviceDetector($userAgent);
-        $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
-        $deviceDetector->parse();
+        static $deviceDetectorsCache = array();
+        if (array_key_exists($userAgent, $deviceDetectorsCache)) {
+            $deviceDetector = $deviceDetectorsCache[$userAgent];
+        }
+        else {
+            $deviceDetector = new DeviceDetector($userAgent);
+            $deviceDetector->discardBotInformation();
+            $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
+            $deviceDetector->parse();
+
+            $deviceDetectorsCache[$userAgent] = $deviceDetector;
+        }
 
         $aBrowserInfo = $deviceDetector->getClient();
         if ($aBrowserInfo['type'] != 'browser') {
