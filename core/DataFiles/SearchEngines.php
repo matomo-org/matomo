@@ -303,6 +303,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // DuckDuckGo
         'duckduckgo.com'                 => array('DuckDuckGo', 'q', '?q={k}'),
+        'r.duckduckgo.com'               => array('DuckDuckGo'),
 
         // earthlink
         'search.earthlink.net'           => array('Earthlink', 'q', 'search?q={k}'),
