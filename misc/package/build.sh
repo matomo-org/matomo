@@ -121,6 +121,7 @@ if [ ! -e $DEST_PATH/piwik_last_version ] ; then
 fi
 echo "checkout repository for tag $VERSION..."
 cd $DEST_PATH/piwik_last_version
+git checkout master
 git pull
 git checkout tags/$VERSION
 

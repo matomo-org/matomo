@@ -115,6 +115,8 @@ after_script:
   - ./tests/travis/upload_artifacts.sh
 
 notifications:
+  slack: piwik:3HWhNh21qPfDACQXTrJOb0mW
+
   irc:
     skip_join: true
     on_success: change
