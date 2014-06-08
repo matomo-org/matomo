@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use DeviceDetector\Parser\Bot;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DeviceDetectorFactory;
 use Piwik\IP;
 use Piwik\Piwik;
 
@@ -156,11 +157,10 @@ class VisitExcluded
     {
         $allowBots = $this->request->getParam('bots');
 
-        $botParser = new Bot($this->userAgent);
-        $botParser->discardDetails();
+        $deviceDetector = DeviceDetectorFactory::getInstance($this->userAgent);
 
         return !$allowBots
-        && ($botParser->parse() === true
+        && ($deviceDetector->isBot()
             || IP::isIpInRange($this->ip, $this->getBotIpRanges()));
     }
 

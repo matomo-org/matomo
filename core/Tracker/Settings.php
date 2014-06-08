@@ -9,6 +9,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\DeviceDetectorCache;
+use Piwik\DeviceDetectorFactory;
 use Piwik\Tracker;
 use DeviceDetector\DeviceDetector;
 
@@ -37,18 +38,7 @@ class Settings
         $resolution = $this->request->getParam('res');
         $userAgent = $this->request->getUserAgent();
 
-        static $deviceDetectorsCache = array();
-        if (array_key_exists($userAgent, $deviceDetectorsCache)) {
-            $deviceDetector = $deviceDetectorsCache[$userAgent];
-        }
-        else {
-            $deviceDetector = new DeviceDetector($userAgent);
-            $deviceDetector->discardBotInformation();
-            $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
-            $deviceDetector->parse();
-
-            $deviceDetectorsCache[$userAgent] = $deviceDetector;
-        }
+        $deviceDetector = DeviceDetectorFactory::getInstance($userAgent);
 
         $aBrowserInfo = $deviceDetector->getClient();
         if ($aBrowserInfo['type'] != 'browser') {
