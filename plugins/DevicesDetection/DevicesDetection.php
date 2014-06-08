@@ -10,12 +10,10 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
-use DeviceDetector\DeviceDetector;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\DeviceDetectorCache;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\WidgetsList;
