@@ -128,4 +128,17 @@ class Sms extends ReportRenderer
 
         $this->rendering .= $view->render();
     }
+
+    /**
+     * Get report attachments, ex. graph images
+     *
+     * @param $report
+     * @param $processedReports
+     * @param $prettyDate
+     * @return array
+     */
+    public function getAttachments($report, $processedReports, $prettyDate)
+    {
+        return array();
+    }
 }
