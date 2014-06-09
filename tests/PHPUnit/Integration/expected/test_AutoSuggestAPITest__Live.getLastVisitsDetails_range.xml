@@ -1665,14 +1665,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -1712,16 +1704,16 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
@@ -1960,16 +1952,16 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
@@ -2223,14 +2215,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -2248,15 +2232,15 @@
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>France</location>
+		<location>Unknown</location>
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
@@ -2270,16 +2254,16 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
@@ -2496,15 +2480,15 @@
 		<daysSinceLastVisit>11</daysSinceLastVisit>
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>France</location>
+		<location>Unknown</location>
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
@@ -2518,16 +2502,16 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
@@ -2885,14 +2869,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -2932,16 +2908,16 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
@@ -3442,16 +3418,16 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>
@@ -3984,14 +3960,6 @@
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -4031,16 +3999,16 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>UNK</browserVersion>
 		<screenType>normal</screenType>
 		<deviceType>Desktop</deviceType>
 		<resolution>1024x768</resolution>

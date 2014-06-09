@@ -34,11 +34,35 @@
                 in
                 <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
             </p>
+
+            <hr>
+            <h3>Troubleshooting</h3>
+
+            Follow these steps to solve the issue or report it to the team:
+            <ul>
+                <li>
+                    If you have just updated Piwik to the latest version, please try to restart your web server.
+                    This will clear the PHP opcache which may solve the problem.
+                </li>
+                <li>
+                    If this is the first time you see this error, please try refresh the page.
+                </li>
+                <li>
+                    <strong>If this error continues to happen</strong>, we appreciate if you send the
+                    <a href="mailto:hello@piwik.org?subject={{ 'Fatal error in Piwik ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
+                    to the Piwik team.
+                </li>
+            </ul>
+            <hr/>
+
+
         {% endif %}
 
         {% if isSuperUser %}
+
+            <h3>Further troubleshooting</h3>
             <p>
-                If this error continues to happen, there is a good chance to fix this issue by disabling one or more of
+                If this error continues to happen, you may be able to fix this issue by disabling one or more of
                 the Third-Party plugins. You can enable them again in the
                 <a target="_blank" href="index.php?module=CorePluginsAdmin&action=plugins">Plugins</a> or <a target="_blank" href="index.php?module=CorePluginsAdmin&action=themes">Themes</a> page under
                 settings at any time.
@@ -47,7 +71,6 @@
                     Based on the error message, the issue is probably caused by the plugin <strong>{{ pluginCausesIssue }}</strong>.
                 {% endif %}
             </p>
-
             <table>
                 {% for pluginName, plugin in plugins if plugin.uninstallable and plugin.activated %}
                     <tr {% if loop.index is divisibleby(2) %}style="background-color: #eeeeee"{% endif %}>
@@ -89,16 +112,10 @@
                 </table>
             {% endif %}
 
-            <p>
-                <br />
-                We appreciate if you send the
-                <a href="mailto:hello@piwik.org?subject={{ 'Fatal error in Piwik ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
-                to the Piwik team.
-            </p>
 
         {% elseif isAnonymousUser %}
 
-            <p>Please contact the system administrator.</p>
+            <p>Please contact the system administrator, or login to Piwik to learn more.</p>
 
         {% else %}
             <p>

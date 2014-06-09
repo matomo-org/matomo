@@ -56,6 +56,10 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
 
     protected function addThemeFiles()
     {
+        $theme = $this->getTheme();
+        if(!$theme) {
+            return;
+        }
         $themeStylesheet = $this->getTheme()->getStylesheet();
 
         if ($themeStylesheet) {
