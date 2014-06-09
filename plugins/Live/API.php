@@ -545,6 +545,7 @@ class API extends \Piwik\Plugin\API
 
             $website    = new Site($idSite);
             $timezone   = $website->getTimezone();
+            $currency   = $website->getCurrency();
             $currencies = APISitesManager::getInstance()->getCurrencySymbols();
 
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
@@ -556,7 +557,7 @@ class API extends \Piwik\Plugin\API
                 $visitor = new Visitor($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-                $visitorDetailsArray['siteCurrency'] = $website->getCurrency();
+                $visitorDetailsArray['siteCurrency'] = $currency;
                 $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
                 $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
