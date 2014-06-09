@@ -560,9 +560,12 @@ class API extends \Piwik\Plugin\API
                 $visitorDetailsArray['siteCurrency'] = $currency;
                 $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
+
                 $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
-                $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
-                $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
+                if($dateTimeVisit) {
+                    $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
+                    $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
+                }
 
                 $dateTimeVisitFirstAction = Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
                 $visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
