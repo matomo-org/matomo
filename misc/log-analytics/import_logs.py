@@ -622,8 +622,7 @@ class Configuration(object):
             success = len(config_file.read(self.options.config_file)) > 0
             if not success:
                 fatal_error(
-                    "couldn't open the configuration file, "
-                    "required to get the authentication token"
+                    "the configuration file" + self.options.config_file + " could not be read. Please check permission. This file must be readable to get the authentication token"
                 )
 
             updatetokenfile = os.path.abspath(
@@ -1365,15 +1364,15 @@ class Recorder(object):
         else:
             dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
         if dates:
-            print 'Purging Piwik archives for dates: ' + ' '.join(dates)
+            print '\nPurging Piwik archives for dates: ' + ' '.join(dates)
             result = piwik.call_api(
                 'CoreAdminHome.invalidateArchivedReports',
                 dates=','.join(dates),
                 idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
             )
-            print('To re-process these reports with your new update data, execute the following command: \n '
-                  '`piwik/console core:archive --url=http://example/piwik/`\n'
-                  'Reference: http://piwik.org/docs/setup-auto-archiving/ ')
+            print('\nTo re-process these reports with your newly imported data, execute the following command: \n'
+                  '$ /path/to/piwik/console core:archive --url=http://example/piwik/\n'
+                  '\nReference: http://piwik.org/docs/setup-auto-archiving/ ')
 
 
 class Hit(object):
