@@ -523,4 +523,17 @@ class Pdf extends ReportRenderer
         $this->TCPDF->Write("1em", $message);
         $this->TCPDF->Ln();
     }
+
+    /**
+     * Get report attachments, ex. graph images
+     *
+     * @param $report
+     * @param $processedReports
+     * @param $prettyDate
+     * @return array
+     */
+    public function getAttachments($report, $processedReports, $prettyDate)
+    {
+        return array();
+    }
 }

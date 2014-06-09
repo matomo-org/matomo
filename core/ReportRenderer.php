@@ -122,6 +122,16 @@ abstract class ReportRenderer
     abstract public function renderReport($processedReport);
 
     /**
+     * Get report attachments, ex. graph images
+     *
+     * @param $report
+     * @param $processedReports
+     * @param $prettyDate
+     * @return array
+     */
+    abstract public function getAttachments($report, $processedReports, $prettyDate);
+
+    /**
      * Append $extension to $filename
      *
      * @static
