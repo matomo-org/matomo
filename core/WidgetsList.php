@@ -26,7 +26,7 @@ class WidgetsList extends Singleton
      *
      * @var array
      */
-    static protected $widgets = null;
+    static protected $widgets = array();
 
     /**
      * Indicates whether the hook was posted or not
@@ -80,10 +80,11 @@ class WidgetsList extends Singleton
             Piwik::postEvent('WidgetsList.addWidgets');
 
             /** @var \Piwik\Plugin\Widgets[] $widgets */
-            $widgets = PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
+            $widgets     = PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
+            $widgetsList = self::getInstance();
 
             foreach ($widgets as $widget) {
-                $widget->configure(WidgetsList::getInstance());
+                $widget->configure($widgetsList);
             }
         }
     }
@@ -145,6 +146,11 @@ class WidgetsList extends Singleton
             }
             $widgetUniqueId .= $name . $value;
         }
+
+        if (!array_key_exists($widgetCategory, self::$widgets)) {
+            self::$widgets[$widgetCategory] = array();
+        }
+
         self::$widgets[$widgetCategory][] = array(
             'name'       => $widgetName,
             'uniqueId'   => $widgetUniqueId,
@@ -209,7 +215,7 @@ class WidgetsList extends Singleton
      */
     public static function _reset()
     {
-        self::$widgets = null;
+        self::$widgets    = array();
         self::$hookCalled = false;
     }
 }
