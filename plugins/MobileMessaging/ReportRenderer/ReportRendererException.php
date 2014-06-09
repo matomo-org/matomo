@@ -68,4 +68,17 @@ class ReportRendererException extends ReportRenderer
     {
         // nothing to do
     }
+
+    /**
+     * Get report attachments, ex. graph images
+     *
+     * @param $report
+     * @param $processedReports
+     * @param $prettyDate
+     * @return array
+     */
+    public function getAttachments($report, $processedReports, $prettyDate)
+    {
+        return array();
+    }
 }
