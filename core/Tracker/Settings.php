@@ -67,9 +67,6 @@ class Settings
 
         $this->params = array(
             'config_id'              => $configurationHash,
-            'config_os'              => $os,
-            'config_browser_name'    => $browserName,
-            'config_browser_version' => $browserVersion,
             'config_resolution'      => $resolution,
             'config_pdf'             => $plugin_PDF,
             'config_flash'           => $plugin_Flash,

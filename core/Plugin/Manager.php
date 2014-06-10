@@ -356,6 +356,23 @@ class Manager extends Singleton
         return $components;
     }
 
+    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
+    {
+        $plugins = $this->getLoadedPlugins();
+        $found   = array();
+
+        foreach ($plugins as $plugin) {
+            $components = $plugin->findMultipleComponents($directoryWithinPlugin, $expectedSubclass);
+
+            if (!empty($components)) {
+                $found = array_merge($found, $components);
+            }
+        }
+
+        return $found;
+    }
+
+
     /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled
@@ -964,6 +981,15 @@ class Manager extends Singleton
     {
         try {
             $plugin->install();
+        } catch (\Exception $e) {
+            throw new \Piwik\Plugin\PluginException($plugin->getPluginName(), $e->getMessage());
+        }
+
+        try {
+            // todo not sure if this makes sense here
+            foreach (VisitDimension::getDimensions($plugin) as $dimension) {
+                $dimension->install();
+            }
         } catch (\Exception $e) {
             throw new \Piwik\Plugin\PluginException($plugin->getPluginName(), $e->getMessage());
         }

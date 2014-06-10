@@ -9,12 +9,11 @@
 
 namespace Piwik\Tracker;
 
-use DeviceDetector;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugin\VisitDimension;
 use Piwik\Tracker;
 
 /**
@@ -318,6 +317,11 @@ class Visit implements VisitInterface
          */
         Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $this->request));
 
+        $dimensions = VisitDimension::getAllDimensions();
+        foreach ($dimensions as $dimension) {
+            $this->visitorInfo[$dimension->getFieldName()] = $dimension->onNewVisit($this->request, $this->visitorInfo);
+        }
+
         $this->request->overrideLocation($this->visitorInfo);
         $this->printVisitorInformation();
 
@@ -326,7 +330,6 @@ class Visit implements VisitInterface
         $this->visitorInfo['idvisit'] = $idVisit;
         $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
         $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
-
     }
 
     static private function cleanupVisitTotalTime($t)
@@ -568,9 +571,6 @@ class Visit implements VisitInterface
             'referer_url'               => $referrerInfo['referer_url'],
             'referer_keyword'           => $referrerInfo['referer_keyword'],
             'config_id'                 => $userInfo['config_id'],
-            'config_os'                 => $userInfo['config_os'],
-            'config_browser_name'       => $userInfo['config_browser_name'],
-            'config_browser_version'    => $userInfo['config_browser_version'],
             'config_resolution'         => $userInfo['config_resolution'],
             'config_pdf'                => $userInfo['config_pdf'],
             'config_flash'              => $userInfo['config_flash'],

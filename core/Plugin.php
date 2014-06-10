@@ -314,6 +314,36 @@ class Plugin
         return new $klassName;
     }
 
+    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
+    {
+        $components = array();
+
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName .'/' . $directoryWithinPlugin, '*.php');
+
+        foreach ($files as $file) {
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, basename($file, '.php'));
+
+            if (!class_exists($klassName)) {
+                continue;
+            }
+
+            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
+                continue;
+            }
+
+            $klass = new \ReflectionClass($klassName);
+
+            if ($klass->isAbstract()) {
+                continue;
+            }
+
+            $components[] = $klassName;
+        }
+
+        return $components;
+    }
+
+
     /**
      * Detect whether there are any missing dependencies.
      *
