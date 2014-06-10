@@ -68,7 +68,6 @@ class Manager extends Singleton
     // Plugins bundled with core package, disabled by default
     protected $corePluginsDisabledByDefault = array(
         'DBStats',
-        'DevicesDetection',
         'ExampleCommand',
         'ExampleSettingsPlugin',
         'ExampleUI',

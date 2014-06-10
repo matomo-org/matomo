@@ -148,16 +148,6 @@ class Config extends Singleton
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
         $this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
-
-        // DevicesDetection plugin is not yet enabled by default
-        if (isset($configGlobal['Plugins'])) {
-            $this->configCache['Plugins'] = $this->configGlobal['Plugins'];
-            $this->configCache['Plugins']['Plugins'][] = 'DevicesDetection';
-        }
-        if (isset($configGlobal['Plugins_Tracker'])) {
-            $this->configCache['Plugins_Tracker'] = $this->configGlobal['Plugins_Tracker'];
-            $this->configCache['Plugins_Tracker']['Plugins_Tracker'][] = 'DevicesDetection';
-        }
     }
 
     /**
