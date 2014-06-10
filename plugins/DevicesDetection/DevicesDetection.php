@@ -222,7 +222,6 @@ class DevicesDetection extends \Piwik\Plugin
 
     public function install()
     {
-// we catch the exception
         try {
             $q1 = "ALTER TABLE `" . Common::prefixTable("log_visit") . "`
                 ADD `config_os_version` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_os` ,

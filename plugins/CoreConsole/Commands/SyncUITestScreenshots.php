@@ -73,7 +73,7 @@ class SyncUITestScreenshots extends ConsoleCommand
                     $downloadTo = "plugins/$testPlugin/tests/UI/expected-ui-screenshots/$file";
                 }
 
-                $output->write("<info>Downloading $file to .$downloadTo...</info>\n");
+                $output->write("<info>Downloading $file to $downloadTo...</info>\n");
                 Http::sendHttpRequest("$urlBase/processed-ui-screenshots/$file", $timeout = 60, $userAgent = null,
                     PIWIK_DOCUMENT_ROOT . "/" . $downloadTo);
             }
