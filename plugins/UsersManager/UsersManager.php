@@ -111,27 +111,27 @@ class UsersManager extends \Piwik\Plugin
 
     public static function checkPassword($password)
     {
-        $validators = array(
-            new PasswordValidator\LengthValidator()
-        );
-        Piwik::postEvent('UsersManager.getPasswordValidators', array(&$validators));
+        /**
+         * Triggered before core password validator check password.
+         *
+         * This event exists for enable option to create custom password validation rules.
+         * It can be used to validate password (length, used chars etc) and to notify about checking password.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('UsersManager.checkPassword', function ($password) {
+         *         if (strlen($password) < 10) {
+         *             throw new Exception('Password is too short.');
+         *         }
+         *     });
+         *
+         * @param array $password Checking password in plain text.
+         */
+        Piwik::postEvent('UsersManager.checkPassword', array($password));
 
-        $errors = array();
-        foreach ($validators as $validator) {
-            if ($validator instanceof PasswordValidator) {
-                if (!$validator->validate($password)) {
-                    $errors[] = $validator->getErrorMessage();
-                }
-            }
-        }
-
-        if (!empty($errors)) {
-            $initialMessage = '%s';
-            Piwik::postEvent('UsersManager.getPasswordValidatorsErrorInitialMessage', array(&$initialMessage));
-
-            throw new Exception(
-                sprintf($initialMessage, implode(', ', $errors))
-            );
+        if (!self::isValidPasswordString($password)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
+                self::PASSWORD_MAX_LENGTH)));
         }
     }
 

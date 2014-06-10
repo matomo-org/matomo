@@ -444,8 +444,10 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered after an existing user has been updated.
+         * Event notify about password change.
          * 
          * @param string $userLogin The user's login handle.
+         * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
         Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated));
     }
