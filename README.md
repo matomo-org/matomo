@@ -1,8 +1,8 @@
 # Piwik - piwik.org   
 
-## We’re seeking a talented open source Software Engineer!
+## We’re seeking a talented Software Engineer
 
-Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source philosophy and usable interface design.
+Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
 
 [View Job Description](http://piwik.org/blog/2014/05/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
 

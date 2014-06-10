@@ -1,7 +1,7 @@
 {
     "name": "piwik/piwik",
     "type": "application",
-    "description": "Open Source Real Time Web Analytics Platform",
+    "description": "the leading free/libre analytics platform",
     "keywords": ["piwik","web","analytics"],
     "homepage": "http://piwik.org",
     "license": "GPL-3.0+",
