@@ -125,7 +125,7 @@ class UsersManager extends \Piwik\Plugin
          *         }
          *     });
          *
-         * @param array $password Checking password in plain text.
+         * @param string $password Checking password in plain text.
          */
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
