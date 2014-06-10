@@ -409,6 +409,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
         $userInfo = $this->getUser($userLogin);
+        $passwordHasBeenUpdated = false;
 
         if (empty($password)) {
             $password = $userInfo['password'];
@@ -418,6 +419,8 @@ class API extends \Piwik\Plugin\API
                 UsersManager::checkPassword($password);
                 $password = UsersManager::getPasswordHash($password);
             }
+
+            $passwordHasBeenUpdated = true;
         }
 
         if (empty($alias)) {
@@ -441,10 +444,12 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered after an existing user has been updated.
+         * Event notify about password change.
          * 
          * @param string $userLogin The user's login handle.
+         * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
-        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin));
+        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated));
     }
 
     /**
