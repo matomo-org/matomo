@@ -15,7 +15,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\WidgetsList;
 
 /**
  *
@@ -28,7 +27,6 @@ class VisitorInterest extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.addWidgets'       => 'addWidgets',
             'API.getReportMetadata'        => 'getReportMetadata',
             'ViewDataTable.configure'      => 'configureViewDataTable',
             'ViewDataTable.getDefaultType' => 'getDefaultTypeViewDataTable'
@@ -95,14 +93,6 @@ class VisitorInterest extends \Piwik\Plugin
             'documentation'     => Piwik::translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation'),
             'order'             => 30
         );
-    }
-
-    public function addWidgets()
-    {
-        WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
-        WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
-        WidgetsList::add('General_Visitors', 'VisitorInterest_visitsByVisitCount', 'VisitorInterest', 'getNumberOfVisitsByVisitCount');
-        WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetVisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
     }
 
     function postLoad()

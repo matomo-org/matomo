@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Piwik;
-use Piwik\WidgetsList;
 
 /**
  * Note: This plugin does not hook on Daily and Period Archiving like other Plugins because it reports the
@@ -27,7 +26,6 @@ class VisitsSummary extends \Piwik\Plugin
     {
         return array(
             'API.getReportMetadata'   => 'getReportMetadata',
-            'WidgetsList.addWidgets'  => 'addWidgets',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
     }
@@ -59,13 +57,6 @@ class VisitsSummary extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/VisitsSummary/stylesheets/datatable.less";
-    }
-
-    function addWidgets()
-    {
-        WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitsSummary_WidgetLastVisits', 'VisitsSummary', 'getEvolutionGraph', array('columns' => array('nb_visits')));
-        WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitsSummary_WidgetVisits', 'VisitsSummary', 'getSparklines');
-        WidgetsList::add('VisitsSummary_VisitsSummary', 'VisitsSummary_WidgetOverviewGraph', 'VisitsSummary', 'index');
     }
 
 }
