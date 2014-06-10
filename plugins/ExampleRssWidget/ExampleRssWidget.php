@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\ExampleRssWidget;
 
-use Piwik\WidgetsList;
-
 /**
  *
  */
@@ -21,19 +19,12 @@ class ExampleRssWidget extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'WidgetsList.addWidgets'          => 'addWidgets'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/ExampleRssWidget/stylesheets/rss.less";
-    }
-
-    public function addWidgets()
-    {
-        WidgetsList::add('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
-        WidgetsList::add('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
     }
 }

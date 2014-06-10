@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\WidgetsList;
 
 /**
  */
@@ -28,19 +25,9 @@ class Events extends \Piwik\Plugin
             'API.getSegmentDimensionMetadata'       => 'getSegmentsMetadata',
             'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations',
             'API.getReportMetadata'                 => 'getReportMetadata',
-            'WidgetsList.addWidgets'                => 'addWidgets',
             'ViewDataTable.configure'               => 'configureViewDataTable',
 
         );
-    }
-    public function addWidgets()
-    {
-        foreach(self::getLabelTranslations() as $apiMethod => $labels) {
-            $params = array(
-                'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($apiMethod)
-            );
-            WidgetsList::add('Events_Events', $labels[0], 'Events', $apiMethod, $params);
-        }
     }
 
     public function addMetricTranslations(&$translations)
@@ -97,7 +84,6 @@ class Events extends \Piwik\Plugin
             'getName'     => array('Events_EventNames', 'Events_EventName'),
         );
     }
-
 
     public function getSegmentsMetadata(&$segments)
     {

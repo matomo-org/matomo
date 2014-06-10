@@ -17,7 +17,6 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -88,7 +87,6 @@ class DevicesDetection extends \Piwik\Plugin
     {
         return array(
             'Tracker.newVisitorInformation'   => 'parseMobileVisitData',
-            'WidgetsList.addWidgets'          => 'addWidgets',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -101,7 +99,7 @@ class DevicesDetection extends \Piwik\Plugin
      *
      * @return array Category, Report Name, API Module, API action, Translated column name, & optional segment info
      */
-    protected function getRawMetadataReports()
+    public function getRawMetadataReports()
     {
 
         $report = array(
@@ -158,16 +156,6 @@ class DevicesDetection extends \Piwik\Plugin
             ),
         );
         return $report;
-    }
-
-    public function addWidgets()
-    {
-        foreach ($this->getRawMetadataReports() as $report) {
-            list($category, $name, $controllerName, $controllerAction) = $report;
-            if ($category == false)
-                continue;
-            WidgetsList::add($category, $name, $controllerName, $controllerAction);
-        }
     }
 
     /**

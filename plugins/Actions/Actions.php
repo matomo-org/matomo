@@ -12,14 +12,11 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Site;
-use Piwik\WidgetsList;
 
 /**
  * Actions plugin
@@ -37,7 +34,6 @@ class Actions extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.addWidgets'          => 'addWidgets',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -462,29 +458,6 @@ class Actions extends \Piwik\Plugin
         }
     }
 
-    function addWidgets()
-    {
-        WidgetsList::add('General_Actions', 'General_Pages', 'Actions', 'getPageUrls');
-        WidgetsList::add('General_Actions', 'Actions_WidgetPageTitles', 'Actions', 'getPageTitles');
-        WidgetsList::add('General_Actions', 'General_Outlinks', 'Actions', 'getOutlinks');
-        WidgetsList::add('General_Actions', 'General_Downloads', 'Actions', 'getDownloads');
-        WidgetsList::add('General_Actions', 'Actions_WidgetPagesEntry', 'Actions', 'getEntryPageUrls');
-        WidgetsList::add('General_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
-        WidgetsList::add('General_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles');
-        WidgetsList::add('General_Actions', 'Actions_WidgetExitPageTitles', 'Actions', 'getExitPageTitles');
-
-        if ($this->isSiteSearchEnabled()) {
-            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetSearchKeywords', 'Actions', 'getSiteSearchKeywords');
-
-            if (self::isCustomVariablesPluginsEnabled()) {
-                WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetSearchCategories', 'Actions', 'getSiteSearchCategories');
-            }
-            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetSearchNoResultKeywords', 'Actions', 'getSiteSearchNoResultKeywords');
-            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetPageUrlsFollowingSearch', 'Actions', 'getPageUrlsFollowingSiteSearch');
-            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetPageTitlesFollowingSearch', 'Actions', 'getPageTitlesFollowingSiteSearch');
-        }
-    }
-
     public function isSiteSearchEnabled()
     {
         $idSite  = Common::getRequestVar('idSite', 0, 'int');
@@ -515,11 +488,10 @@ class Actions extends \Piwik\Plugin
         }
     }
 
-    static protected function isCustomVariablesPluginsEnabled()
+    static public function isCustomVariablesPluginsEnabled()
     {
         return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
     }
-
 
     public function configureViewDataTable(ViewDataTable $view)
     {
