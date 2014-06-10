@@ -1,14 +1,12 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\CoreHome;
-
-use Piwik\WidgetsList;
 
 /**
  *
@@ -23,18 +21,8 @@ class CoreHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'WidgetsList.addWidgets'                 => 'addWidgets',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
-    }
-
-    /**
-     * Adds the donate form widget.
-     */
-    public function addWidgets()
-    {
-        WidgetsList::add('Example Widgets', 'CoreHome_SupportPiwik', 'CoreHome', 'getDonateForm');
-        WidgetsList::add('Example Widgets', 'Installation_Welcome', 'CoreHome', 'getPromoVideo');
     }
 
     public function getStylesheetFiles(&$stylesheets)

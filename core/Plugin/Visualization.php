@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -179,7 +179,12 @@ class Visualization extends ViewDataTable
         } catch (\Exception $e) {
             Log::warning("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 
-            $loadingError = array('message' => $e->getMessage());
+            $message = $e->getMessage();
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $message .= "\n" . $e->getTraceAsString();
+            }
+
+            $loadingError = array('message' => $message);
         }
 
         $view = new View("@CoreHome/_dataTable");

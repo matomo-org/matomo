@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,7 +16,6 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -86,7 +85,6 @@ class DevicesDetection extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'WidgetsList.addWidgets'          => 'addWidgets',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -99,7 +97,7 @@ class DevicesDetection extends \Piwik\Plugin
      *
      * @return array Category, Report Name, API Module, API action, Translated column name, & optional segment info
      */
-    protected function getRawMetadataReports()
+    public function getRawMetadataReports()
     {
 
         $report = array(
@@ -158,16 +156,6 @@ class DevicesDetection extends \Piwik\Plugin
         return $report;
     }
 
-    public function addWidgets()
-    {
-        foreach ($this->getRawMetadataReports() as $report) {
-            list($category, $name, $controllerName, $controllerAction) = $report;
-            if ($category == false)
-                continue;
-            WidgetsList::add($category, $name, $controllerName, $controllerAction);
-        }
-    }
-
     /**
      * Get segments meta data
      */
@@ -220,7 +208,6 @@ class DevicesDetection extends \Piwik\Plugin
 
     public function install()
     {
-// we catch the exception
         try {
             $q1 = "ALTER TABLE `" . Common::prefixTable("log_visit") . "`
                 ADD `config_os_version` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_os` ,

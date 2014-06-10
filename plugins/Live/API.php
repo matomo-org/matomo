@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -545,6 +545,7 @@ class API extends \Piwik\Plugin\API
 
             $website    = new Site($idSite);
             $timezone   = $website->getTimezone();
+            $currency   = $website->getCurrency();
             $currencies = APISitesManager::getInstance()->getCurrencySymbols();
 
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
@@ -556,12 +557,15 @@ class API extends \Piwik\Plugin\API
                 $visitor = new Visitor($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-                $visitorDetailsArray['siteCurrency'] = $website->getCurrency();
+                $visitorDetailsArray['siteCurrency'] = $currency;
                 $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
                 $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
+
                 $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
-                $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
-                $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
+                if($dateTimeVisit) {
+                    $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
+                    $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
+                }
 
                 $dateTimeVisitFirstAction = Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
                 $visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));

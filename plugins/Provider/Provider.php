@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,7 +17,6 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
-use Piwik\WidgetsList;
 
 /**
  *
@@ -31,7 +30,6 @@ class Provider extends \Piwik\Plugin
     {
         $hooks = array(
             'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
-            'WidgetsList.addWidgets'          => 'addWidget',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -84,11 +82,6 @@ class Provider extends \Piwik\Plugin
         // add column hostname / hostname ext in the visit table
         $query = "ALTER TABLE `" . Common::prefixTable('log_visit') . "` DROP `location_provider`";
         Db::exec($query);
-    }
-
-    public function addWidget()
-    {
-        WidgetsList::add('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
     }
 
     public function postLoad()

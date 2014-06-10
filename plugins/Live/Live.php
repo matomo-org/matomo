@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,10 +8,7 @@
  */
 namespace Piwik\Plugins\Live;
 
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Live/VisitorLog.php';
 
@@ -29,7 +26,6 @@ class Live extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'WidgetsList.addWidgets'                 => 'addWidget',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'ViewDataTable.getDefaultType'           => 'getDefaultTypeViewDataTable'
         );
@@ -46,14 +42,6 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/live.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
-    }
-
-    public function addWidget()
-    {
-        WidgetsList::add('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
-        WidgetsList::add('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog', array('small' => 1));
-        WidgetsList::add('Live!', 'Live_RealTimeVisitorCount', 'Live', 'getSimpleLastVisitCount');
-        WidgetsList::add('Live!', 'Live_VisitorProfile', 'Live', 'getVisitorProfilePopup');
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

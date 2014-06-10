@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -96,6 +96,7 @@ class MenuTop extends MenuAbstract
 
             /**
              * @ignore
+             * @deprecated
              */
             Piwik::postEvent('Menu.Top.addItems', array());
 

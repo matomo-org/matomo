@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\Piwik;
-use Piwik\WidgetsList;
 
 /**
  *
@@ -22,7 +21,6 @@ class VisitFrequency extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.addWidgets'  => 'addWidgets',
             'API.getReportMetadata'   => 'getReportMetadata',
         );
         return $hooks;
@@ -51,12 +49,5 @@ class VisitFrequency extends \Piwik\Plugin
             'processedMetrics' => false,
             'order'            => 40
         );
-    }
-
-    function addWidgets()
-    {
-        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
-        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph',
-                            array('columns' => array('nb_visits_returning')));
     }
 }

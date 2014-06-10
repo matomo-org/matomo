@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,13 +9,10 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker;
-use Piwik\WidgetsList;
 
 /**
  */
@@ -34,18 +31,12 @@ class CustomVariables extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.addWidgets'          => 'addWidgets',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable'
         );
         return $hooks;
-    }
-
-    public function addWidgets()
-    {
-        WidgetsList::add('General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
     }
 
     public function install()

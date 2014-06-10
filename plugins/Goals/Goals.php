@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,7 +16,6 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
-use Piwik\WidgetsList;
 
 /**
  *
@@ -51,6 +50,11 @@ class Goals extends \Piwik\Plugin
 
         uksort($dimensionsByGroup, array('self', 'sortGoalDimensionsByModule'));
         return $dimensionsByGroup;
+    }
+
+    public function getEcommerceReports()
+    {
+        return $this->ecommerceReports;
     }
 
     public static function sortGoalDimensionsByModule($a, $b)
@@ -103,7 +107,6 @@ class Goals extends \Piwik\Plugin
             'Tracker.Cache.getSiteAttributes'        => 'fetchGoalsFromDb',
             'API.getReportMetadata.end'              => 'getReportMetadata',
             'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
-            'WidgetsList.addWidgets'                 => 'addWidgets',
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'ViewDataTable.configure'                => 'configureViewDataTable',
@@ -466,30 +469,6 @@ class Goals extends \Piwik\Plugin
     {
         // add the 'goal' entry in the website array
         $array['goals'] = API::getInstance()->getGoals($idSite);
-    }
-
-    public function addWidgets()
-    {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-
-        // Ecommerce widgets
-        $site = new Site($idSite);
-        if ($site->isEcommerceEnabled()) {
-            WidgetsList::add('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
-            WidgetsList::add('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
-            foreach ($this->ecommerceReports as $widget) {
-                WidgetsList::add('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);
-            }
-        }
-
-        // Goals widgets
-        WidgetsList::add('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
-        $goals = API::getInstance()->getGoals($idSite);
-        if (count($goals) > 0) {
-            foreach ($goals as $goal) {
-                WidgetsList::add('Goals_Goals', Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
-            }
-        }
     }
 
     public function configureViewDataTable(ViewDataTable $view)
