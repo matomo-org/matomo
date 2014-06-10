@@ -179,7 +179,12 @@ class Visualization extends ViewDataTable
         } catch (\Exception $e) {
             Log::warning("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 
-            $loadingError = array('message' => $e->getMessage());
+            $message = $e->getMessage();
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $message .= "\n" . $e->getTraceAsString();
+            }
+
+            $loadingError = array('message' => $message);
         }
 
         $view = new View("@CoreHome/_dataTable");
