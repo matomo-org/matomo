@@ -191,7 +191,7 @@ abstract class ViewDataTable implements ViewInterface
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
-        $report = Report::factory($this->requestConfig->apiMethodToRequestDataTable);
+        $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
 
         if (!empty($report)) {
             $report->configureView($this);

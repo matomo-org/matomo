@@ -9,6 +9,10 @@
 namespace Piwik\Plugins\Actions;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Actions\Reports\GetPageUrlsFollowingSiteSearch;
+use Piwik\Plugins\Actions\Reports\GetSiteSearchCategories;
+use Piwik\Plugins\Actions\Reports\GetSiteSearchKeywords;
+use Piwik\Plugins\Actions\Reports\GetSiteSearchNoResultKeywords;
 use Piwik\View;
 
 /**
@@ -25,40 +29,21 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Actions/indexSiteSearch');
 
-        $view->keywords = $this->getSiteSearchKeywords(true);
-        $view->noResultKeywords = $this->getSiteSearchNoResultKeywords(true);
-        $view->pagesUrlsFollowingSiteSearch = $this->getPageUrlsFollowingSiteSearch(true);
+        $keyword  = new GetSiteSearchKeywords();
+        $noResult = new GetSiteSearchNoResultKeywords();
+        $pageUrls = new GetPageUrlsFollowingSiteSearch();
 
-        $categoryTrackingEnabled = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
+        $view->keywords = $keyword->render();
+        $view->noResultKeywords = $noResult->render();
+        $view->pagesUrlsFollowingSiteSearch = $pageUrls->render();
+
+        $categoryTrackingEnabled = Actions::isCustomVariablesPluginsEnabled();
         if ($categoryTrackingEnabled) {
-            $view->categories = $this->getSiteSearchCategories(true);
+            $categories = new GetSiteSearchCategories();
+            $view->categories = $categories->render();
         }
 
         return $view->render();
     }
 
-    public function getSiteSearchKeywords()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchNoResultKeywords()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchCategories()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageUrlsFollowingSiteSearch()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageTitlesFollowingSiteSearch()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
 }

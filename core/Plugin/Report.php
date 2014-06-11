@@ -24,9 +24,12 @@ class Report
     protected $title;
     protected $category;
     protected $widgetTitle;
+    protected $widgetParams = array();
     protected $menuTitle;
     protected $processedMetrics = false;
     protected $metrics = array();
+    protected $constantRowsCount = null;
+    protected $isSubtableReport = null;
 
     /**
      * @var \Piwik\Plugin\VisitDimension
@@ -88,7 +91,13 @@ class Report
     public function configureWidget(WidgetsList $widget)
     {
         if ($this->widgetTitle) {
-            $widget->add($this->category, $this->widgetTitle, 'CoreHome', 'renderWidget', array('reportModule' => $this->module, 'reportAction' => $this->action));
+            $params = array('reportModule' => $this->module, 'reportAction' => $this->action);
+            if (!empty($this->widgetParams) && is_array($this->widgetParams)) {
+                foreach ($this->widgetParams as $key => $value) {
+                    $params[$key] = $value;
+                }
+            }
+            $widget->add($this->category, $this->widgetTitle, 'CoreHome', 'renderWidget', $params);
         }
     }
 
@@ -146,10 +155,21 @@ class Report
             'action'               => $this->action,
             'metrics'              => $this->getMetrics(),
             'metricsDocumentation' => $this->getMetricsDocumentation(),
-            'documentation'        => $this->documentation,
             'processedMetrics'     => $this->processedMetrics,
             'order'                => $this->order
         );
+
+        if (!empty($this->documentation)) {
+            $report['documentation'] = $this->documentation;
+        }
+
+        if (null !== $this->constantRowsCount) {
+            $report['constantRowsCount'] = $this->constantRowsCount;
+        }
+
+        if (null !== $this->isSubtableReport) {
+            $report['isSubtableReport'] = $this->isSubtableReport;
+        }
 
         if (!empty($this->dimension)) {
             $report['dimension'] = $this->dimension->getName();
@@ -172,16 +192,8 @@ class Report
         return $this->action;
     }
 
-    public static function factory($moduleOnlyOrModuleAndAction, $action = '')
+    public static function factory($module, $action = '')
     {
-        if (empty($action) && strpos($moduleOnlyOrModuleAndAction, '.') > 0) {
-            $parts  = explode('.', $moduleOnlyOrModuleAndAction);
-            $module = $parts[0];
-            $action = $parts[1];
-        } else {
-            $module = $moduleOnlyOrModuleAndAction;
-        }
-
         foreach (self::getAllReports() as $report) {
             if ($report->module === $module && $report->action === $action) {
                 return $report;

@@ -30,24 +30,9 @@ class Provider extends \Piwik\Plugin
     {
         $hooks = array(
             'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
-            'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
-            'ViewDataTable.configure'         => 'configureViewDataTable',
         );
         return $hooks;
-    }
-
-    public function getReportMetadata(&$reports)
-    {
-        $reports[] = array(
-            'category'      => Piwik::translate('General_Visitors'),
-            'name'          => Piwik::translate('Provider_ColumnProvider'),
-            'module'        => 'Provider',
-            'action'        => 'getProvider',
-            'dimension'     => Piwik::translate('Provider_ColumnProvider'),
-            'documentation' => Piwik::translate('Provider_ProviderReportDocumentation', '<br />'),
-            'order'         => 50
-        );
     }
 
     public function getSegmentsMetadata(&$segments)
@@ -202,18 +187,4 @@ class Provider extends \Piwik\Plugin
         $out .= '</div>';
     }
 
-    public function configureViewDataTable(ViewDataTable $view)
-    {
-        switch ($view->requestConfig->apiMethodToRequestDataTable) {
-            case 'Provider.getProvider':
-                $this->configureViewForGetProvider($view);
-                break;
-        }
-    }
-
-    private function configureViewForGetProvider(ViewDataTable $view)
-    {
-        $view->requestConfig->filter_limit = 5;
-        $view->config->addTranslation('label', Piwik::translate('Provider_ColumnProvider'));
-    }
 }
