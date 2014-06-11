@@ -20,7 +20,6 @@ class VisitFrequency extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
         );
     }
