@@ -363,7 +363,7 @@ class AssetManager extends Singleton
     /**
      * @param UIAsset[] $uiAssets
      */
-    private function removeAssets($uiAssets)
+    public function removeAssets($uiAssets)
     {
         foreach($uiAssets as $uiAsset) {
             $uiAsset->delete();
