@@ -8,6 +8,26 @@
  */
 
 /**
+ * The root Piwik URL to test against.
+ */
+exports.piwikUrl = "http://localhost/piwik-master/";
+
+/**
+ * Data for the $_SERVER variable in the setup/teardown PHP scripts. Should be the same as
+ * the values in your phpunit.xml file.
+ */
+exports.phpServer = {
+    HTTP_HOST: 'localhost',
+    REQUEST_URI: '/piwik-master/',
+    REMOTE_ADDR: '127.0.0.1'
+};
+
+/**
+ * The path to the PHP executable to execute when setting up & tearing down the database.
+ */
+exports.php = 'php';
+
+/**
  * The folder in tests/lib that holds mocha.
  */
 exports.mocha = 'mocha-1.17.1';
@@ -36,23 +56,3 @@ exports.processedScreenshotsDir = "./processed-ui-screenshots";
  * The directory that stores screenshot diffs. Relative to the UI repo's root directory.
  */
 exports.screenshotDiffDir = "./screenshot-diffs";
-
-/**
- * The root Piwik URL to test against.
- */
-exports.piwikUrl = "http://localhost/";
-
-/**
- * The path to the PHP executable to execute when setting up & tearing down the database.
- */
-exports.php = 'php';
-
-/**
- * Data for the $_SERVER variable in the setup/teardown PHP scripts. Should be the same as
- * the values in your phpunit.xml file.
- */
-exports.phpServer = {
-    HTTP_HOST: 'localhost',
-    REQUEST_URI: '/',
-    REMOTE_ADDR: '127.0.0.1'
-};
