@@ -21,6 +21,7 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
         $this->name          = Piwik::translate('VisitorInterest_VisitsByDaysSinceLast');
         $this->documentation = Piwik::translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation');
         $this->metrics       = array('nb_visits');
+        $this->processedMetrics  = false;
         $this->constantRowsCount = true;
         $this->order = 30;
         $this->widgetTitle  = 'VisitorInterest_WidgetVisitsByDaysSinceLast';

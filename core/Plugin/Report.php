@@ -26,7 +26,7 @@ class Report
     protected $widgetTitle;
     protected $widgetParams = array();
     protected $menuTitle;
-    protected $processedMetrics = false;
+    protected $processedMetrics = array();
     protected $metrics = array();
     protected $constantRowsCount = null;
     protected $isSubtableReport = null;
@@ -49,6 +49,8 @@ class Report
         $parts        = explode('\\', $classname);
         $this->module = $parts[2];
         $this->action = lcfirst($parts[4]);
+        $this->processedMetrics = Metrics::getDefaultProcessedMetrics();
+        $this->metrics          = array_keys(Metrics::getDefaultMetrics());
 
         $this->init();
     }
@@ -121,7 +123,7 @@ class Report
             if (!empty($translations[$metric])) {
                 $metrics[$metric] = $translations[$metric];
             } else {
-                $metrics[$metric] = 'To be defined';
+                $metrics[] = $metric;
             }
         }
 

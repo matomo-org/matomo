@@ -205,9 +205,11 @@ class ProcessedReport
         Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
 
         foreach ($availableReports as &$availableReport) {
+            // can be removed once we remove hook API.getReportMetadata
             if (!isset($availableReport['metrics'])) {
                 $availableReport['metrics'] = Metrics::getDefaultMetrics();
             }
+            // can be removed once we remove hook API.getReportMetadata
             if (!isset($availableReport['processedMetrics'])) {
                 $availableReport['processedMetrics'] = Metrics::getDefaultProcessedMetrics();
             }
@@ -217,6 +219,7 @@ class ProcessedReport
                 unset($availableReport['metricsDocumentation']);
             } else if (!isset($availableReport['metricsDocumentation'])) {
                 // set metric documentation to default if it's not set
+                // can be removed once we remove hook API.getReportMetadata
                 $availableReport['metricsDocumentation'] = Metrics::getDefaultMetricsDocumentation();
             }
         }

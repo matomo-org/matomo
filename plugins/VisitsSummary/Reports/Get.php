@@ -18,6 +18,7 @@ class Get extends \Piwik\Plugin\Report
         $this->category      = 'VisitsSummary_VisitsSummary';
         $this->name          = Piwik::translate('VisitsSummary_VisitsSummary');
         $this->documentation = ''; // TODO
+        $this->processedMetrics = false;
         $this->metrics       = array(
             'nb_uniq_visitors',
             'nb_visits',

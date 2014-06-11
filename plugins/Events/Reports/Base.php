@@ -18,6 +18,7 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function init()
     {
         $this->category = 'Events_Events';
+        $this->processedMetrics = false;
 
         $this->widgetParams = array(
             'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)
