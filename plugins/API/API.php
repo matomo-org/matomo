@@ -15,15 +15,21 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
 use Piwik\Date;
+use Piwik\Filesystem;
+use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugin\ActionDimension;
+use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
 use Piwik\Version;
+use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
@@ -81,6 +87,18 @@ class API extends \Piwik\Plugin\API
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
     {
         $segments = array();
+
+        foreach (VisitDimension::getAllDimensions() as $dimension) {
+            foreach ($dimension->getSegments() as $segment) {
+                $segments[] = $segment->toArray();
+            }
+        }
+
+        foreach (ActionDimension::getAllDimensions() as $dimension) {
+            foreach ($dimension->getSegments() as $segment) {
+                $segments[] = $segment->toArray();
+            }
+        }
 
         /**
          * Triggered when gathering all available segment dimensions.
@@ -394,6 +412,267 @@ class API extends \Piwik\Plugin\API
         $reporter = new ProcessedReport();
         $metadata = $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
+    }
+
+    public function gener()
+    {
+        $reports = array();
+        $parameters = array();
+        Piwik::postEvent('API.getReportMetadata', array(&$reports, $parameters));
+
+        $widgets = WidgetsList::getInstance()->get();
+        $menus = MenuReporting::getInstance()->getMenu();
+
+        $path = PIWIK_INCLUDE_PATH . '/tmp/files';
+        Filesystem::unlinkRecursive($path, true);
+        Filesystem::mkdir($path);
+        foreach ($reports as $report) {
+            $module    = $report['module'];
+            $action    = $report['action'];
+            $order     = $report['order'];
+
+            $className = ucfirst($action);
+            $moduleDir = $path . '/' . $module;
+            Filesystem::mkdir($moduleDir);
+
+
+            $configureView = "public function configureView(ViewDataTable \$view)
+    {
+    }";
+            try {
+                $plugin = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin($module);
+                if (!empty($plugin)) {
+                    $reflection = new \ReflectionObject($plugin);
+                    $viewMethodToFind = 'configureViewFor' . ucfirst($action);
+                    if ($reflection->hasMethod($viewMethodToFind)) {
+                        $method = $reflection->getMethod($viewMethodToFind);
+                        $method->setAccessible(true);
+
+                        $file = new \SplFileObject($method->getFileName());
+                        $fileIterator = new \LimitIterator($file, $method->getStartLine() - 1, $method->getEndLine() - $method->getStartLine() + 1);
+                        $configureView = '';
+                        foreach($fileIterator as $line) {
+                            $configureView .= $line;
+                        }
+                        $configureView = str_replace($viewMethodToFind, 'configureView', $configureView);
+                        $configureView = str_replace('private function', 'public function', $configureView);
+                        $configureView = ltrim($configureView);
+
+                    }
+
+                }
+            } catch (\Exception $e) {
+                $plugin = null;
+            }
+
+            $doc = '';
+            if (!empty($report['documentation'])) {
+                $doc = $report['documentation'];
+                $doc = addslashes($doc);
+            }
+
+            $subtable = '';
+            if (!empty($report['actionToLoadSubTables'])) {
+                $subtable = $report['actionToLoadSubTables'];
+            }
+
+            if (!empty($report['metrics'])) {
+                $metrics = "'" . implode("', '", array_keys($report['metrics'])) . "'";
+            } else {
+                $metrics = '';
+            }
+
+
+            $widgetTitle = '';
+            foreach ($widgets as $widget) {
+                foreach ($widget as $item) {
+                    if (empty($item['parameters']['module']) || empty($item['name']) || empty($item['parameters']['action'])) {
+                        continue;
+                    }
+
+                    if ($item['parameters']['module'] === $module && $item['parameters']['action'] === $action) {
+                        $widgetTitle = $this->findTranslationKeyForFeatureName($item['name']);
+                        break 2;
+                    }
+                }
+
+            }
+/*
+            $menuTitle = '';
+            foreach ($menus as $key => $submenu) {
+                foreach ($submenu as $menuItem) {
+                    if (empty($menuItem['_url']) || empty($menuItem['_name'])) {
+                        continue;
+                    }
+
+                    if (empty($menuItem['_url']['module']) || empty($menuItem['_url']['action'])) {
+                        continue;
+                    }
+
+                    $action1 = $menuItem['_url']['action'];
+                    $action2 = str_replace('get', 'index', $action);
+
+                    if ($menuItem['_url']['module'] === $module && in_array($action, array($action1, $action2))) {
+                        $menuTitle = $this->findTranslationKeyForFeatureName($menuItem['_name']);
+                        break 2;
+                    }
+                }
+            }
+var_dump($menuTitle);*/
+
+            $nameTranslationKey = $this->getEnglishTranslationForFeatureName($report['name']);
+
+            $dimClass =  null;
+            $dimension = null;
+            if (!empty($report['dimension'])) {
+                $dimension = $report['dimension'];
+                $columnsDir = $moduleDir . '/Columns';
+                Filesystem::mkdir($columnsDir);
+                $dimClass = ucfirst(str_replace(' ' ,'', $dimension));
+                $transKEy = $this->getEnglishTranslationForFeatureName($dimension);
+
+                $content = <<<REF
+                <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+namespace Piwik\Plugins\\$module\Columns;
+
+use Piwik\Piwik;
+use Piwik\Plugin\VisitDimension;
+
+class $dimClass extends VisitDimension
+{
+    public function getName()
+    {
+        return Piwik::translate('$transKEy');
+    }
+}
+REF;
+
+                file_put_contents($columnsDir . '/' . $dimClass . '.php', ltrim($content));
+
+            }
+
+            $content = <<<OBJ
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+namespace Piwik\Plugins\\$module\Reports;
+
+use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\\$module\Columns\\$dimClass;
+
+class $className extends Base
+{
+    protected function init()
+    {
+        parent::init();
+OBJ;
+
+$content = ltrim($content);
+            if (!empty($dimClass)) {
+
+                $content .= "
+        \$this->dimension     = new $dimClass();";
+            }
+
+            $content .= "
+        \$this->name          = Piwik::translate('$nameTranslationKey');
+        \$this->documentation = '$doc';";
+        if (!empty($metrics)) {
+                $content .= "
+        \$this->metrics       = array($metrics);";
+        }
+            if (!empty($subtable)) {
+                $content .= "
+        \$this->actionToLoadSubTables = '$subtable';";
+            }
+            $content .= "
+        \$this->order = $order;";
+            if (!empty($widgetTitle)) {
+            $content .= "
+        \$this->widgetTitle  = '$widgetTitle';";
+            }
+            $content .= "
+    }
+
+    " . $configureView . "
+}
+";
+
+            $dir = $moduleDir . '/Reports';
+            Filesystem::mkdir($dir);
+
+            file_put_contents($dir . '/' . $className . '.php', ltrim($content));
+
+
+
+            if (!file_exists($dir . '/Base.php')) {
+                $category = $this->findTranslationKeyForFeatureName($report['category']);
+$baseContent = <<<OBJ
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+namespace Piwik\Plugins\\$module\Reports;
+
+abstract class Base extends \Piwik\Plugin\Report
+{
+    protected function init()
+    {
+        \$this->category = '$category';
+    }
+
+}
+
+OBJ;
+
+                file_put_contents($dir . '/Base.php', ltrim($baseContent));
+
+            }
+        }
+    }
+
+    private function getEnglishTranslationForFeatureName($featureName)
+    {
+        Translate::reloadLanguage('en');
+
+        $translationKeyForFeature = $this->findTranslationKeyForFeatureName($featureName);
+
+        if (!empty($translationKeyForFeature)) {
+            return $translationKeyForFeature;
+        }
+
+        return $featureName;
+    }
+
+    private function findTranslationKeyForFeatureName($featureName)
+    {
+        if (empty($GLOBALS['Piwik_translations'])) {
+            return;
+        }
+
+        foreach ($GLOBALS['Piwik_translations'] as $key => $translations) {
+            $possibleKey = array_search($featureName, $translations);
+            if (!empty($possibleKey)) {
+                return $key . '_' . $possibleKey;
+            }
+        }
     }
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,

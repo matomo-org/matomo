@@ -16,6 +16,7 @@ use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
@@ -35,6 +36,42 @@ class Controller extends \Piwik\Plugin\Controller
     function getDefaultAction()
     {
         return 'redirectToCoreHomeIndex';
+    }
+
+    public function renderMenuReport()
+    {
+        $reportModule = Common::getRequestVar('reportModule', null, 'string');
+        $reportAction = Common::getRequestVar('reportAction', null, 'string');
+
+        $report = Report::factory($reportModule, $reportAction);
+
+        if (empty($report)) {
+            throw new Exception('This report does not exist');
+        }
+
+        if (!$report->isEnabled()) {
+            throw new Exception('This report is not enabled. Maybe you do not have enough permission');
+        }
+
+        return View::singleReport($report->getName(), $this->renderWidget());
+    }
+
+    public function renderWidget()
+    {
+        $reportModule = Common::getRequestVar('reportModule', null, 'string');
+        $reportAction = Common::getRequestVar('reportAction', null, 'string');
+
+        $report = Report::factory($reportModule, $reportAction);
+
+        if (empty($report)) {
+            throw new Exception('This report does not exist');
+        }
+
+        if (!$report->isEnabled()) {
+            throw new Exception('This report is not enabled. Maybe you do not have enough permission');
+        }
+
+        return $report->render();
     }
 
     function redirectToCoreHomeIndex()

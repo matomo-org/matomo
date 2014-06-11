@@ -16,7 +16,7 @@ use Piwik\Plugin\Manager as PluginManager;
 /**
  * @api
  */
-abstract class VisitDimension
+abstract class ActionDimension
 {
     protected $name;
 
@@ -42,7 +42,7 @@ abstract class VisitDimension
         }
 
         try {
-            $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` ADD `$this->fieldName` $this->fieldType";
+            $sql = "ALTER TABLE `" . Common::prefixTable("log_link_visit_action") . "` ADD `$this->fieldName` $this->fieldType";
             Db::exec($sql);
 
         } catch (\Exception $e) {
@@ -52,10 +52,15 @@ abstract class VisitDimension
         }
     }
 
+    public function shouldHandle()
+    {
+        return false;
+    }
+
     protected function addSegment(Segment $segment)
     {
         if (!empty($this->fieldName)) {
-            $segment->setSqlSegment('log_visit.' . $this->fieldName);
+            $segment->setSqlSegment('log_link_visit_action.' . $this->fieldName);
         }
 
         $segment->setType('dimension');
@@ -78,7 +83,7 @@ abstract class VisitDimension
 
     abstract public function getName();
 
-    /** @return \Piwik\Plugin\VisitDimension[] */
+    /** @return \Piwik\Plugin\ActionDimension[] */
     public static function getAllDimensions()
     {
         $plugins   = PluginManager::getInstance()->getLoadedPlugins();
@@ -92,10 +97,10 @@ abstract class VisitDimension
         return $instances;
     }
 
-    /** @return \Piwik\Plugin\VisitDimension[] */
+    /** @return \Piwik\Plugin\ActionDimension[] */
     public static function getDimensions(\Piwik\Plugin $plugin)
     {
-        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\VisitDimension');
+        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\ActionDimension');
         $instances  = array();
 
         foreach ($dimensions as $dimension) {

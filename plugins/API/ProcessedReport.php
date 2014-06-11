@@ -20,6 +20,7 @@ use Piwik\Metrics;
 use Piwik\MetricsFormatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Url;
@@ -152,6 +153,10 @@ class ProcessedReport
 
         $availableReports = array();
 
+        foreach (Report::getAllReports() as $report) {
+            $availableReports[] = $report->toArray();
+        }
+
         /**
          * Triggered when gathering metadata for all available reports.
          * 
@@ -198,6 +203,7 @@ class ProcessedReport
          * TODO: put dimensions section in all about analytics data
          */
         Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
+
         foreach ($availableReports as &$availableReport) {
             if (!isset($availableReport['metrics'])) {
                 $availableReport['metrics'] = Metrics::getDefaultMetrics();

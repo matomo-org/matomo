@@ -15,27 +15,16 @@ class Widgets extends \Piwik\Plugin\Widgets
 
     public function configure(WidgetsList $widgetsList)
     {
-        $category   = 'General_Actions';
-        $controller = 'Actions';
-
-        $widgetsList->add($category, 'General_Pages', $controller, 'getPageUrls');
-        $widgetsList->add($category, 'Actions_WidgetPageTitles', $controller, 'getPageTitles');
-        $widgetsList->add($category, 'General_Outlinks', $controller, 'getOutlinks');
-        $widgetsList->add($category, 'General_Downloads', $controller, 'getDownloads');
-        $widgetsList->add($category, 'Actions_WidgetPagesEntry', $controller, 'getEntryPageUrls');
-        $widgetsList->add($category, 'Actions_WidgetPagesExit', $controller, 'getExitPageUrls');
-        $widgetsList->add($category, 'Actions_WidgetEntryPageTitles', $controller, 'getEntryPageTitles');
-        $widgetsList->add($category, 'Actions_WidgetExitPageTitles', $controller, 'getExitPageTitles');
-
         $actions = new Actions();
         if ($actions->isSiteSearchEnabled()) {
-            $this->addSearchWidgets($widgetsList, $controller);
+            $this->addSearchWidgets($widgetsList);
         }
     }
 
-    private function addSearchWidgets(WidgetsList $widgetsList, $controller)
+    private function addSearchWidgets(WidgetsList $widgetsList)
     {
-        $category = 'Actions_SubmenuSitesearch';
+        $controller = 'Actions';
+        $category   = 'Actions_SubmenuSitesearch';
 
         $widgetsList->add($category, 'Actions_WidgetSearchKeywords', $controller, 'getSiteSearchKeywords');
 

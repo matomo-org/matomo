@@ -93,9 +93,9 @@ class Visit implements VisitInterface
         /**
          * Triggered after visits are tested for exclusion so plugins can modify the IP address
          * persisted with a visit.
-         * 
+         *
          * This event is primarily used by the **PrivacyManager** plugin to anonymize IP addresses.
-         * 
+         *
          * @param string &$ip The visitor's IP address.
          */
         Piwik::postEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
@@ -253,10 +253,10 @@ class Visit implements VisitInterface
         /**
          * Triggered before a [visit entity](/guides/persistence-and-the-mysql-backend#visits) is updated when
          * tracking an action for an existing visit.
-         * 
+         *
          * This event can be used to modify the visit properties that will be updated before the changes
          * are persisted.
-         * 
+         *
          * @param array &$valuesToUpdate Visit entity properties that will be updated.
          * @param array $visit The entire visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits)
          *                     to see what it contains.
@@ -307,7 +307,7 @@ class Visit implements VisitInterface
 
         /**
          * Triggered before a new [visit entity](/guides/persistence-and-the-mysql-backend#visits) is persisted.
-         * 
+         *
          * This event can be used to modify the visit entity or add new information to it before it is persisted.
          * The UserCountry plugin, for example, uses this event to add location information for each visit.
          *
@@ -319,7 +319,10 @@ class Visit implements VisitInterface
 
         $dimensions = VisitDimension::getAllDimensions();
         foreach ($dimensions as $dimension) {
-            $this->visitorInfo[$dimension->getFieldName()] = $dimension->onNewVisit($this->request, $this->visitorInfo);
+            if (!method_exists($dimension, 'onNewVisit')) {
+                continue;
+            }
+            $this->visitorInfo[$dimension->getFieldName()] = $dimension->onNewVisit($this->request, $this->visitorInfo, $action);
         }
 
         $this->request->overrideLocation($this->visitorInfo);
@@ -505,10 +508,8 @@ class Visit implements VisitInterface
 
     protected function getNewVisitorInformation($action)
     {
-        $actionType = $idActionName = $idActionUrl = false;
+        $actionType = false;
         if($action) {
-            $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
-            $idActionName = $action->getIdActionNameForEntryAndExitIds();
             $actionType = $action->getActionType();
         }
 
@@ -526,12 +527,6 @@ class Visit implements VisitInterface
         // User settings
         $userInfo = $this->getSettingsObject();
         $userInfo = $userInfo->getInfo();
-
-        // Referrer data
-        $referrer = new Referrer();
-        $referrerUrl = $this->request->getParam('urlref');
-        $currentUrl = $this->request->getParam('url');
-        $referrerInfo = $referrer->getReferrerInformation($referrerUrl, $currentUrl, $this->request->getIdSite());
 
         $visitorReturning = $isReturningCustomer
             ? 2 /* Returning customer */
@@ -551,10 +546,6 @@ class Visit implements VisitInterface
             'visitor_days_since_first'  => $daysSinceFirstVisit,
             'visit_first_action_time'   => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
             'visit_last_action_time'    => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
-            'visit_entry_idaction_url'  => (int)$idActionUrl,
-            'visit_entry_idaction_name' => (int)$idActionName,
-            'visit_exit_idaction_url'   => (int)$idActionUrl,
-            'visit_exit_idaction_name'  => (int)$idActionName,
             'visit_total_actions'       => in_array($actionType,
                     array(Action::TYPE_PAGE_URL,
                           Action::TYPE_DOWNLOAD,
@@ -566,10 +557,6 @@ class Visit implements VisitInterface
             'visit_total_events'        => $actionType == Action::TYPE_EVENT ? 1 : 0,
             'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
             'visit_goal_buyer'          => $this->goalManager->getBuyerType(),
-            'referer_type'              => $referrerInfo['referer_type'],
-            'referer_name'              => $referrerInfo['referer_name'],
-            'referer_url'               => $referrerInfo['referer_url'],
-            'referer_keyword'           => $referrerInfo['referer_keyword'],
             'config_id'                 => $userInfo['config_id'],
             'config_resolution'         => $userInfo['config_resolution'],
             'config_pdf'                => $userInfo['config_pdf'],
@@ -599,19 +586,15 @@ class Visit implements VisitInterface
         $valuesToUpdate = array();
 
         if ($action) {
+            $actionType  = $action->getActionType();
             $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
-            $idActionName = $action->getIdActionNameForEntryAndExitIds();
-            $actionType = $action->getActionType();
-
-            if ($idActionName !== false) {
-                $valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
-            }
 
             $incrementActions = false;
+
             if ($idActionUrl !== false) {
-                $valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
                 $incrementActions = true;
             }
+
             if ($actionType == Action::TYPE_SITE_SEARCH) {
                 $valuesToUpdate['visit_total_searches'] = 'visit_total_searches + 1';
                 $incrementActions = true;
@@ -657,6 +640,18 @@ class Visit implements VisitInterface
             // only update if the value has changed (prevents overwriting the value in case a request has updated it in the meantime)
             && $visitEcommerceStatus != $this->visitorInfo['visit_goal_buyer']) {
             $valuesToUpdate['visit_goal_buyer'] = $visitEcommerceStatus;
+        }
+
+        $dimensions = VisitDimension::getAllDimensions();
+        foreach ($dimensions as $dimension) {
+            if (!method_exists($dimension, 'onExistingVisit')) {
+                continue;
+            }
+            $value = $dimension->onExistingVisit($this->request, $this->visitorInfo, $action);
+
+            if (false !== $value) {
+                $valuesToUpdate[$dimension->getFieldName()] = $value;
+            }
         }
 
         // Custom Variables overwrite previous values on each page view

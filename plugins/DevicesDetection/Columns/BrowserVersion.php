@@ -6,19 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\DevicesDetection\Dimensions;
+namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
 
-class BrowserName extends Base
+class BrowserVersion extends Base
 {
-    protected $fieldName = 'config_browser_name';
-    protected $fieldType = 'VARCHAR(10) NOT NULL';
+    protected $fieldName = 'config_browser_version';
+    protected $fieldType = 'VARCHAR(20) NOT NULL';
 
     public function getName()
     {
-        return Piwik::translate('UserSettings_BrowserFamilies');
+        return Piwik::translate('DevicesDetection_BrowserVersions');
     }
 
     public function onNewVisit(Request $request, $visit)
@@ -26,6 +26,6 @@ class BrowserName extends Base
         $userAgent = $request->getUserAgent();
         $parser    = $this->getUAParser($userAgent);
 
-        return $parser->getBrowser("short_name");
+        return $parser->getBrowser("version");
     }
 }

@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugin\Report;
 
 /**
  * Manages the global list of reports that can be displayed as dashboard widgets.
@@ -82,6 +83,10 @@ class WidgetsList extends Singleton
             /** @var \Piwik\Plugin\Widgets[] $widgets */
             $widgets     = PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
             $widgetsList = self::getInstance();
+
+            foreach (Report::getAllReports() as $report) {
+                $report->configureWidget($widgetsList);
+            }
 
             foreach ($widgets as $widget) {
                 $widget->configure($widgetsList);
