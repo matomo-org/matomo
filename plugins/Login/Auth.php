@@ -83,8 +83,20 @@ class Auth implements \Piwik\Auth
         if (!$authResult->wasAuthenticationSuccessful()) {
             $this->processFailedSession($rememberMe);
         } else {
-            $this->processSuccessfullSession($login, $authResult->getTokenAuth(), $rememberMe);
+            $this->processSuccessfulSession($login, $authResult->getTokenAuth(), $rememberMe);
         }
+
+        /**
+         * Triggered after session initialize.
+         * This event notify about end of init session process.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Login.initSession.end', function () {
+         *         // session has been initialized
+         *     });
+         */
+        Piwik::postEvent('Login.initSession.end');
     }
 
     /**
@@ -131,6 +143,33 @@ class Auth implements \Piwik\Auth
 
         $this->setLogin($login);
         $this->setTokenAuth($tokenAuth);
+
+        /**
+         * Triggered before authenticate function.
+         * This event propagate login and token_auth which will be using in authenticate process.
+         *
+         * This event exists to enable possibility for user authentication prevention.
+         * For example when user is locked or inactive.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Login.authenticate', function ($login, $tokenAuth) {
+         *         if (!UserActivityManager::isActive ($login, $tokenAuth) {
+         *             throw new Exception('Your account is inactive.');
+         *         }
+         *     });
+         *
+         * @param string $login User login.
+         * @param string $tokenAuth User token auth.
+         */
+        Piwik::postEvent(
+            'Login.authenticate',
+            array(
+                $login,
+                $tokenAuth
+            )
+        );
+
         $authResult = $this->authenticate();
         return $authResult;
     }
@@ -166,8 +205,33 @@ class Auth implements \Piwik\Auth
      * @param $tokenAuth
      * @param $rememberMe
      */
-    protected function processSuccessfullSession($login, $tokenAuth, $rememberMe)
+    protected function processSuccessfulSession($login, $tokenAuth, $rememberMe)
     {
+        /**
+         * Triggered after successful authenticate, but before cookie creation.
+         * This event propagate login and token_auth which was used in authenticate process.
+         *
+         * This event exists to enable the ability to custom action before the cookie will be created,
+         * but after a successful authentication.
+         * For example when user have to fill survey or change password.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Login.authenticate.successful', function ($login, $tokenAuth) {
+         *         // redirect to change password action
+         *     });
+         *
+         * @param string $login User login.
+         * @param string $tokenAuth User token auth.
+         */
+        Piwik::postEvent(
+            'Login.authenticate.successful',
+            array(
+                $login,
+                $tokenAuth
+            )
+        );
+
         $cookie = $this->getAuthCookie($rememberMe);
         $cookie->set('login', $login);
         $cookie->set('token_auth', $this->getHashTokenAuth($login, $tokenAuth));
