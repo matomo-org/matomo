@@ -10,12 +10,9 @@ namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker;
 
-/**
- */
 class CustomVariables extends \Piwik\Plugin
 {
     public function getInformation()
@@ -30,11 +27,10 @@ class CustomVariables extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
+        return array(
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata'
         );
-        return $hooks;
     }
 
     public function install()

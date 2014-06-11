@@ -38,7 +38,7 @@ class GetSocials extends Base
         $view->config->subtable_controller_action  = 'getUrlsForSocial';
         $view->config->show_exclude_low_population = false;
         $view->config->show_goals = true;
-        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnSocial'));
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_limit = 10;
 

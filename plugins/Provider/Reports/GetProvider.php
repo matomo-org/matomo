@@ -27,7 +27,7 @@ class GetProvider extends \Piwik\Plugin\Report
     public function configureView(ViewDataTable $view)
     {
         $view->requestConfig->filter_limit = 5;
-        $view->config->addTranslation('label', Piwik::translate('Provider_ColumnProvider'));
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
 }

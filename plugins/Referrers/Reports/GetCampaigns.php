@@ -31,7 +31,7 @@ class GetCampaigns extends Base
         $view->config->show_goals = true;
         $view->config->subtable_controller_action  = 'getKeywordsFromCampaignId';
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnCampaign'));
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_limit = 25;
     }

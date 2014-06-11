@@ -28,7 +28,7 @@ class GetResolution extends Base
     {
         $this->getBasicUserSettingsDisplayProperties($view);
 
-        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnResolution'));
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
 }

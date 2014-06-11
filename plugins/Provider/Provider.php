@@ -15,7 +15,6 @@ use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**

@@ -9,23 +9,25 @@
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Tracker\Request;
 
-class Keyword extends VisitDimension
-{    
+class Keyword extends Base
+{
     protected $fieldName = 'referer_keyword';
-
-    protected function init()
-    {
-        $segment = new Segment();
-        $segment->setSegment('referrerKeyword');
-        $segment->setName('General_ColumnKeyword');
-        $this->addSegment($segment);
-    }
+    protected $fieldType = 'VARCHAR(255) NULL';
 
     public function getName()
     {
         return Piwik::translate('General_ColumnKeyword');
+    }
+
+    public function onNewVisit(Request $request, $visit)
+    {
+        $referrerUrl = $request->getParam('urlref');
+        $currentUrl  = $request->getParam('url');
+
+        $information = $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
+
+        return $information['referer_keyword'];
     }
 }

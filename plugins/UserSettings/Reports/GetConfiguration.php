@@ -28,7 +28,7 @@ class GetConfiguration extends Base
     {
         $this->getBasicUserSettingsDisplayProperties($view);
 
-        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnConfiguration'));
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_limit = 3;
     }

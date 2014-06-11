@@ -28,8 +28,8 @@ class GetOSFamily extends Base
     {
         $this->getBasicUserSettingsDisplayProperties($view);
 
-        $view->config->title = Piwik::translate('UserSettings_OperatingSystemFamily');
-        $view->config->addTranslation('label', Piwik::translate('UserSettings_OperatingSystemFamily'));
+        $view->config->title = $this->name;
+        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->addRelatedReports($this->getOsRelatedReports());
     }
 

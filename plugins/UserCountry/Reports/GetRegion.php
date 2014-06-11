@@ -19,7 +19,7 @@ class GetRegion extends Base
         parent::init();
         $this->dimension     = new Region();
         $this->name          = Piwik::translate('UserCountry_Region');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('UserCountry_getRegionDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
         $this->metrics       = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
         $this->order = 7;
         $this->widgetTitle = Piwik::translate('UserCountry_WidgetLocation')
@@ -30,8 +30,8 @@ class GetRegion extends Base
     {
         $view->config->show_exclude_low_population = false;
         $view->config->show_goals = true;
-        $view->config->documentation = Piwik::translate('UserCountry_getRegionDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
-        $view->config->addTranslation('label', Piwik::translate('UserCountry_Region'));
+        $view->config->documentation = $this->documentation;
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_limit = 5;
 

@@ -12,7 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 
 class Campaign extends VisitDimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('Referrers_ColumnCampaign');

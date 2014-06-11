@@ -19,7 +19,7 @@ class GetCity extends Base
         parent::init();
         $this->dimension     = new City();
         $this->name          = Piwik::translate('UserCountry_City');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('UserCountry_getCityDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
         $this->metrics       = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
         $this->order = 8;
         $this->widgetTitle = Piwik::translate('UserCountry_WidgetLocation')
@@ -30,8 +30,8 @@ class GetCity extends Base
     {
         $view->config->show_exclude_low_population = false;
         $view->config->show_goals = true;
-        $view->config->documentation = Piwik::translate('UserCountry_getCityDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
-        $view->config->addTranslation('label', Piwik::translate('UserCountry_City'));
+        $view->config->documentation = $this->documentation;
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_limit = 5;
 

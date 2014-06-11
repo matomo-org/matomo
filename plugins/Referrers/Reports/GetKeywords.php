@@ -19,7 +19,7 @@ class GetKeywords extends Base
     {
         parent::init();
         $this->dimension     = new Keyword();
-        $this->name          = Piwik::translate('CorePluginsAdmin_PluginKeywords');
+        $this->name          = Piwik::translate('Referrers_Keywords');
         $this->documentation = Piwik::translate('Referrers_KeywordsReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getSearchEnginesFromKeywordId';
         $this->order = 3;

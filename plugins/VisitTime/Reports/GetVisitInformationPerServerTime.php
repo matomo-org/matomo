@@ -34,7 +34,7 @@ class GetVisitInformationPerServerTime extends Base
         $view->requestConfig->request_parameters_to_modify['hideFutureHoursWhenToday'] = 1;
 
         $view->config->show_goals = true;
-        $view->config->addTranslation('label', Piwik::translate('VisitTime_ColumnServerTime'));
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         if ($view->isViewDataTableId(Graph::ID)) {
             $view->config->max_graph_elements = false;

@@ -114,15 +114,14 @@ class Report
 
     protected function getMetrics()
     {
-        // TODO not all will be defined there... later in Columns directory
         $translations = Metrics::getDefaultMetricTranslations();
         $metrics = array();
 
         foreach ($this->metrics as $metric) {
-            if (!empty( $translations[$metric])) {
-                $metric[$metric] = $translations[$metric];
+            if (!empty($translations[$metric])) {
+                $metrics[$metric] = $translations[$metric];
             } else {
-                $metric[$metric] = 'To be defined';
+                $metrics[$metric] = 'To be defined';
             }
         }
 
@@ -131,15 +130,12 @@ class Report
 
     protected function getMetricsDocumentation()
     {
-        // TODO not all will be defined there... later in Columns directory
         $translations  = Metrics::getDefaultMetricsDocumentation();
         $documentation = array();
 
         foreach ($this->metrics as $metric) {
             if (!empty( $translations[$metric])) {
-                $metric[$metric] = $translations[$metric];
-            } else {
-                $metric[$metric] = 'To be defined see todo';
+                $documentation[$metric] = $translations[$metric];
             }
         }
 

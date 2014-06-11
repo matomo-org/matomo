@@ -18,7 +18,18 @@ class Get extends \Piwik\Plugin\Report
         $this->category      = 'VisitsSummary_VisitsSummary';
         $this->name          = Piwik::translate('VisitsSummary_VisitsSummary');
         $this->documentation = ''; // TODO
-        $this->metrics       = array('0', '1', '2', '3', '4', 'avg_time_on_site', 'max_actions');
+        $this->metrics       = array(
+            'nb_uniq_visitors',
+            'nb_visits',
+            'nb_actions',
+            'nb_actions_per_visit',
+            'bounce_rate',
+            'avg_time_on_site',
+            'max_actions'
+        );
+        // Used to process metrics, not displayed/used directly
+//								'sum_visit_length',
+//								'nb_visits_converted',
         $this->order = 1;
     }
 }

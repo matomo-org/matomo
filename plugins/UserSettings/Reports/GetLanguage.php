@@ -29,7 +29,7 @@ class GetLanguage extends Base
         $view->config->show_search = false;
         $view->config->columns_to_display = array('label', 'nb_visits');
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate('General_Language'));
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_sort_column = 'nb_visits';
         $view->requestConfig->filter_sort_order  = 'desc';

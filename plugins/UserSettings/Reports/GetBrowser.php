@@ -30,7 +30,7 @@ class GetBrowser extends Base
         $this->getBasicUserSettingsDisplayProperties($view);
 
         $view->config->title = Piwik::translate('UserSettings_Browsers');
-        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnBrowser'));
+        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->addRelatedReports($this->getBrowserRelatedReports());
 
         if ($view->isViewDataTableId(Graph::ID)) {

@@ -31,7 +31,7 @@ class GetWebsites extends Base
         $view->config->subtable_controller_action  = 'getUrlsFromWebsiteId';
         $view->config->show_exclude_low_population = false;
         $view->config->show_goals = true;
-        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnWebsite'));
+        $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_limit = 25;
 

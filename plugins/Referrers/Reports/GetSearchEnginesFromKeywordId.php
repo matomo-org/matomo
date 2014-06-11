@@ -18,7 +18,7 @@ class GetSearchEnginesFromKeywordId extends Base
     {
         parent::init();
         $this->dimension     = new SearchEngine();
-        $this->name          = Piwik::translate('CorePluginsAdmin_PluginKeywords');
+        $this->name          = Piwik::translate('Referrers_Keywords');
         $this->documentation = Piwik::translate('Referrers_KeywordsReportDocumentation', '<br />');
         $this->isSubtableReport = true;
         $this->order = 4;
@@ -28,7 +28,7 @@ class GetSearchEnginesFromKeywordId extends Base
     {
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnSearchEngine'));
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
 }

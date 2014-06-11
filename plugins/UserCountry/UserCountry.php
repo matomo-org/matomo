@@ -37,7 +37,6 @@ class UserCountry extends \Piwik\Plugin
     {
         $hooks = array(
             'Goals.getReportsWithGoalMetrics'        => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                  => 'getReportMetadata',
             'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
@@ -210,55 +209,6 @@ class UserCountry extends \Piwik\Plugin
             'segment'        => 'longitude',
             'sqlSegment'     => 'log_visit.location_longitude',
             'acceptedValues' => '-70.664, 14.326, etc.',
-        );
-    }
-
-    public function getReportMetadata(&$reports)
-    {
-        $metrics = array(
-            'nb_visits'        => Piwik::translate('General_ColumnNbVisits'),
-            'nb_uniq_visitors' => Piwik::translate('General_ColumnNbUniqVisitors'),
-            'nb_actions'       => Piwik::translate('General_ColumnNbActions'),
-        );
-
-        $reports[] = array(
-            'category'  => Piwik::translate('General_Visitors'),
-            'name'      => Piwik::translate('UserCountry_Country'),
-            'module'    => 'UserCountry',
-            'action'    => 'getCountry',
-            'dimension' => Piwik::translate('UserCountry_Country'),
-            'metrics'   => $metrics,
-            'order'     => 5,
-        );
-
-        $reports[] = array(
-            'category'  => Piwik::translate('General_Visitors'),
-            'name'      => Piwik::translate('UserCountry_Continent'),
-            'module'    => 'UserCountry',
-            'action'    => 'getContinent',
-            'dimension' => Piwik::translate('UserCountry_Continent'),
-            'metrics'   => $metrics,
-            'order'     => 6,
-        );
-
-        $reports[] = array(
-            'category'  => Piwik::translate('General_Visitors'),
-            'name'      => Piwik::translate('UserCountry_Region'),
-            'module'    => 'UserCountry',
-            'action'    => 'getRegion',
-            'dimension' => Piwik::translate('UserCountry_Region'),
-            'metrics'   => $metrics,
-            'order'     => 7,
-        );
-
-        $reports[] = array(
-            'category'  => Piwik::translate('General_Visitors'),
-            'name'      => Piwik::translate('UserCountry_City'),
-            'module'    => 'UserCountry',
-            'action'    => 'getCity',
-            'dimension' => Piwik::translate('UserCountry_City'),
-            'metrics'   => $metrics,
-            'order'     => 8,
         );
     }
 

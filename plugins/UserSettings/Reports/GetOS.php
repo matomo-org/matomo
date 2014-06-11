@@ -29,7 +29,7 @@ class GetOS extends Base
         $this->getBasicUserSettingsDisplayProperties($view);
 
         $view->config->title = Piwik::translate('UserSettings_OperatingSystems');
-        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnOperatingSystem'));
+        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->addRelatedReports($this->getOsRelatedReports());
     }
 

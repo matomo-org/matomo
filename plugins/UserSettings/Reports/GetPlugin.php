@@ -20,8 +20,9 @@ class GetPlugin extends Base
         $this->dimension     = new Plugin();
         $this->name          = Piwik::translate('UserSettings_WidgetPlugins');
         $this->documentation = Piwik::translate('UserSettings_WidgetPluginsDocumentation', '<br />');
-        $this->metrics       = array('0', 'nb_visits_percentage');
+        $this->metrics       = array('nb_visits', 'nb_visits_percentage');
         $this->constantRowsCount = true;
+        $this->processedMetrics = array();
         $this->order = 4;
         $this->widgetTitle  = 'UserSettings_WidgetPlugins';
     }
@@ -31,7 +32,7 @@ class GetPlugin extends Base
         $this->getBasicUserSettingsDisplayProperties($view);
 
         $view->config->addTranslations(array(
-            'label'                => Piwik::translate('General_Plugin'),
+            'label'                => $this->dimension->getName(),
             'nb_visits_percentage' =>
             str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'))
         ));

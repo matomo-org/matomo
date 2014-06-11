@@ -34,9 +34,33 @@ class Actions extends \Piwik\Plugin
             'ViewDataTable.configure'         => 'configureViewDataTable',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Insights.addReportToOverview'    => 'addReportToInsightsOverview'
+            'Insights.addReportToOverview'    => 'addReportToInsightsOverview',
+            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
         );
         return $hooks;
+    }
+
+    public function addMetricTranslations(&$translations)
+    {
+        $metrics = array(
+            'nb_pageviews'        => 'General_ColumnPageviews',
+            'nb_uniq_pageviews'   => 'General_ColumnUniquePageviews',
+            'nb_downloads'        => 'General_Downloads',
+            'nb_uniq_downloads'   => 'Actions_ColumnUniqueDownloads',
+            'nb_outlinks'         => 'General_Outlinks',
+            'nb_uniq_outlinks'    => 'Actions_ColumnUniqueOutlinks',
+            'nb_searches'         => 'Actions_ColumnSearches',
+            'nb_keywords'         => 'Actions_ColumnSiteSearchKeywords',
+            'avg_time_generation' => 'General_ColumnAverageGenerationTime',
+            'exit_rate'            => 'General_ColumnExitRate',
+            'entry_nb_visits'      => 'General_ColumnEntrances',
+            'entry_bounce_count'   => 'General_ColumnBounces',
+            'exit_nb_visits'       => 'General_ColumnExits',
+            'nb_pages_per_search'      => 'Actions_ColumnPagesPerSearch',
+            'nb_hits_following_search' => 'General_ColumnViewedAfterSearch',
+        );
+
+        $translations = array_merge($translations, $metrics);
     }
 
     public function addReportToInsightsOverview(&$reports)

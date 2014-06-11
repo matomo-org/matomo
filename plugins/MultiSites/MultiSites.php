@@ -8,10 +8,6 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
-
-/**
- *
- */
 class MultiSites extends \Piwik\Plugin
 {
     public function getInformation()
@@ -30,7 +26,25 @@ class MultiSites extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
         );
+    }
+
+    public function addMetricTranslations(&$translations)
+    {
+        $metrics = array(
+            'visits_evolution'    => 'General_ColumnNbVisits',
+            'actions_evolution'   => 'General_ColumnNbActions',
+            'pageviews_evolution' => 'General_ColumnPageviews',
+            'revenue_evolution'   => 'General_ColumnRevenue',
+            'nb_conversions_evolution' => 'Goals_ColumnConversions',
+            'orders_evolution'         => 'General_EcommerceOrders',
+            'ecommerce_revenue_evolution' => 'General_ProductRevenue',
+        );
+
+        $metrics = array_map(array('\\Piwik\\Piwik', 'translate'), $metrics);
+
+        $translations = array_merge($translations, $metrics);
     }
 
     public function getClientSideTranslationKeys(&$translations)

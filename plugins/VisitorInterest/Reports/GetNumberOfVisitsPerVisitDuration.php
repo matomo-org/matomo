@@ -39,7 +39,7 @@ class GetNumberOfVisitsPerVisitDuration extends Base
         $view->requestConfig->filter_sort_column = 'label';
         $view->requestConfig->filter_sort_order  = 'asc';
 
-        $view->config->addTranslation('label', Piwik::translate('VisitorInterest_ColumnVisitDuration'));
+        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->enable_sort = false;
         $view->config->show_exclude_low_population = false;
         $view->config->show_offset_information = false;

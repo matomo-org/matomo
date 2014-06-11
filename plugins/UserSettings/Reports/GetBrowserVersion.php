@@ -30,7 +30,7 @@ class GetBrowserVersion extends Base
         $this->getBasicUserSettingsDisplayProperties($view);
 
         $view->config->title = Piwik::translate('UserSettings_ColumnBrowserVersion');
-        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnBrowserVersion'));
+        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->addRelatedReports($this->getBrowserRelatedReports());
 
         if ($view->isViewDataTableId(Graph::ID)) {

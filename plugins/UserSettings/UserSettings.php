@@ -9,10 +9,8 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 
 /**
  *
@@ -162,62 +160,19 @@ class UserSettings extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
-            'API.getReportMetadata'           => 'getReportMetadata',
+        return array(
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
+            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
         );
-        return $hooks;
     }
 
-    public function getRawReportMetadata()
+    public function addMetricTranslations(&$translations)
     {
-        return $this->reportMetadata;
-    }
+        $metrics = array(
+            'nb_visits_percentage' => str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'))
+        );
 
-    /**
-     * Registers reports metadata
-     *
-     * @param array $reports
-     */
-    public function getReportMetadata(&$reports)
-    {
-        $i = 0;
-        foreach ($this->getRawReportMetadata() as $report) {
-            list($category, $name, $apiModule, $apiAction, $columnName) = $report;
-            if ($category == false) continue;
-
-            $report = array(
-                'category'  => Piwik::translate($category),
-                'name'      => Piwik::translate($name),
-                'module'    => $apiModule,
-                'action'    => $apiAction,
-                'dimension' => Piwik::translate($columnName),
-                'order'     => $i++
-            );
-
-            $translation = $name . 'Documentation';
-            $translated = Piwik::translate($translation, '<br />');
-            if ($translated != $translation) {
-                $report['documentation'] = $translated;
-            }
-
-            if ($apiAction == 'getMobileVsDesktop') {
-                $report['constantRowsCount'] = true;
-            }
-
-            // getPlugin returns only a subset of metrics
-            if ($apiAction == 'getPlugin') {
-                $report['metrics'] = array(
-                    'nb_visits',
-                    'nb_visits_percentage' => Piwik::translate('General_ColumnPercentageVisits')
-                );
-                // There is no processedMetrics for this report
-                $report['processedMetrics'] = array();
-                // Always has same number of rows, 1 per plugin
-                $report['constantRowsCount'] = true;
-            }
-            $reports[] = $report;
-        }
+        $translations = array_merge($translations, $metrics);
     }
 
     /**

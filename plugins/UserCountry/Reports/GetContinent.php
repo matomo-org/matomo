@@ -19,7 +19,7 @@ class GetContinent extends Base
         parent::init();
         $this->dimension     = new Continent();
         $this->name          = Piwik::translate('UserCountry_Continent');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('UserCountry_getContinentDocumentation');
         $this->metrics       = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
         $this->order = 6;
         $this->widgetTitle = Piwik::translate('UserCountry_WidgetLocation')
@@ -34,8 +34,8 @@ class GetContinent extends Base
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
         $view->config->show_limit_control = false;
-        $view->config->documentation = Piwik::translate('UserCountry_getContinentDocumentation');
-        $view->config->addTranslation('label', Piwik::translate('UserCountry_Continent'));
+        $view->config->documentation = $this->documentation;
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
 }

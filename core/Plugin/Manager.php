@@ -990,6 +990,10 @@ class Manager extends Singleton
             foreach (VisitDimension::getDimensions($plugin) as $dimension) {
                 $dimension->install();
             }
+            // todo not sure if this makes sense here
+            foreach (ActionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->install();
+            }
         } catch (\Exception $e) {
             throw new \Piwik\Plugin\PluginException($plugin->getPluginName(), $e->getMessage());
         }

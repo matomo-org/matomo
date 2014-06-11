@@ -11,8 +11,6 @@ namespace Piwik\Plugins\Events;
 use Piwik\Common;
 use Piwik\Piwik;
 
-/**
- */
 class Events extends \Piwik\Plugin
 {
     /**
@@ -22,8 +20,7 @@ class Events extends \Piwik\Plugin
     {
         return array(
             'API.getSegmentDimensionMetadata'       => 'getSegmentsMetadata',
-            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations',
-            'API.getReportMetadata'                 => 'getReportMetadata',
+            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
         );
     }
 
@@ -124,33 +121,6 @@ class Events extends \Piwik\Plugin
 //            'bind' => $valueToMatch
 //        );
 //    }
-
-    public function getReportMetadata(&$reports)
-    {
-        $metrics = $this->getMetricTranslations();
-        $documentation = $this->getMetricDocumentation();
-        $labelTranslations = $this->getLabelTranslations();
-
-        $order = 0;
-        foreach($labelTranslations as $action => $translations) {
-            $secondaryDimension = $this->getSecondaryDimensionFromRequest();
-            $actionToLoadSubtables = API::getInstance()->getActionToLoadSubtables($action, $secondaryDimension);
-            $reports[] = array(
-                'category'              => Piwik::translate('Events_Events'),
-                'name'                  => Piwik::translate($translations[0]),
-                'module'                => 'Events',
-                'action'                => $action,
-                'dimension'             => Piwik::translate($translations[1]),
-                'metrics'               => $metrics,
-                'metricsDocumentation'  => $documentation,
-                'processedMetrics'      => false,
-                'actionToLoadSubTables' => $actionToLoadSubtables,
-                'order'                 => $order++
-            );
-
-        }
-    }
-
 
     /**
      * Given getCategory, returns "Event Categories"

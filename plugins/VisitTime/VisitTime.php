@@ -30,46 +30,9 @@ class VisitTime extends \Piwik\Plugin
     {
         $hooks = array(
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata'
         );
         return $hooks;
-    }
-
-    public function getReportMetadata(&$reports)
-    {
-        $reports[] = array(
-            'category'          => Piwik::translate('VisitsSummary_VisitsSummary'),
-            'name'              => Piwik::translate('VisitTime_WidgetLocalTime'),
-            'module'            => 'VisitTime',
-            'action'            => 'getVisitInformationPerLocalTime',
-            'dimension'         => Piwik::translate('VisitTime_ColumnLocalTime'),
-            'documentation'     => Piwik::translate('VisitTime_WidgetLocalTimeDocumentation', array('<strong>', '</strong>')),
-            'constantRowsCount' => true,
-            'order'             => 20
-        );
-
-        $reports[] = array(
-            'category'          => Piwik::translate('VisitsSummary_VisitsSummary'),
-            'name'              => Piwik::translate('VisitTime_WidgetServerTime'),
-            'module'            => 'VisitTime',
-            'action'            => 'getVisitInformationPerServerTime',
-            'dimension'         => Piwik::translate('VisitTime_ColumnServerTime'),
-            'documentation'     => Piwik::translate('VisitTime_WidgetServerTimeDocumentation', array('<strong>', '</strong>')),
-            'constantRowsCount' => true,
-            'order'             => 15,
-        );
-
-        $reports[] = array(
-            'category'          => Piwik::translate('VisitsSummary_VisitsSummary'),
-            'name'              => Piwik::translate('VisitTime_VisitsByDayOfWeek'),
-            'module'            => 'VisitTime',
-            'action'            => 'getByDayOfWeek',
-            'dimension'         => Piwik::translate('VisitTime_DayOfWeek'),
-            'documentation'     => Piwik::translate('VisitTime_WidgetByDayOfWeekDocumentation'),
-            'constantRowsCount' => true,
-            'order'             => 25,
-        );
     }
 
     public function getReportsWithGoalMetrics(&$dimensions)

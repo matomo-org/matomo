@@ -20,7 +20,7 @@ class GetCountry extends Base
         parent::init();
         $this->dimension     = new Country();
         $this->name          = Piwik::translate('UserCountry_Country');
-        $this->documentation = ''; // TODO
+        $this->documentation = Piwik::translate('UserCountry_getCountryDocumentation');
         $this->metrics       = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
         $this->order = 5;
         $this->widgetTitle = Piwik::translate('UserCountry_WidgetLocation')
@@ -31,8 +31,8 @@ class GetCountry extends Base
     {
         $view->config->show_goals = true;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate('UserCountry_Country'));
-        $view->config->documentation = Piwik::translate('UserCountry_getCountryDocumentation');
+        $view->config->addTranslation('label', $this->dimension->getName());
+        $view->config->documentation = $this->documentation;
 
         $view->requestConfig->filter_limit = 5;
 

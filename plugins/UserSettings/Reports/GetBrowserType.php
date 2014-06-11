@@ -34,7 +34,7 @@ class GetBrowserType extends Base
     {
         $this->getBasicUserSettingsDisplayProperties($view);
 
-        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnBrowserFamily'));
+        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
         $view->config->show_limit_control      = false;

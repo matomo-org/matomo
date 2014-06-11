@@ -111,9 +111,23 @@ class Goals extends \Piwik\Plugin
             'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations'
+            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations',
+            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations'
         );
         return $hooks;
+    }
+
+
+    public function addMetricTranslations(&$translations)
+    {
+        $metrics = array(
+            'orders'            => 'General_EcommerceOrders',
+            'ecommerce_revenue' => 'General_ProductRevenue'
+        );
+
+        $metrics = array_map(array('\\Piwik\\Piwik', 'translate'), $metrics);
+
+        $translations = array_merge($translations, $metrics);
     }
 
     public function getAvailableDataTableVisualizations(&$visualizations)

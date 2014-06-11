@@ -42,7 +42,7 @@ class GetReferrerType extends Base
     public function configureView(ViewDataTable $view)
     {
         $idSubtable       = Common::getRequestVar('idSubtable', false);
-        $labelColumnTitle = Piwik::translate('Referrers_Type');
+        $labelColumnTitle = $this->name;
 
         switch ($idSubtable) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:

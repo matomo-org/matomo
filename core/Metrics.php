@@ -335,6 +335,7 @@ class Metrics
             'nb_hits'              => 'General_ColumnPageviewsDocumentation',
             'exit_rate'            => 'General_ColumnExitRateDocumentation'
         );
+
         return array_map(array('\\Piwik\\Piwik','translate'), $documentation);
     }
 
