@@ -10,6 +10,11 @@
 // required modules
 var config = require("./config");
 
+// assume the URI points to a folder and make sure Piwik won't cut off the last path segment
+if (config.phpServer.REQUEST_URI.slice(-1) != '/') {
+    config.phpServer.REQUEST_URI += '/';
+}
+
 require('./support/fs-extras');
 
 phantom.injectJs('./support/globals.js');
