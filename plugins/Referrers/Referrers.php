@@ -225,23 +225,6 @@ class Referrers extends \Piwik\Plugin
     }
 
     /**
-     * Adds Referrer widgets
-     */
-    function addWidgets()
-    {
-        WidgetsList::add('Referrers_Referrers', 'Referrers_WidgetKeywords', 'Referrers', 'getKeywords');
-        WidgetsList::add('Referrers_Referrers', 'Referrers_WidgetExternalWebsites', 'Referrers', 'getWebsites');
-        WidgetsList::add('Referrers_Referrers', 'Referrers_WidgetSocials', 'Referrers', 'getSocials');
-        WidgetsList::add('Referrers_Referrers', 'Referrers_SearchEngines', 'Referrers', 'getSearchEngines');
-        WidgetsList::add('Referrers_Referrers', 'Referrers_Campaigns', 'Referrers', 'getCampaigns');
-        WidgetsList::add('Referrers_Referrers', 'General_Overview', 'Referrers', 'getReferrerType');
-        WidgetsList::add('Referrers_Referrers', 'Referrers_WidgetGetAll', 'Referrers', 'getAll');
-        if (SettingsPiwik::isSegmentationEnabled()) {
-            WidgetsList::add('SEO', 'Referrers_WidgetTopKeywordsForPages', 'Referrers', 'getKeywordsForPage');
-        }
-    }
-
-    /**
      * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
      */
     public function getReportsWithGoalMetrics(&$dimensions)
