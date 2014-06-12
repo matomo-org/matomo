@@ -54,13 +54,13 @@
 		<nb_events_with_value>Events with a value</nb_events_with_value>
 		<orders>Ecommerce Orders</orders>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
-		<visits_evolution>Visits</visits_evolution>
-		<actions_evolution>Actions</actions_evolution>
-		<pageviews_evolution>Pageviews</pageviews_evolution>
-		<revenue_evolution>Revenue</revenue_evolution>
-		<nb_conversions_evolution>Conversions</nb_conversions_evolution>
-		<orders_evolution>Ecommerce Orders</orders_evolution>
-		<ecommerce_revenue_evolution>Product Revenue</ecommerce_revenue_evolution>
+		<visits_evolution>Visits Evolution</visits_evolution>
+		<actions_evolution>Actions Evolution</actions_evolution>
+		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+		<revenue_evolution>Revenue Evolution</revenue_evolution>
+		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
+		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
+		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
 		<nb_visits_percentage>% Visits</nb_visits_percentage>
 		<nb_visits_returning>Returning Visits</nb_visits_returning>
 		<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
