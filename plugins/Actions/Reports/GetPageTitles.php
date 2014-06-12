@@ -27,7 +27,7 @@ class GetPageTitles extends Base
                                                 array('<br />', htmlentities('<title>')));
 
         $this->order   = 5;
-        $this->metrics = array('nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate', 'avg_time_generation');
+        $this->metrics = array('nb_hits', 'nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate', 'avg_time_generation');
 
         $this->actionToLoadSubTables = $this->action;
 
