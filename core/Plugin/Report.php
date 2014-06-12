@@ -152,32 +152,34 @@ class Report
             'category'             => $this->category,
             'name'                 => $this->name,
             'module'               => $this->module,
-            'action'               => $this->action,
-            'metrics'              => $this->getMetrics(),
-            'metricsDocumentation' => $this->getMetricsDocumentation(),
-            'processedMetrics'     => $this->processedMetrics,
-            'order'                => $this->order
+            'action'               => $this->action
         );
+
+        if (!empty($this->dimension)) {
+            $report['dimension'] = $this->dimension->getName();
+        }
 
         if (!empty($this->documentation)) {
             $report['documentation'] = $this->documentation;
-        }
-
-        if (null !== $this->constantRowsCount) {
-            $report['constantRowsCount'] = $this->constantRowsCount;
         }
 
         if (null !== $this->isSubtableReport) {
             $report['isSubtableReport'] = $this->isSubtableReport;
         }
 
-        if (!empty($this->dimension)) {
-            $report['dimension'] = $this->dimension->getName();
-        }
+        $report['metrics'             ] = $this->getMetrics();
+        $report['metricsDocumentation'] = $this->getMetricsDocumentation();
+        $report['processedMetrics'    ] = $this->processedMetrics;
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
         }
+
+        if (null !== $this->constantRowsCount) {
+            $report['constantRowsCount'] = $this->constantRowsCount;
+        }
+
+        $report['order'] = $this->order;
 
         return $report;
     }

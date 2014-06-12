@@ -323,7 +323,7 @@ class Metrics
 
     static public function getDefaultMetricsDocumentation()
     {
-        $documentation = array(
+        $translations = array(
             'nb_visits'            => 'General_ColumnNbVisitsDocumentation',
             'nb_uniq_visitors'     => 'General_ColumnNbUniqVisitorsDocumentation',
             'nb_actions'           => 'General_ColumnNbActionsDocumentation',
@@ -336,7 +336,14 @@ class Metrics
             'exit_rate'            => 'General_ColumnExitRateDocumentation'
         );
 
-        return array_map(array('\\Piwik\\Piwik','translate'), $documentation);
+        /**
+         * Use this event to register translations for metrics documentation processed by your plugin.
+         *
+         * @param string[] $translations The array mapping of column_name => Plugin_TranslationForColumnDocumentation
+         */
+        Piwik::postEvent('Metrics.getDefaultMetricDocumentationTranslations', array(&$translations));
+
+        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
     }
 
     public static function getPercentVisitColumn()

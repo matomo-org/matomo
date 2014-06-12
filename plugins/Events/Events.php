@@ -19,13 +19,19 @@ class Events extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
+            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations'
         );
     }
 
     public function addMetricTranslations(&$translations)
     {
         $translations = array_merge($translations, $this->getMetricTranslations());
+    }
+
+    public function addMetricDocumentationTranslations(&$translations)
+    {
+        $translations = array_merge($translations, $this->getMetricDocumentation());
     }
 
     public function getMetricDocumentation()
