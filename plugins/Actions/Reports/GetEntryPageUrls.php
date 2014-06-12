@@ -36,6 +36,14 @@ class GetEntryPageUrls extends Base
         $this->widgetTitle = 'Actions_WidgetPagesEntry';
     }
 
+    protected function getMetricsDocumentation()
+    {
+        $metrics = parent::getMetricsDocumentation();
+        $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
+
+        return $metrics;
+    }
+
     public function configureView(ViewDataTable $view)
     {
         // link to the page, not just the report, but only if not a widget

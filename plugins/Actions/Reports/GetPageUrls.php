@@ -46,6 +46,7 @@ class GetPageUrls extends Base
     {
         $metrics = parent::getMetricsDocumentation();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
+        $metrics['bounce_rate'] = Piwik::translate('General_ColumnPageBounceRateDocumentation');
 
         return $metrics;
     }

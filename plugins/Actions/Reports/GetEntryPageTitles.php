@@ -33,6 +33,14 @@ class GetEntryPageTitles extends Base
         $this->widgetTitle = 'Actions_WidgetEntryPageTitles';
     }
 
+    protected function getMetricsDocumentation()
+    {
+        $metrics = parent::getMetricsDocumentation();
+        $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
+
+        return $metrics;
+    }
+
     public function configureView(ViewDataTable $view)
     {
         $entryPageUrlAction =
