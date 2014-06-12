@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Referrers\Columns;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
+use Piwik\Tracker\PageUrl;
+use Piwik\Tracker\Visit;
 use Piwik\UrlHelper;
 
 
