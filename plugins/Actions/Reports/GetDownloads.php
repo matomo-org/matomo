@@ -21,13 +21,29 @@ class GetDownloads extends Base
         $this->dimension     = new DownloadUrl();
         $this->name          = Piwik::translate('General_Downloads');
         $this->documentation = Piwik::translate('Actions_DownloadsReportDocumentation', '<br />');
-        $this->metrics       = array('nb_visits', 'nb_hits');
+        $this->metrics       = array_keys($this->getMetrics());
 
         $this->actionToLoadSubTables = $this->action;
         $this->order = 9;
 
         $this->menuTitle    = 'General_Downloads';
         $this->widgetTitle  = 'General_Downloads';
+    }
+
+    protected function getMetrics()
+    {
+        return array(
+            'nb_visits' => Piwik::translate('Actions_ColumnUniqueDownloads'),
+            'nb_hits'   => Piwik::translate('General_Downloads')
+        );
+    }
+
+    protected function getMetricsDocumentation()
+    {
+        return array(
+            'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicksDocumentation'),
+            'nb_hits'   => Piwik::translate('Actions_ColumnClicksDocumentation')
+        );
     }
 
     public function configureView(ViewDataTable $view)

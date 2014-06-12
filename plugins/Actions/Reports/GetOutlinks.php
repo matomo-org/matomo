@@ -28,13 +28,29 @@ class GetOutlinks extends Base
                              . Piwik::translate('Actions_OutlinkDocumentation') . '<br />'
                              . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
-        $this->metrics = array('nb_visits', 'nb_hits');
+        $this->metrics = array_keys($this->getMetrics());
         $this->order   = 8;
 
         $this->actionToLoadSubTables = $this->action;
 
         $this->menuTitle   = 'General_Outlinks';
         $this->widgetTitle = 'General_Outlinks';
+    }
+
+    protected function getMetrics()
+    {
+        return array(
+            'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicks'),
+            'nb_hits'   => Piwik::translate('Actions_ColumnClicks')
+        );
+    }
+
+    protected function getMetricsDocumentation()
+    {
+        return array(
+            'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicksDocumentation'),
+            'nb_hits'   => Piwik::translate('Actions_ColumnClicksDocumentation')
+        );
     }
 
     public function configureView(ViewDataTable $view)

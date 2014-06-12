@@ -20,7 +20,6 @@ class GetPageUrlsFollowingSiteSearch extends GetPageTitlesFollowingSiteSearch
         $this->dimension     = new DestinationPage();
         $this->name          = Piwik::translate('Actions_WidgetPageUrlsFollowingSearch');
         $this->documentation = Piwik::translate('Actions_SiteSearchFollowingPagesDoc') . '<br/>' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
-        $this->metrics       = array('nb_hits_following_search', 'nb_hits');
         $this->order = 18;
         $this->widgetTitle  = 'Actions_WidgetPageUrlsFollowingSearch';
     }

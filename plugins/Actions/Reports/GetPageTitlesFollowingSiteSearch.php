@@ -20,7 +20,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
         $this->dimension     = new DestinationPage();
         $this->name          = Piwik::translate('Actions_WidgetPageTitlesFollowingSearch');
         $this->documentation = Piwik::translate('Actions_SiteSearchFollowingPagesDoc') . '<br/>' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
-        $this->metrics       = array('nb_hits_following_search', 'nb_hits');
+        $this->metrics       = array_keys($this->getMetrics());
         $this->order = 19;
         $this->widgetTitle  = 'Actions_WidgetPageTitlesFollowingSearch';
     }
@@ -30,6 +30,22 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
         $title = Piwik::translate('Actions_WidgetPageUrlsFollowingSearch');
 
         $this->configureViewForUrlAndTitle($view, $title);
+    }
+
+    protected function getMetrics()
+    {
+        return array(
+            'nb_hits_following_search' => Piwik::translate('General_ColumnViewedAfterSearch'),
+            'nb_hits'                  => Piwik::translate('General_ColumnTotalPageviews'),
+        );
+    }
+
+    protected function getMetricsDocumentation()
+    {
+        return array(
+            'nb_hits_following_search' => Piwik::translate('General_ColumnViewedAfterSearchDocumentation'),
+            'nb_hits'                  => Piwik::translate('General_ColumnPageviewsDocumentation'),
+        );
     }
 
     protected function configureViewForUrlAndTitle(ViewDataTable $view, $title)

@@ -21,9 +21,27 @@ class GetSiteSearchKeywords extends SiteSearchBase
         $this->name          = Piwik::translate('Actions_WidgetSearchKeywords');
         $this->documentation = Piwik::translate('Actions_SiteSearchKeywordsDocumentation') . '<br/><br/>' . Piwik::translate('Actions_SiteSearchIntro') . '<br/><br/>'
                              . '<a href="http://piwik.org/docs/site-search/" target="_blank">' . Piwik::translate('Actions_LearnMoreAboutSiteSearchLink') . '</a>';
-        $this->metrics       = array('nb_visits', 'nb_pages_per_search', 'exit_rate');
+        $this->metrics       = array_keys($this->getMetrics());
         $this->order = 15;
         $this->widgetTitle  = 'Actions_WidgetSearchKeywords';
+    }
+
+    protected function getMetrics()
+    {
+        return array(
+            'nb_visits'           => Piwik::translate('Actions_ColumnSearches'),
+            'nb_pages_per_search' => Piwik::translate('Actions_ColumnPagesPerSearch'),
+            'exit_rate'           => Piwik::translate('Actions_ColumnSearchExits'),
+        );
+    }
+
+    protected function getMetricsDocumentation()
+    {
+        return array(
+            'nb_visits'           => Piwik::translate('Actions_ColumnSearchesDocumentation'),
+            'nb_pages_per_search' => Piwik::translate('Actions_ColumnPagesPerSearchDocumentation'),
+            'exit_rate'           => Piwik::translate('Actions_ColumnSearchExitsDocumentation'),
+        );
     }
 
     public function configureView(ViewDataTable $view)

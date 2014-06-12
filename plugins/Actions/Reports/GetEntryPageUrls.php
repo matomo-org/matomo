@@ -36,6 +36,24 @@ class GetEntryPageUrls extends Base
         $this->widgetTitle = 'Actions_WidgetPagesEntry';
     }
 
+    protected function getMetrics()
+    {
+        return array(
+            'entry_nb_visits'    => Piwik::translate('General_ColumnEntrances'),
+            'entry_bounce_count' => Piwik::translate('General_ColumnBounces'),
+            'bounce_rate'        => Piwik::translate('General_ColumnBounceRate'),
+        );
+    }
+
+    protected function getMetricsDocumentation()
+    {
+        return array(
+            'entry_nb_visits'    => Piwik::translate('General_ColumnEntrancesDocumentation'),
+            'entry_bounce_count' => Piwik::translate('General_ColumnBouncesDocumentation'),
+            'bounce_rate'        => Piwik::translate('General_ColumnBounceRateForPageDocumentation')
+        );
+    }
+
     public function configureView(ViewDataTable $view)
     {
         // link to the page, not just the report, but only if not a widget

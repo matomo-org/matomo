@@ -27,13 +27,31 @@ class GetExitPageUrls extends Base
         $this->documentation = Piwik::translate('Actions_ExitPagesReportDocumentation', '<br />')
                              . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
-        $this->metrics = array('exit_nb_visits', 'nb_visits', 'exit_rate');
+        $this->metrics = array_keys($this->getMetrics());
         $this->actionToLoadSubTables = $this->action;
 
         $this->order = 4;
 
         $this->menuTitle   = 'Actions_SubmenuPagesExit';
         $this->widgetTitle = 'Actions_WidgetPagesExit';
+    }
+
+    protected function getMetrics()
+    {
+        return array(
+            'exit_nb_visits' => Piwik::translate('General_ColumnExits'),
+            'nb_visits'      => Piwik::translate('General_ColumnUniquePageviews'),
+            'exit_rate'      => Piwik::translate('General_ColumnExitRate')
+        );
+    }
+
+    protected function getMetricsDocumentation()
+    {
+        return array(
+            'exit_nb_visits' => Piwik::translate('General_ColumnExitsDocumentation'),
+            'nb_visits'      => Piwik::translate('General_ColumnUniquePageviewsDocumentation'),
+            'exit_rate'      => Piwik::translate('General_ColumnExitRateDocumentation')
+        );
     }
 
     public function configureView(ViewDataTable $view)
