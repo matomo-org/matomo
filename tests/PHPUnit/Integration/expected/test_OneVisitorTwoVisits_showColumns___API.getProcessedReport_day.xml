@@ -8,6 +8,7 @@
 		<module>Actions</module>
 		<action>getPageTitles</action>
 		<dimension>Page Name</dimension>
+		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
 			<bounce_rate>Bounce Rate</bounce_rate>
@@ -16,7 +17,6 @@
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 		</metricsDocumentation>
-		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2010-03-06</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2010-02-05,2010-03-06</imageGraphEvolutionUrl>

@@ -8,6 +8,7 @@
 		<module>Actions</module>
 		<action>getPageUrls</action>
 		<dimension>Page URL</dimension>
+		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
 			<nb_visits>Unique Pageviews</nb_visits>
@@ -22,7 +23,6 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 		</metricsDocumentation>
-		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-12-05,2010-01-03</imageGraphEvolutionUrl>
