@@ -33,4 +33,14 @@ class Get extends \Piwik\Plugin\Report
 //								'nb_visits_converted',
         $this->order = 1;
     }
+
+    protected function getMetrics()
+    {
+        $metrics = parent::getMetrics();
+        
+        $metrics['avg_time_on_site'] = Piwik::translate('General_VisitDuration');
+        $metrics['max_actions']      = Piwik::translate('General_ColumnMaxActions');
+
+        return $metrics;
+    }
 }
