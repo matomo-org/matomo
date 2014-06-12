@@ -14,7 +14,6 @@ use Piwik\Tracker\Request;
 class BrowserName extends Base
 {
     protected $fieldName = 'config_browser_name';
-    protected $fieldType = 'VARCHAR(10) NOT NULL';
 
     public function getName()
     {

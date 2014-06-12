@@ -9,12 +9,13 @@
 namespace Piwik\Plugins\UserSettings\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugins\DevicesDetection\Columns\Os;
 use Piwik\Plugins\UserSettings\Segment;
 
-class Operatingsystem extends VisitDimension
+class Operatingsystem extends Os
 {    
     protected $fieldName = 'config_os';
+    protected $fieldType = 'CHAR(3) NOT NULL';
 
     protected function init()
     {

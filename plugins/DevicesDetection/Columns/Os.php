@@ -14,7 +14,6 @@ use Piwik\Tracker\Request;
 class Os extends Base
 {
     protected $fieldName = 'config_os';
-    protected $fieldType = 'CHAR(3) NOT NULL';
 
     public function getName()
     {

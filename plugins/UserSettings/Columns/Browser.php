@@ -9,12 +9,13 @@
 namespace Piwik\Plugins\UserSettings\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugins\DevicesDetection\Columns\BrowserName;
 use Piwik\Plugins\UserSettings\Segment;
 
-class Browser extends VisitDimension
-{    
+class Browser extends BrowserName
+{
     protected $fieldName = 'config_browser_name';
+    protected $fieldType = 'VARCHAR(10) NOT NULL';
 
     protected function init()
     {
