@@ -191,7 +191,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function disabled_test_directoriesShouldBeChmod755()
+    public function test_directoriesShouldBeChmod755()
     {
         $pluginsPath = realpath(PIWIK_INCLUDE_PATH . '/plugins/');
 
