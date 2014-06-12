@@ -302,6 +302,14 @@ class Visit implements VisitInterface
         $this->visitorInfo['visit_goal_converted'] = $visitIsConverted ? 1 : 0;
         $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
+        $dimensions = VisitDimension::getAllDimensions();
+        foreach ($dimensions as $dimension) {
+            if (!method_exists($dimension, 'onNewVisit')) {
+                continue;
+            }
+            $this->visitorInfo[$dimension->getFieldName()] = $dimension->onNewVisit($this->request, $this->visitorInfo, $action);
+        }
+
         /**
          * Triggered before a new [visit entity](/guides/persistence-and-the-mysql-backend#visits) is persisted.
          *
@@ -313,14 +321,6 @@ class Visit implements VisitInterface
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          */
         Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $this->request));
-
-        $dimensions = VisitDimension::getAllDimensions();
-        foreach ($dimensions as $dimension) {
-            if (!method_exists($dimension, 'onNewVisit')) {
-                continue;
-            }
-            $this->visitorInfo[$dimension->getFieldName()] = $dimension->onNewVisit($this->request, $this->visitorInfo, $action);
-        }
 
         $this->request->overrideLocation($this->visitorInfo);
         $this->printVisitorInformation();
