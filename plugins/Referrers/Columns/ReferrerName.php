@@ -37,6 +37,11 @@ class ReferrerName extends Base
 
         $information = $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
 
+        if (!empty($information['referer_name'])) {
+
+            return substr($information['referer_name'], 0, 70);
+        }
+
         return $information['referer_name'];
     }
 }

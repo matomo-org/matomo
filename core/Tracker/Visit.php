@@ -300,9 +300,6 @@ class Visit implements VisitInterface
         $this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
 
         $this->visitorInfo['visit_goal_converted'] = $visitIsConverted ? 1 : 0;
-
-        $this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
-        $this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);
         $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
         /**

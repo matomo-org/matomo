@@ -38,6 +38,10 @@ class Keyword extends Base
 
         $information = $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
 
-        return $information['referer_keyword'];
+        if (!empty($information['referer_keyword'])) {
+            return substr($information['referer_keyword'], 0, 255);
+        }
+
+        return $information['referer_keyword'];;
     }
 }
