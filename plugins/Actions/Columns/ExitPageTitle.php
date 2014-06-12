@@ -46,11 +46,17 @@ class ExitPageTitle extends VisitDimension
 
     public function onExistingVisit(Request $request, $visit, $action)
     {
-        if (!empty($action)) {
-            return (int) $action->getIdActionNameForEntryAndExitIds();
+        if (empty($action)) {
+            return false;
         }
 
-        return false;
+        $id = $action->getIdActionNameForEntryAndExitIds();
+
+        if (!empty($id)) {
+            $id = (int) $id;
+        }
+
+        return $id;
     }
 
     public function getName()
