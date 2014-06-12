@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
+use Piwik\Piwik;
+
 class MultiSites extends \Piwik\Plugin
 {
     public function getInformation()
@@ -32,17 +34,16 @@ class MultiSites extends \Piwik\Plugin
 
     public function addMetricTranslations(&$translations)
     {
+        $appendix = " " . Piwik::translate('MultiSites_Evolution');
         $metrics = array(
-            'visits_evolution'    => 'General_ColumnNbVisits',
-            'actions_evolution'   => 'General_ColumnNbActions',
-            'pageviews_evolution' => 'General_ColumnPageviews',
-            'revenue_evolution'   => 'General_ColumnRevenue',
-            'nb_conversions_evolution' => 'Goals_ColumnConversions',
-            'orders_evolution'         => 'General_EcommerceOrders',
-            'ecommerce_revenue_evolution' => 'General_ProductRevenue',
+            'visits_evolution'    => Piwik::translate('General_ColumnNbVisits') . $appendix,
+            'actions_evolution'   => Piwik::translate('General_ColumnNbActions') . $appendix,
+            'pageviews_evolution' => Piwik::translate('General_ColumnPageviews') . $appendix,
+            'revenue_evolution'   => Piwik::translate('General_ColumnRevenue') . $appendix,
+            'nb_conversions_evolution' => Piwik::translate('Goals_ColumnConversions') . $appendix,
+            'orders_evolution'         => Piwik::translate('General_EcommerceOrders') . $appendix,
+            'ecommerce_revenue_evolution' => Piwik::translate('General_ProductRevenue') . $appendix,
         );
-
-        $metrics = array_map(array('\\Piwik\\Piwik', 'translate'), $metrics);
 
         $translations = array_merge($translations, $metrics);
     }
