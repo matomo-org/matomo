@@ -21,8 +21,6 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
             'plugins/Morpheus/stylesheets/base.less',
             'plugins\/((?!Morpheus).)*\/',
             'plugins/Dashboard/stylesheets/dashboard.less',
-            'plugins/Morpheus/stylesheets/theme.less',
-            'plugins/Morpheus/stylesheets/',
             'tests/',
         );
     }
