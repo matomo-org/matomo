@@ -16,7 +16,7 @@ class GetProvider extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category      = 'General_Visitors';
+        $this->category      = Piwik::translate('General_Visitors');
         $this->dimension     = new Provider();
         $this->name          = Piwik::translate('Provider_ColumnProvider');
         $this->documentation = Piwik::translate('Provider_ProviderReportDocumentation', '<br />');
