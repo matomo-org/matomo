@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\VisitTime\Reports;
 
+use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 
@@ -15,7 +16,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = 'VisitsSummary_VisitsSummary';
+        $this->category = Piwik::translate('VisitsSummary_VisitsSummary');
     }
 
     public function getDefaultTypeViewDataTable()

@@ -27,19 +27,36 @@ class GetPageTitles extends Base
                                                 array('<br />', htmlentities('<title>')));
 
         $this->order   = 5;
-        $this->metrics = array(
-            'nb_hits',
-            'nb_visits',
-            'bounce_rate',
-            'avg_time_on_page',
-            'exit_rate',
-            'avg_time_generation'
-        );
+        $this->metrics = array_keys($this->getMetrics());
 
         $this->actionToLoadSubTables = $this->action;
 
         $this->menuTitle   = 'Actions_SubmenuPageTitles';
         $this->widgetTitle = 'Actions_WidgetPageTitles';
+    }
+
+    protected function getMetrics()
+    {
+        return array(
+            'nb_hits'             => Piwik::translate('General_ColumnPageviews'),
+            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews'),
+            'bounce_rate'         => Piwik::translate('General_ColumnBounceRate'),
+            'avg_time_on_page'    => Piwik::translate('General_ColumnAverageTimeOnPage'),
+            'exit_rate'           => Piwik::translate('General_ColumnExitRate'),
+            'avg_time_generation' => Piwik::translate('General_ColumnAverageGenerationTime')
+        );
+    }
+
+    protected function getMetricsDocumentation()
+    {
+        return array(
+            'nb_hits'             => Piwik::translate('General_ColumnPageviewsDocumentation'),
+            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviewsDocumentation'),
+            'bounce_rate'         => Piwik::translate('General_ColumnPageBounceRateDocumentation'),
+            'avg_time_on_page'    => Piwik::translate('General_ColumnAverageTimeOnPageDocumentation'),
+            'exit_rate'           => Piwik::translate('General_ColumnExitRateDocumentation'),
+            'avg_time_generation' => Piwik::translate('General_ColumnAverageGenerationTimeDocumentation'),
+        );
     }
 
     public function configureView(ViewDataTable $view)

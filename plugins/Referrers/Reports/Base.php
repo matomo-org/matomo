@@ -8,11 +8,13 @@
  */
 namespace Piwik\Plugins\Referrers\Reports;
 
+use Piwik\Piwik;
+
 abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = 'Referrers_Referrers';
+        $this->category = Piwik::translate('Referrers_Referrers');
     }
 
 }

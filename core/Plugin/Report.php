@@ -116,6 +116,7 @@ class Report
 
     protected function getMetrics()
     {
+        // TODO cache this
         $translations = Metrics::getDefaultMetricTranslations();
         $metrics = array();
 
@@ -132,6 +133,7 @@ class Report
 
     protected function getMetricsDocumentation()
     {
+        // TODO cache this
         $translations  = Metrics::getDefaultMetricsDocumentation();
         $documentation = array();
 
