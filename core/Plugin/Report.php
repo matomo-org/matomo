@@ -139,7 +139,7 @@ class Report
         $documentation = array();
 
         foreach ($this->metrics as $metric) {
-            if (!empty( $translations[$metric])) {
+            if (!empty($translations[$metric])) {
                 $documentation[$metric] = $translations[$metric];
             }
         }

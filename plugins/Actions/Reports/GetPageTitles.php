@@ -45,7 +45,7 @@ class GetPageTitles extends Base
 
     protected function getMetricsDocumentation()
     {
-        $metrics = parent::getMetrics();
+        $metrics = parent::getMetricsDocumentation();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviewsDocumentation');
 
         return $metrics;
