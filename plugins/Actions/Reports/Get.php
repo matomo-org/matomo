@@ -19,8 +19,7 @@ class Get extends Base
         parent::init();
 
         $this->name          = Piwik::translate('General_Actions') . ' - ' . Piwik::translate('General_MainMetrics');
-        $this->documentation = Piwik::translate('Actions_PagesReportDocumentation', '<br />')
-                             . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
+        $this->documentation = ''; // TODO
         $this->order = 1;
         $this->metrics  = array(
             'nb_pageviews',

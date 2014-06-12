@@ -35,11 +35,38 @@
 		<sum_daily_exit_nb_uniq_visitors>Unique exits (daily sum)</sum_daily_exit_nb_uniq_visitors>
 		<entry_nb_actions>Actions after entering here</entry_nb_actions>
 		<entry_sum_visit_length>Total time spent by visitors (in seconds) after entering here</entry_sum_visit_length>
+		<nb_pageviews>Pageviews</nb_pageviews>
+		<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
+		<nb_downloads>Downloads</nb_downloads>
+		<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
+		<nb_outlinks>Outlinks</nb_outlinks>
+		<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
+		<nb_searches>Searches</nb_searches>
+		<nb_keywords>Unique Keywords</nb_keywords>
+		<avg_time_generation>Avg. generation time</avg_time_generation>
+		<nb_pages_per_search>Search Results pages</nb_pages_per_search>
+		<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 		<nb_events>Total events</nb_events>
 		<sum_event_value>Total value</sum_event_value>
 		<min_event_value>Minimum value</min_event_value>
 		<max_event_value>Maximum value</max_event_value>
 		<avg_event_value>Average value</avg_event_value>
 		<nb_events_with_value>Events with a value</nb_events_with_value>
+		<orders>Ecommerce Orders</orders>
+		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
+		<visits_evolution>Visits</visits_evolution>
+		<actions_evolution>Actions</actions_evolution>
+		<pageviews_evolution>Pageviews</pageviews_evolution>
+		<revenue_evolution>Revenue</revenue_evolution>
+		<nb_conversions_evolution>Conversions</nb_conversions_evolution>
+		<orders_evolution>Ecommerce Orders</orders_evolution>
+		<ecommerce_revenue_evolution>Product Revenue</ecommerce_revenue_evolution>
+		<nb_visits_percentage>% Visits</nb_visits_percentage>
+		<nb_visits_returning>Returning Visits</nb_visits_returning>
+		<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
+		<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
+		<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
+		<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
+		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 	</row>
 </result>
