@@ -74,6 +74,10 @@ class Actions extends \Piwik\Plugin
             'nb_uniq_outlinks'    => 'Actions_ColumnUniqueClicksDocumentation',
             'nb_searches'         => 'Actions_ColumnSearchesDocumentation',
             'avg_time_generation' => 'General_ColumnAverageGenerationTimeDocumentation',
+            'entry_nb_visits'     => 'General_ColumnEntrancesDocumentation',
+            'entry_bounce_count'  => 'General_ColumnBouncesDocumentation',
+            'exit_nb_visits'      => 'General_ColumnExitsDocumentation',
+            'exit_rate'           => 'General_ColumnExitRateDocumentation'
         );
 
         $translations = array_merge($translations, $metrics);

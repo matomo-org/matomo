@@ -26,29 +26,11 @@ class GetEntryPageTitles extends Base
         $this->name          = Piwik::translate('Actions_EntryPageTitles');
         $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
-        $this->metrics = array_keys($this->getMetrics());
+        $this->metrics = array('entry_nb_visits', 'entry_bounce_count', 'bounce_rate');
         $this->order   = 6;
         $this->actionToLoadSubTables = $this->action;
 
         $this->widgetTitle = 'Actions_WidgetEntryPageTitles';
-    }
-
-    protected function getMetrics()
-    {
-        return array(
-            'entry_nb_visits'    => Piwik::translate('General_ColumnEntrances'),
-            'entry_bounce_count' => Piwik::translate('General_ColumnBounces'),
-            'bounce_rate'        => Piwik::translate('General_ColumnBounceRate'),
-        );
-    }
-
-    protected function getMetricsDocumentation()
-    {
-        return array(
-            'entry_nb_visits'    => Piwik::translate('General_ColumnEntrancesDocumentation'),
-            'entry_bounce_count' => Piwik::translate('General_ColumnBouncesDocumentation'),
-            'bounce_rate'        => Piwik::translate('General_ColumnBounceRateForPageDocumentation')
-        );
     }
 
     public function configureView(ViewDataTable $view)
