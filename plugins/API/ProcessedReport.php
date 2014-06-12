@@ -154,7 +154,9 @@ class ProcessedReport
         $availableReports = array();
 
         foreach (Report::getAllReports() as $report) {
-            $availableReports[] = $report->toArray();
+            if ($report->isEnabled()) {
+                $availableReports[] = $report->toArray();
+            }
         }
 
         /**
