@@ -25,7 +25,7 @@ class GetPageUrls extends Base
                              . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
         $this->actionToLoadSubTables = $this->action;
-        $this->order   = 1;
+        $this->order   = 2;
         $this->metrics = array('nb_hits', 'nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate', 'avg_time_generation');
 
         $this->segmentSql = 'log_visit.visit_entry_idaction_url';
