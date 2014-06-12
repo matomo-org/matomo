@@ -14,7 +14,7 @@ use Piwik\Plugins\VisitTime\Segment;
 
 class Servertime extends VisitDimension
 {    
-    protected $fieldName = 'HOUR(visit_last_action_time)';
+    protected $fieldName = 'visit_last_action_time';
 
     protected function init()
     {

@@ -1137,6 +1137,16 @@ class Manager extends Singleton
 
     public function isTrackerPlugin(Plugin $plugin)
     {
+        $dimensions = VisitDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
+        $dimensions = ActionDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
         $hooks = $plugin->getListHooksRegistered();
         $hookNames = array_keys($hooks);
         foreach ($hookNames as $name) {

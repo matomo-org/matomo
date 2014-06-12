@@ -60,7 +60,7 @@ abstract class ActionDimension
     protected function addSegment(Segment $segment)
     {
         $sqlSegment = $segment->getSqlSegment();
-        if (!empty($this->fieldName) && !empty($sqlSegment)) {
+        if (!empty($this->fieldName) && empty($sqlSegment)) {
             $segment->setSqlSegment('log_link_visit_action.' . $this->fieldName);
         }
 
