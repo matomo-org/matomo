@@ -10,21 +10,9 @@ namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Segment;
 
 class Continent extends VisitDimension
-{    
-    protected $fieldName = 'location_country';
-
-    protected function init()
-    {
-        $segment = new Segment();
-        $segment->setSegment('continentCode');
-        $segment->setName('Continent');
-        $segment->setSqlFilter('Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent');
-        $this->addSegment($segment);
-    }
-
+{
     public function getName()
     {
         return Piwik::translate('UserCountry_Continent');

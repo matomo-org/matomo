@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserSettings\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Plugins\UserSettings\Segment;
 
 class Browserversion extends VisitDimension
 {    
@@ -21,6 +21,7 @@ class Browserversion extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('browserVersion');
         $segment->setName('UserSettings_ColumnBrowserVersion');
+        $segment->setAcceptValues('1.0, 8.0, etc.');
         $this->addSegment($segment);
     }
 

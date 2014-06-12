@@ -20,7 +20,9 @@ class Provider extends VisitDimension
     {
         $segment = new Segment();
         $segment->setSegment('provider');
-        $segment->setName('Provider');
+        $segment->setCategory('Visit Location');
+        $segment->setName('Provider_ColumnProvider');
+        $segment->setAcceptValues('comcast.net, proxad.net, etc.');
         $this->addSegment($segment);
     }
 

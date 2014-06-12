@@ -28,11 +28,9 @@ class VisitTime extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
-            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata'
+        return array(
+            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics'
         );
-        return $hooks;
     }
 
     public function getReportsWithGoalMetrics(&$dimensions)
@@ -44,25 +42,5 @@ class VisitTime extends \Piwik\Plugin
         );
     }
 
-    public function getSegmentsMetadata(&$segments)
-    {
-        $acceptedValues = "0, 1, 2, 3, ..., 20, 21, 22, 23";
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('VisitTime_ColumnServerTime'),
-            'segment'        => 'visitServerHour',
-            'sqlSegment'     => 'HOUR(log_visit.visit_last_action_time)',
-            'acceptedValues' => $acceptedValues
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('VisitTime_ColumnLocalTime'),
-            'segment'        => 'visitLocalHour',
-            'sqlSegment'     => 'HOUR(log_visit.visitor_localtime)',
-            'acceptedValues' => $acceptedValues
-        );
-    }
 
 }

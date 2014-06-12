@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserSettings\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Plugins\UserSettings\Segment;
 
 class Browser extends VisitDimension
 {    
@@ -21,6 +21,7 @@ class Browser extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('browserCode');
         $segment->setName('UserSettings_ColumnBrowser');
+        $segment->setAcceptValues('FF, IE, CH, SF, OP, etc.');
         $this->addSegment($segment);
     }
 

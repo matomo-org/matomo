@@ -21,8 +21,6 @@ class EventCategory extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('eventCategory');
         $segment->setName('Events_EventCategory');
-        $segment->setCategory('Events_Events');
-        $segment->setSqlFilter('\Piwik\Tracker\TableLogAction::getIdActionFromSegment');
         $this->addSegment($segment);
     }
 

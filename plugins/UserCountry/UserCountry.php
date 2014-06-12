@@ -37,7 +37,6 @@ class UserCountry extends \Piwik\Plugin
     {
         $hooks = array(
             'Goals.getReportsWithGoalMetrics'        => 'getReportsWithGoalMetrics',
-            'API.getSegmentDimensionMetadata'        => 'getSegmentsMetadata',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Tracker.newVisitorInformation'          => 'enrichVisitWithLocation',
@@ -157,59 +156,6 @@ class UserCountry extends \Piwik\Plugin
             && Manager::getInstance()->isPluginInstalled('Provider')) {
             $visitorInfo['location_provider'] = $providerValue;
         }
-    }
-
-    public function getSegmentsMetadata(&$segments)
-    {
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Visit Location',
-            'name'           => Piwik::translate('UserCountry_Country'),
-            'segment'        => 'countryCode',
-            'sqlSegment'     => 'log_visit.location_country',
-            'acceptedValues' => 'de, us, fr, in, es, etc.',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Visit Location',
-            'name'           => Piwik::translate('UserCountry_Continent'),
-            'segment'        => 'continentCode',
-            'sqlSegment'     => 'log_visit.location_country',
-            'acceptedValues' => 'eur, asi, amc, amn, ams, afr, ant, oce',
-            'sqlFilter'      => __NAMESPACE__ . '\UserCountry::getCountriesForContinent',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Visit Location',
-            'name'           => Piwik::translate('UserCountry_Region'),
-            'segment'        => 'regionCode',
-            'sqlSegment'     => 'log_visit.location_region',
-            'acceptedValues' => '01 02, OR, P8, etc.<br/>eg. region=A1;country=fr',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Visit Location',
-            'name'           => Piwik::translate('UserCountry_City'),
-            'segment'        => 'city',
-            'sqlSegment'     => 'log_visit.location_city',
-            'acceptedValues' => 'Sydney, Sao Paolo, Rome, etc.',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Visit Location',
-            'name'           => Piwik::translate('UserCountry_Latitude'),
-            'segment'        => 'latitude',
-            'sqlSegment'     => 'log_visit.location_latitude',
-            'acceptedValues' => '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Visit Location',
-            'name'           => Piwik::translate('UserCountry_Longitude'),
-            'segment'        => 'longitude',
-            'sqlSegment'     => 'log_visit.location_longitude',
-            'acceptedValues' => '-70.664, 14.326, etc.',
-        );
     }
 
     public function getReportsWithGoalMetrics(&$dimensions)

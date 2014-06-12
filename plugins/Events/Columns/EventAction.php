@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Events\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ActionDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Plugins\Events\Segment;
 
 class EventAction extends ActionDimension
 {    
@@ -21,7 +21,6 @@ class EventAction extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('eventAction');
         $segment->setName('Events_EventAction');
-        $segment->setSqlFilter('\Piwik\Tracker\TableLogAction::getIdActionFromSegment');
         $this->addSegment($segment);
     }
 

@@ -10,17 +10,21 @@ namespace Piwik\Plugins\Events\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ActionDimension;
+use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\Events\Segment;
 
-class EventName extends ActionDimension
+class TotalEvents extends VisitDimension
 {    
-    protected $fieldName = 'idaction_name';
+    protected $fieldName = 'visit_total_events';
 
     protected function init()
     {
         $segment = new Segment();
-        $segment->setSegment('eventName');
-        $segment->setName('Events_EventName');
+        $segment->setSegment('events');
+        $segment->setName('Events_TotalEvents');
+        $segment->setAcceptValues('To select all visits who triggered an Event, use: &segment=events>0');
+        $segment->setCategory(Piwik::translate('General_Visit'));
+        $segment->setType(Segment::TYPE_METRIC);
         $this->addSegment($segment);
     }
 

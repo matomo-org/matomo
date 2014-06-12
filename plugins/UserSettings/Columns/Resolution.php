@@ -21,7 +21,7 @@ class Resolution extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('resolution');
         $segment->setName('UserSettings_ColumnResolution');
-        $segment->setCategory('Visit');
+        $segment->setAcceptValues('1280x1024, 800x600, etc.');
         $this->addSegment($segment);
     }
 

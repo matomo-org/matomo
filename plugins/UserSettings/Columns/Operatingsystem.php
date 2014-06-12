@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserSettings\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Plugins\UserSettings\Segment;
 
 class Operatingsystem extends VisitDimension
 {    
@@ -21,6 +21,7 @@ class Operatingsystem extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('operatingSystemCode');
         $segment->setName('UserSettings_ColumnOperatingSystem');
+        $segment->setAcceptValues('WXP, WI7, MAC, LIN, AND, IPD, etc.');
         $this->addSegment($segment);
     }
 

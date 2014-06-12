@@ -27,22 +27,8 @@ class Provider extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
-            'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
-        );
-        return $hooks;
-    }
-
-    public function getSegmentsMetadata(&$segments)
-    {
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Visit Location',
-            'name'           => Piwik::translate('Provider_ColumnProvider'),
-            'segment'        => 'provider',
-            'acceptedValues' => 'comcast.net, proxad.net, etc.',
-            'sqlSegment'     => 'log_visit.location_provider'
+        return array(
+            'Tracker.newVisitorInformation' => 'enrichVisitWithProviderInfo',
         );
     }
 

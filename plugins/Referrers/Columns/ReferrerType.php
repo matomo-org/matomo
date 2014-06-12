@@ -9,12 +9,23 @@
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
 
 class ReferrerType extends Base
 {
     protected $fieldName = 'referer_type';
     protected $fieldType = 'TINYINT(1) UNSIGNED NULL';
+
+    protected function init()
+    {
+        $segment = new Segment();
+        $segment->setSegment('referrerType');
+        $segment->setName('Referrers_Type');
+        $segment->setSqlFilterValue('Piwik\Plugins\Referrers\getReferrerTypeFromShortName');
+        $segment->setAcceptValues('direct, search, website, campaign');
+        $this->addSegment($segment);
+    }
 
     public function getName()
     {

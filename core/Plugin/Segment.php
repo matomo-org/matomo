@@ -13,6 +13,9 @@ namespace Piwik\Plugin;
  */
 class Segment
 {
+    const TYPE_DIMENSION = 'dimension';
+    const TYPE_METRIC = 'metric';
+
     private $type;
     private $category;
     private $name;
@@ -86,6 +89,14 @@ class Segment
     public function setSqlSegment($sqlSegment)
     {
         $this->sqlSegment = $sqlSegment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSqlSegment()
+    {
+        return $this->sqlSegment;
     }
 
     /**

@@ -54,11 +54,12 @@ abstract class VisitDimension
 
     protected function addSegment(Segment $segment)
     {
-        if (!empty($this->fieldName)) {
+        $sqlSegment = $segment->getSqlSegment();
+        if (!empty($this->fieldName) && !empty($sqlSegment)) {
             $segment->setSqlSegment('log_visit.' . $this->fieldName);
         }
 
-        $segment->setType('dimension');
+        $segment->setType(Segment::TYPE_DIMENSION);
 
         $this->segments[] = $segment;
     }

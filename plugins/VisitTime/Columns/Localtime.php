@@ -20,8 +20,9 @@ class Localtime extends VisitDimension
     {
         $segment = new Segment();
         $segment->setSegment('visitLocalHour');
-        $segment->setName('Local time');
-        $segment->setCategory('Visit');
+        $segment->setName('VisitTime_ColumnLocalTime');
+        $segment->setSqlSegment('HOUR(log_visit.visitor_localtime)');
+        $segment->setAcceptValues('0, 1, 2, 3, ..., 20, 21, 22, 23');
         $this->addSegment($segment);
     }
 

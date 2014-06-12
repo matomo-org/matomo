@@ -12,21 +12,21 @@ use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\UserCountry\Segment;
 
-class City extends VisitDimension
-{    
-    protected $fieldName = 'location_city';
+class Longitude extends VisitDimension
+{
+    protected $fieldName = 'location_longitude';
 
     protected function init()
     {
         $segment = new Segment();
-        $segment->setSegment('city');
-        $segment->setName('UserCountry_City');
-        $segment->setAcceptValues('Sydney, Sao Paolo, Rome, etc.');
+        $segment->setSegment('longitude');
+        $segment->setName('UserCountry_Longitude');
+        $segment->setAcceptValues('-70.664, 14.326, etc.');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('UserCountry_City');
+        return Piwik::translate('UserCountry_Latitude');
     }
 }

@@ -8,12 +8,22 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
+use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
 
 class ReferrerUrl extends Base
 {
     protected $fieldName = 'referer_url';
     protected $fieldType = 'TEXT NOT NULL';
+
+    protected function init()
+    {
+        $segment = new Segment();
+        $segment->setSegment('referrerUrl');
+        $segment->setName('Live_Referrer_URL');
+        $segment->setAcceptValues('http%3A%2F%2Fwww.example.org%2Freferer-page.htm');
+        $this->addSegment($segment);
+    }
 
     public function getName()
     {

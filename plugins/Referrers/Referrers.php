@@ -29,7 +29,6 @@ class Referrers extends \Piwik\Plugin
     {
         $hooks = array(
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview'
         );
         return $hooks;
@@ -41,43 +40,6 @@ class Referrers extends \Piwik\Plugin
         $reports['Referrers_getCampaigns'] = array();
         $reports['Referrers_getSocials']   = array();
         $reports['Referrers_getSearchEngines'] = array();
-    }
-
-    public function getSegmentsMetadata(&$segments)
-    {
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Referrers_Referrers',
-            'name'           => 'Referrers_Type',
-            'segment'        => 'referrerType',
-            'acceptedValues' => 'direct, search, website, campaign',
-            'sqlSegment'     => 'log_visit.referer_type',
-            'sqlFilterValue' => __NAMESPACE__ . '\getReferrerTypeFromShortName',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Referrers_Referrers',
-            'name'           => 'General_ColumnKeyword',
-            'segment'        => 'referrerKeyword',
-            'acceptedValues' => 'Encoded%20Keyword, keyword',
-            'sqlSegment'     => 'log_visit.referer_keyword',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Referrers_Referrers',
-            'name'           => 'Referrers_ReferrerName',
-            'segment'        => 'referrerName',
-            'acceptedValues' => 'twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName',
-            'sqlSegment'     => 'log_visit.referer_name',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => 'Referrers_Referrers',
-            'name'           => 'Live_Referrer_URL',
-            'acceptedValues' => 'http%3A%2F%2Fwww.example.org%2Freferer-page.htm',
-            'segment'        => 'referrerUrl',
-            'sqlSegment'     => 'log_visit.referer_url',
-        );
     }
 
     /**

@@ -20,8 +20,15 @@ class Country extends VisitDimension
     {
         $segment = new Segment();
         $segment->setSegment('countryCode');
-        $segment->setName('Country');
-        $segment->setCategory('Visit Location');
+        $segment->setName('UserCountry_Country');
+        $segment->setAcceptValues('de, us, fr, in, es, etc.');
+        $this->addSegment($segment);
+
+        $segment = new Segment();
+        $segment->setSegment('continentCode');
+        $segment->setName('UserCountry_Continent');
+        $segment->setSqlFilter('Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent');
+        $segment->setAcceptValues('eur, asi, amc, amn, ams, afr, ant, oce');
         $this->addSegment($segment);
     }
 

@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Plugins\UserCountry\Segment;
 
 class Region extends VisitDimension
 {    
@@ -20,7 +20,8 @@ class Region extends VisitDimension
     {
         $segment = new Segment();
         $segment->setSegment('regionCode');
-        $segment->setName('Region');
+        $segment->setName('UserCountry_Region');
+        $segment->setAcceptValues('01 02, OR, P8, etc.<br/>eg. region=A1;country=fr');
         $this->addSegment($segment);
     }
 

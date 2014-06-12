@@ -19,8 +19,7 @@ class Events extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'API.getSegmentDimensionMetadata'       => 'getSegmentsMetadata',
-            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations'
         );
     }
 
@@ -81,26 +80,6 @@ class Events extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
-
-        foreach($this->metadataDimensions as $dimension => $metadata) {
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'Events_Events',
-                'name'       => $metadata[0],
-                'segment'    => $dimension,
-                'sqlSegment' => $metadata[1],
-                'sqlFilter'  => $sqlFilter,
-            );
-        }
-        $segments[] = array(
-            'type'           => 'metric',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'Events_TotalEvents',
-            'segment'        => 'events',
-            'sqlSegment'     => 'log_visit.visit_total_events',
-            'acceptedValues' => 'To select all visits who triggered an Event, use: &segment=events>0',
-        );
 //        $segments[] = array(
 //            'type'           => 'metric',
 //            'category'       => 'Events_Events',

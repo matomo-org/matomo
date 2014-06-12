@@ -17,5 +17,6 @@ class Segment extends \Piwik\Plugin\Segment
     protected  function init()
     {
         $this->setCategory('Events_Events');
+        $this->setSqlFilter('\Piwik\Tracker\TableLogAction::getIdActionFromSegment');
     }
 }
