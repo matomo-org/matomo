@@ -9,9 +9,8 @@
 namespace Piwik\Plugins\Events\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\ActionDimension;
 use Piwik\Plugin\VisitDimension;
-use Piwik\Plugins\Events\Segment;
+use Piwik\Plugin\Segment;
 
 class TotalEvents extends VisitDimension
 {    
