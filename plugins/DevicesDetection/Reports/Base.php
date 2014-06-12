@@ -14,7 +14,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = Piwik::translate('DevicesDetection_DevicesDetection');
+        $this->category = 'DevicesDetection_DevicesDetection';
     }
 
     protected function getOsRelatedReports()

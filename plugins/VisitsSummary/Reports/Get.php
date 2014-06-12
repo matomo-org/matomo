@@ -15,7 +15,7 @@ class Get extends \Piwik\Plugin\Report
     protected function init()
     {
         parent::init();
-        $this->category      = Piwik::translate('VisitsSummary_VisitsSummary');
+        $this->category      = 'VisitsSummary_VisitsSummary';
         $this->name          = Piwik::translate('VisitsSummary_VisitsSummary');
         $this->documentation = ''; // TODO
         $this->processedMetrics = false;

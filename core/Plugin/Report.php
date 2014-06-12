@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 use Piwik\API\Proxy;
 use Piwik\Menu\MenuReporting;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\WidgetsList;
@@ -149,10 +150,10 @@ class Report
     public function toArray()
     {
         $report = array(
-            'category'             => $this->category,
-            'name'                 => $this->name,
-            'module'               => $this->module,
-            'action'               => $this->action
+            'category' => Piwik::translate($this->category),
+            'name'     => $this->name,
+            'module'   => $this->module,
+            'action'   => $this->action
         );
 
         if (!empty($this->dimension)) {

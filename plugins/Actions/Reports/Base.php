@@ -20,7 +20,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = Piwik::translate('General_Actions');
+        $this->category = 'General_Actions';
         $this->processedMetrics = false;
     }
 

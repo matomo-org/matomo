@@ -15,7 +15,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = Piwik::translate('General_MultiSitesSummary');
+        $this->category = 'General_MultiSitesSummary';
 
         $metadataMetrics = array();
         foreach (API::getApiMetrics($enhanced = true) as $metricName => $metricSettings) {

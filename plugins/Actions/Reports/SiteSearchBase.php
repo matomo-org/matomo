@@ -17,7 +17,7 @@ abstract class SiteSearchBase extends Base
     protected function init()
     {
         parent::init();
-        $this->category = Piwik::translate('Actions_SubmenuSitesearch');
+        $this->category = 'Actions_SubmenuSitesearch';
     }
 
     public function isEnabled()

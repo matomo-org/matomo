@@ -17,7 +17,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = Piwik::translate('Events_Events');
+        $this->category = 'Events_Events';
         $this->processedMetrics = false;
 
         $this->widgetParams = array(
