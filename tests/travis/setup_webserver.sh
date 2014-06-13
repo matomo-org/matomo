@@ -25,7 +25,7 @@ else
     PHP_FPM_LOG="$HOME/php-fpm.log"
 fi
 
-USER=www-data
+USER=$(whoami)
 
 echo "php-fpm user = $USER"
 
