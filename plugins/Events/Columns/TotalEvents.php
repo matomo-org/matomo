@@ -22,7 +22,7 @@ class TotalEvents extends VisitDimension
         $segment->setSegment('events');
         $segment->setName('Events_TotalEvents');
         $segment->setAcceptValues('To select all visits who triggered an Event, use: &segment=events>0');
-        $segment->setCategory(Piwik::translate('General_Visit'));
+        $segment->setCategory('General_Visit');
         $segment->setType(Segment::TYPE_METRIC);
         $this->addSegment($segment);
     }

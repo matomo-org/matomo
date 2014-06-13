@@ -24,6 +24,7 @@ class DeviceType extends Base
         $deviceTypeList = implode(", ", DeviceDetector::$deviceTypes);
 
         $segment = new Segment();
+        $segment->setCategory('General_Visit');
         $segment->setSegment('deviceType');
         $segment->setName('DevicesDetection_DeviceType');
         $segment->setAcceptValues($deviceTypeList);

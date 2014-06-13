@@ -24,6 +24,7 @@ class Segment
     private $sqlFilter;
     private $sqlFilterValue;
     private $acceptValues;
+    private $permission;
 
     public function __construct()
     {
@@ -36,7 +37,7 @@ class Segment
     }
 
     /**
-     * @param mixed $acceptValues
+     * @param string $acceptValues
      */
     public function setAcceptValues($acceptValues)
     {
@@ -44,7 +45,7 @@ class Segment
     }
 
     /**
-     * @param mixed $category
+     * @param string $category
      */
     public function setCategory($category)
     {
@@ -52,7 +53,7 @@ class Segment
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -60,7 +61,7 @@ class Segment
     }
 
     /**
-     * @param mixed $segment
+     * @param string $segment
      */
     public function setSegment($segment)
     {
@@ -68,7 +69,7 @@ class Segment
     }
 
     /**
-     * @param mixed $sqlFilter
+     * @param string|\Closure $sqlFilter
      */
     public function setSqlFilter($sqlFilter)
     {
@@ -76,7 +77,7 @@ class Segment
     }
 
     /**
-     * @param mixed $sqlFilterValue
+     * @param string|array $sqlFilterValue
      */
     public function setSqlFilterValue($sqlFilterValue)
     {
@@ -84,7 +85,7 @@ class Segment
     }
 
     /**
-     * @param mixed $sqlSegment
+     * @param string $sqlSegment
      */
     public function setSqlSegment($sqlSegment)
     {
@@ -100,11 +101,19 @@ class Segment
     }
 
     /**
-     * @param mixed $type
+     * @param string $type See constansts TYPE_*
      */
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * @param bool $permission
+     */
+    public function setPermission($permission)
+    {
+        $this->permission = $permission;
     }
 
     public function toArray()
@@ -127,6 +136,10 @@ class Segment
 
         if (!empty($this->acceptValues)) {
             $segment['acceptedValues'] = $this->acceptValues;
+        }
+
+        if (isset($this->permission)) {
+            $segment['permission'] = $this->permission;
         }
 
         return $segment;
