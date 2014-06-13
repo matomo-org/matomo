@@ -16,8 +16,15 @@ class CliPhp
 
     public function findPhpBinary()
     {
-        if (defined('PHP_BINARY') && $this->isValidPhpType(PHP_BINARY)) {
-            return PHP_BINARY;
+        if (defined('PHP_BINARY')) {
+
+            if($this->isValidPhpType(PHP_BINARY)) {
+                return PHP_BINARY;
+            }
+
+            if($this->isHhvmBinary(PHP_BINARY)) {
+                return PHP_BINARY . ' --php';
+            }
         }
 
         $bin = '';
@@ -48,6 +55,11 @@ class CliPhp
             return false;
         }
         return $bin;
+    }
+
+    private function isHhvmBinary($bin)
+    {
+        return false !== strpos($bin, 'hhvm');
     }
 
     private function isValidPhpVersion($bin)
