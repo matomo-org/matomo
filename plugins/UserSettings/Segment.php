@@ -16,6 +16,6 @@ class Segment extends \Piwik\Plugin\Segment
 {
     protected  function init()
     {
-        $this->setCategory('Visit');
+        $this->setCategory('General_Visit');
     }
 }
