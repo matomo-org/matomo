@@ -722,7 +722,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function dropDatabase($dbName = null)
     {
-        $dbName = $dbName ?: $this->dbName;
+        $dbName = $dbName ?: $this->dbName ?: Config::getInstance()->database_tests['dbname'];
 
         $this->log("Dropping database '$dbName'...");
 
