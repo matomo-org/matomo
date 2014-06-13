@@ -7,6 +7,7 @@
  */
 namespace Piwik;
 
+use Piwik\CliMulti\CliPhp;
 use Piwik\CliMulti\Output;
 use Piwik\CliMulti\Process;
 
@@ -157,9 +158,15 @@ class CliMulti {
      * What is missing under windows? Detection whether a process is still running in Process::isProcessStillRunning
      * and how to send a process into background in start()
      */
-    private function supportsAsync()
+    public function supportsAsync()
     {
         return Process::isSupported() && $this->findPhpBinary();
+    }
+
+    private function findPhpBinary()
+    {
+        $cliPhp = new CliPhp();
+        return $cliPhp->findPhpBinary();
     }
 
     private function cleanup()
@@ -204,36 +211,6 @@ class CliMulti {
         return SettingsPiwik::rewriteTmpPathWithInstanceId($dir);
     }
 
-    private function findPhpBinary()
-    {
-        if (defined('PHP_BINARY') && $this->isValidPhpType(PHP_BINARY)) {
-            return PHP_BINARY;
-        }
-
-        $bin = '';
-
-        if (!empty($_SERVER['_']) && Common::isPhpCliMode()) {
-            $bin = $this->getPhpCommandIfValid($_SERVER['_']);
-        }
-
-        if (empty($bin) && !empty($_SERVER['argv'][0]) && Common::isPhpCliMode()) {
-            $bin = $this->getPhpCommandIfValid($_SERVER['argv'][0]);
-        }
-
-        if (!$this->isValidPhpType($bin)) {
-            $bin = shell_exec('which php');
-        }
-
-        if (!$this->isValidPhpType($bin)) {
-            $bin = shell_exec('which php5');
-        }
-
-        if ($this->isValidPhpType($bin)) {
-            return trim($bin);
-        }
-
-        return false;
-    }
 
     private function executeAsyncCli($url, Output $output, $cmdId)
     {
@@ -280,23 +257,6 @@ class CliMulti {
         return $url;
     }
 
-    private function isValidPhpType($path)
-    {
-        return !empty($path)
-            && false === strpos($path, 'fpm')
-            && false === strpos($path, 'cgi')
-            && false === strpos($path, 'phpunit');
-    }
-
-    private function getPhpCommandIfValid($path)
-    {
-        if (!empty($path) && is_executable($path)) {
-            if (0 === strpos($path, PHP_BINDIR) && $this->isValidPhpType($path)) {
-                return $path;
-            }
-        }
-    }
-
     /**
      * @param array $piwikUrls
      * @return array
@@ -316,4 +276,5 @@ class CliMulti {
 
         return $results;
     }
+
 }

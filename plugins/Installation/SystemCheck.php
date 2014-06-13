@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Installation;
 
+use Piwik\CliMulti;
 use Piwik\CliMulti\Process;
 use Piwik\Common;
 use Piwik\Config;
@@ -59,7 +60,7 @@ class SystemCheck
 
         $infos['phpVersion_minimum'] = $piwik_minimumPHPVersion;
         $infos['phpVersion'] = PHP_VERSION;
-        $infos['phpVersion_ok'] = version_compare($piwik_minimumPHPVersion, $infos['phpVersion']) === -1;
+        $infos['phpVersion_ok'] = self::isPhpVersionValid($infos['phpVersion']);
 
         // critical errors
         $extensions = @get_loaded_extensions();
@@ -174,7 +175,9 @@ class SystemCheck
         }
 
         $infos['timezone'] = SettingsServer::isTimezoneSupportEnabled();
-        $infos['cli_process_ok'] = Process::isSupported();
+
+        $process = new CliMulti();
+        $infos['cli_process_ok'] = $process->supportsAsync();
 
         $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 
@@ -313,6 +316,17 @@ class SystemCheck
         ServerFilesGenerator::createHtAccessFiles();
 
         ServerFilesGenerator::createWebRootFiles();
+    }
+
+    /**
+     * @param $piwik_minimumPHPVersion
+     * @param $infos
+     * @return bool
+     */
+    public static function isPhpVersionValid($phpVersion)
+    {
+        global $piwik_minimumPHPVersion;
+        return version_compare($piwik_minimumPHPVersion, $phpVersion) === -1;
     }
 
 }
