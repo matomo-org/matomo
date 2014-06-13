@@ -132,7 +132,6 @@ class SystemCheck
             'parse_ini_file',
             'glob',
         );
-        $infos['desired_functions'] = $desired_functions;
         $infos['missing_desired_functions'] = array();
         foreach ($desired_functions as $desired_function) {
             if (!self::functionExists($desired_function)) {
@@ -140,10 +139,19 @@ class SystemCheck
             }
         }
 
+        $sessionAutoStarted = (int)ini_get('session.auto_start');
+        if($sessionAutoStarted) {
+            $infos['missing_desired_functions'][] = 'session.auto_start';
+        }
+
+        $desired_settings = array(
+            'session.auto_start',
+        );
+        $infos['desired_functions'] = array_merge($desired_functions, $desired_settings);
+
         $infos['openurl'] = Http::getTransportMethod();
 
         $infos['gd_ok'] = SettingsServer::isGdExtensionEnabled();
-
 
         $serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
         $infos['serverVersion'] = addslashes($serverSoftware);
@@ -184,6 +192,7 @@ class SystemCheck
         // check if filesystem is NFS, if it is file based sessions won't work properly
         $infos['is_nfs'] = Filesystem::checkIfFileSystemIsNFS();
         $infos = self::enrichSystemChecks($infos);
+
 
         return $infos;
     }

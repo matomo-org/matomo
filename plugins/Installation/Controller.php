@@ -625,6 +625,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
             'pack'            => 'Installation_SystemCheckPackHelp',
             'php5-json'       => 'Installation_SystemCheckJsonHelp',
+            'session.auto_start' => 'Installation_SystemCheckSessionAutostart',
         );
 
         $view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
