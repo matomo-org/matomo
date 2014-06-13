@@ -43,7 +43,7 @@ class UserSettings extends \Piwik\Plugin
     public function addMetricTranslations(&$translations)
     {
         $metrics = array(
-            'nb_visits_percentage' => str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'))
+            'nb_visits_percentage' => Piwik::translate('General_ColumnPercentageVisits')
         );
 
         $translations = array_merge($translations, $metrics);
