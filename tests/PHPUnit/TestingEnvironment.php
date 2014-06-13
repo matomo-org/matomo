@@ -3,6 +3,7 @@
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Option;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -151,7 +152,13 @@ class Piwik_TestingEnvironment
                 }
             });
         }
-        Piwik::addAction('Request.dispatch', function() {
+        Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
+            if ($testingEnvironment->optionsOverride) {
+                foreach ($testingEnvironment->optionsOverride as $name => $value) {
+                    Option::set($name, $value);
+                }
+            }
+
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
             \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
