@@ -74,6 +74,7 @@ class Console extends Application
         $commands = $this->getDefaultPiwikCommands();
 
         $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
+        \Piwik\Log::info("loaded plugins in Console::getAvailableCommands(): " . print_r($pluginNames, true));
         foreach ($pluginNames as $pluginName) {
             $commands = array_merge($commands, $this->findCommandsInPlugin($pluginName));
         }
