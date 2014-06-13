@@ -30,7 +30,11 @@ else
         base_dir=`pwd`
         if [ -n "$PLUGIN_NAME" ];
         then
-            cd "./plugins/$PLUGIN_NAME/Test/UI"
+            if [ -d "./plugins/$PLUGIN_NAME/Test/UI" ]; then
+                cd "./plugins/$PLUGIN_NAME/Test/UI"
+            else
+                cd "./plugins/$PLUGIN_NAME/tests/UI"
+            fi
         else
             cd ./tests/PHPUnit/UI
         fi
