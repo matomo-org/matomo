@@ -204,7 +204,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@CoreHome/getPromoVideo');
         $view->shareText = Piwik::translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = Piwik::translate('CoreHome_SharePiwikLong');
-        $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
+        $view->promoVideoUrl = 'https://www.youtube.com/watch?v=OslfF_EH81g';
         return $view->render();
     }
 
