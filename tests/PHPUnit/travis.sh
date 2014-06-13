@@ -16,6 +16,9 @@ fi
 
 if [ -n "$TEST_SUITE" ]
 then
+    echo "Executing tests in test suite $TEST_SUITE..."
+    echo "    [ plugin name = $PLUGIN_NAME ]"
+
     if [ "$TEST_SUITE" = "AngularJSTests" ]
     then
         sh ./../angularjs/scripts/travis.sh
