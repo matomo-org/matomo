@@ -290,7 +290,7 @@
 		<documentation>This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-			<nb_visits_percentage>% Visits</nb_visits_percentage>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1651,7 +1651,7 @@
 		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-			<nb_visits_percentage>% Visits</nb_visits_percentage>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>

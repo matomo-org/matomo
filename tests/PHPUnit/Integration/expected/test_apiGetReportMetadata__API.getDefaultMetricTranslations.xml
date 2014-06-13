@@ -61,7 +61,7 @@
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-		<nb_visits_percentage>% Visits</nb_visits_percentage>
+		<nb_visits_percentage>% Visits</nb_visits_percentage>
 		<nb_visits_returning>Returning Visits</nb_visits_returning>
 		<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
 		<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>

@@ -117,6 +117,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Device type</name>
+		<segment>deviceType</segment>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Local time</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
@@ -401,12 +408,5 @@
 		<name>Page URL</name>
 		<segment>pageUrl</segment>
 		<acceptedValues>All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category />
-		<name>Device type</name>
-		<segment>deviceType</segment>
-		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera</acceptedValues>
 	</row>
 </result>
