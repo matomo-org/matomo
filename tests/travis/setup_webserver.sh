@@ -48,5 +48,6 @@ sudo cp "$DIR/piwik_nginx.conf" $NGINX_CONF
 # Start daemons
 echo "Starting php-fpm"
 sudo $PHP_FPM_BIN --fpm-config "$DIR/php-fpm.ini"
+sudo chown www-data:www-data ./tests/travis/php-fpm.sock
 echo "Starting nginx"
 sudo service nginx start
