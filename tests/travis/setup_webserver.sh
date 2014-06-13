@@ -27,6 +27,8 @@ fi
 
 USER=$(whoami)
 
+echo "php-fpm user = $USER"
+
 touch "$PHP_FPM_LOG"
 
 # Adjust php-fpm.ini
