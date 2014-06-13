@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Referrers\Columns\Referrer;
+use Piwik\Plugins\Referrers\Referrers;
 
 class GetAll extends Base
 {
@@ -27,7 +28,8 @@ class GetAll extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
+        $referrers = new Referrers();
+        $setGetAllHtmlPrefix = array($referrers, 'setGetAllHtmlPrefix');
 
         $view->config->show_exclude_low_population = false;
         $view->config->show_goals = true;

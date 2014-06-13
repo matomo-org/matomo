@@ -214,7 +214,46 @@ class Report
             $instances[] = new $report();
         }
 
+        usort($instances, array('self', 'sort'));
+
         return $instances;
     }
 
+    /**
+     * API metadata are sorted by category/name,
+     * with a little tweak to replicate the standard Piwik category ordering
+     *
+     * @param array|Report $a
+     * @param array|Report $b
+     * @return int
+     */
+    public static function sort($a, $b)
+    {
+        static $order = null;
+        if (is_null($order)) {
+            $order = array(
+                Piwik::translate('General_MultiSitesSummary'),
+                Piwik::translate('VisitsSummary_VisitsSummary'),
+                Piwik::translate('Goals_Ecommerce'),
+                Piwik::translate('General_Actions'),
+                Piwik::translate('Events_Events'),
+                Piwik::translate('Actions_SubmenuSitesearch'),
+                Piwik::translate('Referrers_Referrers'),
+                Piwik::translate('Goals_Goals'),
+                Piwik::translate('General_Visitors'),
+                Piwik::translate('DevicesDetection_DevicesDetection'),
+                Piwik::translate('UserSettings_VisitorSettings'),
+            );
+        }
+
+        $catA = is_object($a) ? $a->category : $a['category'];
+        $catB = is_object($b) ? $b->category : $b['category'];
+
+        $orderA = is_object($a) ? $a->order : @$a['order'];
+        $orderB = is_object($b) ? $b->order : @$b['order'];
+
+        return ($category = strcmp(array_search($catA, $order), array_search($catB, $order))) == 0
+            ? ($orderA < $orderB ? -1 : 1)
+            : $category;
+    }
 }

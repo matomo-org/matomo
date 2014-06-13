@@ -249,7 +249,7 @@ class ProcessedReport
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
-        usort($availableReports, array($this, 'sort'));
+        usort($availableReports, array('\Piwik\Plugin\Report', 'sort'));
 
         // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
         $this->addApiGetMetdata($availableReports);
@@ -318,37 +318,6 @@ class ProcessedReport
         }
 
         return array_values($availableReports); // make sure array has contiguous key values
-    }
-
-    /**
-     * API metadata are sorted by category/name,
-     * with a little tweak to replicate the standard Piwik category ordering
-     *
-     * @param string $a
-     * @param string $b
-     * @return int
-     */
-    private function sort($a, $b)
-    {
-        static $order = null;
-        if (is_null($order)) {
-            $order = array(
-                Piwik::translate('General_MultiSitesSummary'),
-                Piwik::translate('VisitsSummary_VisitsSummary'),
-                Piwik::translate('Goals_Ecommerce'),
-                Piwik::translate('General_Actions'),
-                Piwik::translate('Events_Events'),
-                Piwik::translate('Actions_SubmenuSitesearch'),
-                Piwik::translate('Referrers_Referrers'),
-                Piwik::translate('Goals_Goals'),
-                Piwik::translate('General_Visitors'),
-                Piwik::translate('DevicesDetection_DevicesDetection'),
-                Piwik::translate('UserSettings_VisitorSettings'),
-            );
-        }
-        return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
-            ? (@$a['order'] < @$b['order'] ? -1 : 1)
-            : $category;
     }
 
     /**
