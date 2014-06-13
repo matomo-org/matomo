@@ -29,9 +29,9 @@ class ExitPageUrl extends VisitDimension
 
     /**
      * @param Request $request
-     * @param $visit
+     * @param array   $visit
      * @param Action|null $action
-     * @return bool
+     * @return int|bool
      */
     public function onNewVisit(Request $request, $visit, $action)
     {

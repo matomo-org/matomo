@@ -33,7 +33,6 @@ class Settings
         list($plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
             $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $this->request->getPlugins();
 
-        $resolution = $this->request->getParam('res');
         $userAgent = $this->request->getUserAgent();
 
         $deviceDetector = new \DeviceDetector($userAgent);
@@ -67,7 +66,6 @@ class Settings
 
         $this->params = array(
             'config_id'              => $configurationHash,
-            'config_resolution'      => $resolution,
             'config_pdf'             => $plugin_PDF,
             'config_flash'           => $plugin_Flash,
             'config_java'            => $plugin_Java,
@@ -77,8 +75,7 @@ class Settings
             'config_windowsmedia'    => $plugin_WindowsMedia,
             'config_gears'           => $plugin_Gears,
             'config_silverlight'     => $plugin_Silverlight,
-            'config_cookie'          => $plugin_Cookie,
-            'location_browser_lang'  => $browserLang,
+            'config_cookie'          => $plugin_Cookie
         );
     }
 

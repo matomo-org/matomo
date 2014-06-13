@@ -29,9 +29,9 @@ class EntryPageUrl extends VisitDimension
 
     /**
      * @param Request $request
-     * @param $visit
+     * @param array   $visit
      * @param Action|null $action
-     * @return bool
+     * @return int
      */
     public function onNewVisit(Request $request, $visit, $action)
     {

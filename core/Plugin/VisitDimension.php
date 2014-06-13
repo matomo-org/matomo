@@ -59,7 +59,11 @@ abstract class VisitDimension
             $segment->setSqlSegment('log_visit.' . $this->fieldName);
         }
 
-        $segment->setType(Segment::TYPE_DIMENSION);
+        $type = $segment->getType();
+
+        if (empty($type)) {
+            $segment->setType(Segment::TYPE_DIMENSION);
+        }
 
         $this->segments[] = $segment;
     }

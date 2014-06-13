@@ -29,9 +29,9 @@ class ExitPageTitle extends VisitDimension
 
     /**
      * @param Request $request
-     * @param $visit
+     * @param array   $visit
      * @param Action|null $action
-     * @return bool
+     * @return int|bool
      */
     public function onNewVisit(Request $request, $visit, $action)
     {
@@ -44,19 +44,19 @@ class ExitPageTitle extends VisitDimension
         return (int) $idActionName;
     }
 
+    /**
+     * @param Request $request
+     * @param array   $visit
+     * @param Action|null $action
+     * @return int|bool
+     */
     public function onExistingVisit(Request $request, $visit, $action)
     {
         if (empty($action)) {
             return false;
         }
 
-        $id = $action->getIdActionNameForEntryAndExitIds();
-
-        if (!empty($id)) {
-            $id = (int) $id;
-        }
-
-        return $id;
+        return $action->getIdActionNameForEntryAndExitIds();
     }
 
     public function getName()

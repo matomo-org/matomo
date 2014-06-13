@@ -109,6 +109,14 @@ class Segment
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * @param bool $permission
      */
     public function setPermission($permission)

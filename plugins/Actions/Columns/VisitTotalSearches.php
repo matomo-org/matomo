@@ -6,33 +6,32 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Events\Columns;
+namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker;
 
-class TotalEvents extends VisitDimension
+class VisitTotalSearches extends VisitDimension
 {
-    protected $fieldName = 'visit_total_events';
+    protected $fieldName = 'visit_total_searches';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
     protected function init()
     {
         $segment = new Segment();
-        $segment->setSegment('events');
-        $segment->setName('Events_TotalEvents');
-        $segment->setAcceptValues('To select all visits who triggered an Event, use: &segment=events>0');
-        $segment->setCategory('General_Visit');
         $segment->setType(Segment::TYPE_METRIC);
+        $segment->setSegment('searches');
+        $segment->setName('General_NbSearches');
+        $segment->setAcceptValues('To select all visits who used internal Site Search, use: &segment=searches>0');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('Events_EventName');
+        return '';
     }
 
     /**
@@ -43,7 +42,7 @@ class TotalEvents extends VisitDimension
      */
     public function onNewVisit(Request $request, $visit, $action)
     {
-        if ($this->isEventAction($action)) {
+        if ($this->isSiteSearchAction($action)) {
             return 1;
         }
 
@@ -58,8 +57,8 @@ class TotalEvents extends VisitDimension
      */
     public function onExistingVisit(Request $request, $visit, $action)
     {
-        if ($this->isEventAction($action)) {
-            return 'visit_total_events + 1';
+        if ($this->isSiteSearchAction($action)) {
+            return 'visit_total_searches + 1';
         }
 
         return false;
@@ -69,8 +68,9 @@ class TotalEvents extends VisitDimension
      * @param Action|null $action
      * @return bool
      */
-    private function isEventAction($action)
+    private function isSiteSearchAction($action)
     {
-        return ($action && $action->getActionType() == Action::TYPE_EVENT);
+        return ($action && $action->getActionType() == Action::TYPE_SITE_SEARCH);
     }
+
 }

@@ -183,21 +183,6 @@ class API extends \Piwik\Plugin\API
         $segments[] = array(
             'type'       => 'metric',
             'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_NbActions',
-            'segment'    => 'actions',
-            'sqlSegment' => 'log_visit.visit_total_actions',
-        );
-        $segments[] = array(
-            'type'           => 'metric',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_NbSearches',
-            'segment'        => 'searches',
-            'sqlSegment'     => 'log_visit.visit_total_searches',
-            'acceptedValues' => 'To select all visits who used internal Site Search, use: &segment=searches>0',
-        );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
             'name'       => 'General_ColumnVisitDuration',
             'segment'    => 'visitDuration',
             'sqlSegment' => 'log_visit.visit_total_time',
@@ -220,21 +205,6 @@ class API extends \Piwik\Plugin\API
             'segment'    => 'daysSinceLastVisit',
             'sqlSegment' => 'log_visit.visitor_days_since_last',
         );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_DaysSinceFirstVisit',
-            'segment'    => 'daysSinceFirstVisit',
-            'sqlSegment' => 'log_visit.visitor_days_since_first',
-        );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_NumberOfVisits',
-            'segment'    => 'visitCount',
-            'sqlSegment' => 'log_visit.visitor_count_visits',
-        );
-
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik::translate('General_Visit'),

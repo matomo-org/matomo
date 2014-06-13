@@ -11,10 +11,13 @@ namespace Piwik\Plugins\VisitTime\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\VisitTime\Segment;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
 
 class Localtime extends VisitDimension
 {    
     protected $fieldName = 'visitor_localtime';
+    protected $fieldType = 'TIME NOT NULL';
 
     protected function init()
     {
@@ -29,5 +32,16 @@ class Localtime extends VisitDimension
     public function getName()
     {
         return Piwik::translate('VisitTime_ColumnLocalTime');
+    }
+
+    /**
+     * @param Request $request
+     * @param array   $visit
+     * @param Action|null $action
+     * @return int
+     */
+    public function onNewVisit(Request $request, $visit, $action)
+    {
+        return $request->getLocalTime();
     }
 }

@@ -6,21 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\UserSettings\Columns;
+namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker;
 
-class Language extends VisitDimension
+class VisitFirstActionTime extends VisitDimension
 {
-    protected $fieldName = 'location_browser_lang';
-    protected $fieldType = 'VARCHAR(20) NOT NULL';
+    protected $fieldName = 'visit_first_action_time';
+    protected $fieldType = 'DATETIME NOT NULL';
 
     public function getName()
     {
-        return Piwik::translate('General_Language');
+        return '';
     }
 
     /**
@@ -31,6 +31,6 @@ class Language extends VisitDimension
      */
     public function onNewVisit(Request $request, $visit, $action)
     {
-        return substr($request->getBrowserLanguage(), 0, 20);
+        return Tracker::getDatetimeFromTimestamp($request->getCurrentTimestamp());
     }
 }

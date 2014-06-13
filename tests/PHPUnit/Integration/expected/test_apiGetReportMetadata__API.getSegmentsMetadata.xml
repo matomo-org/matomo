@@ -40,6 +40,13 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
+		<name>Total events</name>
+		<segment>events</segment>
+		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
 		<name>Visit Duration (in seconds)</name>
 		<segment>visitDuration</segment>
 	</row>
@@ -148,13 +155,6 @@
 		<name>Server time</name>
 		<segment>visitServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Total events</name>
-		<segment>events</segment>
-		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

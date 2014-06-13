@@ -300,7 +300,6 @@ class Visit implements VisitInterface
         $this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
 
         $this->visitorInfo['visit_goal_converted'] = $visitIsConverted ? 1 : 0;
-        $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
         $dimensions = VisitDimension::getAllDimensions();
         foreach ($dimensions as $dimension) {
@@ -505,21 +504,11 @@ class Visit implements VisitInterface
 
     protected function getNewVisitorInformation($action)
     {
-        $actionType = false;
-        if($action) {
-            $actionType = $action->getActionType();
-        }
-
-        $daysSinceFirstVisit = $this->request->getDaysSinceFirstVisit();
         $visitCount = $this->request->getVisitCount();
         $daysSinceLastVisit = $this->request->getDaysSinceLastVisit();
 
         $daysSinceLastOrder = $this->request->getDaysSinceLastOrder();
         $isReturningCustomer = ($daysSinceLastOrder !== false);
-
-        if ($daysSinceLastOrder === false) {
-            $daysSinceLastOrder = 0;
-        }
 
         // User settings
         $userInfo = $this->getSettingsObject();
@@ -534,28 +523,11 @@ class Visit implements VisitInterface
 
         return array(
             'idsite'                    => $this->request->getIdSite(),
-            'visitor_localtime'         => $this->request->getLocalTime(),
             'idvisitor'                 => $this->getVisitorIdcookie(),
             'visitor_returning'         => $visitorReturning,
-            'visitor_count_visits'      => $visitCount,
-            'visitor_days_since_last'   => $daysSinceLastVisit,
-            'visitor_days_since_order'  => $daysSinceLastOrder,
-            'visitor_days_since_first'  => $daysSinceFirstVisit,
-            'visit_first_action_time'   => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
-            'visit_last_action_time'    => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
-            'visit_total_actions'       => in_array($actionType,
-                    array(Action::TYPE_PAGE_URL,
-                          Action::TYPE_DOWNLOAD,
-                          Action::TYPE_OUTLINK,
-                          Action::TYPE_SITE_SEARCH,
-                          Action::TYPE_EVENT))
-                    ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
-            'visit_total_searches'      => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
-            'visit_total_events'        => $actionType == Action::TYPE_EVENT ? 1 : 0,
             'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
             'visit_goal_buyer'          => $this->goalManager->getBuyerType(),
             'config_id'                 => $userInfo['config_id'],
-            'config_resolution'         => $userInfo['config_resolution'],
             'config_pdf'                => $userInfo['config_pdf'],
             'config_flash'              => $userInfo['config_flash'],
             'config_java'               => $userInfo['config_java'],
@@ -567,7 +539,6 @@ class Visit implements VisitInterface
             'config_silverlight'        => $userInfo['config_silverlight'],
             'config_cookie'             => $userInfo['config_cookie'],
             'location_ip'               => $this->getVisitorIp(),
-            'location_browser_lang'     => $userInfo['location_browser_lang'],
         );
     }
 
@@ -581,32 +552,6 @@ class Visit implements VisitInterface
     protected function getExistingVisitFieldsToUpdate($action, $visitIsConverted)
     {
         $valuesToUpdate = array();
-
-        if ($action) {
-            $actionType  = $action->getActionType();
-            $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
-
-            $incrementActions = false;
-
-            if ($idActionUrl !== false) {
-                $incrementActions = true;
-            }
-
-            if ($actionType == Action::TYPE_SITE_SEARCH) {
-                $valuesToUpdate['visit_total_searches'] = 'visit_total_searches + 1';
-                $incrementActions = true;
-            } else if ($actionType == Action::TYPE_EVENT) {
-                $valuesToUpdate['visit_total_events'] = 'visit_total_events + 1';
-                $incrementActions = true;
-            }
-
-            if ($incrementActions) {
-                $valuesToUpdate['visit_total_actions'] = 'visit_total_actions + 1';
-            }
-        }
-
-        $datetimeServer = Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp());
-        $valuesToUpdate['visit_last_action_time'] = $datetimeServer;
 
         // Add 1 so it's always > 0
         $visitTotalTime = 1 + $this->request->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];

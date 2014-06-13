@@ -6,21 +6,30 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\VisitorInterest\Columns;
+namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
+use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
-class Visitsbydayssincelastvisit extends VisitDimension
+class VisitorDaysSinceFirst extends VisitDimension
 {
-    protected $fieldName = 'visitor_days_since_last';
+    protected $fieldName = 'visitor_days_since_first';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
+
+    protected function init()
+    {
+        $segment = new Segment();
+        $segment->setType(Segment::TYPE_METRIC);
+        $segment->setSegment('daysSinceFirstVisit');
+        $segment->setName('General_DaysSinceFirstVisit');
+        $this->addSegment($segment);
+    }
 
     public function getName()
     {
-        return Piwik::translate('VisitorInterest_VisitsByDaysSinceLast');
+        return '';
     }
 
     /**
@@ -31,7 +40,6 @@ class Visitsbydayssincelastvisit extends VisitDimension
      */
     public function onNewVisit(Request $request, $visit, $action)
     {
-        return $request->getDaysSinceLastVisit();
+        return $request->getDaysSinceFirstVisit();
     }
-
 }
