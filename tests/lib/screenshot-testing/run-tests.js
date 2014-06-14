@@ -27,6 +27,20 @@ require('./support/mocha-loader');
 phantom.injectJs(chaiPath);
 require('./support/chai-extras');
 
+// load & configure resemble (for comparison)
+phantom.injectJs(resemblePath);
+
+resemble.outputSettings({
+    errorColor: {
+        red: 255,
+        green: 0,
+        blue: 0,
+        alpha: 125
+    },
+    errorType: 'movement',
+    transparency: 0.3
+});
+
 // run script
 if (options['help']) {
     app.printHelpAndExit();
