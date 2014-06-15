@@ -46,7 +46,7 @@ class Mysqli extends Db
             $this->socket = $dbInfo['port'];
         } else {
             $this->host = $dbInfo['host'];
-            $this->port = $dbInfo['port'];
+            $this->port = (int)$dbInfo['port'];
             $this->socket = null;
         }
         $this->dbname = $dbInfo['dbname'];
