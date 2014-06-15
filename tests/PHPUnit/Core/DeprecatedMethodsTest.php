@@ -17,7 +17,7 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase
 
     public function test_version2_0_4()
     {
-        $validTill = '2014-06-15';
+        $validTill = '2014-09-15';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Period', 'factory', $validTill);
 
         $validTill = '2014-10-01';
