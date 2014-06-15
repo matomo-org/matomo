@@ -25,6 +25,3 @@ log_level = debug
 
 ; leave this empty here
 [General]
-
-[DebugTests]
-enable_load_standalone_plugins_during_tests = 1
