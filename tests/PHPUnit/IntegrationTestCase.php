@@ -78,6 +78,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $fixture = static::$fixture;
         }
 
+        $fixture->testCaseClass = get_called_class();
+
         try {
             $fixture->performSetUp();
         } catch (Exception $e) {

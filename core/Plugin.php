@@ -353,12 +353,29 @@ class Plugin
     {
         foreach ($backtrace as $tracepoint) {
             // try and discern the plugin name
-            if (isset($tracepoint['class'])
-                && preg_match("/Piwik\\\\Plugins\\\\([a-zA-Z_0-9]+)\\\\/", $tracepoint['class'], $matches)
-            ) {
-                return $matches[1];
+            if (isset($tracepoint['class'])) {
+                $className = self::getPluginNameFromNamespace($tracepoint['class']);
+                if ($className) {
+                    return $className;
+                }
             }
         }
         return false;
+    }
+
+    /**
+     * Extracts the plugin name from a namespace name or a fully qualified class name. Returns `false`
+     * if we can't find one.
+     *
+     * @param string $namespaceOrClassName The namespace or class string.
+     * @return string|false
+     */
+    public static function getPluginNameFromNamespace($namespaceOrClassName)
+    {
+        if (preg_match("/Piwik\\\\Plugins\\\\([a-zA-Z_0-9]+)\\\\/", $namespaceOrClassName, $matches)) {
+            return $matches[1];
+        } else {
+            return false;
+        }
     }
 }

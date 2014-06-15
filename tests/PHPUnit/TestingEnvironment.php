@@ -62,6 +62,11 @@ class Piwik_TestingEnvironment
         $this->behaviorOverrideProperties[$key] = $value;
     }
 
+    public function __isset($name)
+    {
+        return isset($this->behaviorOverrideProperties[$name]);
+    }
+
     public function save()
     {
         $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
@@ -124,6 +129,10 @@ class Piwik_TestingEnvironment
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
                 $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
+                if (!empty($testingEnvironment->pluginsToLoad)) {
+                    $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
+                }
+
                 $config->Plugins = array('Plugins' => $pluginsToLoad);
 
                 $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
