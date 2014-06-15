@@ -133,6 +133,8 @@ class Piwik_TestingEnvironment
                     $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
                 }
 
+                sort($pluginsToLoad);
+
                 $config->Plugins = array('Plugins' => $pluginsToLoad);
 
                 $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
