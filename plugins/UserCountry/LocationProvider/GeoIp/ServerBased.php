@@ -95,6 +95,8 @@ class ServerBased extends GeoIp
         foreach (self::$geoIpServerVars as $resultKey => $geoipVarName) {
             if (!empty($_SERVER[$geoipVarName])) {
                 $result[$resultKey] = $_SERVER[$geoipVarName];
+            }elseif (!empty($_SERVER[$geoipVarName.'_V6'])) {
+                $result[$resultKey] = $_SERVER[$geoipVarName.'_V6'];
             }
         }
         foreach (self::$geoIpUtfServerVars as $resultKey => $geoipVarName) {
@@ -150,7 +152,8 @@ class ServerBased extends GeoIp
         }
 
         $available = !empty($_SERVER[self::TEST_SERVER_VAR])
-            || !empty($_SERVER[self::TEST_SERVER_VAR_ALT]);
+            || !empty($_SERVER[self::TEST_SERVER_VAR_ALT])
+            || !empty($_SERVER[self::TEST_SERVER_VAR_ALT.'+_V6']);
 
         if ($available) {
             return true;
@@ -180,6 +183,7 @@ class ServerBased extends GeoIp
     {
         if (empty($_SERVER[self::TEST_SERVER_VAR])
             && empty($_SERVER[self::TEST_SERVER_VAR_ALT])
+            && empty($_SERVER[self::TEST_SERVER_VAR_ALT.'_V6'])
         ) {
             return Piwik::translate("UserCountry_CannotFindGeoIPServerVar", self::TEST_SERVER_VAR . ' $_SERVER');
         }
