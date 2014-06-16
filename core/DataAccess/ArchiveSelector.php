@@ -146,9 +146,14 @@ class ArchiveSelector
      *                       '2010-01-01' => array(1,2,3)
      *                   )
      *               )
+     * @throws
      */
     static public function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
     {
+        if(empty($siteIds)) {
+            throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
+        }
+
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
                               WHERE %s
