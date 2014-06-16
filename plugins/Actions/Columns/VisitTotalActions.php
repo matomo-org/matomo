@@ -13,6 +13,7 @@ use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker;
+use Piwik\Tracker\Visitor;
 
 class VisitTotalActions extends VisitDimension
 {
@@ -35,11 +36,11 @@ class VisitTotalActions extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $actionType = false;
         if ($action) {
@@ -64,11 +65,11 @@ class VisitTotalActions extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
-    public function onExistingVisit(Request $request, $visit, $action)
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         if (!$action) {
             return false;

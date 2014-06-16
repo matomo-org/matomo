@@ -34,7 +34,7 @@ class GetPageUrls extends Base
         $this->widgetTitle = 'General_Pages';
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         $metrics = parent::getMetrics();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviews');

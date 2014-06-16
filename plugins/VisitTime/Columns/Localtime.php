@@ -13,8 +13,9 @@ use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\VisitTime\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
-class Localtime extends VisitDimension
+class LocalTime extends VisitDimension
 {    
     protected $fieldName = 'visitor_localtime';
     protected $fieldType = 'TIME NOT NULL';
@@ -25,7 +26,7 @@ class Localtime extends VisitDimension
         $segment->setSegment('visitLocalHour');
         $segment->setName('VisitTime_ColumnLocalTime');
         $segment->setSqlSegment('HOUR(log_visit.visitor_localtime)');
-        $segment->setAcceptValues('0, 1, 2, 3, ..., 20, 21, 22, 23');
+        $segment->setAcceptedValues('0, 1, 2, 3, ..., 20, 21, 22, 23');
         $this->addSegment($segment);
     }
 
@@ -36,11 +37,11 @@ class Localtime extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
-     * @return int
+     * @return mixed
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         return $request->getLocalTime();
     }

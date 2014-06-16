@@ -31,7 +31,13 @@ class GetMobileVsDesktop extends Base
 
         $view->config->title = Piwik::translate('UserSettings_MobileVsDesktop');
         $view->config->addTranslation('label', $this->dimension->getName());
-        $view->config->addRelatedReports($this->getWideScreenDeviceTypeRelatedReports());
+    }
+
+    public function getRelatedReports()
+    {
+        return array(
+            new GetWideScreen()
+        );
     }
 
 }

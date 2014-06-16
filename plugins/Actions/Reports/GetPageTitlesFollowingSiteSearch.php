@@ -32,7 +32,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
         $this->configureViewForUrlAndTitle($view, $title);
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         return array(
             'nb_hits_following_search' => Piwik::translate('General_ColumnViewedAfterSearch'),
@@ -50,17 +50,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
 
     protected function configureViewForUrlAndTitle(ViewDataTable $view, $title)
     {
-        $relatedReports = array(
-            'Actions.getPageTitlesFollowingSiteSearch' => Piwik::translate('Actions_WidgetPageTitlesFollowingSearch'),
-            'Actions.getPageUrlsFollowingSiteSearch'   => Piwik::translate('Actions_WidgetPageUrlsFollowingSearch'),
-        );
-
-        $view->config->addRelatedReports($relatedReports);
-        $view->config->addTranslations(array(
-            'label'                    => $this->dimension->getName(),
-            'nb_hits_following_search' => Piwik::translate('General_ColumnViewedAfterSearch'),
-            'nb_hits'                  => Piwik::translate('General_ColumnTotalPageviews')
-        ));
+        $view->config->addTranslations(array('label' => $this->dimension->getName()));
 
         $view->config->title = $title;
         $view->config->columns_to_display          = array('label', 'nb_hits_following_search', 'nb_hits');
@@ -72,4 +62,10 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
         $this->addBaseDisplayProperties($view);
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetPageUrlsFollowingSiteSearch()
+        );
+    }
 }

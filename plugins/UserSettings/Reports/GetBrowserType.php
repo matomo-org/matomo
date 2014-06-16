@@ -11,14 +11,14 @@ namespace Piwik\Plugins\UserSettings\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
-use Piwik\Plugins\UserSettings\Columns\Browserfamily;
+use Piwik\Plugins\UserSettings\Columns\BrowserFamily;
 
 class GetBrowserType extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Browserfamily();
+        $this->dimension     = new BrowserFamily();
         $this->name          = Piwik::translate('UserSettings_WidgetBrowserFamilies');
         $this->documentation = Piwik::translate('UserSettings_WidgetBrowserFamiliesDocumentation', '<br />');
         $this->order = 3;

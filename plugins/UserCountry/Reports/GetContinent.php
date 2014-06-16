@@ -17,10 +17,11 @@ class GetContinent extends Base
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Continent();
-        $this->name          = Piwik::translate('UserCountry_Continent');
-        $this->documentation = Piwik::translate('UserCountry_getContinentDocumentation');
-        $this->metrics       = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+        $this->dimension      = new Continent();
+        $this->name           = Piwik::translate('UserCountry_Continent');
+        $this->documentation  = Piwik::translate('UserCountry_getContinentDocumentation');
+        $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+        $this->hasGoalMetrics = true;
         $this->order = 6;
         $this->widgetTitle = Piwik::translate('UserCountry_WidgetLocation')
                            . ' (' . Piwik::translate('UserCountry_Continent') . ')';

@@ -34,7 +34,7 @@ class Get extends \Piwik\Plugin\Report
         $this->order = 1;
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         $metrics = parent::getMetrics();
         

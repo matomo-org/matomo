@@ -12,14 +12,14 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\VisitTime\Columns\Localtime;
+use Piwik\Plugins\VisitTime\Columns\LocalTime;
 
 class GetVisitInformationPerLocalTime extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Localtime();
+        $this->dimension     = new LocalTime();
         $this->name          = Piwik::translate('VisitTime_WidgetLocalTime');
         $this->documentation = Piwik::translate('VisitTime_WidgetLocalTimeDocumentation', array('<strong>', '</strong>'));
         $this->constantRowsCount = true;

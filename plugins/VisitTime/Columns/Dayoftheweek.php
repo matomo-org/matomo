@@ -11,7 +11,7 @@ namespace Piwik\Plugins\VisitTime\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 
-class Dayoftheweek extends VisitDimension
+class DayOfTheWeek extends VisitDimension
 {    
     public function getName()
     {

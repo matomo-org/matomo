@@ -30,6 +30,7 @@ class GetReferrerType extends Base
                              . '<b>' . Piwik::translate('Referrers_Campaigns') . ':</b> ' . Piwik::translate('Referrers_CampaignsDocumentation',
                                  array('<br />', '&quot;' . Piwik::translate('Referrers_Campaigns') . '&quot;'));
         $this->constantRowsCount = true;
+        $this->hasGoalMetrics = true;
         $this->order = 1;
         $this->widgetTitle  = 'General_Overview';
     }

@@ -13,14 +13,14 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
-use Piwik\Plugins\Referrers\Columns\Socialnetwork;
+use Piwik\Plugins\Referrers\Columns\SocialNetwork;
 
 class GetSocials extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Socialnetwork();
+        $this->dimension     = new SocialNetwork();
         $this->name          = Piwik::translate('Referrers_Socials');
         $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getUrlsForSocial';

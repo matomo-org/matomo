@@ -15,6 +15,7 @@ use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * @api
+ * @since 2.4.0
  */
 abstract class VisitDimension
 {

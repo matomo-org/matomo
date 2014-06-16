@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\DevicesDetection\Columns\OperatingSystemfamilies;
 use Piwik\Plugins\DevicesDetection\Columns\Os;
 
 class GetOsFamilies extends Base
@@ -31,7 +30,13 @@ class GetOsFamilies extends Base
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("UserSettings_OperatingSystemFamily"));
-        $view->config->addRelatedReports($this->getOsRelatedReports());
+    }
+
+    public function getRelatedReports()
+    {
+        return array(
+            new GetOsVersions()
+        );
     }
 
 }

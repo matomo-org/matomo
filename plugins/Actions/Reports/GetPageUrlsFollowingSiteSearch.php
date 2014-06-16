@@ -30,4 +30,11 @@ class GetPageUrlsFollowingSiteSearch extends GetPageTitlesFollowingSiteSearch
 
         $this->configureViewForUrlAndTitle($view, $title);
     }
+
+    public function getRelatedReports()
+    {
+        return array(
+            new GetPageTitlesFollowingSiteSearch()
+        );
+    }
 }

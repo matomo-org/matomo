@@ -22,6 +22,7 @@ class GetWebsites extends Base
         $this->name          = Piwik::translate('CorePluginsAdmin_Websites');
         $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getUrlsFromWebsiteId';
+        $this->hasGoalMetrics = true;
         $this->order = 5;
         $this->widgetTitle  = 'Referrers_WidgetExternalWebsites';
     }

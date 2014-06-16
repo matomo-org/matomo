@@ -17,6 +17,10 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\WidgetsList;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
+/**
+ * @api
+ * @since 2.4.0
+ */
 class Report
 {
     protected $module;
@@ -28,6 +32,7 @@ class Report
     protected $widgetParams = array();
     protected $menuTitle;
     protected $processedMetrics = array();
+    protected $hasGoalMetrics = false;
     protected $metrics = array();
     protected $constantRowsCount = null;
     protected $isSubtableReport = null;
@@ -85,7 +90,7 @@ class Report
 
         $apiAction = $apiProxy->buildApiActionName($this->module, $this->action);
 
-        $view      = ViewDataTableFactory::build(null, $apiAction, 'CoreHome.renderWidget');
+        $view      = ViewDataTableFactory::build(null, $apiAction, 'CoreHome.renderMenuReport');
         $rendered  = $view->render();
 
         return $rendered;
@@ -115,7 +120,7 @@ class Report
         }
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         // TODO cache this
         $translations = Metrics::getDefaultMetricTranslations();
@@ -147,13 +152,18 @@ class Report
         return $documentation;
     }
 
+    public function hasGoalMetrics()
+    {
+        return $this->hasGoalMetrics;
+    }
+
     public function toArray()
     {
         $report = array(
-            'category' => Piwik::translate($this->category),
-            'name'     => $this->name,
-            'module'   => $this->module,
-            'action'   => $this->action
+            'category' => $this->getCategory(),
+            'name'     => $this->getName(),
+            'module'   => $this->getModule(),
+            'action'   => $this->getAction()
         );
 
         if (!empty($this->dimension)) {
@@ -185,6 +195,14 @@ class Report
         return $report;
     }
 
+    /**
+     * @return Report[]
+     */
+    public function getRelatedReports()
+    {
+        return array();
+    }
+
     public function getName()
     {
         return $this->name;
@@ -193,6 +211,16 @@ class Report
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function getCategory()
+    {
+        return Piwik::translate($this->category);
+    }
+
+    public function getModule()
+    {
+        return $this->module;
     }
 
     public static function factory($module, $action = '')

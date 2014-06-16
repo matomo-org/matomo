@@ -30,7 +30,12 @@ class GetOsVersions extends Base
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelSystemVersion"));
-        $view->config->addRelatedReports($this->getOsRelatedReports());
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetOsFamilies()
+        );
+    }
 }

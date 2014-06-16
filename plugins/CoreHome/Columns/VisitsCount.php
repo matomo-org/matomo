@@ -12,6 +12,7 @@ use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 class VisitsCount extends VisitDimension
 {
@@ -34,11 +35,11 @@ class VisitsCount extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
-     * @return int
+     * @return mixed
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         return $request->getVisitCount();
     }

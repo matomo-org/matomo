@@ -8,39 +8,7 @@
  */
 namespace Piwik\Plugins\VisitTime;
 
-use Exception;
-use Piwik\ArchiveProcessor;
-use Piwik\Common;
-use Piwik\Period;
-use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
-use Piwik\Site;
-
-/**
- *
- */
+// empty plugin definition, otherwise plugin won't be installed during test run
 class VisitTime extends \Piwik\Plugin
 {
-    /**
-     * @see Piwik\Plugin::getListHooksRegistered
-     */
-    public function getListHooksRegistered()
-    {
-        return array(
-            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics'
-        );
-    }
-
-    public function getReportsWithGoalMetrics(&$dimensions)
-    {
-        $dimensions[] = array('category' => Piwik::translate('VisitTime_ColumnServerTime'),
-                              'name'     => Piwik::translate('VisitTime_ColumnServerTime'),
-                              'module'   => 'VisitTime',
-                              'action'   => 'getVisitInformationPerServerTime',
-        );
-    }
-
-
 }

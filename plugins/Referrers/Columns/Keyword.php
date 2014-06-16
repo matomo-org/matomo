@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Referrers\Columns;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
 class Keyword extends Base
 {
@@ -22,7 +24,7 @@ class Keyword extends Base
         $segment = new Segment();
         $segment->setSegment('referrerKeyword');
         $segment->setName('General_ColumnKeyword');
-        $segment->setAcceptValues('Encoded%20Keyword, keyword');
+        $segment->setAcceptedValues('Encoded%20Keyword, keyword');
         $this->addSegment($segment);
     }
 
@@ -31,7 +33,13 @@ class Keyword extends Base
         return Piwik::translate('General_ColumnKeyword');
     }
 
-    public function onNewVisit(Request $request, $visit)
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $referrerUrl = $request->getParam('urlref');
         $currentUrl  = $request->getParam('url');
@@ -42,6 +50,6 @@ class Keyword extends Base
             return substr($information['referer_keyword'], 0, 255);
         }
 
-        return $information['referer_keyword'];;
+        return $information['referer_keyword'];
     }
 }

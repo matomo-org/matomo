@@ -307,12 +307,19 @@ abstract class LocationProvider
     public static function getProviderById($providerId)
     {
         foreach (self::getAvailableProviders() as $provider) {
-            $info = $provider->getInfo();
-            if ($info['id'] == $providerId) {
+            if ($provider->getId() == $providerId) {
                 return $provider;
             }
         }
+
         return false;
+    }
+
+    public function getId()
+    {
+        $info = $this->getInfo();
+
+        return $info['id'];
     }
 
     /**

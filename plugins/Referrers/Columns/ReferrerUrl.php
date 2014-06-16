@@ -10,6 +10,8 @@ namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
 class ReferrerUrl extends Base
 {
@@ -21,7 +23,7 @@ class ReferrerUrl extends Base
         $segment = new Segment();
         $segment->setSegment('referrerUrl');
         $segment->setName('Live_Referrer_URL');
-        $segment->setAcceptValues('http%3A%2F%2Fwww.example.org%2Freferer-page.htm');
+        $segment->setAcceptedValues('http%3A%2F%2Fwww.example.org%2Freferer-page.htm');
         $this->addSegment($segment);
     }
 
@@ -30,7 +32,13 @@ class ReferrerUrl extends Base
         return '';
     }
 
-    public function onNewVisit(Request $request, $visit)
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $referrerUrl = $request->getParam('urlref');
         $currentUrl  = $request->getParam('url');

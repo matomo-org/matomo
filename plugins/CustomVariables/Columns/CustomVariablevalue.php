@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CustomVariables\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 
-class CustomVariablevalue extends VisitDimension
+class CustomVariableValue extends VisitDimension
 {    
     public function getName()
     {

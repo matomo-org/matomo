@@ -18,10 +18,11 @@ class GetCountry extends Base
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Country();
-        $this->name          = Piwik::translate('UserCountry_Country');
-        $this->documentation = Piwik::translate('UserCountry_getCountryDocumentation');
-        $this->metrics       = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+        $this->dimension      = new Country();
+        $this->name           = Piwik::translate('UserCountry_Country');
+        $this->documentation  = Piwik::translate('UserCountry_getCountryDocumentation');
+        $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+        $this->hasGoalMetrics = true;
         $this->order = 5;
         $this->widgetTitle = Piwik::translate('UserCountry_WidgetLocation')
                            . ' (' . Piwik::translate('UserCountry_Country') . ')';

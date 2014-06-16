@@ -10,14 +10,14 @@ namespace Piwik\Plugins\VisitorInterest\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\VisitorInterest\Columns\Visitsbydayssincelastvisit;
+use Piwik\Plugins\VisitorInterest\Columns\VisitsByDaysSinceLastVisit;
 
 class GetNumberOfVisitsByDaysSinceLast extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Visitsbydayssincelastvisit();
+        $this->dimension     = new VisitsByDaysSinceLastVisit();
         $this->name          = Piwik::translate('VisitorInterest_VisitsByDaysSinceLast');
         $this->documentation = Piwik::translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation');
         $this->metrics       = array('nb_visits');

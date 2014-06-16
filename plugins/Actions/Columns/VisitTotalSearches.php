@@ -13,6 +13,7 @@ use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker;
+use Piwik\Tracker\Visitor;
 
 class VisitTotalSearches extends VisitDimension
 {
@@ -25,7 +26,7 @@ class VisitTotalSearches extends VisitDimension
         $segment->setType(Segment::TYPE_METRIC);
         $segment->setSegment('searches');
         $segment->setName('General_NbSearches');
-        $segment->setAcceptValues('To select all visits who used internal Site Search, use: &segment=searches>0');
+        $segment->setAcceptedValues('To select all visits who used internal Site Search, use: &segment=searches>0');
         $this->addSegment($segment);
     }
 
@@ -36,11 +37,11 @@ class VisitTotalSearches extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         if ($this->isSiteSearchAction($action)) {
             return 1;
@@ -51,11 +52,11 @@ class VisitTotalSearches extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
-    public function onExistingVisit(Request $request, $visit, $action)
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         if ($this->isSiteSearchAction($action)) {
             return 'visit_total_searches + 1';

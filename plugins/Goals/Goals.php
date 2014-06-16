@@ -12,6 +12,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
@@ -387,6 +388,17 @@ class Goals extends \Piwik\Plugin
     {
         $reportsWithGoals = array();
 
+        foreach (Report::getAllReports() as $report) {
+            if ($report->hasGoalMetrics()) {
+                $reportsWithGoals[] = array(
+                    'category' => $report->getCategory(),
+                    'name'     => $report->getName(),
+                    'module'   => $report->getModule(),
+                    'action'   => $report->getAction(),
+                );
+            }
+        }
+
         /**
          * Triggered when gathering all reports that contain Goal metrics. The list of reports
          * will be displayed on the left column of the bottom of every _Goals_ page.
@@ -414,6 +426,7 @@ class Goals extends \Piwik\Plugin
          *                                 - **name**: The report's translated name.
          *                                 - **module**: The plugin the report is in, eg, `'UserCountry'`.
          *                                 - **action**: The API method of the report, eg, `'getCountry'`.
+         * @ignore
          */
         Piwik::postEvent('Goals.getReportsWithGoalMetrics', array(&$reportsWithGoals));
 

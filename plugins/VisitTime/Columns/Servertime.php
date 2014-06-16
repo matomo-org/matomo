@@ -12,7 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\VisitTime\Segment;
 
-class Servertime extends VisitDimension
+class ServerTime extends VisitDimension
 {    
     protected $fieldName = 'visit_last_action_time';
 
@@ -22,7 +22,7 @@ class Servertime extends VisitDimension
         $segment->setSegment('visitServerHour');
         $segment->setName('VisitTime_ColumnServerTime');
         $segment->setSqlSegment('HOUR(log_visit.visit_last_action_time)');
-        $segment->setAcceptValues('0, 1, 2, 3, ..., 20, 21, 22, 23');
+        $segment->setAcceptedValues('0, 1, 2, 3, ..., 20, 21, 22, 23');
         $this->addSegment($segment);
     }
 

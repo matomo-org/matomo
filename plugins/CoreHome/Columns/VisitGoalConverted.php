@@ -14,17 +14,17 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
-class VisitorDaysSinceFirst extends VisitDimension
+class VisitGoalConverted extends VisitDimension
 {
-    protected $fieldName = 'visitor_days_since_first';
-    protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
+    protected $fieldName = 'visit_goal_converted';
+    protected $fieldType = 'TINYINT(1) NOT NULL';
 
     protected function init()
     {
         $segment = new Segment();
-        $segment->setType(Segment::TYPE_METRIC);
-        $segment->setSegment('daysSinceFirstVisit');
-        $segment->setName('General_DaysSinceFirstVisit');
+        $segment->setSegment('visitConverted');
+        $segment->setName('General_VisitConvertedGoal');
+        $segment->setAcceptedValues('0, 1');
         $this->addSegment($segment);
     }
 
@@ -41,6 +41,17 @@ class VisitorDaysSinceFirst extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        return $request->getDaysSinceFirstVisit();
+        return 0;
+    }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onConvertedVisit(Request $request, Visitor $visitor, $action)
+    {
+        return 1;
     }
 }

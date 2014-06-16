@@ -10,14 +10,14 @@ namespace Piwik\Plugins\UserSettings\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\UserSettings\Columns\Operatingsystemfamily;
+use Piwik\Plugins\UserSettings\Columns\OperatingsystemFamily;
 
 class GetOSFamily extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Operatingsystemfamily();
+        $this->dimension     = new OperatingsystemFamily();
         $this->name          = Piwik::translate('UserSettings_OperatingSystemFamily');
         $this->documentation = ''; // TODO
         $this->order = 8;
@@ -30,7 +30,13 @@ class GetOSFamily extends Base
 
         $view->config->title = $this->name;
         $view->config->addTranslation('label', $this->dimension->getName());
-        $view->config->addRelatedReports($this->getOsRelatedReports());
+    }
+
+    public function getRelatedReports()
+    {
+        return array(
+            new GetOS()
+        );
     }
 
 }

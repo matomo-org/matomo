@@ -27,11 +27,9 @@ class Referrers extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
-            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+        return array(
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview'
         );
-        return $hooks;
     }
 
     public function addReportToInsightsOverview(&$reports)
@@ -40,40 +38,6 @@ class Referrers extends \Piwik\Plugin
         $reports['Referrers_getCampaigns'] = array();
         $reports['Referrers_getSocials']   = array();
         $reports['Referrers_getSearchEngines'] = array();
-    }
-
-    /**
-     * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
-     */
-    public function getReportsWithGoalMetrics(&$dimensions)
-    {
-        $dimensions = array_merge($dimensions, array(
-            array('category' => Piwik::translate('Referrers_Referrers'),
-                  'name'     => Piwik::translate('Referrers_Type'),
-                  'module'   => 'Referrers',
-                  'action'   => 'getReferrerType',
-            ),
-            array('category' => Piwik::translate('Referrers_Referrers'),
-                  'name'     => Piwik::translate('Referrers_Keywords'),
-                  'module'   => 'Referrers',
-                  'action'   => 'getKeywords',
-            ),
-            array('category' => Piwik::translate('Referrers_Referrers'),
-                  'name'     => Piwik::translate('Referrers_SearchEngines'),
-                  'module'   => 'Referrers',
-                  'action'   => 'getSearchEngines',
-            ),
-            array('category' => Piwik::translate('Referrers_Referrers'),
-                  'name'     => Piwik::translate('Referrers_Websites'),
-                  'module'   => 'Referrers',
-                  'action'   => 'getWebsites',
-            ),
-            array('category' => Piwik::translate('Referrers_Referrers'),
-                  'name'     => Piwik::translate('Referrers_Campaigns'),
-                  'module'   => 'Referrers',
-                  'action'   => 'getCampaigns',
-            ),
-        ));
     }
 
     /**

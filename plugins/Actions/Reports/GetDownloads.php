@@ -30,7 +30,7 @@ class GetDownloads extends Base
         $this->widgetTitle  = 'General_Downloads';
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         return array(
             'nb_visits' => Piwik::translate('Actions_ColumnUniqueDownloads'),
@@ -48,11 +48,7 @@ class GetDownloads extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->addTranslations(array(
-            'label'     => $this->dimension->getName(),
-            'nb_visits' => Piwik::translate('Actions_ColumnUniqueDownloads'),
-            'nb_hits'   => Piwik::translate('General_Downloads'),
-        ));
+        $view->config->addTranslations(array('label' => $this->dimension->getName()));
 
         $view->config->columns_to_display = array('label', 'nb_visits', 'nb_hits');
         $view->config->show_exclude_low_population = false;

@@ -10,14 +10,14 @@ namespace Piwik\Plugins\CustomVariables\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CustomVariables\Columns\CustomVariablename;
+use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 
 class GetCustomVariables extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new CustomVariablename();
+        $this->dimension     = new CustomVariableName();
         $this->name          = Piwik::translate('CustomVariables_CustomVariables');
         $this->documentation = Piwik::translate('CustomVariables_CustomVariablesReportDocumentation',
                                array('<br />', '<a href="http://piwik.org/docs/custom-variables/" target="_blank">', '</a>'));

@@ -31,11 +31,16 @@ class GetBrowser extends Base
 
         $view->config->title = Piwik::translate('UserSettings_Browsers');
         $view->config->addTranslation('label', $this->dimension->getName());
-        $view->config->addRelatedReports($this->getBrowserRelatedReports());
 
         if ($view->isViewDataTableId(Graph::ID)) {
             $view->config->max_graph_elements = 7;
         }
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetBrowserVersion()
+        );
+    }
 }

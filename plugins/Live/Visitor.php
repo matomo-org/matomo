@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
+use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -589,7 +590,7 @@ class Visitor
 
     function getVisitEcommerceStatus()
     {
-        return APIMetadata::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
+        return VisitGoalBuyer::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
     }
 
     function getVisitorGoalConvertedIcon()

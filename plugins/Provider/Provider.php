@@ -13,25 +13,10 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\FrontController;
-use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
-/**
- *
- */
 class Provider extends \Piwik\Plugin
 {
-    /**
-     * @see Piwik\Plugin::getListHooksRegistered
-     */
-    public function getListHooksRegistered()
-    {
-        return array(
-            'Tracker.newVisitorInformation' => 'enrichVisitWithProviderInfo',
-        );
-    }
-
     public function install()
     {
         // add column hostname / hostname ext in the visit table
@@ -59,40 +44,12 @@ class Provider extends \Piwik\Plugin
         Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
     }
 
-    /**
-     * Logs the provider in the log_visit table
-     */
-    public function enrichVisitWithProviderInfo(&$visitorInfo, \Piwik\Tracker\Request $request)
+    static public function footerUserCountry(&$out)
     {
-        // if provider info has already been set, abort
-        if (!empty($visitorInfo['location_provider'])) {
-            return;
-        }
-
-        $privacyConfig = new PrivacyManagerConfig();
-        $ip = IP::N2P($privacyConfig->useAnonymizedIpForVisitEnrichment ? $visitorInfo['location_ip'] : $request->getIp());
-
-        // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
-        if (substr($ip, -2, 2) == '.0') {
-            Common::printDebug("IP Was anonymized so we skip the Provider DNS reverse lookup...");
-            return;
-        }
-
-        $hostname = $this->getHost($ip);
-        $hostnameExtension = $this->getCleanHostname($hostname);
-
-        // add the provider value in the table log_visit
-        $visitorInfo['location_provider'] = $hostnameExtension;
-        $visitorInfo['location_provider'] = substr($visitorInfo['location_provider'], 0, 100);
-
-        // improve the country using the provider extension if valid
-        $hostnameDomain = substr($hostnameExtension, 1 + strrpos($hostnameExtension, '.'));
-        if ($hostnameDomain == 'uk') {
-            $hostnameDomain = 'gb';
-        }
-        if (array_key_exists($hostnameDomain, Common::getCountriesList())) {
-            $visitorInfo['location_country'] = $hostnameDomain;
-        }
+        $out = '<div>
+			<h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
+        $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
+        $out .= '</div>';
     }
 
     /**
@@ -103,7 +60,7 @@ class Provider extends \Piwik\Plugin
      *
      * @return string
      */
-    private function getCleanHostname($hostname)
+    public static function getCleanHostname($hostname)
     {
         $extToExclude = array(
             'com', 'net', 'org', 'co'
@@ -119,19 +76,19 @@ class Provider extends \Piwik\Plugin
 
             /**
              * Triggered when prettifying a hostname string.
-             * 
-             * This event can be used to customize the way a hostname is displayed in the 
+             *
+             * This event can be used to customize the way a hostname is displayed in the
              * Providers report.
              *
              * **Example**
-             * 
+             *
              *     public function getCleanHostname(&$cleanHostname, $hostname)
              *     {
              *         if ('fvae.VARG.ceaga.site.co.jp' == $hostname) {
              *             $cleanHostname = 'site.co.jp';
              *         }
              *     }
-             * 
+             *
              * @param string &$cleanHostname The hostname string to display. Set by the event
              *                               handler.
              * @param string $hostname The full hostname.
@@ -151,25 +108,6 @@ class Provider extends \Piwik\Plugin
                 return $e[$s - 2] . "." . $e[$s - 1];
             }
         }
-    }
-
-    /**
-     * Returns the hostname given the IP address string
-     *
-     * @param string $ip IP Address
-     * @return string hostname (or human-readable IP address)
-     */
-    private function getHost($ip)
-    {
-        return trim(strtolower(@IP::getHostByAddr($ip)));
-    }
-
-    static public function footerUserCountry(&$out)
-    {
-        $out = '<div>
-			<h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
-        $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
-        $out .= '</div>';
     }
 
 }

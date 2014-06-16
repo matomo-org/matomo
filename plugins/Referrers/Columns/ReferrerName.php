@@ -10,6 +10,8 @@ namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
 class ReferrerName extends Base
 {
@@ -21,7 +23,7 @@ class ReferrerName extends Base
         $segment = new Segment();
         $segment->setSegment('referrerName');
         $segment->setName('Referrers_ReferrerName');
-        $segment->setAcceptValues('twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName');
+        $segment->setAcceptedValues('twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName');
         $this->addSegment($segment);
     }
 
@@ -30,7 +32,13 @@ class ReferrerName extends Base
         return '';
     }
 
-    public function onNewVisit(Request $request, $visit)
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $referrerUrl = $request->getParam('urlref');
         $currentUrl  = $request->getParam('url');

@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\DevicesDetection\Columns\Browserfamilies;
 use Piwik\Plugins\DevicesDetection\Columns\BrowserName;
 
 class GetBrowserFamilies extends Base
@@ -31,7 +30,12 @@ class GetBrowserFamilies extends Base
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelBrowserFamily"));
-        $view->config->addRelatedReports($this->getBrowserRelatedReports());
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetBrowserVersions()
+        );
+    }
 }

@@ -11,7 +11,7 @@ namespace Piwik\Plugins\UserSettings\Columns;
 use Piwik\Piwik;
 use Piwik\Plugins\UserSettings\Segment;
 
-class Browserversion extends \Piwik\Plugins\DevicesDetection\Columns\BrowserVersion
+class BrowserVersion extends \Piwik\Plugins\DevicesDetection\Columns\BrowserVersion
 {    
     protected $fieldName = 'config_browser_version';
     protected $fieldType = 'VARCHAR(20) NOT NULL';
@@ -21,7 +21,7 @@ class Browserversion extends \Piwik\Plugins\DevicesDetection\Columns\BrowserVers
         $segment = new Segment();
         $segment->setSegment('browserVersion');
         $segment->setName('UserSettings_ColumnBrowserVersion');
-        $segment->setAcceptValues('1.0, 8.0, etc.');
+        $segment->setAcceptedValues('1.0, 8.0, etc.');
         $this->addSegment($segment);
     }
 

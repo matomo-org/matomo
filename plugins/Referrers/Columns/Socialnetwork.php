@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Referrers\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 
-class Socialnetwork extends VisitDimension
+class SocialNetwork extends VisitDimension
 {    
     public function getName()
     {

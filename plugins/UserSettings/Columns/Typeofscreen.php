@@ -11,7 +11,7 @@ namespace Piwik\Plugins\UserSettings\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 
-class Typeofscreen extends VisitDimension
+class TypeOfScreen extends VisitDimension
 {    
     public function getName()
     {

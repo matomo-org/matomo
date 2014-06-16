@@ -194,6 +194,22 @@ abstract class ViewDataTable implements ViewInterface
         $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
 
         if (!empty($report)) {
+            $this->config->subtable_controller_action = 'renderWidget';
+            $relatedReports = $report->getRelatedReports();
+            if (!empty($relatedReports)) {
+                foreach ($relatedReports as $relatedReport) {
+                    $params = array('reportModule' => $relatedReport->getModule(), 'reportAction' => $relatedReport->getAction());
+                    $this->config->addRelatedReport('CoreHome.renderWidget',
+                                                    $relatedReport->getName(),
+                                                    $params);
+                }
+            }
+
+            $metrics = $report->getMetrics();
+            if (!empty($metrics)) {
+                $this->config->addTranslations($metrics);
+            }
+
             $report->configureView($this);
         }
 

@@ -12,7 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\VisitTime\Columns\Dayoftheweek;
+use Piwik\Plugins\VisitTime\Columns\DayOfTheWeek;
 use Piwik\Period;
 use Piwik\Site;
 
@@ -21,7 +21,7 @@ class GetByDayOfWeek extends Base
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Dayoftheweek();
+        $this->dimension     = new DayOfTheWeek();
         $this->name          = Piwik::translate('VisitTime_VisitsByDayOfWeek');
         $this->documentation = Piwik::translate('VisitTime_WidgetByDayOfWeekDocumentation');
         $this->constantRowsCount = true;

@@ -13,6 +13,8 @@ use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use DeviceDetector;
 use Exception;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
 class DeviceType extends Base
 {
@@ -27,7 +29,7 @@ class DeviceType extends Base
         $segment->setCategory('General_Visit');
         $segment->setSegment('deviceType');
         $segment->setName('DevicesDetection_DeviceType');
-        $segment->setAcceptValues($deviceTypeList);
+        $segment->setAcceptedValues($deviceTypeList);
         $segment->setSqlFilter(function ($type) use ($deviceTypeList) {
             $index = array_search(strtolower(trim(urldecode($type))), DeviceDetector::$deviceTypes);
             if ($index === false) {
@@ -44,7 +46,13 @@ class DeviceType extends Base
         return Piwik::translate('DevicesDetection_DeviceType');
     }
 
-    public function onNewVisit(Request $request, $visit)
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $userAgent = $request->getUserAgent();
         $parser    = $this->getUAParser($userAgent);

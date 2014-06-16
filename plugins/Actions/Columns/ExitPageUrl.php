@@ -13,6 +13,7 @@ use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 class ExitPageUrl extends VisitDimension
 {
@@ -29,11 +30,11 @@ class ExitPageUrl extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int|bool
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $idActionUrl = false;
 
@@ -44,7 +45,13 @@ class ExitPageUrl extends VisitDimension
         return (int) $idActionUrl;
     }
 
-    public function onExistingVisit(Request $request, $visit, $action)
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return int
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         if (empty($action)) {
             return false;

@@ -9,13 +9,25 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Plugin\VisitDimension;
+use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 class VisitorDaysSinceOrder extends VisitDimension
 {
     protected $fieldName = 'visitor_days_since_order';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
+
+    protected function init()
+    {
+        $segment = new Segment();
+        $segment->setSegment('daysSinceLastEcommerceOrder');
+        $segment->setName('General_DaysSinceLastEcommerceOrder');
+        $segment->setType(Segment::TYPE_METRIC);
+
+        $this->addSegment($segment);
+    }
 
     public function getName()
     {
@@ -24,11 +36,11 @@ class VisitorDaysSinceOrder extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
-     * @return int
+     * @return mixed
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $daysSinceLastOrder = $request->getDaysSinceLastOrder();
 

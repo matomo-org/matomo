@@ -10,14 +10,14 @@ namespace Piwik\Plugins\UserSettings\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\UserSettings\Columns\Typeofscreen;
+use Piwik\Plugins\UserSettings\Columns\TypeOfScreen;
 
 class GetWideScreen extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Typeofscreen();
+        $this->dimension     = new TypeOfScreen();
         $this->name          = Piwik::translate('UserSettings_WidgetWidescreen');
         $this->documentation = ''; // TODO
         $this->order = 5;
@@ -33,7 +33,12 @@ class GetWideScreen extends Base
         $view->config->show_pagination_control = false;
         $view->config->show_limit_control      = false;
         $view->config->addTranslation('label', $this->dimension->getName());
-        $view->config->addRelatedReports($this->getWideScreenDeviceTypeRelatedReports());
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetMobileVsDesktop()
+        );
+    }
 }

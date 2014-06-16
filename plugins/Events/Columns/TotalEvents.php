@@ -13,6 +13,7 @@ use Piwik\Plugin\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 class TotalEvents extends VisitDimension
 {
@@ -24,7 +25,7 @@ class TotalEvents extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('events');
         $segment->setName('Events_TotalEvents');
-        $segment->setAcceptValues('To select all visits who triggered an Event, use: &segment=events>0');
+        $segment->setAcceptedValues('To select all visits who triggered an Event, use: &segment=events>0');
         $segment->setCategory('General_Visit');
         $segment->setType(Segment::TYPE_METRIC);
         $this->addSegment($segment);
@@ -37,11 +38,11 @@ class TotalEvents extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
-     * @return int
+     * @return mixed
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         if ($this->isEventAction($action)) {
             return 1;
@@ -52,11 +53,11 @@ class TotalEvents extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
-    public function onExistingVisit(Request $request, $visit, $action)
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         if ($this->isEventAction($action)) {
             return 'visit_total_events + 1';

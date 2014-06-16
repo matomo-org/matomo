@@ -10,6 +10,8 @@ namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
 class BrowserName extends Base
 {
@@ -20,7 +22,13 @@ class BrowserName extends Base
         return Piwik::translate('UserSettings_BrowserFamilies');
     }
 
-    public function onNewVisit(Request $request, $visit)
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $userAgent = $request->getUserAgent();
         $parser    = $this->getUAParser($userAgent);

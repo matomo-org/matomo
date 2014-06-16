@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 /**
  * @api
+ * @since 2.4.0
  */
 class Segment
 {
@@ -39,7 +40,7 @@ class Segment
     /**
      * @param string $acceptValues
      */
-    public function setAcceptValues($acceptValues)
+    public function setAcceptedValues($acceptValues)
     {
         $this->acceptValues = $acceptValues;
     }

@@ -16,20 +16,4 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $this->category = 'DevicesDetection_DevicesDetection';
     }
-
-    protected function getOsRelatedReports()
-    {
-        return array(
-            'DevicesDetection.getOsFamilies' => Piwik::translate('DevicesDetection_OperatingSystemFamilies'),
-            'DevicesDetection.getOsVersions' => Piwik::translate('DevicesDetection_OperatingSystemVersions')
-        );
-    }
-
-    protected function getBrowserRelatedReports()
-    {
-        return array(
-            'DevicesDetection.getBrowserFamilies' => Piwik::translate('UserSettings_BrowserFamilies'),
-            'DevicesDetection.getBrowserVersions' => Piwik::translate('DevicesDetection_BrowserVersions')
-        );
-    }
 }

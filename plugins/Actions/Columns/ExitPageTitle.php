@@ -13,6 +13,7 @@ use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 class ExitPageTitle extends VisitDimension
 {
@@ -29,11 +30,11 @@ class ExitPageTitle extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int|bool
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $idActionName = false;
 
@@ -46,11 +47,11 @@ class ExitPageTitle extends VisitDimension
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
      * @return int|bool
      */
-    public function onExistingVisit(Request $request, $visit, $action)
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         if (empty($action)) {
             return false;

@@ -22,7 +22,7 @@ class PageUrl extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('pageUrl');
         $segment->setName('Actions_ColumnPageURL');
-        $segment->setAcceptValues('All these segments must be URL encoded, for example: ' . urlencode('http://example.com/path/page?query'));
+        $segment->setAcceptedValues('All these segments must be URL encoded, for example: ' . urlencode('http://example.com/path/page?query'));
         $this->addSegment($segment);
     }
 
@@ -30,15 +30,4 @@ class PageUrl extends ActionDimension
     {
         return Piwik::translate('Actions_ColumnPageURL');
     }
-
-    /*
-    public function shouldHandleAction(Request $request)
-    {
-        return true;
-    }
-
-    public function getActionId()
-    {
-        return 1;
-    }*/
 }

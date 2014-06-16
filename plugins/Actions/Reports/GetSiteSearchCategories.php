@@ -32,7 +32,7 @@ class GetSiteSearchCategories extends SiteSearchBase
         return parent::isEnabled() && Actions::isCustomVariablesPluginsEnabled();
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         return array(
             'nb_visits'           => Piwik::translate('Actions_ColumnSearches'),
@@ -52,11 +52,7 @@ class GetSiteSearchCategories extends SiteSearchBase
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->addTranslations(array(
-            'label'               => $this->dimension->getName(),
-            'nb_visits'           => Piwik::translate('Actions_ColumnSearches'),
-            'nb_pages_per_search' => Piwik::translate('Actions_ColumnPagesPerSearch')
-        ));
+        $view->config->addTranslations(array('label' => $this->dimension->getName()));
 
         $view->config->columns_to_display     = array('label', 'nb_visits', 'nb_pages_per_search');
         $view->config->show_table_all_columns = false;

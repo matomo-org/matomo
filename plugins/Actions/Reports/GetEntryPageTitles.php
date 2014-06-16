@@ -10,11 +10,8 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\API;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Plugins\Actions\Columns\EntryPageTitle;
-use Piwik\Plugins\Actions\Columns\PageTitle;
 
 class GetEntryPageTitles extends Base
 {
@@ -43,18 +40,7 @@ class GetEntryPageTitles extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $entryPageUrlAction =
-            Common::getRequestVar('widget', false) === false ? 'indexEntryPageUrls' : 'getEntryPageUrls';
-
-        $view->config->addTranslations(array(
-            'label'              => $this->dimension->getName(),
-            'entry_bounce_count' => Piwik::translate('General_ColumnBounces'),
-            'entry_nb_visits'    => Piwik::translate('General_ColumnEntrances'),
-        ));
-        $view->config->addRelatedReports(array(
-            'Actions.getPageTitles'       => Piwik::translate('Actions_SubmenuPageTitles'),
-            "Actions.$entryPageUrlAction" => Piwik::translate('Actions_SubmenuPagesEntry')
-        ));
+        $view->config->addTranslations(array('label' => $this->dimension->getName()));
 
         $view->config->columns_to_display = array('label', 'entry_nb_visits', 'entry_bounce_count', 'bounce_rate');
         $view->config->title = $this->name;

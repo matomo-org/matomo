@@ -180,58 +180,6 @@ class API extends \Piwik\Plugin\API
             'sqlFilterValue' => array('Piwik\IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_ColumnVisitDuration',
-            'segment'    => 'visitDuration',
-            'sqlSegment' => 'log_visit.visit_total_time',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('General_VisitType'),
-            'segment'        => 'visitorType',
-            'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
-            'sqlSegment'     => 'log_visit.visitor_returning',
-            'sqlFilterValue' => function ($type) {
-                    return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
-                }
-        );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_DaysSinceLastVisit',
-            'segment'    => 'daysSinceLastVisit',
-            'sqlSegment' => 'log_visit.visitor_days_since_last',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitConvertedGoal',
-            'segment'        => 'visitConverted',
-            'acceptedValues' => '0, 1',
-            'sqlSegment'     => 'log_visit.visit_goal_converted',
-        );
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('General_EcommerceVisitStatusDesc'),
-            'segment'        => 'visitEcommerceStatus',
-            'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
-                . '. ' . Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
-            'sqlSegment'     => 'log_visit.visit_goal_buyer',
-            'sqlFilterValue' => __NAMESPACE__ . '\API::getVisitEcommerceStatus',
-        );
-
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_DaysSinceLastEcommerceOrder',
-            'segment'    => 'daysSinceLastEcommerceOrder',
-            'sqlSegment' => 'log_visit.visitor_days_since_order',
-        );
 
         foreach ($segments as &$segment) {
             $segment['name'] = Piwik::translate($segment['name']);
@@ -246,36 +194,6 @@ class API extends \Piwik\Plugin\API
 
         usort($segments, array($this, 'sortSegments'));
         return $segments;
-    }
-
-    static protected $visitEcommerceStatus = array(
-        GoalManager::TYPE_BUYER_NONE                  => 'none',
-        GoalManager::TYPE_BUYER_ORDERED               => 'ordered',
-        GoalManager::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
-        GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
-    );
-
-    /**
-     * @ignore
-     */
-    static public function getVisitEcommerceStatusFromId($id)
-    {
-        if (!isset(self::$visitEcommerceStatus[$id])) {
-            throw new \Exception("Unexpected ECommerce status value ");
-        }
-        return self::$visitEcommerceStatus[$id];
-    }
-
-    /**
-     * @ignore
-     */
-    static public function getVisitEcommerceStatus($status)
-    {
-        $id = array_search($status, self::$visitEcommerceStatus);
-        if ($id === false) {
-            throw new \Exception("Invalid 'visitEcommerceStatus' segment value $status");
-        }
-        return $id;
     }
 
     private function sortSegments($row1, $row2)

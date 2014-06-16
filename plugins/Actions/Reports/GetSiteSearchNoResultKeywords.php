@@ -25,7 +25,7 @@ class GetSiteSearchNoResultKeywords extends SiteSearchBase
         $this->widgetTitle  = 'Actions_WidgetSearchNoResultKeywords';
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         return array(
             'nb_visits' => Piwik::translate('Actions_ColumnSearches'),

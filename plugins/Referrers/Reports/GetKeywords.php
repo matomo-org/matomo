@@ -22,6 +22,7 @@ class GetKeywords extends Base
         $this->name          = Piwik::translate('Referrers_Keywords');
         $this->documentation = Piwik::translate('Referrers_KeywordsReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getSearchEnginesFromKeywordId';
+        $this->hasGoalMetrics = true;
         $this->order = 3;
         $this->widgetTitle  = 'Referrers_WidgetKeywords';
     }

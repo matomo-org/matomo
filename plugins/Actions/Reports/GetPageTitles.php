@@ -35,7 +35,7 @@ class GetPageTitles extends Base
         $this->widgetTitle = 'Actions_WidgetPageTitles';
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         $metrics = parent::getMetrics();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviews');
@@ -58,19 +58,15 @@ class GetPageTitles extends Base
         $widget = Common::getRequestVar('widget', false);
 
         $view->config->self_url = Request::getCurrentUrlWithoutGenericFilters(array(
-            'module' => 'Actions',
+            'module' => $this->module,
             'action' => $widget === false ? 'indexPageTitles' : 'getPageTitles'
         ));
 
         $view->config->title = $this->name;
-        $view->config->addRelatedReports(array(
-            'Actions.getEntryPageTitles' => Piwik::translate('Actions_EntryPageTitles'),
-            'Actions.getExitPageTitles'  => Piwik::translate('Actions_ExitPageTitles'),
-        ));
 
         $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->columns_to_display = array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
-            'avg_time_on_page', 'exit_rate', 'avg_time_generation');
+                                                  'avg_time_on_page', 'exit_rate', 'avg_time_generation');
 
         $this->addPageDisplayProperties($view);
         $this->addBaseDisplayProperties($view);

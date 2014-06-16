@@ -11,14 +11,14 @@ namespace Piwik\Plugins\UserSettings\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\UserSettings\Columns\Browserversion;
+use Piwik\Plugins\UserSettings\Columns\BrowserVersion;
 
 class GetBrowserVersion extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Browserversion();
+        $this->dimension     = new BrowserVersion();
         $this->name          = Piwik::translate('UserSettings_WidgetBrowserVersion');
         $this->documentation = ''; // TODO
         $this->order = 2;
@@ -31,11 +31,17 @@ class GetBrowserVersion extends Base
 
         $view->config->title = Piwik::translate('UserSettings_ColumnBrowserVersion');
         $view->config->addTranslation('label', $this->dimension->getName());
-        $view->config->addRelatedReports($this->getBrowserRelatedReports());
 
         if ($view->isViewDataTableId(Graph::ID)) {
             $view->config->max_graph_elements = 7;
         }
+    }
+
+    public function getRelatedReports()
+    {
+        return array(
+            new GetBrowser()
+        );
     }
 
 }

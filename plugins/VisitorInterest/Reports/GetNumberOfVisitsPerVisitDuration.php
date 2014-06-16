@@ -12,14 +12,14 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\VisitorInterest\Columns\Visitduration;
+use Piwik\Plugins\VisitorInterest\Columns\VisitDuration;
 
 class GetNumberOfVisitsPerVisitDuration extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Visitduration();
+        $this->dimension     = new VisitDuration();
         $this->name          = Piwik::translate('VisitorInterest_WidgetLengths');
         $this->documentation = Piwik::translate('VisitorInterest_WidgetLengthsDocumentation')
                              . '<br />' . Piwik::translate('General_ChangeTagCloudView');

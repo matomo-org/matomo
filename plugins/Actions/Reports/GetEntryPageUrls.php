@@ -11,10 +11,8 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\API;
 use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\EntryPageUrl;
-use Piwik\Plugins\Actions\Columns\PageUrl;
 
 class GetEntryPageUrls extends Base
 {
@@ -54,14 +52,9 @@ class GetEntryPageUrls extends Base
             'action' => $widget === false ? 'indexEntryPageUrls' : 'getEntryPageUrls'
         ));
 
-        $view->config->addTranslations(array(
-            'label'              => $this->dimension->getName(),
-            'entry_bounce_count' => Piwik::translate('General_ColumnBounces'),
-            'entry_nb_visits'    => Piwik::translate('General_ColumnEntrances'))
-        );
+        $view->config->addTranslations(array('label' => $this->dimension->getName()));
 
-       // $view->config->title = $this->name;
-        $view->config->addRelatedReport('Actions.getEntryPageTitles', Piwik::translate('Actions_EntryPageTitles'));
+        $view->config->title = $this->name;
         $view->config->columns_to_display = array('label', 'entry_nb_visits', 'entry_bounce_count', 'bounce_rate');
         $view->requestConfig->filter_sort_column = 'entry_nb_visits';
         $view->requestConfig->filter_sort_order  = 'desc';

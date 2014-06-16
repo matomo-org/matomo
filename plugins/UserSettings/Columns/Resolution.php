@@ -13,6 +13,7 @@ use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\UserSettings\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 class Resolution extends VisitDimension
 {    
@@ -24,17 +25,17 @@ class Resolution extends VisitDimension
         $segment = new Segment();
         $segment->setSegment('resolution');
         $segment->setName('UserSettings_ColumnResolution');
-        $segment->setAcceptValues('1280x1024, 800x600, etc.');
+        $segment->setAcceptedValues('1280x1024, 800x600, etc.');
         $this->addSegment($segment);
     }
 
     /**
      * @param Request $request
-     * @param array   $visit
+     * @param Visitor $visitor
      * @param Action|null $action
-     * @return int
+     * @return mixed
      */
-    public function onNewVisit(Request $request, $visit, $action)
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $resolution = $request->getParam('res');
 

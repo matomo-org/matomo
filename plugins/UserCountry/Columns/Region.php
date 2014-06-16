@@ -9,24 +9,58 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Segment;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
-class Region extends VisitDimension
+class Region extends Base
 {    
     protected $fieldName = 'location_region';
+    protected $fieldType = 'char(2) DEFAULT NULL';
 
     protected function init()
     {
         $segment = new Segment();
         $segment->setSegment('regionCode');
         $segment->setName('UserCountry_Region');
-        $segment->setAcceptValues('01 02, OR, P8, etc.<br/>eg. region=A1;country=fr');
+        $segment->setAcceptedValues('01 02, OR, P8, etc.<br/>eg. region=A1;country=fr');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
         return Piwik::translate('UserCountry_Region');
+    }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
+    {
+        $value = $this->getUrlOverrideValueIfAllowed('region', $request);
+
+        if ($value !== false) {
+            return $value;
+        }
+
+        $userInfo = $this->getUserInfo($request, $visitor);
+
+        return $this->getLocationDetail($userInfo, LocationProvider::REGION_CODE_KEY);
+    }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return int
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        return $this->getUrlOverrideValueIfAllowed('region', $request);
     }
 }

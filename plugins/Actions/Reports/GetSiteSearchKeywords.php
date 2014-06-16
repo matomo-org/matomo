@@ -26,7 +26,7 @@ class GetSiteSearchKeywords extends SiteSearchBase
         $this->widgetTitle  = 'Actions_WidgetSearchKeywords';
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         return array(
             'nb_visits'           => Piwik::translate('Actions_ColumnSearches'),

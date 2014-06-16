@@ -22,7 +22,7 @@ class Browser extends BrowserName
         $segment = new Segment();
         $segment->setSegment('browserCode');
         $segment->setName('UserSettings_ColumnBrowser');
-        $segment->setAcceptValues('FF, IE, CH, SF, OP, etc.');
+        $segment->setAcceptedValues('FF, IE, CH, SF, OP, etc.');
         $this->addSegment($segment);
     }
 

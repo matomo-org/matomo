@@ -300,6 +300,11 @@ class Request
         return $value;
     }
 
+    public function getParams()
+    {
+        return $this->params;
+    }
+
     public function getCurrentTimestamp()
     {
         return $this->timestamp;
@@ -516,31 +521,6 @@ class Request
     public function getForcedVisitorId()
     {
         return $this->forcedVisitorId;
-    }
-
-    public function overrideLocation(&$visitorInfo)
-    {
-        if (!$this->isAuthenticated()) {
-            return;
-        }
-
-        // check for location override query parameters (ie, lat, long, country, region, city)
-        static $locationOverrideParams = array(
-            'country' => array('string', 'location_country'),
-            'region'  => array('string', 'location_region'),
-            'city'    => array('string', 'location_city'),
-            'lat'     => array('float', 'location_latitude'),
-            'long'    => array('float', 'location_longitude'),
-        );
-        foreach ($locationOverrideParams as $queryParamName => $info) {
-            list($type, $visitorInfoKey) = $info;
-
-            $value = Common::getRequestVar($queryParamName, false, $type, $this->params);
-            if (!empty($value)) {
-                $visitorInfo[$visitorInfoKey] = $value;
-            }
-        }
-        return;
     }
 
     public function getPlugins()

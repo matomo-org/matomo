@@ -22,6 +22,7 @@ class GetSearchEngines extends Base
         $this->name          = Piwik::translate('Referrers_SearchEngines');
         $this->documentation = Piwik::translate('Referrers_SearchEnginesReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getKeywordsFromSearchEngineId';
+        $this->hasGoalMetrics = true;
         $this->order = 7;
         $this->widgetTitle  = 'Referrers_SearchEngines';
     }

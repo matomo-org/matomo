@@ -37,7 +37,7 @@ class GetOutlinks extends Base
         $this->widgetTitle = 'General_Outlinks';
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         return array(
             'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicks'),
@@ -55,11 +55,7 @@ class GetOutlinks extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->addTranslations(array(
-            'label'     => $this->dimension->getName(),
-            'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicks'),
-            'nb_hits'   => Piwik::translate('Actions_ColumnClicks'),
-        ));
+        $view->config->addTranslations(array('label' => $this->dimension->getName()));
 
         $view->config->columns_to_display          = array('label', 'nb_visits', 'nb_hits');
         $view->config->show_exclude_low_population = false;

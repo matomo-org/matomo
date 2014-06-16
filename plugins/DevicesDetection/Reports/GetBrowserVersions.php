@@ -29,7 +29,12 @@ class GetBrowserVersions extends Base
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("UserSettings_ColumnBrowserVersion"));
-        $view->config->addRelatedReports($this->getBrowserRelatedReports());
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetBrowserFamilies()
+        );
+    }
 }

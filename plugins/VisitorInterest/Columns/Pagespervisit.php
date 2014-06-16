@@ -11,7 +11,7 @@ namespace Piwik\Plugins\VisitorInterest\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 
-class Pagespervisit extends VisitDimension
+class PagesPerVisit extends VisitDimension
 {    
     public function getName()
     {

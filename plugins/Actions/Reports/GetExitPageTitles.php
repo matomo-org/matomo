@@ -35,7 +35,7 @@ class GetExitPageTitles extends Base
         $this->widgetTitle = 'Actions_WidgetExitPageTitles';
     }
 
-    protected function getMetrics()
+    public function getMetrics()
     {
         $metrics = parent::getMetrics();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviews');
@@ -53,17 +53,7 @@ class GetExitPageTitles extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $exitPageUrlAction =
-            Common::getRequestVar('widget', false) === false ? 'indexExitPageUrls' : 'getExitPageUrls';
-
-        $view->config->addTranslations(array(
-            'label'          => $this->dimension->getName(),
-            'exit_nb_visits' => Piwik::translate('General_ColumnExits'),
-        ));
-        $view->config->addRelatedReports(array(
-            'Actions.getPageTitles'      => Piwik::translate('Actions_SubmenuPageTitles'),
-            "Actions.$exitPageUrlAction" => Piwik::translate('Actions_SubmenuPagesExit'),
-        ));
+        $view->config->addTranslations(array('label' => $this->dimension->getName()));
 
         $view->config->title = $this->name;
         $view->config->columns_to_display = array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate');
@@ -75,7 +65,6 @@ class GetExitPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetPageTitles(),
             new GetExitPageUrls()
         );
     }

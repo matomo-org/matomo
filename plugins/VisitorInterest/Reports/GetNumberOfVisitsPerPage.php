@@ -12,14 +12,14 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\VisitorInterest\Columns\Pagespervisit;
+use Piwik\Plugins\VisitorInterest\Columns\PagesPerVisit;
 
 class GetNumberOfVisitsPerPage extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Pagespervisit();
+        $this->dimension     = new PagesPerVisit();
         $this->name          = Piwik::translate('VisitorInterest_WidgetPages');
         $this->documentation = Piwik::translate('VisitorInterest_WidgetPagesDocumentation')
                              . '<br />' . Piwik::translate('General_ChangeTagCloudView');

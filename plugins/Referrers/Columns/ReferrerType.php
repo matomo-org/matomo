@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Referrers\Columns;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
 class ReferrerType extends Base
 {
@@ -23,7 +25,7 @@ class ReferrerType extends Base
         $segment->setSegment('referrerType');
         $segment->setName('Referrers_Type');
         $segment->setSqlFilterValue('Piwik\Plugins\Referrers\getReferrerTypeFromShortName');
-        $segment->setAcceptValues('direct, search, website, campaign');
+        $segment->setAcceptedValues('direct, search, website, campaign');
         $this->addSegment($segment);
     }
 
@@ -32,7 +34,13 @@ class ReferrerType extends Base
         return Piwik::translate('Referrers_Type');
     }
 
-    public function onNewVisit(Request $request, $visit)
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $referrerUrl = $request->getParam('urlref');
         $currentUrl  = $request->getParam('url');
