@@ -26,10 +26,6 @@ abstract class Base extends VisitDimension
 
     protected function getUrlOverrideValueIfAllowed($urlParamToOverride, Request $request)
     {
-        if (empty($this->urlParamToOverride)) {
-            return false;
-        }
-
         if (!$request->isAuthenticated()) {
             return false;
         }
