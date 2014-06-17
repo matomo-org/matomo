@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Definisce le impostazioni predefinite di sistema per tutti gli utenti.",
+        "GlobalSettingInlineHelp": "Gli utenti possono disabilitare o abilitare il menù di sinistra indipendentemente dalle impostazioni predefinite del sistema.",
+        "GlobalSettingTitle": "Il menù di sinistra è abilitato di default",
+        "SettingsIntroduction": "Il plugin menù di sinistra sposta il menu di segnalazione dalla parte superiore a sinistra, se abilitato. Ciò è particolarmente utile per i display di grandi dimensioni.",
+        "UserSettingInlineHelp": "Questo abilita o disabilita il menù di sinistra solo per te e non ha effetto per gli altri utenti. Un Super User può cambiare per tutti gli utenti le impostazioni predefinite.",
+        "UserSettingTitle": "Abilita il menù di segnalazione di sinistra"
+    }
+}

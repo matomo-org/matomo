@@ -729,7 +729,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik on koostööprojekt, mis on valminud armastusega inimeste poolt üle kogu maailma.",
-        "CommunityNewsletter": "saada mulle e-postiga kommuuni uuendusi (uued pluginad, lisavõimalused jne)",
         "Congratulations": "Õnnitleme",
         "CongratulationsHelp": "<p>Õnnitlused! Sinu Piwiku paigaldus on edukalt lõpuni viidud.<\/p><p>Sisesta JavaScript kood oma lehele ja jää külastusi ootama!<\/p>",
         "DatabaseAbilities": "Andmebaasi võimalused",
@@ -766,7 +765,6 @@
         "PluginDescription": "Piwiku paigaldusprotsess. Paigaldust tehakse tavaliselt ainult üks kord. Kui konfiguratsioonifail config\/config.ini.php kustutatakse, siis algab paigaldus uuesti.",
         "Requirements": "Piwiku nõuded",
         "RestartWebServer": "Peale selle muudatuse teostamist, palun taaskäivita oma veebiserver.",
-        "SecurityNewsletter": "saada mulle e-postiga suuremad Piwiku uuendused ja turvahoiatused",
         "SeeBelowForMoreInfo": "Vaata allapoole täpsema info jaoks.",
         "SetupWebsite": "Seadista veebileht",
         "SetupWebsiteError": "Veebilehe lisamisel tekkis viga",

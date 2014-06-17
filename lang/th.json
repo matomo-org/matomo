@@ -635,7 +635,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "ในหน้าเว็บเพจเมื่อเข้าชมแล้ว จะประกอบไปด้วยวิธีการเรียก JavaScript piwikTracker.trackGoal() และวิธี (%s เรียนรู้เพิ่มเติม %s)"
     },
     "Installation": {
-        "CommunityNewsletter": "ส่งอีเมล์ไปให้ฉัน ด้วยโปรแกรมอัพเดตชุมชน (ปลั๊กอินใหม่ คุณลักษณะใหม่ ฯลฯ)",
         "ConfigurationHelp": "ไฟล์การกำหนดค่า Piwik ของคุณปรากฏเป็นผิดพลาด คุณสามารถเอาconfig\/config.ini.php ออกได และดำเนินการติดตั้งต่อ หรือแก้ไขการตั้งค่าการเชื่อมต่อฐานข้อมูล",
         "ConfirmDeleteExistingTables": "คุณแน่ใจหรือไม่ว่าต้องการลบตาราง: %s จากฐานข้อมูล? คำเตือน: ข้อมูลในตารางเหล่านี้ไม่สามารถกู้คืนได้",
         "Congratulations": "ขอแสดงความยินดี",
@@ -667,7 +666,6 @@
         "PleaseFixTheFollowingErrors": "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้",
         "PluginDescription": "กระบวนการติดตั้งของ Piwik ที่การติดตั้งมักจะทำเพียงครั้งเดียวเท่านั้น ถ้า config\/config.inc.php ไฟล์การตั้งค่าคอนฟิกจะถูกลบออก การติดตั้งจะเริ่มทำงานอีกครั้ง",
         "Requirements": "ความต้องการของ Piwik",
-        "SecurityNewsletter": "ส่งอีเมล์ไปให้ฉัน ซึ่ง Piwik จะแจ้งเตือนในการอัพเกรดด้านความปลอดภัย",
         "SeeBelowForMoreInfo": "ดูด้านล่างสำหรับรายละเอียดเพิ่มเติม",
         "SetupWebsite": "ติดตั้งเว็บไซต์",
         "SetupWebsiteError": "เกิดข้อผิดพลาดขณะเพิ่มเว็บไซต์",

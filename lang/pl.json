@@ -695,7 +695,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "gdzie odwiedzona strona zawiera wywołania do metody JavaScript piwikTracker.trackGoal() (%szobacz więcej%s)"
     },
     "Installation": {
-        "CommunityNewsletter": "wysyłaj e-mail z aktualizacjami wprowadzanymi przez społeczność Piwik (z nowymi wtyczkami, z nowymi rozszerzeniami, itd.)",
         "ConfigurationHelp": "Twój plik konfiguracyjny Piwik wydaje się nieskonfigurowany. Możesz również usunąć config\/config.ini.php i powtórzyć instalację, lub naprawić konfigurację połączenia z bazą danych.",
         "ConfirmDeleteExistingTables": "Czy masz pewność, że chcesz skasować tabele: %s ze swojej bazy danych? OSTRZEŻENIE: DANE Z TYCH TABEL NIE ZOSTANĄ ODTWORZONE CZY ZABEZPIECZONE!",
         "Congratulations": "Gratulacje",
@@ -725,7 +724,6 @@
         "PleaseFixTheFollowingErrors": "Prosimy naprawić następujące błędy",
         "PluginDescription": "Proces instalacji statystyk Piwik. Instalację wykonuje się zazwyczaj tylko raz. Jeżeli plik konfiguracyjny znajdujący się w config\/config.inc.php zostaje skasowany, proces instalacji rozpocznie się od nowa.",
         "Requirements": "Wymagania systemu Piwik",
-        "SecurityNewsletter": "wysyłaj e-mail z poważniejszą aktualizacją Piwik oraz w przypadku alertu bezpieczeństwa",
         "SetupWebsite": "Konfiguracja portalu",
         "SetupWebsiteError": "Pojawił się błąd podczas dodawania adresu strony",
         "SetupWebSiteName": "nazwa portalu",

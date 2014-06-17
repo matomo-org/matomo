@@ -1,5 +1,6 @@
 {
     "Events": {
+        "AvgValue": "Средна стойност",
         "Event": "Събитие",
         "EventAction": "Действие на събитието",
         "EventCategory": "Категория на събитие",
@@ -10,6 +11,8 @@
         "MaxValueDocumentation": "Максималната стойност за това събитие",
         "MinValue": "Минимална стойност",
         "MinValueDocumentation": "Минималната стойност за това събитие",
+        "SecondaryDimension": "Второстепенното измерение е %s.",
+        "SwitchToSecondaryDimension": "Превключване към %s",
         "TopEvents": "Най-важните събития",
         "TotalEvents": "Общо събития",
         "TotalEventsDocumentation": "Общ брой събития",

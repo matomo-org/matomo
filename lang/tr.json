@@ -602,7 +602,6 @@
         "WhereThe": "Buraya"
     },
     "Installation": {
-        "CommunityNewsletter": "Yeni eklentiler, yeni özellikler gibi güncellemeleri bana eposta ile bildir.",
         "Congratulations": "Tebrikler",
         "CongratulationsHelp": "<p>Tebrikler! Piwik Başarıyla kuruldu.<\/p><p>JavaScript kodunu sayfalarınıza yerleştirdiğinizden emin olun ve ilk ziyaretçilerinizi beklemeye başlayın!<\/p>",
         "DatabaseCreation": "Veritabaı oluşturma",
@@ -624,7 +623,6 @@
         "PasswordRepeat": "Şifre (tekrar)",
         "PercentDone": "%s %% tamamlandı",
         "Requirements": "Piwik gereklilikleri",
-        "SecurityNewsletter": "Piwik yükseltmeleri ve güvenlik uyarılarını bana eposta ile bildir.",
         "SetupWebsite": "Web sitesi ekle",
         "SetupWebsiteError": "Web site eklenirken bir sorun oluştu.",
         "SetupWebSiteName": "Web site adı",

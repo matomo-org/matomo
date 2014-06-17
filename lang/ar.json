@@ -683,7 +683,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "حيث تكون الصفحة تحتوي على استدعاء لجافاسكريبت piwikTracker.trackGoal() (%sتعرف على المزيد%s)"
     },
     "Installation": {
-        "CommunityNewsletter": "راسلني عند وجود تحديثات (إضافات جديدة، خصائص جديدة، وغيرها)",
         "ConfigurationHelp": "يبدو أن ملف الإعدادات الخاص بك به خطأ. يمكنك إما حذف config\/config.ini.php ومتابعة التثبيت أو تصحيح إعدادات الاتصال بقاعدة البيانات.",
         "ConfirmDeleteExistingTables": "هل ترغب حقاً في حذف الجداول: %s من قاعدة بياناتك؟ تنبيه: لن يمكن إستعادة البيانات من هذه الجداول!",
         "Congratulations": "مبروك",
@@ -713,7 +712,6 @@
         "PleaseFixTheFollowingErrors": "الرجاء إصلاح الأخطاء التالية",
         "PluginDescription": "عملية تثبيت Piwik. عملية التثبيت تتم مرة واحدة عادة. إذا تم حذف ملف الإعدادات config\/config.inc.php فستبدأ عملية التثبيت مرة أخرى.",
         "Requirements": "متطلبات Piwik",
-        "SecurityNewsletter": "راسلني عند وجود ترقيات وتنبيهات أمنية في Piwik",
         "SetupWebsite": "إعداد موقع ويب",
         "SetupWebsiteError": "حدث خطأ ما أثناء إضافة الموقع",
         "SetupWebSiteName": "اسم موقع ويب",

@@ -663,7 +663,6 @@
         "PluginDescription": "Prodhoni për çfarëdo raporti Piwik figura të mrekullueshme PNG statike Grafikësh."
     },
     "Installation": {
-        "CommunityNewsletter": "njoftomë me email për përditësime nga bashkësia (shtojca të reja, veçori të reja, etj.)",
         "ConfigurationHelp": "Kartela juaj për formësimin e Piwik-ut duket se është e keqformësuar. Ose mund të hiqni config\/config.ini.php dhe rinisni instalimin, ose ndreqni rregullimet për lidhjen me bazën e të dhënave.",
         "ConfirmDeleteExistingTables": "Jeni i sigurt se doni të fshihen tabelat: %s prej bazës së të dhënave? KUJDES: NUK DO TË MUND TË RIKTHENI TË DHËNAT PREJ KËTYRE TABELAVE!",
         "Congratulations": "Urime",
@@ -693,7 +692,6 @@
         "PleaseFixTheFollowingErrors": "Ju lutem, ndreqni gabimet vijuese",
         "PluginDescription": "Procesi i instalimit të Piwik-ut. Instalimi zakonisht bëhet vetëm një herë. Po u fshi kartela e formësimit config\/config.inc.php, instalimi duhet nisur nga e para.",
         "Requirements": "Të domosdoshme për Piwik-un",
-        "SecurityNewsletter": "njoftomë me email për përditësime të rëndësishme të Piwik-ut dhe njoftime lidhur me sigurinë",
         "SetupWebsite": "Caktoni një \"site\" web",
         "SetupWebsiteError": "Pati një gabim gjatë shtimit të një \"site\"-i web",
         "SetupWebSiteName": "emër site-i web",
