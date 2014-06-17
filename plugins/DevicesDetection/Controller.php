@@ -140,9 +140,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $availableOSs = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystems();
 
                 foreach ($availableOSs AS $short => $name) {
-                    if ($name != 'Bot') {
-                        $list[$name] = getOsLogoExtended($short);
-                    }
+                    $list[$name] = getOsLogoExtended($short);
                 }
                 break;
 
@@ -150,9 +148,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $osFamilies = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystemFamilies();
 
                 foreach ($osFamilies AS $name => $oss) {
-                    if ($name != 'Bot') {
-                        $list[$name] = getOsFamilyLogoExtended($name);
-                    }
+                    $list[$name] = getOsFamilyLogoExtended($name);
                 }
                 break;
 

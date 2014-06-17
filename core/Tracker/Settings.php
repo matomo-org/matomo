@@ -15,6 +15,8 @@ use DeviceDetector\DeviceDetector;
 
 class Settings
 {
+    const OS_BOT = 'BOT';
+
     function __construct(Request $request, $ip)
     {
         $this->request = $request;
@@ -50,7 +52,7 @@ class Settings
         $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
 
         if ($deviceDetector->isBot()) {
-            $os = 'BOT';
+            $os = self::OS_BOT;
         } else {
             $os = $deviceDetector->getOS();
             $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];

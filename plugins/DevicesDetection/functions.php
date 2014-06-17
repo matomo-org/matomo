@@ -165,7 +165,7 @@ function getModelName($label)
 
 function getOSFamilyFullNameExtended($label)
 {
-    if ($label == 'BOT') {
+    if ($label == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
     }
     $label = OperatingSystemParser::getOsFamily($label);
@@ -186,7 +186,7 @@ function getOsFamilyLogoExtended($label)
 
 function getOsFullNameExtended($label)
 {
-    if (substr($label, 0, 3) == 'BOT') {
+    if (substr($label, 0, 3) == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
     }
     if (!empty($label) && $label != ";") {
