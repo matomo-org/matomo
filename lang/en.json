@@ -1091,7 +1091,7 @@
         "RestartWebServer": "After making this change, restart your web server.",
         "ReusingTables": "Reusing the Tables",
         "PiwikOrgNewsletter": "email me with major Piwik community updates",
-        "PiwikProNewsletter": "email me with %sPiwik PRO%s updates",
+        "PiwikProNewsletter": "I am interested in %sPiwik PRO%s services (no more than 1 email a month)",
         "SeeBelowForMoreInfo": "See below for more information.",
         "SetupWebsite": "Setup a Website",
         "SetupWebsiteError": "There was an error when adding the website",
