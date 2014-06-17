@@ -11,6 +11,9 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 
 /**
  * @api
@@ -138,22 +141,28 @@ abstract class VisitDimension
         return $this->fieldName;
     }
 
-    public function onNewVisit()
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         return false;
     }
 
-    public function onExistingVisit()
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         return false;
     }
 
-    public function onConvertedVisit()
+    public function onConvertedVisit(Request $request, Visitor $visitor, $action)
     {
         return false;
     }
 
-    public function onRecordGoal()
+    public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
         return false;
     }
