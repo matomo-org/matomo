@@ -1010,7 +1010,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik est un projet collaboratif, construit avec amour par des personnes du monde entier.",
-        "CommunityNewsletter": "Envoyez-moi un courriel pour les nouveautés de la communauté (nouveaux plugins, nouvelles fonctionnalités, etc.)",
         "ConfigurationHelp": "Votre configuration de Piwik semble être erronée. Vous pouvez ou bien supprimer config\/config.inc.php et reprendre l'installation ou corriger les paramètres de connexion.",
         "ConfirmDeleteExistingTables": "Êtes vous sûr de vouloir supprimer les tables : %s de votre base de données? ATTENTION: LES DONNÉES SERONT DÉFINITIVEMENT PERDUES!",
         "Congratulations": "Félicitations",
@@ -1056,7 +1055,6 @@
         "Requirements": "Pré requis Piwik",
         "RestartWebServer": "Après avoir effectué ces modifications, redémarrez votre serveur web.",
         "ReusingTables": "Réutilisation des Tables",
-        "SecurityNewsletter": "Envoyez-moi un courriel pour les mises à jour de versions majeures de piwik ou pour les alertes de sécurité",
         "SeeBelowForMoreInfo": "Voir ci-dessous pour plus d'informations.",
         "SetupWebsite": "Paramétrer un site",
         "SetupWebsiteError": "Une erreur a été rencontrée pendant l'ajout du site",

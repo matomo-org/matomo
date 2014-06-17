@@ -464,7 +464,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "在被訪問的頁面包含一個 JavaScript piwikTracker.trackGoal() 方法（%s知道更多%s）"
     },
     "Installation": {
-        "CommunityNewsletter": "寄給我社群更新的電子郵件通知（如：新外掛、新功能等等。）",
         "ConfigurationHelp": "你的 Piwik 設定檔看起來似乎損毀了。你可以移除 config\/config.ini.php 然後重新安裝，或是修正資料庫的連結設定。",
         "ConfirmDeleteExistingTables": "你確定要從你的資料庫刪除資料表 %s 嗎？ 警告： 這些資料表刪除後將無法復原！",
         "Congratulations": "恭喜你",
@@ -493,7 +492,6 @@
         "PleaseFixTheFollowingErrors": "請修復以下錯誤",
         "PluginDescription": "Piwik 的安裝程式。通常只需要安裝一次。如果設定檔 config\/config.inc.php 被刪除，那麼將會重新安裝。",
         "Requirements": "Piwik 需求",
-        "SecurityNewsletter": "寄給我重要的 Piwik 更新與安全性警告電子郵件通知",
         "SetupWebsite": "設定一個網站",
         "SetupWebsiteError": "當增加此網站時發生了一個錯誤",
         "SetupWebSiteName": "網站名稱",

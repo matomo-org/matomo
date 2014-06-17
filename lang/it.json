@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Media basata su %s hit(s) %s tra %s e %s",
+        "AvgGenerationTimeTooltip": "Media basata su %s hits %s tra %s e %s",
         "ColumnClickedURL": "URL Cliccate",
         "ColumnClicks": "Clic",
         "ColumnClicksDocumentation": "Numero di volte che questo link è stato cliccato",
@@ -104,6 +104,7 @@
         "CustomLogoHelpText": "È possibile personalizzare il logo Piwik che verrà visualizzato nell'interfaccia utente e nei reports e-mail.",
         "DevelopmentProcess": "Poichè il nostro %sprocesso di sviluppo%s include migliaia di test automatizzati, i Beta Tester giocano un ruolo chiave nel raggiungimento in Piwik della \"Politica no bug\".",
         "EmailServerSettings": "Impostazioni server e-mail",
+        "FaviconUpload": "Seleziona una Favicon da caricare",
         "ForBetaTestersOnly": "Solo per beta tester",
         "ImageTracking": "Rilevamento immagine",
         "ImageTrackingIntro1": "Quando un visitatore ha disattivato JavaScript o quando JavaScript non può essere utilizzato, è possibile utilizzare un collegamento di tracciamento immagine per tracciare i visitatori.",
@@ -154,6 +155,7 @@
         "PiwikIsInstalledAt": "Piwik è installato su",
         "PluginDescription": "Area di amministrazione Piwik.",
         "PluginSettingChangeNotAllowed": "Non sei abilitato a cambiare il valore dell'impostazione \"%s\" nel plugin \"%s\"",
+        "PluginSettingReadNotAllowed": "Non sei abilitato a leggere il valore dell'impostazione \"%s\" nel plugin \"%s\"",
         "PluginSettings": "Impostazioni plugin",
         "PluginSettingsIntro": "Qui puoi cambiare le impostazioni dei seguenti plugin di terze parti:",
         "PluginSettingsValueNotAllowed": "Il valore del campo \"%s\" nel plugin \"%s\" non è consentito",
@@ -1041,7 +1043,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik è un progetto in collaborazione, costruito con amore da persone di tutto il mondo.",
-        "CommunityNewsletter": "Informami via e-mail sugli aggiornamenti della community (nuovi plugin, caratteristiche, ecc.)",
         "ConfigurationHelp": "Il tuo file di configurazioni Piwik sembra essere configurato male. Puoi rimuovere il file config\/config.ini.php e ricominciare l'installazione, o correggere i dati di connessione al database.",
         "ConfirmDeleteExistingTables": "Sei sicuro di voler cancellare le tabelle %s dal tuo Database? ATTENZIONE: I DATI NON POTRANNO ESSERE RECUPERATI!",
         "Congratulations": "Congratulazioni",
@@ -1077,6 +1078,7 @@
         "NfsFilesystemWarningSuffixAdmin": "Questo significa che Piwik sarà estremamente lento quando utilizzerà delle sessioni basate sui files.",
         "NfsFilesystemWarningSuffixInstall": "L'utilizzo di sessioni basate sui files è estremamente lento, così Piwik userà delle sessioni con database. Se hai molti utenti della dashboard, potresti avere la necessità di aumentare il numero massimo di connessioni dei client al server del database.",
         "NoConfigFound": "Il file di configurazione di Piwik non è stato trovato e stai tentando l'accesso ad una pagina di Piwik.<br \/><b> » Puoi <a href='index.php'>installare Piwik ora.<\/a><\/b><br \/><small>Se hai già installato in precedenza Piwik e nel tuo Database sono presenti delle tabelle della vecchia installazione, non preoccuparti, puoi riutilizzarle e salvare i dati già esistenti!<\/small>",
+        "NotSupported": "non supportato",
         "Optional": "Opzionale",
         "Password": "Password",
         "PasswordDoNotMatch": "Le Password non coincidono",
@@ -1087,7 +1089,6 @@
         "Requirements": "Requisiti di Piwik",
         "RestartWebServer": "Dopo aver fatto questa modifica, riavviare il server web.",
         "ReusingTables": "Riutilizzo delle Tabelle",
-        "SecurityNewsletter": "Informami via e-mail sugli aggiornamenti più importanti di Piwik",
         "SeeBelowForMoreInfo": "Guarda sotto per altre informazioni.",
         "SetupWebsite": "Configura un sito web",
         "SetupWebsiteError": "C'è stato un errore durante l'aggiunta del sito web",
@@ -1103,6 +1104,8 @@
         "SystemCheck": "Controllo del sistema",
         "SystemCheckAutoUpdateHelp": "Nota: Lo \"One Click update\" di Piwik richiede i permessi di scrittura sulla cartella Piwik e il suo contenuto.",
         "SystemCheckCreateFunctionHelp": "Piwik usa funzioni anonime per i callbacks.",
+        "SystemCheckCronArchiveProcess": "Cron-task Archivio",
+        "SystemCheckCronArchiveProcessCLI": "Gestione processi tramite CLI",
         "SystemCheckDatabaseHelp": "Piwik necessita dell'estensione mysqli o in alternativa sia l'estensione PDO sia l'estensione pdo_mysql",
         "SystemCheckDebugBacktraceHelp": "View::factory non può creare viste (view) per il modulo chiamante.",
         "SystemCheckError": "Si è verificato un errore - deve essere corretto prima di proseguire",
@@ -1334,6 +1337,7 @@
     "MultiSites": {
         "Evolution": "Evoluzione",
         "LoadingWebsites": "Caricamento siti web",
+        "Pagination": "%s - %s di %s",
         "PluginDescription": "Mostra un sommario delle statistiche per il multi-sito. Attualmente mantenuto come un plugin Piwik del core.",
         "TopLinkTooltip": "Compara le statistiche web di tutti i tuoi siti web."
     },
@@ -1565,6 +1569,7 @@
         "ThisSegmentIsVisibleTo": "Questo segmento è visibile a:",
         "VisibleToAllUsers": "tutti gli utenti",
         "VisibleToMe": "me",
+        "YouDontHaveAccessToCreateSegments": "Non hai un livello d'accesso adeguato per creare e modificare i segmenti.",
         "YouMayChangeSetting": "In alternativa, puoi cambiare le impostazioni nel file di configurazione (%s) o modificare questo Segmento e scegliere '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Devi avere effettuato l'accesso per creare e modificare i segmenti personalizzati dei visitatori."
     },

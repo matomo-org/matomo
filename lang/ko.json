@@ -792,7 +792,6 @@
         "PluginDescription": "Piwik 보고서의 아름다운 정적 PNG 그래프 이미지를 생성합니다."
     },
     "Installation": {
-        "CommunityNewsletter": "커뮤니티 업데이트를 이메일로 받기 (새로운 플러그인,새로운 기능 등등)",
         "ConfigurationHelp": "Piwik 설정 파일이 잘못 설정되어있는 것 같습니다. config\/config.ini.php를 제거하고 설치를 다시 시작하거나 데이터베이스의 연결 설정을 수정하세요.",
         "ConfirmDeleteExistingTables": "테이블 %s 을(를) 데이터베이스로부터 삭제하기를 원합니까? 경고: 이 테이블의 데이터는 복구되지 않습니다!",
         "Congratulations": "축하합니다",
@@ -831,7 +830,6 @@
         "PluginDescription": "Piwik 설치 작업을 수행합니다. 설치는 보통 한 번 하지만 설정 파일 (config\/config.inc.php)이 삭제된 경우 설치가 다시 시작됩니다.",
         "Requirements": "Piwik 요구 사항",
         "RestartWebServer": "변경한 후 웹서버를 다시 시작하세요.",
-        "SecurityNewsletter": "Piwik의 주요 업그레이드 그리고 보안 경고를 이메일로 받기",
         "SeeBelowForMoreInfo": "자세한 내용은 아래를 참조하세요.",
         "SetupWebsite": "웹사이트 설정",
         "SetupWebsiteError": "웹사이트 추가중에 에러가 있었습니다",
