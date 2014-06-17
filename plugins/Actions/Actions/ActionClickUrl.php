@@ -7,37 +7,46 @@
  *
  */
 
-namespace Piwik\Tracker;
+namespace Piwik\Plugins\Actions\Actions;
 
 use Piwik\Common;
-use Piwik\Tracker;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit;
 
 /**
- * This class represents a download or an outlink.
+ * This class represents an outlink.
  * This is a particular type of Action: it has no 'name'
  *
  */
 class ActionClickUrl extends Action
 {
-    function __construct($type, $url, Request $request)
+    public function __construct(Request $request)
     {
-        parent::__construct($type, $request);
-        $this->setActionUrl($url);
+        parent::__construct(self::TYPE_OUTLINK, $request);
+        $this->setActionUrl($request->getParam('link'));
+    }
+
+    public function shouldHandle()
+    {
+        $outlinkUrl = $this->request->getParam('link');
+
+        return !empty($outlinkUrl);
     }
 
     protected function getActionsToLookup()
     {
         return array(
-            // Note: we do not normalize download/oulink URL
+            // Note: we do not normalize outlink URL
             'idaction_url' => array($this->getActionUrl(), $this->getActionType())
         );
     }
 
-    function writeDebugInfo()
+    public function writeDebugInfo()
     {
         parent::writeDebugInfo();
 
-        if (self::detectActionIsOutlinkOnAliasHost($this, $this->request->getIdSite())) {
+        if ($this->detectActionIsOutlinkOnAliasHost($this, $this->request->getIdSite())) {
             Common::printDebug("INFO: The outlink URL host is one of the known host for this website. ");
         }
     }
@@ -48,16 +57,15 @@ class ActionClickUrl extends Action
      * @param Action $action
      * @return bool true if the outlink the visitor clicked on points to one of the known hosts for this website
      */
-    public static function detectActionIsOutlinkOnAliasHost(Action $action, $idSite)
+    protected function detectActionIsOutlinkOnAliasHost(Action $action, $idSite)
     {
-        if ($action->getActionType() != Action::TYPE_OUTLINK) {
-            return false;
-        }
         $decodedActionUrl = $action->getActionUrl();
-        $actionUrlParsed = @parse_url($decodedActionUrl);
+        $actionUrlParsed  = @parse_url($decodedActionUrl);
+
         if (!isset($actionUrlParsed['host'])) {
             return false;
         }
+
         return Visit::isHostKnownAliasHost($actionUrlParsed['host'], $idSite);
     }
 }

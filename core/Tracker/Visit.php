@@ -167,12 +167,7 @@ class Visit implements VisitInterface
             try {
                 $this->handleExistingVisit($visitor, $action, $visitIsConverted);
                 if (!is_null($action)) {
-                    $action->record($this->visitorInfo['idvisit'],
-                        $this->visitorInfo['idvisitor'],
-                        $idReferrerActionUrl,
-                        $idReferrerActionName,
-                        $this->visitorInfo['time_spent_ref_action']
-                    );
+                    $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
                 }
             } catch (VisitorNotFoundInDb $e) {
 
@@ -203,7 +198,7 @@ class Visit implements VisitInterface
         ) {
             $this->handleNewVisit($visitor, $action, $visitIsConverted);
             if (!is_null($action)) {
-                $action->record($this->visitorInfo['idvisit'], $this->visitorInfo['idvisitor'], 0, 0, 0);
+                $action->record($visitor, 0, 0);
             }
         }
 
@@ -240,7 +235,10 @@ class Visit implements VisitInterface
 
         $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($visitor, $action, $visitIsConverted);
 
+        // TODO we should not have to sync this->visitorInfo and $visitor columns.
+        // TODO it should be its own dimension
         $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentReferrerAction();
+        $visitor->setVisitorColumn('time_spent_ref_action', $this->visitorInfo['time_spent_ref_action']);
 
         // update visitorInfo
         foreach ($valuesToUpdate AS $name => $value) {
@@ -322,6 +320,7 @@ class Visit implements VisitInterface
 
         $idVisit = $this->insertNewVisit( $this->visitorInfo );
 
+        $visitor->setVisitorColumn('idvisit', $idVisit);
         $this->visitorInfo['idvisit'] = $idVisit;
         $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
         $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();

@@ -7,10 +7,13 @@
  *
  */
 
-namespace Piwik\Tracker;
+namespace Piwik\Plugins\Actions\Actions;
 
 use Piwik\Common;
-use Piwik\Tracker;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Cache;
 use Piwik\UrlHelper;
 
 /**
@@ -30,11 +33,15 @@ class ActionSiteSearch extends Action
     const CVAR_INDEX_SEARCH_CATEGORY = '4';
     const CVAR_INDEX_SEARCH_COUNT = '5';
 
-
-    function __construct($url, Request $request)
+    public function __construct(Request $request)
     {
         parent::__construct(Action::TYPE_SITE_SEARCH, $request);
-        $this->originalUrl = $url;
+        $this->originalUrl = $request->getParam('url');
+    }
+
+    public function shouldHandle()
+    {
+        return $this->isSearchDetected();
     }
 
     protected function getActionsToLookup()
@@ -56,7 +63,7 @@ class ActionSiteSearch extends Action
         return $this->request->getPageGenerationTime();
     }
 
-    function isSearchDetected()
+    public function isSearchDetected()
     {
         $siteSearch = $this->detectSiteSearch($this->originalUrl);
 
@@ -77,7 +84,6 @@ class ActionSiteSearch extends Action
 
         return true;
     }
-
 
     public function getCustomVariables()
     {

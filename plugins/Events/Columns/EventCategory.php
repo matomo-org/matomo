@@ -11,10 +11,14 @@ namespace Piwik\Plugins\Events\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Plugins\Events\Segment;
+use Piwik\Plugins\Events\Actions\ActionEvent;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
 
 class EventCategory extends ActionDimension
 {    
     protected $fieldName = 'idaction_event_category';
+    protected $fieldType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
 
     protected function init()
     {
@@ -27,5 +31,26 @@ class EventCategory extends ActionDimension
     public function getName()
     {
         return Piwik::translate('Events_EventCategory');
+    }
+
+    public function getActionId()
+    {
+        return Action::TYPE_EVENT_CATEGORY;
+    }
+
+    public function onLookupAction(Request $request, Action $action)
+    {
+        if (!($action instanceof ActionEvent)) {
+            return false;
+        }
+
+        $eventCategory = $request->getParam('e_c');
+        $eventCategory = trim($eventCategory);
+
+        if (strlen($eventCategory) > 0) {
+            return $eventCategory;
+        }
+
+        return false;
     }
 }

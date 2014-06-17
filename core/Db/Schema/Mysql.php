@@ -233,18 +233,13 @@ class Mysql implements SchemaInterface
 											  idlink_va INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 									          idsite int(10) UNSIGNED NOT NULL,
 									  		  idvisitor BINARY(8) NOT NULL,
-									          server_time DATETIME NOT NULL,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_url_ref INTEGER(10) UNSIGNED NULL DEFAULT 0,
 											  idaction_name_ref INTEGER(10) UNSIGNED NOT NULL,
-											  idaction_event_category INTEGER(10) UNSIGNED DEFAULT NULL,
-											  idaction_event_action INTEGER(10) UNSIGNED DEFAULT NULL,
-											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 
 											  custom_float FLOAT NULL DEFAULT NULL,
 											  PRIMARY KEY(idlink_va),
-											  INDEX index_idvisit(idvisit),
-									          INDEX index_idsite_servertime ( idsite, server_time )
+											  INDEX index_idvisit(idvisit)
 											) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 

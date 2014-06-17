@@ -15,11 +15,11 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
@@ -971,8 +971,8 @@ class Visitor
     private static function getCustomVariablePrettyKey($key)
     {
         $rename = array(
-            Tracker\ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
-            Tracker\ActionSiteSearch::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
+            ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
+            ActionSiteSearch::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
         );
         if (isset($rename[$key])) {
             return $rename[$key];

@@ -11,6 +11,9 @@ namespace Piwik\Plugins\Events\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Plugins\Events\Segment;
+use Piwik\Plugins\Events\Actions\ActionEvent;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
 
 class EventName extends ActionDimension
 {    
@@ -27,5 +30,26 @@ class EventName extends ActionDimension
     public function getName()
     {
         return Piwik::translate('Events_EventName');
+    }
+
+    public function getActionId()
+    {
+        return Action::TYPE_EVENT_NAME;
+    }
+
+    public function onLookupAction(Request $request, Action $action)
+    {
+        if (!($action instanceof ActionEvent)) {
+            return false;
+        }
+
+        $eventName = $request->getParam('e_n');
+        $eventName = trim($eventName);
+
+        if (strlen($eventName) > 0) {
+            return $eventName;
+        }
+
+        return false;
     }
 }

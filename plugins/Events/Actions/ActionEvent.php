@@ -7,9 +7,11 @@
  *
  */
 
-namespace Piwik\Tracker;
+namespace Piwik\Plugins\Events\Actions;
 
 use Piwik\Common;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
 use Piwik\Tracker;
 
 /**
@@ -18,37 +20,34 @@ use Piwik\Tracker;
  */
 class ActionEvent extends Action
 {
-    function __construct($eventCategory, $eventAction, $url, Request $request)
+    public function __construct(Request $request)
     {
         parent::__construct(Action::TYPE_EVENT, $request);
+
+        $url = $request->getParam('url');
+
         $this->setActionUrl($url);
-        $this->eventCategory = trim($eventCategory);
-        $this->eventAction = trim($eventAction);
-        $this->eventName = trim($request->getParam('e_n'));
         $this->eventValue = trim($request->getParam('e_v'));
     }
 
-    function getCustomFloatValue()
+    public function shouldHandle()
+    {
+        $eventCategory = $this->request->getParam('e_c');
+        $eventAction   = $this->request->getParam('e_a');
+
+        return (strlen($eventCategory) > 0 && strlen($eventAction) > 0);
+    }
+
+    public function getCustomFloatValue()
     {
         return $this->eventValue;
     }
 
     protected function getActionsToLookup()
     {
-        $actions = array(
+        return array(
             'idaction_url' => $this->getUrlAndType()
         );
-
-        if(strlen($this->eventName) > 0) {
-            $actions['idaction_name'] = array($this->eventName, Action::TYPE_EVENT_NAME);
-        }
-        if(strlen($this->eventCategory) > 0) {
-            $actions['idaction_event_category'] = array($this->eventCategory, Action::TYPE_EVENT_CATEGORY);
-        }
-        if(strlen($this->eventAction) > 0) {
-            $actions['idaction_event_action'] = array($this->eventAction, Action::TYPE_EVENT_ACTION);
-        }
-        return $actions;
     }
 
     // Do not track this Event URL as Entry/Exit Page URL (leave the existing entry/exit)
@@ -66,13 +65,9 @@ class ActionEvent extends Action
     public function writeDebugInfo()
     {
         $write = parent::writeDebugInfo();
-        if($write) {
-            Common::printDebug("Event Category = " . $this->eventCategory . ",
-                Event Action = " .  $this->eventAction . ",
-                Event Name =  " . $this->eventName . ",
-                Event Value = " . $this->getCustomFloatValue());
+        if ($write) {
+            Common::printDebug("Event Value = " . $this->getCustomFloatValue());
         }
         return $write;
     }
-
 }

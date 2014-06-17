@@ -15,9 +15,6 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
 use Piwik\Date;
-use Piwik\Filesystem;
-use Piwik\Menu\MenuReporting;
-use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
@@ -25,11 +22,8 @@ use Piwik\Piwik;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
 use Piwik\Version;
-use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 

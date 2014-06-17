@@ -12,7 +12,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\ActionSiteSearch;
+use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports

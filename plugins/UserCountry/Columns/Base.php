@@ -15,7 +15,6 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\IP;
-use Piwik\Plugin\Manager;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\Request;

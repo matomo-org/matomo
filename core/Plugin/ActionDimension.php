@@ -58,6 +58,15 @@ abstract class ActionDimension
         return false;
     }
 
+    /**
+     * @return string|int
+     * @throws \Exception in case not implemented
+     */
+    public function getActionId()
+    {
+        throw new \Exception('You need to overwrite the getActionId method in case you implement the onLookupAction method in class: ' . get_class($this));
+    }
+
     protected function addSegment(Segment $segment)
     {
         $sqlSegment = $segment->getSqlSegment();
@@ -90,6 +99,7 @@ abstract class ActionDimension
     {
         $plugins   = PluginManager::getInstance()->getLoadedPlugins();
         $instances = array();
+
         foreach ($plugins as $plugin) {
             foreach (self::getDimensions($plugin) as $instance) {
                 $instances[] = $instance;
