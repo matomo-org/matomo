@@ -15,6 +15,8 @@ use DeviceDetector\Parser\OperatingSystem;
 
 class Menu extends \Piwik\Plugin\Menu
 {
+    const DD_SHORT_NAME_ANDROID = 'AND';
+    const DD_SHORT_NAME_IOS     = 'IOS';
 
     public function configureTopMenu(MenuTop $menu)
     {
@@ -41,7 +43,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         $ua = new OperatingSystem($_SERVER['HTTP_USER_AGENT']);
         $parsedOS = $ua->parse();
-        if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array('AND', 'IOS'))) {
+        if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {
             $menu->add('Piwik Mobile App', null, array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
         }
     }
