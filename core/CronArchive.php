@@ -83,6 +83,10 @@ class CronArchive
     private $errors = array();
     private $isCoreInited = false;
 
+    private $startDate = false;
+    private $endDate = false;
+    private $periods = false;
+
     const NO_ERROR = "no error";
 
     public $testmode = false;
@@ -113,6 +117,9 @@ class CronArchive
     public function init()
     {
         // Note: the order of methods call matters here.
+        $this->assignDateStrings();
+        $this->assignPeriods();
+        $this->disablePurgeIfNeeded();
         $this->initLog();
         $this->initPiwikHost();
         $this->initCore();
@@ -406,7 +413,8 @@ class CronArchive
 
         $timer = new Timer;
         $dateLast = $this->getApiDateLastParameter($idSite, "day", $processDaysSince);
-        $url = $this->getVisitsRequestUrl($idSite, "day", $dateLast);
+        $dateString = $this->getDateString($dateLast);
+        $url = $this->getVisitsRequestUrl($idSite, $this->periods[0], $dateString);
         $content = $this->request($url);
         $response = @unserialize($content);
         $visitsToday = $this->getVisitsLastPeriodFromApiResponse($response);
@@ -448,8 +456,8 @@ class CronArchive
 
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
-        $this->archiveVisitsAndSegments($idSite, "day", $lastTimestampWebsiteProcessedDay);
-        $this->logArchivedWebsite($idSite, "day", $dateLast, $visitsLastDays, $visitsToday, $timer);
+        $this->archiveVisitsAndSegments($idSite, $this->periods[0], $lastTimestampWebsiteProcessedDay);
+        $this->logArchivedWebsite($idSite, $this->periods[0], $dateLast, $visitsLastDays, $visitsToday, $timer);
 
         if (!$shouldArchivePeriods) {
             $this->log("Skipped website id $idSite periods processing, already done "
@@ -461,7 +469,8 @@ class CronArchive
         }
 
         $success = true;
-        foreach (array('week', 'month', 'year') as $period) {
+        $remainingPeriods = array_slice($this->periods, 1);
+        foreach ($remainingPeriods as $period) {
             $success = $this->archiveVisitsAndSegments($idSite, $period, $lastTimestampWebsiteProcessedPeriods)
                 && $success;
         }
@@ -508,9 +517,9 @@ class CronArchive
     /**
      * Returns base URL to process reports for the $idSite on a given $period
      */
-    private function getVisitsRequestUrl($idSite, $period, $dateLast)
+    private function getVisitsRequestUrl($idSite, $period, $dateString)
     {
-        return "?module=API&method=API.get&idSite=$idSite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
+        return "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $dateString . "&format=php&token_auth=" . $this->token_auth;
     }
 
     private function initSegmentsToArchive()
@@ -551,7 +560,8 @@ class CronArchive
         $url  = $this->piwikUrl;
 
         $dateLast = $this->getApiDateLastParameter($idSite, $period, $lastTimestampWebsiteProcessed);
-        $url .= $this->getVisitsRequestUrl($idSite, $period, $dateLast);
+        $dateString = $this->getDateString($dateLast);
+        $url .= $this->getVisitsRequestUrl($idSite, $period, $dateString);
 
 
         $url .= self::APPEND_TO_API_REQUEST;
@@ -576,7 +586,8 @@ class CronArchive
 
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
-        $cliMulti->setConcurrentProcessesLimit(self::MAX_CONCURRENT_API_REQUESTS);
+        $concurentProcessesLimit = $this->getMaxConcurentProcessesLimit();
+        $cliMulti->setConcurrentProcessesLimit($concurentProcessesLimit);
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
@@ -1211,5 +1222,50 @@ class CronArchive
             . (int)$visitsInLastPeriods . " visits in last " . $dateLast . " " . $period . "s, "
             . (int)$visitsToday . " visits " . $thisPeriod . ", "
             . $timer->__toString());
+    }
+
+    private function getMaxConcurentProcessesLimit()
+    {
+        $cliParam = $this->getParameterFromCli('nb-concurent-segment-requests', true);
+        if ($cliParam !== false) {
+            return $cliParam;
+        }
+        return self::MAX_CONCURRENT_API_REQUESTS;
+    }
+
+    private function disablePurgeIfNeeded()
+    {
+        if ($this->startDate !== false) {
+            Rules::$purgeDisabledByTests = true; // TODO: replace this hack with some generic solution
+        }
+    }
+
+    private function assignDateStrings()
+    {
+        $this->startDate = $this->getParameterFromCli('start-date', true);
+        $this->endDate = $this->getParameterFromCli('end-date', true);
+    }
+
+    private function getDateString($dateLast, $debug = false)
+    {
+        if ($this->startDate === false) {
+            return "last" . $dateLast;
+        }
+
+        $dateString = $this->startDate;
+        if ($this->endDate !== false) {
+            $dateString .= "," . $this->endDate;
+        }
+
+        return $dateString;
+    }
+
+    private function assignPeriods()
+    {
+        $periodsString = $this->getParameterFromCli('periods', true);
+        if ($periodsString === false) {
+            $this->periods = array('day', 'week', 'month', 'year');
+        }
+        $this->periods = explode(',', $periodsString);
     }
 }

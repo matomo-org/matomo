@@ -59,5 +59,11 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE, "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
         $command->addOption('xhprof', null, InputOption::VALUE_NONE, "Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).");
         $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE, "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
+        $command->addOption('start-date', null, InputOption::VALUE_OPTIONAL, "[PiwikPRO] If set, will force Piwik to re-archive since this date up till value of end-date or yesterday");
+        $command->addOption('end-date', null, InputOption::VALUE_OPTIONAL, "[PiwikPRO] If set, also requires start date to be defined. Will force Piwik to re-archive up till this date");
+        $command->addOption('periods', null, InputOption::VALUE_OPTIONAL, "[PiwikPRO] Allows to define what periods only should be archived. Can be comma-separated like day,week,month");
+        $command->addOption('periods', null, InputOption::VALUE_OPTIONAL, "[PiwikPRO] Allows to define what periods only should be archived. Can be comma-separated like day,week,month");
+        $command->addOption('disable-outdated-archives-purge', null, InputOption::VALUE_OPTIONAL, "[PiwikPRO] Allows to disable purging of outdated archives (i.e. today, this week etc.) if you are archiging past periods");
+        $command->addOption('nb-concurent-segment-requests', null, InputOption::VALUE_OPTIONAL, "[PiwikPRO] Allows define how many segments do you want to process at a time");
     }
 }
