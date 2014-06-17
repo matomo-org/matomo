@@ -56,6 +56,7 @@ abstract class ControllerAdmin extends Controller
         $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
                 self::getPiwikVersion(),
                 '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
+            . "<br/>"
             . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
                 '<a href="' . $pluginsLink . '"/>',
                 '</a>'
