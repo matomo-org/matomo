@@ -53,7 +53,7 @@ abstract class VisitDimension
             if ($this->hasImplementedEvent('onNewVisit')
              || $this->hasImplementedEvent('onExistingVisit')
              || $this->hasImplementedEvent('onConvertedVisit') ) {
-                $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` ADD `$this->fieldName` $this->fieldType;";
+                $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` ADD `$this->fieldName` $this->fieldType";
                 Db::exec($sql);
             }
 
@@ -65,12 +65,45 @@ abstract class VisitDimension
 
         try {
             if ($this->hasImplementedEvent('onRecordGoal')) {
-                $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` ADD `$this->fieldName` $this->fieldType;";
+                $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` ADD `$this->fieldName` $this->fieldType";
                 Db::exec($sql);
             }
 
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, '1060')) {
+                throw $e;
+            }
+        }
+    }
+
+    public function uninstall()
+    {
+        if (empty($this->fieldName) || empty($this->fieldType)) {
+            return;
+        }
+
+        try {
+            if ($this->hasImplementedEvent('onNewVisit')
+                || $this->hasImplementedEvent('onExistingVisit')
+                || $this->hasImplementedEvent('onConvertedVisit') ) {
+                $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` DROP COLUMN `$this->fieldName`";
+                Db::exec($sql);
+            }
+
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, '1091')) {
+                throw $e;
+            }
+        }
+
+        try {
+            if ($this->hasImplementedEvent('onRecordGoal')) {
+                $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` DROP COLUMN `$this->fieldName`";
+                Db::exec($sql);
+            }
+
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, '1091')) {
                 throw $e;
             }
         }

@@ -10,7 +10,6 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -21,8 +20,6 @@ use Piwik\Tracker;
 class GoalManager
 {
     // log_visit.visit_goal_buyer
-    const TYPE_BUYER_NONE = 0;
-    const TYPE_BUYER_ORDERED = 1;
     const TYPE_BUYER_OPEN_CART = 2;
     const TYPE_BUYER_ORDERED_AND_OPEN_CART = 3;
 
@@ -45,12 +42,13 @@ class GoalManager
      */
     protected $action = null;
     protected $convertedGoals = array();
-    protected $isThereExistingCartInVisit = false;
     /**
      * @var Request
      */
     protected $request;
     protected $orderId;
+
+    protected $isThereExistingCartInVisit = false;
 
     /**
      * Constructor
@@ -70,26 +68,15 @@ class GoalManager
         $this->requestIsEcommerce = ($this->idGoal == 0);
     }
 
-    function getBuyerType($existingType = GoalManager::TYPE_BUYER_NONE)
+    public function detectIsThereExistingCartInVisit($visitInformation)
     {
-        // Was there a Cart for this visit prior to the order?
-        $this->isThereExistingCartInVisit = in_array($existingType,
-            array(GoalManager::TYPE_BUYER_OPEN_CART,
-                  GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART));
+        if (!empty($visitInformation['visit_goal_buyer'])) {
+            $goalBuyer = $visitInformation['visit_goal_buyer'];
+            $types     = array(GoalManager::TYPE_BUYER_OPEN_CART, GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART);
 
-        if (!$this->requestIsEcommerce) {
-            return $existingType;
+            // Was there a Cart for this visit prior to the order?
+            $this->isThereExistingCartInVisit = in_array($goalBuyer, $types);
         }
-        if ($this->isGoalAnOrder) {
-            return self::TYPE_BUYER_ORDERED;
-        }
-        // request is Add to Cart
-        if ($existingType == self::TYPE_BUYER_ORDERED
-            || $existingType == self::TYPE_BUYER_ORDERED_AND_OPEN_CART
-        ) {
-            return self::TYPE_BUYER_ORDERED_AND_OPEN_CART;
-        }
-        return self::TYPE_BUYER_OPEN_CART;
     }
 
     static public function getGoalDefinitions($idSite)
@@ -291,7 +278,7 @@ class GoalManager
         }
         $conversion['items'] = $itemsCount;
 
-        if($this->isThereExistingCartInVisit) {
+        if ($this->isThereExistingCartInVisit) {
             $updateWhere = array(
                 'idvisit' => $visitInformation['idvisit'],
                 'idgoal'  => self::IDGOAL_CART,

@@ -474,7 +474,6 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->forceSave();
 
         $this->clearCache($pluginName);
-
     }
 
     protected function isPluginInFilesystem($pluginName)
@@ -1298,6 +1297,19 @@ class Manager extends Singleton
         try {
             $plugin = $this->getLoadedPlugin($pluginName);
             $plugin->uninstall();
+        } catch (\Exception $e) {
+        }
+
+        try {
+            $plugin = $this->getLoadedPlugin($pluginName);
+            // todo not sure if this makes sense here
+            foreach (VisitDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
+            // todo not sure if this makes sense here
+            foreach (ActionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
         } catch (\Exception $e) {
         }
     }

@@ -166,6 +166,7 @@ class Visit implements VisitInterface
             $idReferrerActionUrl  = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
             try {
+                $this->goalManager->detectIsThereExistingCartInVisit($this->visitorInfo);
                 $this->handleExistingVisit($visitor, $action, $visitIsConverted);
                 if (!is_null($action)) {
                     $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);

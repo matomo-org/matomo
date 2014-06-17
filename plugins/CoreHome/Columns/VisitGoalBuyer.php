@@ -18,11 +18,17 @@ use Piwik\Tracker\Visitor;
 
 class VisitGoalBuyer extends VisitDimension
 {
+    // log_visit.visit_goal_buyer
+    const TYPE_BUYER_NONE = 0;
+    const TYPE_BUYER_ORDERED = 1;
+    const TYPE_BUYER_OPEN_CART = GoalManager::TYPE_BUYER_OPEN_CART;
+    const TYPE_BUYER_ORDERED_AND_OPEN_CART = GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART;
+
     static protected $visitEcommerceStatus = array(
-        GoalManager::TYPE_BUYER_NONE                  => 'none',
-        GoalManager::TYPE_BUYER_ORDERED               => 'ordered',
-        GoalManager::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
-        GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
+        self::TYPE_BUYER_NONE                  => 'none',
+        self::TYPE_BUYER_ORDERED               => 'ordered',
+        self::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
+        self::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
     );
 
     protected $fieldName = 'visit_goal_buyer';
@@ -55,9 +61,7 @@ class VisitGoalBuyer extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $goalManager = new GoalManager($request);
-
-        return $goalManager->getBuyerType();
+        return $this->getBuyerType($request);
     }
 
     /**
@@ -68,15 +72,16 @@ class VisitGoalBuyer extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        $goalBuyer = $visitor->getVisitorColumn('visit_goal_buyer');
+        $goalBuyer = $visitor->getVisitorColumn($this->fieldName);
 
         // Ecommerce buyer status
-        $goalManager          = new GoalManager($request);
-        $visitEcommerceStatus = $goalManager->getBuyerType($goalBuyer);
+        $visitEcommerceStatus = $this->getBuyerType($request, $goalBuyer);
 
-        if($visitEcommerceStatus != GoalManager::TYPE_BUYER_NONE
-            // only update if the value has changed (prevents overwriting the value in case a request has updated it in the meantime)
+        if($visitEcommerceStatus != self::TYPE_BUYER_NONE
+            // only update if the value has changed (prevents overwriting the value in case a request has
+            // updated it in the meantime)
             && $visitEcommerceStatus != $goalBuyer) {
+
             return $visitEcommerceStatus;
         }
 
@@ -86,9 +91,11 @@ class VisitGoalBuyer extends VisitDimension
     static public function getVisitEcommerceStatus($status)
     {
         $id = array_search($status, self::$visitEcommerceStatus);
+
         if ($id === false) {
             throw new \Exception("Invalid 'visitEcommerceStatus' segment value $status");
         }
+
         return $id;
     }
 
@@ -100,7 +107,30 @@ class VisitGoalBuyer extends VisitDimension
         if (!isset(self::$visitEcommerceStatus[$id])) {
             throw new \Exception("Unexpected ECommerce status value ");
         }
+
         return self::$visitEcommerceStatus[$id];
+    }
+
+    private function getBuyerType(Request $request, $existingType = self::TYPE_BUYER_NONE)
+    {
+        $goalManager = new GoalManager($request);
+
+        if (!$goalManager->requestIsEcommerce) {
+            return $existingType;
+        }
+
+        if ($goalManager->isGoalAnOrder) {
+            return self::TYPE_BUYER_ORDERED;
+        }
+
+        // request is Add to Cart
+        if ($existingType == self::TYPE_BUYER_ORDERED
+            || $existingType == self::TYPE_BUYER_ORDERED_AND_OPEN_CART
+        ) {
+            return self::TYPE_BUYER_ORDERED_AND_OPEN_CART;
+        }
+
+        return self::TYPE_BUYER_OPEN_CART;
     }
 
 }

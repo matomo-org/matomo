@@ -53,6 +53,23 @@ abstract class ActionDimension
         }
     }
 
+    public function uninstall()
+    {
+        if (empty($this->fieldName) || empty($this->fieldType)) {
+            return;
+        }
+
+        try {
+            $sql = "ALTER TABLE `" . Common::prefixTable("log_link_visit_action") . "` DROP COLUMN `$this->fieldName`";
+            Db::exec($sql);
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, '1091')) {
+                throw $e;
+            }
+        }
+    }
+
+
     public function shouldHandle()
     {
         return false;
