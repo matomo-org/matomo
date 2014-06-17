@@ -15,17 +15,18 @@ class Settings
 {
     function __construct(Request $request, $ip)
     {
-        $this->request = $request;
+        $this->request   = $request;
         $this->ipAddress = $ip;
-        $this->params = array();
+        $this->configId  = null;
     }
 
-    function getInfo()
+    function getConfigId()
     {
-        if(empty($this->params)) {
+        if (empty($this->configId)) {
             $this->loadInfo();
         }
-        return $this->params;
+
+        return $this->configId;
     }
 
     protected function loadInfo()
@@ -40,14 +41,15 @@ class Settings
         $deviceDetector->parse();
         $aBrowserInfo = $deviceDetector->getBrowser();
 
-        $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
+        $browserName    = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
         $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
 
         $os = $deviceDetector->getOS();
         $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
 
         $browserLang = substr($this->request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
-        $configurationHash = $this->getConfigHash(
+
+        $this->configId = $this->getConfigHash(
             $os,
             $browserName,
             $browserVersion,
@@ -63,20 +65,6 @@ class Settings
             $plugin_Cookie,
             $this->ipAddress,
             $browserLang);
-
-        $this->params = array(
-            'config_id'              => $configurationHash,
-            'config_pdf'             => $plugin_PDF,
-            'config_flash'           => $plugin_Flash,
-            'config_java'            => $plugin_Java,
-            'config_director'        => $plugin_Director,
-            'config_quicktime'       => $plugin_Quicktime,
-            'config_realplayer'      => $plugin_RealPlayer,
-            'config_windowsmedia'    => $plugin_WindowsMedia,
-            'config_gears'           => $plugin_Gears,
-            'config_silverlight'     => $plugin_Silverlight,
-            'config_cookie'          => $plugin_Cookie
-        );
     }
 
 

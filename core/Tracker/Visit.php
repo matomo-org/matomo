@@ -142,12 +142,13 @@ class Visit implements VisitInterface
         /***
          * Visitor recognition
          */
-        $visitor = new Visitor($this->request, $this->getSettingsObject(), $this->visitorInfo, $this->visitorCustomVariables);
+        $visitorId = $this->getSettingsObject()->getConfigId();
+        $visitor   = new Visitor($this->request, $visitorId, $this->visitorInfo, $this->visitorCustomVariables);
         $visitor->recognize();
 
         $this->visitorInfo = $visitor->getVisitorInfo();
 
-        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit();
+        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
 
         if (!$isLastActionInTheSameVisit) {
             Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
@@ -162,7 +163,7 @@ class Visit implements VisitInterface
         if ($visitor->isVisitorKnown()
             && $isLastActionInTheSameVisit
         ) {
-            $idReferrerActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
+            $idReferrerActionUrl  = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
             try {
                 $this->handleExistingVisit($visitor, $action, $visitIsConverted);
@@ -208,7 +209,7 @@ class Visit implements VisitInterface
         // record the goals if applicable
         if ($someGoalsConverted) {
             $this->goalManager->recordGoals(
-                $this->request->getIdSite(),
+                $visitor,
                 $this->visitorInfo,
                 $this->visitorCustomVariables,
                 $action
@@ -259,6 +260,9 @@ class Visit implements VisitInterface
         Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitorInfo));
 
         $this->updateExistingVisit($valuesToUpdate);
+
+        $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
+        $visitor->setVisitorColumn('visit_last_action_time', $this->visitorInfo['visit_last_action_time']);
     }
 
     /**
@@ -320,10 +324,13 @@ class Visit implements VisitInterface
 
         $idVisit = $this->insertNewVisit( $this->visitorInfo );
 
-        $visitor->setVisitorColumn('idvisit', $idVisit);
         $this->visitorInfo['idvisit'] = $idVisit;
         $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
         $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
+
+        $visitor->setVisitorColumn('idvisit', $this->visitorInfo['idvisit']);
+        $visitor->setVisitorColumn('visit_first_action_time', $this->visitorInfo['visit_first_action_time']);
+        $visitor->setVisitorColumn('visit_last_action_time', $this->visitorInfo['visit_last_action_time']);
     }
 
     /**
@@ -383,11 +390,13 @@ class Visit implements VisitInterface
      * Returns true if the last action was done during the last 30 minutes
      * @return bool
      */
-    protected function isLastActionInTheSameVisit()
+    protected function isLastActionInTheSameVisit(Visitor $visitor)
     {
-        return isset($this->visitorInfo['visit_last_action_time'])
-        && ($this->visitorInfo['visit_last_action_time']
-            > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
+        $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
+
+        return isset($lastActionTime)
+            && false !== $lastActionTime
+            && ($lastActionTime > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
     }
 
     // is the referrer host any of the registered URLs for this website?
@@ -451,8 +460,6 @@ class Visit implements VisitInterface
 
         $result = Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
-        $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
-
         // Debug output
         if (isset($valuesToUpdate['idvisitor'])) {
             $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
@@ -479,22 +486,10 @@ class Visit implements VisitInterface
 
     protected function getNewVisitorInformation($idVisitor)
     {
-        $userInfo = $this->getSettingsObject()->getInfo();
-
         return array(
-            'idvisitor'                 => $idVisitor,
-            'config_id'                 => $userInfo['config_id'],
-            'config_pdf'                => $userInfo['config_pdf'],
-            'config_flash'              => $userInfo['config_flash'],
-            'config_java'               => $userInfo['config_java'],
-            'config_director'           => $userInfo['config_director'],
-            'config_quicktime'          => $userInfo['config_quicktime'],
-            'config_realplayer'         => $userInfo['config_realplayer'],
-            'config_windowsmedia'       => $userInfo['config_windowsmedia'],
-            'config_gears'              => $userInfo['config_gears'],
-            'config_silverlight'        => $userInfo['config_silverlight'],
-            'config_cookie'             => $userInfo['config_cookie'],
-            'location_ip'               => $this->getVisitorIp(),
+            'idvisitor'   => $idVisitor,
+            'config_id'   => $this->getSettingsObject()->getConfigId(),
+            'location_ip' => $this->getVisitorIp(),
         );
     }
 
@@ -539,10 +534,6 @@ class Visit implements VisitInterface
     private function triggerHookOnDimensions($dimensions, $hook, $visitor, $action, $valuesToUpdate = null)
     {
         foreach ($dimensions as $dimension) {
-            if (!method_exists($dimension, $hook)) {
-                continue;
-            }
-
             $value = $dimension->$hook($this->request, $visitor, $action);
 
             if ($value !== false) {

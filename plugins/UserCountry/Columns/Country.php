@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\Provider\Provider;
@@ -113,5 +114,28 @@ class Country extends Base
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         return $this->getUrlOverrideValueIfAllowed('country', $request);
+    }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onRecordGoal(Request $request, Visitor $visitor, $action)
+    {
+        $country = $visitor->getVisitorColumn($this->fieldName);
+
+        if (isset($country) && false !== $country) {
+            return $country;
+        }
+
+        $browserLanguage = $request->getBrowserLanguage();
+        $enableLanguageToCountryGuess = Config::getInstance()->Tracker['enable_language_to_country_guess'];
+        $locationIp = $visitor->getVisitorColumn('location_ip');
+
+        $country = Common::getCountry($browserLanguage, $enableLanguageToCountryGuess, $locationIp);
+
+        return $country;
     }
 }

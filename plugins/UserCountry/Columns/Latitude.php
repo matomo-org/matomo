@@ -63,4 +63,15 @@ class Latitude extends Base
     {
         return $this->getUrlOverrideValueIfAllowed('lat', $request);
     }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onRecordGoal(Request $request, Visitor $visitor, $action)
+    {
+        return $visitor->getVisitorColumn($this->fieldName);
+    }
 }

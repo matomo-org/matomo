@@ -49,5 +49,4 @@ class VisitLastActionTime extends VisitDimension
     {
         return $this->onNewVisit($request, $visitor, $action);
     }
-
 }

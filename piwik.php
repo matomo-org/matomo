@@ -71,7 +71,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/TableLogAction.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionPageview.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Referrer.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitExcluded.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitorNotFoundInDb.php';
 require_once PIWIK_INCLUDE_PATH . '/core/CacheFile.php';

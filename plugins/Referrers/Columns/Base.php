@@ -12,7 +12,10 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Tracker\PageUrl;
+use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
+use Piwik\Tracker\Visitor;
+use Piwik\Tracker\Action;
 use Piwik\UrlHelper;
 
 
@@ -299,6 +302,94 @@ abstract class Base extends VisitDimension
         $this->keywordReferrerAnalyzed = Common::mb_strtolower($this->keywordReferrerAnalyzed);
         $this->nameReferrerAnalyzed = Common::mb_strtolower($this->nameReferrerAnalyzed);
         return true;
+    }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function getValueForRecordGoal(Request $request, Visitor $visitor)
+    {
+        $referrerTimestamp       = $request->getParam('_refts');
+        $referrerUrl             = $request->getParam('_ref');
+        $referrerCampaignName    = trim(urldecode($request->getParam('_rcn')));
+        $referrerCampaignKeyword = trim(urldecode($request->getParam('_rck')));
+
+        // Attributing the correct Referrer to this conversion.
+        // Priority order is as follows:
+        // 0) In some cases, the campaign is not passed from the JS so we look it up from the current visit
+        // 1) Campaign name/kwd parsed in the JS
+        // 2) Referrer URL stored in the _ref cookie
+        // 3) If no info from the cookie, attribute to the current visit referrer
+
+        // 3) Default values: current referrer
+        $type    = $visitor->getVisitorColumn('referer_type');
+        $name    = $visitor->getVisitorColumn('referer_name');
+        $keyword = $visitor->getVisitorColumn('referer_keyword');
+        $time    = $visitor->getVisitorColumn('visit_first_action_time');
+
+        // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie, but the URL ref was found.
+        //    In this case we look up if the current visit is credited to a campaign and will credit this campaign rather than the URL ref (since campaigns have higher priority)
+        if (empty($referrerCampaignName)
+            && $type == Common::REFERRER_TYPE_CAMPAIGN
+            && !empty($name)
+        ) {
+            // Use default values per above
+        } // 1) Campaigns from 1st party cookie
+        elseif (!empty($referrerCampaignName)) {
+            $type    = Common::REFERRER_TYPE_CAMPAIGN;
+            $name    = $referrerCampaignName;
+            $keyword = $referrerCampaignKeyword;
+            $time    = $referrerTimestamp;
+        } // 2) Referrer URL parsing
+        elseif (!empty($referrerUrl)) {
+
+            $idSite   = $request->getIdSite();
+            $referrer = $this->getReferrerInformation($referrerUrl, $currentUrl = '', $idSite);
+
+            // if the parsed referrer is interesting enough, ie. website or search engine
+            if (in_array($referrer['referer_type'], array(Common::REFERRER_TYPE_SEARCH_ENGINE, Common::REFERRER_TYPE_WEBSITE))) {
+                $type    = $referrer['referer_type'];
+                $name    = $referrer['referer_name'];
+                $keyword = $referrer['referer_keyword'];
+                $time    = $referrerTimestamp;
+            }
+        }
+
+        $this->setCampaignValuesToLowercase($type, $name, $keyword);
+
+        $fields = array(
+            'referer_type'              => $type,
+            'referer_name'              => $name,
+            'referer_keyword'           => $keyword,
+            // this field is currently unused
+            'referer_visit_server_date' => date("Y-m-d", $time),
+        );
+
+        if (array_key_exists($this->fieldName, $fields)) {
+            return $fields[$this->fieldName];
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $type
+     * @param $name
+     * @param $keyword
+     */
+    protected function setCampaignValuesToLowercase($type, &$name, &$keyword)
+    {
+        if ($type === Common::REFERRER_TYPE_CAMPAIGN) {
+            if (!empty($name)) {
+                $name = Common::mb_strtolower($name);
+            }
+            if (!empty($keyword)) {
+                $keyword = Common::mb_strtolower($keyword);
+            }
+        }
     }
 
 }

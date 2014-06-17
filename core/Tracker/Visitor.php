@@ -20,14 +20,14 @@ class Visitor
     private $visitorKnown = false;
     private $request;
     private $visitorInfo;
-    private $userInfo;
+    private $configId;
 
-    public function __construct(Request $request, Tracker\Settings $settings, $visitorInfo = array(), $customVariables = null)
+    public function __construct(Request $request, $configId, $visitorInfo = array(), $customVariables = null)
     {
         $this->request = $request;
         $this->visitorInfo = $visitorInfo;
         $this->customVariables = $customVariables;
-        $this->userInfo = $settings->getInfo();
+        $this->configId = $configId;
     }
 
     /**
@@ -41,7 +41,7 @@ class Visitor
     {
         $this->setIsVisitorKonwn(false);
 
-        $configId = $this->userInfo['config_id'];
+        $configId = $this->configId;
 
         $idVisitor = $this->request->getVisitorId();
         $isVisitorIdToLookup = !empty($idVisitor);
@@ -270,10 +270,9 @@ class Visitor
 
         $dimensions = VisitDimension::getAllDimensions();
         foreach ($dimensions as $dimension) {
-            if (method_exists($dimension, 'onExistingVisit')) {
+            if ($dimension->hasImplementedEvent('onExistingVisit')) {
                 $fields[] = $dimension->getFieldName();
             }
-
 
             /**
              * This event collects a list of [visit entity]() properties that should be loaded when reading

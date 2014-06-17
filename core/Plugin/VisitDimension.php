@@ -10,7 +10,6 @@ namespace Piwik\Plugin;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Tracker\Request;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
@@ -36,6 +35,14 @@ abstract class VisitDimension
 
     }
 
+    public function hasImplementedEvent($method)
+    {
+        $reflectionObject = new \ReflectionObject($this);
+        $declaringClass   = $reflectionObject->getMethod($method)->getDeclaringClass();
+
+        return get_class() !== $declaringClass->name;
+    }
+
     public function install()
     {
         if (empty($this->fieldName) || empty($this->fieldType)) {
@@ -43,8 +50,24 @@ abstract class VisitDimension
         }
 
         try {
-            $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` ADD `$this->fieldName` $this->fieldType";
-            Db::exec($sql);
+            if ($this->hasImplementedEvent('onNewVisit')
+             || $this->hasImplementedEvent('onExistingVisit')
+             || $this->hasImplementedEvent('onConvertedVisit') ) {
+                $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` ADD `$this->fieldName` $this->fieldType;";
+                Db::exec($sql);
+            }
+
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, '1060')) {
+                throw $e;
+            }
+        }
+
+        try {
+            if ($this->hasImplementedEvent('onRecordGoal')) {
+                $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` ADD `$this->fieldName` $this->fieldType;";
+                Db::exec($sql);
+            }
 
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, '1060')) {
@@ -80,6 +103,26 @@ abstract class VisitDimension
     public function getFieldName()
     {
         return $this->fieldName;
+    }
+
+    public function onNewVisit()
+    {
+        return false;
+    }
+
+    public function onExistingVisit()
+    {
+        return false;
+    }
+
+    public function onConvertedVisit()
+    {
+        return false;
+    }
+
+    public function onRecordGoal()
+    {
+        return false;
     }
 
     abstract public function getName();

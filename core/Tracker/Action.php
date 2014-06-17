@@ -78,9 +78,11 @@ abstract class Action
     {
         $key = array_search($actionType->getActionType(), self::$factoryPriority);
 
-        if (!$key) {
+        if (false === $key) {
             return -1;
         }
+
+        return $key;
     }
 
     public function shouldHandle()

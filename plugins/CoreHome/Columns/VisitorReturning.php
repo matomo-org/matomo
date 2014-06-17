@@ -23,6 +23,7 @@ class VisitorReturning extends VisitDimension
 
     protected $fieldName = 'visitor_returning';
     protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $conversionField = true;
 
     protected function init()
     {
@@ -68,5 +69,16 @@ class VisitorReturning extends VisitDimension
         }
 
         return self::IS_NEW;
+    }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onRecordGoal(Request $request, Visitor $visitor, $action)
+    {
+        return $visitor->getVisitorColumn($this->fieldName);
     }
 }
