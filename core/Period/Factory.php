@@ -26,13 +26,13 @@ class Factory
      * @throws Exception If `$strPeriod` is invalid.
      * @return \Piwik\Period
      */
-    static public function build($period, $date)
+    static public function build($period, $date, $timezone = null)
     {
         self::checkPeriodIsEnabled($period);
 
         if (is_string($date)) {
             if (Period::isMultiplePeriod($date, $period) || $period == 'range') {
-                return new Range($period, $date);
+                return new Range($period, $date, $timezone);
             }
             $date = Date::factory($date);
         }
