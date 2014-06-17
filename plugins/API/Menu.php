@@ -11,6 +11,7 @@ namespace Piwik\Plugins\API;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
+use DeviceDetector\Parser\OperatingSystem;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -34,14 +35,13 @@ class Menu extends \Piwik\Plugin\Menu
             return;
         }
 
-        if (!class_exists("DeviceDetector")) {
+        if (!class_exists("DeviceDetector\\DeviceDetector")) {
             throw new \Exception("DeviceDetector could not be found, maybe you are using Piwik from git and need to have update Composer. <br>php composer.phar update");
         }
 
-        $ua = new \DeviceDetector($_SERVER['HTTP_USER_AGENT']);
-        $ua->parse();
-        $os = $ua->getOs('short_name');
-        if ($os && in_array($os, array('AND', 'IOS'))) {
+        $ua = new OperatingSystem($_SERVER['HTTP_USER_AGENT']);
+        $parsedOS = $ua->parse();
+        if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array('AND', 'IOS'))) {
             $menu->add('Piwik Mobile App', null, array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
         }
     }

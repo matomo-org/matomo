@@ -8,8 +8,10 @@
  */
 namespace Piwik\Tracker;
 
-use Piwik\CacheFile;
+use Piwik\DeviceDetectorCache;
+use Piwik\DeviceDetectorFactory;
 use Piwik\Tracker;
+use DeviceDetector\DeviceDetector;
 
 class Settings
 {
@@ -36,16 +38,23 @@ class Settings
         $resolution = $this->request->getParam('res');
         $userAgent = $this->request->getUserAgent();
 
-        $deviceDetector = new \DeviceDetector($userAgent);
-        $deviceDetector->setCache(new CacheFile('tracker', 86400));
-        $deviceDetector->parse();
-        $aBrowserInfo = $deviceDetector->getBrowser();
+        $deviceDetector = DeviceDetectorFactory::getInstance($userAgent);
+
+        $aBrowserInfo = $deviceDetector->getClient();
+        if ($aBrowserInfo['type'] != 'browser') {
+            // for now only track browsers
+            unset($aBrowserInfo);
+        }
 
         $browserName = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
         $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
 
-        $os = $deviceDetector->getOS();
-        $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+        if ($deviceDetector->isBot()) {
+            $os = 'BOT';
+        } else {
+            $os = $deviceDetector->getOS();
+            $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+        }
 
         $browserLang = substr($this->request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
         $configurationHash = $this->getConfigHash(
@@ -68,8 +77,12 @@ class Settings
         $this->params = array(
             'config_id'              => $configurationHash,
             'config_os'              => $os,
+            'config_os_version'      => $deviceDetector->getOs('version'),
             'config_browser_name'    => $browserName,
             'config_browser_version' => $browserVersion,
+            'config_device_type'     => $deviceDetector->getDevice(),
+            'config_device_model'    => $deviceDetector->getModel(),
+            'config_device_brand'    => $deviceDetector->getBrand(),
             'config_resolution'      => $resolution,
             'config_pdf'             => $plugin_PDF,
             'config_flash'           => $plugin_Flash,

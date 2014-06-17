@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use DeviceDetector;
 use Piwik\Piwik;
+use DeviceDetector\Parser\OperatingSystem AS OperatingSystemParser;
+use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
+use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)
 {
@@ -25,7 +27,7 @@ function getBrandLogo($label)
 
 function getBrowserFamilyFullNameExtended($label)
 {
-    foreach (DeviceDetector::$browserFamilies as $name => $family) {
+    foreach (BrowserParser::getAvailableBrowserFamilies() as $name => $family) {
         if (in_array($label, $family)) {
             return $name;
         }
@@ -35,8 +37,9 @@ function getBrowserFamilyFullNameExtended($label)
 
 function getBrowserFamilyLogoExtended($label)
 {
-    if (array_key_exists($label, DeviceDetector::$browserFamilies)) {
-        return getBrowserLogoExtended(DeviceDetector::$browserFamilies[$label][0]);
+    $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
+    if (!empty($label) && array_key_exists($label, $browserFamilies)) {
+        return getBrowserLogoExtended($browserFamilies[$label][0]);
     }
     return getBrowserLogoExtended($label);
 }
@@ -45,8 +48,9 @@ function getBrowserNameExtended($label)
 {
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
-    if (array_key_exists($short, DeviceDetector::$browsers)) {
-        return trim(ucfirst(DeviceDetector::$browsers[$short]) . ' ' . $ver);
+    $browsers = BrowserParser::getAvailableBrowsers();
+    if (array_key_exists($short, $browsers)) {
+        return trim(ucfirst($browsers[$short]) . ' ' . $ver);
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -70,8 +74,8 @@ function getBrowserLogoExtended($short)
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 2) {
 
-        if (in_array($short, DeviceDetector::$browsers)) {
-            $flippedBrowsers = array_flip(DeviceDetector::$browsers);
+        if (in_array($short, BrowserParser::getAvailableBrowsers())) {
+            $flippedBrowsers = array_flip(BrowserParser::getAvailableBrowsers());
             $short = $flippedBrowsers[$short];
         } else {
             $short = substr($short, 0, 2);
@@ -80,18 +84,20 @@ function getBrowserLogoExtended($short)
 
     $family = getBrowserFamilyFullNameExtended($short);
 
-    if (array_key_exists($short, DeviceDetector::$browsers) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
+    $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
+
+    if (!empty($short) && array_key_exists($short, BrowserParser::getAvailableBrowsers()) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
         return sprintf($path, $short);
-    } elseif (array_key_exists($family, DeviceDetector::$browserFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, DeviceDetector::$browserFamilies[$family][0]))) {
-        return sprintf($path, DeviceDetector::$browserFamilies[$family][0]);
+    } elseif (!empty($short) && array_key_exists($family, $browserFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $browserFamilies[$family][0]))) {
+        return sprintf($path, $browserFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
 }
 
 function getDeviceBrandLabel($label)
 {
-    if (array_key_exists($label, DeviceDetector::$deviceBrands)) {
-        return ucfirst(DeviceDetector::$deviceBrands[$label]);
+    if (array_key_exists($label, DeviceParser::$deviceBrands)) {
+        return ucfirst(DeviceParser::$deviceBrands[$label]);
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -110,8 +116,11 @@ function getDeviceTypeLabel($label)
         'smart display' => 'DevicesDetection_SmartDisplay',
         'camera'        => 'DevicesDetection_Camera'
     );
-    if (isset(DeviceDetector::$deviceTypes[$label]) && isset($translations[DeviceDetector::$deviceTypes[$label]])) {
-        return Piwik::translate($translations[DeviceDetector::$deviceTypes[$label]]);
+
+    $deviceTypes = DeviceParser::getAvailableDeviceTypes();
+
+    if (is_numeric($label) && in_array($label, $deviceTypes) && isset($translations[array_search($label, $deviceTypes)])) {
+        return Piwik::translate($translations[array_search($label, $deviceTypes)]);
     } else if (isset($translations[$label])) {
         return Piwik::translate($translations[$label]);
     } else {
@@ -121,8 +130,8 @@ function getDeviceTypeLabel($label)
 
 function getDeviceTypeLogo($label)
 {
-    if (is_numeric($label) && isset(DeviceDetector::$deviceTypes[$label])) {
-        $label = DeviceDetector::$deviceTypes[$label];
+    if (is_numeric($label) && in_array($label, DeviceParser::getAvailableDeviceTypes())) {
+        $label = array_search($label, DeviceParser::getAvailableDeviceTypes());
     }
 
     $label = strtolower($label);
@@ -156,7 +165,10 @@ function getModelName($label)
 
 function getOSFamilyFullNameExtended($label)
 {
-    $label = DeviceDetector::getOsFamily($label);
+    if ($label == 'BOT') {
+        return 'Bot';
+    }
+    $label = OperatingSystemParser::getOsFamily($label);
     if($label !== false) {
         return $label;
     }
@@ -165,18 +177,22 @@ function getOSFamilyFullNameExtended($label)
 
 function getOsFamilyLogoExtended($label)
 {
-    if (array_key_exists($label, DeviceDetector::$osFamilies)) {
-        return getOsLogoExtended(DeviceDetector::$osFamilies[$label][0]);
+    $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
+    if (!empty($label) && array_key_exists($label, $osFamilies)) {
+        return getOsLogoExtended($osFamilies[$label][0]);
     }
     return getOsLogoExtended($label);
 }
 
 function getOsFullNameExtended($label)
 {
+    if (substr($label, 0, 3) == 'BOT') {
+        return 'Bot';
+    }
     if (!empty($label) && $label != ";") {
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
-        $name = DeviceDetector::getOsNameFromId($os, $ver);
+        $name = OperatingSystemParser::getNameFromId($os, $ver);
         if (!empty($name)) {
             return $name;
         }
@@ -202,19 +218,20 @@ function getOsLogoExtended($short)
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 3) {
 
-        if (array_key_exists($short, DeviceDetector::$osShorts)) {
-            $short = DeviceDetector::$osShorts[$short];
+        if (in_array($short, OperatingSystemParser::getAvailableOperatingSystems())) {
+            $short = array_search($short, OperatingSystemParser::getAvailableOperatingSystems());
         } else {
             $short = substr($short, 0, 3);
         }
     }
 
     $family = getOsFamilyFullNameExtended($short);
+    $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
 
-    if (in_array($short, DeviceDetector::$osShorts) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
+    if (!empty($short) && array_key_exists($short, OperatingSystemParser::getAvailableOperatingSystems()) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
         return sprintf($path, $short);
-    } elseif (array_key_exists($family, DeviceDetector::$osFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, DeviceDetector::$osFamilies[$family][0]))) {
-        return sprintf($path, DeviceDetector::$osFamilies[$family][0]);
+    } elseif (!empty($family) && array_key_exists($family, $osFamilies) && file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $osFamilies[$family][0]))) {
+        return sprintf($path, $osFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
 }

@@ -319,7 +319,8 @@ Unknown,10,43,0%,4.3,00:12:37,10%
 
 Device type
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Desktop,10,43,0%,4.3,00:12:37,10%
+Unknown,8,40,0%,5,00:15:01,0%
+Desktop,2,3,0%,1.5,00:03:01,50%
 
 Device brand
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

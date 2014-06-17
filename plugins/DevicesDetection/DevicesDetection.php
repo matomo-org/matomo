@@ -9,10 +9,9 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use DeviceDetector;
+use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
 use Exception;
 use Piwik\ArchiveProcessor;
-use Piwik\CacheFile;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -55,10 +54,10 @@ class DevicesDetection extends \Piwik\Plugin
 
     protected function getRawMetadataDeviceType()
     {
-        $deviceTypeList = implode(", ", DeviceDetector::$deviceTypes);
+        $deviceTypeList = implode(", ", DeviceParser::getAvailableDeviceTypeNames());
 
         $deviceTypeLabelToCode = function ($type) use ($deviceTypeList) {
-            $index = array_search(strtolower(trim(urldecode($type))), DeviceDetector::$deviceTypes);
+            $index = array_search(strtolower(trim(urldecode($type))), DeviceParser::getAvailableDeviceTypeNames());
             if ($index === false) {
                 throw new Exception("deviceType segment must be one of: $deviceTypeList");
             }
@@ -86,7 +85,6 @@ class DevicesDetection extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Tracker.newVisitorInformation'   => 'parseMobileVisitData',
             'API.getReportMetadata'           => 'getReportMetadata',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -223,26 +221,6 @@ class DevicesDetection extends \Piwik\Plugin
                 throw $e;
             }
         }
-    }
-
-    public function parseMobileVisitData(&$visitorInfo, \Piwik\Tracker\Request $request)
-    {
-        $userAgent = $request->getUserAgent();
-
-        $UAParser = new DeviceDetector($userAgent);
-        $UAParser->setCache(new CacheFile('tracker', 86400));
-        $UAParser->parse();
-        $deviceInfo['config_browser_name'] = $UAParser->getBrowser("short_name");
-        $deviceInfo['config_browser_version'] = $UAParser->getBrowser("version");
-        $deviceInfo['config_os'] = $UAParser->getOs("short_name");
-        $deviceInfo['config_os_version'] = $UAParser->getOs("version");
-        $deviceInfo['config_device_type'] = $UAParser->getDevice();
-        $deviceInfo['config_device_model'] = $UAParser->getModel();
-        $deviceInfo['config_device_brand'] = $UAParser->getBrand();
-
-        $visitorInfo = array_merge($visitorInfo, $deviceInfo);
-        Common::printDebug("Device Detection:");
-        Common::printDebug($deviceInfo);
     }
 
     public function configureViewDataTable(ViewDataTable $view)
