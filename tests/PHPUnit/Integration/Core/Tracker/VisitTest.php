@@ -170,6 +170,7 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
             $this->assertSame($expectedIsReferrerSpam, $excluded->public_isReferrerSpamExcluded(), $spamUrl);
         }
     }
+
     /**
      * @group Core
      * @group IpIsKnownBot
@@ -197,6 +198,53 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
             $excluded = new VisitExcluded_public($request, IP::P2N($ip));
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $ip);
+        }
+    }
+
+    /**
+     * @group Core
+     * @group UserAgentIsKnownBot
+     */
+    public function testIsVisitor_userAgentIsKnownBot()
+    {
+        $isUserAgentBot = array(
+            'X Googlebot X' => true,
+            'XGoogle Web PreviewX' => true,
+            'AdsBot-Google' => true,
+            'Google Page Speed Insights' => true,
+            'hello,Google (+https://developers.google.comEOF' => true,
+            'facebookexternalhit' => true,
+            'baidu' => true,
+            'bingbot' => true,
+            'BINGBOT' => true,
+            'x BingBot x' => true,
+            'BingPreview' => true,
+            'YottaaMonitor' => true,
+            'CloudFlare' => true,
+            'pingdom' => true,
+            'yandex' => true,
+            'exabot' => true,
+            'sogou' => true,
+            'soso' => true,
+
+            'random' => false,
+            'hello world' => false,
+            'this is a user agent' => false,
+            'Mozilla' => false,
+        );
+
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
+
+        foreach ($isUserAgentBot as $userAgent => $isBot) {
+            $request = new Request(array(
+                'idsite' => $idsite,
+                'bots' => 0,
+                'ua' => $userAgent,
+            ));
+
+            $excluded = new VisitExcluded_public($request);
+
+            $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $userAgent);
         }
     }
 }
