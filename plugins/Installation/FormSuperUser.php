@@ -53,21 +53,25 @@ class FormSuperUser extends QuickForm2
         $email->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_Email')));
         $email->addRule('checkEmail', Piwik::translate('UsersManager_ExceptionInvalidEmail'));
 
-        $this->addElement('checkbox', 'subscribe_newsletter_security', null, array(
-                                                                                  'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_SecurityNewsletter'),
-                                                                             ));
+        $this->addElement('checkbox', 'subscribe_newsletter_piwikorg', null,
+            array(
+                'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_PiwikOrgNewsletter'),
+            ));
 
-        $this->addElement('checkbox', 'subscribe_newsletter_community', null, array(
-                                                                                   'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_CommunityNewsletter'),
-                                                                              ));
+        $this->addElement('checkbox', 'subscribe_newsletter_piwikpro', null,
+            array(
+                'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_PiwikProNewsletter',
+                        array("<a href='http://piwik.pro' style='color:#444;' target='_blank'>", "</a>")
+                    ),
+            ));
 
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-                                                                       'subscribe_newsletter_community' => 1,
-                                                                       'subscribe_newsletter_security'  => 1,
-                                                                  )));
+            'subscribe_newsletter_piwikorg' => 1,
+            'subscribe_newsletter_piwikpro' => 0,
+        )));
     }
 }
 

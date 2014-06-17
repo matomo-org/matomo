@@ -1045,7 +1045,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik is a collaborative project, built with love by people from all over the world.",
-        "CommunityNewsletter": "email me with community updates (new plugins, new features, etc.)",
         "ConfigurationHelp": "Your Piwik configuration file appears to be misconfigured. You can either remove config\/config.ini.php and resume installation, or correct the database connection settings.",
         "ConfirmDeleteExistingTables": "Are you sure you want to delete the tables: %s from your database? WARNING: DATA FROM THESE TABLES CANNOT BE RECOVERED!",
         "Congratulations": "Congratulations",
@@ -1091,7 +1090,8 @@
         "Requirements": "Piwik Requirements",
         "RestartWebServer": "After making this change, restart your web server.",
         "ReusingTables": "Reusing the Tables",
-        "SecurityNewsletter": "email me with major Piwik upgrades and security alerts",
+        "PiwikOrgNewsletter": "email me with major Piwik community updates",
+        "PiwikProNewsletter": "email me with %sPiwik PRO%s updates",
         "SeeBelowForMoreInfo": "See below for more information.",
         "SetupWebsite": "Setup a Website",
         "SetupWebsiteError": "There was an error when adding the website",
