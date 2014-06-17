@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Actions\Columns;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
-use Piwik\Tracker;
+use Piwik\Tracker\Visitor;
 
 class TimeSpentRefAction extends ActionDimension
 {
@@ -23,7 +23,7 @@ class TimeSpentRefAction extends ActionDimension
         return '';
     }
 
-    public function onNewAction(Request $request, Action $action, Tracker\Visitor $visitor)
+    public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
         $timeSpent = $visitor->getVisitorColumn('time_spent_ref_action');
 

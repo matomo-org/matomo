@@ -39,7 +39,7 @@ class Visitor
      */
     public function recognize()
     {
-        $this->setIsVisitorKonwn(false);
+        $this->setIsVisitorKnown(false);
 
         $configId = $this->configId;
 
@@ -188,7 +188,7 @@ class Visitor
                 }
             }
 
-            $this->setIsVisitorKonwn(true);
+            $this->setIsVisitorKnown(true);
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($this->visitorInfo['idvisitor']) . ",
                     config_id = " . bin2hex($configId) . ",
                     idvisit = {$this->visitorInfo['idvisit']},
@@ -323,7 +323,7 @@ class Visitor
         return $this->visitorKnown === true;
     }
 
-    public function setIsVisitorKonwn($isVisitorKnown)
+    public function setIsVisitorKnown($isVisitorKnown)
     {
         return $this->visitorKnown = $isVisitorKnown;
     }

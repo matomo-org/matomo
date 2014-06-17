@@ -99,7 +99,7 @@ abstract class Action
             /** @var \Piwik\Tracker\Action $instance */
             $instance = new $action($request);
 
-            if ($instance->shouldHandle($request)) {
+            if ($instance->shouldHandle()) {
                 $instances[] = $instance;
             }
         }
@@ -314,12 +314,10 @@ abstract class Action
         $dimensions = ActionDimension::getAllDimensions();
 
         foreach ($dimensions as $dimension) {
-            if (method_exists($dimension, 'onNewAction')) {
-                $value = $dimension->onNewAction($this->request, $this, $visitor);
+            $value = $dimension->onNewAction($this->request, $visitor, $this);
 
-                if ($value !== false) {
-                    $visitAction[$dimension->getFieldName()] = $value;
-                }
+            if ($value !== false) {
+                $visitAction[$dimension->getFieldName()] = $value;
             }
         }
 

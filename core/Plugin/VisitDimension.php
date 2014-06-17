@@ -48,18 +48,11 @@ abstract class VisitDimension
 
     public function install()
     {
-        if (empty($this->fieldName) || empty($this->fieldType)) {
-            return;
-        }
-
         try {
-            if ($this->hasImplementedEvent('onNewVisit')
-             || $this->hasImplementedEvent('onExistingVisit')
-             || $this->hasImplementedEvent('onConvertedVisit') ) {
+            if ($this->isHandlingLogVisit()) {
                 $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` ADD `$this->fieldName` $this->fieldType";
                 Db::exec($sql);
             }
-
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, '1060')) {
                 throw $e;
@@ -67,16 +60,35 @@ abstract class VisitDimension
         }
 
         try {
-            if ($this->hasImplementedEvent('onRecordGoal')) {
+            if ($this->isHandlingLogConversion()) {
                 $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` ADD `$this->fieldName` $this->fieldType";
                 Db::exec($sql);
             }
-
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, '1060')) {
                 throw $e;
             }
         }
+    }
+
+    private function isHandlingLogVisit()
+    {
+        if (empty($this->fieldName) || empty($this->fieldType)) {
+            return false;
+        }
+
+        return $this->hasImplementedEvent('onNewVisit')
+            || $this->hasImplementedEvent('onExistingVisit')
+            || $this->hasImplementedEvent('onConvertedVisit');
+    }
+
+    private function isHandlingLogConversion()
+    {
+        if (empty($this->fieldName) || empty($this->fieldType)) {
+            return false;
+        }
+
+        return $this->hasImplementedEvent('onRecordGoal');
     }
 
     public function uninstall()
@@ -86,13 +98,10 @@ abstract class VisitDimension
         }
 
         try {
-            if ($this->hasImplementedEvent('onNewVisit')
-                || $this->hasImplementedEvent('onExistingVisit')
-                || $this->hasImplementedEvent('onConvertedVisit') ) {
+            if ($this->isHandlingLogVisit()) {
                 $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` DROP COLUMN `$this->fieldName`";
                 Db::exec($sql);
             }
-
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, '1091')) {
                 throw $e;
@@ -100,11 +109,10 @@ abstract class VisitDimension
         }
 
         try {
-            if ($this->hasImplementedEvent('onRecordGoal')) {
+            if ($this->isHandlingLogConversion()) {
                 $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` DROP COLUMN `$this->fieldName`";
                 Db::exec($sql);
             }
-
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, '1091')) {
                 throw $e;

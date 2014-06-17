@@ -81,10 +81,9 @@ class Visit implements VisitInterface
     public function handle()
     {
         // the IP is needed by isExcluded() and GoalManager->recordGoals()
-        $ip = $this->request->getIp();
-        $this->visitorInfo['location_ip'] = $ip;
+        $this->visitorInfo['location_ip'] = $this->request->getIp();
 
-        $excluded = new VisitExcluded($this->request, $ip);
+        $excluded = new VisitExcluded($this->request, $this->visitorInfo['location_ip']);
         if ($excluded->isExcluded()) {
             return;
         }
@@ -186,7 +185,7 @@ class Visit implements VisitInterface
                 } // When the row wasn't found in the logs, and this is a pageview or
                 // goal matching URL, we force a new visitor
                 else {
-                    $visitor->setIsVisitorKonwn(false);
+                    $visitor->setIsVisitorKnown(false);
                 }
             }
         }
@@ -295,11 +294,14 @@ class Visit implements VisitInterface
     {
         Common::printDebug("New Visit (IP = " . IP::N2P($this->getVisitorIp()) . ")");
 
-        $idVisitor = $this->getVisitorIdcookie($visitor);
-        $this->visitorInfo = $this->getNewVisitorInformation($idVisitor);
+        $this->visitorInfo = $this->getNewVisitorInformation($visitor);
 
         // Add Custom variable key,value to the visitor array
         $this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
+
+        foreach ($this->visitorInfo as $key => $value) {
+            $visitor->setVisitorColumn($key, $value);
+        }
 
         $dimensions = VisitDimension::getAllDimensions();
 
@@ -485,10 +487,10 @@ class Visit implements VisitInterface
         Common::printDebug($debugVisitInfo);
     }
 
-    protected function getNewVisitorInformation($idVisitor)
+    protected function getNewVisitorInformation($visitor)
     {
         return array(
-            'idvisitor'   => $idVisitor,
+            'idvisitor'   => $this->getVisitorIdcookie($visitor),
             'config_id'   => $this->getSettingsObject()->getConfigId(),
             'location_ip' => $this->getVisitorIp(),
         );
@@ -509,6 +511,7 @@ class Visit implements VisitInterface
         // Might update the idvisitor when it was forced or overwritten for this visit
         if (strlen($this->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
             $valuesToUpdate['idvisitor'] = $this->visitorInfo['idvisitor'];
+            $visitor->setVisitorColumn('idvisitor', $this->visitorInfo['idvisitor']);
         }
 
         $dimensions = VisitDimension::getAllDimensions();

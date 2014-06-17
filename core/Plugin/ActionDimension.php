@@ -10,8 +10,10 @@ namespace Piwik\Plugin;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Tracker\Visitor;
 
 /**
  * @api
@@ -137,6 +139,11 @@ abstract class ActionDimension
         }
 
         return $instances;
+    }
+
+    public function onNewAction(Request $request, Visitor $visitor, Action $action)
+    {
+        return false;
     }
 
 }
