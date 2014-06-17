@@ -777,7 +777,6 @@
         "PluginDescription": "Generar belles imatges estàtiques en gràfic PNG per qualsevol informe del Piwik."
     },
     "Installation": {
-        "CommunityNewsletter": "Envieu-me correus-e amb les actualitzacions de la comunitat (nous connectors, funcionalitats, etc.)",
         "ConfigurationHelp": "Sembla que el vostre fitxer de configuració del Piwik no està definit correctament. Podeu eliminar el fitxer confi\/config.ini.php i torna a començar la instal·lació o corregir les preferències de connexió a la Base de dades.",
         "ConfirmDeleteExistingTables": "Realment voleu esborrar les taules %s de la base de dades? AVÍS: NO ES PODRAN RECUPERAR LES DADES!",
         "Congratulations": "Felicitats",
@@ -816,7 +815,6 @@
         "PluginDescription": "Procès d'instal·lació del Piwik. El procès d'instal·lació només es dur a temre una vegada. Si el fitxer de configuració config\/config.inc.php s'esborrà es tornarà a iniciar la instal·lació.",
         "Requirements": "Requeriments del Piwik",
         "RestartWebServer": "Desprès de fer aquest canvi, reinicieu el vostre servidor web.",
-        "SecurityNewsletter": "Envieu-me correus-e sobre les actualitzacions grans del Piwik i les alertes de seguretat",
         "SeeBelowForMoreInfo": "Llegiu a continuació per més informació.",
         "SetupWebsite": "Configura un lloc",
         "SetupWebsiteError": "Hi ha hagut un problema en el moment d'afegir el lloc.",

@@ -935,7 +935,6 @@
         "PluginDescription": "Tạo ra hình ảnh đồ họa PNG tĩnh đẹp cho các báo cáo Piwik."
     },
     "Installation": {
-        "CommunityNewsletter": "gửi email cho tôi với bản cập nhật chung (bổ sung mới, tính năng mới, vv)",
         "ConfigurationHelp": "Tập tin cấu hình Piwik của bạn dường như là sai. Bạn có thể loại bỏ config\/config.ini.php và tiếp tục cài đặt, hoặc sửa chữa các thiết lập kết nối cơ sở dữ liệu.",
         "ConfirmDeleteExistingTables": "Bạn có chắc chắn muốn xóa các table (bảng) sau khỏi database của bạn: %s? CHÚ Ý: DỮ LIỆU BỊ XÓA TỪ CÁC TABLE NÀY SẼ KHÔNG THỂ KHÔI PHỤC LẠI ĐƯỢC!",
         "Congratulations": "Xin chúc mừng",
@@ -978,7 +977,6 @@
         "PluginDescription": "Quá trình cài đặt của Piwik. Cài đặt thường được thực hiện một lần duy nhất. Nếu các tập tin cấu hình config\/config.inc.php bị xóa, việc cài đặt sẽ bắt đầu lại.",
         "Requirements": "Piwik yêu cầu",
         "RestartWebServer": "Sau khi tạo ra sự thay đổi này, khởi động lại máy chủ web của bạn",
-        "SecurityNewsletter": "gửi email cho tôi khi có các bản cập nhật của Piwik và các thông báo về bảo mật",
         "SeeBelowForMoreInfo": "Xêm thêm thông tin ở dưới đây",
         "SetupWebsite": "Thiết lập một website",
         "SetupWebsiteError": "Có lỗi xảy ra khi thêm website",

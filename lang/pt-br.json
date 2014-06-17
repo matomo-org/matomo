@@ -959,7 +959,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik é um projeto colaborativo, construído com amor por pessoas de todo o mundo.",
-        "CommunityNewsletter": "envie-me um email com atualizações da comunidade (novos plugins, novas funções, etc.)",
         "ConfigurationHelp": "Seu arquivo de configuração Piwik parece estar desconfigurado. Você pode ou remover config\/config.ini.php e fechar a instalação, ou corrigir as configurações de conexão com banco de dados.",
         "ConfirmDeleteExistingTables": "Tem certeza que quer apagar as tabelas: %s do seu banco de dados? AVISO: DADOS DESTAS TABELAS NÃO PODERÃO SER RECUPERADOS!",
         "Congratulations": "Parabéns",
@@ -1004,7 +1003,6 @@
         "PluginDescription": "Processo de instalação do Piwik. A instalação normalmente é feita apenas uma vez. Se o arquivo de configuração config\/config.inc.php é deletado, a instalação começará novamente.",
         "Requirements": "Requerimentos do Piwik",
         "RestartWebServer": "Depois de fazer essa alteração, reinicie o seu servidor web.",
-        "SecurityNewsletter": "envie-me um email quando houver alertas de segurança e atualizações importantes",
         "SeeBelowForMoreInfo": "Veja abaixo para mais informações.",
         "SetupWebsite": "Configurar um website",
         "SetupWebsiteError": "Ocorreu um erro ao tentar adicionar o website",

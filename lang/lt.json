@@ -456,7 +456,6 @@
         "WhereThe": "kur"
     },
     "Installation": {
-        "CommunityNewsletter": "pranešti man apie bendruomenės atnaujinimus (naujus papildinius, naujas savybes ir pan.)",
         "ConfigurationHelp": "Jūsų Piwik konfigūracijos failas sukonfigūruotas netinkamai. Jūs galite ištrinti config\/config.ini.php failą arba pakartoti diegimą, arba pakoreguoti susijungimo su duomenų baze nustatymus.",
         "ConfirmDeleteExistingTables": "Ar tikrai norite ištrinti lenteles: %s duombazėje? ĮSPĖJIMAS: ŠIŲ LENTELIŲ DUOMENYS TAPS NEATKURIAMAIS!",
         "Congratulations": "Sveikiname",
@@ -486,7 +485,6 @@
         "PleaseFixTheFollowingErrors": "Prašome ištaisyti šias klaidas",
         "PluginDescription": "Piwik diegimo procesas. Diegimas paprastai atliekamas vieną kartą. Jei konfigūracijos failas config\/config.inc.php ištrinamas, bus paleistas papildomas diegimas.",
         "Requirements": "Piwik reikalavimai sistemai",
-        "SecurityNewsletter": "pranešti man apie svarbesnius Piwik atnaujinimus bei saugos įspėjimus",
         "SetupWebsite": "Svetainės nustatymai",
         "SetupWebsiteError": "Rasta klaidų pridedant svetainę",
         "SetupWebSiteName": "svetainės pavadinimas",

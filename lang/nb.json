@@ -608,7 +608,6 @@
         "YearComparedToPreviousYear": "forrige år"
     },
     "Installation": {
-        "CommunityNewsletter": "send meg e-post med oppdatering fra Piwik-samfunnet (nye tillegg, nye egenskaper, osv)",
         "ConfirmDeleteExistingTables": "Er du sikker på at du vil slette tabellene %s fra databasen din? ADVARSEL: DATA FRA DISSE TABELLENE KAN IKKE GJENOPPRETTES!",
         "Congratulations": "Gratulerer",
         "CongratulationsHelp": "<p>Gratulerer! Din Piwik installasjon er fullført.<\/p><p>Sørg for at JavaScript-koden er lagt inn på dine sider, og vent på dine første besøkende!<\/p>",
@@ -639,7 +638,6 @@
         "PercentDone": "%s %% ferdig",
         "PleaseFixTheFollowingErrors": "Fiks følgende feil",
         "Requirements": "Krav for å kjøre Piwik",
-        "SecurityNewsletter": "send meg e-post om viktige Piwik-oppgraderinger og sikkerhetsvarsler",
         "SeeBelowForMoreInfo": "Se nedenfor for mer informasjon.",
         "SetupWebsite": "Legg til et nettsted",
         "SetupWebsiteError": "Det skjedde en feil da nettstedet ble lagt til.",

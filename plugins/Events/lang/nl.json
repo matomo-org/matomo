@@ -16,6 +16,7 @@
         "MaxValueDocumentation": "De maximale waarde voor deze gebeurtenis",
         "MinValue": "Minimale waarde",
         "MinValueDocumentation": "De minimale waarde voor deze gebeurtenis",
+        "SwitchToSecondaryDimension": "Omschakelen naar %s",
         "TopEvents": "Top Gebeurtenissen",
         "TotalEvents": "Totaal gebeurtenissen",
         "TotalEventsDocumentation": "Totaal aantal gebeurtenissen",

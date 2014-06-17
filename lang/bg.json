@@ -103,6 +103,7 @@
         "CustomLogoFeedbackInfo": "Ако модифицирате Piwik логото, може също да пожелаете да скриете %s връзката в главното меню. За да направите това, можете да изключите добавката за обратна връзка в страницата %sУправление на добавки%s.",
         "CustomLogoHelpText": "Можете да модифицирате логото на Piwik, което да се показва в интерфейса на потребителя и имейлите с отчети.",
         "EmailServerSettings": "Настройки сървър на е-поща",
+        "FaviconUpload": "Изберете Favicon за качване",
         "ForBetaTestersOnly": "Само за бета тестери",
         "ImageTracking": "Проследяване на изображенията",
         "ImageTrackingIntro1": "Когато посетителят е изключил JavaScript или когато JavaScript не може да бъде използван, може да се използва проследяващата връзка към изображение, за да бъдат проследени посетителите.",
@@ -190,6 +191,8 @@
         "InjectedHostSuperUserWarning": "Възможно е конфигурацията на Piwik да е неправилна (това се случва когато Piwik е бил изместен на нов сървър или друг адрес). Вие можете или %1$sда щракнете тук и да добавите %2$s като валиден Piwik адрес (ако сте сигурни в достоверността му)%3$s, или %4$sда щракнете тук и да посетите %5$s, за да достъпите Piwik безпасно%6$s.",
         "InjectedHostWarningIntro": "В момента достъпвате Piwik от %1$s, но Piwik е настроен да работи чрез този адрес: %2$s.",
         "JavascriptDisabled": "JavaScript трябва да бъде разрешен за да използвате Piwik в стандартен изглед.<br \/>Същото е ако JavaScript не е разрешен или браузъра не го поддържа.<br \/>За да използвате стандартен изглед разрешете JavaScript от настройките на Вашия браузър и %1$sопитайте отново%2$s.<br \/>",
+        "LongMonthFormat": "%longYear%, %longMonth%",
+        "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Открийте разликата: %1$sДарете%2$s за фонд Piwik 2.0!",
         "MakeOneTimeDonation": "Направете еднократно дарение",
         "NoPrivilegesAskPiwikAdmin": "Вие се логнахте в като '%s' но изглежда че нямате разрешение от Piwik. %s Попитайте Вашият Piwik администратор (клик на email)%s да Ви даде \"поглед\" достъп до сайта.",
@@ -209,6 +212,10 @@
         "SharePiwikLong": "Здравейте! Туко-що открих прекрасен софтуер с отворен код: Piwik! Piwik позволява проследяването на посетителите на даден сайт безплатно. Задължително трябва да го пробвате!",
         "SharePiwikShort": "Piwik! Софтуер с отворен код за уеб анализ. Притежавайте вашите собствени данни.",
         "ShareThis": "Сподели това",
+        "ShortDateFormat": "%shortDay% %day% %shortMonth%",
+        "ShortDateFormatWithYear": "%day% %shortMonth% %shortYear%",
+        "ShortMonthFormat": "%shortMonth% %longYear%",
+        "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Покажи JavaScript кода за вмъкване в сайта",
         "SubscribeAndBecomePiwikSupporter": "Пристъпете към сигурната страница за плащане (PayPal) за да станете Piwik Supporter!",
         "SupportPiwik": "Подкрепи Piwik!",
@@ -246,6 +253,7 @@
         "Developer": "Разработчик",
         "DoMoreContactPiwikAdmins": "За да се инсталира нова добавка или нова тема, трябва да се свържете с вашия администратор, който отговаря за Piwik.",
         "DownloadAndInstallPluginsFromMarketplace": "Можете автоматично да свалите и инсталирате нови добавки от %sмагазина за приложения%s.",
+        "EmailToEnquireUpdatedVersion": "Моля, пишете до %1$s и изискайте актуална версия на %2$s.",
         "EnjoyAnotherLookAndFeelOfThemes": "Насладете се на друг изглед и усещане",
         "FeaturedPlugin": "Препоръчана добавка",
         "GetEarlyAccessForPaidPlugins": "Забележка: всички от наличните добавки са безплатни за използване; в бъдеще ще има платена секция в магазина за приложения (%sсвържете се с нас%s за предварителен достъп).",
@@ -435,7 +443,8 @@
         "SpecialRequest": "Имате ли специална молба към екипа на Piwik?",
         "ThankYou": "Благодаря, че помогнахте да направим Piwik по-добър!",
         "TopLinkTooltip": "Може да ни кажете какво мислите, както и да изискате професионална помощ.",
-        "VisitTheForums": "Посетете нашият %sФорум%s"
+        "VisitTheForums": "Посетете нашият %sФорум%s",
+        "WantToThankConsiderDonating": "Смятате, че Piwik е страхотен и искате да ни благодарите?"
     },
     "General": {
         "AbandonedCarts": "Отказани колички",
@@ -969,15 +978,16 @@
         "PluginDescription": "Генерирайте красиви статични PNG графични изображения за всеки Piwik доклад."
     },
     "Insights": {
+        "ControlComparedToDescription": "Ръст спрямо",
         "DayComparedToPreviousDay": "предишен ден",
         "Filter": "Филтър",
         "FilterOnlyNew": "Само нови",
+        "TitleRowDisappearedDetails": "'%1$s' намалял с %2$s и изчезна в %3$s сравнено с %4$s.",
         "WeekComparedToPreviousWeek": "предишна седмица",
         "YearComparedToPreviousYear": "предишна година"
     },
     "Installation": {
         "CollaborativeProject": "Piwik е съвместен проект, изграден с много любов от хора от всички краища на света.",
-        "CommunityNewsletter": "изпращай по пощата информация за нови добавки, функции и др.",
         "ConfigurationHelp": "Вашият Piwik конфигурационен файл изглежда не добре конфигуриран. Можете да премахнете config\/config.ini.php и да започнете инсталирането, или да поправите настройките за връзка към БД-то.",
         "ConfirmDeleteExistingTables": "Наистина ли искате да изтриете следните таблици: %s от базата от данни (БД)? ПРЕДУПРЕЖДЕНИЕ: ДАННИТЕ ОТ ТАЗИ ТАБЛИЦА НЕ МОГАТ ДА БЪДАТ ВЪЗСТАНОВЕНИ!!!",
         "Congratulations": "Поздравления",
@@ -1009,6 +1019,7 @@
         "NfsFilesystemWarning": "Вашият сървър ползва NFS файлова система.",
         "NfsFilesystemWarningSuffixAdmin": "Това означава, че Piwik ще бъде изключително бавен, когато използвате файлови базирани сесии.",
         "NoConfigFound": "Piwik конфигурационният файл не е открит.<br \/><b>  » Можете да <a href='index.php'>инсталирате Piwik сега<\/a><\/b><br \/><small>Ако преди това сте инсталирали Piwik и имате в базата от данни (БД) таблици - можете да запазите Вашите данни!<\/small>",
+        "NotSupported": "не се поддържа",
         "Optional": "По избор",
         "Password": "парола",
         "PasswordDoNotMatch": "паролата не съвпада",
@@ -1018,7 +1029,6 @@
         "PluginDescription": "Инсталационния процес на Piwik. Инсталацията обикновено се прави само веднъж. Ако конфигурационния файл config\/ config.inc.php е изтрит, инсталацията ще започне отново.",
         "Requirements": "Piwik Изисквания",
         "RestartWebServer": "След като направите промените, рестартирайте уеб сървара.",
-        "SecurityNewsletter": "изпращай на имейл информация за обновленията и сигнали относно сигурността",
         "SeeBelowForMoreInfo": "Вижте по-долу за повече информация.",
         "SetupWebsite": "Настройки на сайт",
         "SetupWebsiteError": "Възникнала е грешка при добавянето на сайт",
@@ -1170,6 +1180,7 @@
         "HowtoDeleteAnAccount": "Натиснете продължително, за да изтриете профил.",
         "HowtoDeleteAnAccountOniOS": "Плъзнете от ляво на дясно за да изтриете акаунта",
         "HowtoLoginAnonymous": "Оставете потребителско име и парола празно за анонимен вход",
+        "HttpTimeout": "HTTP сесията изтече",
         "IncompatiblePiwikVersion": "Piwik версията, която използвате не е съвместима с Piwik Mobile 2. Обновете вашата инсталация на Piwik и пробвайте отново или инсталирайте Piwik Mobile 1.",
         "LastUpdated": "Последна актуализация: %s",
         "LoadingReport": "Зарежда се %s",
@@ -1244,6 +1255,7 @@
     "MultiSites": {
         "Evolution": "Развитие",
         "LoadingWebsites": "Зарежда сайтовете",
+        "Pagination": "%s - %s като %s",
         "PluginDescription": "Показва обобщена статистика\/резюме. В момента се поддържа като основна добавка в Piwik.",
         "TopLinkTooltip": "Сравнете статистиката за всички ваши уебсайтове."
     },

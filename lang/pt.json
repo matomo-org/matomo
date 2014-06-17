@@ -605,7 +605,6 @@
         "PluginDescription": "Gera uma imagem de gráfico PNG estática para qualquer relatório Piwik"
     },
     "Installation": {
-        "CommunityNewsletter": "envie-me emails sobre actualizações da comunidade (novos plugins, funcionalidades, etc.)",
         "ConfigurationHelp": "O seu ficheiro de configuração Piwik parece estar mal configurado. Pode remover config\/config.ini.php e continuar a instalação, ou corrigir as definições da ligação à base de dados.",
         "ConfirmDeleteExistingTables": "Tem a certeza que deseja eliminar as tabelas: %s da sua base de dados? AVISO: DADOS DESTAS TABELAS NÃO PODEM SER RECUPERADOS!",
         "Congratulations": "Parabéns",
@@ -635,7 +634,6 @@
         "PleaseFixTheFollowingErrors": "Por favor corrija os seguintes erros",
         "PluginDescription": "Processo de instalação de Piwik. A Instalação é executada só uma vez. Se o ficheiro de configuração config\/config.inc.php for eliminado, a instalação recomeça.",
         "Requirements": "Requisitos do Piwik",
-        "SecurityNewsletter": "envie-me emails sobre actualizações Piwik e alertas de segurança",
         "SetupWebsite": "Configurar um Website",
         "SetupWebsiteError": "Ocorreu um erro ao tentar adicionar o website",
         "SetupWebSiteName": "nome do website",

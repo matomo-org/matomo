@@ -1042,7 +1042,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik je saradnički projekat, satkan od ljubavi od strane ljudi diljem celog sveta.",
-        "CommunityNewsletter": "pošaljite mi elektronsko pismo sa nadogradnjama od strane Piwik zajednice (novi dodaci, nove opcije, itd.)",
         "ConfigurationHelp": "Vaša Piwik podešavanja kao da nisu dobra. Možete ili ukloniti config\/config.ini.php datoteku i nastaviti sa instalacijom, ili ispraviti podešavanja u vezi sa povezivanjem na bazu podataka.",
         "ConfirmDeleteExistingTables": "Da li zaista želite da obrišete tabele: %s iz vaše baze? Upozorenje: Podaci iz ovih tabela se ne mogu više povratiti!",
         "Congratulations": "Čestitamo",
@@ -1088,7 +1087,6 @@
         "Requirements": "Piwik zahtevi",
         "RestartWebServer": "Nakon ovih izmena restartujte vaš web server",
         "ReusingTables": "Ponovna upotreba tabela",
-        "SecurityNewsletter": "pošaljite mi elektronsko pismo sa važnim Piwik nadogradnjama i sigurnosim upozorenjima",
         "SeeBelowForMoreInfo": "Pogledajte ispod za više informacija.",
         "SetupWebsite": "Podešavanje sajta",
         "SetupWebsiteError": "Došlo je do greške prilikom dodavanja sajta",

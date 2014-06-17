@@ -1031,7 +1031,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik är ett projekt som arbetats fram av människor från hela världen, med samma mål och mycket kärlek!",
-        "CommunityNewsletter": "maila mig angående community-uppdateringar (nya plugins, nya funktioner, etc.)",
         "ConfigurationHelp": "Din Piwik konfigurationsfil verkar vara felkonfigurerad. Du kan antingen ta bort config \/ config.ini.php och återuppta installationen, eller korrigera inställningarna för databasanslutningen.",
         "ConfirmDeleteExistingTables": "Är du säker på att du vill ta bort tabellerna: %s från din databas? Varning: Data från dessa tabeller kommer inte kunna återskapas!",
         "Congratulations": "Grattis",
@@ -1077,7 +1076,6 @@
         "Requirements": "Piwik Krav",
         "RestartWebServer": "När du har gjort den här ändringen, starta om din webbserver.",
         "ReusingTables": "Återanvänder tabellerna",
-        "SecurityNewsletter": "maila mig angående stora Piwik uppgraderingar och säkerhetsvarningar",
         "SeeBelowForMoreInfo": "Se nedan för mer information.",
         "SetupWebsite": "Konfigurera en webbplats",
         "SetupWebsiteError": "Det uppstod ett fel när webbplatsen försökte läggas till.",

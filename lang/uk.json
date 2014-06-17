@@ -422,7 +422,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "де відвідана сторінка містить запит методу JavaScript piwikTracker.trackGoal()(%sдізнатись більше%s)"
     },
     "Installation": {
-        "CommunityNewsletter": "Надішліть повідомлення з поновленнями від спільноти (нові плагіни, нові переваги, і т. д.)",
         "ConfigurationHelp": "Файл конфігурації Piwik не налаштований. Видаліть файл config\/config.ini.php та перезапустіть інсталяцію, або виправте налаштування підєднання до бази даних.",
         "ConfirmDeleteExistingTables": "Впевнені що хочете видалити таблиці: %s з бази даних? ЗАСТЕРЕЖЕННЯ: ДАНІ З ЦИХ ТАБЛИЦЬ НЕМОЖУТЬ БУТИ ВІДНОВЛЕНІ!",
         "Congratulations": "Вітання!",
@@ -452,7 +451,6 @@
         "PleaseFixTheFollowingErrors": "Виправте наступні помилки",
         "PluginDescription": "Процес інсталяції Piwik. Інсталяція зазвичай виконується тільки один раз. Якщо файл конфігурації config\/config.inc.php видалено, інсталяція розпочнеться знову.",
         "Requirements": "Системні вимоги Piwik",
-        "SecurityNewsletter": "Надішліть повідомлення при виході нових версій Piwik та поновленнях безпеки",
         "SetupWebsite": "Налаштувати веб-сайт",
         "SetupWebsiteError": "Виникла помилка при додаванні веб-сайту",
         "SetupWebSiteName": "назва веб-сайту",
