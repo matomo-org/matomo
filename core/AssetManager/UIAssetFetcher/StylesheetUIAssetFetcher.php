@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,8 +21,6 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
             'plugins/Morpheus/stylesheets/base.less',
             'plugins\/((?!Morpheus).)*\/',
             'plugins/Dashboard/stylesheets/dashboard.less',
-            'plugins/Morpheus/stylesheets/theme.less',
-            'plugins/Morpheus/stylesheets/',
             'tests/',
         );
     }

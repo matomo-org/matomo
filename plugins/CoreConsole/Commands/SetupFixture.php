@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -160,6 +160,7 @@ class SetupFixture extends ConsoleCommand
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixture.php';
+        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 
         $fixturesToLoad = array(
             '/tests/PHPUnit/Fixtures/*.php',

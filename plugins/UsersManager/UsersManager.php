@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -111,9 +111,27 @@ class UsersManager extends \Piwik\Plugin
 
     public static function checkPassword($password)
     {
+        /**
+         * Triggered before core password validator check password.
+         *
+         * This event exists for enable option to create custom password validation rules.
+         * It can be used to validate password (length, used chars etc) and to notify about checking password.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('UsersManager.checkPassword', function ($password) {
+         *         if (strlen($password) < 10) {
+         *             throw new Exception('Password is too short.');
+         *         }
+         *     });
+         *
+         * @param string $password Checking password in plain text.
+         */
+        Piwik::postEvent('UsersManager.checkPassword', array($password));
+
         if (!self::isValidPasswordString($password)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
-                                                                                                        self::PASSWORD_MAX_LENGTH)));
+                self::PASSWORD_MAX_LENGTH)));
         }
     }
 

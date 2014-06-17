@@ -51,7 +51,6 @@ class Piwik_LocalTracker extends PiwikTracker
 
         // save some values
         $plugins = Config::getInstance()->Plugins['Plugins'];
-        $plugins[] = 'DevicesDetection';
         $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         $oldTrackerConfig = Config::getInstance()->Tracker;
 

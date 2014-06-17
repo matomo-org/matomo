@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -64,7 +64,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     {
         $result = Http::sendHttpRequestBy(
             $method,
-            'http://builds.piwik.org/latest.zip',
+            'http://builds.piwik.org/piwik-latest.zip',
             30,
             $userAgent = null,
             $destinationPath = null,

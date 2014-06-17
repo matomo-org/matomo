@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,8 +29,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Registry;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -769,14 +768,17 @@ abstract class Controller
     public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null,
                                     $defaultDate = null, $parameters = array())
     {
+
+        $userPreferences = new UserPreferences();
+
         if (empty($websiteId)) {
-            $websiteId = $this->getDefaultWebsiteId();
+            $websiteId = $userPreferences->getDefaultWebsiteId();
         }
         if (empty($defaultDate)) {
-            $defaultDate = $this->getDefaultDate();
+            $defaultDate = $userPreferences->getDefaultDate();
         }
         if (empty($defaultPeriod)) {
-            $defaultPeriod = $this->getDefaultPeriod();
+            $defaultPeriod = $userPreferences->getDefaultPeriod();
         }
         $parametersString = '';
         if (!empty($parameters)) {
@@ -811,82 +813,6 @@ abstract class Controller
 
         echo FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
         exit;
-    }
-
-    /**
-     * Returns default site ID that Piwik should load.
-     * 
-     * _Note: This value is a Piwik setting set by each user._
-     *
-     * @return bool|int
-     * @api
-     */
-    protected function getDefaultWebsiteId()
-    {
-        $defaultWebsiteId = false;
-
-        // User preference: default website ID to load
-        $defaultReport = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
-        if (is_numeric($defaultReport)) {
-            $defaultWebsiteId = $defaultReport;
-        }
-
-        if ($defaultWebsiteId && Piwik::isUserHasViewAccess($defaultWebsiteId)) {
-            return $defaultWebsiteId;
-        }
-
-        $sitesId = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
-        if (!empty($sitesId)) {
-            return $sitesId[0];
-        }
-        return false;
-    }
-
-    /**
-     * Returns default date for Piwik reports.
-     *
-     * _Note: This value is a Piwik setting set by each user._
-     * 
-     * @return string `'today'`, `'2010-01-01'`, etc.
-     * @api
-     */
-    protected function getDefaultDate()
-    {
-        // NOTE: a change in this function might mean a change in plugins/UsersManager/javascripts/usersSettings.js as well
-        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
-        if ($userSettingsDate == 'yesterday') {
-            return $userSettingsDate;
-        }
-        // if last7, last30, etc.
-        if (strpos($userSettingsDate, 'last') === 0
-            || strpos($userSettingsDate, 'previous') === 0
-        ) {
-            return $userSettingsDate;
-        }
-        return 'today';
-    }
-
-    /**
-     * Returns default period type for Piwik reports.
-     *
-     * @return string `'day'`, `'week'`, `'month'`, `'year'` or `'range'`
-     * @api
-     */
-    protected function getDefaultPeriod()
-    {
-        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
-        if ($userSettingsDate === false) {
-            return PiwikConfig::getInstance()->General['default_period'];
-        }
-        if (in_array($userSettingsDate, array('today', 'yesterday'))) {
-            return 'day';
-        }
-        if (strpos($userSettingsDate, 'last') === 0
-            || strpos($userSettingsDate, 'previous') === 0
-        ) {
-            return 'range';
-        }
-        return $userSettingsDate;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -363,7 +363,7 @@ class AssetManager extends Singleton
     /**
      * @param UIAsset[] $uiAssets
      */
-    private function removeAssets($uiAssets)
+    public function removeAssets($uiAssets)
     {
         foreach($uiAssets as $uiAsset) {
             $uiAsset->delete();

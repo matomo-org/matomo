@@ -148,4 +148,17 @@ class Csv extends ReportRenderer
     {
         return str_replace("_", ".", $uniqueId);
     }
+
+    /**
+     * Get report attachments, ex. graph images
+     *
+     * @param $report
+     * @param $processedReports
+     * @param $prettyDate
+     * @return array
+     */
+    public function getAttachments($report, $processedReports, $prettyDate)
+    {
+        return array();
+    }
 }

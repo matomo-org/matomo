@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -209,14 +209,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->userAlias = $user['alias'];
         $view->userEmail = $user['email'];
 
-        $defaultReport = APIUsersManager::getInstance()->getUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT);
+        $userPreferences = new UserPreferences();
+        $defaultReport = $userPreferences->getDefaultWebsiteId();
         if ($defaultReport === false) {
             $defaultReport = $this->getDefaultWebsiteId();
         }
         $view->defaultReport = $defaultReport;
 
         if ($defaultReport == 'MultiSites') {
-            $view->defaultReportSiteName = Site::getNameFor($this->getDefaultWebsiteId());
+
+            $userPreferences = new UserPreferences();
+            $view->defaultReportSiteName = Site::getNameFor($userPreferences->getDefaultWebsiteId());
         } else {
             $view->defaultReportSiteName = Site::getNameFor($defaultReport);
         }
@@ -232,6 +235,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->setBasicVariablesView($view);
 
         return $view->render();
+    }
+
+    protected function getDefaultWebsiteId()
+    {
+        $sitesId = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
+        if (!empty($sitesId)) {
+            return $sitesId[0];
+        }
+        return false;
     }
 
     public function setIgnoreCookie()

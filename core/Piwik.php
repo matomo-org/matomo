@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -233,11 +233,11 @@ class Piwik
             'Analytics',
             'Real Time Analytics',
             'Analytics in Real time',
-            'Open Source Analytics',
-            'Open Source Web Analytics',
+            'Free/Libre Web Analytics',
             'Free Website Analytics',
             'Free Web Analytics',
             'Analytics Platform',
+            'Data Platform',
         );
         $id = abs(intval(md5(Url::getCurrentHost())));
         $title = $titles[$id % count($titles)];

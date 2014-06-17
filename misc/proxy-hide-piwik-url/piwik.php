@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  * Piwik Proxy Hide URL
  *
  * @link http://piwik.org/faq/how-to/#faq_132

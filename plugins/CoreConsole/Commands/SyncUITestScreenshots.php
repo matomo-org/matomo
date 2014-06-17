@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -73,7 +73,7 @@ class SyncUITestScreenshots extends ConsoleCommand
                     $downloadTo = "plugins/$testPlugin/tests/UI/expected-ui-screenshots/$file";
                 }
 
-                $output->write("<info>Downloading $file to .$downloadTo...</info>\n");
+                $output->write("<info>Downloading $file to  $downloadTo...</info>\n");
                 Http::sendHttpRequest("$urlBase/processed-ui-screenshots/$file", $timeout = 60, $userAgent = null,
                     PIWIK_DOCUMENT_ROOT . "/" . $downloadTo);
             }
