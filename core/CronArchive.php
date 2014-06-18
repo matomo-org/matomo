@@ -987,7 +987,7 @@ class CronArchive
      */
     private function getTimezonesHavingNewDay()
     {
-        $timestamp = time() - $this->shouldArchiveOnlySitesWithTrafficSince;
+        $timestamp = $this->lastSuccessRunTimestamp;
         $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
         $timezoneToProcess = array();
         foreach ($uniqueTimezones as &$timezone) {
