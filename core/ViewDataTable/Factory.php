@@ -107,7 +107,7 @@ class Factory
             $params = array();
         } else {
             $login  = Piwik::getCurrentUserLogin();
-            $params = Manager::getViewDataTableParameters($login, $apiAction);
+            $params = Manager::getViewDataTableParameters($login, $controllerAction);
         }
 
         $savedViewDataTable = false;
