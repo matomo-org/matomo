@@ -38,11 +38,8 @@ class Controller extends \Piwik\Plugin\Controller
         return 'redirectToCoreHomeIndex';
     }
 
-    public function renderMenuReport()
+    public function renderMenuReport($reportModule = null, $reportAction = null)
     {
-        $reportModule = Common::getRequestVar('reportModule', null, 'string');
-        $reportAction = Common::getRequestVar('reportAction', null, 'string');
-
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {
@@ -53,14 +50,18 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('This report is not enabled. Maybe you do not have enough permission');
         }
 
-        return View::singleReport($report->getName(), $this->renderWidget());
+        $title = $report->getName();
+        $menu  = $report->getMenuTitle();
+
+        if (!empty($menu)) {
+            $title = Piwik::translate($menu);
+        }
+
+        return View::singleReport($title, $this->renderWidget($reportModule, $reportAction));
     }
 
     public function renderWidget($reportModule = null, $reportAction = null)
     {
-        $reportModule = Common::getRequestVar('reportModule', $reportModule, 'string');
-        $reportAction = Common::getRequestVar('reportAction', $reportAction, 'string');
-
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {

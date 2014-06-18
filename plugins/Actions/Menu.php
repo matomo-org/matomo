@@ -15,10 +15,8 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureReportingMenu(MenuReporting $menu)
     {
         $urlParams = array(
-            'module' => 'CoreHome',
-            'action' => 'renderMenuReport',
-            'reportModule' => 'Actions',
-            'reportAction' => 'getPageUrls'
+            'module' => 'Actions',
+            'action' => 'menuGetPageUrls'
         );
 
         $menu->add('General_Actions', '', $urlParams, true, 15);

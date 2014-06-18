@@ -10,7 +10,7 @@ namespace Piwik\Plugin;
 
 /**
  * @api
- * @since 2.4.0
+ * @since 2.5.0
  */
 class Segment
 {

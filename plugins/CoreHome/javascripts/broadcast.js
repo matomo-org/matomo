@@ -392,11 +392,6 @@ var broadcast = {
         var module = broadcast.getValueFromUrl("module", url);
         var action = broadcast.getValueFromUrl("action", url);
 
-        if (module === 'CoreHome' && action === 'renderMenuReport') {
-            module = broadcast.getValueFromUrl("reportModule", url);
-            action = broadcast.getValueFromUrl("reportAction", url);
-        }
-
         return {module: module, action:action};
     },
 

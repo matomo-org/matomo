@@ -142,13 +142,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function indexCampaigns()
-    {
-        return View::singleReport(
-            Piwik::translate('Referrers_Campaigns'),
-            $this->renderReport('getCampaigns'));
-    }
-
     protected function getReferrersVisitorsByType($date = false)
     {
         if ($date === false) {

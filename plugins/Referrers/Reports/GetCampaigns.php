@@ -25,6 +25,7 @@ class GetCampaigns extends Base
         $this->hasGoalMetrics = true;
         $this->order = 9;
         $this->widgetTitle  = 'Referrers_Campaigns';
+        $this->menuTitle    = 'Referrers_Campaigns';
     }
 
     public function configureView(ViewDataTable $view)

@@ -19,7 +19,7 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  * @api
- * @since 2.4.0
+ * @since 2.5.0
  */
 class Report
 {
@@ -110,9 +110,10 @@ class Report
     public function configureReportingMenu(MenuReporting $menu)
     {
         if ($this->menuTitle) {
+            $action = 'menu' . ucfirst($this->action);
             $menu->add($this->category,
                        $this->menuTitle,
-                       array('module' => 'CoreHome', 'action' => 'renderMenuReport', 'reportModule' => $this->module, 'reportAction' => $this->action),
+                       array('module' => $this->module, 'action' => $action),
                        $this->isEnabled(),
                        $this->order);
         }
@@ -221,13 +222,22 @@ class Report
         return $this->module;
     }
 
+    public function getMenuTitle()
+    {
+        return $this->menuTitle;
+    }
+
     public function getActionToLoadSubTables()
     {
         return $this->actionToLoadSubTables;
     }
 
-    public static function factory($module, $action = '')
+    public static function factory($module, $action)
     {
+        if (empty($module) || empty($action)) {
+            return;
+        }
+
         foreach (self::getAllReports() as $report) {
             if ($report->module === $module && $report->action === $action) {
                 return $report;

@@ -124,15 +124,23 @@ class FrontController extends Singleton
         if (!is_callable(array($controller, $action))) {
 
             $report = Report::factory($module, $action);
+            $actionToCall  = 'renderWidget';
+            $actionToCheck = $action;
+
+            if (empty($report) && !empty($action) && 'menu' === substr($action, 0, 4)) {
+                $actionToCheck = lcfirst(substr($action, 4));
+                $report        = Report::factory($module, $actionToCheck);
+                $actionToCall  = 'renderMenuReport';
+            }
 
             if (empty($report) || !$report->isEnabled()) {
                 throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
             }
 
             $parameters['reportModule'] = $module;
-            $parameters['reportAction'] = $action;
+            $parameters['reportAction'] = $actionToCheck;
 
-            return $this->makeController('CoreHome', 'renderWidget', $parameters);
+            return $this->makeController('CoreHome', $actionToCall, $parameters);
         }
 
         return array($controller, $action);
