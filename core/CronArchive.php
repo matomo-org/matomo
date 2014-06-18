@@ -85,7 +85,7 @@ class CronArchive
 
     private $startDate = false;
     private $endDate = false;
-    private $periods = false;
+    private $forcePeriods = false;
 
     const NO_ERROR = "no error";
 
@@ -414,7 +414,7 @@ class CronArchive
         $timer = new Timer;
         $dateLast = $this->getApiDateLastParameter($idSite, "day", $processDaysSince);
         $dateString = $this->getDateString($dateLast);
-        $url = $this->getVisitsRequestUrl($idSite, $this->periods[0], $dateString);
+        $url = $this->getVisitsRequestUrl($idSite, $this->forcePeriods[0], $dateString);
         $content = $this->request($url);
         $response = @unserialize($content);
         $visitsToday = $this->getVisitsLastPeriodFromApiResponse($response);
@@ -456,8 +456,8 @@ class CronArchive
 
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
-        $this->archiveVisitsAndSegments($idSite, $this->periods[0], $lastTimestampWebsiteProcessedDay);
-        $this->logArchivedWebsite($idSite, $this->periods[0], $dateLast, $visitsLastDays, $visitsToday, $timer);
+        $this->archiveVisitsAndSegments($idSite, $this->forcePeriods[0], $lastTimestampWebsiteProcessedDay);
+        $this->logArchivedWebsite($idSite, $this->forcePeriods[0], $dateLast, $visitsLastDays, $visitsToday, $timer);
 
         if (!$shouldArchivePeriods) {
             $this->log("Skipped website id $idSite periods processing, already done "
@@ -469,7 +469,7 @@ class CronArchive
         }
 
         $success = true;
-        $remainingPeriods = array_slice($this->periods, 1);
+        $remainingPeriods = array_slice($this->forcePeriods, 1);
         foreach ($remainingPeriods as $period) {
             $success = $this->archiveVisitsAndSegments($idSite, $period, $lastTimestampWebsiteProcessedPeriods)
                 && $success;
@@ -1264,8 +1264,8 @@ class CronArchive
     {
         $periodsString = $this->getParameterFromCli('periods', true);
         if ($periodsString === false) {
-            $this->periods = array('day', 'week', 'month', 'year');
+            $this->forcePeriods = array('day', 'week', 'month', 'year');
         }
-        $this->periods = explode(',', $periodsString);
+        $this->forcePeriods = explode(',', $periodsString);
     }
 }
