@@ -332,14 +332,18 @@ class ArchiveSelector
 
     protected static function deleteArchiveIds(Date $date, $idArchivesToDelete)
     {
-        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idArchivesToDelete) . ")";
+        $batches = array_chunk($idArchivesToDelete, 1000);
+        foreach($batches as $idsToDelete) {
+            $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
 
-        Db::query(sprintf($query, ArchiveTableCreator::getNumericTable($date)));
-        try {
-            Db::query(sprintf($query, ArchiveTableCreator::getBlobTable($date)));
-        } catch (Exception $e) {
-            // Individual blob tables could be missing
+            Db::query(sprintf($query, ArchiveTableCreator::getNumericTable($date)));
+            try {
+                Db::query(sprintf($query, ArchiveTableCreator::getBlobTable($date)));
+            } catch (Exception $e) {
+                // Individual blob tables could be missing
+            }
         }
+
     }
 
     protected static function getTemporaryArchiveIdsOlderThan(Date $date, $purgeArchivesOlderThan)
