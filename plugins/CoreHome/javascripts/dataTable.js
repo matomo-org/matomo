@@ -674,46 +674,47 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         );
 
+        var $next = $('.dataTableNext', domElem);
+
         // Display the next link if the total Rows is greater than the current end row
-        $('.dataTableNext', domElem)
-            .each(function () {
-                var offsetEnd = Number(self.param.filter_offset)
-                    + Number(self.param.filter_limit);
-                var totalRows = Number(self.param.totalRows);
-                if (self.param.keep_summary_row == 1) --totalRows;
-                if (offsetEnd < totalRows) {
-                    $(this).css('display', 'inline');
-                }
-            })
-            // bind the click event to trigger the ajax request with the new offset
-            .click(function () {
-                $(this).off('click');
-                self.param.filter_offset = Number(self.param.filter_offset) + Number(self.param.filter_limit);
-                self.reloadAjaxDataTable();
-            })
-        ;
+        $next.each(function () {
+            var offsetEnd = Number(self.param.filter_offset)
+                + Number(self.param.filter_limit);
+            var totalRows = Number(self.param.totalRows);
+            if (self.param.keep_summary_row == 1) --totalRows;
+            if (offsetEnd < totalRows) {
+                $(this).css('display', 'inline');
+            }
+        });
+        // bind the click event to trigger the ajax request with the new offset
+        $next.off('click');
+        $next.click(function () {
+            $(this).off('click');
+            self.param.filter_offset = Number(self.param.filter_offset) + Number(self.param.filter_limit);
+            self.reloadAjaxDataTable();
+        });
+
+        var $prev = $('.dataTablePrevious', domElem);
 
         // Display the previous link if the current offset is not zero
-        $('.dataTablePrevious', domElem)
-            .each(function () {
-                var offset = 1 + Number(self.param.filter_offset);
-                if (offset != 1) {
-                    $(this).css('display', 'inline');
-                }
+        $prev.each(function () {
+            var offset = 1 + Number(self.param.filter_offset);
+            if (offset != 1) {
+                $(this).css('display', 'inline');
             }
-        )
-            // bind the click event to trigger the ajax request with the new offset
-            // take care of the negative offset, we setup 0
-            .click(
-            function () {
-                $(this).off('click');
-                var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
-                if (offset < 0) { offset = 0; }
-                self.param.filter_offset = offset;
-                self.param.previous = 1;
-                self.reloadAjaxDataTable();
-            }
-        );
+        });
+
+        // bind the click event to trigger the ajax request with the new offset
+        // take care of the negative offset, we setup 0
+        $prev.off('click');
+        $prev.click(function () {
+            $(this).off('click');
+            var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
+            if (offset < 0) { offset = 0; }
+            self.param.filter_offset = offset;
+            self.param.previous = 1;
+            self.reloadAjaxDataTable();
+        });
     },
 
     handleEvolutionAnnotations: function (domElem) {
