@@ -14,7 +14,14 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->add('General_Actions', '', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 15);
+        $urlParams = array(
+            'module' => 'CoreHome',
+            'action' => 'renderMenuReport',
+            'reportModule' => 'Actions',
+            'reportAction' => 'getPageUrls'
+        );
+
+        $menu->add('General_Actions', '', $urlParams, true, 15);
 
         $actions = new Actions();
         if ($actions->isSiteSearchEnabled()) {

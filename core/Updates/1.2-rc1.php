@@ -24,7 +24,9 @@ class Updates_1_2_rc1 extends Updates
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 			    DROP `visit_server_date`,
 			    DROP INDEX `index_idsite_date_config`,
-			    DROP INDEX `index_idsite_datetime_config`
+			    DROP INDEX `index_idsite_datetime_config`,
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
+			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
 			   ' => false,
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 		    	ADD `visit_entry_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_entry_idaction_url`,
@@ -36,12 +38,6 @@ class Updates_1_2_rc1 extends Updates
 			    ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL
 			   ' => 1060,
-            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-			    DROP INDEX `index_idsite_date_config`,
-			    DROP INDEX `index_idsite_datetime_config`,
-			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
-			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
-			   ' => false,
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
