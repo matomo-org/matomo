@@ -27,18 +27,21 @@ class Updates_1_9_b9 extends Updates
         $logVisit = Common::prefixTable('log_visit');
         $logConversion = Common::prefixTable('log_conversion');
 
-        $addColumns = "DROP `location_continent`,
-					   ADD `location_region` CHAR(2) NULL AFTER `location_country`,
+        $addColumns = "ADD `location_region` CHAR(2) NULL AFTER `location_country`,
 					   ADD `location_city` VARCHAR(255) NULL AFTER `location_region`,
 					   ADD `location_latitude` FLOAT(10, 6) NULL AFTER `location_city`,
 			           ADD `location_longitude` FLOAT(10, 6) NULL AFTER `location_latitude`";
+        $dropColumns = "DROP `location_continent`";
 
         return array(
-            // add geoip columns to log_visit
-            "ALTER TABLE `$logVisit` $addColumns"      => 1091,
 
+            "ALTER TABLE `$logVisit` $dropColumns"      => 1091,
+            "ALTER TABLE `$logConversion` $dropColumns" => 1091,
+
+            // add geoip columns to log_visit
+            "ALTER TABLE `$logVisit` $addColumns"      => 1060,
             // add geoip columns to log_conversion
-            "ALTER TABLE `$logConversion` $addColumns" => 1091,
+            "ALTER TABLE `$logConversion` $addColumns" => 1060,
         );
     }
 
