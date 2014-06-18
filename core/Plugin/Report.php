@@ -79,6 +79,10 @@ class Report
 
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function render()
     {
         $apiProxy = Proxy::getInstance();
