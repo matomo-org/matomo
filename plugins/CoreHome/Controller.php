@@ -56,10 +56,10 @@ class Controller extends \Piwik\Plugin\Controller
         return View::singleReport($report->getName(), $this->renderWidget());
     }
 
-    public function renderWidget()
+    public function renderWidget($reportModule = null, $reportAction = null)
     {
-        $reportModule = Common::getRequestVar('reportModule', null, 'string');
-        $reportAction = Common::getRequestVar('reportAction', null, 'string');
+        $reportModule = Common::getRequestVar('reportModule', $reportModule, 'string');
+        $reportAction = Common::getRequestVar('reportAction', $reportAction, 'string');
 
         $report = Report::factory($reportModule, $reportAction);
 

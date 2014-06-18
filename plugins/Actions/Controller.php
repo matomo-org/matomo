@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Reports\GetPageUrlsFollowingSiteSearch;
 use Piwik\Plugins\Actions\Reports\GetSiteSearchCategories;
@@ -46,34 +47,45 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
+    /**
+     * @deprecated since 2.5.0
+     */
     public function indexPageUrls()
     {
-        return View::singleReport(Piwik::translate('General_Pages'), $this->renderReport('getPageUrls'));
+        $this->redirectForBackwardsCompatibility('getPageUrls');
     }
 
     public function indexEntryPageUrls()
     {
-        return View::singleReport(Piwik::translate('Actions_SubmenuPagesEntry'), $this->renderReport('getEntryPageUrls'));
+        $this->redirectForBackwardsCompatibility('getEntryPageUrls');
     }
 
     public function indexExitPageUrls()
     {
-        return View::singleReport(Piwik::translate('Actions_SubmenuPagesExit'), $this->renderReport('getExitPageUrls'));
+        $this->redirectForBackwardsCompatibility('getExitPageUrls');
     }
 
     public function indexPageTitles()
     {
-        return View::singleReport(Piwik::translate('Actions_SubmenuPageTitles'), $this->renderReport('getPageTitles'));
+        $this->redirectForBackwardsCompatibility('getPageTitles');
     }
 
     public function indexDownloads()
     {
-        return View::singleReport(Piwik::translate('General_Downloads'), $this->renderReport('getDownloads'));
+        $this->redirectForBackwardsCompatibility('getDownloads');
     }
 
     public function indexOutlinks()
     {
-        return View::singleReport(Piwik::translate('General_Outlinks'), $this->renderReport('getOutlinks'));
+        $this->redirectForBackwardsCompatibility('getOutlinks');
+    }
+
+    private function redirectForBackwardsCompatibility($reportAction)
+    {
+        $idSite = Common::getRequestVar('idSite', false, 'int');
+        $date   = Common::getRequestVar('date', false, 'string');
+        $period = Common::getRequestVar('period', false, 'string');
+        $this->redirectToIndex('CoreHome', 'renderMenuReport', $idSite, $period, $date, array('reportModule' => 'Actions', 'reportAction' => $reportAction));
     }
 
     //
