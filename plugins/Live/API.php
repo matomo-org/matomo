@@ -740,8 +740,9 @@ class API extends \Piwik\Plugin\API
          * @param \Piwik\Plugins\Live\VisitorInterface &$visitor Initialized to null, but can be set to
          *                                              a new visitor object. If it isn't modified
          *                                              Piwik uses the default class.
+         * @param array $visitorRawData Raw data using in Visitor object constructor.
          */
-        Piwik::postEvent('Live.makeNewVisitorObject', array(&$visitor));
+        Piwik::postEvent('Live.makeNewVisitorObject', array(&$visitor, $visitorRawData));
 
         if (is_null($visitor)) {
             $visitor = new Visitor($visitorRawData);
