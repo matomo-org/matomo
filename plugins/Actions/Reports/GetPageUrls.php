@@ -20,7 +20,6 @@ class GetPageUrls extends Base
 
         $this->dimension     = new PageUrl();
         $this->name          = Piwik::translate('Actions_PageUrls');
-        $this->title         = Piwik::translate('General_Pages');
         $this->documentation = Piwik::translate('Actions_PagesReportDocumentation', '<br />')
                              . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 

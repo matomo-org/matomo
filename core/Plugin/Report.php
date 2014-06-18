@@ -26,7 +26,6 @@ class Report
     protected $module;
     protected $action;
     protected $name;
-    protected $title;
     protected $category;
     protected $widgetTitle;
     protected $widgetParams = array();
@@ -156,7 +155,7 @@ class Report
         return $this->hasGoalMetrics;
     }
 
-    public function toArray()
+    public function getReportMetadata()
     {
         $report = array(
             'category' => $this->getCategory(),

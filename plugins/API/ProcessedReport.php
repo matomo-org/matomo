@@ -155,7 +155,11 @@ class ProcessedReport
 
         foreach (Report::getAllReports() as $report) {
             if ($report->isEnabled()) {
-                $availableReports[] = $report->toArray();
+
+                $metadata = $report->getReportMetadata();
+                if (!empty($metadata)) {
+                    $availableReports[] = $metadata;
+                }
             }
         }
 
