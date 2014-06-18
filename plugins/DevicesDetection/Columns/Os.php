@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,6 +10,7 @@ namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Settings;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
@@ -33,6 +34,13 @@ class Os extends Base
         $userAgent = $request->getUserAgent();
         $parser    = $this->getUAParser($userAgent);
 
-        return $parser->getOs("short_name");
+        if ($parser->isBot()) {
+            $os = Settings::OS_BOT;
+        } else {
+            $os = $parser->getOS();
+            $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+        }
+
+        return $os;
     }
 }

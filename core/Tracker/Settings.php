@@ -8,11 +8,13 @@
  */
 namespace Piwik\Tracker;
 
-use Piwik\CacheFile;
 use Piwik\Tracker;
+use Piwik\DeviceDetectorFactory;
 
 class Settings
 {
+    const OS_BOT = 'BOT';
+
     function __construct(Request $request, $ip)
     {
         $this->request   = $request;
@@ -36,16 +38,23 @@ class Settings
 
         $userAgent = $this->request->getUserAgent();
 
-        $deviceDetector = new \DeviceDetector($userAgent);
-        $deviceDetector->setCache(new CacheFile('tracker', 86400));
-        $deviceDetector->parse();
-        $aBrowserInfo = $deviceDetector->getBrowser();
+        $deviceDetector = DeviceDetectorFactory::getInstance($userAgent);
+        $aBrowserInfo   = $deviceDetector->getClient();
+
+        if ($aBrowserInfo['type'] != 'browser') {
+            // for now only track browsers
+            unset($aBrowserInfo);
+        }
 
         $browserName    = !empty($aBrowserInfo['short_name']) ? $aBrowserInfo['short_name'] : 'UNK';
         $browserVersion = !empty($aBrowserInfo['version']) ? $aBrowserInfo['version'] : '';
 
-        $os = $deviceDetector->getOS();
-        $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+        if ($deviceDetector->isBot()) {
+            $os = self::OS_BOT;
+        } else {
+            $os = $deviceDetector->getOS();
+            $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
+        }
 
         $browserLang = substr($this->request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
 
@@ -66,7 +75,6 @@ class Settings
             $this->ipAddress,
             $browserLang);
     }
-
 
     /**
      * Returns a 64-bit hash of all the configuration settings

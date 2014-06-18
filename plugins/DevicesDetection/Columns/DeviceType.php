@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,6 +15,7 @@ use DeviceDetector;
 use Exception;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
+use DeviceDetector\Parser\Device\DeviceParserAbstract as DeviceParser;
 
 class DeviceType extends Base
 {
@@ -23,15 +24,16 @@ class DeviceType extends Base
 
     protected function init()
     {
-        $deviceTypeList = implode(", ", DeviceDetector::$deviceTypes);
+        $deviceTypes    = DeviceParser::getAvailableDeviceTypeNames();
+        $deviceTypeList = implode(", ", $deviceTypes);
 
         $segment = new Segment();
         $segment->setCategory('General_Visit');
         $segment->setSegment('deviceType');
         $segment->setName('DevicesDetection_DeviceType');
         $segment->setAcceptedValues($deviceTypeList);
-        $segment->setSqlFilter(function ($type) use ($deviceTypeList) {
-            $index = array_search(strtolower(trim(urldecode($type))), DeviceDetector::$deviceTypes);
+        $segment->setSqlFilter(function ($type) use ($deviceTypeList, $deviceTypes) {
+            $index = array_search(strtolower(trim(urldecode($type))), $deviceTypes);
             if ($index === false) {
                 throw new Exception("deviceType segment must be one of: $deviceTypeList");
             }

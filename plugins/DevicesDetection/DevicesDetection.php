@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,14 +9,9 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use DeviceDetector;
-use Exception;
 use Piwik\ArchiveProcessor;
-use Piwik\CacheFile;
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -33,6 +33,13 @@ class BrowserName extends Base
         $userAgent = $request->getUserAgent();
         $parser    = $this->getUAParser($userAgent);
 
-        return $parser->getBrowser("short_name");
+        $aBrowserInfo = $parser->getClient();
+
+        if (!empty($aBrowserInfo['short_name'])) {
+
+            return $aBrowserInfo['short_name'];
+        }
+
+        return 'UNK';
     }
 }
