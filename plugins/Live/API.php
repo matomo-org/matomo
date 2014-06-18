@@ -406,8 +406,9 @@ class API extends \Piwik\Plugin\API
             return false;
         }
 
-        $visitDetails = $dataTable->getFirstRow()->getColumns();
-        $visitor      = $this->getNewVisitorObject($visitDetails);
+        $visitorFactory = new VisitorFactory();
+        $visitDetails   = $dataTable->getFirstRow()->getColumns();
+        $visitor        = $visitorFactory->create($visitDetails);
 
         return $visitor->getVisitorId();
     }
@@ -543,10 +544,11 @@ class API extends \Piwik\Plugin\API
             /** @var DataTable $table */
             $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
 
-            $website    = new Site($idSite);
-            $timezone   = $website->getTimezone();
-            $currency   = $website->getCurrency();
-            $currencies = APISitesManager::getInstance()->getCurrencySymbols();
+            $visitorFactory = new VisitorFactory();
+            $website        = new Site($idSite);
+            $timezone       = $website->getTimezone();
+            $currency       = $website->getCurrency();
+            $currencies     = APISitesManager::getInstance()->getCurrencySymbols();
 
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
             $table->deleteRow(DataTable::ID_SUMMARY_ROW);
@@ -554,7 +556,7 @@ class API extends \Piwik\Plugin\API
             foreach ($table->getRows() as $visitorDetailRow) {
                 $visitorDetailsArray = Visitor::cleanVisitorDetails($visitorDetailRow->getColumns());
 
-                $visitor = $this->getNewVisitorObject($visitorDetailsArray);
+                $visitor = $visitorFactory->create($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
                 $visitorDetailsArray['siteCurrency'] = $currency;
@@ -718,38 +720,5 @@ class API extends \Piwik\Plugin\API
         $idSitesBind = Common::getSqlStringFieldsArray($idSites);
         $whereClause = "log_visit.idsite in ($idSitesBind) ";
         return array($whereClause, $idSites);
-    }
-
-    /**
-     * Returns Visitor object.
-     * This method can be overwritten to use a different Visitor object
-     *
-     * @param array $visitorRawData
-     * @throws Exception
-     * @return \Piwik\Plugins\Live\VisitorInterface
-     */
-    private function getNewVisitorObject(array $visitorRawData = array())
-    {
-        $visitor = null;
-
-        /**
-         * Triggered while visit is filtering in live plugin. Subscribers to this
-         * event can force the use of a custom visitor object that extends from
-         * {@link Piwik\Plugins\Live\VisitorInterface}.
-         *
-         * @param \Piwik\Plugins\Live\VisitorInterface &$visitor Initialized to null, but can be set to
-         *                                              a new visitor object. If it isn't modified
-         *                                              Piwik uses the default class.
-         * @param array $visitorRawData Raw data using in Visitor object constructor.
-         */
-        Piwik::postEvent('Live.makeNewVisitorObject', array(&$visitor, $visitorRawData));
-
-        if (is_null($visitor)) {
-            $visitor = new Visitor($visitorRawData);
-        } elseif (!($visitor instanceof VisitorInterface)) {
-            throw new Exception("The Visitor object set in the plugin must implement VisitorInterface");
-        }
-
-        return $visitor;
     }
 }
