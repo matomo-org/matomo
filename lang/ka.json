@@ -422,7 +422,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "როდესაც მონახულებული გვედი შეიცავს JavaScript piwikTracker.trackGoal() მეთოდის (%sდამატებითი ინფორმაცია%s) გამოძახებას"
     },
     "Installation": {
-        "CommunityNewsletter": "მაცნობეთ ელ.ფოსტაზე სისტემის განახლებების (ახალი პლაგინები, ახალი ფუნქციები და სხვ.) შესახებ",
         "ConfigurationHelp": "თქვენი Piwik კონფიგურაციის ფაილი როგორც ჩანს ცუდადაა კონფიგურირებული. თქვენ შეგიძლიათ ან წაშალოთ config\/config.ini.php და დაასრულოთ ინსტალირება, ან შესაწოროთ მონაცემთა ბაზასთან დაკავშირების პარამეტრები.",
         "ConfirmDeleteExistingTables": "დარწმუნებული ხართ, რომ გსურთ ცხრილების წაშლა: %s თქვენი მონაცემთა ბაზიდან?",
         "Congratulations": "მილოცვა",
@@ -452,7 +451,6 @@
         "PleaseFixTheFollowingErrors": "გთხოვთ, შეასწოროთ შემდეგი შეცდომები",
         "PluginDescription": "Piwik–ის დაინსტალირება. ინსტალირება ჩვეულებრივ ხდება მხოლოდ ერთხელ. თუ კონფიგურაციის ფაილი config\/config.inc.php წაიშლება, ინსტალირება თავიდან დაიწყება.",
         "Requirements": "Piwik მოთხოვნები",
-        "SecurityNewsletter": "მაცნობეთ ელ.ფოსტაზე Piwik–ის მნიშვნელოვანი განახლებების და უსაფრთხოების საკითხების შესახებ",
         "SetupWebsite": "ვებ საიტის მოწყობა",
         "SetupWebsiteError": "ვებ საიტის დამატების დროს მოხდა შეცდომა",
         "SetupWebSiteName": "ვებ საიტის სახელი",

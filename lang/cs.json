@@ -718,7 +718,6 @@
         "PluginDescription": "Generuje nádherné statické PNG grafy pro jakékoli Piwik hlášení."
     },
     "Installation": {
-        "CommunityNewsletter": "pošli mi e mail s komunitními aktualizacem (nové zásuvné moduly, nové funkce, atd.)",
         "ConfigurationHelp": "Váš konfigurační soubor Piwiku je špatně nastavený. Můžete buď odstranit soubor config\/config.ini a znovu začít instalaci, nebo opravit nastavení databáze.",
         "ConfirmDeleteExistingTables": "Jste si jistí, že chcete vymazat tabulky: %s z vaší databáze? UPOZORNĚNÍ: DATA Z TĚCHTO TABULEK NEPŮJDOU OBNOVIT!",
         "Congratulations": "Gratulujeme",
@@ -752,7 +751,6 @@
         "PluginDescription": "Instalační proces Piwiku. Instalace se obvykle používá jednou. V případě vymazání konfiguračního souboru config\/config.inc.php se instalace zahájí znovu",
         "Requirements": "Požadavky Piwiku",
         "RestartWebServer": "Po uložení změn restartujte Vás web server.",
-        "SecurityNewsletter": "pošli mi e-mail při hlavních aktualizacích a bezpečnostních oznámeních Piwiku",
         "SetupWebsite": "Nastavit Web",
         "SetupWebsiteError": "Při přidávání Webu se vyskytla chyba",
         "SetupWebSiteName": "jméno webu",

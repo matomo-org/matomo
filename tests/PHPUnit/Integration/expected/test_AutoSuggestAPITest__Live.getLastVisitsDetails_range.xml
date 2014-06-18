@@ -1713,9 +1713,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1961,9 +1961,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2263,9 +2263,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2511,9 +2511,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2917,9 +2917,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3427,9 +3427,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4008,9 +4008,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>

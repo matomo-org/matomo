@@ -3,6 +3,7 @@
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Option;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -59,6 +60,11 @@ class Piwik_TestingEnvironment
     public function __set($key, $value)
     {
         $this->behaviorOverrideProperties[$key] = $value;
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->behaviorOverrideProperties[$name]);
     }
 
     public function save()
@@ -123,6 +129,12 @@ class Piwik_TestingEnvironment
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
                 $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
+                if (!empty($testingEnvironment->pluginsToLoad)) {
+                    $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
+                }
+
+                sort($pluginsToLoad);
+
                 $config->Plugins = array('Plugins' => $pluginsToLoad);
 
                 $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
@@ -151,7 +163,13 @@ class Piwik_TestingEnvironment
                 }
             });
         }
-        Piwik::addAction('Request.dispatch', function() {
+        Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
+            if ($testingEnvironment->optionsOverride) {
+                foreach ($testingEnvironment->optionsOverride as $name => $value) {
+                    Option::set($name, $value);
+                }
+            }
+
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
             \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;

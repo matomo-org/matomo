@@ -731,7 +731,7 @@ class CronArchive
             return;
         }
         $token_auth = Common::getRequestVar('token_auth', '', 'string');
-        if ($token_auth != $this->token_auth
+        if ($token_auth !== $this->token_auth
             || strlen($token_auth) != 32
         ) {
             die('<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>?token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>

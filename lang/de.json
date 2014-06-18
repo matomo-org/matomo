@@ -104,6 +104,7 @@
         "CustomLogoHelpText": "Hier kann das Piwik-Logo angepasst werden, das in der Benutzeroberfläche sowie in E-Mail-Berichten verwendet wird.",
         "DevelopmentProcess": "Auch wenn unser %sEntwicklungsprozess%s tausende an automatisierten Tests beinhaltet, haben Beta-Tester eine Schlüsselrolle um die \"No Bug Policy\" in Piwik zu gewährleisten.",
         "EmailServerSettings": "E-Mail-Server-Einstellungen",
+        "FaviconUpload": "Wählen Sie ein Favicon für den Upload aus",
         "ForBetaTestersOnly": "Nur für Beta-Tester",
         "ImageTracking": "Tracking mit Hilfe eines Bildes",
         "ImageTrackingIntro1": "Für den Fall, dass ein Besucher JavaScript deaktiviert hat, oder JavaScript nicht verwendet werden kann, können Sie das Tracking mit Hilfe eines Bildes nutzen um Besucher zu tracken.",
@@ -1026,7 +1027,6 @@
     },
     "Installation": {
         "CollaborativeProject": "Piwik ist ein gemeinschaftliches Projekt, geschaffen mit Liebe von Menschen aus der ganzen Welt.",
-        "CommunityNewsletter": "Senden Sie mir per E-Mail Community-Aktualisierungen (neue Plugins, neue Funktionen usw.)",
         "ConfigurationHelp": "Ihre Konfigurationsdatei enthält Fehler. Sie können entweder die config\/config.php löschen und neu installieren, oder die Einstellung zur Datenbankverbindung korrigieren.",
         "ConfirmDeleteExistingTables": "Wollen Sie wirklich die Tabellen: %s aus der Datenbank löschen? WARNUNG: DATEN AUS DIESEN TABELLEN KÖNNEN NICHT WIEDERHERGESTELLT WERDEN!",
         "Congratulations": "Glückwunsch",
@@ -1062,6 +1062,7 @@
         "NfsFilesystemWarningSuffixAdmin": "Dies bedeutet, dass Piwik extrem langsam arbeitet wenn Dateibasierte Sessions genutzt werden.",
         "NfsFilesystemWarningSuffixInstall": "Die Benutzung von dateibasierten Sessions auf NFS ist extrem langsam, deshalb wird Piwik datenbankbasierte Sessions nutzen. Falls es viele gleichzeitige Zugriffe auf das Dashboard gibt sollten Sie möglicherweise die maximal erlaubten Client-Zugriffe auf den Datenbankserver erhöhen.",
         "NoConfigFound": "Die Piwik-Konfigurationsdatei konnte nicht gefunden werden und es wird versucht, eine Piwik-Seite aufzurufen.<br \/><b>  » Sie können <a href='index.php'>Piwik jetzt installieren<\/a><\/b><br \/><small>Wenn Sie Piwik zuvor schon installiert haben und noch Tabellen in der Datenbank vorhanden sind: Keine Angst, Sie können diese Tabellen und die enthaltenen Daten weiterhin verwenden!<\/small>",
+        "NotSupported": "nicht unterstützt",
         "Optional": "Optional",
         "Password": "Passwort",
         "PasswordDoNotMatch": "Passwörter stimmen nicht überein",
@@ -1072,7 +1073,6 @@
         "Requirements": "Anforderungen für die Piwik-Installation",
         "RestartWebServer": "Nach dieser Änderung müssen Sie den Webserver neu starten.",
         "ReusingTables": "Tabellen werden wiederverwendet",
-        "SecurityNewsletter": "Senden Sie mir per E-Mail Informationen zu wichtigen Piwik-Aktualisierungen sowie Sicherheitswarnungen",
         "SeeBelowForMoreInfo": "Unterhalb können Sie weitere Informationen finden.",
         "SetupWebsite": "Webseite hinzufügen",
         "SetupWebsiteError": "Beim Hinzufügen der Webseite ist ein Fehler aufgetreten",
@@ -1318,6 +1318,7 @@
     "MultiSites": {
         "Evolution": "Entwicklung",
         "LoadingWebsites": "Lade Webseiten",
+        "Pagination": "%s - %s von %s",
         "PluginDescription": "Zeigt eine Zusammenfassung über die Statistiken aller Webseiten. Wird derzeit als ein Piwik Core Plugin verwaltet",
         "TopLinkTooltip": "Vergleichen Sie Webanalytikstatistiken für alle Ihre Webseiten."
     },
@@ -1549,6 +1550,7 @@
         "ThisSegmentIsVisibleTo": "Dieses Segment ist sichtbar für:",
         "VisibleToAllUsers": "alle Benutzer",
         "VisibleToMe": "mich",
+        "YouDontHaveAccessToCreateSegments": "Sie haben nicht die benötigten Berechtigungen um Segmente anzulegen und zu bearbeiten.",
         "YouMayChangeSetting": "Alternativ können Sie die Einstellung in der Konfigurationsdatei (%s) ändern, oder ändern Sie dieses Segment und wählen '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Sie müssen sich anmelden um eigene Besuchersegmente anzulegen oder zu bearbeiten."
     },

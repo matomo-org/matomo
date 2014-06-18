@@ -526,7 +526,6 @@
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "ahol a meglátogatott oldal tartalmaz egy JavaScript hívást a piwikTracker.trackGoal() funkció aktiválására (%stovábbi információ%s)"
     },
     "Installation": {
-        "CommunityNewsletter": "e-mail küldése közösségi hírekről (új bővítmények, új funkciók, stb.)",
         "ConfigurationHelp": "Úgy tűnik, a Piwik konfigurációs fájl hibás. Törölheted a config\/config.ini.php fájlt — újrakezdve a telepítést, vagy kijavíthatod az adatbázis-kapcsolathoz szükséges beállításokat.",
         "ConfirmDeleteExistingTables": "Biztos vagy benne, hogy törölni akarod a %s táblákat az adatbázisból? FIGYELEM: A TÖRÖLT TÁBLÁK ADATAI NEM ÁLLÍTHATÓK VISSZA!",
         "Congratulations": "Gratulálunk",
@@ -556,7 +555,6 @@
         "PleaseFixTheFollowingErrors": "Kérjük, javítsd a következő hibákat",
         "PluginDescription": "Piwik telepítése. Általában csak egyszer fut le, ha azonban a config\/config.inc.php konfigurációs fájl hiányzik, akkor a telepítés újból fog kezdődni.",
         "Requirements": "Piwik Rendszerkövetelmények",
-        "SecurityNewsletter": "e-mail küldése főbb Piwik verziók megjelenése és biztonsági riasztások esetén",
         "SetupWebsite": "Weboldal beállítása",
         "SetupWebsiteError": "Hiba a weboldal hozzáadása közben!",
         "SetupWebSiteName": "weboldal neve",

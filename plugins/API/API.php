@@ -54,6 +54,7 @@ class API extends \Piwik\Plugin\API
     public function getPiwikVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserIsNotAnonymous();
         return Version::VERSION;
     }
 

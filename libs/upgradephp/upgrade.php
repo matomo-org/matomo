@@ -127,7 +127,11 @@ if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set
 if(function_exists('parse_ini_file')) {
 	// provide a wrapper
 	function _parse_ini_file($filename, $process_sections = false) {
-		return file_exists($filename) ? parse_ini_file($filename, $process_sections) : false;
+		if(!file_exists($filename)) {
+            return false;
+        }
+        // Note: INI_SCANNER_RAW is important here!
+        return parse_ini_file($filename, $process_sections, INI_SCANNER_RAW);
 	}
 } else {
 	// we can't redefine parse_ini_file() if it has been disabled

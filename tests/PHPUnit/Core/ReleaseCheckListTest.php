@@ -211,10 +211,10 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         foreach($paths as $pathToTest) {
 
             $chmod = substr(decoct(fileperms($pathToTest)), -3);
-            $valid = array('775', '755');
+            $valid = array('777', '775', '755');
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
             $this->assertTrue(in_array($chmod, $valid),
-                    "Some directories within plugins/ are not chmod 755. \n For example: $pathToTest \n\n".
+                    "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n".
                     "Run this command to set all directories to 755: \n$command\n");;
         }
     }

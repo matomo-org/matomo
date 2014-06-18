@@ -15,6 +15,7 @@ use Piwik\Menu\MenuAbstract;
 use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Site;
 
 /**
@@ -41,16 +42,18 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureTopMenu(MenuTop $menu)
     {
-        $tooltip = false;
-        try {
-            $idSite  = Common::getRequestVar('idSite');
-            $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
-        } catch (Exception $ex) {
-            // if no idSite parameter, show no tooltip
-        }
+        $userPreferences = new UserPreferences();
+        $idSite = $userPreferences->getDefaultWebsiteId();
 
-        $urlParams = array('module' => 'CoreHome', 'action' => 'index');
+        $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
+
+        $urlParams = array(
+            'module' => 'CoreHome',
+            'action' => 'index',
+            'idSite' => $idSite,
+        );
 
         $menu->add('Dashboard_Dashboard', null, $urlParams, true, 1, $tooltip);
     }
 }
+

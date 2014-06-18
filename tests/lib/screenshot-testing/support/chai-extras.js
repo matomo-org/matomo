@@ -108,6 +108,14 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
                 done(error);
             };
 
+            var pass = function () {
+                if (options['print-logs']) {
+                    console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
+                }
+
+                done();
+            };
+
             if (!testInfo.processed) {
                 fail("Failed to generate screenshot to " + screenshotFileName + ".");
                 return;
@@ -121,16 +129,20 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
             var expected = fs.read(expectedScreenshotPath),
                 processed = fs.read(processedScreenshotPath);
 
-            if (expected != processed) {
-                fail("Processed screenshot does not match expected for " + screenshotFileName + ".");
+            if (processed == expected) {
+                pass();
                 return;
             }
 
-            if (options['print-logs']) {
-                console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
-            }
+            // if the files are not exact, perform a diff to check if they are truly different
+            resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
+                if (data.misMatchPercentage != 0) {
+                    fail("Processed screenshot does not match expected for " + screenshotFileName + ".");
+                    return;
+                }
 
-            done();
+                pass();
+            });
         }, selector);
     } catch (ex) {
         var err = new Error(ex.message);

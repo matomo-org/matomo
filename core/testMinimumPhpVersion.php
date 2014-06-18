@@ -66,6 +66,8 @@ if ($minimumPhpInvalid) {
     }
 }
 
+define('PAGE_TITLE_WHEN_ERROR', 'Piwik &rsaquo; Error');
+
 if (!function_exists('Piwik_ExitWithMessage')) {
     /**
      * Returns true if Piwik should print the backtrace with error messages.
@@ -111,7 +113,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
         $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
 
-        $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+        $headerPage = str_replace('{$HTML_TITLE}', PAGE_TITLE_WHEN_ERROR, $headerPage);
 
         $content = '<p>' . $message . '</p>
                     <p>'

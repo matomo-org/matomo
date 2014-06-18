@@ -67,6 +67,8 @@ class Fixture extends PHPUnit_Framework_Assert
     public $resetPersistedFixture = false;
     public $printToScreen = false;
 
+    public $testCaseClass = false;
+
     public $testEnvironment = null;
 
     /**
@@ -173,7 +175,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         Cache::deleteTrackerCache();
 
-        static::loadAllPlugins();
+        static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass);
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
@@ -265,11 +267,31 @@ class Fixture extends PHPUnit_Framework_Assert
         Translate::unloadEnglishTranslation();
     }
 
-    public static function loadAllPlugins()
+    public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false)
     {
         DbHelper::createTables();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
+
         $plugins = $pluginsManager->getPluginsToLoadDuringTests();
+
+        // make sure the plugin that executed this method is included in the plugins to load
+        $extraPlugins = array(
+            \Piwik\Plugin::getPluginNameFromBacktrace(debug_backtrace()),
+            \Piwik\Plugin::getPluginNameFromNamespace($testCaseClass)
+        );
+        foreach ($extraPlugins as $pluginName) {
+            if (empty($pluginName)) {
+                continue;
+            }
+
+            $plugins[] = $pluginName;
+            if ($testEnvironment) {
+                $testEnvironment->pluginsToLoad = array_merge($testEnvironment->pluginsToLoad ?: array(), array($pluginName));
+            }
+        }
+
+        Log::info("Plugins to load during tests: " . implode(', ', $plugins));
+
         $pluginsManager->loadPlugins($plugins);
 
         // Install plugins
@@ -722,7 +744,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function dropDatabase($dbName = null)
     {
-        $dbName = $dbName ?: $this->dbName;
+        $dbName = $dbName ?: $this->dbName ?: Config::getInstance()->database_tests['dbname'];
 
         $this->log("Dropping database '$dbName'...");
 

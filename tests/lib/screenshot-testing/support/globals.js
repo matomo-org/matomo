@@ -21,6 +21,8 @@ var mochaPath = path.join(testsLibDir, config.mocha, "mocha.js");
 
 var chaiPath = path.join(testsLibDir, config.chai, "chai.js");
 
+var resemblePath = path.join(testsLibDir, 'resemblejs', 'resemble.js');
+
 var expect = function () {
     return chai.expect.apply(chai.expect, arguments);
 };
