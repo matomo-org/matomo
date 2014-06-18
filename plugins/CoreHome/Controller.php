@@ -28,9 +28,6 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     function getDefaultAction()
@@ -40,6 +37,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function renderMenuReport($reportModule = null, $reportAction = null)
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {
@@ -50,18 +49,22 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('This report is not enabled. Maybe you do not have enough permission');
         }
 
-        $title = $report->getName();
-        $menu  = $report->getMenuTitle();
+        $menuTitle = $report->getMenuTitle();
 
-        if (!empty($menu)) {
-            $title = Piwik::translate($menu);
+        if (empty($menuTitle)) {
+            throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report');
         }
 
-        return View::singleReport($title, $this->renderWidget($reportModule, $reportAction));
+        $menuTitle = Piwik::translate($menuTitle);
+        $content   = $this->renderWidget($reportModule, $reportAction);
+
+        return View::singleReport($menuTitle, $content);
     }
 
     public function renderWidget($reportModule = null, $reportAction = null)
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {
