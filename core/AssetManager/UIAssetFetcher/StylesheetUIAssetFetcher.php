@@ -19,6 +19,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
             'libs/',
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
             'plugins/Morpheus/stylesheets/base.less',
+            'plugins\/((?!' . $this->getTheme()->getThemeName() . ').)*\/',
             'plugins\/((?!Morpheus).)*\/',
             'plugins/Dashboard/stylesheets/dashboard.less',
             'tests/',
