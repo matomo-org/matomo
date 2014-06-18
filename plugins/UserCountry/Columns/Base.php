@@ -21,7 +21,7 @@ use Piwik\Tracker\Request;
 
 abstract class Base extends VisitDimension
 {
-    private $cachedLocations = array();
+    private static $cachedLocations = array();
 
     protected function getUrlOverrideValueIfAllowed($urlParamToOverride, Request $request)
     {
@@ -57,6 +57,7 @@ abstract class Base extends VisitDimension
     {
         $ipAddress = $this->getIpAddress($visitor->getVisitorColumn('location_ip'), $request);
         $language  = $visitor->getVisitorColumn('location_browser_lang');
+
         $userInfo  = array('lang' => $language, 'ip' => $ipAddress);
 
         return $userInfo;
@@ -68,8 +69,8 @@ abstract class Base extends VisitDimension
 
         $key = md5(implode(',', $userInfo));
 
-        if (array_key_exists($key, $this->cachedLocations)) {
-            return $this->cachedLocations[$key];
+        if (array_key_exists($key, self::$cachedLocations)) {
+            return self::$cachedLocations[$key];
         }
 
         $provider = $this->getProvider();
@@ -86,11 +87,15 @@ abstract class Base extends VisitDimension
             }
         }
 
+        if (empty($location)) {
+            $location = array();
+        }
+
         if (empty($location['country_code'])) { // sanity check
             $location['country_code'] = Visit::UNKNOWN_CODE;
         }
 
-        $this->cachedLocations[$key] = $location;
+        self::$cachedLocations[$key] = $location;
 
         return $location;
     }

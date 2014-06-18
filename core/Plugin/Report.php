@@ -90,7 +90,7 @@ class Report
 
         $apiAction = $apiProxy->buildApiActionName($this->module, $this->action);
 
-        $view      = ViewDataTableFactory::build(null, $apiAction, 'CoreHome.renderMenuReport');
+        $view      = ViewDataTableFactory::build(null, $apiAction, 'CoreHome.renderWidget');
         $rendered  = $view->render();
 
         return $rendered;

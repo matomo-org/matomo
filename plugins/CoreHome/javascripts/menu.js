@@ -62,8 +62,11 @@ menu.prototype =
                 return;
             }
             var url = href.substr(1);
-            var module = broadcast.getValueFromUrl("module", url);
-            var action = broadcast.getValueFromUrl("action", url);
+
+            var moduleAndAction = broadcast.getModuleAndActionFromUrl(url);
+            var module = moduleAndAction.module;
+            var action = moduleAndAction.action;
+
             var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);
             var main_menu = $(this).parent().hasClass('Menu-tabList') ? true : false;
             if (main_menu) {

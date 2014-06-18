@@ -387,6 +387,19 @@ var broadcast = {
         broadcast.popoverHandlers[handlerName] = callback;
     },
 
+    getModuleAndActionFromUrl: function (url) {
+
+        var module = broadcast.getValueFromUrl("module", url);
+        var action = broadcast.getValueFromUrl("action", url);
+
+        if (module === 'CoreHome' && (action === 'renderWidget' || action === 'renderMenuReport')) {
+            module = broadcast.getValueFromUrl("reportModule", url);
+            action = broadcast.getValueFromUrl("reportAction", url);
+        }
+
+        return {module: module, action:action};
+    },
+
     /**
      * Loads the given url with ajax and replaces the content
      *
@@ -397,9 +410,10 @@ var broadcast = {
      */
     loadAjaxContent: function (urlAjax) {
         if (typeof piwikMenu !== 'undefined') {
+            var moduleAndAction = broadcast.getModuleAndActionFromUrl(urlAjax);
             piwikMenu.activateMenu(
-                broadcast.getParamValue('module', urlAjax),
-                broadcast.getParamValue('action', urlAjax),
+                moduleAndAction.module,
+                moduleAndAction.action,
                 broadcast.getParamValue('idGoal', urlAjax) || broadcast.getParamValue('idDashboard', urlAjax)
             );
         }
