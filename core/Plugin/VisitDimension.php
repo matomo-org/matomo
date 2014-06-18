@@ -149,6 +149,11 @@ abstract class VisitDimension
         return $this->fieldName;
     }
 
+    public function getRequiredVisitFields()
+    {
+        return array();
+    }
+
     /**
      * @param Request $request
      * @param Visitor $visitor
@@ -188,7 +193,24 @@ abstract class VisitDimension
             }
         }
 
+        usort($instances, array('self', 'sortByRequiredFields'));
+
         return $instances;
+    }
+
+    public static function sortByRequiredFields($a, $b)
+    {
+        $fields = $a->getRequiredVisitFields();
+
+        if (empty($fields)) {
+            return -1;
+        }
+
+        if (!empty($fields) && in_array($b->getFieldName(), $fields)) {
+            return 1;
+        }
+
+        return 0;
     }
 
     /** @return \Piwik\Plugin\VisitDimension[] */
