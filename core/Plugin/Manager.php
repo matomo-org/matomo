@@ -1291,7 +1291,7 @@ class Manager extends Singleton
     /**
      * @param $pluginName
      */
-    private function executePluginUninstall($pluginName)
+    public function executePluginUninstall($pluginName)
     {
         try {
             $plugin = $this->getLoadedPlugin($pluginName);
