@@ -39,7 +39,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 /**
  */
-class Visitor
+class Visitor implements VisitorInterface
 {
     const DELIMITER_PLUGIN_NAME = ", ";
 
