@@ -19,70 +19,15 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@UserSettings/index');
 
-        $view->dataTablePlugin = $this->getPlugin(true);
-        $view->dataTableResolution = $this->getResolution(true);
-        $view->dataTableConfiguration = $this->getConfiguration(true);
-        $view->dataTableOS = $this->getOS(true);
-        $view->dataTableBrowser = $this->getBrowser(true);
-        $view->dataTableBrowserType = $this->getBrowserType(true);
-        $view->dataTableMobileVsDesktop = $this->getMobileVsDesktop(true);
-        $view->dataTableBrowserLanguage = $this->getLanguage(true);
+        $view->dataTablePlugin = $this->renderReport('getPlugin');
+        $view->dataTableResolution = $this->renderReport('getResolution');
+        $view->dataTableConfiguration = $this->renderReport('getConfiguration');
+        $view->dataTableOS = $this->renderReport('getOS');
+        $view->dataTableBrowser = $this->renderReport('getBrowser');
+        $view->dataTableBrowserType = $this->renderReport('getBrowserType');
+        $view->dataTableMobileVsDesktop = $this->renderReport('getMobileVsDesktop');
+        $view->dataTableBrowserLanguage = $this->renderReport('getLanguage');
 
         return $view->render();
-    }
-
-    public function getResolution()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getConfiguration()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOS()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOSFamily()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getMobileVsDesktop()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrowserVersion()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrowser()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrowserType()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getWideScreen()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPlugin()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getLanguage()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 }

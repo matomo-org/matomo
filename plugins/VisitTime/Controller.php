@@ -18,23 +18,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@VisitTime/index');
-        $view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
-        $view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
+        $view->dataTableVisitInformationPerLocalTime = $this->renderReport('getVisitInformationPerLocalTime');
+        $view->dataTableVisitInformationPerServerTime = $this->renderReport('getVisitInformationPerServerTime');
         return $view->render();
-    }
-
-    public function getVisitInformationPerServerTime()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getVisitInformationPerLocalTime()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getByDayOfWeek()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 }

@@ -29,7 +29,6 @@ class GetKeywords extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->subtable_controller_action  = 'getSearchEnginesFromKeywordId';
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate('General_ColumnKeyword'));
         $view->config->show_goals = true;

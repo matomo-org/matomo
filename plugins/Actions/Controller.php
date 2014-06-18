@@ -48,113 +48,36 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function indexPageUrls()
     {
-        return View::singleReport(
-            Piwik::translate('General_Pages'),
-            $this->getPageUrls(true));
+        return View::singleReport(Piwik::translate('General_Pages'), $this->renderReport('getPageUrls'));
     }
 
     public function indexEntryPageUrls()
     {
-        return View::singleReport(
-            Piwik::translate('Actions_SubmenuPagesEntry'),
-            $this->getEntryPageUrls(true));
+        return View::singleReport(Piwik::translate('Actions_SubmenuPagesEntry'), $this->renderReport('getEntryPageUrls'));
     }
 
     public function indexExitPageUrls()
     {
-        return View::singleReport(
-            Piwik::translate('Actions_SubmenuPagesExit'),
-            $this->getExitPageUrls(true));
+        return View::singleReport(Piwik::translate('Actions_SubmenuPagesExit'), $this->renderReport('getExitPageUrls'));
     }
 
     public function indexPageTitles()
     {
-        return View::singleReport(
-            Piwik::translate('Actions_SubmenuPageTitles'),
-            $this->getPageTitles(true));
+        return View::singleReport(Piwik::translate('Actions_SubmenuPageTitles'), $this->renderReport('getPageTitles'));
     }
 
     public function indexDownloads()
     {
-        return View::singleReport(
-            Piwik::translate('General_Downloads'),
-            $this->getDownloads(true));
+        return View::singleReport(Piwik::translate('General_Downloads'), $this->renderReport('getDownloads'));
     }
 
     public function indexOutlinks()
     {
-        return View::singleReport(
-            Piwik::translate('General_Outlinks'),
-            $this->getOutlinks(true));
+        return View::singleReport(Piwik::translate('General_Outlinks'), $this->renderReport('getOutlinks'));
     }
 
     //
     // Actions that render individual reports
     //
-
-    public function getPageUrls()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getEntryPageUrls()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getExitPageUrls()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchKeywords()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchNoResultKeywords()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSiteSearchCategories()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageUrlsFollowingSiteSearch()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageTitlesFollowingSiteSearch()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getPageTitles()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getEntryPageTitles()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getExitPageTitles()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getDownloads()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOutlinks()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
 
 }

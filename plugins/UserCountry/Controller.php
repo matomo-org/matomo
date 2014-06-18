@@ -33,10 +33,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
 
-        $view->dataTableCountry = $this->getCountry(true);
-        $view->dataTableContinent = $this->getContinent(true);
-        $view->dataTableRegion = $this->getRegion(true);
-        $view->dataTableCity = $this->getCity(true);
+        $view->dataTableCountry = $this->renderReport('getCountry');
+        $view->dataTableContinent = $this->renderReport('getContinent');
+        $view->dataTableRegion = $this->renderReport('getRegion');
+        $view->dataTableCity = $this->renderReport('getCity');
 
         return $view->render();
     }
@@ -326,36 +326,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $location, $newline = '<br/>', $includeExtra = true);
 
         return $location;
-    }
-
-    public function getCountry()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getContinent()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    /**
-     * Echo's or returns an HTML view of the visits by region report.
-     *
-     * @return string
-     */
-    public function getRegion()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    /**
-     * Echo's or returns an HTML view of the visits by city report.
-     *
-     * @return string
-     */
-    public function getCity()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 
     public function getNumberOfDistinctCountries()

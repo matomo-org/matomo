@@ -128,91 +128,25 @@ class Controller extends \Piwik\Plugin\Controller
     public function getSearchEnginesAndKeywords()
     {
         $view = new View('@Referrers/getSearchEnginesAndKeywords');
-        $view->searchEngines = $this->getSearchEngines(true);
-        $view->keywords = $this->getKeywords(true);
+        $view->searchEngines = $this->renderReport('getSearchEngines');
+        $view->keywords = $this->renderReport('getKeywords');
         return $view->render();
-    }
-
-    public function getReferrerType()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    /**
-     * Returns or echo's a report that shows all search keyword, website and campaign
-     * referrer information in one report.
-     *
-     * @return string The report HTML or nothing if $fetch is set to false.
-     */
-    public function getAll()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getKeywords()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSearchEnginesFromKeywordId()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSearchEngines()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getKeywordsFromSearchEngineId()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 
     public function indexWebsites()
     {
         $view = new View('@Referrers/indexWebsites');
-        $view->websites = $this->getWebsites(true);
-        $view->socials = $this->getSocials(true);
+        $view->websites = $this->renderReport('getWebsites');
+        $view->socials = $this->renderReport('getSocials');
 
         return $view->render();
-    }
-
-    public function getWebsites()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getSocials()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getUrlsForSocial()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 
     public function indexCampaigns()
     {
         return View::singleReport(
             Piwik::translate('Referrers_Campaigns'),
-            $this->getCampaigns(true));
-    }
-
-    public function getCampaigns()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getKeywordsFromCampaignId()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getUrlsFromWebsiteId()
-    {
-        return $this->renderReport(__FUNCTION__);
+            $this->renderReport('getCampaigns'));
     }
 
     protected function getReferrersVisitorsByType($date = false)

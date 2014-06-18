@@ -29,7 +29,6 @@ class GetSearchEngines extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->subtable_controller_action  = 'getKeywordsFromSearchEngineId';
         $view->config->show_exclude_low_population = false;
         $view->config->show_search = false;
         $view->config->show_goals  = true;

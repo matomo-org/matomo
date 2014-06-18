@@ -107,8 +107,7 @@ class Factory
             $params = array();
         } else {
             $login  = Piwik::getCurrentUserLogin();
-            // TODO this won't work as currently all reports use CoreHome.renderMenuReport
-            $params = Manager::getViewDataTableParameters($login, $controllerAction);
+            $params = Manager::getViewDataTableParameters($login, $apiAction);
         }
 
         $savedViewDataTable = false;

@@ -13,6 +13,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Plugin\Controller;
+use Piwik\Plugin\Report;
 use Piwik\Session;
 
 /**
@@ -100,7 +101,7 @@ class FrontController extends Singleton
         }
     }
 
-    protected function makeController($module, $action)
+    protected function makeController($module, $action, &$parameters)
     {
         $controllerClassName = $this->getClassNameController($module);
 
@@ -121,8 +122,19 @@ class FrontController extends Singleton
         }
 
         if (!is_callable(array($controller, $action))) {
-            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
+
+            $report = Report::factory($module, $action);
+
+            if (empty($report) || !$report->isEnabled()) {
+                throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
+            }
+
+            $parameters['reportModule'] = $module;
+            $parameters['reportAction'] = $action;
+
+            return $this->makeController('CoreHome', 'renderWidget', $parameters);
         }
+
         return array($controller, $action);
     }
 
@@ -484,7 +496,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
 
-        list($controller, $action) = $this->makeController($module, $action);
+        list($controller, $actionToCall) = $this->makeController($module, $action, $parameters);
 
         /**
          * Triggered directly before controller actions are dispatched.
@@ -499,7 +511,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
 
-        $result = call_user_func_array(array($controller, $action), $parameters);
+        $result = call_user_func_array(array($controller, $actionToCall), $parameters);
 
         /**
          * Triggered after a controller action is successfully called.

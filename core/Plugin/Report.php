@@ -90,7 +90,7 @@ class Report
 
         $apiAction = $apiProxy->buildApiActionName($this->module, $this->action);
 
-        $view      = ViewDataTableFactory::build(null, $apiAction, 'CoreHome.renderWidget');
+        $view      = ViewDataTableFactory::build(null, $apiAction, $this->module . '.' . $this->action);
         $rendered  = $view->render();
 
         return $rendered;
@@ -99,13 +99,11 @@ class Report
     public function configureWidget(WidgetsList $widget)
     {
         if ($this->widgetTitle) {
-            $params = array('reportModule' => $this->module, 'reportAction' => $this->action);
+            $params = array();
             if (!empty($this->widgetParams) && is_array($this->widgetParams)) {
-                foreach ($this->widgetParams as $key => $value) {
-                    $params[$key] = $value;
-                }
+                $params = $this->widgetParams;
             }
-            $widget->add($this->category, $this->widgetTitle, 'CoreHome', 'renderWidget', $params);
+            $widget->add($this->category, $this->widgetTitle, $this->module, $this->action, $params);
         }
     }
 
@@ -221,6 +219,11 @@ class Report
     public function getModule()
     {
         return $this->module;
+    }
+
+    public function getActionToLoadSubTables()
+    {
+        return $this->actionToLoadSubTables;
     }
 
     public static function factory($module, $action = '')

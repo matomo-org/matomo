@@ -29,7 +29,6 @@ class GetWebsites extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->subtable_controller_action  = 'getUrlsFromWebsiteId';
         $view->config->show_exclude_low_population = false;
         $view->config->show_goals = true;
         $view->config->addTranslation('label', $this->dimension->getName());

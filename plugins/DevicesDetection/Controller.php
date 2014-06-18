@@ -21,47 +21,12 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@DevicesDetection/index');
         $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
-        $view->deviceTypes = $this->getType(true);
-        $view->deviceBrands = $this->getBrand(true);
-        $view->deviceModels = $this->getModel(true);
-        $view->osReport = $this->getOsFamilies(true);
-        $view->browserReport = $this->getBrowserFamilies(true);
+        $view->deviceTypes = $this->renderReport('getType');
+        $view->deviceBrands = $this->renderReport('getBrand');
+        $view->deviceModels = $this->renderReport('getModel');
+        $view->osReport = $this->renderReport('getOsFamilies');
+        $view->browserReport = $this->renderReport('getBrowserFamilies');
         return $view->render();
-    }
-
-    public function getType()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrand()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getModel()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOsFamilies()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOsVersions()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrowserFamilies()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrowserVersions()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 
     public function deviceDetection()
