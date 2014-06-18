@@ -752,4 +752,24 @@ class Http
         }
         return $str;
     }
+
+    /**
+     * Returns the If-Modified-Since HTTP header if it can be found. If it cannot be
+     * found, an empty string is returned.
+     *
+     * @return string
+     */
+    public static function getModifiedSinceHeader()
+    {
+        $modifiedSince = '';
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+            $modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+
+            // strip any trailing data appended to header
+            if (false !== ($semicolonPos = strpos($modifiedSince, ';'))) {
+                $modifiedSince = substr($modifiedSince, 0, $semicolonPos);
+            }
+        }
+        return $modifiedSince;
+    }
 }

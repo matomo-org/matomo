@@ -16,6 +16,9 @@ namespace Piwik;
  */
 class ProxyHttp
 {
+    const DEFLATE_ENCODING_REGEX = '/(?:^|, ?)(deflate)(?:,|$)/';
+    const GZIP_ENCODING_REGEX = '/(?:^|, ?)((x-)?gzip)(?:,|$)/';
+
     /**
      * Returns true if the current request appears to be a secure HTTPS connection
      *
@@ -56,101 +59,82 @@ class ProxyHttp
      */
     public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100)
     {
-        if (file_exists($file)) {
-            // conditional GET
-            $modifiedSince = '';
-            if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-                $modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-
-                // strip any trailing data appended to header
-                if (false !== ($semicolon = strpos($modifiedSince, ';'))) {
-                    $modifiedSince = substr($modifiedSince, 0, $semicolon);
-                }
-            }
-
-            $fileModifiedTime = @filemtime($file);
-            $lastModified = gmdate('D, d M Y H:i:s', $fileModifiedTime) . ' GMT';
-
-            // set HTTP response headers
-            self::overrideCacheControlHeaders('public');
-            @header('Vary: Accept-Encoding');
-            @header('Content-Disposition: inline; filename=' . basename($file));
-
-            if ($expireFarFutureDays) {
-                // Required by proxy caches potentially in between the browser and server to cache the request indeed
-                @header("Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * (int)$expireFarFutureDays) . ' GMT');
-            }
-
-            // Returns 304 if not modified since
-            if ($modifiedSince === $lastModified) {
-                self::setHttpStatus('304 Not Modified');
-            } else {
-                // optional compression
-                $compressed = false;
-                $encoding = '';
-                $compressedFileLocation = AssetManager::getInstance()->getAssetDirectory() . '/' . basename($file);
-
-                $phpOutputCompressionEnabled = ProxyHttp::isPhpOutputCompressed();
-                if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled) {
-                    $acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-
-                    if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents')) {
-                        if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches)) {
-                            $encoding = 'deflate';
-                            $filegz = $compressedFileLocation . '.deflate';
-                        } else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches)) {
-                            $encoding = $matches[1];
-                            $filegz = $compressedFileLocation . '.gz';
-                        }
-
-                        if (!empty($encoding)) {
-                            // compress-on-demand and use cache
-                            if (!file_exists($filegz) || ($fileModifiedTime > @filemtime($filegz))) {
-                                $data = file_get_contents($file);
-
-                                if ($encoding == 'deflate') {
-                                    $data = gzdeflate($data, 9);
-                                } else if ($encoding == 'gzip' || $encoding == 'x-gzip') {
-                                    $data = gzencode($data, 9);
-                                }
-
-                                file_put_contents($filegz, $data);
-                            }
-
-                            $compressed = true;
-                            $file = $filegz;
-                        }
-                    } else {
-                        // manually compressed
-                        $filegz = $compressedFileLocation . '.gz';
-                        if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && ($fileModifiedTime < @filemtime($filegz))) {
-                            $encoding = $matches[1];
-                            $compressed = true;
-                            $file = $filegz;
-                        }
-                    }
-                }
-
-                @header('Last-Modified: ' . $lastModified);
-
-                if (!$phpOutputCompressionEnabled) {
-                    @header('Content-Length: ' . filesize($file));
-                }
-
-                if (!empty($contentType)) {
-                    @header('Content-Type: ' . $contentType);
-                }
-
-                if ($compressed) {
-                    @header('Content-Encoding: ' . $encoding);
-                }
-
-                if (!_readfile($file)) {
-                    self::setHttpStatus('505 Internal server error');
-                }
-            }
-        } else {
+        // if the file cannot be found return HTTP status code '404'
+        if (!file_exists($file)) {
             self::setHttpStatus('404 Not Found');
+            return;
+        }
+
+        // conditional GET
+        $modifiedSince = Http::getModifiedSinceHeader();
+
+        $fileModifiedTime = @filemtime($file);
+        $lastModified = gmdate('D, d M Y H:i:s', $fileModifiedTime) . ' GMT';
+
+        // set some HTTP response headers
+        self::overrideCacheControlHeaders('public');
+        @header('Vary: Accept-Encoding');
+        @header('Content-Disposition: inline; filename=' . basename($file));
+
+        if ($expireFarFutureDays) {
+            // Required by proxy caches potentially in between the browser and server to cache the request indeed
+            @header(self::getExpiresHeaderForFutureDay($expireFarFutureDays));
+        }
+
+        // Return 304 if the file has not modified since
+        if ($modifiedSince === $lastModified) {
+            self::setHttpStatus('304 Not Modified');
+            return;
+        }
+
+        // if we have to serve the file, serve it now, either in the clear or compressed
+        $compressed = false;
+        $encoding = '';
+        $compressedFileLocation = AssetManager::getInstance()->getAssetDirectory() . '/' . basename($file);
+
+        $phpOutputCompressionEnabled = self::isPhpOutputCompressed();
+        if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled) {
+            list($encoding, $extension) = self::getCompressionEncodingAcceptedByClient();
+            $filegz = $compressedFileLocation . $extension;
+
+            if (self::canCompressInPhp()) {
+                if (!empty($encoding)) {
+                    // compress the file if it doesn't exist or is newer than the existing cached file, and cache
+                    // the compressed result
+                    if (self::shouldCompressFile($file, $filegz)) {
+                        self::compressFile($file, $filegz, $encoding);
+                    }
+
+                    $compressed = true;
+                    $file = $filegz;
+                }
+            } else {
+                // if a compressed file exists, the file was manually compressed so we just serve that
+                if ($extension == '.gz'
+                    && !self::shouldCompressFile($file, $filegz)
+                ) {
+                    $compressed = true;
+                    $file = $filegz;
+                }
+            }
+        }
+
+        @header('Last-Modified: ' . $lastModified);
+
+        if (!$phpOutputCompressionEnabled) {
+            @header('Content-Length: ' . filesize($file));
+        }
+
+        if (!empty($contentType)) {
+            @header('Content-Type: ' . $contentType);
+        }
+
+        if ($compressed) {
+            @header('Content-Encoding: ' . $encoding);
+        }
+
+        if (!_readfile($file)) {
+            self::setHttpStatus('505 Internal server error');
         }
     }
 
@@ -229,4 +213,51 @@ class ProxyHttp
         }
     }
 
+    /**
+     * Returns a formatted Expires HTTP header for a certain number of days in the future. The result
+     * can be used in a call to `header()`.
+     */
+    private function getExpiresHeaderForFutureDay($expireFarFutureDays)
+    {
+        return "Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * (int)$expireFarFutureDays) . ' GMT';
+    }
+
+    private static function getCompressionEncodingAcceptedByClient()
+    {
+        $acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
+
+        if (preg_match(self::DEFLATE_ENCODING_REGEX, $acceptEncoding, $matches)) {
+            return array('deflate', '.deflate');
+        } else if (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
+            return array('gzip', '.gz');
+        } else {
+            return array(false, false);
+        }
+    }
+
+    private static function canCompressInPhp()
+    {
+        return extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents');
+    }
+
+    private static function shouldCompressFile($fileToCompress, $compressedFilePath)
+    {
+        $toCompressLastModified = @filemtime($fileToCompress);
+        $compressedLastModified = @filemtime($compressedFilePath);
+
+        return !file_exists($compressedFilePath) || ($toCompressLastModified > $compressedLastModified);
+    }
+
+    private static function compressFile($fileToCompress, $compressedFilePath, $compressionEncoding)
+    {
+        $data = file_get_contents($fileToCompress);
+
+        if ($compressionEncoding == 'deflate') {
+            $data = gzdeflate($data, 9);
+        } else if ($compressionEncoding == 'gzip' || $compressionEncoding == 'x-gzip') {
+            $data = gzencode($data, 9);
+        }
+
+        file_put_contents($compressedFilePath, $data);
+    }
 }
