@@ -863,11 +863,11 @@ class Tracker
 
         try {
             if ($this->isVisitValid()) {
-                $visit = $this->getNewVisitObject();
                 $request->setForcedVisitorId(self::$forcedVisitorId);
                 $request->setForceDateTime(self::$forcedDateTime);
                 $request->setForceIp(self::$forcedIpString);
 
+                $visit = $this->getNewVisitObject();
                 $visit->setRequest($request);
                 $visit->handle();
             } else {

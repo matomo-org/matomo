@@ -280,14 +280,9 @@ class Visitor
              * events such as 'onExistingVisit'.
              *
              * Plugins can use this event to load additional visit entity properties for later use during tracking.
-             *
-             * This way all dimensions cannot only make sure the column values are loaded that they need, we can later
-             * even implement to resolve required dimensions before the defining dimension is resolved.
              */
-            if (method_exists($dimension, 'getRequiredVisitFields')) {
-                foreach ($dimension->getRequiredVisitFields() as $field) {
-                    $fields[] = $field;
-                }
+            foreach ($dimension->getRequiredVisitFields() as $field) {
+                $fields[] = $field;
             }
         }
 
