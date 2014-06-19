@@ -828,7 +828,7 @@ abstract class Controller
      */
     protected function checkTokenInUrl()
     {
-        $requestTokenAuth = Common::getRequestVar('token_auth', false);
+        $requestTokenAuth = Common::getRequestVar('token_auth', null);
         $currentUserTokenAuth = Piwik::getCurrentUserTokenAuth();
         if ($requestTokenAuth !== $currentUserTokenAuth) {
             throw new NoAccessException(Piwik::translate('General_ExceptionInvalidToken'));
