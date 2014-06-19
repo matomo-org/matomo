@@ -251,7 +251,8 @@ abstract class Controller
     /**
      * Convenience method that creates and renders a ViewDataTable for a API method.
      *
-     * @param string $apiAction The name of the API action (eg, `'getResolution'`).
+     * @param string|\Piwik\Plugin\Report $apiAction The name of the API action (eg, `'getResolution'`) or
+     *                                      an instance of an report.
      * @param bool $controllerAction The name of the Controller action name  that is rendering the report. Defaults
      *                               to the `$apiAction`.
      * @param bool $fetch If `true`, the rendered string is returned, if `false` it is `echo`'d.
@@ -262,6 +263,12 @@ abstract class Controller
      */
     protected function renderReport($apiAction, $controllerAction = false)
     {
+        if ($apiAction instanceof Report) {
+            $apiAction->checkIsEnabled();
+
+            return $apiAction->render();
+        }
+
         if (empty($controllerAction)) {
             $report = Report::factory($this->pluginName, $apiAction);
 

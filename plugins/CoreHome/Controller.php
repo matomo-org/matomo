@@ -45,9 +45,7 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('This report does not exist');
         }
 
-        if (!$report->isEnabled()) {
-            throw new Exception('This report is not enabled. Maybe you do not have enough permission');
-        }
+        $report->checkIsEnabled();
 
         $menuTitle = $report->getMenuTitle();
 
@@ -71,9 +69,7 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('This report does not exist');
         }
 
-        if (!$report->isEnabled()) {
-            throw new Exception('This report is not enabled. Maybe you do not have enough permission');
-        }
+        $report->checkIsEnabled();
 
         return $report->render();
     }

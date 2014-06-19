@@ -69,6 +69,13 @@ class Report
         return true;
     }
 
+    public function checkIsEnabled()
+    {
+        if (!$this->isEnabled()) {
+            throw new \Exception('This report is not enabled. Maybe you do not have enough permission');
+        }
+    }
+
     public function getDefaultTypeViewDataTable()
     {
         return HtmlTable::ID;

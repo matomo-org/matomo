@@ -126,13 +126,17 @@ abstract class MenuAbstract extends Singleton
      */
     private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
     {
-        if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
-            $this->menu[$menuName]['_url'] = $url;
-            if (empty($subMenuName)) {
-                $this->menu[$menuName]['_order'] = $order;
-            }
-            $this->menu[$menuName]['_name'] = $menuName;
-            $this->menu[$menuName]['_hasSubmenu'] = false;
+        if (!isset($this->menu[$menuName])) {
+            $this->menu[$menuName] = array(
+                '_hasSubmenu' => false,
+                '_order' => $order
+            );
+        }
+
+        if (empty($subMenuName)) {
+            $this->menu[$menuName]['_url']   = $url;
+            $this->menu[$menuName]['_order'] = $order;
+            $this->menu[$menuName]['_name']  = $menuName;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
         }
         if (!empty($subMenuName)) {
@@ -141,7 +145,10 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
             $this->menu[$menuName][$subMenuName]['_tooltip'] = $tooltip;
             $this->menu[$menuName]['_hasSubmenu'] = true;
-            $this->menu[$menuName]['_tooltip'] = $tooltip;
+
+            if (!array_key_exists('_tooltip', $this->menu[$menuName])) {
+                $this->menu[$menuName]['_tooltip'] = $tooltip;
+            }
         }
     }
 
