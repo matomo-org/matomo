@@ -14,6 +14,10 @@ use Piwik\DataTable\Map;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\Reports\GetKeywords;
+use Piwik\Plugins\Referrers\Reports\GetSearchEngines;
+use Piwik\Plugins\Referrers\Reports\GetSocials;
+use Piwik\Plugins\Referrers\Reports\GetWebsites;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
@@ -128,16 +132,16 @@ class Controller extends \Piwik\Plugin\Controller
     public function getSearchEnginesAndKeywords()
     {
         $view = new View('@Referrers/getSearchEnginesAndKeywords');
-        $view->searchEngines = $this->renderReport('getSearchEngines');
-        $view->keywords = $this->renderReport('getKeywords');
+        $view->searchEngines = $this->renderReport(new GetSearchEngines());
+        $view->keywords      = $this->renderReport(new GetKeywords());
         return $view->render();
     }
 
     public function indexWebsites()
     {
         $view = new View('@Referrers/indexWebsites');
-        $view->websites = $this->renderReport('getWebsites');
-        $view->socials = $this->renderReport('getSocials');
+        $view->websites = $this->renderReport(new GetWebsites());
+        $view->socials  = $this->renderReport(new GetSocials());
 
         return $view->render();
     }

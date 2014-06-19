@@ -263,18 +263,18 @@ abstract class Controller
      */
     protected function renderReport($apiAction, $controllerAction = false)
     {
+        if (empty($controllerAction) && is_string($apiAction)) {
+            $report = Report::factory($this->pluginName, $apiAction);
+
+            if (!empty($report)) {
+                $apiAction = $report;
+            }
+        }
+
         if ($apiAction instanceof Report) {
             $apiAction->checkIsEnabled();
 
             return $apiAction->render();
-        }
-
-        if (empty($controllerAction)) {
-            $report = Report::factory($this->pluginName, $apiAction);
-
-            if (!empty($report) && $report->isEnabled()) {
-                return $report->render();
-            }
         }
 
         $pluginName = $this->pluginName;

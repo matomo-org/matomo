@@ -8,16 +8,7 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
-use Piwik\Piwik;
-use Piwik\View;
-
 class Controller extends \Piwik\Plugin\Controller
 {
-    public function index()
-    {
-        return View::singleReport(
-            Piwik::translate('CustomVariables_CustomVariables'),
-            $this->renderReport('getCustomVariables'));
-    }
 }
 

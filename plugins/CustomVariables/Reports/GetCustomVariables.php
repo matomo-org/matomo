@@ -24,6 +24,7 @@ class GetCustomVariables extends Base
         $this->actionToLoadSubTables = 'getCustomVariablesValuesFromNameId';
         $this->order = 10;
         $this->widgetTitle  = 'CustomVariables_CustomVariables';
+        $this->menuTitle    = 'CustomVariables_CustomVariables';
     }
 
     public function configureView(ViewDataTable $view)
@@ -34,5 +35,4 @@ class GetCustomVariables extends Base
         $view->requestConfig->filter_sort_column = 'nb_actions';
         $view->requestConfig->filter_sort_order  = 'desc';
     }
-
 }

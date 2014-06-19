@@ -291,15 +291,34 @@ abstract class MenuAbstract extends Singleton
      */
     protected function menuCompare($itemOne, $itemTwo)
     {
-        if (!is_array($itemOne) || !is_array($itemTwo)
-            || !isset($itemOne['_order']) || !isset($itemTwo['_order'])
-        ) {
+        if (!is_array($itemOne) && !is_array($itemTwo)) {
             return 0;
+        }
+
+        if (!is_array($itemOne) && is_array($itemTwo)) {
+            return -1;
+        }
+
+        if (is_array($itemOne) && !is_array($itemTwo)) {
+            return 1;
+        }
+
+        if (!isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 0;
+        }
+
+        if (!isset($itemOne['_order']) && isset($itemTwo['_order'])) {
+            return -1;
+        }
+
+        if (isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 1;
         }
 
         if ($itemOne['_order'] == $itemTwo['_order']) {
             return strcmp($itemOne['_name'], $itemTwo['_name']);
         }
+
         return ($itemOne['_order'] < $itemTwo['_order']) ? -1 : 1;
     }
 }

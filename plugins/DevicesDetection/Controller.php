@@ -13,6 +13,11 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\DevicesDetection\Reports\GetBrand;
+use Piwik\Plugins\DevicesDetection\Reports\GetBrowserFamilies;
+use Piwik\Plugins\DevicesDetection\Reports\GetModel;
+use Piwik\Plugins\DevicesDetection\Reports\GetOsFamilies;
+use Piwik\Plugins\DevicesDetection\Reports\GetType;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -21,11 +26,11 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@DevicesDetection/index');
         $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
-        $view->deviceTypes = $this->renderReport('getType');
-        $view->deviceBrands = $this->renderReport('getBrand');
-        $view->deviceModels = $this->renderReport('getModel');
-        $view->osReport = $this->renderReport('getOsFamilies');
-        $view->browserReport = $this->renderReport('getBrowserFamilies');
+        $view->deviceTypes = $this->renderReport(new GetType());
+        $view->deviceBrands = $this->renderReport(new GetBrand());
+        $view->deviceModels = $this->renderReport(new GetModel());
+        $view->osReport = $this->renderReport(new GetOsFamilies());
+        $view->browserReport = $this->renderReport(new GetBrowserFamilies());
         return $view->render();
     }
 

@@ -8,6 +8,14 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
+use Piwik\Plugins\UserSettings\Reports\GetBrowser;
+use Piwik\Plugins\UserSettings\Reports\GetBrowserType;
+use Piwik\Plugins\UserSettings\Reports\GetConfiguration;
+use Piwik\Plugins\UserSettings\Reports\GetLanguage;
+use Piwik\Plugins\UserSettings\Reports\GetMobileVsDesktop;
+use Piwik\Plugins\UserSettings\Reports\GetOS;
+use Piwik\Plugins\UserSettings\Reports\GetPlugin;
+use Piwik\Plugins\UserSettings\Reports\GetResolution;
 use Piwik\View;
 
 /**
@@ -19,14 +27,14 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@UserSettings/index');
 
-        $view->dataTablePlugin = $this->renderReport('getPlugin');
-        $view->dataTableResolution = $this->renderReport('getResolution');
-        $view->dataTableConfiguration = $this->renderReport('getConfiguration');
-        $view->dataTableOS = $this->renderReport('getOS');
-        $view->dataTableBrowser = $this->renderReport('getBrowser');
-        $view->dataTableBrowserType = $this->renderReport('getBrowserType');
-        $view->dataTableMobileVsDesktop = $this->renderReport('getMobileVsDesktop');
-        $view->dataTableBrowserLanguage = $this->renderReport('getLanguage');
+        $view->dataTablePlugin = $this->renderReport(new GetPlugin());
+        $view->dataTableResolution = $this->renderReport(new GetResolution());
+        $view->dataTableConfiguration = $this->renderReport(new GetConfiguration());
+        $view->dataTableOS = $this->renderReport(new GetOS());
+        $view->dataTableBrowser = $this->renderReport(new GetBrowser());
+        $view->dataTableBrowserType = $this->renderReport(new GetBrowserType());
+        $view->dataTableMobileVsDesktop = $this->renderReport(new GetMobileVsDesktop());
+        $view->dataTableBrowserLanguage = $this->renderReport(new GetLanguage());
 
         return $view->render();
     }
