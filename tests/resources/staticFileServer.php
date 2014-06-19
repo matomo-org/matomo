@@ -54,6 +54,11 @@ define("ZLIB_OUTPUT_REQUEST_VAR", "zlibOutput");
 define("NULL_FILE_SRV_MODE", "nullFile");
 define("GHOST_FILE_SRV_MODE", "ghostFile");
 define("TEST_FILE_SRV_MODE", "testFile");
+define("PARTIAL_TEST_FILE_SRV_MODE", "partialTestFile");
+define("WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE", "wholeTestFileWithRange");
+
+define("PARTIAL_BYTE_START", 1204);
+define("PARTIAL_BYTE_END", 14724);
 
 
 /**
@@ -88,5 +93,15 @@ switch ($staticFileServerMode) {
     case TEST_FILE_SRV_MODE:
 
         ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE);
+        break;
+
+    case PARTIAL_TEST_FILE_SRV_MODE:
+
+        ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE, $expireFarFutureDays = 100, PARTIAL_BYTE_START, PARTIAL_BYTE_END);
+        break;
+
+    case WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE:
+
+        ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE, $expireFarFutureDays = 100, 0, filesize(TEST_FILE_LOCATION));
         break;
 }

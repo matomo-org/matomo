@@ -612,20 +612,27 @@ function safe_unserialize( $str )
  * @param resource $context
  * @return int the number of bytes read from the file, or false if an error occurs
  */
-function _readfile($filename, $useIncludePath = false, $context = null)
+function _readfile($filename, $byteStart, $byteEnd, $useIncludePath = false, $context = null)
 {
 	$count = @filesize($filename);
 
 	// built-in function has a 2 MB limit when using mmap
-	if (function_exists('readfile') && $count <= (2 * 1024 * 1024)) {
+	if (function_exists('readfile')
+        && $count <= (2 * 1024 * 1024)
+        && $byteStart == 0
+        && $byteEnd == $count
+    ) {
 		return @readfile($filename, $useIncludePath, $context);
 	}
 
 	// when in doubt (or when readfile() function is disabled)
 	$handle = @fopen($filename, SettingsServer::isWindows() ? "rb" : "r");
 	if ($handle) {
-		while(!feof($handle)) {
-			echo fread($handle, 8192);
+        fseek($handle, $byteStart);
+
+        for ($pos = $byteStart; $pos < $byteEnd && !feof($handle); $pos = ftell($handle)) {
+			echo fread($handle, min(8192, $byteEnd - $pos));
+
 			ob_flush();
 			flush();
 		}

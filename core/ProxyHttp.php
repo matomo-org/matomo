@@ -56,8 +56,13 @@ class ProxyHttp
      * @param string $contentType The content type of the static file.
      * @param bool $expireFarFuture Day in the far future to set the Expires header to.
      *                              Should be set to false for files that should not be cached.
+     * @param int|false $byteStart The starting byte in the file to serve. If false, the data from the beginning
+     *                             of the file will be served.
+     * @param int|false $byteEnd The ending byte in the file to serve. If false, the data from $byteStart to the
+     *                           end of the file will be served.
      */
-    public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100)
+    public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100, $byteStart = false,
+                                            $byteEnd = false)
     {
         // if the file cannot be found return HTTP status code '404'
         if (!file_exists($file)) {
@@ -65,7 +70,6 @@ class ProxyHttp
             return;
         }
 
-        // conditional GET
         $modifiedSince = Http::getModifiedSinceHeader();
 
         $fileModifiedTime = @filemtime($file);
@@ -88,6 +92,14 @@ class ProxyHttp
         }
 
         // if we have to serve the file, serve it now, either in the clear or compressed
+        if ($byteStart === false) {
+            $byteStart = 0;
+        }
+
+        if ($byteEnd === false) {
+            $byteEnd = filesize($file);
+        }
+
         $compressed = false;
         $encoding = '';
         $compressedFileLocation = AssetManager::getInstance()->getAssetDirectory() . '/' . basename($file);
@@ -102,11 +114,14 @@ class ProxyHttp
                     // compress the file if it doesn't exist or is newer than the existing cached file, and cache
                     // the compressed result
                     if (self::shouldCompressFile($file, $filegz)) {
-                        self::compressFile($file, $filegz, $encoding);
+                        self::compressFile($file, $filegz, $encoding, $byteStart, $byteEnd);
                     }
 
                     $compressed = true;
                     $file = $filegz;
+
+                    $byteStart = 0;
+                    $byteEnd = filesize($file);
                 }
             } else {
                 // if a compressed file exists, the file was manually compressed so we just serve that
@@ -115,6 +130,9 @@ class ProxyHttp
                 ) {
                     $compressed = true;
                     $file = $filegz;
+
+                    $byteStart = 0;
+                    $byteEnd = filesize($file);
                 }
             }
         }
@@ -122,7 +140,7 @@ class ProxyHttp
         @header('Last-Modified: ' . $lastModified);
 
         if (!$phpOutputCompressionEnabled) {
-            @header('Content-Length: ' . filesize($file));
+            @header('Content-Length: ' . ($byteEnd - $byteStart));
         }
 
         if (!empty($contentType)) {
@@ -133,7 +151,7 @@ class ProxyHttp
             @header('Content-Encoding: ' . $encoding);
         }
 
-        if (!_readfile($file)) {
+        if (!_readfile($file, $byteStart, $byteEnd)) {
             self::setHttpStatus('505 Internal server error');
         }
     }
@@ -248,9 +266,11 @@ class ProxyHttp
         return !file_exists($compressedFilePath) || ($toCompressLastModified > $compressedLastModified);
     }
 
-    private static function compressFile($fileToCompress, $compressedFilePath, $compressionEncoding)
+    private static function compressFile($fileToCompress, $compressedFilePath, $compressionEncoding, $byteStart,
+                                         $byteEnd)
     {
         $data = file_get_contents($fileToCompress);
+        $data = substr($data, $byteStart, $byteEnd - $byteStart);
 
         if ($compressionEncoding == 'deflate') {
             $data = gzdeflate($data, 9);

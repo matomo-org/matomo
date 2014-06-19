@@ -36,8 +36,16 @@ define("UNIT_TEST_MODE", "unitTestMode");
 define("NULL_FILE_SRV_MODE", "nullFile");
 define("GHOST_FILE_SRV_MODE", "ghostFile");
 define("TEST_FILE_SRV_MODE", "testFile");
+define("PARTIAL_TEST_FILE_SRV_MODE", "partialTestFile");
+define("WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE", "wholeTestFileWithRange");
+
+define("PARTIAL_BYTE_START", 1204);
+define("PARTIAL_BYTE_END", 14724);
 
 // If the static file server has not been requested, the standard unit test case class is defined
+/**
+ * @group ServeStaticFileTest
+ */
 class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
@@ -389,6 +397,90 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group Core
+     */
+    public function test_partialFileServeNoCompression()
+    {
+        $this->removeCompressedFiles();
+
+        $curlHandle = curl_init();
+        curl_setopt($curlHandle, CURLOPT_URL, $this->getPartialTestFileSrvModeUrl());
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+        $partialResponse = curl_exec($curlHandle);
+        $responseInfo = curl_getinfo($curlHandle);
+        curl_close($curlHandle);
+
+        clearstatcache();
+
+        // check no compressed files created
+        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".deflate"));
+        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".gz"));
+
+        // check $partialResponse
+        $this->assertEquals(PARTIAL_BYTE_END - PARTIAL_BYTE_START, $responseInfo["size_download"]);
+
+        $expectedPartialContents = substr(file_get_contents(TEST_FILE_LOCATION), PARTIAL_BYTE_START,
+            PARTIAL_BYTE_END - PARTIAL_BYTE_START);
+        $this->assertEquals($expectedPartialContents, $partialResponse);
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_partialFileServeWithCompression()
+    {
+        $this->removeCompressedFiles();
+
+        $curlHandle = curl_init();
+        curl_setopt($curlHandle, CURLOPT_URL, $this->getPartialTestFileSrvModeUrl());
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
+        $partialResponse = curl_exec($curlHandle);
+        $responseInfo = curl_getinfo($curlHandle);
+        curl_close($curlHandle);
+
+        clearstatcache();
+
+        // check the correct compressed file is created
+        $this->assertTrue(file_exists($this->getCompressedFileLocation() . ".deflate"));
+        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".gz"));
+
+        // check $partialResponse
+        $expectedPartialContents = substr(file_get_contents(TEST_FILE_LOCATION), PARTIAL_BYTE_START,
+            PARTIAL_BYTE_END - PARTIAL_BYTE_START);
+        $this->assertEquals($expectedPartialContents, $partialResponse);
+
+        $this->removeCompressedFiles();
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_wholeFileServeWithByteRange()
+    {
+        $this->removeCompressedFiles();
+
+        $curlHandle = curl_init();
+        curl_setopt($curlHandle, CURLOPT_URL, $this->getWholeTestFileWithRangeSrvModeUrl());
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
+        $fullResponse = curl_exec($curlHandle);
+        $responseInfo = curl_getinfo($curlHandle);
+        curl_close($curlHandle);
+
+        clearstatcache();
+
+        // check the correct compressed file is created
+        $this->assertTrue(file_exists($this->getCompressedFileLocation() . ".deflate"));
+        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".gz"));
+
+        // check $fullResponse
+        $this->assertEquals(file_get_contents(TEST_FILE_LOCATION), $fullResponse);
+
+        $this->removeCompressedFiles();
+    }
+
+    /**
      * Helper methods
      */
     private function getStaticSrvUrl()
@@ -413,6 +505,16 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
     private function getTestFileSrvModeUrl()
     {
         return $this->getStaticSrvUrl() . TEST_FILE_SRV_MODE;
+    }
+
+    private function getPartialTestFileSrvModeUrl()
+    {
+        return $this->getStaticSrvUrl() . PARTIAL_TEST_FILE_SRV_MODE;
+    }
+
+    private function getWholeTestFileWithRangeSrvModeUrl()
+    {
+        return $this->getStaticSrvUrl() . WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE;
     }
 
     private function setZlibOutputRequest($url)
