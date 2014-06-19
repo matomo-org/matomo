@@ -10,7 +10,7 @@
 /**
  * The root Piwik URL to test against.
  */
-exports.piwikUrl = "http://localhost/";
+exports.piwikUrl = "http://localhost/piwik-master/";
 
 /**
  * Data for the $_SERVER variable in the setup/teardown PHP scripts. Should be the same as
@@ -18,7 +18,7 @@ exports.piwikUrl = "http://localhost/";
  */
 exports.phpServer = {
     HTTP_HOST: 'localhost',
-    REQUEST_URI: '/',
+    REQUEST_URI: '/piwik-master/',
     REMOTE_ADDR: '127.0.0.1'
 };
 
