@@ -96,16 +96,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "2.0",
+            "version": "2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "863ae43f5c68c15ce110516a0f7b11477e2a01c0"
+                "reference": "e68be12633ba77280b2bc9fbb248a4a6530a521a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/863ae43f5c68c15ce110516a0f7b11477e2a01c0",
-                "reference": "863ae43f5c68c15ce110516a0f7b11477e2a01c0",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/e68be12633ba77280b2bc9fbb248a4a6530a521a",
+                "reference": "e68be12633ba77280b2bc9fbb248a4a6530a521a",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +139,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2014-05-29 20:51:28"
+            "time": "2014-06-15 20:05:31"
         },
         {
             "name": "symfony/console",
