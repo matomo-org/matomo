@@ -60,9 +60,11 @@ class ProxyHttp
      *                             of the file will be served.
      * @param int|false $byteEnd The ending byte in the file to serve. If false, the data from $byteStart to the
      *                           end of the file will be served.
+     * @param string $compressedFileSuffix A suffix to append to the compressed file's name. Used to differentiate
+     *                                     between different parts of the same file.
      */
     public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100, $byteStart = false,
-                                            $byteEnd = false)
+                                            $byteEnd = false, $compressedFileSuffix = false)
     {
         // if the file cannot be found return HTTP status code '404'
         if (!file_exists($file)) {
@@ -102,7 +104,8 @@ class ProxyHttp
 
         $compressed = false;
         $encoding = '';
-        $compressedFileLocation = AssetManager::getInstance()->getAssetDirectory() . '/' . basename($file);
+        $compressedFileLocation = AssetManager::getInstance()->getAssetDirectory() . '/' . basename($file)
+                                . $compressedFileSuffix;
 
         $phpOutputCompressionEnabled = self::isPhpOutputCompressed();
         if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled) {

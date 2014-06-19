@@ -13,10 +13,29 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
         $responseInfo = curl_getinfo($curlHandle);
         curl_close($curlHandle);
 
-        $this->assertEquals($responseInfo["http_code"], 200, 'Ok response');
+        $this->assertEquals(200, $responseInfo["http_code"], 'Ok response');
 
         $piwik_js = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
-        $this->assertEquals($fullResponse, $piwik_js, 'script content');
+        $this->assertEquals($piwik_js, $fullResponse, 'script content');
+    }
+
+    /**
+     * @group Core
+     */
+    function testPiwikJsNoComment()
+    {
+        $curlHandle = curl_init();
+        curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/tracker.php');
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+        $fullResponse = curl_exec($curlHandle);
+        $responseInfo = curl_getinfo($curlHandle);
+        curl_close($curlHandle);
+
+        $this->assertEquals(200, $responseInfo["http_code"], 'Ok response');
+
+        $piwikJs = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
+        $piwikNoCommentJs = substr($piwikJs, strpos($piwikJs, "*/\n") + 3);
+        $this->assertEquals($piwikNoCommentJs, $fullResponse, 'script content (if comment shows, $byteStart value in /js/tracker.php)');
     }
 
     /**

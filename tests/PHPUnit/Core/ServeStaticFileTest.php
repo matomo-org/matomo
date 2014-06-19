@@ -43,9 +43,6 @@ define("PARTIAL_BYTE_START", 1204);
 define("PARTIAL_BYTE_END", 14724);
 
 // If the static file server has not been requested, the standard unit test case class is defined
-/**
- * @group ServeStaticFileTest
- */
 class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
 {
     public function tearDown()

@@ -638,7 +638,7 @@ function _readfile($filename, $byteStart, $byteEnd, $useIncludePath = false, $co
 		}
 
 		fclose($handle);
-		return $count;
+		return $byteEnd - $byteStart;
 	}
 	return false;
 }
