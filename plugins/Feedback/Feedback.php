@@ -51,5 +51,6 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_SendFeedback';
         $translationKeys[] = 'Feedback_RateFeatureSendFeedbackInformation';
         $translationKeys[] = 'General_Ok';
+        $translationKeys[] = 'General_Cancel';
     }
 }

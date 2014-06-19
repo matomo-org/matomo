@@ -2,65 +2,6 @@
 
 {% block content %}
 
-    {% import 'macros.twig' as piwik %}
-    {% import 'ajaxMacros.twig' as ajax %}
-
-    {% set excludedIpHelp %}
-        {{ 'SitesManager_HelpExcludedIps'|translate("1.2.3.*","1.2.*.*") }}
-        <br/><br/>
-        {{ 'SitesManager_YourCurrentIpAddressIs'|translate("<i>" ~ currentIpAddress ~ "</i>")|raw }}
-    {% endset %}
-    {% set excludedIpHelp=piwik.inlineHelp(excludedIpHelp) %}
-
-    {% set defaultTimezoneHelpPlain %}
-        {% if timezoneSupported %}
-            {{ 'SitesManager_ChooseCityInSameTimezoneAsYou'|translate }}
-        {% else %}
-            {{ 'SitesManager_AdvancedTimezoneSupportNotFound'|translate }}
-        {% endif %}
-        <br/><br/>
-        {{ 'SitesManager_UTCTimeIs'|translate(utcTime) }}
-    {% endset %}
-    {% set defaultTimezoneHelp=piwik.inlineHelp(defaultTimezoneHelpPlain) %}
-
-    {% set currencyHelpPlain %}
-        {{ piwik.inlineHelp('SitesManager_CurrencySymbolWillBeUsedForGoals'|translate) }}
-    {% endset %}
-
-    {% set excludedQueryParametersHelp %}
-        {{ 'SitesManager_ListOfQueryParametersToExclude'|translate }}
-        <br/><br/>
-        {{ 'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters'|translate("phpsessid, sessionid, ...") }}
-    {% endset %}
-    {% set excludedQueryParametersHelp=piwik.inlineHelp(excludedQueryParametersHelp) %}
-
-    {% set excludedUserAgentsHelp %}
-        {{ 'SitesManager_GlobalExcludedUserAgentHelp1'|translate }}
-        <br/><br/>
-        {{ 'SitesManager_GlobalListExcludedUserAgents_Desc'|translate }} {{ 'SitesManager_GlobalExcludedUserAgentHelp2'|translate }}
-    {% endset %}
-    {% set excludedUserAgentsHelp=piwik.inlineHelp(excludedUserAgentsHelp) %}
-
-    {% set searchCategoryHelpText %}
-        {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryParametersDesc'|translate }}
-    {% endset %}
-
-    {% set searchCategoryHelp=piwik.inlineHelp(searchCategoryHelpText) %}
-
-    {% set searchCategoryLabel='SitesManager_SearchCategoryLabel'|translate %}
-
-    {% set searchKeywordHelp=piwik.inlineHelp('SitesManager_SearchKeywordParametersDesc'|translate) %}
-
-    {% set sitesearchIntro='SitesManager_SiteSearchUse'|translate %}
-
-    {% set searchKeywordLabel='SitesManager_SearchKeywordLabel'|translate %}
-
-    {% include '@SitesManager/sites-manager-heading.twig' %}
-
-    {% include '@SitesManager/sites-management.twig' %}
-
-    {% include '@SitesManager/global-settings.twig' %}
-
-    {% include '@SitesManager/init-script.twig' %}
+    <div ng-include="'plugins/SitesManager/templates/index.html'"></div>
 
 {% endblock %}
