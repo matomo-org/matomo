@@ -105,6 +105,8 @@ class Plugin
      */
     private $pluginInformation;
 
+    private static $cachedPluginComponents = array();
+
     /**
      * Constructor.
      *
@@ -293,22 +295,29 @@ class Plugin
      */
     public function findComponent($componentName, $expectedSubclass)
     {
-        $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
+        $cacheKey  = $componentName . $expectedSubclass;
+        $klassName = $this->getCachedComponent($cacheKey);
 
-        if (!file_exists($componentFile)) {
-            return;
-        }
+        if (null === $klassName) {
+            $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
 
-        $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
+            if (!file_exists($componentFile)) {
+                return;
+            }
 
-        if (!class_exists($klassName)) {
-            return;
-        }
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
 
-        if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
-            Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
-                                 $componentName, $this->pluginName, $klassName, $expectedSubclass));
-            return;
+            if (!class_exists($klassName)) {
+                return;
+            }
+
+            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
+                Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
+                    $componentName, $this->pluginName, $klassName, $expectedSubclass));
+                return;
+            }
+
+            $this->cacheComponent($cacheKey, $klassName);
         }
 
         return new $klassName;
@@ -316,6 +325,13 @@ class Plugin
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {
+        $cacheKey = $directoryWithinPlugin . $expectedSubclass;
+        $cached   = $this->getCachedComponent($cacheKey);
+
+        if (null !== $cached) {
+            return $cached;
+        }
+
         $components = array();
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName .'/' . $directoryWithinPlugin, '*.php');
@@ -340,9 +356,32 @@ class Plugin
             $components[] = $klassName;
         }
 
+        $this->cacheComponent($cacheKey, $components);
+
         return $components;
     }
 
+    private function getCachedComponent($cacheKey)
+    {
+        if (empty(self::$cachedPluginComponents[$this->pluginName])) {
+            return null;
+        }
+
+        if (!array_key_exists($cacheKey, self::$cachedPluginComponents[$this->pluginName])) {
+            return null;
+        }
+
+        return self::$cachedPluginComponents[$this->pluginName][$cacheKey];
+    }
+
+    private function cacheComponent($cacheKey, $foundComponents)
+    {
+        if (!array_key_exists($this->pluginName, self::$cachedPluginComponents)) {
+            self::$cachedPluginComponents[$this->pluginName] = array();
+        }
+
+        self::$cachedPluginComponents[$this->pluginName][$cacheKey] = $foundComponents;
+    }
 
     /**
      * Detect whether there are any missing dependencies.
