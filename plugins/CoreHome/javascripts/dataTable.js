@@ -1374,7 +1374,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             toggleFooter({doNotNotifyChange: true});
         }
 
-        $('.foldDataTableFooterDrawer, .expandDataTableFooterDrawer', domElem).on('click', toggleFooter);
+        var $nodes = $('.foldDataTableFooterDrawer, .expandDataTableFooterDrawer', domElem);
+        $nodes.off('click');
+        $nodes.on('click', toggleFooter);
     },
 
     handleColumnHighlighting: function (domElem) {
