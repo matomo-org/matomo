@@ -48,6 +48,10 @@ class GetVisitsUntilConversion extends BaseGoal
 
     public function configureReportMetadata(&$availableReports, $infos)
     {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
         if (null !== $this->getIdSiteFromInfos($infos)) {
             parent::configureReportMetadata($availableReports, $infos);
         }

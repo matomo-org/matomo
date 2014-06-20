@@ -13,8 +13,6 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
-use Piwik\PluginsManager;
 use Piwik\Tracker\GoalManager;
 
 class Archiver extends \Piwik\Plugin\Archiver

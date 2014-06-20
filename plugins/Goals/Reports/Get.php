@@ -26,6 +26,10 @@ class Get extends BaseGoal
 
     public function configureReportMetadata(&$availableReports, $infos)
     {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
         parent::configureReportMetadata($availableReports, $infos);
 
         $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) {
