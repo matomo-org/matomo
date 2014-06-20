@@ -476,6 +476,9 @@
 			<items>Purchased Products</items>
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
 		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
@@ -485,14 +488,14 @@
 		<name>Ecommerce Orders - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
-		<dimension>Visits to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
-		<metrics>
-			<nb_conversions>Conversions</nb_conversions>
-		</metrics>
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
+		<dimension>Visits to Conversion</dimension>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceOrder</uniqueId>
 	</row>
@@ -501,14 +504,14 @@
 		<name>Ecommerce Orders - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
-		<dimension>Days to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
-		<metrics>
-			<nb_conversions>Conversions</nb_conversions>
-		</metrics>
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
+		<dimension>Days to Conversion</dimension>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceOrder</uniqueId>
 	</row>
@@ -526,6 +529,9 @@
 			<revenue>Revenue left in cart</revenue>
 			<items>Products left in cart</items>
 		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceAbandonedCart</uniqueId>
@@ -535,14 +541,14 @@
 		<name>Abandoned Carts - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
-		<dimension>Visits to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
-		<metrics>
-			<nb_conversions>Conversions</nb_conversions>
-		</metrics>
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
+		<dimension>Visits to Conversion</dimension>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceAbandonedCart</uniqueId>
 	</row>
@@ -551,14 +557,14 @@
 		<name>Abandoned Carts - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
-		<dimension>Days to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
-		<metrics>
-			<nb_conversions>Conversions</nb_conversions>
-		</metrics>
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
+		<dimension>Days to Conversion</dimension>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceAbandonedCart</uniqueId>
 	</row>
@@ -1248,6 +1254,9 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get</uniqueId>
@@ -1258,10 +1267,10 @@
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
 		<dimension>Visits to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -1278,10 +1287,10 @@
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<dimension>Days to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -1306,6 +1315,9 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--1</uniqueId>
@@ -1315,14 +1327,14 @@
 		<name>Goal 1 - Thank you - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
-		<dimension>Visits to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<dimension>Visits to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=1&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--1</uniqueId>
 	</row>
@@ -1331,14 +1343,14 @@
 		<name>Goal 1 - Thank you - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
-		<dimension>Days to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<dimension>Days to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=1&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--1</uniqueId>
 	</row>
@@ -1356,6 +1368,9 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=2&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=2&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--2</uniqueId>
@@ -1365,14 +1380,14 @@
 		<name>Goal 2 - Hello - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
-		<dimension>Visits to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>2</idGoal>
 		</parameters>
+		<dimension>Visits to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=2&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--2</uniqueId>
 	</row>
@@ -1381,14 +1396,14 @@
 		<name>Goal 2 - Hello - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
-		<dimension>Days to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>2</idGoal>
 		</parameters>
+		<dimension>Days to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=2&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--2</uniqueId>
 	</row>
@@ -1406,6 +1421,9 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=3&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=3&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--3</uniqueId>
@@ -1415,14 +1433,14 @@
 		<name>triggered js - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
-		<dimension>Visits to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>3</idGoal>
 		</parameters>
+		<dimension>Visits to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=3&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--3</uniqueId>
 	</row>
@@ -1431,14 +1449,14 @@
 		<name>triggered js - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
-		<dimension>Days to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>3</idGoal>
 		</parameters>
+		<dimension>Days to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=3&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--3</uniqueId>
 	</row>
@@ -1949,6 +1967,7 @@
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
 			<nb_uniq_pageviews>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_uniq_pageviews>
 			<nb_downloads>The number of times this link was clicked.</nb_downloads>

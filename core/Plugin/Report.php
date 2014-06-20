@@ -35,6 +35,7 @@ class Report
     protected $metrics = array();
     protected $constantRowsCount = null;
     protected $isSubtableReport = null;
+    protected $parameters = null;
 
     /**
      * @var \Piwik\Plugin\VisitDimension
@@ -131,24 +132,11 @@ class Report
 
     public function getMetrics()
     {
-        // TODO cache this
-        $translations = Metrics::getDefaultMetricTranslations();
-        $metrics = array();
-
-        foreach ($this->metrics as $metric) {
-            if (!empty($translations[$metric])) {
-                $metrics[$metric] = $translations[$metric];
-            } else {
-                $metrics[] = $metric;
-            }
-        }
-
-        return $metrics;
+        return $this->getMetricTranslations($this->metrics);
     }
 
     protected function getMetricsDocumentation()
     {
-        // TODO cache this
         $translations  = Metrics::getDefaultMetricsDocumentation();
         $documentation = array();
 
@@ -166,7 +154,20 @@ class Report
         return $this->hasGoalMetrics;
     }
 
-    public function getReportMetadata()
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+
+        if (!empty($report)) {
+            $availableReports[] = $report;
+        }
+    }
+
+    protected function buildReportMetadata()
     {
         $report = array(
             'category' => $this->getCategory(),
@@ -174,6 +175,10 @@ class Report
             'module'   => $this->getModule(),
             'action'   => $this->getAction()
         );
+
+        if (null !== $this->parameters) {
+            $report['parameters'] = $this->parameters;
+        }
 
         if (!empty($this->dimension)) {
             $report['dimension'] = $this->dimension->getName();
@@ -187,9 +192,9 @@ class Report
             $report['isSubtableReport'] = $this->isSubtableReport;
         }
 
-        $report['metrics'             ] = $this->getMetrics();
+        $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
-        $report['processedMetrics'    ] = $this->processedMetrics;
+        $report['processedMetrics']     = $this->processedMetrics;
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
@@ -306,5 +311,21 @@ class Report
         return ($category = strcmp(array_search($catA, $order), array_search($catB, $order))) == 0
             ? ($orderA < $orderB ? -1 : 1)
             : $category;
+    }
+
+    private function getMetricTranslations($metricsToTranslate)
+    {
+        $translations = Metrics::getDefaultMetricTranslations();
+        $metrics = array();
+
+        foreach ($metricsToTranslate as $metric) {
+            if (!empty($translations[$metric])) {
+                $metrics[$metric] = $translations[$metric];
+            } else {
+                $metrics[$metric] = $metric;
+            }
+        }
+
+        return $metrics;
     }
 }

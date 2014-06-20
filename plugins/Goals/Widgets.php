@@ -29,13 +29,8 @@ class Widgets extends \Piwik\Plugin\Widgets
 
     private function addEcommerceWidgets(WidgetsList $widgetsList)
     {
-        $goals = new Goals();
-
         $widgetsList->add('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
         $widgetsList->add('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
-        foreach ($goals->getEcommerceReports() as $widget) {
-            $widgetsList->add('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);
-        }
     }
 
     private function addGoalsWidgets(WidgetsList $widgetsList, $idSite)

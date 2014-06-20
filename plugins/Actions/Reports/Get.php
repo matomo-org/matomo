@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\API;
 
 class Get extends Base
 {

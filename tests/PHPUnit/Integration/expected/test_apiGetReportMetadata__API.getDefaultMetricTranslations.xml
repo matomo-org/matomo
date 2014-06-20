@@ -54,6 +54,15 @@
 		<nb_events_with_value>Events with a value</nb_events_with_value>
 		<orders>Ecommerce Orders</orders>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
+		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		<quantity>Quantity</quantity>
+		<avg_price>Average Price</avg_price>
+		<avg_quantity>Average Quantity</avg_quantity>
+		<revenue_subtotal>Subtotal</revenue_subtotal>
+		<revenue_tax>Tax</revenue_tax>
+		<revenue_shipping>Shipping</revenue_shipping>
+		<revenue_discount>Discount</revenue_discount>
+		<avg_order_revenue>Average Order Value</avg_order_revenue>
 		<visits_evolution>Visits Evolution</visits_evolution>
 		<actions_evolution>Actions Evolution</actions_evolution>
 		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>

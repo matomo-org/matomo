@@ -27,7 +27,6 @@ use Piwik\Url;
 
 class ProcessedReport
 {
-
     /**
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
@@ -154,13 +153,7 @@ class ProcessedReport
         $availableReports = array();
 
         foreach (Report::getAllReports() as $report) {
-            if ($report->isEnabled()) {
-
-                $metadata = $report->getReportMetadata();
-                if (!empty($metadata)) {
-                    $availableReports[] = $metadata;
-                }
-            }
+            $report->configureReportMetadata($availableReports, $parameters);
         }
 
         /**

@@ -23,7 +23,7 @@ abstract class Base extends \Piwik\Plugin\Report
         return Piwik::hasUserSuperUserAccess();
     }
 
-    public function getReportMetadata()
+    public function configureReportMetadata(&$availableReports, $info)
     {
         // DBStats is not supposed to appear in report metadata
     }

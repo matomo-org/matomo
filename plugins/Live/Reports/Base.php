@@ -15,7 +15,7 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->category = 'Live!';
     }
 
-    public function getReportMetadata()
+    public function configureReportMetadata(&$availableReports, $infos)
     {
     }
 }
