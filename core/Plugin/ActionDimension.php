@@ -28,6 +28,12 @@ abstract class ActionDimension
 
     protected $segments = array();
 
+    /**
+     * Cached instances of sorted visit dimension entries
+     * @var array
+     */
+    private static $cachedInstances = array();
+
     public function __construct()
     {
         $this->init();
@@ -116,16 +122,24 @@ abstract class ActionDimension
     /** @return \Piwik\Plugin\ActionDimension[] */
     public static function getAllDimensions()
     {
-        $plugins   = PluginManager::getInstance()->getLoadedPlugins();
-        $instances = array();
+        $pluginManager = PluginManager::getInstance();
+        $cacheKey      = md5(implode('', $pluginManager->getLoadedPluginsName()));
 
-        foreach ($plugins as $plugin) {
-            foreach (self::getDimensions($plugin) as $instance) {
-                $instances[] = $instance;
+        if (!array_key_exists($cacheKey, self::$cachedInstances)) {
+
+            $plugins   = $pluginManager->getLoadedPlugins();
+            $instances = array();
+
+            foreach ($plugins as $plugin) {
+                foreach (self::getDimensions($plugin) as $instance) {
+                    $instances[] = $instance;
+                }
             }
+
+            self::$cachedInstances[$cacheKey] = $instances;
         }
 
-        return $instances;
+        return self::$cachedInstances[$cacheKey];
     }
 
     /** @return \Piwik\Plugin\ActionDimension[] */

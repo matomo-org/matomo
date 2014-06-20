@@ -28,6 +28,12 @@ abstract class VisitDimension
 
     protected $segments = array();
 
+    /**
+     * Cached instances of sorted visit dimension entries
+     * @var array
+     */
+    private static $cachedInstances = array();
+
     public function __construct()
     {
         $this->init();
@@ -185,17 +191,26 @@ abstract class VisitDimension
     /** @return \Piwik\Plugin\VisitDimension[] */
     public static function getAllDimensions()
     {
-        $plugins   = PluginManager::getInstance()->getLoadedPlugins();
-        $instances = array();
-        foreach ($plugins as $plugin) {
-            foreach (self::getDimensions($plugin) as $instance) {
-                $instances[] = $instance;
+        $pluginManager = PluginManager::getInstance();
+        $cacheKey      = md5(implode('', $pluginManager->getLoadedPluginsName()));
+
+        if (!array_key_exists($cacheKey, self::$cachedInstances)) {
+
+            $plugins   = $pluginManager->getLoadedPlugins();
+            $instances = array();
+            
+            foreach ($plugins as $plugin) {
+                foreach (self::getDimensions($plugin) as $instance) {
+                    $instances[] = $instance;
+                }
             }
+
+            usort($instances, array('self', 'sortByRequiredFields'));
+
+            self::$cachedInstances[$cacheKey] = $instances;
         }
 
-        usort($instances, array('self', 'sortByRequiredFields'));
-
-        return $instances;
+        return self::$cachedInstances[$cacheKey];
     }
 
     public static function sortByRequiredFields($a, $b)
