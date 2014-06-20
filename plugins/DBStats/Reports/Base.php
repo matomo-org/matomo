@@ -87,10 +87,11 @@ abstract class Base extends \Piwik\Plugin\Report
             if ($addPercentColumn
                 && $addTotalSizeColumn
             ) {
-                $view->config->filters[] = array('ColumnCallbackAddColumnPercentage',
+                $view->config->filters[] = array(
+                    'ColumnCallbackAddColumnPercentage',
                     array('percent_total', 'total_size', 'total_size', $quotientPrecision = 0,
-                        $shouldSkipRows = false, $getDivisorFromSummaryRow = true),
-                    $isPriority = true
+                          $shouldSkipRows = false, $getDivisorFromSummaryRow = true),
+                    $isPriority = false
                 );
 
                 $view->requestConfig->filter_sort_column = 'percent_total';
