@@ -22,6 +22,7 @@ class Get extends BaseGoal
         $this->order = 1;
         $this->orderGoal = 50;
         $this->metrics = array('nb_conversions', 'nb_visits_converted', 'conversion_rate', 'revenue');
+        $this->parameters = null;
     }
 
     public function configureReportMetadata(&$availableReports, $infos)

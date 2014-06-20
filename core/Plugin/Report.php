@@ -49,6 +49,12 @@ class Report
     protected $actionToLoadSubTables;
     protected $order = 1;
 
+    /**
+     * Cached instances of sorted report entries
+     * @var array
+     */
+    private static $cachedInstances = array();
+
     public function __construct()
     {
         $classname    = get_class($this);
@@ -254,7 +260,7 @@ class Report
         }
 
         foreach (self::getAllReports() as $report) {
-            if ($report->module === $module && $report->action === $action) {
+            if ($report->module === $module && $report->action === $action && empty($report->parameters)) {
                 return $report;
             }
         }
@@ -263,16 +269,23 @@ class Report
     /** @return \Piwik\Plugin\Report[] */
     public static function getAllReports()
     {
-        $reports   = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
-        $instances = array();
+        $reports = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
 
-        foreach ($reports as $report) {
-            $instances[] = new $report();
+        $cacheKey = md5(implode('', $reports));
+
+        if (!array_key_exists($cacheKey, self::$cachedInstances)) {
+            $instances = array();
+
+            foreach ($reports as $report) {
+                $instances[] = new $report();
+            }
+
+            usort($instances, array('self', 'sort'));
+
+            self::$cachedInstances[$cacheKey] = $instances;
         }
 
-        usort($instances, array('self', 'sort'));
-
-        return $instances;
+        return self::$cachedInstances[$cacheKey];
     }
 
     /**
