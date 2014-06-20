@@ -299,6 +299,11 @@ class Visitor
         return $this->visitorInfo;
     }
 
+    public function clearVisitorInfo()
+    {
+        $this->visitorInfo = array();
+    }
+
     public function setVisitorColumn($column, $value)
     {
         $this->visitorInfo[$column] = $value;

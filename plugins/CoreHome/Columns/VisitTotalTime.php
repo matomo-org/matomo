@@ -21,8 +21,6 @@ class VisitTotalTime extends VisitDimension
     protected $fieldName = 'visit_total_time';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
-    private $isExistingVisit = false;
-
     protected function init()
     {
         $segment = new Segment();
@@ -64,8 +62,6 @@ class VisitTotalTime extends VisitDimension
         $totalTime = 1 + $request->getCurrentTimestamp() - $firstActionTime;
         $totalTime = $this->cleanupVisitTotalTime($totalTime);
 
-        $this->isExistingVisit = true;
-
         return $totalTime;
     }
 
@@ -77,7 +73,7 @@ class VisitTotalTime extends VisitDimension
      */
     public function onConvertedVisit(Request $request, Visitor $visitor, $action)
     {
-        if (!$this->isExistingVisit) {
+        if (!$visitor->isVisitorKnown()) {
             return false;
         }
 

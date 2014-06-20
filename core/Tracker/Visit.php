@@ -299,6 +299,7 @@ class Visit implements VisitInterface
         // Add Custom variable key,value to the visitor array
         $this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
 
+        $visitor->clearVisitorInfo();
         foreach ($this->visitorInfo as $key => $value) {
             $visitor->setVisitorColumn($key, $value);
         }
