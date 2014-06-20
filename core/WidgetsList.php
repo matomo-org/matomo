@@ -85,7 +85,9 @@ class WidgetsList extends Singleton
             $widgetsList = self::getInstance();
 
             foreach (Report::getAllReports() as $report) {
-                $report->configureWidget($widgetsList);
+                if ($report->isEnabled()) {
+                    $report->configureWidget($widgetsList);
+                }
             }
 
             foreach ($widgets as $widget) {
