@@ -115,7 +115,13 @@ class DBStats extends \Piwik\Plugin
                 : $value;
         };
 
-        $view->config->filters[] = array('ColumnCallbackReplace', array('label', $translateSummaryLabel), $isPriority = true);
+        $view->config->filters[] = array('ColumnCallbackReplace',
+                                         array(
+                                             'label',
+                                             $translateSummaryLabel
+                                         ),
+                                         $isPriority = true
+        );
     }
 
     private function configureViewForGetTrackerDataSummary(ViewDataTable $view)
@@ -256,7 +262,13 @@ class DBStats extends \Piwik\Plugin
             };
 
             $view->config->filters[] = array('ColumnCallbackAddColumn',
-                                             array(array('data_size', 'index_size'), 'total_size', $getTotalTableSize), $isPriority = true);
+                                             array(
+                                                 array('data_size', 'index_size'),
+                                                 'total_size',
+                                                 $getTotalTableSize
+                                             ),
+                                             $isPriority = true
+            );
 
             $sizeColumns[] = 'total_size';
         }
@@ -273,9 +285,15 @@ class DBStats extends \Piwik\Plugin
                 && $addTotalSizeColumn
             ) {
                 $view->config->filters[] = array('ColumnCallbackAddColumnPercentage',
-                                                 array('percent_total', 'total_size', 'total_size', $quotientPrecision = 0,
-                                                       $shouldSkipRows = false, $getDivisorFromSummaryRow = true),
-                                                 $isPriority = true
+                                                 array(
+                                                     'percent_total',
+                                                     'total_size',
+                                                     'total_size',
+                                                     $quotientPrecision = 0,
+                                                     $shouldSkipRows = false,
+                                                     $getDivisorFromSummaryRow = true
+                                                 ),
+                                                 $isPriority = false
                 );
 
                 $view->requestConfig->filter_sort_column = 'percent_total';
