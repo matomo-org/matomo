@@ -146,15 +146,19 @@ class Common
     }
 
     /**
-     * Returns true if the current request is a console command, eg. ./console xx:yy
+     * Returns true if the current request is a console command, eg.
+     * ./console xx:yy
+     * or
+     * php console xx:yy
+     *
      * @return bool
      */
     public static function isRunningConsoleCommand()
     {
-        $searched = '/console';
+        $searched = 'console';
         $consolePos = strpos($_SERVER['SCRIPT_NAME'], $searched);
         $expectedConsolePos = strlen($_SERVER['SCRIPT_NAME']) - strlen($searched);
-        $isScriptIsConsole = $consolePos == $expectedConsolePos;
+        $isScriptIsConsole = ($consolePos === $expectedConsolePos);
         return self::isPhpCliMode() && $isScriptIsConsole;
     }
 

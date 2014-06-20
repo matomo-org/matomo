@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Tracker;
 use Piwik\DeviceDetectorFactory;
+use Piwik\SettingsPiwik;
 
 class Settings
 {
@@ -97,7 +98,20 @@ class Settings
      */
     protected function getConfigHash($os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
     {
-        $hash = md5($os . $browserName . $browserVersion . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true);
+        // prevent the config hash from being the same, across different Piwik instances
+        // (limits ability of different Piwik instances to cross-match users)
+        $salt = SettingsPiwik::getSalt();
+        
+        $configString =
+              $os
+            . $browserName . $browserVersion
+            . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
+            . $ip
+            . $browserLang
+            . $salt;
+        
+        $hash = md5($configString, $raw_output = true);
+        
         return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
 } 

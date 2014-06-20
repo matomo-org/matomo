@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Linux</label>
+		<label>GNU/Linux</label>
 		<nb_visits>8</nb_visits>
 		<nb_actions>8</nb_actions>
 		<max_actions>1</max_actions>
