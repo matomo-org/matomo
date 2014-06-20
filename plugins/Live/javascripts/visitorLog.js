@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Visitor profile popup control.
  *

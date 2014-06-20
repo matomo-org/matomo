@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Visitors Map with zoom in continents / countries. Cities + Region view.
  * Using Kartograph.js http://kartograph.org/

@@ -419,7 +419,7 @@ class CronArchive
             // cancel the succesful run flag
             Option::set($this->lastRunKey($idSite, "day"), 0);
 
-            $this->log("WARNING: Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+            $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
             $this->skipped++;
             return false;
         }
@@ -987,7 +987,7 @@ class CronArchive
      */
     private function getTimezonesHavingNewDay()
     {
-        $timestamp = time() - $this->shouldArchiveOnlySitesWithTrafficSince;
+        $timestamp = $this->lastSuccessRunTimestamp;
         $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
         $timezoneToProcess = array();
         foreach ($uniqueTimezones as &$timezone) {

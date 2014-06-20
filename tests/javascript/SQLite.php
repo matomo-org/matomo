@@ -1,6 +1,6 @@
 <?php
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * SQLite shim
  *
