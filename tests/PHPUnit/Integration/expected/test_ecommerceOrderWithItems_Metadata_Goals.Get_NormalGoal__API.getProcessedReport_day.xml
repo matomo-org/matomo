@@ -16,6 +16,9 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--1</uniqueId>
