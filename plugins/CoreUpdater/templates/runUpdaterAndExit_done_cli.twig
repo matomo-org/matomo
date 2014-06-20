@@ -39,17 +39,13 @@
 
     [!] {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
     {% endif %}
-
 {% endif %}
-
 {% if errorMessages|length > 0 or warningMessages|length > 0 %}
     {{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}
 
     * {{ helpMessage }}
 {% else %}
-*** {{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }} ***
+    Done!
 {% endif %}
-
 {% endif %}
 {% endautoescape %}
-
