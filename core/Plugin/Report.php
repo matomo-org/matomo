@@ -14,6 +14,7 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Translate;
 use Piwik\WidgetsList;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
@@ -271,7 +272,7 @@ class Report
     {
         $reports = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
 
-        $cacheKey = md5(implode('', $reports));
+        $cacheKey = md5(implode('', $reports) . Translate::getLanguageLoaded());
 
         if (!array_key_exists($cacheKey, self::$cachedInstances)) {
             $instances = array();

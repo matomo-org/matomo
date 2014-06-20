@@ -14,6 +14,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tracker\Visitor;
+use Piwik\Translate;
 
 /**
  * @api
@@ -123,7 +124,7 @@ abstract class ActionDimension
     public static function getAllDimensions()
     {
         $pluginManager = PluginManager::getInstance();
-        $cacheKey      = md5(implode('', $pluginManager->getLoadedPluginsName()));
+        $cacheKey      = md5(implode('', $pluginManager->getLoadedPluginsName()) . Translate::getLanguageLoaded());
 
         if (!array_key_exists($cacheKey, self::$cachedInstances)) {
 
