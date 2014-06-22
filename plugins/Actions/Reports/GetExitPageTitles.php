@@ -10,11 +10,7 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\API;
-use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Plugins\Actions\Columns\ExitPageTitle;
-use Piwik\Plugins\Actions\Columns\PageTitle;
 
 class GetExitPageTitles extends Base
 {
@@ -65,6 +61,7 @@ class GetExitPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
+            new GetPageTitles(),
             new GetExitPageUrls()
         );
     }
