@@ -36,6 +36,8 @@ abstract class Base extends VisitDimension
     const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
     const LABEL_ADWORDS_NAME = 'AdWords';
 
+    private static $cachedReferrer = array();
+
     /**
      * Returns an array containing the following information:
      * - referer_type
@@ -65,8 +67,14 @@ abstract class Base extends VisitDimension
      * @param int $idSite
      * @return array
      */
-    public function getReferrerInformation($referrerUrl, $currentUrl, $idSite)
+    protected function getReferrerInformation($referrerUrl, $currentUrl, $idSite)
     {
+        $cacheKey = $referrerUrl . $currentUrl . $idSite;
+
+        if (array_key_exists($cacheKey, self::$cachedReferrer)) {
+            return self::$cachedReferrer[$cacheKey];
+        }
+
         $this->idsite = $idSite;
 
         // default values for the referer_* fields
@@ -114,6 +122,8 @@ abstract class Base extends VisitDimension
             'referer_keyword' => $this->keywordReferrerAnalyzed,
             'referer_url'     => $this->referrerUrl,
         );
+
+        self::$cachedReferrer[$cacheKey] = $referrerInformation;
 
         return $referrerInformation;
     }
