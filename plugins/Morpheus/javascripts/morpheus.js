@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     initICheck();
     $(document).bind('ScheduledReport.edit', initICheck);
+    $(broadcast).bind('locationChangeSuccess', initICheck);
 
     $('body').on('ifClicked', 'input', function () {
         $(this).trigger('click');
