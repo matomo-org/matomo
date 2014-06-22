@@ -138,8 +138,20 @@ class Translate
         self::$languageToLoad = null;
     }
 
+    private static function isALanguageLoaded() {
+        return !empty($GLOBALS['Piwik_translations']);
+    }
+
+    /**
+     * Either the name of the currently loaded language such as 'en' or 'de' or null if no language is loaded at all.
+     * @return bool|string
+     */
     public static function getLanguageLoaded()
     {
+        if (!self::isALanguageLoaded()) {
+            return null;
+        }
+
         return self::$loadedLanguage;
     }
 
