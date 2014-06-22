@@ -20,7 +20,7 @@ class GetItemsSku extends BaseEcommerceItem
         $this->name      = Piwik::translate('Goals_ProductSKU');
         $this->dimension = new ProductSku();
         $this->order     = 30;
-        $this->widgetTitle = $this->name;
+        $this->widgetTitle = 'Goals_ProductSKU';
     }
 
 }

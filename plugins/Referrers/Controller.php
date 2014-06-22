@@ -15,6 +15,7 @@ use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\Reports\GetKeywords;
+use Piwik\Plugins\Referrers\Reports\GetReferrerType;
 use Piwik\Plugins\Referrers\Reports\GetSearchEngines;
 use Piwik\Plugins\Referrers\Reports\GetSocials;
 use Piwik\Plugins\Referrers\Reports\GetWebsites;
@@ -34,7 +35,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nameGraphEvolutionReferrers = 'Referrers.getEvolutionGraph';
 
         // building the referrers summary report
-        $view->dataTableReferrerType = $this->getReferrerType(true);
+        $view->dataTableReferrerType = $this->renderReport(new GetReferrerType());
 
         $nameValues = $this->getReferrersVisitorsByType();
 

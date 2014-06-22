@@ -20,6 +20,6 @@ class GetItemsCategory extends BaseEcommerceItem
         $this->name      = Piwik::translate('Goals_ProductCategory');
         $this->dimension = new ProductCategory();
         $this->order     = 32;
-        $this->widgetTitle = $this->name;
+        $this->widgetTitle = 'Goals_ProductCategory';
     }
 }

@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
-use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
 
