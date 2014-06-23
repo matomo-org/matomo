@@ -10,13 +10,12 @@ namespace Piwik\Cache;
 use Piwik\Translate;
 
 /**
- * Caching class used for static caching. The cache automatically caches the key aware of the current loaded language
- * to prevent you from having to reset it all the time during tests.
+ * Caching class used for static caching.
  *
  * TODO the default static cache should actually not be language aware. Especially since we would end up in classes like
- * PluginAwareLanguageAwareStaticCache, PluginAwareStaticCache, PluginAwareXYZStaticCache,... once we have dependency
- * injection we could "build" all the caches we need removing duplicated code and extend the static cache by using
- * decorators which "enrich" the cache key depending on their awareness.
+ * LanguageAwareStaticCache, PluginAwareStaticCache, PluginAwareLanguageAwareStaticCache, PluginAwareXYZStaticCache,...
+ * once we have dependency injection we should "build" all the caches we need removing duplicated code and extend the
+ * static cache by using decorators which "enrich" the cache key depending on their awareness.
  */
 class StaticCache
 {
@@ -25,6 +24,11 @@ class StaticCache
     private $cacheKey;
 
     public function __construct($cacheKey)
+    {
+        $this->setCacheKey($cacheKey);
+    }
+
+    public function setCacheKey($cacheKey)
     {
         $this->cacheKey = $this->completeKey($cacheKey);
     }
@@ -50,6 +54,6 @@ class StaticCache
 
     protected function completeKey($cacheKey)
     {
-        return $cacheKey . Translate::getLanguageLoaded();
+        return $cacheKey;
     }
 }

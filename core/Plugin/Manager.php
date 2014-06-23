@@ -371,7 +371,6 @@ class Manager extends Singleton
         return $found;
     }
 
-
     /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled

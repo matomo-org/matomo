@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Cache\StaticCache;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
@@ -105,7 +106,14 @@ class Plugin
      */
     private $pluginInformation;
 
-    private static $cachedPluginComponents = array();
+    /**
+     * As the cache is used quite often we avoid having to create instances all the time. We reuse it which is not
+     * perfect but efficient. If the cache is used we need to make sure to call setCacheKey() before usage as there
+     * is maybe a different key set since last usage.
+     *
+     * @var StaticCache
+     */
+    private $cache;
 
     /**
      * Constructor.
@@ -129,6 +137,8 @@ class Plugin
         if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
             throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
         }
+
+        $this->cache = new StaticCache('Plugin' . $pluginName);
     }
 
     private function hasDefinedPluginInformationInPluginClass()
@@ -208,7 +218,7 @@ class Plugin
      * - update existing tables
      * - etc.
      * 
-     * @throws Exception if installation of fails for some reason.
+     * @throws \Exception if installation of fails for some reason.
      */
     public function install()
     {
@@ -295,10 +305,18 @@ class Plugin
      */
     public function findComponent($componentName, $expectedSubclass)
     {
-        $cacheKey  = $componentName . $expectedSubclass;
-        $klassName = $this->getCachedComponent($cacheKey);
+        $this->cache->setCacheKey('Plugin' . $this->pluginName . $componentName . $expectedSubclass);
 
-        if (null === $klassName) {
+        if ($this->cache->has()) {
+            $klassName = $this->cache->get();
+
+            if (empty($klassName)) {
+                return; // might by "false" in case has no menu, widget, ...
+            }
+
+        } else {
+            $this->cache->set(false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
+
             $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
 
             if (!file_exists($componentFile)) {
@@ -319,7 +337,7 @@ class Plugin
                 return;
             }
 
-            $this->cacheComponent($cacheKey, $klassName);
+            $this->cache->set($klassName);
         }
 
         return new $klassName;
@@ -327,11 +345,10 @@ class Plugin
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {
-        $cacheKey = $directoryWithinPlugin . $expectedSubclass;
-        $cached   = $this->getCachedComponent($cacheKey);
+        $this->cache->setCacheKey('Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass);
 
-        if (null !== $cached) {
-            return $cached;
+        if ($this->cache->has()) {
+            return $this->cache->get();
         }
 
         $components = array();
@@ -341,7 +358,8 @@ class Plugin
         foreach ($files as $file) {
             require_once $file;
 
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, basename($file, '.php'));
+            $fileName  = basename($file, '.php');
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, $fileName);
 
             if (!class_exists($klassName)) {
                 continue;
@@ -360,31 +378,9 @@ class Plugin
             $components[] = $klassName;
         }
 
-        $this->cacheComponent($cacheKey, $components);
+        $this->cache->set($components);
 
         return $components;
-    }
-
-    private function getCachedComponent($cacheKey)
-    {
-        if (empty(self::$cachedPluginComponents[$this->pluginName])) {
-            return null;
-        }
-
-        if (!array_key_exists($cacheKey, self::$cachedPluginComponents[$this->pluginName])) {
-            return null;
-        }
-
-        return self::$cachedPluginComponents[$this->pluginName][$cacheKey];
-    }
-
-    private function cacheComponent($cacheKey, $foundComponents)
-    {
-        if (!array_key_exists($this->pluginName, self::$cachedPluginComponents)) {
-            self::$cachedPluginComponents[$this->pluginName] = array();
-        }
-
-        self::$cachedPluginComponents[$this->pluginName][$cacheKey] = $foundComponents;
     }
 
     /**

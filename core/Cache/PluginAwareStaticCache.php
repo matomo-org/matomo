@@ -24,8 +24,8 @@ class PluginAwareStaticCache extends StaticCache
     {
         $pluginManager = PluginManager::getInstance();
         $pluginNames   = $pluginManager->getLoadedPluginsName();
-        $cacheKey      = $cacheKey . md5(implode('', $pluginNames));
+        $cacheKey      = $cacheKey . md5(implode('', $pluginNames)) . Translate::getLanguageLoaded();
 
-        return parent::completeKey($cacheKey);
+        return $cacheKey;
     }
 }

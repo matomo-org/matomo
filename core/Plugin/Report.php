@@ -9,8 +9,7 @@
 namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
-use Piwik\Cache\PluginAwareStaticCache;
-use Piwik\Cache\StaticCache;
+use Piwik\Cache\LanguageAwareStaticCache;
 use Piwik\Menu\MenuReporting;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -51,12 +50,6 @@ class Report
      */
     protected $actionToLoadSubTables;
     protected $order = 1;
-
-    /**
-     * Cached instances of sorted report entries
-     * @var array
-     */
-    private static $cachedInstances = array();
 
     public function __construct()
     {
@@ -273,7 +266,7 @@ class Report
     public static function getAllReports()
     {
         $reports = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
-        $cache   = new StaticCache('Reports' . implode('', $reports));
+        $cache   = new LanguageAwareStaticCache('Reports' . implode('', $reports));
 
         if (!$cache->has()) {
             $instances = array();

@@ -30,12 +30,6 @@ abstract class ActionDimension
 
     protected $segments = array();
 
-    /**
-     * Cached instances of sorted visit dimension entries
-     * @var array
-     */
-    private static $cachedInstances = array();
-
     protected function configureSegments()
     {
 
