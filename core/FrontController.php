@@ -133,7 +133,7 @@ class FrontController extends Singleton
                 $actionToCall  = 'renderMenuReport';
             }
 
-            if (empty($report) || !$report->isEnabled()) {
+            if (empty($report)) {
                 throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
             }
 

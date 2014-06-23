@@ -533,10 +533,7 @@ abstract class Controller
 
         try {
             $view->idSite = $this->idSite;
-            if (empty($this->site) || empty($this->idSite)) {
-                throw new Exception("The requested website idSite is not found in the request, or is invalid.
-				Please check that you are logged in Piwik and have permission to access the specified website.");
-            }
+            $this->checkSitePermission();
             $this->setPeriodVariablesView($view);
 
             $rawDate = Common::getRequestVar('date');
@@ -940,5 +937,13 @@ abstract class Controller
         $result .= '>' . $evolutionPercent . '</strong></span>';
 
         return $result;
+    }
+
+    protected function checkSitePermission()
+    {
+        if (empty($this->site) || empty($this->idSite)) {
+            throw new Exception("The requested website idSite is not found in the request, or is invalid.
+				Please check that you are logged in Piwik and have permission to access the specified website.");
+        }
     }
 }

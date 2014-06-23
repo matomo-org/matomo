@@ -38,11 +38,12 @@ class Controller extends \Piwik\Plugin\Controller
     public function renderMenuReport($reportModule = null, $reportAction = null)
     {
         Piwik::checkUserHasSomeViewAccess();
+        $this->checkSitePermission();
 
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {
-            throw new Exception('This report does not exist');
+            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
         }
 
         $report->checkIsEnabled();
@@ -50,7 +51,7 @@ class Controller extends \Piwik\Plugin\Controller
         $menuTitle = $report->getMenuTitle();
 
         if (empty($menuTitle)) {
-            throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report');
+            throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report.');
         }
 
         $menuTitle = Piwik::translate($menuTitle);
@@ -62,11 +63,12 @@ class Controller extends \Piwik\Plugin\Controller
     public function renderWidget($reportModule = null, $reportAction = null)
     {
         Piwik::checkUserHasSomeViewAccess();
+        $this->checkSitePermission();
 
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {
-            throw new Exception('This report does not exist');
+            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
         }
 
         $report->checkIsEnabled();
