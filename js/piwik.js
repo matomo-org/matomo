@@ -1175,6 +1175,8 @@ if (typeof Piwik !== 'object') {
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
 
+                configCustomRequestContentProcessing,
+
                 // Custom Variables, scope "page"
                 customVariablesPage = {},
 
@@ -1824,6 +1826,11 @@ if (typeof Piwik !== 'object') {
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
                 }
+
+                if (isFunction(configCustomRequestContentProcessing)) {
+                    request = configCustomRequestContentProcessing(request);
+                }
+
                 return request;
             }
 
@@ -2424,6 +2431,27 @@ if (typeof Piwik !== 'object') {
                         }
                         configCustomData[key_or_obj] = opt_value;
                     }
+                },
+
+                /**
+                 * Configure function with custom request content processing logic.
+                 * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
+                 *
+                 * Examples:
+                 *   tracker.setCustomRequestContentProcessing(function(request){
+                 *     var pairs = request.split('&');
+                 *     var result = {};
+                 *     pairs.forEach(function(pair) {
+                 *       pair = pair.split('=');
+                 *       result[pair[0]] = decodeURIComponent(pair[1] || '');
+                 *     });
+                 *     return JSON.stringify(result);
+                 *   });
+                 *
+                 * @param function customRequestContentProcessingLogic
+                 */
+                setCustomRequestContentProcessing: function(customRequestContentProcessingLogic) {
+                    configCustomRequestContentProcessing = customRequestContentProcessingLogic;
                 },
 
                 /**
