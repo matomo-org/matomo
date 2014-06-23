@@ -10,7 +10,9 @@ use Piwik\ProxyHttp;
 /**
  * Tracker proxy
  */
-if($_SERVER['REQUEST_METHOD'] == 'POST' || !empty($_SERVER['QUERY_STRING'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST'
+    || !empty($_SERVER['QUERY_STRING'])
+) {
     include '../piwik.php';
     exit;
 }
@@ -37,10 +39,8 @@ if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     || !PIWIK_KEEP_JS_TRACKER_COMMENT
 ) {
     $byteStart = 369; // length of comment header in bytes
-    $compressFileSuffix = '.nocomment';
 }
 
-ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture, $byteStart, $byteEnd,
-                            $compressFileSuffix);
+ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture, $byteStart, $byteEnd);
 
 exit;

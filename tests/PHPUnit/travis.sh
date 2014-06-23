@@ -17,7 +17,11 @@ fi
 if [ -n "$TEST_SUITE" ]
 then
     echo "Executing tests in test suite $TEST_SUITE..."
-    echo "    [ plugin name = $PLUGIN_NAME ]"
+
+    if [ -n "$PLUGIN_NAME" ]
+    then
+        echo "    [ plugin name = $PLUGIN_NAME ]"
+    fi
 
     if [ "$TEST_SUITE" = "AngularJSTests" ]
     then

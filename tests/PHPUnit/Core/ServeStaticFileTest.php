@@ -423,6 +423,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
+     * @group TestToExec
      */
     public function test_partialFileServeWithCompression()
     {
@@ -439,7 +440,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         clearstatcache();
 
         // check the correct compressed file is created
-        $this->assertTrue(file_exists($this->getCompressedFileLocation() . ".deflate"));
+        $this->assertTrue(file_exists($this->getCompressedFileLocation() . '.' . PARTIAL_BYTE_START . '.' . PARTIAL_BYTE_END . ".deflate"));
         $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".gz"));
 
         // check $partialResponse

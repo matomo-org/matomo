@@ -12,7 +12,17 @@
 
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
-        dataTablePrototype = DataTable.prototype;
+        dataTablePrototype = DataTable.prototype,
+        getLabelFontFamily = function () {
+            if (!window.piwik.jqplotLabelFont) {
+                window.piwik.jqplotLabelFont = $('<p/>').hide().appendTo('body').css('font-family');
+            }
+
+            return window.piwik.jqplotLabelFont || 'Arial';
+        }
+        ;
+
+    exports.getLabelFontFamily = getLabelFontFamily;
 
     /**
      * DataTable UI class for jqPlot graph datatable visualizations.
@@ -95,7 +105,7 @@
                     tickOptions: {
                         showMark: false,
                         fontSize: '11px',
-                        fontFamily: window.piwik.jqplotLabelFont || 'Arial'
+                        fontFamily: getLabelFontFamily()
                     },
                     rendererOptions: {
                         drawBaseline: false
@@ -880,7 +890,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var ctx = legend.legendCanvas._ctx;
         ctx.save();
-        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
 
         // render series names
         var x = 0;
@@ -1019,7 +1029,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var ctx = legend.pieLegendCanvas._ctx;
         ctx.save();
 
-        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
 
         // render labels
         var height = legend.pieLegendCanvas._elem.height();

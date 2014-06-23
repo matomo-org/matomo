@@ -123,6 +123,22 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         return sitesByGroup;
     }
 
+    function getSumTotalActions(allSitesUnordered)
+    {
+        var totalActions = 0;
+
+        if (allSitesUnordered && allSitesUnordered.length) {
+            for (var index in allSitesUnordered) {
+                var site = allSitesUnordered[index];
+                if (site && site['nb_pageviews']) {
+                    totalActions += parseInt(site['nb_pageviews'], 10);
+                }
+            }
+        }
+
+        return totalActions;
+    }
+
     model.updateWebsitesList = function (processedReport) {
         if (!processedReport) {
             onError();
@@ -130,8 +146,9 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         }
 
         var allSitesUnordered = processedReport.reportData;
+
+        model.totalActions = getSumTotalActions(allSitesUnordered);
         model.totalVisits  = processedReport.reportTotal.nb_visits;
-        model.totalActions = processedReport.reportTotal.nb_actions;
         model.totalRevenue = processedReport.reportTotal.revenue;
 
         allSitesByGroup = createGroupsAndMoveSitesIntoRelatedGroup(allSitesUnordered, processedReport.reportMetadata);
