@@ -17,7 +17,7 @@ class PageUrl extends ActionDimension
     protected $fieldName = 'idaction_url';
     protected $fieldType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('pageUrl');

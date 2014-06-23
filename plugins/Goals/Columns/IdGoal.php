@@ -17,7 +17,7 @@ class IdGoal extends VisitDimension
 {
     protected $fieldName = 'idgoal';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setCategory(Piwik::translate('General_Visit'));

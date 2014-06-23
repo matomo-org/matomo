@@ -18,7 +18,7 @@ class ReferrerName extends Base
     protected $fieldName = 'referer_name';
     protected $fieldType = 'VARCHAR(70) NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('referrerName');

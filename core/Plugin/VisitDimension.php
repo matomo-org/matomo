@@ -35,12 +35,7 @@ abstract class VisitDimension
      */
     private static $cachedInstances = array();
 
-    public function __construct()
-    {
-        $this->init();
-    }
-
-    protected function init()
+    protected function configureSegments()
     {
 
     }
@@ -148,6 +143,10 @@ abstract class VisitDimension
      */
     public function getSegments()
     {
+        if (empty($this->segments)) {
+            $this->configureSegments();
+        }
+
         return $this->segments;
     }
 

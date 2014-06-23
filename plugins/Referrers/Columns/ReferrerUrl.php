@@ -18,7 +18,7 @@ class ReferrerUrl extends Base
     protected $fieldName = 'referer_url';
     protected $fieldType = 'TEXT NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('referrerUrl');

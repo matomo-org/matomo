@@ -16,7 +16,7 @@ class ServerTime extends VisitDimension
 {    
     protected $fieldName = 'visit_last_action_time';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('visitServerHour');

@@ -24,7 +24,7 @@ class VisitsCount extends VisitDimension
         return '';
     }
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setType(Segment::TYPE_METRIC);

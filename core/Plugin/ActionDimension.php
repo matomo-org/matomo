@@ -35,12 +35,7 @@ abstract class ActionDimension
      */
     private static $cachedInstances = array();
 
-    public function __construct()
-    {
-        $this->init();
-    }
-
-    protected function init()
+    protected function configureSegments()
     {
 
     }
@@ -110,6 +105,10 @@ abstract class ActionDimension
      */
     public function getSegments()
     {
+        if (empty($this->segments)) {
+            $this->configureSegments();
+        }
+
         return $this->segments;
     }
 

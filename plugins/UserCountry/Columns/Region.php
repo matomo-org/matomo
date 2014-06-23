@@ -20,7 +20,7 @@ class Region extends Base
     protected $fieldName = 'location_region';
     protected $fieldType = 'char(2) DEFAULT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('regionCode');

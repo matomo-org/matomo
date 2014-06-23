@@ -20,7 +20,7 @@ class LocalTime extends VisitDimension
     protected $fieldName = 'visitor_localtime';
     protected $fieldType = 'TIME NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('visitLocalHour');

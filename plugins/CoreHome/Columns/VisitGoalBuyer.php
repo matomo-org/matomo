@@ -34,7 +34,7 @@ class VisitGoalBuyer extends VisitDimension
     protected $fieldName = 'visit_goal_buyer';
     protected $fieldType = 'TINYINT(1) NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $example = Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"');
         $acceptedValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;

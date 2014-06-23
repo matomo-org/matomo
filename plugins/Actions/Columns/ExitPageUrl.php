@@ -20,7 +20,7 @@ class ExitPageUrl extends VisitDimension
     protected $fieldName = 'visit_exit_idaction_url';
     protected $fieldType = 'INTEGER(11) UNSIGNED NULL DEFAULT 0';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('exitPageUrl');

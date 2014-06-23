@@ -20,7 +20,7 @@ class EntryPageTitle extends VisitDimension
     protected $fieldName = 'visit_entry_idaction_name';
     protected $fieldType = 'INTEGER(11) UNSIGNED NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('entryPageTitle');

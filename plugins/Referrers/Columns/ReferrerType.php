@@ -19,7 +19,7 @@ class ReferrerType extends Base
     protected $fieldName = 'referer_type';
     protected $fieldType = 'TINYINT(1) UNSIGNED NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('referrerType');

@@ -17,7 +17,7 @@ class Operatingsystem extends Os
     protected $fieldName = 'config_os';
     protected $fieldType = 'CHAR(3) NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('operatingSystemCode');

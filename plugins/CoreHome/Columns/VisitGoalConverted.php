@@ -19,7 +19,7 @@ class VisitGoalConverted extends VisitDimension
     protected $fieldName = 'visit_goal_converted';
     protected $fieldType = 'TINYINT(1) NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('visitConverted');

@@ -25,7 +25,7 @@ class Country extends Base
     protected $fieldName = 'location_country';
     protected $fieldType = 'CHAR(3) NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('countryCode');

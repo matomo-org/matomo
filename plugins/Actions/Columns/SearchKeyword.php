@@ -14,7 +14,7 @@ use Piwik\Plugins\Actions\Segment;
 
 class SearchKeyword extends ActionDimension
 {
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('siteSearchKeyword');

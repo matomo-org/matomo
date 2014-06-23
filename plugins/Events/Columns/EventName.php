@@ -19,7 +19,7 @@ class EventName extends ActionDimension
 {    
     protected $fieldName = 'idaction_name';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('eventName');

@@ -19,7 +19,7 @@ class VisitorDaysSinceFirst extends VisitDimension
     protected $fieldName = 'visitor_days_since_first';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setType(Segment::TYPE_METRIC);

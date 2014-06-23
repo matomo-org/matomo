@@ -17,7 +17,7 @@ class Browser extends BrowserName
     protected $fieldName = 'config_browser_name';
     protected $fieldType = 'VARCHAR(10) NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('browserCode');

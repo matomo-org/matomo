@@ -19,7 +19,7 @@ class VisitorDaysSinceOrder extends VisitDimension
     protected $fieldName = 'visitor_days_since_order';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('daysSinceLastEcommerceOrder');

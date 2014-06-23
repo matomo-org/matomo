@@ -25,7 +25,7 @@ class VisitorReturning extends VisitDimension
     protected $fieldType = 'TINYINT(1) NOT NULL';
     protected $conversionField = true;
 
-    protected function init()
+    protected function configureSegments()
     {
         $acceptedValues  = 'new, returning, returningCustomer. ';
         $acceptedValues .= Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"');

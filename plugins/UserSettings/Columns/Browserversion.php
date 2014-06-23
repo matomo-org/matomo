@@ -16,7 +16,7 @@ class BrowserVersion extends \Piwik\Plugins\DevicesDetection\Columns\BrowserVers
     protected $fieldName = 'config_browser_version';
     protected $fieldType = 'VARCHAR(20) NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('browserVersion');

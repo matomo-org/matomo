@@ -20,7 +20,7 @@ class Longitude extends Base
     protected $fieldName = 'location_longitude';
     protected $fieldType = 'float(10, 6) DEFAULT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('longitude');

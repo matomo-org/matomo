@@ -19,7 +19,7 @@ class Keyword extends Base
     protected $fieldName = 'referer_keyword';
     protected $fieldType = 'VARCHAR(255) NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('referrerKeyword');

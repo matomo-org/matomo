@@ -20,7 +20,7 @@ class Latitude extends Base
     protected $fieldName = 'location_latitude';
     protected $fieldType = 'float(10, 6) DEFAULT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('latitude');

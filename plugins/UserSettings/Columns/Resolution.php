@@ -20,7 +20,7 @@ class Resolution extends VisitDimension
     protected $fieldName = 'config_resolution';
     protected $fieldType = 'VARCHAR(9) NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('resolution');

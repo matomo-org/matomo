@@ -20,7 +20,7 @@ class TotalEvents extends VisitDimension
     protected $fieldName = 'visit_total_events';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('events');

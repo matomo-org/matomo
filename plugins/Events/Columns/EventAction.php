@@ -20,7 +20,7 @@ class EventAction extends ActionDimension
     protected $fieldName = 'idaction_event_action';
     protected $fieldType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('eventAction');

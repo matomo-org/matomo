@@ -22,7 +22,7 @@ class DeviceType extends Base
     protected $fieldName = 'config_device_type';
     protected $fieldType = 'TINYINT( 100 ) NULL DEFAULT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $deviceTypes    = DeviceParser::getAvailableDeviceTypeNames();
         $deviceTypeList = implode(", ", $deviceTypes);

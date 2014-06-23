@@ -20,7 +20,7 @@ class VisitTotalSearches extends VisitDimension
     protected $fieldName = 'visit_total_searches';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setType(Segment::TYPE_METRIC);

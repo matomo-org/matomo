@@ -23,7 +23,7 @@ class Provider extends VisitDimension
 {    
     protected $fieldName = 'location_provider';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('provider');

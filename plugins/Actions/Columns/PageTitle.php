@@ -18,7 +18,7 @@ class PageTitle extends ActionDimension
     protected $fieldName = 'idaction_name';
     protected $fieldType = 'INTEGER(10) UNSIGNED';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('pageTitle');

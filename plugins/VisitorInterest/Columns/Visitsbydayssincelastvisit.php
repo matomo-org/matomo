@@ -20,7 +20,7 @@ class VisitsByDaysSinceLastVisit extends VisitDimension
     protected $fieldName = 'visitor_days_since_last';
     protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
-    protected function init()
+    protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('daysSinceLastVisit');
