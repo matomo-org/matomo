@@ -63,9 +63,8 @@ menu.prototype =
             }
             var url = href.substr(1);
 
-            var moduleAndAction = broadcast.getModuleAndActionFromUrl(url);
-            var module = moduleAndAction.module;
-            var action = moduleAndAction.action;
+            var module = broadcast.getValueFromUrl('module', url);
+            var action = broadcast.getValueFromUrl('action', url);
 
             var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);
             var main_menu = $(this).parent().hasClass('Menu-tabList') ? true : false;
