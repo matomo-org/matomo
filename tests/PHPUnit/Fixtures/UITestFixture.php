@@ -17,6 +17,7 @@ use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\WidgetsList;
@@ -48,6 +49,8 @@ class UITestFixture extends OmniFixture
         $date = Date::factory($this->dateTime)->toString();
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
         VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
+
+        SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
