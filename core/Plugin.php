@@ -337,6 +337,8 @@ class Plugin
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName .'/' . $directoryWithinPlugin, '*.php');
 
         foreach ($files as $file) {
+            require_once $file;
+
             $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, basename($file, '.php'));
 
             if (!class_exists($klassName)) {
