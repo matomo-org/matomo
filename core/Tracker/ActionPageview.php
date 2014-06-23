@@ -47,7 +47,7 @@ class ActionPageview extends Action
         return $this->request->getPageGenerationTime();
     }
 
-    public function shouldHandle()
+    public static function shouldHandle(Request $request)
     {
         return true;
     }

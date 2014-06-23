@@ -85,7 +85,7 @@ abstract class Action
         return $key;
     }
 
-    public function shouldHandle()
+    public static function shouldHandle(Request $request)
     {
         return false;
     }
@@ -97,10 +97,8 @@ abstract class Action
 
         foreach ($actions as $action) {
             /** @var \Piwik\Tracker\Action $instance */
-            $instance = new $action($request);
-
-            if ($instance->shouldHandle()) {
-                $instances[] = $instance;
+            if ($action::shouldHandle($request)) {
+                $instances[] = new $action($request);
             }
         }
 

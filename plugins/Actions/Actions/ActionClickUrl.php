@@ -27,9 +27,9 @@ class ActionClickUrl extends Action
         $this->setActionUrl($request->getParam('link'));
     }
 
-    public function shouldHandle()
+    public static function shouldHandle(Request $request)
     {
-        $outlinkUrl = $this->request->getParam('link');
+        $outlinkUrl = $request->getParam('link');
 
         return !empty($outlinkUrl);
     }

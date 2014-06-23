@@ -30,10 +30,10 @@ class ActionEvent extends Action
         $this->eventValue = trim($request->getParam('e_v'));
     }
 
-    public function shouldHandle()
+    public static function shouldHandle(Request $request)
     {
-        $eventCategory = $this->request->getParam('e_c');
-        $eventAction   = $this->request->getParam('e_a');
+        $eventCategory = $request->getParam('e_c');
+        $eventAction   = $request->getParam('e_a');
 
         return (strlen($eventCategory) > 0 && strlen($eventAction) > 0);
     }

@@ -33,15 +33,21 @@ class ActionSiteSearch extends Action
     const CVAR_INDEX_SEARCH_CATEGORY = '4';
     const CVAR_INDEX_SEARCH_COUNT = '5';
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, $detect = true)
     {
         parent::__construct(Action::TYPE_SITE_SEARCH, $request);
         $this->originalUrl = $request->getParam('url');
+
+        if ($detect) {
+            $this->isSearchDetected();
+        }
     }
 
-    public function shouldHandle()
+    public static function shouldHandle(Request $request)
     {
-        return $this->isSearchDetected();
+        $search = new self($request, false);
+
+        return $search->detectSiteSearch($request->getParam('url'));
     }
 
     protected function getActionsToLookup()
@@ -63,7 +69,7 @@ class ActionSiteSearch extends Action
         return $this->request->getPageGenerationTime();
     }
 
-    public function isSearchDetected()
+    protected function isSearchDetected()
     {
         $siteSearch = $this->detectSiteSearch($this->originalUrl);
 
@@ -190,7 +196,7 @@ class ActionSiteSearch extends Action
         return is_numeric($count) && $count >= 0;
     }
 
-    protected function detectSiteSearch($originalUrl)
+    public function detectSiteSearch($originalUrl)
     {
         $website = Cache::getCacheWebsiteAttributes($this->request->getIdSite());
         if (empty($website['sitesearch'])) {

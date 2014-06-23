@@ -23,9 +23,9 @@ class ActionDownloadUrl extends Action
         $this->setActionUrl($request->getParam('download'));
     }
 
-    public function shouldHandle()
+    public static function shouldHandle($request)
     {
-        $downloadUrl = $this->request->getParam('download');
+        $downloadUrl = $request->getParam('download');
 
         return !empty($downloadUrl);
     }
