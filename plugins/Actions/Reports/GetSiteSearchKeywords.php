@@ -21,7 +21,7 @@ class GetSiteSearchKeywords extends SiteSearchBase
         $this->name          = Piwik::translate('Actions_WidgetSearchKeywords');
         $this->documentation = Piwik::translate('Actions_SiteSearchKeywordsDocumentation') . '<br/><br/>' . Piwik::translate('Actions_SiteSearchIntro') . '<br/><br/>'
                              . '<a href="http://piwik.org/docs/site-search/" target="_blank">' . Piwik::translate('Actions_LearnMoreAboutSiteSearchLink') . '</a>';
-        $this->metrics       = array_keys($this->getMetrics());
+        $this->metrics       = array('nb_visits', 'nb_pages_per_search', 'exit_rate');
         $this->order = 15;
         $this->widgetTitle  = 'Actions_WidgetSearchKeywords';
     }

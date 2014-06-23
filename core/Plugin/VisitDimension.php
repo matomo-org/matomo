@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\Manager as PluginManager;
@@ -191,12 +192,11 @@ abstract class VisitDimension
     /** @return \Piwik\Plugin\VisitDimension[] */
     public static function getAllDimensions()
     {
-        $pluginManager = PluginManager::getInstance();
-        $cacheKey      = md5(implode('', $pluginManager->getLoadedPluginsName()) . Translate::getLanguageLoaded());
+        $cache = new PluginAwareStaticCache('VisitDimensions');
 
-        if (!array_key_exists($cacheKey, self::$cachedInstances)) {
+        if (!$cache->has()) {
 
-            $plugins   = $pluginManager->getLoadedPlugins();
+            $plugins   = PluginManager::getInstance()->getLoadedPlugins();
             $instances = array();
             
             foreach ($plugins as $plugin) {
@@ -207,10 +207,10 @@ abstract class VisitDimension
 
             usort($instances, array('self', 'sortByRequiredFields'));
 
-            self::$cachedInstances[$cacheKey] = $instances;
+            $cache->set($instances);
         }
 
-        return self::$cachedInstances[$cacheKey];
+        return $cache->get();
     }
 
     public static function sortByRequiredFields($a, $b)

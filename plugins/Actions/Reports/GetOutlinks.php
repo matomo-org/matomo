@@ -28,7 +28,7 @@ class GetOutlinks extends Base
                              . Piwik::translate('Actions_OutlinkDocumentation') . '<br />'
                              . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
-        $this->metrics = array_keys($this->getMetrics());
+        $this->metrics = array('nb_visits', 'nb_hits');
         $this->order   = 8;
 
         $this->actionToLoadSubTables = $this->action;

@@ -22,7 +22,7 @@ class GetSiteSearchCategories extends SiteSearchBase
         $this->dimension     = new SearchCategory();
         $this->name          = Piwik::translate('Actions_WidgetSearchCategories');
         $this->documentation = Piwik::translate('Actions_SiteSearchCategories1') . '<br/>' . Piwik::translate('Actions_SiteSearchCategories2');
-        $this->metrics       = array_keys($this->getMetrics());
+        $this->metrics       = array('nb_visits', 'nb_pages_per_search', 'exit_rate');
         $this->order = 17;
         $this->widgetTitle  = 'Actions_WidgetSearchCategories';
     }

@@ -20,7 +20,7 @@ class GetSiteSearchNoResultKeywords extends SiteSearchBase
         $this->dimension     = new KeywordwithNoSearchResult();
         $this->name          = Piwik::translate('Actions_WidgetSearchNoResultKeywords');
         $this->documentation = Piwik::translate('Actions_SiteSearchIntro') . '<br /><br />' . Piwik::translate('Actions_SiteSearchKeywordsNoResultDocumentation');
-        $this->metrics       = array_keys($this->getMetrics());
+        $this->metrics       = array('nb_visits', 'exit_rate');
         $this->order = 16;
         $this->widgetTitle  = 'Actions_WidgetSearchNoResultKeywords';
     }

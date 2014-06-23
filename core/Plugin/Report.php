@@ -9,6 +9,8 @@
 namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache\StaticCache;
 use Piwik\Menu\MenuReporting;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -271,10 +273,9 @@ class Report
     public static function getAllReports()
     {
         $reports = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
+        $cache   = new StaticCache('Reports' . implode('', $reports));
 
-        $cacheKey = md5(implode('', $reports) . Translate::getLanguageLoaded());
-
-        if (!array_key_exists($cacheKey, self::$cachedInstances)) {
+        if (!$cache->has()) {
             $instances = array();
 
             foreach ($reports as $report) {
@@ -283,10 +284,10 @@ class Report
 
             usort($instances, array('self', 'sort'));
 
-            self::$cachedInstances[$cacheKey] = $instances;
+            $cache->set($instances);
         }
 
-        return self::$cachedInstances[$cacheKey];
+        return $cache->get();
     }
 
     /**

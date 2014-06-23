@@ -9,6 +9,8 @@
 namespace Piwik;
 
 
+use Piwik\Cache\PluginAwareStaticCache;
+
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
 /**
@@ -219,6 +221,12 @@ class Metrics
 
     static public function getDefaultMetricTranslations()
     {
+        $cache = new PluginAwareStaticCache('DefaultMetricTranslations');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $translations = array(
             'label'                         => 'General_ColumnLabel',
             'date'                          => 'General_Date',
@@ -263,6 +271,8 @@ class Metrics
         Piwik::postEvent('Metrics.getDefaultMetricTranslations', array(&$translations));
 
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+
+        $cache->set($translations);
 
         return $translations;
     }
@@ -323,6 +333,12 @@ class Metrics
 
     static public function getDefaultMetricsDocumentation()
     {
+        $cache = new PluginAwareStaticCache('DefaultMetricsDocumentation');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $translations = array(
             'nb_visits'            => 'General_ColumnNbVisitsDocumentation',
             'nb_uniq_visitors'     => 'General_ColumnNbUniqVisitorsDocumentation',
@@ -343,7 +359,11 @@ class Metrics
          */
         Piwik::postEvent('Metrics.getDefaultMetricDocumentationTranslations', array(&$translations));
 
-        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+
+        $cache->set($translations);
+
+        return $translations;
     }
 
     public static function getPercentVisitColumn()

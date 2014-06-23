@@ -8,11 +8,12 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tracker\Visitor;
 use Piwik\Translate;
 
@@ -122,12 +123,11 @@ abstract class ActionDimension
     /** @return \Piwik\Plugin\ActionDimension[] */
     public static function getAllDimensions()
     {
-        $pluginManager = PluginManager::getInstance();
-        $cacheKey      = md5(implode('', $pluginManager->getLoadedPluginsName()) . Translate::getLanguageLoaded());
+        $cache = new PluginAwareStaticCache('ActionDimensions');
 
-        if (!array_key_exists($cacheKey, self::$cachedInstances)) {
+        if (!$cache->has()) {
 
-            $plugins   = $pluginManager->getLoadedPlugins();
+            $plugins   = PluginManager::getInstance()->getLoadedPlugins();
             $instances = array();
 
             foreach ($plugins as $plugin) {
@@ -136,10 +136,10 @@ abstract class ActionDimension
                 }
             }
 
-            self::$cachedInstances[$cacheKey] = $instances;
+            $cache->set($instances);
         }
 
-        return self::$cachedInstances[$cacheKey];
+        return $cache->get();
     }
 
     /** @return \Piwik\Plugin\ActionDimension[] */

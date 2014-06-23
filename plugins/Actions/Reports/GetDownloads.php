@@ -21,7 +21,7 @@ class GetDownloads extends Base
         $this->dimension     = new DownloadUrl();
         $this->name          = Piwik::translate('General_Downloads');
         $this->documentation = Piwik::translate('Actions_DownloadsReportDocumentation', '<br />');
-        $this->metrics       = array_keys($this->getMetrics());
+        $this->metrics       = array('nb_visits', 'nb_hits');
 
         $this->actionToLoadSubTables = $this->action;
         $this->order = 9;
