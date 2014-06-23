@@ -272,6 +272,7 @@ abstract class Controller
         }
 
         if ($apiAction instanceof Report) {
+            $this->checkSitePermission();
             $apiAction->checkIsEnabled();
 
             return $apiAction->render();
