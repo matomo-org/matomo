@@ -15,6 +15,8 @@ use Piwik\Translate;
  * Caching class used for static caching which is plugin aware. It'll cache the given content depending on the plugins
  * that are installed. This prevents you from having to invalidate the cache during tests in case the loaded plugins
  * changes etc. The key is language aware as well.
+ *
+ * TODO convert this to a decorator...
  */
 class PluginAwareStaticCache extends StaticCache
 {
