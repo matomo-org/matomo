@@ -305,6 +305,8 @@ class Plugin
                 return;
             }
 
+            require_once $componentFile;
+
             $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
 
             if (!class_exists($klassName)) {
