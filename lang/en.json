@@ -635,7 +635,7 @@
         "ExceptionUnableToStartSession": "Unable to start session.",
         "ExceptionUndeletableFile": "Unable to delete %s",
         "ExceptionUnreadableFileDisabledMethod": "The configuration file {%s} could not be read. Your host may have disabled %s.",
-        "ExceptionReportNotFound": "The requested report does not exist",
+        "ExceptionReportNotFound": "The requested report does not exist.",
         "ExceptionReportNotEnabled": "The requested report is not enabled. This means usually either the plugin that defines the report is deactivated or you do not have enough permission to access this report.",
         "ExpandDataTableFooter": "Change the visualization or configure the report",
         "Export": "Export",
