@@ -30,8 +30,10 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     protected function getMergedAssets()
     {
-        $this->lessCompiler->addImportDir(PIWIK_USER_PATH);
-        return $this->lessCompiler->compile($this->getConcatenatedAssets());
+        // note: we're using setImportDir on purpose (not addImportDir)
+        $this->lessCompiler->setImportDir(PIWIK_USER_PATH);
+        $concatenatedAssets = $this->getConcatenatedAssets();
+        return $this->lessCompiler->compile($concatenatedAssets);
     }
 
     /**
