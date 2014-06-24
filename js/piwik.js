@@ -2435,6 +2435,15 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Get custom data
+                 *
+                 * @return mixed
+                 */
+                getCustomData: function () {
+                    return configCustomData;
+                },
+
+                /**
                  * Configure function with custom request content processing logic.
                  * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
                  *
@@ -2453,15 +2462,6 @@ if (typeof Piwik !== 'object') {
                  */
                 setCustomRequestContentProcessing: function (customRequestContentProcessingLogic) {
                     configCustomRequestContentProcessing = customRequestContentProcessingLogic;
-                },
-
-                /**
-                 * Get custom data
-                 *
-                 * @return mixed
-                 */
-                getCustomData: function () {
-                    return configCustomData;
                 },
 
                 /**
