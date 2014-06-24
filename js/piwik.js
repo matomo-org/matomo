@@ -415,7 +415,7 @@ if (typeof JSON2 !== 'object') {
     setCustomRequestContentProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable,
     setDownloadExtensions, addDownloadExtensions,
-    setDomains, setIgnoreClasses, setRequestMethod,
+    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
@@ -1081,13 +1081,16 @@ if (typeof Piwik !== 'object') {
                 // Request method (GET or POST)
                 configRequestMethod = 'GET',
 
+                // Request Content-Type header value; applicable when POST request method is used for submitting tracking events
+                configRequestContentType = 'application/x-www-form-urlencoded; charset=UTF-8',
+
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
 
                 // API URL (only set if it differs from the Tracker URL)
                 configApiUrl = '',
 
-                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existin setters/getters)
+                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existing setters/getters)
                 configAppendToTrackingUrl = '',
 
                 // Site ID
@@ -1370,9 +1373,7 @@ if (typeof Piwik !== 'object') {
                         }
                     };
 
-                    // see XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
-                    // @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                    xhr.setRequestHeader('Content-Type', configRequestContentType);
 
                     xhr.send(request);
                 } catch (e) {
@@ -2618,6 +2619,17 @@ if (typeof Piwik !== 'object') {
                  */
                 setRequestMethod: function (method) {
                     configRequestMethod = method || 'GET';
+                },
+
+                /**
+                 * Set request Content-Type header value, applicable when POST request method is used for submitting tracking events.
+                 * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
+                 * @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
+                 *
+                 * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
+                 */
+                setRequestContentType: function (requestContentType) {
+                    configRequestContentType = requestContentType || 'application/x-www-form-urlencoded; charset=UTF-8';
                 },
 
                 /**
