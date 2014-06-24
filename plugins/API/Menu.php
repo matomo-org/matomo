@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\API;
 
+use Piwik\DeviceDetectorCache;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
@@ -42,6 +43,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         $ua = new OperatingSystem($_SERVER['HTTP_USER_AGENT']);
+        $ua->setCache(new DeviceDetectorCache('tracker', 86400));
         $parsedOS = $ua->parse();
         if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {
             $menu->add('Piwik Mobile App', null, array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
