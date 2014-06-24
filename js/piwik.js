@@ -412,6 +412,7 @@ if (typeof JSON2 !== 'object') {
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
+    setCustomRequestContentProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable,
     setDownloadExtensions, addDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod,
@@ -2450,7 +2451,7 @@ if (typeof Piwik !== 'object') {
                  *
                  * @param function customRequestContentProcessingLogic
                  */
-                setCustomRequestContentProcessing: function(customRequestContentProcessingLogic) {
+                setCustomRequestContentProcessing: function (customRequestContentProcessingLogic) {
                     configCustomRequestContentProcessing = customRequestContentProcessingLogic;
                 },
 
