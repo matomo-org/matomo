@@ -322,7 +322,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(54);
+        expect(55);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -348,6 +348,7 @@ function PiwikTest() {
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
+        equal( typeof tracker.setCustomRequestContentProcessing, 'function', 'setCustomRequestContentProcessing' );
         equal( typeof tracker.setCustomVariable, 'function', 'setCustomVariable' );
         equal( typeof tracker.getCustomVariable, 'function', 'getCustomVariable' );
         equal( typeof tracker.deleteCustomVariable, 'function', 'deleteCustomVariable' );
@@ -742,6 +743,29 @@ function PiwikTest() {
 
         tracker.setCustomData("key is X", "value is Y");
         equal( tracker.getRequest('hello=world').indexOf('hello=world&idsite=&rec=1&r='), 0);
+    });
+
+    // support for setCustomRequestContentProcessing( customRequestContentProcessingLogic )
+    test("Tracker setCustomRequestContentProcessing() and getRequest()", function() {
+        expect(4);
+
+        var tracker = Piwik.getTracker("trackerUrl", "42");
+
+        tracker.setCustomRequestContentProcessing(function(request){
+          var pairs = request.split('&');
+          var result = {};
+          pairs.forEach(function(pair) {
+            pair = pair.split('=');
+            result[pair[0]] = decodeURIComponent(pair[1] || '');
+          });
+          return JSON.stringify(result);
+        });
+
+        var json = JSON.parse(tracker.getRequest('hello=world'));
+        equal( json.hello, 'world');
+        equal( json.idsite, '42' );
+        equal( json.rec, 1);
+        ok( json.r.length > 0 );
     });
 
     test("prefixPropertyName()", function() {
