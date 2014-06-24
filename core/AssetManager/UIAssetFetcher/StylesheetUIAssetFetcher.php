@@ -25,6 +25,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         if ($themeName === 'Morpheus') {
             $order[] = 'plugins\/((?!Morpheus).)*\/';
         } else {
+            $order[] = sprintf('plugins/%s/stylesheets/base.less', $themeName);
             $order[] = sprintf('plugins\/((?!(Morpheus)|(%s)).)*\/', $themeName);
         }
 
