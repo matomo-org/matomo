@@ -93,6 +93,18 @@ class Dashboard extends \Piwik\Plugin
             ]';
         }
 
+        /**
+         * Allows other plugins to modify the default dashboard layout.
+         *
+         * @param string &$defaultLayout JSON encoded string of the default dashboard layout. Contains an
+         *                               array of columns where each column is an array of widgets. Each
+         *                               widget is an associative array w/ the following elements:
+         *
+         *                               * **uniqueId**: The widget's unique ID.
+         *                               * **parameters**: The array of query parameters that should be used to get this widget's report.
+         */
+        Piwik::postEvent("Dashboard.changeDefaultDashboardLayout", array(&$defaultLayout));
+
         $defaultLayout = $this->removeDisabledPluginFromLayout($defaultLayout);
 
         return $defaultLayout;
