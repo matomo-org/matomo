@@ -26,13 +26,13 @@ abstract class ActionDimension extends Dimension
 {
     public function install($actionColumns)
     {
-        if (empty($this->columnName)) {
+        if (empty($this->columnName) || empty($this->columnType)) {
             return array();
         }
 
         $columnExists = in_array($this->columnName, $actionColumns);
 
-        if (!empty($this->columnType) && !$columnExists) {
+        if (!$columnExists) {
             return array(
                 Common::prefixTable("log_link_visit_action") => array("ADD COLUMN `$this->columnName` $this->columnType")
             );

@@ -36,13 +36,10 @@ abstract class VisitDimension extends Dimension
 
         $changes = array();
 
-        $handlingLogVisit = $this->isHandlingLogVisit();
-        $hasVisitColumn   = in_array($this->getColumnName(), $visitColumns);
+        $hasVisitColumn = in_array($this->getColumnName(), $visitColumns);
 
-        if (!$hasVisitColumn && $handlingLogVisit) {
+        if (!$hasVisitColumn) {
             $changes[$tableVisit] = array("ADD COLUMN `$this->columnName` $this->columnType");
-        } elseif ($hasVisitColumn && !$handlingLogVisit) {
-            $changes[$tableVisit] = array("DROP COLUMN `$this->columnName`");
         }
 
         $handlingLogConversion = $this->isHandlingLogConversion();
