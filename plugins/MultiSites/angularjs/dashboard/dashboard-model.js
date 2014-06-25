@@ -208,6 +208,8 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     {
         var filteredSites = [];
 
+        term = term.toLowerCase();
+
         for (var index in sitesByGroup) {
             var site = sitesByGroup[index];
             if (site.isGroup) {
