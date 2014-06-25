@@ -179,8 +179,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass);
 
-        ColumnsUpdates::update();
-
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
 
@@ -303,6 +301,8 @@ class Fixture extends PHPUnit_Framework_Assert
         if(!empty($messages)) {
             Log::info("Plugin loading messages: %s", implode(" --- ", $messages));
         }
+
+        ColumnsUpdates::update();
 
         // Activate them
         foreach($plugins as $name) {
