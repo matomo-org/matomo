@@ -1,5 +1,5 @@
 <?php
-class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
+class Test_Piwik_JsProxy extends IntegrationTestCase
 {
     /**
      * @group Core
