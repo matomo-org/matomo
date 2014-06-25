@@ -412,7 +412,7 @@ if (typeof JSON2 !== 'object') {
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
-    setCustomRequestContentProcessing,
+    setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable,
     setDownloadExtensions, addDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
@@ -2453,7 +2453,7 @@ if (typeof Piwik !== 'object') {
                  * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
                  *
                  * Examples:
-                 *   tracker.setCustomRequestContentProcessing(function(request){
+                 *   tracker.setCustomRequestProcessing(function(request){
                  *     var pairs = request.split('&');
                  *     var result = {};
                  *     pairs.forEach(function(pair) {
@@ -2465,7 +2465,7 @@ if (typeof Piwik !== 'object') {
                  *
                  * @param function customRequestContentProcessingLogic
                  */
-                setCustomRequestContentProcessing: function (customRequestContentProcessingLogic) {
+                setCustomRequestProcessing: function (customRequestContentProcessingLogic) {
                     configCustomRequestContentProcessing = customRequestContentProcessingLogic;
                 },
 
