@@ -24,6 +24,7 @@ use Piwik\Translate;
  */
 abstract class VisitDimension extends Dimension
 {
+    private $tableName = 'log_visit';
 
     public function install($visitColumns, $conversionColumns)
     {
@@ -31,19 +32,18 @@ abstract class VisitDimension extends Dimension
             return array();
         }
 
-        $tableVisit      = Common::prefixTable("log_visit");
-        $tableConversion = Common::prefixTable("log_conversion");
-
         $changes = array();
 
-        $hasVisitColumn = in_array($this->getColumnName(), $visitColumns);
+        $hasVisitColumn = array_key_exists($this->columnName, $visitColumns);
 
         if (!$hasVisitColumn) {
+            $tableVisit           = Common::prefixTable($this->tableName);
             $changes[$tableVisit] = array("ADD COLUMN `$this->columnName` $this->columnType");
         }
 
         $handlingLogConversion = $this->isHandlingLogConversion();
-        $hasConversionColumn   = in_array($this->getColumnName(), $conversionColumns);
+        $hasConversionColumn   = array_key_exists($this->columnName, $conversionColumns);
+        $tableConversion       = Common::prefixTable("log_conversion");
 
         if (!$hasConversionColumn && $handlingLogConversion) {
             $changes[$tableConversion] = array("ADD COLUMN `$this->columnName` $this->columnType");
@@ -80,16 +80,15 @@ abstract class VisitDimension extends Dimension
             return array();
         }
 
-        $tableVisit      = Common::prefixTable("log_visit");
-        $tableConversion = Common::prefixTable("log_conversion");
-
         $columnsToDrop = array();
 
-        if (in_array($this->columnName, $visitColumns) && $this->isHandlingLogVisit()) {
+        if (array_key_exists($this->columnName, $visitColumns) && $this->isHandlingLogVisit()) {
+            $tableVisit                 = Common::prefixTable($this->tableName);
             $columnsToDrop[$tableVisit] = array("DROP COLUMN `$this->columnName`");
         }
 
-        if (in_array($this->columnName, $conversionColumns) && $this->isHandlingLogConversion()) {
+        if (array_key_exists($this->columnName, $conversionColumns) && $this->isHandlingLogConversion()) {
+            $tableConversion                 = Common::prefixTable("log_conversion");
             $columnsToDrop[$tableConversion] = array("DROP COLUMN `$this->columnName`");
         }
 

@@ -23,8 +23,8 @@ class ServerTime extends ActionDimension
 
     public function install($actionColumns)
     {
-        if (in_array($this->columnName, $actionColumns)) {
-            return;
+        if (array_key_exists($this->columnName, $actionColumns)) {
+            return array();
         }
 
         return array(

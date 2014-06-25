@@ -24,17 +24,19 @@ use Piwik\Translate;
  */
 abstract class ActionDimension extends Dimension
 {
+    private $tableName = 'log_link_visit_action';
+
     public function install($actionColumns)
     {
         if (empty($this->columnName) || empty($this->columnType)) {
             return array();
         }
 
-        $columnExists = in_array($this->columnName, $actionColumns);
+        $columnExists = array_key_exists($this->columnName, $actionColumns);
 
         if (!$columnExists) {
             return array(
-                Common::prefixTable("log_link_visit_action") => array("ADD COLUMN `$this->columnName` $this->columnType")
+                Common::prefixTable($this->tableName) => array("ADD COLUMN `$this->columnName` $this->columnType")
             );
         }
 
@@ -45,10 +47,10 @@ abstract class ActionDimension extends Dimension
     {
         if (!empty($this->columnName)
             && !empty($this->columnType)
-            && in_array($this->getColumnName(), $actionColumns)) {
+            && array_key_exists($this->columnName, $actionColumns)) {
 
             return array(
-                Common::prefixTable("log_link_visit_action") => array("DROP COLUMN `$this->columnName`")
+                Common::prefixTable($this->tableName) => array("DROP COLUMN `$this->columnName`")
             );
         }
 
@@ -68,7 +70,7 @@ abstract class ActionDimension extends Dimension
     {
         $sqlSegment = $segment->getSqlSegment();
         if (!empty($this->columnName) && empty($sqlSegment)) {
-            $segment->setSqlSegment('log_link_visit_action.' . $this->columnName);
+            $segment->setSqlSegment($this->tableName . '.' . $this->columnName);
         }
 
         parent::addSegment($segment);

@@ -236,8 +236,9 @@ class Schema extends Singleton
     /**
      * Get list of installed columns in a table
      *
-     * @param string $tableName The name of a table.
-     * @return array  Column names installed
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
      */
     public function getTableColumns($tableName)
     {

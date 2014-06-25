@@ -318,8 +318,9 @@ class Mysql implements SchemaInterface
     /**
      * Get list of installed columns in a table
      *
-     * @param string $tableName The name of a table.
-     * @return array  Column names installed
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
      */
     public function getTableColumns($tableName)
     {
@@ -329,7 +330,7 @@ class Mysql implements SchemaInterface
 
         $fields = array();
         foreach ($allColumns as $column) {
-            $fields[] = $column['Field'];
+            $fields[$column['Field']] = $column;
         }
 
         return $fields;
