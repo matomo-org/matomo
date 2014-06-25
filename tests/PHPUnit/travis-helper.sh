@@ -47,6 +47,9 @@ local count=0
   while [ $count -lt $timeout ]; do
 count=$(($count + 1))
     #echo -ne "Still running ($count of $timeout): $@\r"
+
+    # print invisible character
+    echo -ne "\0xE2\0x80\0x8B"
     sleep 60
   done
 
