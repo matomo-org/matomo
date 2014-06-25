@@ -69,6 +69,8 @@ class Piwik_TestingEnvironment
 
     public function save()
     {
+        @mkdir(PIWIK_INCLUDE_PATH . '/tmp');
+
         $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
         file_put_contents($overridePath, json_encode($this->behaviorOverrideProperties));
     }
