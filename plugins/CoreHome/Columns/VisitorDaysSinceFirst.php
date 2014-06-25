@@ -16,8 +16,8 @@ use Piwik\Tracker\Visitor;
 
 class VisitorDaysSinceFirst extends VisitDimension
 {
-    protected $fieldName = 'visitor_days_since_first';
-    protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
+    protected $columnName = 'visitor_days_since_first';
+    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
     protected function configureSegments()
     {
@@ -52,6 +52,6 @@ class VisitorDaysSinceFirst extends VisitDimension
      */
     public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn($this->fieldName);
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

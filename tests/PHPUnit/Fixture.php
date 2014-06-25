@@ -29,6 +29,7 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
+use Piwik\Columns\Updates as ColumnsUpdates;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -152,6 +153,7 @@ class Fixture extends PHPUnit_Framework_Assert
             DbHelper::createTables();
 
             \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
+
         } catch (Exception $e) {
             static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
@@ -299,6 +301,8 @@ class Fixture extends PHPUnit_Framework_Assert
         if(!empty($messages)) {
             Log::info("Plugin loading messages: %s", implode(" --- ", $messages));
         }
+
+        ColumnsUpdates::update();
 
         // Activate them
         foreach($plugins as $name) {

@@ -16,8 +16,8 @@ use Piwik\Tracker\Visitor;
 
 class VisitGoalConverted extends VisitDimension
 {
-    protected $fieldName = 'visit_goal_converted';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'visit_goal_converted';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     protected function configureSegments()
     {

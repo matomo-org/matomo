@@ -15,7 +15,7 @@ use Piwik\Plugin\VisitDimension;
 // TODO this is a conversion dimension
 class IdGoal extends VisitDimension
 {
-    protected $fieldName = 'idgoal';
+    protected $columnName = 'idgoal';
 
     protected function configureSegments()
     {

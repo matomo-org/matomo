@@ -22,8 +22,8 @@ use Piwik\Tracker\Request;
 
 class Country extends Base
 {    
-    protected $fieldName = 'location_country';
-    protected $fieldType = 'CHAR(3) NOT NULL';
+    protected $columnName = 'location_country';
+    protected $columnType = 'CHAR(3) NOT NULL';
 
     protected function configureSegments()
     {
@@ -124,7 +124,7 @@ class Country extends Base
      */
     public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
-        $country = $visitor->getVisitorColumn($this->fieldName);
+        $country = $visitor->getVisitorColumn($this->columnName);
 
         if (isset($country) && false !== $country) {
             return $country;

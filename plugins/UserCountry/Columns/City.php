@@ -17,8 +17,8 @@ use Piwik\Plugins\UserCountry\Segment;
 
 class City extends Base
 {    
-    protected $fieldName = 'location_city';
-    protected $fieldType = 'varchar(255) DEFAULT NULL';
+    protected $columnName = 'location_city';
+    protected $columnType = 'varchar(255) DEFAULT NULL';
 
     protected function configureSegments()
     {
@@ -72,6 +72,6 @@ class City extends Base
      */
     public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn($this->fieldName);
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

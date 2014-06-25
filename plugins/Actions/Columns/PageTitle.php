@@ -15,8 +15,8 @@ use Piwik\Tracker\Request;
 
 class PageTitle extends ActionDimension
 {
-    protected $fieldName = 'idaction_name';
-    protected $fieldType = 'INTEGER(10) UNSIGNED';
+    protected $columnName = 'idaction_name';
+    protected $columnType = 'INTEGER(10) UNSIGNED';
 
     protected function configureSegments()
     {

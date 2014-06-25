@@ -14,8 +14,8 @@ use Piwik\Plugins\Actions\Segment;
 
 class PageUrl extends ActionDimension
 {
-    protected $fieldName = 'idaction_url';
-    protected $fieldType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $columnName = 'idaction_url';
+    protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
 
     protected function configureSegments()
     {

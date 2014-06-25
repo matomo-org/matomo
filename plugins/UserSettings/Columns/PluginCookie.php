@@ -16,8 +16,8 @@ use Piwik\Tracker\Action;
 
 class PluginCookie extends VisitDimension
 {    
-    protected $fieldName = 'config_cookie';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'config_cookie';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     public function getName()
     {

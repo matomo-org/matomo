@@ -542,7 +542,7 @@ class Visit implements VisitInterface
             $value = $dimension->$hook($this->request, $visitor, $action);
 
             if ($value !== false) {
-                $fieldName = $dimension->getFieldName();
+                $fieldName = $dimension->getColumnName();
                 $visitor->setVisitorColumn($fieldName, $value);
 
                 if ($valuesToUpdate !== null) {

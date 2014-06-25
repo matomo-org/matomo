@@ -9,6 +9,7 @@
 namespace Piwik\Plugin;
 
 use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\Manager as PluginManager;
@@ -21,56 +22,44 @@ use Piwik\Translate;
  * @api
  * @since 2.5.0
  */
-abstract class VisitDimension
+abstract class VisitDimension extends Dimension
 {
-    protected $name;
 
-    protected $fieldName = '';
-    protected $fieldType = '';
-
-    protected $segments = array();
-
-    protected function configureSegments()
+    public function install($visitColumns, $conversionColumns)
     {
-
-    }
-
-    public function hasImplementedEvent($method)
-    {
-        $reflectionObject = new \ReflectionObject($this);
-        $declaringClass   = $reflectionObject->getMethod($method)->getDeclaringClass();
-
-        return get_class() !== $declaringClass->name;
-    }
-
-    public function install()
-    {
-        try {
-            if ($this->isHandlingLogVisit()) {
-                $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` ADD `$this->fieldName` $this->fieldType";
-                Db::exec($sql);
-            }
-        } catch (\Exception $e) {
-            if (!Db::get()->isErrNo($e, '1060')) {
-                throw $e;
-            }
+        if (!$this->columnType) {
+            return array();
         }
 
-        try {
-            if ($this->isHandlingLogConversion()) {
-                $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` ADD `$this->fieldName` $this->fieldType";
-                Db::exec($sql);
-            }
-        } catch (\Exception $e) {
-            if (!Db::get()->isErrNo($e, '1060')) {
-                throw $e;
-            }
+        $tableVisit      = Common::prefixTable("log_visit");
+        $tableConversion = Common::prefixTable("log_conversion");
+
+        $changes = array();
+
+        $handlingLogVisit = $this->isHandlingLogVisit();
+        $hasVisitColumn   = in_array($this->getColumnName(), $visitColumns);
+
+        if (!$hasVisitColumn && $handlingLogVisit) {
+            $changes[$tableVisit] = array("ADD COLUMN `$this->columnName` $this->columnType");
+        } elseif ($hasVisitColumn && !$handlingLogVisit) {
+            $changes[$tableVisit] = array("DROP COLUMN `$this->columnName`");
         }
+
+        $handlingLogConversion = $this->isHandlingLogConversion();
+        $hasConversionColumn   = in_array($this->getColumnName(), $conversionColumns);
+
+        if (!$hasConversionColumn && $handlingLogConversion) {
+            $changes[$tableConversion] = array("ADD COLUMN `$this->columnName` $this->columnType");
+        } elseif ($hasConversionColumn && !$handlingLogConversion) {
+            $changes[$tableConversion] = array("DROP COLUMN `$this->columnName`");
+        }
+
+        return $changes;
     }
 
     private function isHandlingLogVisit()
     {
-        if (empty($this->fieldName) || empty($this->fieldType)) {
+        if (empty($this->columnName) || empty($this->columnType)) {
             return false;
         }
 
@@ -81,73 +70,43 @@ abstract class VisitDimension
 
     private function isHandlingLogConversion()
     {
-        if (empty($this->fieldName) || empty($this->fieldType)) {
+        if (empty($this->columnName) || empty($this->columnType)) {
             return false;
         }
 
         return $this->hasImplementedEvent('onRecordGoal');
     }
 
-    public function uninstall()
+    public function uninstall($visitColumns, $conversionColumns)
     {
-        if (empty($this->fieldName) || empty($this->fieldType)) {
-            return;
+        if (empty($this->columnName) || empty($this->columnType)) {
+            return array();
         }
 
-        try {
-            if ($this->isHandlingLogVisit()) {
-                $sql = "ALTER TABLE `" . Common::prefixTable("log_visit") . "` DROP COLUMN `$this->fieldName`";
-                Db::exec($sql);
-            }
-        } catch (\Exception $e) {
-            if (!Db::get()->isErrNo($e, '1091')) {
-                throw $e;
-            }
+        $tableVisit      = Common::prefixTable("log_visit");
+        $tableConversion = Common::prefixTable("log_conversion");
+
+        $columnsToDrop = array();
+
+        if (in_array($this->columnName, $visitColumns) && $this->isHandlingLogVisit()) {
+            $columnsToDrop[$tableVisit] = array("DROP COLUMN `$this->columnName`");
         }
 
-        try {
-            if ($this->isHandlingLogConversion()) {
-                $sql = "ALTER TABLE `" . Common::prefixTable("log_conversion") . "` DROP COLUMN `$this->fieldName`";
-                Db::exec($sql);
-            }
-        } catch (\Exception $e) {
-            if (!Db::get()->isErrNo($e, '1091')) {
-                throw $e;
-            }
+        if (in_array($this->columnName, $conversionColumns) && $this->isHandlingLogConversion()) {
+            $columnsToDrop[$tableConversion] = array("DROP COLUMN `$this->columnName`");
         }
+
+        return $columnsToDrop;
     }
 
     protected function addSegment(Segment $segment)
     {
         $sqlSegment = $segment->getSqlSegment();
-        if (!empty($this->fieldName) && empty($sqlSegment)) {
-            $segment->setSqlSegment('log_visit.' . $this->fieldName);
+        if (!empty($this->columnName) && empty($sqlSegment)) {
+            $segment->setSqlSegment('log_visit.' . $this->columnName);
         }
 
-        $type = $segment->getType();
-
-        if (empty($type)) {
-            $segment->setType(Segment::TYPE_DIMENSION);
-        }
-
-        $this->segments[] = $segment;
-    }
-
-    /**
-     * @return Segment[]
-     */
-    public function getSegments()
-    {
-        if (empty($this->segments)) {
-            $this->configureSegments();
-        }
-
-        return $this->segments;
-    }
-
-    public function getFieldName()
-    {
-        return $this->fieldName;
+        parent::addSegment($segment);
     }
 
     public function getRequiredVisitFields()
@@ -181,8 +140,6 @@ abstract class VisitDimension
         return false;
     }
 
-    abstract public function getName();
-
     /** @return \Piwik\Plugin\VisitDimension[] */
     public static function getAllDimensions()
     {
@@ -215,7 +172,7 @@ abstract class VisitDimension
             return -1;
         }
 
-        if (!empty($fields) && in_array($b->getFieldName(), $fields)) {
+        if (!empty($fields) && in_array($b->getColumnName(), $fields)) {
             return 1;
         }
 

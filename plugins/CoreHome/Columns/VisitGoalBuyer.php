@@ -31,8 +31,8 @@ class VisitGoalBuyer extends VisitDimension
         self::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
     );
 
-    protected $fieldName = 'visit_goal_buyer';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'visit_goal_buyer';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     protected function configureSegments()
     {
@@ -72,7 +72,7 @@ class VisitGoalBuyer extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        $goalBuyer = $visitor->getVisitorColumn($this->fieldName);
+        $goalBuyer = $visitor->getVisitorColumn($this->columnName);
 
         // Ecommerce buyer status
         $visitEcommerceStatus = $this->getBuyerType($request, $goalBuyer);

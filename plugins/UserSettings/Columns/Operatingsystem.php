@@ -14,8 +14,8 @@ use Piwik\Plugins\UserSettings\Segment;
 
 class Operatingsystem extends Os
 {    
-    protected $fieldName = 'config_os';
-    protected $fieldType = 'CHAR(3) NOT NULL';
+    protected $columnName = 'config_os';
+    protected $columnType = 'CHAR(3) NOT NULL';
 
     protected function configureSegments()
     {

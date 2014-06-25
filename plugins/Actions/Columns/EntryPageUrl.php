@@ -17,8 +17,8 @@ use Piwik\Tracker\Visitor;
 
 class EntryPageUrl extends VisitDimension
 {
-    protected $fieldName = 'visit_entry_idaction_url';
-    protected $fieldType = 'INTEGER(11) UNSIGNED NOT NULL';
+    protected $columnName = 'visit_entry_idaction_url';
+    protected $columnType = 'INTEGER(11) UNSIGNED NOT NULL';
 
     protected function configureSegments()
     {

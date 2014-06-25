@@ -13,8 +13,8 @@ use Piwik\Plugins\UserSettings\Segment;
 
 class BrowserVersion extends \Piwik\Plugins\DevicesDetection\Columns\BrowserVersion
 {    
-    protected $fieldName = 'config_browser_version';
-    protected $fieldType = 'VARCHAR(20) NOT NULL';
+    protected $columnName = 'config_browser_version';
+    protected $columnType = 'VARCHAR(20) NOT NULL';
 
     protected function configureSegments()
     {

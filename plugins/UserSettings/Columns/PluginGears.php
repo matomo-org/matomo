@@ -16,8 +16,8 @@ use Piwik\Tracker\Action;
 
 class PluginGears extends VisitDimension
 {    
-    protected $fieldName = 'config_gears';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'config_gears';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     public function getName()
     {

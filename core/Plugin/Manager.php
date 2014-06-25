@@ -12,6 +12,7 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
@@ -435,6 +436,7 @@ class Manager extends Singleton
                 $messages[] = $e->getMessage();
             }
         }
+
         return $messages;
     }
 
@@ -906,7 +908,6 @@ class Manager extends Singleton
 
         $path = self::getPluginsDirectory() . $pluginFileName;
 
-
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
             // Eg. Used for Morpheus default theme which does not have a Morpheus.php file
@@ -978,19 +979,6 @@ class Manager extends Singleton
     {
         try {
             $plugin->install();
-        } catch (\Exception $e) {
-            throw new \Piwik\Plugin\PluginException($plugin->getPluginName(), $e->getMessage());
-        }
-
-        try {
-            // todo not sure if this makes sense here
-            foreach (VisitDimension::getDimensions($plugin) as $dimension) {
-                $dimension->install();
-            }
-            // todo not sure if this makes sense here
-            foreach (ActionDimension::getDimensions($plugin) as $dimension) {
-                $dimension->install();
-            }
         } catch (\Exception $e) {
             throw new \Piwik\Plugin\PluginException($plugin->getPluginName(), $e->getMessage());
         }
@@ -1295,19 +1283,6 @@ class Manager extends Singleton
         try {
             $plugin = $this->getLoadedPlugin($pluginName);
             $plugin->uninstall();
-        } catch (\Exception $e) {
-        }
-
-        try {
-            $plugin = $this->getLoadedPlugin($pluginName);
-            // todo not sure if this makes sense here
-            foreach (VisitDimension::getDimensions($plugin) as $dimension) {
-                $dimension->uninstall();
-            }
-            // todo not sure if this makes sense here
-            foreach (ActionDimension::getDimensions($plugin) as $dimension) {
-                $dimension->uninstall();
-            }
         } catch (\Exception $e) {
         }
     }

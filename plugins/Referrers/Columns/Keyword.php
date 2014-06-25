@@ -16,8 +16,8 @@ use Piwik\Tracker\Action;
 
 class Keyword extends Base
 {
-    protected $fieldName = 'referer_keyword';
-    protected $fieldType = 'VARCHAR(255) NULL';
+    protected $columnName = 'referer_keyword';
+    protected $columnType = 'VARCHAR(255) NULL';
 
     protected function configureSegments()
     {

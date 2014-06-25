@@ -16,8 +16,8 @@ use Piwik\Tracker\Action;
 
 class PluginJava extends VisitDimension
 {    
-    protected $fieldName = 'config_java';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'config_java';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     public function getName()
     {

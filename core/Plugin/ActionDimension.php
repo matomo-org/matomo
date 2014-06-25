@@ -9,6 +9,7 @@
 namespace Piwik\Plugin;
 
 use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Common;
 use Piwik\Db;
@@ -21,57 +22,37 @@ use Piwik\Translate;
  * @api
  * @since 2.5.0
  */
-abstract class ActionDimension
+abstract class ActionDimension extends Dimension
 {
-    protected $name;
-
-    protected $fieldName = '';
-    protected $fieldType = '';
-
-    protected $segments = array();
-
-    protected function configureSegments()
+    public function install($actionColumns)
     {
+        if (empty($this->columnName)) {
+            return array();
+        }
 
+        $columnExists = in_array($this->columnName, $actionColumns);
+
+        if (!empty($this->columnType) && !$columnExists) {
+            return array(
+                Common::prefixTable("log_link_visit_action") => array("ADD COLUMN `$this->columnName` $this->columnType")
+            );
+        }
+
+        return array();
     }
 
-    public function install()
+    public function uninstall($actionColumns)
     {
-        if (empty($this->fieldName) || empty($this->fieldType)) {
-            return;
+        if (!empty($this->columnName)
+            && !empty($this->columnType)
+            && in_array($this->getColumnName(), $actionColumns)) {
+
+            return array(
+                Common::prefixTable("log_link_visit_action") => array("DROP COLUMN `$this->columnName`")
+            );
         }
 
-        try {
-            $sql = "ALTER TABLE `" . Common::prefixTable("log_link_visit_action") . "` ADD `$this->fieldName` $this->fieldType";
-            Db::exec($sql);
-
-        } catch (\Exception $e) {
-            if (!Db::get()->isErrNo($e, '1060')) {
-                throw $e;
-            }
-        }
-    }
-
-    public function uninstall()
-    {
-        if (empty($this->fieldName) || empty($this->fieldType)) {
-            return;
-        }
-
-        try {
-            $sql = "ALTER TABLE `" . Common::prefixTable("log_link_visit_action") . "` DROP COLUMN `$this->fieldName`";
-            Db::exec($sql);
-        } catch (\Exception $e) {
-            if (!Db::get()->isErrNo($e, '1091')) {
-                throw $e;
-            }
-        }
-    }
-
-
-    public function shouldHandle()
-    {
-        return false;
+        return array();
     }
 
     /**
@@ -86,33 +67,12 @@ abstract class ActionDimension
     protected function addSegment(Segment $segment)
     {
         $sqlSegment = $segment->getSqlSegment();
-        if (!empty($this->fieldName) && empty($sqlSegment)) {
-            $segment->setSqlSegment('log_link_visit_action.' . $this->fieldName);
+        if (!empty($this->columnName) && empty($sqlSegment)) {
+            $segment->setSqlSegment('log_link_visit_action.' . $this->columnName);
         }
 
-        $segment->setType(Segment::TYPE_DIMENSION);
-
-        $this->segments[] = $segment;
+        parent::addSegment($segment);
     }
-
-    /**
-     * @return Segment[]
-     */
-    public function getSegments()
-    {
-        if (empty($this->segments)) {
-            $this->configureSegments();
-        }
-
-        return $this->segments;
-    }
-
-    public function getFieldName()
-    {
-        return $this->fieldName;
-    }
-
-    abstract public function getName();
 
     /** @return \Piwik\Plugin\ActionDimension[] */
     public static function getAllDimensions()

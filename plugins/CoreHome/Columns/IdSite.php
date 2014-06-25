@@ -16,7 +16,7 @@ use Piwik\Tracker\Visitor;
 
 class IdSite extends VisitDimension
 {
-    protected $fieldName = 'idsite';
+    protected $columnName = 'idsite';
     // we do not install or define column definition here as we need to create this column when installing as there is
     // an index on it. Currently we do not define the index here... although we could overwrite the install() method
     // and add column 'idsite' and add index. Problem is there is also an index

@@ -316,6 +316,26 @@ class Mysql implements SchemaInterface
     private $tablesInstalled = null;
 
     /**
+     * Get list of installed columns in a table
+     *
+     * @param string $tableName The name of a table.
+     * @return array  Column names installed
+     */
+    public function getTableColumns($tableName)
+    {
+        $db = Db::get();
+
+        $allColumns = $db->fetchAll("SHOW COLUMNS FROM . $tableName");
+
+        $fields = array();
+        foreach ($allColumns as $column) {
+            $fields[] = $column['Field'];
+        }
+
+        return $fields;
+    }
+
+    /**
      * Get list of tables installed
      *
      * @param bool $forceReload Invalidate cache

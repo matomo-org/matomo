@@ -14,7 +14,8 @@ use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\ScheduledTask;
+use Piwik\Plugin\ActionDimension;
+use Piwik\Plugin\VisitDimension;
 use Piwik\ScheduledTime;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
@@ -64,7 +65,7 @@ class CoreUpdater extends \Piwik\Plugin
                     if ($name == 'core') {
                         $coreError = true;
                         break;
-                    } else {
+                    } elseif (\Piwik\Plugin\Manager::getInstance()->isPluginActivated($name)) {
                         \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($name);
                         $deactivatedPlugins[] = $name;
                     }
@@ -94,8 +95,22 @@ class CoreUpdater extends \Piwik\Plugin
         $manager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $manager->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
-            if($manager->isPluginInstalled($pluginName)) {
+            if ($manager->isPluginInstalled($pluginName)) {
                 $updater->addComponentToCheck($pluginName, $plugin->getVersion());
+            }
+        }
+
+        foreach (VisitDimension::getAllDimensions() as $dimension) {
+            $columnName = $dimension->getColumnName();
+            if ($columnName) {
+                $updater->addComponentToCheck('log_visit.' . $columnName, $dimension->getVersion());
+            }
+        }
+
+        foreach (ActionDimension::getAllDimensions() as $dimension) {
+            $columnName = $dimension->getColumnName();
+            if ($columnName) {
+                $updater->addComponentToCheck('log_link_visit_action.' . $columnName, $dimension->getVersion());
             }
         }
 

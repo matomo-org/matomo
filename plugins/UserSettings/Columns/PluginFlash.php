@@ -16,8 +16,8 @@ use Piwik\Tracker\Action;
 
 class PluginFlash extends VisitDimension
 {    
-    protected $fieldName = 'config_flash';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'config_flash';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     public function getName()
     {

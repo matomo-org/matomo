@@ -17,8 +17,8 @@ use Piwik\Tracker\Visitor;
 
 class Resolution extends VisitDimension
 {    
-    protected $fieldName = 'config_resolution';
-    protected $fieldType = 'VARCHAR(9) NOT NULL';
+    protected $columnName = 'config_resolution';
+    protected $columnType = 'VARCHAR(9) NOT NULL';
 
     protected function configureSegments()
     {

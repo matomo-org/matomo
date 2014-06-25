@@ -263,7 +263,7 @@ abstract class Action
 
         foreach ($dimensions as $dimension) {
             if (method_exists($dimension, 'onLookupAction')) {
-                $field = $dimension->getFieldName();
+                $field = $dimension->getColumnName();
                 $value = $dimension->onLookupAction($this->request, $this);
 
                 if (empty($field)) {
@@ -315,7 +315,7 @@ abstract class Action
             $value = $dimension->onNewAction($this->request, $visitor, $this);
 
             if ($value !== false) {
-                $visitAction[$dimension->getFieldName()] = $value;
+                $visitAction[$dimension->getColumnName()] = $value;
             }
         }
 

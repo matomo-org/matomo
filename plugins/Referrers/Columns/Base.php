@@ -378,8 +378,8 @@ abstract class Base extends VisitDimension
             'referer_visit_server_date' => date("Y-m-d", $time),
         );
 
-        if (array_key_exists($this->fieldName, $fields)) {
-            return $fields[$this->fieldName];
+        if (array_key_exists($this->columnName, $fields)) {
+            return $fields[$this->columnName];
         }
 
         return false;

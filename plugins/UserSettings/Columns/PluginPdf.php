@@ -16,8 +16,8 @@ use Piwik\Tracker\Action;
 
 class PluginPdf extends VisitDimension
 {    
-    protected $fieldName = 'config_pdf';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'config_pdf';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     public function getName()
     {

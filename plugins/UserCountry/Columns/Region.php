@@ -17,8 +17,8 @@ use Piwik\Tracker\Action;
 
 class Region extends Base
 {    
-    protected $fieldName = 'location_region';
-    protected $fieldType = 'char(2) DEFAULT NULL';
+    protected $columnName = 'location_region';
+    protected $columnType = 'char(2) DEFAULT NULL';
 
     protected function configureSegments()
     {
@@ -72,6 +72,6 @@ class Region extends Base
      */
     public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn($this->fieldName);
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

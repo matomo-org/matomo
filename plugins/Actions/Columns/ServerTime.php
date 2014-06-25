@@ -18,15 +18,21 @@ use Piwik\Tracker;
 
 class ServerTime extends ActionDimension
 {
-    protected $fieldName = 'server_time';
-    protected $fieldType = 'DATETIME NOT NULL';
+    protected $columnName = 'server_time';
+    protected $columnType = 'DATETIME NOT NULL';
 
-    public function install()
+    public function install($actionColumns)
     {
-        parent::install();
+        if (in_array($this->columnName, $actionColumns)) {
+            return;
+        }
 
-        $sql = "ALTER TABLE `" . Common::prefixTable("log_link_visit_action") . "` ADD INDEX index_idsite_servertime ( idsite, server_time )";
-        Db::exec($sql);
+        return array(
+            Common::prefixTable("log_link_visit_action") => array(
+                "ADD COLUMN server_time DATETIME NOT NULL",
+                "ADD INDEX index_idsite_servertime ( idsite, server_time )"
+            )
+        );
     }
 
     public function getName()

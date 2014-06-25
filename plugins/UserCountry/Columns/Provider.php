@@ -16,7 +16,7 @@ use Piwik\Tracker\Request;
 
 class Provider extends Base
 {    
-    protected $fieldName = 'location_provider';
+    protected $columnName = 'location_provider';
 
     public function getName()
     {

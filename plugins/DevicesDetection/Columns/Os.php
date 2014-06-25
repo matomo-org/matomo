@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 
 class Os extends Base
 {
-    protected $fieldName = 'config_os';
+    protected $columnName = 'config_os';
 
     public function getName()
     {

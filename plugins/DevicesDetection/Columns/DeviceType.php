@@ -19,8 +19,8 @@ use DeviceDetector\Parser\Device\DeviceParserAbstract as DeviceParser;
 
 class DeviceType extends Base
 {
-    protected $fieldName = 'config_device_type';
-    protected $fieldType = 'TINYINT( 100 ) NULL DEFAULT NULL';
+    protected $columnName = 'config_device_type';
+    protected $columnType = 'TINYINT( 100 ) NULL DEFAULT NULL';
 
     protected function configureSegments()
     {

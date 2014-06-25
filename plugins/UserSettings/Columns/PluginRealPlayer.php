@@ -16,8 +16,8 @@ use Piwik\Tracker\Action;
 
 class PluginRealPlayer extends VisitDimension
 {    
-    protected $fieldName = 'config_realplayer';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'config_realplayer';
+    protected $columnType = 'TINYINT(1) NOT NULL';
 
     public function getName()
     {

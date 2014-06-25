@@ -17,8 +17,8 @@ use Piwik\Tracker\Action;
 
 class Latitude extends Base
 {
-    protected $fieldName = 'location_latitude';
-    protected $fieldType = 'float(10, 6) DEFAULT NULL';
+    protected $columnName = 'location_latitude';
+    protected $columnType = 'float(10, 6) DEFAULT NULL';
 
     protected function configureSegments()
     {
@@ -72,6 +72,6 @@ class Latitude extends Base
      */
     public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn($this->fieldName);
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

@@ -15,8 +15,8 @@ use Piwik\Tracker\Action;
 
 class ReferrerName extends Base
 {
-    protected $fieldName = 'referer_name';
-    protected $fieldType = 'VARCHAR(70) NULL';
+    protected $columnName = 'referer_name';
+    protected $columnType = 'VARCHAR(70) NULL';
 
     protected function configureSegments()
     {

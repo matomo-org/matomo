@@ -15,7 +15,7 @@ use Piwik\Tracker\Action;
 
 class BrowserName extends Base
 {
-    protected $fieldName = 'config_browser_name';
+    protected $columnName = 'config_browser_name';
 
     public function getName()
     {

@@ -16,8 +16,8 @@ use Piwik\Tracker\Visitor;
 
 class VisitsCount extends VisitDimension
 {
-    protected $fieldName = 'visitor_count_visits';
-    protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
+    protected $columnName = 'visitor_count_visits';
+    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
     public function getName()
     {
@@ -52,6 +52,6 @@ class VisitsCount extends VisitDimension
      */
     public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn($this->fieldName);
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

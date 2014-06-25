@@ -21,8 +21,8 @@ class VisitorReturning extends VisitDimension
     const IS_RETURNING = 1;
     const IS_NEW = 0;
 
-    protected $fieldName = 'visitor_returning';
-    protected $fieldType = 'TINYINT(1) NOT NULL';
+    protected $columnName = 'visitor_returning';
+    protected $columnType = 'TINYINT(1) NOT NULL';
     protected $conversionField = true;
 
     protected function configureSegments()
@@ -79,6 +79,6 @@ class VisitorReturning extends VisitDimension
      */
     public function onRecordGoal(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn($this->fieldName);
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

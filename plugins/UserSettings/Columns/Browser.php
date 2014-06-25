@@ -14,8 +14,8 @@ use Piwik\Plugins\UserSettings\Segment;
 
 class Browser extends BrowserName
 {
-    protected $fieldName = 'config_browser_name';
-    protected $fieldType = 'VARCHAR(10) NOT NULL';
+    protected $columnName = 'config_browser_name';
+    protected $columnType = 'VARCHAR(10) NOT NULL';
 
     protected function configureSegments()
     {

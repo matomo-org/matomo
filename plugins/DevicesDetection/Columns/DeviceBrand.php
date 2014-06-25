@@ -15,8 +15,8 @@ use Piwik\Tracker\Action;
 
 class DeviceBrand extends Base
 {
-    protected $fieldName = 'config_device_brand';
-    protected $fieldType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
+    protected $columnName = 'config_device_brand';
+    protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
 
     public function getName()
     {

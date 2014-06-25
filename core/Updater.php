@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik;
+use Piwik\Columns\Updates as ColumnUpdates;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -111,6 +112,8 @@ class Updater
     public function getSqlQueriesToExecute()
     {
         $queries = array();
+        $classNames = array();
+
         foreach ($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) {
             foreach ($componentUpdateInfo as $file => $fileVersion) {
                 require_once $file; // prefixed by PIWIK_INCLUDE_PATH
@@ -119,6 +122,13 @@ class Updater
                 if (!class_exists($className, false)) {
                     throw new \Exception("The class $className was not found in $file");
                 }
+
+                if (in_array($className, $classNames)) {
+                    continue; // prevent from getting updates from Piwik\Columns\Updates multiple times
+                }
+
+                $classNames[] = $className;
+
                 $queriesForComponent = call_user_func(array($className, 'getSql'));
                 foreach ($queriesForComponent as $query => $error) {
                     $queries[] = $query . ';';
@@ -141,6 +151,11 @@ class Updater
         if ($componentName == 'core') {
             return '\\Piwik\\Updates\\' . $className;
         }
+
+        if ($this->isDimensionComponent($componentName)) {
+            return '\\Piwik\\Columns\\Updates';
+        }
+
         return '\\Piwik\\Plugins\\' . $componentName . '\\' . $className;
     }
 
@@ -177,6 +192,14 @@ class Updater
         return $warningMessages;
     }
 
+    private function isDimensionComponent($name)
+    {
+        return 0 === strpos($name, 'log_visit.')
+            || 0 === strpos($name, 'log_conversion.')
+            || 0 === strpos($name, 'log_conversion_item.')
+            || 0 === strpos($name, 'log_link_visit_action.');
+    }
+
     /**
      * Construct list of update files for the outdated components
      *
@@ -185,29 +208,41 @@ class Updater
     private function loadComponentsWithUpdateFile()
     {
         $componentsWithUpdateFile = array();
+        $hasDimensionUpdate = null;
+
         foreach ($this->componentsWithNewVersion as $name => $versions) {
             $currentVersion = $versions[self::INDEX_CURRENT_VERSION];
             $newVersion = $versions[self::INDEX_NEW_VERSION];
 
             if ($name == 'core') {
                 $pathToUpdates = $this->pathUpdateFileCore . '*.php';
+            } elseif ($this->isDimensionComponent($name)) {
+                if (is_null($hasDimensionUpdate)) {
+                    $hasDimensionUpdate = ColumnUpdates::hasUpdates();
+                }
+                if ($hasDimensionUpdate) {
+                    $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updates.php'] = $newVersion;
+                }
+                continue;
             } else {
                 $pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
             }
 
-            $files = _glob($pathToUpdates);
-            if ($files == false) {
-                $files = array();
-            }
+            if (!empty($pathToUpdates)) {
+                $files = _glob($pathToUpdates);
+                if ($files == false) {
+                    $files = array();
+                }
 
-            foreach ($files as $file) {
-                $fileVersion = basename($file, '.php');
-                if ( // if the update is from a newer version
-                    version_compare($currentVersion, $fileVersion) == -1
-                    // but we don't execute updates from non existing future releases
-                    && version_compare($fileVersion, $newVersion) <= 0
-                ) {
-                    $componentsWithUpdateFile[$name][$file] = $fileVersion;
+                foreach ($files as $file) {
+                    $fileVersion = basename($file, '.php');
+                    if ( // if the update is from a newer version
+                        version_compare($currentVersion, $fileVersion) == -1
+                        // but we don't execute updates from non existing future releases
+                        && version_compare($fileVersion, $newVersion) <= 0
+                    ) {
+                        $componentsWithUpdateFile[$name][$file] = $fileVersion;
+                    }
                 }
             }
 
@@ -219,6 +254,7 @@ class Updater
                 self::recordComponentSuccessfullyUpdated($name, $newVersion);
             }
         }
+
         return $componentsWithUpdateFile;
     }
 

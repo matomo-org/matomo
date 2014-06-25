@@ -17,8 +17,8 @@ use Piwik\Tracker\Visitor;
 
 class VisitsByDaysSinceLastVisit extends VisitDimension
 {
-    protected $fieldName = 'visitor_days_since_last';
-    protected $fieldType = 'SMALLINT(5) UNSIGNED NOT NULL';
+    protected $columnName = 'visitor_days_since_last';
+    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
     protected function configureSegments()
     {

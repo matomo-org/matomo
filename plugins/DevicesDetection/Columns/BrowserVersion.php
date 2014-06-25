@@ -15,7 +15,7 @@ use Piwik\Tracker\Action;
 
 class BrowserVersion extends Base
 {
-    protected $fieldName = 'config_browser_version';
+    protected $columnName = 'config_browser_version';
 
     public function getName()
     {

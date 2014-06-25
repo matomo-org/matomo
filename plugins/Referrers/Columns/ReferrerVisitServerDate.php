@@ -14,8 +14,8 @@ use Piwik\Tracker\Action;
 
 class ReferrerVisitServerDate extends Base
 {
-    protected $fieldName = 'referer_visit_server_date';
-    protected $fieldType = 'date default NULL';
+    protected $columnName = 'referer_visit_server_date';
+    protected $columnType = 'date default NULL';
 
     public function getName()
     {

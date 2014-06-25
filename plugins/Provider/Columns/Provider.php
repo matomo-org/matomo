@@ -21,7 +21,7 @@ use Piwik\Plugins\Provider\Provider as ProviderPlugin;
 
 class Provider extends VisitDimension
 {    
-    protected $fieldName = 'location_provider';
+    protected $columnName = 'location_provider';
 
     protected function configureSegments()
     {

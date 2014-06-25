@@ -190,7 +190,7 @@ class GoalManager
         foreach (VisitDimension::getAllDimensions() as $dimension) {
             $value = $dimension->onRecordGoal($this->request, $visitor, $action);
             if (false !== $value) {
-                $goal[$dimension->getFieldName()] = $value;
+                $goal[$dimension->getColumnName()] = $value;
             }
         }
 

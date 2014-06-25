@@ -17,8 +17,8 @@ use Piwik\Tracker\Visitor;
 
 class LocalTime extends VisitDimension
 {    
-    protected $fieldName = 'visitor_localtime';
-    protected $fieldType = 'TIME NOT NULL';
+    protected $columnName = 'visitor_localtime';
+    protected $columnType = 'TIME NOT NULL';
 
     protected function configureSegments()
     {
