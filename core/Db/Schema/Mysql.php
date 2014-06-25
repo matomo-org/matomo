@@ -299,7 +299,7 @@ class Mysql implements SchemaInterface
 			",
 
             'session'               => "CREATE TABLE {$prefixTables}session (
-								id CHAR(32) NOT NULL,
+								id VARCHAR( 255 ) NOT NULL,
 								modified INTEGER,
 								lifetime INTEGER,
 								data TEXT,
