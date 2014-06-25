@@ -1078,11 +1078,15 @@ if (typeof Piwik !== 'object') {
 
                 enableJSErrorTracking = false,
 
+                defaultRequestMethod = 'GET',
+
                 // Request method (GET or POST)
-                configRequestMethod = 'GET',
+                configRequestMethod = defaultRequestMethod,
+
+                defaultRequestContentType = 'application/x-www-form-urlencoded; charset=UTF-8',
 
                 // Request Content-Type header value; applicable when POST request method is used for submitting tracking events
-                configRequestContentType = 'application/x-www-form-urlencoded; charset=UTF-8',
+                configRequestContentType = defaultRequestContentType,
 
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
@@ -2618,7 +2622,7 @@ if (typeof Piwik !== 'object') {
                  * @param string method GET or POST; default is GET
                  */
                 setRequestMethod: function (method) {
-                    configRequestMethod = method || 'GET';
+                    configRequestMethod = method || defaultRequestMethod;
                 },
 
                 /**
@@ -2629,7 +2633,7 @@ if (typeof Piwik !== 'object') {
                  * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
                  */
                 setRequestContentType: function (requestContentType) {
-                    configRequestContentType = requestContentType || 'application/x-www-form-urlencoded; charset=UTF-8';
+                    configRequestContentType = requestContentType || defaultRequestContentType;
                 },
 
                 /**
