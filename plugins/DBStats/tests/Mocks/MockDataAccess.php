@@ -28,7 +28,8 @@ class MockDataAccess
         'option' => array(200, 16000, 8192),
         'session' => array(0, 8192, 8192),
         'archive_numeric' => array(8000, 16000, 16000),
-        'archive_blob' => array(8000, 128000, 1024)
+        'archive_blob' => array(8000, 128000, 1024),
+        'segment' => array(3, 4048, 8192),
     );
 
     public static $numericRowCountsByArchiveName = array(
