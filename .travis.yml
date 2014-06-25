@@ -94,7 +94,7 @@ before_script:
   - mysql -e 'create database piwik_tests;'
   # Make sure we use Python 2.6
   - sudo add-apt-repository ppa:fkrull/deadsnakes -y
-  - sudo apt-get update
+  - travis_retry sudo apt-get update
   - sudo apt-get install python2.6 python2.6-dev
   # Log Analytics works with Python 2.6 or 2.7 but we want to test on 2.6
   - python2.6 --version
