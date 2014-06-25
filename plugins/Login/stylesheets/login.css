@@ -75,7 +75,10 @@
     text-align: center;
     color: #666;
     margin: 0 0 30px 0;
-    font: normal 26px/1 Verdana, Helvetica;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 26px;
+    line-height: 1;
     position: relative;
 }
 
