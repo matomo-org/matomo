@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # for travis_wait function
 source travis-helper.sh
 
