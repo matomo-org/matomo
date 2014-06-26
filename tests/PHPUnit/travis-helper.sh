@@ -49,7 +49,7 @@ count=$(($count + 1))
     #echo -ne "Still running ($count of $timeout): $@\r"
 
     # print invisible character
-    echo -e "\xE2\x80\x8B"
+    echo -ne "\xE2\x80\x8B"
     sleep 60
   done
 
