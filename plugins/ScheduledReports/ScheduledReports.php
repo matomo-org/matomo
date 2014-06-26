@@ -609,8 +609,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     protected function setReplyToAsSender(Mail $mail, array $report)
     {
-        if (isset(Config::getInstance()->General['set_reply_to_as_sender'])
-            && Config::getInstance()->General['set_reply_to_as_sender'] == '1') {
+        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']) {
             if (isset($report['login'])) {
                 $userModel = new UserModel();
                 $user = $userModel->getUser($report['login']);

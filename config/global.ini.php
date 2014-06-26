@@ -281,7 +281,7 @@ noreply_email_address = "noreply@{DOMAIN}"
 feedback_email_address = "feedback@piwik.org"
 
 ; using to set reply_to in reports e-mail to login of report creator
-set_reply_to_as_sender = 0
+scheduled_reports_replyto_is_user_email_and_alias = 0
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)
