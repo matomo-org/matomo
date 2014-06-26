@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Columns\Dimension;
+use Piwik\DbHelper;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Common;
 use Piwik\Db;
@@ -26,35 +27,47 @@ abstract class ActionDimension extends Dimension
 {
     private $tableName = 'log_link_visit_action';
 
-    public function install($actionColumns)
+    public function install()
     {
         if (empty($this->columnName) || empty($this->columnType)) {
             return array();
         }
 
-        $columnExists = array_key_exists($this->columnName, $actionColumns);
-
-        if (!$columnExists) {
-            return array(
-                Common::prefixTable($this->tableName) => array("ADD COLUMN `$this->columnName` $this->columnType")
-            );
-        }
-
-        return array();
+        return array(
+            $this->tableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+        );
     }
 
-    public function uninstall($actionColumns)
+    public function update()
     {
-        if (!empty($this->columnName)
-            && !empty($this->columnType)
-            && array_key_exists($this->columnName, $actionColumns)) {
-
-            return array(
-                Common::prefixTable($this->tableName) => array("DROP COLUMN `$this->columnName`")
-            );
+        if (empty($this->columnName) || empty($this->columnType)) {
+            return array();
         }
 
-        return array();
+        return array(
+            $this->tableName => array("MODIFY COLUMN `$this->columnName` $this->columnType")
+        );
+    }
+
+    public function uninstall()
+    {
+        if (empty($this->columnName) || empty($this->columnType)) {
+            return;
+        }
+
+        try {
+            $sql = "ALTER TABLE `" . Common::prefixTable($this->tableName) . "` DROP COLUMN `$this->columnName`";
+            Db::exec($sql);
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, '1091')) {
+                throw $e;
+            }
+        }
+    }
+
+    public function getVersion()
+    {
+        return $this->columnType;
     }
 
     /**

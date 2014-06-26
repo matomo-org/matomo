@@ -29,7 +29,8 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
-use Piwik\Columns\Updates as ColumnsUpdates;
+use Piwik\Updater;
+use Piwik\Plugins\CoreUpdater\CoreUpdater;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -179,6 +180,13 @@ class Fixture extends PHPUnit_Framework_Assert
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass);
 
+        $updater = new Updater();
+        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+
+        if (!empty($componentsWithUpdateFile)) {
+            CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        }
+
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
 
@@ -302,8 +310,6 @@ class Fixture extends PHPUnit_Framework_Assert
             Log::info("Plugin loading messages: %s", implode(" --- ", $messages));
         }
 
-        ColumnsUpdates::update();
-
         // Activate them
         foreach($plugins as $name) {
             if (!$pluginsManager->isPluginActivated($name)) {
@@ -318,7 +324,7 @@ class Fixture extends PHPUnit_Framework_Assert
             $manager = \Piwik\Plugin\Manager::getInstance();
             $plugins = $manager->getLoadedPlugins();
             foreach ($plugins AS $plugin) {
-                $manager->executePluginUninstall($plugin->getPluginName());
+                $plugin->uninstall();
             }
             \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
         } catch (Exception $e) {

@@ -26,7 +26,24 @@ abstract class VisitDimension extends Dimension
 {
     private $tableName = 'log_visit';
 
-    public function install($visitColumns, $conversionColumns)
+    public function install()
+    {
+        if (!$this->columnType) {
+            return array();
+        }
+
+        $changes = array(
+            $this->tableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+        );
+
+        if ($this->isHandlingLogConversion()) {
+            $changes['log_conversion'] = array("ADD COLUMN `$this->columnName` $this->columnType");
+        }
+
+        return $changes;
+    }
+
+    public function update($visitColumns, $conversionColumns)
     {
         if (!$this->columnType) {
             return array();
@@ -34,35 +51,25 @@ abstract class VisitDimension extends Dimension
 
         $changes = array();
 
-        $hasVisitColumn = array_key_exists($this->columnName, $visitColumns);
+        $changes[$this->tableName] = array("MODIFY COLUMN `$this->columnName` $this->columnType");
 
-        if (!$hasVisitColumn) {
-            $tableVisit           = Common::prefixTable($this->tableName);
-            $changes[$tableVisit] = array("ADD COLUMN `$this->columnName` $this->columnType");
-        }
+        $handlingConversion  = $this->isHandlingLogConversion();
+        $hasConversionColumn = array_key_exists($this->columnName, $conversionColumns);
 
-        $handlingLogConversion = $this->isHandlingLogConversion();
-        $hasConversionColumn   = array_key_exists($this->columnName, $conversionColumns);
-        $tableConversion       = Common::prefixTable("log_conversion");
-
-        if (!$hasConversionColumn && $handlingLogConversion) {
-            $changes[$tableConversion] = array("ADD COLUMN `$this->columnName` $this->columnType");
-        } elseif ($hasConversionColumn && !$handlingLogConversion) {
-            $changes[$tableConversion] = array("DROP COLUMN `$this->columnName`");
+        if ($hasConversionColumn && $handlingConversion) {
+            $changes['log_conversion'] = array("MODIFY COLUMN `$this->columnName` $this->columnType");
+        } elseif (!$hasConversionColumn && $handlingConversion) {
+            $changes['log_conversion'] = array("ADD COLUMN `$this->columnName` $this->columnType");
+        } elseif ($hasConversionColumn && !$handlingConversion) {
+            $changes['log_conversion'] = array("DROP COLUMN `$this->columnName`");
         }
 
         return $changes;
     }
 
-    private function isHandlingLogVisit()
+    public function getVersion()
     {
-        if (empty($this->columnName) || empty($this->columnType)) {
-            return false;
-        }
-
-        return $this->hasImplementedEvent('onNewVisit')
-            || $this->hasImplementedEvent('onExistingVisit')
-            || $this->hasImplementedEvent('onConvertedVisit');
+        return $this->columnType . $this->isHandlingLogConversion();
     }
 
     private function isHandlingLogConversion()
@@ -74,25 +81,29 @@ abstract class VisitDimension extends Dimension
         return $this->hasImplementedEvent('onRecordGoal');
     }
 
-    public function uninstall($visitColumns, $conversionColumns)
+    public function uninstall()
     {
         if (empty($this->columnName) || empty($this->columnType)) {
-            return array();
+            return;
         }
 
-        $columnsToDrop = array();
-
-        if (array_key_exists($this->columnName, $visitColumns) && $this->isHandlingLogVisit()) {
-            $tableVisit                 = Common::prefixTable($this->tableName);
-            $columnsToDrop[$tableVisit] = array("DROP COLUMN `$this->columnName`");
+        try {
+            $sql = "ALTER TABLE `" . Common::prefixTable($this->tableName) . "` DROP COLUMN `$this->columnName`";
+            Db::exec($sql);
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, '1091')) {
+                throw $e;
+            }
         }
 
-        if (array_key_exists($this->columnName, $conversionColumns) && $this->isHandlingLogConversion()) {
-            $tableConversion                 = Common::prefixTable("log_conversion");
-            $columnsToDrop[$tableConversion] = array("DROP COLUMN `$this->columnName`");
+        try {
+            $sql = "ALTER TABLE `" . Common::prefixTable('log_conversion') . "` DROP COLUMN `$this->columnName`";
+            Db::exec($sql);
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, '1091')) {
+                throw $e;
+            }
         }
-
-        return $columnsToDrop;
     }
 
     protected function addSegment(Segment $segment)

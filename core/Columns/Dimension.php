@@ -27,14 +27,6 @@ abstract class Dimension
 
     }
 
-    public function getVersion()
-    {
-        $reflectionClass = new \ReflectionObject($this);
-        $file = $reflectionClass->getFileName();
-
-        return filemtime($file);
-    }
-
     public function hasImplementedEvent($method)
     {
         $reflectionObject = new \ReflectionObject($this);

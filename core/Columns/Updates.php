@@ -20,6 +20,11 @@ use Piwik\Updater;
 class Updates extends \Piwik\Updates
 {
     /**
+     * @var Updater
+     */
+    private static $updater;
+
+    /**
      * Return SQL to be executed in this update
      *
      * @return array(
@@ -35,7 +40,7 @@ class Updates extends \Piwik\Updates
         $changingColumns = self::getUpdates();
 
         foreach ($changingColumns as $table => $columns) {
-            $sqls["ALTER TABLE `" . $table . "` " . implode(', ', $columns)] = false;
+            $sqls["ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns)] = false;
         }
 
         return $sqls;
@@ -57,6 +62,16 @@ class Updates extends \Piwik\Updates
         }
     }
 
+    public static function setUpdater($updater)
+    {
+        self::$updater = $updater;
+    }
+
+    private static function hasComponentNewVersion($component)
+    {
+        return empty(self::$updater) || self::$updater->hasNewVersion($component);
+    }
+
     private static function getUpdates()
     {
         $visitColumns      = DbHelper::getTableColumns(Common::prefixTable('log_visit'));
@@ -66,7 +81,17 @@ class Updates extends \Piwik\Updates
         $changingColumns = array();
 
         foreach (VisitDimension::getAllDimensions() as $dimension) {
-            $columns = $dimension->install($visitColumns, $conversionColumns);
+            $column = $dimension->getColumnName();
+
+            if (!self::hasComponentNewVersion('log_visit.' . $column)) {
+                continue;
+            }
+
+            if (array_key_exists($column, $visitColumns)) {
+                $columns = $dimension->update($visitColumns, $conversionColumns);
+            } else {
+                $columns = $dimension->install();
+            }
             if (!empty($columns)) {
                 foreach ($columns as $table => $col) {
                     if (empty($changingColumns[$table])) {
@@ -79,7 +104,18 @@ class Updates extends \Piwik\Updates
         }
 
         foreach (ActionDimension::getAllDimensions() as $dimension) {
-            $columns = $dimension->install($actionColumns);
+            $column = $dimension->getColumnName();
+
+            if (!self::hasComponentNewVersion('log_link_visit_action.' . $column)) {
+                continue;
+            }
+
+            if (array_key_exists($column, $actionColumns)) {
+                $columns = $dimension->update($actionColumns);
+            } else {
+                $columns = $dimension->install();
+            }
+
             if (!empty($columns)) {
                 foreach ($columns as $table => $col) {
                     if (empty($changingColumns[$table])) {

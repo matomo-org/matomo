@@ -210,6 +210,8 @@ class Updater
         $componentsWithUpdateFile = array();
         $hasDimensionUpdate = null;
 
+        ColumnUpdates::setUpdater($this);
+
         foreach ($this->componentsWithNewVersion as $name => $versions) {
             $currentVersion = $versions[self::INDEX_CURRENT_VERSION];
             $newVersion = $versions[self::INDEX_NEW_VERSION];
@@ -217,7 +219,7 @@ class Updater
             if ($name == 'core') {
                 $pathToUpdates = $this->pathUpdateFileCore . '*.php';
             } elseif ($this->isDimensionComponent($name)) {
-                if (is_null($hasDimensionUpdate)) {
+                if (!$hasDimensionUpdate) {
                     $hasDimensionUpdate = ColumnUpdates::hasUpdates();
                 }
                 if ($hasDimensionUpdate) {
@@ -295,10 +297,14 @@ class Updater
                 self::recordComponentSuccessfullyUpdated($name, $currentVersion);
             }
 
-            // note: when versionCompare == 1, the version in the DB is newer, we choose to ignore
-            $currentVersionIsOutdated = version_compare($currentVersion, $version) == -1;
-            $isComponentOutdated = $currentVersion === false || $currentVersionIsOutdated;
-            if ($isComponentOutdated) {
+            if ($this->isDimensionComponent($name)) {
+                $isComponentOutdated = $currentVersion !== $version;
+            } else {
+                // note: when versionCompare == 1, the version in the DB is newer, we choose to ignore
+                $isComponentOutdated = version_compare($currentVersion, $version) == -1;
+            }
+
+            if ($isComponentOutdated || $currentVersion === false) {
                 $componentsToUpdate[$name] = array(
                     self::INDEX_CURRENT_VERSION => $currentVersion,
                     self::INDEX_NEW_VERSION     => $version

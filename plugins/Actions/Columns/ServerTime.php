@@ -21,18 +21,12 @@ class ServerTime extends ActionDimension
     protected $columnName = 'server_time';
     protected $columnType = 'DATETIME NOT NULL';
 
-    public function install($actionColumns)
+    public function install()
     {
-        if (array_key_exists($this->columnName, $actionColumns)) {
-            return array();
-        }
+        $changes = parent::install();
+        $changes['log_link_visit_action'][] = "ADD INDEX index_idsite_servertime ( idsite, server_time )";
 
-        return array(
-            Common::prefixTable("log_link_visit_action") => array(
-                "ADD COLUMN server_time DATETIME NOT NULL",
-                "ADD INDEX index_idsite_servertime ( idsite, server_time )"
-            )
-        );
+        return $changes;
     }
 
     public function getName()

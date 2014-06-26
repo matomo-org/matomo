@@ -1278,11 +1278,29 @@ class Manager extends Singleton
     /**
      * @param $pluginName
      */
-    public function executePluginUninstall($pluginName)
+    private function executePluginUninstall($pluginName)
     {
         try {
             $plugin = $this->getLoadedPlugin($pluginName);
             $plugin->uninstall();
+        } catch (\Exception $e) {
+        }
+
+        if (empty($plugin)) {
+            return;
+        }
+
+        try {
+            foreach (VisitDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
+        } catch (\Exception $e) {
+        }
+
+        try {
+            foreach (ActionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
         } catch (\Exception $e) {
         }
     }
