@@ -280,6 +280,9 @@ noreply_email_address = "noreply@{DOMAIN}"
 ; when testing, use your own email address or "nobody"
 feedback_email_address = "feedback@piwik.org"
 
+; using to set reply_to in reports e-mail to login of report creator
+scheduled_reports_replyto_is_user_email_and_alias = 0
+
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)
 datatable_archiving_maximum_rows_referrers = 1000

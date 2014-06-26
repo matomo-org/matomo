@@ -16,10 +16,12 @@ use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\ReportRenderer;
 use Piwik\ScheduledTime;
 use Piwik\View;
 use Zend_Mime;
+use Piwik\Config;
 
 /**
  *
@@ -266,6 +268,8 @@ class ScheduledReports extends \Piwik\Plugin
             $mail->setDefaultFromPiwik();
             $mail->setSubject($subject);
             $attachmentName = $subject;
+
+            $this->setReplyToAsSender($mail, $report);
 
             $displaySegmentInfo = false;
             $segmentInfo = null;
@@ -601,5 +605,17 @@ class ScheduledReports extends \Piwik\Plugin
             ScheduledTime::PERIOD_YEAR  => Piwik::translate('General_YearlyReport'),
             ScheduledTime::PERIOD_RANGE => Piwik::translate('General_RangeReports'),
         );
+    }
+
+    protected function setReplyToAsSender(Mail $mail, array $report)
+    {
+        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']) {
+            if (isset($report['login'])) {
+                $userModel = new UserModel();
+                $user = $userModel->getUser($report['login']);
+
+                $mail->setReplyTo($user['email'], $user['alias']);
+            }
+        }
     }
 }
