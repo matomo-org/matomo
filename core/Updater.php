@@ -22,6 +22,7 @@ class Updater
     public $pathUpdateFilePlugins;
     private $componentsToCheck = array();
     private $hasMajorDbUpdate = false;
+    private $updatedClasses = array();
 
     /**
      * Constructor
@@ -30,6 +31,8 @@ class Updater
     {
         $this->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/core/Updates/';
         $this->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/plugins/%s/Updates/';
+
+        ColumnUpdates::setUpdater($this);
     }
 
     /**
@@ -169,14 +172,18 @@ class Updater
     public function update($componentName)
     {
         $warningMessages = array();
+
         foreach ($this->componentsWithUpdateFile[$componentName] as $file => $fileVersion) {
             try {
                 require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
-                if (class_exists($className, false)) {
+                if (!in_array($className, $this->updatedClasses) && class_exists($className, false)) {
                     // update()
                     call_user_func(array($className, 'update'));
+                    // makes sure to call Piwik\Columns\Updater only once as one call updates all dimensions at the same
+                    // time for better performance
+                    $this->updatedClasses[] = $className;
                 }
 
                 self::recordComponentSuccessfullyUpdated($componentName, $fileVersion);
@@ -210,8 +217,6 @@ class Updater
         $componentsWithUpdateFile = array();
         $hasDimensionUpdate = null;
 
-        ColumnUpdates::setUpdater($this);
-
         foreach ($this->componentsWithNewVersion as $name => $versions) {
             $currentVersion = $versions[self::INDEX_CURRENT_VERSION];
             $newVersion = $versions[self::INDEX_NEW_VERSION];
@@ -219,13 +224,7 @@ class Updater
             if ($name == 'core') {
                 $pathToUpdates = $this->pathUpdateFileCore . '*.php';
             } elseif ($this->isDimensionComponent($name)) {
-                if (!$hasDimensionUpdate) {
-                    $hasDimensionUpdate = ColumnUpdates::hasUpdates();
-                }
-                if ($hasDimensionUpdate) {
-                    $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updates.php'] = $newVersion;
-                }
-                continue;
+                $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updates.php'] = $newVersion;
             } else {
                 $pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
             }
