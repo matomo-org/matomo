@@ -284,6 +284,11 @@ class Controller extends \Piwik\Plugin\Controller
         $fromEmailName = Config::getInstance()->General['login_password_recovery_email_name'];
         $fromEmailAddress = Config::getInstance()->General['login_password_recovery_email_address'];
         $mail->setFrom($fromEmailAddress, $fromEmailName);
+
+        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
+        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
+        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+
         @$mail->send();
     }
 

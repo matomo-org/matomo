@@ -258,6 +258,12 @@ login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
 
+; email address that appears as a Repy-to in the password recovery email
+; if specified, {DOMAIN} will be replaced by the current Piwik domain
+login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
+; name that appears as a Reply-to in the password recovery email
+login_password_recovery_replyto_email_name = "No-reply"
+
 ; By default when user logs out he is redirected to Piwik "homepage" usually the Login form.
 ; Uncomment the next line to set a URL to redirect the user to after he logs out of Piwik.
 ; login_logout_url = http://...
