@@ -182,7 +182,6 @@ class Mysql implements SchemaInterface
 							  config_quicktime TINYINT(1) NOT NULL,
 							  config_realplayer TINYINT(1) NOT NULL,
 							  config_windowsmedia TINYINT(1) NOT NULL,
-							  config_gears TINYINT(1) NOT NULL,
 							  config_silverlight TINYINT(1) NOT NULL,
 							  config_cookie TINYINT(1) NOT NULL,
 							  location_ip VARBINARY(16) NOT NULL,
