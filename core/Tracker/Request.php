@@ -545,7 +545,7 @@ class Request
 
     public function getPlugins()
     {
-        static $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'gears', 'ag', 'cookie');
+        static $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
         $plugins = array();
         foreach ($pluginsInOrder as $param) {
             $plugins[] = Common::getRequestVar($param, 0, 'int', $this->params);
