@@ -90,7 +90,7 @@ class GenerateReport extends GeneratePluginBase
 
         $apiName = 'get' . ucfirst($reportName);
 
-        return lcfirst($apiName);
+        return $apiName;
     }
 
     /**

@@ -262,18 +262,17 @@ abstract class Action
         $dimensions = ActionDimension::getAllDimensions();
 
         foreach ($dimensions as $dimension) {
-            if (method_exists($dimension, 'onLookupAction')) {
+            $value = $dimension->onLookupAction($this->request, $this);
+
+            if ($value !== false) {
                 $field = $dimension->getColumnName();
-                $value = $dimension->onLookupAction($this->request, $this);
 
                 if (empty($field)) {
                     throw new Exception('Dimension ' . get_class($dimension) . ' does not define a field name');
                 }
 
-                if ($value !== false) {
-                    $actions[$field] = array($value, $dimension->getActionId());
-                    Common::printDebug("$field = $value");
-                }
+                $actions[$field] = array($value, $dimension->getActionId());
+                Common::printDebug("$field = $value");
             }
         }
 

@@ -70,6 +70,11 @@ abstract class ActionDimension extends Dimension
         return $this->columnType;
     }
 
+    public function onLookupAction(Request $request, Action $action)
+    {
+        return false;
+    }
+
     /**
      * @return string|int
      * @throws \Exception in case not implemented
