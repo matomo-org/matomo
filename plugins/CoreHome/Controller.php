@@ -36,7 +36,7 @@ class Controller extends \Piwik\Plugin\Controller
         return 'redirectToCoreHomeIndex';
     }
 
-    public function renderMenuReport($reportModule = null, $reportAction = null)
+    public function renderReportMenu($reportModule = null, $reportAction = null)
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkSitePermission();

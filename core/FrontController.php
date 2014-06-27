@@ -130,7 +130,7 @@ class FrontController extends Singleton
             if (empty($report) && !empty($action) && 'menu' === substr($action, 0, 4)) {
                 $actionToCheck = lcfirst(substr($action, 4));
                 $report        = Report::factory($module, $actionToCheck);
-                $actionToCall  = 'renderMenuReport';
+                $actionToCall  = 'renderReportMenu';
             }
 
             if (empty($report)) {
