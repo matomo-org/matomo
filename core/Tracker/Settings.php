@@ -36,7 +36,7 @@ class Settings
     protected function loadInfo()
     {
         list($plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-            $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $this->request->getPlugins();
+            $plugin_WindowsMedia, $plugin_Silverlight, $plugin_Cookie) = $this->request->getPlugins();
 
         $resolution = $this->request->getParam('res');
         $userAgent = $this->request->getUserAgent();
@@ -71,7 +71,6 @@ class Settings
             $plugin_RealPlayer,
             $plugin_PDF,
             $plugin_WindowsMedia,
-            $plugin_Gears,
             $plugin_Silverlight,
             $plugin_Cookie,
             $this->ipAddress,
@@ -94,7 +93,6 @@ class Settings
             'config_quicktime'       => $plugin_Quicktime,
             'config_realplayer'      => $plugin_RealPlayer,
             'config_windowsmedia'    => $plugin_WindowsMedia,
-            'config_gears'           => $plugin_Gears,
             'config_silverlight'     => $plugin_Silverlight,
             'config_cookie'          => $plugin_Cookie,
             'location_browser_lang'  => $browserLang,
@@ -114,14 +112,13 @@ class Settings
      * @param $plugin_RealPlayer
      * @param $plugin_PDF
      * @param $plugin_WindowsMedia
-     * @param $plugin_Gears
      * @param $plugin_Silverlight
      * @param $plugin_Cookie
      * @param $ip
      * @param $browserLang
      * @return string
      */
-    protected function getConfigHash($os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
+    protected function getConfigHash($os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
     {
         // prevent the config hash from being the same, across different Piwik instances
         // (limits ability of different Piwik instances to cross-match users)
@@ -130,7 +127,7 @@ class Settings
         $configString =
               $os
             . $browserName . $browserVersion
-            . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
+            . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Silverlight . $plugin_Cookie
             . $ip
             . $browserLang
             . $salt;
