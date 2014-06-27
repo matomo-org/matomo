@@ -32,7 +32,7 @@ class Report
     protected $widgetTitle;
     protected $widgetParams = array();
     protected $menuTitle;
-    protected $processedMetrics = null;
+    protected $processedMetrics = array();
     protected $hasGoalMetrics = false;
     protected $metrics = array();
     protected $constantRowsCount = null;
