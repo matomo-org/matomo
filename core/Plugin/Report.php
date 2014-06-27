@@ -40,7 +40,7 @@ class Report
     protected $parameters = null;
 
     /**
-     * @var \Piwik\Plugin\VisitDimension
+     * @var \Piwik\Plugin\VisitDimension|\Piwik\Plugin\ActionDimension
      */
     protected $dimension;
     protected $documentation;
@@ -232,6 +232,16 @@ class Report
     public function getCategory()
     {
         return Piwik::translate($this->category);
+    }
+
+    public function getDimension()
+    {
+        return $this->dimension;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
     }
 
     public function getModule()

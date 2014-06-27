@@ -224,4 +224,18 @@ class Translate
         setlocale(LC_ALL, $locale, $locale_variant);
         setlocale(LC_CTYPE, '');
     }
+
+    public static function findTranslationKeyForTranslation($translation)
+    {
+        if (empty($GLOBALS['Piwik_translations'])) {
+            return;
+        }
+
+        foreach ($GLOBALS['Piwik_translations'] as $key => $translations) {
+            $possibleKey = array_search($translation, $translations);
+            if (!empty($possibleKey)) {
+                return $key . '_' . $possibleKey;
+            }
+        }
+    }
 }
