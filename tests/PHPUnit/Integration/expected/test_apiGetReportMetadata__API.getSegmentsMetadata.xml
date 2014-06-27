@@ -248,6 +248,13 @@
 	</row>
 	<row>
 		<type>dimension</type>
+		<category>Enter Segment Category Name</category>
+		<name>ExamplePlugin_DimensionName</name>
+		<segment>achievementPoints</segment>
+		<acceptedValues>Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
 		<category>Custom Variables</category>
 		<name>Custom Variable name 1 (scope visit)</name>
 		<segment>customVariableName1</segment>
@@ -377,6 +384,13 @@
 		<category>Actions</category>
 		<name>Entry Page title</name>
 		<segment>entryPageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>ExamplePlugin_DimensionName</name>
+		<segment>keywords</segment>
+		<acceptedValues>Here you should explain which values are accepted/useful: Any word, for instance MyKeyword1, MyKeyword2</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
