@@ -10,7 +10,7 @@ namespace Piwik\Plugins\ExamplePlugin\Reports;
 
 use Piwik\Plugin\Report;
 
-class Base extends Report
+abstract class Base extends Report
 {
     protected function init()
     {
