@@ -97,7 +97,6 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations'
         );
         return $hooks;
@@ -122,11 +121,6 @@ class Goals extends \Piwik\Plugin
         $metrics = array_map(array('\\Piwik\\Piwik', 'translate'), $metrics);
 
         $translations = array_merge($translations, $metrics);
-    }
-
-    public function getAvailableDataTableVisualizations(&$visualizations)
-    {
-        $visualizations[] = 'Piwik\\Plugins\\Goals\\Visualizations\\Goals';
     }
 
     /**

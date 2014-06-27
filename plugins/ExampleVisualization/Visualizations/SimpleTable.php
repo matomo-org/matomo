@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\Plugins\ExampleVisualization;
+namespace Piwik\Plugins\ExampleVisualization\Visualizations;
 
 use Piwik\DataTable;
 use Piwik\Plugin\ViewDataTable;

@@ -18,6 +18,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\Plugins\Goals\Visualizations\Goals;
 use Piwik\Plugins\Insights\Visualizations\Insight;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * ViewDataTable Manager.
@@ -62,8 +63,10 @@ class Manager
      */
     public static function getAvailableViewDataTables()
     {
+        $klassToExtend = '\\Piwik\\Plugin\\ViewDataTable';
+
         /** @var string[] $visualizations */
-        $visualizations = array();
+        $visualizations = PluginManager::getInstance()->findMultipleComponents('Visualizations', $klassToExtend);
 
         /**
          * Triggered when gathering all available DataTable visualizations.
@@ -79,6 +82,8 @@ class Manager
          *     }
          * 
          * @param array &$visualizations The array of all available visualizations.
+         * @ignore
+         * @deprecated since 2.5.0 Place visualization in a "Visualizations" directory instead.
          */
         Piwik::postEvent('ViewDataTable.addViewDataTable', array(&$visualizations));
 
@@ -89,7 +94,7 @@ class Manager
                 throw new \Exception("Invalid visualization class '$viz' found in Visualization.getAvailableVisualizations.");
             }
 
-            if (!is_subclass_of($viz, '\\Piwik\\Plugin\\ViewDataTable')) {
+            if (!is_subclass_of($viz, $klassToExtend)) {
                 throw new \Exception("ViewDataTable class '$viz' does not extend Plugin/ViewDataTable");
             }
 
