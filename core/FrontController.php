@@ -124,7 +124,7 @@ class FrontController extends Singleton
         if (!is_callable(array($controller, $action))) {
 
             $report = Report::factory($module, $action);
-            $actionToCall  = 'renderWidget';
+            $actionToCall  = 'renderReportWidget';
             $actionToCheck = $action;
 
             if (empty($report) && !empty($action) && 'menu' === substr($action, 0, 4)) {

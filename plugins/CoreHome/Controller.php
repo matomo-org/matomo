@@ -27,6 +27,7 @@ use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
+use Piwik\WidgetsList;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -55,12 +56,12 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $menuTitle = Piwik::translate($menuTitle);
-        $content   = $this->renderWidget($reportModule, $reportAction);
+        $content   = $this->renderReportWidget($reportModule, $reportAction);
 
         return View::singleReport($menuTitle, $content);
     }
 
-    public function renderWidget($reportModule = null, $reportAction = null)
+    public function renderReportWidget($reportModule = null, $reportAction = null)
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkSitePermission();
