@@ -41,7 +41,7 @@ class API extends \Piwik\Plugin\API
      * Another example method that returns a data table.
      * @return DataTable
      */
-    public function getApiReport()
+    public function getExampleReport()
     {
         $table = new DataTable();
 
