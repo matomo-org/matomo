@@ -144,6 +144,10 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
         droppedOnce = true;
     }
 
+    if (options['plugin']) {
+        args.push('--plugins=' + options['plugin']);
+    }
+
     var self = this;
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         self.reload();

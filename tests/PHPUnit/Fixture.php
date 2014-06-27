@@ -68,6 +68,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public $printToScreen = false;
 
     public $testCaseClass = false;
+    public $extraPluginsToLoad = array();
 
     public $testEnvironment = null;
 
@@ -175,7 +176,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         Cache::deleteTrackerCache();
 
-        static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass);
+        static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
@@ -267,7 +268,7 @@ class Fixture extends PHPUnit_Framework_Assert
         Translate::unloadEnglishTranslation();
     }
 
-    public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false)
+    public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         DbHelper::createTables();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
@@ -275,10 +276,10 @@ class Fixture extends PHPUnit_Framework_Assert
         $plugins = $pluginsManager->getPluginsToLoadDuringTests();
 
         // make sure the plugin that executed this method is included in the plugins to load
-        $extraPlugins = array(
+        $extraPlugins = array_merge($extraPluginsToLoad, array(
             \Piwik\Plugin::getPluginNameFromBacktrace(debug_backtrace()),
             \Piwik\Plugin::getPluginNameFromNamespace($testCaseClass)
-        );
+        ));
         foreach ($extraPlugins as $pluginName) {
             if (empty($pluginName)) {
                 continue;

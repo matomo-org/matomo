@@ -53,6 +53,8 @@ class SetupFixture extends ConsoleCommand
             "Used by UI tests. Creates symlinks to root directory in tests/PHPUnit/proxy.");
         $this->addOption('server-global', null, InputOption::VALUE_REQUIRED,
             "Used by UI tests. Sets the \$_SERVER global variable from a JSON string.");
+        $this->addOption('plugins', null, InputOption::VALUE_REQUIRED,
+            "Used by UI tests. Comma separated list of plugin names to activate and install when setting up a fixture.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -106,6 +108,11 @@ class SetupFixture extends ConsoleCommand
 
         if ($input->getOption('drop')) {
             $fixture->resetPersistedFixture = true;
+        }
+
+        $extraPluginsToLoad = $input->getOption('plugins');
+        if ($extraPluginsToLoad) {
+            $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
         }
 
         if($fixture->createConfig) {
