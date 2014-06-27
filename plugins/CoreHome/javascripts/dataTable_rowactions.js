@@ -161,11 +161,10 @@ DataTable_RowAction.prototype.initTr = function (tr) {
 DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
     var label = this.getLabelFromTr(tr);
 
-    label = label.trim();
     // if we have received the event from the sub table, add the label
     if (subTableLabel) {
         var separator = ' > '; // LabelFilter::SEPARATOR_RECURSIVE_LABEL
-        label += separator + subTableLabel.trim();
+        label += separator + subTableLabel;
     }
 
     // handle sub tables in nested reports: forward to parent
@@ -214,8 +213,16 @@ DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
         value = label.text();
     }
     value = value.trim();
+    value = encodeURIComponent(value);
 
-    return encodeURIComponent(value);
+    // if tr is a terminal node, we add a '+' to signfy this. Piwik will notice this and make sure to
+    // look for a terminal, even if there's a sibling branch node w/ the same label. this is a workaround
+    // for #4363. when a real fix is implemented, this should be kept for backwards compatibility.
+    if (!tr.hasClass('subDataTable')) {
+        value = value + '+';
+    }
+
+    return value;
 };
 
 /**
