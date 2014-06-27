@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Plugin\Controller;
 use Piwik\Session;
+use Piwik\Log;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -83,6 +84,7 @@ class FrontController extends Singleton
             $result = $this->doDispatch($module, $action, $parameters);
             return $result;
         } catch (NoAccessException $exception) {
+            Log::debug($exception);
 
             /**
              * Triggered when a user with insufficient access permissions tries to view some resource.
@@ -173,6 +175,7 @@ class FrontController extends Singleton
                 Log::debug(Registry::get('timer'));
             }
         } catch (Exception $e) {
+            Log::verbose($e);
         }
     }
 
@@ -216,6 +219,7 @@ class FrontController extends Singleton
         try {
             Config::getInstance()->database; // access property to check if the local file exists
         } catch (Exception $exception) {
+            Log::debug($exception);
 
             /**
              * Triggered when the configuration file cannot be found or read, which usually
@@ -286,6 +290,8 @@ class FrontController extends Singleton
                 if (self::shouldRethrowException()) {
                     throw $exception;
                 }
+
+                Log::debug($exception);
 
                 /**
                  * Triggered if the INI config file has the incorrect format or if certain required configuration
