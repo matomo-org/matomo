@@ -584,7 +584,6 @@ class Visit implements VisitInterface
             'config_quicktime'          => $userInfo['config_quicktime'],
             'config_realplayer'         => $userInfo['config_realplayer'],
             'config_windowsmedia'       => $userInfo['config_windowsmedia'],
-            'config_gears'              => $userInfo['config_gears'],
             'config_silverlight'        => $userInfo['config_silverlight'],
             'config_cookie'             => $userInfo['config_cookie'],
             'location_ip'               => $this->getVisitorIp(),
