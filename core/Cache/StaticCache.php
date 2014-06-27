@@ -35,11 +35,7 @@ class StaticCache
 
     public function get()
     {
-        if (self::has()) {
-            return self::$staticCache[$this->cacheKey];
-        }
-
-        return null;
+        return self::$staticCache[$this->cacheKey];
     }
 
     public function has()

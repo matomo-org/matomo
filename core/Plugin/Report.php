@@ -32,12 +32,26 @@ class Report
     protected $widgetTitle;
     protected $widgetParams = array();
     protected $menuTitle;
-    protected $processedMetrics = array();
+    protected $processedMetrics = null;
     protected $hasGoalMetrics = false;
     protected $metrics = array();
     protected $constantRowsCount = null;
     protected $isSubtableReport = null;
     protected $parameters = null;
+    
+    private static $orderOfReports = array(
+        'General_MultiSitesSummary',
+        'VisitsSummary_VisitsSummary',
+        'Goals_Ecommerce',
+        'General_Actions',
+        'Events_Events',
+        'Actions_SubmenuSitesearch',
+        'Referrers_Referrers',
+        'Goals_Goals',
+        'General_Visitors',
+        'DevicesDetection_DevicesDetection',
+        'UserSettings_VisitorSettings',
+    );
 
     /**
      * @var \Piwik\Plugin\VisitDimension|\Piwik\Plugin\ActionDimension
@@ -58,7 +72,7 @@ class Report
         $this->module = $parts[2];
         $this->action = lcfirst($parts[4]);
         $this->processedMetrics = Metrics::getDefaultProcessedMetrics();
-        $this->metrics          = array_keys(Metrics::getDefaultMetrics());
+        $this->metrics = array_keys(Metrics::getDefaultMetrics());
 
         $this->init();
     }
@@ -196,7 +210,8 @@ class Report
 
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
-        $report['processedMetrics']     = $this->processedMetrics;
+
+        $report['processedMetrics'] = $this->processedMetrics;
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
@@ -297,37 +312,14 @@ class Report
      * API metadata are sorted by category/name,
      * with a little tweak to replicate the standard Piwik category ordering
      *
-     * @param array|Report $a
-     * @param array|Report $b
+     * @param Report $a
+     * @param Report $b
      * @return int
      */
     public static function sort($a, $b)
     {
-        static $order = null;
-        if (is_null($order)) {
-            $order = array(
-                Piwik::translate('General_MultiSitesSummary'),
-                Piwik::translate('VisitsSummary_VisitsSummary'),
-                Piwik::translate('Goals_Ecommerce'),
-                Piwik::translate('General_Actions'),
-                Piwik::translate('Events_Events'),
-                Piwik::translate('Actions_SubmenuSitesearch'),
-                Piwik::translate('Referrers_Referrers'),
-                Piwik::translate('Goals_Goals'),
-                Piwik::translate('General_Visitors'),
-                Piwik::translate('DevicesDetection_DevicesDetection'),
-                Piwik::translate('UserSettings_VisitorSettings'),
-            );
-        }
-
-        $catA = is_object($a) ? $a->category : $a['category'];
-        $catB = is_object($b) ? $b->category : $b['category'];
-
-        $orderA = is_object($a) ? $a->order : @$a['order'];
-        $orderB = is_object($b) ? $b->order : @$b['order'];
-
-        return ($category = strcmp(array_search($catA, $order), array_search($catB, $order))) == 0
-            ? ($orderA < $orderB ? -1 : 1)
+        return ($category = strcmp(array_search($a->category, self::$orderOfReports), array_search($b->category, self::$orderOfReports))) == 0
+            ? ($a->order < $b->order ? -1 : 1)
             : $category;
     }
 

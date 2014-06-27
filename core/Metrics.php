@@ -9,6 +9,7 @@
 namespace Piwik;
 
 
+use Piwik\Cache\LanguageAwareStaticCache;
 use Piwik\Cache\PluginAwareStaticCache;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
@@ -279,17 +280,32 @@ class Metrics
 
     static public function getDefaultMetrics()
     {
+        $cache = new LanguageAwareStaticCache('DefaultMetrics');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $translations = array(
             'nb_visits'        => 'General_ColumnNbVisits',
             'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
             'nb_actions'       => 'General_ColumnNbActions',
         );
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+
+        $cache->set($translations);
+
         return $translations;
     }
 
     static public function getDefaultProcessedMetrics()
     {
+        $cache = new LanguageAwareStaticCache('DefaultProcessedMetrics');
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $translations = array(
             // Processed in AddColumnsProcessedMetrics
             'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
@@ -297,7 +313,11 @@ class Metrics
             'bounce_rate'          => 'General_ColumnBounceRate',
             'conversion_rate'      => 'General_ColumnConversionRate',
         );
-        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+
+        $cache->set($translations);
+
+        return $translations;
     }
 
     static public function getReadableColumnName($columnIdRaw)

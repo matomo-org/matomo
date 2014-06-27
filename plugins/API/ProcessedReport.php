@@ -245,9 +245,6 @@ class ProcessedReport
          */
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
-        // Sort results to ensure consistent order
-        usort($availableReports, array('\Piwik\Plugin\Report', 'sort'));
-
         // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
         $this->addApiGetMetdata($availableReports);
 
