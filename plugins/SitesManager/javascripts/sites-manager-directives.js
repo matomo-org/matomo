@@ -64,3 +64,22 @@ angular.module('piwikApp').directive('sitesManagerEditTrigger', function () {
         }
     };
 });
+
+angular.module('piwikApp').directive('sitesManagerScroll', function () {
+
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+
+            scope.$watch('site.editMode', function() {
+
+                if(scope.site.editMode)
+                    scrollToSite();
+            });
+
+            var scrollToSite = function() {
+                piwikHelper.lazyScrollTo(element[0], 500, true);
+            };
+        }
+    };
+});

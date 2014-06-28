@@ -25,7 +25,9 @@
         </tr>
         </thead>
         <tbody>
-            <tr     ng-controller="SitesManagerSiteController"
+            <tr
+                    sites-manager-scroll
+                    ng-controller="SitesManagerSiteController"
                     ng-repeat="site in sites"
                     ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html'">
             </tr>
