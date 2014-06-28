@@ -7,7 +7,6 @@
 
 angular.module('piwikApp').controller('SitesManagerController', function ($scope, $filter, coreAPI, coreAdminAPI, sitesManagerAPI, piwik, sitesManagerApiHelper) {
 
-    var filterFilter = $filter('filter');
     var translate = $filter('translate');
 
     var init = function () {
@@ -207,7 +206,9 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
     var lookupCurrentEditSite = function () {
 
-        var sitesInEditMode = filterFilter($scope.sites, {editMode: true}, true);
+        var sitesInEditMode = $scope.sites.filter(function(site) {
+            return site.editMode;
+        });
 
         return sitesInEditMode[0];
     };
