@@ -47,11 +47,16 @@ class Goals extends \Piwik\Plugin
 
     public static function sortGoalDimensionsByModule($a, $b)
     {
-        $order = array(
-            Piwik::translate('Referrers_Referrers'),
-            Piwik::translate('General_Visit'),
-            Piwik::translate('VisitTime_ColumnServerTime'),
-        );
+        static $order = null;
+
+        if (is_null($order)) {
+            $order = array(
+                Piwik::translate('Referrers_Referrers'),
+                Piwik::translate('General_Visit'),
+                Piwik::translate('VisitTime_ColumnServerTime'),
+            );
+        }
+
         $orderA = array_search($a, $order);
         $orderB = array_search($b, $order);
         return $orderA > $orderB;
@@ -161,7 +166,7 @@ class Goals extends \Piwik\Plugin
             foreach ($reports as &$apiReportToUpdate) {
                 if ($apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
-                ) {
+                    && empty($apiReportToUpdate['parameters'])) {
                     $apiReportToUpdate['metricsGoal'] = $goalMetrics;
                     $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
                     break;

@@ -39,7 +39,7 @@ class Report
     protected $isSubtableReport = null;
     protected $parameters = null;
     
-    private static $orderOfReports = array(
+    public static $orderOfReports = array(
         'General_MultiSitesSummary',
         'VisitsSummary_VisitsSummary',
         'Goals_Ecommerce',
@@ -316,7 +316,7 @@ class Report
      * @param Report $b
      * @return int
      */
-    public static function sort($a, $b)
+    private static function sort($a, $b)
     {
         return ($category = strcmp(array_search($a->category, self::$orderOfReports), array_search($b->category, self::$orderOfReports))) == 0
             ? ($a->order < $b->order ? -1 : 1)

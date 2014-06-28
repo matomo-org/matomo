@@ -245,6 +245,9 @@ class ProcessedReport
          */
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
+        // Sort results to ensure consistent order
+        usort($availableReports, array('self', 'sortReports'));
+
         // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
         $this->addApiGetMetdata($availableReports);
 
@@ -312,6 +315,28 @@ class ProcessedReport
         }
 
         return array_values($availableReports); // make sure array has contiguous key values
+    }
+
+    /**
+     * API metadata are sorted by category/name,
+     * with a little tweak to replicate the standard Piwik category ordering
+     *
+     * @param array $a
+     * @param array $b
+     * @return int
+     */
+    private static function sortReports($a, $b)
+    {
+        static $order = null;
+        if (is_null($order)) {
+            $order = array();
+            foreach (Report::$orderOfReports as $category) {
+                $order[] = Piwik::translate($category);
+            }
+        }
+        return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
+            ? (@$a['order'] < @$b['order'] ? -1 : 1)
+            : $category;
     }
 
     /**
