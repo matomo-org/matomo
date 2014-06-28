@@ -44,3 +44,23 @@ angular.module('piwikApp').directive('sitesManagerMultilineField', function () {
         }
     };
 });
+
+angular.module('piwikApp').directive('sitesManagerEditTrigger', function () {
+
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+
+            element.bind('click', function(){
+
+                if(!scope.site.editMode)
+                    scope.$apply(scope.editSite());
+            });
+
+            scope.$watch('site.editMode', function() {
+
+                element.toggleClass('editable-site-field', !scope.site.editMode);
+            });
+        }
+    };
+});

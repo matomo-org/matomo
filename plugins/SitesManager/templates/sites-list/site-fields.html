@@ -1,8 +1,8 @@
-<td>
+<td sites-manager-edit-trigger>
     {{ site.idsite }}
 </td>
 
-<td ng-switch="site.editMode">
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
 
     <span ng-switch-default>
         {{ site.name }}
@@ -17,11 +17,13 @@
 
 </td>
 
-<td ng-include="'plugins/SitesManager/templates/sites-list/alias-urls-field.html'"
+<td
+    sites-manager-edit-trigger
+    ng-include="'plugins/SitesManager/templates/sites-list/alias-urls-field.html'"
     ng-switch="site.editMode">
 </td>
 
-<td ng-switch="site.editMode">
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
 
     <span ng-switch-default>
         <div ng-repeat="ip in site.excluded_ips">
@@ -38,7 +40,7 @@
 
 </td>
 
-<td ng-switch="site.editMode">
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
 
     <span ng-switch-default>
         <div ng-repeat="parameter in site.excluded_parameters">
@@ -55,7 +57,7 @@
 
 </td>
 
-<td ng-show="globalSettings.siteSpecificUserAgentExcludeEnabled" ng-switch="site.editMode">
+<td ng-show="globalSettings.siteSpecificUserAgentExcludeEnabled" ng-switch="site.editMode" sites-manager-edit-trigger>
 
     <span ng-switch-default>
         <div ng-repeat="userAgent in site.excluded_user_agents">
@@ -72,12 +74,14 @@
 
 </td>
 
-<td ng-include="'plugins/SitesManager/templates/sites-list/site-search-field.html'"
+<td
+    sites-manager-edit-trigger
+    ng-include="'plugins/SitesManager/templates/sites-list/site-search-field.html'"
     ng-switch="site.editMode">
 </td>
 
 
-<td ng-switch="site.editMode">
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
 
     <span ng-switch-default>
         {{ site.timezone }}
@@ -94,7 +98,7 @@
     </span>
 </td>
 
-<td ng-switch="site.editMode">
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
 
     <span ng-switch-default>
         {{ site.currency }}
@@ -114,7 +118,7 @@
     </span>
 </td>
 
-<td ng-switch="site.editMode">
+<td ng-switch="site.editMode" sites-manager-edit-trigger>
 
     <span ng-switch-default ng-switch="site.ecommerce">
 
