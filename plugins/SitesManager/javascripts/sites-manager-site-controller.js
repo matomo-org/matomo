@@ -101,24 +101,22 @@ angular.module('piwikApp').controller('SitesManagerSiteController', function ($s
 
         $scope.informSiteIsBeingEdited();
 
-        $scope.site = {
-            editMode: true,
-            name: "Name",
-            alias_urls: [
-                "http://siteUrl.com/",
-                "http://siteUrl2.com/"
-            ],
-            keep_url_fragment: "0",
-            excluded_ips: [],
-            excluded_parameters: [],
-            excluded_user_agents: [],
-            sitesearch_keyword_parameters: [],
-            sitesearch_category_parameters: [],
-            sitesearch: $scope.globalSettings.searchKeywordParametersGlobal.length ? "1" : "0",
-            timezone: $scope.globalSettings.defaultTimezone,
-            currency: $scope.globalSettings.defaultCurrency,
-            ecommerce: "0"
-        };
+        $scope.site.editMode = true;
+        $scope.site.name = "Name";
+        $scope.site.alias_urls = [
+            "http://siteUrl.com/",
+            "http://siteUrl2.com/"
+        ];
+        $scope.site.keep_url_fragment = "0";
+        $scope.site.excluded_ips = [];
+        $scope.site.excluded_parameters = [];
+        $scope.site.excluded_user_agents = [];
+        $scope.site.sitesearch_keyword_parameters = [];
+        $scope.site.sitesearch_category_parameters = [];
+        $scope.site.sitesearch = $scope.globalSettings.searchKeywordParametersGlobal.length ? "1" : "0";
+        $scope.site.timezone = $scope.globalSettings.defaultTimezone;
+        $scope.site.currency = $scope.globalSettings.defaultCurrency;
+        $scope.site.ecommerce = "0";
 
         updateSiteWithSiteSearchConfig();
     };
