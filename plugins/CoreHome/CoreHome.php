@@ -207,5 +207,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Edit';
         $translationKeys[] = 'General_Delete';
         $translationKeys[] = 'General_Default';
+        $translationKeys[] = 'General_LoadingData';
     }
 }

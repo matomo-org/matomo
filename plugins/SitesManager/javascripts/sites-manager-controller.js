@@ -55,6 +55,8 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
     var initGlobalParams = function() {
 
+        showLoading();
+
         sitesManagerAPI.getGlobalSettings(function(globalSettings) {
 
             $scope.globalSettings = globalSettings;
@@ -217,6 +219,8 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
             angular.forEach(sites, function(site) {
                 $scope.sites.push(site);
             });
+
+            hideLoading();
         });
     };
 
@@ -225,6 +229,14 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         sitesManagerAPI.getCurrencyList(function (currencies) {
             $scope.currencies = currencies;
         });
+    };
+
+    var showLoading = function() {
+        $scope.loading = true;
+    };
+
+    var hideLoading = function() {
+        $scope.loading = false;
     };
 
     init();
