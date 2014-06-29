@@ -123,11 +123,11 @@ angular.module('piwikApp').controller('SitesManagerSiteController', function ($s
 
     var initExistingSite = function() {
 
-        $scope.site.excluded_ips = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.site.excluded_ips);
-        $scope.site.excluded_parameters = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.site.excluded_parameters);
-        $scope.site.excluded_user_agents = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.site.excluded_user_agents);
-        $scope.site.sitesearch_keyword_parameters = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.site.sitesearch_keyword_parameters);
-        $scope.site.sitesearch_category_parameters = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.site.sitesearch_category_parameters);
+        $scope.site.excluded_ips = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_ips);
+        $scope.site.excluded_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_parameters);
+        $scope.site.excluded_user_agents = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_user_agents);
+        $scope.site.sitesearch_keyword_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.sitesearch_keyword_parameters);
+        $scope.site.sitesearch_category_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.sitesearch_category_parameters);
 
         updateSiteWithSiteSearchConfig();
     };

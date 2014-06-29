@@ -62,7 +62,7 @@ angular.module('piwikApp').factory('sitesManagerApiHelper', function SitesManage
             }
         },
 
-        comaDelimitedFieldToArray: function(value) {
+        commaDelimitedFieldToArray: function(value) {
 
             if(value == null || value == '')
                 return [];

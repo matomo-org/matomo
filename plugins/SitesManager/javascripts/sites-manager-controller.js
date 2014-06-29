@@ -60,11 +60,11 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
             $scope.globalSettings = globalSettings;
 
-            $scope.globalSettings.searchKeywordParametersGlobal = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.globalSettings.searchKeywordParametersGlobal);
-            $scope.globalSettings.searchCategoryParametersGlobal = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.globalSettings.searchCategoryParametersGlobal);
-            $scope.globalSettings.excludedIpsGlobal = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.globalSettings.excludedIpsGlobal);
-            $scope.globalSettings.excludedQueryParametersGlobal = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.globalSettings.excludedQueryParametersGlobal);
-            $scope.globalSettings.excludedUserAgentsGlobal = sitesManagerApiHelper.comaDelimitedFieldToArray($scope.globalSettings.excludedUserAgentsGlobal);
+            $scope.globalSettings.searchKeywordParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.searchKeywordParametersGlobal);
+            $scope.globalSettings.searchCategoryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.searchCategoryParametersGlobal);
+            $scope.globalSettings.excludedIpsGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedIpsGlobal);
+            $scope.globalSettings.excludedQueryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedQueryParametersGlobal);
+            $scope.globalSettings.excludedUserAgentsGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedUserAgentsGlobal);
 
             initKeepURLFragmentsList();
 
