@@ -147,7 +147,7 @@
             <td>
                 <select
                         ng-model="globalSettings.defaultTimezone"
-                        ng-options="t.code as t.label for t in timezones">
+                        ng-options="t.code as t.label group by t.group for t in timezones">
                 </select>
             </td>
             <td ng-include="'plugins/SitesManager/templates/help/timezone-help.html'">
