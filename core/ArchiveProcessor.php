@@ -444,7 +444,10 @@ class ArchiveProcessor
         }
     }
 
-    protected function renameColumnsAfterAggregation(DataTable $table, $columnsToRenameAfterAggregation = null)
+    /**
+     * Note: public only for use in closure in PHP 5.3.
+     */
+    public function renameColumnsAfterAggregation(DataTable $table, $columnsToRenameAfterAggregation = null)
     {
         // Rename columns after aggregation
         if (is_null($columnsToRenameAfterAggregation)) {
