@@ -11,8 +11,15 @@
     <span ng-switch-when="true">
 
         <input type="text" ng-model="site.name"/>
+
         <input type="submit" class="submit" value="{{ 'General_Save' | translate }}" ng-click="saveSite()"/>
-        <a href="#" ng-click="cancelEditSite($event)">{{ 'General_OrCancel' | translate:'':'' }}</a>
+
+        <br/>
+        <br/>
+
+        <span class="link_but" ng-click="cancelEditSite($event)">
+            <span>{{ 'General_OrCancel' | translate:'':'' }}</span>
+        </span>
     </span>
 
 </td>
