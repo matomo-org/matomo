@@ -1,3 +1,7 @@
+ExampleReportName
+nb_visits,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,label,nb_actions
+5,0%,0,00:00:00,0%,0,0
+
 All Websites dashboard
 label,nb_visits,nb_actions,nb_pageviews,revenue,nb_conversions,visits_evolution,actions_evolution,pageviews_evolution,revenue_evolution,nb_conversions_evolution,orders,orders_evolution,ecommerce_revenue,ecommerce_revenue_evolution
 Site 1,10,43,43,$ 0,0,100%,100%,100%,0%,0%,0,0,$ 0,0

@@ -25,6 +25,7 @@ class GetCustomVariables extends Base
         $this->order = 10;
         $this->widgetTitle  = 'CustomVariables_CustomVariables';
         $this->menuTitle    = 'CustomVariables_CustomVariables';
+        $this->hasGoalMetrics = true;
     }
 
     public function configureView(ViewDataTable $view)

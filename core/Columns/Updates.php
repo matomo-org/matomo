@@ -16,6 +16,8 @@ use Piwik\Updater;
 
 /**
  * Class that handles dimension updates
+ *
+ * TODO rename to "Updater"
  */
 class Updates extends \Piwik\Updates
 {

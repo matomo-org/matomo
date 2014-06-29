@@ -28,7 +28,6 @@ class CustomVariables extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata'
         );
     }
@@ -115,18 +114,6 @@ class CustomVariables extends \Piwik\Plugin
                 'sqlSegment' => 'log_link_visit_action.custom_var_v' . $i,
             );
         }
-    }
-
-    /**
-     * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
-     */
-    public function getReportsWithGoalMetrics(&$dimensions)
-    {
-        $dimensions[] = array('category' => Piwik::translate('General_Visit'),
-                              'name'     => Piwik::translate('CustomVariables_CustomVariables'),
-                              'module'   => 'CustomVariables',
-                              'action'   => 'getCustomVariables',
-        );
     }
 
 }
