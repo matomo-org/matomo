@@ -322,7 +322,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(56);
+        expect(57);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -345,6 +345,7 @@ function PiwikTest() {
         equal( typeof tracker.getAttributionCampaignKeyword, 'function', 'getAttributionCampaignKeyword' );
         equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
+        equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
@@ -767,6 +768,50 @@ function PiwikTest() {
         equal( json.idsite, '42' );
         equal( json.rec, 1);
         ok( json.r.length > 0 );
+    });
+
+    // support for addPlugin( pluginName, pluginObj )
+    test("Tracker addPlugin() and getRequest()", function() {
+        expect(9);
+
+        var tracker = Piwik.getTracker();
+
+        var interactionTypePlugin = (function() {
+          function _getInteractionTypeQueryParam(method) { return "&_interactionType='" + method + "'"; }
+          function ecommerce() { return _getInteractionTypeQueryParam("ecommerce"); }
+          function event() { return _getInteractionTypeQueryParam("event"); }
+          function goal() { return _getInteractionTypeQueryParam("goal"); }
+          function link() { return _getInteractionTypeQueryParam("link"); }
+          function load() { return _getInteractionTypeQueryParam("load"); }
+          function log() { return _getInteractionTypeQueryParam("log"); }
+          function ping() { return _getInteractionTypeQueryParam("ping"); }
+          function sitesearch() { return _getInteractionTypeQueryParam("sitesearch"); }
+          function unload() { return _getInteractionTypeQueryParam("unload"); }
+
+          return {
+            ecommerce: ecommerce,
+            event : event,
+            goal : goal,
+            link : link,
+            load : load,
+            log : log,
+            ping: ping,
+            sitesearch : sitesearch,
+            unload : unload
+          };
+        })();
+
+        tracker.addPlugin("interactionTypePlugin", interactionTypePlugin);
+
+        ok( tracker.getRequest("", "", "ecommerce").indexOf("&_interactionType='ecommerce'") > -1);
+        ok( tracker.getRequest("", "", "event").indexOf("&_interactionType='event'") > -1);
+        ok( tracker.getRequest("", "", "goal").indexOf("&_interactionType='goal'") > -1);
+        ok( tracker.getRequest("", "", "link").indexOf("&_interactionType='link'") > -1);
+        ok( tracker.getRequest("", "", "load").indexOf("&_interactionType='load'") > -1);
+        ok( tracker.getRequest("", "", "log").indexOf("&_interactionType='log'") > -1);
+        ok( tracker.getRequest("", "", "ping").indexOf("&_interactionType='ping'") > -1);
+        ok( tracker.getRequest("", "", "sitesearch").indexOf("&_interactionType='sitesearch'") > -1);
+        ok( tracker.getRequest("", "", "unload").indexOf("&_interactionType='unload'") > -1);
     });
 
     test("prefixPropertyName()", function() {
