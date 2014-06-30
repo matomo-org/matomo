@@ -7,7 +7,7 @@ host = localhost
 username = root
 password =
 dbname = piwik_tests
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 tables_prefix = piwiktests_
 ;charset = utf8
 
@@ -16,7 +16,7 @@ host = localhost
 username = root
 password =
 dbname = piwik_tests
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 tables_prefix = piwiktests_
 
 [log]
