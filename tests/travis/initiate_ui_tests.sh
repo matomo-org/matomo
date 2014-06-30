@@ -18,15 +18,15 @@ COMMIT_MESSAGE=$(git log "$TRAVIS_COMMIT" -1 --pretty=%B)
 
 cd tests/PHPUnit/UI
 
+git config --global user.email "hello@piwik.org"
+git config --global user.name "Piwik Automation"
+
 UI_BRANCH=`git rev-parse --abbrev-ref HEAD`
-git checkout $UI_BRANCH
+# git checkout $UI_BRANCH
 git pull --rebase origin $UI_BRANCH
 
 echo "$TRAVIS_COMMIT
 $TRAVIS_BRANCH" > piwik_commit.txt
-
-git config --global user.email "hello@piwik.org"
-git config --global user.name "Piwik Automation"
 
 git add ./piwik_commit.txt
 git commit -m "Travis: Initiating build for commit '$TRAVIS_COMMIT' on branch '$TRAVIS_BRANCH': $COMMIT_MESSAGE"
