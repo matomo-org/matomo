@@ -14,7 +14,9 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\Widgets;
 use Piwik\Session;
+use \Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -105,45 +107,69 @@ class FrontController extends Singleton
     {
         $controllerClassName = $this->getClassNameController($module);
 
-        // FrontController's autoloader
-        if (!class_exists($controllerClassName, false)) {
-            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
-            if (!is_readable($moduleController)) {
-                throw new Exception("Module controller $moduleController not found!");
+        // TRY TO FIND ACTION IN CONTROLLER
+        if (class_exists($controllerClassName)) {
+
+            $class = $this->getClassNameController($module);
+            /** @var $controller Controller */
+            $controller = new $class;
+
+            $controllerAction = $action;
+            if ($controllerAction === false) {
+                $controllerAction = $controller->getDefaultAction();
             }
-            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
+
+            if (is_callable(array($controller, $controllerAction))) {
+
+                return array($controller, $controllerAction);
+            }
+
+            if ($action === false) {
+                $this->triggerControllerActionNotFoundError($controller, $controllerAction);
+            }
+
         }
 
-        $class = $this->getClassNameController($module);
-        /** @var $controller Controller */
-        $controller = new $class;
-        if ($action === false) {
-            $action = $controller->getDefaultAction();
+        // TRY TO FIND ACTION IN WIDGET
+        $widget = Widgets::factory($module, $action);
+
+        if (!empty($widget)) {
+
+            $parameters['widgetModule'] = $module;
+            $parameters['widgetMethod'] = $action;
+
+            return array(new CoreHomeController(), 'renderWidget');
         }
 
-        if (!is_callable(array($controller, $action))) {
+        // TRY TO FIND ACTION IN REPORT
+        $report = Report::factory($module, $action);
 
-            $report = Report::factory($module, $action);
-            $actionToCall  = 'renderReportWidget';
-            $actionToCheck = $action;
-
-            if (empty($report) && !empty($action) && 'menu' === substr($action, 0, 4)) {
-                $actionToCheck = lcfirst(substr($action, 4));
-                $report        = Report::factory($module, $actionToCheck);
-                $actionToCall  = 'renderReportMenu';
-            }
-
-            if (empty($report)) {
-                throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
-            }
+        if (!empty($report)) {
 
             $parameters['reportModule'] = $module;
-            $parameters['reportAction'] = $actionToCheck;
+            $parameters['reportAction'] = $action;
 
-            return $this->makeController('CoreHome', $actionToCall, $parameters);
+            return array(new CoreHomeController(), 'renderReportWidget');
         }
 
-        return array($controller, $action);
+        if (!empty($action) && 'menu' === substr($action, 0, 4)) {
+            $reportAction = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
+            $report       = Report::factory($module, $reportAction);
+
+            if (!empty($report)) {
+                $parameters['reportModule'] = $module;
+                $parameters['reportAction'] = $reportAction;
+
+                return array(new CoreHomeController(), 'renderReportMenu');
+            }
+        }
+
+        $this->triggerControllerActionNotFoundError($module, $action);
+    }
+
+    protected function triggerControllerActionNotFoundError($module, $action)
+    {
+        throw new Exception("Action '$action' not found in the module '$module'.");
     }
 
     protected function getClassNameController($module)

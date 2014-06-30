@@ -27,7 +27,7 @@ use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
-use Piwik\WidgetsList;
+use Piwik\Plugin\Widgets as PluginWidgets;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -75,6 +75,19 @@ class Controller extends \Piwik\Plugin\Controller
         $report->checkIsEnabled();
 
         return $report->render();
+    }
+
+    public function renderWidget($widgetModule = null, $widgetAction = null)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $widget = PluginWidgets::factory($widgetModule, $widgetAction);
+
+        if (!empty($widget)) {
+            return $widget->$widgetAction();
+        }
+
+        throw new Exception(Piwik::translate('General_ExceptionWidgetNotFound'));
     }
 
     function redirectToCoreHomeIndex()
@@ -219,32 +232,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
-        return $view->render();
-    }
-
-    /**
-     * Renders and echo's the in-app donate form w/ slider.
-     */
-    public function getDonateForm()
-    {
-        $view = new View('@CoreHome/getDonateForm');
-        if (Common::getRequestVar('widget', false)
-            && Piwik::hasUserSuperUserAccess()
-        ) {
-            $view->footerMessage = Piwik::translate('CoreHome_OnlyForSuperUserAccess');
-        }
-        return $view->render();
-    }
-
-    /**
-     * Renders and echo's HTML that displays the Piwik promo video.
-     */
-    public function getPromoVideo()
-    {
-        $view = new View('@CoreHome/getPromoVideo');
-        $view->shareText = Piwik::translate('CoreHome_SharePiwikShort');
-        $view->shareTextLong = Piwik::translate('CoreHome_SharePiwikLong');
-        $view->promoVideoUrl = 'https://www.youtube.com/watch?v=OslfF_EH81g';
         return $view->render();
     }
 

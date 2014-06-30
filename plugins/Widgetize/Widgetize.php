@@ -9,12 +9,7 @@
  */
 
 namespace Piwik\Plugins\Widgetize;
-use Piwik\Menu\MenuTop;
-use Piwik\Piwik;
 
-/**
- *
- */
 class Widgetize extends \Piwik\Plugin
 {
     /**

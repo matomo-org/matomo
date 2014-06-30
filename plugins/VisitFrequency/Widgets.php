@@ -8,17 +8,15 @@
  */
 namespace Piwik\Plugins\VisitFrequency;
 
-use Piwik\WidgetsList;
-
 class Widgets extends \Piwik\Plugin\Widgets
 {
-    public function configure(WidgetsList $widgetsList)
-    {
-        $category   = 'General_Visitors';
-        $controller = 'VisitFrequency';
+    protected $category = 'General_Visitors';
 
-        $widgetsList->add($category, 'VisitFrequency_WidgetOverview', $controller, 'getSparklines');
-        $widgetsList->add($category, 'VisitFrequency_WidgetGraphReturning', $controller, 'getEvolutionGraph',
+    public function init()
+    {
+        $this->addWidget('VisitFrequency_WidgetOverview', 'getSparklines');
+        $this->addWidget('VisitFrequency_WidgetGraphReturning',
+                         'getEvolutionGraph',
                          array('columns' => array('nb_visits_returning')));
     }
 

@@ -9,14 +9,15 @@
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\SettingsPiwik;
-use Piwik\WidgetsList;
 
 class Widgets extends \Piwik\Plugin\Widgets
 {
-    public function configure(WidgetsList $widgetsList)
+    protected $category = 'SEO';
+
+    public function init()
     {
         if (SettingsPiwik::isSegmentationEnabled()) {
-            $widgetsList->add('SEO', 'Referrers_WidgetTopKeywordsForPages', 'Referrers', 'getKeywordsForPage');
+            $this->addWidget('Referrers_WidgetTopKeywordsForPages', 'getKeywordsForPage');
         }
     }
 

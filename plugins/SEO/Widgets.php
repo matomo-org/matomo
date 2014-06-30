@@ -8,13 +8,47 @@
  */
 namespace Piwik\Plugins\SEO;
 
-use Piwik\WidgetsList;
+use Piwik\Common;
+use Piwik\DataTable\Renderer;
+use Piwik\Site;
+use Piwik\UrlHelper;
+use Piwik\View;
 
 class Widgets extends \Piwik\Plugin\Widgets
 {
-    public function configure(WidgetsList $widgetsList)
+    protected $category = 'SEO';
+
+    public function init()
     {
-        $widgetsList->add('SEO', 'SEO_SeoRankings', 'SEO', 'getRank');
+        $this->addWidget('SEO_SeoRankings', 'getRank');
+    }
+
+    public function getRank()
+    {
+        $idSite = Common::getRequestVar('idSite');
+        $site = new Site($idSite);
+
+        $url = urldecode(Common::getRequestVar('url', '', 'string'));
+
+        if (!empty($url) && strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+            $url = 'http://' . $url;
+        }
+
+        if (empty($url) || !UrlHelper::isLookLikeUrl($url)) {
+            $url = $site->getMainUrl();
+        }
+
+        $dataTable = API::getInstance()->getRank($url);
+
+        $view = new View('@SEO/getRank');
+        $view->urlToRank = RankChecker::extractDomainFromUrl($url);
+
+        /** @var \Piwik\DataTable\Renderer\Php $renderer */
+        $renderer = Renderer::factory('php');
+        $renderer->setSerialize(false);
+        $view->ranks = $renderer->render($dataTable);
+
+        return $view->render();
     }
 
 }

@@ -8,18 +8,15 @@
  */
 namespace Piwik\Plugins\VisitsSummary;
 
-use Piwik\WidgetsList;
-
 class Widgets extends \Piwik\Plugin\Widgets
 {
-    public function configure(WidgetsList $widgetsList)
-    {
-        $category   = 'VisitsSummary_VisitsSummary';
-        $controller = 'VisitsSummary';
+    protected $category = 'VisitsSummary_VisitsSummary';
 
-        $widgetsList->add($category, 'VisitsSummary_WidgetLastVisits', $controller, 'getEvolutionGraph', array('columns' => array('nb_visits')));
-        $widgetsList->add($category, 'VisitsSummary_WidgetVisits', $controller, 'getSparklines');
-        $widgetsList->add($category, 'VisitsSummary_WidgetOverviewGraph', $controller, 'index');
+    public function init()
+    {
+        $this->addWidget('VisitsSummary_WidgetLastVisits', 'getEvolutionGraph', array('columns' => array('nb_visits')));
+        $this->addWidget('VisitsSummary_WidgetVisits', 'getSparklines');
+        $this->addWidget('VisitsSummary_WidgetOverviewGraph', 'index');
     }
 
 }

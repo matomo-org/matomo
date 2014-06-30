@@ -8,8 +8,8 @@
  */
 namespace Piwik;
 
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\Widgets;
 
 /**
  * Manages the global list of reports that can be displayed as dashboard widgets.
@@ -61,11 +61,15 @@ class WidgetsList extends Singleton
 
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
-            if (isset($widgets[Piwik::translate($key)])) {
-                $v = array_merge($widgets[Piwik::translate($key)], $v);
+            $category = Piwik::translate($key);
+
+            if (isset($widgets[$category])) {
+                $v = array_merge($widgets[$category], $v);
             }
-            $widgets[Piwik::translate($key)] = $v;
+
+            $widgets[$category] = $v;
         }
+
         return $widgets;
     }
 
@@ -80,8 +84,6 @@ class WidgetsList extends Singleton
              */
             Piwik::postEvent('WidgetsList.addWidgets');
 
-            /** @var \Piwik\Plugin\Widgets[] $widgets */
-            $widgets     = PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
             $widgetsList = self::getInstance();
 
             foreach (Report::getAllReports() as $report) {
@@ -90,8 +92,17 @@ class WidgetsList extends Singleton
                 }
             }
 
-            foreach ($widgets as $widget) {
-                $widget->configure($widgetsList);
+            $widgetContainers = Widgets::getAllWidgets();
+            foreach ($widgetContainers as $widgetContainer) {
+                $widgets = $widgetContainer->getWidgets();
+
+                foreach ($widgets as $widget) {
+                    $widgetsList->add($widget['category'], $widget['name'], $widget['module'], $widget['method'], $widget['params']);
+                }
+            }
+
+            foreach ($widgetContainers as $widgetContainer) {
+                $widgetContainer->configureWidgetsList($widgetsList);
             }
         }
     }
@@ -143,8 +154,9 @@ class WidgetsList extends Singleton
      */
     static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
-        $widgetName = Piwik::translate($widgetName);
+        $widgetName     = Piwik::translate($widgetName);
         $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+
         foreach ($customParameters as $name => $value) {
             if (is_array($value)) {
                 // use 'Array' for backward compatibility;
@@ -203,7 +215,7 @@ class WidgetsList extends Singleton
     static public function isDefined($controllerName, $controllerAction)
     {
         $widgetsList = self::get();
-        foreach ($widgetsList as $widgetCategory => $widgets) {
+        foreach ($widgetsList as $widgets) {
             foreach ($widgets as $widget) {
                 if ($widget['parameters']['module'] == $controllerName
                     && $widget['parameters']['action'] == $controllerAction
