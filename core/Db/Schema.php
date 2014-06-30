@@ -78,6 +78,7 @@ class Schema extends Singleton
         $adapterName = strtoupper($adapterName);
         switch ($adapterName) {
             case 'PDO\MYSQL':
+            case 'PDO_MYSQL':
             case 'MYSQLI':
                 $adapterName = 'MYSQL';
                 break;
