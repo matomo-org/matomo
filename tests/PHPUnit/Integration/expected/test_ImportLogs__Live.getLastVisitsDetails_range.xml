@@ -2023,7 +2023,7 @@
 		<deviceType>Desktop</deviceType>
 		<resolution>1280x800</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/wide.gif</screenTypeIcon>
-		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
+		<plugins>pdf, flash, java, director, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/UserSettings/images/plugins/pdf.gif</pluginIcon>
@@ -2044,10 +2044,6 @@
 			<row>
 				<pluginIcon>plugins/UserSettings/images/plugins/windowsmedia.gif</pluginIcon>
 				<pluginName>windowsmedia</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/gears.gif</pluginIcon>
-				<pluginName>gears</pluginName>
 			</row>
 		</pluginsIcons>
 		
