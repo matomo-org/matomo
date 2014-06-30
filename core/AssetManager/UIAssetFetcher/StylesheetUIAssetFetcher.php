@@ -15,14 +15,29 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
 {
     protected function getPriorityOrder()
     {
-        return array(
+        $themeName = $this->getTheme()->getThemeName();
+        $order = array(
             'libs/',
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
             'plugins/Morpheus/stylesheets/base.less',
-            'plugins\/((?!Morpheus).)*\/',
-            'plugins/Dashboard/stylesheets/dashboard.less',
-            'tests/',
         );
+
+        if ($themeName === 'Morpheus') {
+            $order[] = 'plugins\/((?!Morpheus).)*\/';
+        } else {
+            $order[] = sprintf('plugins/%s/stylesheets/base.less', $themeName);
+            $order[] = sprintf('plugins\/((?!(Morpheus)|(%s)).)*\/', $themeName);
+        }
+
+        $order = array_merge(
+            $order,
+            array(
+                'plugins/Dashboard/stylesheets/dashboard.less',
+                'tests/',
+            )
+        );
+
+        return $order;
     }
 
     protected function retrieveFileLocations()
