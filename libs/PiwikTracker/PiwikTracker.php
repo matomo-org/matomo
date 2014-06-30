@@ -1125,10 +1125,9 @@ class PiwikTracker
      * @param bool $realPlayer
      * @param bool $pdf
      * @param bool $windowsMedia
-     * @param bool $gears
      * @param bool $silverlight
      */
-    public function setPlugins($flash = false, $java = false, $director = false, $quickTime = false, $realPlayer = false, $pdf = false, $windowsMedia = false, $gears = false, $silverlight = false)
+    public function setPlugins($flash = false, $java = false, $director = false, $quickTime = false, $realPlayer = false, $pdf = false, $windowsMedia = false, $silverlight = false)
     {
         $this->plugins =
             '&fla=' . (int)$flash .
@@ -1138,7 +1137,6 @@ class PiwikTracker
                 '&realp=' . (int)$realPlayer .
                 '&pdf=' . (int)$pdf .
                 '&wma=' . (int)$windowsMedia .
-                '&gears=' . (int)$gears .
                 '&ag=' . (int)$silverlight;
     }
 

@@ -135,7 +135,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             "sum(case log_visit.config_quicktime when 1 then 1 else 0 end) as quicktime",
             "sum(case log_visit.config_realplayer when 1 then 1 else 0 end) as realplayer",
             "sum(case log_visit.config_windowsmedia when 1 then 1 else 0 end) as windowsmedia",
-            "sum(case log_visit.config_gears when 1 then 1 else 0 end) as gears",
             "sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight",
             "sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie"
         );

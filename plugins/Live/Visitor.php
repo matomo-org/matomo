@@ -450,7 +450,6 @@ class Visitor implements VisitorInterface
             'config_quicktime',
             'config_realplayer',
             'config_windowsmedia',
-            'config_gears',
             'config_silverlight',
         );
         $pluginShortNames = array();
