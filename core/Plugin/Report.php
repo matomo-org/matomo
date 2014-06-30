@@ -234,6 +234,13 @@ class Report
         return array();
     }
 
+    public function getWidgetTitle()
+    {
+        if ($this->widgetTitle) {
+            return Piwik::translate($this->widgetTitle);
+        }
+    }
+
     public function getName()
     {
         return $this->name;

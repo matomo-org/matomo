@@ -202,8 +202,16 @@ abstract class ViewDataTable implements ViewInterface
             $relatedReports = $report->getRelatedReports();
             if (!empty($relatedReports)) {
                 foreach ($relatedReports as $relatedReport) {
+                    $widgetTitle = $relatedReport->getWidgetTitle();
+
+                    if ($widgetTitle && Common::getRequestVar('widget', 0, 'int')) {
+                        $relatedReportName = $widgetTitle;
+                    } else {
+                        $relatedReportName = $relatedReport->getName();
+                    }
+
                     $this->config->addRelatedReport($relatedReport->getModule() . '.' . $relatedReport->getAction(),
-                                                    $relatedReport->getName());
+                                                    $relatedReportName);
                 }
             }
 
