@@ -23,13 +23,8 @@ git config --global user.email "hello@piwik.org"
 git config --global user.name "Piwik Automation"
 
 UI_BRANCH="report_and_dimension_refactoring"
-echo $UI_BRANCH
-git reset --hard
-git clean -f -d
 git checkout $UI_BRANCH
-git reset --hard
-git clean -f -d
-git pull origin $UI_BRANCH
+git pull --rebase origin $UI_BRANCH
 
 echo "$TRAVIS_COMMIT
 $TRAVIS_BRANCH" > piwik_commit.txt
