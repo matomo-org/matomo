@@ -22,7 +22,7 @@ git config --global user.email "hello@piwik.org"
 git config --global user.name "Piwik Automation"
 
 UI_BRANCH=`git rev-parse --abbrev-ref HEAD`
-git checkout $UI_BRANCH
+git checkout piwik_commit.txt expected specs
 git pull origin $UI_BRANCH
 
 echo "$TRAVIS_COMMIT
