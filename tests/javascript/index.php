@@ -772,21 +772,22 @@ function PiwikTest() {
 
     // support for addPlugin( pluginName, pluginObj )
     test("Tracker addPlugin() and getRequest()", function() {
-        expect(9);
+        expect(12);
 
         var tracker = Piwik.getTracker();
 
-        var interactionTypePlugin = (function() {
-          function _getInteractionTypeQueryParam(method) { return "&_interactionType='" + method + "'"; }
-          function ecommerce() { return _getInteractionTypeQueryParam("ecommerce"); }
-          function event() { return _getInteractionTypeQueryParam("event"); }
-          function goal() { return _getInteractionTypeQueryParam("goal"); }
-          function link() { return _getInteractionTypeQueryParam("link"); }
-          function load() { return _getInteractionTypeQueryParam("load"); }
-          function log() { return _getInteractionTypeQueryParam("log"); }
-          function ping() { return _getInteractionTypeQueryParam("ping"); }
-          function sitesearch() { return _getInteractionTypeQueryParam("sitesearch"); }
-          function unload() { return _getInteractionTypeQueryParam("unload"); }
+        var litp = (function() {
+          var lastInteractionType = "";
+          function ecommerce() { lastInteractionType = "ecommerce"; }
+          function event() { lastInteractionType = "event"; }
+          function goal() { lastInteractionType = "goal"; }
+          function link() { lastInteractionType = "link"; }
+          function load() { lastInteractionType = "load"; }
+          function log() { lastInteractionType = "log"; }
+          function ping() { lastInteractionType = "ping"; }
+          function sitesearch() { lastInteractionType = "sitesearch"; }
+          function unload() { lastInteractionType = "unload"; }
+          function getLastInteractionType() { return lastInteractionType; }
 
           return {
             ecommerce: ecommerce,
@@ -797,21 +798,36 @@ function PiwikTest() {
             log : log,
             ping: ping,
             sitesearch : sitesearch,
-            unload : unload
+            unload : unload,
+            getLastInteractionType: getLastInteractionType
           };
         })();
 
-        tracker.addPlugin("interactionTypePlugin", interactionTypePlugin);
+        tracker.addPlugin("interactionTypePlugin", litp);
 
-        ok( tracker.getRequest("", "", "ecommerce").indexOf("&_interactionType='ecommerce'") > -1);
-        ok( tracker.getRequest("", "", "event").indexOf("&_interactionType='event'") > -1);
-        ok( tracker.getRequest("", "", "goal").indexOf("&_interactionType='goal'") > -1);
-        ok( tracker.getRequest("", "", "link").indexOf("&_interactionType='link'") > -1);
-        ok( tracker.getRequest("", "", "load").indexOf("&_interactionType='load'") > -1);
-        ok( tracker.getRequest("", "", "log").indexOf("&_interactionType='log'") > -1);
-        ok( tracker.getRequest("", "", "ping").indexOf("&_interactionType='ping'") > -1);
-        ok( tracker.getRequest("", "", "sitesearch").indexOf("&_interactionType='sitesearch'") > -1);
-        ok( tracker.getRequest("", "", "unload").indexOf("&_interactionType='unload'") > -1);
+        ok(litp.getLastInteractionType() !== 'ecommerce');
+        tracker.trackEcommerceOrder("ORDER ID YES", 666.66);
+        ok(litp.getLastInteractionType() === 'ecommerce');
+
+        ok(litp.getLastInteractionType() !== 'event');
+        tracker.trackEvent("Event Category", "Event Action");
+        ok(litp.getLastInteractionType() === 'event');
+
+        ok(litp.getLastInteractionType() !== 'goal');
+        tracker.trackGoal(42);
+        ok(litp.getLastInteractionType() === 'goal');
+
+        ok(litp.getLastInteractionType() !== 'link');
+        tracker.trackLink("http://example.ca", "link");
+        ok(litp.getLastInteractionType() === 'link');
+
+        ok(litp.getLastInteractionType() !== 'log');
+        tracker.trackPageView();
+        ok(litp.getLastInteractionType() === 'log');
+
+        ok(litp.getLastInteractionType() !== 'sitesearch');
+        tracker.trackSiteSearch("search Keyword");
+        ok(litp.getLastInteractionType() === 'sitesearch');
     });
 
     test("prefixPropertyName()", function() {
