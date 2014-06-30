@@ -42,7 +42,11 @@ class Updates extends \Piwik\Updates
         $changingColumns = self::getUpdates();
 
         foreach ($changingColumns as $table => $columns) {
-            $sqls["ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns)] = false;
+            $chunks = array_chunk($columns, 3);
+
+            foreach ($chunks as $columnsToAlter) {
+                $sqls["ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columnsToAlter)] = false;
+            }
         }
 
         return $sqls;
