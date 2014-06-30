@@ -42,7 +42,7 @@ class Updates extends \Piwik\Updates
         $changingColumns = self::getUpdates();
 
         foreach ($changingColumns as $table => $columns) {
-            $chunks = array_chunk($columns, 10);
+            $chunks = array_chunk($columns, 3);
 
             foreach ($chunks as $columnsToAlter) {
                 $sqls["ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columnsToAlter)] = false;
@@ -57,12 +57,6 @@ class Updates extends \Piwik\Updates
      */
     public static function update()
     {
-        var_dump(Db::get()->query('SELECT @@max_allowed_packet')->fetchColumn() . ' max_allowed_packet');
-        var_dump(Db::get()->query('SELECT @@wait_timeout')->fetchColumn() . ' wait_timeout');
-        var_dump(Db::get()->query('SELECT @@GLOBAL.wait_timeout')->fetchColumn() . ' @@GLOBAL.wait_timeout');
-        var_dump(Db::get()->query('SELECT @@LOCAL.wait_timeout')->fetchColumn() . ' @@LOCAL.wait_timeout');
-
-        $time = microtime(true);
         foreach (self::getSql() as $sql => $errorCode) {
             try {
                 Db::exec($sql);
@@ -72,10 +66,6 @@ class Updates extends \Piwik\Updates
                 }
             }
         }
-
-        $diff = microtime(true) - $time;
-
-        echo $diff * 1000 . "ms";
     }
 
     public static function setUpdater($updater)
