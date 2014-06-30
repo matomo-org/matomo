@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest,
+    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -2487,6 +2487,16 @@ if (typeof Piwik !== 'object') {
                  */
                 getRequest: function (request) {
                     return getRequest(request);
+                },
+
+                /**
+                 * Add plugin
+                 *
+                 * @param string pluginName
+                 * @param Object pluginObj
+                 */
+                addPlugin: function (pluginName, pluginObj) {
+                    plugins[pluginName] = pluginObj;
                 },
 
                 /**

@@ -322,7 +322,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(56);
+        expect(57);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -345,6 +345,7 @@ function PiwikTest() {
         equal( typeof tracker.getAttributionCampaignKeyword, 'function', 'getAttributionCampaignKeyword' );
         equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
+        equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
@@ -767,6 +768,66 @@ function PiwikTest() {
         equal( json.idsite, '42' );
         equal( json.rec, 1);
         ok( json.r.length > 0 );
+    });
+
+    // support for addPlugin( pluginName, pluginObj )
+    test("Tracker addPlugin() and getRequest()", function() {
+        expect(12);
+
+        var tracker = Piwik.getTracker();
+
+        var litp = (function() {
+          var lastInteractionType = "";
+          function ecommerce() { lastInteractionType = "ecommerce"; }
+          function event() { lastInteractionType = "event"; }
+          function goal() { lastInteractionType = "goal"; }
+          function link() { lastInteractionType = "link"; }
+          function load() { lastInteractionType = "load"; }
+          function log() { lastInteractionType = "log"; }
+          function ping() { lastInteractionType = "ping"; }
+          function sitesearch() { lastInteractionType = "sitesearch"; }
+          function unload() { lastInteractionType = "unload"; }
+          function getLastInteractionType() { return lastInteractionType; }
+
+          return {
+            ecommerce: ecommerce,
+            event : event,
+            goal : goal,
+            link : link,
+            load : load,
+            log : log,
+            ping: ping,
+            sitesearch : sitesearch,
+            unload : unload,
+            getLastInteractionType: getLastInteractionType
+          };
+        })();
+
+        tracker.addPlugin("interactionTypePlugin", litp);
+
+        ok(litp.getLastInteractionType() !== 'ecommerce');
+        tracker.trackEcommerceOrder("ORDER ID YES", 666.66);
+        ok(litp.getLastInteractionType() === 'ecommerce');
+
+        ok(litp.getLastInteractionType() !== 'event');
+        tracker.trackEvent("Event Category", "Event Action");
+        ok(litp.getLastInteractionType() === 'event');
+
+        ok(litp.getLastInteractionType() !== 'goal');
+        tracker.trackGoal(42);
+        ok(litp.getLastInteractionType() === 'goal');
+
+        ok(litp.getLastInteractionType() !== 'link');
+        tracker.trackLink("http://example.ca", "link");
+        ok(litp.getLastInteractionType() === 'link');
+
+        ok(litp.getLastInteractionType() !== 'log');
+        tracker.trackPageView();
+        ok(litp.getLastInteractionType() === 'log');
+
+        ok(litp.getLastInteractionType() !== 'sitesearch');
+        tracker.trackSiteSearch("search Keyword");
+        ok(litp.getLastInteractionType() === 'sitesearch');
     });
 
     test("prefixPropertyName()", function() {
