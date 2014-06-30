@@ -11,9 +11,10 @@ if [ "$PIWIK_AUTOMATION" = "" ]; then
     exit
 fi
 
+git checkout "$TRAVIS_BRANCH"
+
 git submodule update
 
-git checkout "$TRAVIS_BRANCH"
 COMMIT_MESSAGE=$(git log "$TRAVIS_COMMIT" -1 --pretty=%B)
 
 cd tests/PHPUnit/UI
