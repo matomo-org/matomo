@@ -140,7 +140,7 @@ class Updates extends \Piwik\Updates
     {
         $changingColumns = self::getUpdates();
 
-        foreach ($changingColumns as $table => $columns) {
+        foreach ($changingColumns as $columns) {
             if (!empty($columns)) {
                 return true;
             }
