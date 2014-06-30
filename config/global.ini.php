@@ -18,7 +18,7 @@ password =
 dbname =
 tables_prefix =
 port = 3306
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 
@@ -34,7 +34,7 @@ password =
 dbname = piwik_tests
 tables_prefix = piwiktests_
 port = 3306
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 

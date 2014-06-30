@@ -76,7 +76,7 @@ class Db
          *                                       database.
          *                        - **dbname**: The name of the Piwik MySQL database.
          *                        - **port**: The MySQL database port to use.
-         *                        - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
+         *                        - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
          *                        - **type**: The MySQL engine to use, for instance 'InnoDB'
          */
         Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
