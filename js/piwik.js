@@ -2490,7 +2490,9 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Add plugin
+                 * Add plugin defined by a name and a callback function.
+                 * The callback function will be called whenever a tracking request is sent.
+                 * This can be used to append data to the tracking request, or execute other custom logic.
                  *
                  * @param string pluginName
                  * @param Object pluginObj
