@@ -23,7 +23,12 @@ git config --global user.email "hello@piwik.org"
 git config --global user.name "Piwik Automation"
 
 UI_BRANCH=`git rev-parse --abbrev-ref HEAD`
-git checkout piwik_commit.txt expected-ui-screenshots specs
+echo $UI_BRANCH
+git reset --hard
+git clean -f -d
+git checkout $UI_BRANCH
+git reset --hard
+git clean -f -d
 git pull origin $UI_BRANCH
 
 echo "$TRAVIS_COMMIT
