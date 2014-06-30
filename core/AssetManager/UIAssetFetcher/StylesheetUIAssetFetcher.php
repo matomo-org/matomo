@@ -15,6 +15,9 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
 {
     protected function getPriorityOrder()
     {
+        $theme = $this->getTheme();
+        $themeName = $theme->getThemeName();
+
         $themeName = $this->getTheme()->getThemeName();
         $order = array(
             'libs/',
@@ -25,7 +28,8 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         if ($themeName === 'Morpheus') {
             $order[] = 'plugins\/((?!Morpheus).)*\/';
         } else {
-            $order[] = sprintf('plugins/%s/stylesheets/base.less', $themeName);
+            // Load the theme's base stylesheet first
+            $order[] = $theme->getStylesheet();
             $order[] = sprintf('plugins\/((?!(Morpheus)|(%s)).)*\/', $themeName);
         }
 
