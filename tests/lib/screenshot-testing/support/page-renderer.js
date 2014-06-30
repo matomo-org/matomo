@@ -229,7 +229,6 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
 
     function setClipRect (page, selector) {
         if (!selector) {
-
             return;
         }
 
@@ -239,7 +238,7 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             if (element && element.length) {
                 var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
 
-                element.each(function (index, node) {
+                element.add(element.find('*')).each(function (index, node) {
                     var rect = node.getBoundingClientRect();
 
                     if (!rect.width || !rect.height) {
