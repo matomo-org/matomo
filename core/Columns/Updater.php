@@ -12,14 +12,12 @@ use Piwik\DbHelper;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Plugin\VisitDimension;
 use Piwik\Db;
-use Piwik\Updater;
+use Piwik\Updater as PiwikUpdater;
 
 /**
  * Class that handles dimension updates
- *
- * TODO rename to "Updater"
  */
-class Updates extends \Piwik\Updates
+class Updater extends \Piwik\Updates
 {
     /**
      * @var Updater
@@ -62,7 +60,7 @@ class Updates extends \Piwik\Updates
                 Db::exec($sql);
             } catch (\Exception $e) {
                 if (!Db::get()->isErrNo($e, '1091') && !Db::get()->isErrNo($e, '1060')) {
-                    Updater::handleQueryError($e, $sql, false, __FILE__);
+                    PiwikUpdater::handleQueryError($e, $sql, false, __FILE__);
                 }
             }
         }
@@ -134,19 +132,6 @@ class Updates extends \Piwik\Updates
         }
 
         return $changingColumns;
-    }
-
-    public static function hasUpdates()
-    {
-        $changingColumns = self::getUpdates();
-
-        foreach ($changingColumns as $columns) {
-            if (!empty($columns)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
 }

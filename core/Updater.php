@@ -7,7 +7,7 @@
  *
  */
 namespace Piwik;
-use Piwik\Columns\Updates as ColumnUpdates;
+use Piwik\Columns\Updater as ColumnUpdater;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -32,7 +32,7 @@ class Updater
         $this->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/core/Updates/';
         $this->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/plugins/%s/Updates/';
 
-        ColumnUpdates::setUpdater($this);
+        ColumnUpdater::setUpdater($this);
     }
 
     /**
@@ -127,7 +127,7 @@ class Updater
                 }
 
                 if (in_array($className, $classNames)) {
-                    continue; // prevent from getting updates from Piwik\Columns\Updates multiple times
+                    continue; // prevent from getting updates from Piwik\Columns\Updater multiple times
                 }
 
                 $classNames[] = $className;
@@ -156,7 +156,7 @@ class Updater
         }
 
         if ($this->isDimensionComponent($componentName)) {
-            return '\\Piwik\\Columns\\Updates';
+            return '\\Piwik\\Columns\\Updater';
         }
 
         return '\\Piwik\\Plugins\\' . $componentName . '\\' . $className;
@@ -224,7 +224,7 @@ class Updater
             if ($name == 'core') {
                 $pathToUpdates = $this->pathUpdateFileCore . '*.php';
             } elseif ($this->isDimensionComponent($name)) {
-                $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updates.php'] = $newVersion;
+                $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updater.php'] = $newVersion;
             } else {
                 $pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
             }
