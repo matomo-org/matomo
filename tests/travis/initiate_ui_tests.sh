@@ -22,7 +22,7 @@ cd tests/PHPUnit/UI
 git config --global user.email "hello@piwik.org"
 git config --global user.name "Piwik Automation"
 
-UI_BRANCH=`git rev-parse --abbrev-ref HEAD`
+UI_BRANCH="report_and_dimension_refactoring"
 echo $UI_BRANCH
 git reset --hard
 git clean -f -d
