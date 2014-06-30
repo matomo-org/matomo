@@ -26,9 +26,13 @@ class DoNotTrackHeaderChecker
      */
     public function checkHeaderInTracker(&$exclude)
     {
-        if (!$this->isActive()
-            || $exclude
-        ) {
+        if($exclude) {
+            Common::printDebug("Visit is already excluded, no need to check DoNotTrack support.");
+            return;
+        }
+
+        if (!$this->isActive()) {
+            Common::printDebug("DoNotTrack support is not enabled, skip check");
             return;
         }
 
@@ -43,8 +47,9 @@ class DoNotTrackHeaderChecker
                 return;
             }
 
+            Common::printDebug("DoNotTrack header found!");
+
             $exclude = true;
-            Common::printDebug("DoNotTrack found.");
 
             $trackingCookie = IgnoreCookie::getTrackingCookie();
             $trackingCookie->delete();
@@ -53,6 +58,8 @@ class DoNotTrackHeaderChecker
             //     /.well-known/dnt
             // per Tracking Preference Expression (draft)
             header('Tk: 1');
+        } else {
+            Common::printDebug("DoNotTrack header not found");
         }
     }
 

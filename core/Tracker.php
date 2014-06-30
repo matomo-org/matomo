@@ -697,7 +697,7 @@ class Tracker
 
         try {
             $pluginsTracker = \Piwik\Plugin\Manager::getInstance()->loadTrackerPlugins();
-            Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
+            Common::printDebug("Loading plugins: { " . implode(", ", $pluginsTracker) . " }");
         } catch (Exception $e) {
             Common::printDebug("ERROR: " . $e->getMessage());
         }
