@@ -3031,8 +3031,9 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Log special pageview: Internal search
                  *
-                 * @param string customTitle
-                 * @param mixed customData
+                 * @param string keyword
+                 * @param string category
+                 * @param int resultsCount
                  */
                 trackSiteSearch: function (keyword, category, resultsCount) {
                     trackCallback(function () {
