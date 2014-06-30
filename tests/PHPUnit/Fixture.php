@@ -151,6 +151,8 @@ class Fixture extends PHPUnit_Framework_Assert
             Config::getInstance()->database['dbname'] = $this->dbName;
             Db::createDatabaseObject();
 
+            Db::get()->query("SET wait_timeout=28800;");
+
             DbHelper::createTables();
 
             \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
