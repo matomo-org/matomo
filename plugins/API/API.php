@@ -193,15 +193,18 @@ class API extends \Piwik\Plugin\API
 
     private function sortSegments($row1, $row2)
     {
+        $customVarCategory = Piwik::translate('CustomVariables_CustomVariables');
+
         $columns = array('type', 'category', 'name', 'segment');
         foreach ($columns as $column) {
             // Keep segments ordered alphabetically inside categories..
             $type = -1;
             if ($column == 'name') $type = 1;
+
             $compare = $type * strcmp($row1[$column], $row2[$column]);
 
             // hack so that custom variables "page" are grouped together in the doc
-            if ($row1['category'] == Piwik::translate('CustomVariables_CustomVariables')
+            if ($row1['category'] == $customVarCategory
                 && $row1['category'] == $row2['category']
             ) {
                 $compare = strcmp($row1['segment'], $row2['segment']);
