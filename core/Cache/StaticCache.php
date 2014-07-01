@@ -77,7 +77,7 @@ class StaticCache
         $cache = \Piwik\Tracker\Cache::getCacheGeneral();
 
         if (array_key_exists('staticCache', $cache)) {
-            $oldContent = array_keys($cache['staticCache']);
+            $oldContent = $cache['staticCache'];
         } else {
             $oldContent = array();
         }
@@ -85,7 +85,7 @@ class StaticCache
         $save = false;
 
         foreach (self::$entriesToPersist as $key) {
-            if (!array_key_exists($key, $oldContent)) {
+            if (!array_key_exists($key, $oldContent) && array_key_exists($key, self::$staticCache)) {
                 $oldContent[$key] = self::$staticCache[$key];
                 $save = true;
             }
