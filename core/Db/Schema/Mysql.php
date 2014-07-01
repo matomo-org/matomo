@@ -188,17 +188,10 @@ class Mysql implements SchemaInterface
 									  server_time datetime NOT NULL,
 									  idaction_url int(11) default NULL,
 									  idlink_va int(11) default NULL,
-									  url text NOT NULL,
 									  idgoal int(10) NOT NULL,
 									  buster int unsigned NOT NULL,
-
 									  idorder varchar(100) default NULL,
 									  items SMALLINT UNSIGNED DEFAULT NULL,
-									  revenue float default NULL,
-									  revenue_subtotal float default NULL,
-									  revenue_tax float default NULL,
-									  revenue_shipping float default NULL,
-									  revenue_discount float default NULL,
 
 									  PRIMARY KEY (idvisit, idgoal, buster),
 									  UNIQUE KEY unique_idsite_idorder (idsite, idorder),

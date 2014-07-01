@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\Conversion as ConversionDimension;
 use Piwik\Db;
 use Piwik\Updater as PiwikUpdater;
 
@@ -92,41 +93,35 @@ class Updater extends \Piwik\Updates
             }
 
             if (array_key_exists($column, $visitColumns)) {
-                $columns = $dimension->update($visitColumns, $conversionColumns);
+                $updates = $dimension->update($visitColumns, $conversionColumns);
             } else {
-                $columns = $dimension->install();
+                $updates = $dimension->install();
             }
-            if (!empty($columns)) {
-                foreach ($columns as $table => $col) {
-                    if (empty($changingColumns[$table])) {
-                        $changingColumns[$table] = $col;
-                    } else {
-                        $changingColumns[$table] = array_merge($changingColumns[$table], $col);
-                    }
-                }
-            }
+
+            $changingColumns = self::mixinUpdates($changingColumns, $updates);
         }
 
         foreach (ActionDimension::getAllDimensions() as $dimension) {
-            $column = $dimension->getColumnName();
+            $updates         = self::getUpdatesForDimension($dimension, 'log_link_visit_action.', $actionColumns);
+            $changingColumns = self::mixinUpdates($changingColumns, $updates);
+        }
 
-            if (!self::hasComponentNewVersion('log_link_visit_action.' . $column)) {
-                continue;
-            }
+        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+            $updates         = self::getUpdatesForDimension($dimension, 'log_conversion.', $conversionColumns);
+            $changingColumns = self::mixinUpdates($changingColumns, $updates);
+        }
 
-            if (array_key_exists($column, $actionColumns)) {
-                $columns = $dimension->update($actionColumns);
-            } else {
-                $columns = $dimension->install();
-            }
+        return $changingColumns;
+    }
 
-            if (!empty($columns)) {
-                foreach ($columns as $table => $col) {
-                    if (empty($changingColumns[$table])) {
-                        $changingColumns[$table] = $col;
-                    } else {
-                        $changingColumns[$table] = array_merge($changingColumns[$table], $col);
-                    }
+    private static function mixinUpdates($changingColumns, $updatesFromDimension)
+    {
+        if (!empty($updatesFromDimension)) {
+            foreach ($updatesFromDimension as $table => $col) {
+                if (empty($changingColumns[$table])) {
+                    $changingColumns[$table] = $col;
+                } else {
+                    $changingColumns[$table] = array_merge($changingColumns[$table], $col);
                 }
             }
         }
@@ -134,4 +129,26 @@ class Updater extends \Piwik\Updates
         return $changingColumns;
     }
 
+    /**
+     * @param ActionDimension|ConversionDimension $dimension
+     * @param string $componentPrefix
+     * @param array $existingColumnsInDb
+     * @return array
+     */
+    private static function getUpdatesForDimension($dimension, $componentPrefix, $existingColumnsInDb)
+    {
+        $column = $dimension->getColumnName();
+
+        if (!self::hasComponentNewVersion($componentPrefix . $column)) {
+            return array();
+        }
+
+        if (array_key_exists($column, $existingColumnsInDb)) {
+            $sqlUpdates = $dimension->update($existingColumnsInDb);
+        } else {
+            $sqlUpdates = $dimension->install();
+        }
+
+        return $sqlUpdates;
+    }
 }

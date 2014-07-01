@@ -126,7 +126,7 @@ class ExampleVisitDimension extends VisitDimension
     /**
      * By implementing this event you can persist a value to the log_conversion table persisting this value for a
      * specific conversion. The persisted value will be logged along the conversion and will not be changed afterwards.
-     * This allows you to generated reports that shows for instance which url was called how often for a speicifc
+     * This allows you to generate reports that shows for instance which url was called how often for a speicifc
      * conversion. Once you implement this event and a $columnType is defined a column in the log_conversion MySQL table
      * will be automatically created.
      *
@@ -135,7 +135,7 @@ class ExampleVisitDimension extends VisitDimension
      * @param Action|null $action
      *
      * @return mixed
-    public function onRecordGoal(Request $request, Visitor $visitor, $action)
+    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
         return $visitor->getVisitorColumn($this->columnName);
     }

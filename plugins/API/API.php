@@ -21,6 +21,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\Conversion as ConversionDimension;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translate;
 use Piwik\Version;
@@ -90,6 +91,12 @@ class API extends \Piwik\Plugin\API
         }
 
         foreach (ActionDimension::getAllDimensions() as $dimension) {
+            foreach ($dimension->getSegments() as $segment) {
+                $segments[] = $segment->toArray();
+            }
+        }
+
+        foreach (ConversionDimension::getAllDimensions() as $dimension) {
             foreach ($dimension->getSegments() as $segment) {
                 $segments[] = $segment->toArray();
             }

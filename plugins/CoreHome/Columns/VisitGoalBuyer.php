@@ -119,7 +119,7 @@ class VisitGoalBuyer extends VisitDimension
             return $existingType;
         }
 
-        if ($goalManager->isGoalAnOrder) {
+        if ($goalManager->isGoalAnOrder()) {
             return self::TYPE_BUYER_ORDERED;
         }
 

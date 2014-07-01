@@ -16,6 +16,7 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugin\ActionDimension;
 use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\Conversion as ConversionDimension;
 use Piwik\ScheduledTime;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
@@ -111,6 +112,13 @@ class CoreUpdater extends \Piwik\Plugin
             $columnName = $dimension->getColumnName();
             if ($columnName) {
                 $updater->addComponentToCheck('log_link_visit_action.' . $columnName, $dimension->getVersion());
+            }
+        }
+
+        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+            $columnName = $dimension->getColumnName();
+            if ($columnName) {
+                $updater->addComponentToCheck('log_conversion.' . $columnName, $dimension->getVersion());
             }
         }
 

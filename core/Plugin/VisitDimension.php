@@ -78,7 +78,7 @@ abstract class VisitDimension extends Dimension
             return false;
         }
 
-        return $this->hasImplementedEvent('onRecordGoal');
+        return $this->hasImplementedEvent('onAnyGoalConversion');
     }
 
     public function uninstall()
@@ -142,7 +142,7 @@ abstract class VisitDimension extends Dimension
         return false;
     }
 
-    public function onRecordGoal(Request $request, Visitor $visitor, $action)
+    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
         return false;
     }

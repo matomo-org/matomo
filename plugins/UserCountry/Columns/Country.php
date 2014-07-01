@@ -122,7 +122,7 @@ class Country extends Base
      * @param Action|null $action
      * @return mixed
      */
-    public function onRecordGoal(Request $request, Visitor $visitor, $action)
+    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
         $country = $visitor->getVisitorColumn($this->columnName);
 

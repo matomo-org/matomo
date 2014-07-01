@@ -9,21 +9,19 @@
 namespace Piwik\Plugins\Goals\Columns;
 
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\Conversion;
 use Piwik\Plugin\Segment;
-use Piwik\Plugin\VisitDimension;
 
-// TODO this is a conversion dimension
-class IdGoal extends VisitDimension
+class IdGoal extends Conversion
 {
     protected $columnName = 'idgoal';
 
     protected function configureSegments()
     {
         $segment = new Segment();
-        $segment->setCategory(Piwik::translate('General_Visit'));
+        $segment->setCategory('General_Visit');
         $segment->setName('General_VisitConvertedGoalId');
         $segment->setSegment('visitConvertedGoalId');
-        $segment->setSqlSegment('log_conversion.idgoal');
         $segment->setAcceptedValues('1, 2, 3, etc.');
         $this->addSegment($segment);
     }

@@ -115,7 +115,7 @@ class Visit implements VisitInterface
             $someGoalsConverted = true;
 
             // Mark the visit as Converted only if it is an order (not for a Cart update)
-            if ($this->goalManager->isGoalAnOrder) {
+            if ($this->goalManager->isGoalAnOrder()) {
                 $visitIsConverted = true;
             }
         } // this request is from the JS call to piwikTracker.trackGoal()

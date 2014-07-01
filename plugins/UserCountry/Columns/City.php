@@ -70,7 +70,7 @@ class City extends Base
      * @param Action|null $action
      * @return mixed
      */
-    public function onRecordGoal(Request $request, Visitor $visitor, $action)
+    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
         return $visitor->getVisitorColumn($this->columnName);
     }
