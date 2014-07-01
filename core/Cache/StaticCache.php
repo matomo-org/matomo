@@ -68,7 +68,7 @@ class StaticCache
     {
         $cache = \Piwik\Tracker\Cache::getCacheGeneral();
         if (array_key_exists('staticCache', $cache)) {
-            static::$staticCache = $cache['staticCache'];
+            self::$staticCache = $cache['staticCache'];
         }
     }
 
@@ -78,18 +78,21 @@ class StaticCache
 
         if (array_key_exists('staticCache', $cache)) {
             $oldContent = array_keys($cache['staticCache']);
-            $save = array_diff(self::$entriesToPersist, $oldContent);
         } else {
-            $save = true;
+            $oldContent = array();
+        }
+
+        $save = false;
+
+        foreach (self::$entriesToPersist as $key) {
+            if (!array_key_exists($key, $oldContent)) {
+                $oldContent[$key] = self::$staticCache[$key];
+                $save = true;
+            }
         }
 
         if (!empty($save)) {
-            $content = array();
-            foreach (self::$entriesToPersist as $key) {
-                $content[$key] = self::$staticCache[$key];
-            }
-
-            $cache['staticCache'] = $content;
+            $cache['staticCache'] = $oldContent;
             \Piwik\Tracker\Cache::setCacheGeneral($cache);
         }
     }
