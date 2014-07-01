@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Plugin\ActionDimension;
+use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;

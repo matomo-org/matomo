@@ -9,9 +9,9 @@
 namespace Piwik\Columns;
 use Piwik\Common;
 use Piwik\DbHelper;
-use Piwik\Plugin\ActionDimension;
-use Piwik\Plugin\VisitDimension;
-use Piwik\Plugin\Dimension\Conversion as ConversionDimension;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Db;
 use Piwik\Updater as PiwikUpdater;
 

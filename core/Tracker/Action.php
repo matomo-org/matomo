@@ -12,7 +12,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\ActionDimension;
+use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker;
 

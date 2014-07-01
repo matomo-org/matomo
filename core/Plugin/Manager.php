@@ -22,6 +22,9 @@ use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Updater;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -1142,6 +1145,12 @@ class Manager extends Singleton
                 return true;
             }
         }
+
+        $dimensions = ConversionDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -1299,6 +1308,13 @@ class Manager extends Singleton
 
         try {
             foreach (ActionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
+        } catch (\Exception $e) {
+        }
+
+        try {
+            foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
                 $dimension->uninstall();
             }
         } catch (\Exception $e) {

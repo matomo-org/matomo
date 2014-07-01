@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Events\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\ActionDimension;
+use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Events\Segment;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;

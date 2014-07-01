@@ -54,7 +54,7 @@ class Report
     );
 
     /**
-     * @var \Piwik\Plugin\VisitDimension|\Piwik\Plugin\ActionDimension
+     * @var \Piwik\Plugin\Dimension\VisitDimension|\Piwik\Plugin\Dimension\ActionDimension
      */
     protected $dimension;
     protected $documentation;

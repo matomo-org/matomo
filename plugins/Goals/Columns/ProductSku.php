@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Goals\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 
 class ProductSku extends VisitDimension
 {    

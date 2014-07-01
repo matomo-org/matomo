@@ -11,22 +11,21 @@ namespace Piwik\Plugin\Dimension;
 use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugin\Segment;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Translate;
-use Piwik\Plugin\Segment;
 
 /**
  * @api
  * @since 2.5.0
  */
-abstract class Conversion extends Dimension
+abstract class ActionDimension extends Dimension
 {
-    private $tableName = 'log_conversion';
+    private $tableName = 'log_link_visit_action';
 
     public function install()
     {
@@ -71,6 +70,20 @@ abstract class Conversion extends Dimension
         return $this->columnType;
     }
 
+    public function onLookupAction(Request $request, Action $action)
+    {
+        return false;
+    }
+
+    /**
+     * @return string|int
+     * @throws \Exception in case not implemented
+     */
+    public function getActionId()
+    {
+        throw new \Exception('You need to overwrite the getActionId method in case you implement the onLookupAction method in class: ' . get_class($this));
+    }
+
     protected function addSegment(Segment $segment)
     {
         $sqlSegment = $segment->getSqlSegment();
@@ -81,10 +94,10 @@ abstract class Conversion extends Dimension
         parent::addSegment($segment);
     }
 
-    /** @return \Piwik\Plugin\Dimension\Conversion[] */
+    /** @return \Piwik\Plugin\Dimension\ActionDimension[] */
     public static function getAllDimensions()
     {
-        $cache = new PluginAwareStaticCache('ConversionDimensions');
+        $cache = new PluginAwareStaticCache('ActionDimensions');
 
         if (!$cache->has()) {
 
@@ -103,10 +116,10 @@ abstract class Conversion extends Dimension
         return $cache->get();
     }
 
-    /** @return \Piwik\Plugin\ActionDimension[] */
+    /** @return \Piwik\Plugin\Dimension\ActionDimension[] */
     public static function getDimensions(\Piwik\Plugin $plugin)
     {
-        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\Dimension\\Conversion');
+        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\Dimension\\ActionDimension');
         $instances  = array();
 
         foreach ($dimensions as $dimension) {
@@ -116,41 +129,7 @@ abstract class Conversion extends Dimension
         return $instances;
     }
 
-    /**
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
-     * @param GoalManager $goalManager
-     *
-     * @return mixed|false
-     */
-    public function onEcommerceOrderConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
-    {
-        return false;
-    }
-
-    /**
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
-     * @param GoalManager $goalManager
-     *
-     * @return mixed|false
-     */
-    public function onEcommerceCartUpdateConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
-    {
-        return false;
-    }
-
-    /**
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
-     * @param GoalManager $goalManager
-     *
-     * @return mixed|false
-     */
-    public function onGoalConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
+    public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
         return false;
     }

@@ -11,8 +11,8 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\Conversion;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker;
 
@@ -261,7 +261,7 @@ class GoalManager
             $conversion['idgoal']  = self::IDGOAL_ORDER;
             $conversion['buster']  = Common::hashStringToInt($this->orderId);
 
-            $conversionDimensions = Conversion::getAllDimensions();
+            $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onEcommerceOrderConversion', $visitor, $action, $conversion);
         } // If Cart update, select current items in the previous Cart
         else {
@@ -270,7 +270,7 @@ class GoalManager
             $conversion['buster'] = 0;
             $conversion['idgoal'] = self::IDGOAL_CART;
 
-            $conversionDimensions = Conversion::getAllDimensions();
+            $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onEcommerceCartUpdateConversion', $visitor, $action, $conversion);
         }
 
@@ -693,7 +693,7 @@ class GoalManager
                 ? '0'
                 : $visitorInformation['visit_last_action_time'];
 
-            $conversionDimensions = Conversion::getAllDimensions();
+            $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
             $this->insertNewConversion($conversion, $visitorInformation);
@@ -840,7 +840,7 @@ class GoalManager
 
 
     /**
-     * @param Conversion[] $dimensions
+     * @param ConversionDimension[] $dimensions
      * @param string $hook
      * @param Visitor $visitor
      * @param Action|null $action

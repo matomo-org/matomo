@@ -11,9 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
 use Piwik\DbHelper;
-use Piwik\Plugin\ActionDimension;
 use Piwik\Plugin\Report;
-use Piwik\Plugin\VisitDimension;
 use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

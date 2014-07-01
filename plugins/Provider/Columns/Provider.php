@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Provider\Columns;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;

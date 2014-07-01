@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;

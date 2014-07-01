@@ -9,10 +9,10 @@
 namespace Piwik\Plugins\Goals\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\Conversion;
+use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Segment;
 
-class IdGoal extends Conversion
+class IdGoal extends ConversionDimension
 {
     protected $columnName = 'idgoal';
 

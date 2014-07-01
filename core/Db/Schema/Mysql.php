@@ -192,6 +192,7 @@ class Mysql implements SchemaInterface
 									  buster int unsigned NOT NULL,
 									  idorder varchar(100) default NULL,
 									  items SMALLINT UNSIGNED DEFAULT NULL,
+									  url text NOT NULL,
 
 									  PRIMARY KEY (idvisit, idgoal, buster),
 									  UNIQUE KEY unique_idsite_idorder (idsite, idorder),

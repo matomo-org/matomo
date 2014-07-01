@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 
 class DestinationPage extends VisitDimension
 {    

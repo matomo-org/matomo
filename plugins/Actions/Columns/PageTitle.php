@@ -9,9 +9,8 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\ActionDimension;
+use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Actions\Segment;
-use Piwik\Tracker\Request;
 
 class PageTitle extends ActionDimension
 {

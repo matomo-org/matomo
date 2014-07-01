@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\VisitTime\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\VisitTime\Segment;
 
 class ServerTime extends VisitDimension

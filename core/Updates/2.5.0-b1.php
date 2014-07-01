@@ -8,8 +8,9 @@
  */
 namespace Piwik\Updates;
 
-use Piwik\Plugin\ActionDimension;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -27,6 +28,13 @@ class Updates_2_5_0_b1 extends Updates
         foreach (ActionDimension::getAllDimensions() as $dimension) {
             if ($dimension->getColumnName()) {
                 $component = 'log_link_visit_action.' . $dimension->getColumnName();
+                Updater::recordComponentSuccessfullyUpdated($component, $dimension->getVersion());
+            }
+        }
+
+        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+            if ($dimension->getColumnName()) {
+                $component = 'log_conversion.' . $dimension->getColumnName();
                 Updater::recordComponentSuccessfullyUpdated($component, $dimension->getVersion());
             }
         }

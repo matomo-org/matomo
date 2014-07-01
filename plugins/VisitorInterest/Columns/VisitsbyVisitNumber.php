@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\VisitorInterest\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 
 class VisitsbyVisitNumber extends VisitDimension
 {    

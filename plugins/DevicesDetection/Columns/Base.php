@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use Piwik\DeviceDetectorFactory;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 
 abstract class Base extends VisitDimension
 {

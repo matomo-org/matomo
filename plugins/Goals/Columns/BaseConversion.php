@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Goals\Columns;
 
-use Piwik\Plugin\Dimension\Conversion;
+use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Tracker\GoalManager;
 
-abstract class BaseConversion extends Conversion
+abstract class BaseConversion extends ConversionDimension
 {
     /**
      * Returns rounded decimal revenue, or if revenue is integer, then returns as is.

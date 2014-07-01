@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;

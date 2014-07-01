@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Segment;
-use Piwik\Plugin\VisitDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;

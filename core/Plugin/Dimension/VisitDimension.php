@@ -6,13 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugin;
+namespace Piwik\Plugin\Dimension;
 
 use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -147,7 +148,7 @@ abstract class VisitDimension extends Dimension
         return false;
     }
 
-    /** @return \Piwik\Plugin\VisitDimension[] */
+    /** @return \Piwik\Plugin\Dimension\VisitDimension[] */
     public static function getAllDimensions()
     {
         $cache = new PluginAwareStaticCache('VisitDimensions');
@@ -186,10 +187,10 @@ abstract class VisitDimension extends Dimension
         return 0;
     }
 
-    /** @return \Piwik\Plugin\VisitDimension[] */
+    /** @return \Piwik\Plugin\Dimension\VisitDimension[] */
     public static function getDimensions(\Piwik\Plugin $plugin)
     {
-        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\VisitDimension');
+        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\Dimension\\VisitDimension');
         $instances  = array();
 
         foreach ($dimensions as $dimension) {
