@@ -133,7 +133,7 @@ class CronArchive
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
 
         if(!empty($this->shouldArchiveOnlySpecificPeriods)) {
-            $this->log("- Will only process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
+            $this->log("- Will process the following periods: " . implode(", ", $this->shouldArchiveOnlySpecificPeriods) . " (--force-periods)");
         }
 
         $websitesIds = $this->initWebsiteIds();
@@ -455,9 +455,9 @@ class CronArchive
     /**
      * Returns base URL to process reports for the $idSite on a given $period
      */
-    private function getVisitsRequestUrl($idSite, $period, $dateLast)
+    private function getVisitsRequestUrl($idSite, $period, $date)
     {
-        return "?module=API&method=API.get&idSite=$idSite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
+        return "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
     }
 
     private function initSegmentsToArchive()
@@ -505,7 +505,7 @@ class CronArchive
             $processDaysSince = false;
         }
 
-        $dateLast = $this->getApiDateLastParameter($idSite, "day", $processDaysSince);
+        $dateLast = $this->getApiDateParameter($idSite, "day", $processDaysSince);
         $url = $this->getVisitsRequestUrl($idSite, "day", $dateLast);
         $content = $this->request($url);
         $daysResponse = @unserialize($content);
@@ -581,7 +581,7 @@ class CronArchive
 
         $url  = $this->piwikUrl;
 
-        $dateLast = $this->getApiDateLastParameter($idSite, $period, $lastTimestampWebsiteProcessed);
+        $dateLast = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed);
         $url .= $this->getVisitsRequestUrl($idSite, $period, $dateLast);
 
 
@@ -742,11 +742,10 @@ class CronArchive
         }
 
         // Make sure we log at least INFO (if logger is set to DEBUG then keep it)
-        $logLevel = @$log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION];
-        if ($logLevel != 'VERBOSE'
-            && $logLevel != 'DEBUG'
+        $logLevel = Log::getInstance()->getLogLevel();
+        if ($logLevel != Log::VERBOSE
+            && $logLevel != Log::DEBUG
         ) {
-            $log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'INFO';
             Log::getInstance()->setLogLevel(Log::INFO);
         }
 
@@ -1202,30 +1201,13 @@ class CronArchive
      * @param $lastTimestampWebsiteProcessed
      * @return float|int|true
      */
-    private function getApiDateLastParameter($idSite, $period, $lastTimestampWebsiteProcessed = false)
+    private function getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed = false)
     {
-        $dateLastMax = self::DEFAULT_DATE_LAST;
-        if ($period == 'year') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
-        } elseif ($period == 'week') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
+        $dateRangeForced = $this->getDateRangeToProcess();
+        if(!empty($dateRangeForced)) {
+            return $dateRangeForced;
         }
-        if (empty($lastTimestampWebsiteProcessed)) {
-            $lastTimestampWebsiteProcessed = strtotime(\Piwik\Site::getCreationDateFor($idSite));
-        }
-
-        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
-        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
-        if ($dateLast > $dateLastMax) {
-            $dateLast = $dateLastMax;
-        }
-
-        $dateLastForced = $this->getParameterFromCli('--force-date-last-n', true);
-        if (!empty($dateLastForced)) {
-            $dateLast = $dateLastForced;
-            return $dateLast;
-        }
-        return $dateLast;
+        return $this->getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed);
     }
 
     /**
@@ -1243,6 +1225,18 @@ class CronArchive
             . (int)$visitsInLastPeriods . " visits in last " . $dateLast . " " . $period . "s, "
             . (int)$visitsToday . " visits " . $thisPeriod . ", "
             . $timer->__toString());
+    }
+
+    private function getDateRangeToProcess()
+    {
+        $restrictToDateRange = $this->getParameterFromCli("force-date-range", true);
+        if(empty($restrictToDateRange)) {
+            return false;
+        }
+        if(strpos($restrictToDateRange, ',') === false) {
+            throw new Exception("--force-date-range expects a date range ie. YYYY-MM-DD,YYYY-MM-DD");
+        }
+        return $restrictToDateRange;
     }
 
     /**
@@ -1280,5 +1274,36 @@ class CronArchive
             return true;
         }
         return in_array($period, $this->shouldArchiveOnlySpecificPeriods);
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $lastTimestampWebsiteProcessed
+     * @return string
+     */
+    private function getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed)
+    {
+        $dateLastMax = self::DEFAULT_DATE_LAST;
+        if ($period == 'year') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
+        } elseif ($period == 'week') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
+        }
+        if (empty($lastTimestampWebsiteProcessed)) {
+            $lastTimestampWebsiteProcessed = strtotime(\Piwik\Site::getCreationDateFor($idSite));
+        }
+
+        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
+        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
+        if ($dateLast > $dateLastMax) {
+            $dateLast = $dateLastMax;
+        }
+
+        $dateLastForced = $this->getParameterFromCli('--force-date-last-n', true);
+        if (!empty($dateLastForced)) {
+            $dateLast = $dateLastForced;
+        }
+        return "last" . $dateLast;
     }
 }

@@ -373,6 +373,11 @@ class Log extends Singleton
         $this->currentLogLevel = $logLevel;
     }
 
+    public function getLogLevel()
+    {
+        return $this->currentLogLevel;
+    }
+
     private function logToFile($level, $tag, $datetime, $message)
     {
         $message = $this->getMessageFormattedFile($level, $tag, $datetime, $message);
