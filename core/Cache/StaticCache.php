@@ -7,6 +7,10 @@
  *
  */
 namespace Piwik\Cache;
+
+use Piwik\Piwik;
+use Piwik\SettingsServer;
+use Piwik\Tracker;
 use Piwik\Translate;
 
 /**
@@ -19,13 +23,21 @@ use Piwik\Translate;
  */
 class StaticCache
 {
-    private static $staticCache = array();
+    protected static $staticCache = array();
+    protected static $entriesToPersist = array();
+
+    private $persistForTracker = false;
 
     private $cacheKey;
 
     public function __construct($cacheKey)
     {
         $this->setCacheKey($cacheKey);
+    }
+
+    public function enablePersistForTracker()
+    {
+        $this->persistForTracker = true;
     }
 
     public function setCacheKey($cacheKey)
@@ -46,6 +58,40 @@ class StaticCache
     public function set($content)
     {
         self::$staticCache[$this->cacheKey] = $content;
+
+        if ($this->persistForTracker) {
+            self::$entriesToPersist[] = $this->cacheKey;
+        }
+    }
+
+    public static function loadTrackerCache()
+    {
+        $cache = \Piwik\Tracker\Cache::getCacheGeneral();
+        if (array_key_exists('staticCache', $cache)) {
+            static::$staticCache = $cache['staticCache'];
+        }
+    }
+
+    public static function saveTrackerCache()
+    {
+        $cache = \Piwik\Tracker\Cache::getCacheGeneral();
+
+        if (array_key_exists('staticCache', $cache)) {
+            $oldContent = array_keys($cache['staticCache']);
+            $save = array_diff(self::$entriesToPersist, $oldContent);
+        } else {
+            $save = true;
+        }
+
+        if (!empty($save)) {
+            $content = array();
+            foreach (self::$entriesToPersist as $key) {
+                $content[$key] = self::$staticCache[$key];
+            }
+
+            $cache['staticCache'] = $content;
+            \Piwik\Tracker\Cache::setCacheGeneral($cache);
+        }
     }
 
     protected function completeKey($cacheKey)

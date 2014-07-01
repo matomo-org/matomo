@@ -29,8 +29,8 @@ abstract class Dimension
 
     public function hasImplementedEvent($method)
     {
-        $reflectionObject = new \ReflectionObject($this);
-        $declaringClass   = $reflectionObject->getMethod($method)->getDeclaringClass();
+        $method = new \ReflectionMethod($this, $method);
+        $declaringClass = $method->getDeclaringClass();
 
         return 0 === strpos($declaringClass->name, 'Piwik\Plugins');
     }

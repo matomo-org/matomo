@@ -139,6 +139,7 @@ class Plugin
         }
 
         $this->cache = new StaticCache('Plugin' . $pluginName);
+        $this->cache->enablePersistForTracker();
     }
 
     private function hasDefinedPluginInformationInPluginClass()
@@ -348,7 +349,12 @@ class Plugin
         $this->cache->setCacheKey('Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass);
 
         if ($this->cache->has()) {
-            return $this->cache->get();
+            $files = $this->cache->get();
+            foreach ($files as $file => $klass) {
+                require_once $file;
+            }
+
+            return $files;
         }
 
         $components = array();
@@ -375,7 +381,7 @@ class Plugin
                 continue;
             }
 
-            $components[] = $klassName;
+            $components[$file] = $klassName;
         }
 
         $this->cache->set($components);

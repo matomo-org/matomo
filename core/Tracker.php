@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Cache\StaticCache;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Db\DbException;
@@ -227,6 +228,7 @@ class Tracker
     public function main($args = null)
     {
         try {
+            StaticCache::loadTrackerCache();
             $tokenAuth = $this->initRequests($args);
         } catch (Exception $ex) {
             $this->exitWithException($ex, true);

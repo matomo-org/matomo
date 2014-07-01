@@ -269,6 +269,7 @@ class Visitor
         );
 
         $dimensions = VisitDimension::getAllDimensions();
+
         foreach ($dimensions as $dimension) {
             if ($dimension->hasImplementedEvent('onExistingVisit')) {
                 $fields[] = $dimension->getColumnName();

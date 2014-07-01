@@ -17,6 +17,7 @@ use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
+use Piwik\Tracker;
 use Piwik\Translate;
 
 /**
@@ -180,7 +181,7 @@ abstract class VisitDimension extends Dimension
             return -1;
         }
 
-        if (!empty($fields) && in_array($b->getColumnName(), $fields)) {
+        if (in_array($b->getColumnName(), $fields)) {
             return 1;
         }
 
