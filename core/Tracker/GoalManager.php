@@ -44,8 +44,7 @@ class GoalManager
     protected $action = null;
     protected $convertedGoals = array();
 
-    private $currentConversion = array();
-    private $currentGoal       = array();
+    private $currentGoal = array();
 
     /**
      * @var Request
@@ -648,15 +647,6 @@ class GoalManager
         return $newRow;
     }
 
-    public function getConversionColumn($column)
-    {
-        if (array_key_exists($column, $this->currentConversion)) {
-            return $this->currentConversion[$column];
-        }
-
-        return false;
-    }
-
     public function getGoalColumn($column)
     {
         if (array_key_exists($column, $this->currentGoal)) {
@@ -850,8 +840,6 @@ class GoalManager
      */
     private function triggerHookOnDimensions($dimensions, $hook, $visitor, $action, $valuesToUpdate)
     {
-        $this->currentConversion = $valuesToUpdate;
-
         foreach ($dimensions as $dimension) {
             $value = $dimension->$hook($this->request, $visitor, $action, $this);
 
@@ -860,7 +848,6 @@ class GoalManager
                 $visitor->setVisitorColumn($fieldName, $value);
 
                 $valuesToUpdate[$fieldName] = $value;
-                $this->currentConversion[$fieldName] = $value;
             }
         }
 

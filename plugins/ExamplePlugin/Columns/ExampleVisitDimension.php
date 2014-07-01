@@ -48,9 +48,9 @@ class ExampleVisitDimension extends VisitDimension
     }
 
     /**
-     * By defining one or multiple segments user can filter their users by this column. For instance show all reports
-     * only considering users having more than 10 achievement points. If you do not want to define a segment for this
-     * dimension just remove the column.
+     * By defining one or multiple segments a user will be able to filter their visitors by this column. For instance
+     * show all reports only considering users having more than 10 achievement points. If you do not want to define a
+     * segment for this dimension just remove the column.
      */
     protected function configureSegments()
     {

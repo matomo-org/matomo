@@ -27,7 +27,7 @@ class GenerateDimension extends GeneratePluginBase
         $this->setName('generate:dimension')
             ->setDescription('Adds a new dimension to an existing plugin. This allows you to persist new values during tracking.')
             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a menu defined yet')
-            ->addOption('type', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a Visit or an Action dimension')
+            ->addOption('type', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "Visit", an "Action" or a "Conversion" dimension')
             ->addOption('dimensionname', null, InputOption::VALUE_REQUIRED, 'A human readable name of the dimension which will be for instance visible in the UI')
             ->addOption('columnname', null, InputOption::VALUE_REQUIRED, 'The name of the column in the MySQL database the dimension will be stored under')
             ->addOption('columntype', null, InputOption::VALUE_REQUIRED, 'The MySQL type for your dimension, for instance "VARCHAR(255) NOT NULL".');
@@ -46,10 +46,12 @@ class GenerateDimension extends GeneratePluginBase
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
         $replace        = array('example_action_dimension'  => strtolower($columnName),
                                 'example_visit_dimension'   => strtolower($columnName),
+                                'example_conversion_dimension'   => strtolower($columnName),
                                 'INTEGER(11) DEFAULT 0 NOT NULL' => strtoupper($columType),
                                 'VARCHAR(255) DEFAULT NULL'      => strtoupper($columType),
                                 'ExampleVisitDimension'  => $dimensionClassName,
                                 'ExampleActionDimension' => $dimensionClassName,
+                                'ExampleConversionDimension' => $dimensionClassName,
                                 'ExamplePlugin_DimensionName' => ucfirst($dimensionName),
                                 'ExamplePlugin'     => $pluginName,
         );
@@ -60,6 +62,8 @@ class GenerateDimension extends GeneratePluginBase
             $whitelistFiles[] = '/Columns/ExampleVisitDimension.php';
         } elseif ('action' == $type) {
             $whitelistFiles[] = '/Columns/ExampleActionDimension.php';
+        } elseif ('conversion' == $type) {
+            $whitelistFiles[] = '/Columns/ExampleConversionDimension.php';
         } else {
             throw new \InvalidArgumentException('This dimension type is not available');
         }
@@ -139,6 +143,8 @@ class GenerateDimension extends GeneratePluginBase
                 $columns = array_keys(DbHelper::getTableColumns(Common::prefixTable('log_visit')));
             } elseif ('action' == $type) {
                 $columns = array_keys(DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action')));
+            } elseif ('conversion' == $type) {
+                $columns = array_keys(DbHelper::getTableColumns(Common::prefixTable('log_conversion')));
             } else {
                 $columns = array();
             }
@@ -200,7 +206,7 @@ class GenerateDimension extends GeneratePluginBase
      */
     protected function getDimensionType(InputInterface $input, OutputInterface $output)
     {
-        $acceptedValues = array('visit', 'action');
+        $acceptedValues = array('visit', 'action', 'conversion');
 
         $validate = function ($type) use ($acceptedValues) {
             if (empty($type) || !in_array($type, $acceptedValues)) {
