@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\Config;
+use Piwik\DataAccess\ArchivePurger;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
 use Piwik\Period;
@@ -120,7 +121,7 @@ class Loader
         $idArchive = $pluginsArchiver->finalizeArchive();
 
         if (!$this->params->isSingleSiteDayArchive() && $visits) {
-            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
+            ArchivePurger::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
 
         return array($idArchive, $visits);

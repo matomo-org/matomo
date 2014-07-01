@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
+use Piwik\DataAccess\ArchivePurger;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
@@ -33,7 +34,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
             // Somehow we may have archive tables created with older dates, prevent exception from being thrown
             if($year > 1990) {
-                ArchiveSelector::purgeOutdatedArchives(Date::factory("$year-$month-15"));
+                ArchivePurger::purgeOutdatedArchives(Date::factory("$year-$month-15"));
             }
         }
     }
