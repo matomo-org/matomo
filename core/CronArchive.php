@@ -377,10 +377,6 @@ class CronArchive
             $skipDayArchive = false;
         }
 
-        if (!$this->shouldProcessPeriod("day")) {
-            $skipDayArchive = true;
-        }
-
         if ($skipDayArchive) {
             $this->log("Skipped website id $idSite, already done "
                 . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
@@ -483,6 +479,11 @@ class CronArchive
      */
     protected function processArchiveDays($idSite, $lastTimestampWebsiteProcessedDay, $shouldArchivePeriods, Timer $timerWebsite)
     {
+        if (!$this->shouldProcessPeriod("day")) {
+            // skip day archiving and proceed to period processing
+            return true;
+        }
+
         // Fake that the request is already done, so that other core:archive commands
         // running do not grab the same website from the queue
         Option::set($this->lastRunKey($idSite, "day"), time());
