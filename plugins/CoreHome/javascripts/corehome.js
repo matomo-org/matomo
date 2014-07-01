@@ -149,7 +149,7 @@
                 }
 
                 loading.hide();
-                report.html($(response)).css('display', 'inline-block');
+                report.css('display', 'inline-block').html($(response));
 
                 // scroll to report
                 piwikHelper.lazyScrollTo(report, 400);
