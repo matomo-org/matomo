@@ -171,7 +171,6 @@ class CronArchive
         $this->runScheduledTasks();
     }
 
-    // TODO: replace w/ $this->
     private $websitesWithVisitsSinceLastRun = 0;
     private $skippedPeriodsArchivesWebsite = 0;
     private $skippedDayArchivesWebsites = 0;
@@ -405,24 +404,13 @@ class CronArchive
 
 
         $timer = new Timer;
-        $dateLast = $this->getApiDateLastParameter($idSite, "day", $processDaysSince);
-        $url = $this->getVisitsRequestUrl($idSite, "day", $dateLast);
-        $content = $this->request($url);
-        $response = @unserialize($content);
-        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($response);
-        $visitsLastDays = $this->getVisitsFromApiResponse($response);
-
-        if (empty($content)
-            || !is_array($response)
-            || count($response) == 0
-        ) {
-            // cancel the succesful run flag
-            Option::set($this->lastRunKey($idSite, "day"), 0);
-
-            $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
-            $this->skipped++;
+        $daysResponse = $this->processArchiveDays($idSite, $processDaysSince, $timerWebsite);
+        if(!$daysResponse) {
             return false;
         }
+
+        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
+        $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
 
         $this->requests++;
         $this->processed++;
@@ -521,6 +509,33 @@ class CronArchive
         }
         $this->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
         return $segments;
+    }
+
+    /**
+     * @param $idSite
+     * @param $processDaysSince
+     * @param $timerWebsite
+     * @return bool
+     */
+    protected function processArchiveDays($idSite, $processDaysSince, Timer $timerWebsite)
+    {
+        $dateLast = $this->getApiDateLastParameter($idSite, "day", $processDaysSince);
+        $url = $this->getVisitsRequestUrl($idSite, "day", $dateLast);
+        $content = $this->request($url);
+        $response = @unserialize($content);
+
+        if (empty($content)
+            || !is_array($response)
+            || count($response) == 0
+        ) {
+            // cancel the succesful run flag
+            Option::set($this->lastRunKey($idSite, "day"), 0);
+
+            $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+            $this->skipped++;
+            return false;
+        }
+        return $response;
     }
 
     private function getSegmentsForSite($idSite)
