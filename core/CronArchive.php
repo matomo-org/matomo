@@ -505,8 +505,8 @@ class CronArchive
             $processDaysSince = false;
         }
 
-        $dateLast = $this->getApiDateParameter($idSite, "day", $processDaysSince);
-        $url = $this->getVisitsRequestUrl($idSite, "day", $dateLast);
+        $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
+        $url = $this->getVisitsRequestUrl($idSite, "day", $date);
         $content = $this->request($url);
         $daysResponse = @unserialize($content);
 
@@ -541,7 +541,7 @@ class CronArchive
             && !$shouldArchivePeriods
             && $this->shouldArchiveAllSites
         ) {
-            $this->log("Skipped website id $idSite, no visits in the last " . $dateLast . " days, " . $timerWebsite->__toString());
+            $this->log("Skipped website id $idSite, no visits in the last " . $date . " days, " . $timerWebsite->__toString());
             $this->skipped++;
             return false;
         }
@@ -549,7 +549,7 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
         $this->archiveVisitsAndSegments($idSite, "day", $processDaysSince);
-        $this->logArchivedWebsite($idSite, "day", $dateLast, $visitsLastDays, $visitsToday, $timerWebsite);
+        $this->logArchivedWebsite($idSite, "day", $date, $visitsLastDays, $visitsToday, $timerWebsite);
 
         return true;
     }
@@ -581,8 +581,8 @@ class CronArchive
 
         $url  = $this->piwikUrl;
 
-        $dateLast = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed);
-        $url .= $this->getVisitsRequestUrl($idSite, $period, $dateLast);
+        $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed);
+        $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
 
 
         $url .= self::APPEND_TO_API_REQUEST;
@@ -628,7 +628,7 @@ class CronArchive
 
         // we have already logged the daily archive above
         if($period != "day") {
-            $this->logArchivedWebsite($idSite, $period, $dateLast, $visitsInLastPeriods, $visitsLastPeriod, $timer);
+            $this->logArchivedWebsite($idSite, $period, $date, $visitsInLastPeriods, $visitsLastPeriod, $timer);
         }
 
         return $success;
@@ -1213,17 +1213,25 @@ class CronArchive
     /**
      * @param $idSite
      * @param $period
-     * @param $dateLast
+     * @param $date
      * @param $visitsInLastPeriods
      * @param $visitsToday
      * @param $timer
      */
-    private function logArchivedWebsite($idSite, $period, $dateLast, $visitsInLastPeriods, $visitsToday, Timer $timer)
+    private function logArchivedWebsite($idSite, $period, $date, $visitsInLastPeriods, $visitsToday, Timer $timer)
     {
-        $thisPeriod = $period == "day" ? "today" : "this " . $period;
+        if(substr($date, 0, 4) === 'last') {
+            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
+            $thisPeriod = $period == "day" ? "today" : "this " . $period;
+            $visitsInLastPeriod = (int)$visitsToday . " visits " . $thisPeriod . ", ";
+        } else {
+            $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in " . $period . "s included in: $date, ";
+            $visitsInLastPeriod = '';
+        }
+
         $this->log("Archived website id = $idSite, period = $period, "
-            . (int)$visitsInLastPeriods . " visits in last " . $dateLast . " " . $period . "s, "
-            . (int)$visitsToday . " visits " . $thisPeriod . ", "
+            . $visitsInLastPeriods
+            . $visitsInLastPeriod
             . $timer->__toString());
     }
 
