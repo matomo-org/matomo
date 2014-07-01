@@ -182,6 +182,7 @@ else
     for i in zip tar.gz; do
         ln -sf $HTTP_PATH/piwik-$VERSION.$i $HTTP_PATH/latest.$i
         ln -sf $HTTP_PATH/piwik-$VERSION.$i $HTTP_PATH/piwik-latest.$i
+        ln -sf $HTTP_PATH/piwik-$VERSION.$i $HTTP_PATH/piwik.$i
     done
 
     # record filesize in Mb
