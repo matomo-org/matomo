@@ -79,7 +79,7 @@
         </p>
     {% endif %}
 
-    {% if coreToUpdate or pluginNamesToUpdate|length > 0 %}
+    {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0  %}
         <br/>
         <form action="index.php" id="upgradeCorePluginsForm">
             <input type="hidden" name="updateCorePlugins" value="1"/>
