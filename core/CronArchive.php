@@ -403,41 +403,10 @@ class CronArchive
         }
 
 
-        $timer = new Timer;
-        $daysResponse = $this->processArchiveDays($idSite, $processDaysSince, $timerWebsite);
-        if(!$daysResponse) {
+        $shouldProceed = $this->processArchiveDays($idSite, $processDaysSince, $shouldArchivePeriods, $timerWebsite);
+        if(!$shouldProceed) {
             return false;
         }
-
-        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
-        $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
-
-        $this->requests++;
-        $this->processed++;
-
-        // If there is no visit today and we don't need to process this website, we can skip remaining archives
-        if ($visitsToday == 0
-            && !$shouldArchivePeriods
-        ) {
-            $this->log("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
-            $this->skipped++;
-            return false;
-        }
-
-        if ($visitsLastDays == 0
-            && !$shouldArchivePeriods
-            && $this->shouldArchiveAllSites
-        ) {
-            $this->log("Skipped website id $idSite, no visits in the last " . $dateLast . " days, " . $timerWebsite->__toString());
-            $this->skipped++;
-            return false;
-        }
-
-
-        $this->visitsToday += $visitsToday;
-        $this->websitesWithVisitsSinceLastRun++;
-        $this->archiveVisitsAndSegments($idSite, "day", $lastTimestampWebsiteProcessedDay);
-        $this->logArchivedWebsite($idSite, "day", $dateLast, $visitsLastDays, $visitsToday, $timer);
 
         if (!$shouldArchivePeriods) {
             $this->log("Skipped website id $idSite periods processing, already done "
@@ -514,19 +483,20 @@ class CronArchive
     /**
      * @param $idSite
      * @param $processDaysSince
+     * @param $shouldArchivePeriods
      * @param $timerWebsite
      * @return bool
      */
-    protected function processArchiveDays($idSite, $processDaysSince, Timer $timerWebsite)
+    protected function processArchiveDays($idSite, $processDaysSince, $shouldArchivePeriods, Timer $timerWebsite)
     {
         $dateLast = $this->getApiDateLastParameter($idSite, "day", $processDaysSince);
         $url = $this->getVisitsRequestUrl($idSite, "day", $dateLast);
         $content = $this->request($url);
-        $response = @unserialize($content);
+        $daysResponse = @unserialize($content);
 
         if (empty($content)
-            || !is_array($response)
-            || count($response) == 0
+            || !is_array($daysResponse)
+            || count($daysResponse) == 0
         ) {
             // cancel the succesful run flag
             Option::set($this->lastRunKey($idSite, "day"), 0);
@@ -535,7 +505,37 @@ class CronArchive
             $this->skipped++;
             return false;
         }
-        return $response;
+
+        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
+        $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
+
+        $this->requests++;
+        $this->processed++;
+
+        // If there is no visit today and we don't need to process this website, we can skip remaining archives
+        if ($visitsToday == 0
+            && !$shouldArchivePeriods
+        ) {
+            $this->log("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
+            $this->skipped++;
+            return false;
+        }
+
+        if ($visitsLastDays == 0
+            && !$shouldArchivePeriods
+            && $this->shouldArchiveAllSites
+        ) {
+            $this->log("Skipped website id $idSite, no visits in the last " . $dateLast . " days, " . $timerWebsite->__toString());
+            $this->skipped++;
+            return false;
+        }
+
+        $this->visitsToday += $visitsToday;
+        $this->websitesWithVisitsSinceLastRun++;
+        $this->archiveVisitsAndSegments($idSite, "day", $processDaysSince);
+        $this->logArchivedWebsite($idSite, "day", $dateLast, $visitsLastDays, $visitsToday, $timerWebsite);
+
+        return true;
     }
 
     private function getSegmentsForSite($idSite)
