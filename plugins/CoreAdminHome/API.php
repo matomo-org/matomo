@@ -133,6 +133,10 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        if(empty($minDate)) {
+            throw new Exception("Check the 'dates' parameter is a valid date.");
+        }
+
         // In each table, invalidate day/week/month/year containing this date
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {

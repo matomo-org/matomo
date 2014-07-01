@@ -1185,7 +1185,7 @@ class API extends \Piwik\Plugin\API
      *
      * @ignore
      */
-    public function updateSiteCreatedTime($idSites, $minDate)
+    public function updateSiteCreatedTime($idSites, Date $minDate)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
         Piwik::checkUserHasAdminAccess($idSites);
