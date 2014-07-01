@@ -120,10 +120,6 @@ class Loader
         }
         $idArchive = $pluginsArchiver->finalizeArchive();
 
-        if (!$this->params->isSingleSiteDayArchive() && $visits) {
-            ArchivePurger::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
-        }
-
         return array($idArchive, $visits);
     }
 
