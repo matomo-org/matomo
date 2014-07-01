@@ -23,5 +23,5 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 
 // Make sure Data processed in cron core:archive command is not being purged instantly (useful for: Integration/ArchiveCronTest)
 if(\Piwik\SettingsServer::isArchivePhpTriggered()) {
-    \Piwik\ArchiveProcessor\Rules::$purgeDisabledByTests = true;
+    \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
 }

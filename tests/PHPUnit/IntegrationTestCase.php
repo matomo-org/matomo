@@ -824,7 +824,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
         // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
-        Rules::$purgeDisabledByTests = true;
+        \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
 
         $testName = 'test_' . static::getOutputPrefix();
         $this->missingExpectedFiles = array();
@@ -883,7 +883,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         // Restore normal purge behavior
-        Rules::$purgeDisabledByTests = false;
+        \Piwik\ArchiveProcessor\Rules::enablePurgeOutdatedArchives();
 
         // change the language back to en
         if ($this->lastLanguage != 'en') {
