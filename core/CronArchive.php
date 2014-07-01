@@ -607,7 +607,7 @@ class CronArchive
 
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
-        $cliMulti->setConcurrentProcessesLimit(self::MAX_CONCURRENT_API_REQUESTS);
+        $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
@@ -1313,5 +1313,13 @@ class CronArchive
             $dateLast = $dateLastForced;
         }
         return "last" . $dateLast;
+    }
+
+    /**
+     * @return int
+     */
+    private function getConcurrentRequestsPerWebsite()
+    {
+        return $this->getParameterFromCli('--concurrent-requests-per-website', true);
     }
 }

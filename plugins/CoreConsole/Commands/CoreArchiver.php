@@ -62,6 +62,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL, 'If specified, archiving will be processed only for these Sites Ids (comma separated)');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL, "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month)");
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL, "If specified, archiving will be processed only for the periods included in this date range, eg. --force-date-range=YYYY-MM-DD,YYYY-MM-DD");
+        $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL, "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
         $command->addOption('skip-idsites', null, InputOption::VALUE_OPTIONAL, 'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).');
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE, "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
         $command->addOption('xhprof', null, InputOption::VALUE_NONE, "Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).");
