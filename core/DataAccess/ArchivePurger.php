@@ -13,6 +13,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Piwik;
 
 /**
  * Cleans up outdated archives
