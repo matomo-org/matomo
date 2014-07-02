@@ -56,7 +56,7 @@ class WidgetsList extends Singleton
      */
     static public function get()
     {
-        $cache = new PluginAwareStaticCache('WidgetsList');
+        $cache = self::getCacheForCompleteList();
         if ($cache->has()) {
             return $cache->get();
         }
@@ -244,5 +244,11 @@ class WidgetsList extends Singleton
     {
         self::$widgets    = array();
         self::$hookCalled = false;
+        self::getCacheForCompleteList()->clear();
+    }
+
+    private static function getCacheForCompleteList()
+    {
+        return new PluginAwareStaticCache('WidgetsList');
     }
 }

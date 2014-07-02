@@ -47,6 +47,11 @@ class StaticCache
         return array_key_exists($this->cacheKey, self::$staticCache);
     }
 
+    public function clear()
+    {
+        unset(self::$staticCache[$this->cacheKey]);
+    }
+
     public function set($content)
     {
         self::$staticCache[$this->cacheKey] = $content;
