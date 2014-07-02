@@ -31,49 +31,30 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view = new View('@SitesManager/index');
 
-        Site::clearCache();
-        $sites = API::getInstance()->getSitesWithAdminAccess();
-
-        foreach ($sites as &$site) {
-            $site['alias_urls'] = API::getInstance()->getSiteUrlsFromId($site['idsite']);
-            $site['excluded_ips'] = explode(',', $site['excluded_ips']);
-            $site['excluded_parameters'] = explode(',', $site['excluded_parameters']);
-            $site['excluded_user_agents'] = explode(',', $site['excluded_user_agents']);
-        }
-        $view->adminSites = $sites;
-        $view->adminSitesCount = count($sites);
-
-        $timezones = API::getInstance()->getTimezonesList();
-        $view->timezoneSupported = SettingsServer::isTimezoneSupportEnabled();
-        $view->timezones = Common::json_encode($timezones);
-        $view->defaultTimezone = API::getInstance()->getDefaultTimezone();
-
-        $view->currencies = Common::json_encode(API::getInstance()->getCurrencyList());
-        $view->defaultCurrency = API::getInstance()->getDefaultCurrency();
-
-        $view->utcTime = Date::now()->getDatetime();
-        $excludedIpsGlobal = API::getInstance()->getExcludedIpsGlobal();
-        $view->globalExcludedIps = str_replace(',', "\n", $excludedIpsGlobal);
-        $excludedQueryParametersGlobal = API::getInstance()->getExcludedQueryParametersGlobal();
-        $view->globalExcludedQueryParameters = str_replace(',', "\n", $excludedQueryParametersGlobal);
-
-        $globalExcludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
-        $view->globalExcludedUserAgents = str_replace(',', "\n", $globalExcludedUserAgents);
-
-        $view->globalSearchKeywordParameters = API::getInstance()->getSearchKeywordParametersGlobal();
-        $view->globalSearchCategoryParameters = API::getInstance()->getSearchCategoryParametersGlobal();
-        $view->isSearchCategoryTrackingEnabled = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
-        $view->allowSiteSpecificUserAgentExclude =
-            API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
-
-        $view->globalKeepURLFragments = API::getInstance()->getKeepURLFragmentsGlobal();
-
-        $view->currentIpAddress = IP::getIpFromHeader();
-
-        $view->showAddSite = (boolean)Common::getRequestVar('showaddsite', false);
-
         $this->setBasicVariablesView($view);
+
         return $view->render();
+    }
+
+    public function getGlobalSettings() {
+
+        Piwik::checkUserHasSomeViewAccess();
+
+        $response = new ResponseBuilder(Common::getRequestVar('format'));
+
+        $globalSettings = array();
+
+        $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
+        $globalSettings['siteSpecificUserAgentExcludeEnabled'] = API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
+        $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
+        $globalSettings['searchKeywordParametersGlobal'] = API::getInstance()->getSearchKeywordParametersGlobal();
+        $globalSettings['searchCategoryParametersGlobal'] = API::getInstance()->getSearchCategoryParametersGlobal();
+        $globalSettings['defaultTimezone'] = API::getInstance()->getDefaultTimezone();
+        $globalSettings['excludedIpsGlobal'] = API::getInstance()->getExcludedIpsGlobal();
+        $globalSettings['excludedQueryParametersGlobal'] = API::getInstance()->getExcludedQueryParametersGlobal();
+        $globalSettings['excludedUserAgentsGlobal'] = API::getInstance()->getExcludedUserAgentsGlobal();
+
+        return $response->getResponse($globalSettings);
     }
 
     /**

@@ -1,0 +1,189 @@
+<div ng-show="hasSuperUserAccess">
+
+    <br/>
+
+    <h2 id="globalSettings">{{ 'SitesManager_GlobalWebsitesSettings' | translate }}</h2>
+
+    <br/>
+
+    <table style="width:600px;" class="adminTable">
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_GlobalListExcludedIps'|translate }}</strong>
+
+                <p>{{ 'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate }} </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div sites-manager-multiline-field field="globalSettings.excludedIpsGlobal" cols="30" rows="3" id="excludedIpsGlobal"></div>
+            </td>
+            <td>
+                <label for="excludedIpsGlobal" ng-include="'plugins/SitesManager/templates/help/excluded-ip-help.html'">
+                </label>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_GlobalListExcludedQueryParameters'|translate }}</strong>
+
+                <p>{{ 'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites'|translate }} </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div sites-manager-multiline-field field="globalSettings.excludedQueryParametersGlobal" cols="30" rows="3" id="excludedQueryParametersGlobal"></div>
+            </td>
+            <td>
+                <label for="excludedQueryParametersGlobal" ng-include="'plugins/SitesManager/templates/help/excluded-query-parameters-help.html'">
+                </label>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_GlobalListExcludedUserAgents'|translate }}</strong>
+
+                <p>{{ 'SitesManager_GlobalListExcludedUserAgents_Desc'|translate }}</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div sites-manager-multiline-field field="globalSettings.excludedUserAgentsGlobal" cols="30" rows="3" id="excludedUserAgentsGlobal"></div>
+            </td>
+
+            <td>
+                <label for="excludedUserAgentsGlobal"  ng-include="'plugins/SitesManager/templates/help/excluded-user-agents-help.html'">
+                </label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox" id="siteSpecificUserAgentExcludeEnabled" ng-model="globalSettings.siteSpecificUserAgentExcludeEnabled">
+
+                <label for="siteSpecificUserAgentExcludeEnabled">
+                    {{ 'SitesManager_EnableSiteSpecificUserAgentExclude'|translate }}
+                </label>
+            </td>
+            <td>
+                <div class="ui-inline-help" ng-bind-html="'SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate:'<a href=\'#excludedUserAgentsGlobal\'>':'</a>'"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_KeepURLFragments'|translate }}</strong>
+
+                <p ng-bind-html="'SitesManager_KeepURLFragmentsHelp'|translate:'<em>#</em>':'<em>example.org/index.html#first_section</em>':'<em>example.org/index.html</em>'"></p>
+
+                <input type="checkbox" id="keepURLFragmentsGlobal" ng-model="globalSettings.keepURLFragmentsGlobal">
+
+                <label for="keepURLFragmentsGlobal">{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</label>
+
+                <p>{{ 'SitesManager_KeepURLFragmentsHelp2'|translate }}</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+
+                <strong>{{ 'SitesManager_TrackingSiteSearch'|translate }}</strong>
+
+                <p>{{ 'SitesManager_SiteSearchUse' | translate }}</p>
+
+                <span class="form-description" style="font-size:8pt;">
+                    {{ 'SitesManager_SearchParametersNote'|translate }} {{ 'SitesManager_SearchParametersNote2'|translate }}
+                </span>
+
+                <br/>
+                <br/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label>{{ 'SitesManager_SearchKeywordLabel' | translate }} &nbsp;
+                    <input ng-list size="15" ng-model="globalSettings.searchKeywordParametersGlobal">
+                </label>
+            </td>
+            <td>
+                <div class="ui-inline-help" style='width: 200px;'>
+                    {{ 'SitesManager_SearchKeywordParametersDesc' | translate }}
+                </div>
+
+                <br/>
+                <br/>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <span ng-hide="customVariablesActivated" class='form-description'>Note: you could also track your Internal Search Engine Categories, but the plugin Custom Variables is required. Please enable the plugin CustomVariables (or ask your Piwik admin).</span>
+                <span ng-show="customVariablesActivated"> {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryDesc'|translate }} <br/> </span>
+
+                <br/>
+            </td>
+        </tr>
+
+        <tr ng-show="customVariablesActivated">
+            <td>
+                <label>{{ 'SitesManager_SearchCategoryLabel' | translate }}  &nbsp;
+                    <input ng-list size="15" ng-model="globalSettings.searchCategoryParametersGlobal">
+                </label>
+            </td>
+            <td>
+                <div class="ui-inline-help" style='width: 200px;'>
+                    {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryParametersDesc'|translate }}
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_DefaultTimezoneForNewWebsites'|translate }}</strong>
+
+                <p>{{ 'SitesManager_SelectDefaultTimezone'|translate }} </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <select
+                        ng-model="globalSettings.defaultTimezone"
+                        ng-options="t.code as t.label group by t.group for t in timezones">
+                </select>
+            </td>
+            <td ng-include="'plugins/SitesManager/templates/help/timezone-help.html'">
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <strong>{{ 'SitesManager_DefaultCurrencyForNewWebsites'|translate }}</strong>
+
+                <p>{{ 'SitesManager_SelectDefaultCurrency'|translate }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select
+                    ng-model="globalSettings.defaultCurrency"
+                    ng-options="k as v for (k, v) in currencies">
+                </select>
+            </td>
+            <td>
+                <div class="ui-inline-help">{{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <span style="margin-left:20px;">
+        <input type="submit" class="submit" ng-click="saveGlobalSettings()" value="{{ 'General_Save'|translate }}"/>
+    </span>
+
+</div>

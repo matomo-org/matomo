@@ -1,0 +1,18 @@
+<h2
+        piwik-enriched-headline
+        help-url="http://piwik.org/docs/manage-websites/"
+        feature-name="{{ 'SitesManager_WebsitesManagement'|translate }}">
+
+    {{ 'SitesManager_WebsitesManagement'|translate }}
+</h2>
+
+<p>
+    {{ 'SitesManager_MainDescription'|translate }}
+
+    <span ng-bind-html="'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate:'<strong>' + sites.length + '</strong>'"></span>
+
+    <span ng-show="hasSuperUserAccess">
+        <br/>
+        <span ng-bind-html="'SitesManager_SuperUserAccessCan'|translate:'<a href=\'#globalSettings\'>':'</a>'"></span>
+    </span>
+</p>

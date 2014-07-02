@@ -99,6 +99,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/evolution.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/length.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
@@ -196,5 +197,16 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Search';
         $translationKeys[] = 'General_MoreDetails';
         $translationKeys[] = 'General_Help';
+        $translationKeys[] = 'General_MoreDetails';
+        $translationKeys[] = 'General_Help';
+        $translationKeys[] = 'General_Id';
+        $translationKeys[] = 'General_Name';
+        $translationKeys[] = 'General_JsTrackingTag';
+        $translationKeys[] = 'General_Yes';
+        $translationKeys[] = 'General_No';
+        $translationKeys[] = 'General_Edit';
+        $translationKeys[] = 'General_Delete';
+        $translationKeys[] = 'General_Default';
+        $translationKeys[] = 'General_LoadingData';
     }
 }
