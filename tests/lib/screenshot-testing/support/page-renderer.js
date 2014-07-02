@@ -238,7 +238,11 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             if (element && element.length) {
                 var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
 
-                element.add(element.find('*')).each(function (index, node) {
+                var children = element.find('*').filter(function () {
+                    return $(this).css('position') != 'absolute';
+                });
+
+                element.add(children).each(function (index, node) {
                     var rect = node.getBoundingClientRect();
 
                     if (!rect.width || !rect.height) {
