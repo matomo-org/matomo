@@ -27,7 +27,7 @@ class Loader
      * @return string Class file name
      * @throws Exception if class name is invalid
      */
-    protected static function  getClassFileName($class)
+    protected static function getClassFileName($class)
     {
         if (!preg_match('/^[A-Za-z0-9_\\\\]+$/D', $class)) {
             throw new Exception("Invalid class name \"$class\".");
@@ -82,7 +82,7 @@ class Loader
 
         if (static::isPluginClass($class)) {
             static::tryToLoadClass($class, '/plugins/', $classPath);
-        } else if (static::usesPiwikNamespace($class)) {
+        } elseif (static::usesPiwikNamespace($class)) {
             static::tryToLoadClass($class, '/core/', $classPath);
         } else {
             // non-Piwik classes (e.g., Zend Framework) are in libs/
