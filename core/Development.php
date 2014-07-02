@@ -27,7 +27,7 @@ class Development
     public static function isEnabled()
     {
         if (is_null(self::$isEnabled)) {
-            self::$isEnabled = (bool) Config::getInstance()->General['development_mode'];
+            self::$isEnabled = (bool) Config::getInstance()->Development['enabled'];
         }
 
         return self::$isEnabled;
