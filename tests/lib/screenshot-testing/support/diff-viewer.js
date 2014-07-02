@@ -66,7 +66,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 var expectedHtml = '';
 
                 if (!options['assume-artifacts']) {
-                    expectedUrl = '../expected-ui-screenshots/' + filename;
+                    expectedUrl = this.getUrlForPath(entry.expected);
                 }
 
                 expectedHtml += '<a href="' + expectedUrl + '">Expected</a>&nbsp;';
