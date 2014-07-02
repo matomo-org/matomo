@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Definește valoarea implicită pentru toți utilizatorii.",
+        "GlobalSettingInlineHelp": "Utilizatorii pot dezactiva\/activa meniul din stânga independet de valoare implicită.",
+        "GlobalSettingTitle": "Meniul din stânnga este activat implicit",
+        "SettingsIntroduction": "Modulul meniului din stânga va muta meniul de raportare din partea de sus în partea stângă dacă este activat. Acesta este folositor în special în cazul ecranelor mari.",
+        "UserSettingInlineHelp": "Acesta va activa sau dezactiva meniul din stânga doar pentru dumneavoastra și nu va afecta alți utilizatori. Un Super Utilizator va putea schimba modul implicit pentru toți utilizatorii.",
+        "UserSettingTitle": "Activează meniul de raportare din stânga"
+    }
+}

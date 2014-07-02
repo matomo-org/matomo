@@ -15,6 +15,7 @@
         "ReportTables": "Hlášení tabulek",
         "RowCount": "Počet řádků",
         "Table": "Tabulka",
-        "TotalSize": "Celková velikost"
+        "TotalSize": "Celková velikost",
+        "TrackerTables": "Sledovací tabulky"
     }
 }

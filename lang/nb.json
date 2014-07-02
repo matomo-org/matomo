@@ -113,17 +113,20 @@
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Vis JavaScript-koden til å sette inn på din nettside.",
         "SupportPiwik": "Støtt Piwik!",
+        "TableNoData": "Ingen data for denne tabellen.",
         "ThereIsNoDataForThisReport": "Det fins ingen data for denne rapporten.",
         "WebAnalyticsReports": "Nettstatistikkrapporter",
         "YouAreUsingTheLatestVersion": "Du bruker den nyeste versjonen av Piwik!"
     },
     "CorePluginsAdmin": {
+        "ActionActivatePlugin": "Aktiver tillegg",
         "ActionInstall": "Installer",
         "ActionUninstall": "Avinstaller",
         "Activate": "Slå på",
         "Activated": "Påslått",
         "Active": "På",
         "Activity": "Aktivitet",
+        "ByInstallingNewPluginFromMarketplace": "ved å %sinstallere ett nytt tillegg fra markedsplassen%s",
         "ByXDevelopers": "av %s utviklere",
         "Changelog": "Endringslogg",
         "Deactivate": "Slå av",
@@ -134,6 +137,7 @@
         "InstallingPlugin": "Installerer %s",
         "LastUpdated": "Sist oppdatert",
         "MainDescription": "Tillegg kan utvide eller begrense funksjonaliteten i Piwik. Når et tillegg har blitt installert, kan du slå det av eller på her.",
+        "Marketplace": "Markedsplass",
         "NumDownloadsLatestVersion": "Siste versjon: %s nedlastinger",
         "NumUpdatesAvailable": "%s oppdatering(er) tilgjengelig",
         "PluginDescription": "Grensesnitt for administrasjon av tillegg",
@@ -145,6 +149,7 @@
         "Screenshots": "Skjermbilder",
         "SortByNewest": "nyeste",
         "Status": "Status",
+        "StepDownloadingPluginFromMarketplace": "Laster ned tillegg fra markedsplassen",
         "Support": "Støtte",
         "Updated": "Oppdatert",
         "UpdatingPlugin": "Oppdaterer %s",
@@ -346,6 +351,7 @@
         "ExceptionInvalidDateFormat": "Datoformatet må være %s eller et nøkkelord støttet av %s-funksjonen (se %s for mer informasjon).",
         "ExceptionInvalidDateRange": "Datoen «%s» er ikke et gyldig datointervall. Riktig format er: %s",
         "ExceptionInvalidPeriod": "Perioden «%s» er ikke støttet. Prøv en av følgende istedenfor: %s",
+        "ExceptionInvalidToken": "Token er ikke gyldig.",
         "ExceptionLanguageFileNotFound": "Fant ikke språkfila «%s».",
         "ExceptionMissingFile": "Mangler fil: %s",
         "ExceptionUndeletableFile": "Klarte ikke slette %s",
@@ -598,6 +604,7 @@
         "UpdateGoal": "Oppdater mål",
         "URL": "URL",
         "ViewAndEditGoals": "Vis og rediger mål",
+        "ViewGoalsBy": "Vis mål etter %s",
         "WhenVisitors": "når besøkende"
     },
     "Insights": {
@@ -631,6 +638,7 @@
         "NfsFilesystemWarning": "Din tjeneren bruker et NFS filsystem.",
         "NfsFilesystemWarningSuffixAdmin": "Dette betyr Piwik vil være svært treg når du bruker filbaserte økter.",
         "NoConfigFound": "Klarte ikke finne konfigurasjonsfilen for Piwik, og du prøver å få tilgang til en Piwik-side. <br \/><b>  »Du kan <a href='index.php'>installere Piwik nå<\/a><\/b><br \/><small>Hvis du prøvde å installere Piwik tidligere og har noen tabeller i databasen, kan du ta det med ro. Du kan bruke de gamle tabellene og beholde dine eksisterende data!<\/small>",
+        "NotSupported": "støttes ikke",
         "Optional": "Valgfritt",
         "Password": "passord",
         "PasswordDoNotMatch": "passordene stemmer ikke overens",
@@ -741,11 +749,15 @@
         "LoginCredentials": "Påloggingsinformasjon",
         "LoginUseHttps": "Bruk HTTPS",
         "NavigationBack": "Tilbake",
+        "NetworkError": "Nettverksfeil",
+        "NetworkErrorWithStatusCodeShort": "Nettverksfeil %s",
         "NetworkNotReachable": "Nettverk kan ikke nås",
         "NoDataShort": "Ingen data",
+        "NoReportsShort": "Ingen rapporter",
         "PullDownToRefresh": "Trekk ned for å oppdatere...",
         "RatingNotNow": "Ikke nå",
         "ReleaseToRefresh": "Slipp for å oppdatere...",
+        "ShowAll": "Vis alle",
         "VerifyLoginData": "Sørg for at ditt brukernavn- og passordkombinasjon er riktig."
     },
     "MobileMessaging": {
@@ -823,6 +835,7 @@
         "WidgetKeywords": "Liste over nøkkelord"
     },
     "RowEvolution": {
+        "ComparingRecords": "Sammenligner %s rader",
         "MetricBetweenText": "mellom %s og %s"
     },
     "ScheduledReports": {
@@ -1427,6 +1440,7 @@
         "WideScreen": "Widescreen",
         "WidgetBrowserFamilies": "Nettlesere etter familie",
         "WidgetBrowsers": "Besøkendes nettlesere",
+        "WidgetBrowserVersion": "Nettleserversjon",
         "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
         "WidgetOperatingSystems": "Operativsystemer",
         "WidgetPlugins": "Liste over tillegg",
