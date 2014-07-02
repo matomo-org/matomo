@@ -307,6 +307,8 @@ class Plugin
     {
         $this->cache->setCacheKey('Plugin' . $this->pluginName . $componentName . $expectedSubclass);
 
+        $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
+
         if ($this->cache->has()) {
             $klassName = $this->cache->get();
 
@@ -314,10 +316,10 @@ class Plugin
                 return; // might by "false" in case has no menu, widget, ...
             }
 
+            include_once $componentFile;
+
         } else {
             $this->cache->set(false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
-
-            $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
 
             if (!file_exists($componentFile)) {
                 return;
@@ -337,7 +339,7 @@ class Plugin
                 return;
             }
 
-            $this->cache->set($klassName);
+            $this->cache->set(array($klassName));
         }
 
         return new $klassName;
@@ -351,7 +353,7 @@ class Plugin
             $components = $this->cache->get();
 
             foreach ($components as $file => $klass) {
-                require_once $file;
+                include_once $file;
             }
 
             return $components;
