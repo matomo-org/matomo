@@ -11,6 +11,7 @@ namespace Piwik\Plugins\API;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
+use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -148,6 +149,13 @@ class ProcessedReport
             Piwik::checkUserHasViewAccess($idSites);
         }
 
+        $key   = implode(',', $idSites) . ($period === false ? 0 : $period) . ($date === false ? 0 : $date) . (int) $hideMetricsDoc . (int) $showSubtableReports . Piwik::getCurrentUserLogin();
+        $cache = new PluginAwareStaticCache($key);
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
@@ -200,9 +208,12 @@ class ProcessedReport
          *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
          * 
          * TODO: put dimensions section in all about analytics data
+         * @deprecated since 2.5.0 Use Report Classes instead.
+         * @ignore
          */
         Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
 
+        // TODO we can remove this one once we remove API.getReportMetadata event (except hideMetricsDoc)
         foreach ($availableReports as &$availableReport) {
             // can be removed once we remove hook API.getReportMetadata
             if (!isset($availableReport['metrics'])) {
@@ -252,10 +263,14 @@ class ProcessedReport
         $this->addApiGetMetdata($availableReports);
 
         $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
+        $columnsToKeep   = $this->getColumnsToKeep();
+        $columnsToRemove = $this->getColumnsToRemove();
+
         foreach ($availableReports as &$availableReport) {
             // Ensure all metrics have a translation
             $metrics = $availableReport['metrics'];
             $cleanedMetrics = array();
+            // TODO we can remove this once we remove the getReportMetadata event, leaving it here for backwards compatibility
             foreach ($metrics as $metricId => $metricTranslation) {
                 // When simply the column name was given, ie 'metric' => array( 'nb_visits' )
                 // $metricTranslation is in this case nb_visits. We look for a known translation.
@@ -270,13 +285,13 @@ class ProcessedReport
             $availableReport['metrics'] = $cleanedMetrics;
 
             // if hide/show columns specified, hide/show metrics & docs
-            $availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
+            $availableReport['metrics'] = $this->hideShowMetricsWithParams($availableReport['metrics'], $columnsToRemove, $columnsToKeep);
             if (isset($availableReport['processedMetrics'])) {
-                $availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
+                $availableReport['processedMetrics'] = $this->hideShowMetricsWithParams($availableReport['processedMetrics'], $columnsToRemove, $columnsToKeep);
             }
             if (isset($availableReport['metricsDocumentation'])) {
                 $availableReport['metricsDocumentation'] =
-                    $this->hideShowMetrics($availableReport['metricsDocumentation']);
+                    $this->hideShowMetricsWithParams($availableReport['metricsDocumentation'], $columnsToRemove, $columnsToKeep);
             }
 
             // Remove array elements that are false (to clean up API output)
@@ -286,6 +301,7 @@ class ProcessedReport
                 }
             }
             // when there are per goal metrics, don't display conversion_rate since it can differ from per goal sum
+            // TODO we should remove this once we remove the getReportMetadata event, leaving it here for backwards compatibility
             if (isset($availableReport['metricsGoal'])) {
                 unset($availableReport['processedMetrics']['conversion_rate']);
                 unset($availableReport['metricsGoal']['conversion_rate']);
@@ -314,7 +330,10 @@ class ProcessedReport
             }
         }
 
-        return array_values($availableReports); // make sure array has contiguous key values
+        $actualReports = array_values($availableReports);
+        $cache->set($actualReports);
+
+        return $actualReports; // make sure array has contiguous key values
     }
 
     /**
@@ -552,14 +571,17 @@ class ProcessedReport
             return;
         }
 
-        $columns = $this->hideShowMetrics($columns, $emptyColumns);
+        $columnsToRemove = $this->getColumnsToRemove();
+        $columnsToKeep   = $this->getColumnsToKeep();
+
+        $columns = $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
 
         if (isset($reportMetadata['metrics'])) {
-            $reportMetadata['metrics'] = $this->hideShowMetrics($reportMetadata['metrics'], $emptyColumns);
+            $reportMetadata['metrics'] = $this->hideShowMetricsWithParams($reportMetadata['metrics'], $columnsToRemove, $columnsToKeep, $emptyColumns);
         }
 
         if (isset($reportMetadata['metricsDocumentation'])) {
-            $reportMetadata['metricsDocumentation'] = $this->hideShowMetrics($reportMetadata['metricsDocumentation'], $emptyColumns);
+            $reportMetadata['metricsDocumentation'] = $this->hideShowMetricsWithParams($reportMetadata['metricsDocumentation'], $columnsToRemove, $columnsToKeep, $emptyColumns);
         }
     }
 
@@ -579,7 +601,20 @@ class ProcessedReport
         }
 
         // remove columns if hideColumns query parameters exist
-        $columnsToRemove = Common::getRequestVar('hideColumns', '');
+        $columnsToRemove = $this->getColumnsToRemove();
+
+        // remove columns if showColumns query parameters exist
+        $columnsToKeep = $this->getColumnsToKeep();
+
+        return $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
+    }
+
+    private function hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns = array())
+    {
+        if (!is_array($columns)) {
+            return $columns;
+        }
+
         if ($columnsToRemove != '') {
             $columnsToRemove = explode(',', $columnsToRemove);
             foreach ($columnsToRemove as $name) {
@@ -590,8 +625,6 @@ class ProcessedReport
             }
         }
 
-        // remove columns if showColumns query parameters exist
-        $columnsToKeep = Common::getRequestVar('showColumns', '');
         if ($columnsToKeep != '') {
             $columnsToKeep = explode(',', $columnsToKeep);
             $columnsToKeep[] = 'label';
@@ -730,5 +763,15 @@ class ProcessedReport
         }
 
         return $totals;
+    }
+
+    private function getColumnsToRemove()
+    {
+        return Common::getRequestVar('hideColumns', '');
+    }
+
+    private function getColumnsToKeep()
+    {
+        return Common::getRequestVar('showColumns', '');
     }
 }
