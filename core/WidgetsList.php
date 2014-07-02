@@ -38,6 +38,13 @@ class WidgetsList extends Singleton
     static protected $hookCalled = false;
 
     /**
+     * In get() we won't use a cached result in case this is true. Instead we will sort the widgets again and cache
+     * a new result. To make tests work...
+     * @var bool
+     */
+    static private $listCacheToBeInvalidated = false;
+
+    /**
      * Returns all available widgets.
      *
      * @return array Array Mapping widget categories with an array of widget information, eg,
@@ -57,7 +64,7 @@ class WidgetsList extends Singleton
     static public function get()
     {
         $cache = self::getCacheForCompleteList();
-        if ($cache->has()) {
+        if (!self::$listCacheToBeInvalidated && $cache->has()) {
             return $cache->get();
         }
 
@@ -77,6 +84,7 @@ class WidgetsList extends Singleton
         }
 
         $cache->set($widgets);
+        self::$listCacheToBeInvalidated = false;
 
         return $widgets;
     }
@@ -178,6 +186,7 @@ class WidgetsList extends Singleton
             self::$widgets[$widgetCategory] = array();
         }
 
+        self::$listCacheToBeInvalidated = true;
         self::$widgets[$widgetCategory][] = array(
             'name'       => $widgetName,
             'uniqueId'   => $widgetUniqueId,
@@ -203,11 +212,13 @@ class WidgetsList extends Singleton
 
         if (empty($widgetName)) {
             unset(self::$widgets[$widgetCategory]);
+            self::$listCacheToBeInvalidated = true;
             return;
         }
         foreach (self::$widgets[$widgetCategory] as $id => $widget) {
             if ($widget['name'] == $widgetName || $widget['name'] == Piwik::translate($widgetName)) {
                 unset(self::$widgets[$widgetCategory][$id]);
+                self::$listCacheToBeInvalidated = true;
                 return;
             }
         }
