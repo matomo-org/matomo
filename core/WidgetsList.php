@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
 
@@ -55,6 +56,11 @@ class WidgetsList extends Singleton
      */
     static public function get()
     {
+        $cache = new PluginAwareStaticCache('WidgetsList');
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         self::addWidgets();
 
         uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
@@ -69,6 +75,8 @@ class WidgetsList extends Singleton
 
             $widgets[$category] = $v;
         }
+
+        $cache->set($widgets);
 
         return $widgets;
     }
