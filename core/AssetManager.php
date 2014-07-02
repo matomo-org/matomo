@@ -273,7 +273,7 @@ class AssetManager extends Singleton
      */
     public function isMergedAssetsDisabled()
     {
-        return Config::getInstance()->Debug['disable_merged_assets'];
+        return Config::getInstance()->Development['disable_merged_assets'];
     }
 
     /**

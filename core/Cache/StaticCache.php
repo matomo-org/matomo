@@ -8,8 +8,7 @@
  */
 namespace Piwik\Cache;
 
-use Piwik\Piwik;
-use Piwik\SettingsServer;
+use Piwik\Development;
 use Piwik\Tracker;
 use Piwik\Translate;
 
@@ -66,6 +65,10 @@ class StaticCache
 
     public static function loadTrackerCache()
     {
+        if (Development::isEnabled()) {
+            return;
+        }
+
         $cache = \Piwik\Tracker\Cache::getCacheGeneral();
         if (array_key_exists('staticCache', $cache)) {
             self::$staticCache = $cache['staticCache'];

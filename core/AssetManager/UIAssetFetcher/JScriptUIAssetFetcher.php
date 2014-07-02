@@ -31,7 +31,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
              * plugin's root directory.
              *
              * _Note: While you are developing your plugin you should enable the config setting
-             * `[Debug] disable_merged_assets` so JavaScript files will be reloaded immediately
+             * `[Development] disable_merged_assets` so JavaScript files will be reloaded immediately
              * after every change._
              *
              * **Example**

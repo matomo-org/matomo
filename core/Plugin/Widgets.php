@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Development;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\WidgetsList;
 
@@ -57,6 +58,8 @@ class Widgets
 
     protected function addWidgetWithCustomCategory($category, $name, $method, $parameters = array())
     {
+        $this->checkIsValidWidget($name, $method);
+
         $this->widgets[] = array('category' => $category,
                                  'name'     => $name,
                                  'params'   => $parameters,
@@ -129,5 +132,39 @@ class Widgets
         }
 
         return $widgetContainer;
+    }
+
+    private function checkIsValidWidget($name, $method)
+    {
+        if (!Development::isEnabled()) {
+            return;
+        }
+
+        if (empty($name)) {
+            Development::error('No name is defined for added widget having method "' . $method . '" in ' . get_class($this));
+        }
+
+        if (Development::isCallableMethod($this, $method)) {
+            return;
+        }
+
+        $controllerClass = '\\Piwik\\Plugins\\' . $this->module . '\\Controller';
+
+        if (!Development::methodExists($this, $method) &&
+            !Development::methodExists($controllerClass, $method)) {
+            Development::error('The added method "' . $method . '" neither exists in "' . get_class($this) . '" nor "' . $controllerClass . '". Make sure to define such a method.');
+        }
+
+        $definedInClass = get_class($this);
+
+        if (Development::methodExists($controllerClass, $method)) {
+            if (Development::isCallableMethod($controllerClass, $method)) {
+                return;
+            }
+
+            $definedInClass = $controllerClass;
+        }
+
+        Development::error('The method "' . $method . '" is not callable on "' . $definedInClass . '". Make sure the method is public.');
     }
 }

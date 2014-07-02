@@ -8,6 +8,7 @@
  */
 namespace Piwik\Updates;
 
+use Piwik\Config;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -17,6 +18,25 @@ use Piwik\Updates;
 class Updates_2_5_0_b1 extends Updates
 {
     public static function update()
+    {
+        self::updateConfig();
+        self::markDimensionsAsInstalled();
+    }
+
+    private static function updateConfig()
+    {
+        $config = Config::getInstance();
+        $debug  = $config->Debug;
+
+        if (array_key_exists('disable_merged_assets', $debug)) {
+            $development = $config->Development;
+            $development['disable_merged_assets'] = $debug['disable_merged_assets'];
+            $config->Development = $development;
+            $config->forceSave();
+        }
+    }
+
+    private static function markDimensionsAsInstalled()
     {
         foreach (VisitDimension::getAllDimensions() as $dimension) {
             if ($dimension->getColumnName()) {
