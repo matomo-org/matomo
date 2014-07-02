@@ -8,7 +8,7 @@
  */
 namespace Piwik;
 
-use Piwik\Cache\StaticCache;
+use Piwik\Cache\PersistentCache;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
@@ -111,7 +111,7 @@ class Plugin
      * perfect but efficient. If the cache is used we need to make sure to call setCacheKey() before usage as there
      * is maybe a different key set since last usage.
      *
-     * @var StaticCache
+     * @var PersistentCache
      */
     private $cache;
 
@@ -138,8 +138,7 @@ class Plugin
             throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
         }
 
-        $this->cache = new StaticCache('Plugin' . $pluginName);
-        $this->cache->enablePersistForTracker();
+        $this->cache = new PersistentCache('Plugin' . $pluginName);
     }
 
     private function hasDefinedPluginInformationInPluginClass()

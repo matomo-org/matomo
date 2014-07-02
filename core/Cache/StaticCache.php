@@ -8,10 +8,6 @@
  */
 namespace Piwik\Cache;
 
-use Piwik\Development;
-use Piwik\Tracker;
-use Piwik\Translate;
-
 /**
  * Caching class used for static caching.
  *
@@ -23,9 +19,6 @@ use Piwik\Translate;
 class StaticCache
 {
     protected static $staticCache = array();
-    protected static $entriesToPersist = array();
-
-    private $persistForTracker = false;
 
     private $cacheKey;
 
@@ -34,14 +27,14 @@ class StaticCache
         $this->setCacheKey($cacheKey);
     }
 
-    public function enablePersistForTracker()
-    {
-        $this->persistForTracker = true;
-    }
-
     public function setCacheKey($cacheKey)
     {
         $this->cacheKey = $this->completeKey($cacheKey);
+    }
+
+    public function getCacheKey()
+    {
+        return $this->cacheKey;
     }
 
     public function get()
@@ -57,47 +50,6 @@ class StaticCache
     public function set($content)
     {
         self::$staticCache[$this->cacheKey] = $content;
-
-        if ($this->persistForTracker) {
-            self::$entriesToPersist[] = $this->cacheKey;
-        }
-    }
-
-    public static function loadTrackerCache()
-    {
-        if (Development::isEnabled()) {
-            return;
-        }
-
-        $cache = \Piwik\Tracker\Cache::getCacheGeneral();
-        if (array_key_exists('staticCache', $cache)) {
-            self::$staticCache = $cache['staticCache'];
-        }
-    }
-
-    public static function saveTrackerCache()
-    {
-        $cache = \Piwik\Tracker\Cache::getCacheGeneral();
-
-        if (array_key_exists('staticCache', $cache)) {
-            $oldContent = $cache['staticCache'];
-        } else {
-            $oldContent = array();
-        }
-
-        $save = false;
-
-        foreach (self::$entriesToPersist as $key) {
-            if (!array_key_exists($key, $oldContent) && array_key_exists($key, self::$staticCache)) {
-                $oldContent[$key] = self::$staticCache[$key];
-                $save = true;
-            }
-        }
-
-        if (!empty($save)) {
-            $cache['staticCache'] = $oldContent;
-            \Piwik\Tracker\Cache::setCacheGeneral($cache);
-        }
     }
 
     protected function completeKey($cacheKey)

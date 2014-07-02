@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Cache\StaticCache;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Db\DbException;
@@ -228,7 +227,6 @@ class Tracker
     public function main($args = null)
     {
         try {
-            StaticCache::loadTrackerCache();
             $tokenAuth = $this->initRequests($args);
         } catch (Exception $ex) {
             $this->exitWithException($ex, true);
@@ -253,6 +251,8 @@ class Tracker
         } else {
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
+
+        Piwik::postEvent('Tracker.end');
 
         $this->end();
 
@@ -638,7 +638,7 @@ class Tracker
          * Triggered before a new **visit tracking object** is created. Subscribers to this
          * event can force the use of a custom visit tracking object that extends from
          * {@link Piwik\Tracker\VisitInterface}.
-         * 
+         *
          * @param \Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
          *                                              a new visit object. If it isn't modified
          *                                              Piwik uses the default class.
