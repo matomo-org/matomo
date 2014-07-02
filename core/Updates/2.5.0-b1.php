@@ -31,6 +31,9 @@ class Updates_2_5_0_b1 extends Updates
         if (array_key_exists('disable_merged_assets', $debug)) {
             $development = $config->Development;
             $development['disable_merged_assets'] = $debug['disable_merged_assets'];
+            unset($debug['disable_merged_assets']);
+
+            $config->Debug       = $debug;
             $config->Development = $development;
             $config->forceSave();
         }

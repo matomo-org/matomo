@@ -181,7 +181,7 @@ abstract class VisitDimension extends Dimension
             return -1;
         }
 
-        if (in_array($b->getColumnName(), $fields)) {
+        if (in_array($b->columnName, $fields)) {
             return 1;
         }
 

@@ -79,7 +79,18 @@ class Development
 
     public static function error($message)
     {
-        $message .= ' (This error is only triggered in development mode. Your plugin still works when development mode is disabled but will lead in an error at some point. We highly recommend to fix this issue!)';
-        throw new Exception($message);
+        if (!self::isEnabled()) {
+            return;
+        }
+
+        $message .= ' (This error is only shown in development mode)';
+
+        if (SettingsServer::isTrackerApiRequest()
+            || Common::isPhpCliMode()) {
+            Log::error($message);
+        } else {
+            throw new Exception($message);
+        }
+
     }
 }

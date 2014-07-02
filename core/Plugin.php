@@ -349,12 +349,13 @@ class Plugin
         $this->cache->setCacheKey('Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass);
 
         if ($this->cache->has()) {
-            $files = $this->cache->get();
-            foreach ($files as $file => $klass) {
+            $components = $this->cache->get();
+
+            foreach ($components as $file => $klass) {
                 require_once $file;
             }
 
-            return $files;
+            return $components;
         }
 
         $components = array();

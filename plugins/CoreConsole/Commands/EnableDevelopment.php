@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Config;
+use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,6 +48,8 @@ class EnableDevelopment extends ConsoleCommand
 
         $config->Development = $development;
         $config->forceSave();
+
+        Filesystem::deleteAllCacheOnUpdate();
 
         $this->writeSuccessMessage($output, array($message));
     }
