@@ -233,19 +233,30 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         }
 
         var result = page.evaluate(function(selector) {
+            function isInvalidBoundingRect (rect) {
+                var docWidth = $(document).width(),
+                    docHeight = $(document).height();
+
+                return !rect.width || !rect.height
+                    || rect.left < 0 || rect.left > docWidth
+                    || rect.top < 0 || rect.top > docHeight
+                    || rect.right < 0 || rect.right > docWidth
+                    || rect.bottom < 0 || rect.bottom > docHeight;
+            }
+
             var element = window.jQuery(selector);
 
             if (element && element.length) {
                 var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
 
-                var children = element.find('*').filter(function () {
-                    return $(this).css('position') != 'absolute';
+                var children = element.find('*:visible').filter(function () {
+                    return $(this).css('position') == 'absolute';
                 });
 
                 element.add(children).each(function (index, node) {
                     var rect = node.getBoundingClientRect();
 
-                    if (!rect.width || !rect.height) {
+                    if (isInvalidBoundingRect(rect)) {
                         // element is not visible
                         return;
                     }
