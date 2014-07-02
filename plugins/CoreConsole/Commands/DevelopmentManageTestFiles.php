@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ManageTestFiles extends ConsoleCommand
+class DevelopmentManageTestFiles extends ConsoleCommand
 {
     protected function configure()
     {

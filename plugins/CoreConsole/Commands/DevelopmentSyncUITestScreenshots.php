@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class SyncUITestScreenshots extends ConsoleCommand
+class DevelopmentSyncUITestScreenshots extends ConsoleCommand
 {
     protected function configure()
     {

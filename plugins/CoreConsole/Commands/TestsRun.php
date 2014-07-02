@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class RunTests extends ConsoleCommand
+class TestsRun extends ConsoleCommand
 {
     protected function configure()
     {

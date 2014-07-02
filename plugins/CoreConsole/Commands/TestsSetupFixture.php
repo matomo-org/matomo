@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Console commands that sets up a fixture either in a local MySQL database or a remote one.
  */
-class SetupFixture extends ConsoleCommand
+class TestsSetupFixture extends ConsoleCommand
 {
     protected function configure()
     {

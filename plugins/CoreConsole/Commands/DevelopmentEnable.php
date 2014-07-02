@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class EnableDevelopment extends ConsoleCommand
+class DevelopmentEnable extends ConsoleCommand
 {
     protected function configure()
     {
