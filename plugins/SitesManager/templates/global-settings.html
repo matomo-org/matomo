@@ -99,19 +99,25 @@
                 <span class="form-description" style="font-size:8pt;">
                     {{ 'SitesManager_SearchParametersNote'|translate }} {{ 'SitesManager_SearchParametersNote2'|translate }}
                 </span>
+
+                <br/>
+                <br/>
             </td>
         </tr>
 
         <tr>
-            <td colspan="2">
+            <td>
                 <label>{{ 'SitesManager_SearchKeywordLabel' | translate }} &nbsp;
-
                     <input ng-list size="15" ng-model="globalSettings.searchKeywordParametersGlobal">
-
-                    <div class="ui-inline-help" style='width: 200px;float:right;'>
-                        {{ 'SitesManager_SearchKeywordParametersDesc' | translate }}
-                    </div>
                 </label>
+            </td>
+            <td>
+                <div class="ui-inline-help" style='width: 200px;'>
+                    {{ 'SitesManager_SearchKeywordParametersDesc' | translate }}
+                </div>
+
+                <br/>
+                <br/>
             </td>
         </tr>
 
@@ -119,19 +125,21 @@
             <td colspan="2">
                 <span ng-hide="customVariablesActivated" class='form-description'>Note: you could also track your Internal Search Engine Categories, but the plugin Custom Variables is required. Please enable the plugin CustomVariables (or ask your Piwik admin).</span>
                 <span ng-show="customVariablesActivated"> {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryDesc'|translate }} <br/> </span>
+
+                <br/>
             </td>
         </tr>
 
         <tr ng-show="customVariablesActivated">
-            <td colspan="2">
+            <td>
                 <label>{{ 'SitesManager_SearchCategoryLabel' | translate }}  &nbsp;
-
                     <input ng-list size="15" ng-model="globalSettings.searchCategoryParametersGlobal">
-
-                    <div class="ui-inline-help" style='width: 200px;float:right;'>
-                        {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryParametersDesc'|translate }}
-                    </div>
                 </label>
+            </td>
+            <td>
+                <div class="ui-inline-help" style='width: 200px;'>
+                    {{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryParametersDesc'|translate }}
+                </div>
             </td>
         </tr>
 
