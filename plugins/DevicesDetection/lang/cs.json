@@ -1,11 +1,29 @@
 {
     "DevicesDetection": {
+        "BrowserVersions": "Verze prohlížečů",
+        "Camera": "Fotoaparát",
+        "CarBrowser": "Prohlížeč v autě",
+        "Console": "Konzole",
         "dataTableLabelBrands": "Značka",
+        "dataTableLabelBrowserFamily": "Rodina prohlížeče",
         "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "Verze operačního systému",
         "dataTableLabelTypes": "Typ",
+        "Device": "Zařízení",
         "DeviceBrand": "Značka zařízení",
+        "DeviceDetection": "Detekce zařízení",
         "DeviceModel": "Model zařízení",
         "DevicesDetection": "Zařízení návštěvníků",
-        "submenu": "Zařízení"
+        "DeviceType": "Typ zařízení",
+        "FeaturePhone": "Ukázkový telefon",
+        "OperatingSystemFamilies": "Rodiny operačních systémů",
+        "OperatingSystemVersions": "Verze operačního systému",
+        "PluginDescription": "Tento zásuvný modul poskytuje rozšířené informace o mobilních iařízeních, jako např. výrobce, model (verze zařízení), vylepšenou detekci typu zařízení (TV, konzole, Chytré telefony, PC) a další. Tento zásuvný modul přidává nové hlášení v sekci návštěvníci > zařízení.",
+        "SmartDisplay": "Chytrý displej",
+        "Smartphone": "Chytrý telefon",
+        "submenu": "Zařízení",
+        "Tablet": "Tablet",
+        "TV": "Tv",
+        "UserAgent": "User-Agent"
     }
 }
