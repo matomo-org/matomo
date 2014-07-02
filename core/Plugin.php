@@ -339,7 +339,7 @@ class Plugin
                 return;
             }
 
-            $this->cache->set(array($klassName));
+            $this->cache->set($klassName);
         }
 
         return new $klassName;
