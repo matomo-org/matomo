@@ -98,6 +98,8 @@ class Piwik_TestingEnvironment
         return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) {
             return PluginManager::getInstance()->isPluginBundledWithCore($pluginName)
                 || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
+                || $pluginName == 'LoginHttpAuth'
+                || $pluginName == 'ExampleVisualization'
         });
     }
 
