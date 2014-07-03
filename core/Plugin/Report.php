@@ -287,7 +287,12 @@ class Report
             return;
         }
 
-        $plugin  = PluginManager::getInstance()->getLoadedPlugin($module);
+        try {
+            $plugin  = PluginManager::getInstance()->getLoadedPlugin($module);
+        } catch (\Exception $e) {
+            return;
+        }
+
         $reports = $plugin->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
         $action  = ucfirst($action);
 
