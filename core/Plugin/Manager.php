@@ -96,9 +96,6 @@ class Manager extends Singleton
     {
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsToLoad = array_diff($pluginsToLoad, Tracker::getPluginsNotToLoad());
-        if(defined('PIWIK_TEST_MODE')) {
-            $pluginsToLoad = array_intersect($pluginsToLoad, $this->getPluginsToLoadDuringTests());
-        }
         $this->loadPlugins($pluginsToLoad);
     }
 
@@ -114,9 +111,6 @@ class Manager extends Singleton
         }
 
         $pluginsTracker = array_diff($pluginsTracker, Tracker::getPluginsNotToLoad());
-        if(defined('PIWIK_TEST_MODE')) {
-            $pluginsTracker = array_intersect($pluginsTracker, $this->getPluginsToLoadDuringTests());
-        }
         $this->doNotLoadAlwaysActivatedPlugins();
         $this->loadPlugins($pluginsTracker);
         return $pluginsTracker;
