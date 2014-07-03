@@ -139,7 +139,7 @@ class Piwik_TestingEnvironment
 
                 $config->Plugins = array('Plugins' => array_merge($config->Plugins['Plugins'], $pluginsToLoad));
 
-                $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
+                $trackerPluginsToLoad = array_filter($config->Plugins['Plugins'], function ($plugin) use ($manager) {
                     return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
                 });
 
