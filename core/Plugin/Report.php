@@ -287,9 +287,13 @@ class Report
             return;
         }
 
-        foreach (self::getAllReports() as $report) {
-            if ($report->module === $module && $report->action === $action && empty($report->parameters)) {
-                return $report;
+        $plugin  = PluginManager::getInstance()->getLoadedPlugin($module);
+        $reports = $plugin->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
+        $action  = ucfirst($action);
+
+        foreach ($reports as $reportClass) {
+            if ($reportClass == 'Piwik\\Plugins\\' . $module . '\\Reports\\' . $action) {
+                return new $reportClass();
             }
         }
     }
