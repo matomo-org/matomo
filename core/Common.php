@@ -1081,7 +1081,22 @@ class Common
 
     static public function printDebug($info = '')
     {
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($info);
+        if (is_object($info)) {
+            $info = var_export($info, true);
+        }
+
+        if (is_array($info) || is_object($info)) {
+            $info = Common::sanitizeInputValues($info);
+            $out = var_export($info, true);
+            foreach (explode("\n", $out) as $line) {
+                Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($line);
+            }
+        } else {
+            foreach (explode("\n", $info) as $line) {
+                Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt(htmlspecialchars($line, ENT_QUOTES));
+            }
+        }
+        return;
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
 
             if (is_object($info)) {
