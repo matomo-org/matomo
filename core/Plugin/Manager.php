@@ -116,54 +116,6 @@ class Manager extends Singleton
         return $pluginsTracker;
     }
 
-    public function getPluginsToLoadDuringTests()
-    {
-        $toLoad = array();
-
-        $loadStandalonePluginsDuringTests = @Config::getInstance()->DebugTests['enable_load_standalone_plugins_during_tests'];
-
-        foreach($this->readPluginsDirectory() as $plugin) {
-            $forceDisable = array(
-                'ExampleVisualization', // adds an icon
-                'LoginHttpAuth',  // other Login plugins would conflict
-            );
-            if(in_array($plugin, $forceDisable)) {
-                continue;
-            }
-
-            // Load all default plugins
-            $isPluginBundledWithCore = $this->isPluginBundledWithCore($plugin);
-
-            // Load plugins from submodules
-            $isPluginOfficiallySupported = $this->isPluginOfficialAndNotBundledWithCore($plugin);
-
-            // Also load plugins which are Git repositories (eg. being developed)
-            $isPluginHasGitRepository = file_exists( PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/.git/config');
-
-            $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
-
-            if($loadStandalonePluginsDuringTests) {
-                $loadPlugin = $loadPlugin || $isPluginHasGitRepository;
-            } else {
-                $loadPlugin = $loadPlugin && !$isPluginHasGitRepository;
-            }
-
-            // Do not enable other Themes
-            $disabledThemes = $this->coreThemesDisabledByDefault;
-
-            // PleineLune is officially supported, yet we don't want to enable another theme in tests (we test for Morpheus)
-            $disabledThemes[] = "PleineLune";
-
-            $isThemeDisabled = in_array($plugin, $disabledThemes);
-
-            $loadPlugin = $loadPlugin && !$isThemeDisabled;
-            if($loadPlugin) {
-                $toLoad[] = $plugin;
-            }
-        }
-        return $toLoad;
-    }
-
     public function getCorePluginsDisabledByDefault()
     {
         return array_merge( $this->corePluginsDisabledByDefault, $this->coreThemesDisabledByDefault);

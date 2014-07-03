@@ -130,14 +130,14 @@ class Piwik_TestingEnvironment
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
-                $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
+                $pluginsToLoad = array();
                 if (!empty($testingEnvironment->pluginsToLoad)) {
                     $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
                 }
 
                 sort($pluginsToLoad);
 
-                $config->Plugins = array('Plugins' => $pluginsToLoad);
+                $config->Plugins = array('Plugins' => array_merge($config->Plugins['Plugins'], $pluginsToLoad));
 
                 $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
                     return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
