@@ -10,6 +10,7 @@ namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Log;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
@@ -53,6 +54,9 @@ class IPAnonymizer
     public function setVisitorIpAddress(&$ip)
     {
         if (!$this->isActive()) {
+            $message = "Visitor IP was _not_ anonymized: ". IP::N2P($ip);
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
             Common::printDebug("Visitor IP was _not_ anonymized: ". IP::N2P($ip));
             return;
         }
@@ -62,6 +66,11 @@ class IPAnonymizer
         $privacyConfig = new Config();
 
         $ip = self::applyIPMask($ip, $privacyConfig->ipAddressMaskLength);
+
+
+        $message = "Visitor IP (was: ". IP::N2P($originalIp) .") has been anonymized: ". IP::N2P($ip) . ' with length ' . $privacyConfig->ipAddressMaskLength;
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
         Common::printDebug("Visitor IP (was: ". IP::N2P($originalIp) .") has been anonymized: ". IP::N2P($ip));
     }
 

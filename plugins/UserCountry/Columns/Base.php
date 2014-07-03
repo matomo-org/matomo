@@ -126,20 +126,17 @@ abstract class Base extends VisitDimension
 
         $ip = $request->getIp();
 
-        $message = 'Get ip address: ' . $ip;
+        $message = 'Get request ip address: ' . IP::N2P($ip);
         Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
         if ($privacyConfig->useAnonymizedIpForVisitEnrichment) {
-            $message = 'useAnonymizedIpForVisitEnrichment';
+            $message = 'useAnonymizedIpForVisitEnrichment ' . IP::N2P($anonymizedIp);
             Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
             $ip = $anonymizedIp;
         }
 
-        $message = 'Get actual ip address: ' . $ip;
+        $message = 'Get actual ip address: ' . IP::N2P($ip);
         Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
         $ipAddress = IP::N2P($ip);
-
-        $message = 'Get actual ip address rev: ' . $ipAddress;
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
 
         return $ipAddress;
     }

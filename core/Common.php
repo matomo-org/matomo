@@ -1081,6 +1081,7 @@ class Common
 
     static public function printDebug($info = '')
     {
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($info);
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
 
             if (is_object($info)) {
