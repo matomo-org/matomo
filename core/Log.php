@@ -373,6 +373,14 @@ class Log extends Singleton
         $this->currentLogLevel = $logLevel;
     }
 
+    public function customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message)
+    {
+        if(!file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND)) {
+            $message = Filechecks::getErrorMessageMissingPermissions($this->logToFilePath);
+            throw new \Exception( $message );
+        }
+    }
+
     private function logToFile($level, $tag, $datetime, $message)
     {
         $message = $this->getMessageFormattedFile($level, $tag, $datetime, $message);
