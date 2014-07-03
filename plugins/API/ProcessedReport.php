@@ -149,7 +149,9 @@ class ProcessedReport
             Piwik::checkUserHasViewAccess($idSites);
         }
 
-        $key   = implode(',', $idSites) . ($period === false ? 0 : $period) . ($date === false ? 0 : $date) . (int) $hideMetricsDoc . (int) $showSubtableReports . Piwik::getCurrentUserLogin();
+        // as they cache key contains a lot of information there would be an even better cache result by caching parts of
+        // this huge method separately but that makes it also more complicated. leaving it like this for now.
+        $key   = $this->buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         $cache = new PluginAwareStaticCache($key);
 
         if ($cache->has()) {
@@ -615,8 +617,7 @@ class ProcessedReport
             return $columns;
         }
 
-        if ($columnsToRemove != '') {
-            $columnsToRemove = explode(',', $columnsToRemove);
+        if (null !== $columnsToRemove) {
             foreach ($columnsToRemove as $name) {
                 // if a column to remove is in the column list, remove it
                 if (isset($columns[$name])) {
@@ -625,10 +626,7 @@ class ProcessedReport
             }
         }
 
-        if ($columnsToKeep != '') {
-            $columnsToKeep = explode(',', $columnsToKeep);
-            $columnsToKeep[] = 'label';
-
+        if (null !== $columnsToKeep) {
             foreach ($columns as $name => $ignore) {
                 // if the current column should not be kept, remove it
                 $idx = array_search($name, $columnsToKeep);
@@ -767,11 +765,48 @@ class ProcessedReport
 
     private function getColumnsToRemove()
     {
-        return Common::getRequestVar('hideColumns', '');
+        $columnsToRemove = Common::getRequestVar('hideColumns', '');
+
+        if ($columnsToRemove != '') {
+            return explode(',', $columnsToRemove);
+        }
+
+        return null;
     }
 
     private function getColumnsToKeep()
     {
-        return Common::getRequestVar('showColumns', '');
+        $columnsToKeep = Common::getRequestVar('showColumns', '');
+
+        if ($columnsToKeep != '') {
+            $columnsToKeep = explode(',', $columnsToKeep);
+            $columnsToKeep[] = 'label';
+
+            return $columnsToKeep;
+        }
+
+        return null;
+    }
+
+    private function buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports)
+    {
+        if (isset($_GET) && isset($_POST) && is_array($_GET) && is_array($_POST)) {
+            $request = $_GET + $_POST;
+        } elseif (isset($_GET) && is_array($_GET)) {
+            $request = $_GET;
+        } elseif (isset($_POST) && is_array($_POST)) {
+            $request = $_POST;
+        } else {
+            $request = array();
+        }
+
+        $key = '';
+        foreach ($request as $k => $v) {
+            $key .= $k . $v . ',';
+        }
+
+        $key .= implode(',', $idSites) . ($period === false ? 0 : $period) . ($date === false ? 0 : $date);
+        $key .= (int)$hideMetricsDoc . (int)$showSubtableReports . Piwik::getCurrentUserLogin();
+        return 'reportMetadata' . md5($key);
     }
 }
