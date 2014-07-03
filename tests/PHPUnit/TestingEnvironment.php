@@ -96,10 +96,14 @@ class Piwik_TestingEnvironment
     public function getCoreAndSupportedPlugins()
     {
         return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) {
+            if ($pluginName == 'LoginHttpAuth'
+                || $pluginName == 'ExampleVisualization'
+            ) {
+                return false;
+            }
+
             return PluginManager::getInstance()->isPluginBundledWithCore($pluginName)
-                || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName)
-                || $pluginName == 'LoginHttpAuth'
-                || $pluginName == 'ExampleVisualization';
+                || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
         });
     }
 
