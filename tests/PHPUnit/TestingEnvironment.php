@@ -4,6 +4,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Option;
+use Piwik\Plugin\Manager as PluginManager;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -92,6 +93,14 @@ class Piwik_TestingEnvironment
         }
     }
 
+    public function getCoreAndSupportedPlugins()
+    {
+        return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) {
+            return PluginManager::getInstance()->isPluginBundledWithCore($pluginName)
+                || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
+        });
+    }
+
     public static function addHooks()
     {
         $testingEnvironment = new Piwik_TestingEnvironment();
@@ -130,14 +139,14 @@ class Piwik_TestingEnvironment
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
-                $pluginsToLoad = array();
+                $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
                 if (!empty($testingEnvironment->pluginsToLoad)) {
                     $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
                 }
 
                 sort($pluginsToLoad);
 
-                $config->Plugins = array('Plugins' => array_merge($config->Plugins['Plugins'], $pluginsToLoad));
+                $config->Plugins = array('Plugins' => $pluginsToLoad);
 
                 $trackerPluginsToLoad = array_filter($config->Plugins['Plugins'], function ($plugin) use ($manager) {
                     return $manager->isTrackerPlugin($manager->loadPlugin($plugin));

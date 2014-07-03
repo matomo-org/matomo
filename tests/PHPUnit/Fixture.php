@@ -270,10 +270,14 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
+        if (empty($testEnvironment)) {
+            $testEnvironment = new Piwik_TestingEnvironment();
+        }
+
         DbHelper::createTables();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
 
-        $plugins = Config::getInstance()->Plugins['Plugins'];
+        $plugins = $testEnvironment->getCoreAndSupportedPlugins();
 
         // make sure the plugin that executed this method is included in the plugins to load
         $extraPlugins = array_merge($extraPluginsToLoad, array(
