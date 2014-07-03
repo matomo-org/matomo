@@ -94,6 +94,11 @@ class PersistentCache
         }
     }
 
+    public static function _reset()
+    {
+        self::$content = null;
+    }
+
     /**
      * @return CacheFile
      */
