@@ -96,7 +96,7 @@ class PersistentCache
 
     public static function _reset()
     {
-        self::$content = null;
+        self::$content = array();
     }
 
     /**
@@ -106,6 +106,9 @@ class PersistentCache
     {
         if (is_null(self::$storage)) {
             self::$storage = new CacheFile('tracker', 43200);
+            self::$storage->addOnDeleteCallback(function () {
+                PersistentCache::_reset();
+            });
         }
 
         return self::$storage;

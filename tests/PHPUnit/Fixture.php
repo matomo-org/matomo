@@ -179,7 +179,6 @@ class Fixture extends PHPUnit_Framework_Assert
         Piwik::setUserHasSuperUserAccess();
 
         Cache::deleteTrackerCache();
-        \Piwik\Cache\PersistentCache::_reset();
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass);
 
