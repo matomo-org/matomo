@@ -14,9 +14,7 @@ use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Columns\Updater as ColumnsUpdater;
 use Piwik\ScheduledTime;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
@@ -101,31 +99,19 @@ class CoreUpdater extends \Piwik\Plugin
             }
         }
 
-        foreach (VisitDimension::getAllDimensions() as $dimension) {
-            $columnName = $dimension->getColumnName();
-            if ($columnName) {
-                $updater->addComponentToCheck('log_visit.' . $columnName, $dimension->getVersion());
-            }
-        }
-
-        foreach (ActionDimension::getAllDimensions() as $dimension) {
-            $columnName = $dimension->getColumnName();
-            if ($columnName) {
-                $updater->addComponentToCheck('log_link_visit_action.' . $columnName, $dimension->getVersion());
-            }
-        }
-
-        foreach (ConversionDimension::getAllDimensions() as $dimension) {
-            $columnName = $dimension->getColumnName();
-            if ($columnName) {
-                $updater->addComponentToCheck('log_conversion.' . $columnName, $dimension->getVersion());
-            }
+        $columnsVersions = ColumnsUpdater::getAllVersions();
+        foreach ($columnsVersions as $component => $version) {
+            $updater->addComponentToCheck($component, $version);
         }
 
         $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
-        if (count($componentsWithUpdateFile) == 0
-            && !$updater->hasNewVersion('core')) {
-            return null;
+
+        if (count($componentsWithUpdateFile) == 0) {
+            ColumnsUpdater::onNoUpdateAvailable($columnsVersions);
+
+            if (!$updater->hasNewVersion('core')) {
+                return null;
+            }
         }
 
         return $componentsWithUpdateFile;

@@ -14,6 +14,8 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Db;
 use Piwik\Updater as PiwikUpdater;
+use Piwik\Cache\PersistentCache;
+use Piwik\Filesystem;
 
 /**
  * Class that handles dimension updates
@@ -150,5 +152,82 @@ class Updater extends \Piwik\Updates
         }
 
         return $sqlUpdates;
+    }
+
+    public static function getAllVersions()
+    {
+        // to avoid having to load all dimensions on each request we check if there were any changes on the file system
+        // can easily save > 100ms for each request
+        $cachedTimes  = self::getCachedDimensionFileChanges();
+        $currentTimes = self::getCurrentDimensionFileChanges();
+        $diff         = array_diff_assoc($currentTimes, $cachedTimes);
+
+        if (empty($diff)) {
+            return array();
+        }
+
+        $versions = array();
+
+        foreach (VisitDimension::getAllDimensions() as $dimension) {
+            $columnName = $dimension->getColumnName();
+            if ($columnName) {
+                $versions['log_visit.' . $columnName] = $dimension->getVersion();
+            }
+        }
+
+        foreach (ActionDimension::getAllDimensions() as $dimension) {
+            $columnName = $dimension->getColumnName();
+            if ($columnName) {
+                $versions['log_link_visit_action.' . $columnName] = $dimension->getVersion();
+            }
+        }
+
+        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+            $columnName = $dimension->getColumnName();
+            if ($columnName) {
+                $versions['log_conversion.' . $columnName] = $dimension->getVersion();
+            }
+        }
+
+        return $versions;
+    }
+
+    public static function onNoUpdateAvailable($versionsThatWereChecked)
+    {
+        if (!empty($versionsThatWereChecked)) {
+            // invalidate cache only if there were actually file changes before, otherwise we write the cache on each
+            // request. There were versions checked only if there was a file change but no update, meaning we can
+            // set the cache and declare this state as "no update available".
+            self::cacheCurrentDimensionFileChanges();
+        }
+    }
+
+    private static function getCurrentDimensionFileChanges()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/*/Columns', '*.php');
+
+        $times = array();
+        foreach ($files as $file) {
+            $times[$file] = filemtime($file);
+        }
+
+        return $times;
+    }
+
+    private static function cacheCurrentDimensionFileChanges()
+    {
+        $changes = self::getCurrentDimensionFileChanges();
+        $persistentCache = new PersistentCache('AllDimensionModifyTime');
+        $persistentCache->set($changes);
+    }
+
+    private static function getCachedDimensionFileChanges()
+    {
+        $persistentCache = new PersistentCache('AllDimensionModifyTime');
+        if ($persistentCache->has()) {
+            return $persistentCache->get();
+        }
+
+        return array();
     }
 }

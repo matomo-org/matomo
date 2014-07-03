@@ -8,6 +8,9 @@
  */
 namespace Piwik\Columns;
 
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Translate;
 
@@ -65,4 +68,25 @@ abstract class Dimension
 
     abstract public function getName();
 
+    /**
+     * @return Dimension[]
+     */
+    public static function getAllDimensions()
+    {
+        $dimensions = array();
+
+        foreach (VisitDimension::getAllDimensions() as $dimension) {
+            $dimensions[] = $dimension;
+        }
+
+        foreach (ActionDimension::getAllDimensions() as $dimension) {
+            $dimensions[] = $dimension;
+        }
+
+        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+            $dimensions[] = $dimension;
+        }
+
+        return $dimensions;
+    }
 }

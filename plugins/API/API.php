@@ -10,6 +10,7 @@ namespace Piwik\Plugins\API;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
@@ -84,19 +85,7 @@ class API extends \Piwik\Plugin\API
     {
         $segments = array();
 
-        foreach (VisitDimension::getAllDimensions() as $dimension) {
-            foreach ($dimension->getSegments() as $segment) {
-                $segments[] = $segment->toArray();
-            }
-        }
-
-        foreach (ActionDimension::getAllDimensions() as $dimension) {
-            foreach ($dimension->getSegments() as $segment) {
-                $segments[] = $segment->toArray();
-            }
-        }
-
-        foreach (ConversionDimension::getAllDimensions() as $dimension) {
+        foreach (Dimension::getAllDimensions() as $dimension) {
             foreach ($dimension->getSegments() as $segment) {
                 $segments[] = $segment->toArray();
             }
