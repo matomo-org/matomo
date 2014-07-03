@@ -141,6 +141,7 @@
         "LatestBetaRelease": "The latest beta release",
         "LatestStableRelease": "The latest stable release",
         "LogoNotWriteableInstruction": "To use your custom logo instead of the default Piwik logo, give write permission to this directory: %1$s Piwik needs write access for your logos stored in the files %2$s.",
+        "FileUploadDisabled": "Uploading files is not enabled in your PHP configuration. To upload your custom logo please set %s in php.ini and restart your webserver.",
         "LogoUpload": "Select a Logo to upload",
         "FaviconUpload": "Select a Favicon to upload",
         "LogoUploadHelp": "Please upload a file in %s formats with a minimum height of %s pixels.",

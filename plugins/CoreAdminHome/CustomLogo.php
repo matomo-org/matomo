@@ -78,6 +78,14 @@ class CustomLogo
     /**
      * @return bool
      */
+    public function isFileUploadEnabled()
+    {
+        return ini_get('file_uploads') == 1;
+    }
+
+    /**
+     * @return bool
+     */
     public function isCustomLogoWritable()
     {
         if(Config::getInstance()->General['enable_custom_logo_check'] == 0) {
@@ -95,8 +103,7 @@ class CustomLogo
             && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserSvgLogo())
             && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserLogoSmall());;
 
-        $serverUploadEnabled = ini_get('file_uploads') == 1;
-        $isCustomLogoWritable = ($logoFilesWriteable || $directoryWritable) && $serverUploadEnabled;
+        $isCustomLogoWritable = ($logoFilesWriteable || $directoryWritable) && $this->isFileUploadEnabled();
 
         return $isCustomLogoWritable;
     }
