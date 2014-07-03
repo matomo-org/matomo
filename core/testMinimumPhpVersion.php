@@ -64,7 +64,7 @@ if ($minimumPhpInvalid) {
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
                     "\n\n<br/><br/>For more information check out this FAQ: <a href='http://piwik.org/faq/how-to-install/faq_18271/' target='_blank'>How do I use Piwik from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Piwik release from ".
-                    "<a href='http://builds.piwik.org/piwik-latest.zip'>builds.piwik.org</a>.</p>";
+                    "<a href='http://builds.piwik.org/piwik.zip'>builds.piwik.org</a>.</p>";
     }
 }
 

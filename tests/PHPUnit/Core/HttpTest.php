@@ -64,7 +64,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     {
         $result = Http::sendHttpRequestBy(
             $method,
-            'http://builds.piwik.org/piwik-latest.zip',
+            'http://builds.piwik.org/piwik.zip',
             30,
             $userAgent = null,
             $destinationPath = null,

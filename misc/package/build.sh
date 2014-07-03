@@ -212,7 +212,7 @@ If you have any question, feel free to ask. \n\n\
 Thank you,\n\n\
 Piwik team" | mail -s"New Piwik Version $VERSION" "appgal@microsoft.com,hello@piwik.org"
 
-    echo "build finished! http://builds.piwik.org/piwik-latest.zip"
+    echo "build finished! http://builds.piwik.org/piwik.zip"
 fi
 
 
