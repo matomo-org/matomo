@@ -802,7 +802,11 @@ class ProcessedReport
 
         $key = '';
         foreach ($request as $k => $v) {
-            $key .= $k . $v . ',';
+            if (is_array($v)) {
+                $key .= $k . implode(',',$v) . ',';
+            } else {
+                $key .= $k . $v . ',';
+            }
         }
 
         $key .= implode(',', $idSites) . ($period === false ? 0 : $period) . ($date === false ? 0 : $date);

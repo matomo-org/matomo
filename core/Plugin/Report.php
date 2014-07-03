@@ -288,7 +288,7 @@ class Report
         }
 
         try {
-            $plugin  = PluginManager::getInstance()->getLoadedPlugin($module);
+            $plugin = PluginManager::getInstance()->getLoadedPlugin($module);
         } catch (\Exception $e) {
             return;
         }
