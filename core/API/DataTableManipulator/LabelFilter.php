@@ -128,9 +128,9 @@ class LabelFilter extends DataTableManipulator
         if ($this->apiModule == 'Actions'
             && in_array($this->apiMethod, $pageTitleReports)
         ) {
-            // temporary workaround for #4363, if a '+' is at the end of this label, we assume it is a
+            // temporary workaround for #4363, if a '%20' is at the end of this label, we assume it is a
             // terminal label and only check for a terminal row.
-            if (substr($originalLabel, -1) == '+') {
+            if (substr($originalLabel, -3) == '%20') {
                 array_unshift($variations, ' ' . $sanitizedLabel);
                 array_unshift($variations, ' ' . $label);
             } else {
