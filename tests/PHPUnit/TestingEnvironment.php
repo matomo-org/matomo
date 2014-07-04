@@ -101,7 +101,9 @@ class Piwik_TestingEnvironment
         $disabledPlugins[] = 'PleineLune';
 
         return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
-            if (in_array($pluginName, $disabledPlugins)) {
+            if (in_array($pluginName, $disabledPlugins)
+                && $pluginName != 'DBStats'
+            ) {
                 return false;
             }
 
