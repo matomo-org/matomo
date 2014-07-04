@@ -281,9 +281,10 @@ class FrontController extends Singleton
                 throw $exceptionToThrow;
             }
 
+            // try to connect to the database
             try {
                 Db::createDatabaseObject();
-                Option::get('TestingIfDatabaseConnectionWorked');
+                Db::fetchAll("SELECT DATABASE()");
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;
@@ -302,8 +303,26 @@ class FrontController extends Singleton
                  */
                 Piwik::postEvent('Db.cannotConnectToDb', array($exception), $pending = true);
 
+                throw $exception;
+            }
+
+            // try to get an option (to check if data can be queried)
+            try {
+                Option::get('TestingIfDatabaseConnectionWorked');
+            } catch (Exception $exception) {
+                if (self::shouldRethrowException()) {
+                    throw $exception;
+                }
+
+                Log::debug($exception);
+
                 /**
-                 * @deprecated
+                 * Triggered when Piwik cannot access database data.
+                 *
+                 * This event can be used to start the installation process or to display a custom error
+                 * message.
+                 *
+                 * @param Exception $exception The exception thrown from trying to get an option value.
                  */
                 Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
 
