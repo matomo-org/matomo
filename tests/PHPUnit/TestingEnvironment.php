@@ -105,6 +105,7 @@ class Piwik_TestingEnvironment
         return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
             if (in_array($pluginName, $disabledPlugins)
                 && $pluginName != 'DBStats'
+                && $pluginName != 'ExampleUI'
             ) {
                 return false;
             }
