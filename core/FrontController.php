@@ -284,7 +284,6 @@ class FrontController extends Singleton
             try {
                 Db::createDatabaseObject();
                 Option::get('TestingIfDatabaseConnectionWorked');
-
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;
@@ -293,15 +292,21 @@ class FrontController extends Singleton
                 Log::debug($exception);
 
                 /**
-                 * Triggered if the INI config file has the incorrect format or if certain required configuration
-                 * options are absent.
-                 * 
-                 * This event can be used to start the installation process or to display a custom error message.
-                 * 
+                 * Triggered when Piwik cannot connect to the database.
+                 *
+                 * This event can be used to start the installation process or to display a custom error
+                 * message.
+                 *
                  * @param Exception $exception The exception thrown from creating and testing the database
                  *                             connection.
                  */
+                Piwik::postEvent('Db.cannotConnectToDb', array($exception), $pending = true);
+
+                /**
+                 * @deprecated
+                 */
                 Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
+
                 throw $exception;
             }
 

@@ -184,6 +184,10 @@ class Piwik_TestingEnvironment
             });
         }
         Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
+            if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+                \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+            }
+
             if ($testingEnvironment->optionsOverride) {
                 foreach ($testingEnvironment->optionsOverride as $name => $value) {
                     Option::set($name, $value);
