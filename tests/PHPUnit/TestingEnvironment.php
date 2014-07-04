@@ -95,10 +95,13 @@ class Piwik_TestingEnvironment
 
     public function getCoreAndSupportedPlugins()
     {
-        return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) {
-            if ($pluginName == 'LoginHttpAuth'
-                || $pluginName == 'ExampleVisualization'
-            ) {
+        $disabledPlugins = PluginManager::getInstance()->getCorePluginsDisabledByDefault();
+        $disabledPlugins[] = 'LoginHttpAuth';
+        $disabledPlugins[] = 'ExampleVisualization';
+        $disabledPlugins[] = 'PleineLune';
+
+        return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
+            if (in_array($pluginName, $disabledPlugins)) {
                 return false;
             }
 
