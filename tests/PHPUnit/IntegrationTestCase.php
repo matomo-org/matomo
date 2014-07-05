@@ -950,7 +950,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $result = array();
         foreach (DbHelper::getTablesInstalled() as $tableName) {
-            $result[$tableName] = Db::fetchAll("SELECT * FROM $tableName");
+            $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
         }
         return $result;
     }
