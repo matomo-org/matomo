@@ -12,6 +12,10 @@ if (!defined('PIWIK_TEST_MODE')) {
     define('PIWIK_TEST_MODE', true);
 }
 
+if (!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
+    define('PIWIK_PRINT_ERROR_BACKTRACE', true);
+}
+
 class Piwik_MockAccess
 {
     private $access;

@@ -358,7 +358,7 @@ class Db
      */
     static public function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAll("SHOW COLUMNS FROM " . $table);
+        $columns = self::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
 
         $columnNames = array();
         foreach ($columns as $column) {
