@@ -204,12 +204,12 @@ class Piwik
         self::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
 
         if (!empty($codeImpl['httpsPiwikUrl'])) {
-            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https://{$httpsPiwikUrl}/" : '
+            $setTrackerUrl = 'var u=((document.location.protocol === "https:") ? "https://{$httpsPiwikUrl}/" : '
                            . '"http://{$piwikUrl}/");';
 
             $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         } else {
-            $setTrackerUrl = 'var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$piwikUrl}/";';
+            $setTrackerUrl = 'var u="//{$piwikUrl}/";';
         }
         $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
 
