@@ -9,6 +9,8 @@
 /**
  * Tests the class LabelFilter.
  * This is not possible as unit test, since it loads data from the archive.
+ *
+ * @group LabelFilterTest
  */
 class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
 {

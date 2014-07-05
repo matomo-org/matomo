@@ -338,7 +338,7 @@ class Db
             $tables = array($tables);
         }
 
-        return self::query("DROP TABLE " . implode(',', $tables));
+        return self::query("DROP TABLE `" . implode('`,`', $tables) . "`");
     }
 
     /**

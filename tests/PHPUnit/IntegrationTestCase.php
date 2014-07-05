@@ -950,7 +950,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $result = array();
         foreach (DbHelper::getTablesInstalled() as $tableName) {
-            $result[$tableName] = Db::fetchAll("SELECT * FROM $tableName");
+            $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
         }
         return $result;
     }
@@ -1002,7 +1002,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $rowsSql[] = "(" . implode(',', $values) . ")";
             }
 
-            $sql = "INSERT INTO $table VALUES " . implode(',', $rowsSql);
+            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
             Db::query($sql, $bind);
         }
     }
@@ -1013,7 +1013,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function deleteArchiveTables()
     {
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-            Db::query("DROP TABLE IF EXISTS $table");
+            Db::query("DROP TABLE IF EXISTS `$table`");
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);

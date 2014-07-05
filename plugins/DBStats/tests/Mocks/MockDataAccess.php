@@ -120,9 +120,9 @@ class MockDataAccess
     public function getTableNameKey($tableName)
     {
         $result = Common::unprefixTable($tableName);
-        if (strpos($tableName, "archive_numeric")) {
+        if (strpos($tableName, "archive_numeric") !== false) {
             $result = "archive_numeric";
-        } else if (strpos($tableName, "archive_blob")) {
+        } else if (strpos($tableName, "archive_blob") !== false) {
             $result = "archive_blob";
         }
         return $result;
@@ -130,7 +130,7 @@ class MockDataAccess
 
     public function getRowCountsByArchiveName($tableName, $extraCols)
     {
-        if (strpos($tableName, "achive_numeric")) {
+        if (strpos($tableName, "achive_numeric") !== false) {
             return self::$numericRowCountsByArchiveName;
         } else {
             return self::$blobRowCountsByArchiveName;

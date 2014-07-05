@@ -85,7 +85,9 @@ class Piwik_TestingEnvironment
     public function logVariables()
     {
         try {
-            if (isset($_SERVER['QUERY_STRING'])) {
+            if (isset($_SERVER['QUERY_STRING'])
+                && !$this->dontUseTestConfig
+            ) {
                 \Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
             }
         } catch (Exception $ex) {
@@ -99,6 +101,10 @@ class Piwik_TestingEnvironment
         $disabledPlugins[] = 'LoginHttpAuth';
         $disabledPlugins[] = 'ExampleVisualization';
         $disabledPlugins[] = 'PleineLune';
+
+        $disabledPlugins = array_diff($disabledPlugins, array(
+            'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
+        ));
 
         return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
             if (in_array($pluginName, $disabledPlugins)) {

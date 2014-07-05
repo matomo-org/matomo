@@ -30,6 +30,7 @@ class Installation extends \Piwik\Plugin
     {
         $hooks = array(
             'Config.NoConfigurationFile'      => 'dispatch',
+            'Config.badConfigurationFile'     => 'dispatch',
             'Db.cannotConnectToDb'            => 'displayDbConnectionMessage',
             'Request.dispatch'                => 'dispatchIfNotInstalledYet',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',

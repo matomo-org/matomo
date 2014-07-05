@@ -14,6 +14,8 @@ use Piwik\Updater;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
+ *
+ * @group BackwardsCompatibility1XTest
  */
 class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTestCase
 {
@@ -119,4 +121,4 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
 Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture = new Piwik_Test_Fixture_SqlDump();
 Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture->dumpUrl =
     PIWIK_INCLUDE_PATH . Test_Piwik_Integration_BackwardsCompatibility1XTest::FIXTURE_LOCATION;
-Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture->tablesPrefix = 'piwiktests_';
+Test_Piwik_Integration_BackwardsCompatibility1XTest::$fixture->tablesPrefix = '';
