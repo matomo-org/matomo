@@ -102,11 +102,12 @@ class Piwik_TestingEnvironment
         $disabledPlugins[] = 'ExampleVisualization';
         $disabledPlugins[] = 'PleineLune';
 
+        $disabledPlugins = array_diff($disabledPlugins, array(
+            'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
+        ));
+
         return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
-            if (in_array($pluginName, $disabledPlugins)
-                && $pluginName != 'DBStats'
-                && $pluginName != 'ExampleUI'
-            ) {
+            if (in_array($pluginName, $disabledPlugins)) {
                 return false;
             }
 
