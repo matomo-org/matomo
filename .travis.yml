@@ -111,6 +111,7 @@ after_script:
   - cat /var/log/nginx/error.log
   - cat $TRAVIS_BUILD_DIR/tmp/php-fpm.log
   - cat $TRAVIS_BUILD_DIR/tmp/logs/piwik.log
+  - cat $TRAVIS_BUILD_DIR/config/config.ini.php
   - cd $TRAVIS_BUILD_DIR
   - ./tests/travis/upload_artifacts.sh
 
