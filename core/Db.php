@@ -661,8 +661,6 @@ class Db
 
     private static function logExtraInfoIfDeadlock($ex)
     {
-        Log::debug($ex); // for debugging travis, remove
-
         if (self::get()->isErrNo($ex, 1213)) {
             $deadlockInfo = self::fetchAll("SHOW ENGINE INNODB STATUS");
 
