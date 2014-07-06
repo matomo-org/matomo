@@ -8,7 +8,8 @@ username = root
 password =
 dbname = piwik_tests
 adapter = PDO\MYSQL
-tables_prefix = piwiktests_
+; no table prefix for tests on travis
+tables_prefix = 
 ;charset = utf8
 
 [database_tests]
