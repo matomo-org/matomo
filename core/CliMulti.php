@@ -241,6 +241,8 @@ class CliMulti {
             }
 
             $output->write($message);
+
+            Log::debug($e);
         }
     }
 
