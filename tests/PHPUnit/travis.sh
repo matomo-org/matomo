@@ -55,6 +55,11 @@ then
         then
             travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
         else
+            if [ -n "$TEST_SUITE" = "Integration" ]
+            then
+                TEST_SUITE=ArchiveWebTest
+            fi
+
             travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
     fi

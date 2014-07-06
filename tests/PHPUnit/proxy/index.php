@@ -3,7 +3,6 @@
  * Proxy to index.php, but will use the Test DB
  * Used by tests/PHPUnit/Integration/ImportLogsTest.php and tests/PHPUnit/Integration/UITest.php
  */
-define('PIWIK_PRINT_ERROR_BACKTRACE', 1);
 
 require realpath(dirname(__FILE__)) . "/includes.php";
 
