@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Log;
 use ReflectionClass;
 
 /**
@@ -37,6 +38,7 @@ class OmniFixture extends \Fixture
         $classes = get_declared_classes();
         sort($classes);
         foreach ($classes as $className) {
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('Classname ' . $className);
             if (is_subclass_of($className, 'Fixture')
                 && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
@@ -70,6 +72,8 @@ class OmniFixture extends \Fixture
         $fixture = $this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts'];
         unset($this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts']);
         $this->fixtures = array_merge(array('Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts' => $fixture), $this->fixtures);
+
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt(implode(',', array_keys($this->fixtures)));
     }
 
     private function adjustDateTime($dateTime, $adjustToDate)
@@ -85,13 +89,15 @@ class OmniFixture extends \Fixture
     public function setUp()
     {
         foreach ($this->fixtures as $name => $fixture) {
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('Setup class ' . $name);
             $fixture->setUp();
         }
     }
 
     public function tearDown()
     {
-        foreach ($this->fixtures as $fixture) {
+        foreach ($this->fixtures as $name => $fixture) {
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('Tear down class ' . $name);
             $fixture->tearDown();
         }
     }
