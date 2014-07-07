@@ -288,10 +288,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
-
-        $message = 'Load all plugins ';
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
         if (empty($testEnvironment)) {
             $testEnvironment = new Piwik_TestingEnvironment();
         }
