@@ -70,7 +70,7 @@ abstract class Base extends VisitDimension
 
         $key = md5(implode(',', $userInfo));
 
-        if (array_key_exists($key, self::$cachedLocations)) {
+        if (array_key_exists($key, self::$cachedLocations) && empty($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'])) {
             return self::$cachedLocations[$key];
         }
 
