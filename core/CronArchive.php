@@ -1320,6 +1320,10 @@ class CronArchive
      */
     private function getConcurrentRequestsPerWebsite()
     {
-        return $this->getParameterFromCli('--concurrent-requests-per-website', true);
+        $cliParam = $this->getParameterFromCli('--concurrent-requests-per-website', true);
+        if ($cliParam !== false) {
+            return $cliParam;
+        }
+        return self::MAX_CONCURRENT_API_REQUESTS;
     }
 }
