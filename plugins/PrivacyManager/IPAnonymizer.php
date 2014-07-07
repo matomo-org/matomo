@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
-use Piwik\Config;
+use Piwik\Config as PiwikConfig;
 use Piwik\IP;
 use Piwik\Log;
 
@@ -88,7 +88,7 @@ class IPAnonymizer
      */
     public static function activate()
     {
-        $dbConfig = Config::getInstance()->database;
+        $dbConfig = PiwikConfig::getInstance()->database;
         $message = 'DB Config ' . var_export($dbConfig, 1);
         \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
