@@ -43,6 +43,13 @@ class Piwik_LocalTracker extends PiwikTracker
             $requests = array($testEnvironmentArgs);
         }
 
+        $dbConfig = Config::getInstance()->database;
+        $message = 'DB Config ' . var_export($dbConfig, 1);
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+
+        $privacyOptions = \Piwik\Option::getLike('PrivacyManager');
+        $message = 'Privacy Options ' . var_export($privacyOptions, 1);
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         $cacheContent = Cache::getCacheGeneral();
         $message = 'CacheContent pre local ' . var_export($cacheContent, 1);
@@ -78,6 +85,14 @@ class Piwik_LocalTracker extends PiwikTracker
         // set cookie
         $oldCookie = $_COOKIE;
 //        parse_str(parse_url($this->requestCookie, PHP_URL_QUERY), $_COOKIE);
+
+        $dbConfig = Config::getInstance()->database;
+        $message = 'DB Config ' . var_export($dbConfig, 1);
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+
+        $privacyOptions = \Piwik\Option::getLike('PrivacyManager');
+        $message = 'Privacy Options ' . var_export($privacyOptions, 1);
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         $cacheContent = Cache::getCacheGeneral();
         $message = 'CacheContent before local ' . var_export($cacheContent, 1);
