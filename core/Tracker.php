@@ -226,6 +226,7 @@ class Tracker
      */
     public function main($args = null)
     {
+
         try {
             $tokenAuth = $this->initRequests($args);
         } catch (Exception $ex) {
@@ -253,7 +254,7 @@ class Tracker
         }
 
         Piwik::postEvent('Tracker.end');
-
+        
         $this->end();
 
         $this->flushOutputBuffer();
@@ -799,6 +800,8 @@ class Tracker
         if (Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
 
             self::connectDatabaseIfNotConnected();
+
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('forceIpAnonymization');
 
             $privacyConfig = new PrivacyManagerConfig();
             $privacyConfig->ipAddressMaskLength = 2;

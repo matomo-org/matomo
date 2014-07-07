@@ -80,6 +80,8 @@ class IPAnonymizer
     {
         $message = 'deactivate anonmyizer';
         Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+        $message = var_export($_SERVER, 1);
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         $privacyConfig = new Config();
         $privacyConfig->ipAnonymizerEnabled = false;
@@ -92,6 +94,8 @@ class IPAnonymizer
     {
         $message = 'activate anonmyizer';
         Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+        $message = var_export($_SERVER, 1);
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         $privacyConfig = new Config();
         $privacyConfig->ipAnonymizerEnabled = true;

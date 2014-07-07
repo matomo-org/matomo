@@ -66,14 +66,8 @@ class Config
             $value = $cache[$name];
             settype($value, $config['type']);
 
-            $message = 'Get value from tracker cache ' . $name . ' : ' . $value;
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
             return $value;
         }
-
-        $message = 'Get default value from tracker cache ' . $name . ' : ' . $config['default'];
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         return $config['default'];
     }
@@ -85,15 +79,8 @@ class Config
 
         if (false !== $value) {
             settype($value, $config['type']);
-
-            $message = 'Get value from option ' . $name . ' : ' . $value;
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
-
         } else {
             $value = $config['default'];
-
-            $message = 'Get default value from option ' . $name . ' : ' . $value;
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
         }
 
         return $value;
@@ -119,8 +106,6 @@ class Config
         foreach ($this->properties as $name => $config) {
             $cacheContent[$this->prefix($name)] = $this->getFromOption($name, $config);
         }
-
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('setTrackerCacheGeneral');
 
         return $cacheContent;
     }
