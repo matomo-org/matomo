@@ -115,8 +115,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        $message = 'Perform setup ' . get_class($this);
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
         try {
             if ($this->createConfig) {
                 Config::getInstance()->setTestEnvironment();
@@ -258,10 +256,6 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public function performTearDown()
     {
-
-        $message = 'Perform teardown ' . get_class($this);
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
         // Note: avoid run SQL in the *tearDown() metohds because it randomly fails on Travis CI
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();

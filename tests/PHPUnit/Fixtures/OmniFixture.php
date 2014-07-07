@@ -8,7 +8,6 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Log;
 use ReflectionClass;
 
 /**
@@ -86,8 +85,6 @@ class OmniFixture extends \Fixture
     public function setUp()
     {
         foreach ($this->fixtures as $fixture) {
-            $message = 'Setting up fixture ' . get_class($fixture);
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
             $fixture->setUp();
         }
     }
@@ -95,8 +92,6 @@ class OmniFixture extends \Fixture
     public function tearDown()
     {
         foreach ($this->fixtures as $fixture) {
-            $message = 'Tear down fixture ' . get_class($fixture);
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
             $fixture->tearDown();
         }
     }

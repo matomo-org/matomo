@@ -379,27 +379,6 @@ class Log extends Singleton
         return $this->currentLogLevel;
     }
 
-    public function customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, $addTrace = true)
-    {
-        if ($addTrace) {
-            $message = $message . "\n";
-            $backTrace = debug_backtrace();
-            $backTrace = array_slice($backTrace, 1, 2);
-
-            foreach ($backTrace as &$trace) {
-                if (!empty($trace['object'])) {
-                    unset($trace['object']);
-                }
-            }
-            $message .= var_export($backTrace, 1);
-        }
-
-        if(!file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND)) {
-            $message = Filechecks::getErrorMessageMissingPermissions($this->logToFilePath);
-            throw new \Exception( $message );
-        }
-    }
-
     private function logToFile($level, $tag, $datetime, $message)
     {
         $message = $this->getMessageFormattedFile($level, $tag, $datetime, $message);

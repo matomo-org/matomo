@@ -71,7 +71,7 @@ abstract class Base extends VisitDimension
         $key = md5(implode(',', $userInfo));
 
         if (array_key_exists($key, self::$cachedLocations)) {
-            return self::$cachedLocations[$key];
+           // return self::$cachedLocations[$key];
         }
 
         $provider = $this->getProvider();
