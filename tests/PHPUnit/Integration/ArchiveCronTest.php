@@ -15,6 +15,7 @@ use Piwik\Plugins\SitesManager\API;
  * This tests that, when archiving is disabled,
  *  then Piwik API will return data that was pre-processed during archive.php run
  *
+ * @group ArchiveCronTest
  */
 class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
 {

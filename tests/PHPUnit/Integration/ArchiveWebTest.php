@@ -22,7 +22,7 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
         if(self::isMysqli() && self::isTravisCI()) {
             $this->markTestSkipped('Skipping on Mysqli as it randomly fails.');
         }
-        self::$fixture->setUp();
+
         self::deleteArchiveTables();
 
         $host  = Fixture::getRootUrl();

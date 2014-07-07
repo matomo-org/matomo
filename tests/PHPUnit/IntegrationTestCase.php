@@ -17,6 +17,7 @@ use Piwik\DbHelper;
 use Piwik\ReportRenderer;
 use Piwik\Translate;
 use Piwik\UrlHelper;
+use Piwik\Log;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -72,6 +73,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
+        Log::debug("Setting up " . get_called_class());
+
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
@@ -89,6 +92,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
+        Log::debug("Tearing down " . get_called_class());
+
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
@@ -1013,6 +1018,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function deleteArchiveTables()
     {
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+            Log::debug("Dropping table $table");
+
             Db::query("DROP TABLE IF EXISTS `$table`");
         }
 
