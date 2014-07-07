@@ -18,7 +18,7 @@ class Updates_2_4_1 extends Updates
     {
         return array(
             "ALTER TABLE `" . Common::prefixTable('log_visit')
-            . "` DROP COLUMN `config_gears`" => false,
+            . "` DROP `config_gears`" => false,
         );
     }
 
