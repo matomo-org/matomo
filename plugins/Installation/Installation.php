@@ -14,7 +14,7 @@ use Piwik\FrontController;
 use Piwik\Menu\MenuAbstract;
 use Piwik\Piwik;
 use Piwik\Translate;
-use Piwik\View;
+use Piwik\View as PiwikView;
 
 /**
  *
@@ -40,7 +40,7 @@ class Installation extends \Piwik\Plugin
 
     public function displayDbConnectionMessage($exception = null)
     {
-        $view = new View("@Installation/cannotConnectToDb");
+        $view = new PiwikView("@Installation/cannotConnectToDb");
         $view->exceptionMessage = $exception->getMessage();
 
         Piwik_ExitWithMessage($view->render());
