@@ -270,5 +270,9 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_AddGoal';
         $translationKeys[] = 'Goals_UpdateGoal';
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
+        $translationKeys[] = 'Goals_UpdateGoal';
+        $translationKeys[] = 'Goals_DeleteGoalConfirm';
+        $translationKeys[] = 'Goals_Ecommerce';
+        $translationKeys[] = 'Goals_Optional';
     }
 }

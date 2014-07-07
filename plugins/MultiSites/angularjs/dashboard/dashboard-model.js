@@ -130,8 +130,8 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
         if (allSitesUnordered && allSitesUnordered.length) {
             for (var index in allSitesUnordered) {
                 var site = allSitesUnordered[index];
-                if (site && site['nb_pageviews']) {
-                    totalActions += parseInt(site['nb_pageviews'], 10);
+                if (site && site.nb_pageviews) {
+                    totalActions += parseInt(site.nb_pageviews, 10);
                 }
             }
         }
@@ -207,6 +207,8 @@ angular.module('piwikApp').factory('multisitesDashboardModel', function (piwikAp
     function nestedSearch(sitesByGroup, term)
     {
         var filteredSites = [];
+
+        term = term.toLowerCase();
 
         for (var index in sitesByGroup) {
             var site = sitesByGroup[index];

@@ -633,7 +633,7 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
 
     this.seriesPickers.each(function (i) {
         var el = $(this);
-        el.click(function (e) {
+        el.off('click').on('click', function (e) {
             if (e.shiftKey) {
                 self.toggleSeries(i);
 

@@ -133,6 +133,10 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        if(empty($minDate)) {
+            throw new Exception("Check the 'dates' parameter is a valid date.");
+        }
+
         // In each table, invalidate day/week/month/year containing this date
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
@@ -204,4 +208,15 @@ class API extends \Piwik\Plugin\API
         return array();
     }
 
+    /**
+     * Return true if plugin is activated, false otherwise
+     *
+     * @param string $pluginName
+     * @return bool
+     */
+    public function isPluginActivated($pluginName)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+    }
 }

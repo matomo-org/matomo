@@ -31,5 +31,5 @@ require_once $vendorDirectory . '/piwik/device-detector/DeviceDetector.php';
 
 // Make sure Data processed in cron core:archive command is not being purged instantly (useful for: Integration/ArchiveCronTest)
 if(\Piwik\SettingsServer::isArchivePhpTriggered()) {
-    \Piwik\ArchiveProcessor\Rules::$purgeDisabledByTests = true;
+    \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
 }

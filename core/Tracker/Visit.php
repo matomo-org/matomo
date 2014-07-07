@@ -271,10 +271,12 @@ class Visit implements VisitInterface
     protected function getTimeSpentReferrerAction()
     {
         $timeSpent = $this->request->getCurrentTimestamp() - $this->visitorInfo['visit_last_action_time'];
-        if ($timeSpent < 0
-            || $timeSpent > Config::getInstance()->Tracker['visit_standard_length']
-        ) {
+        if ($timeSpent < 0) {
             $timeSpent = 0;
+        }
+        $visitStandardLength = Config::getInstance()->Tracker['visit_standard_length'];
+        if($timeSpent > $visitStandardLength) {
+            $timeSpent = $visitStandardLength;
         }
         return $timeSpent;
     }

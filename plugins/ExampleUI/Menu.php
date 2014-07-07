@@ -10,6 +10,7 @@ namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
+use Piwik\Menu\MenuUser;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
@@ -32,11 +33,12 @@ class Menu extends \Piwik\Plugin\Menu
         }
     }
 
-    public function configureTopMenu(MenuTop $menu)
+    public function configureUserMenu(MenuUser $menu)
     {
         $urlParams = array('module' => 'ExampleUI', 'action' => 'notifications');
-        $menu->add('UI Notifications', null, $urlParams, $displayedForCurrentUser = true, $order = 3);
+        $menu->add('CorePluginsAdmin_MenuPlatform', 'UI Notifications', $urlParams, $displayedForCurrentUser = true, $order = 3);
     }
+
 
     private function addSubMenu(MenuReporting $menu, $subMenu, $action, $order)
     {

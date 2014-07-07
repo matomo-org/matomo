@@ -94,9 +94,9 @@ before_script:
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_tests;'
   # Make sure we use Python 2.6
-  - sudo add-apt-repository ppa:fkrull/deadsnakes -y
-  - sudo apt-get update
-  - sudo apt-get install python2.6 python2.6-dev
+  - travis_retry sudo add-apt-repository ppa:fkrull/deadsnakes -y
+  - travis_retry sudo apt-get update
+  - travis_retry sudo apt-get install python2.6 python2.6-dev
   # Log Analytics works with Python 2.6 or 2.7 but we want to test on 2.6
   - python2.6 --version
   - python --version
@@ -112,6 +112,7 @@ after_script:
   - cat /var/log/nginx/error.log
   - cat $TRAVIS_BUILD_DIR/tmp/php-fpm.log
   - cat $TRAVIS_BUILD_DIR/tmp/logs/piwik.log
+  - cat $TRAVIS_BUILD_DIR/config/config.ini.php
   - cd $TRAVIS_BUILD_DIR
   - ./tests/travis/upload_artifacts.sh
 

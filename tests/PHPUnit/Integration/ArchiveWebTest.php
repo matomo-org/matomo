@@ -11,6 +11,7 @@ use Piwik\Option;
 /**
  * Tests to call the archive.php script via web and check there is no error,
  * @group Integration
+ * @group ArchiveWebTest
  */
 class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
 {
@@ -21,7 +22,7 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
         if(self::isMysqli() && self::isTravisCI()) {
             $this->markTestSkipped('Skipping on Mysqli as it randomly fails.');
         }
-        self::$fixture->setUp();
+
         self::deleteArchiveTables();
 
         $host  = Fixture::getRootUrl();
@@ -30,7 +31,7 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
 
-        $streamContext = stream_context_create(array('http' => array('timeout' => 180)));
+        $streamContext = stream_context_create(array('http' => array('timeout' => 600)));
 
         $url = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token . '&forcelogtoscreen=1';
         $output = file_get_contents($url, 0, $streamContext);

@@ -1,0 +1,31 @@
+{
+    "Events": {
+        "AvgEventValue": "Průměrná hodnota události je %s",
+        "AvgValue": "Průměrná hodnota",
+        "AvgValueDocumentation": "Průměr všech hodnot pro tuto událost",
+        "Event": "Událost",
+        "EventAction": "Akce události",
+        "EventActions": "Akce události",
+        "EventCategories": "Kategorie událostí",
+        "EventCategory": "Kategorie události",
+        "EventName": "Jméno události",
+        "EventNames": "Jména událostí",
+        "Events": "Události",
+        "EventsWithValue": "Události s hodnotou",
+        "EventsWithValueDocumentation": "Počet událostí s nastavenou hodnotou",
+        "EventValue": "Hodnota události",
+        "EventValueTooltip": "Celková hodnota události je součet %s hodnot událostí %s mezi minimem %s a maximem %s.",
+        "MaxValue": "Maximální hodnota",
+        "MaxValueDocumentation": "Maximální hodnota pro tuto událost",
+        "MinValue": "Minimální hodnota",
+        "MinValueDocumentation": "Minimální hodnota pro tuto událost",
+        "SecondaryDimension": "Sekundární dimenze je %s.",
+        "SwitchToSecondaryDimension": "Přepnout na %s",
+        "TopEvents": "Nejčastější události",
+        "TotalEvents": "Celkem událostí",
+        "TotalEventsDocumentation": "Celkový počet událostí",
+        "TotalValue": "Celková hodnota",
+        "TotalValueDocumentation": "Součet hodnot událostí",
+        "ViewEvents": "Zobrazit události"
+    }
+}

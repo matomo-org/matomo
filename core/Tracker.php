@@ -559,7 +559,7 @@ class Tracker
          *                                       database.
          *                       - **dbname**: The name of the Piwik MySQL database.
          *                       - **port**: The MySQL database port to use.
-         *                       - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
+         *                       - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
          *                       - **type**: The MySQL engine to use, for instance 'InnoDB'
          */
         Piwik::postEvent('Tracker.getDatabaseConfig', array(&$configDb));
@@ -700,7 +700,7 @@ class Tracker
 
         try {
             $pluginsTracker = \Piwik\Plugin\Manager::getInstance()->loadTrackerPlugins();
-            Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
+            Common::printDebug("Loading plugins: { " . implode(", ", $pluginsTracker) . " }");
         } catch (Exception $e) {
             Common::printDebug("ERROR: " . $e->getMessage());
         }

@@ -191,7 +191,7 @@ class SettingsPiwik
      */
     public static function isPiwikInstalled()
     {
-        $config = Config::getInstance()->getLocalConfigPath();
+        $config = Config::getInstance()->getLocalPath();
         $exists = file_exists($config);
 
         // Piwik is installed if the config file is found

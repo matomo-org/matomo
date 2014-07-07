@@ -39,7 +39,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if (!class_exists("DeviceDetector\\DeviceDetector")) {
-            throw new \Exception("DeviceDetector could not be found, maybe you are using Piwik from git and need to have update Composer. <br>php composer.phar update");
+            throw new \Exception("DeviceDetector could not be found, maybe you are using Piwik from git and need to update Composer. Execute this command: php composer.phar update");
         }
 
         $ua = new OperatingSystem($_SERVER['HTTP_USER_AGENT']);

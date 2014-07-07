@@ -1,0 +1,21 @@
+<div class="ui-inline-help">
+
+    <span ng-switch="timezoneSupportEnabled">
+
+        <span ng-switch-default>
+            {{ 'SitesManager_AdvancedTimezoneSupportNotFound'|translate }}
+        </span>
+
+        <span ng-switch-when="true">
+            {{ 'SitesManager_ChooseCityInSameTimezoneAsYou'|translate }}
+        </span>
+    </span>
+
+    <br/><br/>
+
+    {{ 'SitesManager_UTCTimeIs'| translate : (utcTime | date : 'yyyy-MM-dd HH:mm:ss') }}
+
+    <br/><br/>
+
+    {{ 'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward'|translate }}
+</div>

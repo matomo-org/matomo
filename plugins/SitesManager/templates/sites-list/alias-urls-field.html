@@ -1,0 +1,23 @@
+<span ng-switch-default>
+    <div ng-repeat="url in site.alias_urls">
+        {{ url | prettyUrl }}
+    </div>
+</span>
+
+<span ng-switch-when="true">
+
+    <div sites-manager-multiline-field field="site.alias_urls" cols="25" rows="3"></div>
+
+    <div class="ui-inline-help">
+        {{ 'SitesManager_AliasUrlHelp' | translate }}
+    </div>
+
+    <h4 style="display:inline-block;">
+        {{ 'SitesManager_KeepURLFragmentsLong'|translate }}
+    </h4>
+
+    <select ng-options="key as value for (key, value) in keepURLFragmentsOptions"
+            ng-model="site.keep_url_fragment"
+            >
+    </select>
+</span>

@@ -53,12 +53,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->trustedHosts = Url::getTrustedHostsFromConfig();
 
             $logo = new CustomLogo();
-            $view->branding       = array('use_custom_logo' => $logo->isEnabled());
-            $view->logosWriteable = $logo->isCustomLogoWritable();
-            $view->pathUserLogo      = CustomLogo::getPathUserLogo();
-            $view->pathUserFavicon   = CustomLogo::getPathUserFavicon();
-            $view->pathUserLogoSmall = CustomLogo::getPathUserLogoSmall();
-            $view->pathUserLogoSVG   = CustomLogo::getPathUserSvgLogo();
+            $view->branding              = array('use_custom_logo' => $logo->isEnabled());
+            $view->fileUploadEnabled     = $logo->isFileUploadEnabled();
+            $view->logosWriteable        = $logo->isCustomLogoWritable();
+            $view->pathUserLogo          = CustomLogo::getPathUserLogo();
+            $view->pathUserFavicon       = CustomLogo::getPathUserFavicon();
+            $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
+            $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
             $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
         }
 

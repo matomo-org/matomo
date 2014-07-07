@@ -70,6 +70,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public $printToScreen = false;
 
     public $testCaseClass = false;
+    public $extraPluginsToLoad = array();
 
     public $testEnvironment = null;
 
@@ -182,7 +183,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         Cache::deleteTrackerCache();
 
-        static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass);
+        static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
 
         $updater = new Updater();
         $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
@@ -285,20 +286,26 @@ class Fixture extends PHPUnit_Framework_Assert
         Translate::unloadEnglishTranslation();
     }
 
-    public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false)
+    public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
+
         $message = 'Load all plugins ';
         Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+
+        if (empty($testEnvironment)) {
+            $testEnvironment = new Piwik_TestingEnvironment();
+        }
+
         DbHelper::createTables();
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
 
-        $plugins = $pluginsManager->getPluginsToLoadDuringTests();
+        $plugins = $testEnvironment->getCoreAndSupportedPlugins();
 
         // make sure the plugin that executed this method is included in the plugins to load
-        $extraPlugins = array(
+        $extraPlugins = array_merge($extraPluginsToLoad, array(
             \Piwik\Plugin::getPluginNameFromBacktrace(debug_backtrace()),
             \Piwik\Plugin::getPluginNameFromNamespace($testCaseClass)
-        );
+        ));
         foreach ($extraPlugins as $pluginName) {
             if (empty($pluginName)) {
                 continue;

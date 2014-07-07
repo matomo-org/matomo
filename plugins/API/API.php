@@ -16,13 +16,12 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
 use Piwik\Date;
+use Piwik\IP;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translate;
 use Piwik\Version;
@@ -58,6 +57,18 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();
         return Version::VERSION;
+    }
+
+    /**
+     * Returns the most accurate IP address availble for the current user, in
+     * IPv4 format. This could be the proxy client's IP address.
+     *
+     * @return string IP address in presentation format.
+     */
+    public function getIpFromHeader()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        return IP::getIpFromHeader();
     }
 
     /**

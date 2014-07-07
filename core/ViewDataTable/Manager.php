@@ -242,7 +242,9 @@ class Manager
 
         $graphViewIcons['buttons'] = array_filter($graphViewIcons['buttons']);
 
-        if (!empty($insightsViewIcons['buttons'])) {
+        if (!empty($insightsViewIcons['buttons'])
+            && $view->config->show_insights
+        ) {
             $result[] = $insightsViewIcons;
         }
 

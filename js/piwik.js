@@ -408,13 +408,14 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest,
+    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
+    setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable,
     setDownloadExtensions, addDownloadExtensions,
-    setDomains, setIgnoreClasses, setRequestMethod,
+    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
@@ -1077,8 +1078,15 @@ if (typeof Piwik !== 'object') {
 
                 enableJSErrorTracking = false,
 
+                defaultRequestMethod = 'GET',
+
                 // Request method (GET or POST)
-                configRequestMethod = 'GET',
+                configRequestMethod = defaultRequestMethod,
+
+                defaultRequestContentType = 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                // Request Content-Type header value; applicable when POST request method is used for submitting tracking events
+                configRequestContentType = defaultRequestContentType,
 
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
@@ -1086,7 +1094,7 @@ if (typeof Piwik !== 'object') {
                 // API URL (only set if it differs from the Tracker URL)
                 configApiUrl = '',
 
-                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existin setters/getters)
+                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existing setters/getters)
                 configAppendToTrackingUrl = '',
 
                 // Site ID
@@ -1174,6 +1182,8 @@ if (typeof Piwik !== 'object') {
 
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
+
+                configCustomRequestContentProcessing,
 
                 // Custom Variables, scope "page"
                 customVariablesPage = {},
@@ -1367,9 +1377,7 @@ if (typeof Piwik !== 'object') {
                         }
                     };
 
-                    // see XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
-                    // @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                    xhr.setRequestHeader('Content-Type', configRequestContentType);
 
                     xhr.send(request);
                 } catch (e) {
@@ -1824,6 +1832,11 @@ if (typeof Piwik !== 'object') {
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
                 }
+
+                if (isFunction(configCustomRequestContentProcessing)) {
+                    request = configCustomRequestContentProcessing(request);
+                }
+
                 return request;
             }
 
@@ -2436,6 +2449,27 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Configure function with custom request content processing logic.
+                 * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
+                 *
+                 * Examples:
+                 *   tracker.setCustomRequestProcessing(function(request){
+                 *     var pairs = request.split('&');
+                 *     var result = {};
+                 *     pairs.forEach(function(pair) {
+                 *       pair = pair.split('=');
+                 *       result[pair[0]] = decodeURIComponent(pair[1] || '');
+                 *     });
+                 *     return JSON.stringify(result);
+                 *   });
+                 *
+                 * @param function customRequestContentProcessingLogic
+                 */
+                setCustomRequestProcessing: function (customRequestContentProcessingLogic) {
+                    configCustomRequestContentProcessing = customRequestContentProcessingLogic;
+                },
+
+                /**
                  * Appends the specified query string to the piwik.php?... Tracking API URL
                  *
                  * @param string queryString eg. 'lat=140&long=100'
@@ -2453,6 +2487,18 @@ if (typeof Piwik !== 'object') {
                  */
                 getRequest: function (request) {
                     return getRequest(request);
+                },
+
+                /**
+                 * Add plugin defined by a name and a callback function.
+                 * The callback function will be called whenever a tracking request is sent.
+                 * This can be used to append data to the tracking request, or execute other custom logic.
+                 *
+                 * @param string pluginName
+                 * @param Object pluginObj
+                 */
+                addPlugin: function (pluginName, pluginObj) {
+                    plugins[pluginName] = pluginObj;
                 },
 
                 /**
@@ -2588,7 +2634,18 @@ if (typeof Piwik !== 'object') {
                  * @param string method GET or POST; default is GET
                  */
                 setRequestMethod: function (method) {
-                    configRequestMethod = method || 'GET';
+                    configRequestMethod = method || defaultRequestMethod;
+                },
+
+                /**
+                 * Set request Content-Type header value, applicable when POST request method is used for submitting tracking events.
+                 * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
+                 * @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
+                 *
+                 * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
+                 */
+                setRequestContentType: function (requestContentType) {
+                    configRequestContentType = requestContentType || defaultRequestContentType;
                 },
 
                 /**
@@ -2986,8 +3043,9 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Log special pageview: Internal search
                  *
-                 * @param string customTitle
-                 * @param mixed customData
+                 * @param string keyword
+                 * @param string category
+                 * @param int resultsCount
                  */
                 trackSiteSearch: function (keyword, category, resultsCount) {
                     trackCallback(function () {

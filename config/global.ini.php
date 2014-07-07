@@ -18,7 +18,7 @@ password =
 dbname =
 tables_prefix =
 port = 3306
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 
@@ -34,7 +34,7 @@ password =
 dbname = piwik_tests
 tables_prefix = piwiktests_
 port = 3306
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 
@@ -267,6 +267,12 @@ login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
 
+; email address that appears as a Repy-to in the password recovery email
+; if specified, {DOMAIN} will be replaced by the current Piwik domain
+login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
+; name that appears as a Reply-to in the password recovery email
+login_password_recovery_replyto_email_name = "No-reply"
+
 ; By default when user logs out he is redirected to Piwik "homepage" usually the Login form.
 ; Uncomment the next line to set a URL to redirect the user to after he logs out of Piwik.
 ; login_logout_url = http://...
@@ -288,6 +294,9 @@ noreply_email_address = "noreply@{DOMAIN}"
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
 feedback_email_address = "feedback@piwik.org"
+
+; using to set reply_to in reports e-mail to login of report creator
+scheduled_reports_replyto_is_user_email_and_alias = 0
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)
@@ -384,7 +393,7 @@ enable_trusted_host_check = 1
 
 ; The release server is an essential part of the Piwik infrastructure/ecosystem
 ; to provide the latest software version.
-latest_version_url = http://builds.piwik.org/piwik-latest.zip
+latest_version_url = http://builds.piwik.org/piwik.zip
 
 ; The API server is an essential part of the Piwik infrastructure/ecosystem to
 ; provide services to Piwik installations, e.g., getLatestVersion and

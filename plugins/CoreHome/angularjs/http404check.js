@@ -12,12 +12,12 @@ angular.module('piwikApp').factory('http404CheckInterceptor', function($q) {
     return {
 
         'responseError': function(rejection) {
-            if (rejection
-                && isClientError(rejection)
-                && rejection.config
-                && rejection.config.url
-                && -1 !== rejection.config.url.indexOf('.html')
-                && -1 !== rejection.config.url.indexOf('plugins')) {
+            if (rejection &&
+                isClientError(rejection) &&
+                rejection.config &&
+                rejection.config.url &&
+                -1 !== rejection.config.url.indexOf('.html') &&
+                -1 !== rejection.config.url.indexOf('plugins')) {
 
                 var posEndUrl = rejection.config.url.indexOf('.html') + 5;
                 var url       = rejection.config.url.substr(0, posEndUrl);

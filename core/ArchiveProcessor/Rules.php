@@ -33,8 +33,7 @@ class Rules
 
     const FLAG_TABLE_PURGED = 'lastPurge_';
 
-    /** Old Archives purge can be disabled (used in tests only) */
-    static public $purgeDisabledByTests = false;
+    static public $purgeOutdatedArchivesIsDisabled = false;
 
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;
@@ -43,9 +42,11 @@ class Rules
      * Returns the name of the archive field used to tell the status of an archive, (ie,
      * whether the archive was created successfully or not).
      *
+     * @param array $idSites
      * @param Segment $segment
      * @param string $periodLabel
      * @param string $plugin
+     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin, $isSkipAggregationOfSubTables)
@@ -128,6 +129,16 @@ class Rules
         return $doneFlags;
     }
 
+    static public function disablePurgeOutdatedArchives()
+    {
+        self::$purgeOutdatedArchivesIsDisabled = true;
+    }
+
+    static public function enablePurgeOutdatedArchives()
+    {
+        self::$purgeOutdatedArchivesIsDisabled = false;
+    }
+
     /**
      * Given a monthly archive table, will delete all reports that are now outdated,
      * or reports that ended with an error
@@ -137,7 +148,7 @@ class Rules
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
-        if (self::$purgeDisabledByTests) {
+        if (self::$purgeOutdatedArchivesIsDisabled) {
             return false;
         }
         $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');

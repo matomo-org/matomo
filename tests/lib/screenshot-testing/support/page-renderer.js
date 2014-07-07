@@ -229,11 +229,21 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
 
     function setClipRect (page, selector) {
         if (!selector) {
-
             return;
         }
 
         var result = page.evaluate(function(selector) {
+            function isInvalidBoundingRect (rect) {
+                var docWidth = $(document).width(),
+                    docHeight = $(document).height();
+
+                return !rect.width || !rect.height
+                    || rect.left < 0 || rect.left > docWidth
+                    || rect.top < 0 || rect.top > docHeight
+                    || rect.right < 0 || rect.right > docWidth
+                    || rect.bottom < 0 || rect.bottom > docHeight;
+            }
+
             var element = window.jQuery(selector);
 
             if (element && element.length) {
@@ -242,7 +252,7 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
                 element.each(function (index, node) {
                     var rect = node.getBoundingClientRect();
 
-                    if (!rect.width || !rect.height) {
+                    if (isInvalidBoundingRect(rect)) {
                         // element is not visible
                         return;
                     }

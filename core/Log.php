@@ -373,6 +373,12 @@ class Log extends Singleton
         $this->currentLogLevel = $logLevel;
     }
 
+
+    public function getLogLevel()
+    {
+        return $this->currentLogLevel;
+    }
+
     public function customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, $addTrace = true)
     {
         if ($addTrace) {

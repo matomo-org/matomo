@@ -78,5 +78,31 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
                     PIWIK_DOCUMENT_ROOT . "/" . $downloadTo);
             }
         }
+
+        $this->displayGitInstructions($output);
+
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    protected function displayGitInstructions(OutputInterface $output)
+    {
+        $output->writeln('');
+        $output->writeln('--------------');
+        $output->writeln('');
+        $output->writeln("If all downloaded screenshots are valid you may push them with these commands:");
+        $output->writeln('');
+        $commands = "cd tests/PHPUnit/UI/
+git add expected-ui-screenshots/
+git pull
+git commit -m'' # WRITE A COMMIT MESSAGE
+git push
+cd ..
+git add UI
+git commit -m'' #WRITE A COMMIT MESSAGE
+git pull
+git push";
+        $output->writeln($commands);
     }
 }

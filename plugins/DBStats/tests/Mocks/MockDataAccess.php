@@ -28,7 +28,8 @@ class MockDataAccess
         'option' => array(200, 16000, 8192),
         'session' => array(0, 8192, 8192),
         'archive_numeric' => array(8000, 16000, 16000),
-        'archive_blob' => array(8000, 128000, 1024)
+        'archive_blob' => array(8000, 128000, 1024),
+        'segment' => array(3, 4048, 8192),
     );
 
     public static $numericRowCountsByArchiveName = array(
@@ -119,9 +120,9 @@ class MockDataAccess
     public function getTableNameKey($tableName)
     {
         $result = Common::unprefixTable($tableName);
-        if (strpos($tableName, "archive_numeric")) {
+        if (strpos($tableName, "archive_numeric") !== false) {
             $result = "archive_numeric";
-        } else if (strpos($tableName, "archive_blob")) {
+        } else if (strpos($tableName, "archive_blob") !== false) {
             $result = "archive_blob";
         }
         return $result;
@@ -129,7 +130,7 @@ class MockDataAccess
 
     public function getRowCountsByArchiveName($tableName, $extraCols)
     {
-        if (strpos($tableName, "achive_numeric")) {
+        if (strpos($tableName, "achive_numeric") !== false) {
             return self::$numericRowCountsByArchiveName;
         } else {
             return self::$blobRowCountsByArchiveName;

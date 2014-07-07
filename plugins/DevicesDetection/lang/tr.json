@@ -1,0 +1,22 @@
+{
+    "DevicesDetection": {
+        "BrowserVersions": "Tarayıcı versiyonları",
+        "Camera": "Kamera",
+        "CarBrowser": "Araba tarayıcısı",
+        "Console": "Konsol",
+        "dataTableLabelBrands": "Marka",
+        "dataTableLabelBrowserFamily": "Tarayıcı ailesi",
+        "dataTableLabelModels": "Model",
+        "dataTableLabelSystemVersion": "İşletim Sistemi versiyonu",
+        "dataTableLabelTypes": "Tip",
+        "Device": "Cihaz",
+        "DeviceBrand": "Cihaz markası",
+        "DeviceDetection": "Cihaz algılama",
+        "DeviceModel": "Cihaz modeli",
+        "DevicesDetection": "Ziyaretçi Cihazları",
+        "DeviceType": "Cihaz tipi",
+        "Tablet": "Tablet",
+        "TV": "Tv",
+        "UserAgent": "User-Agent"
+    }
+}

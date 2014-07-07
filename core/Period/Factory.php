@@ -23,16 +23,18 @@ class Factory
      *
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
+     * @param Date|string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
      * @throws Exception If `$strPeriod` is invalid.
      * @return \Piwik\Period
      */
-    static public function build($period, $date)
+    static public function build($period, $date, $timezone = 'UTC')
     {
         self::checkPeriodIsEnabled($period);
 
         if (is_string($date)) {
-            if (Period::isMultiplePeriod($date, $period) || $period == 'range') {
-                return new Range($period, $date);
+            if (Period::isMultiplePeriod($date, $period)
+                || $period == 'range') {
+                return new Range($period, $date, $timezone);
             }
             $date = Date::factory($date);
         }

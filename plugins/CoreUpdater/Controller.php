@@ -163,7 +163,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (function_exists('opcache_reset')) {
-            opcache_reset(); // reset the opcode cache (php 5.5.0+)
+            @opcache_reset(); // reset the opcode cache (php 5.5.0+)
         }
     }
 

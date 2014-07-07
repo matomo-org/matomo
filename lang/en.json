@@ -141,6 +141,7 @@
         "LatestBetaRelease": "The latest beta release",
         "LatestStableRelease": "The latest stable release",
         "LogoNotWriteableInstruction": "To use your custom logo instead of the default Piwik logo, give write permission to this directory: %1$s Piwik needs write access for your logos stored in the files %2$s.",
+        "FileUploadDisabled": "Uploading files is not enabled in your PHP configuration. To upload your custom logo please set %s in php.ini and restart your webserver.",
         "LogoUpload": "Select a Logo to upload",
         "FaviconUpload": "Select a Favicon to upload",
         "LogoUploadHelp": "Please upload a file in %s formats with a minimum height of %s pixels.",
@@ -1172,7 +1173,9 @@
         "WeHopeYouWillEnjoyPiwik": "We hope you will enjoy using Piwik as much as we enjoy making it.",
         "Welcome": "Welcome!",
         "WelcomeHelp": "<p>Piwik is a free/libre web analytics software that makes it easy to get the information you want from your visitors.<\/p><p>This process is split up into %s easy steps and will take around 5 minutes.<\/p>",
-        "WelcomeToCommunity": "Welcome to the Piwik community!"
+        "WelcomeToCommunity": "Welcome to the Piwik community!",
+        "CannotConnectToDb": "Cannot connect to the database",
+        "CannotConnectToDbResolvingExplanation": "This may be a temporary issue, try %1$srefreshing the page%2$s. If the problem persists please contact your Piwik administrator."
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "About Piwik translations",

@@ -160,6 +160,11 @@ class Config
     public $show_goals = false;
 
     /**
+     * Controls whether the 'insights' footer icon is shown.
+     */
+    public $show_insights = true;
+
+    /**
      * Array property mapping DataTable column names with their internationalized names.
      *
      * The default value for this property is set elsewhere. It will contain translations

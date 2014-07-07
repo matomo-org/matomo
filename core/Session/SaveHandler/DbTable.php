@@ -78,8 +78,9 @@ class DbTable implements Zend_Session_SaveHandler_Interface
             . ' AND ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' >= ?';
 
         $result = Db::get()->fetchOne($sql, array($id, time()));
-        if (!$result)
+        if (!$result) {
             $result = '';
+        }
 
         return $result;
     }

@@ -14,6 +14,7 @@ use Piwik\FrontController;
 use Piwik\Menu\MenuAbstract;
 use Piwik\Piwik;
 use Piwik\Translate;
+use Piwik\View as PiwikView;
 
 /**
  *
@@ -30,10 +31,19 @@ class Installation extends \Piwik\Plugin
         $hooks = array(
             'Config.NoConfigurationFile'      => 'dispatch',
             'Config.badConfigurationFile'     => 'dispatch',
+            'Db.cannotConnectToDb'            => 'displayDbConnectionMessage',
             'Request.dispatch'                => 'dispatchIfNotInstalledYet',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
         return $hooks;
+    }
+
+    public function displayDbConnectionMessage($exception = null)
+    {
+        $view = new PiwikView("@Installation/cannotConnectToDb");
+        $view->exceptionMessage = $exception->getMessage();
+
+        Piwik_ExitWithMessage($view->render());
     }
 
     public function dispatchIfNotInstalledYet(&$module, &$action, &$parameters)

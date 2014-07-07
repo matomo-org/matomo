@@ -86,6 +86,7 @@ class FrontController extends Singleton
             $result = $this->doDispatch($module, $action, $parameters);
             return $result;
         } catch (NoAccessException $exception) {
+            Log::debug($exception);
 
             /**
              * Triggered when a user with insufficient access permissions tries to view some resource.
@@ -216,9 +217,9 @@ class FrontController extends Singleton
                 // in tracker mode Piwik\Tracker\Db\Pdo\Mysql does currently not implement profiling
                 Profiler::displayDbProfileReport();
                 Profiler::printQueryCount();
-                Log::debug(Registry::get('timer'));
             }
         } catch (Exception $e) {
+            Log::verbose($e);
         }
     }
 
@@ -262,6 +263,7 @@ class FrontController extends Singleton
         try {
             Config::getInstance()->database; // access property to check if the local file exists
         } catch (Exception $exception) {
+            Log::debug($exception);
 
             /**
              * Triggered when the configuration file cannot be found or read, which usually
@@ -324,25 +326,51 @@ class FrontController extends Singleton
                 throw $exceptionToThrow;
             }
 
+            // try to connect to the database
             try {
                 Db::createDatabaseObject();
-                Option::get('TestingIfDatabaseConnectionWorked');
-
+                Db::fetchAll("SELECT DATABASE()");
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;
                 }
 
+                Log::debug($exception);
+
                 /**
-                 * Triggered if the INI config file has the incorrect format or if certain required configuration
-                 * options are absent.
-                 * 
-                 * This event can be used to start the installation process or to display a custom error message.
-                 * 
+                 * Triggered when Piwik cannot connect to the database.
+                 *
+                 * This event can be used to start the installation process or to display a custom error
+                 * message.
+                 *
                  * @param Exception $exception The exception thrown from creating and testing the database
                  *                             connection.
                  */
+                Piwik::postEvent('Db.cannotConnectToDb', array($exception), $pending = true);
+
+                throw $exception;
+            }
+
+            // try to get an option (to check if data can be queried)
+            try {
+                Option::get('TestingIfDatabaseConnectionWorked');
+            } catch (Exception $exception) {
+                if (self::shouldRethrowException()) {
+                    throw $exception;
+                }
+
+                Log::debug($exception);
+
+                /**
+                 * Triggered when Piwik cannot access database data.
+                 *
+                 * This event can be used to start the installation process or to display a custom error
+                 * message.
+                 *
+                 * @param Exception $exception The exception thrown from trying to get an option value.
+                 */
                 Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
+
                 throw $exception;
             }
 

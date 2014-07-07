@@ -311,12 +311,19 @@ class API extends \Piwik\Plugin\API
      * Returns the list of websites with the 'admin' access for the current user.
      * For the superUser it returns all the websites in the database.
      *
+     * @param bool $fetchAliasUrls
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess()
+    public function getSitesWithAdminAccess($fetchAliasUrls = false)
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
-        return $this->getSitesFromIds($sitesId);
+        $sites = $this->getSitesFromIds($sitesId);
+
+        if ($fetchAliasUrls)
+            foreach ($sites as &$site)
+                $site['alias_urls'] = API::getInstance()->getSiteUrlsFromId($site['idsite']);
+
+        return $sites;
     }
 
     /**
@@ -1185,7 +1192,7 @@ class API extends \Piwik\Plugin\API
      *
      * @ignore
      */
-    public function updateSiteCreatedTime($idSites, $minDate)
+    public function updateSiteCreatedTime($idSites, Date $minDate)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
         Piwik::checkUserHasAdminAccess($idSites);
@@ -1238,6 +1245,17 @@ class API extends \Piwik\Plugin\API
         return array_map(function ($a) {
             return $a[0];
         }, $currencies);
+    }
+
+    /**
+     * Return true if Timezone support is enabled on server
+     *
+     * @return bool
+     */
+    public function isTimezoneSupportEnabled()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        return SettingsServer::isTimezoneSupportEnabled();
     }
 
     /**

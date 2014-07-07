@@ -338,9 +338,10 @@ class ArchiveProcessor
 
         if ($dataTable instanceof Map) {
             // see http://dev.piwik.org/trac/ticket/4377
-            foreach ($dataTable->getDataTables() as $table) {
-                $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
-            }
+            $self = $this;
+            $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
+                $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+            });
         }
 
         $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
@@ -443,7 +444,10 @@ class ArchiveProcessor
         }
     }
 
-    protected function renameColumnsAfterAggregation(DataTable $table, $columnsToRenameAfterAggregation = null)
+    /**
+     * Note: public only for use in closure in PHP 5.3.
+     */
+    public function renameColumnsAfterAggregation(DataTable $table, $columnsToRenameAfterAggregation = null)
     {
         // Rename columns after aggregation
         if (is_null($columnsToRenameAfterAggregation)) {

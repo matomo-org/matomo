@@ -17,6 +17,7 @@ use Piwik\DbHelper;
 use Piwik\ReportRenderer;
 use Piwik\Translate;
 use Piwik\UrlHelper;
+use Piwik\Log;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -72,6 +73,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
+        Log::debug("Setting up " . get_called_class());
+
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
@@ -89,6 +92,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
+        Log::debug("Tearing down " . get_called_class());
+
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
@@ -537,7 +542,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst)
+    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove = array())
     {
         $isTestLogImportReverseChronological = strpos($testName, 'ImportedInRandomOrderTest') === false;
         $isLiveMustDeleteDates = (strpos($requestUrl, 'Live.getLastVisits') !== false
@@ -560,6 +565,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $response = $this->removeAllLiveDatesFromXml($response);
         }
         $response = $this->normalizePdfContent($response);
+
+        if (!empty($xmlFieldsToRemove)) {
+            $response = $this->removeXmlFields($response, $xmlFieldsToRemove);
+        }
 
         $expected = $this->loadExpectedFile($expectedFilePath);
         $expectedContent = $expected;
@@ -675,6 +684,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             'prettyDate',
             'serverDateTimePrettyFirstAction'
         );
+        return $this->removeXmlFields($input, $toRemove);
+    }
+
+    protected function removeXmlFields($input, $toRemove)
+    {
         foreach ($toRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }
@@ -815,7 +829,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
         // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
-        Rules::$purgeDisabledByTests = true;
+        \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
 
         $testName = 'test_' . static::getOutputPrefix();
         $this->missingExpectedFiles = array();
@@ -860,6 +874,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             isset($params['fileExtension']) ? $params['fileExtension'] : false);
 
         $compareAgainst = isset($params['compareAgainst']) ? ('test_' . $params['compareAgainst']) : false;
+        $xmlFieldsToRemove = @$params['xmlFieldsToRemove'];
 
         foreach ($requestUrls as $apiId => $requestUrl) {
             // this is a hack
@@ -869,11 +884,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 }
             }
 
-            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst);
+            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove);
         }
 
         // Restore normal purge behavior
-        Rules::$purgeDisabledByTests = false;
+        \Piwik\ArchiveProcessor\Rules::enablePurgeOutdatedArchives();
 
         // change the language back to en
         if ($this->lastLanguage != 'en') {
@@ -940,7 +955,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $result = array();
         foreach (DbHelper::getTablesInstalled() as $tableName) {
-            $result[$tableName] = Db::fetchAll("SELECT * FROM $tableName");
+            $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
         }
         return $result;
     }
@@ -992,7 +1007,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $rowsSql[] = "(" . implode(',', $values) . ")";
             }
 
-            $sql = "INSERT INTO $table VALUES " . implode(',', $rowsSql);
+            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
             Db::query($sql, $bind);
         }
     }
@@ -1003,7 +1018,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function deleteArchiveTables()
     {
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-            Db::query("DROP TABLE IF EXISTS $table");
+            Log::debug("Dropping table $table");
+
+            Db::query("DROP TABLE IF EXISTS `$table`");
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);
