@@ -1,8 +1,7 @@
 [Category]
 key2 = valueCommon
 
-; This should not trigger an error if INI_SCANNER_RAW is used
-key3 = "${@piwik(crash))}"
+key3 = "&#36;{@piwik(crash))}"
 
 [GeneralSection]
 password = passwordCommonShouldNotBeOverriden

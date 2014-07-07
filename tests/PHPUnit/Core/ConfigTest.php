@@ -418,6 +418,17 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                                                 'newSetting' => 'newValue')),
                 $header . "[General]\nkey = \"value\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
+
+            array('Converts Dollar Sign To Dollar Entity', array(
+                array('General' => array('key' => '$value', 'key2' => '${value}')),      // local
+                array('General' => array('key' => '$global'),                            // global
+                    'CommonCategory' => array('settingGlobal' => 'valueGlobal')),
+                array('CommonCategory' => array('settingCommon' => 'common',            // common
+                    'settingCommon2' => 'common2')),
+                array('CommonCategory' => array('settingCommon2' => 'common2',
+                    'newSetting' => 'newValue')),
+                $header . "[General]\nkey = \"&#36;value\"\nkey2 = \"&#36;{value}\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
+            )),
         );
 
     }
@@ -435,6 +446,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
         $output = $config->dumpConfig($configLocal, $configGlobal, $configCommon, $configCache);
         $this->assertEquals($expected, $output, $description);
+    }
+
+    public function testDollarEntityGetsConvertedToDollarSign()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+
+        $config = Config::getInstance();
+        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
+        $config->init();
+
+        $this->assertEquals('${@piwik(crash))}', $config->Category['key3']);
     }
 }
 

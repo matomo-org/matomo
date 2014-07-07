@@ -383,6 +383,7 @@ class Config extends Singleton
             }
         } else {
             $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
+            $values = str_replace('$', '&#36;', $values);
         }
         return $values;
     }
