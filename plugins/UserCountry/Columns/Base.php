@@ -107,7 +107,7 @@ abstract class Base extends VisitDimension
 
         $ip = $request->getIp();
 
-        if ($privacyConfig->useAnonymizedIpForVisitEnricment) {
+        if ($privacyConfig->useAnonymizedIpForVisitEnrichment) {
             $ip = $anonymizedIp;
         }
 
