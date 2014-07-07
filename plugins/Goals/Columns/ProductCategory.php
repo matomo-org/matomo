@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Goals\Columns;
 
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\VisitDimension;
 
-class ProductCategory extends VisitDimension
+class ProductCategory extends Dimension
 {    
     public function getName()
     {

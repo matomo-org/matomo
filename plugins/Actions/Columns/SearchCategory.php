@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\VisitDimension;
 
-class SearchCategory extends VisitDimension
+class SearchCategory extends Dimension
 {    
     public function getName()
     {

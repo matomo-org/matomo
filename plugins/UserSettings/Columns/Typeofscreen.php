@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\UserSettings\Columns;
 
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\VisitDimension;
 
-class TypeOfScreen extends VisitDimension
+class TypeOfScreen extends Dimension
 {    
     public function getName()
     {

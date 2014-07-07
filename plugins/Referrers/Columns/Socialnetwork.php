@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\VisitDimension;
 
-class SocialNetwork extends VisitDimension
+class SocialNetwork extends Dimension
 {    
     public function getName()
     {

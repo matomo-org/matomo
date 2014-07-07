@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\VisitorInterest\Columns;
 
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\VisitDimension;
 
-class PagesPerVisit extends VisitDimension
+class PagesPerVisit extends Dimension
 {    
     public function getName()
     {
