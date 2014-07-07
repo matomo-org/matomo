@@ -103,6 +103,9 @@ class Cache
      */
     static public function clearCacheGeneral()
     {
+        $message = 'Clear Cache General ';
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
         self::getInstance()->delete('general');
     }
 
@@ -118,7 +121,17 @@ class Cache
         $cacheId = 'general';
 
         if (($cacheContent = $cache->get($cacheId)) !== false) {
+
+            if (Common::isPhpCliMode()) {
+                $message = 'there is already a cache general';
+                \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+            }
             return $cacheContent;
+        }
+
+        if (Common::isPhpCliMode()) {
+            $message = 'recreating the cache general';
+            \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
         }
 
         Tracker::initCorePiwikInTrackerMode();

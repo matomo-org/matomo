@@ -79,6 +79,12 @@ class CacheFile
             $this->opCacheInvalidate($cacheFilePath);
         }
 
+        if ('general' === $id && Common::isPhpCliMode()) {
+
+            $message = 'The path is ' . $cacheFilePath;
+            \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+        }
+
         $ok = @include($cacheFilePath);
 
         if ($ok && $cache_complete == true) {
@@ -197,6 +203,9 @@ class CacheFile
      */
     public function deleteAll()
     {
+        $message = 'Delete All Tracker Cache';
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
         $self = $this;
         $beforeUnlink = function ($path) use ($self) {
             $self->opCacheInvalidate($path);

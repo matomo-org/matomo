@@ -43,6 +43,11 @@ class Piwik_LocalTracker extends PiwikTracker
             $requests = array($testEnvironmentArgs);
         }
 
+
+        $cacheContent = Cache::getCacheGeneral();
+        $message = 'CacheContent pre local ' . var_export($cacheContent, 1);
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+
         // unset cached values
         Cache::$trackerCache = null;
         Tracker::setForceIp(null);
@@ -73,6 +78,10 @@ class Piwik_LocalTracker extends PiwikTracker
         // set cookie
         $oldCookie = $_COOKIE;
 //        parse_str(parse_url($this->requestCookie, PHP_URL_QUERY), $_COOKIE);
+
+        $cacheContent = Cache::getCacheGeneral();
+        $message = 'CacheContent before local ' . var_export($cacheContent, 1);
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         // do tracking and capture output
         ob_start();

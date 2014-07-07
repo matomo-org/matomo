@@ -254,7 +254,7 @@ class Tracker
         }
 
         Piwik::postEvent('Tracker.end');
-        
+
         $this->end();
 
         $this->flushOutputBuffer();
