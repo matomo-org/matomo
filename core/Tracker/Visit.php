@@ -12,7 +12,6 @@ namespace Piwik\Tracker;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
-use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker;
@@ -84,8 +83,6 @@ class Visit implements VisitInterface
         // the IP is needed by isExcluded() and GoalManager->recordGoals()
         $this->visitorInfo['location_ip'] = $this->request->getIp();
 
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('Handle Visit' . $this->request->getIp());
-
         $excluded = new VisitExcluded($this->request, $this->visitorInfo['location_ip']);
         if ($excluded->isExcluded()) {
             return;
@@ -100,8 +97,6 @@ class Visit implements VisitInterface
          * @param string &$ip The visitor's IP address.
          */
         Piwik::postEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
-
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('Handle Not Excluded Visit' . $this->visitorInfo['location_ip']);
 
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
         if (!empty($this->visitorCustomVariables)) {

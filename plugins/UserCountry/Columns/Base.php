@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
-use Piwik\Log;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -32,9 +31,6 @@ abstract class Base extends VisitDimension
 
         $value = Common::getRequestVar($urlParamToOverride, false, 'string', $request->getParams());
         if (!empty($value)) {
-            $message = 'getUrlOverrideValueIfAllowed for parameter ' . $urlParamToOverride . ': ' . $value;
-
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
             return $value;
         }
 
@@ -52,9 +48,6 @@ abstract class Base extends VisitDimension
 
         if (!empty($location[$locationKey])) {
 
-            $message = 'Location Detail: ' . $locationKey . ' ' . $location[$locationKey];
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
-
             return $location[$locationKey];
         }
 
@@ -65,9 +58,6 @@ abstract class Base extends VisitDimension
     {
         $ipAddress = $this->getIpAddress($visitor->getVisitorColumn('location_ip'), $request);
         $language  = $visitor->getVisitorColumn('location_browser_lang');
-
-        $message = 'language is ' . $language;
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
 
         $userInfo  = array('lang' => $language, 'ip' => $ipAddress);
 
@@ -80,18 +70,12 @@ abstract class Base extends VisitDimension
 
         $key = md5(implode(',', $userInfo));
 
-        $message = 'cache key for location info is ' . $key;
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
-
         if (array_key_exists($key, self::$cachedLocations)) {
             return self::$cachedLocations[$key];
         }
 
         $provider = $this->getProvider();
         $location = $this->getLocation($provider, $userInfo);
-
-        $message = 'first location test is ' . print_r($location, true);
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
 
         if (empty($location)) {
             $providerId = $provider->getId();
@@ -101,9 +85,6 @@ abstract class Base extends VisitDimension
                 Common::printDebug("Using default provider as fallback...");
                 $provider = $this->getDefaultProvider();
                 $location = $this->getLocation($provider, $userInfo);
-
-                $message = 'default location test is ' . print_r($location, true);
-                Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
             }
         }
 
@@ -126,16 +107,10 @@ abstract class Base extends VisitDimension
 
         $ip = $request->getIp();
 
-        $message = 'Get request ip address: ' . IP::N2P($ip);
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
-        if ($privacyConfig->useAnonymizedIpForVisitEnrichment) {
-            $message = 'useAnonymizedIpForVisitEnrichment ' . IP::N2P($anonymizedIp);
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+        if ($privacyConfig->useAnonymizedIpForVisitEnricment) {
             $ip = $anonymizedIp;
         }
 
-        $message = 'Get actual ip address: ' . IP::N2P($ip);
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
         $ipAddress = IP::N2P($ip);
 
         return $ipAddress;

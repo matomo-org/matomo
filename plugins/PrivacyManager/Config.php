@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Log;
 use Piwik\Option;
 use Piwik\Tracker\Cache;
 
@@ -64,8 +65,15 @@ class Config
         if (array_key_exists($name, $cache)) {
             $value = $cache[$name];
             settype($value, $config['type']);
+
+            $message = 'Get value from tracker cache ' . $name . ' : ' . $value;
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+
             return $value;
         }
+
+        $message = 'Get default value from tracker cache ' . $name . ' : ' . $config['default'];
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         return $config['default'];
     }
@@ -77,8 +85,15 @@ class Config
 
         if (false !== $value) {
             settype($value, $config['type']);
+
+            $message = 'Get value from option ' . $name . ' : ' . $value;
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
         } else {
             $value = $config['default'];
+
+            $message = 'Get default value from option ' . $name . ' : ' . $value;
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
         }
 
         return $value;
@@ -92,6 +107,9 @@ class Config
             settype($value, $config['type']);
         }
 
+        $message = 'set new value ' . $name . ' : ' . $value;
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
         Option::set($this->prefix($name), $value);
         Cache::clearCacheGeneral();
     }
@@ -101,6 +119,8 @@ class Config
         foreach ($this->properties as $name => $config) {
             $cacheContent[$this->prefix($name)] = $this->getFromOption($name, $config);
         }
+
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('setTrackerCacheGeneral');
 
         return $cacheContent;
     }

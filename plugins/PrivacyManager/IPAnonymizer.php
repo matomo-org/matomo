@@ -55,7 +55,7 @@ class IPAnonymizer
     {
         if (!$this->isActive()) {
             $message = "Visitor IP was _not_ anonymized: ". IP::N2P($ip);
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
             Common::printDebug("Visitor IP was _not_ anonymized: ". IP::N2P($ip));
             return;
@@ -67,9 +67,8 @@ class IPAnonymizer
 
         $ip = self::applyIPMask($ip, $privacyConfig->ipAddressMaskLength);
 
-
         $message = "Visitor IP (was: ". IP::N2P($originalIp) .") has been anonymized: ". IP::N2P($ip) . ' with length ' . $privacyConfig->ipAddressMaskLength;
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
 
         Common::printDebug("Visitor IP (was: ". IP::N2P($originalIp) .") has been anonymized: ". IP::N2P($ip));
     }
@@ -79,6 +78,9 @@ class IPAnonymizer
      */
     public static function deactivate()
     {
+        $message = 'deactivate anonmyizer';
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
         $privacyConfig = new Config();
         $privacyConfig->ipAnonymizerEnabled = false;
     }
@@ -88,6 +90,9 @@ class IPAnonymizer
      */
     public static function activate()
     {
+        $message = 'activate anonmyizer';
+        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
+
         $privacyConfig = new Config();
         $privacyConfig->ipAnonymizerEnabled = true;
     }
