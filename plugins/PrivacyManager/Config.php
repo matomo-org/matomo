@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\Log;
 use Piwik\Option;
 use Piwik\Tracker\Cache;
 
@@ -93,9 +92,6 @@ class Config
         } else {
             settype($value, $config['type']);
         }
-
-        $message = 'set new value ' . $name . ' : ' . $value;
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
 
         Option::set($this->prefix($name), $value);
         Cache::clearCacheGeneral();

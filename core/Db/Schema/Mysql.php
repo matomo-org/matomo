@@ -462,6 +462,9 @@ class Mysql implements SchemaInterface
      */
     public function truncateAllTables()
     {
+        $message = 'truncateAllTables';
+        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
+
         $tablesAlreadyInstalled = $this->getTablesInstalled($forceReload = true);
         foreach ($tablesAlreadyInstalled as $table) {
             Db::query("TRUNCATE `$table`");

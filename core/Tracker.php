@@ -801,8 +801,6 @@ class Tracker
 
             self::connectDatabaseIfNotConnected();
 
-            Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt('forceIpAnonymization');
-
             $privacyConfig = new PrivacyManagerConfig();
             $privacyConfig->ipAddressMaskLength = 2;
 

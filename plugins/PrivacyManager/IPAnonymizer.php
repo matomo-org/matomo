@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
-use Piwik\Config as PiwikConfig;
 use Piwik\IP;
 use Piwik\Log;
 
@@ -88,19 +87,6 @@ class IPAnonymizer
      */
     public static function activate()
     {
-        $dbConfig = PiwikConfig::getInstance()->database;
-        $message = 'DB Config ' . var_export($dbConfig, 1);
-        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
-        $privacyOptions = \Piwik\Option::getLike('PrivacyManager');
-        $message = 'Privacy Options ' . var_export($privacyOptions, 1);
-        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
-        $message = 'activate anonmyizer';
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message);
-        $message = var_export($_SERVER, 1);
-        Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
         $privacyConfig = new Config();
         $privacyConfig->ipAnonymizerEnabled = true;
     }

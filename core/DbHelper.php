@@ -106,10 +106,6 @@ class DbHelper
      */
     public static function dropDatabase($dbName = null)
     {
-
-        $message = 'Drop DB ';
-        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             Schema::getInstance()->dropDatabase($dbName);
         }

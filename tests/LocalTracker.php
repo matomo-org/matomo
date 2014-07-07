@@ -43,14 +43,6 @@ class Piwik_LocalTracker extends PiwikTracker
             $requests = array($testEnvironmentArgs);
         }
 
-        $dbConfig = Config::getInstance()->database;
-        $message = 'DB Config ' . var_export($dbConfig, 1);
-        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
-        $privacyOptions = \Piwik\Option::getLike('PrivacyManager');
-        $message = 'Privacy Options ' . var_export($privacyOptions, 1);
-        \Piwik\Log::getInstance()->customLogToFileForDebuggingIfYouStillSeeThisHereRemoveIt($message, false);
-
         // unset cached values
         Cache::$trackerCache = null;
         Tracker::setForceIp(null);
