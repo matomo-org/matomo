@@ -53,6 +53,8 @@ class Goals extends \Piwik\Plugin
             $order = array(
                 Piwik::translate('Referrers_Referrers'),
                 Piwik::translate('General_Visit'),
+                Piwik::translate('General_Visitors'),
+                Piwik::translate('VisitsSummary_VisitsSummary'),
                 Piwik::translate('VisitTime_ColumnServerTime'),
             );
         }
