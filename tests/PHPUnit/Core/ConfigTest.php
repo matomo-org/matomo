@@ -6,12 +6,11 @@ use Piwik\Config;
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @group Core
  */
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
@@ -41,9 +40,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * @group Core
-     */
     public function test_CommonConfig_Overrides()
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
@@ -60,9 +56,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * @group Core
-     */
     public function testWritingConfigWithSpecialCharacters()
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.written.ini.php';
@@ -92,9 +85,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stringWritten, $config->Category['test2']);
     }
 
-    /**
-     * @group Core
-     */
     public function testUserConfigOverwritesGlobalConfig()
     {
         $userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Config/config.ini.php';
@@ -154,8 +144,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     * 
      * @dataProvider getCompareElementsData
      */
     public function testCompareElements($description, $test)
@@ -213,8 +201,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     * 
      * @dataProvider getArrayUnmergeData
      */
     public function testArrayUnmerge($description, $test)
@@ -434,8 +420,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     * 
      * @dataProvider getDumpConfigData
      */
     public function testDumpConfig($description, $test)
