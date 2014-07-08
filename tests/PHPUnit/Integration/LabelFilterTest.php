@@ -112,6 +112,37 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
         $searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
         $return[] = array('Referrers.getSearchEngines', $searchEngineTest);
 
+        // test the ! operator
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'                => '_terminalOperator_selectTerminal',
+            'idSite'                    => $idSite,
+            'date'                      => $dateTime,
+            'otherRequestParameters'    => array(
+                'label'     => urlencode(urlencode('check <>') . '> @  ' . urlencode('@one@')),
+                'expanded'  => 0
+            )
+        ));
+
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'                => '_terminalOperator_selectBranch',
+            'idSite'                    => $idSite,
+            'date'                      => $dateTime,
+            'otherRequestParameters'    => array(
+                'label'     => urlencode(urlencode('check <>') . '>  ' . urlencode('@one@')),
+                'expanded'  => 0
+            )
+        ));
+
+        $return[] = array('Actions.getPageUrls', array(
+            'testSuffix'                => '_terminalOperator_selectTerminal',
+            'idSite'                    => $idSite,
+            'date'                      => $dateTime,
+            'otherRequestParameters'    => array(
+                'label'     => urlencode('dir> @ /subdir'),
+                'expanded'  => 0
+            )
+        ));
+
         return $return;
     }
 

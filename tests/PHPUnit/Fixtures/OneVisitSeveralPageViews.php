@@ -66,16 +66,24 @@ class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Fixture
 
         $t->setUrl('http://example.org/dir2/sub/0/file.php');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
-
         // Very high Generation time should be ignored
         $t->setGenerationTime(6350000);
         self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
 
+        // visit terminal & branch pages w/ the same name so we can test the ! label filter query operator
+        $t->setUrl('http://example.org/dir/subdir/');
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.41)->getDatetime());
+        $t->setGenerationTime(233);
+        self::checkResponse($t->doTrackPageView('check <> / @one@ / two'));
+
+        $t->setUrl('http://example.org/dir/subdir');
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.42)->getDatetime());
+        $t->setGenerationTime(333);
+        self::checkResponse($t->doTrackPageView('check <> / @one@'));
 
         $t->setUrl('http://example.org/0');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $t->setGenerationTime(635);
         self::checkResponse($t->doTrackPageView('I am URL zero!'));
-
     }
 }

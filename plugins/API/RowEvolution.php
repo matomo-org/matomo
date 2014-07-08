@@ -204,10 +204,13 @@ class RowEvolution
             $replaceRegex = "/\\s*" . preg_quote(LabelFilter::SEPARATOR_RECURSIVE_LABEL) . "\\s*/";
             $cleanLabel = preg_replace($replaceRegex, '/', $label);
 
-            return $mainUrlHost . '/' . $cleanLabel . '/';
+            $result = $mainUrlHost . '/' . $cleanLabel . '/';
         } else {
-            return str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+            $result = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
         }
+
+        // remove @ terminal operator occurances
+        return str_replace(LabelFilter::TERMINAL_OPERATOR, '', $result);
     }
 
     /**
