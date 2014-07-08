@@ -29,6 +29,8 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
+use Piwik\Plugins\CoreUpdater\CoreUpdater;
+use Piwik\Updater;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -779,6 +781,25 @@ class Fixture extends PHPUnit_Framework_Assert
         if ($sanitize) {
             $result = Common::sanitizeInputValue($result);
         }
+        return $result;
+    }
+
+    public static function updateDatabase()
+    {
+        $updater = new Updater();
+        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        if (empty($componentsWithUpdateFile)) {
+            return false;
+        }
+
+        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        if (!empty($result['coreError'])
+            && !empty($result['warnings'])
+            && !empty($result['errors'])
+        ) {
+            throw new \Exception("Failed to update database (errors or warnings found): " . print_r($result, true));
+        }
+
         return $result;
     }
 }

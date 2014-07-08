@@ -8,9 +8,7 @@
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
-use Piwik\Updater;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
@@ -27,7 +25,10 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
     {
         parent::setUpBeforeClass();
 
-        self::updateDatabase();
+        $result = Fixture::updateDatabase();
+        if ($result === false) {
+            throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
+        }
 
         // truncate log tables so old data won't be re-archived
         foreach (array('log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item') as $table) {
@@ -47,23 +48,6 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
 
         // launch archiving
         VisitFrequencyApi::getInstance()->get(1, 'year', '2012-12-29');
-    }
-
-    private static function updateDatabase()
-    {
-        $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
-        if (empty($componentsWithUpdateFile)) {
-            throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
-        }
-
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
-        if (!empty($result['coreError'])
-            && !empty($result['warnings'])
-            && !empty($result['errors'])
-        ) {
-            throw new \Exception("Failed to update pre-2.0 database (errors or warnings found): " . print_r($result, true));
-        }
     }
 
     public function setUp()

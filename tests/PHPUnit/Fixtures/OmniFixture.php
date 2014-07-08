@@ -8,7 +8,10 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Access;
+use Piwik\Option;
 use ReflectionClass;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
@@ -42,6 +45,7 @@ class OmniFixture extends \Fixture
                 && $className != __CLASS__
                 && $className != "Piwik_Test_Fixture_SqlDump"
                 && $className != "Piwik\\Tests\\Fixtures\\UpdaterTestFixture"
+                && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
             ) {
                 $klassReflect = new ReflectionClass($className);
                 if (!strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
@@ -87,6 +91,13 @@ class OmniFixture extends \Fixture
         foreach ($this->fixtures as $name => $fixture) {
             $fixture->setUp();
         }
+
+        Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
+
+        // launch archiving so tests don't run out of time
+        $date = Date::factory($this->dateTime)->toString();
+        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
+        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
     }
 
     public function tearDown()
@@ -94,5 +105,11 @@ class OmniFixture extends \Fixture
         foreach ($this->fixtures as $fixture) {
             $fixture->tearDown();
         }
+    }
+
+    public static function createAccessInstance()
+    {
+        Access::setSingletonInstance($access = new \Test_Access_OverrideLogin());
+        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }
