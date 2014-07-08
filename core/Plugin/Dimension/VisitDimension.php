@@ -45,7 +45,7 @@ abstract class VisitDimension extends Dimension
         return $changes;
     }
 
-    public function update($visitColumns, $conversionColumns)
+    public function update($conversionColumns)
     {
         if (!$this->columnType) {
             return array();

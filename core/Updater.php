@@ -62,6 +62,30 @@ class Updater
     }
 
     /**
+     * Retrieve the current version of a recorded component
+     * @param string $name
+     * @return false|string
+     * @throws \Exception
+     */
+    private static function getCurrentRecordedComponentVersion($name)
+    {
+        try {
+            $currentVersion = Option::get(self::getNameInOptionTable($name));
+        } catch (\Exception $e) {
+            // mysql error 1146: table doesn't exist
+            if (Db::get()->isErrNo($e, '1146')) {
+                // case when the option table is not yet created (before 0.2.10)
+                $currentVersion = false;
+            } else {
+                // failed for some other reason
+                throw $e;
+            }
+        }
+
+        return $currentVersion;
+    }
+
+    /**
      * Returns the flag name to use in the option table to record current schema version
      * @param string $name
      * @return string
@@ -155,7 +179,7 @@ class Updater
             return '\\Piwik\\Updates\\' . $className;
         }
 
-        if ($this->isDimensionComponent($componentName)) {
+        if (ColumnUpdater::isDimensionComponent($componentName)) {
             return '\\Piwik\\Columns\\Updater';
         }
 
@@ -199,14 +223,6 @@ class Updater
         return $warningMessages;
     }
 
-    private function isDimensionComponent($name)
-    {
-        return 0 === strpos($name, 'log_visit.')
-            || 0 === strpos($name, 'log_conversion.')
-            || 0 === strpos($name, 'log_conversion_item.')
-            || 0 === strpos($name, 'log_link_visit_action.');
-    }
-
     /**
      * Construct list of update files for the outdated components
      *
@@ -223,7 +239,7 @@ class Updater
 
             if ($name == 'core') {
                 $pathToUpdates = $this->pathUpdateFileCore . '*.php';
-            } elseif ($this->isDimensionComponent($name)) {
+            } elseif (ColumnUpdater::isDimensionComponent($name)) {
                 $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updater.php'] = $newVersion;
             } else {
                 $pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
@@ -276,27 +292,22 @@ class Updater
             $this->componentsToCheck = array_merge(array('core' => $coreVersions), $this->componentsToCheck);
         }
 
+        $recordedCoreVersion = self::getCurrentRecordedComponentVersion('core');
+        if ($recordedCoreVersion === false) {
+            // This should not happen
+            $recordedCoreVersion = Version::VERSION;
+            self::recordComponentSuccessfullyUpdated('core', $recordedCoreVersion);
+        }
+
         foreach ($this->componentsToCheck as $name => $version) {
-            try {
-                $currentVersion = Option::get(self::getNameInOptionTable($name));
-            } catch (\Exception $e) {
-                // mysql error 1146: table doesn't exist
-                if (Db::get()->isErrNo($e, '1146')) {
-                    // case when the option table is not yet created (before 0.2.10)
-                    $currentVersion = false;
-                } else {
-                    // failed for some other reason
-                    throw $e;
+            $currentVersion = self::getCurrentRecordedComponentVersion($name);
+
+            if (ColumnUpdater::isDimensionComponent($name)) {
+                if ($currentVersion === false && ColumnUpdater::wasDimensionMovedFromCoreToPlugin($name, $version)) {
+                    self::recordComponentSuccessfullyUpdated($name, $version);
+                    continue;
                 }
-            }
 
-            if ($name === 'core' && $currentVersion === false) {
-                // This should not happen
-                $currentVersion = Version::VERSION;
-                self::recordComponentSuccessfullyUpdated($name, $currentVersion);
-            }
-
-            if ($this->isDimensionComponent($name)) {
                 $isComponentOutdated = $currentVersion !== $version;
             } else {
                 // note: when versionCompare == 1, the version in the DB is newer, we choose to ignore

@@ -66,6 +66,11 @@ abstract class Dimension
         return $this->columnName;
     }
 
+    public function hasColumnType()
+    {
+        return !empty($this->columnType);
+    }
+
     abstract public function getName();
 
     /**
