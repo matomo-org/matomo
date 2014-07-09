@@ -306,7 +306,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testPiwikJavaScript()
     {
         // check source against Snort rule 8443
-        // @see http://dev.piwik.org/trac/ticket/2203
+        // @see https://github.com/piwik/piwik/issues/2203
         $pattern = '/\x5b\x5c{2}.*\x5c{2}[\x22\x27]/';
         $contents = file_get_contents(PIWIK_DOCUMENT_ROOT . '/js/piwik.js');
 

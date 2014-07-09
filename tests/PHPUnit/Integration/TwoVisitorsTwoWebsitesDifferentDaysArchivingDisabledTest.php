@@ -60,7 +60,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends Integrati
                                              'testSuffix'       => '_disabledAfter')),
 
 
-            // Testing this particular bug: http://dev.piwik.org/trac/ticket/4532
+            // Testing this particular bug: https://github.com/piwik/piwik/issues/4532
             // ENABLE ARCHIVING and Process this custom date range.
             array('VisitsSummary.get', array('idSite'           => 'all',
                                              'date'             => $dateRange,

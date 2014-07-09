@@ -32,7 +32,7 @@
   keywords: '<> &test; piwik &quot;'
   
 # testing Baidu special case (several variable names possible, and custom encoding)
-# see http://dev.piwik.org/trac/ticket/589
+# see https://github.com/piwik/piwik/issues/589
 
 # keyword is in "wd"
 - url: 'http://www.baidu.com/s?ie=gb2312&bs=%BF%D5%BC%E4+hao123+%7C+%B8%FC%B6%E0%3E%3E&sr=&z=&cl=3&f=8&tn=baidu&wd=%BF%D5%BC%E4+%BA%C3123+%7C+%B8%FC%B6%E0%3E%3E&ct=0'
