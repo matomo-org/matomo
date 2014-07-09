@@ -5,18 +5,23 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Test tracker & API when forcing the use of visit ID instead of heuristics. Also
  * tests campaign tracking.
+ *
+ * @group TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdNotHeuristics extends IntegrationTestCase
+class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -39,6 +44,5 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
     }
 }
 
-Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdNotHeuristics::$fixture =
-    new Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics();
-
+TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest::$fixture =
+    new \Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics();

@@ -5,18 +5,22 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Tests IndexedBySite optimizations when archiving is disabled.
+ *
+ * @group TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled extends IntegrationTestCase
+class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
-     * 
      */
     public function testApi($api, $params)
     {
@@ -83,7 +87,6 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
     }
 }
 
-Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled::$fixture =
-    new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
-Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled::$fixture->allowConversions = true;
-
+TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest::$fixture =
+    new \Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
+TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest::$fixture->allowConversions = true;

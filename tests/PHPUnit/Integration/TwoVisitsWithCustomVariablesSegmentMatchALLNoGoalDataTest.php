@@ -5,14 +5,20 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
-class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData extends IntegrationTestCase
+use Piwik\Tests\IntegrationTestCase;
+
+/**
+ * @group Integration
+ * @group TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest
+ */
+class TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -43,7 +49,5 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
     }
 }
 
-Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData::$fixture
-    = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
-Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData::$fixture->doExtraQuoteTests = false;
-
+TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest::$fixture->doExtraQuoteTests = false;

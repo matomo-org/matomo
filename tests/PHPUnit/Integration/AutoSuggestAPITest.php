@@ -5,13 +5,19 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\API\Request;
 use Piwik\Date;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * testing a the auto suggest API for all known segments
+ *
+ * @group AutoSuggestAPITest
+ * @group Integration
  */
-class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
+class AutoSuggestAPITest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -20,7 +26,6 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -34,7 +39,7 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     public function getApiForTesting()
     {
         // we will test all segments from all plugins
-        Fixture::loadAllPlugins();
+        \Fixture::loadAllPlugins();
 
         $idSite = self::$fixture->idSite;
         $apiForTesting = array();
@@ -76,7 +81,6 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     /**
      * @depends      testApi
      * @dataProvider getAnotherApiForTesting
-     * @group        Integration
      */
     public function testAnotherApi($api, $params)
     {
@@ -124,7 +128,6 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     }
 
     /**
-     * @group Integration
      * @depends      testAnotherApi
      */
     public function testCheckOtherTestsWereComplete()
@@ -140,5 +143,5 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_AutoSuggestAPITest::$fixture = new Test_Piwik_Fixture_ManyVisitsWithGeoIP();
-Test_Piwik_Integration_AutoSuggestAPITest::$fixture->dateTime = Date::yesterday()->subDay(30)->getDatetime();
+AutoSuggestAPITest::$fixture = new \Test_Piwik_Fixture_ManyVisitsWithGeoIP();
+AutoSuggestAPITest::$fixture->dateTime = Date::yesterday()->subDay(30)->getDatetime();

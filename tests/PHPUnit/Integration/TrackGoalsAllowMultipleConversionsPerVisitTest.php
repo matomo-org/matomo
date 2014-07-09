@@ -5,19 +5,24 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Tests API methods with goals that do and don't allow multiple
  * conversions per visit.
+ *
+ * @group TrackGoalsAllowMultipleConversionsPerVisitTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends IntegrationTestCase
+class TrackGoalsAllowMultipleConversionsPerVisitTest extends IntegrationTestCase
 {
     public static $fixture = null;
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -26,7 +31,6 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
 
     /**
      * @depends      testApi
-     * @group        Integration
      */
     public function testCheck()
     {
@@ -59,5 +63,4 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
     }
 }
 
-Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit::$fixture
-    = new Piwik_Test_Fixture_SomeVisitsAllConversions();
+TrackGoalsAllowMultipleConversionsPerVisitTest::$fixture = new \Piwik_Test_Fixture_SomeVisitsAllConversions();

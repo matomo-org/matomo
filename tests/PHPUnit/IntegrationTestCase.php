@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests;
+
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
@@ -18,6 +20,8 @@ use Piwik\ReportRenderer;
 use Piwik\Translate;
 use Piwik\UrlHelper;
 use Piwik\Log;
+use Fixture;
+use PHPUnit_Framework_TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 

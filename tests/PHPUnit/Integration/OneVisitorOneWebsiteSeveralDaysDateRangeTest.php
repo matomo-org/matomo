@@ -5,6 +5,9 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Use case testing various important features:
@@ -12,14 +15,16 @@
  * - testing period=range use case.
  * - Recording data before and after, checking that the requested range is processed correctly
  * - and more
+ *
+ * @group OneVisitorOneWebsiteSeveralDaysDateRangeTest
+ * @group Integration
  */
-class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends IntegrationTestCase
+class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -94,6 +99,4 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
     }
 }
 
-Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange::$fixture
-    = new Test_Piwik_Fixture_VisitsOverSeveralDays();
-
+OneVisitorOneWebsiteSeveralDaysDateRangeTest::$fixture = new \Test_Piwik_Fixture_VisitsOverSeveralDays();

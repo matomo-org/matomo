@@ -5,23 +5,26 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Same as OneVisitorTwoVisits.test.php, but with cookie support, which incurs some slight changes
  * in the reporting data (more accurate unique visitor count, better referrer tracking for goals, etc.)
+ *
+ * @group OneVisitorTwoVisitsWithCookieSupportTest
+ * @group Integration
  */
-class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends IntegrationTestCase
+class OneVisitorTwoVisitsWithCookieSupportTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
-     *
      */
     public function testApi($api, $params)
     {
-        //var_dump(\Piwik\Db::get()->fetchAll('select * from piwiktests_log_action' ));
         $this->runApiTests($api, $params);
 
     }
@@ -44,7 +47,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Integ
     }
 }
 
-Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport::$fixture = new Test_Piwik_Fixture_OneVisitorTwoVisits();
-Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport::$fixture->useThirdPartyCookies = true;
-Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport::$fixture->useSiteSearch = true;
-
+OneVisitorTwoVisitsWithCookieSupportTest::$fixture = new \Test_Piwik_Fixture_OneVisitorTwoVisits();
+OneVisitorTwoVisitsWithCookieSupportTest::$fixture->useThirdPartyCookies = true;
+OneVisitorTwoVisitsWithCookieSupportTest::$fixture->useSiteSearch = true;

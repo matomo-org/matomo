@@ -5,12 +5,18 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Date;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * test Metadata API + period=range&date=lastN
+ *
+ * @group PeriodIsRangeDateIsLastNMetadataAndNormalAPITest
+ * @group Integration
  */
-class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI extends IntegrationTestCase
+class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends IntegrationTestCase
 {
     public static $fixture = null;
 
@@ -22,7 +28,6 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -80,7 +85,5 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
     }
 }
 
-Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI::$fixture =
-    new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
-Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI::$fixture->doExtraQuoteTests = false;
-
+PeriodIsRangeDateIsLastNMetadataAndNormalAPITest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+PeriodIsRangeDateIsLastNMetadataAndNormalAPITest::$fixture->doExtraQuoteTests = false;

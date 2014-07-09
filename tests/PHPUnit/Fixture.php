@@ -31,6 +31,7 @@ use Piwik\Translate;
 use Piwik\Url;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Updater;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures

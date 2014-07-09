@@ -5,20 +5,22 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Tests API methods after ecommerce orders are tracked.
+ *
+ * @group EcommerceOrderWithItemsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
+class EcommerceOrderWithItemsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    /**
-     * @group        Integration
-     * *
-     */
     public function testImagesIncludedInTests()
     {
         $this->alertWhenImagesExcludedFromTests();
@@ -26,8 +28,6 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
-     * *
      */
     public function testApi($api, $params)
     {
@@ -254,5 +254,4 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_EcommerceOrderWithItems::$fixture = new Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems();
-
+EcommerceOrderWithItemsTest::$fixture = new \Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems();

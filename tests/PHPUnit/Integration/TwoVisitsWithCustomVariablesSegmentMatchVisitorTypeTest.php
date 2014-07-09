@@ -5,19 +5,24 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Tests use of custom variable segments.
+ *
+ * @group Integration
+ * @group TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest
  */
-class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType extends IntegrationTestCase
+class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -104,6 +109,5 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
     }
 }
 
-Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType::$fixture
-    = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
-Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType::$fixture->doExtraQuoteTests = false;
+TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest::$fixture->doExtraQuoteTests = false;

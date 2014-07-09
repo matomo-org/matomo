@@ -5,16 +5,20 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 use Piwik\Option;
 use Piwik\Http;
+use Piwik\Tests\IntegrationTestCase;
+use Exception;
 
 /**
- * Tests to call the archive.php script via web and check there is no error,
+ * Tests to call the archive.php script via web and check there is no error.
+ *
  * @group Integration
  * @group ArchiveWebTest
  */
-class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
+class ArchiveWebTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -26,8 +30,8 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
 
         self::deleteArchiveTables();
 
-        $host  = Fixture::getRootUrl();
-        $token = Fixture::getTokenAuth();
+        $host  = \Fixture::getRootUrl();
+        $token = \Fixture::getTokenAuth();
 
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
@@ -71,5 +75,5 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_ArchiveWebTest::$fixture = new Test_Piwik_Fixture_ManySitesImportedLogs();
-Test_Piwik_Integration_ArchiveWebTest::$fixture->addSegments = true;
+ArchiveWebTest::$fixture = new \Test_Piwik_Fixture_ManySitesImportedLogs();
+ArchiveWebTest::$fixture->addSegments = true;

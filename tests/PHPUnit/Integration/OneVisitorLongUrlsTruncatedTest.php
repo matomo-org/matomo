@@ -5,16 +5,22 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+
 /**
  * Tests that filter_truncate works recursively in Page URLs report AND in the case there are 2 different data Keywords -> search engine
+ *
+ * @group OneVisitorLongUrlsTruncatedTest
+ * @group Integration
  */
-class Test_Piwik_Integration_OneVisitor_LongUrlsTruncated extends IntegrationTestCase
+class OneVisitorLongUrlsTruncatedTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -44,5 +50,4 @@ class Test_Piwik_Integration_OneVisitor_LongUrlsTruncated extends IntegrationTes
     }
 }
 
-Test_Piwik_Integration_OneVisitor_LongUrlsTruncated::$fixture = new Test_Piwik_Fixture_SomeVisitsWithLongUrls();
-
+OneVisitorLongUrlsTruncatedTest::$fixture = new \Test_Piwik_Fixture_SomeVisitsWithLongUrls();

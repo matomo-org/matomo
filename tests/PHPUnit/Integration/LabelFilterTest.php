@@ -5,20 +5,23 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Tests the class LabelFilter.
  * This is not possible as unit test, since it loads data from the archive.
  *
  * @group LabelFilterTest
+ * @group Integration
  */
-class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
+class LabelFilterTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -152,5 +155,4 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_LabelFilter::$fixture = new Test_Piwik_Fixture_OneVisitSeveralPageViews();
-
+LabelFilterTest::$fixture = new \Test_Piwik_Fixture_OneVisitSeveralPageViews();

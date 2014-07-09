@@ -5,15 +5,21 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric
  * archives are created.
+ *
+ * @group OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest
+ * @group Integration
  */
-class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests extends IntegrationTestCase
+class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below test definition
 
@@ -24,8 +30,6 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
-     * *
      */
     public function testApi($api, $params)
     {
@@ -89,10 +93,8 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
     /**
      *  Check that requesting period "Range" means only processing
      *  the requested Plugin blob (Actions in this case), not all Plugins blobs
-
+     *
      * @depends      testApi
-     * @group        Integration
-     * *
      */
     public function test_checkArchiveRecords_whenPeriodIsRange()
     {
@@ -180,6 +182,4 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
 
 }
 
-Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests::$fixture
-    = new Test_Piwik_Fixture_VisitsOverSeveralDays();
-
+OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest::$fixture = new \Test_Piwik_Fixture_VisitsOverSeveralDays();
