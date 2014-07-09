@@ -450,7 +450,7 @@
         "ContactThePiwikTeam": "Contact the Piwik team!",
         "DoYouHaveBugReportOrFeatureRequest": "Do you have a bug to report or a feature request?",
         "GetInTouch": "We appreciate your feedback and always read all messages. Maybe you would like to share a business opportunity, hire a Piwik consultant, tell us a success story or simply say Hello!",
-        "HowToCreateIssue": "Please read the recommendations on writing a good %1$sbug report%2$s or %3$sfeature request%4$s. Then %5$sregister%6$s or %7$slogin%8$s on our issue tracker and create a %9$snew issue%10$s.",
+        "HowToCreateTicket": "Please read the recommendations on writing a good %1$sbug report%2$s or %3$sfeature request%4$s. Then register or login on %5$sour issue tracker%6$s and create a %7$snew issue%8$s.",
         "IWantTo": "I want to:",
         "LearnWaysToParticipate": "Learn about all the ways you can %s participate%s",
         "ManuallySendEmailTo": "Please manually send your message to",
