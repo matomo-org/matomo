@@ -156,7 +156,7 @@ class DataTableGenericFilter
                 }
 
                 try {
-                    $value = Common::getRequestVar($name, $defaultValue, $type, $this->request);
+                    $value = Common::getRequestVar($varName, $defaultValue, $type, $this->request);
                     settype($value, $type);
                     $filterParameters[] = $value;
                 } catch (Exception $e) {
