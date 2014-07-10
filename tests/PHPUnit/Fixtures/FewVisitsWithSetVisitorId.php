@@ -11,6 +11,7 @@ use Piwik\Date;
 use Piwik\Tracker\Visit;
 use Piwik\Tests\Fixture;
 use PiwikTracker;
+use Exception;
 
 /**
  * Adds one site and tracks a couple visits using a custom visitor ID.

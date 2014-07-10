@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Tests\Fixture;
+use Exception;
 
 /**
  * Reusable fixture. Loads a SQL dump into the DB.

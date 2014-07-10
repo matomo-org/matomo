@@ -10,6 +10,7 @@ namespace Piwik\Tests\Fixtures;
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Fixture;
+use Exception;
 
 /**
  * Adds one site and sends several invalid tracking requests. The result should be
