@@ -72,7 +72,7 @@ class ColumnCallbackReplace extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $key => $row) {
+        foreach ($table->getRows() as $row) {
             $extraColumnParameters = array();
             foreach ($this->extraColumnParameters as $columnName) {
                 $extraColumnParameters[] = $row->getColumn($columnName);

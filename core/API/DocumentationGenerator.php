@@ -79,9 +79,8 @@ class DocumentationGenerator
                     if ($exampleUrl !== false) {
                         $lastNUrls = '';
                         if (preg_match('/(&period)|(&date)/', $exampleUrl)) {
-                            $exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
-                            $exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5', 'period' => 'week',) + $parametersToSet);
-                            $lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
+                            $exampleUrlRss = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet);
+                            $lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
                         }
                         $exampleUrl = $prefixUrls . $exampleUrl;
                         $str .= " [ Example in

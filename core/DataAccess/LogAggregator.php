@@ -662,7 +662,7 @@ class LogAggregator
 
     protected function getActionsMetricFields()
     {
-        return $availableMetrics = array(
+        return array(
             Metrics::INDEX_NB_VISITS        => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisit)",
             Metrics::INDEX_NB_UNIQ_VISITORS => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisitor)",
             Metrics::INDEX_NB_ACTIONS       => "count(*)",

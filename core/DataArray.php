@@ -332,7 +332,7 @@ class DataArray
      */
     protected function enrichWithConversions(&$data)
     {
-        foreach ($data as $label => &$values) {
+        foreach ($data as &$values) {
             if (!isset($values[Metrics::INDEX_GOALS])) {
                 continue;
             }

@@ -104,7 +104,7 @@ class Map implements DataTableInterface
      */
     public function filter($className, $parameters = array())
     {
-        foreach ($this->getDataTables() as $id => $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->filter($className, $parameters);
         }
     }

@@ -411,8 +411,8 @@ class Tracker
             require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
-            $access = Access::getInstance();
-            $config = Config::getInstance();
+            Access::getInstance();
+            Config::getInstance();
 
             try {
                 Db::get();

@@ -1169,7 +1169,7 @@ class CronArchive
     private function logFatalErrorUrlExpected()
     {
         $this->logFatalError("./console core:archive expects the argument 'url' to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
-            . "\n--help for more information", $backtrace = false);
+            . "\n--help for more information");
     }
 
     private function getVisitsLastPeriodFromApiResponse($stats)

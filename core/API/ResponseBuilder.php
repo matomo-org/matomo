@@ -400,7 +400,7 @@ class ResponseBuilder
         $first = reset($array);
         foreach ($array as $first) {
             if (is_array($first)) {
-                foreach ($first as $key => $value) {
+                foreach ($first as $value) {
                     // Yes, this is a multi dim array
                     if (is_array($value)) {
                         switch ($this->outputFormat) {

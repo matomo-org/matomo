@@ -170,9 +170,8 @@ class IP
      */
     public static function isIPv4($ip)
     {
-        // in case mbstring overloads strlen and substr functions
+        // in case mbstring overloads strlen function
         $strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-        $substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
 
         // IPv4
         if ($strlen($ip) == 4) {
