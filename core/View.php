@@ -348,7 +348,7 @@ class View implements ViewInterface
      * Clear compiled Twig templates
      * @ignore
      */
-    static public function clearCompiledTemplates()
+    public static function clearCompiledTemplates()
     {
         $twig = new Twig();
         $twig->getTwigEnvironment()->clearTemplateCache();
@@ -364,7 +364,7 @@ class View implements ViewInterface
      * @param string $reportHtml The report body HTML.
      * @return string|void The report contents if `$fetch` is true.
      */
-    static public function singleReport($title, $reportHtml)
+    public static function singleReport($title, $reportHtml)
     {
         $view = new View('@CoreHome/_singleReport');
         $view->title = $title;

@@ -129,12 +129,12 @@ class Rules
         return $doneFlags;
     }
 
-    static public function disablePurgeOutdatedArchives()
+    public static function disablePurgeOutdatedArchives()
     {
         self::$purgeOutdatedArchivesIsDisabled = true;
     }
 
-    static public function enablePurgeOutdatedArchives()
+    public static function enablePurgeOutdatedArchives()
     {
         self::$purgeOutdatedArchivesIsDisabled = false;
     }

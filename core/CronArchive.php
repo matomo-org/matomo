@@ -96,7 +96,7 @@ class CronArchive
      * @param string $period
      * @return string
      */
-    static public function lastRunKey($idSite, $period)
+    public static function lastRunKey($idSite, $period)
     {
         return "lastRunArchive" . $period . "_" . $idSite;
     }

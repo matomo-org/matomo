@@ -115,7 +115,7 @@ class Tracker
      * Do not load the specified plugins (used during testing, to disable Provider plugin)
      * @param array $plugins
      */
-    static public function setPluginsNotToLoad($plugins)
+    public static function setPluginsNotToLoad($plugins)
     {
         self::$pluginsNotToLoad = $plugins;
     }
@@ -125,7 +125,7 @@ class Tracker
      *
      * @return array
      */
-    static public function getPluginsNotToLoad()
+    public static function getPluginsNotToLoad()
     {
         return self::$pluginsNotToLoad;
     }
@@ -136,7 +136,7 @@ class Tracker
      * @param string $name Setting name
      * @param mixed $value Value
      */
-    static private function updateTrackerConfig($name, $value)
+    private static function updateTrackerConfig($name, $value)
     {
         $section = Config::getInstance()->Tracker;
         $section[$name] = $value;
@@ -402,7 +402,7 @@ class Tracker
      * Used to initialize core Piwik components on a piwik.php request
      * Eg. when cache is missed and we will be calling some APIs to generate cache
      */
-    static public function initCorePiwikInTrackerMode()
+    public static function initCorePiwikInTrackerMode()
     {
         if (SettingsServer::isTrackerApiRequest()
             && self::$initTrackerMode === false

@@ -26,7 +26,7 @@ class Mysql implements SchemaInterface
      * @param string $engineName
      * @return bool  True if available and enabled; false otherwise
      */
-    static private function hasStorageEngine($engineName)
+    private static function hasStorageEngine($engineName)
     {
         $db = Db::get();
         $allEngines = $db->fetchAssoc('SHOW ENGINES');
@@ -42,7 +42,7 @@ class Mysql implements SchemaInterface
      *
      * @return bool  True if schema is available; false otherwise
      */
-    static public function isAvailable()
+    public static function isAvailable()
     {
         return self::hasStorageEngine('InnoDB');
     }

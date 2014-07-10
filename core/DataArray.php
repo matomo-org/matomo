@@ -57,7 +57,7 @@ class DataArray
      *
      * @return array
      */
-    static public function makeEmptyRow()
+    public static function makeEmptyRow()
     {
         return array(Metrics::INDEX_NB_UNIQ_VISITORS    => 0,
                      Metrics::INDEX_NB_VISITS           => 0,
@@ -195,7 +195,7 @@ class DataArray
         $this->doSumVisitsMetrics($row, $this->data[$label], $onlyMetricsAvailableInActionsTable = true);
     }
 
-    static protected function makeEmptyActionRow()
+    protected static function makeEmptyActionRow()
     {
         return array(
             Metrics::INDEX_NB_UNIQ_VISITORS => 0,
@@ -212,7 +212,7 @@ class DataArray
         $this->doSumEventsMetrics($row, $this->data[$label], $onlyMetricsAvailableInActionsTable = true);
     }
 
-    static protected function makeEmptyEventRow()
+    protected static function makeEmptyEventRow()
     {
         return array(
             Metrics::INDEX_NB_UNIQ_VISITORS         => 0,
@@ -369,7 +369,7 @@ class DataArray
      * @param $row
      * @return bool
      */
-    static public function isRowActions($row)
+    public static function isRowActions($row)
     {
         return (count($row) == count(self::makeEmptyActionRow())) && isset($row[Metrics::INDEX_NB_ACTIONS]);
     }

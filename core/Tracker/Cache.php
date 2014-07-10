@@ -28,7 +28,7 @@ class Cache
      */
     static public $trackerCache = null;
 
-    static protected function getInstance()
+    protected static function getInstance()
     {
         if (is_null(self::$trackerCache)) {
             $ttl = Config::getInstance()->Tracker['tracker_cache_file_ttl'];
@@ -101,7 +101,7 @@ class Cache
     /**
      * Clear general (global) cache
      */
-    static public function clearCacheGeneral()
+    public static function clearCacheGeneral()
     {
         self::getInstance()->delete('general');
     }
@@ -112,7 +112,7 @@ class Cache
      *
      * @return array
      */
-    static public function getCacheGeneral()
+    public static function getCacheGeneral()
     {
         $cache = self::getInstance();
         $cacheId = 'general';
@@ -159,7 +159,7 @@ class Cache
      * @param mixed $value
      * @return bool
      */
-    static public function setCacheGeneral($value)
+    public static function setCacheGeneral($value)
     {
         $cache = self::getInstance();
         $cacheId = 'general';
@@ -172,7 +172,7 @@ class Cache
      *
      * @param array|int $idSites Array of idSites to clear cache for
      */
-    static public function regenerateCacheWebsiteAttributes($idSites = array())
+    public static function regenerateCacheWebsiteAttributes($idSites = array())
     {
         if (!is_array($idSites)) {
             $idSites = array($idSites);
@@ -188,7 +188,7 @@ class Cache
      *
      * @param string $idSite (website ID of the site to clear cache for
      */
-    static public function deleteCacheWebsiteAttributes($idSite)
+    public static function deleteCacheWebsiteAttributes($idSite)
     {
         $idSite = (int)$idSite;
         self::getInstance()->delete($idSite);
@@ -197,7 +197,7 @@ class Cache
     /**
      * Deletes all Tracker cache files
      */
-    static public function deleteTrackerCache()
+    public static function deleteTrackerCache()
     {
         self::getInstance()->deleteAll();
     }

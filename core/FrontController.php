@@ -234,12 +234,12 @@ class FrontController extends Singleton
         || SettingsServer::isArchivePhpTriggered();
     }
 
-    static public function setUpSafeMode()
+    public static function setUpSafeMode()
     {
         register_shutdown_function(array('\\Piwik\\FrontController','triggerSafeModeWhenError'));
     }
 
-    static public function triggerSafeModeWhenError()
+    public static function triggerSafeModeWhenError()
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
@@ -257,7 +257,7 @@ class FrontController extends Singleton
      *
      * @return Exception
      */
-    static public function createConfigObject()
+    public static function createConfigObject()
     {
         $exceptionToThrow = false;
         try {

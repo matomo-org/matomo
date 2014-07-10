@@ -80,7 +80,7 @@ class Request
      *                              `'module=UserSettings&action=getWidescreen'`.
      * @return array
      */
-    static public function getRequestArrayFromString($request)
+    public static function getRequestArrayFromString($request)
     {
         $defaultRequest = $_GET + $_POST;
 
@@ -227,7 +227,7 @@ class Request
      * @param string $plugin The plugin name, eg, `'Referrers'`.
      * @return string The fully qualified API class name, eg, `'\Piwik\Plugins\Referrers\API'`.
      */
-    static public function getClassNameAPI($plugin)
+    public static function getClassNameAPI($plugin)
     {
         return sprintf('\Piwik\Plugins\%s\API', $plugin);
     }
@@ -241,7 +241,7 @@ class Request
      * @return void
      * @ignore
      */
-    static public function reloadAuthUsingTokenAuth($request = null)
+    public static function reloadAuthUsingTokenAuth($request = null)
     {
         // if a token_auth is specified in the API request, we load the right permissions
         $token_auth = Common::getRequestVar('token_auth', '', 'string', $request);
@@ -382,7 +382,7 @@ class Request
      * 
      * @return array|bool
      */
-    static public function getRawSegmentFromRequest()
+    public static function getRawSegmentFromRequest()
     {
         // we need the URL encoded segment parameter, we fetch it from _SERVER['QUERY_STRING'] instead of default URL decoded _GET
         $segmentRaw = false;

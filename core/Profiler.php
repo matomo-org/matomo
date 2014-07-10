@@ -94,7 +94,7 @@ class Profiler
         return $a['sum_time_ms'] < $b['sum_time_ms'];
     }
 
-    static private function sortTimeDesc($a, $b)
+    private static function sortTimeDesc($a, $b)
     {
         return $a['sumTimeMs'] < $b['sumTimeMs'];
     }
@@ -166,7 +166,7 @@ class Profiler
      *
      * @param array $infoIndexedByQuery
      */
-    static private function getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery)
+    private static function getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery)
     {
         $output = '<hr /><strong>Breakdown by query</strong><br/>';
         foreach ($infoIndexedByQuery as $query => $queryInfo) {

@@ -33,7 +33,7 @@ class Nonce
      *                 the nonce will no longer be valid).
      * @return string
      */
-    static public function getNonce($id, $ttl = 600)
+    public static function getNonce($id, $ttl = 600)
     {
         // save session-dependent nonce
         $ns = new SessionNamespace($id);
@@ -67,7 +67,7 @@ class Nonce
      * @param string $cnonce Nonce sent from client.
      * @return bool `true` if valid; `false` otherwise.
      */
-    static public function verifyNonce($id, $cnonce)
+    public static function verifyNonce($id, $cnonce)
     {
         $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
@@ -100,7 +100,7 @@ class Nonce
      *
      * @param string $id The unique nonce ID.
      */
-    static public function discardNonce($id)
+    public static function discardNonce($id)
     {
         $ns = new SessionNamespace($id);
         $ns->unsetAll();
@@ -111,7 +111,7 @@ class Nonce
      * 
      * @return string|bool
      */
-    static public function getOrigin()
+    public static function getOrigin()
     {
         if (!empty($_SERVER['HTTP_ORIGIN'])) {
             return $_SERVER['HTTP_ORIGIN'];
@@ -124,7 +124,7 @@ class Nonce
      *
      * @return array
      */
-    static public function getAcceptableOrigins()
+    public static function getAcceptableOrigins()
     {
         $host = Url::getCurrentHost(null);
         $port = '';
@@ -160,7 +160,7 @@ class Nonce
      *                           **nonce** query parameter is used.
      * @throws Exception if the nonce is invalid. See {@link verifyNonce()}.
      */
-    static public function checkNonce($nonceName, $nonce = null)
+    public static function checkNonce($nonceName, $nonce = null)
     {
         if ($nonce === null) {
             $nonce = Common::getRequestVar('nonce', null, 'string');

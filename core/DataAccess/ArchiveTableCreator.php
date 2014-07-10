@@ -23,17 +23,17 @@ class ArchiveTableCreator
 
     static public $tablesAlreadyInstalled = null;
 
-    static public function getNumericTable(Date $date)
+    public static function getNumericTable(Date $date)
     {
         return self::getTable($date, self::NUMERIC_TABLE);
     }
 
-    static public function getBlobTable(Date $date)
+    public static function getBlobTable(Date $date)
     {
         return self::getTable($date, self::BLOB_TABLE);
     }
 
-    static protected function getTable(Date $date, $type)
+    protected static function getTable(Date $date, $type)
     {
         $tableNamePrefix = "archive_" . $type;
         $tableName = $tableNamePrefix . "_" . $date->toString('Y_m');
@@ -42,7 +42,7 @@ class ArchiveTableCreator
         return $tableName;
     }
 
-    static protected function createArchiveTablesIfAbsent($tableName, $tableNamePrefix)
+    protected static function createArchiveTablesIfAbsent($tableName, $tableNamePrefix)
     {
         if (is_null(self::$tablesAlreadyInstalled)) {
             self::refreshTableList();
@@ -67,12 +67,12 @@ class ArchiveTableCreator
         }
     }
 
-    static public function clear()
+    public static function clear()
     {
         self::$tablesAlreadyInstalled = null;
     }
 
-    static public function refreshTableList($forceReload = false)
+    public static function refreshTableList($forceReload = false)
     {
         self::$tablesAlreadyInstalled = DbHelper::getTablesInstalled($forceReload);
     }
@@ -82,7 +82,7 @@ class ArchiveTableCreator
      *
      * @return array
      */
-    static public function getTablesArchivesInstalled()
+    public static function getTablesArchivesInstalled()
     {
         if (is_null(self::$tablesAlreadyInstalled)) {
             self::refreshTableList();
@@ -99,14 +99,14 @@ class ArchiveTableCreator
         return $archiveTables;
     }
 
-    static public function getDateFromTableName($tableName)
+    public static function getDateFromTableName($tableName)
     {
         $tableName = Common::unprefixTable($tableName);
         $date = str_replace(array('archive_numeric_', 'archive_blob_'), '', $tableName);
         return $date;
     }
 
-    static public function getTypeFromTableName($tableName)
+    public static function getTypeFromTableName($tableName)
     {
         if (strpos($tableName, 'archive_numeric_') !== false) {
             return self::NUMERIC_TABLE;

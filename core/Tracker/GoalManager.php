@@ -84,7 +84,7 @@ class GoalManager
         }
     }
 
-    static public function getGoalDefinitions($idSite)
+    public static function getGoalDefinitions($idSite)
     {
         $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
         if (isset($websiteAttributes['goals'])) {
@@ -93,7 +93,7 @@ class GoalManager
         return array();
     }
 
-    static public function getGoalDefinition($idSite, $idGoal)
+    public static function getGoalDefinition($idSite, $idGoal)
     {
         $goals = self::getGoalDefinitions($idSite);
         foreach ($goals as $goal) {
@@ -104,7 +104,7 @@ class GoalManager
         throw new Exception('Goal not found');
     }
 
-    static public function getGoalIds($idSite)
+    public static function getGoalIds($idSite)
     {
         $goals = self::getGoalDefinitions($idSite);
         $goalIds = array();

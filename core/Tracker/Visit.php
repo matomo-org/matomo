@@ -363,7 +363,7 @@ class Visit implements VisitInterface
     /**
      * @return string returns random 16 chars hex string
      */
-    static public function generateUniqueVisitorId()
+    public static function generateUniqueVisitorId()
     {
         $uniqueId = substr(Common::generateUniqId(), 0, Tracker::LENGTH_HEX_ID_STRING);
         return $uniqueId;
@@ -406,7 +406,7 @@ class Visit implements VisitInterface
     }
 
     // is the referrer host any of the registered URLs for this website?
-    static public function isHostKnownAliasHost($urlHost, $idSite)
+    public static function isHostKnownAliasHost($urlHost, $idSite)
     {
         $websiteData = Cache::getCacheWebsiteAttributes($idSite);
         if (isset($websiteData['hosts'])) {
