@@ -2017,7 +2017,7 @@
         "GeoIPServerVarsFound": "Piwik detects the following GeoIP %s variables",
         "GeoIPUpdaterInstructions": "Enter the download links for your databases below. If you've purchased databases from %3$sMaxMind%4$s, you can find these links %1$shere%2$s. Please contact %3$sMaxMind%4$s if you have trouble accessing them.",
         "GeoIPUpdaterIntro": "Piwik is currently managing updates for the following GeoIP databases",
-        "GeoLiteCityLink": "If you're using the GeoLite City database, use this link: %1$s%2$s%3$s.",
+        "GeoLiteCityLink": "If you're using the GeoLite City database, use this link: %1$s%2$s%3$s",
         "Geolocation": "Geolocation",
         "GeolocationPageDesc": "On this page you can change how Piwik determines visitor locations.",
         "getCityDocumentation": "This report shows the cities your visitors were in when they accessed your website.",
