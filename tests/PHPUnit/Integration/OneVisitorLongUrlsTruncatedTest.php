@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SomeVisitsWithLongUrls;
 
 /**
  * Tests that filter_truncate works recursively in Page URLs report AND in the case there are 2 different data Keywords -> search engine
@@ -50,4 +51,4 @@ class OneVisitorLongUrlsTruncatedTest extends IntegrationTestCase
     }
 }
 
-OneVisitorLongUrlsTruncatedTest::$fixture = new \Test_Piwik_Fixture_SomeVisitsWithLongUrls();
+OneVisitorLongUrlsTruncatedTest::$fixture = new SomeVisitsWithLongUrls();

@@ -7,8 +7,8 @@
  */
 namespace Piwik\Tests\Integration;
 
-use Test_Piwik_Fixture_TwoVisitsWithCustomVariables;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * Tests w/ two visits & custom variables.
@@ -60,4 +60,4 @@ class TwoVisitsWithCustomVariablesTest extends IntegrationTestCase
     }
 }
 
-TwoVisitsWithCustomVariablesTest::$fixture = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesTest::$fixture = new TwoVisitsWithCustomVariables();

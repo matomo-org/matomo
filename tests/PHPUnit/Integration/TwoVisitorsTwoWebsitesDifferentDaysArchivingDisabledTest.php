@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 /**
  * Tests IndexedBySite optimizations when archiving is disabled.
@@ -87,6 +88,5 @@ class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends Integrati
     }
 }
 
-TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest::$fixture =
-    new \Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
+TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest::$fixture = new TwoSitesTwoVisitorsDifferentDays();
 TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest::$fixture->allowConversions = true;

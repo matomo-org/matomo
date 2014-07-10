@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
 
 /**
  * Tests API methods after ecommerce orders are tracked.
@@ -254,4 +255,4 @@ class EcommerceOrderWithItemsTest extends IntegrationTestCase
     }
 }
 
-EcommerceOrderWithItemsTest::$fixture = new \Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems();
+EcommerceOrderWithItemsTest::$fixture = new TwoSitesEcommerceOrderWithItems();

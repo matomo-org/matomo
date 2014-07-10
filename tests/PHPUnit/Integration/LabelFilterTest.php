@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitSeveralPageViews;
 
 /**
  * Tests the class LabelFilter.
@@ -155,4 +156,4 @@ class LabelFilterTest extends IntegrationTestCase
     }
 }
 
-LabelFilterTest::$fixture = new \Test_Piwik_Fixture_OneVisitSeveralPageViews();
+LabelFilterTest::$fixture = new OneVisitSeveralPageViews();

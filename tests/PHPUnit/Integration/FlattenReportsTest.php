@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
 
 /**
  * Tests the flattening of reports.
@@ -124,4 +125,4 @@ class FlattenReportsTest extends IntegrationTestCase
     }
 }
 
-FlattenReportsTest::$fixture = new \Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars();
+FlattenReportsTest::$fixture = new ManyVisitsWithSubDirReferrersAndCustomVars();

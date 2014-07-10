@@ -5,14 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
+use PiwikTracker;
 
 /**
  * Add one site and track many visits with custom variables & campaign IDs and
  * use visit ID instead of heuristics.
  */
-class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
+class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;

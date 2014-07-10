@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * Test CSV export with Expanded rows, Translated labels, Different languages
@@ -77,7 +78,7 @@ class CsvExportTest extends IntegrationTestCase
     }
 }
 
-CsvExportTest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+CsvExportTest::$fixture = new TwoVisitsWithCustomVariables();
 CsvExportTest::$fixture->visitorId = null;
 CsvExportTest::$fixture->useEscapedQuotes = false;
 CsvExportTest::$fixture->doExtraQuoteTests = false;

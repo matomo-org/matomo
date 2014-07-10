@@ -11,6 +11,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 use Piwik\Date;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 
 /**
  * Tests w/ 14 visitors w/ 2 visits each.
@@ -130,4 +131,4 @@ class ManyVisitorsOneWebsiteTest extends IntegrationTestCase
     }
 }
 
-ManyVisitorsOneWebsiteTest::$fixture = new \Test_Piwik_Fixture_ManyVisitsWithGeoIP();
+ManyVisitorsOneWebsiteTest::$fixture = new ManyVisitsWithGeoIP();

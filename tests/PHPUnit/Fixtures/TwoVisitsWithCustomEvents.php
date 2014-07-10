@@ -5,13 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Tests\Fixture;
+use PiwikTracker;
 
 /**
  * Tracks custom events
  */
-class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Fixture
+class TwoVisitsWithCustomEvents extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;
@@ -186,5 +190,4 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Fixture
     public function tearDown()
     {
     }
-
 }

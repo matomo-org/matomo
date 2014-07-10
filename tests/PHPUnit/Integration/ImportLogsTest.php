@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 
 /**
  * Tests the log importer.
@@ -101,4 +102,4 @@ class ImportLogsTest extends IntegrationTestCase
     }
 }
 
-ImportLogsTest::$fixture = new \Test_Piwik_Fixture_ManySitesImportedLogs();
+ImportLogsTest::$fixture = new ManySitesImportedLogs();

@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Date;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitsInDifferentTimezones;
 
 /**
  * Test reports using visits for a site with a non-UTC timezone.
@@ -54,4 +55,4 @@ class TimezonesTest extends IntegrationTestCase
     }
 }
 
-TimezonesTest::$fixture = new \Test_Piwik_Fixture_VisitsInDifferentTimezones();
+TimezonesTest::$fixture = new VisitsInDifferentTimezones();

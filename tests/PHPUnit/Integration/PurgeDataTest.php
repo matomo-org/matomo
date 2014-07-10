@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
  * TODO: shouldn't this be merged w/ PrivacyManagerTest? the original data purging tests are there
@@ -181,4 +182,4 @@ class PurgeDataTest extends IntegrationTestCase
     }
 }
 
-PurgeDataTest::$fixture = new \Test_Piwik_Fixture_OneVisitorTwoVisits();
+PurgeDataTest::$fixture = new OneVisitorTwoVisits();

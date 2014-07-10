@@ -5,16 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Tests\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 /**
  * Adds one site and tracks 60 visits (15 visitors, one action per visit).
  */
-class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Fixture
+class ManyVisitsWithMockLocationProvider extends Fixture
 {
     public $idSite = 1;
     public $dateTime = '2010-01-03 01:22:33';
@@ -34,7 +36,7 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Fixture
 
     public function tearDown()
     {
-        Test_Piwik_Fixture_ManyVisitsWithGeoIP::unsetLocationProvider();
+        ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
     private function setUpWebsitesAndGoals()
@@ -208,7 +210,7 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Fixture
     private function setMockLocationProvider()
     {
         LocationProvider::setCurrentProvider('mock_provider');
-        MockLocationProvider::$locations = array(
+        \MockLocationProvider::$locations = array(
             self::makeLocation('Toronto', 'ON', 'CA', $lat = null, $long = null, $isp = 'comcast.net'),
 
             self::makeLocation('Nice', 'B8', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),
@@ -218,5 +220,4 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Fixture
             self::makeLocation('Yokohama', '19', 'JP'),
         );
     }
-
 }

@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * @group Integration
@@ -49,5 +50,5 @@ class TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest extends Integrat
     }
 }
 
-TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest::$fixture = new TwoVisitsWithCustomVariables();
 TwoVisitsWithCustomVariablesSegmentMatchALLNoGoalDataTest::$fixture->doExtraQuoteTests = false;

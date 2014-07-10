@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
  * Use case testing various important features:
@@ -99,4 +100,4 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends IntegrationTestCase
     }
 }
 
-OneVisitorOneWebsiteSeveralDaysDateRangeTest::$fixture = new \Test_Piwik_Fixture_VisitsOverSeveralDays();
+OneVisitorOneWebsiteSeveralDaysDateRangeTest::$fixture = new VisitsOverSeveralDays();

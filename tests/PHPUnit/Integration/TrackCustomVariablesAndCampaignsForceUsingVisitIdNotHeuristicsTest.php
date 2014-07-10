@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SomeVisitsCustomVariablesCampaignsNotHeuristics;
 
 /**
  * Test tracker & API when forcing the use of visit ID instead of heuristics. Also
@@ -45,4 +46,4 @@ class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends
 }
 
 TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest::$fixture =
-    new \Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics();
+    new SomeVisitsCustomVariablesCampaignsNotHeuristics();

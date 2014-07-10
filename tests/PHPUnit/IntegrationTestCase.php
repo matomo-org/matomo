@@ -20,7 +20,6 @@ use Piwik\ReportRenderer;
 use Piwik\Translate;
 use Piwik\UrlHelper;
 use Piwik\Log;
-use Fixture;
 use PHPUnit_Framework_TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
@@ -204,7 +203,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-        if(Fixture::canImagesBeIncludedInScheduledReports()) {
+        if (Fixture::canImagesBeIncludedInScheduledReports()) {
             // PDF Scheduled Report
             // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
             array_push(

@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
  * Testing that, when using window_look_back_for_visitor with a high value,
@@ -46,5 +47,5 @@ class TrackerWindowLookBackTest extends IntegrationTestCase
     }
 }
 
-TrackerWindowLookBackTest::$fixture = new \Test_Piwik_Fixture_VisitsOverSeveralDays();
+TrackerWindowLookBackTest::$fixture = new VisitsOverSeveralDays();
 TrackerWindowLookBackTest::$fixture->forceLargeWindowLookBackForVisitor = true;

@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\API\Proxy;
 use Piwik\Archive;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Exception;
 
 /**
@@ -228,5 +229,5 @@ class OneVisitorTwoVisitsTest extends IntegrationTestCase
     }
 }
 
-OneVisitorTwoVisitsTest::$fixture = new \Test_Piwik_Fixture_OneVisitorTwoVisits();
+OneVisitorTwoVisitsTest::$fixture = new OneVisitorTwoVisits();
 OneVisitorTwoVisitsTest::$fixture->excludeMozilla = true;

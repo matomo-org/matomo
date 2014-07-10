@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\InvalidVisits;
 
 /**
  * test the Yearly metadata API response,
@@ -47,5 +48,5 @@ class ApiGetReportMetadataYearTest extends IntegrationTestCase
     }
 }
 
-ApiGetReportMetadataYearTest::$fixture = new \Test_Piwik_Fixture_InvalidVisits();
+ApiGetReportMetadataYearTest::$fixture = new InvalidVisits();
 ApiGetReportMetadataYearTest::$fixture->trackInvalidRequests = false;

@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ThreeSitesWithManyVisitsWithSiteSearch;
 
 /**
  * Testing the various use cases w/ internal Site Search tracking
@@ -91,4 +92,4 @@ class SiteSearchTest extends IntegrationTestCase
     }
 }
 
-SiteSearchTest::$fixture = new \Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch();
+SiteSearchTest::$fixture = new ThreeSitesWithManyVisitsWithSiteSearch();

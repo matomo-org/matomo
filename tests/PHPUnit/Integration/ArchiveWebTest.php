@@ -10,6 +10,8 @@ namespace Piwik\Tests\Integration;
 use Piwik\Option;
 use Piwik\Http;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
+use Piwik\Tests\Fixture;
 use Exception;
 
 /**
@@ -30,8 +32,8 @@ class ArchiveWebTest extends IntegrationTestCase
 
         self::deleteArchiveTables();
 
-        $host  = \Fixture::getRootUrl();
-        $token = \Fixture::getTokenAuth();
+        $host  = Fixture::getRootUrl();
+        $token = Fixture::getTokenAuth();
 
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
@@ -75,5 +77,5 @@ class ArchiveWebTest extends IntegrationTestCase
     }
 }
 
-ArchiveWebTest::$fixture = new \Test_Piwik_Fixture_ManySitesImportedLogs();
+ArchiveWebTest::$fixture = new ManySitesImportedLogs();
 ArchiveWebTest::$fixture->addSegments = true;

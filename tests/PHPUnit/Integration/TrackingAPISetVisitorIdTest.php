@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
 
 /**
  * This test tests that when using &cid=, the visitor ID is enforced
@@ -55,4 +56,4 @@ class TrackingAPISetVisitorIdTest extends IntegrationTestCase
     }
 }
 
-TrackingAPISetVisitorIdTest::$fixture = new \Test_Piwik_Fixture_FewVisitsWithSetVisitorId();
+TrackingAPISetVisitorIdTest::$fixture = new FewVisitsWithSetVisitorId();

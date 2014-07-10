@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SomeVisitsAllConversions;
 
 /**
  * Tests API methods with goals that do and don't allow multiple
@@ -63,4 +64,4 @@ class TrackGoalsAllowMultipleConversionsPerVisitTest extends IntegrationTestCase
     }
 }
 
-TrackGoalsAllowMultipleConversionsPerVisitTest::$fixture = new \Piwik_Test_Fixture_SomeVisitsAllConversions();
+TrackGoalsAllowMultipleConversionsPerVisitTest::$fixture = new SomeVisitsAllConversions();

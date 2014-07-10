@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 /**
  * tests Tracker several websites, different days.
@@ -108,4 +109,4 @@ class TwoVisitorsTwoWebsitesDifferentDaysTest extends IntegrationTestCase
     }
 }
 
-TwoVisitorsTwoWebsitesDifferentDaysTest::$fixture = new \Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
+TwoVisitorsTwoWebsitesDifferentDaysTest::$fixture = new TwoSitesTwoVisitorsDifferentDays();

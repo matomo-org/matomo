@@ -11,6 +11,7 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Plugins\Annotations\API;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesWithAnnotations;
 use FakeAccess;
 use Exception;
 
@@ -284,4 +285,4 @@ class AnnotationsTest extends IntegrationTestCase
     }
 }
 
-AnnotationsTest::$fixture = new \Test_Piwik_Fixture_TwoSitesWithAnnotations();
+AnnotationsTest::$fixture = new TwoSitesWithAnnotations();

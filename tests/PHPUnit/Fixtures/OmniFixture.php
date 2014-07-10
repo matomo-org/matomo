@@ -12,12 +12,14 @@ use Piwik\Access;
 use Piwik\Option;
 use ReflectionClass;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\Tests\Fixture;
+use Piwik\Tests\OverrideLogin;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
  * with year periods.
  */
-class OmniFixture extends \Fixture
+class OmniFixture extends Fixture
 {
     public $month = '2012-01';
     public $idSite = 'all';
@@ -49,7 +51,7 @@ class OmniFixture extends \Fixture
             ) {
                 $klassReflect = new ReflectionClass($className);
                 if (!strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
-                    && $className != "Test_Piwik_Fixture_CustomAlerts"
+                    && $className != "CustomAlerts"
                     && $className != "Piwik\\Plugins\\Insights\\tests\\Fixtures\\SomeVisitsDifferentPathsOnTwoDays"
                 ) {
                     continue;
@@ -68,12 +70,12 @@ class OmniFixture extends \Fixture
             }
         }
 
-        $this->now = $this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts']->now;
+        $this->now = $this->fixtures['ManySitesImportedLogsWithXssAttempts']->now;
 
-        // make sure Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts is the first fixture
-        $fixture = $this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts'];
-        unset($this->fixtures['Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts']);
-        $this->fixtures = array_merge(array('Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts' => $fixture), $this->fixtures);
+        // make sure ManySitesImportedLogsWithXssAttempts is the first fixture
+        $fixture = $this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts'];
+        unset($this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts']);
+        $this->fixtures = array_merge(array('Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts' => $fixture), $this->fixtures);
     }
 
     private function adjustDateTime($dateTime, $adjustToDate)
@@ -109,7 +111,7 @@ class OmniFixture extends \Fixture
 
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance($access = new \Test_Access_OverrideLogin());
+        Access::setSingletonInstance($access = new OverrideLogin());
         \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

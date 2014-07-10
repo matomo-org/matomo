@@ -78,7 +78,7 @@ Try again.
 -> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
         exit(1);
     }
-    $baseUrl = Fixture::getRootUrl();
+    $baseUrl = \Piwik\Tests\Fixture::getRootUrl();
 
     \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl, $acceptInvalidSSLCertificates = true);
 }

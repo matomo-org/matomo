@@ -19,12 +19,13 @@ use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\WidgetsList;
-use Fixture;
+use Piwik\Tests\Fixture;
+use Piwik\Tests\OverrideLogin;
 
 /**
  * Fixture for UI tests.
  */
-class UITestFixture extends \Piwik_Test_Fixture_SqlDump
+class UITestFixture extends SqlDump
 {
     const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql.gz';
 
@@ -296,7 +297,7 @@ class UITestFixture extends \Piwik_Test_Fixture_SqlDump
 
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance($access = new \Test_Access_OverrideLogin());
+        Access::setSingletonInstance($access = new OverrideLogin());
         \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\Request;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesVisitsInPast;
 use Exception;
 
 /**
@@ -138,4 +139,4 @@ class VisitsInPastInvalidateOldReportsTest extends IntegrationTestCase
     }
 }
 
-VisitsInPastInvalidateOldReportsTest::$fixture = new \Test_Piwik_Fixture_TwoSitesVisitsInPast();
+VisitsInPastInvalidateOldReportsTest::$fixture = new TwoSitesVisitsInPast();

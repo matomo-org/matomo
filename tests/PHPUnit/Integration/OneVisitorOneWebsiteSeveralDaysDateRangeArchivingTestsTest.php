@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric
@@ -182,4 +183,4 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends IntegrationT
 
 }
 
-OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest::$fixture = new \Test_Piwik_Fixture_VisitsOverSeveralDays();
+OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest::$fixture = new VisitsOverSeveralDays();

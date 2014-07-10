@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
 
 /**
  * This tests the output of the API plugin API
@@ -88,4 +89,4 @@ class ApiGetReportMetadataTest extends IntegrationTestCase
     }
 }
 
-ApiGetReportMetadataTest::$fixture = new \Test_Piwik_Fixture_ThreeGoalsOnePageview();
+ApiGetReportMetadataTest::$fixture = new ThreeGoalsOnePageview();

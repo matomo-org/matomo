@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * Tests use of custom variable segments.
@@ -62,6 +63,5 @@ class TwoVisitsWithCustomVariablesSegmentContainsTest extends IntegrationTestCas
     }
 }
 
-TwoVisitsWithCustomVariablesSegmentContainsTest::$fixture
-    = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesSegmentContainsTest::$fixture = new TwoVisitsWithCustomVariables();
 TwoVisitsWithCustomVariablesSegmentContainsTest::$fixture->doExtraQuoteTests = false;

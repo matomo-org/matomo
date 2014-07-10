@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Date;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * test Metadata API + period=range&date=lastN
@@ -85,5 +86,5 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends IntegrationTestCa
     }
 }
 
-PeriodIsRangeDateIsLastNMetadataAndNormalAPITest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+PeriodIsRangeDateIsLastNMetadataAndNormalAPITest::$fixture = new TwoVisitsWithCustomVariables();
 PeriodIsRangeDateIsLastNMetadataAndNormalAPITest::$fixture->doExtraQuoteTests = false;

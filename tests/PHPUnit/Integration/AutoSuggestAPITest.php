@@ -10,6 +10,8 @@ namespace Piwik\Tests\Integration;
 use Piwik\API\Request;
 use Piwik\Date;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
+use Piwik\Tests\Fixture;
 
 /**
  * testing a the auto suggest API for all known segments
@@ -39,7 +41,7 @@ class AutoSuggestAPITest extends IntegrationTestCase
     public function getApiForTesting()
     {
         // we will test all segments from all plugins
-        \Fixture::loadAllPlugins();
+        Fixture::loadAllPlugins();
 
         $idSite = self::$fixture->idSite;
         $apiForTesting = array();
@@ -143,5 +145,5 @@ class AutoSuggestAPITest extends IntegrationTestCase
     }
 }
 
-AutoSuggestAPITest::$fixture = new \Test_Piwik_Fixture_ManyVisitsWithGeoIP();
+AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
 AutoSuggestAPITest::$fixture->dateTime = Date::yesterday()->subDay(30)->getDatetime();

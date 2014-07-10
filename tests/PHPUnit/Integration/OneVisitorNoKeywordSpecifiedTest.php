@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsNoKeywordWithBot;
 
 /**
  * 1) Tests empty google kwd works nicely in Live! output and Top keywords
@@ -52,4 +53,4 @@ class OneVisitorNoKeywordSpecifiedTest extends IntegrationTestCase
     }
 }
 
-OneVisitorNoKeywordSpecifiedTest::$fixture = new \Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot();
+OneVisitorNoKeywordSpecifiedTest::$fixture = new TwoVisitsNoKeywordWithBot();

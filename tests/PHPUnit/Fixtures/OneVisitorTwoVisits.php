@@ -5,14 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Tests\Fixture;
 
 /**
  * This fixture adds one website and tracks two visits by one visitor.
  */
-class Test_Piwik_Fixture_OneVisitorTwoVisits extends Fixture
+class OneVisitorTwoVisits extends Fixture
 {
     public $idSite = 1;
     public $idSiteEmptyBis;

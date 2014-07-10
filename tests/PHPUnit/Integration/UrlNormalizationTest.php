@@ -10,8 +10,8 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tracker\Action;
-use Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
 
 /**
  * Tests the URL normalization.
@@ -120,4 +120,4 @@ class UrlNormalizationTest extends IntegrationTestCase
     }
 }
 
-UrlNormalizationTest::$fixture = new Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls();
+UrlNormalizationTest::$fixture = new OneVisitWithAbnormalPageviewUrls();

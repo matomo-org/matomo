@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitOverSeveralDaysImportedLogs;
 
 /**
  * @group Integration
@@ -46,4 +47,4 @@ class OneVisitorSeveralDaysImportedInRandomOrderTest extends IntegrationTestCase
     }
 }
 
-OneVisitorSeveralDaysImportedInRandomOrderTest::$fixture = new \Test_Piwik_Fixture_VisitOverSeveralDaysImportedLogs();
+OneVisitorSeveralDaysImportedInRandomOrderTest::$fixture = new VisitOverSeveralDaysImportedLogs();

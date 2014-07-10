@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
@@ -161,5 +162,5 @@ class BlobReportLimitingTest extends IntegrationTestCase
     }
 }
 
-BlobReportLimitingTest::$fixture = new \Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider();
+BlobReportLimitingTest::$fixture = new ManyVisitsWithMockLocationProvider();
 BlobReportLimitingTest::$fixture->createConfig = false;

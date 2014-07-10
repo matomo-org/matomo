@@ -9,6 +9,8 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\API\API;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
+use Piwik\Tests\Fixture;
 
 /**
  * testing a segment containing all supported fields
@@ -31,7 +33,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends IntegrationTestCa
     public function getApiForTesting()
     {
         // we will test all segments from all plugins
-        \Fixture::loadAllPlugins();
+        Fixture::loadAllPlugins();
 
         $apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
@@ -87,6 +89,5 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends IntegrationTestCa
     }
 }
 
-TwoVisitsWithCustomVariablesSegmentMatchNONETest::$fixture
-    = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesSegmentMatchNONETest::$fixture = new TwoVisitsWithCustomVariables();
 TwoVisitsWithCustomVariablesSegmentMatchNONETest::$fixture->doExtraQuoteTests = false;

@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 
 /**
  * Tests the transitions plugin.
@@ -87,4 +88,4 @@ class TransitionsTest extends IntegrationTestCase
     }
 }
 
-TransitionsTest::$fixture = new \Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions();
+TransitionsTest::$fixture = new SomeVisitsManyPageviewsWithTransitions();

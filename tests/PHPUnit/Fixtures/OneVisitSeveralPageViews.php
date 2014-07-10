@@ -5,12 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site and tracks one visit with several pageviews.
  */
-class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Fixture
+class OneVisitSeveralPageViews extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;

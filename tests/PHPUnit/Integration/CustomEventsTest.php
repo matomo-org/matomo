@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
 
 /**
  * Testing Custom Events
@@ -137,4 +138,4 @@ class CustomEventsTest extends IntegrationTestCase
     }
 }
 
-CustomEventsTest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomEvents();
+CustomEventsTest::$fixture = new TwoVisitsWithCustomEvents();

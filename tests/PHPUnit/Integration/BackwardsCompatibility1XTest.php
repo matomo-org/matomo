@@ -11,6 +11,8 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SqlDump;
+use Piwik\Tests\Fixture;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
@@ -28,7 +30,7 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
     {
         parent::setUpBeforeClass();
 
-        $result = \Fixture::updateDatabase();
+        $result = Fixture::updateDatabase();
         if ($result === false) {
             throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
         }
@@ -39,15 +41,15 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
         }
 
         // add two visits from same visitor on dec. 29
-        $t = \Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true);
+        $t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true);
         $t->setUrl('http://site.com/index.htm');
         $t->setIp('136.5.3.2');
-        \Fixture::checkResponse($t->doTrackPageView('incredible title!'));
+        Fixture::checkResponse($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime('2012-12-29 03:01:30');
         $t->setUrl('http://site.com/other/index.htm');
         $t->DEBUG_APPEND_URL = '&_idvc=2'; // make sure visit is marked as returning
-        \Fixture::checkResponse($t->doTrackPageView('other incredible title!'));
+        Fixture::checkResponse($t->doTrackPageView('other incredible title!'));
 
         // launch archiving
         VisitFrequencyApi::getInstance()->get(1, 'year', '2012-12-29');
@@ -104,6 +106,6 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
     }
 }
 
-BackwardsCompatibility1XTest::$fixture = new \Piwik_Test_Fixture_SqlDump();
+BackwardsCompatibility1XTest::$fixture = new SqlDump();
 BackwardsCompatibility1XTest::$fixture->dumpUrl = PIWIK_INCLUDE_PATH . BackwardsCompatibility1XTest::FIXTURE_LOCATION;
 BackwardsCompatibility1XTest::$fixture->tablesPrefix = '';

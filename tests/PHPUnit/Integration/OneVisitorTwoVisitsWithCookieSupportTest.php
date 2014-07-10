@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
  * Same as OneVisitorTwoVisits.test.php, but with cookie support, which incurs some slight changes
@@ -47,6 +48,6 @@ class OneVisitorTwoVisitsWithCookieSupportTest extends IntegrationTestCase
     }
 }
 
-OneVisitorTwoVisitsWithCookieSupportTest::$fixture = new \Test_Piwik_Fixture_OneVisitorTwoVisits();
+OneVisitorTwoVisitsWithCookieSupportTest::$fixture = new OneVisitorTwoVisits();
 OneVisitorTwoVisitsWithCookieSupportTest::$fixture->useThirdPartyCookies = true;
 OneVisitorTwoVisitsWithCookieSupportTest::$fixture->useSiteSearch = true;

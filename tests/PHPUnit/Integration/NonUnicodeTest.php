@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SomeVisitsWithNonUnicodePageTitles;
 
 /**
  * Tests that visits track & reports display correctly when non-unicode text is
@@ -51,4 +52,4 @@ class NonUnicodeTest extends IntegrationTestCase
 
 }
 
-NonUnicodeTest::$fixture = new \Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles();
+NonUnicodeTest::$fixture = new SomeVisitsWithNonUnicodePageTitles();

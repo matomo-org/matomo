@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
 
 /**
  * Tests the method API.getRowEvolution
@@ -235,4 +236,4 @@ class RowEvolutionTest extends IntegrationTestCase
     }
 }
 
-RowEvolutionTest::$fixture = new \Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers();
+RowEvolutionTest::$fixture = new TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers();

@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 require_once 'Goals/Goals.php';
 
@@ -114,6 +115,5 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends IntegrationTest
     }
 }
 
-TwoVisitorsTwoWebsitesDifferentDaysConversionsTest::$fixture =
-    new \Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
+TwoVisitorsTwoWebsitesDifferentDaysConversionsTest::$fixture = new TwoSitesTwoVisitorsDifferentDays();
 TwoVisitorsTwoWebsitesDifferentDaysConversionsTest::$fixture->allowConversions = true;

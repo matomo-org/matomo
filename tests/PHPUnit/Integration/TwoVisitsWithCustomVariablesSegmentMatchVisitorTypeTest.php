@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * Tests use of custom variable segments.
@@ -109,5 +110,5 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends Integratio
     }
 }
 
-TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest::$fixture = new \Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest::$fixture = new TwoVisitsWithCustomVariables();
 TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest::$fixture->doExtraQuoteTests = false;

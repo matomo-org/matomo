@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests;
+
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
@@ -31,7 +33,11 @@ use Piwik\Translate;
 use Piwik\Url;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Updater;
-use Piwik\Tests\IntegrationTestCase;
+use PHPUnit_Framework_Assert;
+use Piwik_TestingEnvironment;
+use FakeAccess;
+use PiwikTracker;
+use Piwik_LocalTracker;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -805,13 +811,8 @@ class Fixture extends PHPUnit_Framework_Assert
     }
 }
 
-// TODO: remove when other plugins don't use BaseFixture
-class Test_Piwik_BaseFixture extends Fixture
-{
-}
-
 // needed by tests that use stored segments w/ the proxy index.php
-class Test_Access_OverrideLogin extends Access
+class OverrideLogin extends Access
 {
     public function getLogin()
     {

@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\InvalidVisits;
 
 /**
  * testing various wrong Tracker requests and check that they behave as expected:
@@ -49,4 +50,4 @@ class NoVisitTest extends IntegrationTestCase
     }
 }
 
-NoVisitTest::$fixture = new \Test_Piwik_Fixture_InvalidVisits();
+NoVisitTest::$fixture = new InvalidVisits();

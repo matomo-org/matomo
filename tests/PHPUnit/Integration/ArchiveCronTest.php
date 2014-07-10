@@ -10,6 +10,8 @@ namespace Piwik\Tests\Integration;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManySitesImportedLogs;
+use Piwik\Tests\Fixture;
 use Exception;
 
 /**
@@ -56,8 +58,8 @@ class ArchiveCronTest extends IntegrationTestCase
                                                       'segment'    => 'browserCode==EP',
                                                       'testSuffix' => '_nonPreArchivedSegment'));
 
-        $segments = array(\Test_Piwik_Fixture_ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
-                          \Test_Piwik_Fixture_ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
+        $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
+                          ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
         foreach($segments as $segment) {
             // TODO debugging travis
@@ -127,7 +129,7 @@ class ArchiveCronTest extends IntegrationTestCase
     private function runArchivePhpCron()
     {
         $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
-        $urlToProxy = \Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
+        $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
         $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" 2>&1";
@@ -164,5 +166,5 @@ class ArchiveCronTest extends IntegrationTestCase
     }
 }
 
-ArchiveCronTest::$fixture = new \Test_Piwik_Fixture_ManySitesImportedLogs();
+ArchiveCronTest::$fixture = new ManySitesImportedLogs();
 ArchiveCronTest::$fixture->addSegments = true;

@@ -5,13 +5,16 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site and tracks one visit w/ pageview URLs that are not normalized.
  * These URLs use different protocols and a mix of lowercase & uppercase letters.
  */
-class Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls extends Fixture
+class OneVisitWithAbnormalPageviewUrls extends Fixture
 {
     public $dateTime = '2010-03-06 11:22:33';
     public $idSite = 1;
