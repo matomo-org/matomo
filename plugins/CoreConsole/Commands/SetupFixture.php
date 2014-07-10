@@ -8,10 +8,10 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use \Fixture;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
+use Piwik\Tests\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
