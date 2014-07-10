@@ -15,6 +15,7 @@
 
 use Piwik\ProxyHttp;
 use Piwik\SettingsServer;
+use Piwik\Tests\Fixture;
 
 define("TEST_FILE_LOCATION", realpath(dirname(__FILE__) . "/../../resources/lipsum.txt"));
 define("TEST_FILE_CONTENT_TYPE", "text/plain");
