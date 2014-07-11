@@ -200,7 +200,7 @@ class Updater extends \Piwik\Updates
         $component = $componentPrefix . $columnName;
         $version   = $dimension->getVersion();
 
-        if (in_array($columnName, $columns)
+        if (array_key_exists($columnName, $columns)
             && false === PiwikUpdater::getCurrentRecordedComponentVersion($component)
             && self::wasDimensionMovedFromCoreToPlugin($component, $version)) {
             PiwikUpdater::recordComponentSuccessfullyUpdated($component, $version);
