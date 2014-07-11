@@ -35,10 +35,10 @@ class Updates_1_9_b9 extends Updates
 
         return array(
             // add geoip columns to log_visit
-            "ALTER TABLE `$logVisit` $addColumns"      => 1091,
+            "ALTER TABLE `$logVisit` $addColumns"      => array(1091, 1060),
 
             // add geoip columns to log_conversion
-            "ALTER TABLE `$logConversion` $addColumns" => 1091,
+            "ALTER TABLE `$logConversion` $addColumns" => array(1091, 1060),
         );
     }
 

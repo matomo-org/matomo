@@ -35,7 +35,7 @@ class Updates_1_2_rc1 extends Updates
 			    ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
-			   ' => false,
+			   ' => array(1054, 1091),
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
@@ -54,14 +54,14 @@ class Updates_1_2_rc1 extends Updates
 				ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`,
 				ADD INDEX `index_idsite_servertime` ( `idsite` , `server_time` )
-			   ' => false,
+			   ' => 1060,
 
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 			    DROP `referer_idvisit`,
 			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL
-			   ' => false,
+			   ' => array(1060, 1091),
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
@@ -73,30 +73,30 @@ class Updates_1_2_rc1 extends Updates
     			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
-			   ' => 1060,
+			   ' => array(1060, 1061),
 
             // Migrate 128bits IDs inefficiently stored as 8bytes (256 bits) into 64bits
             'UPDATE ' . Common::prefixTable('log_visit') . '
     			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16))),
     				config_id = binary(unhex(substring(config_md5config,1,16)))
-	   			' => false,
+	   			' => 1054,
             'UPDATE ' . Common::prefixTable('log_conversion') . '
     			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16)))
-	   			' => false,
+	   			' => 1054,
 
             // Drop migrated fields
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 		    	DROP visitor_idcookie, 
 		    	DROP config_md5config
-		    	' => false,
+		    	' => 1091,
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 		    	DROP visitor_idcookie
-		    	' => false,
+		    	' => 1091,
 
             // Recreate INDEX on new field
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 		    	ADD INDEX `index_idsite_datetime_config` (idsite, visit_last_action_time, config_id)
-		    	' => false,
+		    	' => 1061,
 
             // Backfill action logs as best as we can
             'UPDATE ' . Common::prefixTable('log_link_visit_action') . ' as action,
@@ -112,10 +112,10 @@ class Updates_1_2_rc1 extends Updates
 			   ' => false,
 
             // New index used max once per request, in case this table grows significantly in the future
-            'ALTER TABLE `' . Common::prefixTable('option') . '` ADD INDEX ( `autoload` ) '                                                           => false,
+            'ALTER TABLE `' . Common::prefixTable('option') . '` ADD INDEX ( `autoload` ) ' => 1061,
 
             // new field for websites
-            'ALTER TABLE `' . Common::prefixTable('site') . '` ADD `group` VARCHAR( 250 ) NOT NULL'                                                   => false,
+            'ALTER TABLE `' . Common::prefixTable('site') . '` ADD `group` VARCHAR( 250 ) NOT NULL' => 1060,
         );
     }
 

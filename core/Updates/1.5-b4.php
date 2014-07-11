@@ -21,7 +21,7 @@ class Updates_1_5_b4 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('site') . '`
-				 ADD ecommerce TINYINT DEFAULT 0' => false,
+				 ADD ecommerce TINYINT DEFAULT 0' => 1060,
         );
     }
 

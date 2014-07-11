@@ -791,8 +791,14 @@ class Fixture extends PHPUnit_Framework_Assert
         return $result;
     }
 
-    public static function updateDatabase()
+    public static function updateDatabase($force = false)
     {
+        if ($force) {
+            // remove version options to force update
+            Option::deleteLike('version%');
+            Option::set('version_core', '0.0');
+        }
+
         $updater = new Updater();
         $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
         if (empty($componentsWithUpdateFile)) {
@@ -801,8 +807,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
         $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
         if (!empty($result['coreError'])
-            && !empty($result['warnings'])
-            && !empty($result['errors'])
+            || !empty($result['warnings'])
+            || !empty($result['errors'])
         ) {
             throw new \Exception("Failed to update database (errors or warnings found): " . print_r($result, true));
         }

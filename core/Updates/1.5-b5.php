@@ -26,7 +26,7 @@ class Updates_1_5_b5 extends Updates
 								lifetime INTEGER,
 								data TEXT,
 								PRIMARY KEY ( id )
-								)  DEFAULT CHARSET=utf8' => false,
+								)  DEFAULT CHARSET=utf8' => 1050,
         );
     }
 

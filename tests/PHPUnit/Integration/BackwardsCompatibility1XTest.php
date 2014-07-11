@@ -76,6 +76,14 @@ class BackwardsCompatibility1XTest extends IntegrationTestCase
         $this->runApiTests($api, $params);
     }
 
+    public function testUpdateWorksAfterPiwikIsAlreadyUpToDate()
+    {
+        $result = Fixture::updateDatabase($force = true);
+        if ($result === false) {
+            throw new \Exception("Failed to force update (nothing to update).");
+        }
+    }
+
     public function getApiForTesting()
     {
         $idSite = 1;
