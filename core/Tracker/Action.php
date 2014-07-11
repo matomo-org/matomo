@@ -70,9 +70,11 @@ abstract class Action
     }
 
     /**
+     * Public so that events listener can access it
+     *
      * @var Request
      */
-    protected $request;
+    public $request;
 
     private $idLinkVisitAction;
     private $actionIdsCached = array();
