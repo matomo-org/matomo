@@ -385,7 +385,9 @@ class Log extends Singleton
             return;
         }
 
-        if(!@file_put_contents($this->logToFilePath, $message, FILE_APPEND)) {
+        if (!@file_put_contents($this->logToFilePath, $message, FILE_APPEND)
+            && !defined('PIWIK_TEST_MODE')
+        ) {
             $message = Filechecks::getErrorMessageMissingPermissions($this->logToFilePath);
             throw new \Exception($message);
         }
