@@ -67,7 +67,7 @@ class Updater
      * @return false|string
      * @throws \Exception
      */
-    private static function getCurrentRecordedComponentVersion($name)
+    public static function getCurrentRecordedComponentVersion($name)
     {
         try {
             $currentVersion = Option::get(self::getNameInOptionTable($name));
@@ -303,11 +303,6 @@ class Updater
             $currentVersion = self::getCurrentRecordedComponentVersion($name);
 
             if (ColumnUpdater::isDimensionComponent($name)) {
-                if ($currentVersion === false && ColumnUpdater::wasDimensionMovedFromCoreToPlugin($name, $version)) {
-                    self::recordComponentSuccessfullyUpdated($name, $version);
-                    continue;
-                }
-
                 $isComponentOutdated = $currentVersion !== $version;
             } else {
                 // note: when versionCompare == 1, the version in the DB is newer, we choose to ignore

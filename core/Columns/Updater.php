@@ -163,26 +163,51 @@ class Updater extends \Piwik\Updates
 
         $versions = array();
 
+        $visitColumns      = DbHelper::getTableColumns(Common::prefixTable('log_visit'));
+        $actionColumns     = DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action'));
+        $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
+
         foreach (VisitDimension::getAllDimensions() as $dimension) {
-            $columnName = $dimension->getColumnName();
-            if ($columnName && $dimension->hasColumnType()) {
-                $versions['log_visit.' . $columnName] = $dimension->getVersion();
-            }
+            $versions = self::mixinVersions($dimension, 'log_visit.', $visitColumns, $versions);
         }
 
         foreach (ActionDimension::getAllDimensions() as $dimension) {
-            $columnName = $dimension->getColumnName();
-            if ($columnName && $dimension->hasColumnType()) {
-                $versions['log_link_visit_action.' . $columnName] = $dimension->getVersion();
-            }
+            $versions = self::mixinVersions($dimension, 'log_link_visit_action.', $actionColumns, $versions);
         }
 
         foreach (ConversionDimension::getAllDimensions() as $dimension) {
-            $columnName = $dimension->getColumnName();
-            if ($columnName && $dimension->hasColumnType()) {
-                $versions['log_conversion.' . $columnName] = $dimension->getVersion();
-            }
+            $versions = self::mixinVersions($dimension, 'log_conversion.', $conversionColumns, $versions);
         }
+
+        return $versions;
+    }
+
+    /**
+     * @param ActionDimension|ConversionDimension|VisitDimension $dimension
+     * @param string $componentPrefix
+     * @param array $columns
+     * @param array $versions
+     * @return array The modified versions array
+     */
+    private static function mixinVersions($dimension, $componentPrefix, $columns, $versions)
+    {
+        $columnName = $dimension->getColumnName();
+
+        if (!$columnName || !$dimension->hasColumnType()) {
+            return $versions;
+        }
+
+        $component = $componentPrefix . $columnName;
+        $version   = $dimension->getVersion();
+
+        if (in_array($columnName, $columns)
+            && false === PiwikUpdater::getCurrentRecordedComponentVersion($component)
+            && self::wasDimensionMovedFromCoreToPlugin($component, $version)) {
+            PiwikUpdater::recordComponentSuccessfullyUpdated($component, $version);
+            return $versions;
+        }
+
+        $versions[$component] = $version;
 
         return $versions;
     }

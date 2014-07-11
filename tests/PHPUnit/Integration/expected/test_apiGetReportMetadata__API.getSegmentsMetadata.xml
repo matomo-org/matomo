@@ -131,14 +131,14 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>ExamplePlugin_DimensionName</name>
+		<name>Example Dimension</name>
 		<segment>myConversionSegmentName</segment>
 		<acceptedValues>Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>ExamplePlugin_DimensionName</name>
+		<name>Example Dimension</name>
 		<segment>achievementPoints</segment>
 		<acceptedValues>Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99</acceptedValues>
 	</row>
@@ -395,7 +395,7 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
-		<name>ExamplePlugin_DimensionName</name>
+		<name>Example Dimension</name>
 		<segment>keywords</segment>
 		<acceptedValues>Here you should explain which values are accepted/useful: Any word, for instance MyKeyword1, MyKeyword2</acceptedValues>
 	</row>
