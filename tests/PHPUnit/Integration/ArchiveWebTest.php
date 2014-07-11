@@ -7,6 +7,7 @@
  */
 
 use Piwik\Option;
+use Piwik\Http;
 
 /**
  * Tests to call the archive.php script via web and check there is no error,
@@ -31,10 +32,8 @@ class Test_Piwik_Integration_ArchiveWebTest extends IntegrationTestCase
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
 
-        $streamContext = stream_context_create(array('http' => array('timeout' => 600)));
-
         $url = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token . '&forcelogtoscreen=1';
-        $output = file_get_contents($url, 0, $streamContext);
+        $output = Http::sendHttpRequest($url, 600);
 
         // ignore random build issues
         if (empty($output) || strpos($output, \Piwik\CronArchive::NO_ERROR) === false) {

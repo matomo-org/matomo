@@ -130,8 +130,8 @@ if(function_exists('parse_ini_file')) {
 		if(!file_exists($filename)) {
             return false;
         }
-        // Note: INI_SCANNER_RAW is important here!
-        return parse_ini_file($filename, $process_sections, INI_SCANNER_RAW);
+
+        return parse_ini_file($filename, $process_sections);
 	}
 } else {
 	// we can't redefine parse_ini_file() if it has been disabled

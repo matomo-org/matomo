@@ -28,6 +28,6 @@
         "piwik/device-detector": "2.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*"
+        "phpunit/phpunit": "~4.1"
     }
 }
