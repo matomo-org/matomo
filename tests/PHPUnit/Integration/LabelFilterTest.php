@@ -147,6 +147,19 @@ class LabelFilterTest extends IntegrationTestCase
             )
         ));
 
+        // test that filter_limit & filter_truncate are ignored when label is used
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'             => '_titles',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'label'           => urlencode('incredible title! <>,;'),
+                'expanded'        => 0,
+                'filter_limit'    => 1,
+                'filter_truncate' => 1
+            )
+        ));
+
         return $return;
     }
 
