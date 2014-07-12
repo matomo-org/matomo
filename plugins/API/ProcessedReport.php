@@ -697,7 +697,7 @@ class ProcessedReport
                     // generate 'human readable' metric values
 
                     // if we handle MultiSites.getAll we do not always have the same idSite but different ones for
-                    // each site, see http://dev.piwik.org/trac/ticket/5006
+                    // each site, see https://github.com/piwik/piwik/issues/5006
                     $idSiteForRow = $idSite;
                     if ($row->getMetadata('idsite') && is_numeric($row->getMetadata('idsite'))) {
                         $idSiteForRow = (int) $row->getMetadata('idsite');

@@ -5,13 +5,16 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds two sites and tracks some visits with ecommerce orders.
  */
-class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Fixture
+class TwoSitesEcommerceOrderWithItems extends Fixture
 {
     public $dateTime = '2011-04-05 00:11:42';
     public $idSite = 1;
@@ -207,9 +210,5 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(30.9)->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after', $category = 'Tools', $price = 100, $quantity = 2);
         self::checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
-        //------------------------------------- End tracking
-
-
     }
 }
-

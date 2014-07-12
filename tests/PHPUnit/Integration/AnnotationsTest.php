@@ -5,11 +5,20 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Plugins\Annotations\API;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesWithAnnotations;
+use FakeAccess;
+use Exception;
 
+/**
+ * @group Integration
+ * @group AnnotationsTest
+ */
 class AnnotationsTest extends IntegrationTestCase
 {
     public static $fixture = null;
@@ -80,16 +89,12 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
         $this->runApiTests($api, $params);
     }
 
-    /**
-     * @group        Integration
-     */
     public function testAddMultipleSitesFail()
     {
         try {
@@ -100,9 +105,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testAddInvalidDateFail()
     {
         try {
@@ -113,9 +115,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testSaveMultipleSitesFail()
     {
         try {
@@ -126,9 +125,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testSaveInvalidDateFail()
     {
         try {
@@ -139,9 +135,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testSaveInvalidNoteIdFail()
     {
         try {
@@ -152,9 +145,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testDeleteMultipleSitesFail()
     {
         try {
@@ -165,9 +155,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testDeleteInvalidNoteIdFail()
     {
         try {
@@ -178,9 +165,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testGetMultipleSitesFail()
     {
         try {
@@ -191,9 +175,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testGetInvalidNoteIdFail()
     {
         try {
@@ -204,9 +185,6 @@ class AnnotationsTest extends IntegrationTestCase
         }
     }
 
-    /**
-     * @group        Integration
-     */
     public function testSaveSuccess()
     {
         API::getInstance()->save(
@@ -223,9 +201,6 @@ class AnnotationsTest extends IntegrationTestCase
         $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 0));
     }
 
-    /**
-     * @group        Integration
-     */
     public function testSaveNoChangesSuccess()
     {
         API::getInstance()->save(self::$fixture->idSite1, 1);
@@ -241,9 +216,6 @@ class AnnotationsTest extends IntegrationTestCase
         $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 1));
     }
 
-    /**
-     * @group        Integration
-     */
     public function testDeleteSuccess()
     {
         API::getInstance()->delete(self::$fixture->idSite1, 1);
@@ -287,7 +259,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @dataProvider getPermissionsFailData
-     * @group        Integration
      */
     public function testMethodPermissions($hasAdminAccess, $hasViewAccess, $request, $checkException, $failMessage)
     {
@@ -314,4 +285,4 @@ class AnnotationsTest extends IntegrationTestCase
     }
 }
 
-AnnotationsTest::$fixture = new Test_Piwik_Fixture_TwoSitesWithAnnotations();
+AnnotationsTest::$fixture = new TwoSitesWithAnnotations();

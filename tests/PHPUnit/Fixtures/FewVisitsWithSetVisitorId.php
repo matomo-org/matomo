@@ -5,13 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Tracker\Visit;
+use Piwik\Tests\Fixture;
+use PiwikTracker;
+use Exception;
 
 /**
  * Adds one site and tracks a couple visits using a custom visitor ID.
  */
-class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Fixture
+class FewVisitsWithSetVisitorId extends Fixture
 {
     public $idSite = 1;
     public $dateTime = '2010-03-06 11:22:33';

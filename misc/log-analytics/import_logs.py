@@ -933,7 +933,7 @@ class Piwik(object):
             args.update(kwargs)
 
         # Convert lists into appropriate format.
-        # See: http://dev.piwik.org/trac/wiki/API/Reference#PassinganArrayParameter
+        # See: http://developer.piwik.org/api-reference/reporting-api#passing-an-array-of-data-as-a-parameter
         # Warning: we have to pass the parameters in order: foo[0], foo[1], foo[2]
         # and not foo[1], foo[0], foo[2] (it will break Piwik otherwise.)
         final_args = []

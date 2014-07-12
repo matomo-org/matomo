@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests;
+
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
@@ -18,6 +20,7 @@ use Piwik\ReportRenderer;
 use Piwik\Translate;
 use Piwik\UrlHelper;
 use Piwik\Log;
+use PHPUnit_Framework_TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -200,7 +203,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-        if(Fixture::canImagesBeIncludedInScheduledReports()) {
+        if (Fixture::canImagesBeIncludedInScheduledReports()) {
             // PDF Scheduled Report
             // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
             array_push(

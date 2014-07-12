@@ -5,14 +5,17 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds two websites and tracks visits from two visitors on different days.
  */
-class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Fixture
+class TwoSitesTwoVisitorsDifferentDays extends Fixture
 {
     public $idSite1 = 1;
     public $idSite2 = 2;
@@ -179,6 +182,4 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Fixture
         $visitorAsite2->setGenerationTime(503);
         self::checkResponse($visitorAsite2->doTrackPageView(''));
     }
-
 }
-

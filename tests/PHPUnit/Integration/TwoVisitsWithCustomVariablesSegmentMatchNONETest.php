@@ -5,18 +5,25 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Plugins\API\API;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
+use Piwik\Tests\Fixture;
 
 /**
  * testing a segment containing all supported fields
+ *
+ * @group Integration
+ * @group TwoVisitsWithCustomVariablesSegmentMatchNONETest
  */
-class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE extends IntegrationTestCase
+class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -82,7 +89,5 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
     }
 }
 
-Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE::$fixture
-    = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
-Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE::$fixture->doExtraQuoteTests = false;
-
+TwoVisitsWithCustomVariablesSegmentMatchNONETest::$fixture = new TwoVisitsWithCustomVariables();
+TwoVisitsWithCustomVariablesSegmentMatchNONETest::$fixture->doExtraQuoteTests = false;

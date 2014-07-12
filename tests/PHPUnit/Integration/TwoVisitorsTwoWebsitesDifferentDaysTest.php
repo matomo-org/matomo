@@ -5,6 +5,10 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 /**
  * tests Tracker several websites, different days.
@@ -14,14 +18,14 @@
  * And testing empty URL and empty Page name request
  * Also testing a click on a mailto counted as outlink
  * Also testing metadata API for multiple periods
+ *
+ * @group TwoVisitorsTwoWebsitesDifferentDaysTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends IntegrationTestCase
+class TwoVisitorsTwoWebsitesDifferentDaysTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    /**
-     * @group        Integration
-     */
     public function testImagesIncludedInTests()
     {
         $this->alertWhenImagesExcludedFromTests();
@@ -29,7 +33,6 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -106,6 +109,4 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
     }
 }
 
-Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays::$fixture =
-    new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
-
+TwoVisitorsTwoWebsitesDifferentDaysTest::$fixture = new TwoSitesTwoVisitorsDifferentDays();

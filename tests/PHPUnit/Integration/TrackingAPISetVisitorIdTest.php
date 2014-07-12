@@ -5,13 +5,19 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\API\Proxy;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
 
 /**
  * This test tests that when using &cid=, the visitor ID is enforced
  *
+ * @group TrackingAPISetVisitorIdTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCase
+class TrackingAPISetVisitorIdTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -25,9 +31,13 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
         Proxy::getInstance()->setHideIgnoredFunctions(true);
     }
 
+    public static function getOutputPrefix()
+    {
+        return "TrackingAPI_SetVisitorId";
+    }
+
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -46,5 +56,4 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
     }
 }
 
-Test_Piwik_Integration_TrackingAPI_SetVisitorId::$fixture = new Test_Piwik_Fixture_FewVisitsWithSetVisitorId();
-
+TrackingAPISetVisitorIdTest::$fixture = new FewVisitsWithSetVisitorId();

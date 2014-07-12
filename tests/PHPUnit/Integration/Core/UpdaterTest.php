@@ -5,18 +5,20 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration\Core;
+
+use DatabaseTestCase;
 use Piwik\Updater;
+use Piwik\Tests\Fixture;
 
 /**
  * Class Core_UpdaterTest
  *
  * @group Core
+ * @group Core_UpdaterTest
  */
-class Core_UpdaterTest extends DatabaseTestCase
+class UpdaterTest extends DatabaseTestCase
 {
-    /**
-     * @group Core
-     */
     public function testUpdaterChecksCoreVersionAndDetectsUpdateFile()
     {
         $updater = new Updater();
@@ -27,9 +29,6 @@ class Core_UpdaterTest extends DatabaseTestCase
         $this->assertEquals(1, count($componentsWithUpdateFile));
     }
 
-    /**
-     * @group Core
-     */
     public function testUpdaterChecksGivenPluginVersionAndDetectsMultipleUpdateFileInOrder()
     {
         $updater = new Updater();
@@ -50,9 +49,6 @@ class Core_UpdaterTest extends DatabaseTestCase
         $this->assertEquals($expectedInOrder, array_map("basename", $updateFiles));
     }
 
-    /**
-     * @group Core
-     */
     public function testUpdaterChecksCoreAndPluginCheckThatCoreIsRanFirst()
     {
         $updater = new Updater();
@@ -69,5 +65,13 @@ class Core_UpdaterTest extends DatabaseTestCase
         $this->assertEquals(2, count($componentsWithUpdateFile));
         reset($componentsWithUpdateFile);
         $this->assertEquals('core', key($componentsWithUpdateFile));
+    }
+
+    public function testUpdateWorksAfterPiwikIsAlreadyUpToDate()
+    {
+        $result = Fixture::updateDatabase($force = true);
+        if ($result === false) {
+            throw new \Exception("Failed to force update (nothing to update).");
+        }
     }
 }

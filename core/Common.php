@@ -1066,7 +1066,7 @@ class Common
     /**
      * Marks an orphaned object for garbage collection.
      *
-     * For more information: {@link http://dev.piwik.org/trac/ticket/374}
+     * For more information: {@link https://github.com/piwik/piwik/issues/374}
      * @param $var The object to destroy.
      * @api
      */

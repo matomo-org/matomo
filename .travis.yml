@@ -87,8 +87,8 @@ before_script:
   - mysql -e "SHOW GLOBAL VARIABLES;"
   # Setup Piwik stack
   - ./tests/travis/initiate_ui_tests.sh
-  - composer self-update
-  - composer install
+  - travis_retry composer self-update
+  - travis_retry composer install
   - uname -a
   - date
   - php -r "var_dump(gd_info());"

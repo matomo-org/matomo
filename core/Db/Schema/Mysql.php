@@ -408,7 +408,7 @@ class Mysql implements SchemaInterface
             Db::exec($statement);
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
-            // see bug #153 http://dev.piwik.org/trac/ticket/153
+            // see bug #153 https://github.com/piwik/piwik/issues/153
             if (!Db::get()->isErrNo($e, '1050')) {
                 throw $e;
             }

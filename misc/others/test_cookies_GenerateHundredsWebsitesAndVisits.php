@@ -1,6 +1,6 @@
 <?php
 // Script that creates 100 websites, then outputs a IMG that records a pageview in each website
-// Used initially to test how to handle cookies for this use case (see http://dev.piwik.org/trac/ticket/409)
+// Used initially to test how to handle cookies for this use case (see https://github.com/piwik/piwik/issues/409)
 use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Piwik;

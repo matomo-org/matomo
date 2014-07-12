@@ -1,5 +1,14 @@
 <?php
-class Test_Piwik_JsProxy extends IntegrationTestCase
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+use Piwik\Tests\Fixture;
+
+class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core

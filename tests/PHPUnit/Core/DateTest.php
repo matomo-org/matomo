@@ -61,8 +61,8 @@ class DateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
         // Congo is in UTC+1 all year long (no DST)
-        $date = Date::factory('now', 'Africa/Brazzaville');
         $dateExpected = Date::factory('now')->addHour(1);
+        $date = Date::factory('now', 'Africa/Brazzaville');
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
         // yesterday same time in Congo is the same as today in Congo - 24 hours

@@ -5,14 +5,26 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
-class Test_Piwik_Integration_OneVisitor_SeveralDays_ImportedInRandomOrderTest extends IntegrationTestCase
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\VisitOverSeveralDaysImportedLogs;
+
+/**
+ * @group Integration
+ * @group OneVisitorSeveralDaysImportedInRandomOrderTest
+ */
+class OneVisitorSeveralDaysImportedInRandomOrderTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
+    public static function getOutputPrefix()
+    {
+        return "OneVisitor_SeveralDays_ImportedInRandomOrderTest";
+    }
+
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -33,10 +45,6 @@ class Test_Piwik_Integration_OneVisitor_SeveralDays_ImportedInRandomOrderTest ex
             )),
         );
     }
-
-
-
 }
 
-Test_Piwik_Integration_OneVisitor_SeveralDays_ImportedInRandomOrderTest::$fixture = new Test_Piwik_Fixture_VisitOverSeveralDaysImportedLogs();
-
+OneVisitorSeveralDaysImportedInRandomOrderTest::$fixture = new VisitOverSeveralDaysImportedLogs();

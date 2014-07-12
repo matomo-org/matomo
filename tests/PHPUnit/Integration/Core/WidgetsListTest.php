@@ -9,6 +9,7 @@
 use Piwik\Access;
 use Piwik\Plugins\Goals\API;
 use Piwik\WidgetsList;
+use Piwik\Tests\Fixture;
 
 /**
  * Class Core_WidgetsListTest

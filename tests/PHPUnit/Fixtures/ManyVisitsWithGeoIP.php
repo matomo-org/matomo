@@ -5,11 +5,14 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Tests\Fixture;
+use Exception;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
@@ -17,7 +20,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
  * Adds one new website and tracks 35 visits from 18 visitors with geolocation using
  * free GeoIP databases. The GeoIP databases are downloaded if they do not exist already.
  */
-class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Fixture
+class ManyVisitsWithGeoIP extends Fixture
 {
     const GEOIP_IMPL_TO_TEST = 'geoip_php';
 
@@ -207,7 +210,7 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Fixture
     {
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider('mock_provider');
-        MockLocationProvider::$locations = array(
+        \MockLocationProvider::$locations = array(
             self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
 
             // same region, different city, same country
@@ -251,5 +254,4 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Fixture
             // ignore error
         }
     }
-
 }

@@ -335,7 +335,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
                     . ' The error Messages from MySQL were: '
                     . $didWeUseBulk
                     . "\n\n Learn more how to enable LOAD LOCAL DATA INFILE see the Mysql doc (http://dev.mysql.com/doc/refman/5.0/en/load-data-local.html) "
-                    . "\n   or ask in this Piwik ticket (http://dev.piwik.org/trac/ticket/3605)"
+                    . "\n   or ask in this Piwik ticket (https://github.com/piwik/piwik/issues/3605)"
             );
         }
         return $didWeUseBulk;

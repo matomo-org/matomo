@@ -1,15 +1,27 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link    http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 
 /**
  * Tests the transitions plugin.
+ *
+ * @group TransitionsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_Transitions extends IntegrationTestCase
+class TransitionsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -76,5 +88,4 @@ class Test_Piwik_Integration_Transitions extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_Transitions::$fixture = new Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions();
-
+TransitionsTest::$fixture = new SomeVisitsManyPageviewsWithTransitions();

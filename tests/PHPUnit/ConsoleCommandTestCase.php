@@ -33,7 +33,7 @@ use Symfony\Component\Console\Tester\ApplicationTester;
  *         // other checks
  *     }
  */
-class ConsoleCommandTestCase extends \IntegrationTestCase
+class ConsoleCommandTestCase extends IntegrationTestCase
 {
     protected $applicationTester = null;
 

@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests;
+
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
@@ -29,6 +31,11 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
+use PHPUnit_Framework_Assert;
+use Piwik_TestingEnvironment;
+use FakeAccess;
+use PiwikTracker;
+use Piwik_LocalTracker;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 
@@ -794,15 +801,35 @@ class Fixture extends PHPUnit_Framework_Assert
         }
         return $result;
     }
-}
 
-// TODO: remove when other plugins don't use BaseFixture
-class Test_Piwik_BaseFixture extends Fixture
-{
+    public static function updateDatabase($force = false)
+    {
+        if ($force) {
+            // remove version options to force update
+            Option::deleteLike('version%');
+            Option::set('version_core', '0.0');
+        }
+
+        $updater = new Updater();
+        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        if (empty($componentsWithUpdateFile)) {
+            return false;
+        }
+
+        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        if (!empty($result['coreError'])
+            || !empty($result['warnings'])
+            || !empty($result['errors'])
+        ) {
+            throw new \Exception("Failed to update database (errors or warnings found): " . print_r($result, true));
+        }
+
+        return $result;
+    }
 }
 
 // needed by tests that use stored segments w/ the proxy index.php
-class Test_Access_OverrideLogin extends Access
+class OverrideLogin extends Access
 {
     public function getLogin()
     {

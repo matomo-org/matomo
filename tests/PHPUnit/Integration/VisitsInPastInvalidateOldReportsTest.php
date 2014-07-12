@@ -5,18 +5,25 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
 use Piwik\API\Request;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesVisitsInPast;
+use Exception;
 
 /**
  * Track visits before website creation date and test that Piwik handles them correctly.
+ *
+ * @group Integration
+ * @group VisitsInPastInvalidateOldReportsTest
  */
-class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends IntegrationTestCase
+class VisitsInPastInvalidateOldReportsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -59,7 +66,6 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
     /**
      * @depends      testApi
      * @dataProvider getAnotherApiForTesting
-     * @group        Integration
      */
     public function testAnotherApi($api, $params)
     {
@@ -133,5 +139,4 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
     }
 }
 
-Test_Piwik_Integration_VisitsInPast_InvalidateOldReports::$fixture = new Test_Piwik_Fixture_TwoSitesVisitsInPast();
-
+VisitsInPastInvalidateOldReportsTest::$fixture = new TwoSitesVisitsInPast();

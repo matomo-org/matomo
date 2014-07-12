@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Db;
+use Piwik\Tests\Fixture;
 
 /**
  * Tests extending DatabaseTestCase are much slower to run: the setUp will

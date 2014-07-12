@@ -125,7 +125,7 @@ class Factory
     /**
      * @return array
      */
-    private static function getPeriodsEnabledForAPI()
+    public static function getPeriodsEnabledForAPI()
     {
         $enabledPeriodsInAPI = Config::getInstance()->General['enabled_periods_API'];
         $enabledPeriodsInAPI = explode(",", $enabledPeriodsInAPI);

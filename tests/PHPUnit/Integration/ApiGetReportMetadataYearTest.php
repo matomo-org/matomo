@@ -5,12 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\InvalidVisits;
 
 /**
  * test the Yearly metadata API response,
  * with no visits, with custom response language
+ *
+ * @group Integration
+ * @group ApiGetReportMetadataYearTest
  */
-class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCase
+class ApiGetReportMetadataYearTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -34,7 +41,6 @@ class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCa
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -42,6 +48,5 @@ class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCa
     }
 }
 
-Test_Piwik_Integration_ApiGetReportMetadata_Year::$fixture = new Test_Piwik_Fixture_InvalidVisits();
-Test_Piwik_Integration_ApiGetReportMetadata_Year::$fixture->trackInvalidRequests = false;
-
+ApiGetReportMetadataYearTest::$fixture = new InvalidVisits();
+ApiGetReportMetadataYearTest::$fixture->trackInvalidRequests = false;

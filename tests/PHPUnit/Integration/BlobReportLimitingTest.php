@@ -5,17 +5,23 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 /**
  * Test Piwik's report limiting code. Make sure the datatable_archiving_maximum_rows_...
  * config options limit the size of certain reports when archiving.
+ *
+ * @group Integration
+ * @group BlobReportLimitingTest
  */
-class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
+class BlobReportLimitingTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -85,16 +91,12 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
         $this->runApiTests($api, $params);
     }
 
-    /**
-     * @group        Integration
-     */
     public function testApiWithRankingQuery()
     {
         // custom setup
@@ -114,9 +116,6 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         }
     }
     
-    /**
-     * @group        Integration
-     */
     public function testApiWithRankingQueryDisabled()
     {
         self::deleteArchiveTables();
@@ -163,5 +162,5 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_BlobReportLimitingTest::$fixture = new Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider();
-Test_Piwik_Integration_BlobReportLimitingTest::$fixture->createConfig = false;
+BlobReportLimitingTest::$fixture = new ManyVisitsWithMockLocationProvider();
+BlobReportLimitingTest::$fixture->createConfig = false;

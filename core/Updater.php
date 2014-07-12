@@ -360,11 +360,28 @@ class Updater
     public static function handleQueryError($e, $updateSql, $errorToIgnore, $file)
     {
         if (($errorToIgnore === false)
-            || !Db::get()->isErrNo($e, $errorToIgnore)
+            || !self::isDbErrorOneOf($e, $errorToIgnore)
         ) {
             $message = $file . ":\nError trying to execute the query '" . $updateSql . "'.\nThe error was: " . $e->getMessage();
             throw new UpdaterErrorException($message);
         }
+    }
+
+    /**
+     * Returns whether an exception is a DB error with a code in the $errorCodesToIgnore list.
+     *
+     * @param int $error
+     * @param int|int[] $errorCodesToIgnore
+     */
+    public static function isDbErrorOneOf($error, $errorCodesToIgnore)
+    {
+        $errorCodesToIgnore = is_array($errorCodesToIgnore) ? $errorCodesToIgnore : array($errorCodesToIgnore);
+        foreach ($errorCodesToIgnore as $code) {
+            if (Db::get()->isErrNo($error, $code)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

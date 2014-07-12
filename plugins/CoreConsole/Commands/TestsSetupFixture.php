@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
+use Piwik\Tests\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,6 +19,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Console commands that sets up a fixture either in a local MySQL database or a remote one.
+ *
+ * Examples:
+ *
+ * To setup a fixture provided by Piwik:
+ *
+ *     ./console tests:setup-fixture UITestFixture
+ *
+ * To setup your own fixture created solely for test purposes and stored outside of Piwik:
+ *
+ *     ./console tests:setup-fixture MyFixtureType --file=../devfixtures/MyFixtureType.php
+ *
+ * To setup a fixture or use existing data if present:
+ *
+ *     ./console tests:setup-fixture UITestFixture --persist-fixture-data
+ *
+ * To re-setup a fixture that is already present:
+ *
+ *     ./console tests:setup-fixture UITestFixture --persist-fixture-data --drop
+ *
+ * To create an SQL dump for a fixture:
+ *
+ *     ./console tests:setup-fixture OmniFixture --sqldump=OmniFixtureDump.sql
  */
 class TestsSetupFixture extends ConsoleCommand
 {
@@ -49,6 +72,8 @@ class TestsSetupFixture extends ConsoleCommand
         $this->addOption('drop', null, InputOption::VALUE_NONE,
             "Forces the database to be dropped before setting up the fixture. Should be used in conjunction with" .
             " --persist-fixture-data when updating a pre-existing test database.");
+        $this->addOption('sqldump', null, InputOption::VALUE_REQUIRED,
+            "Creates an SQL dump after setting up the fixture and outputs the dump to the file specified by this option.");
         $this->addOption('set-phantomjs-symlinks', null, InputOption::VALUE_NONE,
             "Used by UI tests. Creates symlinks to root directory in tests/PHPUnit/proxy.");
         $this->addOption('server-global', null, InputOption::VALUE_REQUIRED,
@@ -64,26 +89,88 @@ class TestsSetupFixture extends ConsoleCommand
             $_SERVER = json_decode($serverGlobal, true);
         }
 
-        $this->requireFixtureFiles();
+        $this->requireFixtureFiles($input);
         $this->setIncludePathAsInTestBootstrap();
-
-        $file = $input->getOption('file');
-        if ($file) {
-            if (is_file($file)) {
-                require_once $file;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $file)) {
-                require_once PIWIK_INCLUDE_PATH . '/' . $file;
-            } else {
-                throw new \Exception("Cannot find --file option file '$file'.");
-            }
-        }
 
         $host = Url::getHost();
         if (empty($host)) {
             Url::setHost('localhost');
         }
 
-        // get the fixture class
+        $fixture = $this->createFixture($input);
+
+        $this->setupDatabaseOverrides($input, $fixture);
+
+        // perform setup and/or teardown
+        if ($input->getOption('teardown')) {
+            $fixture->getTestEnvironment()->save();
+            $fixture->performTearDown();
+        } else {
+            $fixture->performSetUp();
+        }
+
+        if ($input->getOption('set-phantomjs-symlinks')) {
+            $this->createSymbolicLinksForUITests();
+        }
+
+        $this->writeSuccessMessage($output, array("Fixture successfully setup!"));
+
+        $sqlDumpPath = $input->getOption('sqldump');
+        if ($sqlDumpPath) {
+            $this->createSqlDump($sqlDumpPath, $output);
+        }
+    }
+
+    private function createSymbolicLinksForUITests()
+    {
+        // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
+        foreach (array('libs', 'plugins', 'tests', 'piwik.js') as $linkName) {
+            $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
+            if (!file_exists($linkPath)) {
+                symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
+            }
+        }
+    }
+
+    private function createSqlDump($sqlDumpPath, OutputInterface $output)
+    {
+        $output->write("<info>Creating SQL dump...</info>");
+
+        $databaseConfig = Config::getInstance()->database;
+        $dbUser = $databaseConfig['username'];
+        $dbPass = $databaseConfig['password'];
+        $dbHost = $databaseConfig['host'];
+        $dbName = $databaseConfig['dbname'];
+
+        $command = "mysqldump --user='$dbUser' --password='$dbPass' --host='$dbHost' '$dbName' > '$sqlDumpPath'";
+        passthru($command);
+
+        $this->writeSuccessMessage($output, array("SQL dump created!"));
+    }
+
+    private function setupDatabaseOverrides(InputInterface $input, Fixture $fixture)
+    {
+        $testingEnvironment = $fixture->getTestEnvironment();
+
+        $optionsToOverride = array(
+            'dbname' => $fixture->getDbName(),
+            'host' => $input->getOption('db-host'),
+            'username' => $input->getOption('db-user'),
+            'password' => $input->getOption('db-pass')
+        );
+        foreach ($optionsToOverride as $configOption => $value) {
+            if ($value) {
+                $configOverride = $testingEnvironment->configOverride;
+                $configOverride['database_tests'][$configOption] = $configOverride['database'][$configOption] = $value;
+                $testingEnvironment->configOverride = $configOverride;
+
+                Config::getInstance()->database[$configOption] = $value;
+            }
+        }
+    }
+
+    private function createFixture(InputInterface $input)
+    {
         $fixtureClass = $input->getArgument('fixture');
         if (class_exists("Piwik\\Tests\\Fixtures\\" . $fixtureClass)) {
             $fixtureClass = "Piwik\\Tests\\Fixtures\\" . $fixtureClass;
@@ -93,7 +180,6 @@ class TestsSetupFixture extends ConsoleCommand
             throw new \Exception("Cannot find fixture class '$fixtureClass'.");
         }
 
-        // create the fixture
         $fixture = new $fixtureClass();
         $fixture->printToScreen = true;
 
@@ -115,52 +201,16 @@ class TestsSetupFixture extends ConsoleCommand
             $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
         }
 
-        if($fixture->createConfig) {
+        if ($fixture->createConfig) {
             Config::getInstance()->setTestEnvironment();
         }
+
         $fixture->createConfig = false;
 
-        // setup database overrides
-        $testingEnvironment = $fixture->getTestEnvironment();
-
-        $optionsToOverride = array(
-            'dbname' => $fixture->getDbName(),
-            'host' => $input->getOption('db-host'),
-            'user' => $input->getOption('db-user'),
-            'password' => $input->getOption('db-pass')
-        );
-        foreach ($optionsToOverride as $configOption => $value) {
-            if ($value) {
-                $configOverride = $testingEnvironment->configOverride;
-                $configOverride['database_tests'][$configOption] = $configOverride['database'][$configOption] = $value;
-                $testingEnvironment->configOverride = $configOverride;
-
-                Config::getInstance()->database[$configOption] = $value;
-            }
-        }
-
-        // perform setup and/or teardown
-        if ($input->getOption('teardown')) {
-            $testingEnvironment->save();
-            $fixture->performTearDown();
-        } else {
-            $fixture->performSetUp();
-        }
-
-        if ($input->getOption('set-phantomjs-symlinks')) {
-            // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-            foreach (array('libs', 'plugins', 'tests', 'piwik.js') as $linkName) {
-                $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
-                if (!file_exists($linkPath)) {
-                    symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
-                }
-            }
-        }
-
-        $this->writeSuccessMessage($output, array("Fixture successfully setup!"));
+        return $fixture;
     }
 
-    private function requireFixtureFiles()
+    private function requireFixtureFiles(InputInterface $input)
     {
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
@@ -178,6 +228,17 @@ class TestsSetupFixture extends ConsoleCommand
         foreach($fixturesToLoad as $fixturePath) {
             foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
                 require_once $file;
+            }
+        }
+
+        $file = $input->getOption('file');
+        if ($file) {
+            if (is_file($file)) {
+                require_once $file;
+            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $file)) {
+                require_once PIWIK_INCLUDE_PATH . '/' . $file;
+            } else {
+                throw new \Exception("Cannot find --file option file '$file'.");
             }
         }
     }

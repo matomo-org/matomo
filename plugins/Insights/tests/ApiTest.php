@@ -12,6 +12,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * @group Insights
@@ -19,7 +20,7 @@ use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
  * @group Database
  * @group Plugins
  */
-class ApiTest extends \IntegrationTestCase
+class ApiTest extends IntegrationTestCase
 {
     /**
      * @var SomeVisitsDifferentPathsOnTwoDays
@@ -40,13 +41,13 @@ class ApiTest extends \IntegrationTestCase
     }
 
     /**
-    '/Mover1' => 2,    +8  // 400%
-    '/Old1' => 9,      -9  // -100%
-    '/Mover2' => 24,   -11 // -50%
-    '/Mover3' => 21,   -1  // -5%
-    '/Old2' => 3       -3  // -100%
-    '/New1',           +5  // 100%
-    '/New2'            +2  // 100%
+     * '/Mover1' => 2,    +8  // 400%
+     * '/Old1' => 9,      -9  // -100%
+     * '/Mover2' => 24,   -11 // -50%
+     * '/Mover3' => 21,   -1  // -5%
+     * '/Old2' => 3       -3  // -100%
+     * '/New1',           +5  // 100%
+     * '/New2'            +2  // 100%
      */
     public function test_getInsights_ShouldReturnCorrectMetadata()
     {

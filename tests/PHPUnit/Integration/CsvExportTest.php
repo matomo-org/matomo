@@ -5,11 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
 /**
  * Test CSV export with Expanded rows, Translated labels, Different languages
+ *
+ * @group CsvExportTest
+ * @group Integration
  */
-class Test_Piwik_Integration_CsvExport extends IntegrationTestCase
+class CsvExportTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
@@ -59,7 +66,6 @@ class Test_Piwik_Integration_CsvExport extends IntegrationTestCase
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -72,8 +78,7 @@ class Test_Piwik_Integration_CsvExport extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_CsvExport::$fixture = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
-Test_Piwik_Integration_CsvExport::$fixture->visitorId = null;
-Test_Piwik_Integration_CsvExport::$fixture->useEscapedQuotes = false;
-Test_Piwik_Integration_CsvExport::$fixture->doExtraQuoteTests = false;
-
+CsvExportTest::$fixture = new TwoVisitsWithCustomVariables();
+CsvExportTest::$fixture->visitorId = null;
+CsvExportTest::$fixture->useEscapedQuotes = false;
+CsvExportTest::$fixture->doExtraQuoteTests = false;

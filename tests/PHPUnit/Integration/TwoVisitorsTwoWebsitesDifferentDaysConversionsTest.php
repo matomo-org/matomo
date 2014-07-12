@@ -5,23 +5,27 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
 require_once 'Goals/Goals.php';
 
 /**
  * Same as TwoVisitors_twoWebsites_differentDays but with goals that convert
  * on every url.
+ *
+ * @group TwoVisitorsTwoWebsitesDifferentDaysConversionsTest
+ * @group Integration
  */
-class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends IntegrationTestCase
+class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
-     *
      */
     public function testApi($api, $params)
     {
@@ -111,7 +115,5 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
     }
 }
 
-Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions::$fixture =
-    new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
-Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions::$fixture->allowConversions = true;
-
+TwoVisitorsTwoWebsitesDifferentDaysConversionsTest::$fixture = new TwoSitesTwoVisitorsDifferentDays();
+TwoVisitorsTwoWebsitesDifferentDaysConversionsTest::$fixture->allowConversions = true;

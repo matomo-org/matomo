@@ -215,11 +215,9 @@ DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
     value = value.trim();
     value = encodeURIComponent(value);
 
-    // if tr is a terminal node, we add a '%20' to signfy this. Piwik will notice this and make sure to
-    // look for a terminal, even if there's a sibling branch node w/ the same label. this is a workaround
-    // for #4363.
+    // if tr is a terminal node, we use the @ operator to distinguish it from branch nodes w/ the same name
     if (!tr.hasClass('subDataTable')) {
-        value = value + '%20';
+        value = '@' + value;
     }
 
     return value;

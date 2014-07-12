@@ -31,7 +31,7 @@ class CoreArchiver extends ConsoleCommand
         }
 
         if (is_string($url) && $url && in_array($url, array('http://', 'https://'))) {
-            // see http://dev.piwik.org/trac/ticket/5180 and http://forum.piwik.org/read.php?2,115274
+            // see https://github.com/piwik/piwik/issues/5180 and http://forum.piwik.org/read.php?2,115274
             throw new \InvalidArgumentException('No valid URL given. If you have specified a valid URL try --piwik-domain instead of --url');
         }
 
