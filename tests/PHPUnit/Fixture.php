@@ -38,6 +38,7 @@ use PiwikTracker;
 use Piwik_LocalTracker;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
+use Exception;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
