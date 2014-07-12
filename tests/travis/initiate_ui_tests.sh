@@ -22,7 +22,7 @@ cd tests/PHPUnit/UI
 git config --global user.email "hello@piwik.org"
 git config --global user.name "Piwik Automation"
 
-UI_BRANCH="report_and_dimension_refactoring"
+UI_BRANCH="branch"
 git checkout $UI_BRANCH
 git pull --rebase origin $UI_BRANCH
 
