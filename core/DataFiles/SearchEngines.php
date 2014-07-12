@@ -968,7 +968,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.x-recherche.com'            => array('X-Recherche', 'MOTS', 'cgi-bin/websearch?MOTS={k}'),
 
         // Yahoo! Japan
-        'search.yahoo.co.jp'             => array('Yahoo! Japan', 'p', 'search?p={k}'),
+        'search.yahoo.co.jp'             => array('Yahoo! Japan', array('p', 'vp'), 'search?p={k}'),
         'jp.hao123.com'                  => array('Yahoo! Japan', 'query'),
         'video.search.yahoo.co.jp'       => array('Yahoo! Japan Videos', 'p', 'search?p={k}'),
         'image.search.yahoo.co.jp'       => array('Yahoo! Japan Images', 'p', 'search?p={k}'),
