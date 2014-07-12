@@ -23,7 +23,7 @@
     </ul>
     </p>
 {% else %}
-    {% if coreToUpdate or pluginNamesToUpdate|length > 0 %}
+    {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0 %}
         <p style='font-size:110%;padding-top:1em;'><strong id='titleUpdate'>{{ 'CoreUpdater_DatabaseUpgradeRequired'|translate }}</strong></p>
         <p>{{ 'CoreUpdater_YourDatabaseIsOutOfDate'|translate }}</p>
         {% if coreToUpdate %}
@@ -34,6 +34,12 @@
             {% set listOfPlugins=pluginNamesToUpdate|join(', ') %}
             <p>{{ 'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate(listOfPlugins) }}</p>
         {% endif %}
+
+        {% if dimensionsToUpdate|length > 0 %}
+            {% set listOfDimensions=dimensionsToUpdate|join(', ') %}
+            <p>{{ 'CoreUpdater_TheFollowingDimensionsWillBeUpgradedX'|translate(listOfDimensions) }}</p>
+        {% endif %}
+
         <h3 id='titleUpdate'>{{ 'CoreUpdater_NoteForLargePiwikInstances'|translate }}</h3>
         {% if isMajor %}
             <p class="warning normalFontSize">
@@ -73,7 +79,7 @@
         </p>
     {% endif %}
 
-    {% if coreToUpdate or pluginNamesToUpdate|length > 0 %}
+    {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0  %}
         <br/>
         <form action="index.php" id="upgradeCorePluginsForm">
             <input type="hidden" name="updateCorePlugins" value="1"/>

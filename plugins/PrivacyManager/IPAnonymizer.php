@@ -62,6 +62,7 @@ class IPAnonymizer
         $privacyConfig = new Config();
 
         $ip = self::applyIPMask($ip, $privacyConfig->ipAddressMaskLength);
+
         Common::printDebug("Visitor IP (was: ". IP::N2P($originalIp) .") has been anonymized: ". IP::N2P($ip));
     }
 

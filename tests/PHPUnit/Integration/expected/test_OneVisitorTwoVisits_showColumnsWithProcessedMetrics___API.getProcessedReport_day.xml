@@ -9,13 +9,13 @@
 		<action>getVisitInformationPerServerTime</action>
 		<dimension>Server time</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
-		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
+		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>

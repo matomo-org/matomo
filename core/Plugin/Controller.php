@@ -251,7 +251,8 @@ abstract class Controller
     /**
      * Convenience method that creates and renders a ViewDataTable for a API method.
      *
-     * @param string $apiAction The name of the API action (eg, `'getResolution'`).
+     * @param string|\Piwik\Plugin\Report $apiAction The name of the API action (eg, `'getResolution'`) or
+     *                                      an instance of an report.
      * @param bool $controllerAction The name of the Controller action name  that is rendering the report. Defaults
      *                               to the `$apiAction`.
      * @param bool $fetch If `true`, the rendered string is returned, if `false` it is `echo`'d.
@@ -262,6 +263,21 @@ abstract class Controller
      */
     protected function renderReport($apiAction, $controllerAction = false)
     {
+        if (empty($controllerAction) && is_string($apiAction)) {
+            $report = Report::factory($this->pluginName, $apiAction);
+
+            if (!empty($report)) {
+                $apiAction = $report;
+            }
+        }
+
+        if ($apiAction instanceof Report) {
+            $this->checkSitePermission();
+            $apiAction->checkIsEnabled();
+
+            return $apiAction->render();
+        }
+
         $pluginName = $this->pluginName;
 
         /** @var Proxy $apiProxy */
@@ -518,10 +534,7 @@ abstract class Controller
 
         try {
             $view->idSite = $this->idSite;
-            if (empty($this->site) || empty($this->idSite)) {
-                throw new Exception("The requested website idSite is not found in the request, or is invalid.
-				Please check that you are logged in Piwik and have permission to access the specified website.");
-            }
+            $this->checkSitePermission();
             $this->setPeriodVariablesView($view);
 
             $rawDate = Common::getRequestVar('date');
@@ -925,5 +938,13 @@ abstract class Controller
         $result .= '>' . $evolutionPercent . '</strong></span>';
 
         return $result;
+    }
+
+    protected function checkSitePermission()
+    {
+        if (empty($this->site) || empty($this->idSite)) {
+            throw new Exception("The requested website idSite is not found in the request, or is invalid.
+				Please check that you are logged in Piwik and have permission to access the specified website.");
+        }
     }
 }

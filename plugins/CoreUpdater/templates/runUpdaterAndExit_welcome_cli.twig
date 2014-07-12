@@ -16,7 +16,7 @@
 
     * {{ helpMessage }}
 
-{% elseif coreToUpdate or pluginNamesToUpdate|length > 0 %}
+{% elseif coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0 %}
 
     {{ 'CoreUpdater_DatabaseUpgradeRequired'|translate }}
 
@@ -29,6 +29,11 @@
 {%- if pluginNamesToUpdate|length > 0 %}
     {%- set listOfPlugins %}{{  pluginNamesToUpdate|implode(', ') }}{% endset %}
     {{ 'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate( listOfPlugins) }}
+{%  endif %}
+
+{%- if dimensionsToUpdate|length > 0 %}
+    {%- set listOfDimensions %}{{  dimensionsToUpdate|implode(', ') }}{% endset %}
+    {{ 'CoreUpdater_TheFollowingDimensionsWillBeUpgradedX'|translate( listOfDimensions) }}
 {%  endif %}
 
 {# dry run #}

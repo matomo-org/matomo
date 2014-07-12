@@ -235,6 +235,18 @@ class Schema extends Singleton
     }
 
     /**
+     * Get list of installed columns in a table
+     *
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
+     */
+    public function getTableColumns($tableName)
+    {
+        return $this->getSchema()->getTableColumns($tableName);
+    }
+
+    /**
      * Returns true if Piwik tables exist
      *
      * @return bool  True if tables exist; false otherwise

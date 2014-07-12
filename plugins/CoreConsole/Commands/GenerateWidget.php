@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Piwik;
+use Piwik\Plugin\Widgets;
+use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,15 +24,18 @@ class GenerateWidget extends GeneratePluginBase
     {
         $this->setName('generate:widget')
             ->setDescription('Adds a plugin widget class to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have any widgets defined yet');
+            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have any widgets defined yet')
+            ->addOption('category', null, InputOption::VALUE_REQUIRED, 'The name of the category the widget should belong to');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginName = $this->getPluginName($input, $output);
+        $category   = $this->getCategory($input, $output);
 
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array('ExampleRssWidget' => $pluginName);
+        $replace        = array('ExampleRssWidget' => $pluginName,
+                                'Example Category' => $category);
         $whitelistFiles = array('/Widgets.php');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
@@ -39,6 +45,49 @@ class GenerateWidget extends GeneratePluginBase
              'You can now start defining your plugin widgets',
              'Enjoy!'
         ));
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return array
+     * @throws \RunTimeException
+     */
+    protected function getCategory(InputInterface $input, OutputInterface $output)
+    {
+        $validate = function ($category) {
+            if (empty($category)) {
+                throw new \InvalidArgumentException('Please enter the name of the category your widget should belong to');
+            }
+
+            return $category;
+        };
+
+        $category = $input->getOption('category');
+
+        $categories = array();
+        foreach (Widgets::getAllWidgets() as $widget) {
+            if ($widget->getCategory()) {
+                $categories[] = Piwik::translate($widget->getCategory());
+            }
+        }
+        $categories = array_values(array_unique($categories));
+
+        if (empty($category)) {
+            $dialog = $this->getHelperSet()->get('dialog');
+            $category = $dialog->askAndValidate($output, 'Enter the widget category, for instance "Visitor" (you can reuse any existing category or define a new one): ', $validate, false, null, $categories);
+        } else {
+            $validate($category);
+        }
+
+        $translationKey = Translate::findTranslationKeyForTranslation($category);
+        if (!empty($translationKey)) {
+            return $translationKey;
+        }
+
+        $category = ucfirst($category);
+
+        return $category;
     }
 
     /**

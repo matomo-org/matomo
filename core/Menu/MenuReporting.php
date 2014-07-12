@@ -8,6 +8,7 @@
  */
 namespace Piwik\Menu;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 
 /**
  * Contains menu entries for the Reporting menu (the menu displayed under the Piwik logo).
@@ -67,9 +68,16 @@ class MenuReporting extends MenuAbstract
              */
             Piwik::postEvent('Menu.Reporting.addItems', array());
 
+            foreach (Report::getAllReports() as $report) {
+                if ($report->isEnabled()) {
+                    $report->configureReportingMenu($this);
+                }
+            }
+
             foreach ($this->getAvailableMenus() as $menu) {
                 $menu->configureReportingMenu($this);
             }
+
         }
 
         return parent::getMenu();

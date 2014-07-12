@@ -48,6 +48,8 @@ class PluginInstaller
             $this->makeSureThereAreNoMissingRequirements($metadata);
             $this->copyPluginToDestination($tmpPluginFolder);
 
+            Filesystem::deleteAllCacheOnUpdate($this->pluginName);
+
         } catch (\Exception $e) {
 
             $this->removeFileIfExists($tmpPluginZip);
@@ -77,6 +79,8 @@ class PluginInstaller
 
             $this->fixPluginFolderIfNeeded($tmpPluginFolder);
             $this->copyPluginToDestination($tmpPluginFolder);
+
+            Filesystem::deleteAllCacheOnUpdate($this->pluginName);
 
         } catch (\Exception $e) {
 

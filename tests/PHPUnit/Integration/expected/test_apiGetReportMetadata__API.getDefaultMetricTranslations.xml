@@ -35,11 +35,47 @@
 		<sum_daily_exit_nb_uniq_visitors>Unique exits (daily sum)</sum_daily_exit_nb_uniq_visitors>
 		<entry_nb_actions>Actions after entering here</entry_nb_actions>
 		<entry_sum_visit_length>Total time spent by visitors (in seconds) after entering here</entry_sum_visit_length>
+		<nb_pageviews>Pageviews</nb_pageviews>
+		<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
+		<nb_downloads>Downloads</nb_downloads>
+		<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
+		<nb_outlinks>Outlinks</nb_outlinks>
+		<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
+		<nb_searches>Searches</nb_searches>
+		<nb_keywords>Unique Keywords</nb_keywords>
+		<avg_time_generation>Avg. generation time</avg_time_generation>
+		<nb_pages_per_search>Search Results pages</nb_pages_per_search>
+		<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 		<nb_events>Total events</nb_events>
 		<sum_event_value>Total value</sum_event_value>
 		<min_event_value>Minimum value</min_event_value>
 		<max_event_value>Maximum value</max_event_value>
 		<avg_event_value>Average value</avg_event_value>
 		<nb_events_with_value>Events with a value</nb_events_with_value>
+		<orders>Ecommerce Orders</orders>
+		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
+		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		<quantity>Quantity</quantity>
+		<avg_price>Average Price</avg_price>
+		<avg_quantity>Average Quantity</avg_quantity>
+		<revenue_subtotal>Subtotal</revenue_subtotal>
+		<revenue_tax>Tax</revenue_tax>
+		<revenue_shipping>Shipping</revenue_shipping>
+		<revenue_discount>Discount</revenue_discount>
+		<avg_order_revenue>Average Order Value</avg_order_revenue>
+		<visits_evolution>Visits Evolution</visits_evolution>
+		<actions_evolution>Actions Evolution</actions_evolution>
+		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+		<revenue_evolution>Revenue Evolution</revenue_evolution>
+		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
+		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
+		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
+		<nb_visits_percentage>% Visits</nb_visits_percentage>
+		<nb_visits_returning>Returning Visits</nb_visits_returning>
+		<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
+		<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
+		<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
+		<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
+		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 	</row>
 </result>

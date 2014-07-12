@@ -10,19 +10,19 @@ namespace Piwik\Plugins\API;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\IP;
-use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
 use Piwik\Version;
 
@@ -94,6 +94,12 @@ class API extends \Piwik\Plugin\API
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
     {
         $segments = array();
+
+        foreach (Dimension::getAllDimensions() as $dimension) {
+            foreach ($dimension->getSegments() as $segment) {
+                $segments[] = $segment->toArray();
+            }
+        }
 
         /**
          * Triggered when gathering all available segment dimensions.
@@ -175,88 +181,6 @@ class API extends \Piwik\Plugin\API
             'sqlFilterValue' => array('Piwik\IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_NbActions',
-            'segment'    => 'actions',
-            'sqlSegment' => 'log_visit.visit_total_actions',
-        );
-        $segments[] = array(
-            'type'           => 'metric',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_NbSearches',
-            'segment'        => 'searches',
-            'sqlSegment'     => 'log_visit.visit_total_searches',
-            'acceptedValues' => 'To select all visits who used internal Site Search, use: &segment=searches>0',
-        );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_ColumnVisitDuration',
-            'segment'    => 'visitDuration',
-            'sqlSegment' => 'log_visit.visit_total_time',
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('General_VisitType'),
-            'segment'        => 'visitorType',
-            'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
-            'sqlSegment'     => 'log_visit.visitor_returning',
-            'sqlFilterValue' => function ($type) {
-                    return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
-                }
-        );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_DaysSinceLastVisit',
-            'segment'    => 'daysSinceLastVisit',
-            'sqlSegment' => 'log_visit.visitor_days_since_last',
-        );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_DaysSinceFirstVisit',
-            'segment'    => 'daysSinceFirstVisit',
-            'sqlSegment' => 'log_visit.visitor_days_since_first',
-        );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_NumberOfVisits',
-            'segment'    => 'visitCount',
-            'sqlSegment' => 'log_visit.visitor_count_visits',
-        );
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitConvertedGoal',
-            'segment'        => 'visitConverted',
-            'acceptedValues' => '0, 1',
-            'sqlSegment'     => 'log_visit.visit_goal_converted',
-        );
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('General_EcommerceVisitStatusDesc'),
-            'segment'        => 'visitEcommerceStatus',
-            'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
-                . '. ' . Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
-            'sqlSegment'     => 'log_visit.visit_goal_buyer',
-            'sqlFilterValue' => __NAMESPACE__ . '\API::getVisitEcommerceStatus',
-        );
-
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => Piwik::translate('General_Visit'),
-            'name'       => 'General_DaysSinceLastEcommerceOrder',
-            'segment'    => 'daysSinceLastEcommerceOrder',
-            'sqlSegment' => 'log_visit.visitor_days_since_order',
-        );
 
         foreach ($segments as &$segment) {
             $segment['name'] = Piwik::translate($segment['name']);
@@ -273,47 +197,20 @@ class API extends \Piwik\Plugin\API
         return $segments;
     }
 
-    static protected $visitEcommerceStatus = array(
-        GoalManager::TYPE_BUYER_NONE                  => 'none',
-        GoalManager::TYPE_BUYER_ORDERED               => 'ordered',
-        GoalManager::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
-        GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
-    );
-
-    /**
-     * @ignore
-     */
-    static public function getVisitEcommerceStatusFromId($id)
-    {
-        if (!isset(self::$visitEcommerceStatus[$id])) {
-            throw new \Exception("Unexpected ECommerce status value ");
-        }
-        return self::$visitEcommerceStatus[$id];
-    }
-
-    /**
-     * @ignore
-     */
-    static public function getVisitEcommerceStatus($status)
-    {
-        $id = array_search($status, self::$visitEcommerceStatus);
-        if ($id === false) {
-            throw new \Exception("Invalid 'visitEcommerceStatus' segment value $status");
-        }
-        return $id;
-    }
-
     private function sortSegments($row1, $row2)
     {
+        $customVarCategory = Piwik::translate('CustomVariables_CustomVariables');
+
         $columns = array('type', 'category', 'name', 'segment');
         foreach ($columns as $column) {
             // Keep segments ordered alphabetically inside categories..
             $type = -1;
             if ($column == 'name') $type = 1;
+
             $compare = $type * strcmp($row1[$column], $row2[$column]);
 
             // hack so that custom variables "page" are grouped together in the doc
-            if ($row1['category'] == Piwik::translate('CustomVariables_CustomVariables')
+            if ($row1['category'] == $customVarCategory
                 && $row1['category'] == $row2['category']
             ) {
                 $compare = strcmp($row1['segment'], $row2['segment']);
