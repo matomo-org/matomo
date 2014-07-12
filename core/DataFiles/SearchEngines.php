@@ -180,6 +180,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.qbyrd.com'                  => array('Ask'),
         '{}.qbyrd.com'                   => array('Ask'),
         'www.search-results.com'         => array('Ask'),
+        'www1.search-results.com'        => array('Ask'),
         'int.search-results.com'         => array('Ask'),
         '{}.search-results.com'          => array('Ask'),
         'search.ask.com'                 => array('Ask'),
