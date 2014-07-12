@@ -614,6 +614,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'junglekey.com'                  => array('Jungle Key', 'query', 'search.php?query={k}&type=web&lang=en'),
         'junglekey.fr'                   => array('Jungle Key'),
 
+        // K9 Safe Search
+        'k9safesearch.com'               => array('K9 Safe Search', 'q', 'search.jsp?q={k}'),
+
         // Kataweb
         'www.kataweb.it'                 => array('Kataweb', 'q'),
 
