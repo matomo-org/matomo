@@ -191,12 +191,7 @@ class Fixture extends PHPUnit_Framework_Assert
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
 
-        $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
-
-        if (!empty($componentsWithUpdateFile)) {
-            CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
-        }
+        self::updateDatabase();
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
@@ -805,6 +800,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public static function updateDatabase($force = false)
     {
+        Cache::deleteTrackerCache();
+        
         if ($force) {
             // remove version options to force update
             Option::deleteLike('version%');

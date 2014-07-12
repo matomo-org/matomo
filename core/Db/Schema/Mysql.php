@@ -324,7 +324,7 @@ class Mysql implements SchemaInterface
 
         $fields = array();
         foreach ($allColumns as $column) {
-            $fields[$column['Field']] = $column;
+            $fields[trim($column['Field'])] = $column;
         }
 
         return $fields;

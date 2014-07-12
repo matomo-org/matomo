@@ -18,10 +18,8 @@ use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\WidgetsList;
-use Piwik\Tests\Fixture;
 use Piwik\Tests\OverrideLogin;
 
 /**
@@ -76,7 +74,7 @@ class UITestFixture extends SqlDump
 
         $forcedNowTimestamp = Option::get("Tests.forcedNowTimestamp");
         if ($forcedNowTimestamp == false) {
-            throw Exception("Incorrect fixture setup, Tests.forcedNowTimestamp option does not exist! Run the setup again.");
+            throw new Exception("Incorrect fixture setup, Tests.forcedNowTimestamp option does not exist! Run the setup again.");
         }
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
