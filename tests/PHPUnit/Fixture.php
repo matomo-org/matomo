@@ -297,7 +297,8 @@ class Fixture extends PHPUnit_Framework_Assert
         // make sure the plugin that executed this method is included in the plugins to load
         $extraPlugins = array_merge($extraPluginsToLoad, array(
             \Piwik\Plugin::getPluginNameFromBacktrace(debug_backtrace()),
-            \Piwik\Plugin::getPluginNameFromNamespace($testCaseClass)
+            \Piwik\Plugin::getPluginNameFromNamespace($testCaseClass),
+            \Piwik\Plugin::getPluginNameFromNamespace(get_called_class())
         ));
         foreach ($extraPlugins as $pluginName) {
             if (empty($pluginName)) {
