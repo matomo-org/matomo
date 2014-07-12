@@ -193,6 +193,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // auone
         'search.auone.jp'                => array('auone', 'q', '?q={k}'),
+        'sp-image.search.auone.jp'       => array('auone Images', 'q', '?q={k}'),
 
         // Austronaut
         'www2.austronaut.at'             => array('Austronaut', 'q'),
