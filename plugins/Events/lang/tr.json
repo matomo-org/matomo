@@ -21,6 +21,9 @@
         "SecondaryDimension": "İkincil boyut %s.",
         "TopEvents": "Top Etkinlikler",
         "TotalEvents": "Toplam etkinlikler",
-        "TotalEventsDocumentation": "Toplam etkinlik sayısı"
+        "TotalEventsDocumentation": "Toplam etkinlik sayısı",
+        "TotalValue": "Toplam değer",
+        "TotalValueDocumentation": "Etkinlik değerleri toplamı",
+        "ViewEvents": "Etkinliklere Bak"
     }
 }

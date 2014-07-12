@@ -56,6 +56,7 @@
     },
     "CoreAdminHome": {
         "Administration": "Administrasjon",
+        "ArchivingSettings": "Arkiveringsinnstillinger",
         "ClickHereToOptIn": "Trykk her for å delta.",
         "ClickHereToOptOut": "Trykk her for å ikke delta.",
         "EmailServerSettings": "Innstillinger for e-posttjener",
@@ -93,6 +94,7 @@
         "JavascriptDisabled": "JavaScript må være aktivert for at du skal kunne bruke Piwik i standardvisning.<br \/>Det ser ut til at JavaScript enten er deaktivert eller ikke støttet av din nettleser.<br \/>For å bruke standardvisning, må du aktivere JavaScript i nettleserinnstillingene og deretter %1$sprøve igjen%2$s.<br \/>",
         "LongMonthFormat": "%longYear%, %longMonth%",
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
+        "MakeADifference": "Gjør en forskjell: %1$sDoner nå%2$s for å finansiere Piwik 2.0!",
         "PageOf": "%1$s av %2$s",
         "PeriodDay": "Dag",
         "PeriodDays": "dager",
@@ -126,6 +128,7 @@
         "Activated": "Påslått",
         "Active": "På",
         "Activity": "Aktivitet",
+        "BackToExtendPiwik": "Tilbake til markedsplassen",
         "ByInstallingNewPluginFromMarketplace": "ved å %sinstallere ett nytt tillegg fra markedsplassen%s",
         "ByXDevelopers": "av %s utviklere",
         "Changelog": "Endringslogg",
@@ -502,6 +505,7 @@
         "Seconds": "%ss",
         "SeeAll": "se alle",
         "SeeTheOfficialDocumentationForMoreInformation": "Se %sden offisielle dokumentasjonen%s for mer informasjon.",
+        "Segment": "Segment",
         "SelectYesIfYouWantToSendEmailsViaServer": "Velg «Ja» hvis du vil sende e-post med en navngitt tjener istedenfor den lokale mail-funksjonen",
         "Settings": "Innstillinger",
         "Shipping": "Frakt",
@@ -729,12 +733,14 @@
         "PasswordChanged": "Passordet er endret.",
         "PasswordRepeat": "Passord (gjenta)",
         "PasswordsDoNotMatch": "Passordene stemmer ikke overens.",
-        "RememberMe": "Husk meg"
+        "RememberMe": "Husk meg",
+        "ResetPasswordInstructions": "Skriv inn et nytt passord for kontoen din."
     },
     "Mobile": {
         "AboutPiwikMobile": "Om Piwik Mobile",
         "Account": "Konto",
         "Accounts": "Kontoer",
+        "AddAccount": "Legg til konto",
         "AddPiwikDemo": "Legg til Piwik Demo",
         "Advanced": "Avansert",
         "AnonymousAccess": "Anonym tilgang",
@@ -753,11 +759,13 @@
         "NetworkErrorWithStatusCodeShort": "Nettverksfeil %s",
         "NetworkNotReachable": "Nettverk kan ikke nås",
         "NoDataShort": "Ingen data",
+        "NoPiwikAccount": "Ingen Piwik-konto?",
         "NoReportsShort": "Ingen rapporter",
         "PullDownToRefresh": "Trekk ned for å oppdatere...",
         "RatingNotNow": "Ikke nå",
         "ReleaseToRefresh": "Slipp for å oppdatere...",
         "ShowAll": "Vis alle",
+        "ShowLess": "Vis mindre",
         "VerifyLoginData": "Sørg for at ditt brukernavn- og passordkombinasjon er riktig."
     },
     "MobileMessaging": {
@@ -773,11 +781,13 @@
         "Settings_SuperAdmin": "Superbruker-instillinger",
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "Vi har nettopp sendt en SMS til dette nummeret med en kode: Skriv inn denne koden ovenfor og klikk \"Valider\".",
+        "SMS_Content_Too_Long": "[for lang]",
         "TopMenu": "E-post og SMS-rapporter"
     },
     "MultiSites": {
         "Evolution": "Utvikling",
-        "LoadingWebsites": "Laster nettsider"
+        "LoadingWebsites": "Laster nettsider",
+        "Pagination": "%s - %s av %s"
     },
     "Overlay": {
         "Clicks": "%s klikk",
@@ -792,6 +802,7 @@
         "DeleteLogsOlderThan": "Slett logger eldre enn",
         "DeleteMaxRowsNoLimit": "ingen grense",
         "DeleteReportsOlderThan": "Slett rapporter eldre enn",
+        "GeolocationAnonymizeIpNote": "Merk: Geoposisjonering vil ha omtrent de samme resultatene med en byte anonymisert. Med to byte eller mer, vil geoposisjonering være unøyaktig.",
         "LastDelete": "Siste sletting var på",
         "MenuPrivacySettings": "Personvern",
         "ReportsDataSavedEstimate": "Databasestørrelse",
@@ -832,7 +843,8 @@
         "UsingNDistinctUrls": "(bruker %s forskjellige URL-er)",
         "Websites": "Nettsteder",
         "WidgetExternalWebsites": "Liste over eksterne nettsteder",
-        "WidgetKeywords": "Liste over nøkkelord"
+        "WidgetKeywords": "Liste over nøkkelord",
+        "WidgetSocials": "Liste over sosiale nettverk"
     },
     "RowEvolution": {
         "ComparingRecords": "Sammenligner %s rader",
@@ -851,7 +863,9 @@
         "PiwikReports": "Piwik-rapporter",
         "PleaseFindAttachedFile": "I den vedlagte filen finner du din %1$s rapport for %2$s.",
         "ReportFormat": "Rapportformat",
+        "ReportSent": "Rapport sendt",
         "ReportType": "Send rapport via",
+        "ReportUpdated": "Rapport oppdatert",
         "SendReportNow": "Send rapport nå",
         "SendReportTo": "Send rapport til",
         "SentToMe": "Send til meg",
@@ -1212,6 +1226,7 @@
         "FoundApacheModules": "Piwik fant følgende Apache-moduler",
         "GeoIPDatabases": "GeoIP-databaser",
         "GeoIPNoServerVars": "Piwik kan ikke finne noen GeoIP %s variabler.",
+        "Geolocation": "Geoposisjonering",
         "HowToInstallApacheModule": "Hvordan installerer jeg GeoIP-modulen for Apache?",
         "HowToInstallGeoIPDatabases": "Hvordan får jeg GeoIP databasene?",
         "Location": "Lokasjon",
