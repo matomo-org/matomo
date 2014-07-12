@@ -17,8 +17,8 @@ use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;
+use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\ActionSiteSearch;
 use Piwik\Tracker\PageUrl;
 
 /**

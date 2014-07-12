@@ -88,6 +88,15 @@ interface SchemaInterface
     public function getTablesInstalled($forceReload = true);
 
     /**
+     * Get list of installed columns in a table
+     *
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
+     */
+    public function getTableColumns($tableName);
+
+    /**
      * Checks whether any table exists
      *
      * @return bool  True if tables exist; false otherwise

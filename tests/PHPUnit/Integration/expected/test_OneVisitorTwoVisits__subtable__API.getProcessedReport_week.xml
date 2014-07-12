@@ -8,6 +8,7 @@
 		<module>Actions</module>
 		<action>getPageUrls</action>
 		<dimension>Page URL</dimension>
+		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
 			<nb_visits>Unique Pageviews</nb_visits>
@@ -24,7 +25,6 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
-		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2010-03-06&amp;idSubtable=</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2009-08-10,2010-03-07&amp;idSubtable=</imageGraphEvolutionUrl>

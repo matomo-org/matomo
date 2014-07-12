@@ -13,8 +13,10 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Plugin\Controller;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\Widgets;
 use Piwik\Session;
-use Piwik\Log;
+use \Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -102,30 +104,73 @@ class FrontController extends Singleton
         }
     }
 
-    protected function makeController($module, $action)
+    protected function makeController($module, $action, &$parameters)
     {
         $controllerClassName = $this->getClassNameController($module);
 
-        // FrontController's autoloader
-        if (!class_exists($controllerClassName, false)) {
-            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
-            if (!is_readable($moduleController)) {
-                throw new Exception("Module controller $moduleController not found!");
+        // TRY TO FIND ACTION IN CONTROLLER
+        if (class_exists($controllerClassName)) {
+
+            $class = $this->getClassNameController($module);
+            /** @var $controller Controller */
+            $controller = new $class;
+
+            $controllerAction = $action;
+            if ($controllerAction === false) {
+                $controllerAction = $controller->getDefaultAction();
             }
-            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
+
+            if (is_callable(array($controller, $controllerAction))) {
+
+                return array($controller, $controllerAction);
+            }
+
+            if ($action === false) {
+                $this->triggerControllerActionNotFoundError($controller, $controllerAction);
+            }
+
         }
 
-        $class = $this->getClassNameController($module);
-        /** @var $controller Controller */
-        $controller = new $class;
-        if ($action === false) {
-            $action = $controller->getDefaultAction();
+        // TRY TO FIND ACTION IN WIDGET
+        $widget = Widgets::factory($module, $action);
+
+        if (!empty($widget)) {
+
+            $parameters['widgetModule'] = $module;
+            $parameters['widgetMethod'] = $action;
+
+            return array(new CoreHomeController(), 'renderWidget');
         }
 
-        if (!is_callable(array($controller, $action))) {
-            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
+        // TRY TO FIND ACTION IN REPORT
+        $report = Report::factory($module, $action);
+
+        if (!empty($report)) {
+
+            $parameters['reportModule'] = $module;
+            $parameters['reportAction'] = $action;
+
+            return array(new CoreHomeController(), 'renderReportWidget');
         }
-        return array($controller, $action);
+
+        if (!empty($action) && 'menu' === substr($action, 0, 4)) {
+            $reportAction = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
+            $report       = Report::factory($module, $reportAction);
+
+            if (!empty($report)) {
+                $parameters['reportModule'] = $module;
+                $parameters['reportAction'] = $reportAction;
+
+                return array(new CoreHomeController(), 'renderReportMenu');
+            }
+        }
+
+        $this->triggerControllerActionNotFoundError($module, $action);
+    }
+
+    protected function triggerControllerActionNotFoundError($module, $action)
+    {
+        throw new Exception("Action '$action' not found in the module '$module'.");
     }
 
     protected function getClassNameController($module)
@@ -513,7 +558,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
 
-        list($controller, $action) = $this->makeController($module, $action);
+        list($controller, $actionToCall) = $this->makeController($module, $action, $parameters);
 
         /**
          * Triggered directly before controller actions are dispatched.
@@ -528,7 +573,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
 
-        $result = call_user_func_array(array($controller, $action), $parameters);
+        $result = call_user_func_array(array($controller, $actionToCall), $parameters);
 
         /**
          * Triggered after a controller action is successfully called.

@@ -226,6 +226,7 @@ class Tracker
      */
     public function main($args = null)
     {
+
         try {
             $tokenAuth = $this->initRequests($args);
         } catch (Exception $ex) {
@@ -251,6 +252,8 @@ class Tracker
         } else {
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
+
+        Piwik::postEvent('Tracker.end');
 
         $this->end();
 
@@ -636,7 +639,7 @@ class Tracker
          * Triggered before a new **visit tracking object** is created. Subscribers to this
          * event can force the use of a custom visit tracking object that extends from
          * {@link Piwik\Tracker\VisitInterface}.
-         * 
+         *
          * @param \Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
          *                                              a new visit object. If it isn't modified
          *                                              Piwik uses the default class.
@@ -863,11 +866,11 @@ class Tracker
 
         try {
             if ($this->isVisitValid()) {
-                $visit = $this->getNewVisitObject();
                 $request->setForcedVisitorId(self::$forcedVisitorId);
                 $request->setForceDateTime(self::$forcedDateTime);
                 $request->setForceIp(self::$forcedIpString);
 
+                $visit = $this->getNewVisitObject();
                 $visit->setRequest($request);
                 $visit->handle();
             } else {

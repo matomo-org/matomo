@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Cache\PersistentCache;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
@@ -106,6 +107,15 @@ class Plugin
     private $pluginInformation;
 
     /**
+     * As the cache is used quite often we avoid having to create instances all the time. We reuse it which is not
+     * perfect but efficient. If the cache is used we need to make sure to call setCacheKey() before usage as there
+     * is maybe a different key set since last usage.
+     *
+     * @var PersistentCache
+     */
+    private $cache;
+
+    /**
      * Constructor.
      *
      * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
@@ -127,6 +137,8 @@ class Plugin
         if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
             throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
         }
+
+        $this->cache = new PersistentCache('Plugin' . $pluginName);
     }
 
     private function hasDefinedPluginInformationInPluginClass()
@@ -206,7 +218,7 @@ class Plugin
      * - update existing tables
      * - etc.
      * 
-     * @throws Exception if installation of fails for some reason.
+     * @throws \Exception if installation of fails for some reason.
      */
     public function install()
     {
@@ -293,25 +305,90 @@ class Plugin
      */
     public function findComponent($componentName, $expectedSubclass)
     {
+        $this->cache->setCacheKey('Plugin' . $this->pluginName . $componentName . $expectedSubclass);
+
         $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
 
-        if (!file_exists($componentFile)) {
-            return;
-        }
+        if ($this->cache->has()) {
+            $klassName = $this->cache->get();
 
-        $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
+            if (empty($klassName)) {
+                return; // might by "false" in case has no menu, widget, ...
+            }
 
-        if (!class_exists($klassName)) {
-            return;
-        }
+            include_once $componentFile;
 
-        if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
-            Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
-                                 $componentName, $this->pluginName, $klassName, $expectedSubclass));
-            return;
+        } else {
+            $this->cache->set(false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
+
+            if (!file_exists($componentFile)) {
+                return;
+            }
+
+            require_once $componentFile;
+
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
+
+            if (!class_exists($klassName)) {
+                return;
+            }
+
+            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
+                Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
+                    $componentName, $this->pluginName, $klassName, $expectedSubclass));
+                return;
+            }
+
+            $this->cache->set($klassName);
         }
 
         return new $klassName;
+    }
+
+    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
+    {
+        $this->cache->setCacheKey('Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass);
+
+        if ($this->cache->has()) {
+            $components = $this->cache->get();
+
+            foreach ($components as $file => $klass) {
+                include_once $file;
+            }
+
+            return $components;
+        }
+
+        $components = array();
+
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName .'/' . $directoryWithinPlugin, '*.php');
+
+        foreach ($files as $file) {
+            require_once $file;
+
+            $fileName  = basename($file, '.php');
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, $fileName);
+
+            if (!class_exists($klassName)) {
+                continue;
+            }
+
+            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
+                continue;
+            }
+
+            $klass = new \ReflectionClass($klassName);
+
+            if ($klass->isAbstract()) {
+                continue;
+            }
+
+            $components[$file] = $klassName;
+        }
+
+        $this->cache->set($components);
+
+        return $components;
     }
 
     /**

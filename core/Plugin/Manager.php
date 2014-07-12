@@ -12,6 +12,7 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
@@ -21,6 +22,9 @@ use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Updater;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -301,6 +305,22 @@ class Manager extends Singleton
         return $components;
     }
 
+    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
+    {
+        $plugins = $this->getLoadedPlugins();
+        $found   = array();
+
+        foreach ($plugins as $plugin) {
+            $components = $plugin->findMultipleComponents($directoryWithinPlugin, $expectedSubclass);
+
+            if (!empty($components)) {
+                $found = array_merge($found, $components);
+            }
+        }
+
+        return $found;
+    }
+
     /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled
@@ -365,6 +385,7 @@ class Manager extends Singleton
                 $messages[] = $e->getMessage();
             }
         }
+
         return $messages;
     }
 
@@ -402,7 +423,6 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->forceSave();
 
         $this->clearCache($pluginName);
-
     }
 
     protected function isPluginInFilesystem($pluginName)
@@ -837,7 +857,6 @@ class Manager extends Singleton
 
         $path = self::getPluginsDirectory() . $pluginFileName;
 
-
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
             // Eg. Used for Morpheus default theme which does not have a Morpheus.php file
@@ -1052,6 +1071,16 @@ class Manager extends Singleton
 
     public function isTrackerPlugin(Plugin $plugin)
     {
+        $dimensions = VisitDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
+        $dimensions = ActionDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
         $hooks = $plugin->getListHooksRegistered();
         $hookNames = array_keys($hooks);
         foreach ($hookNames as $name) {
@@ -1062,6 +1091,12 @@ class Manager extends Singleton
                 return true;
             }
         }
+
+        $dimensions = ConversionDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -1203,6 +1238,31 @@ class Manager extends Singleton
         try {
             $plugin = $this->getLoadedPlugin($pluginName);
             $plugin->uninstall();
+        } catch (\Exception $e) {
+        }
+
+        if (empty($plugin)) {
+            return;
+        }
+
+        try {
+            foreach (VisitDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
+        } catch (\Exception $e) {
+        }
+
+        try {
+            foreach (ActionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
+        } catch (\Exception $e) {
+        }
+
+        try {
+            foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
         } catch (\Exception $e) {
         }
     }

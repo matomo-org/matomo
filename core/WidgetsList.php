@@ -8,7 +8,9 @@
  */
 namespace Piwik;
 
-use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\Widgets;
 
 /**
  * Manages the global list of reports that can be displayed as dashboard widgets.
@@ -36,6 +38,13 @@ class WidgetsList extends Singleton
     static protected $hookCalled = false;
 
     /**
+     * In get() we won't use a cached result in case this is true. Instead we will sort the widgets again and cache
+     * a new result. To make tests work...
+     * @var bool
+     */
+    static private $listCacheToBeInvalidated = false;
+
+    /**
      * Returns all available widgets.
      *
      * @return array Array Mapping widget categories with an array of widget information, eg,
@@ -54,17 +63,29 @@ class WidgetsList extends Singleton
      */
     static public function get()
     {
+        $cache = self::getCacheForCompleteList();
+        if (!self::$listCacheToBeInvalidated && $cache->has()) {
+            return $cache->get();
+        }
+
         self::addWidgets();
 
         uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
 
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
-            if (isset($widgets[Piwik::translate($key)])) {
-                $v = array_merge($widgets[Piwik::translate($key)], $v);
+            $category = Piwik::translate($key);
+
+            if (isset($widgets[$category])) {
+                $v = array_merge($widgets[$category], $v);
             }
-            $widgets[Piwik::translate($key)] = $v;
+
+            $widgets[$category] = $v;
         }
+
+        $cache->set($widgets);
+        self::$listCacheToBeInvalidated = false;
+
         return $widgets;
     }
 
@@ -79,12 +100,25 @@ class WidgetsList extends Singleton
              */
             Piwik::postEvent('WidgetsList.addWidgets');
 
-            /** @var \Piwik\Plugin\Widgets[] $widgets */
-            $widgets     = PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
             $widgetsList = self::getInstance();
 
-            foreach ($widgets as $widget) {
-                $widget->configure($widgetsList);
+            foreach (Report::getAllReports() as $report) {
+                if ($report->isEnabled()) {
+                    $report->configureWidget($widgetsList);
+                }
+            }
+
+            $widgetContainers = Widgets::getAllWidgets();
+            foreach ($widgetContainers as $widgetContainer) {
+                $widgets = $widgetContainer->getWidgets();
+
+                foreach ($widgets as $widget) {
+                    $widgetsList->add($widget['category'], $widget['name'], $widget['module'], $widget['method'], $widget['params']);
+                }
+            }
+
+            foreach ($widgetContainers as $widgetContainer) {
+                $widgetContainer->configureWidgetsList($widgetsList);
             }
         }
     }
@@ -136,8 +170,9 @@ class WidgetsList extends Singleton
      */
     static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
-        $widgetName = Piwik::translate($widgetName);
+        $widgetName     = Piwik::translate($widgetName);
         $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+
         foreach ($customParameters as $name => $value) {
             if (is_array($value)) {
                 // use 'Array' for backward compatibility;
@@ -151,6 +186,7 @@ class WidgetsList extends Singleton
             self::$widgets[$widgetCategory] = array();
         }
 
+        self::$listCacheToBeInvalidated = true;
         self::$widgets[$widgetCategory][] = array(
             'name'       => $widgetName,
             'uniqueId'   => $widgetUniqueId,
@@ -176,11 +212,13 @@ class WidgetsList extends Singleton
 
         if (empty($widgetName)) {
             unset(self::$widgets[$widgetCategory]);
+            self::$listCacheToBeInvalidated = true;
             return;
         }
         foreach (self::$widgets[$widgetCategory] as $id => $widget) {
             if ($widget['name'] == $widgetName || $widget['name'] == Piwik::translate($widgetName)) {
                 unset(self::$widgets[$widgetCategory][$id]);
+                self::$listCacheToBeInvalidated = true;
                 return;
             }
         }
@@ -196,7 +234,7 @@ class WidgetsList extends Singleton
     static public function isDefined($controllerName, $controllerAction)
     {
         $widgetsList = self::get();
-        foreach ($widgetsList as $widgetCategory => $widgets) {
+        foreach ($widgetsList as $widgets) {
             foreach ($widgets as $widget) {
                 if ($widget['parameters']['module'] == $controllerName
                     && $widget['parameters']['action'] == $controllerAction
@@ -217,5 +255,11 @@ class WidgetsList extends Singleton
     {
         self::$widgets    = array();
         self::$hookCalled = false;
+        self::getCacheForCompleteList()->clear();
+    }
+
+    private static function getCacheForCompleteList()
+    {
+        return new PluginAwareStaticCache('WidgetsList');
     }
 }

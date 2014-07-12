@@ -126,13 +126,17 @@ abstract class MenuAbstract extends Singleton
      */
     private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
     {
-        if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
-            $this->menu[$menuName]['_url'] = $url;
-            if (empty($subMenuName)) {
-                $this->menu[$menuName]['_order'] = $order;
-            }
-            $this->menu[$menuName]['_name'] = $menuName;
-            $this->menu[$menuName]['_hasSubmenu'] = false;
+        if (!isset($this->menu[$menuName])) {
+            $this->menu[$menuName] = array(
+                '_hasSubmenu' => false,
+                '_order' => $order
+            );
+        }
+
+        if (empty($subMenuName)) {
+            $this->menu[$menuName]['_url']   = $url;
+            $this->menu[$menuName]['_order'] = $order;
+            $this->menu[$menuName]['_name']  = $menuName;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
         }
         if (!empty($subMenuName)) {
@@ -141,7 +145,10 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
             $this->menu[$menuName][$subMenuName]['_tooltip'] = $tooltip;
             $this->menu[$menuName]['_hasSubmenu'] = true;
-            $this->menu[$menuName]['_tooltip'] = $tooltip;
+
+            if (!array_key_exists('_tooltip', $this->menu[$menuName])) {
+                $this->menu[$menuName]['_tooltip'] = $tooltip;
+            }
         }
     }
 
@@ -284,15 +291,34 @@ abstract class MenuAbstract extends Singleton
      */
     protected function menuCompare($itemOne, $itemTwo)
     {
-        if (!is_array($itemOne) || !is_array($itemTwo)
-            || !isset($itemOne['_order']) || !isset($itemTwo['_order'])
-        ) {
+        if (!is_array($itemOne) && !is_array($itemTwo)) {
             return 0;
+        }
+
+        if (!is_array($itemOne) && is_array($itemTwo)) {
+            return -1;
+        }
+
+        if (is_array($itemOne) && !is_array($itemTwo)) {
+            return 1;
+        }
+
+        if (!isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 0;
+        }
+
+        if (!isset($itemOne['_order']) && isset($itemTwo['_order'])) {
+            return -1;
+        }
+
+        if (isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 1;
         }
 
         if ($itemOne['_order'] == $itemTwo['_order']) {
             return strcmp($itemOne['_name'], $itemTwo['_name']);
         }
+
         return ($itemOne['_order'] < $itemTwo['_order']) ? -1 : 1;
     }
 }

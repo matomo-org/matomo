@@ -16,6 +16,7 @@ use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
@@ -26,15 +27,67 @@ use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
+use Piwik\Plugin\Widgets as PluginWidgets;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     function getDefaultAction()
     {
         return 'redirectToCoreHomeIndex';
+    }
+
+    public function renderReportMenu($reportModule = null, $reportAction = null)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $this->checkSitePermission();
+
+        $report = Report::factory($reportModule, $reportAction);
+
+        if (empty($report)) {
+            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
+        }
+
+        $report->checkIsEnabled();
+
+        $menuTitle = $report->getMenuTitle();
+
+        if (empty($menuTitle)) {
+            throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report.');
+        }
+
+        $menuTitle = Piwik::translate($menuTitle);
+        $content   = $this->renderReportWidget($reportModule, $reportAction);
+
+        return View::singleReport($menuTitle, $content);
+    }
+
+    public function renderReportWidget($reportModule = null, $reportAction = null)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $this->checkSitePermission();
+
+        $report = Report::factory($reportModule, $reportAction);
+
+        if (empty($report)) {
+            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
+        }
+
+        $report->checkIsEnabled();
+
+        return $report->render();
+    }
+
+    public function renderWidget($widgetModule = null, $widgetAction = null)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $widget = PluginWidgets::factory($widgetModule, $widgetAction);
+
+        if (!empty($widget)) {
+            return $widget->$widgetAction();
+        }
+
+        throw new Exception(Piwik::translate('General_ExceptionWidgetNotFound'));
     }
 
     function redirectToCoreHomeIndex()
@@ -179,32 +232,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
-        return $view->render();
-    }
-
-    /**
-     * Renders and echo's the in-app donate form w/ slider.
-     */
-    public function getDonateForm()
-    {
-        $view = new View('@CoreHome/getDonateForm');
-        if (Common::getRequestVar('widget', false)
-            && Piwik::hasUserSuperUserAccess()
-        ) {
-            $view->footerMessage = Piwik::translate('CoreHome_OnlyForSuperUserAccess');
-        }
-        return $view->render();
-    }
-
-    /**
-     * Renders and echo's HTML that displays the Piwik promo video.
-     */
-    public function getPromoVideo()
-    {
-        $view = new View('@CoreHome/getPromoVideo');
-        $view->shareText = Piwik::translate('CoreHome_SharePiwikShort');
-        $view->shareTextLong = Piwik::translate('CoreHome_SharePiwikLong');
-        $view->promoVideoUrl = 'https://www.youtube.com/watch?v=OslfF_EH81g';
         return $view->render();
     }
 

@@ -8,10 +8,10 @@
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<dimension>Days to Conversion</dimension>
-		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>

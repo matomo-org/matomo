@@ -134,8 +134,8 @@ class AutoSuggestAPITest extends IntegrationTestCase
      */
     public function testCheckOtherTestsWereComplete()
     {
-        // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture))
-        $maximumSegmentsToSkip = 11;
+        // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots)
+        $maximumSegmentsToSkip = 14;
         $this->assertTrue(count(self::$skipped) <= $maximumSegmentsToSkip, 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 

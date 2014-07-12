@@ -31,13 +31,14 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
-use Piwik\Updater;
 use PHPUnit_Framework_Assert;
 use Piwik_TestingEnvironment;
 use FakeAccess;
 use PiwikTracker;
 use Piwik_LocalTracker;
+use Piwik\Updater;
+use Piwik\Plugins\CoreUpdater\CoreUpdater;
+use Exception;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -159,9 +160,12 @@ class Fixture extends PHPUnit_Framework_Assert
             Config::getInstance()->database['dbname'] = $this->dbName;
             Db::createDatabaseObject();
 
+            Db::get()->query("SET wait_timeout=28800;");
+
             DbHelper::createTables();
 
             \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
+
         } catch (Exception $e) {
             static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
@@ -186,6 +190,8 @@ class Fixture extends PHPUnit_Framework_Assert
         Cache::deleteTrackerCache();
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
+
+        self::updateDatabase();
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
@@ -325,7 +331,8 @@ class Fixture extends PHPUnit_Framework_Assert
     public static function unloadAllPlugins()
     {
         try {
-            $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
+            $manager = \Piwik\Plugin\Manager::getInstance();
+            $plugins = $manager->getLoadedPlugins();
             foreach ($plugins AS $plugin) {
                 $plugin->uninstall();
             }
@@ -793,6 +800,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
     public static function updateDatabase($force = false)
     {
+        Cache::deleteTrackerCache();
+        
         if ($force) {
             // remove version options to force update
             Option::deleteLike('version%');

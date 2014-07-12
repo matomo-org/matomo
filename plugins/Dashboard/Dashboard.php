@@ -8,15 +8,10 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
-use Exception;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Menu\MenuAbstract;
-use Piwik\Menu\MenuMain;
-use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Site;
 use Piwik\WidgetsList;
 
 /**

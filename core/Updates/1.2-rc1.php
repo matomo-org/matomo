@@ -25,17 +25,19 @@ class Updates_1_2_rc1 extends Updates
 			    DROP `visit_server_date`,
 			    DROP INDEX `index_idsite_date_config`,
 			    DROP INDEX `index_idsite_datetime_config`,
-		    	ADD `visit_entry_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_entry_idaction_url`,
-			    ADD `visit_exit_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_exit_idaction_url`,
-			    CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT UNSIGNED NOT NULL, 
-			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
-			    CHANGE `referer_type` `referer_type` TINYINT UNSIGNED NULL DEFAULT NULL,
-			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`, 
-			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL AFTER `visitor_returning`,
-			    ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
-			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
 			   ' => array(1054, 1091),
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+		    	ADD `visit_entry_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_entry_idaction_url`,
+			    ADD `visit_exit_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_exit_idaction_url`,
+			    CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT UNSIGNED NOT NULL,
+			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
+			    CHANGE `referer_type` `referer_type` TINYINT UNSIGNED NULL DEFAULT NULL,
+			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL AFTER `visitor_returning`,
+			    ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
+			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL
+			   ' => 1060,
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
@@ -49,19 +51,23 @@ class Updates_1_2_rc1 extends Updates
     			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
 			   ' => 1060,
             'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
-				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` , 
-				ADD `server_time` DATETIME AFTER `idsite`,
+				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` ,
 				ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
-				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`,
+				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`
+			   ' => 1060,
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
+				ADD `server_time` DATETIME AFTER `idsite`,
 				ADD INDEX `index_idsite_servertime` ( `idsite` , `server_time` )
 			   ' => 1060,
 
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 			    DROP `referer_idvisit`,
-			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`
+			   ' => array(1060, 1091),
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL
-			   ' => array(1060, 1091),
+			   ' => 1060,
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,

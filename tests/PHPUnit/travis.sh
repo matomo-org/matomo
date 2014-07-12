@@ -36,7 +36,7 @@ then
         then
             artifacts_folder="protected/ui-tests.master.$PLUGIN_NAME"
         else
-            artifacts_folder="ui-tests.master"
+            artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
 
         echo ""

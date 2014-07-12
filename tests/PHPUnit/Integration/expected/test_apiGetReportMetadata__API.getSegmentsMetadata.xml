@@ -131,6 +131,20 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Example Dimension</name>
+		<segment>myConversionSegmentName</segment>
+		<acceptedValues>Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Example Dimension</name>
+		<segment>achievementPoints</segment>
+		<acceptedValues>Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Local time</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
@@ -225,8 +239,8 @@
 		<type>dimension</type>
 		<category>Referrers</category>
 		<name>Referrer URL</name>
-		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
 		<segment>referrerUrl</segment>
+		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -377,6 +391,13 @@
 		<category>Actions</category>
 		<name>Entry Page title</name>
 		<segment>entryPageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Example Dimension</name>
+		<segment>keywords</segment>
+		<acceptedValues>Here you should explain which values are accepted/useful: Any word, for instance MyKeyword1, MyKeyword2</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

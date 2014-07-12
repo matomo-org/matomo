@@ -27,6 +27,7 @@ class SystemSetting extends Setting
      * readable by everyone.
      *
      * @var bool
+     * @since 2.4.0
      */
     public $readableByCurrentUser = false;
 

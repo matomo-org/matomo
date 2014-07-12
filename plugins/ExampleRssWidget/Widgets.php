@@ -8,17 +8,56 @@
  */
 namespace Piwik\Plugins\ExampleRssWidget;
 
-use Piwik\WidgetsList;
+use Piwik\Piwik;
 
 class Widgets extends \Piwik\Plugin\Widgets
 {
-    public function configure(WidgetsList $widgetsList)
-    {
-        $category   = 'Example Widgets';
-        $controller = 'ExampleRssWidget';
+    protected $category = 'Example Widgets';
 
-        $widgetsList->add($category, 'Piwik.org Blog', $controller, 'rssPiwik');
-        $widgetsList->add($category, 'Piwik Changelog', $controller, 'rssChangelog');
+    protected function init()
+    {
+        $this->addWidget('Piwik.org Blog', 'rssPiwik');
+        $this->addWidget('Piwik Changelog', 'rssChangelog');
     }
 
+    public function rssPiwik()
+    {
+        try {
+            $rss = new RssRenderer('http://feeds.feedburner.com/Piwik');
+            $rss->showDescription(true);
+
+            return $rss->get();
+
+        } catch (\Exception $e) {
+
+            return $this->error($e);
+        }
+    }
+
+    public function rssChangelog()
+    {
+        try {
+            $rss = new RssRenderer('http://feeds.feedburner.com/PiwikReleases');
+            $rss->setCountPosts(1);
+            $rss->showDescription(true);
+            $rss->showContent(false);
+
+            return $rss->get();
+
+        } catch (\Exception $e) {
+
+            return $this->error($e);
+        }
+    }
+
+    /**
+     * @param \Exception $e
+     * @return string
+     */
+    private function error($e)
+    {
+        return '<div class="pk-emptyDataTable">'
+             . Piwik::translate('General_ErrorRequest')
+             . ' - ' . $e->getMessage() . '</div>';
+    }
 }

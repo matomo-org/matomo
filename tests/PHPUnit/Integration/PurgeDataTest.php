@@ -25,6 +25,15 @@ class PurgeDataTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
+    public static function setUpBeforeClass()
+    {
+
+    }
+    public static function tearDownBeforeClass()
+    {
+
+    }
+
     public function setUp()
     {
         parent::setUpBeforeClass();

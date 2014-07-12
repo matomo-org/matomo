@@ -373,6 +373,7 @@ class Log extends Singleton
         $this->currentLogLevel = $logLevel;
     }
 
+
     public function getLogLevel()
     {
         return $this->currentLogLevel;

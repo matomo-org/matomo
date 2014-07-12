@@ -90,7 +90,7 @@ class OmniFixture extends Fixture
 
     public function setUp()
     {
-        foreach ($this->fixtures as $name => $fixture) {
+        foreach ($this->fixtures as $fixture) {
             $fixture->setUp();
         }
 

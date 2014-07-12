@@ -20,10 +20,11 @@ class ActionPageview extends Action
 {
     protected $timeGeneration = false;
 
-    function __construct($url, Request $request)
+    function __construct(Request $request)
     {
         parent::__construct(Action::TYPE_PAGE_URL, $request);
 
+        $url = $request->getParam('url');
         $this->setActionUrl($url);
 
         $actionName = $request->getParam('action_name');
@@ -41,12 +42,17 @@ class ActionPageview extends Action
         );
     }
 
-    function getCustomFloatValue()
+    public function getCustomFloatValue()
     {
         return $this->request->getPageGenerationTime();
     }
 
-    protected function cleanupActionName($actionName)
+    public static function shouldHandle(Request $request)
+    {
+        return true;
+    }
+
+    private function cleanupActionName($actionName)
     {
         // get the delimiter, by default '/'; BC, we read the old action_category_delimiter first (see #1067)
         $actionCategoryDelimiter = isset(Config::getInstance()->General['action_category_delimiter'])
