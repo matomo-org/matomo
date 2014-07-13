@@ -1,3 +1,6 @@
+{% if not visitorData %}
+    <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
+{% else %}
 <div class="visitor-profile"
      data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}"
      data-next-visitor="{{ visitorData.nextVisitorId }}"
@@ -18,7 +21,7 @@
                     <div>
                         <div class="visitor-profile-header">
                             {% if visitorData.previousVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}">&larr;</a>{% endif %}
-                            <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
+                            <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/></h1>
                             <a href="http://piwik.org/docs/user-profile/" class="reportDocumentationIcon" target="_blank" title="{{ 'General_ViewDocumentationFor'|translate("Live_VisitorProfile"|translate|ucwords) }}"></a>
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}">&rarr;</a>{% endif %}
                         </div>
@@ -117,7 +120,7 @@
 
                                 {{- 'General_XFromY'|translate(entryVisits, entryCountry)|raw -}}{% if not loop.last %}, {% endif %}
                                 {%- endfor %}
-                                <a class="visitor-profile-show-map" href="#" {% if userCountryMapUrl|default('') is empty %}style="display:none"{% endif %}>({{ 'Live_ShowMap'|translate|replace({' ': '&nbsp;'})|raw }})</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
+                                <a class="visitor-profile-show-map" href="#" {% if userCountryMapUrl|default('') is empty %}style="display:none"{% endif %}>({{ 'Live_ShowMap'|translate|replace({' ': '&nbsp;'})|raw }})</a> <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/>
                         </p>
                         <div class="visitor-profile-map" style="display:none" data-href="{{ userCountryMapUrl|default('') }}">
                         </div>
@@ -135,7 +138,7 @@
                 </div>
                 <div class="visitor-profile-more-info">
                     {% if visitorData.lastVisits.getRowsCount() >= constant("Piwik\\Plugins\\Live\\API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW") %}
-                    <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
+                    <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a> <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/>
                     {% else %}
                     <span class="visitor-profile-no-visits">{{ 'Live_NoMoreVisits'|translate }}</span>
                     {% endif %}
@@ -147,3 +150,4 @@
 <script type="text/javascript">
 $(function() { require('piwik/UI').VisitorProfileControl.initElements(); });
 </script>
+{% endif %}

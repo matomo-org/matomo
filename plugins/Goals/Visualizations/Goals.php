@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -24,7 +24,7 @@ use Piwik\View;
 class Goals extends HtmlTable
 {
     const ID = 'tableGoals';
-    const FOOTER_ICON       = 'plugins/Zeitgeist/images/goal.png';
+    const FOOTER_ICON       = 'plugins/Morpheus/images/goal.png';
     const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeLoadDataTable()

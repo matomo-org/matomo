@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -323,13 +323,22 @@ class Core_Plugin_SettingsTest extends DatabaseTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
+     * @expectedExceptionMessage CoreAdminHome_PluginSettingReadNotAllowed
      */
     public function test_getSettingValue_shouldThrowException_IfUserHasNotEnoughPermissionToReadValue()
     {
         $this->setUser();
         $setting = $this->addSystemSetting('myusersetting', 'mytitle');
         $this->settings->getSettingValue($setting);
+    }
+
+    public function test_getSettingValue_shouldReturnValue_IfReadbleByCurrentUserIsAllowed()
+    {
+        $this->setUser();
+        $setting = $this->addSystemSetting('myusersetting', 'mytitle');
+        $setting->readableByCurrentUser = true;
+
+        $this->assertEquals('', $this->settings->getSettingValue($setting));
     }
 
     public function test_getSettingValue_shouldReturnValue_IfValueExistsAndUserHasPermission()

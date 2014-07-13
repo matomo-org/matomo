@@ -1,0 +1,81 @@
+#periodString {
+  display: block;
+  color: @theme-color-text-light;
+  font-size: 14px;
+  border: 1px solid #e4e5e4;
+  padding: 5px 30px 6px 10px;
+  border-radius: 4px;
+  float: left;
+  margin-right: 10px;
+  position: absolute;
+  z-index: 122; /* must be higher than segmentEditor z-index */
+  background-color: #f7f7f7;
+}
+
+#periodString:hover {
+  background-color: #f1f0eb;
+  border-color: #a9a399;
+}
+
+#periodString .calendar-icon {
+  width: 13px;
+  height: 15px;
+  display:inline-block;
+  position:absolute;
+  right:9px;
+  top:7px;
+  background: url("plugins/Morpheus/images/icon-calendar.gif") no-repeat scroll;
+  cursor:pointer;
+}
+
+#periodString #date{
+  cursor:pointer;
+  padding:5px 10px 6px 10px;
+  margin:-5px -10px -6px -10px;
+}
+
+#periodString #date img {
+  vertical-align: middle;
+  margin: 0 0 0 6px;
+}
+
+#periodString strong {
+  color: #255792;
+}
+
+#periodString h6 {
+  font-size: 14px;
+  padding: 0 0 4px 0;
+}
+
+#periodMore {
+  padding: 6px 0 0 0;
+  display: none;
+  overflow: hidden;
+}
+
+#periodString .period-date,
+#periodString .period-range {
+  float: left;
+  padding: 0 16px 0 0;
+}
+
+#periodString .period-type {
+  float: left;
+  padding: 0 20px 0 0;
+}
+
+#periodString .period-type label {
+  font-size: 12px;
+  display: inline-block;
+  padding: 2px 0 3px 0;
+  vertical-align: top;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#periodString label.selected-period-label {
+  text-decoration: underline;
+}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -29,7 +29,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $pluginPath = $this->getPluginPath($pluginName);
 
         if (!file_exists($pluginName . $folder)) {
-            Filesystem::mkdir($pluginPath . $folder, true);
+            Filesystem::mkdir($pluginPath . $folder);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -37,13 +37,18 @@ class CacheFile
     const MINIMUM_TTL = 60;
 
     /**
+     * @var \Callable[]
+     */
+    private static $onDeleteCallback = array();
+
+    /**
      * @param string $directory directory to use
      * @param int $timeToLiveInSeconds TTL
      */
     public function __construct($directory, $timeToLiveInSeconds = 300)
     {
         $cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
-        $this->cachePath = SettingsPiwik::rewriteTmpPathWithHostname($cachePath);
+        $this->cachePath = SettingsPiwik::rewriteTmpPathWithInstanceId($cachePath);
 
         if ($timeToLiveInSeconds < self::MINIMUM_TTL) {
             $timeToLiveInSeconds = self::MINIMUM_TTL;
@@ -182,6 +187,11 @@ class CacheFile
         return false;
     }
 
+    public function addOnDeleteCallback($onDeleteCallback)
+    {
+        self::$onDeleteCallback[] = $onDeleteCallback;
+    }
+
     /**
      * A function to delete all cache entries in the directory
      */
@@ -193,6 +203,12 @@ class CacheFile
         };
 
         Filesystem::unlinkRecursive($this->cachePath, $deleteRootToo = false, $beforeUnlink);
+
+        if (!empty(self::$onDeleteCallback)) {
+            foreach (self::$onDeleteCallback as $callback) {
+                $callback();
+            }
+        }
     }
 
     public function opCacheInvalidate($filepath)

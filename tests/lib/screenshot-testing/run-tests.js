@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * UI test runner script
  *
@@ -9,6 +9,11 @@
 
 // required modules
 var config = require("./config");
+
+// assume the URI points to a folder and make sure Piwik won't cut off the last path segment
+if (config.phpServer.REQUEST_URI.slice(-1) != '/') {
+    config.phpServer.REQUEST_URI += '/';
+}
 
 require('./support/fs-extras');
 
@@ -21,6 +26,20 @@ require('fs').changeWorkingDirectory(__dirname);
 require('./support/mocha-loader');
 phantom.injectJs(chaiPath);
 require('./support/chai-extras');
+
+// load & configure resemble (for comparison)
+phantom.injectJs(resemblePath);
+
+resemble.outputSettings({
+    errorColor: {
+        red: 255,
+        green: 0,
+        blue: 0,
+        alpha: 125
+    },
+    errorType: 'movement',
+    transparency: 0.3
+});
 
 // run script
 if (options['help']) {

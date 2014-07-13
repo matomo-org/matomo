@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,8 +8,9 @@
  */
 namespace Piwik\Plugins\VisitTime;
 
+use Piwik\Plugins\VisitTime\Reports\GetVisitInformationPerLocalTime;
+use Piwik\Plugins\VisitTime\Reports\GetVisitInformationPerServerTime;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  *
@@ -19,23 +20,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@VisitTime/index');
-        $view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
-        $view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
+        $view->dataTableVisitInformationPerLocalTime = $this->renderReport(new GetVisitInformationPerLocalTime());
+        $view->dataTableVisitInformationPerServerTime = $this->renderReport(new GetVisitInformationPerServerTime());
         return $view->render();
-    }
-
-    public function getVisitInformationPerServerTime()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getVisitInformationPerLocalTime()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getByDayOfWeek()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 }

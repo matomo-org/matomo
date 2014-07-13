@@ -1,14 +1,14 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Unzip\Gzip;
+use Piwik\Unzip;
 use Piwik\Unzip\PclZip;
 use Piwik\Unzip\Tar;
-use Piwik\Unzip;
 use Piwik\Unzip\ZipArchive;
 
 class UnzipTest extends PHPUnit_Framework_TestCase

@@ -1,15 +1,12 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\SitesManager;
-
-use Piwik\Menu\MenuAdmin;
-use Piwik\Piwik;
 
 /**
  *
@@ -28,18 +25,9 @@ class SitesManager extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Menu.Admin.addItems'                    => 'addMenu',
             'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
-    }
-
-    function addMenu()
-    {
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'SitesManager_Sites',
-            array('module' => 'SitesManager', 'action' => 'index'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 1);
     }
 
     /**
@@ -48,7 +36,7 @@ class SitesManager extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/SitesManager/stylesheets/SitesManager.less";
-        $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
+        $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
     }
 
     /**
@@ -56,7 +44,10 @@ class SitesManager extends \Piwik\Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/SitesManager/javascripts/SitesManager.js";
+        $jsFiles[] = "plugins/SitesManager/javascripts/sites-manager-recipes.js";
+        $jsFiles[] = "plugins/SitesManager/javascripts/sites-manager-directives.js";
+        $jsFiles[] = "plugins/SitesManager/javascripts/sites-manager-controller.js";
+        $jsFiles[] = "plugins/SitesManager/javascripts/sites-manager-site-controller.js";
     }
 
     /**
@@ -212,5 +203,61 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "General_OrCancel";
         $translationKeys[] = "SitesManager_OnlyOneSiteAtTime";
         $translationKeys[] = "SitesManager_DeleteConfirm";
+        $translationKeys[] = "SitesManager_Urls";
+        $translationKeys[] = "SitesManager_ExcludedIps";
+        $translationKeys[] = "SitesManager_ExcludedParameters";
+        $translationKeys[] = "SitesManager_ExcludedUserAgents";
+        $translationKeys[] = "SitesManager_Timezone";
+        $translationKeys[] = "SitesManager_Currency";
+        $translationKeys[] = "SitesManager_ShowTrackingTag";
+        $translationKeys[] = "SitesManager_AliasUrlHelp";
+        $translationKeys[] = "SitesManager_KeepURLFragmentsLong";
+        $translationKeys[] = "SitesManager_HelpExcludedIps";
+        $translationKeys[] = "SitesManager_ListOfQueryParametersToExclude";
+        $translationKeys[] = "SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters";
+        $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp1";
+        $translationKeys[] = "SitesManager_GlobalListExcludedUserAgents_Desc";
+        $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp2";
+        $translationKeys[] = "SitesManager_WebsitesManagement";
+        $translationKeys[] = "SitesManager_MainDescription";
+        $translationKeys[] = "SitesManager_YouCurrentlyHaveAccessToNWebsites";
+        $translationKeys[] = "SitesManager_SuperUserAccessCan";
+        $translationKeys[] = "SitesManager_EnableSiteSearch";
+        $translationKeys[] = "SitesManager_DisableSiteSearch";
+        $translationKeys[] = "SitesManager_SearchUseDefault";
+        $translationKeys[] = "SitesManager_SiteSearchUse";
+        $translationKeys[] = "SitesManager_SearchKeywordLabel";
+        $translationKeys[] = "SitesManager_SearchCategoryLabel";
+        $translationKeys[] = "SitesManager_YourCurrentIpAddressIs";
+        $translationKeys[] = "SitesManager_SearchKeywordParametersDesc";
+        $translationKeys[] = "SitesManager_SearchCategoryParametersDesc";
+        $translationKeys[] = "SitesManager_CurrencySymbolWillBeUsedForGoals";
+        $translationKeys[] = "SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward";
+        $translationKeys[] = "SitesManager_AdvancedTimezoneSupportNotFound";
+        $translationKeys[] = "SitesManager_ChooseCityInSameTimezoneAsYou";
+        $translationKeys[] = "SitesManager_UTCTimeIs";
+        $translationKeys[] = "SitesManager_EnableEcommerce";
+        $translationKeys[] = "SitesManager_NotAnEcommerceSite";
+        $translationKeys[] = "SitesManager_EcommerceHelp";
+        $translationKeys[] = "SitesManager_PiwikOffersEcommerceAnalytics";
+        $translationKeys[] = "SitesManager_GlobalWebsitesSettings";
+        $translationKeys[] = "SitesManager_GlobalListExcludedIps";
+        $translationKeys[] = "SitesManager_ListOfIpsToBeExcludedOnAllWebsites";
+        $translationKeys[] = "SitesManager_GlobalListExcludedQueryParameters";
+        $translationKeys[] = "SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites";
+        $translationKeys[] = "SitesManager_GlobalListExcludedUserAgents";
+        $translationKeys[] = "SitesManager_EnableSiteSpecificUserAgentExclude_Help";
+        $translationKeys[] = "SitesManager_EnableSiteSpecificUserAgentExclude";
+        $translationKeys[] = "SitesManager_KeepURLFragments";
+        $translationKeys[] = "SitesManager_KeepURLFragmentsHelp";
+        $translationKeys[] = "SitesManager_KeepURLFragmentsHelp2";
+        $translationKeys[] = "SitesManager_TrackingSiteSearch";
+        $translationKeys[] = "SitesManager_SearchParametersNote";
+        $translationKeys[] = "SitesManager_SearchParametersNote2";
+        $translationKeys[] = "SitesManager_SearchCategoryDesc";
+        $translationKeys[] = "SitesManager_DefaultTimezoneForNewWebsites";
+        $translationKeys[] = "SitesManager_SelectDefaultTimezone";
+        $translationKeys[] = "SitesManager_DefaultCurrencyForNewWebsites";
+        $translationKeys[] = "SitesManager_SelectDefaultCurrency";
     }
 }

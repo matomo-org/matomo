@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -149,7 +149,7 @@
                 }
 
                 loading.hide();
-                report.html($(response)).css('display', 'inline-block');
+                report.css('display', 'inline-block').html($(response));
 
                 // scroll to report
                 piwikHelper.lazyScrollTo(report, 400);

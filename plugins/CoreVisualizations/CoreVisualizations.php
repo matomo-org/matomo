@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,6 +8,8 @@
  */
 
 namespace Piwik\Plugins\CoreVisualizations;
+
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Cloud.php';
@@ -29,16 +31,19 @@ class CoreVisualizations extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'UsersManager.deleteUser'                => 'deleteUser'
         );
+    }
+
+    public function deleteUser($userLogin)
+    {
+        ViewDataTableManager::clearUserViewDataTableParameters($userLogin);
     }
 
     public function getAvailableDataTableVisualizations(&$visualizations)
     {
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Sparkline';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable';
         $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable\\AllColumns';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Cloud';
         $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Pie';
         $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Bar';
         $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Evolution';

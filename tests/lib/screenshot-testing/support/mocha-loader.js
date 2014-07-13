@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * phantomjs overrides & extras required to allow mocha to run w/ console output + mocha
  * loading logic

@@ -1,21 +1,21 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Updates;
 
-use Piwik\Db;
-use Piwik\Updates;
-use Piwik\Updater;
-use Piwik\Date;
-use Piwik\Segment;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Db\BatchInsert;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Date;
+use Piwik\Db\BatchInsert;
+use Piwik\Db;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
+use Piwik\Segment;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  */

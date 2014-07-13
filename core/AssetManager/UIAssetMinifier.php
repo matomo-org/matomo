@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,8 +10,8 @@
 namespace Piwik\AssetManager;
 
 use Exception;
-use Piwik\Singleton;
 use JShrink\Minifier;
+use Piwik\Singleton;
 
 class UIAssetMinifier extends Singleton
 {
@@ -60,7 +60,7 @@ class UIAssetMinifier extends Singleton
     private static function validateDependency()
     {
         if (!class_exists("JShrink\\Minifier"))
-            throw new Exception("JShrink could not be found, maybe you are using Piwik from git and need to have update Composer. <br>php composer.phar update");
+            throw new Exception("JShrink could not be found, maybe you are using Piwik from git and need to update Composer. $ php composer.phar update");
     }
 
 }

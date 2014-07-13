@@ -8,7 +8,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -23,7 +23,7 @@
 				<goalPageId>47</goalPageId>
 				
 				<url>http://piwik.org/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -32,6 +32,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>47</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.29s</generationTime>
 				<icon />
 			</row>
@@ -123,7 +129,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -137,6 +143,12 @@
 				<pageIdAction>43</pageIdAction>
 				
 				<pageId>38</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<icon />
@@ -149,7 +161,7 @@
 				<goalPageId>38</goalPageId>
 				
 				<url>http://piwik.org/changelog/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -158,6 +170,12 @@
 				<pageIdAction>54</pageIdAction>
 				
 				<pageId>46</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -235,7 +253,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -250,7 +268,7 @@
 				<goalPageId>45</goalPageId>
 				
 				<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -259,6 +277,12 @@
 				<pageIdAction>52</pageIdAction>
 				
 				<pageId>45</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.41s</generationTime>
 				<icon />
 			</row>
@@ -362,7 +386,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -376,6 +400,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>42</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<icon />
@@ -388,7 +418,7 @@
 				<goalPageId>42</goalPageId>
 				
 				<url>http://piwik.org/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -397,6 +427,12 @@
 				<pageIdAction>50</pageIdAction>
 				
 				<pageId>44</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -505,7 +541,13 @@
 				<pageIdAction>48</pageIdAction>
 				
 				<pageId>43</pageId>
-				<icon>plugins/Zeitgeist/images/link.gif</icon>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<icon>plugins/Morpheus/images/link.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -599,7 +641,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -614,7 +656,7 @@
 				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -623,6 +665,12 @@
 				<pageIdAction>47</pageIdAction>
 				
 				<pageId>41</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.39s</generationTime>
 				<icon />
 			</row>
@@ -726,7 +774,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -741,7 +789,7 @@
 				<goalPageId>40</goalPageId>
 				
 				<url>https://piwik.org/log-analytics/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -750,6 +798,12 @@
 				<pageIdAction>41</pageIdAction>
 				
 				<pageId>40</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -840,7 +894,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -855,7 +909,7 @@
 				<goalPageId>39</goalPageId>
 				
 				<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -864,6 +918,12 @@
 				<pageIdAction>45</pageIdAction>
 				
 				<pageId>39</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.12s</generationTime>
 				<icon />
 			</row>
@@ -923,7 +983,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<screenType>mobile</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>360x640</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/mobile.gif</screenTypeIcon>
 		<plugins>flash</plugins>
@@ -947,7 +1007,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -962,7 +1022,7 @@
 				<goalPageId>37</goalPageId>
 				
 				<url>http://piwik.org/log-analytics/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -971,6 +1031,12 @@
 				<pageIdAction>41</pageIdAction>
 				
 				<pageId>37</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.15s</generationTime>
 				<icon />
 			</row>
@@ -1074,7 +1140,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1088,6 +1154,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>33</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.18s</generationTime>
 				<timeSpent>2</timeSpent>
 				<timeSpentPretty>2s</timeSpentPretty>
@@ -1101,7 +1173,7 @@
 				<goalPageId>33</goalPageId>
 				
 				<url>http://piwik.org/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1110,6 +1182,12 @@
 				<pageIdAction>38</pageIdAction>
 				
 				<pageId>35</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.11s</generationTime>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
@@ -1122,7 +1200,13 @@
 				<pageIdAction>39</pageIdAction>
 				
 				<pageId>36</pageId>
-				<icon>plugins/Zeitgeist/images/download.png</icon>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1208,7 +1292,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1223,7 +1307,7 @@
 				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.org/docs/installation/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1232,6 +1316,12 @@
 				<pageIdAction>36</pageIdAction>
 				
 				<pageId>34</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.13s</generationTime>
 				<icon />
 			</row>
@@ -1327,7 +1417,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1342,7 +1432,7 @@
 				<goalPageId>32</goalPageId>
 				
 				<url>http://piwik.org/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1351,6 +1441,12 @@
 				<pageIdAction>34</pageIdAction>
 				
 				<pageId>32</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.06s</generationTime>
 				<icon />
 			</row>
@@ -1446,7 +1542,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1461,7 +1557,7 @@
 				<goalPageId>48</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1470,6 +1566,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>56</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.02s</generationTime>
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
@@ -1482,6 +1584,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>52</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.12s</generationTime>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -1494,6 +1602,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>48</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.12s</generationTime>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -1506,6 +1620,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>57</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.24s</generationTime>
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
@@ -1518,6 +1638,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>49</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.23s</generationTime>
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
@@ -1530,6 +1656,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>53</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.29s</generationTime>
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
@@ -1542,6 +1674,12 @@
 				<pageIdAction>3</pageIdAction>
 				
 				<pageId>54</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.62s</generationTime>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
@@ -1554,6 +1692,12 @@
 				<pageIdAction>3</pageIdAction>
 				
 				<pageId>50</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>1.32s</generationTime>
 				<timeSpent>26</timeSpent>
 				<timeSpentPretty>26s</timeSpentPretty>
@@ -1566,6 +1710,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>55</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.34s</generationTime>
 				<icon />
 			</row>
@@ -1576,6 +1726,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>51</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<generationTime>0.54s</generationTime>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
@@ -1631,9 +1787,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
@@ -1652,7 +1808,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1667,7 +1823,7 @@
 				<goalPageId>29</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1776,7 +1932,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1791,7 +1947,7 @@
 				<goalPageId>30</goalPageId>
 				
 				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1800,6 +1956,12 @@
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>30</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -1902,7 +2064,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1917,7 +2079,7 @@
 				<goalPageId>28</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1926,6 +2088,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>28</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2003,7 +2171,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2035,7 +2203,7 @@
 				<goalPageId>26</goalPageId>
 				
 				<url>http://piwik.net/moved-permanently</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2141,9 +2309,15 @@
 				<pageIdAction>21</pageIdAction>
 				
 				<pageId>23</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 			<row>
 				<type>download</type>
@@ -2152,9 +2326,15 @@
 				<pageIdAction>22</pageIdAction>
 				
 				<pageId>24</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 			<row>
 				<type>download</type>
@@ -2163,7 +2343,13 @@
 				<pageIdAction>23</pageIdAction>
 				
 				<pageId>25</pageId>
-				<icon>plugins/Zeitgeist/images/download.png</icon>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -2240,7 +2426,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2255,7 +2441,7 @@
 				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2264,6 +2450,12 @@
 				<pageIdAction>5</pageIdAction>
 				
 				<pageId>22</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2320,9 +2512,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
@@ -2341,7 +2533,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2356,7 +2548,7 @@
 				<goalPageId>21</goalPageId>
 				
 				<url>http://piwik.net/to-an-error</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2462,7 +2654,13 @@
 				<pageIdAction>16</pageIdAction>
 				
 				<pageId>18</pageId>
-				<icon>plugins/Zeitgeist/images/download.png</icon>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<icon>plugins/Morpheus/images/download.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -2518,9 +2716,9 @@
 		<browserName>Unknown</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>unknown</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
@@ -2539,7 +2737,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2554,7 +2752,7 @@
 				<goalPageId>20</goalPageId>
 				
 				<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2646,7 +2844,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2661,7 +2859,7 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2670,6 +2868,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>19</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2747,7 +2951,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2762,7 +2966,7 @@
 				<goalPageId>17</goalPageId>
 				
 				<url>http://piwik.net/hosting/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2771,6 +2975,12 @@
 				<pageIdAction>15</pageIdAction>
 				
 				<pageId>17</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2844,7 +3054,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2859,7 +3069,7 @@
 				<goalPageId>16</goalPageId>
 				
 				<url>http://piwik.net/faq/how-to-install/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2868,6 +3078,12 @@
 				<pageIdAction>14</pageIdAction>
 				
 				<pageId>16</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -2941,7 +3157,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2956,7 +3172,7 @@
 				<goalPageId>15</goalPageId>
 				
 				<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2965,6 +3181,12 @@
 				<pageIdAction>13</pageIdAction>
 				
 				<pageId>15</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3038,7 +3260,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3053,7 +3275,7 @@
 				<goalPageId>14</goalPageId>
 				
 				<url>http://piwik.net/intranet-analytics/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3062,6 +3284,12 @@
 				<pageIdAction>12</pageIdAction>
 				
 				<pageId>14</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3135,7 +3363,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3150,7 +3378,7 @@
 				<goalPageId>13</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-websites/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3159,6 +3387,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>13</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3232,7 +3466,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3247,7 +3481,7 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/faq/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3256,6 +3490,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>12</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3329,7 +3569,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3344,7 +3584,7 @@
 				<goalPageId>11</goalPageId>
 				
 				<url>http://piwik.net/faq/how-to/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3353,6 +3593,12 @@
 				<pageIdAction>11</pageIdAction>
 				
 				<pageId>11</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3426,7 +3672,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3441,7 +3687,7 @@
 				<goalPageId>10</goalPageId>
 				
 				<url>http://piwik.net/newsletter/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3450,6 +3696,12 @@
 				<pageIdAction>10</pageIdAction>
 				
 				<pageId>10</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3523,7 +3775,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3538,7 +3790,7 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-users/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3547,6 +3799,12 @@
 				<pageIdAction>9</pageIdAction>
 				
 				<pageId>9</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3620,7 +3878,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3635,7 +3893,7 @@
 				<goalPageId>8</goalPageId>
 				
 				<url>http://piwik.net/docs/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3644,6 +3902,12 @@
 				<pageIdAction>8</pageIdAction>
 				
 				<pageId>8</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3717,7 +3981,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3732,7 +3996,7 @@
 				<goalPageId>7</goalPageId>
 				
 				<url>http://piwik.net/translations/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3741,6 +4005,12 @@
 				<pageIdAction>7</pageIdAction>
 				
 				<pageId>7</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3814,7 +4084,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3829,7 +4099,7 @@
 				<goalPageId>6</goalPageId>
 				
 				<url>http://piwik.net/download/counter/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3838,6 +4108,12 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>6</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -3911,7 +4187,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3926,7 +4202,7 @@
 				<goalPageId>5</goalPageId>
 				
 				<url>http://piwik.net/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3935,6 +4211,12 @@
 				<pageIdAction>5</pageIdAction>
 				
 				<pageId>5</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4008,7 +4290,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4023,7 +4305,7 @@
 				<goalPageId>4</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-websites/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4032,6 +4314,12 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>4</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4105,7 +4393,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4120,7 +4408,7 @@
 				<goalPageId>3</goalPageId>
 				
 				<url>http://piwik.net/blog/category/community/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4129,6 +4417,12 @@
 				<pageIdAction>3</pageIdAction>
 				
 				<pageId>3</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4202,7 +4496,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4217,7 +4511,7 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/faq/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4226,6 +4520,12 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>2</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>
@@ -4299,7 +4599,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4314,7 +4614,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4323,6 +4623,12 @@
 				<pageIdAction>1</pageIdAction>
 				
 				<pageId>1</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>

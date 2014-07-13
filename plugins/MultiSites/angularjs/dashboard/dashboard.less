@@ -38,7 +38,7 @@
   }
 
   .indicator {
-    background: url(plugins/MultiSites/images/loading-blue.gif) no-repeat center;
+    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat center;
     height: 20px;
     width: 60px;
     margin: auto;
@@ -46,7 +46,8 @@
   }
 
   .paging {
-    padding: 20px;
+    padding: 5px;
+    font-size: 10px;
 
     .previous {
       padding-right: 20px;
@@ -60,8 +61,19 @@
     height: 10px;
   }
 
+  th:first-child {
+    text-align:left;
+  }
+
   th {
     cursor: pointer;
+    border-left: 0px;
+    text-align: center;
+    border-bottom: 0px;
+
+    &.columnSorted {
+      font-weight: normal !important;
+    }
   }
 
   .site_search input {
@@ -73,6 +85,7 @@
     position: relative;
     left: -25px;
     margin-right: 0px;
+    margin-top: -1px;
   }
   .reset {
     position: relative;
@@ -141,28 +154,65 @@
   }
 
   .allWebsitesLoadingIndicator {
-    background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
+    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat right 3px;
     display: inline-block;
     width: 16px;
     height: 16px;
   }
 
   .heading {
-    display: inline-block;
+    display: inline;
     margin-top: 4px;
   }
+
+  #evolution_selector {
+    margin: 0px;
+    margin-top: -3px;
+  }
+
+  .multisites_asc,
   .multisites_desc {
-    width: 16px;
-    height: 13px;
+    float: none;
     display: inline-block;
-    background-image: url(plugins/Zeitgeist/images/sortdesc.png);
+    vertical-align: top;
+    margin: 0px;
+    margin-left: 6px;
+    margin-top: -1px;
   }
+
+  #evolution {
+    .multisites_asc,
+    .multisites_desc {
+      margin-right: 6px;
+      margin-left: 0px;
+    }
+    .evolution {
+      vertical-align: top;
+    }
+  }
+
   .multisites_asc {
-    width: 16px;
-    height: 13px;
-    display: inline-block;
-    background-image: url(plugins/Zeitgeist/images/sortasc.png);
+    margin-top: -7px;
+    vertical-align: top;
   }
+
+  .multisites_desc:after {
+    content: " \25BC";
+    font-size: 1px;
+    color: @theme-color-brand;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-top: 5px solid @theme-color-brand;
+  }
+  .multisites_asc:after {
+    content: " \25BC";
+    font-size: 1px;
+    color: @theme-color-brand;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid @theme-color-brand;
+  }
+
   div.sparkline {
     float:none;
   }

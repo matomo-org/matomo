@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,14 +13,14 @@ use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
-use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Url;
 use Piwik\Site;
+use Piwik\Url;
 
 /**
  * This class generates a Row evolution dataset, from input request
@@ -204,10 +204,13 @@ class RowEvolution
             $replaceRegex = "/\\s*" . preg_quote(LabelFilter::SEPARATOR_RECURSIVE_LABEL) . "\\s*/";
             $cleanLabel = preg_replace($replaceRegex, '/', $label);
 
-            return $mainUrlHost . '/' . $cleanLabel . '/';
+            $result = $mainUrlHost . '/' . $cleanLabel . '/';
         } else {
-            return str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+            $result = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
         }
+
+        // remove @ terminal operator occurances
+        return str_replace(LabelFilter::TERMINAL_OPERATOR, '', $result);
     }
 
     /**

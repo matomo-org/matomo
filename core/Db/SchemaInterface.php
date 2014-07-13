@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -86,6 +86,15 @@ interface SchemaInterface
      * @return array  installed Tables
      */
     public function getTablesInstalled($forceReload = true);
+
+    /**
+     * Get list of installed columns in a table
+     *
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
+     */
+    public function getTableColumns($tableName);
 
     /**
      * Checks whether any table exists

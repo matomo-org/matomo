@@ -655,9 +655,10 @@ class UserAgentParser
         if (isset(self::$browserIdToName[$browserId])) {
             return self::$browserIdToName[$browserId];
         }
-        if(class_exists('DeviceDetector')) {
-            if( !empty(DeviceDetector::$browsers[$browserId])) {
-                return DeviceDetector::$browsers[$browserId];
+        if(class_exists('DeviceDetector\\Parser\\Client\\Browser')) {
+            $browsers = DeviceDetector\Parser\Client\Browser::getAvailableBrowsers();
+            if( array_key_exists($browserId, $browsers)) {
+                return $browsers[$browserId];
             }
         }
         return false;
@@ -692,8 +693,11 @@ class UserAgentParser
             return self::$operatingSystemsIdToName[$osId];
         }
 
-        if(class_exists('DeviceDetector')) {
-            return DeviceDetector::getOsNameFromId($osId);
+        if(class_exists('DeviceDetector\\Parser\\OperatingSystem')) {
+            if ($osId == 'BOT') {
+                return 'Bot';
+            }
+            return DeviceDetector\Parser\OperatingSystem::getNameFromId($osId);
         }
         return false;
     }

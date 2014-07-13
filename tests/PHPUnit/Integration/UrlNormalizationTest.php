@@ -1,18 +1,30 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+namespace Piwik\Tests\Integration;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tracker\Action;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitWithAbnormalPageviewUrls;
 
 /**
  * Tests the URL normalization.
+ *
+ * @group Integration
+ * @group UrlNormalizationTest
  */
-class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
+class UrlNormalizationTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -80,8 +92,7 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
     }
 
     /**
-     * @@depends     testApi
-     * @group        Integration
+     * @depends     testApi
      */
     public function testCheckPostConditions()
     {
@@ -109,5 +120,4 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_UrlNormalization::$fixture = new Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls();
-
+UrlNormalizationTest::$fixture = new OneVisitWithAbnormalPageviewUrls();

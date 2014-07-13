@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,10 @@
 namespace Piwik\AssetManager\UIAssetMerger;
 
 use Exception;
+use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Piwik;
-use lessc;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
 {
@@ -30,16 +30,10 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     protected function getMergedAssets()
     {
-        foreach($this->getAssetCatalog()->getAssets() as $uiAsset) {
-
-            $content = $uiAsset->getContent();
-            if (false !== strpos($content, '@import')) {
-                $this->lessCompiler->addImportDir(dirname($uiAsset->getAbsoluteLocation()));
-            }
-
-        }
-
-        return $this->lessCompiler->compile($this->getConcatenatedAssets());
+        // note: we're using setImportDir on purpose (not addImportDir)
+        $this->lessCompiler->setImportDir(PIWIK_USER_PATH);
+        $concatenatedAssets = $this->getConcatenatedAssets();
+        return $this->lessCompiler->compile($concatenatedAssets);
     }
 
     /**
@@ -87,46 +81,74 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     protected function processFileContent($uiAsset)
     {
-        return $this->rewriteCssPathsDirectives($uiAsset);
+        $pathsRewriter = $this->getCssPathsRewriter($uiAsset); 
+        $content = $uiAsset->getContent();
+        $content = $this->rewriteCssImagePaths($content, $pathsRewriter);
+        $content = $this->rewriteCssImportPaths($content, $pathsRewriter);
+        return $content;
     }
 
     /**
-     * Rewrite css url directives
+     * Rewrite CSS url() directives
+     *
+     * @param string $content
+     * @param function $pathsRewriter
+     * @return string
+     */
+    private function rewriteCssImagePaths($content, $pathsRewriter)
+    {
+        $content = preg_replace_callback( "/(url\(['\"]?)([^'\")]*)/", $pathsRewriter, $content );
+        return $content;
+    }
+
+    /**
+     * Rewrite CSS import directives
+     *
+     * @param string $content
+     * @param function $pathsRewriter
+     * @return string
+     */
+    private function rewriteCssImportPaths($content, $pathsRewriter)
+    {
+        $content = preg_replace_callback( "/(@import \")([^\")]*)/", $pathsRewriter, $content );
+        return $content;
+    }
+
+    /**
+     * Rewrite CSS url directives
      * - rewrites paths defined relatively to their css/less definition file
      * - rewrite windows directory separator \\ to /
      *
-     * @param UIAsset $uiAsset
-     * @return string
+     * @param rootDirectoryLength $rootDirectoryLength
+     * @param baseDirectory $baseDirectory
+     * @return function
      */
-    private function rewriteCssPathsDirectives($uiAsset)
+    private function getCssPathsRewriter($uiAsset)
     {
         static $rootDirectoryLength = null;
         if (is_null($rootDirectoryLength)) {
             $rootDirectoryLength = self::countDirectoriesInPathToRoot($uiAsset);
         }
-
         $baseDirectory = dirname($uiAsset->getRelativeLocation());
-        $content = preg_replace_callback(
-            "/(url\(['\"]?)([^'\")]*)/",
-            function ($matches) use ($rootDirectoryLength, $baseDirectory) {
 
-                $absolutePath = realpath(PIWIK_USER_PATH . "/$baseDirectory/" . $matches[2]);
-
-                if($absolutePath) {
-
-                    $relativePath = substr($absolutePath, $rootDirectoryLength);
-
-                    $relativePath = str_replace('\\', '/', $relativePath);
-
-                    return $matches[1] . $relativePath;
-
-                } else {
-                    return $matches[1] . $matches[2];
-                }
-            },
-            $uiAsset->getContent()
-        );
-        return $content;
+        return function ($matches) use ($rootDirectoryLength, $baseDirectory) {
+            $publicPath = $matches[1] . $matches[2];
+            $absolutePath = PIWIK_USER_PATH . "/$baseDirectory/" . $matches[2];
+            
+            // Allow to import extension less file
+            if (strpos($matches[2], '.') === false) {
+                $absolutePath .= '.less';
+            }
+                
+            // Prevent from rewriting full path
+            $absolutePath = realpath($absolutePath);
+            if ($absolutePath) {
+                $relativePath = substr($absolutePath, $rootDirectoryLength);
+                $relativePath = str_replace('\\', '/', $relativePath);
+                $publicPath = $matches[1] . $relativePath;
+            }
+            return $publicPath;
+        };
     }
 
     /**
@@ -138,7 +160,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $rootDirectory = realpath($uiAsset->getBaseDirectory());
 
         if ($rootDirectory != PATH_SEPARATOR
-            && substr_compare($rootDirectory, PATH_SEPARATOR, -1)) {
+            && substr($rootDirectory, -strlen(PATH_SEPARATOR)) !== PATH_SEPARATOR) {
             $rootDirectory .= PATH_SEPARATOR;
         }
         $rootDirectoryLen = strlen($rootDirectory);

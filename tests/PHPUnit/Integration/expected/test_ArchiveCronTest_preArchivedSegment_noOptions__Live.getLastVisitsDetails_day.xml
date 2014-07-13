@@ -8,7 +8,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -23,7 +23,7 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-users/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -105,7 +105,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -120,7 +120,7 @@
 				<goalPageId>8</goalPageId>
 				
 				<url>http://piwik.net/docs/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -202,7 +202,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -217,7 +217,7 @@
 				<goalPageId>7</goalPageId>
 				
 				<url>http://piwik.net/translations/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -299,7 +299,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -314,7 +314,7 @@
 				<goalPageId>6</goalPageId>
 				
 				<url>http://piwik.net/download/counter/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -396,7 +396,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -411,7 +411,7 @@
 				<goalPageId>5</goalPageId>
 				
 				<url>http://piwik.net/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -493,7 +493,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -508,7 +508,7 @@
 				<goalPageId>4</goalPageId>
 				
 				<url>http://piwik.net/docs/manage-websites/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -590,7 +590,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -605,7 +605,7 @@
 				<goalPageId>3</goalPageId>
 				
 				<url>http://piwik.net/blog/category/community/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -687,7 +687,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -702,7 +702,7 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/faq/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -784,7 +784,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -799,7 +799,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>

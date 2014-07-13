@@ -1,17 +1,20 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one website and tracks several visits from one visitor on
  * different days that span about a month apart.
  */
-class Test_Piwik_Fixture_VisitsOverSeveralDays extends Fixture
+class VisitsOverSeveralDays extends Fixture
 {
     public $dateTimes = array(
         '2010-12-14 01:00:00',

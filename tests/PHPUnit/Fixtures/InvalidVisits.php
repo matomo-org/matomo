@@ -1,18 +1,22 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Fixture;
+use Exception;
 
 /**
  * Adds one site and sends several invalid tracking requests. The result should be
  * one website with no visits.
  */
-class Test_Piwik_Fixture_InvalidVisits extends Fixture
+class InvalidVisits extends Fixture
 {
     public $idSite = 1;
     public $dateTime = '2009-01-04 00:11:42';
@@ -52,7 +56,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Fixture
         // Trigger empty request
         $trackerUrl = self::getTrackerUrl();
         $response = Http::fetchRemoteFile($trackerUrl);
-        self::assertTrue(strpos($response, 'is a free open source web') !== false, 'Piwik empty request response not correct: ' . $response);
+        self::assertTrue(strpos($response, 'is a free/libre web') !== false, 'Piwik empty request response not correct: ' . $response);
 
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 

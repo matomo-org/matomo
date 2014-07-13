@@ -22,7 +22,7 @@
             <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
         {% else %}
             <span class="loadingPiwik">
-                <img src="plugins/Zeitgeist/images/loading-blue.gif" />
+                <img src="plugins/Morpheus/images/loading-blue.gif" />
                 {{ 'General_LoadingData'|translate }}...
             </span>
         {% endif %}
@@ -30,12 +30,12 @@
     <div class="dataTableFeatures" style="padding-top:0;">
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
-                <img class="UserCountryMap-activeItem dataTableFooterActiveItem" src="plugins/Zeitgeist/images/data_table_footer_active_item.png" style="left: 25px;" />
+                <img class="UserCountryMap-activeItem dataTableFooterActiveItem" src="plugins/Morpheus/images/data_table_footer_active_item.png" style="left: 25px;" />
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
                         <a class="UserCountryMap-btn-zoom tableIcon" format="table">
-                            <img src="plugins/Zeitgeist/images/zoom-out.png" title="Zoom to world" />
+                            <img src="plugins/Morpheus/images/zoom-out.png" title="Zoom to world" />
                         </a>
                     </span>
                 </div>
@@ -54,12 +54,12 @@
                 </div>
             </div>
 
-            <select class="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 9em;font-size:10px;">
+            <select class="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 10em;font-size:10px;">
                 {% for metric in metrics %}
                     <option value="{{ metric[0] }}" {% if metric[0] == defaultMetric %}selected="selected"{% endif %}}>{{ metric[1] }}</option>
                 {% endfor %}
             </select>
-            <select class="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 9em;font-size:10px;">
+            <select class="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 10em;font-size:10px;">
                 <option value="world">{{ 'UserCountryMap_WorldWide'|translate }}</option>
                 <option disabled="disabled">––––––</option>
                 <option value="AF">{{ 'UserCountry_continent_afr'|translate }}</option>

@@ -11,6 +11,9 @@ if (!defined('PIWIK_USER_PATH')) {
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
+
+@date_default_timezone_set('UTC');
+
 require_once file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
     ? PIWIK_INCLUDE_PATH . '/vendor/autoload.php' // Piwik is the main project
     : PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,10 +14,12 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Config;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuTop;
+use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Period\Month;
@@ -25,9 +27,9 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Registry;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -178,6 +180,52 @@ abstract class Controller
     }
 
     /**
+     * Returns values that are enabled for the parameter &period=
+     * @return array eg. array('day', 'week', 'month', 'year', 'range')
+     */
+    protected static function getEnabledPeriodsInUI()
+    {
+        $periods = Config::getInstance()->General['enabled_periods_UI'];
+        $periods = explode(",", $periods);
+        $periods = array_map('trim', $periods);
+        return $periods;
+    }
+
+    /**
+     * @return array
+     */
+    private static function getEnabledPeriodsNames()
+    {
+        $availablePeriods = self::getEnabledPeriodsInUI();
+        $periodNames = array(
+            'day'   => array(
+                'singular' => Piwik::translate('CoreHome_PeriodDay'),
+                'plural' => Piwik::translate('CoreHome_PeriodDays')
+            ),
+            'week'  => array(
+                'singular' => Piwik::translate('CoreHome_PeriodWeek'),
+                'plural' => Piwik::translate('CoreHome_PeriodWeeks')
+            ),
+            'month' => array(
+                'singular' => Piwik::translate('CoreHome_PeriodMonth'),
+                'plural' => Piwik::translate('CoreHome_PeriodMonths')
+            ),
+            'year'  => array(
+                'singular' => Piwik::translate('CoreHome_PeriodYear'),
+                'plural' => Piwik::translate('CoreHome_PeriodYears')
+            ),
+            // Note: plural is not used for date range
+            'range' => array(
+                'singular' => Piwik::translate('General_DateRangeInPeriodList'),
+                'plural' => Piwik::translate('General_DateRangeInPeriodList')
+            ),
+        );
+
+        $periodNames = array_intersect_key($periodNames, array_fill_keys($availablePeriods, true));
+        return $periodNames;
+    }
+
+    /**
      * Returns the name of the default method that will be called
      * when visiting: index.php?module=PluginName without the action parameter.
      *
@@ -203,7 +251,8 @@ abstract class Controller
     /**
      * Convenience method that creates and renders a ViewDataTable for a API method.
      *
-     * @param string $apiAction The name of the API action (eg, `'getResolution'`).
+     * @param string|\Piwik\Plugin\Report $apiAction The name of the API action (eg, `'getResolution'`) or
+     *                                      an instance of an report.
      * @param bool $controllerAction The name of the Controller action name  that is rendering the report. Defaults
      *                               to the `$apiAction`.
      * @param bool $fetch If `true`, the rendered string is returned, if `false` it is `echo`'d.
@@ -214,6 +263,21 @@ abstract class Controller
      */
     protected function renderReport($apiAction, $controllerAction = false)
     {
+        if (empty($controllerAction) && is_string($apiAction)) {
+            $report = Report::factory($this->pluginName, $apiAction);
+
+            if (!empty($report)) {
+                $apiAction = $report;
+            }
+        }
+
+        if ($apiAction instanceof Report) {
+            $this->checkSitePermission();
+            $apiAction->checkIsEnabled();
+
+            return $apiAction->render();
+        }
+
         $pluginName = $this->pluginName;
 
         /** @var Proxy $apiProxy */
@@ -250,7 +314,7 @@ abstract class Controller
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
         $view = ViewDataTableFactory::build(
-            'graphEvolution', $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
+            Evolution::ID, $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
         $view->config->show_goals = false;
         return $view;
     }
@@ -282,7 +346,7 @@ abstract class Controller
         $date = Common::getRequestVar('date');
         $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
 
-        $columns = array_merge($columnsToDisplay, $selectableColumns);
+        $columns = array_merge($columnsToDisplay ? $columnsToDisplay : array(), $selectableColumns);
         $translations = array_combine($columns, $columns);
         foreach ($meta as $reportMeta) {
             if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters'])) {
@@ -296,6 +360,7 @@ abstract class Controller
 
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
+
         if ($columnsToDisplay !== false) {
             $view->config->columns_to_display = $columnsToDisplay;
         }
@@ -469,17 +534,14 @@ abstract class Controller
 
         try {
             $view->idSite = $this->idSite;
-            if (empty($this->site) || empty($this->idSite)) {
-                throw new Exception("The requested website idSite is not found in the request, or is invalid.
-				Please check that you are logged in Piwik and have permission to access the specified website.");
-            }
+            $this->checkSitePermission();
             $this->setPeriodVariablesView($view);
 
             $rawDate = Common::getRequestVar('date');
             $periodStr = Common::getRequestVar('period');
             if ($periodStr != 'range') {
                 $date = Date::factory($this->strDate);
-                $period = Period::factory($periodStr, $date);
+                $period = Period\Factory::build($periodStr, $date);
             } else {
                 $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
             }
@@ -514,9 +576,15 @@ abstract class Controller
 
             $this->setBasicVariablesView($view);
 
-            $view->topMenu       = MenuTop::getInstance()->getMenu();
-            $view->notifications = NotificationManager::getAllNotificationsToDisplay();
-            NotificationManager::cancelAllNonPersistent();
+            $view->topMenu  = MenuTop::getInstance()->getMenu();
+            $view->userMenu = MenuUser::getInstance()->getMenu();
+
+            $notifications = $view->notifications;
+            if (empty($notifications)) {
+                $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+                NotificationManager::cancelAllNonPersistent();
+            }
+
         } catch (Exception $e) {
             Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
         }
@@ -527,7 +595,7 @@ abstract class Controller
      * 
      * The following variables assigned:
      * 
-     * **debugTrackVisitsInsidePiwikUI** - The value of the `[Debug] track_visits_inside_piwik_ui`
+     * **enableMeasurePiwikForSiteId** - The value of the `[Debug] enable_measure_piwik_usage_in_idsite`
      *                                     INI config option.
      * **isSuperUser** - True if the current user is the Super User, false if otherwise.
      * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
@@ -548,15 +616,14 @@ abstract class Controller
     protected function setBasicVariablesView($view)
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
-        $view->debugTrackVisitsInsidePiwikUI = PiwikConfig::getInstance()->Debug['track_visits_inside_piwik_ui'];
+        $view->enableMeasurePiwikForSiteId = PiwikConfig::getInstance()->Debug['enable_measure_piwik_usage_in_idsite'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
-        $customLogo = new CustomLogo();
-        $view->isCustomLogo = $customLogo->isEnabled();
+        $this->addCustomLogoInfo($view);
 
         $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
         $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
@@ -572,6 +639,13 @@ abstract class Controller
         }
 
         self::setHostValidationVariablesView($view);
+    }
+
+    protected function addCustomLogoInfo($view)
+    {
+        $customLogo = new CustomLogo();
+        $view->isCustomLogo  = $customLogo->isEnabled();
+        $view->customFavicon = $customLogo->getPathUserFavicon();
     }
 
     /**
@@ -679,26 +753,16 @@ abstract class Controller
 
         $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
-        $availablePeriods = array('day', 'week', 'month', 'year', 'range');
+        $availablePeriods = self::getEnabledPeriodsInUI();
         if (!in_array($currentPeriod, $availablePeriods)) {
-            throw new Exception("Period must be one of: " . implode(",", $availablePeriods));
+            throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
-        $periodNames = array(
-            'day'   => array('singular' => Piwik::translate('CoreHome_PeriodDay'), 'plural' => Piwik::translate('CoreHome_PeriodDays')),
-            'week'  => array('singular' => Piwik::translate('CoreHome_PeriodWeek'), 'plural' => Piwik::translate('CoreHome_PeriodWeeks')),
-            'month' => array('singular' => Piwik::translate('CoreHome_PeriodMonth'), 'plural' => Piwik::translate('CoreHome_PeriodMonths')),
-            'year'  => array('singular' => Piwik::translate('CoreHome_PeriodYear'), 'plural' => Piwik::translate('CoreHome_PeriodYears')),
-            // Note: plural is not used for date range
-            'range' => array('singular' => Piwik::translate('General_DateRangeInPeriodList'), 'plural' => Piwik::translate('General_DateRangeInPeriodList')),
-        );
-
         $found = array_search($currentPeriod, $availablePeriods);
-        if ($found !== false) {
-            unset($availablePeriods[$found]);
-        }
+        unset($availablePeriods[$found]);
+
         $view->period = $currentPeriod;
         $view->otherPeriods = $availablePeriods;
-        $view->periodsNames = $periodNames;
+        $view->periodsNames = self::getEnabledPeriodsNames();
     }
 
     /**
@@ -717,14 +781,17 @@ abstract class Controller
     public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null,
                                     $defaultDate = null, $parameters = array())
     {
+
+        $userPreferences = new UserPreferences();
+
         if (empty($websiteId)) {
-            $websiteId = $this->getDefaultWebsiteId();
+            $websiteId = $userPreferences->getDefaultWebsiteId();
         }
         if (empty($defaultDate)) {
-            $defaultDate = $this->getDefaultDate();
+            $defaultDate = $userPreferences->getDefaultDate();
         }
         if (empty($defaultPeriod)) {
-            $defaultPeriod = $this->getDefaultPeriod();
+            $defaultPeriod = $userPreferences->getDefaultPeriod();
         }
         $parametersString = '';
         if (!empty($parameters)) {
@@ -732,13 +799,13 @@ abstract class Controller
         }
 
         if ($websiteId) {
-            $url = "Location: index.php?module=" . $moduleToRedirect
+            $url = "index.php?module=" . $moduleToRedirect
                 . "&action=" . $actionToRedirect
                 . "&idSite=" . $websiteId
                 . "&period=" . $defaultPeriod
                 . "&date=" . $defaultDate
                 . $parametersString;
-            header($url);
+            Url::redirectToUrl($url);
             exit;
         }
 
@@ -762,82 +829,6 @@ abstract class Controller
     }
 
     /**
-     * Returns default site ID that Piwik should load.
-     * 
-     * _Note: This value is a Piwik setting set by each user._
-     *
-     * @return bool|int
-     * @api
-     */
-    protected function getDefaultWebsiteId()
-    {
-        $defaultWebsiteId = false;
-
-        // User preference: default website ID to load
-        $defaultReport = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
-        if (is_numeric($defaultReport)) {
-            $defaultWebsiteId = $defaultReport;
-        }
-
-        if ($defaultWebsiteId && Piwik::isUserHasViewAccess($defaultWebsiteId)) {
-            return $defaultWebsiteId;
-        }
-
-        $sitesId = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
-        if (!empty($sitesId)) {
-            return $sitesId[0];
-        }
-        return false;
-    }
-
-    /**
-     * Returns default date for Piwik reports.
-     *
-     * _Note: This value is a Piwik setting set by each user._
-     * 
-     * @return string `'today'`, `'2010-01-01'`, etc.
-     * @api
-     */
-    protected function getDefaultDate()
-    {
-        // NOTE: a change in this function might mean a change in plugins/UsersManager/javascripts/usersSettings.js as well
-        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
-        if ($userSettingsDate == 'yesterday') {
-            return $userSettingsDate;
-        }
-        // if last7, last30, etc.
-        if (strpos($userSettingsDate, 'last') === 0
-            || strpos($userSettingsDate, 'previous') === 0
-        ) {
-            return $userSettingsDate;
-        }
-        return 'today';
-    }
-
-    /**
-     * Returns default period type for Piwik reports.
-     *
-     * @return string `'day'`, `'week'`, `'month'`, `'year'` or `'range'`
-     * @api
-     */
-    protected function getDefaultPeriod()
-    {
-        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
-        if ($userSettingsDate === false) {
-            return PiwikConfig::getInstance()->General['default_period'];
-        }
-        if (in_array($userSettingsDate, array('today', 'yesterday'))) {
-            return 'day';
-        }
-        if (strpos($userSettingsDate, 'last') === 0
-            || strpos($userSettingsDate, 'previous') === 0
-        ) {
-            return 'range';
-        }
-        return $userSettingsDate;
-    }
-
-    /**
      * Checks that the token_auth in the URL matches the currently logged-in user's token_auth.
      * 
      * This is a protection against CSRF and should be used in all controller
@@ -850,7 +841,14 @@ abstract class Controller
      */
     protected function checkTokenInUrl()
     {
-        if (Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
+        $tokenRequest = Common::getRequestVar('token_auth', false);
+        $tokenUser = Piwik::getCurrentUserTokenAuth();
+
+        if(empty($tokenRequest) && empty($tokenUser)) {
+            return; // UI tests
+        }
+
+        if ($tokenRequest !== $tokenUser) {
             throw new NoAccessException(Piwik::translate('General_ExceptionInvalidToken'));
         }
     }
@@ -881,7 +879,7 @@ abstract class Controller
      */
     public static function getPrettyDate($date, $period)
     {
-        return self::getCalendarPrettyDate(Period::factory($period, Date::factory($date)));
+        return self::getCalendarPrettyDate(Period\Factory::build($period, Date::factory($date)));
     }
 
     /**
@@ -940,5 +938,13 @@ abstract class Controller
         $result .= '>' . $evolutionPercent . '</strong></span>';
 
         return $result;
+    }
+
+    protected function checkSitePermission()
+    {
+        if (empty($this->site) || empty($this->idSite)) {
+            throw new Exception("The requested website idSite is not found in the request, or is invalid.
+				Please check that you are logged in Piwik and have permission to access the specified website.");
+        }
     }
 }

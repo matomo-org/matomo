@@ -8,6 +8,7 @@
 		<module>Actions</module>
 		<action>getPageTitlesFollowingSiteSearch</action>
 		<dimension>Destination Page</dimension>
+		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 			<nb_hits>Total Pageviews</nb_hits>
@@ -16,7 +17,6 @@
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 		</metricsDocumentation>
-		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitlesFollowingSiteSearch&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitlesFollowingSiteSearch&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageTitlesFollowingSiteSearch</uniqueId>

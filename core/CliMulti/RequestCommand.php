@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,6 +8,7 @@
 
 namespace Piwik\CliMulti;
 
+use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -15,9 +16,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\FrontController;
 
 /**
  * RequestCommand

@@ -1,10 +1,10 @@
 <?php
 use Piwik\Plugin\Dependency;
-use Piwik\Version;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Version;
 
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later

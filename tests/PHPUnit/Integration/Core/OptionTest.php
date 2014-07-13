@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,11 +27,11 @@ class Core_OptionTest extends DatabaseTestCase
         $this->assertFalse(Option::get('anonymous_defaultReport'));
 
         // populate table, expect '1' (i.e., found)
-        Db::query("INSERT INTO " . Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1', false)");
+        Db::query("INSERT INTO `" . Common::prefixTable('option') . "` VALUES ('anonymous_defaultReport', '1', false)");
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)
-        Db::query("DELETE FROM " . Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
+        Db::query("DELETE FROM `" . Common::prefixTable('option') . "` WHERE option_name = ?", array('anonymous_defaultReport'));
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)
@@ -48,11 +48,11 @@ class Core_OptionTest extends DatabaseTestCase
         $this->assertFalse(Option::get('anonymous_defaultReport'));
 
         // populate table, expect '1' (i.e., found)
-        Db::query("INSERT INTO " . Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1',true)");
+        Db::query("INSERT INTO `" . Common::prefixTable('option') . "` VALUES ('anonymous_defaultReport', '1',true)");
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)
-        Db::query("DELETE FROM " . Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
+        Db::query("DELETE FROM `" . Common::prefixTable('option') . "` WHERE option_name = ?", array('anonymous_defaultReport'));
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)

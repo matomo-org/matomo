@@ -196,12 +196,10 @@
         "ColumnConversions": "ልወጣዎች"
     },
     "Installation": {
-        "CommunityNewsletter": "ከማህበረሰብ አልቅ ጋር ኢ-ሜይል አድርግልኝ(አዲስ ተሰኪዎች, አዲስ ባህርይዎች, ወዘተ.)",
         "ConfirmDeleteExistingTables": "እርግጠኛ ነህ ይህንን ሰንጠረዥ ከውሂብ ጎታህ ውስጥ : %s መሰረዝ ትፈልጋለህ? ማስጠንቀቂያ: ከዚህ ሰንጠረዥ ውስጥ የጠፉ ውሂቦች ተመልሰው ሊገኙ አይችሉም!",
         "Congratulations": "እንኳን ደስያለዎ",
         "CongratulationsHelp": "<p>እንኳን ደስያለዎ! የፒዊክ መጫንዎ ተሳክቷል።<\/p><p>የጃቫ ስክሪፕትዎ ቾድ በሁሉ ገፆች ላይ መግባቱን ያረጋግጡና የመጀመሪያ ጎበኚዎችዎን ይጠብቁ!<\/p>",
         "Email": "ኢ-ሜይል",
-        "ErrorInvalidState": "ስህተት: የመጫኑን ሂደት የዘለልክ ይመስላል ወይም ኩኪዎቹ ቦዝነዋል ውይም የፒዊክ ውቅረት ፋይል አስቀድሞ ተፈጥሯል። %1$sኩኪዎቹ መንቃታቸውን አረጋግጥ%2$s እና ተመልሰህ %3$s ወደ መጫኛው የመጀመሪያ ገፅ ሂድ። %4$s.",
         "GoBackAndDefinePrefix": "ወደኋላ ተመለስና ለፒዊክ ሰንጠረዦቹ ቅድም ቅጥያውን በይን",
         "Installation": "መጫኛ",
         "InstallationStatus": "የመጫኛ ሁኔታ",
@@ -210,7 +208,6 @@
         "PasswordDoNotMatch": "የይለፍ ቃሉ አቻ አይደለም",
         "PasswordRepeat": "የይለፍ ቃል (ድገም)",
         "PercentDone": "%s %% አልቋል",
-        "SecurityNewsletter": "ከዋነኛ የፒዊክ ማላቂያዎች እና የጥበቃ ማስጠንቀቂያዎች ጋር ኢ-ሜይል አድርግልኝ",
         "SetupWebsite": "ድር ጣቢያ ጫን",
         "SetupWebsiteError": "ድር ጣቢያውን በመጫን ጊዜ ስህተት አጋጥሟል",
         "SuperUserLogin": "ሊቀ ተገልጋይ ግባ",

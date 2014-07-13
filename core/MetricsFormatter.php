@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -155,9 +155,11 @@ class MetricsFormatter
         }
 
         $currencyAfter = '';
-        // manually put the currency symbol after the amount for euro
         // (maybe more currencies prefer this notation?)
-        if (in_array($currencyBefore, array('€', 'kr'))) {
+        $currencySymbolToAppend = array('€', 'kr', 'zł');
+
+        // manually put the currency symbol after the amount
+        if (in_array($currencyBefore, $currencySymbolToAppend)) {
             $currencyAfter = $space . $currencyBefore;
             $currencyBefore = '';
         }

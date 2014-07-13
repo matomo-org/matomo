@@ -395,8 +395,8 @@
         
         var shadow = (opts.shadow != undefined) ? opts.shadow : this.shadow;
         var fill = (opts.fill != undefined) ? opts.fill : this.fill;
-        var cw = ctx.canvas.width;
-        var ch = ctx.canvas.height;
+        var cw = parseInt(ctx.canvas.style.width);
+        var ch = parseInt(ctx.canvas.style.height);
         var w = cw - offx - 2 * this.padding;
         var h = ch - offy - 2 * this.padding;
         var mindim = Math.min(w,h);

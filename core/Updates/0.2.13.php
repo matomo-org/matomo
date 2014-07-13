@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -27,7 +27,7 @@ class Updates_0_2_13 extends Updates
 				option_value LONGTEXT NOT NULL ,
 				autoload TINYINT NOT NULL DEFAULT '1',
 				PRIMARY KEY ( option_name )
-			)" => false,
+			)" => 1050,
         );
     }
 

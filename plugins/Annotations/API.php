@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,9 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
-
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
@@ -326,7 +325,7 @@ class API extends \Piwik\Plugin\API
             if ($period == 'range') {
                 $oPeriod = new Range('day', $date);
             } else {
-                $oPeriod = Period::factory($period, Date::factory($date));
+                $oPeriod = Period\Factory::build($period, Date::factory($date));
             }
 
             $startDate = $oPeriod->getDateStart();

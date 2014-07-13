@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,13 +9,11 @@
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\API\Request;
+use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Archive;
-use Piwik\SegmentExpression;
-use Piwik\SettingsPiwik;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
+use Piwik\SegmentExpression;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.

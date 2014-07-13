@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,13 +10,13 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
-use Piwik\Config;
 
 /**
  */
@@ -56,7 +56,10 @@ class Updates_2_0_4_b5 extends Updates
             $superUser = null;
         }
 
-        if (!empty($superUser['bridge']) || empty($superUser)) {
+        if (!empty($superUser['bridge'])
+            || empty($superUser)
+            || empty($superUser['login'])
+        ) {
             // there is a super user which is not from the config but from the bridge, that means we already have
             // a super user in the database
             return;

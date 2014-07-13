@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,9 +26,13 @@ class DoNotTrackHeaderChecker
      */
     public function checkHeaderInTracker(&$exclude)
     {
-        if (!$this->isActive()
-            || $exclude
-        ) {
+        if($exclude) {
+            Common::printDebug("Visit is already excluded, no need to check DoNotTrack support.");
+            return;
+        }
+
+        if (!$this->isActive()) {
+            Common::printDebug("DoNotTrack support is not enabled, skip check");
             return;
         }
 
@@ -37,14 +41,15 @@ class DoNotTrackHeaderChecker
         ) {
             $request = new Request($_REQUEST);
             $ua = $request->getUserAgent();
-            if (strpos($ua, 'MSIE 10') !== false
-                || strpos($ua, 'Trident/7') !== false) {
-                Common::printDebug("INTERNET EXPLORER 10 and 11 enable DoNotTrack by default; so Piwik ignores DNT for all IE10 + IE11 browsers...");
+            if (strpos($ua, 'MSIE') !== false
+                || strpos($ua, 'Trident') !== false) {
+                Common::printDebug("INTERNET EXPLORER enable DoNotTrack by default; so Piwik ignores DNT IE browsers...");
                 return;
             }
 
+            Common::printDebug("DoNotTrack header found!");
+
             $exclude = true;
-            Common::printDebug("DoNotTrack found.");
 
             $trackingCookie = IgnoreCookie::getTrackingCookie();
             $trackingCookie->delete();
@@ -53,6 +58,8 @@ class DoNotTrackHeaderChecker
             //     /.well-known/dnt
             // per Tracking Preference Expression (draft)
             header('Tk: 1');
+        } else {
+            Common::printDebug("DoNotTrack header not found");
         }
     }
 

@@ -1,4 +1,5 @@
 <div class="Menu--dashboard">
+
     <ul class="Menu-tabList">
         {% for level1,level2 in menu %}
             <li id="{{ level2._url|urlRewriteWithParameters }}">
@@ -18,6 +19,10 @@
                 </ul>
             </li>
         {% endfor %}
+        <li id="Searchmenu">
+            <span piwik-quick-access></span>
+        </li>
     </ul>
+
 </div>
 <div class="nav_sep"></div>

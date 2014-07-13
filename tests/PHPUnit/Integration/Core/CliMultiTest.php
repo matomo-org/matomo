@@ -1,13 +1,15 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-use \Piwik\Version;
-use \Piwik\CliMulti;
+use Piwik\CliMulti;
+use Piwik\Version;
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixture;
 
 /**
  * Class Core_CliMultiTest
@@ -91,11 +93,27 @@ class Core_CliMultiTest extends IntegrationTestCase
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife'));
     }
 
+    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithConcurrentRequestLimit()
+    {
+        $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
+
+        $this->cliMulti->setConcurrentProcessesLimit(1);
+        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+    }
+
+    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithHighConcurrentRequestLimit()
+    {
+        $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
+
+        $this->cliMulti->setConcurrentProcessesLimit(10);
+        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+    }
+
     public function test_request_shouldReturnSameAmountOfResponses_IfSameUrlAppearsMultipleTimes()
     {
-        $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife');
+        $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion');
 
-        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife'));
+        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion'));
     }
 
     public function test_request_shouldCleanupAllTempFiles_OnceAllRequestsAreFinished()
@@ -137,7 +155,7 @@ class Core_CliMultiTest extends IntegrationTestCase
         $response = $this->cliMulti->request($urls);
 
         $message = "Response was: " . substr( implode("\n\n", $response), 0, 4000);
-        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Piwik - Open Source Web Analytics"/>'), $message);
+        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Piwik - free/libre analytics platform"/>'), $message);
         $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard'). $message);
     }
 

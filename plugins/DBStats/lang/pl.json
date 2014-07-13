@@ -5,6 +5,7 @@
         "IndexSize": "Rozmiar indeksu",
         "LearnMore": "Aby dowiedzieć się więcej o tym, jak Piwik przetwarza dane i jak konfigurować go do pracy z serwisami o średnim i wysokim ruchu na stronach, sprawdź dokumentację %s.",
         "MainDescription": "Piwik przechowuje wszystkie dane analityki statystycznej stron w bazie danych MySQL serwera. Obecnie jego tabele zajmują %s.",
+        "OtherTables": "Inne Tabele",
         "PluginDescription": "Ta wtyczka informuje o stopniu wykorzystania baz danych MySQL przez tabele Piwik.",
         "RowCount": "Liczba wierszy",
         "Table": "Tabela",

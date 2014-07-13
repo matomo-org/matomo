@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,7 @@ class Updates_1_5_b4 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('site') . '`
-				 ADD ecommerce TINYINT DEFAULT 0' => false,
+				 ADD ecommerce TINYINT DEFAULT 0' => 1060,
         );
     }
 

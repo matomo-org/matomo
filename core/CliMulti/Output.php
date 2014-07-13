@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,7 +21,8 @@ class Output {
         }
 
         $dir = CliMulti::getTmpPath();
-        Filesystem::mkdir($dir, true);
+        Filesystem::mkdir($dir);
+
         $this->tmpFile = $dir . '/' . $outputId . '.output';
     }
 

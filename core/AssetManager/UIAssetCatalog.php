@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -21,6 +21,11 @@ class UIAssetCatalog
     private $catalogSorter;
 
     /**
+     * @var string[]  Absolute file locations
+     */
+    private $existingAssetLocations = array();
+
+    /**
      * @param UIAssetCatalogSorter $catalogSorter
      */
     function __construct($catalogSorter)
@@ -33,8 +38,10 @@ class UIAssetCatalog
      */
     public function addUIAsset($uiAsset)
     {
-        if(!$this->assetAlreadyInCatalog($uiAsset)) {
+        $location = $uiAsset->getAbsoluteLocation();
 
+        if(!$this->assetAlreadyInCatalog($location)) {
+            $this->existingAssetLocations[] = $location;
             $this->uiAssets[] = $uiAsset;
         }
     }
@@ -59,12 +66,8 @@ class UIAssetCatalog
      * @param UIAsset $uiAsset
      * @return boolean
      */
-    private function assetAlreadyInCatalog($uiAsset)
+    private function assetAlreadyInCatalog($location)
     {
-        foreach($this->uiAssets as $existingAsset)
-            if($uiAsset->getAbsoluteLocation() == $existingAsset->getAbsoluteLocation())
-                return true;
-
-        return false;
+        return in_array($location, $this->existingAssetLocations);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Option;
+use Piwik\Piwik;
 
 /**
  * Class that logs the time the current user is accessing the current resource (which

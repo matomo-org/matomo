@@ -1,11 +1,12 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Access;
+namespace Piwik\Tests;
+
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
@@ -13,17 +14,13 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\DataTable\Manager;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Plugins\LanguagesManager\API;
 use Piwik\ReportRenderer;
-use Piwik\Site;
-use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\UrlHelper;
+use Piwik\Log;
+use PHPUnit_Framework_TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -79,11 +76,15 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
+        Log::debug("Setting up " . get_called_class());
+
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
             $fixture = static::$fixture;
         }
+
+        $fixture->testCaseClass = get_called_class();
 
         try {
             $fixture->performSetUp();
@@ -94,6 +95,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
+        Log::debug("Tearing down " . get_called_class());
+
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
@@ -200,7 +203,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-        if(Fixture::canImagesBeIncludedInScheduledReports()) {
+        if (Fixture::canImagesBeIncludedInScheduledReports()) {
             // PDF Scheduled Report
             // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
             array_push(
@@ -542,7 +545,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst)
+    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove = array())
     {
         $isTestLogImportReverseChronological = strpos($testName, 'ImportedInRandomOrderTest') === false;
         $isLiveMustDeleteDates = (strpos($requestUrl, 'Live.getLastVisits') !== false
@@ -565,6 +568,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $response = $this->removeAllLiveDatesFromXml($response);
         }
         $response = $this->normalizePdfContent($response);
+
+        if (!empty($xmlFieldsToRemove)) {
+            $response = $this->removeXmlFields($response, $xmlFieldsToRemove);
+        }
 
         $expected = $this->loadExpectedFile($expectedFilePath);
         $expectedContent = $expected;
@@ -680,6 +687,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             'prettyDate',
             'serverDateTimePrettyFirstAction'
         );
+        return $this->removeXmlFields($input, $toRemove);
+    }
+
+    protected function removeXmlFields($input, $toRemove)
+    {
         foreach ($toRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }
@@ -820,7 +832,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
         // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
-        Rules::$purgeDisabledByTests = true;
+        \Piwik\ArchiveProcessor\Rules::disablePurgeOutdatedArchives();
 
         $testName = 'test_' . static::getOutputPrefix();
         $this->missingExpectedFiles = array();
@@ -865,14 +877,21 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             isset($params['fileExtension']) ? $params['fileExtension'] : false);
 
         $compareAgainst = isset($params['compareAgainst']) ? ('test_' . $params['compareAgainst']) : false;
-
+        $xmlFieldsToRemove = @$params['xmlFieldsToRemove'];
 
         foreach ($requestUrls as $apiId => $requestUrl) {
-            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst);
+            // this is a hack
+            if(isset($params['skipGetPageTitles'])) {
+                if($apiId == 'Actions.getPageTitles_day.xml') {
+                    continue;
+                }
+            }
+
+            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove);
         }
 
         // Restore normal purge behavior
-        Rules::$purgeDisabledByTests = false;
+        \Piwik\ArchiveProcessor\Rules::enablePurgeOutdatedArchives();
 
         // change the language back to en
         if ($this->lastLanguage != 'en') {
@@ -939,7 +958,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $result = array();
         foreach (DbHelper::getTablesInstalled() as $tableName) {
-            $result[$tableName] = Db::fetchAll("SELECT * FROM $tableName");
+            $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
         }
         return $result;
     }
@@ -991,7 +1010,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $rowsSql[] = "(" . implode(',', $values) . ")";
             }
 
-            $sql = "INSERT INTO $table VALUES " . implode(',', $rowsSql);
+            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
             Db::query($sql, $bind);
         }
     }
@@ -1002,7 +1021,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function deleteArchiveTables()
     {
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-            Db::query("DROP TABLE IF EXISTS $table");
+            Log::debug("Dropping table $table");
+
+            Db::query("DROP TABLE IF EXISTS `$table`");
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);

@@ -15,7 +15,8 @@ INFO [2014-03-25 15:36:05] START
 INFO [2014-03-25 15:36:05] Starting Piwik reports archiving...
 INFO [2014-03-25 15:36:10] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
 INFO [2014-03-25 15:36:15] Archived website id = 1, period = day, Time elapsed: 9.940s
-INFO [2014-03-25 15:36:15] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
+INFO [2014-03-25 15:36:15] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IEssssss
+Error here
 INFO [2014-03-25 15:36:59] Archived website id = 1, period = week, 0 visits, Time elapsed: 43.889s
 INFO [2014-03-25 15:36:59] Will pre-process the following 1 Segments for this website (id = 1): browserCode==IE
 INFO [2014-03-25 15:37:18] Archived website id = 1, period = month, 12 visits, Time elapsed: 19.324s

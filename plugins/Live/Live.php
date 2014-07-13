@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\Live;
 
-use Piwik\Menu\MenuMain;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Live/VisitorLog.php';
 
@@ -28,10 +26,7 @@ class Live extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'WidgetsList.addWidgets'                 => 'addWidget',
-            'Menu.Reporting.addItems'                => 'addMenu',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'ViewDataTable.getDefaultType'           => 'getDefaultTypeViewDataTable'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -48,19 +43,6 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
     }
 
-    public function addMenu()
-    {
-        MenuMain::getInstance()->add('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
-    }
-
-    public function addWidget()
-    {
-        WidgetsList::add('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
-        WidgetsList::add('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog', array('small' => 1));
-        WidgetsList::add('Live!', 'Live_RealTimeVisitorCount', 'Live', 'getSimpleLastVisitCount');
-        WidgetsList::add('Live!', 'Live_VisitorProfile', 'Live', 'getVisitorProfilePopup');
-    }
-
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "Live_VisitorProfile";
@@ -68,10 +50,5 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "Live_ShowMap";
         $translationKeys[] = "Live_HideMap";
         $translationKeys[] = "Live_PageRefreshed";
-    }
-
-    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
-    {
-        $defaultViewTypes['Live.getLastVisitsDetails'] = VisitorLog::ID;
     }
 }

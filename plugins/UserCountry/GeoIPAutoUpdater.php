@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,9 +17,9 @@ use Piwik\Http;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTaskTimetable;
 use Piwik\ScheduledTime\Monthly;

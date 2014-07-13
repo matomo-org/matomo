@@ -344,6 +344,7 @@
         "HoursMinutes": "%1$s שעות ו-%2$s דקות",
         "Id": "מספר סידורי",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "בהנחה כי גניזת המידע לארכיון פועלת בצורה מהירה בתהקנה שלך, ניתן להגדיר את העבודה הכרונית (crontab) לרוץ לעיתים תכופות יותר.",
+        "Installed": "מותקן",
         "InvalidDateRange": "טווח התאריכים לא תקף, נא לנסות שוב",
         "InvalidResponse": "המידע שהתקבל אינו תקף.",
         "Language": "שפה",

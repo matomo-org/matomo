@@ -9,6 +9,7 @@
     "clean-pattern": "^0.1.2",
     "grunt": ">= 0.4.2",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-shell": "^0.7.0",
     "karma": ">= 0.12.1",
     "karma-chrome-launcher": ">= 0.1.2",
     "karma-firefox-launcher": ">= 0.1.3",

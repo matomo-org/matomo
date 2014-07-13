@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,11 +9,12 @@ namespace Piwik\Plugins\CustomVariables\tests\Fixtures;
 
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site with two goals and tracks two visits with custom variables.
  */
-class VisitWithManyCustomVariables extends \Fixture
+class VisitWithManyCustomVariables extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;

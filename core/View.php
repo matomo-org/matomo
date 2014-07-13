@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
@@ -253,8 +252,18 @@ class View implements ViewInterface
 
     protected function applyFilter_cacheBuster($output)
     {
-        $cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
-        $tag = 'cb=' . $cacheBuster;
+        $assetManager = AssetManager::getInstance();
+
+        $stylesheet = $assetManager->getMergedStylesheetAsset();
+        if ($stylesheet->exists()) {
+            $content = $stylesheet->getContent();
+        } else {
+            $content = $assetManager->getMergedStylesheet()->getContent();
+        }
+
+        $cacheBuster = UIAssetCacheBuster::getInstance();
+        $tagJs       = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
+        $tagCss      = 'cb=' . $cacheBuster->md5BasedCacheBuster($content);
 
         $pattern = array(
             '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
@@ -265,9 +274,9 @@ class View implements ViewInterface
         );
 
         $replace = array(
-            '<script type="text/javascript" src="$1?' . $tag . '">',
-            '<script type="text/javascript" src="$1?' . $tag . '">',
-            '<link rel="stylesheet" type="text/css" href="$1?' . $tag . '" />',
+            '<script type="text/javascript" src="$1?' . $tagJs . '">',
+            '<script type="text/javascript" src="$1?' . $tagJs . '">',
+            '<link rel="stylesheet" type="text/css" href="$1?' . $tagCss . '" />',
             '$1="index.php?module=$2&amp;action=$3&amp;cb=',
         );
 
@@ -336,7 +345,7 @@ class View implements ViewInterface
     }
 
     /**
-     * Clear compiled Smarty templates
+     * Clear compiled Twig templates
      * @ignore
      */
     static public function clearCompiledTemplates()

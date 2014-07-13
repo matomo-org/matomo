@@ -27,7 +27,7 @@
 }
 
 .Menu--dashboard > .Menu-tabList a {
-    color: #444;
+    color: @theme-color-text-light;
     font-size: 18px;
     display: block;
     float: left;
@@ -47,7 +47,7 @@
 .Menu--dashboard > .Menu-tabList > li.sfHover > a,
 .Menu--dashboard > .Menu-tabList > li.sfActive > a,
 .Menu--dashboard > .Menu-tabList a:hover {
-    color: #e87500;
+    color: @theme-color-link;
 }
 
 .Menu--dashboard > .Menu-tabList > li:hover > a {
@@ -59,7 +59,7 @@
 }
 
 /* LEVEL2 NORMAL */
-.Menu--dashboard > .Menu-tabList > li > ul {
+.Menu--dashboard > .Menu-tabList > li ul {
   padding: 9px 0 5px 0;
   left: 0;
   top: -999em;
@@ -68,6 +68,7 @@
   width: 100%;
   background: none;
 }
+
 
 .Menu--dashboard > .Menu-tabList > li li {
     float: left;
@@ -84,13 +85,14 @@
     display: inline-block;
     height: auto;
     background: none;
-    color: #444;
+    color: @theme-color-text-light;
     text-decoration: none;
 }
 
+
 /* LEVEL2 HOVER */
-.Menu--dashboard > .Menu-tabList > li.sfHover > ul,
-.Menu--dashboard > .Menu-tabList > li:hover > ul {
+.Menu--dashboard > .Menu-tabList > li.sfHover ul,
+.Menu--dashboard > .Menu-tabList > li:hover ul {
   z-index: 1;
   top: 100%;
   opacity: 1;
@@ -102,7 +104,7 @@
 
 .Menu--dashboard > .Menu-tabList > li li:hover > a,
 .Menu--dashboard > .Menu-tabList > li li.sfHover > a {
-    color: #e87500;
+    color: @theme-color-link;
 }
 
 .Menu--dashboard > .Menu-tabList > li li.sfHover > a {

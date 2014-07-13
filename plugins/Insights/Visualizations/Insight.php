@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,11 +11,9 @@ namespace Piwik\Plugins\Insights\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Period\Range;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\Insights\API;
-use Piwik\Plugins\Insights\Model;
 
 /**
  * InsightsVisualization Visualization.
@@ -113,6 +111,11 @@ class Insight extends Visualization
         $canGenerateInsights = API::getInstance()->canGenerateInsights($date, $period);
 
         if (!$canGenerateInsights) {
+            return false;
+        }
+
+        if ($view->requestConfig->apiMethodToRequestDataTable 
+            && 0 === strpos($view->requestConfig->apiMethodToRequestDataTable, 'DBStats')) {
             return false;
         }
 

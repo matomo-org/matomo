@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,10 +8,7 @@
  */
 namespace Piwik\Plugins\Events;
 
-use Piwik\Piwik;
-use Piwik\Plugins\Events\Events;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
 
 /**
  * Events controller
@@ -56,21 +53,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->indexEvent(__FUNCTION__);
     }
 
-    public function getCategory()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getAction()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getName()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
     public function getActionFromCategoryId()
     {
         return $this->renderReport(__FUNCTION__);
@@ -107,9 +89,16 @@ class Controller extends \Piwik\Plugin\Controller
         $apiMethod = str_replace('index', 'get', $controllerMethod, $count);
         $events = new Events;
         $title = $events->getReportTitleTranslation($apiMethod);
+
+        if (method_exists($this, $apiMethod)) {
+            $content = $this->$apiMethod();
+        } else {
+            $content = $this->renderReport($apiMethod);
+        }
+
         return View::singleReport(
             $title,
-            $this->$apiMethod()
+            $content
         );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -101,10 +101,10 @@ class ScheduledTask
         }
 
         $namespaced = get_class($_objectInstance);
-        $class = explode('\\', $namespaced);
-        return end($class);
-    }
 
+        return $namespaced;
+    }
+    
     /**
      * Returns the object instance that contains the method to execute. Returns a class
      * name if the method is static.

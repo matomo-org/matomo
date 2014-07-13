@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,7 @@ use Piwik\View;
 class AllColumns extends HtmlTable
 {
     const ID = 'tableAllColumns';
-    const FOOTER_ICON       = 'plugins/Zeitgeist/images/table_more.png';
+    const FOOTER_ICON       = 'plugins/Morpheus/images/table_more.png';
     const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeRender()

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -443,7 +443,7 @@ class Http
                 CURLOPT_HEADER         => is_resource($file) ? false : true,
                 CURLOPT_CONNECTTIMEOUT => $timeout,
             );
-            // Case archive.php is triggering archiving on https:// and the certificate is not valid
+            // Case core:archive command is triggering archiving on https:// and the certificate is not valid
             if ($acceptInvalidSslCertificate) {
                 $curl_options += array(
                     CURLOPT_SSL_VERIFYHOST => false,
@@ -488,7 +488,8 @@ class Http
             } else if ($response === false) {
                 $errstr = curl_error($ch);
                 if ($errstr != '') {
-                    throw new Exception('curl_exec: ' . $errstr);
+                    throw new Exception('curl_exec: ' . $errstr
+                        . '. Hostname requested was: ' . UrlHelper::getHostFromUrl($aUrl));
                 }
                 $response = '';
             } else {
@@ -750,5 +751,25 @@ class Http
             return substr($str, 0, $limit) . '...';
         }
         return $str;
+    }
+
+    /**
+     * Returns the If-Modified-Since HTTP header if it can be found. If it cannot be
+     * found, an empty string is returned.
+     *
+     * @return string
+     */
+    public static function getModifiedSinceHeader()
+    {
+        $modifiedSince = '';
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+            $modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+
+            // strip any trailing data appended to header
+            if (false !== ($semicolonPos = strpos($modifiedSince, ';'))) {
+                $modifiedSince = substr($modifiedSince, 0, $semicolonPos);
+            }
+        }
+        return $modifiedSince;
     }
 }

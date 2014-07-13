@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -76,7 +76,7 @@ class Db
          *                                       database.
          *                        - **dbname**: The name of the Piwik MySQL database.
          *                        - **port**: The MySQL database port to use.
-         *                        - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
+         *                        - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
          *                        - **type**: The MySQL engine to use, for instance 'InnoDB'
          */
         Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
@@ -338,7 +338,7 @@ class Db
             $tables = array($tables);
         }
 
-        return self::query("DROP TABLE " . implode(',', $tables));
+        return self::query("DROP TABLE `" . implode('`,`', $tables) . "`");
     }
 
     /**
@@ -358,7 +358,7 @@ class Db
      */
     static public function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAll("SHOW COLUMNS FROM " . $table);
+        $columns = self::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
 
         $columnNames = array();
         foreach ($columns as $column) {

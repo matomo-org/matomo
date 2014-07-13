@@ -1,22 +1,28 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Integration;
+
+use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Fixtures\OneVisitSeveralPageViews;
 
 /**
  * Tests the class LabelFilter.
  * This is not possible as unit test, since it loads data from the archive.
+ *
+ * @group LabelFilterTest
+ * @group Integration
  */
-class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
+class LabelFilterTest extends IntegrationTestCase
 {
     public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
-     * @group        Integration
      */
     public function testApi($api, $params)
     {
@@ -110,6 +116,50 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
         $searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
         $return[] = array('Referrers.getSearchEngines', $searchEngineTest);
 
+        // test the ! operator
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'                => '_terminalOperator_selectTerminal',
+            'idSite'                    => $idSite,
+            'date'                      => $dateTime,
+            'otherRequestParameters'    => array(
+                'label'     => urlencode(urlencode('check <>') . '> @  ' . urlencode('@one@')),
+                'expanded'  => 0
+            )
+        ));
+
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'                => '_terminalOperator_selectBranch',
+            'idSite'                    => $idSite,
+            'date'                      => $dateTime,
+            'otherRequestParameters'    => array(
+                'label'     => urlencode(urlencode('check <>') . '>  ' . urlencode('@one@')),
+                'expanded'  => 0
+            )
+        ));
+
+        $return[] = array('Actions.getPageUrls', array(
+            'testSuffix'                => '_terminalOperator_selectTerminal',
+            'idSite'                    => $idSite,
+            'date'                      => $dateTime,
+            'otherRequestParameters'    => array(
+                'label'     => urlencode('dir> @ /subdir'),
+                'expanded'  => 0
+            )
+        ));
+
+        // test that filter_limit & filter_truncate are ignored when label is used
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'             => '_titles',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'label'           => urlencode('incredible title! <>,;'),
+                'expanded'        => 0,
+                'filter_limit'    => 1,
+                'filter_truncate' => 1
+            )
+        ));
+
         return $return;
     }
 
@@ -119,5 +169,4 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
     }
 }
 
-Test_Piwik_Integration_LabelFilter::$fixture = new Test_Piwik_Fixture_OneVisitSeveralPageViews();
-
+LabelFilterTest::$fixture = new OneVisitSeveralPageViews();

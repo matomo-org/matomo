@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -343,7 +343,7 @@ class Request
         // unless the filter param was in $queryParams
         $genericFiltersInfo = DataTableGenericFilter::getGenericFiltersInformation();
         foreach ($genericFiltersInfo as $filter) {
-            foreach ($filter as $queryParamName => $queryParamInfo) {
+            foreach ($filter[1] as $queryParamName => $queryParamInfo) {
                 if (!isset($params[$queryParamName])) {
                     $params[$queryParamName] = null;
                 }

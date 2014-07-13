@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,8 +17,8 @@ use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;
+use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\ActionSiteSearch;
 use Piwik\Tracker\PageUrl;
 
 /**
@@ -458,6 +458,15 @@ class API extends \Piwik\Plugin\API
             // match found on this level and more levels remaining: go deeper
             $idSubTable = $row->getIdSubDataTable();
             $callBackParameters[6] = $idSubTable;
+
+            /**
+             * @var \Piwik\Period $period
+             */
+            $period = $table->getMetadata('period');
+            if (!empty($period)) {
+                $callBackParameters[3] = $period->getDateStart() . ',' . $period->getDateEnd();
+            }
+
             $table = call_user_func_array(array($this, 'getDataTableFromArchive'), $callBackParameters);
             return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
         }

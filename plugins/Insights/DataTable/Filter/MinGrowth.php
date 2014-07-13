@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\Insights\DataTable\Filter;
 
-use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
+use Piwik\DataTable\BaseFilter;
 
 /**
  * A row will be deleted if a positive value of $columnToRead is lower than the $minPositiveValue or if the negative

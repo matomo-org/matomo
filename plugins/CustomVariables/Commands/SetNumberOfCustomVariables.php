@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,8 +10,8 @@
 namespace Piwik\Plugins\CustomVariables\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Tracker\Cache;
 use Piwik\Plugins\CustomVariables\Model;
+use Piwik\Tracker\Cache;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

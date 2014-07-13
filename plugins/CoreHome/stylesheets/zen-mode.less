@@ -1,0 +1,116 @@
+#content:not(.admin), .widget {
+
+  .UserCountryMap .dataTableFooterIcons {
+    display: block;
+  }
+
+  .widget {
+    border-color: @color-silver-l85;
+
+    .widgetTop {
+      border-color: @color-silver-l85;
+    }
+  }
+
+  /* DATATABLES */
+
+  table.dataTable {
+    th.sortable {
+      background: @theme-color-background-base !important;
+      border-left: 0px;
+      border-bottom: 0px;
+    }
+    th.columnSorted {
+      font-weight: normal !important;
+    }
+    tr.subDataTable {
+      font-weight: normal !important;
+    }
+    tr.subDataTable td.label .plusMinus + .label .value {
+      font-weight: bold !important;
+    }
+    tr td {
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  }
+
+  .dataTableActions.dataTableVizHtmlTable > .dataTableWrapper {
+    width: 100%;
+  }
+
+  .dataTableActions table.dataTable  {
+    td.columnodd,
+    td.columneven,
+    th.sortable:not(.first) {
+      width: 50px;
+    }
+  }
+
+  .dataTableVizHtmlTable > .dataTableWrapper {
+    width: 500px;
+  }
+
+  .dataTableFooterNavigation {
+    padding: 7px 0;
+  }
+
+
+  .dataTableFooterIcons {
+    border-top: 0px;
+  }
+
+  .foldDataTableFooterDrawer,
+  .dataTableFeatures .expandDataTableFooterDrawer {
+    opacity: 0;
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+  }
+
+  .dataTableFeatures:hover .foldDataTableFooterDrawer,
+  .dataTableFeatures:hover .expandDataTableFooterDrawer {
+    opacity: 1 !important;
+  }
+
+  h2:nth-of-type(n+2) {
+    margin-top: 40px;
+  }
+
+  h2 {
+    padding-left: 10px;
+    font-size: 24px;
+  }
+
+  .goalEntry:first-of-type {
+    padding-top: 20px;
+  }
+
+  .goalEntry {
+    border-bottom: 0px;
+  }
+
+  .relatedReferrerReports {
+    display: none;
+  }
+
+  div[data-report="Referrers.getReferrerType"] > .dataTableWrapper {
+    width: 800px;
+  }
+
+  .reportsByDimensionView .entityList {
+    margin-left: 13px;
+  }
+  
+  .widgetContent .jqplot-graph {
+    margin-top: 6px;
+  }
+}
+
+#content:not(.admin){
+  &> div:not(#dashboard) .dataTableFeatures .expandDataTableFooterDrawer {
+    margin-bottom: -20px;
+  }
+}

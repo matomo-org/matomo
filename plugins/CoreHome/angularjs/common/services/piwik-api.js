@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -162,7 +162,7 @@ angular.module('piwikApp.service').factory('piwikApi', function ($http, $q, $roo
      */
     piwikApi.fetch = function (getParams) {
 
-        getParams.module = 'API';
+        getParams.module = getParams.module || 'API';
         getParams.format = 'JSON';
 
         addParams(getParams, 'GET');

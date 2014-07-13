@@ -88,16 +88,23 @@
 .realTimeMap_overlay {
     position: absolute;
     left: 10px;
-    bottom: 6px;
     font-size: 12px;
     z-index: 10;
     text-shadow: 1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF, 1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF, 1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF, 1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF;
 }
 
 .realTimeMap_datetime {
-    bottom: 24px;
     color: #887;
     font-size: 14px;
+}
+
+.widget {
+  .realTimeMap_overlay {
+    bottom: 6px;
+  }
+  .realTimeMap_datetime {
+    bottom: 24px;
+  }
 }
 
 // realtime map colors (for theming)
@@ -114,7 +121,7 @@
 }
 
 .realtime-map[data-name=black-fill] {
-    color: #444440;
+    color: @theme-color-text-light;
 }
 
 .realtime-map[data-name=visit-stroke] {

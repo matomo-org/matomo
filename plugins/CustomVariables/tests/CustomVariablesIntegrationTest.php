@@ -1,21 +1,21 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomVariables\tests;
-use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Tracker\Cache;
+
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * @group CustomVariables
  * @group CustomVariablesTest
  * @group Database
  */
-class CustomVariablesIntegrationTest extends \IntegrationTestCase
+class CustomVariablesIntegrationTest extends IntegrationTestCase
 {
     /**
      * @var Fixtures\VisitWithManyCustomVariables

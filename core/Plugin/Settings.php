@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -106,7 +106,7 @@ abstract class Settings implements StorageInterface
     public function getSettingsForCurrentUser()
     {
         $settings = array_filter($this->getSettings(), function (Setting $setting) {
-            return $setting->canBeDisplayedForCurrentUser();
+            return $setting->isWritableByCurrentUser();
         });
 
         uasort($settings, function ($setting1, $setting2) use ($settings) {
@@ -174,6 +174,7 @@ abstract class Settings implements StorageInterface
     public function getSettingValue(Setting $setting)
     {
         $this->checkIsValidSetting($setting->getName());
+        $this->checkHasEnoughReadPermission($setting);
 
         if (array_key_exists($setting->getKey(), $this->settingsValues)) {
 
@@ -199,6 +200,7 @@ abstract class Settings implements StorageInterface
     public function setSettingValue(Setting $setting, $value)
     {
         $this->checkIsValidSetting($setting->getName());
+        $this->checkHasEnoughWritePermission($setting);
 
         if ($setting->validate && $setting->validate instanceof \Closure) {
             call_user_func($setting->validate, $value, $setting);
@@ -221,7 +223,7 @@ abstract class Settings implements StorageInterface
      */
     public function removeSettingValue(Setting $setting)
     {
-        $this->checkHasEnoughPermission($setting);
+        $this->checkHasEnoughWritePermission($setting);
 
         $key = $setting->getKey();
 
@@ -277,8 +279,6 @@ abstract class Settings implements StorageInterface
         if (empty($setting)) {
             throw new \Exception(sprintf('The setting %s does not exist', $name));
         }
-
-        $this->checkHasEnoughPermission($setting);
     }
 
     /**
@@ -324,15 +324,32 @@ abstract class Settings implements StorageInterface
      * @param $setting
      * @throws \Exception
      */
-    private function checkHasEnoughPermission(Setting $setting)
+    private function checkHasEnoughWritePermission(Setting $setting)
     {
-        // When the request is a Tracker request, allow plugins to read/write settings
-        if(SettingsServer::isTrackerApiRequest()) {
+        // When the request is a Tracker request, allow plugins to write settings
+        if (SettingsServer::isTrackerApiRequest()) {
             return;
         }
 
-        if (!$setting->canBeDisplayedForCurrentUser()) {
+        if (!$setting->isWritableByCurrentUser()) {
             $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingChangeNotAllowed', array($setting->getName(), $this->pluginName));
+            throw new \Exception($errorMsg);
+        }
+    }
+
+    /**
+     * @param $setting
+     * @throws \Exception
+     */
+    private function checkHasEnoughReadPermission(Setting $setting)
+    {
+        // When the request is a Tracker request, allow plugins to read settings
+        if (SettingsServer::isTrackerApiRequest()) {
+            return;
+        }
+
+        if (!$setting->isReadableByCurrentUser()) {
+            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingReadNotAllowed', array($setting->getName(), $this->pluginName));
             throw new \Exception($errorMsg);
         }
     }

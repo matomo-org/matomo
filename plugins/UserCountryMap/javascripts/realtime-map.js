@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Real time visitors map
  * Using Kartograph.js http://kartograph.org/

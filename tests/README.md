@@ -41,14 +41,20 @@ To execute the tests:
 
 ## PHPUnit Tests
 
-1. 	Install PHPUnit on your system
-	
-		$ cd your/php/directory
-		$ sudo pear upgrade PEAR
-		$ pear config-set auto_discover 1
-		$ sudo pear install --alldeps pear.phpunit.de/PHPUnit
+1. 	To install PHPUnit, run `php composer.phar update` in the Piwik root directory.
 
-	Doc at: http://www.phpunit.de/manual/current/en/installation.html
+    Add the PHPUnit binary path to the your PATH environment variable. For example on Linux:
+    Edit `.bashrc` in your home directory and add the following line:
+
+        export PATH=/path/to/dir:$PATH
+
+    You will need to source your `.bashrc` or logout/login (or restart the terminal) for the changes to take effect.
+    To source your `.bashrc`, in your home directory simply type
+
+        $ source .bashrc
+
+    See [PHPUnit doc](http://www.phpunit.de/manual/current/en/installation.html).
+    Note: if you were already using PHPUnit using PEAR, you may delete the PEAR PHPUnit with `sudo rm /usr/bin/phpunit`
 
 2. 	Configure PHPUnit: Copy the file `piwik/tests/PHPUnit/phpunit.xml.dist` to `phpunit.xml`.
 	In this file, you will find the following lines.
@@ -61,7 +67,6 @@ To execute the tests:
 3.	Ensure the `[database_tests]` section in `piwik/config/config.php.ini` is set up correctly, 
 	i.e. with the correct password to prevent the following error:
 	`SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
-
 
 4. 	Run the tests
 

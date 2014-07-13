@@ -33,13 +33,13 @@
 }
 
 .admin .pluginsFilter {
-  color: #666;
+  color: @theme-color-text-lighter;
   .active {
     font-weight: bold;
   }
 
   a {
-    color: #255792;
+    color: @theme-color-link;
     text-decoration: none;
   }
 
@@ -149,10 +149,13 @@
     .update {
       .install
     }
+    h3 .more {
+      color: @theme-color-text;
+    }
     .more {
       font-weight: bold;
       text-decoration: none;
-      color: #255792;
+      color: @theme-color-link;
     }
     .content {
       margin-bottom: 46px;
@@ -226,6 +229,9 @@
   }
 
   .sort {
+    a {
+      color: @theme-color-link;
+    }
     .active {
       font-weight: bold;
     }
@@ -239,7 +245,6 @@
 .pluginDetails {
   font-size: 13px;
   text-align: left;
-  font-family: Arial, Helvetica, sans-serif;
   line-height: 20px;
 
   h3, h4, h5, h6 {
@@ -271,7 +276,6 @@
   }
 
   p, .ui-tabs-panel ul, .ui-tabs-panel li {
-    font-family: Arial, Helvetica, sans-serif;
     text-align: left;
     line-height: 20px;
   }
@@ -305,7 +309,7 @@
   }
 
   .content a {
-    color: #255792;
+    color: @theme-color-link;
     text-decoration: none;
   }
 

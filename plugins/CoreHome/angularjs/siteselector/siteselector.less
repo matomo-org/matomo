@@ -36,13 +36,12 @@
   float: left;
   position: relative;
   z-index: 19;
-  background: #fff url(plugins/Zeitgeist/images/sites_selection.png) repeat-x 0 0;
+  background: #fff url(plugins/Morpheus/images/sites_selection.png) repeat-x 0 0;
   border: 1px solid #d4d4d4;
   color: #255792;
   border-radius: 4px;
   cursor: pointer;
   min-width: 165px;
-  padding: 5px 6px 4px;
 }
 
 .sites_autocomplete .custom_select_main_link {
@@ -51,6 +50,8 @@
   background: none;
   cursor: default;
   height:1.4em;
+  padding-top: 9px;
+  padding-bottom: 9px;
 }
 
 .sites_autocomplete .custom_select_ul_list li a,
@@ -70,7 +71,8 @@
   right: 0;
   font-size: 0.8em;
   margin-top: 0.2em;
-  color: #444;
+  color: @theme-color-text-light;
+  margin-top: 9px;
 }
 
 .sites_autocomplete--dropdown .custom_select_main_link {
@@ -79,7 +81,7 @@
 }
 
 .sites_autocomplete .custom_select_main_link.loading {
-  background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
+  background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat right 9px;
 }
 
 .sites_autocomplete .custom_select_ul_list,
@@ -113,7 +115,7 @@
   height: 26px;
   display: block;
   white-space: nowrap;
-  background: url(plugins/Zeitgeist/images/search_bg.png) no-repeat 0 0;
+  background: url(plugins/Morpheus/images/search_bg.png) no-repeat 0 0;
 }
 
 .sites_autocomplete .custom_select_search .inp {
@@ -159,6 +161,7 @@
   overflow: hidden;
   max-width: inherit;
   visibility: visible;
+  padding-bottom: 7px;
 }
 
 .custom_select_block_show {

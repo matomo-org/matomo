@@ -80,7 +80,7 @@
         <tr ng-if="hasSuperUserAccess">
             <td colspan="8" class="add_new_site">
                 <a href="{{ url }}?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}">
-                    <img src='plugins/UsersManager/images/add.png' alt=""/> {{ 'SitesManager_AddSite'|translate }}
+                    <img src='plugins/Morpheus/images/add.png' alt=""/> {{ 'SitesManager_AddSite'|translate }}
                 </a>
             </td>
         </tr>
@@ -91,6 +91,21 @@
             </td>
         </tr>
         <tr>
+            <td colspan="8" class="paging" ng-hide="model.numberOfPages() <= 1">
+                <span id="prev" class="previous" ng-hide="model.currentPage == 0" ng-click="model.previousPage()">
+                    <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
+                </span>
+                <span class="dataTablePages">
+                    <span id="counter">
+                        {{ 'MultiSites_Pagination'|translate:model.getCurrentPagingOffsetStart():model.getCurrentPagingOffsetEnd():model.getNumberOfFilteredSites() }}
+                    </span>
+                </span>
+                <span id="next" class="next" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
+                    <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
+                </span>
+            </td>
+        </tr>
+        <tr row_id="last">
             <td colspan="8" class="site_search">
                 <input type="text"
                        ng-change="model.searchSite(searchTerm)"
@@ -99,7 +114,7 @@
                 <img title="Search"
                      ng-show="!searchTerm"
                      class="search_ico"
-                     src="plugins/Zeitgeist/images/search_ico.png"/>
+                     src="plugins/Morpheus/images/search_ico.png"/>
                 <img title="Clear"
                      ng-show="searchTerm"
                      ng-click="searchTerm='';model.searchSite('')"
@@ -108,21 +123,6 @@
             </td>
         </tr>
 
-        <tr row_id="last">
-            <td colspan="8" class="paging" ng-hide="model.numberOfPages() <= 1">
-                <span id="prev" class="previous" ng-hide="model.currentPage == 0" ng-click="model.previousPage()">
-                    <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
-                </span>
-                <span class="dataTablePages">
-                    <span id="counter">
-                        {{ model.getCurrentPagingOffsetStart() }} - {{ model.getCurrentPagingOffsetEnd() }} of {{ model.getNumberOfFilteredSites() }}
-                    </span>
-                </span>
-                <span id="next" class="next" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
-                    <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
-                </span>
-            </td>
-        </tr>
         </tfoot>
     </table>
 </div>

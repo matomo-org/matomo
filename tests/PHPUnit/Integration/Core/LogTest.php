@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,10 +10,10 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Error;
 use Piwik\ExceptionHandler;
-
-require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
+
+require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 
 /**
  * Class Core_LogTest
@@ -270,7 +270,7 @@ dummy backtrace'
     public static function getLogFileLocation()
     {
         $path = self::getDefaultLogFileLocation();
-        $path = \Piwik\SettingsPiwik::rewriteTmpPathWithHostname($path);
+        $path = \Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId($path);
         return $path;
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -175,7 +175,7 @@ abstract class ViewDataTable implements ViewInterface
      * Posts the {@hook ViewDataTable.configure} event which plugins can use to configure the
      * way reports are displayed.
      */
-    public function __construct($controllerAction, $apiMethodToRequestDataTable)
+    public function __construct($controllerAction, $apiMethodToRequestDataTable, $overrideParams = array())
     {
         list($controllerName, $controllerAction) = explode('.', $controllerAction);
 
@@ -190,6 +190,38 @@ abstract class ViewDataTable implements ViewInterface
         $this->config->self_url          = Request::getBaseReportUrl($controllerName, $controllerAction);
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
+
+        $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
+
+        if (!empty($report)) {
+            $subtable = $report->getActionToLoadSubTables();
+            if (!empty($subtable)) {
+                $this->config->subtable_controller_action = $subtable;
+            }
+
+            $relatedReports = $report->getRelatedReports();
+            if (!empty($relatedReports)) {
+                foreach ($relatedReports as $relatedReport) {
+                    $widgetTitle = $relatedReport->getWidgetTitle();
+
+                    if ($widgetTitle && Common::getRequestVar('widget', 0, 'int')) {
+                        $relatedReportName = $widgetTitle;
+                    } else {
+                        $relatedReportName = $relatedReport->getName();
+                    }
+
+                    $this->config->addRelatedReport($relatedReport->getModule() . '.' . $relatedReport->getAction(),
+                                                    $relatedReportName);
+                }
+            }
+
+            $metrics = $report->getMetrics();
+            if (!empty($metrics)) {
+                $this->config->addTranslations($metrics);
+            }
+
+            $report->configureView($this);
+        }
 
         /**
          * Triggered during {@link ViewDataTable} construction. Subscribers should customize
@@ -229,6 +261,7 @@ abstract class ViewDataTable implements ViewInterface
             $this->requestConfig->filter_excludelowpop_value = $function();
         }
 
+        $this->overrideViewPropertiesWithParams($overrideParams);
         $this->overrideViewPropertiesWithQueryParams();
     }
 
@@ -399,7 +432,7 @@ abstract class ViewDataTable implements ViewInterface
             if (property_exists($this->requestConfig, $name)) {
                 $this->requestConfig->$name = $this->getPropertyFromQueryParam($name, $this->requestConfig->$name);
             } elseif (property_exists($this->config, $name)) {
-                $this->config->$name  = $this->getPropertyFromQueryParam($name, $this->config->$name);
+                $this->config->$name = $this->getPropertyFromQueryParam($name, $this->config->$name);
             }
         }
 
@@ -456,4 +489,22 @@ abstract class ViewDataTable implements ViewInterface
     {
         return $view->config->show_all_views_icons;
     }
+
+    private function overrideViewPropertiesWithParams($overrideParams)
+    {
+        if (empty($overrideParams)) {
+            return;
+        }
+
+        foreach ($overrideParams as $key => $value) {
+            if (property_exists($this->requestConfig, $key)) {
+                $this->requestConfig->$key = $value;
+            } elseif (property_exists($this->config, $key)) {
+                $this->config->$key = $value;
+            } elseif ($key != 'enable_filter_excludelowpop') {
+                $this->config->custom_parameters[$key] = $value;
+            }
+        }
+    }
+
 }

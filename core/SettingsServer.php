@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,8 +16,7 @@ namespace Piwik;
 class SettingsServer
 {
     /**
-     * Returns true if the current script execution was triggered by the cron archiving
-     * script (**misc/cron/archive.php**).
+     * Returns true if the current script execution was triggered by the cron archiving script.
      *
      * Helpful for error handling: directly throw error without HTML (eg. when DB is down).
      * 
@@ -133,7 +132,7 @@ class SettingsServer
         $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
 
         if (self::isArchivePhpTriggered()) {
-            // archive.php: no time limit, high memory limit
+            // core:archive command: no time limit, high memory limit
             self::setMaxExecutionTime(0);
             $minimumMemoryLimitWhenArchiving = Config::getInstance()->General['minimum_memory_limit_when_archiving'];
             if ($memoryLimit < $minimumMemoryLimitWhenArchiving) {

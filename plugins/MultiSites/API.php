@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;

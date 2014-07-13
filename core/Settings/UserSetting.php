@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,7 +35,8 @@ class UserSetting extends Setting
 
         $this->setUserLogin($userLogin);
 
-        $this->displayedForCurrentUser = Piwik::isUserHasSomeViewAccess();
+        $this->writableByCurrentUser = Piwik::isUserHasSomeViewAccess();
+        $this->readableByCurrentUser = Piwik::isUserHasSomeViewAccess();
     }
 
     /**

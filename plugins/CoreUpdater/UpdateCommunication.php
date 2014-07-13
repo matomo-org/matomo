@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,9 +12,9 @@ use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\SettingsPiwik;
 use Piwik\UpdateCheck;
-use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 
 /**
  * Class to check and notify users via email if there is a core update available.

@@ -1,12 +1,15 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\ExamplePlugin;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 
 /**
  * API for plugin ExamplePlugin
@@ -19,11 +22,11 @@ class API extends \Piwik\Plugin\API
      * Example method. Please remove if you do not need this API method.
      * You can call this API method like this:
      * /index.php?module=API&method=ExamplePlugin.getAnswerToLife
-     * /index.php?module=API&method=ExamplePlugin.getAnswerToLife?truth=0
+     * /index.php?module=API&method=ExamplePlugin.getAnswerToLife&truth=0
      *
      * @param  bool $truth
      *
-     * @return bool
+     * @return int
      */
     public function getAnswerToLife($truth = true)
     {
@@ -32,5 +35,18 @@ class API extends \Piwik\Plugin\API
         }
 
         return 24;
+    }
+
+    /**
+     * Another example method that returns a data table.
+     * @return DataTable
+     */
+    public function getExampleReport()
+    {
+        $table = new DataTable();
+
+        $table->addRowFromArray(array(Row::COLUMNS => array('nb_visits' => 5)));
+
+        return $table;
     }
 }

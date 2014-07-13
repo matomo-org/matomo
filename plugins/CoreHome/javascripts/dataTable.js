@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -115,6 +115,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
         self.param.filter_offset = 0;
         self.param.filter_sort_column = newColumnToSort;
+
+        if (!self.isDashboard()) {
+            self.notifyWidgetParametersChange(domElem, {
+                filter_sort_column: newColumnToSort
+            });
+        }
+
         self.reloadAjaxDataTable();
     },
 
@@ -229,7 +236,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         ajaxRequest.setFormat('html');
 
         ajaxRequest.send(false);
-
     },
 
     // Function called when the AJAX request is successful
@@ -300,7 +306,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     setFixWidthToMakeEllipsisWork: function (domElem) {
         var self = this;
 
-        function getTableWidth(domElem) {
+        function isWidgetized()
+        {
+            return -1 !== location.search.indexOf('module=Widgetize');
+        }
+
+        function getTableWidth(domElem)
+        {
             var totalWidth      = $(domElem).width();
             var totalWidthTable = $('table.dataTable', domElem).width(); // fixes tables in dbstats, referrers, ...
 
@@ -313,6 +325,28 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             return parseInt(totalWidth, 10);
+        }
+
+        function setMaxTableWidthIfNeeded (domElem, maxTableWidth)
+        {
+            var tableWidth = getTableWidth(domElem);
+
+            if (tableWidth <= maxTableWidth) {
+                return;
+            }
+
+            if (isWidgetized() || self.isDashboard()) {
+                return;
+            }
+
+            $(domElem).width(maxTableWidth);
+
+            var parentDataTable = $(domElem).parent('.dataTable');
+            if (parentDataTable && parentDataTable.length) {
+                // makes sure dataTableWrapper and DataTable has same size => makes sure maxLabelWidth does not get
+                // applied in getLabelWidth() since they will have the same size.
+                parentDataTable.width(maxTableWidth);
+            }
         }
 
         function getLabelWidth(domElem, tableWidth, minLabelWidth, maxLabelWidth)
@@ -332,10 +366,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = tableWidth * 0.5;
             }
 
-            var isWidgetized  = -1 !== location.search.indexOf('module=Widgetize');
+            var innerWidth = 0;
+            var innerWrapper = domElem.find('.dataTableWrapper');
+            if (innerWrapper && innerWrapper.length) {
+                innerWidth = innerWrapper.width();
+            }
 
             if (labelWidth > maxLabelWidth
-                && !isWidgetized
+                && !isWidgetized()
+                && innerWidth !== domElem.width()
                 && !self.isDashboard()) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
@@ -365,16 +404,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         function removePaddingFromWidth(domElem, labelWidth) {
+            var maxPaddingLeft  = 0;
+            var maxPaddingRight = 0;
 
-            var firstLabel = $('tbody tr:nth-child(1) td.label', domElem);
-            
-            var paddingLeft = firstLabel.css('paddingLeft');
-            paddingLeft     = paddingLeft ? parseInt(paddingLeft, 10) : 0;
+            $('tbody tr td.label', domElem).each(function (i, node) {
+                $node = $(node);
 
-            var paddingRight = firstLabel.css('paddingRight');
-            paddingRight     = paddingRight ? parseInt(paddingRight, 10) : 0;
+                var paddingLeft  = $node.css('paddingLeft');
+                paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
+                var paddingRight = $node.css('paddingRight');
+                paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
 
-            labelWidth = labelWidth - paddingLeft - paddingRight;
+                if (paddingLeft > maxPaddingLeft) {
+                    maxPaddingLeft = paddingLeft;
+                }
+                if (paddingRight > maxPaddingRight) {
+                    maxPaddingRight = paddingRight;
+                }
+            });
+
+            labelWidth = labelWidth - maxPaddingLeft - maxPaddingRight;
 
             return labelWidth;
         }
@@ -382,7 +431,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var minLabelWidth = 125;
         var maxLabelWidth = 440;
 
-        var tableWidth          = getTableWidth(domElem);
+        setMaxTableWidthIfNeeded(domElem, 1200);
+        var tableWidth = getTableWidth(domElem);
         var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
         var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
 
@@ -400,7 +450,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleLimit: function (domElem) {
-        var tableRowLimits = [5, 10, 25, 50, 100, 250, 500],
+            var tableRowLimits = piwik.config.datatable_row_limits,
             evolutionLimits =
             {
                 day: [30, 60, 90, 180, 365, 500],
@@ -494,24 +544,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     handleSort: function (domElem) {
         var self = this;
 
-        function getSortImageSrc() {
-            var imageSortSrc = false;
-            if (currentIsSubDataTable) {
-                if (self.param.filter_sort_order == 'asc') {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sort_subtable_asc.png';
-                } else {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sort_subtable_desc.png';
-                }
-            } else {
-                if (self.param.filter_sort_order == 'asc') {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sortasc.png';
-                } else {
-                    imageSortSrc = 'plugins/Zeitgeist/images/sortdesc.png';
-                }
-            }
-            return imageSortSrc;
-        }
-
         if (self.props.enable_sort) {
             $('.sortable', domElem).off('click.dataTableSort').on('click.dataTableSort',
                 function () {
@@ -524,7 +556,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (self.param.filter_sort_column) {
             // are we in a subdatatable?
             var currentIsSubDataTable = $(domElem).parent().hasClass('cellSubDataTable');
-            var imageSortSrc = getSortImageSrc();
+            var imageSortClassType = currentIsSubDataTable ? 'sortSubtable' : ''
             var imageSortWidth = 16;
             var imageSortHeight = 16;
 
@@ -535,7 +567,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // adding an image and the class columnSorted to the TD
             $("th#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
                 .addClass('columnSorted')
-                .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + '"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
+                .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + ' ' + imageSortClassType + '"><span class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" /></div>');
         }
     },
 
@@ -642,46 +674,47 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         );
 
+        var $next = $('.dataTableNext', domElem);
+
         // Display the next link if the total Rows is greater than the current end row
-        $('.dataTableNext', domElem)
-            .each(function () {
-                var offsetEnd = Number(self.param.filter_offset)
-                    + Number(self.param.filter_limit);
-                var totalRows = Number(self.param.totalRows);
-                if (self.param.keep_summary_row == 1) --totalRows;
-                if (offsetEnd < totalRows) {
-                    $(this).css('display', 'inline');
-                }
-            })
-            // bind the click event to trigger the ajax request with the new offset
-            .click(function () {
-                $(this).off('click');
-                self.param.filter_offset = Number(self.param.filter_offset) + Number(self.param.filter_limit);
-                self.reloadAjaxDataTable();
-            })
-        ;
+        $next.each(function () {
+            var offsetEnd = Number(self.param.filter_offset)
+                + Number(self.param.filter_limit);
+            var totalRows = Number(self.param.totalRows);
+            if (self.param.keep_summary_row == 1) --totalRows;
+            if (offsetEnd < totalRows) {
+                $(this).css('display', 'inline');
+            }
+        });
+        // bind the click event to trigger the ajax request with the new offset
+        $next.off('click');
+        $next.click(function () {
+            $(this).off('click');
+            self.param.filter_offset = Number(self.param.filter_offset) + Number(self.param.filter_limit);
+            self.reloadAjaxDataTable();
+        });
+
+        var $prev = $('.dataTablePrevious', domElem);
 
         // Display the previous link if the current offset is not zero
-        $('.dataTablePrevious', domElem)
-            .each(function () {
-                var offset = 1 + Number(self.param.filter_offset);
-                if (offset != 1) {
-                    $(this).css('display', 'inline');
-                }
+        $prev.each(function () {
+            var offset = 1 + Number(self.param.filter_offset);
+            if (offset != 1) {
+                $(this).css('display', 'inline');
             }
-        )
-            // bind the click event to trigger the ajax request with the new offset
-            // take care of the negative offset, we setup 0
-            .click(
-            function () {
-                $(this).off('click');
-                var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
-                if (offset < 0) { offset = 0; }
-                self.param.filter_offset = offset;
-                self.param.previous = 1;
-                self.reloadAjaxDataTable();
-            }
-        );
+        });
+
+        // bind the click event to trigger the ajax request with the new offset
+        // take care of the negative offset, we setup 0
+        $prev.off('click');
+        $prev.click(function () {
+            $(this).off('click');
+            var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
+            if (offset < 0) { offset = 0; }
+            self.param.filter_offset = offset;
+            self.param.previous = 1;
+            self.reloadAjaxDataTable();
+        });
     },
 
     handleEvolutionAnnotations: function (domElem) {
@@ -706,7 +739,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         ;
 
                     var annotationsCss = {left: 6}; // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
-                    if (!self.isDashboard() && !self.isWithinDialog(domElem)) {
+                    if (self.isWithinDialog(domElem)) {
                         annotationsCss['top'] = -datatableFeatures.height() - annotationAxisHeight + noteSize / 2;
                     }
 
@@ -716,11 +749,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
                     // add new section under axis
-                    if (self.isDashboard() || self.isWithinDialog(domElem)) {
-                        annotations.insertAfter($('.datatableRelatedReports', domElem));
-                    } else {
-                        datatableFeatures.append(annotations);
-                    }
+                    annotations.insertAfter($('.datatableRelatedReports', domElem));
 
                     // reposition annotation icons every time the graph is resized
                     $('.piwik-graph', domElem).on('resizeGraph', function () {
@@ -1083,6 +1112,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // no manipulation when loading subtables
             return;
         }
+
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)) {
             // if there are no subtables, remove the flatten action
@@ -1123,7 +1153,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var generateClickCallback = function (paramName, callbackAfterToggle) {
             return function () {
                 close();
-                self.param[paramName] = 1 - self.param[paramName];
+                self.param[paramName] = (1 - self.param[paramName]) + '';
                 self.param.filter_offset = 0;
                 delete self.param.totalRows;
                 if (callbackAfterToggle) callbackAfterToggle();
@@ -1227,7 +1257,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     notifyWidgetParametersChange: function (domWidget, parameters) {
         var widget = $(domWidget).closest('[widgetId]');
         // trigger setParameters event on base element
-        widget.trigger('setParameters', parameters);
+
+        if (widget && widget.length) {
+            widget.trigger('setParameters', parameters);
+        } else {
+
+            var reportId = $(domWidget).closest('[data-report]').attr('data-report');
+
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams({
+                module: 'CoreHome',
+                action: 'saveViewDataTableParameters',
+                report_id: reportId
+            }, 'get');
+            ajaxRequest.addParams({
+                parameters: JSON.stringify(parameters)
+            }, 'post');
+            ajaxRequest.setCallback(function () {});
+            ajaxRequest.setFormat('html');
+            ajaxRequest.send(false);
+        }
     },
 
     tooltip: function (domElement) {
@@ -1276,7 +1325,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleExpandFooter: function (domElem) {
-        if (!this.isDashboard() && !this.isWithinDialog(domElem)) {
+        if (this.isWithinDialog(domElem)) {
             return;
         }
 
@@ -1287,10 +1336,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         var self = this;
-        function toggleFooter()
+        function toggleFooter(event)
         {
             var icons = $('.dataTableFooterIcons', domElem);
             $('.dataTableFeatures', domElem).toggleClass('expanded');
+
+            if (event && event.doNotNotifyChange) {
+                return;
+            }
 
             self.notifyWidgetParametersChange(domElem, {
                 isFooterExpandedInDashboard: icons.is(':visible')
@@ -1306,9 +1359,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $('.expandDataTableFooterDrawer', domElem).after(footerIcons);
 
-        var controls = $('.controls', domElem);
-        if (controls.length) {
-            $('.foldDataTableFooterDrawer', domElem).after(controls);
+        var controls   = $('.controls', domElem);
+        var footerWrap = $('.dataTableFooterWrap', domElem);
+        if (controls.length && footerWrap.length) {
+            $('.dataTableFooterWrap', domElem).before(controls);
         }
 
         var loadingPiwikBelow = $('.loadingPiwikBelow', domElem);
@@ -1317,10 +1371,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         if (this.param.isFooterExpandedInDashboard) {
-            toggleFooter();
+            toggleFooter({doNotNotifyChange: true});
         }
 
-        $('.foldDataTableFooterDrawer, .expandDataTableFooterDrawer', domElem).on('click', toggleFooter);
+        var $nodes = $('.foldDataTableFooterDrawer, .expandDataTableFooterDrawer', domElem);
+        $nodes.off('click');
+        $nodes.on('click', toggleFooter);
     },
 
     handleColumnHighlighting: function (domElem) {
@@ -1399,7 +1455,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         '<tr>' +
                             '<td colspan="' + numberOfColumns + '" class="cellSubDataTable">' +
                             '<div id="' + divIdToReplaceWithSubTable + '">' +
-                            '<span class="loadingPiwik" style="display:inline"><img src="plugins/Zeitgeist/images/loading-blue.gif" />' + _pk_translate('General_Loading') + '</span>' +
+                            '<span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" />' + _pk_translate('General_Loading') + '</span>' +
                             '</div>' +
                             '</td>' +
                             '</tr>'

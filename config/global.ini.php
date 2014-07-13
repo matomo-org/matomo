@@ -18,7 +18,7 @@ password =
 dbname =
 tables_prefix =
 port = 3306
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 
@@ -34,7 +34,7 @@ password =
 dbname = piwik_tests
 tables_prefix = piwiktests_
 port = 3306
-adapter = PDO_MYSQL
+adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 
@@ -47,7 +47,7 @@ log_writers[] = screen
 ; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
 log_level = WARN
 
-; if set to 1, only requests done in CLI mode (eg. the archive.php cron run) will be logged
+; if set to 1, only requests done in CLI mode (eg. the ./console core:archive cron run) will be logged
 ; NOTE: log_only_when_debug_parameter will also be checked for
 log_only_when_cli = 0
 
@@ -72,13 +72,10 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
-; if set to 1, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
+; if set to > 0, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc.
+; data will be stored for idSite = enable_measure_piwik_usage_in_idsite
 ; this is useful for Piwik developers as an easy way to create data in their local Piwik
-track_visits_inside_piwik_ui = 0
-
-; if set to 1, javascript files will be included individually and neither merged nor minified.
-; this option must be set to 1 when adding, removing or modifying javascript files
-disable_merged_assets = 0
+enable_measure_piwik_usage_in_idsite = 0
 
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
@@ -87,11 +84,24 @@ tracker_always_new_visitor = 0
 allow_upgrades_to_beta = 0
 
 [DebugTests]
-; Set to 1 by default. If you set to 0, the standalone plugins (with their own git repositories)
-; will not be loaded when executing tests.
-enable_load_standalone_plugins_during_tests = 1
+; When set to 1, standalone plugins (those with their own git repositories)
+; will be loaded when executing tests.
+enable_load_standalone_plugins_during_tests = 0
+
+[Development]
+
+; Enables the development mode where we avoid most caching to make sure code changes will be directly applied as
+; some caches are only invalidated after an update otherwise. When enabled it'll also performs some validation checks.
+; For instance if you register a method in a widget we will verify whether the method actually exists and is public.
+; If not, we will show you a helpful warning to make it easy to find simple typos etc.
+enabled = 0
+
+; if set to 1, javascript files will be included individually and neither merged nor minified.
+; this option must be set to 1 when adding, removing or modifying javascript files
+disable_merged_assets = 0
 
 [General]
+
 ; the following settings control whether Unique Visitors will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
 ; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
@@ -101,6 +111,12 @@ enable_processing_unique_visitors_week = 1
 enable_processing_unique_visitors_month = 1
 enable_processing_unique_visitors_year = 0
 enable_processing_unique_visitors_range = 0
+
+; The list of periods that are available in the Piwik calendar
+; Example use case: custom date range requests are processed in real time,
+; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
+enabled_periods_UI = "day,week,month,year,range"
+enabled_periods_API = "day,week,month,year,range"
 
 ; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
@@ -147,6 +163,16 @@ browser_archiving_disabled_enforce = 0
 ;       this will only affect custom segments added or modified after this setting is changed.
 enable_create_realtime_segments = 1
 
+; Whether to enable the "Suggest values for segment" in the Segment Editor panel.
+; Set this to 0 in case your Piwik database is very big, and suggested values may not appear in time
+enable_segment_suggested_values = 1
+
+; By default, any user with a "view" access for a website can create segment assigned to this website.
+; Set this to "admin" or "superuser" to require that users should have at least this access to create new segments.
+; Note: anonymous user (even if it has view access) is not allowed to create or edit segment.
+; Possible values are "view", "admin", "superuser"
+adding_segment_requires_access = "view"
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
@@ -157,6 +183,10 @@ default_language = en
 
 ; default number of elements in the datatable
 datatable_default_limit = 10
+
+; Each datatable report has a Row Limit selector at the bottom right.
+; By default you can select from 5 to 500 rows. You may customise the values below:
+datatable_row_limits = "5,10,25,50,100,250,500"
 
 ; default number of rows returned in API responses
 ; this value is overwritten by the '# Rows to display' selector.
@@ -200,7 +230,7 @@ minimum_pgsql_version = 8.3
 ; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
-; Minimum memory limit enforced when archived via misc/cron/archive.php
+; Minimum memory limit enforced when archived via ./console core:archive
 minimum_memory_limit_when_archiving = 768
 
 ; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
@@ -237,6 +267,12 @@ login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
 
+; email address that appears as a Repy-to in the password recovery email
+; if specified, {DOMAIN} will be replaced by the current Piwik domain
+login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
+; name that appears as a Reply-to in the password recovery email
+login_password_recovery_replyto_email_name = "No-reply"
+
 ; By default when user logs out he is redirected to Piwik "homepage" usually the Login form.
 ; Uncomment the next line to set a URL to redirect the user to after he logs out of Piwik.
 ; login_logout_url = http://...
@@ -258,6 +294,9 @@ noreply_email_address = "noreply@{DOMAIN}"
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
 feedback_email_address = "feedback@piwik.org"
+
+; using to set reply_to in reports e-mail to login of report creator
+scheduled_reports_replyto_is_user_email_and_alias = 0
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)
@@ -347,9 +386,14 @@ enable_trusted_host_check = 1
 ;trusted_hosts[] = example.com
 ;trusted_hosts[] = stats.example.com
 
+; If you use this Piwik instance over multiple hostnames, Piwik will need to know
+; a unique instance_id for this instance, so that Piwik can serve the right custom logo and tmp/* assets,
+; independantly of the hostname Piwik is currently running under.
+; instance_id = stats.example.com
+
 ; The release server is an essential part of the Piwik infrastructure/ecosystem
 ; to provide the latest software version.
-latest_version_url = http://builds.piwik.org/latest.zip
+latest_version_url = http://builds.piwik.org/piwik.zip
 
 ; The API server is an essential part of the Piwik infrastructure/ecosystem to
 ; provide services to Piwik installations, e.g., getLatestVersion and
@@ -411,6 +455,7 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
@@ -466,7 +511,7 @@ default_time_one_page_visit = 0
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = 1
 
-; When the misc/cron/archive.php cron hasn't been setup, we still need to regularly run some maintenance tasks.
+; When the `./console core:archive` cron hasn't been setup, we still need to regularly run some maintenance tasks.
 ; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF/HTML reports by email).
 ; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
 ; Tasks run once every hour maximum, they might not run every hour if traffic is low.
@@ -494,12 +539,25 @@ page_maximum_length = 1024;
 ; TTL: Time to live for cache files, in seconds. Default to 5 minutes.
 tracker_cache_file_ttl = 300
 
+; Whether Bulk tracking requests to the Tracking API requires the token_auth to be set.
+bulk_requests_require_authentication = 0
+
+; Whether Bulk tracking requests will be wrapped within a DB Transaction.
+; This greatly increases performance of Log Analytics and in general any Bulk Tracking API requests.
+bulk_requests_use_transaction = 1
+
+; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
+; All Visits with a Referrer URL host set to one of these will be excluded.
+; If you find new spam entries in Referrers>Websites, please report them here: https://github.com/piwik/piwik/issues/5099
+referrer_urls_spam = "semalt.com"
+
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
 ; When using the Tracking API, to override either the datetime and/or the visitor IP, 
 ; token_auth with an "admin" access is required. If you set this setting to 0, the token_auth will not be required anymore.
 ; DO NOT USE THIS SETTING ON PUBLIC PIWIK SERVERS
 tracking_requests_require_authentication = 1
+
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
@@ -569,6 +627,7 @@ Plugins[] = Dashboard
 Plugins[] = MultiSites
 Plugins[] = Referrers
 Plugins[] = UserSettings
+Plugins[] = DevicesDetection
 Plugins[] = Goals
 Plugins[] = SEO
 Plugins[] = Events
@@ -599,7 +658,8 @@ Plugins[] = MobileMessaging
 Plugins[] = Overlay
 Plugins[] = SegmentEditor
 Plugins[] = Insights
-
+Plugins[] = ZenMode
+Plugins[] = LeftMenu
 Plugins[] = Morpheus
 
 [PluginsInstalled]

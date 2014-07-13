@@ -1,17 +1,17 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Common;
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\FrontController;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\WidgetsList;
+use Piwik\Tests\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
@@ -19,7 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs
  * Imports visits from several log files using the python log importer &
  * adds goals/sites/etc. attempting to create XSS.
  */
-class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik_Fixture_ManySitesImportedLogs
+class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 {
     public $now = null;
 

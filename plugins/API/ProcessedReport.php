@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,22 +11,23 @@ namespace Piwik\Plugins\API;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
+use Piwik\Cache\PluginAwareStaticCache;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
-use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\MetricsFormatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Url;
 
 class ProcessedReport
 {
-
     /**
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
@@ -148,9 +149,22 @@ class ProcessedReport
             Piwik::checkUserHasViewAccess($idSites);
         }
 
+        // as they cache key contains a lot of information there would be an even better cache result by caching parts of
+        // this huge method separately but that makes it also more complicated. leaving it like this for now.
+        $key   = $this->buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $cache = new PluginAwareStaticCache($key);
+
+        if ($cache->has()) {
+            return $cache->get();
+        }
+
         $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
+
+        foreach (Report::getAllReports() as $report) {
+            $report->configureReportMetadata($availableReports, $parameters);
+        }
 
         /**
          * Triggered when gathering metadata for all available reports.
@@ -196,12 +210,18 @@ class ProcessedReport
          *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
          * 
          * TODO: put dimensions section in all about analytics data
+         * @deprecated since 2.5.0 Use Report Classes instead.
+         * @ignore
          */
         Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
+
+        // TODO we can remove this one once we remove API.getReportMetadata event (except hideMetricsDoc)
         foreach ($availableReports as &$availableReport) {
+            // can be removed once we remove hook API.getReportMetadata
             if (!isset($availableReport['metrics'])) {
                 $availableReport['metrics'] = Metrics::getDefaultMetrics();
             }
+            // can be removed once we remove hook API.getReportMetadata
             if (!isset($availableReport['processedMetrics'])) {
                 $availableReport['processedMetrics'] = Metrics::getDefaultProcessedMetrics();
             }
@@ -211,6 +231,7 @@ class ProcessedReport
                 unset($availableReport['metricsDocumentation']);
             } else if (!isset($availableReport['metricsDocumentation'])) {
                 // set metric documentation to default if it's not set
+                // can be removed once we remove hook API.getReportMetadata
                 $availableReport['metricsDocumentation'] = Metrics::getDefaultMetricsDocumentation();
             }
         }
@@ -238,16 +259,20 @@ class ProcessedReport
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
-        usort($availableReports, array($this, 'sort'));
+        usort($availableReports, array('self', 'sortReports'));
 
         // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
         $this->addApiGetMetdata($availableReports);
 
         $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
+        $columnsToKeep   = $this->getColumnsToKeep();
+        $columnsToRemove = $this->getColumnsToRemove();
+
         foreach ($availableReports as &$availableReport) {
             // Ensure all metrics have a translation
             $metrics = $availableReport['metrics'];
             $cleanedMetrics = array();
+            // TODO we can remove this once we remove the getReportMetadata event, leaving it here for backwards compatibility
             foreach ($metrics as $metricId => $metricTranslation) {
                 // When simply the column name was given, ie 'metric' => array( 'nb_visits' )
                 // $metricTranslation is in this case nb_visits. We look for a known translation.
@@ -262,13 +287,13 @@ class ProcessedReport
             $availableReport['metrics'] = $cleanedMetrics;
 
             // if hide/show columns specified, hide/show metrics & docs
-            $availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
+            $availableReport['metrics'] = $this->hideShowMetricsWithParams($availableReport['metrics'], $columnsToRemove, $columnsToKeep);
             if (isset($availableReport['processedMetrics'])) {
-                $availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
+                $availableReport['processedMetrics'] = $this->hideShowMetricsWithParams($availableReport['processedMetrics'], $columnsToRemove, $columnsToKeep);
             }
             if (isset($availableReport['metricsDocumentation'])) {
                 $availableReport['metricsDocumentation'] =
-                    $this->hideShowMetrics($availableReport['metricsDocumentation']);
+                    $this->hideShowMetricsWithParams($availableReport['metricsDocumentation'], $columnsToRemove, $columnsToKeep);
             }
 
             // Remove array elements that are false (to clean up API output)
@@ -278,6 +303,7 @@ class ProcessedReport
                 }
             }
             // when there are per goal metrics, don't display conversion_rate since it can differ from per goal sum
+            // TODO we should remove this once we remove the getReportMetadata event, leaving it here for backwards compatibility
             if (isset($availableReport['metricsGoal'])) {
                 unset($availableReport['processedMetrics']['conversion_rate']);
                 unset($availableReport['metricsGoal']['conversion_rate']);
@@ -306,34 +332,28 @@ class ProcessedReport
             }
         }
 
-        return array_values($availableReports); // make sure array has contiguous key values
+        $actualReports = array_values($availableReports);
+        $cache->set($actualReports);
+
+        return $actualReports; // make sure array has contiguous key values
     }
 
     /**
      * API metadata are sorted by category/name,
      * with a little tweak to replicate the standard Piwik category ordering
      *
-     * @param string $a
-     * @param string $b
+     * @param array $a
+     * @param array $b
      * @return int
      */
-    private function sort($a, $b)
+    private static function sortReports($a, $b)
     {
         static $order = null;
         if (is_null($order)) {
-            $order = array(
-                Piwik::translate('General_MultiSitesSummary'),
-                Piwik::translate('VisitsSummary_VisitsSummary'),
-                Piwik::translate('Goals_Ecommerce'),
-                Piwik::translate('General_Actions'),
-                Piwik::translate('Events_Events'),
-                Piwik::translate('Actions_SubmenuSitesearch'),
-                Piwik::translate('Referrers_Referrers'),
-                Piwik::translate('Goals_Goals'),
-                Piwik::translate('General_Visitors'),
-                Piwik::translate('DevicesDetection_DevicesDetection'),
-                Piwik::translate('UserSettings_VisitorSettings'),
-            );
+            $order = array();
+            foreach (Report::$orderOfReports as $category) {
+                $order[] = Piwik::translate($category);
+            }
         }
         return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
             ? (@$a['order'] < @$b['order'] ? -1 : 1)
@@ -393,6 +413,7 @@ class ProcessedReport
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
         }
+
         $reportMetadata = reset($reportMetadata);
 
         // Generate Api call URL passing custom parameters
@@ -404,8 +425,17 @@ class ProcessedReport
                                                        'format'     => 'original',
                                                        'serialize'  => '0',
                                                        'language'   => $language,
-                                                       'idSubtable' => $idSubtable,
+                                                       'idSubtable' => $idSubtable
                                                   ));
+
+        if (isset($reportMetadata['processedMetrics'])) {
+            $deleteRowsWithNoVisit = '1';
+            if (!empty($reportMetadata['constantRowsCount'])) {
+                $deleteRowsWithNoVisit = '0';
+            }
+            $parameters['filter_add_columns_when_show_all_columns'] = $deleteRowsWithNoVisit;
+        }
+
         if (!empty($segment)) $parameters['segment'] = $segment;
 
         $url = Url::getQueryStringFromParameters($parameters);
@@ -418,12 +448,13 @@ class ProcessedReport
         }
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
+
         foreach ($columns as $columnId => &$name) {
             $name = ucfirst($name);
         }
         $website = new Site($idSite);
 
-        $period = Period::factory($period, $date);
+        $period = Period\Factory::build($period, $date);
         $period = $period->getLocalizedLongString();
 
         $return = array(
@@ -487,11 +518,6 @@ class ProcessedReport
                     }
                 }
             }
-
-            if (isset($reportMetadata['processedMetrics'])) {
-                // Add processed metrics
-                $dataTable->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
-            }
         }
 
         $columns = $this->hideShowMetrics($columns);
@@ -547,14 +573,17 @@ class ProcessedReport
             return;
         }
 
-        $columns = $this->hideShowMetrics($columns, $emptyColumns);
+        $columnsToRemove = $this->getColumnsToRemove();
+        $columnsToKeep   = $this->getColumnsToKeep();
+
+        $columns = $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
 
         if (isset($reportMetadata['metrics'])) {
-            $reportMetadata['metrics'] = $this->hideShowMetrics($reportMetadata['metrics'], $emptyColumns);
+            $reportMetadata['metrics'] = $this->hideShowMetricsWithParams($reportMetadata['metrics'], $columnsToRemove, $columnsToKeep, $emptyColumns);
         }
 
         if (isset($reportMetadata['metricsDocumentation'])) {
-            $reportMetadata['metricsDocumentation'] = $this->hideShowMetrics($reportMetadata['metricsDocumentation'], $emptyColumns);
+            $reportMetadata['metricsDocumentation'] = $this->hideShowMetricsWithParams($reportMetadata['metricsDocumentation'], $columnsToRemove, $columnsToKeep, $emptyColumns);
         }
     }
 
@@ -574,9 +603,21 @@ class ProcessedReport
         }
 
         // remove columns if hideColumns query parameters exist
-        $columnsToRemove = Common::getRequestVar('hideColumns', '');
-        if ($columnsToRemove != '') {
-            $columnsToRemove = explode(',', $columnsToRemove);
+        $columnsToRemove = $this->getColumnsToRemove();
+
+        // remove columns if showColumns query parameters exist
+        $columnsToKeep = $this->getColumnsToKeep();
+
+        return $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
+    }
+
+    private function hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns = array())
+    {
+        if (!is_array($columns)) {
+            return $columns;
+        }
+
+        if (null !== $columnsToRemove) {
             foreach ($columnsToRemove as $name) {
                 // if a column to remove is in the column list, remove it
                 if (isset($columns[$name])) {
@@ -585,12 +626,7 @@ class ProcessedReport
             }
         }
 
-        // remove columns if showColumns query parameters exist
-        $columnsToKeep = Common::getRequestVar('showColumns', '');
-        if ($columnsToKeep != '') {
-            $columnsToKeep = explode(',', $columnsToKeep);
-            $columnsToKeep[] = 'label';
-
+        if (null !== $columnsToKeep) {
             foreach ($columns as $name => $ignore) {
                 // if the current column should not be kept, remove it
                 $idx = array_search($name, $columnsToKeep);
@@ -641,28 +677,39 @@ class ProcessedReport
             $enhancedDataTable = new Simple();
         }
 
-        // add missing metrics
         foreach ($simpleDataTable->getRows() as $row) {
             $rowMetrics = $row->getColumns();
+
+            // add missing metrics
             foreach ($metadataColumns as $id => $name) {
                 if (!isset($rowMetrics[$id])) {
-                    $row->addColumn($id, 0);
+                    $row->setColumn($id, 0);
+                    $rowMetrics[$id] = 0;
                 }
             }
-        }
 
-        foreach ($simpleDataTable->getRows() as $row) {
             $enhancedRow = new Row();
             $enhancedDataTable->addRow($enhancedRow);
-            $rowMetrics = $row->getColumns();
+
             foreach ($rowMetrics as $columnName => $columnValue) {
                 // filter metrics according to metadata definition
                 if (isset($metadataColumns[$columnName])) {
                     // generate 'human readable' metric values
-                    $prettyValue = MetricsFormatter::getPrettyValue($idSite, $columnName, $columnValue, $htmlAllowed = false);
+
+                    // if we handle MultiSites.getAll we do not always have the same idSite but different ones for
+                    // each site, see https://github.com/piwik/piwik/issues/5006
+                    $idSiteForRow = $idSite;
+                    if ($row->getMetadata('idsite') && is_numeric($row->getMetadata('idsite'))) {
+                        $idSiteForRow = (int) $row->getMetadata('idsite');
+                    }
+
+                    $prettyValue = MetricsFormatter::getPrettyValue($idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
                 elseif ($returnRawMetrics) {
+                    if (!isset($columnValue)) {
+                        $columnValue = 0;
+                    }
                     $enhancedRow->addColumn($columnName, $columnValue);
                 }
             }
@@ -714,5 +761,56 @@ class ProcessedReport
         }
 
         return $totals;
+    }
+
+    private function getColumnsToRemove()
+    {
+        $columnsToRemove = Common::getRequestVar('hideColumns', '');
+
+        if ($columnsToRemove != '') {
+            return explode(',', $columnsToRemove);
+        }
+
+        return null;
+    }
+
+    private function getColumnsToKeep()
+    {
+        $columnsToKeep = Common::getRequestVar('showColumns', '');
+
+        if ($columnsToKeep != '') {
+            $columnsToKeep = explode(',', $columnsToKeep);
+            $columnsToKeep[] = 'label';
+
+            return $columnsToKeep;
+        }
+
+        return null;
+    }
+
+    private function buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports)
+    {
+        if (isset($_GET) && isset($_POST) && is_array($_GET) && is_array($_POST)) {
+            $request = $_GET + $_POST;
+        } elseif (isset($_GET) && is_array($_GET)) {
+            $request = $_GET;
+        } elseif (isset($_POST) && is_array($_POST)) {
+            $request = $_POST;
+        } else {
+            $request = array();
+        }
+
+        $key = '';
+        foreach ($request as $k => $v) {
+            if (is_array($v)) {
+                $key .= $k . implode(',',$v) . ',';
+            } else {
+                $key .= $k . $v . ',';
+            }
+        }
+
+        $key .= implode(',', $idSites) . ($period === false ? 0 : $period) . ($date === false ? 0 : $date);
+        $key .= (int)$hideMetricsDoc . (int)$showSubtableReports . Piwik::getCurrentUserLogin();
+        return 'reportMetadata' . md5($key);
     }
 }

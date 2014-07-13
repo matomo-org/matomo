@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,44 +9,82 @@
 namespace Piwik\Plugins\Installation;
 
 use Piwik\Filesystem;
+use Piwik\SettingsServer;
 
 class ServerFilesGenerator
 {
-
     /**
      * Generate Apache .htaccess files to restrict access
      */
     public static function createHtAccessFiles()
     {
-        // deny access to these folders
-        $directoriesToProtect = array(
-            '/config',
-            '/core',
-            '/lang',
-            '/tmp',
-        );
-        foreach ($directoriesToProtect as $directoryToProtect) {
-            Filesystem::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true);
+        if(!SettingsServer::isApache()) {
+            return;
         }
-
-        // Allow/Deny lives in different modules depending on the Apache version
-        $allow = "<IfModule mod_access.c>\nAllow from all\nRequire all granted\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nAllow from all\nRequire all granted\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nAllow from all\nRequire all granted\n</IfModule>\n";
-        $deny = "<IfModule mod_access.c>\nDeny from all\nRequire all denied\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\nRequire all denied\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\nRequire all denied\n</IfModule>\n";
+        $denyAll = self::getDenyAllHtaccessContent();
+        $allow = self::getAllowHtaccessContent();
 
         // more selective allow/deny filters
-        $allowAny = "<Files \"*\">\n" . $allow . "Satisfy any\n</Files>\n";
-        $allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|swf)$\">\n" . $allow . "Satisfy any\n</Files>\n";
-        $denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in|twig)$\">\n" . $deny . "</Files>\n";
+        $allowAny =
+            "# Allow any file in this directory\n" .
+            "<Files \"*\">\n" .
+                $allow . "\n" .
+            "</Files>\n";
+
+        $allowStaticAssets =
+            "# Serve HTML files as text/html mime type\n" .
+            "AddHandler text/html .html\n" .
+            "AddHandler text/html .htm\n\n" .
+
+            "# Allow to serve static files which are safe\n" .
+            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .
+                 $allow . "\n" .
+            "</Files>\n";
 
         $directoriesToProtect = array(
             '/js'        => $allowAny,
-            '/libs'      => $denyDirectPhp . $allowStaticAssets,
-            '/vendor'    => $denyDirectPhp . $allowStaticAssets,
-            '/plugins'   => $denyDirectPhp . $allowStaticAssets,
-            '/misc/user' => $denyDirectPhp . $allowStaticAssets,
+            '/libs'      => $denyAll . $allowStaticAssets,
+            '/vendor'    => $denyAll . $allowStaticAssets,
+            '/plugins'   => $denyAll . $allowStaticAssets,
+            '/misc/user' => $denyAll . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
-            Filesystem::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
+            self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
+        }
+
+        // deny access to these folders
+        $directoriesToProtect = array(
+            '/config' => $denyAll,
+            '/core' => $denyAll,
+            '/lang' => $denyAll,
+            '/tmp' => $denyAll,
+        );
+        foreach ($directoriesToProtect as $directoryToProtect => $content) {
+            self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
+        }
+    }
+
+    static public function createHtAccessDenyAll($path)
+    {
+        self::createHtAccess($path, $overwrite = false, self::getDenyAllHtaccessContent());
+    }
+
+    /**
+     * Create .htaccess file in specified directory
+     *
+     * Apache-specific; for IIS @see web.config
+     *
+     * @param string $path without trailing slash
+     * @param bool $overwrite whether to overwrite an existing file or not
+     * @param string $content
+     */
+    protected static function createHtAccess($path, $overwrite = true, $content)
+    {
+        if (SettingsServer::isApache()) {
+            $file = $path . '/.htaccess';
+            if ($overwrite || !file_exists($file)) {
+                @file_put_contents($file, $content);
+            }
         }
     }
 
@@ -57,6 +95,9 @@ class ServerFilesGenerator
      */
     public static function createWebConfigFiles()
     {
+        if (!SettingsServer::isIIS()) {
+            return;
+        }
         @file_put_contents(PIWIK_INCLUDE_PATH . '/web.config',
             '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -76,6 +117,9 @@ class ServerFilesGenerator
           <add fileExtension=".php5" allowed="false" />
           <add fileExtension=".inc" allowed="false" />
           <add fileExtension=".in" allowed="false" />
+          <add fileExtension=".csv" allowed="false" />
+          <add fileExtension=".pdf" allowed="false" />
+          <add fileExtension=".log" allowed="false" />
         </fileExtensions>
       </requestFiltering>
     </security>
@@ -86,6 +130,10 @@ class ServerFilesGenerator
         <add value="index.php" />
       </files>
     </defaultDocument>
+    <staticContent>
+      <remove fileExtension=".svg" />
+      <mimeMap fileExtension=".svg" mimeType="image/svg+xml" />
+    </staticContent>
   </system.webServer>
 </configuration>');
 
@@ -112,6 +160,15 @@ class ServerFilesGenerator
         }
     }
 
+    public static function deleteWebConfigFiles()
+    {
+        $path = PIWIK_INCLUDE_PATH;
+        @unlink($path . '/web.config');
+        @unlink($path . '/libs/web.config');
+        @unlink($path . '/vendor/web.config');
+        @unlink($path . '/plugins/web.config');
+    }
+
     /**
      * Generate default robots.txt, favicon.ico, etc to suppress
      * 404 (Not Found) errors in the web server logs, if Piwik
@@ -129,4 +186,117 @@ class ServerFilesGenerator
             @file_put_contents(PIWIK_DOCUMENT_ROOT . $file, '');
         }
     }
+
+    /**
+     * @return string
+     */
+    protected static function getDenyAllHtaccessContent()
+    {
+        $deny = self::getDenyHtaccessContent();
+        $denyAll =
+            "# First, deny access to all files in this directory\n" .
+            "<Files \"*\">\n" .
+            $deny . "\n" .
+            "</Files>\n";
+
+        return $denyAll;
+    }
+
+
+    /**
+     * @return string
+     */
+    protected static function getDenyHtaccessContent()
+    {
+# Source: https://github.com/phpbb/phpbb/pull/2386/files#diff-f72a38c4bec79cc6ded3f8e435d6bd55L11
+# With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
+# module mod_authz_host to a new module called mod_access_compat (which may be
+# disabled) and a new "Require" syntax has been introduced to mod_authz_host.
+# We could just conditionally provide both versions, but unfortunately Apache
+# does not explicitly tell us its version if the module mod_version is not
+# available. In this case, we check for the availability of module
+# mod_authz_core (which should be on 2.4 or higher only) as a best guess.
+        $deny = <<<HTACCESS_DENY
+<IfModule mod_version.c>
+	<IfVersion < 2.4>
+		Order Deny,Allow
+		Deny from All
+	</IfVersion>
+	<IfVersion >= 2.4>
+		Require all denied
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+	<IfModule !mod_authz_core.c>
+		Order Deny,Allow
+		Deny from All
+	</IfModule>
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+</IfModule>
+HTACCESS_DENY;
+        return $deny;
+    }
+
+    /**
+     * @return string
+     */
+    protected static function getAllowHtaccessContent()
+    {
+        $allow = <<<HTACCESS_ALLOW
+<IfModule mod_version.c>
+	<IfVersion < 2.4>
+		Order Allow,Deny
+		Allow from All
+	</IfVersion>
+	<IfVersion >= 2.4>
+		Require all granted
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+	<IfModule !mod_authz_core.c>
+		Order Allow,Deny
+		Allow from All
+	</IfModule>
+	<IfModule mod_authz_core.c>
+		Require all granted
+	</IfModule>
+</IfModule>
+HTACCESS_ALLOW;
+        return $allow;
+    }
+
+    /**
+     * Deletes all existing .htaccess files and web.config files that Piwik may have created,
+     */
+    public static function deleteHtAccessFiles()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, ".htaccess");
+
+        // that match the list of directories we create htaccess files
+        // (ie. not the root /.htaccess)
+        $directoriesWithAutoHtaccess = array(
+            '/js',
+            '/libs',
+            '/vendor',
+            '/plugins',
+            '/misc/user',
+            '/config',
+            '/core',
+            '/lang',
+            '/tmp',
+        );
+
+        foreach ($files as $file) {
+            foreach ($directoriesWithAutoHtaccess as $dirToDelete) {
+                // only delete the first .htaccess and not the ones in sub-directories
+                $pathToDelete = $dirToDelete . '/.htaccess';
+                if (strpos($file, $pathToDelete) !== false) {
+                    @unlink($file);
+                }
+            }
+        }
+    }
+
 }

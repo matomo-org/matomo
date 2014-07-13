@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,14 +8,9 @@
  */
 namespace Piwik\Plugins\Insights;
 
-use Piwik\DataTable;
-use Piwik\Date;
-use Piwik\Log;
-use Piwik\Period\Range;
-use Piwik\Piwik;
-use Piwik\Plugins\API\ProcessedReport;
 use Piwik\API\Request as ApiRequest;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * API for plugin Insights

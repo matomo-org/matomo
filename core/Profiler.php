@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -52,7 +52,8 @@ class Profiler
         $profiler = Db::get()->getProfiler();
 
         if (!$profiler->getEnabled()) {
-            throw new \Exception("To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file");
+            // To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file
+            return;
         }
 
         $infoIndexedByQuery = array();
@@ -133,7 +134,9 @@ class Profiler
     {
         $totalTime = self::getDbElapsedSecs();
         $queryCount = Profiler::getQueryCount();
-        Log::debug(sprintf("Total queries = %d (total sql time = %.2fs)", $queryCount, $totalTime));
+        if($queryCount > 0) {
+            Log::debug(sprintf("Total queries = %d (total sql time = %.2fs)", $queryCount, $totalTime));
+        }
     }
 
     /**

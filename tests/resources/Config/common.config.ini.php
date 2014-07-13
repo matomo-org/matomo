@@ -1,6 +1,8 @@
 [Category]
 key2 = valueCommon
 
+key3 = "&#36;{@piwik(crash))}"
+
 [GeneralSection]
 password = passwordCommonShouldNotBeOverriden
 

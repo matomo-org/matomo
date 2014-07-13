@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,13 +15,14 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API as APIMetadata;
+use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
+use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tracker;
 use Piwik\Tracker\Visit;
 use Piwik\UrlHelper;
 
@@ -39,7 +40,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 /**
  */
-class Visitor
+class Visitor implements VisitorInterface
 {
     const DELIMITER_PLUGIN_NAME = ", ";
 
@@ -580,22 +581,22 @@ class Visitor
         $status = $this->getVisitEcommerceStatus();
 
         if (in_array($status, array('ordered', 'orderedThenAbandonedCart'))) {
-            return "plugins/Zeitgeist/images/ecommerceOrder.gif";
+            return "plugins/Morpheus/images/ecommerceOrder.gif";
         } elseif ($status == 'abandonedCart') {
-            return "plugins/Zeitgeist/images/ecommerceAbandonedCart.gif";
+            return "plugins/Morpheus/images/ecommerceAbandonedCart.gif";
         }
         return null;
     }
 
     function getVisitEcommerceStatus()
     {
-        return APIMetadata::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
+        return VisitGoalBuyer::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
     }
 
     function getVisitorGoalConvertedIcon()
     {
         return $this->isVisitorGoalConverted()
-            ? "plugins/Zeitgeist/images/goal.png"
+            ? "plugins/Morpheus/images/goal.png"
             : null;
     }
 
@@ -932,27 +933,27 @@ class Visitor
         foreach ($visitorDetailsArray['actionDetails'] as &$details) {
             switch ($details['type']) {
                 case 'goal':
-                    $details['icon'] = 'plugins/Zeitgeist/images/goal.png';
+                    $details['icon'] = 'plugins/Morpheus/images/goal.png';
                     break;
                 case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
                 case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
-                    $details['icon'] = 'plugins/Zeitgeist/images/' . $details['type'] . '.gif';
+                    $details['icon'] = 'plugins/Morpheus/images/' . $details['type'] . '.gif';
                     break;
                 case Action::TYPE_DOWNLOAD:
                     $details['type'] = 'download';
-                    $details['icon'] = 'plugins/Zeitgeist/images/download.png';
+                    $details['icon'] = 'plugins/Morpheus/images/download.png';
                     break;
                 case Action::TYPE_OUTLINK:
                     $details['type'] = 'outlink';
-                    $details['icon'] = 'plugins/Zeitgeist/images/link.gif';
+                    $details['icon'] = 'plugins/Morpheus/images/link.gif';
                     break;
                 case Action::TYPE_SITE_SEARCH:
                     $details['type'] = 'search';
-                    $details['icon'] = 'plugins/Zeitgeist/images/search_ico.png';
+                    $details['icon'] = 'plugins/Morpheus/images/search_ico.png';
                     break;
                 case Action::TYPE_EVENT_CATEGORY:
                     $details['type'] = 'event';
-                    $details['icon'] = 'plugins/Zeitgeist/images/event.png';
+                    $details['icon'] = 'plugins/Morpheus/images/event.png';
                     break;
                 default:
                     $details['type'] = 'action';
@@ -970,8 +971,8 @@ class Visitor
     private static function getCustomVariablePrettyKey($key)
     {
         $rename = array(
-            Tracker\ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
-            Tracker\ActionSiteSearch::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
+            ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
+            ActionSiteSearch::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
         );
         if (isset($rename[$key])) {
             return $rename[$key];

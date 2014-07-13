@@ -10,7 +10,7 @@
     margin: 0 0 0 260px;
     padding: 0 0 40px;
     display: table;
-    font: 13px Arial, Helvetica, sans-serif;
+    font-size: 13px;
 }
 
 .admin #header_message {
@@ -19,7 +19,6 @@
 
 table.admin {
     font-size: 0.9em;
-    font-family: Arial, Helvetica, verdana sans-serif;
     background-color: #fff;
     border-collapse: collapse;
 }
@@ -135,11 +134,12 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 .adminTable .ui-inline-help {
     margin-top: 0;
     width: 100%;
+    margin-left: 50px;
 }
 
 /* other styles */
 .form-description {
-    color: #666666;
+    color: @theme-color-text-lighter;
     font-style: italic;
     margin-left: 10px;
 }

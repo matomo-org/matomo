@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,16 +12,19 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Plugin;
-use Piwik\SettingsServer;
 use Piwik\Singleton;
 use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Updater;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -35,6 +38,7 @@ class Manager extends Singleton
     protected $pluginsToLoad = array();
 
     protected $doLoadPlugins = true;
+
     /**
      * @var Plugin[]
      */
@@ -42,7 +46,7 @@ class Manager extends Singleton
     /**
      * Default theme used in Piwik.
      */
-    const DEFAULT_THEME = "Zeitgeist";
+    const DEFAULT_THEME = "Morpheus";
 
     protected $doLoadAlwaysActivatedPlugins = true;
 
@@ -68,7 +72,6 @@ class Manager extends Singleton
     // Plugins bundled with core package, disabled by default
     protected $corePluginsDisabledByDefault = array(
         'DBStats',
-        'DevicesDetection',
         'ExampleCommand',
         'ExampleSettingsPlugin',
         'ExampleUI',
@@ -78,9 +81,7 @@ class Manager extends Singleton
 
     // Themes bundled with core package, disabled by default
     protected $coreThemesDisabledByDefault = array(
-        'ExampleTheme',
-        'LeftMenu',
-        'Zeitgeist',
+        'ExampleTheme'
     );
 
     /**
@@ -99,9 +100,6 @@ class Manager extends Singleton
     {
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsToLoad = array_diff($pluginsToLoad, Tracker::getPluginsNotToLoad());
-        if(defined('PIWIK_TEST_MODE')) {
-            $pluginsToLoad = array_intersect($pluginsToLoad, $this->getPluginsToLoadDuringTests());
-        }
         $this->loadPlugins($pluginsToLoad);
     }
 
@@ -117,60 +115,9 @@ class Manager extends Singleton
         }
 
         $pluginsTracker = array_diff($pluginsTracker, Tracker::getPluginsNotToLoad());
-        if(defined('PIWIK_TEST_MODE')) {
-            $pluginsTracker = array_intersect($pluginsTracker, $this->getPluginsToLoadDuringTests());
-        }
         $this->doNotLoadAlwaysActivatedPlugins();
         $this->loadPlugins($pluginsTracker);
         return $pluginsTracker;
-    }
-
-    public function getPluginsToLoadDuringTests()
-    {
-        $toLoad = array();
-
-        $loadStandalonePluginsDuringTests = @Config::getInstance()->DebugTests['enable_load_standalone_plugins_during_tests'];
-
-        foreach($this->readPluginsDirectory() as $plugin) {
-            $forceDisable = array(
-                'ExampleVisualization', // adds an icon
-                'LoginHttpAuth',  // other Login plugins would conflict
-            );
-            if(in_array($plugin, $forceDisable)) {
-                continue;
-            }
-
-            // Load all default plugins
-            $isPluginBundledWithCore = $this->isPluginBundledWithCore($plugin);
-
-            // Load plugins from submodules
-            $isPluginOfficiallySupported = $this->isPluginOfficialAndNotBundledWithCore($plugin);
-
-            // Also load plugins which are Git repositories (eg. being developed)
-            $isPluginHasGitRepository = file_exists( PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/.git/config');
-
-            $loadPlugin = $isPluginBundledWithCore || $isPluginOfficiallySupported;
-
-            if($loadStandalonePluginsDuringTests) {
-                $loadPlugin = $loadPlugin || $isPluginHasGitRepository;
-            } else {
-                $loadPlugin = $loadPlugin && !$isPluginHasGitRepository;
-            }
-
-            // Do not enable other Themes
-            $disabledThemes = $this->coreThemesDisabledByDefault;
-
-            // PleineLune is officially supported, yet we don't want to enable another theme in tests (we test for Morpheus)
-            $disabledThemes[] = "PleineLune";
-
-            $isThemeDisabled = in_array($plugin, $disabledThemes);
-
-            $loadPlugin = $loadPlugin && !$isThemeDisabled;
-            if($loadPlugin) {
-                $toLoad[] = $plugin;
-            }
-        }
-        return $toLoad;
     }
 
     public function getCorePluginsDisabledByDefault()
@@ -230,6 +177,13 @@ class Manager extends Singleton
         $section = PiwikConfig::getInstance()->PluginsInstalled;
         $section['PluginsInstalled'] = $plugins;
         PiwikConfig::getInstance()->PluginsInstalled = $section;
+    }
+
+    public function clearPluginsInstalledConfig()
+    {
+        $this->updatePluginsInstalledConfig( array() );
+        PiwikConfig::getInstance()->forceSave();
+        PiwikConfig::getInstance()->init();
     }
 
     /**
@@ -321,6 +275,53 @@ class Manager extends Singleton
     }
 
     /**
+     * Tries to find the given components such as a Menu or Tasks implemented by plugins.
+     * This method won't cache the found components. If you need to find the same component multiple times you might
+     * want to cache the result to save a tiny bit of time.
+     *
+     * @param string $componentName     The name of the component you want to look for. In case you request a
+     *                                  component named 'Menu' it'll look for a file named 'Menu.php' within the
+     *                                  root of all plugin folders that implement a class named
+     *                                  Piwik\Plugin\$PluginName\Menu.
+     * @param string $expectedSubclass  If not empty, a check will be performed whether a found file extends the
+     *                                  given subclass. If the requested file exists but does not extend this class
+     *                                  a warning will be shown to advice a developer to extend this certain class.
+     *
+     * @return \stdClass[]
+     */
+    public function findComponents($componentName, $expectedSubclass)
+    {
+        $plugins    = $this->getLoadedPlugins();
+        $components = array();
+
+        foreach ($plugins as $plugin) {
+            $component = $plugin->findComponent($componentName, $expectedSubclass);
+
+            if (!empty($component)) {
+                $components[] = $component;
+            }
+        }
+
+        return $components;
+    }
+
+    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
+    {
+        $plugins = $this->getLoadedPlugins();
+        $found   = array();
+
+        foreach ($plugins as $plugin) {
+            $components = $plugin->findMultipleComponents($directoryWithinPlugin, $expectedSubclass);
+
+            if (!empty($components)) {
+                $found = array_merge($found, $components);
+            }
+        }
+
+        return $found;
+    }
+
+    /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled
      *
@@ -371,6 +372,7 @@ class Manager extends Singleton
     /**
      * Install loaded plugins
      *
+     * @throws
      * @return array Error messages of plugin install fails
      */
     public function installLoadedPlugins()
@@ -383,6 +385,7 @@ class Manager extends Singleton
                 $messages[] = $e->getMessage();
             }
         }
+
         return $messages;
     }
 
@@ -420,7 +423,6 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->forceSave();
 
         $this->clearCache($pluginName);
-
     }
 
     protected function isPluginInFilesystem($pluginName)
@@ -434,7 +436,7 @@ class Manager extends Singleton
     /**
      * Returns the currently enabled theme.
      * 
-     * If no theme is enabled, the **Zeitgeist** plugin is returned (this is the base and default theme).
+     * If no theme is enabled, the **Morpheus** plugin is returned (this is the base and default theme).
      *
      * @return Plugin
      * @api
@@ -855,10 +857,9 @@ class Manager extends Singleton
 
         $path = self::getPluginsDirectory() . $pluginFileName;
 
-
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
-            // Eg. Used for Zeitgeist default theme which does not have a Zeitgeist.php file
+            // Eg. Used for Morpheus default theme which does not have a Morpheus.php file
             return new Plugin($pluginName);
         }
 
@@ -1070,6 +1071,16 @@ class Manager extends Singleton
 
     public function isTrackerPlugin(Plugin $plugin)
     {
+        $dimensions = VisitDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
+        $dimensions = ActionDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
         $hooks = $plugin->getListHooksRegistered();
         $hookNames = array_keys($hooks);
         foreach ($hookNames as $name) {
@@ -1080,6 +1091,12 @@ class Manager extends Singleton
                 return true;
             }
         }
+
+        $dimensions = ConversionDimension::getDimensions($plugin);
+        if (!empty($dimensions)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -1221,6 +1238,31 @@ class Manager extends Singleton
         try {
             $plugin = $this->getLoadedPlugin($pluginName);
             $plugin->uninstall();
+        } catch (\Exception $e) {
+        }
+
+        if (empty($plugin)) {
+            return;
+        }
+
+        try {
+            foreach (VisitDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
+        } catch (\Exception $e) {
+        }
+
+        try {
+            foreach (ActionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
+        } catch (\Exception $e) {
+        }
+
+        try {
+            foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
+                $dimension->uninstall();
+            }
         } catch (\Exception $e) {
         }
     }

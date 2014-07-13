@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -15,7 +15,7 @@
  * </div>
  * Will execute the "executeMyFunction" function in the current scope once the yes button is pressed.
  */
-angular.module('piwikApp.directive').directive('piwikDialog', function(piwik) {
+angular.module('piwikApp.directive').directive('piwikDialog', function(piwik, $parse) {
 
     return {
         restrict: 'A',
@@ -24,7 +24,7 @@ angular.module('piwikApp.directive').directive('piwikDialog', function(piwik) {
             element.css('display', 'none');
 
             element.on( "dialogclose", function() {
-                scope.$eval(attrs.piwikDialog+'=false');
+                scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
             });
 
             scope.$watch(attrs.piwikDialog, function(newValue, oldValue) {

@@ -11,6 +11,6 @@ As a developer it may be useful to generate test data. Follow these steps:
 
 5.	You can then archive the reports with:
 
-        $ php5 /home/piwik/misc/cron/archive.php --url=http://localhost/path/
+        $ php5 /home/piwik/console core:archive --url=http://localhost/path/
 
 You should now have some interesting data to test with in November 2012!

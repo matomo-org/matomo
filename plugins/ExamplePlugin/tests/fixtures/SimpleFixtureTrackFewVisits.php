@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,13 +8,14 @@
 namespace Piwik\Plugins\ExamplePlugin\tests\fixtures;
 
 use Piwik\Date;
+use Piwik\Tests\Fixture;
 
 /**
  * Generates tracker testing data for our SimpleIntegrationTest
  *
  * This Simple fixture adds one website and tracks one visit with couple pageviews and an ecommerce conversion
  */
-class SimpleFixtureTrackFewVisits extends \Fixture
+class SimpleFixtureTrackFewVisits extends Fixture
 {
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
@@ -75,6 +76,4 @@ class SimpleFixtureTrackFewVisits extends \Fixture
         self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 33 * 77));
 
     }
-
 }
-

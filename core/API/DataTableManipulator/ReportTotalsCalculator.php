@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,11 +11,8 @@ namespace Piwik\API\DataTableManipulator;
 use Piwik\API\DataTableManipulator;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\DataTable\BaseFilter;
-use Piwik\Period\Range;
-use Piwik\Period;
-use Piwik\Piwik;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Plugins\API\API;
 
 /**

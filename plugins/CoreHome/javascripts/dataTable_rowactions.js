@@ -59,8 +59,8 @@ DataTable_RowActions_Registry.register({
 
     name: 'RowEvolution',
 
-    dataTableIcon: 'plugins/Zeitgeist/images/row_evolution.png',
-    dataTableIconHover: 'plugins/Zeitgeist/images/row_evolution_hover.png',
+    dataTableIcon: 'plugins/Morpheus/images/row_evolution.png',
+    dataTableIconHover: 'plugins/Morpheus/images/row_evolution_hover.png',
 
     order: 50,
 
@@ -161,11 +161,10 @@ DataTable_RowAction.prototype.initTr = function (tr) {
 DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
     var label = this.getLabelFromTr(tr);
 
-    label = label.trim();
     // if we have received the event from the sub table, add the label
     if (subTableLabel) {
         var separator = ' > '; // LabelFilter::SEPARATOR_RECURSIVE_LABEL
-        label += separator + subTableLabel.trim();
+        label += separator + subTableLabel;
     }
 
     // handle sub tables in nested reports: forward to parent
@@ -214,8 +213,14 @@ DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
         value = label.text();
     }
     value = value.trim();
+    value = encodeURIComponent(value);
 
-    return encodeURIComponent(value);
+    // if tr is a terminal node, we use the @ operator to distinguish it from branch nodes w/ the same name
+    if (!tr.hasClass('subDataTable')) {
+        value = '@' + value;
+    }
+
+    return value;
 };
 
 /**

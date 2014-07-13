@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * DataTable UI class for JqplotGraph.
  *
@@ -12,7 +12,17 @@
 
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
-        dataTablePrototype = DataTable.prototype;
+        dataTablePrototype = DataTable.prototype,
+        getLabelFontFamily = function () {
+            if (!window.piwik.jqplotLabelFont) {
+                window.piwik.jqplotLabelFont = $('<p/>').hide().appendTo('body').css('font-family');
+            }
+
+            return window.piwik.jqplotLabelFont || 'Arial';
+        }
+        ;
+
+    exports.getLabelFontFamily = getLabelFontFamily;
 
     /**
      * DataTable UI class for jqPlot graph datatable visualizations.
@@ -95,7 +105,7 @@
                     tickOptions: {
                         showMark: false,
                         fontSize: '11px',
-                        fontFamily: window.piwik.jqplotLabelFont || 'Arial'
+                        fontFamily: getLabelFontFamily()
                     },
                     rendererOptions: {
                         drawBaseline: false
@@ -125,7 +135,7 @@
                 $.each(series, function(index, value) {
                     if ($.isArray(value) && value[1]) {
                         sum = sum + value[1];
-                    } else {
+                    } else if (!$.isArray(value)) {
                         sum = sum + value;
                     }
                 });
@@ -623,7 +633,7 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
 
     this.seriesPickers.each(function (i) {
         var el = $(this);
-        el.click(function (e) {
+        el.off('click').on('click', function (e) {
             if (e.shiftKey) {
                 self.toggleSeries(i);
 
@@ -880,7 +890,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var ctx = legend.legendCanvas._ctx;
         ctx.save();
-        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
 
         // render series names
         var x = 0;
@@ -1019,7 +1029,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var ctx = legend.pieLegendCanvas._ctx;
         ctx.save();
 
-        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
 
         // render labels
         var height = legend.pieLegendCanvas._elem.height();

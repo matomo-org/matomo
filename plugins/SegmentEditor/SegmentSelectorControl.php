@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\View\UIControl;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 
 /**
  * Generates the HTML for the segment selector control (which includes the segment editor).
@@ -67,7 +68,8 @@ class SegmentSelectorControl extends UIControl
             }
         }
 
-        $this->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
+        $this->authorizedToCreateSegments = SegmentEditorAPI::getInstance()->isUserCanAddNewSegment($this->idSite);
+        $this->isUserAnonymous = Piwik::isUserIsAnonymous();
         $this->segmentTranslations = $this->getTranslations();
     }
 
@@ -76,7 +78,8 @@ class SegmentSelectorControl extends UIControl
         return array('availableSegments',
                      'segmentTranslations',
                      'isSegmentNotAppliedBecauseBrowserArchivingIsDisabled',
-                     'selectedSegment');
+                     'selectedSegment',
+                     'authorizedToCreateSegments');
     }
 
     private function wouldApplySegment($savedSegment)

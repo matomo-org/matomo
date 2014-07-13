@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,21 +8,16 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
-use Exception;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Metrics;
 use Piwik\Option;
-use Piwik\Period\Range;
 use Piwik\Period;
-use Piwik\Piwik;
+use Piwik\Period\Range;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -140,8 +135,6 @@ class PrivacyManager extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Menu.Admin.addItems'             => 'addMenu',
-            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'Tracker.setTrackerCacheGeneral'  => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'         => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'            => array($this->ipAnonymizer, 'setVisitorIpAddress'),
@@ -154,33 +147,9 @@ class PrivacyManager extends \Piwik\Plugin
         $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
     }
 
-    public function getScheduledTasks(&$tasks)
-    {
-        // both tasks are low priority so they will execute after most others, but not lowest, so
-        // they will execute before the optimize tables task
-
-        $purgeReportDataTask = new ScheduledTask(
-            $this, 'deleteReportData', null, ScheduledTime::factory('daily'), ScheduledTask::LOW_PRIORITY
-        );
-        $tasks[] = $purgeReportDataTask;
-
-        $purgeLogDataTask = new ScheduledTask(
-            $this, 'deleteLogData', null, ScheduledTime::factory('daily'), ScheduledTask::LOW_PRIORITY
-        );
-        $tasks[] = $purgeLogDataTask;
-    }
-
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/PrivacyManager/javascripts/privacySettings.js";
-    }
-
-    function addMenu()
-    {
-        MenuAdmin::addEntry('PrivacyManager_MenuPrivacySettings',
-            array('module' => 'PrivacyManager', 'action' => 'privacySettings'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 7);
     }
 
     /**

@@ -6,7 +6,7 @@
 
 {% if someTablesInstalled is defined %}
     <div class="warning">{{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>")|raw }}
-        <img src="plugins/Zeitgeist/images/warning_medium.png"/>
+        <img src="plugins/Morpheus/images/warning_medium.png"/>
     </div>
     <div id="toggle" style="display:none;color:#4F2410;font-size: small;">
             <em>{{ 'Installation_TablesFound'|translate }}: <br/>
@@ -23,12 +23,12 @@
 
 {% if existingTablesDeleted is defined %}
     <div class="success"> {{ 'Installation_TablesDeletedSuccess'|translate }}
-        <img src="plugins/Zeitgeist/images/success_medium.png"/></div>
+        <img src="plugins/Morpheus/images/success_medium.png"/></div>
 {% endif %}
 
 {% if tablesCreated is defined %}
     <div class="success"> {{ 'Installation_TablesCreatedSuccess'|translate }}
-        <img src="plugins/Zeitgeist/images/success_medium.png"/></div>
+        <img src="plugins/Morpheus/images/success_medium.png"/></div>
 {% endif %}
 
 <script>

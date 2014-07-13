@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,7 +26,7 @@ class Updates_1_5_b5 extends Updates
 								lifetime INTEGER,
 								data TEXT,
 								PRIMARY KEY ( id )
-								)  DEFAULT CHARSET=utf8' => false,
+								)  DEFAULT CHARSET=utf8' => 1050,
         );
     }
 

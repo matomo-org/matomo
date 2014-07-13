@@ -1,12 +1,15 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Http;
 
+/**
+ * @group HttpTest
+ */
 class HttpTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -57,14 +60,13 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
      * @dataProvider getMethodsToTest
      */
     public function testCustomByteRange($method)
     {
         $result = Http::sendHttpRequestBy(
             $method,
-            'http://builds.piwik.org/latest.zip',
+            'http://localhost/piwik.js',
             30,
             $userAgent = null,
             $destinationPath = null,
@@ -80,7 +82,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(206, $result['status']);
             $this->assertTrue(isset($result['headers']['Content-Range']));
             $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
-            $this->assertEquals('application/zip', $result['headers']['Content-Type']);
+            $this->assertEquals('application/x-javascript', $result['headers']['Content-Type']);
         }
     }
 

@@ -74,9 +74,9 @@
 		<browserName>Inconnu</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Bureau</deviceType>
+		<deviceType>Inconnu</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -104,7 +104,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -128,7 +128,7 @@
 				<goalPageId />
 				
 				<url>http://example.org/this%20is%20cool!</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -180,9 +180,9 @@
 		<browserName>Inconnu</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
 		<browserCode>UNK</browserCode>
-		<browserVersion>UNK</browserVersion>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Bureau</deviceType>
+		<deviceType>Inconnu</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>

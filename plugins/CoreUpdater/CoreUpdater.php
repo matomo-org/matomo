@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,17 +9,17 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\ScheduledTask;
+use Piwik\Columns\Updater as ColumnsUpdater;
 use Piwik\ScheduledTime;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
 use Piwik\Version;
-use Piwik\Access;
 
 /**
  *
@@ -31,30 +31,10 @@ class CoreUpdater extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array(
+        return array(
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',
             'Platform.initialized'                       => 'updateCheck',
-            'TaskScheduler.getScheduledTasks'            => 'getScheduledTasks',
         );
-        return $hooks;
-    }
-
-    public function getScheduledTasks(&$tasks)
-    {
-        $sendUpdateNotification = new ScheduledTask($this,
-            'sendNotificationIfUpdateAvailable',
-            null,
-            ScheduledTime::factory('daily'),
-            ScheduledTask::LOWEST_PRIORITY);
-        $tasks[] = $sendUpdateNotification;
-    }
-
-    public function sendNotificationIfUpdateAvailable()
-    {
-        $coreUpdateCommunication = new UpdateCommunication();
-        if ($coreUpdateCommunication->isEnabled()) {
-            $coreUpdateCommunication->sendNotificationIfUpdateAvailable();
-        }
     }
 
     public static function updateComponents(Updater $updater, $componentsWithUpdateFile)
@@ -84,7 +64,7 @@ class CoreUpdater extends \Piwik\Plugin
                     if ($name == 'core') {
                         $coreError = true;
                         break;
-                    } else {
+                    } elseif (\Piwik\Plugin\Manager::getInstance()->isPluginActivated($name)) {
                         \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($name);
                         $deactivatedPlugins[] = $name;
                     }
@@ -111,14 +91,27 @@ class CoreUpdater extends \Piwik\Plugin
     public static function getComponentUpdates(Updater $updater)
     {
         $updater->addComponentToCheck('core', Version::VERSION);
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
+        $manager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $manager->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
-            $updater->addComponentToCheck($pluginName, $plugin->getVersion());
+            if ($manager->isPluginInstalled($pluginName)) {
+                $updater->addComponentToCheck($pluginName, $plugin->getVersion());
+            }
+        }
+
+        $columnsVersions = ColumnsUpdater::getAllVersions();
+        foreach ($columnsVersions as $component => $version) {
+            $updater->addComponentToCheck($component, $version);
         }
 
         $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
-        if (count($componentsWithUpdateFile) == 0 && !$updater->hasNewVersion('core')) {
-            return null;
+
+        if (count($componentsWithUpdateFile) == 0) {
+            ColumnsUpdater::onNoUpdateAvailable($columnsVersions);
+
+            if (!$updater->hasNewVersion('core')) {
+                return null;
+            }
         }
 
         return $componentsWithUpdateFile;

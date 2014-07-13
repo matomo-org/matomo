@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,14 +9,12 @@
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Controller;
-use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -35,8 +33,7 @@ class Rules
 
     const FLAG_TABLE_PURGED = 'lastPurge_';
 
-    /** Old Archives purge can be disabled (used in tests only) */
-    static public $purgeDisabledByTests = false;
+    static public $purgeOutdatedArchivesIsDisabled = false;
 
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;
@@ -45,9 +42,11 @@ class Rules
      * Returns the name of the archive field used to tell the status of an archive, (ie,
      * whether the archive was created successfully or not).
      *
+     * @param array $idSites
      * @param Segment $segment
      * @param string $periodLabel
      * @param string $plugin
+     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin, $isSkipAggregationOfSubTables)
@@ -130,6 +129,16 @@ class Rules
         return $doneFlags;
     }
 
+    static public function disablePurgeOutdatedArchives()
+    {
+        self::$purgeOutdatedArchivesIsDisabled = true;
+    }
+
+    static public function enablePurgeOutdatedArchives()
+    {
+        self::$purgeOutdatedArchivesIsDisabled = false;
+    }
+
     /**
      * Given a monthly archive table, will delete all reports that are now outdated,
      * or reports that ended with an error
@@ -139,7 +148,7 @@ class Rules
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
-        if (self::$purgeDisabledByTests) {
+        if (self::$purgeOutdatedArchivesIsDisabled) {
             return false;
         }
         $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
@@ -166,7 +175,7 @@ class Rules
                 // We delete more often which is safe, since reports are re-processed on demand
                 $purgeArchivesOlderThan = Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
             } else {
-                // If archive.php via Cron is building the reports, we should keep all temporary reports from today
+                // If cron core:archive command is building the reports, we should keep all temporary reports from today
                 $purgeArchivesOlderThan = Date::factory('today')->getDateTime();
             }
             return $purgeArchivesOlderThan;
@@ -236,7 +245,7 @@ class Rules
             if (!$segment->isEmpty()
                 && $isArchivingDisabled
                 && Config::getInstance()->General['browser_archiving_disabled_enforce']
-                && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running archive.php
+                && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
                 return true;

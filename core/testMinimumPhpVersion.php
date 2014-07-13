@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -50,7 +50,8 @@ if ($minimumPhpInvalid) {
 					To use Piwik, please ask your web host to install php5-json or install it yourself, for example on debian system: <code>sudo apt-get install php5-json</code>. <br/>Then restart your webserver and refresh this page.</p>";
     }
 
-    if (!file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php') && !file_exists(PIWIK_INCLUDE_PATH . '/../../autoload.php')) {
+    if (!file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
+        && !file_exists(PIWIK_INCLUDE_PATH . '/../../autoload.php')) {
         $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): \n\n"
             . "<pre> curl -sS https://getcomposer.org/installer | php \n\n php composer.phar install\n\n</pre> ";
         if (DIRECTORY_SEPARATOR === '\\' /* ::isWindows() */) {
@@ -61,10 +62,13 @@ if ($minimumPhpInvalid) {
                     "<br/>" . $composerInstall.
                     " This will initialize composer for Piwik and download libraries we use in vendor/* directory.".
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
+                    "\n\n<br/><br/>For more information check out this FAQ: <a href='http://piwik.org/faq/how-to-install/faq_18271/' target='_blank'>How do I use Piwik from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Piwik release from ".
-                    "<a href='http://builds.piwik.org/latest.zip'>builds.piwik.org</a>.</p>";
+                    "<a href='http://builds.piwik.org/piwik.zip'>builds.piwik.org</a>.</p>";
     }
 }
+
+define('PAGE_TITLE_WHEN_ERROR', 'Piwik &rsaquo; Error');
 
 if (!function_exists('Piwik_ExitWithMessage')) {
     /**
@@ -108,10 +112,10 @@ if (!function_exists('Piwik_ExitWithMessage')) {
         if ($optionalLinkBack) {
             $optionalLinkBack = '<a href="javascript:window.history.back();">Go Back</a><br/>';
         }
-        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
-        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
+        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
+        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
 
-        $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+        $headerPage = str_replace('{$HTML_TITLE}', PAGE_TITLE_WHEN_ERROR, $headerPage);
 
         $content = '<p>' . $message . '</p>
                     <p>'

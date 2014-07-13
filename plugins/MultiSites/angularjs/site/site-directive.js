@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -35,7 +35,6 @@ angular.module('piwikApp').directive('piwikMultisitesSite', function($document, 
 
             $scope.period   = piwik.period;
             $scope.date     = piwik.broadcast.getValueFromUrl('date');
-            $scope.parseInt = parseInt;
 
             this.getWebsite = function () {
                 return $scope.website;

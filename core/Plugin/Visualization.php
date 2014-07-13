@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -144,7 +144,7 @@ class Visualization extends ViewDataTable
     private $reportLastUpdatedMessage = null;
     private $metadata = null;
 
-    final public function __construct($controllerAction, $apiMethodToRequestDataTable)
+    final public function __construct($controllerAction, $apiMethodToRequestDataTable, $params = array())
     {
         $templateFile = static::TEMPLATE_FILE;
 
@@ -152,7 +152,7 @@ class Visualization extends ViewDataTable
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
 
-        parent::__construct($controllerAction, $apiMethodToRequestDataTable);
+        parent::__construct($controllerAction, $apiMethodToRequestDataTable, $params);
     }
 
     protected function buildView()
@@ -179,7 +179,12 @@ class Visualization extends ViewDataTable
         } catch (\Exception $e) {
             Log::warning("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 
-            $loadingError = array('message' => $e->getMessage());
+            $message = $e->getMessage();
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $message .= "\n" . $e->getTraceAsString();
+            }
+
+            $loadingError = array('message' => $message);
         }
 
         $view = new View("@CoreHome/_dataTable");
@@ -304,6 +309,11 @@ class Visualization extends ViewDataTable
         }
 
         $this->beforeGenericFiltersAreAppliedToLoadedDataTable();
+
+        if (!in_array($this->requestConfig->filter_sort_column, $this->config->columns_to_display)) {
+            $hasNbUniqVisitors = in_array('nb_uniq_visitors', $this->config->columns_to_display);
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
+        }
 
         if (!$this->requestConfig->areGenericFiltersDisabled()) {
             $this->applyGenericFilters();
@@ -500,6 +510,8 @@ class Visualization extends ViewDataTable
      * 
      * Use this method to change the request parameters that is sent to the API when requesting
      * data.
+     *
+     * @api
      */
     public function beforeLoadDataTable()
     {
@@ -510,6 +522,8 @@ class Visualization extends ViewDataTable
      * 
      * Use this method if you need access to the entire dataset (since generic filters will
      * limit and truncate reports).
+     *
+     * @api
      */
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
@@ -517,6 +531,8 @@ class Visualization extends ViewDataTable
 
     /**
      * Hook that is executed after generic filters are applied.
+     *
+     * @api
      */
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
@@ -525,6 +541,8 @@ class Visualization extends ViewDataTable
     /**
      * Hook that is executed after the report data is loaded and after all filters have been applied.
      * Use this method to format the report data before the view is rendered.
+     *
+     * @api
      */
     public function afterAllFiltersAreApplied()
     {
@@ -533,6 +551,8 @@ class Visualization extends ViewDataTable
     /**
      * Hook that is executed directly before rendering. Use this hook to force display properties to
      * be a certain value, despite changes from plugins and query parameters.
+     *
+     * @api
      */
     public function beforeRender()
     {
@@ -562,6 +582,15 @@ class Visualization extends ViewDataTable
 
         $diff = array_diff_assoc($this->makeSureArrayContainsOnlyStrings($requestProperties),
                                  $this->makeSureArrayContainsOnlyStrings($requestPropertiesBefore));
+
+        if (!empty($diff['filter_sort_column'])) {
+            // this here might be ok as it can be changed after data loaded but before filters applied
+            unset($diff['filter_sort_column']);
+        }
+        if (!empty($diff['filter_sort_order'])) {
+            // this here might be ok as it can be changed after data loaded but before filters applied
+            unset($diff['filter_sort_order']);
+        }
 
         if (empty($diff)) {
             return;

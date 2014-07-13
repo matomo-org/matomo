@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,7 +13,10 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Plugin\Controller;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\Widgets;
 use Piwik\Session;
+use \Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -64,8 +67,6 @@ class FrontController extends Singleton
     /**
      * Executes the requested plugin controller method.
      * 
-     * See also {@link fetchDispatch()}.
-     * 
      * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
      *                                                     there is not enough permission, etc.
      *
@@ -85,6 +86,7 @@ class FrontController extends Singleton
             $result = $this->doDispatch($module, $action, $parameters);
             return $result;
         } catch (NoAccessException $exception) {
+            Log::debug($exception);
 
             /**
              * Triggered when a user with insufficient access permissions tries to view some resource.
@@ -102,30 +104,73 @@ class FrontController extends Singleton
         }
     }
 
-    protected function makeController($module, $action)
+    protected function makeController($module, $action, &$parameters)
     {
         $controllerClassName = $this->getClassNameController($module);
 
-        // FrontController's autoloader
-        if (!class_exists($controllerClassName, false)) {
-            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
-            if (!is_readable($moduleController)) {
-                throw new Exception("Module controller $moduleController not found!");
+        // TRY TO FIND ACTION IN CONTROLLER
+        if (class_exists($controllerClassName)) {
+
+            $class = $this->getClassNameController($module);
+            /** @var $controller Controller */
+            $controller = new $class;
+
+            $controllerAction = $action;
+            if ($controllerAction === false) {
+                $controllerAction = $controller->getDefaultAction();
             }
-            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
+
+            if (is_callable(array($controller, $controllerAction))) {
+
+                return array($controller, $controllerAction);
+            }
+
+            if ($action === false) {
+                $this->triggerControllerActionNotFoundError($controller, $controllerAction);
+            }
+
         }
 
-        $class = $this->getClassNameController($module);
-        /** @var $controller Controller */
-        $controller = new $class;
-        if ($action === false) {
-            $action = $controller->getDefaultAction();
+        // TRY TO FIND ACTION IN WIDGET
+        $widget = Widgets::factory($module, $action);
+
+        if (!empty($widget)) {
+
+            $parameters['widgetModule'] = $module;
+            $parameters['widgetMethod'] = $action;
+
+            return array(new CoreHomeController(), 'renderWidget');
         }
 
-        if (!is_callable(array($controller, $action))) {
-            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
+        // TRY TO FIND ACTION IN REPORT
+        $report = Report::factory($module, $action);
+
+        if (!empty($report)) {
+
+            $parameters['reportModule'] = $module;
+            $parameters['reportAction'] = $action;
+
+            return array(new CoreHomeController(), 'renderReportWidget');
         }
-        return array($controller, $action);
+
+        if (!empty($action) && 'menu' === substr($action, 0, 4)) {
+            $reportAction = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
+            $report       = Report::factory($module, $reportAction);
+
+            if (!empty($report)) {
+                $parameters['reportModule'] = $module;
+                $parameters['reportAction'] = $reportAction;
+
+                return array(new CoreHomeController(), 'renderReportMenu');
+            }
+        }
+
+        $this->triggerControllerActionNotFoundError($module, $action);
+    }
+
+    protected function triggerControllerActionNotFoundError($module, $action)
+    {
+        throw new Exception("Action '$action' not found in the module '$module'.");
     }
 
     protected function getClassNameController($module)
@@ -172,9 +217,9 @@ class FrontController extends Singleton
                 // in tracker mode Piwik\Tracker\Db\Pdo\Mysql does currently not implement profiling
                 Profiler::displayDbProfileReport();
                 Profiler::printQueryCount();
-                Log::debug(Registry::get('timer'));
             }
         } catch (Exception $e) {
+            Log::verbose($e);
         }
     }
 
@@ -184,7 +229,6 @@ class FrontController extends Singleton
         // If we are in no dispatch mode, eg. a script reusing Piwik libs,
         // then we should return the exception directly, rather than trigger the event "bad config file"
         // which load the HTML page of the installer with the error.
-        // This is at least required for misc/cron/archive.php and useful to all other scripts
         return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
         || Common::isPhpCliMode()
         || SettingsServer::isArchivePhpTriggered();
@@ -219,6 +263,7 @@ class FrontController extends Singleton
         try {
             Config::getInstance()->database; // access property to check if the local file exists
         } catch (Exception $exception) {
+            Log::debug($exception);
 
             /**
              * Triggered when the configuration file cannot be found or read, which usually
@@ -271,10 +316,6 @@ class FrontController extends Singleton
 
             $exceptionToThrow = self::createConfigObject();
 
-            if (Session::isFileBasedSessions()) {
-                Session::start();
-            }
-
             $this->handleMaintenanceMode();
             $this->handleProfiler();
             $this->handleSSLRedirection();
@@ -285,25 +326,51 @@ class FrontController extends Singleton
                 throw $exceptionToThrow;
             }
 
+            // try to connect to the database
             try {
                 Db::createDatabaseObject();
-                Option::get('TestingIfDatabaseConnectionWorked');
-
+                Db::fetchAll("SELECT DATABASE()");
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;
                 }
 
+                Log::debug($exception);
+
                 /**
-                 * Triggered if the INI config file has the incorrect format or if certain required configuration
-                 * options are absent.
-                 * 
-                 * This event can be used to start the installation process or to display a custom error message.
-                 * 
+                 * Triggered when Piwik cannot connect to the database.
+                 *
+                 * This event can be used to start the installation process or to display a custom error
+                 * message.
+                 *
                  * @param Exception $exception The exception thrown from creating and testing the database
                  *                             connection.
                  */
+                Piwik::postEvent('Db.cannotConnectToDb', array($exception), $pending = true);
+
+                throw $exception;
+            }
+
+            // try to get an option (to check if data can be queried)
+            try {
+                Option::get('TestingIfDatabaseConnectionWorked');
+            } catch (Exception $exception) {
+                if (self::shouldRethrowException()) {
+                    throw $exception;
+                }
+
+                Log::debug($exception);
+
+                /**
+                 * Triggered when Piwik cannot access database data.
+                 *
+                 * This event can be used to start the installation process or to display a custom error
+                 * message.
+                 *
+                 * @param Exception $exception The exception thrown from trying to get an option value.
+                 */
                 Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
+
                 throw $exception;
             }
 
@@ -388,7 +455,7 @@ class FrontController extends Singleton
             $action = Common::getRequestVar('action', false);
         }
 
-        if (!Session::isFileBasedSessions()
+        if (SettingsPiwik::isPiwikInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
             Session::start();
@@ -443,6 +510,10 @@ class FrontController extends Singleton
         if(Piwik::getModule() == 'CoreAdminHome' && Piwik::getAction() == 'optOut') {
             return;
         }
+        // Disable Https for VisitorGenerator
+        if(Piwik::getModule() == 'VisitorGenerator') {
+            return;
+        }
         if(Common::isPhpCliMode()) {
             return;
         }
@@ -460,7 +531,7 @@ class FrontController extends Singleton
     private function handleProfiler()
     {
         if (!empty($_GET['xhprof'])) {
-            $mainRun = $_GET['xhprof'] == 1; // archive.php sets xhprof=2
+            $mainRun = $_GET['xhprof'] == 1; // core:archive command sets xhprof=2
             Profiler::setupProfilerXHProf($mainRun);
         }
     }
@@ -487,7 +558,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
 
-        list($controller, $action) = $this->makeController($module, $action);
+        list($controller, $actionToCall) = $this->makeController($module, $action, $parameters);
 
         /**
          * Triggered directly before controller actions are dispatched.
@@ -502,7 +573,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
 
-        $result = call_user_func_array(array($controller, $action), $parameters);
+        $result = call_user_func_array(array($controller, $actionToCall), $parameters);
 
         /**
          * Triggered after a controller action is successfully called.
@@ -527,7 +598,7 @@ class FrontController extends Singleton
          * @param mixed &$result The controller action result.
          * @param array $parameters The arguments passed to the controller action.
          */
-        Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
+        Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
     }
 

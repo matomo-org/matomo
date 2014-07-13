@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -55,10 +55,14 @@ function isCustomLogoEnabled() {
 }
 
 function refreshCustomLogo() {
-    var imageDiv = $("#currentLogo");
-    if (imageDiv && imageDiv.attr("src")) {
-        var logoUrl = imageDiv.attr("src").split("?")[0];
-        imageDiv.attr("src", logoUrl + "?" + (new Date()).getTime());
+    var selectors = ['#currentLogo', '#currentFavicon'];
+    var index;
+    for (index = 0; index < selectors.length; index++) {
+        var imageDiv = $(selectors[index]);
+        if (imageDiv && imageDiv.attr("src")) {
+            var logoUrl = imageDiv.attr("src").split("?")[0];
+            imageDiv.attr("src", logoUrl + "?" + (new Date()).getTime());
+        }
     }
 }
 
@@ -122,7 +126,10 @@ $(document).ready(function () {
         submittingForm.attr("target", frameName);
     });
 
-    $('#customLogo').change(function () {$("#logoUploadForm").submit()});
+    $('#customLogo,#customFavicon').change(function () {
+        $("#logoUploadForm").submit();
+        $(this).val('');
+    });
 
     // trusted hosts event handling
     var trustedHostSettings = $('#trustedHostSettings');

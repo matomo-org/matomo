@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -48,8 +48,9 @@ class ZipArchive implements UncompressInterface
      */
     public function extract($pathExtracted)
     {
-        if (substr_compare($pathExtracted, '/', -1))
+        if (substr($pathExtracted, -1) !== '/') {
             $pathExtracted .= '/';
+        }
 
         $fileselector = array();
         $list = array();

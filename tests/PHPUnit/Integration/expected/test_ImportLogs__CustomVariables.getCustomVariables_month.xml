@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>HTTP-code</label>
+		<nb_actions>29</nb_actions>
+		<subtable>
+			<row>
+				<label>200</label>
+				<nb_visits>23</nb_visits>
+				<nb_actions>25</nb_actions>
+				<sum_daily_nb_uniq_visitors>23</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>301</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>307</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>404</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>500</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+		</subtable>
+	</row>
+	<row>
 		<label>Not-Bot</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>10</nb_actions>
@@ -80,36 +116,6 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			</row>
-		</subtable>
-	</row>
-	<row>
-		<label>HTTP-code</label>
-		<nb_actions>4</nb_actions>
-		<subtable>
-			<row>
-				<label>301</label>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			</row>
-			<row>
-				<label>307</label>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			</row>
-			<row>
-				<label>404</label>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-			</row>
-			<row>
-				<label>500</label>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>

@@ -1,17 +1,20 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\Fixtures;
+
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
+use Piwik\Tests\Fixture;
 
 /**
  * Adds one site and tracks a couple conversions.
  */
-class Piwik_Test_Fixture_SomeVisitsAllConversions extends Fixture
+class SomeVisitsAllConversions extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite = 1;
@@ -84,5 +87,11 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Fixture
         // 1st goal should Now be tracked
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.61)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 656));
+
+        // few minutes later, create a new_visit
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.7)->getDatetime());
+        $t->setTokenAuth($this->getTokenAuth());
+        $t->setForceNewVisit();
+        $t->doTrackPageView('This is tracked in a new visit.');
     }
 }

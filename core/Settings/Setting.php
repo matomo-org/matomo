@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -145,7 +145,8 @@ abstract class Setting
 
     protected $key;
     protected $name;
-    protected $displayedForCurrentUser = false;
+    protected $writableByCurrentUser = false;
+    protected $readableByCurrentUser = false;
 
     /**
      * @var StorageInterface
@@ -181,9 +182,19 @@ abstract class Setting
      * 
      * @return bool
      */
-    public function canBeDisplayedForCurrentUser()
+    public function isWritableByCurrentUser()
     {
-        return $this->displayedForCurrentUser;
+        return $this->writableByCurrentUser;
+    }
+
+    /**
+     * Returns `true` if this setting can be displayed for the current user, `false` if otherwise.
+     *
+     * @return bool
+     */
+    public function isReadableByCurrentUser()
+    {
+        return $this->readableByCurrentUser;
     }
 
     /**

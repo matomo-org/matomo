@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -204,6 +204,7 @@ class Controller extends \Piwik\Plugin\Controller
         $message = nl2br(htmlentities($message));
 
         $view = new View('@Overlay/showErrorWrongDomain');
+        $this->addCustomLogoInfo($view);
         $view->message = $message;
 
         if (Piwik::isUserHasAdminAccess($idSite)) {

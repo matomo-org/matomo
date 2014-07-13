@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,13 +8,17 @@
  */
 namespace Piwik\Plugins\DevicesDetection;
 
+use DeviceDetector\DeviceDetector;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\DevicesDetection\Reports\GetBrand;
+use Piwik\Plugins\DevicesDetection\Reports\GetBrowserFamilies;
+use Piwik\Plugins\DevicesDetection\Reports\GetModel;
+use Piwik\Plugins\DevicesDetection\Reports\GetOsFamilies;
+use Piwik\Plugins\DevicesDetection\Reports\GetType;
 use Piwik\View;
-use Piwik\ViewDataTable\Factory;
-use DeviceDetector;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -22,47 +26,12 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@DevicesDetection/index');
         $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
-        $view->deviceTypes = $this->getType(true);
-        $view->deviceBrands = $this->getBrand(true);
-        $view->deviceModels = $this->getModel(true);
-        $view->osReport = $this->getOsFamilies(true);
-        $view->browserReport = $this->getBrowserFamilies(true);
+        $view->deviceTypes = $this->renderReport(new GetType());
+        $view->deviceBrands = $this->renderReport(new GetBrand());
+        $view->deviceModels = $this->renderReport(new GetModel());
+        $view->osReport = $this->renderReport(new GetOsFamilies());
+        $view->browserReport = $this->renderReport(new GetBrowserFamilies());
         return $view->render();
-    }
-
-    public function getType()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrand()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getModel()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOsFamilies()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getOsVersions()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrowserFamilies()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getBrowserVersions()
-    {
-        return $this->renderReport(__FUNCTION__);
     }
 
     public function deviceDetection()
@@ -75,26 +44,27 @@ class Controller extends \Piwik\Plugin\Controller
 
         $userAgent = Common::getRequestVar('ua', $_SERVER['HTTP_USER_AGENT'], 'string');
 
-        $parsedUA = DeviceDetector::getInfoFromUserAgent($userAgent);
+        $uaParser = new DeviceDetector($userAgent);
+        $uaParser->parse();
 
         $view->userAgent           = $userAgent;
-        $view->browser_name        = $parsedUA['browser']['name'];
-        $view->browser_short_name  = $parsedUA['browser']['short_name'];
-        $view->browser_version     = $parsedUA['browser']['version'];
-        $view->browser_logo        = getBrowserLogoExtended($parsedUA['browser']['short_name']);
-        $view->browser_family      = $parsedUA['browser_family'];
-        $view->browser_family_logo = getBrowserFamilyLogoExtended($parsedUA['browser_family']);
-        $view->os_name             = $parsedUA['os']['name'];
-        $view->os_logo             = getOsLogoExtended($parsedUA['os']['short_name']);
-        $view->os_short_name       = $parsedUA['os']['short_name'];
-        $view->os_family           = $parsedUA['os_family'];
-        $view->os_family_logo      = getOsFamilyLogoExtended($parsedUA['os_family']);
-        $view->os_version          = $parsedUA['os']['version'];
-        $view->device_type         = getDeviceTypeLabel($parsedUA['device']['type']);
-        $view->device_type_logo    = getDeviceTypeLogo($parsedUA['device']['type']);
-        $view->device_model        = $parsedUA['device']['model'];
-        $view->device_brand        = getDeviceBrandLabel($parsedUA['device']['brand']);
-        $view->device_brand_logo   = getBrandLogo($view->device_brand);
+        $view->browser_name        = $uaParser->getClient('name');
+        $view->browser_short_name  = $uaParser->getClient('short_name');
+        $view->browser_version     = $uaParser->getClient('version');
+        $view->browser_logo        = getBrowserLogoExtended($uaParser->getClient('short_name'));
+        $view->browser_family      = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($uaParser->getClient('short_name'));
+        $view->browser_family_logo = getBrowserFamilyLogoExtended($view->browser_family);
+        $view->os_name             = $uaParser->getOs('name');
+        $view->os_logo             = getOsLogoExtended($uaParser->getOs('short_name'));
+        $view->os_short_name       = $uaParser->getOs('short_name');
+        $view->os_family           = \DeviceDetector\Parser\OperatingSystem::getOsFamily($uaParser->getOs('short_name'));
+        $view->os_family_logo      = getOsFamilyLogoExtended($view->os_family);
+        $view->os_version          = $uaParser->getOs('version');
+        $view->device_type         = getDeviceTypeLabel($uaParser->getDeviceName());
+        $view->device_type_logo    = getDeviceTypeLogo($uaParser->getDeviceName());
+        $view->device_model        = $uaParser->getModel();
+        $view->device_brand        = getDeviceBrandLabel($uaParser->getBrand());
+        $view->device_brand_logo   = getBrandLogo($uaParser->getBrand());
 
         return $view->render();
     }
@@ -111,7 +81,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         switch ($type) {
             case 'brands':
-                $availableBrands = DeviceDetector::$deviceBrands;
+                $availableBrands = \DeviceDetector\Parser\Device\DeviceParserAbstract::$deviceBrands;
 
                 foreach ($availableBrands AS $short => $name) {
                     if ($name != 'Unknown') {
@@ -121,7 +91,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'browsers':
-                $availableBrowsers = DeviceDetector::$browsers;
+                $availableBrowsers = \DeviceDetector\Parser\Client\Browser::getAvailableBrowsers();
 
                 foreach ($availableBrowsers AS $short => $name) {
                     $list[$name] = getBrowserLogoExtended($short);
@@ -129,7 +99,7 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'browserfamilies':
-                $availableBrowserFamilies = DeviceDetector::$browserFamilies;
+                $availableBrowserFamilies = \DeviceDetector\Parser\Client\Browser::getAvailableBrowserFamilies();
 
                 foreach ($availableBrowserFamilies AS $name => $browsers) {
                     $list[$name] = getBrowserFamilyLogoExtended($name);
@@ -137,29 +107,25 @@ class Controller extends \Piwik\Plugin\Controller
                 break;
 
             case 'os':
-                $availableOSs = DeviceDetector::$osShorts;
+                $availableOSs = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystems();
 
-                foreach ($availableOSs AS $name => $short) {
-                    if ($name != 'Bot') {
-                        $list[$name] = getOsLogoExtended($short);
-                    }
+                foreach ($availableOSs AS $short => $name) {
+                    $list[$name] = getOsLogoExtended($short);
                 }
                 break;
 
             case 'osfamilies':
-                $osFamilies = DeviceDetector::$osFamilies;
+                $osFamilies = \DeviceDetector\Parser\OperatingSystem::getAvailableOperatingSystemFamilies();
 
                 foreach ($osFamilies AS $name => $oss) {
-                    if ($name != 'Bot') {
-                        $list[$name] = getOsFamilyLogoExtended($name);
-                    }
+                    $list[$name] = getOsFamilyLogoExtended($name);
                 }
                 break;
 
             case 'devicetypes':
-                $deviceTypes = DeviceDetector::$deviceTypes;
+                $deviceTypes = \DeviceDetector\Parser\Device\DeviceParserAbstract::getAvailableDeviceTypes();
 
-                foreach ($deviceTypes AS $name) {
+                foreach ($deviceTypes AS $name => $id) {
                     $list[$name] = getDeviceTypeLogo($name);
                 }
                 break;

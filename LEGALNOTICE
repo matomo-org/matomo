@@ -1,10 +1,10 @@
 COPYRIGHT
 
-	Piwik - Open Source Web Analytics
+	Piwik - free/libre analytics platform
 
 	The software package is:
 
-		Copyright (C) 2013  Matthieu Aubry
+		Copyright (C) 2014  Matthieu Aubry
 
 	Individual contributions, components, and libraries are copyright
 	of their respective authors.
@@ -40,7 +40,7 @@ CREDITS
 
 	For detailed contribution history, refer to the source, tickets,
 	patches, and Git revision history, available at
-	http://dev.piwik.org/trac/
+	https://github.com/piwik/piwik/issues
 	https://github.com/piwik/piwik
 
 
@@ -77,40 +77,40 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name:  jqPlot
 	Link:  http://www.jqplot.com/
-	License:  Dual-licensed: MIT or GPL v2
+	License:  Dual-licensed: MIT (Expat) or GPL v2
 	
 	Name:  jQuery
 	Link:  http://jquery.com/
-	License:  Dual-licensed: MIT or GPL
+	License:  Dual-licensed: MIT (Expat) or GPL
 	Notes:
 	- GPL version not explicitly stated in source but GPL v2 is in git
-	- includes Sizzle.js - multi-licensed: MIT, New BSD, or GPL [v2]
+	- includes Sizzle.js - multi-licensed: MIT (Expat), New BSD, or GPL [v2]
 
 	Name:  jQuery UI
 	Link:  http://jqueryui.com/
-	License:  Dual-licensed: MIT or GPL
+	License:  Dual-licensed: MIT (Expat) or GPL
 	Notes:
 	- GPL version not explicitly stated in source but GPL v2 is in git
 
 	Name:  jquery.history
 	Link:  http://tkyk.github.com/jquery-history-plugin/
-	License:  MIT
+	License:  MIT (Expat)
 
 	Name:  jquery.scrollTo
 	Link:  http://plugins.jquery.com/project/ScrollTo
-	License:  Dual licensed: MIT or GPL
+	License:  Dual licensed: MIT (Expat) or GPL
 
 	Name:  jquery Tooltip
 	Link:  http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/
-	License:  Dual licensed: MIT or GPL
+	License:  Dual licensed: MIT (Expat) or GPL
 
 	Name:  jquery placeholder
 	Link:  http://mths.be/placeholder
-	License:  Dual licensed: MIT or GPL
+	License:  Dual licensed: MIT (Expat) or GPL
 
 	Name:  jquery smartbanner
 	Link:  https://github.com/jasny/jquery.smartbanner
-	License:  Dual licensed: MIT
+	License:  Dual licensed: MIT (Expat)
 
 	Name:  json2.js
 	Link:  http://json.org/
@@ -206,15 +206,23 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name: Raphaël - JavaScript Vector Library
 	Link: http://raphaeljs.com/
-	License: MIT
+	License: MIT (Expat)
 
 	Name: lessphp
 	Link: http://leafo.net/lessphp
-	License: GPL3/MIT
+	License: GPL3, MIT (Expat)
 
 	Name: Symfony Console Component
 	Link: https://github.com/symfony/Console
-	License: MIT
+	License: MIT (Expat)
+
+	Name: AngularJS
+	Link: https://github.com/angular/angular.js
+	License: MIT (Expat)
+
+	Name: Mousetrap
+	Link: https://github.com/ccampbell/mousetrap
+	License: Apache 2.0
 
 
 THIRD-PARTY CONTENT
@@ -259,7 +267,6 @@ THIRD-PARTY CONTENT
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
-- the "MIT" license is also referred to as the "X11" license
 - icons for browsers, operating systems, browser plugins, search engines, and
   and flags of countries are nominative use of third-party trademarks when
   referring to the corresponding product or entity

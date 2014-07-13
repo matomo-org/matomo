@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# for travis_wait function
+source travis-helper.sh
+
 if [ "$TEST_SUITE" != "UITests" ] && [ "$TEST_SUITE" != "AngularJSTests" ]
 then
     if [ `phpunit --group __nogroup__ | grep "No tests executed" | wc -l` -ne 1 ]
@@ -13,6 +16,13 @@ fi
 
 if [ -n "$TEST_SUITE" ]
 then
+    echo "Executing tests in test suite $TEST_SUITE..."
+
+    if [ -n "$PLUGIN_NAME" ]
+    then
+        echo "    [ plugin name = $PLUGIN_NAME ]"
+    fi
+
     if [ "$TEST_SUITE" = "AngularJSTests" ]
     then
         sh ./../angularjs/scripts/travis.sh
@@ -26,7 +36,7 @@ then
         then
             artifacts_folder="protected/ui-tests.master.$PLUGIN_NAME"
         else
-            artifacts_folder="ui-tests.master"
+            artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
 
         echo ""
@@ -43,11 +53,12 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
+            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME
         else
-            phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+            travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
         fi
     fi
 else
-    phpunit --configuration phpunit.xml --coverage-text --colors
+    travis_wait phpunit --configuration phpunit.xml --coverage-text --colors
 fi
+

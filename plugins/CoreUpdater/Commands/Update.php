@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -38,10 +38,15 @@ class Update extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $doDryRun = $input->getOption('dry-run');
+        $doDryRun = (bool) $input->getOption('dry-run');
 
         try {
             $this->makeUpdate($input, $output, $doDryRun);
+
+            if(!$doDryRun) {
+                $this->writeSuccessMessage($output, array("Piwik has been successfully updated!"));
+            }
+
         } catch(NoUpdatesFoundException $e) {
             // Do not fail if no updates were found
             $output->writeln("<info>".$e->getMessage()."</info>");

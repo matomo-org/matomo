@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
-
 use pData;
 use pImage;
 use Piwik\Loader;
@@ -241,7 +240,7 @@ abstract class StaticGraph
     protected static function getOutputPath($filename)
     {
         $outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
-        $outputFilename = SettingsPiwik::rewriteTmpPathWithHostname($outputFilename);
+        $outputFilename = SettingsPiwik::rewriteTmpPathWithInstanceId($outputFilename);
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);

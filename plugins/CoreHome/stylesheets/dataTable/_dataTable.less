@@ -87,7 +87,7 @@ table.dataTable td,
 table.dataTable td a {
   margin: 0;
   text-decoration: none;
-  color: #444;
+  color: @theme-color-text-light;
 }
 
 table.dataTable tr:hover > td,
@@ -202,7 +202,7 @@ table.dataTable img {
   height: 20px;
   display: block;
   white-space: nowrap;
-  background: url(plugins/Zeitgeist/images/search_bg.png) no-repeat center 0;
+  background: url(plugins/Morpheus/images/search_bg.png) no-repeat center 0;
   text-align: center;
 }
 
@@ -285,7 +285,7 @@ table.dataTable img {
   padding-bottom: 4px;
 }
 
-#dashboard {
+#content {
 
   .dataTableFeatures {
     &.expanded {
@@ -367,7 +367,8 @@ table.dataTable img {
     }
 
     .controls {
-      padding: 15px 0px;
+      clear: left;
+      padding: 0px 0px 15px;
       text-align: left;
       color: #333;
     }

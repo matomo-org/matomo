@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -62,6 +62,7 @@ class IPAnonymizer
         $privacyConfig = new Config();
 
         $ip = self::applyIPMask($ip, $privacyConfig->ipAddressMaskLength);
+
         Common::printDebug("Visitor IP (was: ". IP::N2P($originalIp) .") has been anonymized: ". IP::N2P($ip));
     }
 

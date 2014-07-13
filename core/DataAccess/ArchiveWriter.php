@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,14 +12,9 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-use Piwik\Log;
 use Piwik\Period;
-use Piwik\Segment;
-use Piwik\SettingsPiwik;
 
 /**
  * This class is used to create a new Archive.
@@ -271,7 +266,7 @@ class ArchiveWriter
 
         $tableName = $this->getTableNameToInsert($value);
 
-        // duplicate idarchives are Ignored, see http://dev.piwik.org/trac/ticket/987
+        // duplicate idarchives are Ignored, see https://github.com/piwik/piwik/issues/987
         $query = "INSERT IGNORE INTO " . $tableName . "
 					(" . implode(", ", $this->getInsertFields()) . ")
 					VALUES (?,?,?,?,?,?,?,?)";

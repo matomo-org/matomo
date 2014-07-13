@@ -1,0 +1,122 @@
+.submit {
+  clear: both;
+  font-size: 18px;
+  border: 0;
+  float: right;
+  margin: 12px 0 10px 0;
+  cursor: pointer;
+}
+
+/* on admin screen, Save button aligned on the left */
+.admin .submit {
+  margin-left: 50px;
+  float: none;
+}
+
+.admin .entityContainer .submit {
+  margin: 0;
+}
+
+.entityContainer .link_but {
+  white-space: nowrap;
+  display: inline-block;
+  margin: 0 10px 0 0;
+  text-decoration: none;
+}
+
+.entityContainer .link_but img {
+  white-space: nowrap;
+  margin: 0 1px 0 0 !important;
+}
+
+.entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td {
+  vertical-align: middle !important;
+}
+
+.entityAddContainer .entityTable tr td.first {
+  font-weight: bold;
+}
+
+.entityAddContainer tr:hover {
+  background: none !important;
+}
+
+/* Add / Edit / List entities */
+.entityContainer {
+  width: 800px;
+  font-size: 14px;
+}
+
+.entityInlineHelp {
+  color: #9B9B9B;
+  margin-top: 5px;
+}
+
+.entityTable {
+  border-radius: 4px !important;
+  border-top: 1px solid #cdc8bf !important;
+  border-bottom: 1px solid #948c7d !important;
+}
+
+.entityTable tr th {
+  font-size: 16px;
+}
+
+.entityTable tr td.first, .entityTable tr th.first {
+  border-left: 0 !important;
+  vertical-align: middle;
+}
+
+.entityTable tr th {
+  white-space: nowrap;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.entityTable tr td, .entityTable tr th {
+  border-bottom: 0 !important;
+  border-top: 1px solid #E7E7E7 !important;
+}
+
+table.entityTable tr td a {
+  text-decoration: underline;
+}
+
+.entityTable tr.highlighted td {
+  background-color: #ECF9DD;
+}
+
+/* cancel button below Forms */
+.entityCancel {
+  float: right;
+  clear: both;
+  padding: 10px 0;
+  font-size: 12px;
+}
+
+/* List with grey arrows on left */
+.entityList ul.listCircle {
+  font-weight: normal;
+  list-style: none;
+  padding: 4px 0;
+}
+
+.entityList ul li {
+  background: #fff url(plugins/Morpheus/images/li_dbl_gray.gif) no-repeat 6px 10px;
+  padding: 0 0 0 21px;
+  line-height: 22px;
+}
+
+.entityList ul li .dimension {
+  cursor: pointer;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.entityList ul li.activeDimension .dimension {
+  font-weight: bold;
+  border: 0;
+}
+
+.entityList ul.listCircle li a {
+  color: #000;
+}

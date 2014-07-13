@@ -1,20 +1,19 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 use Piwik\Access;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
-use Piwik\Db\BatchInsert;
 use Piwik\Db;
+use Piwik\Db\BatchInsert;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
@@ -88,7 +87,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
         $site = $this->_createWebsite($siteTimezone);
         $date = Date::factory($dateLabel);
-        $period = Period::factory($periodLabel, $date);
+        $period = Period\Factory::build($periodLabel, $date);
         $segment = new Segment('', $site->getId());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
@@ -126,7 +125,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
     {
 //        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
         $messageIfFails = "Expected [$expected] but got [$processed]";
-        $this->assertTrue( $expected == $processed || $expected == ($processed + 1) || ($expected + 1) == $processed, $messageIfFails);
+        $this->assertTrue( abs($expected-$processed) <=4 , $messageIfFails);
     }
 
     /**
@@ -336,7 +335,7 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
                     . ' The error Messages from MySQL were: '
                     . $didWeUseBulk
                     . "\n\n Learn more how to enable LOAD LOCAL DATA INFILE see the Mysql doc (http://dev.mysql.com/doc/refman/5.0/en/load-data-local.html) "
-                    . "\n   or ask in this Piwik ticket (http://dev.piwik.org/trac/ticket/3605)"
+                    . "\n   or ask in this Piwik ticket (https://github.com/piwik/piwik/issues/3605)"
             );
         }
         return $didWeUseBulk;

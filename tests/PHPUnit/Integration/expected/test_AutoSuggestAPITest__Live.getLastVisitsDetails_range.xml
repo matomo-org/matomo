@@ -8,7 +8,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -23,7 +23,7 @@
 				<goalPageId>61</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -114,7 +114,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -129,7 +129,7 @@
 				<goalPageId>30</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -157,7 +157,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -167,7 +167,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -179,7 +179,7 @@
 				<eventAction>Action8</eventAction>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -269,7 +269,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -284,7 +284,7 @@
 				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -393,7 +393,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -408,7 +408,7 @@
 				<goalPageId>27</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -429,7 +429,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -441,7 +441,7 @@
 				<eventAction>Action7</eventAction>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -531,7 +531,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -546,7 +546,7 @@
 				<goalPageId>26</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -655,7 +655,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -670,7 +670,7 @@
 				<goalPageId>23</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -698,7 +698,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -708,7 +708,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -720,7 +720,7 @@
 				<eventAction>Action6</eventAction>
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -810,7 +810,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -825,7 +825,7 @@
 				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -934,7 +934,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -949,7 +949,7 @@
 				<goalPageId>20</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -970,7 +970,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -982,7 +982,7 @@
 				<eventAction>Action5</eventAction>
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1072,7 +1072,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1087,7 +1087,7 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1196,7 +1196,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -1211,7 +1211,7 @@
 				<goalPageId>16</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1239,7 +1239,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1249,7 +1249,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1261,7 +1261,7 @@
 				<eventAction>Action4</eventAction>
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1351,7 +1351,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1366,7 +1366,7 @@
 				<goalPageId>15</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1475,7 +1475,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1490,7 +1490,7 @@
 				<goalPageId>13</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1511,7 +1511,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1523,7 +1523,7 @@
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1613,7 +1613,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1628,7 +1628,7 @@
 				<goalPageId>52</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1649,7 +1649,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -1661,18 +1661,10 @@
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -1712,18 +1704,18 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1751,7 +1743,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1766,7 +1758,7 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1875,7 +1867,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1890,7 +1882,7 @@
 				<goalPageId>51</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1960,18 +1952,18 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1999,7 +1991,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -2014,7 +2006,7 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2042,7 +2034,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2052,7 +2044,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2064,7 +2056,7 @@
 				<eventAction>Action2</eventAction>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -2154,7 +2146,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -2169,7 +2161,7 @@
 				<goalPageId>48</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2197,7 +2189,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -2207,7 +2199,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2219,18 +2211,10 @@
 				<eventAction>Action2</eventAction>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -2248,15 +2232,15 @@
 		<daysSinceLastVisit>10</daysSinceLastVisit>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>France</location>
+		<location>Unknown</location>
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
@@ -2270,18 +2254,18 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2309,7 +2293,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2324,7 +2308,7 @@
 				<goalPageId>8</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2433,7 +2417,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2448,7 +2432,7 @@
 				<goalPageId>47</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2496,15 +2480,15 @@
 		<daysSinceLastVisit>11</daysSinceLastVisit>
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>France</location>
+		<location>Unknown</location>
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
@@ -2518,18 +2502,18 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2557,7 +2541,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2572,7 +2556,7 @@
 				<goalPageId>6</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2593,7 +2577,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2605,7 +2589,7 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -2695,7 +2679,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2710,7 +2694,7 @@
 				<goalPageId>38</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2731,7 +2715,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2743,7 +2727,7 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -2833,7 +2817,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2848,7 +2832,7 @@
 				<goalPageId>45</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -2869,7 +2853,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -2881,18 +2865,10 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -2932,18 +2908,18 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -2971,7 +2947,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -2986,7 +2962,7 @@
 				<goalPageId>59</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3007,7 +2983,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3019,7 +2995,7 @@
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -3109,7 +3085,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3124,7 +3100,7 @@
 				<goalPageId>5</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3233,7 +3209,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3248,7 +3224,7 @@
 				<goalPageId>37</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3357,7 +3333,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3372,7 +3348,7 @@
 				<goalPageId>44</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3442,18 +3418,18 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -3481,7 +3457,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -3496,7 +3472,7 @@
 				<goalPageId>58</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3605,7 +3581,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -3620,7 +3596,7 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3648,7 +3624,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3658,7 +3634,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3670,7 +3646,7 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -3760,7 +3736,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -3775,7 +3751,7 @@
 				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3803,7 +3779,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3813,7 +3789,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3825,7 +3801,7 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -3915,7 +3891,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -3930,7 +3906,7 @@
 				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -3958,7 +3934,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -3968,7 +3944,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -3980,18 +3956,10 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -4031,18 +3999,18 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemCode>WXP</operatingSystemCode>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemShortName>Unknown</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
+		<browserFamily>unknown</browserFamily>
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
 		<screenType>normal</screenType>
-		<deviceType>Desktop</deviceType>
+		<deviceType>Unknown</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -4070,7 +4038,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -4085,7 +4053,7 @@
 				<goalPageId>55</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4113,7 +4081,7 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -4123,7 +4091,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>event</type>
@@ -4135,7 +4103,7 @@
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
-				<icon>plugins/Zeitgeist/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -4225,7 +4193,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4240,7 +4208,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4349,7 +4317,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4364,7 +4332,7 @@
 				<goalPageId>33</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4473,7 +4441,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4488,7 +4456,7 @@
 				<goalPageId>40</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -4597,7 +4565,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -4612,7 +4580,7 @@
 				<goalPageId>54</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Zeitgeist/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>

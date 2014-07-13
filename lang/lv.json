@@ -347,6 +347,7 @@
         "Quantity": "Skaits",
         "Recommended": "(ieteicams)",
         "RecordsToPlot": "Ieraksti plānošanai",
+        "Refresh": "Atjaunināt",
         "RefreshPage": "Atsvaidzināt lapu",
         "Report": "Ziņot",
         "Reports": "Atskaites",
@@ -486,10 +487,7 @@
         "PluginDescription": "Ģenerējiet skaistus, statiskus PNG formāta grafikus jebkurai Piwik atskaitei."
     },
     "Installation": {
-        "CommunityNewsletter": "sūtiet epastu par kopienas jaunumiem (jauniem spraudņiem, jaunām iespējām, utt.)",
         "Congratulations": "Apsveicam",
-        "DatabaseCheck": "Datubāzes pārbaude",
-        "DatabaseClientVersion": "Datubāzes klienta versija",
         "DatabaseCreation": "Datubāzes izveide",
         "DatabaseErrorConnect": "Kļūda mēģinot sasniegt datubāzes serveri",
         "DatabaseServerVersion": "Datubāzes servera versija",
@@ -513,7 +511,6 @@
         "PercentDone": "%s %% pabeigts",
         "PleaseFixTheFollowingErrors": "Lūdzu izlabojiet sekojošās kļūdas",
         "Requirements": "Piwik prasības",
-        "SecurityNewsletter": "sūtiet e-pastu par svarīgiem Piwik atjauninājumiem un drošības paziņojumiem",
         "SetupWebsite": "Iestatiet vietni",
         "SetupWebsiteError": "Vietnes pievienošana izraisīja kļūdu",
         "SetupWebSiteName": "vietnes nosaukums",

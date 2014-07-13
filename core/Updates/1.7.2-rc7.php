@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -22,7 +22,7 @@ class Updates_1_7_2_rc7 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('user_dashboard') . '`
-		        ADD `name` VARCHAR( 100 ) NULL DEFAULT NULL AFTER  `iddashboard`' => false,
+		        ADD `name` VARCHAR( 100 ) NULL DEFAULT NULL AFTER  `iddashboard`' => 1060,
         );
     }
 

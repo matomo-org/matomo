@@ -1,9 +1,10 @@
 <?php
 
-use Piwik\Piwik;
-use Piwik\Config;
 use Piwik\Common;
-use Piwik\Session\SessionNamespace;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Option;
+use Piwik\Plugin\Manager as PluginManager;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -62,8 +63,15 @@ class Piwik_TestingEnvironment
         $this->behaviorOverrideProperties[$key] = $value;
     }
 
+    public function __isset($name)
+    {
+        return isset($this->behaviorOverrideProperties[$name]);
+    }
+
     public function save()
     {
+        @mkdir(PIWIK_INCLUDE_PATH . '/tmp');
+
         $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
         file_put_contents($overridePath, json_encode($this->behaviorOverrideProperties));
     }
@@ -77,12 +85,35 @@ class Piwik_TestingEnvironment
     public function logVariables()
     {
         try {
-            if (isset($_SERVER['QUERY_STRING'])) {
+            if (isset($_SERVER['QUERY_STRING'])
+                && !$this->dontUseTestConfig
+            ) {
                 \Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
             }
         } catch (Exception $ex) {
             // ignore
         }
+    }
+
+    public function getCoreAndSupportedPlugins()
+    {
+        $disabledPlugins = PluginManager::getInstance()->getCorePluginsDisabledByDefault();
+        $disabledPlugins[] = 'LoginHttpAuth';
+        $disabledPlugins[] = 'ExampleVisualization';
+        $disabledPlugins[] = 'PleineLune';
+
+        $disabledPlugins = array_diff($disabledPlugins, array(
+            'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
+        ));
+
+        return array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
+            if (in_array($pluginName, $disabledPlugins)) {
+                return false;
+            }
+
+            return PluginManager::getInstance()->isPluginBundledWithCore($pluginName)
+                || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
+        });
     }
 
     public static function addHooks()
@@ -119,14 +150,20 @@ class Piwik_TestingEnvironment
 
                 if ($testingEnvironment->configFileLocal) {
                     unset($cache['General']);
-                    $config->General['session_save_handler'] = 'dbtables';
+                    $config->General['session_save_handler'] = 'dbtable';
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
-                $pluginsToLoad = $manager->getPluginsToLoadDuringTests();
+                $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
+                if (!empty($testingEnvironment->pluginsToLoad)) {
+                    $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
+                }
+
+                sort($pluginsToLoad);
+
                 $config->Plugins = array('Plugins' => $pluginsToLoad);
 
-                $trackerPluginsToLoad = array_filter($pluginsToLoad, function ($plugin) use ($manager) {
+                $trackerPluginsToLoad = array_filter($config->Plugins['Plugins'], function ($plugin) use ($manager) {
                     return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
                 });
 
@@ -152,7 +189,17 @@ class Piwik_TestingEnvironment
                 }
             });
         }
-        Piwik::addAction('Request.dispatch', function() {
+        Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
+            if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+                \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+            }
+
+            if ($testingEnvironment->optionsOverride) {
+                foreach ($testingEnvironment->optionsOverride as $name => $value) {
+                    Option::set($name, $value);
+                }
+            }
+
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
             \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;

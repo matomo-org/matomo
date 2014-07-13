@@ -1,11 +1,10 @@
 <?php
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * SQLite shim
  *
  * @link http://piwik.org
- * @source http://dev.piwik.org/trac/browser/trunk/tests/javascript/SQLite.php
  * @license http://www.opensource.org/licenses/bsd-license.php Simplified BSD
  */
 if (class_exists('SQLite3'))

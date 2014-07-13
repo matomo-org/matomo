@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -61,8 +61,8 @@ class DateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
         // Congo is in UTC+1 all year long (no DST)
-        $date = Date::factory('now', 'Africa/Brazzaville');
         $dateExpected = Date::factory('now')->addHour(1);
+        $date = Date::factory('now', 'Africa/Brazzaville');
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
         // yesterday same time in Congo is the same as today in Congo - 24 hours
@@ -261,7 +261,7 @@ class DateTest extends PHPUnit_Framework_TestCase
         $date = Date::factory('2013-12-31');
         $this->assertFalse($date->isLeapYear());
 
-        $date = Date::factory('2052-01-01');
+        $date = Date::factory('2052-01-01'); // dates after 19/01/2038 03:14:07 fail on 32-bit arch
         $this->assertTrue($date->isLeapYear());
 
     }

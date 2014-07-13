@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -341,7 +341,7 @@ class Csv extends Renderer
             } else if (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
             } else {
-                $period = Period::factory($period, Date::factory($date));
+                $period = Period\Factory::build($period, Date::factory($date));
             }
 
             $prettyDate = $period->getLocalizedLongString();

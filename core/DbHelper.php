@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -26,6 +26,18 @@ class DbHelper
     public static function getTablesInstalled($forceReload = true)
     {
         return Schema::getInstance()->getTablesInstalled($forceReload);
+    }
+
+    /**
+     * Get list of installed columns in a table
+     *
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
+     */
+    public static function getTableColumns($tableName)
+    {
+        return Schema::getInstance()->getTableColumns($tableName);
     }
 
     /**

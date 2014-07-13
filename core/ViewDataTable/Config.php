@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -158,6 +158,11 @@ class Config
      * Controls whether the goals footer icon is shown.
      */
     public $show_goals = false;
+
+    /**
+     * Controls whether the 'insights' footer icon is shown.
+     */
+    public $show_insights = true;
 
     /**
      * Array property mapping DataTable column names with their internationalized names.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -77,6 +77,7 @@ class Schema extends Singleton
 
         $adapterName = strtoupper($adapterName);
         switch ($adapterName) {
+            case 'PDO\MYSQL':
             case 'PDO_MYSQL':
             case 'MYSQLI':
                 $adapterName = 'MYSQL';
@@ -231,6 +232,18 @@ class Schema extends Singleton
     public function getTablesInstalled($forceReload = true)
     {
         return $this->getSchema()->getTablesInstalled($forceReload);
+    }
+
+    /**
+     * Get list of installed columns in a table
+     *
+     * @param  string $tableName The name of a table.
+     *
+     * @return array  Installed columns indexed by the column name.
+     */
+    public function getTableColumns($tableName)
+    {
+        return $this->getSchema()->getTableColumns($tableName);
     }
 
     /**

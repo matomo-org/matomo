@@ -25,7 +25,7 @@
 }
 
 #logo .description .arrow {
-    background: url(../../Zeitgeist/images/affix-arrow.png);
+    background: url(../../Morpheus/images/affix-arrow.png);
     width: 50px;
     height: 68px;
     position: absolute;
@@ -75,7 +75,10 @@
     text-align: center;
     color: #666;
     margin: 0 0 30px 0;
-    font: normal 26px/1 Verdana, Helvetica;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 26px;
+    line-height: 1;
     position: relative;
 }
 
@@ -132,7 +135,7 @@
 #reset_form_password_bis,
 #login_form_login,
 #reset_form_login {
-    background: #fff url(../../Zeitgeist/images/login-sprite.png) no-repeat;
+    background: #fff url(../../Morpheus/images/login-sprite.png) no-repeat;
 }
 
 #login_form_password,

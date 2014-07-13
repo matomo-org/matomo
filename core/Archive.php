@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,10 +9,9 @@
 namespace Piwik;
 
 use Piwik\Archive\Parameters;
-
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
-use Piwik\Period\Range;
+use Piwik\Period\Factory;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -101,8 +100,7 @@ use Piwik\Period\Range;
  * 
  * <a name="footnote-1"></a>
  * [1]: The archiving process will not be launched if browser archiving is disabled
- *      and the current request came from a browser (and not the **archive.php** cron
- *      script).
+ *      and the current request came from a browser.
  *
  *
  * @api
@@ -199,12 +197,13 @@ class Archive
     {
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
+        $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
+
         if (Period::isMultiplePeriod($strDate, $period)) {
-            $oPeriod = new Range($period, $strDate);
+            $oPeriod = Factory::build($period, $strDate, $timezone);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
-            $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
-            $oPeriod = Period::makePeriodFromQueryParams($timezone, $period, $strDate);
+            $oPeriod = Factory::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
         $segment = new Segment($segment, $websiteIds);

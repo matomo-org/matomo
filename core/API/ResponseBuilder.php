@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -295,6 +295,9 @@ class ResponseBuilder
      */
     protected function handleDataTable($datatable)
     {
+        // process request
+        $label = $this->getLabelFromRequest($this->request);
+
         // if requested, flatten nested tables
         if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
             $flattener = new Flattener($this->apiModule, $this->apiMethod, $this->request);
@@ -312,6 +315,10 @@ class ResponseBuilder
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $genericFilter = new DataTableGenericFilter($this->request);
+            if (!empty($label)) {
+                $genericFilter->disableFilters(array('Limit', 'Truncate'));
+            }
+
             $genericFilter->filter($datatable);
         }
 
@@ -332,7 +339,6 @@ class ResponseBuilder
         }
 
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
-        $label = $this->getLabelFromRequest($this->request);
         if (!empty($label)) {
             $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 

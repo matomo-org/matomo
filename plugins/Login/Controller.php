@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -18,7 +18,6 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\ProxyHttp;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
@@ -124,9 +123,7 @@ class Controller extends \Piwik\Plugin\Controller
     function logme()
     {
         $password = Common::getRequestVar('password', null, 'string');
-        if (strlen($password) != 32) {
-            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
-        }
+        $this->checkPasswordHash($password);
 
         $login = Common::getRequestVar('login', null, 'string');
         if (Piwik::hasTheUserSuperUserAccess($login)) {
@@ -287,6 +284,11 @@ class Controller extends \Piwik\Plugin\Controller
         $fromEmailName = Config::getInstance()->General['login_password_recovery_email_name'];
         $fromEmailAddress = Config::getInstance()->General['login_password_recovery_email_address'];
         $mail->setFrom($fromEmailAddress, $fromEmailName);
+
+        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
+        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
+        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+
         @$mail->send();
     }
 
@@ -339,12 +341,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private function setNewUserPassword($user, $passwordHash)
     {
-        if (strlen($passwordHash) !== 32) // sanity check
-        {
-            throw new Exception(
-                "setNewUserPassword called w/ incorrect password hash. Something has gone terribly wrong.");
-        }
-
+        $this->checkPasswordHash($passwordHash);
         API::getInstance()->updateUser(
             $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
     }
@@ -457,6 +454,17 @@ class Controller extends \Piwik\Plugin\Controller
             Piwik::redirectToModule('CoreHome');
         } else {
             Url::redirectToUrl($logoutUrl);
+        }
+    }
+
+    /**
+     * @param $password
+     * @throws \Exception
+     */
+    protected function checkPasswordHash($password)
+    {
+        if (strlen($password) != 32) {
+            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
         }
     }
 }

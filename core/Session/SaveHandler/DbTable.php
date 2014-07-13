@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -78,8 +78,9 @@ class DbTable implements Zend_Session_SaveHandler_Interface
             . ' AND ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' >= ?';
 
         $result = Db::get()->fetchOne($sql, array($id, time()));
-        if (!$result)
+        if (!$result) {
             $result = '';
+        }
 
         return $result;
     }

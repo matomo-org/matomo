@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -17,8 +17,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
-use Piwik\ReportRenderer;
 use Piwik\ReportRenderer\Html;
+use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Translate;
 use Zend_Mime;
@@ -885,60 +885,7 @@ class API extends \Piwik\Plugin\API
 
     private function getAttachments($reportRenderer, $report, $processedReports, $prettyDate)
     {
-        $additionalFiles = array();
-
-        if ($reportRenderer instanceof Html) {
-
-            foreach ($processedReports as $processedReport) {
-
-                if ($processedReport['displayGraph']) {
-
-                    $additionalFiles[] = $this->createAttachment($report, $processedReport, $prettyDate);
-                }
-            }
-        }
-
-        return $additionalFiles;
-    }
-
-    private function createAttachment($report, $processedReport, $prettyDate)
-    {
-        $additionalFile = array();
-
-        $segment = self::getSegment($report['idsegment']);
-
-        $segmentName = $segment != null ? sprintf(' (%s)', $segment['name']) : '';
-
-        $processedReportMetadata = $processedReport['metadata'];
-
-        $additionalFile['filename'] =
-            sprintf(
-                '%s - %s - %s %d - %s %d%s.png',
-                $processedReportMetadata['name'],
-                $prettyDate,
-                Piwik::translate('General_Website'),
-                $report['idsite'],
-                Piwik::translate('General_Report'),
-                $report['idreport'],
-                $segmentName
-            );
-
-        $additionalFile['cid'] = $processedReportMetadata['uniqueId'];
-
-        $additionalFile['content'] =
-            ReportRenderer::getStaticGraph(
-                $processedReportMetadata,
-                Html::IMAGE_GRAPH_WIDTH,
-                Html::IMAGE_GRAPH_HEIGHT,
-                $processedReport['evolutionGraph'],
-                $segment
-            );
-
-        $additionalFile['mimeType'] = 'image/png';
-
-        $additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
-
-        return $additionalFile;
+        return $reportRenderer->getAttachments($report, $processedReports, $prettyDate);
     }
 
     private function checkUserHasViewPermission($login, $idSite)

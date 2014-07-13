@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SEO;
 
 use Exception;
-
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\MetricsFormatter;
@@ -239,7 +238,7 @@ class RankChecker
         $url = preg_replace('/^www\./', '', $this->url);
         $url = 'http://www.who.is/whois/' . urlencode($url);
         $data = $this->getPage($url);
-        preg_match('#(?:Creation Date|Created On|Registered on)\.*:\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
+        preg_match('#(?:Creation Date|Created On|created|Registered on)\.*:\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
             if ($value === false) {
@@ -260,7 +259,7 @@ class RankChecker
         $url = preg_replace('/^www\./', '', $this->url);
         $url = 'http://www.whois.com/whois/' . urlencode($url);
         $data = $this->getPage($url);
-        preg_match('#(?:Creation Date|Created On):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
+        preg_match('#(?:Creation Date|Created On|created):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
             if ($value === false) {

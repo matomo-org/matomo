@@ -4,6 +4,7 @@
 
 * Python 2.6 or 2.7. Python 3.x is not supported.
 * Update to Piwik 1.11
+* OrderedDict is optional (see https://pypi.python.org/pypi/ordereddict for more details). .
 
 ## How to use this script?
 

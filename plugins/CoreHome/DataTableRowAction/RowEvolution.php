@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -86,6 +86,9 @@ class RowEvolution
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 
         $this->label = ResponseBuilder::getLabelFromRequest($_GET);
+        if(!is_array($this->label)) {
+            throw new Exception("Expected label to be an array, got instead: " . $this->label);
+        }
         $this->label = $this->label[0];
 
         if ($this->label === '') throw new Exception("Parameter label not set.");

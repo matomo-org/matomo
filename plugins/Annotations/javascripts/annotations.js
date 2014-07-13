@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -160,6 +160,7 @@
      */
     var toggleAnnotationMode = function (inAnnotationElement) {
         var annotation = $(inAnnotationElement).closest('.annotation');
+        annotation.toggleClass('edit')
         $('.annotation-period,.annotation-period-edit,.delete-annotation,' +
             '.annotation-edit-mode,.annotation-view-mode', annotation).toggle();
 
@@ -459,9 +460,9 @@
                     // modify the starred count & make sure the correct image is used
                     var newStarCount = starredCount + starAmt;
                     if (newStarCount > 0) {
-                        var newImg = 'plugins/Zeitgeist/images/annotations_starred.png';
+                        var newImg = 'plugins/Morpheus/images/annotations_starred.png';
                     } else {
-                        var newImg = 'plugins/Zeitgeist/images/annotations.png';
+                        var newImg = 'plugins/Morpheus/images/annotations.png';
                     }
                     $(this).attr('data-starred', newStarCount).find('img').attr('src', newImg);
 
@@ -519,11 +520,7 @@
 
             loadingAnnotationManager = true;
 
-            var isDashboard = !!$('#dashboardWidgetsArea').length;
-
-            if (isDashboard) {
-                $('.loadingPiwikBelow', domElem).insertAfter($('.evolution-annotations', domElem));
-            }
+            $('.loadingPiwikBelow', domElem).insertAfter($('.evolution-annotations', domElem));
 
             var loading = $('.loadingPiwikBelow', domElem).css({display: 'block'});
 
@@ -545,11 +542,7 @@
                 loading.css('visibility', 'hidden');
 
                 // add & show annotation manager
-                if (isDashboard) {
-                    manager.insertAfter($('.evolution-annotations', domElem));
-                } else {
-                    $('.dataTableFeatures', domElem).append(manager);
-                }
+                manager.insertAfter($('.evolution-annotations', domElem));
 
                 manager.slideDown('slow', function () {
                     loading.hide().css('visibility', 'visible');

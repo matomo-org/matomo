@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -439,7 +439,6 @@
             if (dashboards.length > 1
                 || dashboardMenuListItems.length >= 1
             ) {
-                dashboardMenuList.show();
                 var items = [];
                 for (var i = 0; i < dashboards.length; i++) {
                     var $link = $('<a/>').attr('data-idDashboard', dashboards[i].iddashboard).text(dashboards[i].name);

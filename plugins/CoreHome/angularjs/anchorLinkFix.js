@@ -1,12 +1,12 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 /**
- * See http://dev.piwik.org/trac/ticket/4795 "linking to #hash tag does not work after merging AngularJS"
+ * See https://github.com/piwik/piwik/issues/4795 "linking to #hash tag does not work after merging AngularJS"
  */
 (function () {
 

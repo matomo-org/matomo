@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,7 +12,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\ActionSiteSearch;
+use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports

@@ -3,11 +3,11 @@
 	<row>
 		<label>0h</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>1120</sum_visit_length>
-		<bounce_count>1</bounce_count>
+		<bounce_count>2</bounce_count>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>

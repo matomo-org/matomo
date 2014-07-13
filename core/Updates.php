@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -39,6 +39,9 @@ abstract class Updates
     /**
      * Tell the updater that this is a major update.
      * Leads to a more visible notice.
+     *
+     * NOTE to release manager: Remember to mention in the Changelog
+     * that this update contains major DB upgrades and will take some time!
      *
      * @return bool
      */

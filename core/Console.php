@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,12 +8,13 @@
  */
 namespace Piwik;
 
+use Piwik\Plugin\Manager as PluginManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Piwik\Plugin\Manager as PluginManager;
 
 class Console extends Application
 {
@@ -30,12 +31,9 @@ class Console extends Application
         $this->getDefinition()->addOption($option);
     }
 
-    /**
-     * @deprecated
-     */
     public function init()
     {
-        // TODO: remove
+        $this->checkCompatibility();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -74,11 +72,9 @@ class Console extends Application
     private function getAvailableCommands()
     {
         $commands = $this->getDefaultPiwikCommands();
+        $detected = PluginManager::getInstance()->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand');
 
-        $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
-        foreach ($pluginNames as $pluginName) {
-            $commands = array_merge($commands, $this->findCommandsInPlugin($pluginName));
-        }
+        $commands = array_merge($commands, $detected);
 
         /**
          * Triggered to filter / restrict console commands. Plugins that want to restrict commands
@@ -103,29 +99,13 @@ class Console extends Application
         return $commands;
     }
 
-    private function findCommandsInPlugin($pluginName)
+    private function checkCompatibility()
     {
-        $commands = array();
-
-        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName .'/Commands', '*.php');
-
-        foreach ($files as $file) {
-            $klassName = sprintf('Piwik\\Plugins\\%s\\Commands\\%s', $pluginName, basename($file, '.php'));
-
-            if (!class_exists($klassName) || !is_subclass_of($klassName, 'Piwik\\Plugin\\ConsoleCommand')) {
-                continue;
-            }
-
-            $klass = new \ReflectionClass($klassName);
-
-            if ($klass->isAbstract()) {
-                continue;
-            }
-
-            $commands[] = $klassName;
+        if (Common::isPhpCgiType()) {
+            echo 'Piwik Console is known to be not compatible with PHP-CGI. Please execute console using PHP-CLI. For instance "/usr/bin/php-cli console ..."';
+            echo "\n";
+            exit(1);
         }
-
-        return $commands;
     }
 
     protected function initPiwikHost(InputInterface $input)

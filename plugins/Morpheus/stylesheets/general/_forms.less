@@ -1,0 +1,300 @@
+input:not([type="checkbox"]), select, textarea {
+    color: @theme-color-text;
+    .border-radius(0px);
+    margin-left: 0;
+    padding: 8px 10px;  
+    min-height: 30px;  
+    .box-sizing(border-box);
+    background: #fff;
+}
+button,
+.add-trusted-host,
+input[type="submit"],
+button[type="button"],
+.submit {
+    .border-radius(3px) !important;
+    background: none !important;
+    background-color: @theme-color-brand !important;
+    .box-shadow(~"0 1px 1px rgba(13,13,13,.3), inset 0 -1px 0 rgba(13,13,13,.1)");
+    #gradient > .vertical(rgba(255,255,255,.15), rgba(255,255,255,0)) !important;
+    .font-default(12px, 16px) !important;
+    color: @theme-color-brand-contrast !important;;
+    font-weight: normal;
+    padding: 5px 15px !important;
+    text-align: center;
+    cursor: pointer;
+    border: 0px !important;
+    &:hover {
+        background: @theme-color-brand !important;
+        background-color: @theme-color-brand !important;
+    }
+
+    em {
+        font-style: normal;
+    }
+    &.ui-dialog-titlebar-close {
+        &:hover {
+            background: none !important;
+            background-color: none !important;
+        }
+    }
+}
+
+.sites_autocomplete {
+    input {
+      min-height: 0;
+    }
+    .custom_select {
+        border-color: @theme-color-background-lowContrast;
+        .border-radius(0px);
+        background: @theme-color-background-base;
+        .box-shadow(~"inset 1px 1px 3px #d8d8d8");
+        padding: 0px 5px 0px;
+        color: @theme-color-text;
+        text-transform: uppercase;
+        .font-default(10px, 12px);
+        min-height: 30px;
+        .box-sizing(border-box);
+        a {
+            color: @theme-color-text;
+        }
+        .custom_select_block {
+            .custom_select_container{
+                .custom_select_ul_list {
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
+}
+
+.ajaxError {
+    background: @theme-color-brand;
+    color: #fff;
+    border:0px;
+    .border-radius(6px);
+    padding: 20px 25px;
+    text-align: center;
+    font-weight: normal;
+}
+
+
+.sites_autocomplete--dropdown {
+    .custom_select_main_link:not(.loading):before {
+        color: @theme-color-brand;
+        font-size: 0.7em;
+        top: 2px;
+        right: 5px;
+        content: '';
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid @theme-color-brand;
+    }
+}
+
+
+.limitSelection {
+    > ul {
+        position: relative;
+        top: -6px;
+        > li {
+            width: 25px;
+        }
+    }
+    > div {
+        .border-radius(2px);
+        background-color: #fff;
+        .font-default(10px, 12px);
+        background: none;
+        padding: 2px 14px 2px 1px;
+        span {
+            position: relative;
+            background: none;
+            color: @theme-color-text;
+            display: block;
+            padding-right: 3px;
+            &:after {
+                content: '';
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-top: 5px solid @theme-color-brand;
+                position: absolute;
+                top: 7px;
+                right: -9px;
+            }
+        }
+    }
+
+    span {
+        color: @theme-color-text;
+        font-weight: normal;
+    }
+
+    &.visible {
+        > div {
+            background-image: none;
+            > span:after {
+                content: '';
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-bottom: 5px solid @theme-color-brand;
+                border-top-color: transparent;
+                position: absolute;
+                top: 1px;
+                right: -9px;
+            }
+        }
+    }
+}
+
+//checkboxes and radio
+.form-radio, .form-checkbox {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+.form-radio, .form-checkbox {
+    height: 15px;
+    width: 15px;
+    float: left;
+    cursor: pointer;
+    background: url('plugins/Morpheus/images/forms-sprite.png');
+    margin: 2px 5px 2px 0;
+}
+
+.form-radio.disabled {
+    background-position:15px -16px;
+}
+
+.form-checkbox.disabled {
+    background-position:15px 0px;
+}
+
+.form-radio + label, .form-checkbox + label {
+    float:left;
+    display:inline-block;
+
+    + .form-description {
+        margin-left:1em;
+    }
+
+    + br, + .form-description + br {
+        clear:both;
+    }
+
+    + .form-radio, + .form-checkbox {
+        margin-left:32px;
+    }
+}
+
+fieldset > .form-radio + label { // assumes <br/> after the label
+  display: inline-block;
+  margin-bottom: -.5em;
+}
+
+label {
+    &.hover,
+    &:hover {
+        border: 0px;
+    }
+}
+
+.form-radio {
+    background-position: 0 -16px;
+    
+    &.form-hover {
+        background-position: -60px -16px;
+    }
+
+    &.checked {
+        background-position: -30px -16px;
+        &.form-hover {
+            background-position: -90px -16px;
+        }
+    }
+}
+
+.form-checkbox {
+    background-position: 0 0;
+    
+    &.form-hover {
+        background-position: -60px 0;
+    }
+
+    &.checked {
+        background-position: -30px 0;
+        &.form-hover {
+            background-position: -90px 0;
+        }
+    }
+}
+
+.prettycheckbox a:focus, .prettyradio a:focus {
+    outline: 0 none;
+}
+.prettycheckbox label, .prettyradio label {
+    display: block;
+    float: left;
+    margin: 2px;
+    cursor: pointer;
+}
+.prettycheckbox a.disabled, .prettycheckbox label.disabled, .prettyradio a.disabled, .prettyradio label.disabled {
+    cursor: not-allowed;
+}
+.prettycheckbox a {
+    background-position: 0 0;
+}
+.prettycheckbox a:focus {
+    background-position: -15px 0;
+}
+.prettycheckbox a.checked {
+    background-position: -38px 0;
+}
+.prettycheckbox a.checked:focus {
+    background-position: -53px 0;
+}
+.prettycheckbox a.checked.disabled {
+    background-position: -99px 0;
+}
+.prettycheckbox a.disabled {
+    background-position: -76px 0;
+}
+.prettyradio a {
+    background-position: -129px 0;
+}
+.prettyradio a:focus {
+    background-position: -144px 0;
+}
+.prettyradio a.checked {
+    background-position: -167px 0;
+}
+.prettyradio a.checked:focus {
+    background-position: -182px 0;
+}
+.prettyradio a.checked.disabled {
+    background-position: -228px 0;
+}
+.prettyradio a.disabled {
+    background-position: -205px 0;
+}
+
+// specific form control overrides (for iCheck)
+.indented-radio-button {
+  margin:0;
+}
+
+.listReports > li:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
+.listReports {
+  .form-radio + label, .form-checkbox + label {
+    width: 250px;
+  }
+}
+
+.small-form-description { // for tracking code generator
+  clear:both;
+}

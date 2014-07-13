@@ -6,7 +6,9 @@ $(document).ready(function () {
 
     function initICheck()
     {
-        $('input').iCheck({
+        $('input').filter(function () {
+            return !$(this).parent().is('.form-radio');
+        }).iCheck({
             checkboxClass: 'form-checkbox',
             radioClass: 'form-radio',
             checkedClass: 'checked',
@@ -16,6 +18,7 @@ $(document).ready(function () {
 
     initICheck();
     $(document).bind('ScheduledReport.edit', initICheck);
+    $(broadcast).bind('locationChangeSuccess', initICheck);
 
     $('body').on('ifClicked', 'input', function () {
         $(this).trigger('click');

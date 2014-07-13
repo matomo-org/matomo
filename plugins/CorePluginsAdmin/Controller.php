@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Filechecks;
@@ -18,9 +19,8 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Url;
-use Piwik\View;
 use Piwik\Version;
-use Exception;
+use Piwik\View;
 
 /**
  */

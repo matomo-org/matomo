@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -12,10 +12,10 @@ namespace Piwik\Plugins\CustomVariables\tests\Commands;
 use Piwik\Plugins\CustomVariables\Commands\Info;
 use Piwik\Plugins\CustomVariables\Model;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @group CustomVariables

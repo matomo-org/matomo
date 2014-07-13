@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,8 +13,8 @@ use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
 use Piwik\Config;
-use Piwik\Db\Adapter;
 use Piwik\Db;
+use Piwik\Db\Adapter;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
 use Piwik\Piwik;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -13,8 +13,6 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
-use Piwik\PluginsManager;
 use Piwik\Tracker\GoalManager;
 
 class Archiver extends \Piwik\Plugin\Archiver

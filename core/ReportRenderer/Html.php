@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -8,6 +8,7 @@
  */
 namespace Piwik\ReportRenderer;
 
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\ReportRenderer;
 use Piwik\SettingsPiwik;
@@ -160,5 +161,59 @@ class Html extends ReportRenderer
         }
 
         $this->rendering .= $reportView->render();
+    }
+
+    public function getAttachments($report, $processedReports, $prettyDate)
+    {
+        $additionalFiles = array();
+
+        foreach ($processedReports as $processedReport) {
+            if ($processedReport['displayGraph']) {
+
+                $additionalFiles[] = $this->getAttachment($report, $processedReport, $prettyDate);
+            }
+        }
+
+        return $additionalFiles;
+    }
+
+    protected function getAttachment($report, $processedReport, $prettyDate)
+    {
+        $additionalFile = array();
+
+        $segment = \Piwik\Plugins\ScheduledReports\API::getSegment($report['idsegment']);
+
+        $segmentName = $segment != null ? sprintf(' (%s)', $segment['name']) : '';
+
+        $processedReportMetadata = $processedReport['metadata'];
+
+        $additionalFile['filename'] =
+            sprintf(
+                '%s - %s - %s %d - %s %d%s.png',
+                $processedReportMetadata['name'],
+                $prettyDate,
+                Piwik::translate('General_Website'),
+                $report['idsite'],
+                Piwik::translate('General_Report'),
+                $report['idreport'],
+                $segmentName
+            );
+
+        $additionalFile['cid'] = $processedReportMetadata['uniqueId'];
+
+        $additionalFile['content'] =
+            ReportRenderer::getStaticGraph(
+                $processedReportMetadata,
+                Html::IMAGE_GRAPH_WIDTH,
+                Html::IMAGE_GRAPH_HEIGHT,
+                $processedReport['evolutionGraph'],
+                $segment
+            );
+
+        $additionalFile['mimeType'] = 'image/png';
+
+        $additionalFile['encoding'] = \Zend_Mime::ENCODING_BASE64;
+
+        return $additionalFile;
     }
 }

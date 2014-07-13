@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -11,7 +11,6 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
-use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;

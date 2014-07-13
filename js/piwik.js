@@ -1,13 +1,13 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * JavaScript tracking client
  *
  * @link http://piwik.org
  * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
- * @license http://piwik.org/free-software/bsd/ Simplified BSD (also in js/LICENSE.txt)
+ * @license http://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
+ * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
-
 // Refer to README.md for build instructions when minifying this file for distribution.
 
 /*
@@ -391,7 +391,7 @@ if (typeof JSON2 !== 'object') {
 /*global unescape */
 /*global ActiveXObject */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift,
+    shift, unshift, piwikAsyncInit,
     createElement, appendChild, characterSet, charset,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
@@ -408,13 +408,14 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, appendToTrackingUrl, setSiteId,
+    hook, getHook, getVisitorId, getVisitorInfo, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
+    setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable,
     setDownloadExtensions, addDownloadExtensions,
-    setDomains, setIgnoreClasses, setRequestMethod,
+    setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
@@ -435,9 +436,12 @@ if (typeof JSON2 !== 'object') {
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker */
 /*global Piwik_Overlay_Client */
+/*global AnalyticsTracker:true */
 /*members initialize */
 /*global define */
 /*members amd */
+/*global console:true */
+/*members error */
 
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
@@ -1074,8 +1078,15 @@ if (typeof Piwik !== 'object') {
 
                 enableJSErrorTracking = false,
 
+                defaultRequestMethod = 'GET',
+
                 // Request method (GET or POST)
-                configRequestMethod = 'GET',
+                configRequestMethod = defaultRequestMethod,
+
+                defaultRequestContentType = 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                // Request Content-Type header value; applicable when POST request method is used for submitting tracking events
+                configRequestContentType = defaultRequestContentType,
 
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
@@ -1083,7 +1094,7 @@ if (typeof Piwik !== 'object') {
                 // API URL (only set if it differs from the Tracker URL)
                 configApiUrl = '',
 
-                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existin setters/getters)
+                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existing setters/getters)
                 configAppendToTrackingUrl = '',
 
                 // Site ID
@@ -1171,6 +1182,8 @@ if (typeof Piwik !== 'object') {
 
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
+
+                configCustomRequestContentProcessing,
 
                 // Custom Variables, scope "page"
                 customVariablesPage = {},
@@ -1364,9 +1377,7 @@ if (typeof Piwik !== 'object') {
                         }
                     };
 
-                    // see XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
-                    // @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                    xhr.setRequestHeader('Content-Type', configRequestContentType);
 
                     xhr.send(request);
                 } catch (e) {
@@ -1821,6 +1832,11 @@ if (typeof Piwik !== 'object') {
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
                 }
+
+                if (isFunction(configCustomRequestContentProcessing)) {
+                    request = configCustomRequestContentProcessing(request);
+                }
+
                 return request;
             }
 
@@ -2088,25 +2104,6 @@ if (typeof Piwik !== 'object') {
 
                 // optimization of the if..elseif..else construct below
                 return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
-
-/*
-                var linkType = 0;
-
-                if (linkPattern.test(className)) {
-                    // class attribute contains 'piwik_link' (or user's override)
-                    linkType = 'link';
-                } else if (downloadPattern.test(className)) {
-                    // class attribute contains 'piwik_download' (or user's override)
-                    linkType = 'download';
-                } else if (downloadExtensionsPattern.test(sourceHref)) {
-                    // file extension matches a defined download extension
-                    linkType = 'download';
-                } else if (!isInLink) {
-                    linkType = 'link';
-                }
-
-                return linkType;
- */
             }
 
             /*
@@ -2443,6 +2440,36 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Get custom data
+                 *
+                 * @return mixed
+                 */
+                getCustomData: function () {
+                    return configCustomData;
+                },
+
+                /**
+                 * Configure function with custom request content processing logic.
+                 * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
+                 *
+                 * Examples:
+                 *   tracker.setCustomRequestProcessing(function(request){
+                 *     var pairs = request.split('&');
+                 *     var result = {};
+                 *     pairs.forEach(function(pair) {
+                 *       pair = pair.split('=');
+                 *       result[pair[0]] = decodeURIComponent(pair[1] || '');
+                 *     });
+                 *     return JSON.stringify(result);
+                 *   });
+                 *
+                 * @param function customRequestContentProcessingLogic
+                 */
+                setCustomRequestProcessing: function (customRequestContentProcessingLogic) {
+                    configCustomRequestContentProcessing = customRequestContentProcessingLogic;
+                },
+
+                /**
                  * Appends the specified query string to the piwik.php?... Tracking API URL
                  *
                  * @param string queryString eg. 'lat=140&long=100'
@@ -2452,14 +2479,27 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Get custom data
+                 * Returns the query string for the current HTTP Tracking API request.
+                 * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+                 * prior to sending the request.
                  *
-                 * @return mixed
+                 * @param request eg. "param=value&param2=value2"
                  */
-                getCustomData: function () {
-                    return configCustomData;
+                getRequest: function (request) {
+                    return getRequest(request);
                 },
 
+                /**
+                 * Add plugin defined by a name and a callback function.
+                 * The callback function will be called whenever a tracking request is sent.
+                 * This can be used to append data to the tracking request, or execute other custom logic.
+                 *
+                 * @param string pluginName
+                 * @param Object pluginObj
+                 */
+                addPlugin: function (pluginName, pluginObj) {
+                    plugins[pluginName] = pluginObj;
+                },
 
                 /**
                  * Set custom variable within this visit
@@ -2594,7 +2634,18 @@ if (typeof Piwik !== 'object') {
                  * @param string method GET or POST; default is GET
                  */
                 setRequestMethod: function (method) {
-                    configRequestMethod = method || 'GET';
+                    configRequestMethod = method || defaultRequestMethod;
+                },
+
+                /**
+                 * Set request Content-Type header value, applicable when POST request method is used for submitting tracking events.
+                 * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
+                 * @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
+                 *
+                 * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
+                 */
+                setRequestContentType: function (requestContentType) {
+                    configRequestContentType = requestContentType || defaultRequestContentType;
                 },
 
                 /**
@@ -2992,8 +3043,9 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Log special pageview: Internal search
                  *
-                 * @param string customTitle
-                 * @param mixed customData
+                 * @param string keyword
+                 * @param string category
+                 * @param int resultsCount
                  */
                 trackSiteSearch: function (keyword, category, resultsCount) {
                     trackCallback(function () {
@@ -3122,13 +3174,24 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
+        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setSiteId: 1};
+        var methodName;
+
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
         for (iterator = 0; iterator < _paq.length; iterator++) {
-            if (_paq[iterator][0] === 'setTrackerUrl'
-                    || _paq[iterator][0] === 'setAPIUrl'
-                    || _paq[iterator][0] === 'setSiteId') {
+            methodName = _paq[iterator][0];
+
+            if (applyFirst[methodName]) {
                 apply(_paq[iterator]);
                 delete _paq[iterator];
+
+                if (applyFirst[methodName] > 1) {
+                    if (console !== undefined && console && console.error) {
+                        console.error('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/api-reference/tracking-javascript#multiple-piwik-trackers');
+                    }
+                }
+
+                applyFirst[methodName]++;
             }
         }
 
@@ -3186,6 +3249,19 @@ if (typeof Piwik !== 'object') {
         return Piwik;
     }());
 }
+
+if (window && window.piwikAsyncInit) {
+    window.piwikAsyncInit();
+}
+
+/*jslint sloppy: true */
+(function () {
+    var jsTrackerType = (typeof AnalyticsTracker);
+    if (jsTrackerType === 'undefined') {
+        AnalyticsTracker = Piwik;
+    }
+}());
+/*jslint sloppy: false */
 
 /************************************************************
  * Deprecated functionality below
@@ -3278,3 +3354,6 @@ if (typeof piwik_log !== 'function') {
         }
     };
 }
+
+/*! @license-end */
+

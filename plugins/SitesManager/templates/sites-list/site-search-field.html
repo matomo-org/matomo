@@ -1,0 +1,73 @@
+<span ng-switch-default ng-switch="site.sitesearch">
+    <span ng-switch-when="1">{{ 'General_Yes'|translate }}</span>
+    <span ng-switch-default>-</span>
+</span>
+
+<span ng-switch-when="true">
+
+    <select ng-options="option.key as option.value for option in siteSearchOptions" ng-model="site.sitesearch">
+    </select>
+
+    <div ng-show="site.sitesearch" style="font-size: 11px;">
+
+        <div ng-show="globalSettings.searchKeywordParametersGlobal.length">
+
+            <input type="checkbox" ng-model="site.useDefaultSiteSearchParams">
+
+            <span
+                    ng-show="hasSuperUserAccess"
+                    ng-bind-html="'SitesManager_SearchUseDefault'|translate:'<a href=\'#globalSettings\'>':'</a>'">
+            </span>
+            <span ng-hide="hasSuperUserAccess">
+                {{ 'SitesManager_SearchUseDefault' | translate:'':'' }}
+            </span>
+
+            <span ng-show="site.useDefaultSiteSearchParams" class="form-description">
+
+                {{ 'SitesManager_SearchKeywordLabel' | translate }}
+                ({{ 'General_Default' | translate }}) :
+
+                <span ng-repeat="param in globalSettings.searchKeywordParametersGlobal">
+                    {{ param }}<span ng-show="!$last">, </span>
+                </span>
+
+                <span ng-show="globalSettings.searchCategoryParametersGlobal.length">
+                    & {{ 'SitesManager_SearchCategoryLabel' | translate }} :
+                    <span ng-repeat="param in globalSettings.searchCategoryParametersGlobal">
+                        {{ param }}<span ng-show="!$last">, </span>
+                    </span>
+                </span>
+
+            </span>
+
+        </div>
+
+        <div ng-hide="site.useDefaultSiteSearchParams">
+
+            <br/>
+
+            <label>
+                {{ 'SitesManager_SearchKeywordLabel' | translate }}
+                <input ng-list ng-model="site.sitesearch_keyword_parameters">
+                <div class="ui-inline-help">
+                    {{ 'SitesManager_SearchKeywordParametersDesc' | translate }}
+                </div>
+            </label>
+
+            <label ng-show="customVariablesActivated">
+                {{ 'SitesManager_SearchCategoryLabel' | translate }}
+                <input ng-list ng-model="site.sitesearch_category_parameters">
+                <div class="ui-inline-help">
+                    {{ 'Goals_Optional' | translate }} {{ 'SitesManager_SearchCategoryParametersDesc' | translate }}
+                </div>
+            </label>
+
+        </div>
+
+    </div>
+
+    <div class="ui-inline-help" ng-show="site.sitesearch == 0 || site.useDefaultSiteSearchParams">
+        {{ 'SitesManager_SiteSearchUse' | translate }}
+    </div>
+
+</span>

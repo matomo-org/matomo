@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\Db;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -30,7 +29,6 @@ class UsersManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Admin.addItems'                    => 'addMenu',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
@@ -89,24 +87,9 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Get CSS files
      */
-    function getStylesheetFiles(&$stylesheets)
+    public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/UsersManager/stylesheets/usersManager.less";
-    }
-
-    /**
-     * Add admin menu items
-     */
-    function addMenu()
-    {
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers',
-            array('module' => 'UsersManager', 'action' => 'index'),
-            Piwik::isUserHasSomeAdminAccess(),
-            $order = 2);
-        MenuAdmin::getInstance()->add('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings',
-            array('module' => 'UsersManager', 'action' => 'userSettings'),
-            Piwik::isUserHasSomeViewAccess(),
-            $order = 3);
     }
 
     /**
@@ -128,9 +111,27 @@ class UsersManager extends \Piwik\Plugin
 
     public static function checkPassword($password)
     {
+        /**
+         * Triggered before core password validator check password.
+         *
+         * This event exists for enable option to create custom password validation rules.
+         * It can be used to validate password (length, used chars etc) and to notify about checking password.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('UsersManager.checkPassword', function ($password) {
+         *         if (strlen($password) < 10) {
+         *             throw new Exception('Password is too short.');
+         *         }
+         *     });
+         *
+         * @param string $password Checking password in plain text.
+         */
+        Piwik::postEvent('UsersManager.checkPassword', array($password));
+
         if (!self::isValidPasswordString($password)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
-                                                                                                        self::PASSWORD_MAX_LENGTH)));
+                self::PASSWORD_MAX_LENGTH)));
         }
     }
 

@@ -1,7 +1,7 @@
 {
     "name": "piwik/piwik",
     "type": "application",
-    "description": "Open Source Real Time Web Analytics Platform",
+    "description": "the leading free/libre analytics platform",
     "keywords": ["piwik","web","analytics"],
     "homepage": "http://piwik.org",
     "license": "GPL-3.0+",
@@ -14,7 +14,7 @@
     ],
     "support": {
         "forum": "http://forum.piwik.org/",
-        "issues": "http://dev.piwik.org/trac/roadmap",
+        "issues": "https://github.com/piwik/piwik/issues",
         "wiki": "http://dev.piwik.org/",
         "source": "https://github.com/piwik/piwik"
     },
@@ -25,6 +25,9 @@
         "symfony/console": ">=v2.3.5",
         "tedivm/jshrink": "v0.5.1",
         "mustangostang/spyc": "0.5.*",
-        "piwik/device-detector": "*"
+        "piwik/device-detector": "2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.1"
     }
 }

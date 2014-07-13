@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -305,7 +305,7 @@ class Url
     }
 
     /**
-     * Sets the host. Useful for CLI scripts, eg. archive.php
+     * Sets the host. Useful for CLI scripts, eg. core:archive command
      * 
      * @param $host string
      */
@@ -460,6 +460,11 @@ class Url
      */
     static public function redirectToUrl($url)
     {
+        // Close the session manually.
+        // We should not have to call this because it was registered via register_shutdown_function,
+        // but it is not always called fast enough
+        Session::close();
+
         if (UrlHelper::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {
@@ -469,7 +474,7 @@ class Url
         }
 
         if(Common::isPhpCliMode()) {
-            die("If you were using a browser, Piwik would redirect you to this URL: $url \n\n");
+            throw new Exception("If you were using a browser, Piwik would redirect you to this URL: $url \n\n");
         }
         exit;
     }
@@ -523,7 +528,7 @@ class Url
         }
 
         // drop port numbers from hostnames and IP addresses
-        $hosts = array_map(array('Piwik\IP', 'sanitizeIp'), $hosts);
+        $hosts = array_map(array('self', 'getHostSanitized'), $hosts);
 
         $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host
@@ -552,11 +557,17 @@ class Url
 
     public static function getTrustedHosts()
     {
-        $trustedHosts = self::getTrustedHostsFromConfig();
+        return self::getTrustedHostsFromConfig();
+    }
 
-        /* used by Piwik PRO */
-        Piwik::postEvent('Url.filterTrustedHosts', array(&$trustedHosts));
-
-        return $trustedHosts;
+    /**
+     * Returns hostname, without port numbers
+     *
+     * @param $host
+     * @return array
+     */
+    public static function getHostSanitized($host)
+    {
+        return IP::sanitizeIp($host);
     }
 }

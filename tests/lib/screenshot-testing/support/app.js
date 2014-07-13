@@ -1,5 +1,5 @@
 /*!
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * UI screenshot test runner Application class
  *
@@ -71,7 +71,11 @@ Application.prototype.init = function () {
     describe = function () {
         var suite = oldDescribe.apply(null, arguments);
         suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
-        suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
+        if (options['assume-artifacts']) {
+            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+        } else {
+            suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
+        }
         return suite;
     };
 };
@@ -92,6 +96,7 @@ Application.prototype.loadTestModules = function () {
 
     plugins.forEach(function (pluginPath) {
         walk(path.join(pluginPath, 'Test'), /_spec\.js$/, modulePaths);
+        walk(path.join(pluginPath, 'tests'), /_spec\.js$/, modulePaths);
     });
 
     modulePaths.forEach(function (path) {
@@ -195,16 +200,14 @@ Application.prototype.doRunTests = function () {
         }
 
         // build diffviewer
-        self.diffViewerGenerator.checkImageMagickCompare(function () {
-            self.diffViewerGenerator.generate(function () {
-                self.finish();
-            });
+        self.diffViewerGenerator.generate(function () {
+            self.finish();
         });
     });
 };
 
 Application.prototype.finish = function () {
-    phantom.exit(this.runner.failures);
+    phantom.exit(this.runner ? this.runner.failures : -1);
 };
 
 exports.Application = new Application();

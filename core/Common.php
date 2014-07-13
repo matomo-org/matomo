@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -129,19 +129,36 @@ class Common
 
         $remoteAddr = @$_SERVER['REMOTE_ADDR'];
         return PHP_SAPI == 'cli' ||
-        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
+        (self::isPhpCgiType() && empty($remoteAddr));
     }
 
     /**
-     * Returns true if the current request is a console command, eg. ./console xx:yy
+     * Returns true if PHP is executed as CGI type.
+     *
+     * @since added in 0.4.4
+     * @return bool true if PHP invoked as a CGI
+     */
+    public static function isPhpCgiType()
+    {
+        $sapiType = php_sapi_name();
+
+        return substr($sapiType, 0, 3) === 'cgi';
+    }
+
+    /**
+     * Returns true if the current request is a console command, eg.
+     * ./console xx:yy
+     * or
+     * php console xx:yy
+     *
      * @return bool
      */
     public static function isRunningConsoleCommand()
     {
-        $searched = '/console';
+        $searched = 'console';
         $consolePos = strpos($_SERVER['SCRIPT_NAME'], $searched);
         $expectedConsolePos = strlen($_SERVER['SCRIPT_NAME']) - strlen($searched);
-        $isScriptIsConsole = $consolePos == $expectedConsolePos;
+        $isScriptIsConsole = ($consolePos === $expectedConsolePos);
         return self::isPhpCliMode() && $isScriptIsConsole;
     }
 
@@ -1049,7 +1066,7 @@ class Common
     /**
      * Marks an orphaned object for garbage collection.
      *
-     * For more information: {@link http://dev.piwik.org/trac/ticket/374}
+     * For more information: {@link https://github.com/piwik/piwik/issues/374}
      * @param $var The object to destroy.
      * @api
      */

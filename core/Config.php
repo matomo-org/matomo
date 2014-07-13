@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -143,29 +143,12 @@ class Config extends Singleton
             $this->configCache['Tracker'] = $this->configGlobal['Tracker'];
             $this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
             $this->configCache['Deletereports'] = $this->configGlobal['Deletereports'];
+            $this->configCache['Development'] = $this->configGlobal['Development'];
         }
 
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
         $this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
-
-        // DevicesDetection plugin is not yet enabled by default
-        if (isset($configGlobal['Plugins'])) {
-            $this->configCache['Plugins'] = $this->configGlobal['Plugins'];
-            $this->configCache['Plugins']['Plugins'][] = 'DevicesDetection';
-        }
-        if (isset($configGlobal['Plugins_Tracker'])) {
-            $this->configCache['Plugins_Tracker'] = $this->configGlobal['Plugins_Tracker'];
-            $this->configCache['Plugins_Tracker']['Plugins_Tracker'][] = 'DevicesDetection';
-        }
-
-        // to avoid weird session error in travis
-        if (empty($pathGlobal)) {
-            $configArray = &$this->configCache;
-        } else {
-            $configArray = &$this->configLocal;
-        }
-        $configArray['General']['session_save_handler'] = 'dbtables';
     }
 
     /**
@@ -204,6 +187,8 @@ class Config extends Singleton
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
+        // Remove any port number to get actual hostname
+        $hostname = Url::getHostSanitized($hostname);
         $perHostFilename  = $hostname . '.config.ini.php';
         $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
 
@@ -225,8 +210,21 @@ class Config extends Singleton
         return array(
             'action_url_category_delimiter' => $general['action_url_category_delimiter'],
             'autocomplete_min_sites' => $general['autocomplete_min_sites'],
-            'datatable_export_range_as_day' => $general['datatable_export_range_as_day']
+            'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
+            'datatable_row_limits' => $this->getDatatableRowLimits()
         );
+    }
+
+    /**
+     * @param $general
+     * @return mixed
+     */
+    private function getDatatableRowLimits()
+    {
+        $limits = $this->General['datatable_row_limits'];
+        $limits = explode(",", $limits);
+        $limits = array_map('trim', $limits);
+        return $limits;
     }
 
     protected static function getByDomainConfigPath()
@@ -242,9 +240,19 @@ class Config extends Singleton
         return false;
     }
 
-    protected static function getHostname()
+    /**
+     * Returns the hostname of the current request (without port number)
+     *
+     * @return string
+     */
+    public static function getHostname()
     {
-        $host = Url::getHost($checkIfTrusted = false); // Check trusted requires config file which is not ready yet
+        // Check trusted requires config file which is not ready yet
+        $host = Url::getHost($checkIfTrusted = false);
+
+        // Remove any port number to get actual hostname
+        $host = Url::getHostSanitized($host);
+
         return $host;
     }
 
@@ -332,6 +340,12 @@ class Config extends Singleton
         return is_readable($this->pathLocal);
     }
 
+    public function deleteLocalConfig()
+    {
+        $configLocal = $this->getLocalPath();
+        unlink($configLocal);
+    }
+
     public function checkLocalConfigFound()
     {
         if (!$this->existsLocalConfig()) {
@@ -370,6 +384,7 @@ class Config extends Singleton
             }
         } else {
             $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
+            $values = str_replace('$', '&#36;', $values);
         }
         return $values;
     }
@@ -711,4 +726,5 @@ class Config extends Singleton
         }
         return $merged;
     }
+
 }

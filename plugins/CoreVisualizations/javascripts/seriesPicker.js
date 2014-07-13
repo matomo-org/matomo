@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Series Picker control addition for DataTable visualizations.
  *
@@ -272,7 +272,11 @@
                     $(this).trigger('seriesPicked', [columns, rows]);
 
                     // inform dashboard widget about changed parameters (to be restored on reload)
-                    $('#' + this.dataTableId).closest('[widgetId]').trigger('setParameters', {columns: columns, rows: rows});
+                    var UI = require('piwik/UI')
+                    var params = {columns: columns,  columns_to_display: columns,
+                                  rows: rows, rows_to_display: rows};
+                    var tableNode = $('#' + this.dataTableId);
+                    UI.DataTable.prototype.notifyWidgetParametersChange(tableNode, params);
                 }
             }
 

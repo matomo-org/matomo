@@ -7,8 +7,9 @@ host = localhost
 username = root
 password =
 dbname = piwik_tests
-adapter = PDO_MYSQL
-tables_prefix = piwiktests_
+adapter = PDO\MYSQL
+; no table prefix for tests on travis
+tables_prefix = 
 ;charset = utf8
 
 [database_tests]
@@ -16,8 +17,9 @@ host = localhost
 username = root
 password =
 dbname = piwik_tests
-adapter = PDO_MYSQL
-tables_prefix = piwiktests_
+adapter = PDO\MYSQL
+; no table prefix for tests on travis
+tables_prefix = 
 
 [log]
 log_writers[] = file

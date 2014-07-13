@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -25,6 +25,8 @@ class Mysqli extends Db
     protected $username;
     protected $password;
     protected $charset;
+    protected $activeTransaction = false;
+
 
     /**
      * Builds the DB object
@@ -44,7 +46,7 @@ class Mysqli extends Db
             $this->socket = $dbInfo['port'];
         } else {
             $this->host = $dbInfo['host'];
-            $this->port = $dbInfo['port'];
+            $this->port = (int)$dbInfo['port'];
             $this->socket = null;
         }
         $this->dbname = $dbInfo['dbname'];
@@ -276,4 +278,58 @@ class Mysqli extends Db
     {
         return mysqli_affected_rows($this->connection);
     }
+
+	/**
+	 * Start Transaction
+	 * @return string TransactionID
+	 */
+
+	public function beginTransaction()
+	{
+		if(!$this->activeTransaction === false ) {
+			return;
+		}
+
+		if( $this->connection->autocommit(false) ) {
+			$this->activeTransaction = uniqid();
+			return $this->activeTransaction;
+		}
+	}
+
+	/**
+	 * Commit Transaction
+	 * @param string TransactionID from beginTransaction
+	 */
+
+	public function commit($xid)
+	{
+		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) { 
+		
+			return;
+		}
+		$this->activeTransaction = false;
+
+		if(!$this->connection->commit() ) {
+			throw new DbException("Commit failed"); 
+		}
+		$this->connection->autocommit(true);
+	}
+
+	/**
+	 * Rollback Transaction
+	 * @param string TransactionID from beginTransaction
+	 */
+
+	public function rollBack($xid)
+	{
+		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) { 
+			return;
+		}
+		$this->activeTransaction = false;
+
+		if(!$this->connection->rollback() ) {
+			throw new DbException("Rollback failed"); 
+		}
+		$this->connection->autocommit(true); 
+	}
 }

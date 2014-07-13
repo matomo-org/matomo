@@ -5,8 +5,8 @@
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
-		<avg_time_on_page>0</avg_time_on_page>
+		<sum_time_spent>36</sum_time_spent>
+		<avg_time_on_page>36</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/dir2/sub/0/file.php</url>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -122,6 +122,16 @@ abstract class ReportRenderer
     abstract public function renderReport($processedReport);
 
     /**
+     * Get report attachments, ex. graph images
+     *
+     * @param $report
+     * @param $processedReports
+     * @param $prettyDate
+     * @return array
+     */
+    abstract public function getAttachments($report, $processedReports, $prettyDate);
+
+    /**
      * Append $extension to $filename
      *
      * @static
@@ -144,7 +154,7 @@ abstract class ReportRenderer
     protected static function getOutputPath($filename)
     {
         $outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
-        $outputFilename = SettingsPiwik::rewriteTmpPathWithHostname($outputFilename);
+        $outputFilename = SettingsPiwik::rewriteTmpPathWithInstanceId($outputFilename);
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);

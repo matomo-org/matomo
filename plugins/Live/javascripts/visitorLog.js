@@ -1,5 +1,5 @@
 /**
- * Piwik - Web Analytics
+ * Piwik - free/libre analytics platform
  *
  * Visitor profile popup control.
  *
@@ -23,6 +23,14 @@
     };
 
     $.extend(exports.VisitorLog.prototype, dataTablePrototype, {
+
+        handleColumnHighlighting: function () {
+
+        },
+
+        setFixWidthToMakeEllipsisWork: function () {
+
+        },
 
         /**
          * Initializes this class.
@@ -56,7 +64,7 @@
                     var tooltipIsOpened = false;
 
                     $('a', $this).on('focus', function () {
-                        // see http://dev.piwik.org/trac/ticket/4099
+                        // see https://github.com/piwik/piwik/issues/4099
                         if (tooltipIsOpened) {
                             $this.tooltip('close');
                         }

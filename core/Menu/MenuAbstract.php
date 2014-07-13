@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -9,8 +9,10 @@
 namespace Piwik\Menu;
 
 use Piwik\Common;
+use Piwik\Log;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Base class for classes that manage one of Piwik's menus.
@@ -30,6 +32,7 @@ abstract class MenuAbstract extends Singleton
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
+    protected static $menus = array();
 
     /**
      * Builds the menu, applies edits, renames
@@ -48,6 +51,22 @@ abstract class MenuAbstract extends Singleton
     }
 
     /**
+     * Returns a list of available plugin menu instances.
+     *
+     * @return \Piwik\Plugin\Menu[]
+     */
+    protected function getAvailableMenus()
+    {
+        if (!empty(self::$menus)) {
+            return self::$menus;
+        }
+
+        self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+
+        return self::$menus;
+    }
+
+    /**
      * Adds a new entry to the menu.
      *
      * @param string $menuName The menu's category name. Can be a translation token.
@@ -57,7 +76,7 @@ abstract class MenuAbstract extends Singleton
      * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
      *                                         current user. If false, the entry will not be added.
      * @param int $order The order hint.
-     * @param false|string $tooltip An optional tooltip to display.
+     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
      * @api
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
@@ -81,6 +100,13 @@ abstract class MenuAbstract extends Singleton
         );
     }
 
+    /**
+     * Removes an existing entry from the menu.
+     *
+     * @param string      $menuName    The menu's category name. Can be a translation token.
+     * @param bool|string $subMenuName The menu item's name. Can be a translation token.
+     * @api
+     */
     public function remove($menuName, $subMenuName = false)
     {
         $this->menuEntriesToRemove[] = array(
@@ -100,21 +126,29 @@ abstract class MenuAbstract extends Singleton
      */
     private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
     {
-        if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
-            $this->menu[$menuName]['_url'] = $url;
-            if (empty($subMenuName)) {
-                $this->menu[$menuName]['_order'] = $order;
-            }
-            $this->menu[$menuName]['_name'] = $menuName;
-            $this->menu[$menuName]['_hasSubmenu'] = false;
+        if (!isset($this->menu[$menuName])) {
+            $this->menu[$menuName] = array(
+                '_hasSubmenu' => false,
+                '_order' => $order
+            );
+        }
+
+        if (empty($subMenuName)) {
+            $this->menu[$menuName]['_url']   = $url;
+            $this->menu[$menuName]['_order'] = $order;
+            $this->menu[$menuName]['_name']  = $menuName;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
         }
         if (!empty($subMenuName)) {
             $this->menu[$menuName][$subMenuName]['_url'] = $url;
             $this->menu[$menuName][$subMenuName]['_order'] = $order;
             $this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
+            $this->menu[$menuName][$subMenuName]['_tooltip'] = $tooltip;
             $this->menu[$menuName]['_hasSubmenu'] = true;
-            $this->menu[$menuName]['_tooltip'] = $tooltip;
+
+            if (!array_key_exists('_tooltip', $this->menu[$menuName])) {
+                $this->menu[$menuName]['_tooltip'] = $tooltip;
+            }
         }
     }
 
@@ -135,6 +169,7 @@ abstract class MenuAbstract extends Singleton
      * @param $subMenuOriginal
      * @param $mainMenuRenamed
      * @param $subMenuRenamed
+     * @api
      */
     public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
     {
@@ -148,6 +183,7 @@ abstract class MenuAbstract extends Singleton
      * @param $mainMenuToEdit
      * @param $subMenuToEdit
      * @param $newUrl
+     * @api
      */
     public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
     {
@@ -255,15 +291,34 @@ abstract class MenuAbstract extends Singleton
      */
     protected function menuCompare($itemOne, $itemTwo)
     {
-        if (!is_array($itemOne) || !is_array($itemTwo)
-            || !isset($itemOne['_order']) || !isset($itemTwo['_order'])
-        ) {
+        if (!is_array($itemOne) && !is_array($itemTwo)) {
             return 0;
+        }
+
+        if (!is_array($itemOne) && is_array($itemTwo)) {
+            return -1;
+        }
+
+        if (is_array($itemOne) && !is_array($itemTwo)) {
+            return 1;
+        }
+
+        if (!isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 0;
+        }
+
+        if (!isset($itemOne['_order']) && isset($itemTwo['_order'])) {
+            return -1;
+        }
+
+        if (isset($itemOne['_order']) && !isset($itemTwo['_order'])) {
+            return 1;
         }
 
         if ($itemOne['_order'] == $itemTwo['_order']) {
             return strcmp($itemOne['_name'], $itemTwo['_name']);
         }
+
         return ($itemOne['_order'] < $itemTwo['_order']) ? -1 : 1;
     }
 }

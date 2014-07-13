@@ -1,13 +1,12 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Piwik - free/libre analytics platform
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\API;
-use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\EmptyTranslations;
 use Piwik\Translate\Filter\EncodedEntities;
