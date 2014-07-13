@@ -720,6 +720,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Nifty
         'search.nifty.com'               => array('Nifty', array('q', 'Text'), 'websearch/search?q={k}'),
+        'search.azby.fmworld.net'        => array('Nifty'),
         'videosearch.nifty.com'          => array('Nifty Videos', 'kw', 'search?kw={k}'),
 
         // Nigma
