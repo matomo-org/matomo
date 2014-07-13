@@ -453,7 +453,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.optuszoo.com.au'            => array('Google'),
         'search.dolphin-browser.jp'      => array('Google'),
         'search.smt.docomo.ne.jp'        => array('Google', 'MT'),
-        'image.search.smt.docomo.ne.jp'     => array('Google', 'MT'),
+        'image.search.smt.docomo.ne.jp'  => array('Google', 'MT'),
+        'gfsoso.com'                     => array('Google', 'q'),
 
 
         // Google Earth
