@@ -576,6 +576,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.handycafe.com'           => array('InfoSpace', 'q'),
         'search.v9.com'                  => array('InfoSpace', 'q'),
         'search.iminent.com'             => array('InfoSpace', 'q'),
+        'utorrent.inspsearch.com'        => array('InfoSpace', 'q'),
 
         /*
          * Other InfoSpace powered metasearches are handled in Common::extractSearchEngineInformationFromUrl()
