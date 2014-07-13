@@ -38,7 +38,6 @@ use PiwikTracker;
 use Piwik_LocalTracker;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
-use Piwik\Columns\Updater as ColumnsUpdater;
 use Exception;
 
 /**
@@ -164,7 +163,6 @@ class Fixture extends PHPUnit_Framework_Assert
             Db::get()->query("SET wait_timeout=28800;");
 
             DbHelper::createTables();
-            ColumnsUpdater::update();
 
             \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
 
