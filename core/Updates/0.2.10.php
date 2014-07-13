@@ -54,11 +54,6 @@ class Updates_0_2_10 extends Updates
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
-        $obsoleteFile = '/plugins/ExamplePlugin/API.php';
-        if (file_exists(PIWIK_INCLUDE_PATH . $obsoleteFile)) {
-            @unlink(PIWIK_INCLUDE_PATH . $obsoleteFile);
-        }
-
         $obsoleteDirectories = array(
             '/plugins/AdminHome',
             '/plugins/Home',
