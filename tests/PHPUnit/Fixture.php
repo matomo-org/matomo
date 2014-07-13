@@ -804,6 +804,7 @@ class Fixture extends PHPUnit_Framework_Assert
     public static function updateDatabase($force = false)
     {
         Cache::deleteTrackerCache();
+        Option::clearCache();
         
         if ($force) {
             // remove version options to force update
