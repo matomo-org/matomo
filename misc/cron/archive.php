@@ -35,7 +35,7 @@ if (false !== strpos($callee, 'archive.php')) {
     echo "
 -------------------------------------------------------
 Using this 'archive.php' script is no longer recommended.
-Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', array_slice($_SERVER['argv'], 1)) . "' instead.
+Please use '/path/to/php $piwikHome/console core:archive " . implode('', array_slice($_SERVER['argv'], 1)) . "' instead.
 To get help use '/path/to/php $piwikHome/console core:archive --help'
 -------------------------------------------------------
 \n\n";
@@ -48,4 +48,4 @@ try {
     $ex->logAndExit($archiving);
 } catch (Exception $e) {
     $archiving->logFatalExceptionAndExit($e);
-} 
+}
