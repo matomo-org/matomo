@@ -193,6 +193,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
         self::updateDatabase();
 
+        self::installAndActivatePlugins();
+
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
 
@@ -314,6 +316,11 @@ class Fixture extends PHPUnit_Framework_Assert
         Log::info("Plugins to load during tests: " . implode(', ', $plugins));
 
         $pluginsManager->loadPlugins($plugins);
+    }
+
+    public static function installAndActivatePlugins()
+    {
+        $pluginsManager = \Piwik\Plugin\Manager::getInstance();
 
         // Install plugins
         $messages = $pluginsManager->installLoadedPlugins();
@@ -322,7 +329,8 @@ class Fixture extends PHPUnit_Framework_Assert
         }
 
         // Activate them
-        foreach($plugins as $name) {
+        foreach($pluginsManager->getLoadedPlugins() as $plugin) {
+            $name = $plugin->getPluginName();
             if (!$pluginsManager->isPluginActivated($name)) {
                 $pluginsManager->activatePlugin($name);
             }
