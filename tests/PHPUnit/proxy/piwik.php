@@ -20,15 +20,20 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 // calling us waits for the full request to process before unblocking
 ob_start();
 
-Piwik_TestingEnvironment::addHooks();
+try {
+    Piwik_TestingEnvironment::addHooks();
 
-GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+    GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
-Tracker::setTestEnvironment();
-Manager::getInstance()->deleteAll();
-Option::clearCache();
-Site::clearCache();
-Cache::deleteTrackerCache();
+    Tracker::setTestEnvironment();
+    Manager::getInstance()->deleteAll();
+    Option::clearCache();
+    Site::clearCache();
+    Cache::deleteTrackerCache();
 
-include PIWIK_INCLUDE_PATH . '/piwik.php';
+    include PIWIK_INCLUDE_PATH . '/piwik.php';
+} catch (Exception $ex) {
+    echo "Unexpected error during tracking: " . $ex->getTraceAsString() . "\n";
+}
+
 ob_end_flush();
