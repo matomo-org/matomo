@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e
 
+travis_retry sudo apt-get update
+
 # Install XMLStarlet
-sudo apt-get install -qq xmlstarlet
+travis_retry sudo apt-get install -qq xmlstarlet
 
 # Install fonts for UI tests
 if [ "$TEST_SUITE" = "UITests" ];
