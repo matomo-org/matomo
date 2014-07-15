@@ -344,7 +344,7 @@ class API extends \Piwik\Plugin\API
          * 
          * @param string $userLogin The new user's login handle.
          */
-        Piwik::postEvent('UsersManager.addUser.end', array($userLogin));
+        Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password, $alias));
     }
 
     /**
@@ -449,7 +449,7 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The user's login handle.
          * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
-        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated));
+        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
     }
 
     /**
