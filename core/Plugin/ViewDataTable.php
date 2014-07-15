@@ -194,6 +194,7 @@ abstract class ViewDataTable implements ViewInterface
         $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
 
         if (!empty($report)) {
+            /** @var Report $report */
             $subtable = $report->getActionToLoadSubTables();
             if (!empty($subtable)) {
                 $this->config->subtable_controller_action = $subtable;

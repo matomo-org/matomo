@@ -318,18 +318,18 @@ class Config extends Singleton
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
         }
 
-        $this->configGlobal = \_parse_ini_file($this->pathGlobal, true);
+        $this->configGlobal = _parse_ini_file($this->pathGlobal, true);
 
         if (empty($this->configGlobal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
         }
 
-        $this->configCommon = \_parse_ini_file($this->pathCommon, true);
+        $this->configCommon = _parse_ini_file($this->pathCommon, true);
 
         // Check config.ini.php last
         $this->checkLocalConfigFound();
 
-        $this->configLocal = \_parse_ini_file($this->pathLocal, true);
+        $this->configLocal = _parse_ini_file($this->pathLocal, true);
         if (empty($this->configLocal) && $reportError) {
             Piwik_ExitWithMessage(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
         }
