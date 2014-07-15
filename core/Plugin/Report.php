@@ -210,6 +210,7 @@ class Report
      * return `true` or `false`. If your report is only available to users having super user access you can do the
      * following: `return Piwik::hasUserSuperUserAccess();`
      * @return bool
+     * @api
      */
     public function isEnabled()
     {
@@ -226,6 +227,7 @@ class Report
         }
      * ```
      * @throws \Exception
+     * @api
      */
     public function checkIsEnabled()
     {
@@ -237,6 +239,7 @@ class Report
     /**
      * Returns the id of the default visualization for this report. Eg 'table' or 'pie'. Defaults to the HTML table.
      * @return string
+     * @api
      */
     public function getDefaultTypeViewDataTable()
     {
@@ -249,6 +252,7 @@ class Report
      * default request config. For instance you can change how many rows are displayed by default:
      * `$view->requestConfig->filter_limit = 10;`. See {@link ViewDataTable} for more information.
      * @param ViewDataTable $view
+     * @api
      */
     public function configureView(ViewDataTable $view)
     {
@@ -262,6 +266,7 @@ class Report
      *
      * @return string
      * @throws \Exception In case the given API action does not exist yet.
+     * @api
      */
     public function render()
     {
@@ -283,6 +288,7 @@ class Report
      * By default a widget will be configured for this report if a {@link $widgetTitle} is set. If you want to customize
      * the way the widget is added or modify any other behavior you can overwrite this method.
      * @param WidgetsList $widget
+     * @api
      */
     public function configureWidget(WidgetsList $widget)
     {
@@ -300,6 +306,7 @@ class Report
      * customize the way the item is added or modify any other behavior you can overwrite this method. For instance
      * in case you need to add additional url properties beside module and action which are added by default.
      * @param \Piwik\Menu\MenuReporting $menu
+     * @api
      */
     public function configureReportingMenu(MenuReporting $menu)
     {
@@ -321,6 +328,7 @@ class Report
      * you should overwrite this method, call this parent method to get all default translations and overwrite any
      * custom metric translations.
      * @return array
+     * @api
      */
     public function getMetrics()
     {
@@ -365,9 +373,11 @@ class Report
      * If the report is enabled the report metadata for this report will be built and added to the list of available
      * reports. Overwrite this method and leave it empty in case you do not want your report to be added to the report
      * metadata. In this case your report won't be visible for instance in the mobile app and scheduled reports
-     * generator. We recommend to change this behavior only if you are familiar with the Piwik core.
+     * generator. We recommend to change this behavior only if you are familiar with the Piwik core. `$infos` contains
+     * the current requested date, period and site.
      * @param $availableReports
      * @param $infos
+     * @api
      */
     public function configureReportMetadata(&$availableReports, $infos)
     {
@@ -436,6 +446,7 @@ class Report
      * recommended related report.
      *
      * @return Report[]
+     * @api
      */
     public function getRelatedReports()
     {
@@ -538,6 +549,7 @@ class Report
      * @param  string $module
      * @param  string $action
      * @return null|\Piwik\Plugin\Report
+     * @api
      */
     public static function factory($module, $action)
     {
@@ -565,6 +577,7 @@ class Report
      * Returns a list of all available reports. Even not enabled reports will be returned. They will be already sorted
      * depending on the order and category of the report.
      * @return \Piwik\Plugin\Report[]
+     * @api
      */
     public static function getAllReports()
     {
