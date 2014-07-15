@@ -143,7 +143,7 @@ class Cloud extends Visualization
             $tmpArray = $this->wordsArray;
 
             $this->wordsArray = array();
-            foreach ($keys as $key => $value) {
+            foreach ($keys as $value) {
                 $this->wordsArray[$value] = $tmpArray[$value];
             }
 

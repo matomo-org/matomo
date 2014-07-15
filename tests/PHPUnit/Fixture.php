@@ -689,10 +689,8 @@ class Fixture extends PHPUnit_Framework_Assert
 
         $dump = fopen($url, 'rb');
         $outfile = fopen($outfileName, 'wb');
-        $bytesRead = 0;
         while (!feof($dump)) {
             fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
-            $bytesRead += $bufferSize;
         }
         fclose($dump);
         fclose($outfile);

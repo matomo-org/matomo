@@ -140,8 +140,10 @@ class Nonce
         }
 
         // standard ports
-        $origins[] = 'http://' . $host;
-        $origins[] = 'https://' . $host;
+        $origins = array(
+            'http://' . $host,
+            'https://' . $host,
+        );
 
         // non-standard ports
         if (!empty($port) && $port != 80 && $port != 443) {

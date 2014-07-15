@@ -172,7 +172,7 @@ for (; $start < $end; $start += $limit) {
         continue;
     }
 
-    foreach ($rows as $i => $row) {
+    foreach ($rows as $row) {
         $fieldsToSet = array();
         foreach ($logVisitFieldsToUpdate as $field => $ignore) {
             if (empty($fieldsToSet[$field])) {

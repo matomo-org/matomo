@@ -20,7 +20,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testInvalidDate()
     {
         try {
-            $period = new Day('Invalid Date');
+            new Day('Invalid Date');
         } catch (Exception $e) {
             return;
         }

@@ -311,7 +311,7 @@ abstract class StaticGraph
 
         $maxWidth = 0;
         $maxHeight = 0;
-        foreach ($values as $column => $data) {
+        foreach ($values as $data) {
             foreach ($data as $value) {
                 list($valueWidth, $valueHeight) = $this->getTextWidthHeight($value);
 

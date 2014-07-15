@@ -398,11 +398,6 @@ class API extends \Piwik\Plugin\API
                 $this->setMetricsTotalsMetadata($table, $apiMetrics);
             }
         } else {
-            $revenueMetric = '';
-            if (Common::isGoalPluginEnabled()) {
-                $revenueMetric = Archiver::getRecordName(self::GOAL_REVENUE_METRIC);
-            }
-
             $totals = array();
             foreach ($apiMetrics as $label => $metricInfo) {
                 $totalMetadataName = self::getTotalMetadataName($label);

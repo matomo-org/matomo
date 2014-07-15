@@ -31,7 +31,6 @@ class AnnotationsTest extends IntegrationTestCase
     public function getApiForTesting()
     {
         $idSite1 = self::$fixture->idSite1;
-        $idSite2 = self::$fixture->idSite2;
 
         return array(
 
@@ -279,7 +278,7 @@ class AnnotationsTest extends IntegrationTestCase
             }
         } else {
             $request = new Request($request);
-            $response = $request->process();
+            $request->process();
 
         }
     }

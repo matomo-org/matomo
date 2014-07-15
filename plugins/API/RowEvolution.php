@@ -144,7 +144,7 @@ class RowEvolution
 
         $logo = $actualLabel = false;
         $urlFound = false;
-        foreach ($dataTable->getDataTables() as $date => $subTable) {
+        foreach ($dataTable->getDataTables() as $subTable) {
             /** @var $subTable DataTable */
             $subTable->applyQueuedFilters();
             if ($subTable->getRowsCount() > 0) {

@@ -222,10 +222,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $filter = new Limit($table, 2, 4);
         $filter->filter($table);
 
-        $colAfter = $colExpected = array();
-        foreach ($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-        foreach ($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
-
         $this->assertEquals(array_values($expectedtable->getRows()), array_values($table->getRows()));
     }
 
@@ -258,10 +254,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $filter = new Limit($table, 2, 1);
         $filter->filter($table);
 
-        $colAfter = $colExpected = array();
-        foreach ($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-        foreach ($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
-
         $this->assertEquals(array_values($expectedtable->getRows()), array_values($table->getRows()));
     }
 
@@ -293,10 +285,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $filter = new Limit($table, 0, 15);
         $filter->filter($table);
 
-        $colAfter = $colExpected = array();
-        foreach ($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-        foreach ($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
-
         $this->assertEquals(array_values($expectedtable->getRows()), array_values($table->getRows()));
     }
 
@@ -327,10 +315,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
 
         $filter = new Limit($table, 8, 15);
         $filter->filter($table);
-
-        $colAfter = $colExpected = array();
-        foreach ($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-        foreach ($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
 
         $this->assertEquals(array_values($expectedtable->getRows()), array_values($table->getRows()));
     }

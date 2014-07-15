@@ -370,7 +370,6 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
      */
     public function testTableInsertBatchBlob()
     {
-        $siteTimezone = 'America/Toronto';
         $dateLabel = '2011-03-31';
         $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel));
 
@@ -402,7 +401,6 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
      */
     public function testTableInsertBatchIterateBlob()
     {
-        $siteTimezone = 'America/Toronto';
         $dateLabel = '2011-03-31';
         $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel));
 

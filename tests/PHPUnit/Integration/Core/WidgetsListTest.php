@@ -90,7 +90,6 @@ class Core_WidgetsListTest extends DatabaseTestCase
         );
 
         foreach ($numberOfWidgets AS $category => $widgetCount) {
-            $expected = count($widgets[$category]);
             $this->assertEquals($widgetCount, count($widgets[$category]));
         }
     }

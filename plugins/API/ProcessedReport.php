@@ -449,7 +449,7 @@ class ProcessedReport
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
 
-        foreach ($columns as $columnId => &$name) {
+        foreach ($columns as &$name) {
             $name = ucfirst($name);
         }
         $website = new Site($idSite);
@@ -534,7 +534,7 @@ class ProcessedReport
             $rowsMetadata->setKeyName("prettyDate");
 
             // Process each Simple entry
-            foreach ($dataTable->getDataTables() as $label => $simpleDataTable) {
+            foreach ($dataTable->getDataTables() as $simpleDataTable) {
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
                 list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
