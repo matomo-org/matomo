@@ -86,7 +86,7 @@ abstract class ControllerAdmin extends Controller
     /**
      * @ignore
      */
-    static public function displayWarningIfConfigFileNotWritable()
+    public static function displayWarningIfConfigFileNotWritable()
     {
         $isConfigFileWritable = PiwikConfig::getInstance()->isFileWritable();
 
@@ -157,7 +157,7 @@ abstract class ControllerAdmin extends Controller
      * @param View $view
      * @api
      */
-    static public function setBasicVariablesAdminView(View $view)
+    public static function setBasicVariablesAdminView(View $view)
     {
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
@@ -188,12 +188,12 @@ abstract class ControllerAdmin extends Controller
         }
     }
 
-    static public function isDataPurgeSettingsEnabled()
+    public static function isDataPurgeSettingsEnabled()
     {
         return (bool) Config::getInstance()->General['enable_delete_old_data_settings_admin'];
     }
 
-    static protected function getPiwikVersion()
+    protected static function getPiwikVersion()
     {
         return "Piwik " . Version::VERSION;
     }

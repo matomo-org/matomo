@@ -134,7 +134,7 @@ class Option
      *
      * @return \Piwik\Option
      */
-    static private function getInstance()
+    private static function getInstance()
     {
         if (self::$instance == null) {
             self::$instance = new self;

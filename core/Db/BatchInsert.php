@@ -214,7 +214,7 @@ class BatchInsert
      * @param array $rows Array of array corresponding to rows of values
      * @throws Exception  if unable to create or write to file
      */
-    static protected function createCSVFile($filePath, $fileSpec, $rows)
+    protected static function createCSVFile($filePath, $fileSpec, $rows)
     {
         // Set up CSV delimiters, quotes, etc
         $delim = $fileSpec['delim'];

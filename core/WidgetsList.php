@@ -61,7 +61,7 @@ class WidgetsList extends Singleton
      *               )
      *               ```
      */
-    static public function get()
+    public static function get()
     {
         $cache = self::getCacheForCompleteList();
         if (!self::$listCacheToBeInvalidated && $cache->has()) {
@@ -168,7 +168,7 @@ class WidgetsList extends Singleton
      * @param array $customParameters Extra query parameters that should be sent while getting
      *                                this report.
      */
-    static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
+    public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
         $widgetName     = Piwik::translate($widgetName);
         $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
@@ -204,7 +204,7 @@ class WidgetsList extends Singleton
      *                                 translation token. If not supplied, the entire category
      *                                 will be removed.
      */
-    static public function remove($widgetCategory, $widgetName = false)
+    public static function remove($widgetCategory, $widgetName = false)
     {
         if (!isset(self::$widgets[$widgetCategory])) {
             return;
@@ -231,7 +231,7 @@ class WidgetsList extends Singleton
      * @param string $controllerAction The controller action of the report.
      * @return bool
      */
-    static public function isDefined($controllerName, $controllerAction)
+    public static function isDefined($controllerName, $controllerAction)
     {
         $widgetsList = self::get();
         foreach ($widgetsList as $widgets) {

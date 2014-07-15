@@ -355,7 +355,7 @@ class Site
      * @param bool|string $_restrictSitesToLogin Implementation detail. Used only when running as a scheduled task.
      * @return array An array of valid, unique integers.
      */
-    static public function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
+    public static function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
     {
         if ($ids === 'all') {
             return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
@@ -385,7 +385,7 @@ class Site
      * 
      * See also {@link setSites()} and {@link setSitesFromArray()}.
      */
-    static public function clearCache()
+    public static function clearCache()
     {
         self::$infoSites = array();
     }
@@ -398,7 +398,7 @@ class Site
      * @param bool|string $field The name of the field to get.
      * @return array|string
      */
-    static protected function getFor($idsite, $field = false)
+    protected static function getFor($idsite, $field = false)
     {
         $idsite = (int)$idsite;
 
@@ -417,7 +417,7 @@ class Site
      *
      * @ignore
      */
-    static public function getSites()
+    public static function getSites()
     {
         return self::$infoSites;
     }
@@ -425,7 +425,7 @@ class Site
     /**
      * @ignore
      */
-    static public function getSite($id)
+    public static function getSite($id)
     {
         return self::getFor($id);
     }
@@ -436,7 +436,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getNameFor($idsite)
+    public static function getNameFor($idsite)
     {
         return self::getFor($idsite, 'name');
     }
@@ -447,7 +447,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getGroupFor($idsite)
+    public static function getGroupFor($idsite)
     {
         return self::getFor($idsite, 'group');
     }
@@ -458,7 +458,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getTimezoneFor($idsite)
+    public static function getTimezoneFor($idsite)
     {
         return self::getFor($idsite, 'timezone');
     }
@@ -469,7 +469,7 @@ class Site
      * @param $idsite
      * @return string
      */
-    static public function getTypeFor($idsite)
+    public static function getTypeFor($idsite)
     {
         return self::getFor($idsite, 'type');
     }
@@ -480,7 +480,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getCreationDateFor($idsite)
+    public static function getCreationDateFor($idsite)
     {
         return self::getFor($idsite, 'ts_created');
     }
@@ -491,7 +491,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getMainUrlFor($idsite)
+    public static function getMainUrlFor($idsite)
     {
         return self::getFor($idsite, 'main_url');
     }
@@ -502,7 +502,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function isEcommerceEnabledFor($idsite)
+    public static function isEcommerceEnabledFor($idsite)
     {
         return self::getFor($idsite, 'ecommerce') == 1;
     }
@@ -513,7 +513,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function isSiteSearchEnabledFor($idsite)
+    public static function isSiteSearchEnabledFor($idsite)
     {
         return self::getFor($idsite, 'sitesearch') == 1;
     }
@@ -524,7 +524,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getCurrencyFor($idsite)
+    public static function getCurrencyFor($idsite)
     {
         return self::getFor($idsite, 'currency');
     }
@@ -535,7 +535,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getExcludedIpsFor($idsite)
+    public static function getExcludedIpsFor($idsite)
     {
         return self::getFor($idsite, 'excluded_ips');
     }
@@ -546,7 +546,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string
      */
-    static public function getExcludedQueryParametersFor($idsite)
+    public static function getExcludedQueryParametersFor($idsite)
     {
         return self::getFor($idsite, 'excluded_parameters');
     }

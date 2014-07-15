@@ -54,7 +54,7 @@ abstract class ScheduledTime
      * @throws \Exception
      * @ignore
      */
-    static public function getScheduledTimeForPeriod($period)
+    public static function getScheduledTimeForPeriod($period)
     {
         switch ($period) {
             case self::PERIOD_MONTH:

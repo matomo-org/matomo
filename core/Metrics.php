@@ -159,7 +159,7 @@ class Metrics
         Metrics::INDEX_NB_VISITS_CONVERTED,
     );
 
-    static public function getVisitsMetricNames()
+    public static function getVisitsMetricNames()
     {
         $names = array();
         foreach (self::$metricsAggregatedFromLogs as $metricId) {
@@ -168,7 +168,7 @@ class Metrics
         return $names;
     }
 
-    static public function getMappingFromIdToName()
+    public static function getMappingFromIdToName()
     {
         $idToName = array_flip(self::$mappingFromIdToName);
         return $idToName;
@@ -181,7 +181,7 @@ class Metrics
      *
      * @ignore
      */
-    static public function isLowerValueBetter($column)
+    public static function isLowerValueBetter($column)
     {
         $lowerIsBetterPatterns = array(
             'bounce', 'exit'
@@ -203,7 +203,7 @@ class Metrics
      * @return string
      * @ignore
      */
-    static public function getUnit($column, $idSite)
+    public static function getUnit($column, $idSite)
     {
         $nameToUnit = array(
             '_rate'   => '%',
@@ -220,7 +220,7 @@ class Metrics
         return '';
     }
 
-    static public function getDefaultMetricTranslations()
+    public static function getDefaultMetricTranslations()
     {
         $cache = new PluginAwareStaticCache('DefaultMetricTranslations');
 
@@ -278,7 +278,7 @@ class Metrics
         return $translations;
     }
 
-    static public function getDefaultMetrics()
+    public static function getDefaultMetrics()
     {
         $cache = new LanguageAwareStaticCache('DefaultMetrics');
 
@@ -298,7 +298,7 @@ class Metrics
         return $translations;
     }
 
-    static public function getDefaultProcessedMetrics()
+    public static function getDefaultProcessedMetrics()
     {
         $cache = new LanguageAwareStaticCache('DefaultProcessedMetrics');
 
@@ -320,7 +320,7 @@ class Metrics
         return $translations;
     }
 
-    static public function getReadableColumnName($columnIdRaw)
+    public static function getReadableColumnName($columnIdRaw)
     {
         $mappingIdToName = self::$mappingFromIdToName;
 
@@ -332,7 +332,7 @@ class Metrics
         return $columnIdRaw;
     }
 
-    static public function getMetricIdsToProcessReportTotal()
+    public static function getMetricIdsToProcessReportTotal()
     {
         return array(
             self::INDEX_NB_VISITS,
@@ -351,7 +351,7 @@ class Metrics
         );
     }
 
-    static public function getDefaultMetricsDocumentation()
+    public static function getDefaultMetricsDocumentation()
     {
         $cache = new PluginAwareStaticCache('DefaultMetricsDocumentation');
 

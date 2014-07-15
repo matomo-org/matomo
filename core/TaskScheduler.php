@@ -77,7 +77,7 @@ class TaskScheduler extends Singleton
      *               )
      *               ```
      */
-    static public function runTasks()
+    public static function runTasks()
     {
         return self::getInstance()->doRunTasks();
     }
@@ -164,7 +164,7 @@ class TaskScheduler extends Singleton
      * @param ScheduledTask $task Describes the scheduled task being rescheduled.
      * @api
      */
-    static public function rescheduleTask(ScheduledTask $task)
+    public static function rescheduleTask(ScheduledTask $task)
     {
         self::getInstance()->timetable->rescheduleTask($task);
     }
@@ -174,7 +174,7 @@ class TaskScheduler extends Singleton
      * 
      * @return bool
      */
-    static public function isTaskBeingExecuted()
+    public static function isTaskBeingExecuted()
     {
         return self::getInstance()->isRunning;
     }
@@ -188,7 +188,7 @@ class TaskScheduler extends Singleton
      * @return mixed int|bool The time in miliseconds when the scheduled task will be executed
      *                        next or false if it is not scheduled to run.
      */
-    static public function getScheduledTimeForMethod($className, $methodName, $methodParameter = null)
+    public static function getScheduledTimeForMethod($className, $methodName, $methodParameter = null)
     {
         return self::getInstance()->timetable->getScheduledTimeForMethod($className, $methodName, $methodParameter);
     }
@@ -199,7 +199,7 @@ class TaskScheduler extends Singleton
      * @param ScheduledTask $task
      * @return string
      */
-    static private function executeTask($task)
+    private static function executeTask($task)
     {
         try {
             $timer = new Timer();

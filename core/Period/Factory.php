@@ -27,7 +27,7 @@ class Factory
      * @throws Exception If `$strPeriod` is invalid.
      * @return \Piwik\Period
      */
-    static public function build($period, $date, $timezone = 'UTC')
+    public static function build($period, $date, $timezone = 'UTC')
     {
         self::checkPeriodIsEnabled($period);
 

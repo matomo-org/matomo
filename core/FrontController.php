@@ -234,12 +234,12 @@ class FrontController extends Singleton
         || SettingsServer::isArchivePhpTriggered();
     }
 
-    static public function setUpSafeMode()
+    public static function setUpSafeMode()
     {
         register_shutdown_function(array('\\Piwik\\FrontController','triggerSafeModeWhenError'));
     }
 
-    static public function triggerSafeModeWhenError()
+    public static function triggerSafeModeWhenError()
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
@@ -257,7 +257,7 @@ class FrontController extends Singleton
      *
      * @return Exception
      */
-    static public function createConfigObject()
+    public static function createConfigObject()
     {
         $exceptionToThrow = false;
         try {
@@ -390,7 +390,7 @@ class FrontController extends Singleton
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {
-                $host = SettingsPiwik::getPiwikUrl();
+                SettingsPiwik::getPiwikUrl();
             }
 
             /**
@@ -419,7 +419,7 @@ class FrontController extends Singleton
 
             // Force the auth to use the token_auth if specified, so that embed dashboard
             // and all other non widgetized controller methods works fine
-            if (($token_auth = Common::getRequestVar('token_auth', false, 'string')) !== false) {
+            if (Common::getRequestVar('token_auth', false, 'string') !== false) {
                 Request::reloadAuthUsingTokenAuth();
             }
             SettingsServer::raiseMemoryLimitIfNecessary();

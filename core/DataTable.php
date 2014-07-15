@@ -1026,7 +1026,6 @@ class DataTable implements DataTableInterface
     public static function isEqual(DataTable $table1, DataTable $table2)
     {
         $rows1 = $table1->getRows();
-        $rows2 = $table2->getRows();
 
         $table1->rebuildIndex();
         $table2->rebuildIndex();

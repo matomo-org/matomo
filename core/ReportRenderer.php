@@ -46,7 +46,7 @@ abstract class ReportRenderer
      * @param string $rendererType
      * @return \Piwik\ReportRenderer
      */
-    static public function factory($rendererType)
+    public static function factory($rendererType)
     {
         $name = ucfirst(strtolower($rendererType));
         $className = 'Piwik\ReportRenderer\\' . $name;

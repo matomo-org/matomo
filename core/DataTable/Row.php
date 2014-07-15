@@ -658,7 +658,7 @@ class Row
      * @return bool
      * @ignore
      */
-    static public function compareElements($elem1, $elem2)
+    public static function compareElements($elem1, $elem2)
     {
         if (is_array($elem1)) {
             if (is_array($elem2)) {
@@ -689,7 +689,7 @@ class Row
      * @param \Piwik\DataTable\Row $row2 second to compare
      * @return bool
      */
-    static public function isEqual(Row $row1, Row $row2)
+    public static function isEqual(Row $row1, Row $row2)
     {
         //same columns
         $cols1 = $row1->getColumns();

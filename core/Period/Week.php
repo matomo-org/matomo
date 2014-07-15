@@ -53,7 +53,7 @@ class Week extends Period
      *
      * @return mixed
      */
-    static protected function getTranslatedRange($format, $dateStart, $dateEnd)
+    protected static function getTranslatedRange($format, $dateStart, $dateEnd)
     {
         $string = str_replace('From%', '%', $format);
         $string = $dateStart->getLocalized($string);

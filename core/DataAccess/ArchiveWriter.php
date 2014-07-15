@@ -116,7 +116,7 @@ class ArchiveWriter
         $this->logArchiveStatusAsFinal();
     }
 
-    static protected function compress($data)
+    protected static function compress($data)
     {
         if (Db::get()->hasBlobDataType()) {
             return gzcompress($data);

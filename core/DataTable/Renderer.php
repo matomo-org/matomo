@@ -182,7 +182,7 @@ abstract class Renderer
      *
      * @return array
      */
-    static public function getRenderers()
+    public static function getRenderers()
     {
         return self::$availableRenderers;
     }
@@ -194,7 +194,7 @@ abstract class Renderer
      * @throws Exception If the renderer is unknown
      * @return \Piwik\DataTable\Renderer
      */
-    static public function factory($name)
+    public static function factory($name)
     {
         $className = ucfirst(strtolower($name));
         $className = 'Piwik\DataTable\Renderer\\' . $className;
@@ -214,7 +214,7 @@ abstract class Renderer
      * @param String $rawData data to be converted
      * @return String
      */
-    static protected function renderHtmlEntities($rawData)
+    protected static function renderHtmlEntities($rawData)
     {
         return self::formatValueXml($rawData);
     }

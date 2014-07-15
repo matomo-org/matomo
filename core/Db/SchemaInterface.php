@@ -19,7 +19,7 @@ interface SchemaInterface
      *
      * @return bool  True if schema is available; false otherwise
      */
-    static public function isAvailable();
+    public static function isAvailable();
 
     /**
      * Get the SQL to create a specific Piwik table

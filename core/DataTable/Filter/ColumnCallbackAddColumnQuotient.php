@@ -75,7 +75,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $key => $row) {
+        foreach ($table->getRows() as $row) {
             $value = $this->getDividend($row);
             if ($value === false && $this->shouldSkipRows) {
                 continue;

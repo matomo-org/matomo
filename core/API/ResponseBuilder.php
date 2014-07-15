@@ -400,7 +400,7 @@ class ResponseBuilder
         $first = reset($array);
         foreach ($array as $first) {
             if (is_array($first)) {
-                foreach ($first as $key => $value) {
+                foreach ($first as $value) {
                     // Yes, this is a multi dim array
                     if (is_array($value)) {
                         switch ($this->outputFormat) {
@@ -459,7 +459,7 @@ class ResponseBuilder
      * @param array $request
      * @return array
      */
-    static public function getLabelFromRequest($request)
+    public static function getLabelFromRequest($request)
     {
         $label = Common::getRequestVar('label', array(), 'array', $request);
         if (empty($label)) {
@@ -473,7 +473,7 @@ class ResponseBuilder
         return $label;
     }
 
-    static public function unsanitizeLabelParameter($label)
+    public static function unsanitizeLabelParameter($label)
     {
         // this is needed because Proxy uses Common::getRequestVar which in turn
         // uses Common::sanitizeInputValue. This causes the > that separates recursive labels

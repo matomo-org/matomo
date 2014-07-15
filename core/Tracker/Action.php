@@ -48,7 +48,7 @@ abstract class Action
      * @param Request $request
      * @return Action
      */
-    static public function factory(Request $request)
+    public static function factory(Request $request)
     {
         /** @var Action[] $actions */
         $actions = self::getAllActions($request);
@@ -90,7 +90,7 @@ abstract class Action
         return false;
     }
 
-    static private function getAllActions(Request $request)
+    private static function getAllActions(Request $request)
     {
         $actions   = Manager::getInstance()->findMultipleComponents('Actions', '\\Piwik\\Tracker\\Action');
         $instances = array();

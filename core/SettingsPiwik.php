@@ -299,7 +299,7 @@ class SettingsPiwik
      * @param $piwikServerUrl
      * @return bool
      */
-    static public function checkPiwikServerWorking($piwikServerUrl, $acceptInvalidSSLCertificates = false)
+    public static function checkPiwikServerWorking($piwikServerUrl, $acceptInvalidSSLCertificates = false)
     {
         // Now testing if the webserver is running
         try {

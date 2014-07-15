@@ -27,7 +27,7 @@ class Unzip
      * @param string $filename Name of .zip archive
      * @return \Piwik\Unzip\UncompressInterface
      */
-    static public function factory($name, $filename)
+    public static function factory($name, $filename)
     {
         switch ($name) {
             case 'ZipArchive':
