@@ -199,7 +199,7 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    static public function template_reportParametersScheduledReports(&$out)
+    public static function template_reportParametersScheduledReports(&$out)
     {
         if (Piwik::isUserIsAnonymous()) {
             return;

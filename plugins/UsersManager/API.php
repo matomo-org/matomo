@@ -57,7 +57,7 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         try {
             $instance = \Piwik\Registry::get('UsersManager_API');

@@ -64,7 +64,7 @@ class ServerFilesGenerator
         }
     }
 
-    static public function createHtAccessDenyAll($path)
+    public static function createHtAccessDenyAll($path)
     {
         self::createHtAccess($path, $overwrite = false, self::getDenyAllHtaccessContent());
     }

@@ -430,7 +430,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param none
      * @return void
      */
-    static public function clearSession()
+    public static function clearSession()
     {
         $authCookieName = Config::getInstance()->General['login_cookie_name'];
         $cookie = new Cookie($authCookieName);

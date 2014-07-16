@@ -153,7 +153,7 @@ class ScheduledReports extends \Piwik\Plugin
     }
 
     // based on http://www.php.net/manual/en/filter.filters.validate.php -> FILTER_VALIDATE_BOOLEAN
-    static private function valueIsTrue($value)
+    private static function valueIsTrue($value)
     {
         return $value == 'true' || $value == 1 || $value == '1' || $value === true;
     }
@@ -447,7 +447,7 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    static public function template_reportParametersScheduledReports(&$out)
+    public static function template_reportParametersScheduledReports(&$out)
     {
         $view = new View('@ScheduledReports/reportParametersScheduledReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
@@ -582,7 +582,7 @@ class ScheduledReports extends \Piwik\Plugin
      * Used in the Report Listing
      * @ignore
      */
-    static public function getPeriodToFrequency()
+    public static function getPeriodToFrequency()
     {
         return array(
             ScheduledTime::PERIOD_NEVER => Piwik::translate('General_Never'),
@@ -596,7 +596,7 @@ class ScheduledReports extends \Piwik\Plugin
      * Used in the Report's email content, ie "monthly report"
      * @ignore
      */
-    static public function getPeriodToFrequencyAsAdjective()
+    public static function getPeriodToFrequencyAsAdjective()
     {
         return array(
             ScheduledTime::PERIOD_DAY   => Piwik::translate('General_DailyReport'),

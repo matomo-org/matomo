@@ -46,7 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
     private $pathPiwikZip = false;
     private $newVersion;
 
-    static protected function getLatestZipUrl($newVersion)
+    protected static function getLatestZipUrl($newVersion)
     {
         if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
             return 'http://builds.piwik.org/piwik-' . $newVersion . '.zip';

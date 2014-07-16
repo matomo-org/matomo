@@ -30,7 +30,7 @@ class Goals extends \Piwik\Plugin
         return $info;
     }
 
-    static public function getReportsWithGoalMetrics()
+    public static function getReportsWithGoalMetrics()
     {
         $dimensions = self::getAllReportsWithGoalMetrics();
 
@@ -64,7 +64,7 @@ class Goals extends \Piwik\Plugin
         return $orderA > $orderB;
     }
 
-    static public function getGoalColumns($idGoal)
+    public static function getGoalColumns($idGoal)
     {
         $columns = array(
             'nb_conversions',
@@ -177,7 +177,7 @@ class Goals extends \Piwik\Plugin
         }
     }
 
-    static private function getAllReportsWithGoalMetrics()
+    private static function getAllReportsWithGoalMetrics()
     {
         $reportsWithGoals = array();
 

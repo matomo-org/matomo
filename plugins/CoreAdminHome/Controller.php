@@ -273,7 +273,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return '0';
     }
 
-    static public function isGeneralSettingsAdminEnabled()
+    public static function isGeneralSettingsAdminEnabled()
     {
         return (bool) Config::getInstance()->General['enable_general_settings_admin'];
     }

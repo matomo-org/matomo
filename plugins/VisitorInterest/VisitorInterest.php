@@ -27,12 +27,12 @@ class VisitorInterest extends \Piwik\Plugin
         Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    static public function headerVisitsFrequency(&$out)
+    public static function headerVisitsFrequency(&$out)
     {
         $out = '<div id="leftcolumn">';
     }
 
-    static public function footerVisitsFrequency(&$out)
+    public static function footerVisitsFrequency(&$out)
     {
         $out = '</div>
 			<div id="rightcolumn">

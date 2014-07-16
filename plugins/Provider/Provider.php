@@ -44,7 +44,7 @@ class Provider extends \Piwik\Plugin
         Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
     }
 
-    static public function footerUserCountry(&$out)
+    public static function footerUserCountry(&$out)
     {
         $out = '<div>
 			<h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';

@@ -83,7 +83,7 @@ class VisitGoalBuyer extends VisitDimension
         return false;
     }
 
-    static public function getVisitEcommerceStatus($status)
+    public static function getVisitEcommerceStatus($status)
     {
         $id = array_search($status, self::$visitEcommerceStatus);
 
@@ -97,7 +97,7 @@ class VisitGoalBuyer extends VisitDimension
     /**
      * @ignore
      */
-    static public function getVisitEcommerceStatusFromId($id)
+    public static function getVisitEcommerceStatusFromId($id)
     {
         if (!isset(self::$visitEcommerceStatus[$id])) {
             throw new \Exception("Unexpected ECommerce status value ");
