@@ -52,7 +52,7 @@ class GenerateCommand extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return string
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     private function getCommandName(InputInterface $input, OutputInterface $output)
     {

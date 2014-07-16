@@ -89,7 +89,7 @@ class GenerateUpdate extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     private function getComponent(InputInterface $input, OutputInterface $output)
     {
