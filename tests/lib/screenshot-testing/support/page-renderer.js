@@ -280,7 +280,8 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         }, selector);
 
         if (!result) {
-            throw new Error("Cannot find element " + selector);
+            console.log("Cannot find element " + selector);
+            return;
         }
 
         if (result && result.__isCallError) {
@@ -290,8 +291,10 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         if (null === result.left
             || null === result.top
             || null === result.bottom
-            || null === result.right) {
-            throw new Error("Element(s) " + selector + " found but none is visible");
+            || null === result.right
+        ) {
+            console.log("Element(s) " + selector + " found but none is visible");
+            return;
         }
 
         page.clipRect = result;
