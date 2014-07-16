@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests;
 
+use Exception;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;

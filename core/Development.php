@@ -9,7 +9,7 @@
 
 namespace Piwik;
 
-use \Exception;
+use Exception;
 
 /**
  * Development related checks and tools. You can enable/disable development using `./console development:enable` and

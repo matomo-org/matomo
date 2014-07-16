@@ -18,7 +18,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Translate;
 use Piwik\WidgetsList;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
-use \Exception;
+use Exception;
 
 /**
  * Defines a new report. This class contains all information a report defines except the corresponding API method which
