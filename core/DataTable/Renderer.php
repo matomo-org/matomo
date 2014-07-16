@@ -169,7 +169,7 @@ abstract class Renderer
     /**
      * @var array
      */
-    static protected $availableRenderers = array('xml',
+    protected static $availableRenderers = array('xml',
                                                  'json',
                                                  'csv',
                                                  'tsv',

@@ -36,19 +36,19 @@ class MobileMessaging extends \Piwik\Plugin
     const MOBILE_TYPE = 'mobile';
     const SMS_FORMAT = 'sms';
 
-    static private $availableParameters = array(
+    private static $availableParameters = array(
         self::PHONE_NUMBERS_PARAMETER => true,
     );
 
-    static private $managedReportTypes = array(
+    private static $managedReportTypes = array(
         self::MOBILE_TYPE => 'plugins/MobileMessaging/images/phone.png'
     );
 
-    static private $managedReportFormats = array(
+    private static $managedReportFormats = array(
         self::SMS_FORMAT => 'plugins/MobileMessaging/images/phone.png'
     );
 
-    static private $availableReports = array(
+    private static $availableReports = array(
         array(
             'module' => 'MultiSites',
             'action' => 'getAll',

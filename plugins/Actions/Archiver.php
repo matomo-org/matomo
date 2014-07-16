@@ -56,12 +56,12 @@ class Archiver extends \Piwik\Plugin\Archiver
         Action::TYPE_PAGE_TITLE,
         Action::TYPE_SITE_SEARCH,
     );
-    static protected $columnsToRenameAfterAggregation = array(
+    protected static $columnsToRenameAfterAggregation = array(
         Metrics::INDEX_NB_UNIQ_VISITORS            => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => Metrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS  => Metrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
     );
-    static public $columnsToDeleteAfterAggregation = array(
+    public static $columnsToDeleteAfterAggregation = array(
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,

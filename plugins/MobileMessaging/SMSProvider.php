@@ -23,7 +23,7 @@ abstract class SMSProvider
     const MAX_UCS2_CHARS_IN_ONE_UNIQUE_SMS = 70;
     const MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS = 67;
 
-    static public $availableSMSProviders = array(
+    public static $availableSMSProviders = array(
         'Clockwork' => 'You can use <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/"><img src="plugins/MobileMessaging/images/Clockwork.png"/></a> to send SMS Reports from Piwik.<br/>
 			<ul>
 			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!)

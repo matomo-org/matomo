@@ -28,21 +28,21 @@ class WidgetsList extends Singleton
      *
      * @var array
      */
-    static protected $widgets = array();
+    protected static $widgets = array();
 
     /**
      * Indicates whether the hook was posted or not
      *
      * @var bool
      */
-    static protected $hookCalled = false;
+    protected static $hookCalled = false;
 
     /**
      * In get() we won't use a cached result in case this is true. Instead we will sort the widgets again and cache
      * a new result. To make tests work...
      * @var bool
      */
-    static private $listCacheToBeInvalidated = false;
+    private static $listCacheToBeInvalidated = false;
 
     /**
      * Returns all available widgets.

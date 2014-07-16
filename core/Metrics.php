@@ -89,7 +89,7 @@ class Metrics
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
 
-    static public $mappingFromIdToName = array(
+    public static $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
         Metrics::INDEX_NB_VISITS                             => 'nb_visits',
         Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
@@ -138,7 +138,7 @@ class Metrics
 
     );
 
-    static public $mappingFromIdToNameGoal = array(
+    public static $mappingFromIdToNameGoal = array(
         Metrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
         Metrics::INDEX_GOAL_REVENUE                    => 'revenue',
@@ -149,7 +149,7 @@ class Metrics
         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
     );
 
-    static protected $metricsAggregatedFromLogs = array(
+    protected static $metricsAggregatedFromLogs = array(
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_NB_VISITS,
         Metrics::INDEX_NB_ACTIONS,

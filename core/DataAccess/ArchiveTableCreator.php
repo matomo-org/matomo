@@ -21,7 +21,7 @@ class ArchiveTableCreator
 
     const BLOB_TABLE = "blob";
 
-    static public $tablesAlreadyInstalled = null;
+    public static $tablesAlreadyInstalled = null;
 
     public static function getNumericTable(Date $date)
     {

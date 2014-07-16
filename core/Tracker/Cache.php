@@ -26,7 +26,7 @@ class Cache
      * Public for tests only
      * @var CacheFile
      */
-    static public $trackerCache = null;
+    public static $trackerCache = null;
 
     protected static function getInstance()
     {

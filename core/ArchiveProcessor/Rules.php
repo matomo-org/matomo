@@ -33,7 +33,7 @@ class Rules
 
     const FLAG_TABLE_PURGED = 'lastPurge_';
 
-    static public $purgeOutdatedArchivesIsDisabled = false;
+    public static $purgeOutdatedArchivesIsDisabled = false;
 
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;

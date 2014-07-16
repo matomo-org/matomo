@@ -48,18 +48,18 @@ class ScheduledReports extends \Piwik\Plugin
 
     const EMAIL_TYPE = 'email';
 
-    static private $availableParameters = array(
+    private static $availableParameters = array(
         self::EMAIL_ME_PARAMETER          => false,
         self::EVOLUTION_GRAPH_PARAMETER   => false,
         self::ADDITIONAL_EMAILS_PARAMETER => false,
         self::DISPLAY_FORMAT_PARAMETER    => true,
     );
 
-    static private $managedReportTypes = array(
+    private static $managedReportTypes = array(
         self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png'
     );
 
-    static private $managedReportFormats = array(
+    private static $managedReportFormats = array(
         ReportRenderer::HTML_FORMAT => 'plugins/Morpheus/images/html_icon.png',
         ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',

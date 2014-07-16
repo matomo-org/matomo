@@ -24,7 +24,7 @@ class VisitGoalBuyer extends VisitDimension
     const TYPE_BUYER_OPEN_CART = GoalManager::TYPE_BUYER_OPEN_CART;
     const TYPE_BUYER_ORDERED_AND_OPEN_CART = GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART;
 
-    static protected $visitEcommerceStatus = array(
+    protected static $visitEcommerceStatus = array(
         self::TYPE_BUYER_NONE                  => 'none',
         self::TYPE_BUYER_ORDERED               => 'ordered',
         self::TYPE_BUYER_OPEN_CART             => 'abandonedCart',

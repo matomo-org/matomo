@@ -23,7 +23,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 class CronArchive
 {
     // the url can be set here before the init, and it will be used instead of --url=
-    static public $url = false;
+    public static $url = false;
 
     // Max parallel requests for a same site's segments
     const MAX_CONCURRENT_API_REQUESTS = 3;

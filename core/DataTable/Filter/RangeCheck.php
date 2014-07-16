@@ -17,8 +17,8 @@ use Piwik\DataTable\BaseFilter;
  */
 class RangeCheck extends BaseFilter
 {
-    static public $minimumValue = 0.00;
-    static public $maximumValue = 100.0;
+    public static $minimumValue = 0.00;
+    public static $maximumValue = 100.0;
 
     /**
      * @param DataTable $table

@@ -284,15 +284,15 @@ class ArchivingHelper
         return $newValue;
     }
 
-    static public $maximumRowsInDataTableLevelZero;
-    static public $maximumRowsInSubDataTable;
-    static public $columnToSortByBeforeTruncation;
+    public static $maximumRowsInDataTableLevelZero;
+    public static $maximumRowsInSubDataTable;
+    public static $columnToSortByBeforeTruncation;
 
-    static protected $actionUrlCategoryDelimiter = null;
-    static protected $actionTitleCategoryDelimiter = null;
-    static protected $defaultActionName = null;
-    static protected $defaultActionNameWhenNotDefined = null;
-    static protected $defaultActionUrlWhenNotDefined = null;
+    protected static $actionUrlCategoryDelimiter = null;
+    protected static $actionTitleCategoryDelimiter = null;
+    protected static $defaultActionName = null;
+    protected static $defaultActionNameWhenNotDefined = null;
+    protected static $defaultActionUrlWhenNotDefined = null;
 
     public static function reloadConfig()
     {
@@ -477,7 +477,7 @@ class ArchivingHelper
     /**
      * Static cache to store Rows during processing
      */
-    static protected $cacheParsedAction = array();
+    protected static $cacheParsedAction = array();
 
     public static function clearActionsCache()
     {

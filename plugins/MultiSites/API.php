@@ -40,7 +40,7 @@ class API extends \Piwik\Plugin\API
     const ECOMMERCE_ORDERS_METRIC = 'orders';
     const ECOMMERCE_REVENUE_METRIC = 'ecommerce_revenue';
 
-    static private $baseMetrics = array(
+    private static $baseMetrics = array(
         self::NB_VISITS_METRIC   => array(
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbVisits',
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'visits_evolution',
