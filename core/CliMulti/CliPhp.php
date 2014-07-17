@@ -54,6 +54,9 @@ class CliPhp
         if (!$this->isValidPhpVersion($bin)) {
             return false;
         }
+        
+        $bin .= ' -q';
+        
         return $bin;
     }
 
