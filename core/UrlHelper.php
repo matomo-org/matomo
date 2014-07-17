@@ -394,20 +394,18 @@ class UrlHelper
                     $key = self::getParameterFromQueryString($query, $variableName);
                     $key = trim(urldecode($key));
 
-                    // Special case: Google & empty q parameter
+                    // Special cases: empty or no keywords
                     if (empty($key)
-                        && $variableName == 'q'
-
                         && (
                             // Google search with no keyword
                             ($searchEngineName == 'Google'
-                                && ( // First, they started putting an empty q= parameter
-                                    strpos($query, '&q=') !== false
-                                    || strpos($query, '?q=') !== false
-                                    // then they started sending the full host only (no path/query string)
-                                    || (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
-                                )
+                                && (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
                             )
+
+                            // empty keyword parameter
+                            || strpos($query, sprintf('&%s=', $variableName)) !== false
+                            || strpos($query, sprintf('?%s=', $variableName)) !== false
+
                             // search engines with no keyword
                             || $searchEngineName == 'Google Images'
                             || $searchEngineName == 'DuckDuckGo')
