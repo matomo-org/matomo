@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "GlobalSettingDescription": "Legt die Standarteinstellung für alle Benutzer fest.",
+        "GlobalSettingInlineHelp": "Die Benutzer können es unabhängig von der Vorgabe aktivieren\/deaktivieren.",
+        "GlobalSettingTitle": "LeftMenu aktiviert als Voreinstellung",
+        "SettingsIntroduction": "Das LeftMenu Plug-In verschiebt die Menüs für die Reporte auf die linke Seite. Dies ist für umfangreiche Reporte hilfreich.",
+        "UserSettingInlineHelp": "Legt die Einstellung für den aktuellen Benutzer fest, ob LeftMenu aktiviert oder deaktiviert sein soll. Ein Administrator kann die Standarteinstellung für alle Nutzer festlegen.",
+        "UserSettingTitle": "LeftMenu aktiviert"
+    }
+}
