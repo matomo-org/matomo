@@ -19,11 +19,6 @@ class VisitFirstActionTime extends VisitDimension
     protected $columnName = 'visit_first_action_time';
     protected $columnType = 'DATETIME NOT NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

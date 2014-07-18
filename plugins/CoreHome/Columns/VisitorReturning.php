@@ -41,11 +41,6 @@ class VisitorReturning extends VisitDimension
         $this->addSegment($segment);
     }
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

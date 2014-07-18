@@ -18,11 +18,6 @@ class RevenueDiscount extends BaseConversion
     protected $columnName = 'revenue_discount';
     protected $columnType = 'float default NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

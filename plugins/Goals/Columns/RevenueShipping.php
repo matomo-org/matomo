@@ -18,11 +18,6 @@ class RevenueShipping extends BaseConversion
     protected $columnName = 'revenue_shipping';
     protected $columnType = 'float default NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

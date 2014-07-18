@@ -30,7 +30,6 @@ class GetCountry extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_goals = true;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->documentation = $this->documentation;

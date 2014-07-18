@@ -29,11 +29,6 @@ class ServerTime extends ActionDimension
         return $changes;
     }
 
-    public function getName()
-    {
-        return '';
-    }
-
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
         $timestamp = $request->getCurrentTimestamp();

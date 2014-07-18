@@ -200,6 +200,8 @@ abstract class ViewDataTable implements ViewInterface
                 $this->config->subtable_controller_action = $subtable;
             }
 
+            $this->config->show_goals = $report->hasGoalMetrics();
+
             $relatedReports = $report->getRelatedReports();
             if (!empty($relatedReports)) {
                 foreach ($relatedReports as $relatedReport) {

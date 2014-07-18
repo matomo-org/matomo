@@ -15,7 +15,7 @@ use Piwik\Translate;
  * current loaded language. This prevents you from having to invalidate the cache during tests in case the loaded
  * language changes etc.
  *
- * TODO convert this to a decorator...
+ * TODO convert this to a decorator... see {@link StaticCache}
  */
 class LanguageAwareStaticCache extends StaticCache
 {

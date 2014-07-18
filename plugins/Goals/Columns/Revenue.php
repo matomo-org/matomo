@@ -18,11 +18,6 @@ class Revenue extends BaseConversion
     protected $columnName = 'revenue';
     protected $columnType = 'float default NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

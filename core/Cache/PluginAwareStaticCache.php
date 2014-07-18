@@ -16,7 +16,7 @@ use Piwik\Translate;
  * that are installed. This prevents you from having to invalidate the cache during tests in case the loaded plugins
  * changes etc. The key is language aware as well.
  *
- * TODO convert this to a decorator...
+ * TODO convert this to a decorator... see {@link StaticCache}
  */
 class PluginAwareStaticCache extends StaticCache
 {

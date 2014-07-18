@@ -21,6 +21,13 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use \Exception;
 
 /**
+ * Defines a new report. This class contains all information a report defines except the corresponding API method which
+ * needs to be defined in the 'API.php'. You can define the name of the report, a documentation, the supported metrics,
+ * how the report should be displayed, which features the report has (eg search) and much more.
+ *
+ * You can create a new report using the console command `./console generate:report`. The generated report will guide
+ * you through the creation of a report.
+ *
  * @api
  * @since 2.5.0
  */
@@ -85,16 +92,24 @@ class Report
     protected $menuTitle;
 
     /**
-     * The processed metrics this report supports, eg "average time on site" or "actions per visit". Defaults to the
+     * An array of supported metrics. Eg `array('nb_visits', 'nb_actions', ...)`. Defaults to the platform default
+     * metrics see {@link Metrics::getDefaultProcessedMetrics()}.
+     * @var array
+     * @api
+     */
+    protected $metrics = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+    // for a little performance improvement we avoid having to call Metrics::getDefaultMetrics for each report
+
+    /**
+     * The processed metrics this report supports, eg `avg_time_on_site` or `nb_actions_per_visit`. Defaults to the
      * platform default processed metrics, see {@link Metrics::getDefaultProcessedMetrics()}. Set it to boolean `false`
-     * if your report does not support any processed metrics at all. Otherwise an array of metric names and their
-     * translations. Eg `array('avg_time_on_site' => "Average sime on site")`
+     * if your report does not support any processed metrics at all. Otherwise an array of metric names.
+     * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
      * @var array|false
      * @api
      */
-    protected $processedMetrics = array();
-    // TODO in {@link $metrics} we only want an array of metric names and not their translations. We should support
-    // this here as well for consistency.
+    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
+    // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
 
     /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
@@ -103,14 +118,6 @@ class Report
      * @api
      */
     protected $hasGoalMetrics = false;
-
-    /**
-     * An array of supported metrics. Eg `array('nb_visits', 'nb_actions', ...)`. Defaults to the platform default
-     * metrics see {@link Metrics::getDefaultProcessedMetrics()}.
-     * @var array
-     * @api
-     */
-    protected $metrics = array();
 
     /**
      * Set it to boolean `true` if your report always returns a constant count of rows, for instance always 24 rows
@@ -138,7 +145,7 @@ class Report
     /**
      * An instance of a dimension if the report has one. You can create a new dimension using the Piwik console CLI tool
      * if needed.
-     * @var \Piwik\Plugin\Dimension\VisitDimension|\Piwik\Plugin\Dimension\ActionDimension|\Piwik\Plugin\Dimension\ConversionDimension
+     * @var \Piwik\Columns\Dimension
      */
     protected $dimension;
 
@@ -188,8 +195,6 @@ class Report
         $parts        = explode('\\', $classname);
         $this->module = $parts[2];
         $this->action = lcfirst($parts[4]);
-        $this->processedMetrics = Metrics::getDefaultProcessedMetrics();
-        $this->metrics = array_keys(Metrics::getDefaultMetrics());
 
         $this->init();
     }
@@ -222,9 +227,9 @@ class Report
      * containing a message that will be displayed to the user. You can overwrite this message in case you want to
      * customize the error message. Eg.
      * ```
-        if (!$this->isEnabled()) {
-            throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
-        }
+     if (!$this->isEnabled()) {
+         throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
+     }
      * ```
      * @throws \Exception
      * @api
@@ -323,7 +328,7 @@ class Report
     /**
      * Returns an array of supported metrics and their corresponding translations. Eg `array('nb_visits' => 'Visits')`.
      * By default the given {@link $metrics} are used and their corresponding translations are looked up automatically.
-     * If your metric is not translated, you should add the default metric translation for this metric using
+     * If a metric is not translated, you should add the default metric translation for this metric using
      * the {@hook Metrics.getDefaultMetricTranslations} event. If you want to overwrite any default metric translation
      * you should overwrite this method, call this parent method to get all default translations and overwrite any
      * custom metric translations.
@@ -333,6 +338,25 @@ class Report
     public function getMetrics()
     {
         return $this->getMetricTranslations($this->metrics);
+    }
+
+    /**
+     * Returns an array of supported processed metrics and their corresponding translations. Eg
+     * `array('nb_visits' => 'Visits')`. By default the given {@link $processedMetrics} are used and their
+     * corresponding translations are looked up automatically. If a metric is not translated, you should add the
+     * default metric translation for this metric using the {@hook Metrics.getDefaultMetricTranslations} event. If you
+     * want to overwrite any default metric translation you should overwrite this method, call this parent method to
+     * get all default translations and overwrite any custom metric translations.
+     * @return array
+     * @api
+     */
+    public function getProcessedMetrics()
+    {
+        if (!is_array($this->processedMetrics)) {
+            return $this->processedMetrics;
+        }
+
+        return $this->getMetricTranslations($this->processedMetrics);
     }
 
     /**
@@ -425,8 +449,7 @@ class Report
 
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
-
-        $report['processedMetrics'] = $this->processedMetrics;
+        $report['processedMetrics']     = $this->getProcessedMetrics();
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
@@ -506,7 +529,7 @@ class Report
     }
 
     /**
-     * @return Dimension\ActionDimension|Dimension\ConversionDimension|Dimension\VisitDimension
+     * @return \Piwik\Columns\Dimension
      * @ignore
      */
     public function getDimension()

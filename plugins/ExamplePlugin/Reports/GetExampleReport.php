@@ -14,6 +14,11 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
 use Piwik\View;
 
+/**
+ * This class defines a new report.
+ *
+ * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin/Report} for more information.
+ */
 class GetExampleReport extends Base
 {
     protected function init()

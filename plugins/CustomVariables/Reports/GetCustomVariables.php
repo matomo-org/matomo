@@ -31,7 +31,6 @@ class GetCustomVariables extends Base
     public function configureView(ViewDataTable $view)
     {
         $view->config->columns_to_display = array('label', 'nb_actions', 'nb_visits');
-        $view->config->show_goals = true;
         $view->config->addTranslation('label', Piwik::translate('CustomVariables_ColumnCustomVariableName'));
         $view->requestConfig->filter_sort_column = 'nb_actions';
         $view->requestConfig->filter_sort_order  = 'desc';

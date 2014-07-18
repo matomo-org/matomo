@@ -19,11 +19,6 @@ class PluginCookie extends VisitDimension
     protected $columnName = 'config_cookie';
     protected $columnType = 'TINYINT(1) NOT NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

@@ -30,7 +30,6 @@ class GetContinent extends Base
     public function configureView(ViewDataTable $view)
     {
         $view->config->show_exclude_low_population = false;
-        $view->config->show_goals = true;
         $view->config->show_search = false;
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;

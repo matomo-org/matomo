@@ -21,6 +21,8 @@ use Piwik\Tracker\Action;
  * active/valueable users. It is just an example, you can log pretty much everything and even just store any custom
  * request url property. Please note that dimension instances are usually cached during one tracking request so they
  * should be stateless (meaning an instance of this dimension will be reused if requested multiple times).
+ *
+ * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin\Dimension\VisitDimension} for more information.
  */
 class ExampleVisitDimension extends VisitDimension
 {
@@ -110,7 +112,7 @@ class ExampleVisitDimension extends VisitDimension
      * This event is executed shortly after "onNewVisit" or "onExistingVisit" in case the visitor converted a goal.
      * In this example we give the user 5 extra points for this achievement. Usually this event is not needed and you
      * can simply remove this method therefore. An example would be for instance to persist the last converted
-     * action url. Return boolean false if you do not want to change the value in some cases or just remove the value.
+     * action url. Return boolean false if you do not want to change the current value.
      *
      * @param Request $request
      * @param Visitor $visitor
@@ -124,11 +126,11 @@ class ExampleVisitDimension extends VisitDimension
     }
 
     /**
-     * By implementing this event you can persist a value to the log_conversion table persisting this value for a
-     * specific conversion. The persisted value will be logged along the conversion and will not be changed afterwards.
-     * This allows you to generate reports that shows for instance which url was called how often for a speicifc
+     * By implementing this event you can persist a value to the log_conversion table in case a conversion happens.
+     * The persisted value will be logged along the conversion and will not be changed afterwards.
+     * This allows you to generate reports that shows for instance which url was called how often for a specific
      * conversion. Once you implement this event and a $columnType is defined a column in the log_conversion MySQL table
-     * will be automatically created.
+     * will be created automatically.
      *
      * @param Request $request
      * @param Visitor $visitor

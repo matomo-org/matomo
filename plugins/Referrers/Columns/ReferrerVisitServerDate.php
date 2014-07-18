@@ -17,11 +17,6 @@ class ReferrerVisitServerDate extends Base
     protected $columnName = 'referer_visit_server_date';
     protected $columnType = 'date default NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

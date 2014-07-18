@@ -18,11 +18,6 @@ class RevenueTax extends BaseConversion
     protected $columnName = 'revenue_tax';
     protected $columnType = 'float default NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

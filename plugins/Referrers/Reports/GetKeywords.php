@@ -31,7 +31,6 @@ class GetKeywords extends Base
     {
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate('General_ColumnKeyword'));
-        $view->config->show_goals = true;
 
         $view->requestConfig->filter_limit = 25;
 

@@ -19,11 +19,6 @@ class PluginJava extends VisitDimension
     protected $columnName = 'config_java';
     protected $columnType = 'TINYINT(1) NOT NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

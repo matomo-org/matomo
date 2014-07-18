@@ -23,6 +23,8 @@ use Piwik\Tracker\GoalManager;
  * active/valueable users. It is just an example, you can log pretty much everything and even just store any custom
  * request url property. Please note that dimension instances are usually cached during one tracking request so they
  * should be stateless (meaning an instance of this dimension will be reused if requested multiple times).
+ *
+ * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin\Dimension\ConversionDimension} for more information.
  */
 class ExampleConversionDimension extends ConversionDimension
 {

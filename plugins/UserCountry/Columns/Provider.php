@@ -18,11 +18,6 @@ class Provider extends Base
 {    
     protected $columnName = 'location_provider';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

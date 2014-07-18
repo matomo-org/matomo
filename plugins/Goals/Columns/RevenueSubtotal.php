@@ -18,11 +18,6 @@ class RevenueSubtotal extends BaseConversion
     protected $columnName = 'revenue_subtotal';
     protected $columnType = 'float default NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

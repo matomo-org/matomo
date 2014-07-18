@@ -19,11 +19,6 @@ class PluginRealPlayer extends VisitDimension
     protected $columnName = 'config_realplayer';
     protected $columnType = 'TINYINT(1) NOT NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor

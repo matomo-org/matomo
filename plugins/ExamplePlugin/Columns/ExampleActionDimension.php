@@ -21,6 +21,8 @@ use Piwik\Tracker\Action;
  * This example dimension recognizes a new tracking url parameter that is supposed to save the keywords that were used
  * on a certain page. Please note that dimension instances are usually cached during one tracking request so they
  * should be stateless (meaning an instance of this dimension will be reused if requested multiple times).
+ *
+ * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin\Dimension\ActionDimension} for more information.
  */
 class ExampleActionDimension extends ActionDimension
 {

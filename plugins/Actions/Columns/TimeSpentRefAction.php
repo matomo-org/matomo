@@ -18,11 +18,6 @@ class TimeSpentRefAction extends ActionDimension
     protected $columnName = 'time_spent_ref_action';
     protected $columnType = 'INTEGER(10) UNSIGNED NOT NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
         $timeSpent = $visitor->getVisitorColumn('time_spent_ref_action');

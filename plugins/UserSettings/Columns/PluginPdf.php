@@ -19,11 +19,6 @@ class PluginPdf extends VisitDimension
     protected $columnName = 'config_pdf';
     protected $columnType = 'TINYINT(1) NOT NULL';
 
-    public function getName()
-    {
-        return '';
-    }
-
     /**
      * @param Request $request
      * @param Visitor $visitor
