@@ -151,10 +151,15 @@ class Piwik
             $options .= self::getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
         }
         $maxCustomVars = Plugins\CustomVariables\CustomVariables::getMaxCustomVariables();
+
         if ($visitorCustomVariables) {
             $options .=  '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . PHP_EOL;
             $index = 1;
             foreach ($visitorCustomVariables as $visitorCustomVariable) {
+                if (empty($visitorCustomVariable)) {
+                    continue;
+                }
+
                 $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$visitorCustomVariable[0].'", "'.$visitorCustomVariable[1].'", "visit"]);' . PHP_EOL;
             }
         }
@@ -162,6 +167,9 @@ class Piwik
             $options .=  '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . PHP_EOL;
             $index = 1;
             foreach ($pageCustomVariables as $pageCustomVariable) {
+                if (empty($pageCustomVariable)) {
+                    continue;
+                }
                 $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$pageCustomVariable[0].'", "'.$pageCustomVariable[1].'", "page"]);' . PHP_EOL;
             }
         }
