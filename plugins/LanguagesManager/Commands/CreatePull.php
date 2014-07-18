@@ -145,7 +145,7 @@ class CreatePull extends ConsoleCommand
                 $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
                 $messages[$modifiedFile] = sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
             }
-            $languageCodesTouched = $modifiedFiles[1];
+            $languageCodesTouched = array_merge($languageCodesTouched, $modifiedFiles[1]);
         }
 
         $message = implode('', $messages);
