@@ -149,8 +149,7 @@ class Piwik_TestingEnvironment
                 $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
 
                 if ($testingEnvironment->configFileLocal) {
-                    unset($cache['General']);
-                    $config->General['session_save_handler'] = 'dbtable';
+                    $local['General']['session_save_handler'] = 'dbtable';
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
@@ -161,17 +160,15 @@ class Piwik_TestingEnvironment
 
                 sort($pluginsToLoad);
 
-                $config->Plugins = array('Plugins' => $pluginsToLoad);
+                $local['Plugins'] = array('Plugins' => $pluginsToLoad);
 
-                $trackerPluginsToLoad = array_filter($config->Plugins['Plugins'], function ($plugin) use ($manager) {
+                $trackerPluginsToLoad = array_filter($local['Plugins']['Plugins'], function ($plugin) use ($manager) {
                     return $manager->isTrackerPlugin($manager->loadPlugin($plugin));
                 });
 
-                $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
+                $local['Plugins_Tracker'] = array('Plugins_Tracker' => $trackerPluginsToLoad);
 
-                $log = $config->log;
-                $log['log_writers'] = array('file');
-                $config->log = $log;
+                $local['log']['log_writers'] = array('file');
 
                 $manager->unloadPlugins();
 
