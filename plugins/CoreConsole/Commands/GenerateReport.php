@@ -15,10 +15,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * TODO we should automatically create a method in the API (works currently only if there is no API.php yet)
- * TODO automatically create or modify translation file for instance for report name
- */
 class GenerateReport extends GeneratePluginBase
 {
     protected function configure()
@@ -49,13 +45,20 @@ class GenerateReport extends GeneratePluginBase
                                 'getExampleReport'  => lcfirst($apiName),
                                 'getApiReport'      => lcfirst($apiName),
                                 'ExampleCategory'   => $category,
-                                'ExampleReportName' => $reportName,
+                                'ExampleReportName' => $this->makeTranslationIfPossible($pluginName, $reportName),
                                 'ExampleReportDocumentation' => $documentation,
                                 '999'               => $order,
                                 'new ExitPageUrl()' => $dimension,
                                 'use Piwik\Plugins\Actions\Columns\ExitPageUrl;' => $dimensionClass
         );
-        $whitelistFiles = array('/Reports', '/Reports/Base.php', '/Reports/GetExampleReport.php', '/API.php');
+
+        $whitelistFiles = array('/Reports', '/Reports/Base.php', '/Reports/GetExampleReport.php');
+
+        if (file_exists($this->getPluginPath($pluginName) . '/API.php')) {
+            $this->copyTemplateMethodToExisitingClass('Piwik\Plugins\ExamplePlugin\API', 'getExampleReport', $replace);
+        } else {
+            $whitelistFiles[] = '/API.php';
+        }
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
@@ -224,7 +227,7 @@ class GenerateReport extends GeneratePluginBase
                 $name = $dimension->getName();
                 if (!empty($name)) {
                     $dimensions[$name] = get_class($dimension);
-                    $dimensionNames[] = $name;
+                    $dimensionNames[]  = $name;
                 }
             }
         }

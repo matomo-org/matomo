@@ -17,9 +17,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * TODO automatically create or modify translation file for instance for dimension name
- */
 class GenerateDimension extends GeneratePluginBase
 {
     protected function configure()
@@ -33,27 +30,40 @@ class GenerateDimension extends GeneratePluginBase
             ->addOption('columntype', null, InputOption::VALUE_REQUIRED, 'The MySQL type for your dimension, for instance "VARCHAR(255) NOT NULL".');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws \InvalidArgumentException
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginName    = $this->getPluginName($input, $output);
         $type          = $this->getDimensionType($input, $output);
         $dimensionName = $this->getDimensionName($input, $output);
-        $columnName    = $this->getColumnName($input, $output, $type);
-        $columType     = $this->getColumnType($input, $output);
 
-        $dimensionClassName = $this->getDimensionClassName($dimensionName);
+        if ('non-tracking-dimension' === $type) {
+            $columnName = '';
+            $columType  = '';
+        } else {
+            $columnName = $this->getColumnName($input, $output, $type);
+            $columType  = $this->getColumnType($input, $output);
+        }
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array('example_action_dimension'  => strtolower($columnName),
-                                'example_visit_dimension'   => strtolower($columnName),
-                                'example_conversion_dimension'   => strtolower($columnName),
-                                'INTEGER(11) DEFAULT 0 NOT NULL' => strtoupper($columType),
-                                'VARCHAR(255) DEFAULT NULL'      => strtoupper($columType),
-                                'ExampleVisitDimension'  => $dimensionClassName,
-                                'ExampleActionDimension' => $dimensionClassName,
-                                'ExampleConversionDimension' => $dimensionClassName,
-                                'ExamplePlugin_DimensionName' => ucfirst($dimensionName),
-                                'ExamplePlugin'     => $pluginName,
+        $dimensionClassName      = $this->getDimensionClassName($dimensionName);
+        $translatedDimensionName = $this->makeTranslationIfPossible($pluginName, ucfirst($dimensionName));
+
+        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $replace       = array('example_action_dimension'  => strtolower($columnName),
+                               'example_visit_dimension'   => strtolower($columnName),
+                               'example_conversion_dimension'   => strtolower($columnName),
+                               'INTEGER(11) DEFAULT 0 NOT NULL' => strtoupper($columType),
+                               'VARCHAR(255) DEFAULT NULL'      => strtoupper($columType),
+                               'ExampleDimension'       => $dimensionClassName,
+                               'ExampleVisitDimension'  => $dimensionClassName,
+                               'ExampleActionDimension' => $dimensionClassName,
+                               'ExampleConversionDimension'  => $dimensionClassName,
+                               'ExamplePlugin_DimensionName' => $translatedDimensionName,
+                               'ExamplePlugin' => $pluginName,
         );
 
         $whitelistFiles = array('/Columns');
@@ -64,6 +74,8 @@ class GenerateDimension extends GeneratePluginBase
             $whitelistFiles[] = '/Columns/ExampleActionDimension.php';
         } elseif ('conversion' == $type) {
             $whitelistFiles[] = '/Columns/ExampleConversionDimension.php';
+        } elseif ('non-tracking-dimension' == $type) {
+            $whitelistFiles[] = '/Columns/ExampleDimension.php';
         } else {
             throw new \InvalidArgumentException('This dimension type is not available');
         }
@@ -125,6 +137,7 @@ class GenerateDimension extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @param string $type
      * @return array
      * @throws \RunTimeException
      */
@@ -206,11 +219,11 @@ class GenerateDimension extends GeneratePluginBase
      */
     protected function getDimensionType(InputInterface $input, OutputInterface $output)
     {
-        $acceptedValues = array('visit', 'action', 'conversion');
+        $acceptedValues = array('visit', 'action', 'conversion', 'non-tracking-dimension');
 
         $validate = function ($type) use ($acceptedValues) {
             if (empty($type) || !in_array($type, $acceptedValues)) {
-                throw new \InvalidArgumentException('Please enter a valid dimension type (' . implode(', ', $acceptedValues) .  '): ');
+                throw new \InvalidArgumentException('Please enter a valid dimension type (' . implode(', ', $acceptedValues) .  '). Choose "non-tracking-dimension" if you only need a blank dimension having a name: ');
             }
 
             return $type;
@@ -220,7 +233,7 @@ class GenerateDimension extends GeneratePluginBase
 
         if (empty($type)) {
             $dialog = $this->getHelperSet()->get('dialog');
-            $type = $dialog->askAndValidate($output, 'Please choose the type of dimension you want to create (' . implode(', ', $acceptedValues) .  '): ', $validate, false, null, $acceptedValues);
+            $type = $dialog->askAndValidate($output, 'Please choose the type of dimension you want to create (' . implode(', ', $acceptedValues) .  '). Choose "non-tracking-dimension" if you only need a blank dimension having a name: ', $validate, false, null, $acceptedValues);
         } else {
             $validate($type);
         }

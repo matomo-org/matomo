@@ -170,7 +170,7 @@ class Updater
         return $queries;
     }
 
-    private function getUpdateClassName($componentName, $fileVersion)
+    public function getUpdateClassName($componentName, $fileVersion)
     {
         $suffix = strtolower(str_replace(array('-', '.'), '_', $fileVersion));
         $className = 'Updates_' . $suffix;

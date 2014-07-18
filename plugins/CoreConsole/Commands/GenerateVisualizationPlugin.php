@@ -43,7 +43,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
         $replace = array(
             'SimpleTable'  => $visualizationName,
             'simpleTable'  => lcfirst($visualizationName),
-            'Simple Table' => $visualizationName,
+            'Simple Table' => $this->makeTranslationIfPossible($pluginName, $visualizationName),
             'ExampleVisualization'            => $pluginName,
             'ExampleVisualizationDescription' => $description
         );
@@ -72,7 +72,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
             }
 
             if (!ctype_alnum($visualizationName)) {
-                throw new \RunTimeException(sprintf('The visualization name %s is not valid', $visualizationName));
+                throw new \RunTimeException(sprintf('The visualization name %s is not valid (only AlNum allowed)', $visualizationName));
             }
 
             return $visualizationName;
@@ -82,7 +82,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
 
         if (empty($visualizationName)) {
             $dialog = $this->getHelperSet()->get('dialog');
-            $visualizationName = $dialog->askAndValidate($output, 'Enter a visualization name: ', $validate);
+            $visualizationName = $dialog->askAndValidate($output, 'Enter a visualization name (only AlNum allowed): ', $validate);
         } else {
             $validate($visualizationName);
         }
