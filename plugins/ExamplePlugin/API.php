@@ -39,9 +39,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Another example method that returns a data table.
+     * @param int    $idSite
+     * @param string $period
+     * @param string $date
+     * @param bool|string $segment
      * @return DataTable
      */
-    public function getExampleReport()
+    public function getExampleReport($idSite, $period, $date, $segment = false)
     {
         $table = new DataTable();
 
