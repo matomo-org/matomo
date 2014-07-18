@@ -154,6 +154,7 @@
         "PiwikIsInstalledAt": "Piwik ist installiert unter",
         "PluginDescription": "Piwik Administration",
         "PluginSettingChangeNotAllowed": "Sie sind nicht berechtigt den Wert für die Einstellung \"%s\" im Plugin \"%s\" zu ändern.",
+        "PluginSettingReadNotAllowed": "Sie haben keine Berechtigung den Wert der Einstellung \"%s\" für das Plugin \"%s\" auszulesen.",
         "PluginSettings": "Plugin-Einstellungen",
         "PluginSettingsIntro": "Hier können Sie die Einstellungen für folgende Drittanbieter Plugins ändern:",
         "PluginSettingsValueNotAllowed": "Der Wert für die Einstellung \"%s\" im Plugin \"%s\" ist nicht erlaubt.",
