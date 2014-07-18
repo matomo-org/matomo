@@ -77,6 +77,7 @@ class MenuTop extends MenuAbstract
     {
         if ($displayedForCurrentUser) {
             if (!isset($this->menu[$menuName])) {
+                $this->menu[$menuName]['_name'] = $menuName;
                 $this->menu[$menuName]['_html'] = $data;
                 $this->menu[$menuName]['_order'] = $order;
                 $this->menu[$menuName]['_hasSubmenu'] = false;
