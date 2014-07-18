@@ -39,7 +39,7 @@ class MenuUser extends MenuAbstract
     public function getMenu()
     {
         if (!$this->menu) {
-            foreach ($this->getAvailableMenus() as $menu) {
+            foreach ($this->getAllMenus() as $menu) {
                 $menu->configureUserMenu($this);
             }
         }

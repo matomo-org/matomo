@@ -74,7 +74,7 @@ class MenuReporting extends MenuAbstract
                 }
             }
 
-            foreach ($this->getAvailableMenus() as $menu) {
+            foreach ($this->getAllMenus() as $menu) {
                 $menu->configureReportingMenu($this);
             }
 

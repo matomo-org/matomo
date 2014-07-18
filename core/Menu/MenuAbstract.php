@@ -55,7 +55,7 @@ abstract class MenuAbstract extends Singleton
      *
      * @return \Piwik\Plugin\Menu[]
      */
-    protected function getAvailableMenus()
+    protected function getAllMenus()
     {
         if (!empty(self::$menus)) {
             return self::$menus;
@@ -82,6 +82,8 @@ abstract class MenuAbstract extends Singleton
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
     {
         if (!$displayedForCurrentUser) {
+            // TODO this parameter should be removed and instead menu items should be only added if it is supposed to be
+            // displayed. Won't do it now to stay backward compatible. For Piwik 3.0 we should do it.
             return;
         }
 
