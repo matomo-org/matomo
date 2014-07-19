@@ -145,7 +145,7 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache, $local) use ($testingEnvironment) {
+            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache, &$local) use ($testingEnvironment) {
                 $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
 
                 if ($testingEnvironment->configFileLocal) {
