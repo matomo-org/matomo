@@ -25,22 +25,41 @@ class UserPreferences
      */
     public function getDefaultWebsiteId()
     {
-        $defaultWebsiteId = false;
+        $defaultReport = $this->getDefaultReport();
 
-        // User preference: default website ID to load
-        $defaultReport = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
-        if (is_numeric($defaultReport)) {
-            $defaultWebsiteId = $defaultReport;
-        }
-
-        if ($defaultWebsiteId && Piwik::isUserHasViewAccess($defaultWebsiteId)) {
-            return $defaultWebsiteId;
+        if (is_numeric($defaultReport) && Piwik::isUserHasViewAccess($defaultReport)) {
+            return $defaultReport;
         }
 
         $sitesId = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
+
         if (!empty($sitesId)) {
             return $sitesId[0];
         }
+
+        return false;
+    }
+    /**
+     * Returns default site ID that Piwik should load.
+     *
+     * _Note: This value is a Piwik setting set by each user._
+     *
+     * @return bool|int
+     * @api
+     */
+    public function getDefaultReport()
+    {
+        // User preference: default website ID to load
+        $defaultReport = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
+
+        if (!is_numeric($defaultReport)) {
+            return $defaultReport;
+        }
+
+        if ($defaultReport && Piwik::isUserHasViewAccess($defaultReport)) {
+            return $defaultReport;
+        }
+
         return false;
     }
 

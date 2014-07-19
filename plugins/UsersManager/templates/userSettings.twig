@@ -52,11 +52,6 @@
                 <input id="defaultReportSpecific" type="radio" value="1"
                        name="defaultReport"{% if defaultReport != 'MultiSites' %} checked="checked"{% endif %} />
                 <label for="defaultReportSpecific" style="padding-right:12px;">{{ 'General_DashboardForASpecificWebsite'|translate }}</label>
-                {% if defaultReport=='MultiSites' %}
-                    {% set defaultReportIdSite=1 %}
-                {% else %}
-                    {% set defaultReportIdSite=defaultReport %}
-                {% endif %}
 
                 <div piwik-siteselector
                      class="sites_autocomplete"
