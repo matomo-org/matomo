@@ -1,7 +1,7 @@
 {
     "DevicesDetection": {
-        "BrowserVersions": "Versions du Navigateur",
-        "Camera": "Camera",
+        "BrowserVersions": "Versions du navigateur",
+        "Camera": "Caméra",
         "CarBrowser": "Navigateur de voiture",
         "Console": "Console",
         "dataTableLabelBrands": "Marque",
@@ -9,7 +9,7 @@
         "dataTableLabelModels": "Modèle",
         "dataTableLabelSystemVersion": "Version du système d'exploitation",
         "dataTableLabelTypes": "Type",
-        "Device": "Périphèrique",
+        "Device": "Périphérique",
         "DeviceBrand": "Marque du périphérique",
         "DeviceDetection": "Détection du périphérique",
         "DeviceModel": "Modèle du périphérique",
@@ -22,7 +22,7 @@
         "SmartDisplay": "Affichage intelligent",
         "Smartphone": "Téléphone intelligent (smartphone)",
         "submenu": "Périphériques",
-        "Tablet": "Tabelette",
+        "Tablet": "Tablette",
         "TV": "TV",
         "UserAgent": "Agent Utilisateur (User-Agent)"
     }
