@@ -161,7 +161,13 @@ class ReportTotalsCalculator extends DataTableManipulator
             }
         }
 
-        return $this->callApiAndReturnDataTable($module, $action, $request);
+        $table = $this->callApiAndReturnDataTable($module, $action, $request);
+
+        if ($table instanceof DataTable\Map) {
+            $table = $table->mergeChildren();
+        }
+
+        return $table;
     }
 
     private function sumColumnValueToTotal(Row $row, $metricId, $totalValues)
