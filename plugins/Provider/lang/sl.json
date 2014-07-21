@@ -1,7 +1,0 @@
-{
-    "Provider": {
-        "ColumnProvider": "Ponudnik",
-        "SubmenuLocationsProvider": "Lokacije & Ponudnik",
-        "WidgetProviders": "Ponudniki"
-    }
-}

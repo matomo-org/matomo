@@ -1,9 +1,0 @@
-{
-    "MultiSites": {
-        "Evolution": "Vývoj",
-        "LoadingWebsites": "Načítání webových stránek",
-        "Pagination": "%s - %s z %s",
-        "PluginDescription": "Zobrazí souhrn\/statistiky pro více sídel. Současně je spravován jako základní zásuvný modul Piwiku",
-        "TopLinkTooltip": "Porovnejte webové analytické statistiky pro všechny vaše webové stránky."
-    }
-}

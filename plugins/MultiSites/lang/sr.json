@@ -1,8 +1,0 @@
-{
-    "MultiSites": {
-        "Evolution": "Razvoj",
-        "LoadingWebsites": "Učitavanje sajtova",
-        "PluginDescription": "Prikazuje statistiku za više sajtova. Ovaj dodatak je trenutno u samoj srži Piwik-a.",
-        "TopLinkTooltip": "Uporedi statistiku za sve vaše sajtove"
-    }
-}

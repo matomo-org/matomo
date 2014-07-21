@@ -1,8 +1,0 @@
-{
-    "Provider": {
-        "ColumnProvider": "Sağlayıcı",
-        "PluginDescription": "Ziyaretciden Sağlayıcının Rapoarları",
-        "SubmenuLocationsProvider": "Konumlar & Sağlayıcı",
-        "WidgetProviders": "Sağlayıcılar"
-    }
-}
