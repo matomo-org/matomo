@@ -161,7 +161,7 @@ class CronArchive
      *
      * @var string[] eg, `array("day","week","month","year")`
      */
-    public $restrictToPeriods = false;
+    public $restrictToPeriods = array();
 
     /**
      * Forces CronArchive to retrieve data for the last [$dateLastForced] periods when initiating archiving.
