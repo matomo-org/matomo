@@ -983,7 +983,7 @@ class Manager extends Singleton
         }
 
         // merge in specific language translations (to overwrite english defaults)
-        if (file_exists($defaultLangPath)) {
+        if ($defaultEnglishLangPath != $defaultLangPath && file_exists($defaultLangPath)) {
             $translations = $this->getTranslationsFromFile($defaultLangPath);
             $translationsLoaded = true;
             if (isset($translations[$pluginName])) {
