@@ -72,7 +72,7 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId) {
  * @param {function} onWidgetLoadedCallback   callback to be executed after widget is loaded
  * @return {object}
  */
-widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback) {
+widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback, onWidgetErrorCallback) {
     var disableLink = broadcast.getValueFromUrl('disableLink');
     if (disableLink.length) {
         widgetParameters['disableLink'] = disableLink;
@@ -83,6 +83,9 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(widgetParameters, 'get');
     ajaxRequest.setCallback(onWidgetLoadedCallback);
+    if (onWidgetErrorCallback) {
+        ajaxRequest.setErrorCallback(onWidgetErrorCallback);
+    }
     ajaxRequest.setFormat('html');
     ajaxRequest.send(false);
     return ajaxRequest;

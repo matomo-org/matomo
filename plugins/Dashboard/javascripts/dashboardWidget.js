@@ -134,7 +134,11 @@
             }
 
             var params = $.extend(this.widgetParameters, overrideParams || {});
-            widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent);
+            widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent, function () {
+                $('.widgetContent', currentWidget).removeClass('loading');
+                var errorMessage = _pk_translate('General_ErrorRequest');
+                $('.widgetContent', currentWidget).html('<div class="widgetLoadingError">' + errorMessage + '</div>');
+            });
 
             return this;
         },

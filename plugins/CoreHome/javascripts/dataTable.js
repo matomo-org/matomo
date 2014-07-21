@@ -207,6 +207,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'block');
         }
 
+        $('#loadingError').hide();
+
         // when switching to display graphs, reset limit
         if (self.param.viewDataTable && self.param.viewDataTable.indexOf('graph') === 0) {
             delete self.param.filter_offset;
@@ -233,6 +235,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 callbackSuccess(response);
             }
         );
+        ajaxRequest.setErrorCallback(function () {
+            $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'none');
+            $('#loadingError').show();
+        });
         ajaxRequest.setFormat('html');
 
         ajaxRequest.send(false);

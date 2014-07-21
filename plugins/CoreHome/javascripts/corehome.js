@@ -153,6 +153,8 @@
 
                 // scroll to report
                 piwikHelper.lazyScrollTo(report, 400);
+            }, function () {
+                loading.hide();
             });
         });
     });
