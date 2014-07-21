@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s salturi",
+        "DirectEntries": "Intrari directe",
+        "ErrorBack": "Du-te înapoi la acțiunea anterioară",
+        "ExitsInline": "%s există",
+        "FromCampaigns": "Din campanii",
+        "FromPreviousPages": "De la pagini interne",
+        "FromPreviousPagesInline": "%s de la paginile interne",
+        "FromPreviousSiteSearches": "De la cautare interna",
+        "FromPreviousSiteSearchesInline": "%s de la cautarile interne",
+        "FromSearchEngines": "De la motoarele de căutare",
+        "FromWebsites": "De pe website-uri",
+        "IncomingTraffic": "Traficul de intrare",
+        "LoopsInline": "%s reincarcare pagina",
+        "NoDataForAction": "Nu este nici o data pentru %s",
+        "NoDataForActionDetails": "Fie acțiunea nu a avut nici o afișări de pagină în timpul perioadei%s sau este invalida.",
+        "OutgoingTraffic": "traficul de ieșire",
+        "PluginDescription": "Rapoarte cu privire la acțiunile anterioare și următoarele pentru fiecare adresă URL pagină.",
+        "ShareOfAllPageviews": "Această pagină a avut vizualizări de %s pagini (%s din toate vizualizări de pagini)",
+        "ToFollowingPages": "Catre paginile interne",
+        "ToFollowingPagesInline": "%s la pagini interne",
+        "ToFollowingSiteSearches": "Cautari interne",
+        "ToFollowingSiteSearchesInline": "%s căutări interne",
+        "XOfAllPageviews": "%s toate vizualizarile de pe aceasta pagina",
+        "XOutOfYVisits": "%s (din %s)"
+    }
+}

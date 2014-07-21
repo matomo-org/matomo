@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Sivuja \/ käynti",
+        "ColumnVisitDuration": "Käyntien kesto",
+        "Engagement": "Sitoutuminen",
+        "NPages": "%s sivua",
+        "OneMinute": "1min",
+        "OnePage": "1 sivu",
+        "PluginDescription": "Raportit kävijöiden kiinnostuksista: ladattujen sivujen määrä, sivuilla käytetty aika.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Käynnin numero",
+        "VisitsByDaysSinceLast": "Käynnit lajiteltuna aikavälillä edelliseen käyntiin",
+        "visitsByVisitCount": "Käynnit käyntinumeron mukaan",
+        "VisitsPerDuration": "Käynnit pituuden mukaan",
+        "VisitsPerNbOfPages": "Käynnit sivujen mukaan",
+        "WidgetLengths": "Käynnin pituus",
+        "WidgetLengthsDocumentation": "Tässä raportissa näet, kuinka moni käynti kesti tietyn ajan. Aluksi tämä raportti on tagipilvenä. Yleisimmät kestot näytetään isommalla fontilla.",
+        "WidgetPages": "Sivuja \/ käynti",
+        "WidgetPagesDocumentation": "Tässä raportissa näet, kuinka monella käynnillä oli tietty määrä sivunlatauksia. Aluksi tämä raportti on tagipilvenä. Yleisimmät sivumäärät näytetään isommalla fontilla.",
+        "WidgetVisitsByDaysSinceLast": "Päiviä edellisestä käynnistä",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Tässä raportissa näet, kuinka monen kävijän edellisestä käynnistä on valittu määrä päiviä.",
+        "WidgetVisitsByNumDocumentation": "Tässä raportissa näet N:n kerran sivuilla olevien käyntien määrän, ts. vierailijat, jotka ovat käyneet sivuillasi vähintään N kertaa."
+    }
+}

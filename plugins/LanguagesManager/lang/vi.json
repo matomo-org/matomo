@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Về Piwik dịch",
+        "PluginDescription": "Plugin này sẽ hiển thị một danh sách các ngôn ngữ có sẵn cho giao diện Piwik. Ngôn ngữ được chọn sẽ được lưu lại trong các quyền ưu tiên cho mỗi người dùng."
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "MobileMessaging": {
+        "PhoneNumbers": "Telefonnumre",
+        "Settings_APIKey": "API-nøkkel",
+        "Settings_CountryCode": "Landskode",
+        "Settings_InvalidActivationCode": "Koden du har angitt var ikke gyldig, vennligst prøv igjen.",
+        "Settings_ManagePhoneNumbers": "Administrer telefonnummer",
+        "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
+        "Settings_PhoneNumber": "Telefonnummer",
+        "Settings_PhoneNumbers_Add": "Legg til et nytt telefonnummer",
+        "Settings_SMSProvider": "SMS-leverandør",
+        "Settings_SuperAdmin": "Superbruker-instillinger",
+        "Settings_ValidatePhoneNumber": "Valider",
+        "Settings_VerificationCodeJustSent": "Vi har nettopp sendt en SMS til dette nummeret med en kode: Skriv inn denne koden ovenfor og klikk \"Valider\".",
+        "SMS_Content_Too_Long": "[for lang]",
+        "TopMenu": "E-post og SMS-rapporter"
+    }
+}

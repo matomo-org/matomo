@@ -1,0 +1,13 @@
+{
+    "SitesManager": {
+        "Currency": "Gjaldmiðill",
+        "ExcludedIps": "Útilokuð vistföng (IP)",
+        "GlobalListExcludedIps": "Algildur listi af útilokuðum vistföngum (IP)",
+        "PluginDescription": "Stjórnun vefja í Piwik: Bættu við nýjum vef, Breyttu núverandi vef, Sýndu JavaScript kóðann sem á að vera á síðunum þínum. Allar aðgerðir eru einnig aðgengilegar gegnum API.",
+        "ShowTrackingTag": "Sýna merkimiða til að elta",
+        "Sites": "Vefir",
+        "Timezone": "Tímabelti",
+        "TrackingTags": "Eltir merkimiða fyrir %s",
+        "WebsitesManagement": "Stjórnun Vefja"
+    }
+}

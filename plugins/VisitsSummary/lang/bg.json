@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s средно времетраене за обработка на заявката",
+        "AverageVisitDuration": "%s средно времетраене на посещението",
+        "GenerateQueries": "%s заявки са изпълнени",
+        "GenerateTime": "%s секунди за генериране на страницата",
+        "MaxNbActions": "%s макс. действия при едно посещение",
+        "NbActionsDescription": "%s действия (показвания, изтегляния и outlinks)",
+        "NbActionsPerVisit": "%s действия на посещение",
+        "NbDownloadsDescription": "%s изтегляния",
+        "NbKeywordsDescription": "%s уникални ключови думи",
+        "NbOutlinksDescription": "%s външни връзки",
+        "NbPageviewsDescription": "%s преглеждания на страница",
+        "NbSearchesDescription": "%s общо търсения в вашият сайт",
+        "NbUniqueDownloadsDescription": "%s уникални изтегляния",
+        "NbUniqueOutlinksDescription": "%s уникални външни връзки",
+        "NbUniquePageviewsDescription": "%s уникални преглеждания на страница",
+        "NbUniqueVisitors": "%s уникални посетителя",
+        "NbVisitsBounced": "%s посещения са отскочили (напуснали още след първата разгледана страница)",
+        "PluginDescription": "Доклад за генералния анализ по номера: посещения, уникални посещения, поредица от действия, Bounce Rate и други",
+        "VisitsSummary": "Резюме на посещенията",
+        "VisitsSummaryDocumentation": "Това е преглед на еволюцията на посещенията.",
+        "WidgetLastVisits": "Последни посетители",
+        "WidgetOverviewGraph": "Резюме с графика",
+        "WidgetVisits": "Резюме на посещенията"
+    }
+}

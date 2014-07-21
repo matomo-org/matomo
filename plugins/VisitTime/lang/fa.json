@@ -1,0 +1,16 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "زمان محلی",
+        "ColumnServerTime": "زمان سرور",
+        "DayOfWeek": "روز از هفته",
+        "LocalTime": "بازدید ها بر اساس زمان محلی",
+        "NHour": "%sساعت",
+        "PluginDescription": "گزارش به وقت محلی و سرور است. اطلاعات سرور هم می تواند مفید باشد را به برنامه تعمیر و نگهداری بر روی وب سایت است.",
+        "ServerTime": "بازدید ها بر اساس زمان سرور",
+        "SubmenuTimes": "زمانها",
+        "VisitsByDayOfWeek": "بازدیدها براساس روزهای هفته",
+        "WidgetByDayOfWeekDocumentation": "این نمودار تعداد بازدیدهای وبسایت شما را در هر روز از هفته نمایش می دهد.",
+        "WidgetLocalTime": "بازدید ها با زمان محلی",
+        "WidgetServerTime": "بازدید ها با زمان سرور"
+    }
+}

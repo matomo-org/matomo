@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Helyi idő",
+        "ColumnServerTime": "Szerveridő",
+        "LocalTime": "Látogatások\/helyi idő",
+        "NHour": "%s ó",
+        "PluginDescription": "Jelenti a helyi időt és a szerveridőt. A szerveridő segítségével ütemezhetőek a weboldallal kapcsolatos karbantartási feladatok.",
+        "ServerTime": "Látogatások\/szerveridő",
+        "SubmenuTimes": "Idő",
+        "WidgetLocalTime": "Látogatások helyi idő szerint",
+        "WidgetServerTime": "Látogatások szerveridő szerint"
+    }
+}

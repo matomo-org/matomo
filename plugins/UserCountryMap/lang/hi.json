@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "और %s दूसरों के",
+        "Cities": "शहरों",
+        "Countries": "देश",
+        "DaysAgo": "%s दिन पहले",
+        "GoalConversions": "%s लक्ष्य रूपांतरण",
+        "Hours": "घंटे",
+        "HoursAgo": "%s घंटे पहले",
+        "map": "नक्शा",
+        "Minutes": "मिनट",
+        "MinutesAgo": "%s मिनट पहले",
+        "None": "कोई नहीं",
+        "NoVisit": "कोई यात्रा",
+        "RealTimeMap": "वास्तविक समय नक्शा",
+        "Regions": "क्षेत्र",
+        "Searches": "%s खोजों",
+        "Seconds": "सेकंड्स",
+        "SecondsAgo": "%s सेकंड पहले",
+        "ShowingVisits": "आखिरी का भू स्थित दौरा",
+        "Unlocated": "<b>%s<\/b> %p से यात्राओं की %c भौगोलिक स्थित खोजा नहीं जा सकता है.",
+        "VisitorMap": "आगंतुक मानचित्र",
+        "WorldWide": "विश्व व्यापक"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "ScheduledReports": {
+        "CreateReport": "அறிக்கையை உருவாக்கு",
+        "EmailReports": "மின்னஞ்சல் அறிக்கைகள்",
+        "EmailSchedule": "மின்னஞ்சல் பட்டி",
+        "FrontPage": "முன் பக்கம்",
+        "ManageEmailReports": "மின்னஞ்சல் அறிக்கைகளை மேலாண் செய்"
+    }
+}

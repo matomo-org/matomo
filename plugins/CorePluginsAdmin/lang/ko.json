@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "활성화",
+        "Activated": "활성화됨",
+        "Active": "활성",
+        "AuthorHomepage": "작성자 홈페이지",
+        "Deactivate": "비활성화",
+        "Inactive": "비활성",
+        "LicenseHomepage": "라이센스 홈페이지",
+        "MainDescription": "플러그인 확장과 Piwik의 기능성 확장페이지입니다. 플러그인이 한번 설치되면 이곳에서 활성화하거나 비활성화할 수 있습니다.",
+        "PluginDescription": "플러그인 관리 인터페이스입니다.",
+        "PluginHomepage": "플러그인 홈페이지",
+        "PluginsManagement": "플러그인 관리",
+        "Status": "상태",
+        "Version": "버전"
+    }
+}

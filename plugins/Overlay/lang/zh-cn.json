@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s 次点击",
+        "ClicksFromXLinks": "%1$s 次点击来自 %2$s 中的链接",
+        "Domain": "域名",
+        "ErrorNotLoading": "还无法运行页面叠加会话。",
+        "ErrorNotLoadingDetails": "也许右边加载的页面没有 Piwik 跟踪代码。如果是这样，试试在另外一个页面运行叠加。",
+        "ErrorNotLoadingDetailsSSL": "因为你通过 https 访问 Piwik，最可能的原因是您的网站不支持 SSL，试试用 http 访问 Piwik。",
+        "ErrorNotLoadingLink": "点这里了解更多排错的方法",
+        "Link": "链接",
+        "Location": "位置",
+        "NoData": "所选时间段内没有本页面的数据。",
+        "OneClick": "1 次点击",
+        "OpenFullScreen": "全屏(无边框)",
+        "Overlay": "页面叠加",
+        "PluginDescription": "在实际网站上叠加显示分析数据。",
+        "RedirectUrlError": "您正在打开网址 \"%s\" 的页面叠加。%s 没有 Piwik 设置的域名匹配这个链接。",
+        "RedirectUrlErrorAdmin": "您可以在 %s管理设置%s 中以附加网址添加域名。",
+        "RedirectUrlErrorUser": "请管理员以附加网址来添加域名。"
+    }
+}

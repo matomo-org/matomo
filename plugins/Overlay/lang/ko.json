@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s회 클릭",
+        "ClicksFromXLinks": "%2$s개의 링크 중 하나를 %1$s회 클릭",
+        "Domain": "도메인",
+        "ErrorNotLoading": "페이지 오버레이 세션을 아직 실행할 수 없습니다.",
+        "ErrorNotLoadingDetails": "오른쪽에 로드된 페이지는 Piwik의 추적 코드가 누락되었을 수 있습니다. 이 경우, 페이지 보고서에서 다른 페이지에서 오버레이를 실행해보세요.",
+        "ErrorNotLoadingDetailsSSL": "Piwik에서 HTTPS를 사용하도록 설정되었지만, 당신의 웹사이트는 SSL을 지원하지 않습니다. Piwik에 HTTP를 사용해 보세요.",
+        "ErrorNotLoadingLink": "이 곳을 클릭하여 더 많은 문제 해결에 대한 팁 보기",
+        "Link": "링크",
+        "Location": "위치",
+        "NoData": "선택한 기간 동안이 페이지에 대한 데이터가 없습니다.",
+        "OneClick": "1회 클릭",
+        "OpenFullScreen": "전체 화면 (사이드바 아님)으로 이동",
+        "Overlay": "페이지 오버레이",
+        "PluginDescription": "실제 웹사이트에 분석 데이터를 겹쳐서 볼 수 있습니다.",
+        "RedirectUrlError": "URL \"%s\"에 대한 페이지 오버레이를 열려고 시도합니다. %s은 Piwik 설정한 도메인과 어떤 링크도 일치하지 않습니다.",
+        "RedirectUrlErrorAdmin": "당신은 %s설정%s에서 추가적인 URL로 도메인을 추가할 수 있습니다.",
+        "RedirectUrlErrorUser": "도메인에 추가적인 URL을 추가하려면 관리자에게 문의하세요."
+    }
+}

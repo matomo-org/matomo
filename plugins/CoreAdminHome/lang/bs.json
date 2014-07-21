@@ -1,0 +1,11 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administracija",
+        "EmailServerSettings": "Postavke email servera",
+        "LatestBetaRelease": "Zadnje beta izdanje",
+        "LatestStableRelease": "Zadnje stabilno izadnje",
+        "MenuDiagnostic": "Dijagnostika",
+        "MenuGeneralSettings": "Opšte postavke",
+        "MenuManage": "Upravljaj"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "أرسل التقرير إلى هذه العناوين أيضاً (عنوان لكل سطر):",
+        "AreYouSureDeleteReport": "هل ترغب حقاً في حذف هذا التقرير وجدولته الزمنية؟",
+        "CancelAndReturnToReports": "إلغاء و%s رجوع إلى قائمة التقارير%s",
+        "CreateAndScheduleReport": "أنشئ وأعد جدولاً لتقرير",
+        "CreateReport": "إنشاء تقرير",
+        "DescriptionOnFirstPage": "وصف التقرير سيتم عرضه في الصفحة الأولى من التقرير.",
+        "EmailHello": "مرحباً",
+        "EmailReports": "التقارير البريدية",
+        "EmailSchedule": "جدولة البريد",
+        "FrontPage": "صفحة المقدمة",
+        "ManageEmailReports": "إدارة تقارير البريد",
+        "MonthlyScheduleHelp": "الجدولة الشهرية: سيتم إرسال التقرير في الأول من كل شهر.",
+        "MustBeLoggedIn": "يجب أن تسجل الدخول لإنشاء وجدولة التقارير.",
+        "PiwikReports": "تقارير Piwik",
+        "PleaseFindAttachedFile": "انظر المرفقات رجاء لتحميل %1$s التقارير حول %2$s.",
+        "PleaseFindBelow": "ستجد %1$s تقريرك حول %2$s أدناه.",
+        "PluginDescription": "أنشأ وحمل تقاريرك المخصصة، واجعلها تُرسل إليك يومياً، أسبوعياً أو شهرياً.",
+        "ReportFormat": "تهيئة التقرير",
+        "ReportsIncluded": "الإحصائيات المُضمنة",
+        "SendReportNow": "أرسل التقرير الآن",
+        "SendReportTo": "أرسل التقرير إلى",
+        "SentToMe": "أرسلها لي",
+        "TableOfContent": "قائمة التقارير",
+        "ThereIsNoReportToManage": "لا يوجد تقرير لإدارته للموقع %s.",
+        "TopOfReport": "إلى أعلى",
+        "UpdateReport": "تحديث تقرير",
+        "WeeklyScheduleHelp": "جدولة أسبوعية: سيتم إرسال التقرير يوم الاثنين من كل أسبوع."
+    }
+}

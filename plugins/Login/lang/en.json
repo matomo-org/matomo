@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "A confirmation link has been sent to your inbox. Check your e-mail and visit this link to authorize your password change request.",
+        "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Piwik administrator.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "A user with Super User access cannot be authenticated using the '%s' mechanism.",
+        "ExceptionPasswordMD5HashExpected": "The password parameter is expected to be a MD5 hash of the password.",
+        "InvalidNonceOrHeadersOrReferrer": "Form security failed. Please reload the form and check that your cookies are enabled. If you use a proxy server, you must %s configure Piwik to accept the proxy header%s that forwards the Host header. Also, check that your Referrer header is sent correctly.",
+        "InvalidOrExpiredToken": "Token is invalid or has expired.",
+        "InvalidUsernameEmail": "Invalid username or e-mail address.",
+        "LogIn": "Sign in",
+        "LoginOrEmail": "Username or E-mail",
+        "LoginPasswordNotCorrect": "Wrong Username and password combination.",
+        "LostYourPassword": "Lost your password?",
+        "MailPasswordChangeBody": "Hi %1$s,\n\nA password reset request was received from %2$s. To confirm this password change so you can login with your new credentials, visit the following link:\n\n%3$s\n\nNote: this token will expire in 24 hours.\n\nAnd thank you for using Piwik!",
+        "MailTopicPasswordChange": "Confirm Password Change",
+        "PasswordChanged": "Your password has been changed.",
+        "PasswordRepeat": "Password (repeat)",
+        "PasswordsDoNotMatch": "Passwords do not match.",
+        "PluginDescription": "Login Authentication plugin, reading the credentials from the config\/config.ini.php file for the initial Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).",
+        "RememberMe": "Remember Me",
+        "ResetPasswordInstructions": "Enter a new password for your account."
+    }
+}

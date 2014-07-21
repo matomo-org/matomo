@@ -1,0 +1,24 @@
+{
+    "UsersManager": {
+        "AddUser": "Engadir un novo usuario",
+        "Alias": "Alias",
+        "AllWebsites": "Todas as webs",
+        "ApplyToAllWebsites": "Aplicar a todos os sitios",
+        "ChangeAllConfirm": "Está seguro que quere cambiar '%s' permisos en todas as páxinas web?",
+        "DeleteConfirm": "Está seguro de que desexa eliminar ao usuario %s?",
+        "Email": "Enderezo electrónico",
+        "ExceptionAccessValues": "O parámetro debe ter acceso a un dos seguintes valores: [%s]",
+        "ExceptionAdminAnonymous": "Non pode concederlle o acceso de 'administrador' a un usuario 'anónimo'.",
+        "ExceptionDeleteDoesNotExist": "O usuario '%s' non existe, polo que non pode ser eliminado.",
+        "ExceptionEditAnonymous": "O usuario anónimo non pode ser eliminado ou modificado, xa que é empregado por Piwik para identificar a usuarios non conectados. Por exemplo, pode facer as súas estatísticas públicas dando acceso á 'visión' aos visitantes 'anónimos'.",
+        "ExceptionInvalidEmail": "O enderezo electrónico non ten un formato correcto.",
+        "ExceptionLoginExists": "O nome de usuario '%s' xa existe.",
+        "ExceptionUserDoesNotExist": "O usuario '%s' non existe.",
+        "ManageAccess": "Administrar o acceso",
+        "MenuUsers": "Usuario",
+        "PrivAdmin": "Admin",
+        "PrivNone": "Acceso denegado",
+        "PrivView": "Ver",
+        "User": "Usuario"
+    }
+}

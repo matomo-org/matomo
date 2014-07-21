@@ -1,0 +1,25 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Действия от Върнали се посетители",
+        "ColumnAverageVisitDurationForReturningVisitors": "Средно времетраене на посещението на върналите се посетители (в секунди)",
+        "ColumnAvgActionsPerReturningVisit": "Средно действия на завърналия се посетител",
+        "ColumnBounceCountForReturningVisits": "Брой повторни посещения.",
+        "ColumnBounceRateForReturningVisits": "Bounce rate за върнали се посетители",
+        "ColumnMaxActionsInReturningVisit": "Максимум действия при едно повторно посещение.",
+        "ColumnNbReturningVisitsConverted": "Брой конвертирани повторни посещения",
+        "ColumnReturningVisits": "Върнали се посетители",
+        "ColumnSumVisitLengthReturning": "Време прекарано по време на повторните посещения (в секунди)",
+        "ColumnUniqueReturningVisitors": "Уникални повторни посетители",
+        "PluginDescription": "Статистики на Завърналите се посетители срещу уникалните посетители.",
+        "ReturnActions": "%s действия от върнали се посетители",
+        "ReturnAverageVisitDuration": "%s средна продължителност на посещенията от върналите се посетители",
+        "ReturnAvgActions": "%s дейности на върналите се посетители",
+        "ReturnBounceRate": "%s върнали се потребители, които са отскочили (напуснали са сайта още след първата страница)",
+        "ReturningVisitDocumentation": "Повторно посещение (за разлиса от ново посещение) се прави от някой, който е посещавал сайта поне веднъж в миналото.",
+        "ReturningVisitsDocumentation": "Това е преглед на повторните посещения.",
+        "ReturnVisits": "%s върнали се посетители",
+        "SubmenuFrequency": "Честота",
+        "WidgetGraphReturning": "Графика на завърналите се посетители",
+        "WidgetOverview": "Резюме на честотата"
+    }
+}

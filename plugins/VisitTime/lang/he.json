@@ -1,0 +1,15 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "זמן מקומי",
+        "ColumnServerTime": "זמן שרת",
+        "DayOfWeek": "יום בשבוע",
+        "LocalTime": "ביקורים לזמן מקומי",
+        "NHour": "שעה %s",
+        "ServerTime": "ביקורים לזמן שרת",
+        "SubmenuTimes": "זמנים",
+        "VisitsByDayOfWeek": "ביקורים לפי יום בשבוע",
+        "WidgetByDayOfWeekDocumentation": "גרף זה מציג את מספר הביקורים שאתרך קיבל בכל יום בשבוע.",
+        "WidgetLocalTime": "ביקורים לפי זמן מקומי",
+        "WidgetServerTime": "ביקורים לפי זמן שרת"
+    }
+}

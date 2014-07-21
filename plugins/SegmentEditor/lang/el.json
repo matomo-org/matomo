@@ -1,0 +1,29 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Προσθήκη της %s συνθήκης",
+        "AddNewSegment": "Προσθήκη νέου τμήματος",
+        "AreYouSureDeleteSegment": "Είστε σίγουροι για τη διαγραφή του τμήματος;",
+        "AutoArchivePreProcessed": "οι αναφορές τμημάτων προεπεξεργάζονται (γρηγορότερα, απαιτείται το archive.php με cron)",
+        "AutoArchiveRealTime": "οι αναφορές τμημάτων επεξεργάζονται σε πραγματικό χρόνο",
+        "ChooseASegment": "Επιλέξτε ένα τμήμα",
+        "DataAvailableAtLaterDate": "Οι τμηματικές αναφορές αναλυτικών θα είναι αργότερα διαθέσιμες. Ζητούμε συγγνώμη για την ταλαιπωρία.",
+        "DefaultAllVisits": "Όλες οι επισκέψεις",
+        "DragDropCondition": "Συνθήκη με Σύρε & Άσε",
+        "LoadingSegmentedDataMayTakeSomeTime": "Η επεξεργασία των δεδομένων των τμημάτων επισκεπτών μπορεί να διαρκέσει κάποια λεπτά...",
+        "OperatorAND": "ΚΑΙ",
+        "OperatorOR": "Ή",
+        "SaveAndApply": "Αποθήκευση και εφαρμογή",
+        "SegmentDisplayedAllWebsites": "όλους τους ιστοτόπους",
+        "SegmentDisplayedThisWebsiteOnly": "μόνο αυτόν τον ιστοτόπο",
+        "SegmentIsDisplayedForWebsite": "και εμφανίζεται για",
+        "SegmentNotApplied": "Το τμήμα '%s' δεν εφαρμόζεται",
+        "SegmentNotAppliedMessage": "Ζητάτε δεδομένα για το Προσαρμοσμένο Τμήμα '%s', ωστόσο η τρέχουσα παραμετροποίηση του Piwik εμποδίζει την σε πραγματικό χρόνο επεξεργασία των αναφορών για λόγους απόδοσης.",
+        "SelectSegmentOfVisitors": "Επιλέξτε ένα τμήμα επισκεπτών:",
+        "ThisSegmentIsVisibleTo": "Το τμήμα αυτό είναι ορατό σε:",
+        "VisibleToAllUsers": "όλους τους χρήστες",
+        "VisibleToMe": "εμένα",
+        "YouDontHaveAccessToCreateSegments": "Δεν διαθέτετε την απαιτούμενη πρόσβαση ασφαλείας για να δημιουργείτε και να τροποποιείτε τμήματα.",
+        "YouMayChangeSetting": "Εναλλακτικά, μπορείτε να αλλάξετε τη ρύθμιση στο αρχείο ρυθμίσεων (%s), ή να τροποποιήσετε το Τμήμα αυτό και να επιλέξετε '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Θα πρέπει να έχετε κάνει είσοδο για να δημιουργήσετε και να επεξεργαστείτε προσαρμοσμένα τμήματα επισκεπτών."
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Kolom '%s' tidak ditemukan dalam laporan ini. Coba salah satu dari %s",
+        "PluginDescription": "Bangkitkan grafik PNG statis indah untuk bermacam laporan Piwik."
+    }
+}

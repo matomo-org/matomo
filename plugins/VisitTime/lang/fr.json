@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Heure locale",
+        "ColumnServerTime": "Heure serveur",
+        "DayOfWeek": "Jour de la semaine",
+        "LocalTime": "Visites par heure locale",
+        "NHour": "%sh",
+        "PluginDescription": "Effectue des rapports sur la date locale et serveur. Les informations serveur peuvent être utiles pour planifier une maintenance sur un site web.",
+        "ServerTime": "Visites par heure du serveur",
+        "SubmenuTimes": "Horaires",
+        "VisitsByDayOfWeek": "Visites par Jour de la Semaine",
+        "WidgetByDayOfWeekDocumentation": "Ce graphique affiche le nombre de visites que votre site web a reçu durant chaque jour de la semaine.",
+        "WidgetLocalTime": "Visites par fuseau horaire local",
+        "WidgetLocalTimeDocumentation": "Ce graphique affiche quelle heure il était dans le %s fuseau horaire du visiteur %s pendant sa visite.",
+        "WidgetServerTime": "Visites par fuseau horaire du serveur",
+        "WidgetServerTimeDocumentation": "Ce graphique affiche quelle heure il était dans le %s fuseau horaire du serveur %s pendant les visites."
+    }
+}

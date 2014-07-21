@@ -1,0 +1,21 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administrácia",
+        "EmailServerSettings": "Nastavenia e-mailového servera",
+        "ForBetaTestersOnly": "Len pre beta testerov",
+        "ImageTracking": "Sledovanie obrázkom",
+        "JavaScriptTracking": "Sledovanie JavaScriptom",
+        "JSTracking_VisitorCustomVars": "Sledovať vlastné premenné pre tohto zákazníka",
+        "LatestBetaRelease": "Najnovšia beta verzia",
+        "LatestStableRelease": "Posledná stabilná verzia",
+        "LogoUpload": "Vyberte logo pre načítanie",
+        "MenuDiagnostic": "Diagnostika",
+        "MenuGeneralSettings": "Všeobecné nastavenie",
+        "MenuManage": "Spravovať",
+        "PluginDescription": "Správa oblasti Piwik.",
+        "TrackAGoal": "Sledovať cieľ",
+        "TrackingCode": "Kód sledovania",
+        "TrustedHostConfirm": "Ste si istí, že chcete zmeniť dôveryhodné hostname pre Piwik?",
+        "UseCustomLogo": "Použiť vlastné logo"
+    }
+}

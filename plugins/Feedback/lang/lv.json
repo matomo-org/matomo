@@ -1,0 +1,13 @@
+{
+    "Feedback": {
+        "ContactThePiwikTeam": "Kontaktēties ar Piwik komandu!",
+        "DoYouHaveBugReportOrFeatureRequest": "Vai Jums ir kļūdas ziņojums vai papildus funkcionalitātes pieprasījums?",
+        "IWantTo": "Es vēlos:",
+        "LearnWaysToParticipate": "Uzzināt vairāk par to, kā Jūs varat %s piedalīties%s",
+        "ManuallySendEmailTo": "Lūdzu manuāli nosūtiet savu ziņu uz",
+        "PluginDescription": "Sūtiet savas atsauksmes Piwik komandai. Dalieties ar savām idejām un ieteikumiem ar mums!",
+        "SendFeedback": "Sūtīt atsauksmes",
+        "SpecialRequest": "Vai Jums ir speciāls pieprasījums Piwik komandai?",
+        "ThankYou": "Paldies, ka palīdzat uzlabot Piwik!"
+    }
+}

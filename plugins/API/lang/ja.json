@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "今日のデータがない場合は、%s プラグインを使用して、はじめに若干のデータを生成することができます。 これを行うには、%s プラグインを有効にし、管理エリアで 'ビジタージェネレータ' メニューをクリックします。",
+        "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%s絶対に共有しないでください%s！",
+        "LoadedAPIs": "%s API が正常に読み込まれました",
+        "MoreInformation": "Piwik API の詳細については、%sIntroduction to Piwik API%s や %sPiwik API Reference%s を参照してください。",
+        "PluginDescription": "Piwik のすべてのデータはシンプルな API 経由で利用可能です。 このプラグインは、xml、json、php、csv 等にウェブ解析データを得るためにコールすることができる、ウェブサービスのエントリーポイントです。",
+        "QuickDocumentationTitle": "API クイックドキュメント",
+        "TopLinkTooltip": "jsopn、xml等シンプルなAPIを介して、プログラムで分析データにアクセスできます",
+        "UserAuthentication": "ユーザー認証",
+        "UsingTokenAuth": "%sスクリプト（crontab 等）でリクエストデータを得たい場合%sは、API をコールする URL（認証が必要）にパラメータ %s を付加する必要があります。"
+    }
+}

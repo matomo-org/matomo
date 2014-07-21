@@ -1,0 +1,27 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Lisää %s ehto",
+        "AddNewSegment": "Lisää uusi segmentti",
+        "AreYouSureDeleteSegment": "Haluatko varmasti poistaa tämän segmentin?",
+        "AutoArchivePreProcessed": "Segmentoidut raportit ennakkokäsitellään (nopeampi, archive.php cron vaaditaan)",
+        "AutoArchiveRealTime": "segmentoidut raportit prosessoidaan reaaliajassa",
+        "ChooseASegment": "Valitse segmentti",
+        "DataAvailableAtLaterDate": "Raportti tulee saataville myöhemmin. Pahoittelut häiriöstä.",
+        "DefaultAllVisits": "Kaikki käynnit",
+        "DragDropCondition": "Vedä & Pudota ehto",
+        "LoadingSegmentedDataMayTakeSomeTime": "Segmentoitujen käyttäjätietojen prosessointi saattaa kestää joitakin minuutteja...",
+        "OperatorAND": "JA",
+        "OperatorOR": "TAI",
+        "SaveAndApply": "Tallenna ja ota käyttöön",
+        "SegmentDisplayedAllWebsites": "kaikki sivut",
+        "SegmentDisplayedThisWebsiteOnly": "vain tällä verkkosivulla",
+        "SegmentIsDisplayedForWebsite": "näytetään vain",
+        "SegmentNotApplied": "Segmenttiä '%s' ei sovelleta",
+        "SelectSegmentOfVisitors": "Valitse kävijäsegmentti:",
+        "ThisSegmentIsVisibleTo": "Tämä segmentti näytetään seuraaville:",
+        "VisibleToAllUsers": "kaikki käyttäjät",
+        "VisibleToMe": "minä",
+        "YouMayChangeSetting": "Vaihtoehtoisesti voit vaihtaa asetuksen tiedostosta %s, tai muuttaa tätä segmenttiä ja valita '%s'.",
+        "YouMustBeLoggedInToCreateSegments": "Sinun täytyy olla sisäänkirjautuneena voidaksesi luoda tai muokata kävijäsegmenttejä."
+    }
+}

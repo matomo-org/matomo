@@ -1,0 +1,15 @@
+{
+    "Dashboard": {
+        "AddPreviewedWidget": "將組件加入展示板",
+        "Dashboard": "展示板",
+        "DeleteWidgetConfirm": "您確定要從展示板中刪除此組件嗎？",
+        "LoadingWidget": "載入組件中，請稍候...",
+        "ManageDashboard": "展示板管理",
+        "PluginDescription": "你的網站分析控制台。你可以自動你的控制台：新增新的模組、變更你的模組排序。每位使用者可以存取他們自訂的控制台。",
+        "ResetDashboard": "重置展示板",
+        "SelectWidget": "請選取欲增加至展示板的組件",
+        "WidgetNotFound": "找不到組件",
+        "WidgetPreview": "組件預覽",
+        "WidgetsAndDashboard": "組件與展示版"
+    }
+}

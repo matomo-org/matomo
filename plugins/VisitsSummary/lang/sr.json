@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s prosečno vreme generisanja",
+        "AverageVisitDuration": "Prosečno trajanje posete: %s",
+        "GenerateQueries": "Izvršeno upita: %s",
+        "GenerateTime": "Vreme generisanja izveštaja u sekundama: %s",
+        "MaxNbActions": "Maksimum akcija u jednoj poseti: %s",
+        "NbActionsDescription": "Broj akcija (prikaza stranica, preuzimanja i odlazaka): %s",
+        "NbActionsPerVisit": "Akcija po poseti: %s",
+        "NbDownloadsDescription": "%s preuzimanja",
+        "NbKeywordsDescription": "Jedinstvenih ključnih reči: %s",
+        "NbOutlinksDescription": "%s izlaznih linkova",
+        "NbPageviewsDescription": "%s prikaza stranica",
+        "NbSearchesDescription": "Ukupno pretraživanja vašeg sajta: %s",
+        "NbUniqueDownloadsDescription": "%s jedinstvenih preuzimanja",
+        "NbUniqueOutlinksDescription": "%s jedinstvenih izlaznih linkova",
+        "NbUniquePageviewsDescription": "%s jedinstvenih prikaza stranica",
+        "NbUniqueVisitors": "Broj jedinstvenih posetilaca: %s",
+        "NbVisitsBounced": "%s posetilaca je otišlo posle samo jedne stranice",
+        "PluginDescription": "Opšte analitičke brojke: posete, jedinstveni posetioci, broj akcija, stopa odbijanja itd.",
+        "VisitsSummary": "Sumarno",
+        "VisitsSummaryDocumentation": "Ovo je pregled razvoja poseta",
+        "WidgetLastVisits": "Grafikon najskorijih poseta",
+        "WidgetOverviewGraph": "Pregled sa grafikonom",
+        "WidgetVisits": "Pregled poseta"
+    }
+}

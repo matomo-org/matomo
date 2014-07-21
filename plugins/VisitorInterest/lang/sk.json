@@ -1,0 +1,17 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Stránky na návštevu",
+        "ColumnVisitDuration": "Trvanie návštevy",
+        "Engagement": "Záujem",
+        "NPages": "%s stránok",
+        "OnePage": "1 stránka",
+        "PluginDescription": "Správy o záujme návštevníkov: počet zobrazených stránok, čas strávený na týchto stránkach.",
+        "PlusXMin": "%s min",
+        "VisitsPerDuration": "Návštevy podľa dĺžky trvania návštevy",
+        "VisitsPerNbOfPages": "Návštevy na počet stránok",
+        "WidgetLengths": "Trvanie návštev",
+        "WidgetPages": "Strany na návštevu"
+    }
+}

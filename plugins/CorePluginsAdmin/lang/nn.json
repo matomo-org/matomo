@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Slå på",
+        "Activated": "På",
+        "Active": "Aktivt",
+        "AuthorHomepage": "Nettsida til forfattaren av innstikket",
+        "Deactivate": "Slå av",
+        "Inactive": "Av",
+        "LicenseHomepage": "Lisensen til innstikket",
+        "MainDescription": "Innstikk utvidar funksjonane til Piwik. Når eit innstikk er lagt til, kan du slå det av og på her.",
+        "PluginDescription": "Administrasjon av innstikk.",
+        "PluginHomepage": "Nettsida til innstikket",
+        "PluginsManagement": "Innstikkstyring",
+        "Status": "Status",
+        "Version": "Versjon"
+    }
+}

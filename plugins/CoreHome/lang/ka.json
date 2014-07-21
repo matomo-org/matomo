@@ -1,0 +1,19 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "ამ კატეგორიაში მონაცემები არ არის. ცადეთ \"ყველა მონაწილის ჩართვა\"",
+        "JavascriptDisabled": "JavaScript ჩართული უნდა იყოს, რომ თქვენ შეძლოთ Piwik–ის გამოყენება სტანდარტული გზით.<br \/>თუმცა, როგორც ჩანს JavaScript ან გამორთულია ან თქვენს ბრაუზერს მისი მხარდაჭერა არ აქვს.<br \/>სტანდარტული ხედის გამოყენებისთვის ჩართეთ JavaScript თქვენი ბრაუზერის ოფციებიდან, შემდეგ %1$sცადეთ კიდევ%2$s.<br \/>",
+        "PageOf": "%1$s, სულ %2$s",
+        "PeriodDay": "დღე",
+        "PeriodDays": "დღე",
+        "PeriodMonth": "თვე",
+        "PeriodMonths": "თვე",
+        "PeriodWeek": "კვირა",
+        "PeriodWeeks": "კვირა",
+        "PeriodYear": "წელი",
+        "PeriodYears": "წელი",
+        "PluginDescription": "ვებ ანალიზატორის რეპორტების სტრუქტურა.",
+        "ShowJSCode": "JavaScript კოდის ნახვა, რომელიც უნდა ჩაისვას ვებ გვერდზე",
+        "ThereIsNoDataForThisReport": "რეპორტისთვის მონაცემები არ არის.",
+        "WebAnalyticsReports": "ვებ ანალიზატორის რეპორტები"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Páginas por visita",
+        "ColumnVisitDuration": "Duração da visita",
+        "Engagement": "Compromisso",
+        "NPages": "%s páginas",
+        "OneMinute": "1 minuto",
+        "OnePage": "1 página",
+        "PluginDescription": "Relata os Interesses dos Visitantes: número de páginas vistas, tempo gasto no Website.",
+        "PlusXMin": "%s min",
+        "VisitNum": "Número de visitas",
+        "VisitsByDaysSinceLast": "Visitas por dia desde a última visita",
+        "visitsByVisitCount": "Visitas por número de visitas",
+        "VisitsPerDuration": "Visitas por duração",
+        "VisitsPerNbOfPages": "Visitas por número de páginas",
+        "WidgetLengths": "Duração das Visitas",
+        "WidgetLengthsDocumentation": "Neste relatório, você pode ver quantas visitas tiveram uma certa duração total. Inicialmente, o relatório é mostrado como uma nuvem de tags, durações mais comuns são exibidos em uma fonte maior.",
+        "WidgetPages": "Páginas por visita",
+        "WidgetPagesDocumentation": "Neste relatório, você pode ver quantas visitas envolveram um certo número de visualização de páginas. Inicialmente, o relatório é mostrado como uma nuvem de tags, os números mais comuns das páginas são exibidos em uma fonte maior.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Neste relatório, você pode ver quantas visitas foram de visitantes cuja última visita foi à um certo número de dias atrás.",
+        "WidgetVisitsByNumDocumentation": "Neste relatório, você pode ver o número de visitas que foram a N visita, ou seja. os visitantes que visitaram o seu site pelo menos N vezes."
+    }
+}

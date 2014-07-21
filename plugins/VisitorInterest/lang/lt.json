@@ -1,0 +1,17 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min.",
+        "BetweenXYSeconds": "%1$s-%2$ssek.",
+        "ColumnPagesPerVisit": "Puslapių per apsilankymą",
+        "ColumnVisitDuration": "Apsilankymo trukmė",
+        "Engagement": "Įsipareigojimai",
+        "NPages": "%s puslapiai",
+        "OnePage": "1 puslapis",
+        "PluginDescription": "Parodo lankytojų susidomėjimą: aplankytus puslapius, svetainėje praleistą laiką.",
+        "PlusXMin": "%s min",
+        "VisitsPerDuration": "Apsilankymai pagal apsilankymų trukmę",
+        "VisitsPerNbOfPages": "Apsilankymai pagal puslapių kiekį",
+        "WidgetLengths": "Apsilankymų trukmė",
+        "WidgetPages": "Puslapių per apsilankymą"
+    }
+}

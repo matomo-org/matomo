@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Adicione anotações para %s...",
+        "AnnotationOnDate": "Anotação em %1$s: %2$s",
+        "Annotations": "Anotações",
+        "ClickToDelete": "Clique para excluir esta anotação.",
+        "ClickToEdit": "Clique para editar esta anotação.",
+        "ClickToEditOrAdd": "Clique para editar ou adicione uma nova anotação.",
+        "ClickToStarOrUnstar": "Clique para adicionar ou remover uma estrela a esta anotação",
+        "CreateNewAnnotation": "Criar uma nova anotação...",
+        "EnterAnnotationText": "Digite a sua nota...",
+        "HideAnnotationsFor": "Esconder anotações para %s...",
+        "IconDesc": "Ver notas para este intervalo de datas.",
+        "IconDescHideNotes": "Esconder anotações para este intervalo de datas",
+        "InlineQuickHelp": "Você pode criar anotações para marcar eventos especiais (como uma nova postagem no blog, ou redefinição do site), para salvar suas análises de dados ou para salvar qualquer coisa que você acha que é importante.",
+        "LoginToAnnotate": "Faça login para criar uma anotação",
+        "NoAnnotations": "Não existem notas para este intervalo de datas.",
+        "PluginDescription": "Permite anexar notas para dias diferentes para marcar as alterações feitas em seu site, salvar as análises que você faz a respeito de seus dados e compartilhar suas opiniões com seus colegas. Anotando seus dados, você poderá se lembrar por que seus dados possuem determinada aparência no sistema.",
+        "ViewAndAddAnnotations": "Ver e adicionar notas para %s...",
+        "YouCannotModifyThisNote": "Você não pode modificar essa anotação, porque você não possui permição, nem possui acesso de administrador para este site."
+    }
+}

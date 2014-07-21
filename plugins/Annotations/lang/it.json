@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Aggiungi note per %s...",
+        "AnnotationOnDate": "Note su %1$s: %2$s",
+        "Annotations": "Note",
+        "ClickToDelete": "Cancella questa annotazione.",
+        "ClickToEdit": "Modifica questa annotazione.",
+        "ClickToEditOrAdd": "Modifica o aggiungi una nuova annotazione.",
+        "ClickToStarOrUnstar": "Segna questa annotazione.",
+        "CreateNewAnnotation": "Crea una nuova annotazione",
+        "EnterAnnotationText": "Inserisci annotazione...",
+        "HideAnnotationsFor": "Nascondi le note per %s...",
+        "IconDesc": "Visualizza le note per questo intervallo di date.",
+        "IconDescHideNotes": "Nascondi le note in questo intervallo di date.",
+        "InlineQuickHelp": "Potete creare delle note per segnale eventi speciali (quali un nuovo post in un blog o il restyling di un sito), per salvare i vostri dati di analisi o per salvare qualcos'altro voi pensiate sia importante.",
+        "LoginToAnnotate": "Accedete per creare un'annotazione.",
+        "NoAnnotations": "Non ci sono note per questo intervallo di date.",
+        "PluginDescription": "Vi permette di associare delle note a vari giorni per segnare i cambiamenti fatti al vostro sito, salvare le analisi da voi fatte sui vostri dati e condividere i vostri pensieri con i colleghi.",
+        "ViewAndAddAnnotations": "Visualizza ed aggiungi note per %s...",
+        "YouCannotModifyThisNote": "Non potete modificare questa annotazione perché non l'avete creata voi, e non avete i privilegi di amministratore per questo sito."
+    }
+}

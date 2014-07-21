@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s bounces",
+        "DirectEntries": "Direct Entries",
+        "ErrorBack": "Go back to the previous action",
+        "ExitsInline": "%s exits",
+        "FromCampaigns": "From Campaigns",
+        "FromPreviousPages": "From Internal Pages",
+        "FromPreviousPagesInline": "%s from internal pages",
+        "FromPreviousSiteSearches": "From Internal Search",
+        "FromPreviousSiteSearchesInline": "%s from internal searches",
+        "FromSearchEngines": "From Search Engines",
+        "FromWebsites": "From Websites",
+        "IncomingTraffic": "Incoming traffic",
+        "LoopsInline": "%s page reloads",
+        "NoDataForAction": "There's no data for %s",
+        "NoDataForActionDetails": "Either the action had no pageviews during the period %s or it is invalid.",
+        "OutgoingTraffic": "Outgoing traffic",
+        "PluginDescription": "Reports about previous and following actions for each page URL.",
+        "ShareOfAllPageviews": "This page had %s pageviews (%s of all pageviews)",
+        "ToFollowingPages": "To Internal Pages",
+        "ToFollowingPagesInline": "%s to internal pages",
+        "ToFollowingSiteSearches": "Internal Searches",
+        "ToFollowingSiteSearchesInline": "%s internal searches",
+        "XOfAllPageviews": "%s of all views of this page",
+        "XOutOfYVisits": "%s (out of %s)"
+    }
+}

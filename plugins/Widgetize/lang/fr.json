@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Ouvrir dans une nouvelle fenêtre",
+        "PluginDescription": "Le plugin rend simple l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!",
+        "TopLinkTooltip": "Exporter les rapports Piwik en tant que gadget et incorporer le tableau de bord dans votre application en tant qu'iframe."
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Lokal tid",
+        "ColumnServerTime": "Servertid",
+        "DayOfWeek": "Veckodag",
+        "LocalTime": "Besök efter lokal tid",
+        "NHour": "%sh",
+        "PluginDescription": "Rapporterar den lokala tiden och servertiden. Servertid kan vara användbart för att kunna schemalägga ett underhåll på webbplatsen.",
+        "ServerTime": "Besök efter servertid",
+        "SubmenuTimes": "Tider",
+        "VisitsByDayOfWeek": "Besök efter veckodag",
+        "WidgetByDayOfWeekDocumentation": "Den här grafen visar antalet besök din webbplats fått per veckodag.",
+        "WidgetLocalTime": "Besök efter lokal tid",
+        "WidgetLocalTimeDocumentation": "Denna graf visar vad klockan var i %s besökarens tidszon %s vid deras besök.",
+        "WidgetServerTime": "Besök efter servertid",
+        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %s serverns tidszon %s vid besöket."
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "VisitFrequency": {
+        "ReturnActions": "%s accións realizadas polos visitantes que voltaron",
+        "ReturnVisits": "%s visitantes que voltaron",
+        "SubmenuFrequency": "Frecuencia",
+        "WidgetGraphReturning": "Gráfico de visitantes que volven",
+        "WidgetOverview": "Listado de frecuencias"
+    }
+}

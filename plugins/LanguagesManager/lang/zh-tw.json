@@ -1,0 +1,6 @@
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "關於 Piwik 翻譯",
+        "PluginDescription": "這個外掛會顯示 Piwik 介面可以使用的語系列表。選擇的語言將會被保存在每個使用者的偏好裡。"
+    }
+}

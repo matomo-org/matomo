@@ -1,0 +1,15 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa rang",
+        "Bing_IndexedPages": "Bing indekserede sider",
+        "Dmoz": "DMOZ angivelser",
+        "DomainAge": "Domæne alder",
+        "ExternalBacklinks": "Eksterne backlinks (Majestic)",
+        "Google_IndexedPages": "Google indekserede sider",
+        "Rank": "Rang",
+        "ReferrerDomains": "Henvisende domæner (Majestic)",
+        "SeoRankings": "SEO - søgemaskineoptimering",
+        "SEORankingsFor": "SEO for %s",
+        "ViewBacklinksOnMajesticSEO": "Se rapport om eksterne backlinks på MajesticSEO.com"
+    }
+}

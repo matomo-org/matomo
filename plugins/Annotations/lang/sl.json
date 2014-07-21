@@ -1,0 +1,10 @@
+{
+    "Annotations": {
+        "Annotations": "Beležke",
+        "EnterAnnotationText": "Dodajte svojo opombo...",
+        "HideAnnotationsFor": "Skrij opombe za %s...",
+        "IconDesc": "Preglej opombe za ta časovni razpon.",
+        "IconDescHideNotes": "Skrij opombe za ta časovni razpon.",
+        "ViewAndAddAnnotations": "Preglej in dodaj opombe za %s..."
+    }
+}

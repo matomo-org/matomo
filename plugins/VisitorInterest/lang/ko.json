@@ -1,0 +1,26 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s분",
+        "BetweenXYSeconds": "%1$s-%2$s초",
+        "ColumnPagesPerVisit": "방문시 읽은 페이지 수",
+        "ColumnVisitDuration": "방문 시간",
+        "Engagement": "이용상황",
+        "NPages": "%s페이지",
+        "OneMinute": "1분",
+        "OnePage": "1페이지",
+        "PluginDescription": "방문자 관심 분야에 대한 보고서: 이 페이지뷰 수는 웹사이트에 보낸 시간입니다.",
+        "PlusXMin": "%s분",
+        "VisitNum": "방문 횟수",
+        "VisitsByDaysSinceLast": "마지막 방문일로부터 방문",
+        "visitsByVisitCount": "방문 빈도",
+        "VisitsPerDuration": "방문시 소요 시간",
+        "VisitsPerNbOfPages": "방문시 읽은 페이지 수",
+        "WidgetLengths": "방문 시간",
+        "WidgetLengthsDocumentation": "특정 기간마다 얼마나 방문이 있었는지를 나타내는 보고서입니다. 초기 상태는 태그 클라우드 표시에서 방문이 많은 기간만큼 큰 글꼴로 표시됩니다.",
+        "WidgetPages": "방문시 읽은 페이지 수",
+        "WidgetPagesDocumentation": "특정 페이지 뷰마다 얼마나 방문이 있었는지를 나타내는 보고서입니다. 초기 상태는 태그 클라우드 표시에서 방문이 많은 페이지뷰가 큰 글꼴로 표시됩니다.",
+        "WidgetVisitsByDaysSinceLast": "마지막 방문후 경과 일별 방문수",
+        "WidgetVisitsByDaysSinceLastDocumentation": "특정 날짜 이전에 마지막 방문을 한 방문자의 수를 나타내는 보고서입니다.",
+        "WidgetVisitsByNumDocumentation": "N 번째 방문한 수를 나타내는 보고서입니다. 즉 적어도 N회 이상 웹사이트를 방문한 방문자입니다."
+    }
+}

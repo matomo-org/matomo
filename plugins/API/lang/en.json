@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "If you don't have data for today you can first generate some data using the %s plugin. You can enable the %s plugin, then click on the 'Visitor Generator' menu in the Piwik Admin area.",
+        "KeepTokenSecret": "This token_auth is as secret as your login and password, %s do not share it%s!",
+        "LoadedAPIs": "Successfully loaded %s APIs",
+        "MoreInformation": "For more information about the Piwik APIs, please have a look at the %s Introduction to Piwik API %s and the %s Piwik API Reference %s.",
+        "PluginDescription": "All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc.",
+        "QuickDocumentationTitle": "API quick documentation",
+        "TopLinkTooltip": "Access your Web Analytics data programmatically through a simple API in json, xml, etc.",
+        "UserAuthentication": "User authentication",
+        "UsingTokenAuth": "If you want to %s request data within a script, a crontab, etc. %s you need to add the parameter %s to the API calls URLs that require authentication."
+    }
+}

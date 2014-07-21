@@ -1,0 +1,18 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "客户端时间",
+        "ColumnServerTime": "服务器时间",
+        "DayOfWeek": "星期几的",
+        "LocalTime": "日报表",
+        "NHour": "%s 点",
+        "PluginDescription": "当地时间及服务器时间报表。服务器时间能作为排定网站维护时间的參考。",
+        "ServerTime": "依服务器时间记录的访问",
+        "SubmenuTimes": "访问时间",
+        "VisitsByDayOfWeek": "周报表",
+        "WidgetByDayOfWeekDocumentation": "本图形显示一周内网站每天的访问次数。",
+        "WidgetLocalTime": "依客户端时间记录的访问",
+        "WidgetLocalTimeDocumentation": "本报表显示根据%s 访客所在时区 %s的时间的统计。",
+        "WidgetServerTime": "依服务器时间记录的访问次数",
+        "WidgetServerTimeDocumentation": "本报表显示根据%s 服务器的时区 %s的时间的统计。"
+    }
+}

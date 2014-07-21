@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "ผู้ให้บริการ",
+        "PluginDescription": "รายงานผู้ให้บริการของผู้เข้าชม",
+        "SubmenuLocationsProvider": "ตำแหน่งที่อยู่และผู้ให้บริการ",
+        "WidgetProviders": "ผู้ให้บริการ"
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s odbijanja",
+        "DirectEntries": "Direktni ulasci",
+        "ErrorBack": "Vrati se na prethodnu akciju",
+        "ExitsInline": "%s izlaza",
+        "FromCampaigns": "Iz kampanja",
+        "FromPreviousPages": "Od internih stranica",
+        "FromPreviousPagesInline": "%s sa internih strana",
+        "FromPreviousSiteSearches": "Iz pretraga sajta",
+        "FromPreviousSiteSearchesInline": "%s iz pretraživanja sajta",
+        "FromSearchEngines": "Od pretraživača",
+        "FromWebsites": "Od sajtova",
+        "IncomingTraffic": "Dolazni saobraćaj",
+        "LoopsInline": "%s ponovnih učitavanja stranice",
+        "NoDataForAction": "Nema podataka za %s",
+        "NoDataForActionDetails": "Ili akcija nema nijedan pregled stranica za dati period %s ili ona nije validna.",
+        "OutgoingTraffic": "Odlazni saobraćaj",
+        "PluginDescription": "Izveštaj o prethodnim i narednim akcijama za svaki URL.",
+        "ShareOfAllPageviews": "Ova stranica ima %s pregleda (%s od svih pregleda)",
+        "ToFollowingPages": "Ka internim stranicama",
+        "ToFollowingPagesInline": "%s ka drugim stranicama",
+        "ToFollowingSiteSearches": "Pretraživanja sajta",
+        "ToFollowingSiteSearchesInline": "%s pretraživanja sajta",
+        "XOfAllPageviews": "%s od svih pregleda ove strane",
+        "XOutOfYVisits": "%s (od %s)"
+    }
+}

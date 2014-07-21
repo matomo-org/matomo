@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Voeg annotatie toe voor %s",
+        "AnnotationOnDate": "Annotatie op %1$s: %2$s",
+        "Annotations": "Notities",
+        "ClickToDelete": "Klik om deze notitie te verwijderen.",
+        "ClickToEdit": "Klik om deze notitie te bewerken.",
+        "ClickToEditOrAdd": "Klik om een annotatie te wijzigen of toe te voegen.",
+        "ClickToStarOrUnstar": "Klik om deze notitie te markeren of niet te markeren.",
+        "CreateNewAnnotation": "Maak een nieuwe notitie...",
+        "EnterAnnotationText": "Type uw notitie...",
+        "HideAnnotationsFor": "Verberg Annotaties voor %s...",
+        "IconDesc": "Bekijk notities voor dit datumbereik.",
+        "IconDescHideNotes": "Verberg notities voor dit datumbereik",
+        "InlineQuickHelp": "Je kunt annotaties aanmaken om speciale gebeurtenissen (zoals een nieuwe blog post of nieuw website ontwerp) te markeren, zodat je data analyses of andere belangrijke dingen kunt bewaren.",
+        "LoginToAnnotate": "Login om een notitie te maken.",
+        "NoAnnotations": "Er zijn geen notities beschikbaar voor deze periode.",
+        "PluginDescription": "Hier kunt je notities hechten aan de verschillende dagen zodat je zal worden herinnert waarom deze data er uitziet zoals het doet.",
+        "ViewAndAddAnnotations": "Bekijk en voeg annotaties toe voor %s...",
+        "YouCannotModifyThisNote": "Je kunt deze notitie niet wijzigen omdat deze niet door jou is gemaakt of heb je ook geen admin rechten op deze site."
+    }
+}

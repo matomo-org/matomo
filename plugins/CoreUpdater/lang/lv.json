@@ -1,0 +1,33 @@
+{
+    "CoreUpdater": {
+        "CreatingBackupOfConfigurationFile": "Tiek veikta iestatījumu datnes rezerver kopēšana kā %s",
+        "DatabaseUpgradeRequired": "Vajadzīgs datubāzes atjauninājums",
+        "DownloadingUpdateFromX": "Notiek atjauninājuma ielāde no %s",
+        "DownloadX": "Lejupielādē %s",
+        "EmptyDatabaseError": "Datubāze %s ir tukša. Jums jāizlabo vai jāizdzēš Jūsu Piwik iestatījumu datne.",
+        "ErrorDuringPluginsUpdates": "Kļūda atjaunojot spraudņus:",
+        "ExceptionAlreadyLatestVersion": "Jūsu Piwik versija %s ir jaunākā pieejamā.",
+        "ExceptionArchiveEmpty": "Tukšs arhīvs",
+        "ExceptionArchiveIncompatible": "Nesaderīgs arhīvs: %s",
+        "ExceptionArchiveIncomplete": "Arhīvs nav pilnīgs: trūkst dažas datnes (piem., %s).",
+        "InstallingTheLatestVersion": "Tiek instalēta jaunākā versija",
+        "NoteForLargePiwikInstances": "Svarīgas piezīmes lielām Piwik instalācijām",
+        "PiwikHasBeenSuccessfullyUpgraded": "Piwik tika veiksmīgi atjaunināts",
+        "PiwikUpdatedSuccessfully": "Piwik atjaunināts veiksmīgi!",
+        "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik datubāze tiks atjaunināta no %1$s līdz %2$s versijai.",
+        "PluginDescription": "Piwik atjaunināšanas mehānisms",
+        "ReadyToGo": "Esat gatavi?",
+        "TheFollowingPluginsWillBeUpgradedX": "Sekojošie spraudņi tiks atjaunināti: %s.",
+        "ThereIsNewVersionAvailableForUpdate": "Ir pieejama atjaunināšanai jauna Piwik versija",
+        "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Datubāzes atjaunināšana var aizņemt kādu laiku, esiet pacietīgi.",
+        "UnpackingTheUpdate": "Notiek atjauninājuma atpakošana",
+        "UpdateAutomatically": "Atjaunināt automātiski",
+        "UpdateTitle": "Atjaunināt",
+        "UpgradeComplete": "Atjaunināšana pabeigta!",
+        "UpgradePiwik": "Atjaunināt Piwik",
+        "VerifyingUnpackedFiles": "Notiek atpakoto datņu pārbaude",
+        "WarningMessages": "Brīdinājumi:",
+        "WeAutomaticallyDeactivatedTheFollowingPlugins": "Mēs automātiski deaktivizējām sekojošus spraudņus: %s",
+        "YourDatabaseIsOutOfDate": "Jūsu Piwik datubāze ir novecojusi un tā ir jaatjaunina pirms varēsiet turpināt"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Wachstum verglichen zu",
+        "DayComparedToPreviousDay": "vorheriger Tag",
+        "DayComparedToPreviousWeek": "gleicher Tag in vorheriger Woche",
+        "DayComparedToPreviousYear": "gleicher Tag im vorherigen Jahr",
+        "Filter": "Filter",
+        "FilterOnlyNew": "Nur neue",
+        "IgnoredChanges": "Änderungen, die weniger als %s Besuche betreffen, wurden ignoriert.",
+        "MonthComparedToPreviousMonth": "vorheriger Monat",
+        "MonthComparedToPreviousYear": "gleicher Monat im vorherigen Jahr",
+        "NoResultMatchesCriteria": "Keine Zeilen entsprechen den Kriterien",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s hat sich von %2$s auf %3$s geändert verglichen mit %4$s. Darauf basierend ist eine Entwicklung jeder Reihe über %5$s%% zu erwarten.",
+        "TitleRowChangeDetails": "'%1$s' hat sich geändert von %2$s (%3$s) zu %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "'%1$s' ist um %2$s gesunken und verschwand in %3$s verglichen zu %4$s.",
+        "TitleRowMoverAndShaker": "Diese Reihe hatte einen größeren Einfluss als der Durchschnitt.",
+        "TitleRowNewDetails": "'%1$s' ist um %2$s gestiegen und ist neu im Vergleich zu %3$s.",
+        "WeekComparedToPreviousWeek": "vorherige Woche",
+        "YearComparedToPreviousYear": "vorheriges Jahr"
+    }
+}

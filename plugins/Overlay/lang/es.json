@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s clicks",
+        "ClicksFromXLinks": "%1$s clics desde uno de %2$s links",
+        "Domain": "Dominio",
+        "ErrorNotLoading": "La sesión de superposición de página no puede ser aun iniciada.",
+        "ErrorNotLoadingDetails": "Tal vez la página cargada a su derecha no posee el código de rastreo Piwik. En este caso, trate de lanzar Overlay para una página diferente desde el informe de páginas.",
+        "ErrorNotLoadingDetailsSSL": "Desde que está utilizando Piwik sobre https, la causa más probable es que su sitio no provea soporte SSL. Intente utilizar Piwik sobre http.",
+        "ErrorNotLoadingLink": "Clic aquí para obtener más ayuda acerca de soluciones de problemas.",
+        "Link": "Enlace",
+        "Location": "Ubicación",
+        "NoData": "No hay información para esta página en el período seleccionado.",
+        "OneClick": "1 clic",
+        "OpenFullScreen": "Ir a pantalla completa",
+        "Overlay": "Vísta general de página",
+        "PluginDescription": "Ver información analítica como una solapa en su actual sitio de internet.",
+        "RedirectUrlError": "Está intentando abrir una página de la dirección de internet \"%s\"- %s Ninguno de sus dominios de su configuración Piwik coincide con el enlace.",
+        "RedirectUrlErrorAdmin": "Puede agregar el dominio como una dirección de internet %sen la configuración%s.",
+        "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."
+    }
+}

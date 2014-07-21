@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Miestny čas",
+        "ColumnServerTime": "Serverový čas",
+        "LocalTime": "Návštevníci podľa lokálneho času",
+        "NHour": "%sh",
+        "PluginDescription": "Report miestneho a serverového času. Serverový čas môže byť užitočný pre plánovanie údržby na internetových stránkach.",
+        "ServerTime": "Návštevníci podľa serverového času",
+        "SubmenuTimes": "Časy",
+        "WidgetLocalTime": "Návštevníci podľa lokálneho času",
+        "WidgetServerTime": "Návštevníci podľa serverového času"
+    }
+}

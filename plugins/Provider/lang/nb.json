@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "Tilbyder",
+        "PluginDescription": "Rapporterer tilbyderen for de besøkende.",
+        "SubmenuLocationsProvider": "Lokasjoner og tilbyder",
+        "WidgetProviders": "Tilbydere"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "API": {
+        "GenerateVisits": "Hvis du ikke har data for i dag ,kan du generere nogle data ved hjælp af %s programudvidelsen. Aktiver %s programudvidelsen, og klik derefter på 'Besøgsgenerator' i menuen under indstillinger.",
+        "KeepTokenSecret": "Token_auth er ligeså hemmeligt som brugernavn og adgangskode, %sdel det ikke ud%s!",
+        "LoadedAPIs": "%s APIs indlæst",
+        "MoreInformation": "Mere information om Piwik API'er, findes på %sIntroduktion til Piwik API%s og %sPiwik API Reference%s.",
+        "PluginDescription": "Alle data i Piwik er tilgængelig via enkle API'er. Programudvidelsen er webservice indgangen, som kan kaldes for at få Web analyse-data i xml, json, php, csv, osv.",
+        "QuickDocumentationTitle": "API - hurtig i gang dokumentation",
+        "TopLinkTooltip": "Få adgang til dine webanalyse data programmeringsmæssigt gennem en simpel API i JSON, XML, etc.",
+        "UserAuthentication": "Brugergodkendelse",
+        "UsingTokenAuth": "Hvis du ønsker at %s hente data i et script, med crontab, m.m. %s skal du tilføje parameteren %s til API-kaldes netadresse, som kræver godkendelse."
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Obrir en una nova finestra",
+        "PluginDescription": "Aquesta extensió permet exportar qualsevol Giny de Piwik al vostre bloc, lloc web, Igoogle i Netvibes!",
+        "TopLinkTooltip": "Exporteu informes i ginys de Piwik i incrusteu el Tauler de Control a la vostra aplicació com un iframe."
+    }
+}

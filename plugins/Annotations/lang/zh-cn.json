@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "为%s添加备注",
+        "AnnotationOnDate": "在%1$s的备注:%2$s",
+        "Annotations": "备注",
+        "ClickToDelete": "点击删除备注",
+        "ClickToEdit": "点击编辑本备注。",
+        "ClickToEditOrAdd": "点击编辑备注或新增备注",
+        "ClickToStarOrUnstar": "点击为本备注增加或取消星标。",
+        "CreateNewAnnotation": "新增备注",
+        "EnterAnnotationText": "输入备注……",
+        "HideAnnotationsFor": "为%s隐藏备注",
+        "IconDesc": "查看本时间段内的备注",
+        "IconDescHideNotes": "隐藏本时间段的备注。",
+        "InlineQuickHelp": "您可以添加备注用于记录特别事件，(例如新的博客文章，或者网站重新设计)，用于保存数据分析或其他重要的东西。",
+        "LoginToAnnotate": "请登录后添加备注。",
+        "NoAnnotations": "该时间段内没有备注。",
+        "PluginDescription": "可以添加说明文字到不同的日期，记录网站的修改，保存关于数据的分析或者与同事分享想法。通过备注资料，就能记住为什么数据是这样的。",
+        "ViewAndAddAnnotations": "为%s查看和添加备注",
+        "YouCannotModifyThisNote": "您不能修改这个备注。此备注不是您创建的或您没有管理员赋予的权限。"
+    }
+}

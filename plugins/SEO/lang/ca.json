@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "AlexaRank": "Ranking Alexa",
+        "Bing_IndexedPages": "Pàgines indexades per Bing",
+        "Dmoz": "Entrades DMOZ",
+        "DomainAge": "Edat del domini",
+        "Google_IndexedPages": "Pàgines indexades per Google",
+        "Rank": "Ranking",
+        "SeoRankings": "Ranking SEO",
+        "SEORankingsFor": "Ranking SEO per %s"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "Login": {
+        "ContactAdmin": "Можлива причина: функція mail() відключена в налаштуваннях вашого хостингу.<br\/>Зверніться, будь ласка, до вашого Piwik-адміністратора.",
+        "ExceptionPasswordMD5HashExpected": "Очікується що параметр паролю буде MD5() хеш від введеного паролю.",
+        "InvalidOrExpiredToken": "Код невірний або прострочений.",
+        "InvalidUsernameEmail": "Невірне ім'я користувача та\/або E-mail",
+        "LogIn": "Увійти",
+        "LoginOrEmail": "Ім'я користувача або E-mail",
+        "LoginPasswordNotCorrect": "Ім'я користувача та пароль невірні",
+        "LostYourPassword": "Забули свій пароль?",
+        "PasswordRepeat": "Пароль (повтор)",
+        "PasswordsDoNotMatch": "Паролі не співпадають",
+        "RememberMe": "Пам’ятати мене"
+    }
+}

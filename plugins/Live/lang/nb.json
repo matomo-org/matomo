@@ -1,0 +1,16 @@
+{
+    "Live": {
+        "GoalType": "Type",
+        "HideMap": "skjul kart",
+        "LastHours": "Siste %s timer",
+        "LastMinutes": "Siste %s minutter",
+        "LinkVisitorLog": "Vis detaljert logg over besøkende",
+        "NbVisitor": "1 besøkende",
+        "NbVisitors": "%s besøkende",
+        "PluginDescription": "Spioner på dine besøkende, live, i sanntid!",
+        "RealTimeVisitorCount": "Besøkstall i sanntid",
+        "Referrer_URL": "Henvisnings-URL",
+        "ShowMap": "vis kart",
+        "VisitorLog": "Logg over besøkende"
+    }
+}

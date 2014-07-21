@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "%s povprečni čas generiranja",
+        "AverageVisitDuration": "%s povprečno trajanje obiska",
+        "GenerateQueries": "%s ukazov izvršenih",
+        "GenerateTime": "%s sekund za prikaz strani",
+        "MaxNbActions": "%s največje število akcij v enem obisku",
+        "NbActionsDescription": "%s akcij",
+        "NbActionsPerVisit": "%s akcij (ogledov, prenosov, izhodnih povezav) na obisk",
+        "NbDownloadsDescription": "%s prenosov",
+        "NbKeywordsDescription": "%s unikatnih ključnih besed",
+        "NbOutlinksDescription": "%s izhodnih povezav",
+        "NbPageviewsDescription": "%s ogledov",
+        "NbSearchesDescription": "%s vseh iskanj na vaši spletni strani",
+        "NbUniqueDownloadsDescription": "%s unikatnih prenosov",
+        "NbUniqueOutlinksDescription": "%s unikatnih izhodnih povezav",
+        "NbUniquePageviewsDescription": "%s unikatnih ogledov",
+        "NbUniqueVisitors": "%s unikatnih obiskovalcev",
+        "NbVisitsBounced": "%s ogledov je bilo odbojev (so zapustili stran po ogledu ene strani)",
+        "PluginDescription": "Prikaže splošne statistike glede obiska na spletni strani: obiske, unikatne obiske, število akcij, odbojno stopnjo, itd.",
+        "VisitsSummary": "Povzetek obiskov",
+        "VisitsSummaryDocumentation": "To je pregled obiskov v zadnjem času.",
+        "WidgetLastVisits": "Graf zadnjih obiskov",
+        "WidgetOverviewGraph": "Pregled z grafom",
+        "WidgetVisits": "Povzetek obiskov"
+    }
+}

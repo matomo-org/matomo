@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Aangepaste variabelenaam",
+        "ColumnCustomVariableValue": "Aangepaste variabele waarde",
+        "CustomVariables": "Aangepaste variabelen",
+        "CustomVariablesReportDocumentation": "Dit rapport bevat informatie over uw aangepaste variabelen. Klik op de naam van een variabele om de verdeling van de waarden te zien. %s voor meer informatie over aangepaste variabelen in het algemeen, lees de %sCustom variabelen documentatie over piwik.org%s",
+        "PluginDescription": "Aangepaste variabelen zijn naam-waarde paren die u zelf kunt instellen om extra informatie te verzamelen tijdens ​bezoek. Dit werkt met behulp van de JavaScript-API setVisitCustomVariables () functie. Piwik zal dan het aantal bezoeken, pagina's en conversies rapporteren voor elk van deze aangepaste namen en waarden.",
+        "ScopePage": "omvang pagina",
+        "ScopeVisit": "omvang bezoek"
+    }
+}

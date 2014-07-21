@@ -1,0 +1,23 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Tegevused korduvate külastuste kaupa",
+        "ColumnAverageVisitDurationForReturningVisitors": "Korduva külastuse keskmine aeg (sek)",
+        "ColumnAvgActionsPerReturningVisit": "Keskmine tegevuste arv korduvatel külastustel",
+        "ColumnBounceCountForReturningVisits": "Korduvate külastuste põrke arv",
+        "ColumnBounceRateForReturningVisits": "Korduvate külastuste põrkemäär",
+        "ColumnMaxActionsInReturningVisit": "Maksimaalne tegevuste arv ühel korduval külastusel",
+        "ColumnNbReturningVisitsConverted": "Tulutoovaid korduvaid külastusi",
+        "ColumnReturningVisits": "Korduvad külastused",
+        "ColumnSumVisitLengthReturning": "Korduvate külastuste kogu lehel viibitud aeg (sek)",
+        "ColumnUniqueReturningVisitors": "Unikaalsed korduvkülastajad",
+        "ReturnActions": "%s tegevust korduval külastusel",
+        "ReturnAverageVisitDuration": "%s keskmine külastuse kestvus korduvatel külastustel",
+        "ReturnAvgActions": "%s tegevust korduvatel külastustel",
+        "ReturnBounceRate": "%s korduvaid külastajaid põrkas (lahkus peale ühe lehe kuvamist)",
+        "ReturningVisitsDocumentation": "See on korduvate külastuste ülevaade.",
+        "ReturnVisits": "%s korduvat külastust",
+        "SubmenuFrequency": "Sagedus",
+        "WidgetGraphReturning": "Korduvate külastuste graafik",
+        "WidgetOverview": "Sageduse ülevaade"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "MultiSites": {
+        "Evolution": "Evolución",
+        "LoadingWebsites": "Cargando sitios web",
+        "PluginDescription": "Muestra resumen y\/o estadísticas ejecutivas multisitio. Actualmente mantenido como un plugin del núcleo de Piwik",
+        "TopLinkTooltip": "Comparar la estadísticas de Análisis Web para todos tus Sitios Web."
+    }
+}

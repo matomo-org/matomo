@@ -1,0 +1,18 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Дії повторних відвідувань",
+        "ColumnAverageVisitDurationForReturningVisitors": "Середня тривалість візиту повторних відвідувань (в сек.)",
+        "ColumnAvgActionsPerReturningVisit": "Середня кількість дій для повторних відвідувань",
+        "ColumnBounceRateForReturningVisits": "Показник відмов для повторних відвідувань",
+        "ColumnReturningVisits": "Візити повторних відвідувань",
+        "PluginDescription": "Повідомляє різноманітну статистику про співвідношення відвідувачів що повертаються до відвідувачів що потрапили на сайті вперше",
+        "ReturnActions": "%s переглядів сторінок повторними відвідувачами",
+        "ReturnAverageVisitDuration": "%s середня тривалість візиту для повторного відвідувача",
+        "ReturnAvgActions": "%s дій на повнорного відвідувача",
+        "ReturnBounceRate": "%s повторних відвідувачів відмовили (залишили веб-сайт після перегляду одніє сторінки)",
+        "ReturnVisits": "%s повторних відвідувань",
+        "SubmenuFrequency": "Частота",
+        "WidgetGraphReturning": "Графік повторних відвідувань",
+        "WidgetOverview": "Огляд частоти"
+    }
+}

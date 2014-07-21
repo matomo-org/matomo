@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "Thời gian phát sinh trung bình %s",
+        "AverageVisitDuration": "Thời gian truy cập trung bình %s",
+        "GenerateQueries": "Thực thi truy vấn %s",
+        "GenerateTime": "%s giây để tạo trang",
+        "MaxNbActions": "Các hoạt động tối đa %s trong một lần truy cập",
+        "NbActionsDescription": "Hành động %s",
+        "NbActionsPerVisit": "Hành động %s ( xem trang, tải xuống, outlink và trang tìm kiếm nội bộ) mỗi lượt truy cập",
+        "NbDownloadsDescription": "%s tải xuống",
+        "NbKeywordsDescription": "%s từ khóa duy nhất(unique)",
+        "NbOutlinksDescription": "%s outlink",
+        "NbPageviewsDescription": "%s lượt xem trang",
+        "NbSearchesDescription": "%s Tổng số lượt tìm kiếm trên trang web của bạn",
+        "NbUniqueDownloadsDescription": "%s lượt tải duy nhất",
+        "NbUniqueOutlinksDescription": "%s outlink duy nhất",
+        "NbUniquePageviewsDescription": "%s lượt xem trang duy nhất",
+        "NbUniqueVisitors": "%s khách truy cập duy nhất",
+        "NbVisitsBounced": "%s lượt truy cập đã bị thải hồi (rời khỏi trang web sau mỗi lượt truy cập trang)",
+        "PluginDescription": "Báo cáo các con số của các phân tích chung: thăm, khách truy cập duy nhất, số lượng các hành động, Tỷ lệ thoát, vv.",
+        "VisitsSummary": "Lịch sử các lượt truy cập",
+        "VisitsSummaryDocumentation": "Đây là một tổng quan của sự mở rộng truy cập.",
+        "WidgetLastVisits": "Các lượt truy cập theo thời gian",
+        "WidgetOverviewGraph": "Các lượt truy cập tổng quan (với đồ thị)",
+        "WidgetVisits": "Các lượt truy cập tổng quan"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "शर्त %s जोड़ें",
+        "AddNewSegment": "नया खंड जोड़ें",
+        "AreYouSureDeleteSegment": "क्या आप इस खंड को हटाना चाहते हैं?",
+        "AutoArchivePreProcessed": "खंडों की रिपोर्ट पूर्व संसाधित कर रहे हैं(तेज, archive.php क्रॉन की आवश्यकता)",
+        "AutoArchiveRealTime": "खंडों की रिपोर्ट के वास्तविक समय में कार्रवाई कर रहे हैं",
+        "ChooseASegment": "एक खंड चुनें",
+        "DefaultAllVisits": "सभी का दौरा",
+        "DragDropCondition": "खींचें और शर्त बताये",
+        "LoadingSegmentedDataMayTakeSomeTime": "खंडों आगंतुक डेटा प्रसंस्करण में कुछ मिनट लग सकते हैं ...",
+        "OperatorAND": "और",
+        "OperatorOR": "या",
+        "SaveAndApply": "सहेजें और लागू करें",
+        "SegmentDisplayedAllWebsites": "सभी वेबसाइटों",
+        "SegmentDisplayedThisWebsiteOnly": "यह वेबसाइट केवल",
+        "SegmentIsDisplayedForWebsite": "और के लिए प्रदर्शित",
+        "SelectSegmentOfVisitors": "दर्शकों के एक वर्ग का चयन करें:",
+        "ThisSegmentIsVisibleTo": "इस खंड के लिए दिख रहा है:",
+        "VisibleToAllUsers": "सभी उपयोगकर्ताओं",
+        "VisibleToMe": "मुझे",
+        "YouMustBeLoggedInToCreateSegments": "आपको कस्टम आगंतुक खंड बनाने और संपादित करने के लिए लॉग इन करना होगा."
+    }
+}

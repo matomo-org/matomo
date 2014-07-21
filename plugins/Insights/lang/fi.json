@@ -1,0 +1,23 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Kasvu verrattuna",
+        "ControlFilterByDescription": "Näytä kaikki, vain siirtyneet, vain uudet tai vain kadonneet",
+        "DayComparedToPreviousDay": "edellinen päivä",
+        "DayComparedToPreviousWeek": "sama päivä edelliseltä viikolta",
+        "DayComparedToPreviousYear": "sama päivä edelliseltä vuodelta",
+        "Filter": "Valikoi",
+        "FilterIncreaserAndDecreaser": "Lisää ja vähennä",
+        "FilterOnlyDecreaser": "Vain vähennys",
+        "FilterOnlyDisappeared": "Vain kadonneet",
+        "FilterOnlyIncreaser": "Vain lisäys",
+        "FilterOnlyMovers": "Vain muuttuneet",
+        "FilterOnlyNew": "Vain uudet",
+        "IgnoredChanges": "Muutokset jotka vaikuttivat alle %s käynteihin jätettiin huomiotta.",
+        "MonthComparedToPreviousMonth": "edellinen kuukausi",
+        "MonthComparedToPreviousYear": "sama kuukausi edelliseltä vuodelta",
+        "NoResultMatchesCriteria": "Yksikään rivi ei vastannut valintoja",
+        "TitleRowMoverAndShaker": "Tällä rivillä on keskiarvoa suurempi vaikutus.",
+        "WeekComparedToPreviousWeek": "edellinen viikko",
+        "YearComparedToPreviousYear": "edellinen vuosi"
+    }
+}

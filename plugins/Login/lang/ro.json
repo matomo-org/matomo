@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Un link de confirmare a fost trimis la casuta ta de email. Verificați-vă e-mail-ul și vizitați aceast link legătură pentru a autoriza cererea de schimbare a parolei.",
+        "ContactAdmin": "Motiv posibil: gazda ta poate avea dezactivata functia email . <br\/>Contactati adminstratorul.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilizator cu acces la Super utilizator nu poate fi autentificat folosind '%s' mecanismul.",
+        "ExceptionPasswordMD5HashExpected": "Parametrul parolei este aşteptat să fie un hash MD5 al parolei.",
+        "InvalidNonceOrHeadersOrReferrer": "Formular de securitate nereusit. Vă rugăm să reîncărcați formularul și verificați dacă modulele cookie sunt activate. Dacă utilizați un server proxy, trebuie să configurati %s Piwik pentru a accepta antetul proxy %s care transmite antetul Host. De asemenea, verificați dacă antetul dvs. Referrer este trimis corect.",
+        "InvalidOrExpiredToken": "Jetonul este invalid sau expirat.",
+        "InvalidUsernameEmail": "Nume sau adresa email invalidă.",
+        "LogIn": "Intrare",
+        "LoginOrEmail": "Login sau E-mail",
+        "LoginPasswordNotCorrect": "Numele sau parola sunt greşite.",
+        "LostYourPassword": "Ai pierdut parola?",
+        "MailPasswordChangeBody": "Buna %1$s,\n\nO solicitare de resetare a parolei a fost primita de la %2$s. Pentru a confirma această schimbare a parolei, si să va puteți conecta cu noile acreditări, accesați link-ul următor:\n\n%3$s\n\nNotă: acest simbol va expira în 24 de ore..\n\nVa mulțumim pentru utilizarea Piwik!",
+        "MailTopicPasswordChange": "Confirmă schimbarea parolei",
+        "PasswordChanged": "Parola ta a fost schimbată",
+        "PasswordRepeat": "Parolă (repetă)",
+        "PasswordsDoNotMatch": "Parolele nu se potrivesc.",
+        "PluginDescription": "Logare Autentificare plugin, citind scrisorile de acreditare de la fișierul de configurare \/ config.ini.php pentru Super utilizator, și baza de date pentru alți utilizatori. Poate fi înlocuit cu ușurință pentru a introduce un nou mecanism de autentificare (OpenID, htaccess, personalizate Auth, etc).",
+        "RememberMe": "Ţine-mă minte",
+        "ResetPasswordInstructions": "Introduce o parolă nouă pentru contul tău."
+    }
+}

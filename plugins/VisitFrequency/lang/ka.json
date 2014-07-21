@@ -1,0 +1,18 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "ქმედებები დაბრუნებული ვიზიტების მიხედვით",
+        "ColumnAverageVisitDurationForReturningVisitors": "ვიზიტის საშ. ხანგრძლივობა დაბრუნებული ვიზიტორებისთვის (წამებში)",
+        "ColumnAvgActionsPerReturningVisit": "საშ. ქმედება დაბრუნებულ ვიზიტზე",
+        "ColumnBounceRateForReturningVisits": "უსარგებლო შესვლები დაბრუნებული ვიზიტორებისთვის",
+        "ColumnReturningVisits": "დაბრუნებული ვიზიტები",
+        "PluginDescription": "ამუშავებს სხვადასხვა სტატისტიკას დაბრუნებული ვიზიტორების და პირველად შემოსული ვიზიტორების შედარებით.",
+        "ReturnActions": "%s ქმედება დაბრუნებული ვიზიტების მიხედვით",
+        "ReturnAverageVisitDuration": "%s ვიზიტის საშუალო ხანგრძლივობა დაბრუნებული ვიზიტებისთვის",
+        "ReturnAvgActions": "%s ქმედება დაბრუნებულ ვიზიტზე",
+        "ReturnBounceRate": "%s დაბრუნებული ვიზიტი იყო უსარგებლო შესვლა (ერთი გვერდის ნახვის შემდეგ გავიდა)",
+        "ReturnVisits": "%s დაბრუნებული ვიზიტი",
+        "SubmenuFrequency": "სიხშირე",
+        "WidgetGraphReturning": "დაბრუნებული ვიზიტების გრაფიკი",
+        "WidgetOverview": "სიხშირის მიმოხილვა"
+    }
+}

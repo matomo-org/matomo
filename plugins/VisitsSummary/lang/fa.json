@@ -1,0 +1,27 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "میانگین زمان ساخته شدن %s",
+        "AverageVisitDuration": "%s میانگین مدت بازدید",
+        "GenerateQueries": "%s پرس و جو های اجرا شده",
+        "GenerateTime": "%s ثانیه برای تولید صفحه",
+        "MaxNbActions": "%s بیشترین عملیات در یک بازدید",
+        "NbActionsDescription": "فعالیت ها %s",
+        "NbActionsPerVisit": "%s فعالیت(بازدیدصفحه ،دانلود ،جستجوی داخلی وبسایت) بر بازدید",
+        "NbDownloadsDescription": "دانلود ها %s",
+        "NbKeywordsDescription": "%s کلمه کلیدی یکتا",
+        "NbOutlinksDescription": "لینک های خروجی %s",
+        "NbPageviewsDescription": "نمایش صفحات %s",
+        "NbSearchesDescription": "%sهمه جستجوها روی وبسایت شما",
+        "NbUniqueDownloadsDescription": "دانلودهای منفرد %s",
+        "NbUniqueOutlinksDescription": "لینک های خروجی منفرد%s",
+        "NbUniquePageviewsDescription": "نمایش صفحات منفرد %s",
+        "NbUniqueVisitors": "%s بازدیدکنندگان منحصربفرد",
+        "NbVisitsBounced": "%sبازدید پس زده شده (بعدازبازدید یک صفحه از وبسایت خارج شده است)",
+        "PluginDescription": "به گزارش تجزیه و تحلیل عمومی: بار مشاهده شده است، بازدید کنندگان منحصر به فرد، تعدادی از اقدامات، نرخ گزاف گویی، و غیره",
+        "VisitsSummary": "خلاصه بازدیدها",
+        "VisitsSummaryDocumentation": "این مروری بر تکامل بازدید است.",
+        "WidgetLastVisits": "نمودار آخرین بازدید ها",
+        "WidgetOverviewGraph": "مرور به وسیله نمودار",
+        "WidgetVisits": "مرور بازدید ها"
+    }
+}

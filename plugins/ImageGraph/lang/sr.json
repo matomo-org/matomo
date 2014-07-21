@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Kolona '%s' nije nađena u ovom izveštaju. Pokušajte bilo koju od %s",
+        "PluginDescription": "Kreirajte statične PNG slike grafika za bilo koji Piwik izveštaj."
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Một liên kết xác nhận đã được gửi đến hộp thư của bạn. Kiểm tra e-mail của bạn và truy cập vào liên kết này để cấp phép yêu cầu thay đổi mật khẩu của bạn.",
+        "ContactAdmin": "Có thể lý do là: máy chủ của bạn có thể đã bị vô hiệu hóa hàm mail(). <br \/> Xin vui lòng liên hệ với quản trị viên Piwik của bạn.",
+        "ExceptionPasswordMD5HashExpected": "Mật khẩu dự kiến ​​sẽ là một mật khẩu dạng mã MD5.",
+        "InvalidNonceOrHeadersOrReferrer": "Hình thức bảo mật thất bại. Hãy nạp lại hình thức bảo mật và kiểm tra các cookie là được kích hoạt. Nếu bạn sử dụng một máy chủ proxy, bạn phải cấu hình %s Piwik chấp nhận %s tiêu đề proxy chuyển tiếp tiêu đề máy chủ. Ngoài ra, kiểm tra rằng tiêu đề trang giới thiệu của bạn được gửi một cách chính xác.",
+        "InvalidOrExpiredToken": "Mã thông báo là không hợp lệ hoặc đã hết hạn.",
+        "InvalidUsernameEmail": "Tên hoặc địa chỉ e-mail truy cập không hợp lệ.",
+        "LogIn": "Đăng nhập",
+        "LoginOrEmail": "Tên hoặc e-mail truy cập",
+        "LoginPasswordNotCorrect": "Sai tên hoặc mật khẩu truy cập",
+        "LostYourPassword": "Mật khẩu truy cập của bạn bị mất phải không?",
+        "MailPasswordChangeBody": "Xin chào %1$s, một yêu cầu đặt lại mật khẩu đã nhận được từ %2$s. Để xác nhận thay đổi mật khẩu này vậy thì bạn có thể đăng nhập với các thông tin chi tiết mới của bạn, hãy truy cập vào link sau đây: %3$s Lưu ý: token này sẽ hết hạn trong 24 giờ. Và cảm ơn bạn đã sử dụng Piwik!",
+        "MailTopicPasswordChange": "Xác nhận thay đổi mật khẩu",
+        "PasswordChanged": "Mật khẩu của bạn đã được thay đổi",
+        "PasswordRepeat": "Mật khẩu (lặp lại)",
+        "PasswordsDoNotMatch": "Mật khẩu không phù hợp.",
+        "RememberMe": "Nhớ tôi",
+        "ResetPasswordInstructions": "Nhập một mật khẩu mới cho tài khoản của bạn."
+    }
+}

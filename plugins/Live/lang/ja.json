@@ -1,0 +1,24 @@
+{
+    "Live": {
+        "GoalType": "タイプ",
+        "KeywordRankedOnSearchResultForThisVisitor": "キーワード %1$s はこのビジターの %3$s 検索結果ページで %2$s にランクされました。",
+        "LastHours": "最近の %s 時間",
+        "LastMinutes": "最近の %s 分",
+        "LinkVisitorLog": "詳細なビジターログを表示",
+        "MorePagesNotDisplayed": "このビジターの表示はこれ以上ありません",
+        "NbVisitor": "1人のビジター",
+        "NbVisitors": "%s のビジター",
+        "NextVisitor": "次のビジター",
+        "PageRefreshed": "このページが見られた\/更新された回数",
+        "PluginDescription": "ビジターをリアルタイムにライブでスパイします！",
+        "PreviousVisitor": "前のビジター",
+        "RealTimeVisitorCount": "リアルタイムのビジター数",
+        "Referrer_URL": "参照元 URL",
+        "ViewVisitorProfile": "ビジターのプロフィールをみる",
+        "VisitorLog": "ビジターログ",
+        "VisitorLogDocumentation": "この表は選択した日付期間内で最新のビジットについて表示しています。ビジットの日付の上にマウスを移動して、そのビジターの最後のビジットが何日前か見ることが出来ます。%s 期間内に本日が含まれていれば、ビジターをリアルタイムで見られます！ %s ここに表示されるのは、アーカイブのためのcronジョブ設定の頻度に関わらず、常にライブのデータです。",
+        "VisitorProfile": "ビジターのプロフィール",
+        "VisitorsInRealTime": "リアルタイムのビジター",
+        "VisitorsLastVisit": "このビジターの最新のビジットは %s 日前です。"
+    }
+}

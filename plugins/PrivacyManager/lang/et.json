@@ -1,0 +1,18 @@
+{
+    "PrivacyManager": {
+        "ClickHereSettings": "Vajuta siia, et minna %s seadete lehele.",
+        "CurrentDBSize": "Praegune andmebaasi suurus",
+        "DBPurged": "Andmebaas tühjendatud.",
+        "DeleteDataDescription": "Sa saad seadistada Piwiku regulaarselt kustutama vanu külastajate logisid ja\/või töödeldud raporteid, et hoida oma andmebaasi suurus väiksemana.",
+        "DeleteDataInterval": "Kustuta vanad andmed iga",
+        "DeleteDataSettings": "Kustuta vanad külastajate logid ja raportid",
+        "EstimatedSpaceSaved": "Ennustatud kettaruumi sääst",
+        "MenuPrivacySettings": "Privaatsus",
+        "PurgeNow": "Tühjenda andmebaas kohe",
+        "RecommendedForPrivacy": "(soovitatav privaatsuse jaoks)",
+        "ReportsDataSavedEstimate": "Andmebaasi suurus",
+        "TeaserHeadline": "Privaatsusseaded",
+        "UseDeleteLog": "Kustuta regulaarselt vanad külastajate logid andmebaasist",
+        "UseDeleteReports": "Kustuta regulaarselt vanad raportid andmebaasist"
+    }
+}

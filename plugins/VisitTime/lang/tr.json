@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Yerel saat",
+        "ColumnServerTime": "Sunucu saati",
+        "DayOfWeek": "Haftanın günü",
+        "LocalTime": "Yerel saat başına ziyaretler",
+        "NHour": "%sh",
+        "ServerTime": "yerel sunucu başına ziyaretler",
+        "VisitsByDayOfWeek": "Haftanın günlerine göre Ziyaretler",
+        "WidgetLocalTime": "Yerel saate göre Ziyaretler",
+        "WidgetServerTime": "Sunucu saatine göre Ziyaretler"
+    }
+}

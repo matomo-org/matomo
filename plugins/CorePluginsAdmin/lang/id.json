@@ -1,0 +1,17 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Diaktifkan",
+        "Activated": "Teraktivasi",
+        "Active": "Aktif",
+        "AuthorHomepage": "Alamat Penulis",
+        "Deactivate": "Dimatikan",
+        "Inactive": "Tak Aktif",
+        "LicenseHomepage": "Alamat Lisensi",
+        "MainDescription": "Pengaya menambah dan memperluas kegunaan dari Piwik. Sekali pengaya terinstal, Anda dapat mengaktifkan dan mematikan di sini.",
+        "PluginDescription": "Antarmuka Pengaturan Pengaya.",
+        "PluginHomepage": "Alamat Pengaya",
+        "PluginsManagement": "Pengatur Pengaya",
+        "Status": "Status",
+        "Version": "Versi"
+    }
+}
