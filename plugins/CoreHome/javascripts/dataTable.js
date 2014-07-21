@@ -235,7 +235,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 callbackSuccess(response);
             }
         );
-        ajaxRequest.setErrorCallback(function () {
+        ajaxRequest.setErrorCallback(function (deferred, status) {
+            if (status == 'abort') {
+                return;
+            }
+
             $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'none');
             $('#loadingError').show();
         });
