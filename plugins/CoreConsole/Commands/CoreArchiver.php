@@ -59,8 +59,8 @@ class CoreArchiver extends ConsoleCommand
         $archiver->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
         $archiver->shouldArchiveAllSites = (bool) $input->getOption("force-all-websites");
         $archiver->shouldStartProfiler = (bool) $input->getOption("xhprof");
-        $archiver->shouldArchiveSpecifiedSites = $this->getSitesListOption($input, "force-idsites");
-        $archiver->shouldSkipSpecifiedSites = $this->getSitesListOption($input, "skip-idsites");
+        $archiver->shouldArchiveSpecifiedSites = self::getSitesListOption($input, "force-idsites");
+        $archiver->shouldSkipSpecifiedSites = self::getSitesListOption($input, "skip-idsites");
         $archiver->forceTimeoutPeriod = $input->getOption("force-timeout-for-periods");
         $archiver->shouldArchiveAllPeriodsSince = $input->getOption("force-all-periods");
         $archiver->restrictToDateRange = $input->getOption("force-date-range");
@@ -75,7 +75,7 @@ class CoreArchiver extends ConsoleCommand
         return $archiver;
     }
 
-    private function getSitesListOption(InputInterface $input, $optionName)
+    private static function getSitesListOption(InputInterface $input, $optionName)
     {
         return Site::getIdSitesFromIdSitesString($input->getOption($optionName));
     }
