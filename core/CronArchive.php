@@ -156,10 +156,10 @@ class CronArchive
     public $restrictToDateRange = false;
 
     /**
-     * A comma separated list of periods to launch archiving for. By default, day, week, month and year periods
+     * A list of periods to launch archiving for. By default, day, week, month and year periods
      * are considered. This variable can limit the periods to, for example, week & month only.
      *
-     * @var string|false eg, `"day,week,month,year"`
+     * @var string[] eg, `array("day","week","month","year")`
      */
     public $restrictToPeriods = false;
 
