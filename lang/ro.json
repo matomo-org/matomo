@@ -605,7 +605,6 @@
         "EncryptedSmtpTransport": "Introduceti transport layer encryption cerut de serverul SMTP",
         "EnglishLanguageName": "Romanian",
         "Error": "Eroare",
-        "ErrorRequest": "Oops… problem during the request, please try again.",
         "EvolutionOverPeriod": "Evolutii peste perioada",
         "EvolutionSummaryGeneric": "%1$s in %2$s comparat cu %3$s in %4$s. Evolutie: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Utilizatorul trebuie să fie un Utilizator Super sau utilizatorul \"%s\" în sine.",

@@ -555,7 +555,6 @@
         "EncryptedSmtpTransport": "Выберите тип шифрования транспортном уровне, требуемое вашим SMTP сервером.",
         "EnglishLanguageName": "Russian",
         "Error": "Ошибка",
-        "ErrorRequest": "Oops… проблема выполнения запроса, пожалуйста, попробуйте снова.",
         "EvolutionOverPeriod": "Эволюция за период",
         "ExceptionConfigurationFileNotFound": "Конфигурационный файл {%s} не может быть найден.",
         "ExceptionDatabaseVersion": "Версия вашего %1$s - %2$s, но Piwik требует хотя бы %3$s.",

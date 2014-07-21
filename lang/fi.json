@@ -590,7 +590,6 @@
         "EncryptedSmtpTransport": "Valitse SMTP-palvelimen vaatima salaus.",
         "EnglishLanguageName": "Finnish",
         "Error": "Virhe",
-        "ErrorRequest": "Oops… virhe pyynnön käsittelyssä, yritä uudelleen.",
         "EvolutionOverPeriod": "Muutos aikajaksolla",
         "EvolutionSummaryGeneric": "%1$s %2$s:ssa verrattuna %3$s %4$s:ssa. Evoluutio: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Käyttäjän täytyy olla joko Superkäyttäjä tai '%s' käyttäjä.",

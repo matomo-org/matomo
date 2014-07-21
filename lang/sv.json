@@ -596,7 +596,6 @@
         "EncryptedSmtpTransport": "Ange kryptering för transportlagret som krävs för din SMTP-server.",
         "EnglishLanguageName": "Swedish",
         "Error": "Fel",
-        "ErrorRequest": "Oj… ett problem uppstod under förfrågan, vänligen försök igen.",
         "EvolutionOverPeriod": "Utveckling under perioden",
         "EvolutionSummaryGeneric": "%1$s i %2$s jämfört med %3$s i %4$s. Utveckling: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Den här användaren måste vara antingen Superanvändaren eller '%s' användaren.",

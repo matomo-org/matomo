@@ -606,7 +606,6 @@
         "EncryptedSmtpTransport": "Inserisci la crittografia a livello di trasporto richiesta dal server SMTP.",
         "EnglishLanguageName": "Italian",
         "Error": "Errore",
-        "ErrorRequest": "Oops… si è verificato un errore durante la richiesta, per favore riprova.",
         "EvolutionOverPeriod": "Evoluzione nel periodo",
         "EvolutionSummaryGeneric": "%1$s in %2$s confrontato con %3$s in %4$s. Evoluzione: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "L'utente deve essere un Super User o l'utente '%s' stesso.",

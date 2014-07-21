@@ -606,7 +606,6 @@
         "EncryptedSmtpTransport": "Entrez la couche de chiffrement requise par votre serveur SMTP.",
         "EnglishLanguageName": "French",
         "Error": "Erreur",
-        "ErrorRequest": "Oups ! Problème rencontré durant la requête, veuillez réessayer.",
         "EvolutionOverPeriod": "Évolution sur la période",
         "EvolutionSummaryGeneric": "%1$s en %2$s comparé à %3$s en %4$s. Evolution: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "L'utilisateur doit être un Super Utilisateur ou l'utilisateur \"%s\" lui-même.",

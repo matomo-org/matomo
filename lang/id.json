@@ -484,7 +484,6 @@
         "EncryptedSmtpTransport": "Masukkan penyandian lapisan transpor yang dibutuhkan peladen SMTP.",
         "EnglishLanguageName": "Indonesian",
         "Error": "Galat",
-        "ErrorRequest": "Ups… kesalahan terjadi selama permintaan, mohon coba lagi.",
         "EvolutionOverPeriod": "Perkembangan selama periode",
         "EvolutionSummaryGeneric": "%1$s di %2$s dibandingkan dengan %3$s di %4$s. Perubahan: %5$s",
         "ExceptionConfigurationFileNotFound": "Berkas konfigurasi {%s} tak ditemukan.",

@@ -344,7 +344,6 @@
         "Edit": "Endre",
         "EnglishLanguageName": "Norwegian Bokmål",
         "Error": "Feil",
-        "ErrorRequest": "Oops… problem oppstod under forespørsel, prøv igjen.",
         "EvolutionOverPeriod": "Utvikling over perioden",
         "ExceptionConfigurationFileNotFound": "Klarte ikke finne konfigurasjonsfila {%s}.",
         "ExceptionDatabaseVersion": "Din %1$s versjon er %2$s, men Piwik krever minst %3$s.",

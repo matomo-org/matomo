@@ -605,7 +605,6 @@
         "EncryptedSmtpTransport": "Εισάγετε το κρυπτογραφημένο επίπεδο μεταφοράς που απαιτείται από τον διακομιστή SMTP σας.",
         "EnglishLanguageName": "Hellenic",
         "Error": "Σφάλμα",
-        "ErrorRequest": "Ούπς…, πιθανό πρόβλημα με τη σύνδεση. Ξαναπροσπαθήστε!",
         "EvolutionOverPeriod": "Εξέλιξη εντός της περιόδου",
         "EvolutionSummaryGeneric": "%1$s στο %2$s σε σύγκριση με το %3$s στο %4$s. Εξέλιξη: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Ο χρήστης πρέπει να είναι είτε Υπερ-Χρήστης είτε ο ίδιος ο χρήστης '%s'.",

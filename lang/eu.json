@@ -152,7 +152,6 @@
         "Edit": "Editatu",
         "EnglishLanguageName": "Basque",
         "Error": "Errorea",
-        "ErrorRequest": "Kontxo… arazoa egon da eskaeran, saiatu berriro mesedez.",
         "EvolutionOverPeriod": "Bilakaera periodoan zehar",
         "ExceptionConfigurationFileNotFound": "{%s} konfigurazio-fitxategia ez da aurkitu.",
         "ExceptionDatabaseVersion": "Zure %1$s bertsioa %2$s da baina Piwik-ek gutxienez %3$s behar du.",

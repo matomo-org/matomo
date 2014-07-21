@@ -271,7 +271,6 @@
         "EncryptedSmtpTransport": "Add meg a SMTP szerver által használt titkosítási metódus típusát",
         "EnglishLanguageName": "Hungarian",
         "Error": "Hiba",
-        "ErrorRequest": "Ajjaj! Probléma a kérés közben, kérlek próbáld újra.",
         "EvolutionOverPeriod": "Tendenciák a periódus alatt",
         "ExceptionConfigurationFileNotFound": "A konfigurációs fájl {%s} nem található.",
         "ExceptionDatabaseVersion": "A %1$s verziód %2$s, de a Piwik-nek legalább a következőre van szüksége: %3$s.",

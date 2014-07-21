@@ -424,7 +424,6 @@
         "EncryptedSmtpTransport": "Entreu el xifrat de la capa de transport requerit per el vostre servidor SMTP.",
         "EnglishLanguageName": "Catalan",
         "Error": "Error",
-        "ErrorRequest": "Ups! Hi ha hagut un problema amb la sol·licitud, torneu-ho a intentar.",
         "EvolutionOverPeriod": "Evolució del període",
         "ExceptionConfigurationFileNotFound": "El fitxer de configuració {%s} no s'ha trobat.",
         "ExceptionDatabaseVersion": "La teva %1$s versió és %2$s però el Piwik necessita com a mínim %3$s",

@@ -594,7 +594,6 @@
         "EncryptedSmtpTransport": "Zadejte šifrování transportvní vrsty vyžadované vaším SMTP serverem.",
         "EnglishLanguageName": "Czech",
         "Error": "Chyba",
-        "ErrorRequest": "Jej... během požadavku se vyskytla chyba, prosím zkuste to znovu.",
         "EvolutionOverPeriod": "Vývoj za periodu",
         "EvolutionSummaryGeneric": "%1$s v %2$s srovnáno s %3$s v %4$s. Vývin: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Uživatel musí být super uživatel nebo uživatel %s.",

@@ -294,7 +294,6 @@
         "EncryptedSmtpTransport": "Introduza a encriptação da camada de transporte requerida pelo seu servidor SMTP.",
         "EnglishLanguageName": "Portuguese",
         "Error": "Erro",
-        "ErrorRequest": "Oops… problema durante o seu pedido, por favor tente novamente.",
         "EvolutionOverPeriod": "Evolução através do Período",
         "ExceptionConfigurationFileNotFound": "O ficheiro de configuração {%s} não foi encontrado.",
         "ExceptionDatabaseVersion": "A sua versão de %1$s é %2$s mas Piwik necessita pelo menos de %3$s.",

@@ -531,7 +531,6 @@
         "EncryptedSmtpTransport": "SMTP サーバーで必要となる、トランスポートレイヤーの暗号を入力します。",
         "EnglishLanguageName": "Japanese",
         "Error": "エラー",
-        "ErrorRequest": "リクエスト中に問題がありました。 再試行してください。",
         "EvolutionOverPeriod": "一定期間の推移",
         "ExceptionConfigurationFileNotFound": "設定ファイル {%s} が見つかりませんでした",
         "ExceptionDatabaseVersion": "%1$s のバージョンが %2$s ですが、Piwik には少なくとも %3$s が必要となります。",

@@ -426,7 +426,6 @@
         "EncryptedSmtpTransport": "أدخل نوع التشفير المطلوب بواسطة خادم SMTP",
         "EnglishLanguageName": "Arabic",
         "Error": "خطأ",
-        "ErrorRequest": "أوه... حدث خطأ أثناء معالجة طلبك. الرجاء المحاولة مرة أخرى.",
         "EvolutionOverPeriod": "النمو خلال فترة معينة",
         "ExceptionConfigurationFileNotFound": "لم يمكن العثور على ملف الإعدادات (%s).",
         "ExceptionDatabaseVersion": "%1$s إصدارك %2$s ولكن Piwik يتطلب على الأقل %3$s.",

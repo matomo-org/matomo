@@ -542,7 +542,6 @@
         "EncryptedSmtpTransport": "Nhập vào mã hóa lớp vận chuyển theo yêu cầu của máy chủ SMTP của bạn.",
         "EnglishLanguageName": "Vietnamese",
         "Error": "Lỗi",
-        "ErrorRequest": "Rất tiếc ... đã gặp vấn đề trong quá trình yêu cầu, hãy thử lại.",
         "EvolutionOverPeriod": "Sự phát triển trong giai đoạn này",
         "EvolutionSummaryGeneric": "%1$s trong %2$s so với %3$s trong %4$s. Sự phát triển: %5$s",
         "ExceptionConfigurationFileNotFound": "Không tìm thấy file cấu hình {%s}.",

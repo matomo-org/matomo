@@ -555,7 +555,6 @@
         "EncryptedSmtpTransport": "输入您的SMTP服务器需要的传输层加密方式",
         "EnglishLanguageName": "Simplified Chinese",
         "Error": "错误",
-        "ErrorRequest": "哇！访问出错了，请重试！",
         "EvolutionOverPeriod": "趋势分析",
         "EvolutionSummaryGeneric": "%1$s 在 %2$s 对比 %3$s 在 %4$s。趋势: %5$s",
         "ExceptionConfigurationFileNotFound": "配置文件 {%s} 找不到。",

@@ -434,7 +434,6 @@
         "EncryptedSmtpTransport": "SMTP 서버에 필요한 전송 레이어 암호화를 입력합니다.",
         "EnglishLanguageName": "Korean",
         "Error": "에러",
-        "ErrorRequest": "요청중에 문제가 발생했습니다. 다시 시도해보세요.",
         "EvolutionOverPeriod": "기간동안 진행 과정",
         "EvolutionSummaryGeneric": "%2$s의 %1$s와 %4$s의 %3$s 비교. 변화 추이: %5$s",
         "ExceptionConfigurationFileNotFound": "설정파일 {%s}을 찾을 수 없습니다.",

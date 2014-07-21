@@ -349,7 +349,6 @@
         "EncryptedSmtpTransport": "Jepni kodimin e shtresës së transportimit siç e kërkon shërbyesi juaj SMTP.",
         "EnglishLanguageName": "Albanian",
         "Error": "Gabim",
-        "ErrorRequest": "Hmmm… problem gjatë kërkesës, ju lutem, riprovoni.",
         "EvolutionOverPeriod": "Zhvillime përgjatë periudhës",
         "ExceptionConfigurationFileNotFound": "Nuk u gjet kartela {%s} e formësimit.",
         "ExceptionDatabaseVersion": "Versioni juaj për %1$s është %2$s por Piwik-u lyp të paktën %3$s.",

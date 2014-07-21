@@ -284,7 +284,6 @@
         "EncryptedSmtpTransport": "Zadajte šifrovanie prenosnej vrstvy požadovanej vašim SMTP serverom.",
         "EnglishLanguageName": "Slovak",
         "Error": "Chyba",
-        "ErrorRequest": "Oops… problém počas požiadavky, prosím skúste znova.",
         "EvolutionOverPeriod": "Vývoj za obdobie",
         "ExceptionConfigurationFileNotFound": "Konfiguračný súbor{%s} nebol nájdený.",
         "ExceptionDatabaseVersion": "Vaša verzia %1$s je %2$s,ale Piwik potrebuje aspoň verziu %3$s.",

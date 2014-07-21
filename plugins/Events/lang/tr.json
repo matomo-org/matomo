@@ -19,6 +19,7 @@
         "MinValue": "Minimum değer",
         "MinValueDocumentation": "Bu etkinlik için minimum değer",
         "SecondaryDimension": "İkincil boyut %s.",
+        "SwitchToSecondaryDimension": "Değiştir %s",
         "TopEvents": "Top Etkinlikler",
         "TotalEvents": "Toplam etkinlikler",
         "TotalEventsDocumentation": "Toplam etkinlik sayısı",

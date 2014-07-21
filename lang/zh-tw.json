@@ -238,7 +238,6 @@
         "Edit": "編輯",
         "EnglishLanguageName": "Traditional Chinese (Taiwan)",
         "Error": "錯誤",
-        "ErrorRequest": "噢！請求期間發生問題，請重試！",
         "EvolutionOverPeriod": "此統計期的發展趨勢",
         "ExceptionConfigurationFileNotFound": "設定檔 {%s} 找不到。",
         "ExceptionDatabaseVersion": "你的 %1$s 版本為 %2$s ，但 Piwik 需求至少要 %3$s。",

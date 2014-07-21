@@ -230,7 +230,6 @@
         "Edit": "Labot",
         "EnglishLanguageName": "Latvian",
         "Error": "Kļūda",
-        "ErrorRequest": "Diemžēl&hellip notika problēma pieprasījuma laikā, lūdzu mēģiniet vēlreiz.",
         "ExceptionConfigurationFileNotFound": "Iestatījumu datne {%s} netika atrasta.",
         "ExceptionDatabaseVersion": "Jūsu %1$s versija ir %2$s, bet Piwik nepieciešams vismaz %3$s.",
         "ExceptionFileIntegrity": "Integritātes pārbaude izgāzās: %s",

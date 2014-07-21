@@ -406,7 +406,6 @@
         "Edit": "Muuda",
         "EnglishLanguageName": "Estonian",
         "Error": "Viga",
-        "ErrorRequest": "Oih… nõude esitamisel tekkis viga, palun proovi uuesti.",
         "EvolutionOverPeriod": "Perioodi areng",
         "EvolutionSummaryGeneric": "%1$s %2$s jooksul võrreldes %3$s %4$s jooksul. Muutus ajas: %5$s",
         "ExceptionMissingFile": "Puuduv fail: %s",

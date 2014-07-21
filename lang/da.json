@@ -606,7 +606,6 @@
         "EncryptedSmtpTransport": "Indtast tranportlag krypteringen, som kræves af SMTP serveren.",
         "EnglishLanguageName": "Danish",
         "Error": "Fejl",
-        "ErrorRequest": "Ups... problemer, prøv igen.",
         "EvolutionOverPeriod": "Udvikling i perioden",
         "EvolutionSummaryGeneric": "%1$s i %2$s sammenlignet med %3$s i %4$s. Udvikling: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Brugeren skal være enten en superbruger eller brugeren '%s' selv.",

@@ -604,7 +604,6 @@
         "EncryptedSmtpTransport": "Ingrese el tipo de encriptación de su servidor SMTP",
         "EnglishLanguageName": "Spanish",
         "Error": "Error",
-        "ErrorRequest": "Oops… problema durante la petición, por favor inténtalo de nuevo.",
         "EvolutionOverPeriod": "Evolución en el periodo",
         "EvolutionSummaryGeneric": "%1$s en %2$s comparado con %3$s en %4$s. Evolución: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Este usuario debe ser Super User o el mismo usuario '%s'.",

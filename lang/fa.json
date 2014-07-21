@@ -528,7 +528,6 @@
         "EncryptedSmtpTransport": "رمزگذاری لایه انتقال مورد نیاز توسط سرور SMTP خود را وارد کنید.",
         "EnglishLanguageName": "Persian",
         "Error": "خطا",
-        "ErrorRequest": "مشکلی در هنگام اجرای درخواست شما پیش آمد، لطفا دوباره تلاش کنید.",
         "EvolutionOverPeriod": "تکامل در طول دوره",
         "ExceptionConfigurationFileNotFound": "فایل تنظیمات {%s} یافت نشد.",
         "ExceptionFileIntegrity": "بررسی درستی شکست خورد: %s",
