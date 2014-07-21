@@ -87,7 +87,8 @@ before_script:
   - mysql -e "SHOW GLOBAL VARIABLES;"
   # Setup Piwik stack
   - ./tests/travis/initiate_ui_tests.sh
-  - travis_retry composer self-update
+  # travis now complains about this failing 9 times out of 10, so remove it. hopefully the random failures it prevented won't come back
+  # - travis_retry composer self-update
   - travis_retry composer install
   - uname -a
   - date
