@@ -501,10 +501,12 @@ Segmentation = (function($) {
 
             self.target.on('blur', "input.edit_segment_name", function (e) {
                 var newName = $(this).val();
-                if(newName.trim() != '') {
-                    $(e.currentTarget).parents("h3").find("span").text(newName).show();
-                    $(self.form).find("a.editSegmentName").show();
-                    $(this).remove();
+                var segmentNameNode = $(e.currentTarget).parents("h3").find("span");
+
+                if(newName.trim()) {
+                    segmentNameNode.text(newName);
+                } else {
+                    $(this).val(segmentNameNode.text());
                 }
             });
 
