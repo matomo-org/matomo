@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Provider\Provider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Segment;
@@ -79,6 +80,10 @@ class Country extends Base
 
     private function getCountryUsingProviderExtensionIfValid($ipAddress)
     {
+        if (!Manager::getInstance()->isPluginInstalled('Provider')) {
+            return false;
+        }
+
         $hostname = $this->getHost($ipAddress);
         $hostnameExtension = Provider::getCleanHostname($hostname);
 
