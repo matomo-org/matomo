@@ -13,6 +13,10 @@
 </div>
 {% endmacro %}
 
-{% macro requestErrorDiv() %}
-<div id="loadingError">{{ 'General_ErrorRequest'|translate }}</div>
+{% macro requestErrorDiv(emailSuperUser) %}
+    {% if emailSuperUser is defined and emailSuperUser %}
+        <div id="loadingError">{{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}</div>
+    {% else %}
+        <div id="loadingError">{{ 'General_ErrorRequest'|translate('', '') }}</div>
+    {% endif %}
 {% endmacro %}

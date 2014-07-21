@@ -623,6 +623,10 @@ abstract class Controller
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
+        if (!Piwik::isUserIsAnonymous()) {
+            $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        }
+
         $this->addCustomLogoInfo($view);
 
         $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();

@@ -136,7 +136,11 @@
             var params = $.extend(this.widgetParameters, overrideParams || {});
             widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent, function () {
                 $('.widgetContent', currentWidget).removeClass('loading');
-                var errorMessage = _pk_translate('General_ErrorRequest');
+                var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
+                if ($('#loadingError').html()) {
+                    errorMessage = $('#loadingError').html();
+                }
+
                 $('.widgetContent', currentWidget).html('<div class="widgetLoadingError">' + errorMessage + '</div>');
             });
 

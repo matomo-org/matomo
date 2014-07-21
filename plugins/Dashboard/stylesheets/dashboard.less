@@ -204,11 +204,18 @@
   display: none;
 }
 
-.widgetLoading, .widgetLoadingError {
+.widgetLoading {
   cursor: wait;
+}
+
+.widgetLoading, .widgetLoadingError {
   padding: 10px;
   text-align: center;
   font-size: 10pt;
+}
+
+.widgetLoadingError {
+  color: @theme-color-brand;
 }
 
 #closeMenuIcon {
