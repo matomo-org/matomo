@@ -38,7 +38,7 @@ class ArchiveWebTest extends IntegrationTestCase
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
 
-        $url = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token . '&forcelogtoscreen=1';
+        $url = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token;
         $output = Http::sendHttpRequest($url, 600);
 
         // ignore random build issues
