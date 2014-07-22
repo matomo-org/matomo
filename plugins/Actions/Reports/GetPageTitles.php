@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\API;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Plugins\Actions\Columns\PageTitle;

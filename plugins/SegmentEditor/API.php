@@ -14,7 +14,6 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Config;
-use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Segment;
 
 /**

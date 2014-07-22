@@ -7,12 +7,10 @@
  */
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Piwik\Common;
 use Piwik\CronArchive;
 use Piwik\Log;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

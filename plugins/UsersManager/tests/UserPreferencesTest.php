@@ -12,7 +12,6 @@ use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use FakeAccess;
 use Piwik\Access;
-use Piwik\Tests\Fixture;
 
 /**
  * @group UsersManager

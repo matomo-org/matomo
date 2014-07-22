@@ -17,11 +17,9 @@ use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
-use Piwik\ReportRenderer\Html;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Translate;
-use Zend_Mime;
 
 /**
  * The ScheduledReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.

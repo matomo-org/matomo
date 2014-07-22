@@ -11,10 +11,8 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Actions\API;
 use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
-use Piwik\Plugins\Actions\Columns\PageUrl;
 
 class GetExitPageUrls extends Base
 {

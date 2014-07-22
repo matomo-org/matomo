@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Common;
 use Piwik\Plugins\Actions\Columns\EntryPageTitle;
 
 class GetEntryPageTitles extends Base

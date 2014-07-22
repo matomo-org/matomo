@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\VisitTime\Reports;
 
-use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 

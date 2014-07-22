@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Events\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Events\Columns\EventCategory;
 
 class GetCategory extends Base

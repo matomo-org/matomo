@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Installation;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\FrontController;
-use Piwik\Menu\MenuAbstract;
 use Piwik\Piwik;
 use Piwik\Translate;
 use Piwik\View as PiwikView;

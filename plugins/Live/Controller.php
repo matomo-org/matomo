@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Live;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\Reports\GetLastVisitsDetails;
 use Piwik\Plugins\Goals\API as APIGoals;

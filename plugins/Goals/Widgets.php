@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\WidgetsList;
 use Piwik\Common;
 use Piwik\Site;
 use Piwik\Piwik;

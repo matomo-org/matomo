@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Reports;
 
-use Piwik\Piwik;
-
 abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()

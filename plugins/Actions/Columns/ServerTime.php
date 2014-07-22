@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;

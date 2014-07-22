@@ -11,7 +11,6 @@ namespace Piwik\Plugins\UserCountry;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Url;

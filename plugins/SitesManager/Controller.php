@@ -11,11 +11,8 @@ namespace Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\Date;
-use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
-use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\View;
 
