@@ -47,6 +47,8 @@ class LanguagesManager extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/LanguagesManager/angularjs/languageselector/languageselector-directive.js";
+        $jsFiles[] = "plugins/LanguagesManager/angularjs/translationsearch/translationsearch-controller.js";
+        $jsFiles[] = "plugins/LanguagesManager/angularjs/translationsearch/translationsearch-directive.js";
     }
 
     /**
