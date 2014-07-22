@@ -149,12 +149,6 @@ class DataTableGenericFilter
                     $defaultValue = $info[1];
                 }
 
-                // third element in the array, if it exists, overrides the name of the request variable
-                $varName = $name;
-                if (isset($info[2])) {
-                    $varName = $info[2];
-                }
-
                 try {
                     $value = Common::getRequestVar($name, $defaultValue, $type, $this->request);
                     settype($value, $type);
