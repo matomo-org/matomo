@@ -29,6 +29,12 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         // $menu->add('General_Settings', 'My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), true, $orderId = 30);
+        // or
+        // $menu->addSettingsItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
+        // $menu->addManageItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
+        // $menu->addPlatformItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
+        // $menu->addDiagnosticItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
+        // $menu->addDevelopmentItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
     }
 
     public function configureTopMenu(MenuTop $menu)

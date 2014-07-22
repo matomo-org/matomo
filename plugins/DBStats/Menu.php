@@ -17,9 +17,10 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->add('CoreAdminHome_MenuDiagnostic', 'DBStats_DatabaseUsage',
-                   array('module' => 'DBStats', 'action' => 'index'),
-                   Piwik::hasUserSuperUserAccess(),
-                   $order = 6);
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addDiagnosticItem('DBStats_DatabaseUsage',
+                                     array('module' => 'DBStats', 'action' => 'index'),
+                                     $order = 6);
+        }
     }
 }
