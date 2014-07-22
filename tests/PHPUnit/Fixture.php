@@ -342,7 +342,7 @@ class Fixture extends PHPUnit_Framework_Assert
         try {
             $manager = \Piwik\Plugin\Manager::getInstance();
             $plugins = $manager->getLoadedPlugins();
-            foreach ($plugins AS $plugin) {
+            foreach ($plugins as $plugin) {
                 $plugin->uninstall();
             }
             \Piwik\Plugin\Manager::getInstance()->unloadPlugins();

@@ -60,7 +60,7 @@ class Updates_1_8_3_b1 extends Updates
             // - delete Common::prefixTable('pdf')
 
             $reports = Db::fetchAll('SELECT * FROM `' . Common::prefixTable('pdf') . '`');
-            foreach ($reports AS $report) {
+            foreach ($reports as $report) {
 
                 $idreport = $report['idreport'];
                 $idsite = $report['idsite'];

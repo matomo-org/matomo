@@ -112,7 +112,7 @@ class Dashboard extends \Piwik\Plugin
             ' WHERE login = ? ORDER BY iddashboard', array($login));
 
         $nameless = 1;
-        foreach ($dashboards AS &$dashboard) {
+        foreach ($dashboards as &$dashboard) {
 
             if (empty($dashboard['name'])) {
                 $dashboard['name'] = Piwik::translate('Dashboard_DashboardOf', $login);

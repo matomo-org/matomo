@@ -29,7 +29,7 @@ class LanguageCodes extends ConsoleCommand
         $languages = API::getInstance()->getAvailableLanguageNames();
 
         $languageCodes = array();
-        foreach ($languages AS $languageInfo) {
+        foreach ($languages as $languageInfo) {
             $languageCodes[] = $languageInfo['code'];
         }
 

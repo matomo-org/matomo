@@ -57,7 +57,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
         // number of main categories
         $this->assertEquals(count($numberOfWidgets), count($widgets));
 
-        foreach ($numberOfWidgets AS $category => $widgetCount) {
+        foreach ($numberOfWidgets as $category => $widgetCount) {
             $this->assertEquals($widgetCount, count($widgets[$category]), sprintf("Widget: %s", $category));
         }
     }
@@ -89,7 +89,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
             'Goals_Goals' => 2,
         );
 
-        foreach ($numberOfWidgets AS $category => $widgetCount) {
+        foreach ($numberOfWidgets as $category => $widgetCount) {
             $this->assertEquals($widgetCount, count($widgets[$category]));
         }
     }
@@ -122,7 +122,7 @@ class Core_WidgetsListTest extends DatabaseTestCase
             'Goals_Ecommerce' => 5,
         );
 
-        foreach ($numberOfWidgets AS $category => $widgetCount) {
+        foreach ($numberOfWidgets as $category => $widgetCount) {
             $this->assertEquals($widgetCount, count($widgets[$category]));
         }
     }

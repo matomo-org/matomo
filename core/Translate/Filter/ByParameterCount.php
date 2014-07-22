@@ -37,9 +37,9 @@ class ByParameterCount extends FilterAbstract
     {
         $cleanedTranslations = array();
 
-        foreach ($translations AS $pluginName => $pluginTranslations) {
+        foreach ($translations as $pluginName => $pluginTranslations) {
 
-            foreach ($pluginTranslations AS $key => $translation) {
+            foreach ($pluginTranslations as $key => $translation) {
 
                 if (isset($this->baseTranslations[$pluginName][$key])) {
                     $baseTranslation = $this->baseTranslations[$pluginName][$key];

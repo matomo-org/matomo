@@ -78,7 +78,7 @@ class Core_PiwikTest extends DatabaseTestCase
             '-1', '0', '1', '1.5', '-1.5', '21111', '89898', '99999999999', '-4565656',
             '1e3', '0x123', "-1e-2",
         );
-        foreach ($valid AS $key => $value) {
+        foreach ($valid as $key => $value) {
             $valid[$key] = array($value);
         }
         return $valid;
@@ -100,7 +100,7 @@ class Core_PiwikTest extends DatabaseTestCase
         $notValid = array(
             '-1.0.0', '1,2', '--1', '-.', '- 1', '1-',
         );
-        foreach ($notValid AS $key => $value) {
+        foreach ($notValid as $key => $value) {
             $notValid[$key] = array($value);
         }
         return $notValid;
@@ -189,7 +189,7 @@ class Core_PiwikTest extends DatabaseTestCase
             'alpha>beta',
             'alpha?beta',
         );
-        foreach ($notValid AS $key => $value) {
+        foreach ($notValid as $key => $value) {
             $notValid[$key] = array($value);
         }
         return $notValid;
@@ -214,7 +214,7 @@ class Core_PiwikTest extends DatabaseTestCase
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             'shoot_puck@the-goal.com',
         );
-        foreach ($valid AS $key => $value) {
+        foreach ($valid as $key => $value) {
             $valid[$key] = array($value);
         }
         return $valid;

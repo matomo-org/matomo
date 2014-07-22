@@ -30,7 +30,7 @@ class Updates_1_7_2_rc7 extends Updates
     {
         try {
             $dashboards = Db::fetchAll('SELECT * FROM `' . Common::prefixTable('user_dashboard') . '`');
-            foreach ($dashboards AS $dashboard) {
+            foreach ($dashboards as $dashboard) {
                 $idDashboard = $dashboard['iddashboard'];
                 $login = $dashboard['login'];
                 $layout = $dashboard['layout'];

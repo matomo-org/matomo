@@ -572,7 +572,7 @@ class GoalManager
             $newRow = $this->getItemRowEnriched($goal, $item);
             Common::printDebug($newRow);
             $updateParts = $sqlBind = array();
-            foreach ($newRow AS $name => $value) {
+            foreach ($newRow as $name => $value) {
                 $updateParts[] = $name . " = ?";
                 $sqlBind[] = $value;
             }
@@ -761,7 +761,7 @@ class GoalManager
     protected function updateExistingConversion($newGoal, $updateWhere)
     {
         $updateParts = $sqlBind = $updateWhereParts = array();
-        foreach ($newGoal AS $name => $value) {
+        foreach ($newGoal as $name => $value) {
             $updateParts[] = $name . " = ?";
             $sqlBind[] = $value;
         }

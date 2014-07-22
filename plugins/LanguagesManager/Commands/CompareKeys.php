@@ -58,10 +58,10 @@ class CompareKeys extends ConsoleCommand
 
         $unnecessary = $outdated = $missing = array();
 
-        foreach ($categories AS $category)
+        foreach ($categories as $category)
         {
             if (!empty($englishFromOTrance[$category])) {
-                foreach ($englishFromOTrance[$category] AS $key => $value) {
+                foreach ($englishFromOTrance[$category] as $key => $value) {
                     if(!array_key_exists($category, $availableTranslations) || !array_key_exists($key, $availableTranslations[$category])) {
                         $unnecessary[] = sprintf('%s_%s', $category, $key);
                         continue;
@@ -72,7 +72,7 @@ class CompareKeys extends ConsoleCommand
                 }
             }
             if (!empty($availableTranslations[$category])) {
-                foreach ($availableTranslations[$category] AS $key => $value) {
+                foreach ($availableTranslations[$category] as $key => $value) {
                     if(!array_key_exists($category, $englishFromOTrance) || !array_key_exists($key, $englishFromOTrance[$category])) {
                         $missing[] = sprintf('%s_%s', $category, $key);
                         continue;
