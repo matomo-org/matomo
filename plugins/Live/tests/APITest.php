@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live\tests;
 
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\Live\API;
 use FakeAccess;
@@ -108,6 +109,9 @@ class APITest extends \DatabaseTestCase
 
             $t->doTrackGoal(2);
         }
+
+        $GLOBALS['PIWIK_TRACKER_MODE'] = false;
+        Db::createDatabaseObject();
     }
 
     private function buildCounter($visits, $actions, $visitors, $visitsConverted)
