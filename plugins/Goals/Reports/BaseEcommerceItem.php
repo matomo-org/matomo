@@ -71,6 +71,8 @@ abstract class BaseEcommerceItem extends BaseEcommerce
         $view->requestConfig->filter_sort_column = 'revenue';
         $view->requestConfig->filter_sort_order  = 'desc';
 
+        $view->config->custom_parameters['isFooterExpandedInDashboard'] = true;
+
         // set columns/translations which differ based on viewDataTable TODO: shouldn't have to do this check...
         // amount of reports should be dynamic, but metadata should be static
         $columns = $this->getMetrics();
