@@ -41,6 +41,7 @@ class MenuReporting extends MenuAbstract
      * @param int $order
      * @param bool|string $tooltip
      * @api
+     * @since 2.5.0
      */
     public function addVisitorsItem($menuName, $url, $order = 50, $tooltip = false)
     {
@@ -54,6 +55,7 @@ class MenuReporting extends MenuAbstract
      * @param int $order
      * @param bool|string $tooltip
      * @api
+     * @since 2.5.0
      */
     public function addActionsItem($menuName, $url, $order = 50, $tooltip = false)
     {
@@ -67,6 +69,7 @@ class MenuReporting extends MenuAbstract
      * @param int $order
      * @param bool|string $tooltip
      * @api
+     * @since 2.5.0
      */
     public function addReferrersItem($menuName, $url, $order = 50, $tooltip = false)
     {

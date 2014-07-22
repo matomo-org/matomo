@@ -38,6 +38,7 @@ class MenuUser extends MenuAbstract
      * @param int $order
      * @param bool|string $tooltip
      * @api
+     * @since 2.5.0
      */
     public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
     {
@@ -51,6 +52,7 @@ class MenuUser extends MenuAbstract
      * @param int $order
      * @param bool|string $tooltip
      * @api
+     * @since 2.5.0
      */
     public function addPlatformItem($menuName, $url, $order = 50, $tooltip = false)
     {
