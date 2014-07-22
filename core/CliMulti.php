@@ -106,7 +106,7 @@ class CliMulti {
     {
         $bin = $this->findPhpBinary();
 
-        return sprintf('%s -q %s/console climulti:request --piwik-domain=%s %s > %s 2>&1 &',
+        return sprintf('%s %s/console climulti:request --piwik-domain=%s %s > %s 2>&1 &',
                        $bin, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), escapeshellarg($query), $outputFile);
     }
 
