@@ -15,14 +15,15 @@ use Piwik\Plugins\Live\API;
 use FakeAccess;
 use Piwik\Access;
 use Piwik\Tests\Fixture;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * @group Live
  * @group APITest
- * @group Database
+ * @group Integration
  * @group Plugins
  */
-class APITest extends \DatabaseTestCase
+class APITest extends IntegrationTestCase
 {
     /**
      * @var API
@@ -61,10 +62,10 @@ class APITest extends \DatabaseTestCase
         $this->trackSomeVisits();
 
         $counters = $this->api->getCounters($this->idSite, 5);
-        $this->assertEquals($this->buildCounter(16, 32, 16, 16), $counters);
+        $this->assertEquals($this->buildCounter(19, 32, 16, 16), $counters);
 
         $counters = $this->api->getCounters($this->idSite, 20);
-        $this->assertEquals($this->buildCounter(20, 60, 20, 40), $counters);
+        $this->assertEquals($this->buildCounter(24, 60, 20, 40), $counters);
 
         $counters = $this->api->getCounters($this->idSite, 0);
         $this->assertEquals($this->buildCounter(0, 0, 0, 0), $counters);
@@ -75,7 +76,8 @@ class APITest extends \DatabaseTestCase
         $nowTimestamp = time();
 
         // use local tracker so mock location provider can be used
-        $t = Fixture::getTracker($this->idSite, $nowTimestamp, $defaultInit = true, $useLocal = true);
+        $t = Fixture::getTracker($this->idSite, $nowTimestamp, $defaultInit = true, $useLocal = false);
+        $t->enableBulkTracking();
 
         for ($i = 0; $i != 20; ++$i) {
             $t->setForceNewVisit();
@@ -101,6 +103,10 @@ class APITest extends \DatabaseTestCase
             $t->setUrl("http://piwik.net/space/quest/iv");
             $t->doTrackPageView("Space Quest XII");
 
+            if ($i % 6 == 0) {
+                $t->setForceNewVisit(); // to test visitors vs visits
+            }
+
             // third visit
             $date = Date::factory($time);
             $t->setForceVisitDateTime($date->getDatetime());
@@ -110,8 +116,7 @@ class APITest extends \DatabaseTestCase
             $t->doTrackGoal(2);
         }
 
-        $GLOBALS['PIWIK_TRACKER_MODE'] = false;
-        Db::createDatabaseObject();
+        $t->doBulkTrack();
     }
 
     private function buildCounter($visits, $actions, $visitors, $visitsConverted)
