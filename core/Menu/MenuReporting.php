@@ -33,6 +33,46 @@ use Piwik\Plugin\Report;
  */
 class MenuReporting extends MenuAbstract
 {
+
+    /**
+     * See {@link add()}. Adds a new menu item to the visitors section of the reporting menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     */
+    public function addVisitorsItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('General_Visitors', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the actions section of the reporting menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     */
+    public function addActionsItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('General_Actions', $menuName, $url, true, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the referrers section of the reporting menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     */
+    public function addReferrersItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->add('Referrers_Referrers', $menuName, $url, true, $order, $tooltip);
+    }
+
     /**
      * Returns if the URL was found in the menu.
      *

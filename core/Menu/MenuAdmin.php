@@ -49,11 +49,11 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * See {@link add()}. Adds a new menu item to the development section.
+     * See {@link add()}. Adds a new menu item to the development section of the admin menu.
      * @param string $menuName
      * @param array $url
      * @param int $order
-     * @param bool $tooltip
+     * @param bool|string $tooltip
      * @api
      */
     public function addDevelopmentItem($menuName, $url, $order = 50, $tooltip = false)
@@ -62,11 +62,11 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * See {@link add()}. Adds a new menu item to the development section.
+     * See {@link add()}. Adds a new menu item to the diagnostic section of the admin menu.
      * @param string $menuName
      * @param array $url
      * @param int $order
-     * @param bool $tooltip
+     * @param bool|string $tooltip
      * @api
      */
     public function addDiagnosticItem($menuName, $url, $order = 50, $tooltip = false)
@@ -75,11 +75,11 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * See {@link add()}. Adds a new menu item to the development section.
+     * See {@link add()}. Adds a new menu item to the platform section of the admin menu.
      * @param string $menuName
      * @param array $url
      * @param int $order
-     * @param bool $tooltip
+     * @param bool|string $tooltip
      * @api
      */
     public function addPlatformItem($menuName, $url, $order = 50, $tooltip = false)
@@ -88,11 +88,11 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * See {@link add()}. Adds a new menu item to the development section.
+     * See {@link add()}. Adds a new menu item to the settings section of the admin menu.
      * @param string $menuName
      * @param array $url
      * @param int $order
-     * @param bool $tooltip
+     * @param bool|string $tooltip
      * @api
      */
     public function addSettingsItem($menuName, $url, $order = 50, $tooltip = false)
@@ -101,11 +101,11 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * See {@link add()}. Adds a new menu item to the development section.
+     * See {@link add()}. Adds a new menu item to the manage section of the admin menu.
      * @param string $menuName
      * @param array $url
      * @param int $order
-     * @param bool $tooltip
+     * @param bool|string $tooltip
      * @api
      */
     public function addManageItem($menuName, $url, $order = 50, $tooltip = false)

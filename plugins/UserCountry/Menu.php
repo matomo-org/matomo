@@ -25,6 +25,6 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->add('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
+        $menu->addVisitorsItem('UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
     }
 }

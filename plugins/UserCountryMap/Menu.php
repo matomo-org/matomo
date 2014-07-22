@@ -14,7 +14,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->add('General_Visitors', 'UserCountryMap_RealTimeMap',
-                   array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
+        $menu->addVisitorsItem('UserCountryMap_RealTimeMap',
+                   array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), $order = 70);
     }
 }

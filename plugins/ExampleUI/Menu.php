@@ -36,7 +36,7 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureUserMenu(MenuUser $menu)
     {
         $urlParams = array('module' => 'ExampleUI', 'action' => 'notifications');
-        $menu->add('CorePluginsAdmin_MenuPlatform', 'UI Notifications', $urlParams, $displayedForCurrentUser = true, $order = 3);
+        $menu->addPlatformItem('UI Notifications', $urlParams, $order = 3);
     }
 
 

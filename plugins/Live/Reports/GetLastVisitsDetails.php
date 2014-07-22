@@ -29,9 +29,10 @@ class GetLastVisitsDetails extends Base
 
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $url = array('module' => $this->module, 'action' => 'indexVisitorLog');
-
-        $menu->add('General_Visitors', $this->widgetTitle, $url, $this->isEnabled(), $order = 5);
+        if ($this->isEnabled()) {
+            $url = array('module' => $this->module, 'action' => 'indexVisitorLog');
+            $menu->addVisitorsItem($this->widgetTitle, $url, $order = 5);
+        }
     }
 
     public function configureWidget(WidgetsList $widget)

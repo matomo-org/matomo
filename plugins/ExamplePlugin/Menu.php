@@ -22,19 +22,21 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
+        // with custom category 'UI Framework'
         // $menu->add('UI Framework', '', array('module' => 'ExamplePlugin', 'action' => ''), true, $orderId = 30);
         // $menu->add('UI Framework', 'Report 1', array('module' => 'ExamplePlugin', 'action' => 'report1'), true, $orderId = 30);
+        // or reusing an existing category
+        // $menu->addVisitorsItem('Report 1', array('module' => 'ExamplePlugin', 'action' => 'report1'), $orderId = 30);
+        // $menu->addActionsItem('Report 1', array('module' => 'ExamplePlugin', 'action' => 'report1'), $orderId = 30);
     }
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
+        // with custom category
         // $menu->add('General_Settings', 'My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), true, $orderId = 30);
-        // or
+        // or reusing an existing category
         // $menu->addSettingsItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
-        // $menu->addManageItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
         // $menu->addPlatformItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
-        // $menu->addDiagnosticItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
-        // $menu->addDevelopmentItem('My Admin Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
     }
 
     public function configureTopMenu(MenuTop $menu)
@@ -44,6 +46,10 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
+        // with custom category
         // $menu->add('CoreAdminHome_MenuManage', 'My User Item', array('module' => 'ExamplePlugin', 'action' => ''), true, $orderId = 30);
+        // or reusing an existing category
+        // $menu->addManageItem('My User Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
+        // $menu->addPlatformItem('My User Item', array('module' => 'ExamplePlugin', 'action' => ''), $orderId = 30);
     }
 }
