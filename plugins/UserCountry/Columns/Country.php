@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\Provider\Provider;
+use Piwik\Plugins\Provider\Provider as ProviderProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Segment;
 use Piwik\Tracker\Visit;
@@ -85,7 +85,7 @@ class Country extends Base
         }
 
         $hostname = $this->getHost($ipAddress);
-        $hostnameExtension = Provider::getCleanHostname($hostname);
+        $hostnameExtension = ProviderProvider::getCleanHostname($hostname);
 
         $hostnameDomain = substr($hostnameExtension, 1 + strrpos($hostnameExtension, '.'));
         if ($hostnameDomain == 'uk') {
