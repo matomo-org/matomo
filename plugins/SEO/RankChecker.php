@@ -38,7 +38,7 @@ class RankChecker
      * @param string $url
      * @return string
      */
-    static public function extractDomainFromUrl($url)
+    public static function extractDomainFromUrl($url)
     {
         return preg_replace(
             array(

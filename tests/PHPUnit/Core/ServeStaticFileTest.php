@@ -329,7 +329,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         curl_setopt($curlHandle, CURLOPT_URL, $this->getTestFileSrvModeUrl());
         curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-        $fullResponse = curl_exec($curlHandle);
+        curl_exec($curlHandle);
         curl_close($curlHandle);
 
         $firstAccessModificationTime = filemtime($deflateFileLocation);
@@ -341,7 +341,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         curl_setopt($curlHandle, CURLOPT_URL, $this->getTestFileSrvModeUrl());
         curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-        $fullResponse = curl_exec($curlHandle);
+        curl_exec($curlHandle);
         curl_close($curlHandle);
 
         // Tests the .deflate file has not been generated twice
@@ -370,7 +370,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         curl_setopt($curlHandle, CURLOPT_URL, $this->getTestFileSrvModeUrl());
         curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-        $fullResponse = curl_exec($curlHandle);
+        curl_exec($curlHandle);
         curl_close($curlHandle);
 
         $firstAccessModificationTime = filemtime($deflateFileLocation);
@@ -385,7 +385,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         curl_setopt($curlHandle, CURLOPT_URL, $this->getTestFileSrvModeUrl());
         curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-        $fullResponse = curl_exec($curlHandle);
+        curl_exec($curlHandle);
         curl_close($curlHandle);
 
         clearstatcache();
@@ -435,7 +435,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
         $partialResponse = curl_exec($curlHandle);
-        $responseInfo = curl_getinfo($curlHandle);
+        curl_getinfo($curlHandle);
         curl_close($curlHandle);
 
         clearstatcache();
@@ -464,7 +464,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curlHandle, CURLOPT_ENCODING, "deflate");
         $fullResponse = curl_exec($curlHandle);
-        $responseInfo = curl_getinfo($curlHandle);
+        curl_getinfo($curlHandle);
         curl_close($curlHandle);
 
         clearstatcache();

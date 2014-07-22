@@ -40,7 +40,7 @@ class API extends \Piwik\Plugin\API
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
-    static private $instance = null;
+    private static $instance = null;
 
     protected function __construct()
     {
@@ -57,7 +57,7 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         try {
             $instance = \Piwik\Registry::get('UsersManager_API');

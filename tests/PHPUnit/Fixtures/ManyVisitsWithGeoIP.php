@@ -239,7 +239,7 @@ class ManyVisitsWithGeoIP extends Fixture
         );
     }
 
-    static public function unsetLocationProvider()
+    public static function unsetLocationProvider()
     {
         // also fails on other PHP, is it really needed?
         return;

@@ -60,7 +60,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return string
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     private function getVisualizationName(InputInterface $input, OutputInterface $output)
     {
@@ -68,11 +68,11 @@ class GenerateVisualizationPlugin extends GeneratePlugin
 
         $validate = function ($visualizationName) use ($self) {
             if (empty($visualizationName)) {
-                throw new \RunTimeException('You have to enter a visualization name');
+                throw new \RuntimeException('You have to enter a visualization name');
             }
 
             if (!ctype_alnum($visualizationName)) {
-                throw new \RunTimeException(sprintf('The visualization name %s is not valid (only AlNum allowed)', $visualizationName));
+                throw new \RuntimeException(sprintf('The visualization name %s is not valid (only AlNum allowed)', $visualizationName));
             }
 
             return $visualizationName;

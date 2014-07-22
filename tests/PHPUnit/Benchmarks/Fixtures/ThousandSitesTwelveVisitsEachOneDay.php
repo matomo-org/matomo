@@ -19,24 +19,10 @@ class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
 
     public function setUp()
     {
-        $goals = APIGoals::getInstance();
-
         // add one thousand sites
         $allIdSites = array();
         for ($i = 0; $i < 1000; ++$i) {
             $allIdSites[] = Fixture::createWebsite($this->date, $ecommerce = 1, $siteName = "Site #$i");
-        }
-
-        // add goals to 500 sites
-        $idGoals = array();
-        foreach ($allIdSites as $idSite) {
-            if ($idSite % 2 == 0) {
-                $idGoal1 = $goals->addGoal($idSite, 'all', 'url', 'http', 'contains', false, 5);
-                $idGoal2 = $goals->addGoal($idSite, 'all', 'url', 'http', 'contains');
-                $idGoals[$idSite] = array($idGoal1, $idGoal2);
-            } else {
-                $idGoals[$idSite] = array();
-            }
         }
 
         $urls = array();

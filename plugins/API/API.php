@@ -86,7 +86,7 @@ class API extends \Piwik\Plugin\API
      * translated here.
      * @return array
      */
-    static public function getDefaultMetricTranslations()
+    public static function getDefaultMetricTranslations()
     {
         return Metrics::getDefaultMetricTranslations();
     }

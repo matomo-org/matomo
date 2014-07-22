@@ -436,7 +436,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
          * does not take in consideration those tables
          * -> we check that the DataTable_Manager is not impacting DataTable 
          */
-        $useless2 = new DataTable;
         $useless1->addRowFromArray(array(Row::COLUMNS => array(8487,),));
         $useless3 = new DataTable;
         $useless3->addRowFromArray(array(Row::COLUMNS => array(8487,),));

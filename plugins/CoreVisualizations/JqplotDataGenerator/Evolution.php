@@ -78,7 +78,7 @@ class Evolution extends JqplotDataGenerator
 
             $axisXOnClick = array();
             $queryStringAsHash = $this->getQueryStringAsHash();
-            foreach ($dataTable->getDataTables() as $idDataTable => $metadataDataTable) {
+            foreach ($dataTable->getDataTables() as $metadataDataTable) {
                 $dateInUrl = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart();
                 $parameters = array(
                     'idSite'  => $idSite,

@@ -75,7 +75,7 @@ class Events extends \Piwik\Plugin
     /**
      * @return array
      */
-    static public function getLabelTranslations()
+    public static function getLabelTranslations()
     {
         return array(
             'getCategory' => array('Events_EventCategories', 'Events_EventCategory'),

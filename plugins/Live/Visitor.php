@@ -892,7 +892,7 @@ class Visitor implements VisitorInterface
 
         // Enrich ecommerce carts/orders with the list of products
         usort($ecommerceDetails, array('static', 'sortByServerTime'));
-        foreach ($ecommerceDetails as $key => &$ecommerceConversion) {
+        foreach ($ecommerceDetails as &$ecommerceConversion) {
             $sql = "SELECT
 							log_action_sku.name as itemSKU,
 							log_action_name.name as itemName,

@@ -22,7 +22,7 @@ class UserSettings extends \Piwik\Plugin
      *
      * @type array
      */
-    static public $browserType_display = array(
+    public static $browserType_display = array(
         'ie'     => 'Trident (IE)',
         'gecko'  => 'Gecko (Firefox)',
         'khtml'  => 'KHTML (Konqueror)',

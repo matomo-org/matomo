@@ -231,7 +231,6 @@ class Updater
     private function loadComponentsWithUpdateFile()
     {
         $componentsWithUpdateFile = array();
-        $hasDimensionUpdate = null;
 
         foreach ($this->componentsWithNewVersion as $name => $versions) {
             $currentVersion = $versions[self::INDEX_CURRENT_VERSION];

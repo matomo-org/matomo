@@ -613,7 +613,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $start = Date::factory(self::$dateTime);
         self::$idSite = Fixture::createWebsite('2012-01-01', $ecommerce = 1);
-        $idGoal = APIGoals::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
+        APIGoals::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
 
         $t = Fixture::getTracker(self::$idSite, $start, $defaultInit = true);
         $t->enableBulkTracking();
@@ -812,7 +812,6 @@ class PrivacyManagerTest extends IntegrationTestCase
             return;
         }
 
-        $tempTableName = Common::prefixTable(LogDataPurger::TEMP_TABLE_NAME);
         $logLinkVisitActionTable = Common::prefixTable("log_link_visit_action");
 
         $sql = "INSERT INTO $logLinkVisitActionTable

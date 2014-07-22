@@ -81,7 +81,7 @@ class CoreArchiver extends ConsoleCommand
     }
 
     // This is reused by another console command
-    static public function configureArchiveCommand(ConsoleCommand $command)
+    public static function configureArchiveCommand(ConsoleCommand $command)
     {
         $command->setName('core:archive');
         $command->setDescription("Runs the CLI archiver. It is an important tool for general maintenance and to keep Piwik very fast.");

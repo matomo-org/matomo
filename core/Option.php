@@ -127,7 +127,7 @@ class Option
      * Singleton instance
      * @var \Piwik\Option
      */
-    static private $instance = null;
+    private static $instance = null;
 
     /**
      * Returns Singleton instance

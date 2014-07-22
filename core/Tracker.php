@@ -43,12 +43,12 @@ class Tracker
     const LENGTH_HEX_ID_STRING = 16;
     const LENGTH_BINARY_ID = 8;
 
-    static protected $forcedDateTime = null;
-    static protected $forcedIpString = null;
-    static protected $forcedVisitorId = null;
+    protected static $forcedDateTime = null;
+    protected static $forcedIpString = null;
+    protected static $forcedVisitorId = null;
 
-    static protected $pluginsNotToLoad = array();
-    static protected $pluginsToLoad = array();
+    protected static $pluginsNotToLoad = array();
+    protected static $pluginsToLoad = array();
 
     /**
      * The set of visits to track.
@@ -396,7 +396,7 @@ class Tracker
         Common::printDebug("Next run will be from: " . date('Y-m-d H:i:s', $nextRunTime) . ' UTC');
     }
 
-    static public $initTrackerMode = false;
+    public static $initTrackerMode = false;
 
     /**
      * Used to initialize core Piwik components on a piwik.php request

@@ -94,7 +94,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryInvalid()
     {
         try {
-            $period = Period\Factory::build('inValid', Date::today());
+            Period\Factory::build('inValid', Date::today());
         } catch (Exception $e) {
             return;
         }

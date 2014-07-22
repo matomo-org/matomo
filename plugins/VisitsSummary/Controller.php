@@ -100,7 +100,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderView($view);
     }
 
-    static public function getVisitsSummary()
+    public static function getVisitsSummary()
     {
         $requestString = "method=VisitsSummary.get" .
             "&format=original" .
@@ -112,7 +112,7 @@ class Controller extends \Piwik\Plugin\Controller
         return empty($result) ? new DataTable() : $result;
     }
 
-    static public function getVisits()
+    public static function getVisits()
     {
         $requestString = "method=VisitsSummary.getVisits" .
             "&format=original" .

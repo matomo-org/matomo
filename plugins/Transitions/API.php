@@ -128,7 +128,6 @@ class API extends \Piwik\Plugin\API
      */
     private function deriveIdAction($actionName, $actionType)
     {
-        $actionsPlugin = new Actions;
         switch ($actionType) {
             case 'url':
                 $originalActionName = $actionName;

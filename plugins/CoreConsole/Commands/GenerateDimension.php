@@ -104,7 +104,7 @@ class GenerateDimension extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getDimensionName(InputInterface $input, OutputInterface $output)
     {
@@ -139,7 +139,7 @@ class GenerateDimension extends GeneratePluginBase
      * @param OutputInterface $output
      * @param string $type
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getColumnName(InputInterface $input, OutputInterface $output, $type)
     {
@@ -187,7 +187,7 @@ class GenerateDimension extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getColumnType(InputInterface $input, OutputInterface $output)
     {
@@ -215,7 +215,7 @@ class GenerateDimension extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getDimensionType(InputInterface $input, OutputInterface $output)
     {
@@ -245,7 +245,7 @@ class GenerateDimension extends GeneratePluginBase
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return array
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {

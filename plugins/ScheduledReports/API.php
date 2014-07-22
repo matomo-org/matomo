@@ -729,7 +729,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function getReportMetadata($idSite, $reportType)
+    public static function getReportMetadata($idSite, $reportType)
     {
         $availableReportMetadata = array();
 
@@ -758,7 +758,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function allowMultipleReports($reportType)
+    public static function allowMultipleReports($reportType)
     {
         $allowMultipleReports = null;
 
@@ -785,7 +785,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function getReportTypes()
+    public static function getReportTypes()
     {
         $reportTypes = array();
 
@@ -806,7 +806,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function getReportFormats($reportType)
+    public static function getReportFormats($reportType)
     {
         $reportFormats = array();
 
@@ -833,7 +833,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function getReportRecipients($report)
+    public static function getReportRecipients($report)
     {
         $recipients = array();
 
@@ -861,7 +861,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function getSegment($idSegment)
+    public static function getSegment($idSegment)
     {
         if (self::isSegmentEditorActivated() && !empty($idSegment)) {
 

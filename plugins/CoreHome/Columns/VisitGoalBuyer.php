@@ -24,7 +24,7 @@ class VisitGoalBuyer extends VisitDimension
     const TYPE_BUYER_OPEN_CART = GoalManager::TYPE_BUYER_OPEN_CART;
     const TYPE_BUYER_ORDERED_AND_OPEN_CART = GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART;
 
-    static protected $visitEcommerceStatus = array(
+    protected static $visitEcommerceStatus = array(
         self::TYPE_BUYER_NONE                  => 'none',
         self::TYPE_BUYER_ORDERED               => 'ordered',
         self::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
@@ -83,7 +83,7 @@ class VisitGoalBuyer extends VisitDimension
         return false;
     }
 
-    static public function getVisitEcommerceStatus($status)
+    public static function getVisitEcommerceStatus($status)
     {
         $id = array_search($status, self::$visitEcommerceStatus);
 
@@ -97,7 +97,7 @@ class VisitGoalBuyer extends VisitDimension
     /**
      * @ignore
      */
-    static public function getVisitEcommerceStatusFromId($id)
+    public static function getVisitEcommerceStatusFromId($id)
     {
         if (!isset(self::$visitEcommerceStatus[$id])) {
             throw new \Exception("Unexpected ECommerce status value ");

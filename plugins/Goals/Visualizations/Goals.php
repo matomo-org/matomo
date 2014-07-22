@@ -191,7 +191,7 @@ class Goals extends HtmlTable
 
         // set columns to display (columns of same type but different goals will be next to each other,
         // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
-        foreach ($goalColumnTemplates as $idx => $columnTemplate) {
+        foreach ($goalColumnTemplates as $columnTemplate) {
             foreach ($idGoals as $idGoal) {
                 $this->config->columns_to_display[] = sprintf($columnTemplate, $idGoal);
             }

@@ -30,8 +30,6 @@ class CompareKeys extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getHelperSet()->get('dialog');
-
         $command = $this->getApplication()->find('translations:fetch');
         $arguments = array(
             'command'    => 'translations:fetch',

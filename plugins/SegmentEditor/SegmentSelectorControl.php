@@ -39,7 +39,7 @@ class SegmentSelectorControl extends UIControl
 
         $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
 
-        $segmentsByCategory = $customVariablesSegments = array();
+        $segmentsByCategory = array();
         foreach ($segments as $segment) {
             if ($segment['category'] == Piwik::translate('General_Visit')
                 && ($segment['type'] == 'metric' && $segment['segment'] != 'visitIp')

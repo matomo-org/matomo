@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests;
 
+use Exception;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
@@ -120,18 +121,18 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * Returns true if continuous integration running this request
      * Useful to exclude tests which may fail only on this setup
      */
-    static public function isTravisCI()
+    public static function isTravisCI()
     {
         $travis = getenv('TRAVIS');
         return !empty($travis);
     }
 
-    static public function isPhpVersion53()
+    public static function isPhpVersion53()
     {
         return strpos(PHP_VERSION, '5.3') === 0;
     }
 
-    static public function isMysqli()
+    public static function isMysqli()
     {
         return getenv('MYSQL_ADAPTER') == 'MYSQLI';
     }
@@ -328,7 +329,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     protected function generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $fileExtension = false)
     {
         // Get the URLs to query against the API for all functions starting with get*
-        $skipped = $requestUrls = array();
+        $requestUrls = array();
         $apiMetadata = new DocumentationGenerator;
         foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
             $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
@@ -340,7 +341,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     && in_array($moduleName, $this->apiToCall) === false
                     && in_array($apiId, $this->apiToCall) === false
                 ) {
-                    $skipped[] = $apiId;
                     continue;
                 } elseif (
                     ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
@@ -352,7 +352,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                         || $methodName == 'getHeaderLogoUrl'
                     )
                 ) { // Excluded modules from test
-                    $skipped[] = $apiId;
                     continue;
                 }
 
@@ -418,7 +417,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                         $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
                         
                         if ($exampleUrl === false) {
-                            $skipped[] = $apiId;
                             continue;
                         }
 
@@ -743,7 +741,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $result = @file_get_contents($filePath);
         if (empty($result)) {
-            $expectedDir = dirname($filePath);
             $this->missingExpectedFiles[] = $filePath;
             return null;
         }
@@ -994,7 +991,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $bind = array();
             foreach ($rows as $row) {
                 $values = array();
-                foreach ($row as $name => $value) {
+                foreach ($row as $value) {
                     if (is_null($value)) {
                         $values[] = 'NULL';
                     } else if (is_numeric($value)) {

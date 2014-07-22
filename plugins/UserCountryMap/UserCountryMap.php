@@ -40,7 +40,7 @@ class UserCountryMap extends \Piwik\Plugin
         Piwik::addAction('Template.leftColumnUserCountry', array('Piwik\Plugins\UserCountryMap\UserCountryMap', 'insertMapInLocationReport'));
     }
 
-    static public function insertMapInLocationReport(&$out)
+    public static function insertMapInLocationReport(&$out)
     {
         $out = '<h2>' . Piwik::translate('UserCountryMap_VisitorMap') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');

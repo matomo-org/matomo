@@ -151,7 +151,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function getKeywordNotDefinedString()
+    public static function getKeywordNotDefinedString()
     {
         return Piwik::translate('General_NotDefined', Piwik::translate('General_ColumnKeyword'));
     }
@@ -159,7 +159,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    static public function getCleanKeyword($label)
+    public static function getCleanKeyword($label)
     {
         return $label == self::LABEL_KEYWORD_NOT_DEFINED
             ? self::getKeywordNotDefinedString()
@@ -452,7 +452,7 @@ class API extends \Piwik\Plugin\API
                 $socialName = $row->getColumn('label');
 
                 $i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
-                foreach (Common::getSocialUrls() as $domain => $name) {
+                foreach (Common::getSocialUrls() as $name) {
                     if ($name == $socialName) {
                         $row->c[Row::DATATABLE_ASSOCIATED] = $i;
                         break;

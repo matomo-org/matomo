@@ -62,7 +62,7 @@ class Login extends \Piwik\Plugin
         \Piwik\Registry::get('auth')->setTokenAuth($tokenAuth);
     }
 
-    static protected function isModuleIsAPI()
+    protected static function isModuleIsAPI()
     {
         return Piwik::getModule() === 'API'
                 && (Piwik::getAction() == '' || Piwik::getAction() == 'index');

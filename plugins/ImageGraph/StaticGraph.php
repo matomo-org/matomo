@@ -32,7 +32,7 @@ abstract class StaticGraph
     const GRAPH_TYPE_3D_PIE = "3dPie";
     const GRAPH_TYPE_BASIC_PIE = "pie";
 
-    static private $availableStaticGraphTypes = array(
+    private static $availableStaticGraphTypes = array(
         self::GRAPH_TYPE_BASIC_LINE     => 'Evolution',
         self::GRAPH_TYPE_VERTICAL_BAR   => 'VerticalBar',
         self::GRAPH_TYPE_HORIZONTAL_BAR => 'HorizontalBar',
@@ -311,7 +311,7 @@ abstract class StaticGraph
 
         $maxWidth = 0;
         $maxHeight = 0;
-        foreach ($values as $column => $data) {
+        foreach ($values as $data) {
             foreach ($data as $value) {
                 list($valueWidth, $valueHeight) = $this->getTextWidthHeight($value);
 

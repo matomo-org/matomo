@@ -121,7 +121,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
     {
         clearstatcache();
         $filename = dirname(__FILE__) . '/Unzip/zaabs.zip';
-        $extractDir = PIWIK_USER_PATH . '/tmp/latest/';
 
         $unzip = new ZipArchive($filename);
         $this->assertContains('No error', $unzip->errorInfo());
@@ -150,7 +149,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/NotExisting.zip';
 
         try {
-            $unzip = new ZipArchive($filename);
+            new ZipArchive($filename);
         } catch (Exception $e) {
             return;
         }

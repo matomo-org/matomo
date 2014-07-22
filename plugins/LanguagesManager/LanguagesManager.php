@@ -127,7 +127,7 @@ class LanguagesManager extends \Piwik\Plugin
     /**
      * @return string Two letters language code, eg. "fr"
      */
-    static public function getLanguageCodeForCurrentUser()
+    public static function getLanguageCodeForCurrentUser()
     {
         $languageCode = self::getLanguageFromPreferences();
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
@@ -142,7 +142,7 @@ class LanguagesManager extends \Piwik\Plugin
     /**
      * @return string Full english language string, eg. "French"
      */
-    static public function getLanguageNameForCurrentUser()
+    public static function getLanguageNameForCurrentUser()
     {
         $languageCode = self::getLanguageCodeForCurrentUser();
         $languages = API::getInstance()->getAvailableLanguageNames();
@@ -157,7 +157,7 @@ class LanguagesManager extends \Piwik\Plugin
     /**
      * @return string|false if language preference could not be loaded
      */
-    static protected function getLanguageFromPreferences()
+    protected static function getLanguageFromPreferences()
     {
         if (($language = self::getLanguageForSession()) != null) {
             return $language;
@@ -176,7 +176,7 @@ class LanguagesManager extends \Piwik\Plugin
      *
      * @return string|null
      */
-    static public function getLanguageForSession()
+    public static function getLanguageForSession()
     {
         $cookieName = Config::getInstance()->General['language_cookie_name'];
         $cookie = new Cookie($cookieName);
@@ -192,7 +192,7 @@ class LanguagesManager extends \Piwik\Plugin
      * @param string $languageCode ISO language code
      * @return bool
      */
-    static public function setLanguageForSession($languageCode)
+    public static function setLanguageForSession($languageCode)
     {
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
             return false;
