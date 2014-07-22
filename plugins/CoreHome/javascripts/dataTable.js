@@ -236,7 +236,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-            if (status == 'abort') {
+            if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
                 return;
             }
 

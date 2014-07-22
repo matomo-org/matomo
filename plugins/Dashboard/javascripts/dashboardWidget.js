@@ -135,7 +135,7 @@
 
             var params = $.extend(this.widgetParameters, overrideParams || {});
             widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent, function (deferred, status) {
-                if (status == 'abort') {
+                if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
                     return;
                 }
 
