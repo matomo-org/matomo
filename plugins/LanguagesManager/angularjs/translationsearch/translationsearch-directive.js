@@ -19,6 +19,6 @@ angular.module('piwikApp').directive('piwikTranslationSearch', function($documen
         restrict: 'A',
         scope: {},
         templateUrl: 'plugins/LanguagesManager/angularjs/translationsearch/translationsearch.html?cb=' + piwik.cacheBuster,
-        controller: 'TranslationSearchController',
+        controller: 'TranslationSearchController'
     };
 });
