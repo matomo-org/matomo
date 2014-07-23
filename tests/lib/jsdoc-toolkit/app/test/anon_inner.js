@@ -2,7 +2,7 @@
  * @name bar
  * @namespace
  */
- 
+
 new function() {
     /**
      * @name bar-foo

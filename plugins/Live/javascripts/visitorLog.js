@@ -15,7 +15,7 @@
 
     /**
      * DataTable UI class for jqPlot graph datatable visualizations.
-     * 
+     *
      * @constructor
      */
     exports.VisitorLog = function (element) {

@@ -70,17 +70,17 @@ class Manager
 
         /**
          * Triggered when gathering all available DataTable visualizations.
-         * 
+         *
          * Plugins that want to expose new DataTable visualizations should subscribe to
          * this event and add visualization class names to the incoming array.
-         * 
+         *
          * **Example**
-         * 
+         *
          *     public function addViewDataTable(&$visualizations)
          *     {
          *         $visualizations[] = 'Piwik\\Plugins\\MyPlugin\\MyVisualization';
          *     }
-         * 
+         *
          * @param array &$visualizations The array of all available visualizations.
          * @ignore
          * @deprecated since 2.5.0 Place visualization in a "Visualizations" directory instead.

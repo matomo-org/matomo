@@ -13,7 +13,7 @@ use Exception;
 /**
  * Contains HTTP client related helper methods that can retrieve content from remote servers
  * and optionally save to a local file.
- * 
+ *
  * Used to check for the latest Piwik version and download updates.
  *
  */
@@ -21,7 +21,7 @@ class Http
 {
     /**
      * Returns the "best" available transport method for {@link sendHttpRequest()} calls.
-     * 
+     *
      * @return string Either `'curl'`, `'fopen'` or `'socket'`.
      * @api
      */
@@ -70,11 +70,11 @@ class Http
      *                     is returned on failure.
      *                     If `$getExtendedInfo` is `true` and `$destinationPath` is not specified an array with
      *                     the following information is returned on success:
-     * 
+     *
      *                     - **status**: the HTTP status code
      *                     - **headers**: the HTTP headers
      *                     - **data**: the HTTP response data
-     * 
+     *
      *                     `false` is still returned on failure.
      * @api
      */
@@ -544,17 +544,17 @@ class Http
      * is determined by the existing file's size and the expected file size, which
      * is stored in the piwik_option table before starting a download. The expected
      * file size is obtained through a `HEAD` HTTP request.
-     * 
+     *
      * _Note: this function uses the **Range** HTTP header to accomplish downloading in
      * parts. Not every server supports this header._
-     * 
+     *
      * The proper use of this function is to call it once per request. The browser
      * should continue to send requests to Piwik which will in turn call this method
      * until the file has completely downloaded. In this way, the user can be informed
      * of a download's progress.
-     * 
+     *
      * **Example Usage**
-     * 
+     *
      * ```
      * // browser JavaScript
      * var downloadFile = function (isStart) {
@@ -572,10 +572,10 @@ class Http
      *     });
      *     ajax.send();
      * }
-     * 
+     *
      * downloadFile(true);
      * ```
-     * 
+     *
      * ```
      * // PHP controller action
      * public function myAction()
@@ -585,7 +585,7 @@ class Http
      *     Http::downloadChunk("http://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
      * }
      * ```
-     * 
+     *
      * @param string $url The url to download from.
      * @param string $outputPath The path to the file to save/append to.
      * @param bool $isContinuation `true` if this is the continuation of a download,

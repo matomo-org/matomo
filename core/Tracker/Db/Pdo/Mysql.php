@@ -267,7 +267,7 @@ class Mysql extends Db
 		$this->activeTransaction = false;
 
 		if(!$this->connection->commit() ) {
-			throw new DbException("Commit failed"); 
+			throw new DbException("Commit failed");
 		}
 	}
 
@@ -284,7 +284,7 @@ class Mysql extends Db
 		$this->activeTransaction = false;
 
 		if(!$this->connection->rollBack() ) {
-			throw new DbException("Rollback failed"); 
+			throw new DbException("Rollback failed");
 		}
 	}
 }

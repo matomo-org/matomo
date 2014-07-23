@@ -13,11 +13,11 @@ use Piwik\Piwik;
 /**
  * Calculates a percentage value for each row of a {@link DataTable} and adds the result
  * to each row.
- * 
+ *
  * See {@link ColumnCallbackAddColumnQuotient} for more information.
  *
  * **Basic usage example**
- * 
+ *
  *     $nbVisits = // ... get the visits for a period ...
  *     $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *

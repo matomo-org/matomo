@@ -82,7 +82,7 @@ var piwikHelper = {
         }
         return value;
     },
-	
+
 	/**
 	 * Add break points to a string so that it can be displayed more compactly
 	 */
@@ -395,7 +395,7 @@ String.prototype.trim = function() {
  */
 function isEnterKey(e)
 {
-    return (window.event?window.event.keyCode:e.which)==13; 
+    return (window.event?window.event.keyCode:e.which)==13;
 }
 
 // workarounds

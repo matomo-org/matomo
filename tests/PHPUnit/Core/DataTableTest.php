@@ -312,7 +312,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * Test that adding two string column values results in an exception.
      *
      * @group Core
-     * 
+     *
      * @expectedException Exception
      */
     public function testSumRow_stringException()
@@ -336,7 +336,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * After 100 recursion must throw an exception
      *
      * @group Core
-     * 
+     *
      * @expectedException Exception
      */
     public function testSerializeWithInfiniteRecursion()
@@ -434,7 +434,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         /*
          * create some fake tables to make sure that the serialized array of the first TABLE
          * does not take in consideration those tables
-         * -> we check that the DataTable_Manager is not impacting DataTable 
+         * -> we check that the DataTable_Manager is not impacting DataTable
          */
         $useless1->addRowFromArray(array(Row::COLUMNS => array(8487,),));
         $useless3 = new DataTable;

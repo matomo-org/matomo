@@ -20,7 +20,7 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\Provider\Provider as ProviderPlugin;
 
 class Provider extends VisitDimension
-{    
+{
     protected $columnName = 'location_provider';
 
     protected function configureSegments()

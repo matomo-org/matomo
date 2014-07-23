@@ -97,7 +97,7 @@ class RowEvolutionTest extends IntegrationTestCase
         $label = urlencode('incredible title 0') . ',' . urlencode('incredible title 2');
         $config['otherRequestParameters']['label'] = ($label);
         $return[] = array('API.getRowEvolution', $config);
-        
+
         // standard label, entry page titles
         $config['testSuffix'] = '_entryPageTitles';
         $config['periods'] = 'day';
@@ -183,7 +183,7 @@ class RowEvolutionTest extends IntegrationTestCase
                 'label'     => 'Desktop,Mobile'
             )
         ));
-        
+
         // test multi row evolution w/ filter_limit to limit all available labels
         $return[] = array('API.getRowEvolution', array(
             'testSuffix'             => '_multiWithFilterLimit',
@@ -198,7 +198,7 @@ class RowEvolutionTest extends IntegrationTestCase
                 'filter_limit' => 3, // only 3 labels should show up
             )
         ));
-        
+
         // test multi row evolution when there is no data
         $return[] = array('API.getRowEvolution', array(
             'testSuffix'             => '_multiWithNoData',
@@ -213,7 +213,7 @@ class RowEvolutionTest extends IntegrationTestCase
                 // no label
             )
         ));
-        
+
         // (non-rowevolution test) test flattener w/ search engines to make sure
         // queued filters are not applied twice
         $return[] = array('Referrers.getSearchEngines', array(

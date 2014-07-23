@@ -20,14 +20,14 @@ use Piwik\Plugins\CoreHome\Controller as CoreHomeController;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
- * 
+ *
  * Piwik uses this class for all requests that go through **index.php**. Plugins can
  * use it to call controller actions of other plugins.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Forwarding controller requests**
- * 
+ *
  *     public function myConfiguredRealtimeMap()
  *     {
  *         $_GET['changeVisitAlpha'] = false;
@@ -35,16 +35,16 @@ use Piwik\Plugins\CoreHome\Controller as CoreHomeController;
  *         $_GET['showFooterMessage'] = false;
  *         return FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
  *     }
- * 
+ *
  * **Using other plugin controller actions**
- * 
+ *
  *     public function myPopupWithRealtimeMap()
  *     {
  *         $_GET['changeVisitAlpha'] = false;
  *         $_GET['removeOldVisits'] = false;
  *         $_GET['showFooterMessage'] = false;
  *         $realtimeMap = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap');
- *         
+ *
  *         $view = new View('@MyPlugin/myPopupWithRealtimeMap.twig');
  *         $view->realtimeMap = $realtimeMap;
  *         return $realtimeMap->render();
@@ -66,7 +66,7 @@ class FrontController extends Singleton
 
     /**
      * Executes the requested plugin controller method.
-     * 
+     *
      * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
      *                                                     there is not enough permission, etc.
      *
@@ -90,10 +90,10 @@ class FrontController extends Singleton
 
             /**
              * Triggered when a user with insufficient access permissions tries to view some resource.
-             * 
+             *
              * This event can be used to customize the error that occurs when a user is denied access
              * (for example, displaying an error message, redirecting to a page other than login, etc.).
-             * 
+             *
              * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
@@ -181,10 +181,10 @@ class FrontController extends Singleton
     /**
      * Executes the requested plugin controller method and returns the data, capturing anything the
      * method `echo`s.
-     * 
+     *
      * _Note: If the plugin controller returns something, the return value is returned instead
      * of whatever is in the output buffer._
-     * 
+     *
      * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
      * @param string $action The controller action name, eg, `'realtimeMap'`.
      * @param array $parameters Array of parameters to pass to the controller action method.
@@ -268,9 +268,9 @@ class FrontController extends Singleton
             /**
              * Triggered when the configuration file cannot be found or read, which usually
              * means Piwik is not installed yet.
-             * 
+             *
              * This event can be used to start the installation process or to display a custom error message.
-             * 
+             *
              * @param Exception $exception The exception that was thrown by `Config::getInstance()`.
              */
             Piwik::postEvent('Config.NoConfigurationFile', array($exception), $pending = true);
@@ -379,9 +379,9 @@ class FrontController extends Singleton
 
             /**
              * Triggered just after the platform is initialized and plugins are loaded.
-             * 
+             *
              * This event can be used to do early initialization.
-             * 
+             *
              * _Note: At this point the user is not authenticated yet._
              */
             Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
@@ -396,12 +396,12 @@ class FrontController extends Singleton
             /**
              * Triggered before the user is authenticated, when the global authentication object
              * should be created.
-             * 
+             *
              * Plugins that provide their own authentication implementation should use this event
              * to set the global authentication object (which must derive from {@link Piwik\Auth}).
-             * 
+             *
              * **Example**
-             * 
+             *
              *     Piwik::addAction('Request.initAuthenticationObject', function() {
              *         Piwik\Registry::set('auth', new MyAuthImplementation());
              *     });
@@ -430,7 +430,7 @@ class FrontController extends Singleton
             /**
              * Triggered after the platform is initialized and after the user has been authenticated, but
              * before the platform has handled the request.
-             * 
+             *
              * Piwik uses this event to check for updates to Piwik.
              */
             Piwik::postEvent('Platform.initialized');

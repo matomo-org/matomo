@@ -90,10 +90,10 @@ class ReportsByDimension extends View
     {
         /**
          * Triggered before rendering {@link ReportsByDimension} views.
-         * 
+         *
          * Plugins can use this event to configure {@link ReportsByDimension} instances by
          * adding or removing reports to display.
-         * 
+         *
          * @param ReportsByDimension $this The view instance.
          */
         Piwik::postEvent('View.ReportsByDimension.render', array($this));

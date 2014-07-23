@@ -203,7 +203,7 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             $numCurrentCustomVars = $model->getCurrentNumCustomVars();
             $numChangesToPerform += $this->getAbsoluteDifference($numCurrentCustomVars, $numVarsToSet);
         }
-        
+
         return $numChangesToPerform;
     }
 }

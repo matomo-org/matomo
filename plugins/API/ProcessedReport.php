@@ -168,25 +168,25 @@ class ProcessedReport
 
         /**
          * Triggered when gathering metadata for all available reports.
-         * 
+         *
          * Plugins that define new reports should use this event to make them available in via
          * the metadata API. By doing so, the report will become available in scheduled reports
          * as well as in the Piwik Mobile App. In fact, any third party app that uses the metadata
          * API will automatically have access to the new report.
-         * 
+         *
          * @param string &$availableReports The list of available reports. Append to this list
          *                                  to make a report available.
-         * 
+         *
          *                                  Every element of this array must contain the following
          *                                  information:
-         * 
+         *
          *                                  - **category**: A translated string describing the report's category.
          *                                  - **name**: The translated display title of the report.
          *                                  - **module**: The plugin of the report.
          *                                  - **action**: The API method that serves the report.
-         * 
+         *
          *                                  The following information is optional:
-         * 
+         *
          *                                  - **dimension**: The report's [dimension](/guides/all-about-analytics-data#dimensions) if any.
          *                                  - **metrics**: An array mapping metric names with their display names.
          *                                  - **metricsDocumentation**: An array mapping metric names with their
@@ -197,18 +197,18 @@ class ProcessedReport
          *                                                          metrics.
          *                                  - **order**: The order of the report in the list of reports
          *                                               with the same category.
-         * 
+         *
          * @param array $parameters Contains the values of the sites and period we are
          *                          getting reports for. Some reports depend on this data.
          *                          For example, Goals reports depend on the site IDs being
          *                          requested. Contains the following information:
-         * 
+         *
          *                          - **idSites**: The array of site IDs we are getting reports for.
          *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
          *                                        `'year'`, `'range'`.
          *                          - **date**: A string date within the period or a date range, eg,
          *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
-         * 
+         *
          * TODO: put dimensions section in all about analytics data
          * @deprecated since 2.5.0 Use Report Classes instead.
          * @ignore
@@ -238,18 +238,18 @@ class ProcessedReport
 
         /**
          * Triggered after all available reports are collected.
-         * 
+         *
          * This event can be used to modify the report metadata of reports in other plugins. You
          * could, for example, add custom metrics to every report or remove reports from the list
          * of available reports.
-         * 
+         *
          * @param array &$availableReports List of all report metadata. Read the {@hook API.getReportMetadata}
          *                                 docs to see what this array contains.
          * @param array $parameters Contains the values of the sites and period we are
          *                          getting reports for. Some report depend on this data.
          *                          For example, Goals reports depend on the site IDs being
          *                          request. Contains the following information:
-         * 
+         *
          *                          - **idSites**: The array of site IDs we are getting reports for.
          *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
          *                                        `'year'`, `'range'`.

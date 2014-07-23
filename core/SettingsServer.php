@@ -19,7 +19,7 @@ class SettingsServer
      * Returns true if the current script execution was triggered by the cron archiving script.
      *
      * Helpful for error handling: directly throw error without HTML (eg. when DB is down).
-     * 
+     *
      * @return bool
      * @api
      */
@@ -102,7 +102,7 @@ class SettingsServer
 
     /**
      * Returns `true` if the GD PHP extension is available, `false` if otherwise.
-     * 
+     *
      * _Note: ImageGraph and the sparkline report visualization depend on the GD extension._
      *
      * @return bool

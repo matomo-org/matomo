@@ -16,11 +16,11 @@ use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Base class for classes that manage one of Piwik's menus.
- * 
+ *
  * There are three menus in Piwik, the main menu, the top menu and the admin menu.
  * Each menu has a class that manages the menu's content. Each class invokes
  * a different event to allow plugins to add new menu items.
- * 
+ *
  * @static \Piwik\Menu\MenuAbstract getInstance()
  */
 abstract class MenuAbstract extends Singleton

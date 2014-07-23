@@ -2933,7 +2933,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set the server generation time.
                  * If set, the browser's performance.timing API in not used anymore to determine the time.
-                 * 
+                 *
                  * @param int generationTime
                  */
                 setGenerationTimeMs: function (generationTime) {

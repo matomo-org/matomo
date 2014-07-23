@@ -13,7 +13,7 @@
 
     /**
      * This class is deprecated. Use server-side events instead.
-     * 
+     *
      * @deprecated
      */
     var TrackingCodeGenerator = function () {

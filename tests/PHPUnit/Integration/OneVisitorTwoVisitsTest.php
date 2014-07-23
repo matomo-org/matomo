@@ -209,7 +209,7 @@ class OneVisitorTwoVisitsTest extends IntegrationTestCase
 
         $this->assertTrue($foundSubtable, "Actions_actions subtable was not loaded");
     }
-    
+
     /**
      * Test that restricting the number of sites to those viewable to another login
      * works when building an archive query object.

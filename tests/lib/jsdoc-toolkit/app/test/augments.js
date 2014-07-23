@@ -4,10 +4,10 @@
 function Layout(p) {
 	this.init = function(p) {
 	}
-	
+
 	this.getId = function() {
 	}
-	
+
 	/** @type Page */
 	this.orientation = "landscape";
 }

@@ -49,7 +49,7 @@ class TransitionsTest extends IntegrationTestCase
                 'pageTitle'          => 'page title - page/one.html',
             )
         ));
-        
+
         // test w/ pages that don't exist
         $return[] = array('Transitions.getTransitionsForPageUrl', array(
             'idSite'                 => self::$fixture->idSite,
@@ -69,7 +69,7 @@ class TransitionsTest extends IntegrationTestCase
                 'pageTitle'          => 'not a page title',
             )
         ));
-        
+
         $return[] = array('Transitions.getTransitionsForPageUrl', array( // test w/ limiting
             'idSite'                 => self::$fixture->idSite,
             'date'                   => self::$fixture->dateTime,

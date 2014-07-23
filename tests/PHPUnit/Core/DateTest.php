@@ -55,7 +55,7 @@ class DateTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryTimezone()
     {
-        // now in UTC converted to UTC+10 means adding 10 hours 
+        // now in UTC converted to UTC+10 means adding 10 hours
         $date = Date::factory('now', 'UTC+10');
         $dateExpected = Date::now()->addHour(10);
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());

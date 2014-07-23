@@ -7,7 +7,7 @@
 function initTopControls() {
     var $topControlsContainer = $('.top_controls'),
         left = 0;
-    
+
     if ($topControlsContainer.length) {
         $('.piwikTopControl').each(function () {
             var $control = $(this);

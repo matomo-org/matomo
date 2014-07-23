@@ -105,22 +105,22 @@ class Translate
 
             /**
              * Triggered when the current user's language is requested.
-             * 
+             *
              * By default the current language is determined by the **language** query
              * parameter. Plugins can override this logic by subscribing to this event.
-             * 
+             *
              * **Example**
-             * 
+             *
              *     public function getLanguage(&$lang)
              *     {
              *         $client = new My3rdPartyAPIClient();
              *         $thirdPartyLang = $client->getLanguageForUser(Piwik::getCurrentUserLogin());
-             * 
+             *
              *         if (!empty($thirdPartyLang)) {
              *             $lang = $thirdPartyLang;
              *         }
              *     }
-             * 
+             *
              * @param string &$lang The language that should be used for the current user. Will be
              *                      initialized to the value of the **language** query parameter.
              */
@@ -190,19 +190,19 @@ class Translate
         /**
          * Triggered before generating the JavaScript code that allows i18n strings to be used
          * in the browser.
-         * 
+         *
          * Plugins should subscribe to this event to specify which translations
          * should be available to JavaScript.
          *
          * Event handlers should add whole translation keys, ie, keys that include the plugin name.
-         * 
+         *
          * **Example**
          *
          *     public function getClientSideTranslationKeys(&$result)
          *     {
          *         $result[] = "MyPlugin_MyTranslation";
          *     }
-         * 
+         *
          * @param array &$result The whole list of client side translation keys.
          */
         Piwik::postEvent('Translate.getClientSideTranslationKeys', array(&$result));

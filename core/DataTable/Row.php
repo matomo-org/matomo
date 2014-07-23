@@ -14,7 +14,7 @@ use Piwik\Metrics;
 
 /**
  * This is what a {@link Piwik\DataTable} is composed of.
- * 
+ *
  * DataTable rows contain columns, metadata and a subtable ID. Columns and metadata
  * are stored as an array of name => value mappings.
  *
@@ -59,7 +59,7 @@ class Row
      * Constructor.
      *
      * @param array $row An array with the following structure:
-     *                   
+     *
      *                       array(
      *                           Row::COLUMNS => array('label' => 'Piwik',
      *                                                 'column1' => 42,
@@ -264,7 +264,7 @@ class Row
      * Returns the array containing all the columns.
      *
      * @return array  Example:
-     *                
+     *
      *                    array(
      *                        'column1'   => VALUE,
      *                        'label'     => 'www.php.net'
@@ -315,9 +315,9 @@ class Row
     /**
      * Sums a DataTable to this row's subtable. If this row has no subtable a new
      * one is created.
-     * 
+     *
      * See {@link Piwik\DataTable::addDataTable()} to learn how DataTables are summed.
-     * 
+     *
      * @param DataTable $subTable Table to sum to this row's subtable.
      */
     public function sumSubtable(DataTable $subTable)
@@ -495,7 +495,7 @@ class Row
      * Sums the given `$rowToSum` columns values to the existing row column values.
      * Only the int or float values will be summed. Label columns will be ignored
      * even if they have a numeric value.
-     * 
+     *
      * Columns in `$rowToSum` that don't exist in `$this` are added to `$this`.
      *
      * @param \Piwik\DataTable\Row $rowToSum The row to sum to this row.
@@ -573,7 +573,7 @@ class Row
 
     /**
      * Sums the metadata in `$rowToSum` with the metadata in `$this` row.
-     * 
+     *
      * @param Row $rowToSum
      */
     public function sumRowMetadata($rowToSum)
@@ -597,7 +597,7 @@ class Row
     /**
      * Returns `true` if this row is the summary row, `false` if otherwise. This function
      * depends on the label of the row, and so, is not 100% accurate.
-     * 
+     *
      * @return bool
      */
     public function isSummaryRow()
@@ -679,10 +679,10 @@ class Row
      * Helper function that tests if two rows are equal.
      *
      * Two rows are equal if:
-     * 
+     *
      * - they have exactly the same columns / metadata
      * - they have a subDataTable associated, then we check that both of them are the same.
-     * 
+     *
      * Column order is not important.
      *
      * @param \Piwik\DataTable\Row $row1 first to compare

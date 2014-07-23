@@ -356,7 +356,7 @@ abstract class Action
 
         /**
          * Triggered after successfully persisting a [visit action entity](/guides/persistence-and-the-mysql-backend#visit-actions).
-         * 
+         *
          * @param Action $tracker Action The Action tracker instance.
          * @param array $visitAction The visit action entity that was persisted. Read
          *                           [this](/guides/persistence-and-the-mysql-backend#visit-actions) to see what it contains.

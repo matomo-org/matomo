@@ -16,11 +16,11 @@ use Piwik\Session\SessionNamespace;
  * A cryptographic nonce -- "number used only once" -- is often recommended as
  * part of a robust defense against cross-site request forgery (CSRF/XSRF). This
  * class provides static methods that create and manage nonce values.
- * 
+ *
  * Nonces in Piwik are stored as a session variable and have a configurable expiration.
  *
  * Learn more about nonces [here](http://en.wikipedia.org/wiki/Cryptographic_nonce).
- * 
+ *
  * @api
  */
 class Nonce
@@ -56,10 +56,10 @@ class Nonce
 
     /**
      * Returns if a nonce is valid and comes from a valid request.
-     * 
+     *
      * A nonce is valid if it matches the current nonce and if the current nonce
      * has not expired.
-     * 
+     *
      * The request is valid if the referrer is a local URL (see {@link Url::isLocalUrl()})
      * and if the HTTP origin is valid (see {@link getAcceptableOrigins()}).
      *
@@ -108,7 +108,7 @@ class Nonce
 
     /**
      * Returns the **Origin** HTTP header or `false` if not found.
-     * 
+     *
      * @return string|bool
      */
     public static function getOrigin()
@@ -156,7 +156,7 @@ class Nonce
 
     /**
      * Verifies and discards a nonce.
-     * 
+     *
      * @param string $nonceName The nonce's unique ID. See {@link getNonce()}.
      * @param string|null $nonce The nonce from the client. If `null`, the value from the
      *                           **nonce** query parameter is used.

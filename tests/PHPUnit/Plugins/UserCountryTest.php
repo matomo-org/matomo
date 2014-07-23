@@ -71,7 +71,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
     /**
      * Test that redundant checks work.
-     * 
+     *
      * @group Plugins
      */
     public function testGeoIpUpdaterRedundantChecks()
@@ -169,7 +169,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends GeoIPAutoUpdater
     {
         // empty
     }
-    
+
     public function performRedundantDbChecks()
     {
         parent::performRedundantDbChecks();

@@ -1,6 +1,6 @@
 /** the options */
 opt = Opt.get(
-	arguments, 
+	arguments,
 	{
 	 d: "directory",
 	 c: "conf",

@@ -13,7 +13,7 @@ use Piwik\Session\SessionNamespace;
 
 /**
  * Posts and removes UI notifications (see {@link Piwik\Notification} to learn more).
- * 
+ *
  */
 class Manager
 {
@@ -41,7 +41,7 @@ class Manager
 
     /**
      * Removes a posted notification by ID.
-     * 
+     *
      * @param $id The notification ID, see {@link notify()}.
      */
     public static function cancel($id)
@@ -53,7 +53,7 @@ class Manager
 
     /**
      * Removes all temporary notifications.
-     * 
+     *
      * Call this method after the notifications have been
      * displayed to make sure temporary notifications won't be displayed twice.
      */

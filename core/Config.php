@@ -13,13 +13,13 @@ use Exception;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
- * 
+ *
  * This class reads and writes to the `config/config.ini.php` file. If config
  * options are missing from that file, this class will look for their default
  * values in `config/global.ini.php`.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Getting a value:**
  *
  *     // read the minimum_memory_limit option under the [General] section
@@ -30,12 +30,12 @@ use Exception;
  *     // set the minimum_memory_limit option
  *     Config::getInstance()->General['minimum_memory_limit'] = 256;
  *     Config::getInstance()->forceSave();
- * 
+ *
  * **Setting an entire section:**
- * 
+ *
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
- * 
+ *
  * @method static \Piwik\Config getInstance()
  */
 class Config extends Singleton

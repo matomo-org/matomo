@@ -13,48 +13,48 @@ use Piwik\Common;
 /**
  * Contains base request properties for {@link Piwik\Plugin\ViewDataTable} instances. Manipulating
  * these properties will change the way a {@link Piwik\Plugin\ViewDataTable} loads report data.
- * 
+ *
  * <a name="client-side-parameters-desc"></a>
  * **Client Side Parameters**
- * 
+ *
  * Client side parameters are request properties that should be passed on to the browser so
  * client side JavaScript can use them. These properties will also be passed to the server with
  * every AJAX request made.
- * 
+ *
  * Only affects ViewDataTables that output HTML.
- * 
+ *
  * <a name="overridable-properties-desc"></a>
  * **Overridable Properties**
  *
  * Overridable properties are properties that can be set via the query string.
  * If a request has a query parameter that matches an overridable property, the property
  * will be set to the query parameter value.
- * 
+ *
  * **Reusing base properties**
- * 
+ *
  * Many of the properties in this class only have meaning for the {@link Piwik\Plugin\Visualization}
- * class, but can be set for other visualizations that extend {@link Piwik\Plugin\ViewDataTable} 
+ * class, but can be set for other visualizations that extend {@link Piwik\Plugin\ViewDataTable}
  * directly.
- * 
+ *
  * Visualizations that extend {@link Piwik\Plugin\ViewDataTable} directly and want to re-use these
  * properties must make sure the properties are used in the exact same way they are used in
  * {@link Piwik\Plugin\Visualization}.
- * 
+ *
  * **Defining new request properties**
- * 
+ *
  * If you are creating your own visualization and want to add new request properties for
  * it, extend this class and add your properties as fields.
- * 
+ *
  * Properties are marked as client side parameters by calling the
  * {@link addPropertiesThatShouldBeAvailableClientSide()} method.
- * 
+ *
  * Properties are marked as overridable by calling the
  * {@link addPropertiesThatCanBeOverwrittenByQueryParams()} method.
  *
  * ### Example
- * 
+ *
  * **Defining new request properties**
- * 
+ *
  *     class MyCustomVizRequestConfig extends RequestConfig
  *     {
  *         /**
@@ -66,16 +66,16 @@ use Piwik\Common;
  *          * Another custom property. It is available client side.
  *          *\/
  *         public $another_custom_property = true;
- * 
+ *
  *         public function __construct()
  *         {
  *             parent::__construct();
- * 
+ *
  *             $this->addPropertiesThatShouldBeAvailableClientSide(array('another_custom_property'));
  *             $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('my_custom_property'));
  *         }
  *     }
- * 
+ *
  * @api
  */
 class RequestConfig
@@ -240,7 +240,7 @@ class RequestConfig
     /**
      * Marks request properties as client side properties. [Read this](#client-side-properties-desc)
      * to learn more.
-     * 
+     *
      * @param array $propertyNames List of property names, eg, `array('disable_queued_filters', 'filter_column')`.
      */
     public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
@@ -253,7 +253,7 @@ class RequestConfig
     /**
      * Marks display properties as overridable. [Read this](#overridable-properties-desc) to
      * learn more.
-     * 
+     *
      * @param array $propertyNames List of property names, eg, `array('disable_queued_filters', 'filter_column')`.
      */
     public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)

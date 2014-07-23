@@ -15,7 +15,7 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
 class PluginWindowsMedia extends VisitDimension
-{    
+{
     protected $columnName = 'config_windowsmedia';
     protected $columnType = 'TINYINT(1) NOT NULL';
 

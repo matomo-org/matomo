@@ -11,7 +11,7 @@ Changes made to Piwik that affect the UI (such as changes to CSS, JavaScript, Tw
 break the UI tests build. This is an opportunity to review your code and as a Piwik developer you should ensure that
 any side effects created by your changes are correct.
 
-If they are not correct, determine the cause of the change and fix it in a new commit. If the changes are correct, 
+If they are not correct, determine the cause of the change and fix it in a new commit. If the changes are correct,
 then you should update the expected screenshots accordingly.
 
 **Steps to fix a broken build**
@@ -25,7 +25,7 @@ To fix a broken build, follow these steps:
    like this:
 
        View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
-   
+
    Click on the link in the message.
  * The diff viewer will list links to the generated screenshots for failed tests as well as the expected screenshots and image diffs.
  * For each failure, check if the change is desired. Sometimes we introduce regression without realising, and screenshot tests can help us spot such regressions.
@@ -233,7 +233,7 @@ The following are examples of test environment manipulation:
  * [Dashboard_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Dashboard_spec.js)
  * [Login_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Login_spec.js)
 
-## Learn more 
+## Learn more
 
 Check out this blog post to learn more about Screenshot Tests in Piwik:
 [QA Screenshot Testing blog post](http://piwik.org/blog/2013/10/our-latest-improvement-to-qa-screenshot-testing/)

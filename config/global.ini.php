@@ -247,7 +247,7 @@ session_save_handler = files
 
 ; If set to 1, Piwik will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Piwik
-; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0 
+; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0
 ; it is recommended for security reasons to always use Piwik over https
 force_ssl = 0
 
@@ -553,7 +553,7 @@ referrer_urls_spam = "semalt.com"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
-; When using the Tracking API, to override either the datetime and/or the visitor IP, 
+; When using the Tracking API, to override either the datetime and/or the visitor IP,
 ; token_auth with an "admin" access is required. If you set this setting to 0, the token_auth will not be required anymore.
 ; DO NOT USE THIS SETTING ON PUBLIC PIWIK SERVERS
 tracking_requests_require_authentication = 1
@@ -678,10 +678,10 @@ Plugins_Tracker[] = Login
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
-; index.php?module=API&method=API.getSettings 
+; index.php?module=API&method=API.getSettings
 ; This can be used to expose values from Piwik, to control for example a Mobile app tracking
 SDK_batch_size = 10
 SDK_interval_value = 30
 
 ; NOTE: do not directly edit this file! See notice at the top
- 
+

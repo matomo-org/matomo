@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 use Piwik\Plugins\UserCountry\Segment;
 
 class City extends Base
-{    
+{
     protected $columnName = 'location_city';
     protected $columnType = 'varchar(255) DEFAULT NULL';
 

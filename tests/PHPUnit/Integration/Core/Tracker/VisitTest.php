@@ -131,11 +131,11 @@ class Core_Tracker_VisitTest extends DatabaseTestCase
             $excludedUserAgent);
 
         $request = new Request(array('idsite' => $idsite));
-        
+
         // test that user agents that contain excluded user agent strings are excluded
         foreach ($tests as $ua => $expected) {
             $excluded = new VisitExcluded_public($request, $ip = false, $ua);
-            
+
             $this->assertSame($expected, $excluded->public_isUserAgentExcluded(), "Result if isUserAgentExcluded('$ua') was not " . ($expected ? 'true' : 'false') . ".");
         }
     }

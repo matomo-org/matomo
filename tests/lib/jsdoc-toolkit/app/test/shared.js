@@ -4,13 +4,13 @@
  * @class
  * @name Array
  */
- 
+
 /**#@+
  * Extension to builtin array.
  * @memberOf Array
  * @method
  */
- 
+
 /**
  * @returns Boolen if some array members...
  */

@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class SocialNetwork extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('Referrers_ColumnSocial');

@@ -9,7 +9,7 @@
 	for (var p = _index.first(); p; p = _index.next()) {
 		print(p.key+" is for "+p.value);
 	}
-	
+
  */
 var Hash = function() {
 	this._map = {};

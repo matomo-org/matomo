@@ -6,7 +6,7 @@ JSDOC.PluginManager.registerPlugin(
 				return; // already generated src code
 			}
 			else JsHilite.cache[src.path] = true;
-		
+
 			try {
 				var sourceCode = IO.readFile(src.path);
 			}
@@ -24,20 +24,20 @@ JSDOC.PluginManager.registerPlugin(
 function JsHilite(src, charset) {
 
 	var tr = new JSDOC.TokenReader();
-	
+
 	tr.keepComments = true;
 	tr.keepDocs = true;
 	tr.keepWhite = true;
-	
+
 	this.tokens = tr.tokenize(new JSDOC.TextStream(src));
-	
+
 	// TODO is redefining toString() the best way?
-	JSDOC.Token.prototype.toString = function() { 
+	JSDOC.Token.prototype.toString = function() {
 		return "<span class=\""+this.type+"\">"+this.data.replace(/</g, "&lt;")+"</span>";
 	}
-	
+
 	if (!charset) charset = "utf-8";
-	
+
 	this.header = '<html><head><meta http-equiv="content-type" content="text/html; charset='+charset+'"> '+
 	"<style>\n\
 	.KEYW {color: #933;}\n\
@@ -57,6 +57,6 @@ JsHilite.prototype.hilite = function() {
 	var hilited = this.tokens.join("");
 	var line = 1;
 	if (this.showLinenumbers) hilited = hilited.replace(/(^|\n)/g, function(m){return m+"<span class='line'>"+((line<10)? " ":"")+((line<100)? " ":"")+(line++)+"</span> "});
-	
+
 	return this.header+hilited+this.footer;
 }

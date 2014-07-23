@@ -103,11 +103,11 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered when gathering all available segment dimensions.
-         * 
+         *
          * This event can be used to make new segment dimensions available.
-         * 
+         *
          * **Example**
-         * 
+         *
          *     public function getSegmentsMetadata(&$segments, $idSites)
          *     {
          *         $segments[] = array(
@@ -121,11 +121,11 @@ class API extends \Piwik\Plugin\API
          *             'permission'     => $isAuthenticatedWithViewAccess,
          *         );
          *     }
-         * 
+         *
          * @param array &$dimensions The list of available segment dimensions. Append to this list to add
          *                           new segments. Each element in this list must contain the
          *                           following information:
-         *                         
+         *
          *                           - **type**: Either `'metric'` or `'dimension'`. `'metric'` means
          *                                       the value is a numeric and `'dimension'` means it is
          *                                       a string. Also, `'metric'` values will be displayed
@@ -361,7 +361,7 @@ class API extends \Piwik\Plugin\API
             $className = Request::getClassNameAPI($plugin);
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
-            
+
             // make sure the table has all columns
             $array = ($dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : array($dataTable));
             foreach ($array as $table) {

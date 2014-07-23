@@ -16,7 +16,7 @@ use Piwik\Metrics;
 
 /**
  * Sorts a {@link DataTable} based on the value of a specific column.
- * 
+ *
  * It is possible to specify a natural sorting (see [php.net/natsort](http://php.net/natsort) for details).
  *
  * @api
@@ -28,7 +28,7 @@ class Sort extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The table to eventually filter.
      * @param string $columnToSort The name of the column to sort by.
      * @param string $order order `'asc'` or `'desc'`.

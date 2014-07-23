@@ -4,7 +4,7 @@
   * Added support for the -m option to suppress warnings for multiple docs.
   * Added patch by brownsea42 to support quoted user variables on the command line. ( issue #281 )
   * Fixed bug that sometimes caused links to events to be incorrect. ( issue #292 )
-  
+
 == 2.3.3 ==
 
   * Fixed bug that made all fields declared with the @property tag static. ( issue #262 )
@@ -14,7 +14,7 @@
   * Applied patch from kunhualqk, fix for bug where @link to borrowed member did not resolve to parent class. ( issue #218 )
   * Fix for @requires not linking back to the required class
   * Added experimental support for @constructs to have an argument, the class name, when applied to a function assignment.
-  
+
 == 2.3.2 ==
 
  * Minor update to the usage notes and corrected the version number displayed in the output.
@@ -33,7 +33,7 @@
   * Fixed bug that caused parens around a function to make it to be unrecognized. ( issue #213 )
   * Fixed bug prevented explicit links to named anchors from working (thanks katgao.pku). ( issue #215 )
   * Fixed bug that prevented full description from appearing in file overview. ( issue #224 )
-  
+
 == 2.2.1 ==
 
   * Fixed bug with class template, where sorting of methods was accidentally removed (thanks dezfowler).
@@ -46,7 +46,7 @@
   * Modified @borrows tag experimentally to allow for missing "as ..." clause.
   * Added support for the @exports tag, to allow one symbol to be documented as another.
   * Added support for the -S option to document code following the Secure Modules pattern.
-  
+
 == 2.1.0 ==
 
   * Added support for the @event tag.
@@ -121,4 +121,3 @@
   * Underscored symbols are now treated as if they have a @private tag by default.
   * Improved support for anonymous constructors.
   * Added support for the nocode meta tag.
-  

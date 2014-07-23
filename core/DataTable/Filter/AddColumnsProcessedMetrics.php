@@ -17,22 +17,22 @@ use Piwik\Metrics;
  * Adds processed metrics columns to a {@link DataTable} using metrics that already exist.
  *
  * Columns added are:
- * 
+ *
  * - **conversion_rate**: percent value of `nb_visits_converted / nb_visits
  * - **nb_actions_per_visit**: `nb_actions / nb_visits`
  * - **avg_time_on_site**: in number of seconds, `round(visit_length / nb_visits)`. Not
  *                         pretty formatted.
  * - **bounce_rate**: percent value of `bounce_count / nb_visits`
- * 
+ *
  * Adding the **filter_add_columns_when_show_all_columns** query parameter to
  * an API request will trigger the execution of this Filter.
- * 
+ *
  * _Note: This filter must be called before {@link ReplaceColumnNames} is called._
- * 
+ *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->filter('AddColumnsProcessedMetrics');
- * 
+ *
  * @api
  */
 class AddColumnsProcessedMetrics extends BaseFilter
@@ -43,7 +43,7 @@ class AddColumnsProcessedMetrics extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The table to eventually filter.
      * @param bool $deleteRowsWithNoVisit Whether to delete rows with no visits or not.
      */

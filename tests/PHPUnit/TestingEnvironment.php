@@ -235,7 +235,7 @@ class Piwik_TestingEnvironment
                 'subject' => $mail->getSubject(),
                 'contents' => $outputContent
             );
-            
+
             file_put_contents($outputFile, Common::json_encode($outputContents));
         });
     }

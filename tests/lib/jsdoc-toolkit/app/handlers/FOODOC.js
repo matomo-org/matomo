@@ -10,7 +10,7 @@ FOODOC.VERSION = "1.0";
 
 FOODOC.handle = function(srcFile, src) {
 	LOG.inform("Handling file '" + srcFile + "'");
-	
+
 	return [
 		new JSDOC.Symbol(
 			"foo",

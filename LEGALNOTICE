@@ -78,7 +78,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name:  jqPlot
 	Link:  http://www.jqplot.com/
 	License:  Dual-licensed: MIT (Expat) or GPL v2
-	
+
 	Name:  jQuery
 	Link:  http://jquery.com/
 	License:  Dual-licensed: MIT (Expat) or GPL
@@ -187,7 +187,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name:  Zend Framework
 	Link:  http://www.zendframework.com/
 	License:  New BSD
-	
+
 	Name: pChart 2.1.3
 	Link: http://www.pchart.net
 	License: GPL v3

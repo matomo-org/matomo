@@ -15,27 +15,27 @@ use Piwik\Plugins\SitesManager\API;
 /**
  * Provides access to individual [site entity](/guides/persistence-and-the-mysql-backend#websites-aka-sites) data
  * (including name, URL, etc.).
- * 
+ *
  * **Data Cache**
- * 
+ *
  * Site data can be cached in order to avoid performing too many queries.
  * If a method needs many site entities, it is more efficient to query all of what
  * you need beforehand via the **SitesManager** API, then cache it using {@link setSites()} or
  * {@link setSitesFromArray()}.
- * 
+ *
  * Subsequent calls to `new Site($id)` will use the data in the cache instead of querying the database.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Basic usage**
- * 
+ *
  *     $site = new Site($idSite);
  *     $name = $site->getName();
- * 
+ *
  * **Without allocation**
- * 
+ *
  *     $name = Site::getNameFor($idSite);
- * 
+ *
  * @api
  */
 class Site
@@ -54,7 +54,7 @@ class Site
 
     /**
      * Constructor.
-     * 
+     *
      * @param int $idsite The ID of the site we want data for.
      */
     public function __construct($idsite)
@@ -71,7 +71,7 @@ class Site
      * individual site data.
      *
      * @param array $sites The array of sites data. Indexed by site ID. eg,
-     *                     
+     *
      *                         array('1' => array('name' => 'Site 1', ...),
      *                               '2' => array('name' => 'Site 2', ...))`
      */
@@ -100,17 +100,17 @@ class Site
 
         /**
          * Triggered so plugins can modify website entities without modifying the database.
-         * 
+         *
          * This event should **not** be used to add data that is expensive to compute. If you
          * need to make HTTP requests or query the database for more information, this is not
          * the place to do it.
          *
          * **Example**
-         * 
+         *
          *     Piwik::addAction('Site.setSite', function ($idSite, &$info) {
          *         $info['name'] .= " (original)";
          *     });
-         * 
+         *
          * @param int $idSite The ID of the website entity that will be modified.
          * @param array $infoSite The website entity. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
          */
@@ -121,9 +121,9 @@ class Site
 
     /**
      * Sets the cached Site data with a non-associated array of site data.
-     * 
+     *
      * @param array $sites The array of sites data. eg,
-     *                     
+     *
      *                         array(
      *                             array('idsite' => '1', 'name' => 'Site 1', ...),
      *                             array('idsite' => '2', 'name' => 'Site 2', ...),
@@ -172,9 +172,9 @@ class Site
 
     /**
      * Returns a string representation of the site this instance references.
-     * 
+     *
      * Useful for debugging.
-     * 
+     *
      * @return string
      */
     public function __toString()
@@ -223,7 +223,7 @@ class Site
 
     /**
      * Returns a site property by name.
-     * 
+     *
      * @param string $name Name of the property to return (eg, `'main_url'` or `'name'`).
      * @return mixed
      * @throws Exception
@@ -238,7 +238,7 @@ class Site
 
     /**
      * Returns the website type (by default `"website"`, which means it is a single website).
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -316,7 +316,7 @@ class Site
 
     /**
      * Returns the site search keyword query parameters for the site.
-     * 
+     *
      * @return string
      * @throws Exception if data for the site cannot be found.
      */
@@ -327,7 +327,7 @@ class Site
 
     /**
      * Returns the site search category query parameters for the site.
-     * 
+     *
      * @return string
      * @throws Exception if data for the site cannot be found.
      */
@@ -382,7 +382,7 @@ class Site
 
     /**
      * Clears the site data cache.
-     * 
+     *
      * See also {@link setSites()} and {@link setSitesFromArray()}.
      */
     public static function clearCache()

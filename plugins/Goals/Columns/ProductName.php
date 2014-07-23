@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class ProductName extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('Goals_ProductName');

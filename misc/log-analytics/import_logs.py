@@ -140,7 +140,7 @@ class JsonFormat(BaseFormat):
         super(JsonFormat, self).__init__(name)
         self.json = None
         self.date_format = '%Y-%m-%dT%H:%M:%S'
-    
+
     def check_format_line(self, line):
         try:
             self.json = json.loads(line)
@@ -160,7 +160,7 @@ class JsonFormat(BaseFormat):
         # Some ugly patchs ...
         if key == 'generation_time_milli':
             self.json[key] =  int(self.json[key] * 1000)
-        # Patch date format ISO 8601 
+        # Patch date format ISO 8601
         elif key == 'date':
             tz = self.json[key][19:]
             self.json['timezone'] = tz.replace(':', '')
@@ -170,7 +170,7 @@ class JsonFormat(BaseFormat):
             return self.json[key]
         except KeyError:
             raise BaseFormatException()
-    
+
     def get_all(self,):
         return self.json
 
@@ -201,7 +201,7 @@ class RegexFormat(BaseFormat):
 
     def get_all(self,):
         return self.matched.groupdict()
-            
+
 
 
 
@@ -1503,12 +1503,12 @@ class Parser(object):
                     if format_groups < match_groups:
                         format = candidate_format
                         format_groups = match_groups
-                except AttributeError: 
+                except AttributeError:
                     format = candidate_format
 
             else:
                 logging.debug('Format %s does not match', name)
-        
+
         return format
 
     @staticmethod

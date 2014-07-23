@@ -16,7 +16,7 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
 class Region extends Base
-{    
+{
     protected $columnName = 'location_region';
     protected $columnType = 'char(2) DEFAULT NULL';
 

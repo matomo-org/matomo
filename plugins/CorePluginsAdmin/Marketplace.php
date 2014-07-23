@@ -159,7 +159,7 @@ class Marketplace
         if (!empty($plugin['versions'])) {
 
             $dateFormat = Piwik::translate('CoreHome_DateFormat');
-            
+
             foreach ($plugin['versions'] as $index => $version) {
                 $plugin['versions'][$index]['release'] = Date::factory($version['release'])->getLocalized($dateFormat);
             }

@@ -467,7 +467,7 @@ class SegmentTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getBogusSegments
      */
     public function testBogusSegmentThrowsException($segment)

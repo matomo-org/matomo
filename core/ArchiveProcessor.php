@@ -20,58 +20,58 @@ use Piwik\Period;
 
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
- * 
+ *
  * ### See also
- * 
+ *
  * - **{@link Piwik\Plugin\Archiver}** - to learn how plugins should implement their own analytics
  *                                       aggregation logic.
  * - **{@link Piwik\DataAccess\LogAggregator}** - to learn how plugins can perform data aggregation
  *                                                across Piwik's log tables.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Inserting numeric data**
- * 
+ *
  *     // function in an Archiver descendant
  *     public function aggregateDayReport()
  *     {
  *         $archiveProcessor = $this->getProcessor();
- * 
+ *
  *         $myFancyMetric = // ... calculate the metric value ...
  *         $archiveProcessor->insertNumericRecord('MyPlugin_myFancyMetric', $myFancyMetric);
  *     }
- * 
+ *
  * **Inserting serialized DataTables**
- * 
+ *
  *     // function in an Archiver descendant
  *     public function aggregateDayReport()
  *     {
  *         $archiveProcessor = $this->getProcessor();
- * 
+ *
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
- * 
+ *
  *         $dataTable = // ... build by aggregating visits ...
  *         $serializedData = $dataTable->getSerialized($maxRowsInTable, $maxRowsInSubtable = $maxRowsInTable,
  *                                                     $columnToSortBy = Metrics::INDEX_NB_VISITS);
- *         
+ *
  *         $archiveProcessor->insertBlobRecords('MyPlugin_myFancyReport', $serializedData);
  *     }
- * 
+ *
  * **Aggregating archive data**
- * 
+ *
  *     // function in Archiver descendant
  *     public function aggregateMultipleReports()
  *     {
  *         $archiveProcessor = $this->getProcessor();
- * 
+ *
  *         // aggregate a metric
  *         $archiveProcessor->aggregateNumericMetrics('MyPlugin_myFancyMetric');
  *         $archiveProcessor->aggregateNumericMetrics('MyPlugin_mySuperFancyMetric', 'max');
- * 
- *         // aggregate a report        
+ *
+ *         // aggregate a report
  *         $archiveProcessor->aggregateDataTableRecords('MyPlugin_myFancyReport');
  *     }
- * 
+ *
  */
 class ArchiveProcessor
 {
@@ -172,7 +172,7 @@ class ArchiveProcessor
      *                                               when summed because they cannot be summed, eg,
      *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
-     *               
+     *
      *                   array(
      *                       'report1' => array('level0' => $report1->getRowsCount,
      *                                          'recursive' => $report1->getRowsCountRecursive()),
@@ -227,12 +227,12 @@ class ArchiveProcessor
      * @return array|int Returns the array of aggregate values. If only one metric was aggregated,
      *                   the aggregate value will be returned as is, not in an array.
      *                   For example, if `array('nb_visits', 'nb_hits')` is supplied for `$columns`,
-     *                   
+     *
      *                       array(
      *                           'nb_visits' => 3040,
      *                           'nb_hits' => 405
      *                       )
-     *                   
+     *
      *                   could be returned. If `array('nb_visits')` or `'nb_visits'` is used for `$columns`,
      *                   then `3040` would be returned.
      * @api
@@ -272,7 +272,7 @@ class ArchiveProcessor
      *
      * @param array $numericRecords A name-value mapping of numeric values that should be
      *                              archived, eg,
-     *                              
+     *
      *                                  array('Referrers_distinctKeywords' => 23, 'Referrers_distinctCampaigns' => 234)
      * @api
      */

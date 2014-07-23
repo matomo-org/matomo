@@ -16,7 +16,7 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
 class Resolution extends VisitDimension
-{    
+{
     protected $columnName = 'config_resolution';
     protected $columnType = 'VARCHAR(9) NOT NULL';
 

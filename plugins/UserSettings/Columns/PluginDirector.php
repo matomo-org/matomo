@@ -15,7 +15,7 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
 class PluginDirector extends VisitDimension
-{    
+{
     protected $columnName = 'config_director';
     protected $columnType = 'TINYINT(1) NOT NULL';
 

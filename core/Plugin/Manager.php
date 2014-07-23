@@ -435,7 +435,7 @@ class Manager extends Singleton
 
     /**
      * Returns the currently enabled theme.
-     * 
+     *
      * If no theme is enabled, the **Morpheus** plugin is returned (this is the base and default theme).
      *
      * @return Plugin
@@ -496,7 +496,7 @@ class Manager extends Singleton
      *
      * @return array An array that maps plugin names with arrays of plugin information. Plugin
      *               information consists of the following entries:
-     * 
+     *
      *               - **activated**: Whether the plugin is activated.
      *               - **alwaysActivated**: Whether the plugin should always be activated,
      *                                      or not.

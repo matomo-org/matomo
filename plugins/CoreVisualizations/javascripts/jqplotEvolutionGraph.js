@@ -22,7 +22,7 @@
 
         _setJqplotParameters: function (params) {
             JqplotGraphDataTablePrototype._setJqplotParameters.call(this, params);
-            
+
             var defaultParams = {
                 axes: {
                     xaxis: {
@@ -100,7 +100,7 @@
                     } else {
                         label = self.jqplotParams.axes.xaxis.ticks[tick];
                     }
-        
+
                     var text = [];
                     for (var d = 0; d < self.data.length; d++) {
                         var value = self.formatY(self.data[d][tick], d);

@@ -12,7 +12,7 @@ use Piwik\Tracker\GoalManager;
 
 /**
  * Contains helper function that format numerical values in different ways.
- * 
+ *
  * @api
  */
 class MetricsFormatter
@@ -181,7 +181,7 @@ class MetricsFormatter
 
     /**
      * Prettifies a metric value based on the column name.
-     * 
+     *
      * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
      * @param string $columnName The metric name.
      * @param mixed $value The metric value.

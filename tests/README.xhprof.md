@@ -10,23 +10,23 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
 		$ cd /path/to/piwik/tests/lib/
 		$ wget http://pecl.php.net/get/xhprof
 		$ tar -xzvf xhprof
-    
+
  * 	Build XHProf.
 
 		$ phpize
 		$ ./configure
 		$ make
-    
+
 	xhprof.so will now exist in the ./modules directory.
-    
+
  *	Configure PHP to use XHProf. Add the following to your php.ini file:
-      
+
 	```
 	[xhprof]
 	extension=/path/to/piwik/tests/lib/xhprof-0.9.4/extension/modules/xhprof.so
 	xhprof.output_dir=/path/to/output/dir
 	```
-      
+
 	Replace /path/to/output/dir with an existing directory. All your profiles will be
 	stored there.
 

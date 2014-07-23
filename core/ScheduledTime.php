@@ -93,7 +93,7 @@ abstract class ScheduledTime
 
     /**
      * Sets the day of the period to execute the scheduled task. Not a valid operation for all period types.
-     * 
+     *
      * @abstract
      * @param  int $_day a number describing the day to set. Its meaning depends on the ScheduledTime's period type.
      * @throws Exception if method not supported by subclass or parameter _day is invalid
@@ -102,7 +102,7 @@ abstract class ScheduledTime
 
     /**
      * Sets the hour of the day on which the task should be executed.
-     * 
+     *
      * @param  int $hour Must be `>= 0` and `< 24`.
      * @throws Exception If the current scheduled period is **hourly** or if `$hour` is invalid.
      * @api
@@ -153,7 +153,7 @@ abstract class ScheduledTime
             // make sure the rescheduled date is in the future
             $rescheduledTime = (24 * 3600) + $rescheduledTime;
         }
-        
+
         return $rescheduledTime;
     }
 
@@ -181,14 +181,14 @@ abstract class ScheduledTime
     /**
      * Returns a new ScheduledTime instance using a string description of the scheduled period type
      * and a string description of the day within the period to execute the task on.
-     * 
+     *
      * @param string $periodType The scheduled period type. Can be `'hourly'`, `'daily'`, `'weekly'`, or `'monthly'`.
      * @param string|int|false $periodDay A string describing the day within the scheduled period to execute
      *                                    the task on. Only valid for week and month periods.
-     *                               
+     *
      *                                    If `'weekly'` is supplied for `$periodType`, this should be a day
      *                                    of the week, for example, `'monday'` or `'tuesday'`.
-     * 
+     *
      *                                    If `'monthly'` is supplied for `$periodType`, this can be a numeric
      *                                    day in the month or a day in one week of the month. For example,
      *                                    `12`, `23`, `'first sunday'` or `'fourth tuesday'`.

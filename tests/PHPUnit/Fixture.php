@@ -809,7 +809,7 @@ class Fixture extends PHPUnit_Framework_Assert
     {
         Cache::deleteTrackerCache();
         Option::clearCache();
-        
+
         if ($force) {
             // remove version options to force update
             Option::deleteLike('version%');

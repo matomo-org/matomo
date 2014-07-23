@@ -2621,7 +2621,7 @@ O.isEmpty = function(o) {
 * @returns {Object} The Y.UA object
 */
 YUI.Env.parseUA = function(subUA) {
-    
+
     var numberify = function(s) {
             var c = 0;
             return parseFloat(s.replace(/\./g, function() {
@@ -3737,7 +3737,7 @@ add('load', '0', {
     // no point loading the -keys module even when a bluetooth keyboard may be
     // available.
     return !(Y.UA.ios || Y.UA.android);
-}, 
+},
     "trigger": "autocomplete-list"
 });
 // ie-style-test.js
@@ -3767,12 +3767,12 @@ add('load', '1', {
             !testFeature('style', 'computedStyle'));
 
     return ret;
-}, 
+},
     "trigger": "dom-style"
 });
 // 0
 add('load', '2', {
-    "trigger": "widget-base", 
+    "trigger": "widget-base",
     "ua": "ie"
 });
 // ie-base-test.js
@@ -3780,14 +3780,14 @@ add('load', '3', {
     "test": function(Y) {
     var imp = Y.config.doc && Y.config.doc.implementation;
     return (imp && (!imp.hasFeature('Events', '2.0')));
-}, 
+},
     "trigger": "node-base"
 });
 // dd-gestures-test.js
 add('load', '4', {
     "test": function(Y) {
     return (Y.config.win && ('ontouchstart' in Y.config.win && !Y.UA.chrome));
-}, 
+},
     "trigger": "dd-drag"
 });
 // history-hash-ie-test.js
@@ -3797,7 +3797,7 @@ add('load', '5', {
 
     return Y.UA.ie && (!('onhashchange' in Y.config.win) ||
             !docMode || docMode < 8);
-}, 
+},
     "trigger": "history-hash"
 });
 

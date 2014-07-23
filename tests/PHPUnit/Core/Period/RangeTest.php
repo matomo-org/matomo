@@ -1305,8 +1305,8 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
-     * 
+     *
+     *
      * @dataProvider getDataForLastNLimitsTest
      */
     public function testLastNLimits($period, $lastN, $expectedLastN)

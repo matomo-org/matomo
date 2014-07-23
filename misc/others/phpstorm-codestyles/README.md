@@ -4,7 +4,7 @@ Piwik uses PSR coding standard for php source code. We use a slightly customized
 (because the default PSR style in Phpstorm results in some unwanted changes).
 
 Steps:
- * Use latest Phpstorm 
+ * Use latest Phpstorm
  * Copy this Piwik_codestyle.xml file in your  ~/.WebIde60/config/codestyles/
   * If you use Windows or Mac see which path to copy at: http://intellij-support.jetbrains.com/entries/23358108
   * To automatically link to the file in Piwik:

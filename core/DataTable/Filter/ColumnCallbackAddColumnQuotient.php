@@ -15,14 +15,14 @@ use Piwik\DataTable\Row;
 /**
  * Calculates the quotient of two columns and adds the result as a new column
  * for each row of a DataTable.
- * 
+ *
  * This filter is used to calculate rate values (eg, `'bounce_rate'`), averages
  * (eg, `'avg_time_on_page'`) and other types of values.
  *
  * **Basic usage example**
- * 
+ *
  *     $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('bounce_rate', 'bounce_count', 'nb_visits', $precision = 2));
- * 
+ *
  * @api
  */
 class ColumnCallbackAddColumnQuotient extends BaseFilter
@@ -38,7 +38,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
 
     /**
      * Constructor.
-     * 
+     *
      * @param DataTable $table The DataTable that will eventually be filtered.
      * @param string $columnNameToAdd The name of the column to add the quotient value to.
      * @param string $columnValueToRead The name of the column that holds the dividend.

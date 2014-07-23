@@ -759,7 +759,7 @@ class Plugins_SitesManagerTest extends DatabaseTestCase
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $groupAfter);
 
-        // no result for the group before update 
+        // no result for the group before update
         $websites = API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(0, count($websites));
 
@@ -848,7 +848,7 @@ class Plugins_SitesManagerTest extends DatabaseTestCase
         $excludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
         $this->assertEquals('', $excludedQueryParameters);
 
-        // test that when not specified, defaults are set as expected  
+        // test that when not specified, defaults are set as expected
         $idsite = API::getInstance()->addSite("site1", array('http://example.org'));
         $site = new Site($idsite);
         $this->assertEquals('UTC', $site->getTimezone());

@@ -165,7 +165,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getP2NInvalidInputData
      */
     public function testP2NInvalidInput($P)
@@ -535,7 +535,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getIpsInRangeData
      */
     public function testIsIpInRange($range, $test)
@@ -603,7 +603,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader($ip)
@@ -613,7 +613,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader2($ip)
@@ -626,7 +626,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader3($ip)
@@ -662,7 +662,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getLastIpFromListTestData
      */
     public function testGetLastIpFromList($csv, $expected)

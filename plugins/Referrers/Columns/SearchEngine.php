@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class SearchEngine extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('Referrers_ColumnSearchEngine');

@@ -303,14 +303,14 @@ class Mysqli extends Db
 
 	public function commit($xid)
 	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) { 
-		
+		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
+
 			return;
 		}
 		$this->activeTransaction = false;
 
 		if(!$this->connection->commit() ) {
-			throw new DbException("Commit failed"); 
+			throw new DbException("Commit failed");
 		}
 		$this->connection->autocommit(true);
 	}
@@ -322,14 +322,14 @@ class Mysqli extends Db
 
 	public function rollBack($xid)
 	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) { 
+		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
 			return;
 		}
 		$this->activeTransaction = false;
 
 		if(!$this->connection->rollback() ) {
-			throw new DbException("Rollback failed"); 
+			throw new DbException("Rollback failed");
 		}
-		$this->connection->autocommit(true); 
+		$this->connection->autocommit(true);
 	}
 }

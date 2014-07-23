@@ -205,7 +205,7 @@ You can use any log format that this script can handle, like Apache Combined, an
 ### Setup Nginx logs
 
 ```
-http { 
+http {
 ...
 log_format  piwik                   '{"ip": "$remote_addr",'
                                     '"host": "$host",'

@@ -81,7 +81,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     protected function processFileContent($uiAsset)
     {
-        $pathsRewriter = $this->getCssPathsRewriter($uiAsset); 
+        $pathsRewriter = $this->getCssPathsRewriter($uiAsset);
         $content = $uiAsset->getContent();
         $content = $this->rewriteCssImagePaths($content, $pathsRewriter);
         $content = $this->rewriteCssImportPaths($content, $pathsRewriter);
@@ -128,7 +128,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
         return function ($matches) use ($baseDirectory) {
             $absolutePath = PIWIK_USER_PATH . "/$baseDirectory/" . $matches[2];
-            
+
             // Allow to import extension less file
             if (strpos($matches[2], '.') === false) {
                 $absolutePath .= '.less';

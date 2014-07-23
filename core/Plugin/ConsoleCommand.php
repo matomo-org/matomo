@@ -15,14 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * The base class for console commands.
- * 
+ *
  * @api
  */
 class ConsoleCommand extends SymfonyCommand
 {
     /**
      * Constructor.
-     * 
+     *
      * @param string|null $name The name of the command, eg, `'generate:api'`.
      */
     public function __construct($name = null)

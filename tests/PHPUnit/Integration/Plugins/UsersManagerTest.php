@@ -30,7 +30,7 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
      * @var Model
      */
     private $model;
-    
+
     public function setUp()
     {
         parent::setUp();

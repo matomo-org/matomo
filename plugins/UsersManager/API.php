@@ -341,7 +341,7 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered after a new user is created.
-         * 
+         *
          * @param string $userLogin The new user's login handle.
          */
         Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password, $alias));
@@ -445,7 +445,7 @@ class API extends \Piwik\Plugin\API
         /**
          * Triggered after an existing user has been updated.
          * Event notify about password change.
-         * 
+         *
          * @param string $userLogin The user's login handle.
          * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */

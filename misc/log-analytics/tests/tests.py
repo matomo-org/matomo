@@ -9,11 +9,11 @@ def add_junk_to_file(path):
     file = open(path)
     contents = file.read()
     file.close()
-    
+
     file = open('tmp.log', 'w')
     file.write(contents + ' junk')
     file.close()
-    
+
     return 'tmp.log'
 
 def tearDownModule():
@@ -26,10 +26,10 @@ def test_format_detection():
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
         assert(format.name == format_name)
-    
+
     def _test_junk(format_name):
         tmp_path = add_junk_to_file('logs/%s.log' % format_name)
-        
+
         file = open(tmp_path)
         format = import_logs.Parser.detect_format(file)
         assert(format is not None)
@@ -39,7 +39,7 @@ def test_format_detection():
         f = functools.partial(_test, format_name)
         f.description = 'Testing autodetection of format ' + format_name
         yield f
-        
+
         f = functools.partial(_test_junk, format_name)
         f.description = 'Testing autodetection of format ' + format_name + ' w/ garbage at end of line'
         yield f
@@ -81,7 +81,7 @@ class Resolver(object):
 class Recorder(object):
     """Mock recorder which collects hits but doesn't put their in database."""
     recorders = []
-    
+
     @classmethod
     def add_hits(cls, hits):
         cls.recorders.extend(hits)
@@ -89,7 +89,7 @@ class Recorder(object):
 def test_replay_tracking_arguments():
     """Test data parsing from sample log file."""
     file_ = 'logs/logs_to_tests.log'
-    
+
     import_logs.stats = import_logs.Statistics()
     import_logs.config = Config()
     import_logs.resolver = Resolver()
@@ -185,11 +185,11 @@ def test_replay_tracking_arguments():
 
 def parse_log_file_line(format_name, file_):
     format = import_logs.FORMATS[format_name]
-    
+
     file = open(file_)
     match = format.check_format(file)
     file.close()
-    
+
     return format.get_all()
 
 # check parsing groups
@@ -203,18 +203,18 @@ def check_common_groups(groups):
 
 def check_ncsa_extended_groups(groups):
     check_common_groups(groups)
-    
+
     assert groups['referrer'] == '-'
     assert groups['user_agent'] == 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11'
 
 def check_common_vhost_groups(groups):
     check_common_groups(groups)
-    
+
     assert groups['host'] == 'www.example.com'
 
 def check_common_complete_groups(groups):
     check_ncsa_extended_groups(groups)
-    
+
     assert groups['host'] == 'www.example.com'
 
 def check_iis_groups(groups):
@@ -227,12 +227,12 @@ def check_iis_groups(groups):
     assert groups['status'] == '200'
     assert groups['length'] == '27028'
     assert groups['host'] == 'example.com'
-    
+
     expected_hit_properties = ['date', 'path', 'query_string', 'ip', 'referrer', 'user_agent',
     						   'status', 'length', 'host']
     for property_name in groups.keys():
         assert property_name in expected_hit_properties
-    
+
 def check_s3_groups(groups):
     assert groups['host'] == 'www.example.com'
     assert groups['date'] == '10/Feb/2012:16:42:07'
@@ -261,28 +261,28 @@ def check_match_groups(format_name, groups):
     symbols = globals()
     check_function = symbols['check_' + format_name + '_groups']
     return check_function(groups)
-    
+
 # parsing tests
 def test_format_parsing():
     # test format regex parses correctly
     def _test(format_name, path):
         groups = parse_log_file_line(format_name, path)
         check_match_groups(format_name, groups)
-    
+
     # test format regex parses correctly when there's added junk at the end of the line
     def _test_with_junk(format_name, path):
         tmp_path = add_junk_to_file(path)
         _test(format_name, tmp_path)
-    
+
     for format_name in import_logs.FORMATS.iterkeys():
         f = functools.partial(_test, format_name, 'logs/' + format_name + '.log')
         f.description = 'Testing parsing of format "%s"' % format_name
         yield f
-        
+
         f = functools.partial(_test_with_junk, format_name, 'logs/' + format_name + '.log')
         f.description = 'Testing parsin of format "%s" with junk appended to path' % format_name
         yield f
-    
+
     f = functools.partial(_test, 'common', 'logs/ncsa_extended.log')
     f.description = 'Testing parsing of format "common" with ncsa_extended log'
     yield f

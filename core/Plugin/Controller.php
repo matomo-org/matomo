@@ -40,18 +40,18 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  * Base class of all plugin Controllers.
- * 
+ *
  * Plugins that wish to add display HTML should create a Controller that either
  * extends from this class or from {@link ControllerAdmin}. Every public method in
  * the controller will be exposed as a controller method and can be invoked via
  * an HTTP request.
- * 
+ *
  * Learn more about Piwik's MVC system [here](/guides/mvc-in-piwik).
- * 
+ *
  * ### Examples
- * 
+ *
  * **Defining a controller**
- * 
+ *
  *     class Controller extends \Piwik\Plugin\Controller
  *     {
  *         public function index()
@@ -61,17 +61,17 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
  *             return $view->render();
  *         }
  *     }
- * 
+ *
  * **Linking to a controller action**
  *
  *     <a href="?module=MyPlugin&action=index&idSite=1&period=day&date=2013-10-10">Link</a>
- * 
+ *
  */
 abstract class Controller
 {
     /**
      * The plugin name, eg. `'Referrers'`.
-     * 
+     *
      * @var string
      * @api
      */
@@ -95,7 +95,7 @@ abstract class Controller
 
     /**
      * The value of the **idSite** query parameter.
-     * 
+     *
      * @var int
      * @api
      */
@@ -103,7 +103,7 @@ abstract class Controller
 
     /**
      * The Site object created with {@link $idSite}.
-     * 
+     *
      * @var Site
      * @api
      */
@@ -111,7 +111,7 @@ abstract class Controller
 
     /**
      * Constructor.
-     * 
+     *
      * @api
      */
     public function __construct()
@@ -444,11 +444,11 @@ abstract class Controller
 
     /**
      * Returns a URL to a sparkline image for a report served by the current plugin.
-     * 
+     *
      * The result of this URL should be used with the [sparkline()](/api-reference/Piwik/View#twig) twig function.
-     * 
+     *
      * The current site ID and period will be used.
-     * 
+     *
      * @param string $action Method name of the controller that serves the report.
      * @param array $customParameters The array of query parameter name/value pairs that
      *                                should be set in result URL.
@@ -504,9 +504,9 @@ abstract class Controller
 
     /**
      * Assigns variables to {@link Piwik\View} instances that display an entire page.
-     * 
+     *
      * The following variables assigned:
-     * 
+     *
      * **date** - The value of the **date** query parameter.
      * **idSite** - The value of the **idSite** query parameter.
      * **rawDate** - The value of the **date** query parameter.
@@ -519,11 +519,11 @@ abstract class Controller
      * **config_action_url_category_delimiter** - The value of the `[General] action_url_category_delimiter`
      *                                            INI config option.
      * **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
-     * 
+     *
      * As well as the variables set by {@link setPeriodVariablesView()}.
-     * 
+     *
      * Will exit on error.
-     * 
+     *
      * @param View $view
      * @return void
      * @api
@@ -592,9 +592,9 @@ abstract class Controller
 
     /**
      * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
-     * 
+     *
      * The following variables assigned:
-     * 
+     *
      * **enableMeasurePiwikForSiteId** - The value of the `[Debug] enable_measure_piwik_usage_in_idsite`
      *                                     INI config option.
      * **isSuperUser** - True if the current user is the Super User, false if otherwise.
@@ -607,7 +607,7 @@ abstract class Controller
      * **hasSVGLogo** - True if there is a SVG logo, false if otherwise.
      * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
      *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
-     * 
+     *
      * Also calls {@link setHostValidationVariablesView()}.
      *
      * @param View $view
@@ -738,7 +738,7 @@ abstract class Controller
 
     /**
      * Sets general period variables on a view, including:
-     * 
+     *
      * - **displayUniqueVisitors** - Whether unique visitors should be displayed for the current
      *                               period.
      * - **period** - The value of the **period** query parameter.
@@ -771,7 +771,7 @@ abstract class Controller
 
     /**
      * Helper method used to redirect the current HTTP request to another module/action.
-     * 
+     *
      * This function will exit immediately after executing.
      *
      * @param string $moduleToRedirect The plugin to redirect to, eg. `"MultiSites"`.
@@ -834,10 +834,10 @@ abstract class Controller
 
     /**
      * Checks that the token_auth in the URL matches the currently logged-in user's token_auth.
-     * 
+     *
      * This is a protection against CSRF and should be used in all controller
      * methods that modify Piwik or any user settings.
-     * 
+     *
      * **The token_auth should never appear in the browser's address bar.**
      *
      * @throws \Piwik\NoAccessException If the token doesn't match.

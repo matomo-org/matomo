@@ -286,7 +286,7 @@ document.head = document.getElementsByTagName('head')[0];
 /*
 Class: window
 	Some properties are attached to the window object by the browser detection.
-	
+
 Note:
 	browser detection is entirely object-based. We dont sniff.
 

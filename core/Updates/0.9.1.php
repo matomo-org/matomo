@@ -38,12 +38,12 @@ class Updates_0_9_1 extends Updates
 
         return array(
             'UPDATE ' . Common::prefixTable('site') . '
-				SET timezone = "UTC" 
+				SET timezone = "UTC"
 				WHERE timezone IN (' . $timezoneList . ')'                                                            => false,
 
             'UPDATE `' . Common::prefixTable('option') . '`
-				SET option_value = "UTC" 
-			WHERE option_name = "SitesManager_DefaultTimezone" 
+				SET option_value = "UTC"
+			WHERE option_name = "SitesManager_DefaultTimezone"
 				AND option_value IN (' . $timezoneList . ')' => false,
         );
     }

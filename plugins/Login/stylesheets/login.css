@@ -83,7 +83,7 @@
 }
 
 
-/* FORM 
+/* FORM
 ***********************/
 .loginSection form {
     margin: 0 5px;
@@ -150,7 +150,7 @@
 }
 
 
-/* MESSAGE 
+/* MESSAGE
 ***********************/
 #loginPage .message_error,
 #loginPage .message {
@@ -170,9 +170,9 @@
 }
 
 
-/* NAVIGATION 
+/* NAVIGATION
 ***********************/
-#nav, 
+#nav,
 #piwik {
     margin: 0 0 0 8px;
     padding: 16px;

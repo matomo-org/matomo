@@ -13,7 +13,7 @@ use Piwik\DataTable\BaseFilter;
 
 /**
  * Sanitizes DataTable labels as an extra precaution. Called internally by Piwik.
- * 
+ *
  */
 class SafeDecodeLabel extends BaseFilter
 {

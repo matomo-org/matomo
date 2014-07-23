@@ -279,7 +279,7 @@ function copyDashboardToUser() {
 
     $.extend(DashboardManagerControl.prototype, DashboardSettingsControlBase.prototype, {
         onOpen: function () {
-            if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) { 
+            if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
                 $('.removeDashboardLink', this.$element).hide();
             } else {
                 $('.removeDashboardLink', this.$element).show();

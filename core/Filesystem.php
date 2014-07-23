@@ -14,7 +14,7 @@ use Piwik\Tracker\Cache;
 
 /**
  * Contains helper functions that deal with the filesystem.
- * 
+ *
  */
 class Filesystem
 {
@@ -70,7 +70,7 @@ class Filesystem
 
     /**
      * Attempts to create a new directory. All errors are silenced.
-     * 
+     *
      * _Note: This function does **not** create directories recursively._
      *
      * @param string $path The path of the directory to create.
@@ -143,7 +143,7 @@ class Filesystem
 
     /**
      * Recursively find pathnames that match a pattern.
-     * 
+     *
      * See {@link http://php.net/manual/en/function.glob.php glob} for more info.
      *
      * @param string $sDir directory The directory to glob in.
@@ -239,7 +239,7 @@ class Filesystem
 
     /**
      * Copies the contents of a directory recursively from `$source` to `$target`.
-     * 
+     *
      * @param string $source A directory or file to copy, eg. './tmp/latest'.
      * @param string $target A directory to copy to, eg. '.'.
      * @param bool $excludePhp Whether to avoid copying files if the file is related to PHP

@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class DayOfTheWeek extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('VisitTime_DayOfWeek');

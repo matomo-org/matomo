@@ -60,16 +60,16 @@ JSDOC.SymbolSet.prototype.resolveBorrows = function() {
 	for (var p = this._index.first(); p; p = this._index.next()) {
 		var symbol = p.value;
 		if (symbol.is("FILE") || symbol.is("GLOBAL")) continue;
-		
+
 		var borrows = symbol.inherits;
 		for (var i = 0; i < borrows.length; i++) {
-		
+
 if (/#$/.test(borrows[i].alias)) {
 	LOG.warn("Attempted to borrow entire instance of "+borrows[i].alias+" but that feature is not yet implemented.");
 	return;
 }
 			var borrowed = this.getSymbol(borrows[i].alias);
-			
+
 			if (!borrowed) {
 				LOG.warn("Can't borrow undocumented "+borrows[i].alias+".");
 				continue;
@@ -80,14 +80,14 @@ if (/#$/.test(borrows[i].alias)) {
 				borrows[i].as = symbol.name+RegExp.$1+assumedName;
 				LOG.inform("Assuming borrowed as name is "+borrows[i].as+" but that feature is experimental.");
 			}
-			
+
 			var borrowAsName = borrows[i].as;
 			var borrowAsAlias = borrowAsName;
 			if (!borrowAsName) {
 				LOG.warn("Malformed @borrow, 'as' is required.");
 				continue;
 			}
-			
+
 			if (borrowAsName.length > symbol.alias.length && borrowAsName.indexOf(symbol.alias) == 0) {
 				borrowAsName = borrowAsName.replace(borrowed.alias, "")
 			}
@@ -96,9 +96,9 @@ if (/#$/.test(borrows[i].alias)) {
 				if (borrowAsName.charAt(0) != "#") joiner = ".";
 				borrowAsAlias = borrowed.alias + joiner + borrowAsName;
 			}
-			
+
 			borrowAsName = borrowAsName.replace(/^[#.]/, "");
-					
+
 			if (this.hasSymbol(borrowAsAlias)) continue;
 
 			var clone = borrowed.clone();
@@ -114,19 +114,19 @@ JSDOC.SymbolSet.prototype.resolveMemberOf = function() {
 		var symbol = p.value;
 
 		if (symbol.is("FILE") || symbol.is("GLOBAL")) continue;
-		
+
 		// the memberOf value was provided in the @memberOf tag
-		else if (symbol.memberOf) {			
+		else if (symbol.memberOf) {
 			// like foo.bar is a memberOf foo
 			if (symbol.alias.indexOf(symbol.memberOf) == 0) {
 				var memberMatch = new RegExp("^("+symbol.memberOf+")[.#-]?(.+)$");
 				var aliasParts = symbol.alias.match(memberMatch);
-				
+
 				if (aliasParts) {
 					symbol.memberOf = aliasParts[1];
 					symbol.name = aliasParts[2];
 				}
-				
+
 				var nameParts = symbol.name.match(memberMatch);
 
 				if (nameParts) {
@@ -146,7 +146,7 @@ JSDOC.SymbolSet.prototype.resolveMemberOf = function() {
 
 			if (parts) {
 				symbol.memberOf = parts[1];
-				symbol.name = parts[2];				
+				symbol.name = parts[2];
 			}
 		}
 
@@ -170,7 +170,7 @@ JSDOC.SymbolSet.prototype.resolveMemberOf = function() {
 				break;
 			}
 		}
-		
+
 		// unowned methods and fields belong to the global object
 		if (!symbol.is("CONSTRUCTOR") && !symbol.isNamespace && symbol.memberOf == "") {
 			symbol.memberOf = "_global_";
@@ -190,7 +190,7 @@ JSDOC.SymbolSet.prototype.resolveMemberOf = function() {
 					LOG.warn("Trying to document "+symbol.name +" as a member of undocumented symbol "+symbol.memberOf+".");
 				}
 			}
-			
+
 			if (container) container.addMember(symbol);
 		}
 	}
@@ -199,7 +199,7 @@ JSDOC.SymbolSet.prototype.resolveMemberOf = function() {
 JSDOC.SymbolSet.prototype.resolveAugments = function() {
 	for (var p = this._index.first(); p; p = this._index.next()) {
 		var symbol = p.value;
-		
+
 		if (symbol.alias == "_global_" || symbol.is("FILE")) continue;
 		JSDOC.SymbolSet.prototype.walk.apply(this, [symbol]);
 	}
@@ -216,12 +216,12 @@ JSDOC.SymbolSet.prototype.walk = function(symbol) {
 			contributer.isPrivate = false;
 			JSDOC.Parser.addSymbol(contributer);
 		}
-		
-		if (contributer) {			
+
+		if (contributer) {
 			if (contributer.augments.length) {
 				JSDOC.SymbolSet.prototype.walk.apply(this, [contributer]);
 			}
-			
+
 			symbol.inheritsFrom.push(contributer.alias);
 			//if (!isUnique(symbol.inheritsFrom)) {
 			//	LOG.warn("Can't resolve augments: Circular reference: "+symbol.alias+" inherits from "+contributer.alias+" more than once.");
@@ -229,13 +229,13 @@ JSDOC.SymbolSet.prototype.walk = function(symbol) {
 			//else {
 				var cmethods = contributer.methods;
 				var cproperties = contributer.properties;
-				
+
 				for (var ci = 0, cl = cmethods.length; ci < cl; ci++) {
 					if (!cmethods[ci].isStatic) symbol.inherit(cmethods[ci]);
 				}
 				for (var ci = 0, cl = cproperties.length; ci < cl; ci++) {
 					if (!cproperties[ci].isStatic) symbol.inherit(cproperties[ci]);
-				}	
+				}
 			//}
 		}
 		else LOG.warn("Can't augment contributer: "+augments[i]+", not found.");

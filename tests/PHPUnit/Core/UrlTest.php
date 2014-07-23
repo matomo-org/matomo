@@ -258,7 +258,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * 
+     *
      * @dataProvider getQueryParameters
      */
     public function testGetQueryStringFromParameters($params, $queryString)

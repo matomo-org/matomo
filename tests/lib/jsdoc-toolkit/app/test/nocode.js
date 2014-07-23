@@ -4,7 +4,7 @@
       @function
     */
     function blahblah() {
-    
+
     }
 /**#nocode-*/
 

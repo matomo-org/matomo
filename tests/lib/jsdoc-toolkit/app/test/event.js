@@ -23,7 +23,7 @@
  * @function
  * @fires Kitchen#event:cakeEaten
  */
- 
+
 /**
  * @name Bakery
  * @constructor

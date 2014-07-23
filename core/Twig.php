@@ -44,7 +44,7 @@ class Twig
 		$manager = Plugin\Manager::getInstance();
 		$theme   = $manager->getThemeEnabled();
 		$loaders = array();
-		
+
 		//create loader for custom theme to overwrite twig templates
 		if($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
 			$customLoader = $this->getCustomThemeLoader($theme);
@@ -56,7 +56,7 @@ class Twig
 		}
 
 		$loaders[] = $loader;
-        
+
         $chainLoader = new Twig_Loader_Chain($loaders);
 
         // Create new Twig Environment and set cache dir

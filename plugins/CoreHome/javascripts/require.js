@@ -13,9 +13,9 @@
 
     /**
      * Returns a module for its ID. Empty modules are created if they does not exist.
-     * 
+     *
      * Modules are currently stored in the window object.
-     * 
+     *
      * @param {String} moduleId e.g. 'piwik/UserCountryMap' or 'myPlugin/Widgets/FancySchmancyThing'.
      *                          The following characters can be used to separate individual modules:
      *                          '/', '.' or '\'.

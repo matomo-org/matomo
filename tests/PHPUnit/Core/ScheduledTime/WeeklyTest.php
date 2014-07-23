@@ -158,12 +158,12 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests getRescheduledTime on Weekly with unspecified hour and specified day
-     * 
+     *
      * Context :
      *  - getRescheduledTime called Monday January 4 1971 09:00:00 UTC
      *  - setHour is not called, defaulting to midnight
      *  - setDay is set to $dayToSet
-     * 
+     *
      * @dataProvider getSetDayParametersToTest
      */
     public function testGetRescheduledTimeWeeklyUnspecifiedHourSpecifiedDay($dayToSet, $expectedRescheduledTime)

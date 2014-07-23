@@ -2,7 +2,7 @@
 
 Piwik comes with a system that can be used to benchmark certain Piwik processes. The benchmarking system relies both on PHPUnit.
 
-##  Benchmarks & Fixtures 
+##  Benchmarks & Fixtures
 
 Piwik's benchmarks are written as unit tests. Except, they don't setup the database by themselves.
 Instead, there are several 'fixture' classes that do the setup. You can mix and match different
@@ -41,7 +41,7 @@ These are the fixtures currently included with Piwik:
     website with ~230,000 visits on one day. There are around ~2.3 pageviews per visit and
     each visit resulted in at least one conversion.
 
-##  Benchmarking with git 
+##  Benchmarking with git
 
 If you use git, you can use the benchmarking system to easily see if there are performance
 regressions caused by your changes.

@@ -85,7 +85,7 @@
         try {
             var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 3);
             piwikTracker.setCookieDomain('*.piwik.org');
-            
+
             piwikTracker.trackPageView();
             piwikTracker.enableLinkTracking();
         } catch( err ) {}

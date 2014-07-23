@@ -17,17 +17,17 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
 
 /**
  * Manages scheduled task execution.
- * 
+ *
  * A scheduled task is a callback that should be executed every so often (such as daily,
  * weekly, monthly, etc.). They are registered with **TaskScheduler** through the
  * {@hook TaskScheduler.getScheduledTasks} event.
- * 
+ *
  * Tasks are executed when the cron core:archive command is executed.
- * 
+ *
  * ### Examples
- * 
+ *
  * **Scheduling a task**
- * 
+ *
  *     // event handler for TaskScheduler.getScheduledTasks event
  *     public function getScheduledTasks(&$tasks)
  *     {
@@ -39,14 +39,14 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  *             ScheduledTask::LOWEST_PRIORITY
  *         );
  *     }
- * 
+ *
  * **Executing all pending tasks**
- * 
+ *
  *     $results = TaskScheduler::runTasks();
  *     $task1Result = $results[0];
  *     $task1Name = $task1Result['task'];
  *     $task1Output = $task1Result['output'];
- * 
+ *
  *     echo "Executed task '$task1Name'. Task output:\n$task1Output";
  *
  * @method static \Piwik\TaskScheduler getInstance()
@@ -69,7 +69,7 @@ class TaskScheduler extends Singleton
      *
      * @return array An array describing the results of scheduled task execution. Each element
      *               in the array will have the following format:
-     * 
+     *
      *               ```
      *               array(
      *                   'task' => 'task name',
@@ -157,10 +157,10 @@ class TaskScheduler extends Singleton
 
     /**
      * Determines a task's scheduled time and persists it, overwriting the previous scheduled time.
-     * 
+     *
      * Call this method if your task's scheduled time has changed due to, for example, an option that
      * was changed.
-     * 
+     *
      * @param ScheduledTask $task Describes the scheduled task being rescheduled.
      * @api
      */
@@ -171,7 +171,7 @@ class TaskScheduler extends Singleton
 
     /**
      * Returns true if the TaskScheduler is currently running a scheduled task.
-     * 
+     *
      * @return bool
      */
     public static function isTaskBeingExecuted()

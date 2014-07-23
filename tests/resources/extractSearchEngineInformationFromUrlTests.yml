@@ -30,7 +30,7 @@
 - url: 'http://www.google.fr/search?hl=en&q=%3C%3E+%26test%3B+piwik+%26quot%3B&ei=GcXJSb-VKoKEsAPmnIjzBw&sa=X&oi=revisions_inline&ct=unquoted-query-link'
   engine: 'Google'
   keywords: '<> &test; piwik &quot;'
-  
+
 # testing Baidu special case (several variable names possible, and custom encoding)
 # see https://github.com/piwik/piwik/issues/589
 

@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class VisitDuration extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('VisitorInterest_ColumnVisitDuration');

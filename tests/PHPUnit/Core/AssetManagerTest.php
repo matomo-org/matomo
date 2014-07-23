@@ -538,7 +538,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_Stale()
     {
         $this->activateMergedAssets();
-        
+
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
         $this->triggerGetMergedStylesheet();

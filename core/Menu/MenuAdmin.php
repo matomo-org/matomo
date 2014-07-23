@@ -14,7 +14,7 @@ use Piwik\Piwik;
  * Contains menu entries for the Admin menu.
  * Plugins can implement the `configureAdminMenu()` method of the `Menu` plugin class to add, rename of remove
  * items. If your plugin does not have a `Menu` class yet you can create one using `./console generate:menu`.
- * 
+ *
  * **Example**
  *
  *     public function configureAdminMenu(MenuAdmin $menu)
@@ -27,7 +27,7 @@ use Piwik\Piwik;
  *             $order = 2
  *         );
  *     }
- * 
+ *
  * @method static \Piwik\Menu\MenuAdmin getInstance()
  */
 class MenuAdmin extends MenuAbstract

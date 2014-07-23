@@ -23,7 +23,7 @@ use Piwik\Tracker\Cache;
 
 /**
  * This class contains Archiving rules/logic which are used when creating and processing Archives.
- * 
+ *
  */
 class Rules
 {

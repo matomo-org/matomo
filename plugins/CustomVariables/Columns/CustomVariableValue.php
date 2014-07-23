@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
 class CustomVariableValue extends Dimension
-{    
+{
     public function getName()
     {
         return Piwik::translate('CustomVariables_ColumnCustomVariableValue');

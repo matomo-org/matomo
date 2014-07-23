@@ -201,7 +201,7 @@ class Process
      * ps -e requires /proc
      * @return bool
      */
-    private static function isProcFSMounted() 
+    private static function isProcFSMounted()
     {
         return is_resource(@fopen('/proc', 'r'));
     }
