@@ -261,8 +261,9 @@ class Manager extends Singleton
      * Deactivate plugin
      *
      * @param string $pluginName Name of plugin
+     * @param bool $clearCache Flag to decide if cache should be cleared after this action
      */
-    public function deactivatePlugin($pluginName)
+    public function deactivatePlugin($pluginName, $clearCache = true)
     {
         // execute deactivate() to let the plugin do cleanups
         $this->executePluginDeactivate($pluginName);
@@ -271,7 +272,9 @@ class Manager extends Singleton
 
         $this->removePluginFromConfig($pluginName);
 
-        $this->clearCache($pluginName);
+        if ($clearCache) {
+            $this->clearCache($pluginName);
+        }
     }
 
     /**
@@ -393,9 +396,10 @@ class Manager extends Singleton
      * Activate the specified plugin and install (if needed)
      *
      * @param string $pluginName Name of plugin
+     * @param bool $clearCache Flag to decide if cache should be cleared after this action
      * @throws \Exception
      */
-    public function activatePlugin($pluginName)
+    public function activatePlugin($pluginName, $clearCache = true)
     {
         $plugins = PiwikConfig::getInstance()->Plugins['Plugins'];
         if (in_array($pluginName, $plugins)) {
@@ -422,7 +426,9 @@ class Manager extends Singleton
         $this->updatePluginsConfig($this->pluginsToLoad);
         PiwikConfig::getInstance()->forceSave();
 
-        $this->clearCache($pluginName);
+        if ($clearCache) {
+            $this->clearCache($pluginName);
+        }
     }
 
     protected function isPluginInFilesystem($pluginName)
