@@ -590,7 +590,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($wanted1, $access1);
         $this->assertEquals($wanted2, $access2);
 
-
         $access1 = $this->api->getUsersAccessFromSite($id1);
         $access2 = $this->api->getUsersAccessFromSite($id2);
         $access3 = $this->api->getUsersAccessFromSite($id3);

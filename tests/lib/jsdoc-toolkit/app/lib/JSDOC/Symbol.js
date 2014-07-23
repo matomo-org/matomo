@@ -115,7 +115,6 @@ JSDOC.Symbol.prototype.getMethods = function() {
 	return nonEvents;
 }
 
-
 JSDOC.Symbol.prototype.populate = function(
 		/** String */ name,
 		/** Object[] */ params,

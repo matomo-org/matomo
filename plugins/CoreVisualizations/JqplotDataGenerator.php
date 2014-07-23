@@ -32,7 +32,6 @@ class JqplotDataGenerator
      */
     protected $properties;
 
-
     protected $graphType;
 
     /**

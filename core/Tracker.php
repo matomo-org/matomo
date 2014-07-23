@@ -890,7 +890,6 @@ class Tracker
         return $isAuthenticated;
     }
 
-
     protected function runScheduledTasksIfAllowed($isAuthenticated)
     {
         // Do not run schedule task if we are importing logs
@@ -913,6 +912,5 @@ class Tracker
     {
         return file_get_contents("php://input");
     }
-
 
 }

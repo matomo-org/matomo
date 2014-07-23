@@ -14,7 +14,6 @@ JSDOC.PluginManager.registerPlugin = function(/**String*/name, /**Object*/handle
 		*/
 		JSDOC.PluginManager.plugins = {};
 
-
 	JSDOC.PluginManager.plugins[name] = handlers;
 }
 

@@ -29,7 +29,6 @@ class Schema extends Singleton
      */
     private $schema = null;
 
-
     /**
      * Get schema class name
      *

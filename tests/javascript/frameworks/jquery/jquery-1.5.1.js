@@ -1089,7 +1089,6 @@ return jQuery;
 
 })();
 
-
 (function() {
 
 	jQuery.support = {};
@@ -1312,8 +1311,6 @@ return jQuery;
 	// release memory in IE
 	div = all = a = null;
 })();
-
-
 
 var rbrace = /^(?:\{.*\}|\[.*\])$/;
 
@@ -1633,9 +1630,6 @@ function isEmptyDataObject( obj ) {
 	return true;
 }
 
-
-
-
 jQuery.extend({
 	queue: function( elem, type, data ) {
 		if ( !elem ) {
@@ -1731,9 +1725,6 @@ jQuery.fn.extend({
 		return this.queue( type || "fx", [] );
 	}
 });
-
-
-
 
 var rclass = /[\n\t\r]/g,
 	rspaces = /\s+/,
@@ -2120,9 +2111,6 @@ jQuery.extend({
 		return elem[ name ];
 	}
 });
-
-
-
 
 var rnamespaces = /\.(.*)$/,
 	rformElems = /^(?:textarea|input|select)$/i,
@@ -3292,7 +3280,6 @@ jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblcl
 		jQuery.attrFn[ name ] = true;
 	}
 });
-
 
 /*!
  * Sizzle CSS Selector Engine
@@ -4684,9 +4671,7 @@ jQuery.text = Sizzle.getText;
 jQuery.isXMLDoc = Sizzle.isXML;
 jQuery.contains = Sizzle.contains;
 
-
 })();
-
 
 var runtil = /Until$/,
 	rparentsprev = /^(?:parents|prevUntil|prevAll)/,
@@ -4995,9 +4980,6 @@ function winnow( elements, qualifier, keep ) {
 		return (jQuery.inArray( elem, qualifier ) >= 0) === keep;
 	});
 }
-
-
-
 
 var rinlinejQuery = / jQuery\d+="(?:\d+|null)"/g,
 	rleadingWhitespace = /^\s+/,
@@ -5701,9 +5683,6 @@ function evalScript( i, elem ) {
 	}
 }
 
-
-
-
 var ralpha = /alpha\([^)]*\)/i,
 	ropacity = /opacity=([^)]*)/,
 	rdashAlpha = /-([a-z])/ig,
@@ -6037,9 +6016,6 @@ if ( jQuery.expr && jQuery.expr.filters ) {
 		return !jQuery.expr.filters.hidden( elem );
 	};
 }
-
-
-
 
 var r20 = /%20/g,
 	rbracket = /\[\]$/,
@@ -7020,9 +6996,6 @@ function ajaxConvert( s, response ) {
 	return response;
 }
 
-
-
-
 var jsc = jQuery.now(),
 	jsre = /(\=)\?(&|$)|()\?\?()/i;
 
@@ -7100,9 +7073,6 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 		return "script";
 	}
 } );
-
-
-
 
 // Install script dataType
 jQuery.ajaxSetup({
@@ -7189,9 +7159,6 @@ jQuery.ajaxTransport( "script", function(s) {
 		};
 	}
 } );
-
-
-
 
 var // #5280: next active xhr id and list of active xhrs' callbacks
 	xhrId = jQuery.now(),
@@ -7410,9 +7377,6 @@ if ( jQuery.support.ajax ) {
 		}
 	});
 }
-
-
-
 
 var elemdisplay = {},
 	rfxtypes = /^(?:toggle|show|hide)$/,
@@ -7939,9 +7903,6 @@ function defaultDisplay( nodeName ) {
 	return elemdisplay[ nodeName ];
 }
 
-
-
-
 var rtable = /^t(?:able|d|h)$/i,
 	rroot = /^(?:body|html)$/i;
 
@@ -8153,7 +8114,6 @@ jQuery.offset = {
 	}
 };
 
-
 jQuery.fn.extend({
 	position: function() {
 		if ( !this[0] ) {
@@ -8196,7 +8156,6 @@ jQuery.fn.extend({
 		});
 	}
 });
-
 
 // Create scrollLeft and scrollTop methods
 jQuery.each( ["Left", "Top"], function( i, name ) {
@@ -8243,9 +8202,6 @@ function getWindow( elem ) {
 			elem.defaultView || elem.parentWindow :
 			false;
 }
-
-
-
 
 // Create innerHeight, innerWidth, outerHeight and outerWidth methods
 jQuery.each([ "Height", "Width" ], function( i, name ) {
@@ -8310,7 +8266,6 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 	};
 
 });
-
 
 window.jQuery = window.$ = jQuery;
 })(window);

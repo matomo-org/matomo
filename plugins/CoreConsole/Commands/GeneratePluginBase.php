@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;

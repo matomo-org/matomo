@@ -577,7 +577,6 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         $this->validateMergedStylesheet();
     }
 
-
     /**
      * @group Core
      */

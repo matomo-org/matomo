@@ -66,7 +66,6 @@ class AutoSuggestAPITest extends IntegrationTestCase
         return $apiForTesting;
     }
 
-
     /**
      * @param $idSite
      * @param $segment

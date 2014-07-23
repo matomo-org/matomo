@@ -177,14 +177,11 @@ class Core_UrlHelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, UrlHelper::getLossyUrl($input));
     }
 
-
-
     private function includeDataFilesForSearchEngineTest()
     {
         include "DataFiles/SearchEngines.php";
         include "DataFiles/Countries.php";
     }
-
 
     /**
      * @group Core

@@ -200,7 +200,6 @@
     });
 })(jQuery);
 
-
 $(function() {
     var refreshWidget = function (element, refreshAfterXSecs) {
         // if the widget has been removed from the DOM, abort
@@ -270,7 +269,6 @@ $(function() {
         });
     };
 });
-
 
 var pauseImage = "plugins/Live/images/pause.gif";
 var pauseDisabledImage = "plugins/Live/images/pause_disabled.gif";

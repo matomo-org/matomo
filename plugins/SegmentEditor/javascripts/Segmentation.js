@@ -272,7 +272,6 @@ Segmentation = (function($) {
             });
         };
 
-
         var findAndExplodeByMatch = function(metric){
             var matches = ["==" , "!=" , "<=", ">=", "=@" , "!@","<",">"];
             var newMetric = {};
@@ -1080,7 +1079,6 @@ Segmentation = (function($) {
     return segmentation;
 })(jQuery);
 
-
 $(document).ready(function() {
     var exports = require('piwik/UI');
     var UIControl = exports.UIControl;
@@ -1187,7 +1185,6 @@ $(document).ready(function() {
             });
             ajaxHandler.send(true);
         };
-
 
         var deleteSegment = function(params){
             var ajaxHandler = new ajaxHelper();

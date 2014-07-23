@@ -342,7 +342,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         }
         $correct = array_reverse($correct);
 
-
         $this->assertEquals(50, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }
@@ -412,7 +411,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         }
         $correct = array_reverse($correct);
 
-
         $this->assertEquals(10, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }
@@ -438,7 +436,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }
-
 
     /**
      * @group Core
@@ -536,7 +533,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         }
         $correct = array_reverse($correct);
 
-
         $this->assertEquals(10, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }
@@ -557,7 +553,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
             $correct[] = $week->toString();
         }
         $correct = array_reverse($correct);
-
 
         $this->assertEquals(10, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());

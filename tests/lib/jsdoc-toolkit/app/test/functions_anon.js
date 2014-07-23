@@ -9,7 +9,6 @@ a = new function() {
     }
 }
 
-
 /**
 	named function executed inline
 */

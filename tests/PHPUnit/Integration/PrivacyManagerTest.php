@@ -752,7 +752,6 @@ class PrivacyManagerTest extends IntegrationTestCase
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
 
-
         // no range metric for february
         $febMetricCount = $this->_getExpectedNumericArchiveCountFeb();
         $this->assertEquals($febMetricCount, $this->_getTableCount($archiveTables['numeric'][1])); // February

@@ -9,7 +9,6 @@
 
 namespace Piwik\Unzip;
 
-
 /**
  * Unzip implementation for .gz files.
  *

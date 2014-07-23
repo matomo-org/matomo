@@ -59,7 +59,6 @@ To improve performance,
    you can disable server access logging for these requests.
    Each Piwik webserver (Apache, Nginx, IIS) can also be tweaked a bit to handle more req/sec.
 
-
 ## Setup Apache CustomLog that directly imports in Piwik
 
 Since apache CustomLog directives can send log data to a script, it is possible to import hits into piwik server-side in real-time rather than processing a logfile each day.
@@ -89,7 +88,6 @@ Useful options here are:
 * "-" so it reads straight from /dev/stdin
 
 You can have as many CustomLog statements as you like. However, if you define any CustomLog directives within a <VirtualHost> block, all CustomLogs in the main config will be overridden. Therefore if you require custom logging for particular VirtualHosts, it is recommended to use mod_macro to make configuration more maintainable.
-
 
 ## Advanced Log Analytics use case: Apache vhost, custom logs, automatic website creation
 
@@ -177,7 +175,6 @@ This log format can be specified for nginx access logs to capture multiple virtu
 
 When executing import_logs.py specify the "common_complete" format.
 
-
 ## Import Page Speed Metric from logs
 
 In Piwik> Actions> Page URLs and Page Title reports, Piwik reports the Avg. generation time, as an indicator of your website speed.
@@ -193,14 +190,12 @@ Apache LogFormat "%h %l %u %t \"%r\" %>s %b %D"
 
 Note: the group <generation_time_milli> is also available if your server logs generation time in milliseconds rather than microseconds.
 
-
 ## Setup Nginx to directly imports in Piwik via syslog
 
 With the syslog patch from http://wiki.nginx.org/3rdPartyModules which is compiled in dotdeb's release, you can log to syslog and imports them live to Piwik.
 Path: Nginx -> syslog -> (syslog central server) -> this script -> piwik
 
 You can use any log format that this script can handle, like Apache Combined, and Json format which needs less processing.
-
 
 ### Setup Nginx logs
 
@@ -254,7 +249,5 @@ exec python /path/to/misc/log-analytics/import_logs.py \
  --log-format-name=nginx_json -
 ```
 
-
 And that's all !
-
 

@@ -330,7 +330,6 @@ function pad(str, len) {
   return Array(len - str.length + 1).join(' ') + str;
 }
 
-
 /**
  * Returns an inline diff between 2 strings with coloured ANSI output
  *

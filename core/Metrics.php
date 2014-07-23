@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-
 use Piwik\Cache\LanguageAwareStaticCache;
 use Piwik\Cache\PluginAwareStaticCache;
 

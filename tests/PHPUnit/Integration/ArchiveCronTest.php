@@ -45,7 +45,6 @@ class ArchiveCronTest extends IntegrationTestCase
 //
 //        }
 
-
         // API Call Without segments
         // TODO uncomment week and year period
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
@@ -73,7 +72,6 @@ class ArchiveCronTest extends IntegrationTestCase
                                      'segment'    => $segment,
                                      'testSuffix' => '_preArchivedSegment'));
         }
-
 
         return $results;
     }

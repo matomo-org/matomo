@@ -16,5 +16,3 @@ opt.conf = {
 	base: getBase(this, {p: properties})
 }
 
-
-

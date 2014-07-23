@@ -483,7 +483,6 @@ class Plugins_SitesManagerTest extends DatabaseTestCase
         $this->assertEquals("http://piwik.net", $siteInfo['main_url']);
     }
 
-
     /**
      * there is no admin site available -> array()
      *
@@ -637,7 +636,6 @@ class Plugins_SitesManagerTest extends DatabaseTestCase
         sort($siteWanted);
         $urls = API::getInstance()->getSiteUrlsFromId($idsite);
 
-
         $this->assertEquals($siteWanted, $urls);
     }
 
@@ -705,7 +703,6 @@ class Plugins_SitesManagerTest extends DatabaseTestCase
         $this->assertEquals($newMainUrl, $allUrls[0]);
         $aliasUrls = array_slice($allUrls, 1);
         $this->assertEquals(array(), $aliasUrls);
-
 
     }
 
@@ -792,7 +789,6 @@ class Plugins_SitesManagerTest extends DatabaseTestCase
 
         $this->assertEquals($expectedGroups, API::getInstance()->getSitesGroups());
     }
-
 
     public function getInvalidTimezoneData()
     {

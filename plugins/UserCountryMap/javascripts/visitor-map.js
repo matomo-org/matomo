@@ -247,7 +247,6 @@
                 return colscale;
             }
 
-
             function formatPercentage(val) {
                 if (val < 0.001) return '< 0.1%';
                 return Math.round(1000 * val) / 10 + '%';
@@ -333,7 +332,6 @@
                     });
                 $('.UserCountryMap-tooltip').hide();
             }
-
 
             /*
              * updateState, called whenever the view changes
@@ -560,7 +558,6 @@
                     updateColorsAndTooltips(metric);
                 });
             }
-
 
             /*
              * updateMap is called by renderCountryMap() and renderWorldMap()
@@ -942,7 +939,6 @@
                         });
                 }
 
-
                 _updateMap(iso + '.svg', function () {
 
                     // add background
@@ -1200,7 +1196,6 @@
 
         },
 
-
         /*
          * resizes the map
          */
@@ -1230,7 +1225,6 @@
     });
 
 }());
-
 
 /*
  * Some static data used both by VisitorMap and RealtimeMap

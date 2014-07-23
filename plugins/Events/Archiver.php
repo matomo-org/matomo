@@ -182,7 +182,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
     }
 
-
     protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, RankingQuery $rankingQuery)
     {
         // get query with segmentation
@@ -204,7 +203,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->aggregateEventRow($row);
         }
     }
-
 
     /**
      * Records the daily datatables

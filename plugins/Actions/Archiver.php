@@ -461,7 +461,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 
-
     protected function insertDownloadsReports()
     {
         $dataTable = $this->getDataTable(Action::TYPE_DOWNLOAD);

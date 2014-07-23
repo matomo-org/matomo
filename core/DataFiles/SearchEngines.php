@@ -456,7 +456,6 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'image.search.smt.docomo.ne.jp'  => array('Google', 'MT'),
         'gfsoso.com'                     => array('Google', 'q'),
 
-
         // Google Earth
         // - 2010-09-13: are these redirects now?
         'www.googleearth.de'             => array('Google'),
@@ -702,7 +701,6 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'ki.mysearch.myway.com'          => array('MyWebSearch'),
         'search.myway.com'               => array('MyWebSearch'),
         'search.mywebsearch.com'         => array('MyWebSearch'),
-
 
         // Najdi
         'www.najdi.si'                   => array('Najdi.si', 'q', 'search.jsp?q={k}'),
@@ -981,7 +979,6 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'jp.hao123.com'                  => array('Yahoo! Japan', 'query'),
         'video.search.yahoo.co.jp'       => array('Yahoo! Japan Videos', 'p', 'search?p={k}'),
         'image.search.yahoo.co.jp'       => array('Yahoo! Japan Images', 'p', 'search?p={k}'),
-
 
         // Yahoo
         'search.yahoo.com'               => array('Yahoo!', array('p', 'q'), 'search?p={k}'),

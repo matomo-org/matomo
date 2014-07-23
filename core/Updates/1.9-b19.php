@@ -33,7 +33,6 @@ class Updates_1_9_b19 extends Updates
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
-
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Transitions');
         } catch (\Exception $e) {

@@ -689,7 +689,6 @@ class CronArchive
         $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessed);
         $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
 
-
         $url .= self::APPEND_TO_API_REQUEST;
 
         $visitsInLastPeriods = $visitsLastPeriod = 0;

@@ -5,7 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 //
 // TRANSITIONS ROW ACTION FOR DATA TABLES
 //
@@ -114,7 +113,6 @@ DataTable_RowActions_Registry.register({
     }
 
 });
-
 
 //
 // TRANSITIONS IMPLEMENTATION
@@ -717,7 +715,6 @@ Piwik_Transitions.prototype.openExternalUrl = function (url) {
     window.open(url, '_newtab');
 };
 
-
 // --------------------------------------
 // CANVAS
 // --------------------------------------
@@ -1221,7 +1218,6 @@ Piwik_Transitions_Canvas.prototype.clearSide = function (side, onlyBg) {
     }
 };
 
-
 // --------------------------------------
 // MODEL
 // --------------------------------------
@@ -1408,7 +1404,6 @@ Piwik_Transitions_Model.prototype.roundPercentage = function (value) {
     }
 };
 
-
 // --------------------------------------
 // AJAX
 // --------------------------------------
@@ -1492,7 +1487,6 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
     );
     ajaxRequest.send(false);
 };
-
 
 // --------------------------------------
 // STATIC UTIL FUNCTIONS

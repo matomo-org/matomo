@@ -92,7 +92,6 @@ abstract class Period
             && $period != 'range';
     }
 
-
     /**
      * Returns the first day of the period.
      *

@@ -55,7 +55,6 @@ except ImportError:
     except ImportError:
         pass
 
-
 ##
 ## Constants.
 ##
@@ -64,7 +63,6 @@ STATIC_EXTENSIONS = set((
     'gif jpg jpeg png bmp ico svg ttf eot woff class swf css js xml robots.txt'
 ).split())
 
-
 DOWNLOAD_EXTENSIONS = set((
     '7z aac arc arj asf asx avi bin csv deb dmg doc exe flv gz gzip hqx '
     'jar mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
@@ -72,7 +70,6 @@ DOWNLOAD_EXTENSIONS = set((
     'bz2 tbz tgz torrent txt wav wma wmv wpd xls xml xsd z zip '
     'azw3 epub mobi'
 ).split())
-
 
 # A good source is: http://phpbb-bots.blogspot.com/
 EXCLUDED_USER_AGENTS = (
@@ -104,15 +101,12 @@ EXCLUDED_USER_AGENTS = (
     'yandex',
 )
 
-
 PIWIK_MAX_ATTEMPTS = 3
 PIWIK_DELAY_AFTER_FAILURE = 2
 
 PIWIK_EXPECTED_IMAGE = base64.b64decode(
     'R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
 )
-
-
 
 ##
 ## Formats.
@@ -133,7 +127,6 @@ class BaseFormat(object):
 
     def check_format_line(self, line):
         return False
-
 
 class JsonFormat(BaseFormat):
     def __init__(self, name):
@@ -174,8 +167,6 @@ class JsonFormat(BaseFormat):
     def get_all(self,):
         return self.json
 
-
-
 class RegexFormat(BaseFormat):
 
     def __init__(self, name, regex, date_format=None):
@@ -201,9 +192,6 @@ class RegexFormat(BaseFormat):
 
     def get_all(self,):
         return self.matched.groupdict()
-
-
-
 
 class IisFormat(RegexFormat):
 
@@ -248,8 +236,6 @@ class IisFormat(RegexFormat):
         file.seek(start_pos)
         return self.check_format_line(nextline)
 
-
-
 _HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
 _COMMON_LOG_FORMAT = (
     '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?) (?P<timezone>.*?)\] '
@@ -278,13 +264,9 @@ FORMATS = {
     'nginx_json': JsonFormat('nginx_json'),
 }
 
-
-
-
 ##
 ## Code.
 ##
-
 
 class Configuration(object):
     """
@@ -507,7 +489,6 @@ class Configuration(object):
         )
         return option_parser
 
-
     def _parse_args(self, option_parser):
         """
         Parse the command line args and create self.options and self.filenames.
@@ -575,10 +556,8 @@ class Configuration(object):
         if self.options.recorders < 1:
             self.options.recorders = 1
 
-
     def __init__(self):
         self._parse_args(self._create_parser())
-
 
     def _get_token_auth(self):
         """
@@ -644,7 +623,6 @@ class Configuration(object):
                 except:
                     fatal_error("We couldn't detect PHP. You can run the importer using the --login and --password option to fix this issue")
 
-
             command = [phpBinary, updatetokenfile]
             if self.options.enable_testmode:
                 command.append('--testmode')
@@ -655,12 +633,10 @@ class Configuration(object):
             if process.returncode != 0:
                 fatal_error("`" + command + "` failed with error: " + stderr + ".\nReponse code was: " + str(process.returncode) + ". You can alternatively run the importer using the --login and --password option")
 
-
             filename = stdout
             credentials = open(filename, 'r').readline()
             credentials = credentials.split('\t')
             return credentials[1]
-
 
     def get_resolver(self):
         if self.options.site_id:
@@ -669,8 +645,6 @@ class Configuration(object):
         else:
             logging.debug('Resolver: dynamic')
             return DynamicResolver()
-
-
 
 class Statistics(object):
     """
@@ -698,7 +672,6 @@ class Statistics(object):
 
         def __str__(self):
             return str(int(self.value))
-
 
     def __init__(self):
         self.time_start = None
@@ -731,7 +704,6 @@ class Statistics(object):
         # Misc
         self.dates_recorded = set()
         self.monitor_stop = False
-
 
     def set_time_start(self):
         self.time_start = time.time()
@@ -848,7 +820,6 @@ Performance summary
         )),
 }
 
-
     ##
     ## The monitor is a thread that prints a short summary each second.
     ##
@@ -874,8 +845,6 @@ Performance summary
 
     def stop_monitor(self):
         self.monitor_stop = True
-
-
 
 class Piwik(object):
     """
@@ -950,7 +919,6 @@ class Piwik(object):
             truncate_after = 4000
             raise urllib2.URLError('Piwik returned an invalid response: ' + res[:truncate_after])
 
-
     @staticmethod
     def _call_wrapper(func, expected_response, on_failure, *args, **kwargs):
         """
@@ -994,7 +962,6 @@ class Piwik(object):
     def call_api(cls, method, **kwargs):
         return cls._call_wrapper(cls._call_api, None, None, method, **kwargs)
 
-
 ##
 ## Resolvers.
 ##
@@ -1032,7 +999,6 @@ class StaticResolver(object):
 
     def check_format(self, format):
         pass
-
 
 class DynamicResolver(object):
     """
@@ -1144,7 +1110,6 @@ class DynamicResolver(object):
         else:
             return self._resolve_by_host(hit)
 
-
     def check_format(self, format):
         if config.options.replay_tracking:
             pass
@@ -1153,9 +1118,6 @@ class DynamicResolver(object):
                 "the selected log format doesn't include the hostname: you must "
                 "specify the Piwik site ID with the --idsite argument"
             )
-
-
-
 
 class Recorder(object):
     """
@@ -1374,7 +1336,6 @@ class Recorder(object):
                   '$ /path/to/piwik/console core:archive --url=http://example/piwik/\n'
                   '\nReference: http://piwik.org/docs/setup-auto-archiving/ ')
 
-
 class Hit(object):
     """
     It's a simple container.
@@ -1387,7 +1348,6 @@ class Hit(object):
         if config.options.force_lowercase_path:
             self.full_path = self.full_path.lower()
 
-
 class Parser(object):
     """
     The Parser parses the lines in a specified file and inserts them into
@@ -1398,7 +1358,6 @@ class Parser(object):
         self.check_methods = [method for name, method
                               in inspect.getmembers(self, predicate=inspect.ismethod)
                               if name.startswith('check_')]
-
 
     ## All check_* methods are called for each hit and must return True if the
     ## hit can be imported, False otherwise.
@@ -1741,9 +1700,6 @@ class Parser(object):
         if len(hits) > 0:
             Recorder.add_hits(hits)
 
-
-
-
 def main():
     """
     Start the importing process.
@@ -1774,8 +1730,6 @@ def main():
         pass
     stats.print_summary()
 
-
-
 def fatal_error(error, filename=None, lineno=None):
     print >> sys.stderr, 'Fatal error: %s' % error
     if filename and lineno is not None:
@@ -1784,7 +1738,6 @@ def fatal_error(error, filename=None, lineno=None):
             'specifying --skip=%d on the command line.\n' % (filename, lineno)
         )
     os._exit(1)
-
 
 if __name__ == '__main__':
     try:

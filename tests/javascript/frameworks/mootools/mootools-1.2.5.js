@@ -290,7 +290,6 @@ function $unlink(object){
 	return unlinked;
 };
 
-
 /*
 ---
 
@@ -440,7 +439,6 @@ Array.implement({
 
 });
 
-
 /*
 ---
 
@@ -535,7 +533,6 @@ String.implement({
 
 });
 
-
 /*
 ---
 
@@ -610,7 +607,6 @@ Function.implement({
 
 });
 
-
 /*
 ---
 
@@ -663,7 +659,6 @@ Number.alias('times', 'each');
 	});
 	Number.implement(methods);
 })(['abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'exp', 'floor', 'log', 'max', 'min', 'pow', 'sin', 'sqrt', 'tan']);
-
 
 /*
 ---
@@ -807,7 +802,6 @@ Hash.implement({
 });
 
 Hash.alias({keyOf: 'indexOf', hasValue: 'contains'});
-
 
 /*
 ---
@@ -970,7 +964,6 @@ Class.Mutators = {
 
 };
 
-
 /*
 ---
 
@@ -1079,7 +1072,6 @@ var Options = new Class({
 	}
 
 });
-
 
 /*
 ---
@@ -1247,7 +1239,6 @@ var Document = new Native({
 Document.Prototype = {$family: {name: 'document'}};
 
 new Document(document);
-
 
 /*
 ---
@@ -1972,7 +1963,6 @@ if (Browser.Engine.webkit && Browser.Engine.version < 420) Element.Properties.te
 	}
 };
 
-
 /*
 ---
 
@@ -2128,7 +2118,6 @@ Element.implement({
 
 });
 
-
 Native.implement([Document, Window], {
 
 	getSize: function(){
@@ -2230,7 +2219,6 @@ Native.implement([Window, Document, Element], {
 	}
 
 });
-
 
 /*
 ---
@@ -2354,7 +2342,6 @@ Event.implement({
 	}
 
 });
-
 
 /*
 ---
@@ -2519,7 +2506,6 @@ Element.Events = new Hash({
 
 })();
 
-
 /*
 ---
 
@@ -2669,7 +2655,6 @@ Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, bor
 	Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = 'rgb(@, @, @)';
 });
 
-
 /*
 ---
 
@@ -2809,7 +2794,6 @@ Fx.compute = function(from, to, delta){
 };
 
 Fx.Durations = {'short': 250, 'normal': 500, 'long': 1000};
-
 
 /*
 ---
@@ -2952,7 +2936,6 @@ Fx.CSS.Parsers = new Hash({
 
 });
 
-
 /*
 ---
 
@@ -3030,7 +3013,6 @@ Element.implement({
 	}
 
 });
-
 
 /*
 ---
@@ -3136,7 +3118,6 @@ Fx.Transitions.extend({
 	});
 });
 
-
 /*
 ---
 
@@ -3240,7 +3221,6 @@ Element.implement({
 	}
 
 });
-
 
 /*
 ---
@@ -3476,7 +3456,6 @@ Element.implement({
 
 });
 
-
 /*
 ---
 
@@ -3578,7 +3557,6 @@ Element.implement({
 
 });
 
-
 /*
 ---
 
@@ -3635,7 +3613,6 @@ var JSON = new Hash(this.JSON && {
 
 });
 
-
 /*
 ---
 
@@ -3671,7 +3648,6 @@ Request.JSON = new Class({
 	}
 
 });
-
 
 /*
 ---
@@ -3746,7 +3722,6 @@ Cookie.dispose = function(key, options){
 	return new Cookie(key, options).dispose();
 };
 
-
 /*
 ---
 
@@ -3799,7 +3774,6 @@ Element.Events.domready = {
 	}
 
 })();
-
 
 /*
 ---
@@ -4176,7 +4150,6 @@ Selectors.Pseudo = new Hash({
 	}
 
 });
-
 
 /*
 ---

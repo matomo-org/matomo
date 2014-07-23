@@ -169,8 +169,6 @@ function Jash() {
 	    return txt;
 	}
 
-
-
 	/**
 	* Print simple output to the console
 	* @param 	{string}	text			text to print
@@ -274,8 +272,6 @@ function Jash() {
 	    this.outputHistory.push(this.output.value);
 	    this.dump(this.outputHistory);
 	}
-
-
 
 	/**
 	* Map input keystrokes
@@ -438,7 +434,6 @@ function Jash() {
 		var textareaWrap = document.createElement("div");
 		textareaWrap.id = "JashTextareaWrap";
 
-
 		/* OUTPUT FIELD */
 		var debugOutput = document.createElement("textarea");
 		debugOutput.id = "JashOutput";
@@ -450,7 +445,6 @@ function Jash() {
 		var inp = document.createElement("textarea");
 		inp.id = "JashInput";
 		var last = "";
-
 
 		/* listen for certain keystrokes, map them */
 		inp.onkeydown = function(e) {
@@ -630,7 +624,6 @@ function Jash() {
 				textareaWrap.style.width = newWidth + "px";
 				debugParent.style.width = newWidth + "px";
 
-
 				var newHeight = originalDims.y + (newMouseDims.y - originMouseDims.y);
 				if(newHeight < self.minDims.y) { newHeight = self.minDims.y; }
 				textareaWrap.style.height = newHeight + "px";
@@ -640,7 +633,6 @@ function Jash() {
 				document.onmousemove = "";
 			}
 		}
-
 
 		var bottomBar = document.createElement("div");
 		bottomBar.id = "JashBottomBar";
@@ -784,7 +776,6 @@ function Jash() {
 			return (t_total);
 		}
 	}
-
 
 	/**
 	* DOM inspection: Show parent node structure, and possibly innerHTML, of node

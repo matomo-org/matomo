@@ -132,7 +132,6 @@ class Mysql implements SchemaInterface
 									) ENGINE=$engine DEFAULT CHARSET=utf8
 			",
 
-
             'log_action'            => "CREATE TABLE {$prefixTables}log_action (
 									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 									  name TEXT,

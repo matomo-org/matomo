@@ -196,7 +196,6 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
         $this->assertContains($expected, \Piwik\Plugins\Referrers\getSocialsLogoFromUrl($url));
     }
 
-
     public function isSocialUrlTestData()
     {
         return array(

@@ -562,7 +562,6 @@ class Manager extends Singleton
         return $plugins;
     }
 
-
     protected static function isManifestFileFound($path)
     {
         return file_exists($path . "/" . MetadataLoader::PLUGIN_JSON_FILENAME);
@@ -601,7 +600,6 @@ class Manager extends Singleton
         }
         return false;
     }
-
 
     /**
      * Load the specified plugins.
@@ -804,7 +802,6 @@ class Manager extends Singleton
         return $ignored;
     }
 
-
     /**
      * Returns the name of all plugins found in this Piwik instance
      * (including those not enabled and themes)
@@ -821,7 +818,6 @@ class Manager extends Singleton
         $pluginsToLoad = array_values(array_unique($pluginsToLoad));
         return $pluginsToLoad;
     }
-
 
     /**
      * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry

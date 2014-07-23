@@ -9,7 +9,6 @@
 
 namespace Piwik\Translate\Filter;
 
-
 /**
  */
 class UnnecassaryWhitespaces extends FilterAbstract

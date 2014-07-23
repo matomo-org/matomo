@@ -551,7 +551,6 @@ var broadcast = {
         return this.extractKeyValuePairsFromQueryString(searchString);
     },
 
-
     /**
      * help to get param value for any given url string with provided param name
      * if no url is provided, it will get param from current address.
@@ -583,7 +582,6 @@ var broadcast = {
 
         return broadcast.getParamValue(param, hashStr);
     },
-
 
     /**
      * return value for the requested param, will return the first match.

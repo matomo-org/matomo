@@ -61,7 +61,6 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 
         $this->testFirstPartyCookies($t);
 
-
         // Create a new Tracker object, with different attributes
         $t2 = self::getTracker($idSite, $dateTime, $defaultInit = false);
 

@@ -446,7 +446,6 @@ dojo.global = {
 		return !!d.getObject(name, false, obj); // Boolean
 	}
 
-
 	dojo["eval"] = function(/*String*/ scriptFragment){
 		//	summary:
 		//		Perform an evaluation in the global scope. Use this rather than
@@ -457,7 +456,6 @@ dojo.global = {
 		//		complicate tracebacks on some platforms.
 		//	returns:
 		//		The result of the evaluation. Often `undefined`
-
 
 		// note:
 		//	 - JSC eval() takes an optional second argument which can be 'unsafe'.
@@ -564,7 +562,6 @@ dojo.global = {
 		_unloaders: [],
 		_loadNotifying: false
 	});
-
 
 		dojo._loadPath = function(/*String*/relpath, /*String?*/module, /*Function?*/cb){
 		// 	summary:
@@ -1056,7 +1053,6 @@ dojo.global = {
 		d.i18n._requireLocalization.apply(d.hostenv, arguments);
 	};
 
-
 	var ore = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?$");
 	var ire = new RegExp("^((([^\\[:]+):)?([^@]+)@)?(\\[([^\\]]+)\\]|([^\\[:]*))(:([0-9]+))?$");
 
@@ -1288,7 +1284,6 @@ if(typeof window != 'undefined'){
 	dojo.isBrowser = true;
 	dojo._name = "browser";
 
-
 	// attempt to figure out the path to dojo if it isn't set in the config
 	(function(){
 		var d = dojo;
@@ -1471,7 +1466,6 @@ if(typeof window != 'undefined'){
 			return http.responseText; // String
 		}
 
-
 		var _w = window;
 		var _handleNodeEvent = function(/*String*/evtName, /*Function*/fp){
 			// summary:
@@ -1485,7 +1479,6 @@ if(typeof window != 'undefined'){
 				oldHandler.apply(_w, arguments);
 			};
 		};
-
 
 		d._windowUnloaders = [];
 
@@ -1635,7 +1628,6 @@ if(typeof window != 'undefined'){
 			document.createStyleSheet().addRule("v\\:*", "behavior:url(#default#VML);  display:inline-block");
 		}catch(e){}
 	}
-
 
 	/*
 	OpenAjax.subscribe("OpenAjax", "onload", function(){
@@ -1965,7 +1957,6 @@ if(!dojo._hasResource["dojo._base.declare"]){ //_hasResource checks added by bui
 dojo._hasResource["dojo._base.declare"] = true;
 dojo.provide("dojo._base.declare");
 
-
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass, /*Object*/ props){
@@ -2148,7 +2139,6 @@ dojo.mixin(dojo.declare, {
 if(!dojo._hasResource["dojo._base.connect"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.connect"] = true;
 dojo.provide("dojo._base.connect");
-
 
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
@@ -2439,7 +2429,6 @@ if(!dojo._hasResource["dojo._base.Deferred"]){ //_hasResource checks added by bu
 dojo._hasResource["dojo._base.Deferred"] = true;
 dojo.provide("dojo._base.Deferred");
 
-
 dojo.Deferred = function(/*Function?*/ canceller){
 	// summary:
 	//		Encapsulates a sequence of callbacks in response to a value that
@@ -2722,7 +2711,6 @@ dojo.extend(dojo.Deferred, {
 			this.results[0].cancel();
 		}
 	},
-
 
 	_resback: function(res){
 		// summary:
@@ -3236,8 +3224,6 @@ if(!dojo._hasResource["dojo._base.Color"]){ //_hasResource checks added by build
 dojo._hasResource["dojo._base.Color"] = true;
 dojo.provide("dojo._base.Color");
 
-
-
 (function(){
 
 	var d = dojo;
@@ -3434,14 +3420,6 @@ if(!dojo._hasResource["dojo._base"]){ //_hasResource checks added by build. Do n
 dojo._hasResource["dojo._base"] = true;
 dojo.provide("dojo._base");
 
-
-
-
-
-
-
-
-
 }
 
 if(!dojo._hasResource["dojo._base.window"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
@@ -3539,13 +3517,11 @@ dojo.withDoc = function(	/*DocumentElement*/documentObject,
 	}
 };
 
-
 }
 
 if(!dojo._hasResource["dojo._base.event"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.event"] = true;
 dojo.provide("dojo._base.event");
-
 
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
@@ -5782,8 +5758,6 @@ if(!dojo._hasResource["dojo._base.NodeList"]){ //_hasResource checks added by bu
 dojo._hasResource["dojo._base.NodeList"] = true;
 dojo.provide("dojo._base.NodeList");
 
-
-
 (function(){
 
 	var d = dojo;
@@ -6178,7 +6152,6 @@ dojo.provide("dojo._base.NodeList");
 			return this; // dojo.NodeList
 		},
 
-
 		/*=====
 		coords: function(){
 			//	summary:
@@ -6522,8 +6495,6 @@ dojo.provide("dojo._base.NodeList");
 								// see:
 								//		http://developer.mozilla.org/en/docs/DOM:element
 
-
-
 								// FIXME: need synthetic event support!
 								var _e = { target: n, faux: true, type: evt };
 								// dojo._event_listener._synthesizeEvent({}, { target: n, faux: true, type: evt });
@@ -6544,8 +6515,6 @@ if(!dojo._hasResource["dojo._base.query"]){ //_hasResource checks added by build
 dojo._hasResource["dojo._base.query"] = true;
 if(typeof dojo != "undefined"){
 	dojo.provide("dojo._base.query");
-
-
 
 }
 
@@ -6611,7 +6580,6 @@ if(typeof dojo != "undefined"){
 	// Global utilities
 	////////////////////////////////////////////////////////////////////////
 
-
 	// on browsers that support the "children" collection we can avoid a lot of
 	// iteration on chaff (non-element) nodes.
 	// why.
@@ -6647,7 +6615,6 @@ if(typeof dojo != "undefined"){
 		//		expression. The structure for parts is documented in the code
 		//		below.
 
-
 		// NOTE:
 		//		this code is designed to run fast and compress well. Sacrifices
 		//		to readibility and maintainability have been made.  Your best
@@ -6675,7 +6642,6 @@ if(typeof dojo != "undefined"){
 
 		// the overall data graph of the full query, as represented by queryPart objects
 		var queryParts = [];
-
 
 		// state keeping vars
 		var inBrackets = -1, inParens = -1, inMatchFor = -1,
@@ -6749,7 +6715,6 @@ if(typeof dojo != "undefined"){
 					currentPart.classes.length	);
 
 			currentPart.oquery = currentPart.query = ts(pStart, x); // save the full expression as a string
-
 
 			// otag/tag are hints to suggest to the system whether or not
 			// it's an operator or a tag. We save a copy of otag since the
@@ -6927,7 +6892,6 @@ if(typeof dojo != "undefined"){
 		}
 		return queryParts;
 	};
-
 
 	////////////////////////////////////////////////////////////////////////
 	// DOM query infrastructure
@@ -7702,7 +7666,6 @@ if(typeof dojo != "undefined"){
 		//		trivially rewrite the query to the form "#synid > .thinger" to
 		//		use the QSA branch
 
-
 		if(useQSA){
 			var tq = (specials.indexOf(query.charAt(query.length-1)) >= 0) ?
 						(query + " *") : query;
@@ -8044,10 +8007,6 @@ if(typeof dojo != "undefined"){
 if(!dojo._hasResource["dojo._base.xhr"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.xhr"] = true;
 dojo.provide("dojo._base.xhr");
-
-
-
-
 
 (function(){
 	var _d = dojo;
@@ -8398,8 +8357,6 @@ dojo.provide("dojo._base.xhr");
 		this.json = json;
 	}
 	=====*/
-
-
 
 	dojo._ioSetArgs = function(/*dojo.__IoArgs*/args,
 			/*Function*/canceller,
@@ -8789,11 +8746,6 @@ dojo.provide("dojo._base.xhr");
 if(!dojo._hasResource["dojo._base.fx"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.fx"] = true;
 dojo.provide("dojo._base.fx");
-
-
-
-
-
 
 /*
 	Animation losely package based on Dan Pupius' work, contributed under CLA:
@@ -9405,15 +9357,6 @@ dojo.provide("dojo._base.fx");
 if(!dojo._hasResource["dojo._base.browser"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.browser"] = true;
 dojo.provide("dojo._base.browser");
-
-
-
-
-
-
-
-
-
 
 //Need this to be the last code segment in base, so do not place any
 //dojo.requireIf calls in this file. Otherwise, due to how the build system

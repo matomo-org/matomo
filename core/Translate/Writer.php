@@ -207,7 +207,6 @@ class Writer
         return sprintf('%s/%s/%s.json', PIWIK_INCLUDE_PATH, $base, $lang);
     }
 
-
     /**
      * Converts translations to a string that can be written to a file
      *

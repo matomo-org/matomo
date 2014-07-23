@@ -637,7 +637,6 @@ class Config extends Singleton
         return false;
     }
 
-
     /**
      * Write user configuration file
      *

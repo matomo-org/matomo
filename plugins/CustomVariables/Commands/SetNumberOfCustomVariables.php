@@ -48,10 +48,8 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             return;
         }
 
-
         $output->writeln('');
         $output->writeln(sprintf('Configuring Piwik for %d custom variables', $numVarsToSet));
-
 
         foreach (Model::getScopes() as $scope) {
             $this->printChanges($scope, $numVarsToSet, $output);
@@ -61,18 +59,15 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             return;
         }
 
-
         $output->writeln('');
         $output->writeln('Starting to apply changes');
         $output->writeln('');
-
 
         $this->progress = $this->initProgress($numChangesToPerform, $output);
 
         foreach (Model::getScopes() as $scope) {
             $this->performChange($scope, $numVarsToSet, $output);
         }
-
 
         Cache::clearCacheGeneral();
         $this->progress->finish();

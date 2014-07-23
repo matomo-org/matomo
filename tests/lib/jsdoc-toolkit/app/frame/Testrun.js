@@ -23,7 +23,6 @@ function testrun(testCases) {
 	return testrun.reportOut+"-------------------------------\n"+((testrun.fails>0)? ":( Failed "+testrun.fails+"/" : ":) Passed all ")+testrun.count+" test"+((testrun.count == 1)? "":"s")+".\n";
 }
 
-
 testrun.count = 0;
 testrun.current = null;
 testrun.passes = 0;

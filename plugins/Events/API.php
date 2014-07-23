@@ -100,7 +100,6 @@ class API extends \Piwik\Plugin\API
         return false;
     }
 
-
     protected function getRecordNameForAction($apiMethod, $secondaryDimension = false)
     {
         if (empty($secondaryDimension)) {

@@ -9,7 +9,6 @@
 
 namespace Piwik\Translate\Filter;
 
-
 /**
  */
 class ByParameterCount extends FilterAbstract

@@ -211,7 +211,6 @@ class EcommerceOrderWithItemsTest extends IntegrationTestCase
                           'segment' => 'visitConvertedGoalId==666',
                           'testSuffix' => '_SegmentNoVisit_HaveConvertedNonExistingGoal')),
 
-
                 // test segment visitEcommerceStatus and visitConvertedGoalId
                 array($apiWithSegments_visitConvertedGoal,
                       array(
@@ -220,7 +219,6 @@ class EcommerceOrderWithItemsTest extends IntegrationTestCase
                           'periods' => array('week'),
                           'segment' => 'visitEcommerceStatus!=ordered;visitConvertedGoalId==1',
                           'testSuffix' => '_SegmentVisitHasNotOrderedAndConvertedGoal')),
-
 
                 // test segment pageTitle
                 array('VisitsSummary.get', array('idSite'     => $idSite,

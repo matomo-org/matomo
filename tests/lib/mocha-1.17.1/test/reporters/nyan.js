@@ -1,7 +1,6 @@
 var reporters = require('../../').reporters
    , NyanCat = reporters.Nyan;
 
-
 describe('nyan face', function () {
   it('nyan face:(x .x) when "failures" at least one', function () {
     var nyanCat = new NyanCat({on: function(){}});

@@ -381,7 +381,6 @@ class Piwik
         return false;
     }
 
-
     /**
      * Returns true if the current user has Super User access.
      *
@@ -743,7 +742,6 @@ class Piwik
         return false;
     }
 
-
     /**
      * Returns the class name of an object without its namespace.
      *
@@ -756,7 +754,6 @@ class Piwik
         $parts = explode('\\', $className);
         return end($parts);
     }
-
 
     /**
      * Post an event to Piwik's event dispatcher which will execute the event's observers.

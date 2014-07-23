@@ -223,7 +223,6 @@ class API extends \Piwik\Plugin\API
         return $compare;
     }
 
-
     /**
      * Returns the url to application logo (~280x110px)
      *
@@ -261,7 +260,6 @@ class API extends \Piwik\Plugin\API
         return $logo->getSVGLogoUrl($pathOnly);
     }
 
-
     /**
      * Returns whether there is an SVG Logo available.
      * @ignore
@@ -272,7 +270,6 @@ class API extends \Piwik\Plugin\API
         $logo = new CustomLogo();
         return $logo->hasSVGLogo();
     }
-
 
     /**
      * Loads reports metadata, then return the requested one,

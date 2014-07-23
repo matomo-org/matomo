@@ -124,7 +124,6 @@ function publish(symbolSet) {
 	fileindexTemplate = filesIndex = files = null;
 }
 
-
 /** Just the first sentence (up to a full stop). Should not break on dotted variable names. */
 function summarize(desc) {
 	if (typeof desc != "undefined")

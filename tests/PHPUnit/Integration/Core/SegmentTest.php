@@ -42,7 +42,6 @@ class SegmentTest extends DatabaseTestCase
         }
     }
 
-
     public function getCommonTestData()
     {
         return array(

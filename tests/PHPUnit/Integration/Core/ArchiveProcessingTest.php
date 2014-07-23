@@ -120,7 +120,6 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
     }
 
-
     private function compareTimestamps($expected, $processed)
     {
 //        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
@@ -419,7 +418,6 @@ class Core_ArchiveProcessingTest extends DatabaseTestCase
         }
         $this->fail('Exception expected');
     }
-
 
     protected function _checkTableIsExpected($table, $data)
     {

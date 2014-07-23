@@ -391,7 +391,6 @@ Runner.prototype.runTests = function(suite, fn){
     , tests = suite.tests.slice()
     , test;
 
-
   function hookErr(err, errSuite, after) {
     // before/after Each hook for errSuite failed:
     var orig = self.suite;

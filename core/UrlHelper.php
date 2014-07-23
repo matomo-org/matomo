@@ -234,7 +234,6 @@ class UrlHelper
         return $result;
     }
 
-
     /**
      * Extracts a keyword from a raw not encoded URL.
      * Will only extract keyword if a known search engine has been detected.

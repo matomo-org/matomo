@@ -3455,7 +3455,6 @@ jQuery.fn.offset = function() {
 	return results;
 };
 
-
 jQuery.fn.extend({
 	position: function() {
 		var left = 0, top = 0, results;
@@ -3495,7 +3494,6 @@ jQuery.fn.extend({
 		return jQuery(offsetParent);
 	}
 });
-
 
 // Create scrollLeft and scrollTop methods
 jQuery.each( ['Left', 'Top'], function(i, name) {

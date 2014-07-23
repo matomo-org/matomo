@@ -92,7 +92,6 @@ if [ -z "$VERSION" ]; then
     die "Expected a version number as a parameter"
 fi
 
-
 # Fail script, if Piwik has already been built, to prevent re-building a given release
 destination=$HTTP_PATH/piwik-$VERSION.zip
 if [ -f "$destination" ]
@@ -214,7 +213,6 @@ Piwik team" | mail -s"New Piwik Version $VERSION" "appgal@microsoft.com,hello@pi
 
     echo "build finished! http://builds.piwik.org/piwik.zip"
 fi
-
 
 cleanupWorkspace
 

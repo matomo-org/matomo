@@ -745,7 +745,6 @@ class Fixture extends PHPUnit_Framework_Assert
         return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", array($idGoal, $idSite)) != 0;
     }
 
-
     /**
      * Connects to MySQL w/o specifying a database.
      */

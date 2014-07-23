@@ -103,7 +103,6 @@ FilePath.dir = function(path) {
 	return path.substring(0, nameStart-1);
 }
 
-
 importClass(java.lang.System);
 
 /**

@@ -34,4 +34,3 @@ class VisitsSummary extends \Piwik\Plugin
 
 }
 
-

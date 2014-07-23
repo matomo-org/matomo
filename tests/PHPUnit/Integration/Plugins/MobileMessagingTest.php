@@ -38,7 +38,6 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
     }
 
-
     /**
      * When the MultiSites plugin is not activated, the SMS content should invite the user to activate it back
      *
@@ -174,7 +173,6 @@ class Plugins_MobileMessagingTest extends DatabaseTestCase
             SMSProvider::truncate($stringToTruncate, $maximumNumberOfConcatenatedSMS, $appendedString)
         );
     }
-
 
     /**
      * Dataprovider for testContainsUCS2Characters

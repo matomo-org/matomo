@@ -82,8 +82,6 @@ To execute the tests:
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
-
-
 ## Integration Tests
 
 Integration tests files are in `tests/PHPUnit/Integration/*Test.php`

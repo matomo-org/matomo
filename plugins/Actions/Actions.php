@@ -164,6 +164,5 @@ class Actions extends \Piwik\Plugin
         }
     }
 
-
 }
 

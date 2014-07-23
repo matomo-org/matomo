@@ -45,7 +45,6 @@ class InMemoryUIAsset extends UIAsset
         return false;
     }
 
-
     public function writeContent($content)
     {
         $this->content = $content;

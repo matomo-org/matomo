@@ -58,7 +58,6 @@ log_only_when_debug_parameter = 0
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/piwik.log
 
-
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
@@ -455,7 +454,6 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
-
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
@@ -557,7 +555,6 @@ referrer_urls_spam = "semalt.com"
 ; token_auth with an "admin" access is required. If you set this setting to 0, the token_auth will not be required anymore.
 ; DO NOT USE THIS SETTING ON PUBLIC PIWIK SERVERS
 tracking_requests_require_authentication = 1
-
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.

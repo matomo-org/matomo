@@ -187,7 +187,6 @@ class ThreeSitesWithManyVisitsWithSiteSearch extends Fixture
         return array($defaultInit, $visitor);
     }
 
-
     protected function recordVisitorSite3()
     {
         // Third new visitor on Idsite 3

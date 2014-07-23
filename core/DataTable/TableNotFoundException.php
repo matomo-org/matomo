@@ -8,7 +8,6 @@
  */
 namespace Piwik\DataTable;
 
-
 class TableNotFoundException extends \Exception
 {
 

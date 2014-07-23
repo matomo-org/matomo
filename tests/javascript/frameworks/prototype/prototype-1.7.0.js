@@ -60,9 +60,7 @@ var Prototype = {
 if (Prototype.Browser.MobileSafari)
   Prototype.BrowserFeatures.SpecificElementExtensions = false;
 
-
 var Abstract = { };
-
 
 var Try = {
   these: function() {
@@ -451,10 +449,7 @@ Object.extend(Function.prototype, (function() {
   }
 })());
 
-
-
 (function(proto) {
-
 
   function toISOString() {
     return this.getUTCFullYear() + '-' +
@@ -465,7 +460,6 @@ Object.extend(Function.prototype, (function() {
       this.getUTCSeconds().toPaddedString(2) + 'Z';
   }
 
-
   function toJSON() {
     return this.toISOString();
   }
@@ -474,7 +468,6 @@ Object.extend(Function.prototype, (function() {
   if (!proto.toJSON) proto.toJSON = toJSON;
 
 })(Date.prototype);
-
 
 RegExp.prototype.match = RegExp.prototype.test;
 
@@ -619,7 +612,6 @@ Object.extend(String.prototype, (function() {
   function unescapeHTML() {
     return this.stripTags().replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
   }
-
 
   function toQueryParams(separator) {
     var match = this.strip().match(/([^?#]*)(#.*)?$/);
@@ -1021,14 +1013,6 @@ var Enumerable = (function() {
     return '#<Enumerable:' + this.toArray().inspect() + '>';
   }
 
-
-
-
-
-
-
-
-
   return {
     each:       each,
     eachSlice:  eachSlice,
@@ -1071,7 +1055,6 @@ function $A(iterable) {
   return results;
 }
 
-
 function $w(string) {
   if (!Object.isString(string)) return [];
   string = string.strip();
@@ -1079,7 +1062,6 @@ function $w(string) {
 }
 
 Array.from = $A;
-
 
 (function() {
   var arrayProto = Array.prototype,
@@ -1145,7 +1127,6 @@ Array.from = $A;
       return array.detect(function(value) { return item === value });
     });
   }
-
 
   function clone() {
     return slice.call(this, 0);
@@ -1228,7 +1209,6 @@ var Hash = Class.create(Enumerable, (function() {
     this._object = Object.isHash(object) ? object.toObject() : Object.clone(object);
   }
 
-
   function _each(iterator) {
     for (var key in this._object) {
       var value = this._object[key], pair = [key, value];
@@ -1256,8 +1236,6 @@ var Hash = Class.create(Enumerable, (function() {
   function toObject() {
     return Object.clone(this._object);
   }
-
-
 
   function keys() {
     return this.pluck('key');
@@ -1419,8 +1397,6 @@ var ObjectRange = Class.create(Enumerable, (function() {
     include:    include
   };
 })());
-
-
 
 var Ajax = {
   getTransport: function() {
@@ -1655,13 +1631,6 @@ Ajax.Request = Class.create(Ajax.Base, {
 Ajax.Request.Events =
   ['Uninitialized', 'Loading', 'Loaded', 'Interactive', 'Complete'];
 
-
-
-
-
-
-
-
 Ajax.Response = Class.create({
   initialize: function(request){
     this.request = request;
@@ -1814,7 +1783,6 @@ Ajax.PeriodicalUpdater = Class.create(Ajax.Base, {
   }
 });
 
-
 function $(element) {
   if (arguments.length > 1) {
     for (var i = 0, elements = [], length = arguments.length; i < length; i++)
@@ -1857,8 +1825,6 @@ if (!Node.ELEMENT_NODE) {
     NOTATION_NODE: 12
   });
 }
-
-
 
 (function(global) {
   function shouldUseCache(tagName, attributes) {
@@ -1999,7 +1965,6 @@ Element.Methods = {
       s = null;
       return isBuggy;
     })();
-
 
     function update(element, content) {
       element = $(element);
@@ -2229,7 +2194,6 @@ Element.Methods = {
       return element.recursivelyCollect("nextSibling", index + 1)[index];
     }
   },
-
 
   select: function(element) {
     element = $(element);
@@ -3057,7 +3021,6 @@ Element.addMethods = function(methods) {
   Element.cache = { };
 };
 
-
 document.viewport = {
 
   getDimensions: function() {
@@ -3097,7 +3060,6 @@ document.viewport = {
 
   viewport.getHeight = define.curry('Height');
 })(document.viewport);
-
 
 Element.Storage = {
   UID: 1
@@ -3709,7 +3671,6 @@ Element.addMethods({
     return $(document.body);
   }
 
-
   function cumulativeOffset(element) {
     element = $(element);
     var valueT = 0, valueL = 0;
@@ -3873,7 +3834,6 @@ Element.addMethods({
     };
   }
 
-
   Element.addMethods({
     getLayout:              getLayout,
     measure:                measure,
@@ -3950,7 +3910,6 @@ Prototype.Selector = (function() {
     }
     return elements;
   }
-
 
   var K = Prototype.K;
 
@@ -4936,7 +4895,6 @@ var posProcess = function(selector, context){
 	return Sizzle.filter( later, tmpSet );
 };
 
-
 window.Sizzle = Sizzle;
 
 })();
@@ -5089,7 +5047,6 @@ Form.Methods = {
 };
 
 /*--------------------------------------------------------------------------*/
-
 
 Form.Element = {
   focus: function(element) {
@@ -5246,7 +5203,6 @@ Form.Element.Serializers = (function() {
 
 /*--------------------------------------------------------------------------*/
 
-
 Abstract.TimedObserver = Class.create(PeriodicalExecuter, {
   initialize: function($super, element, frequency, callback) {
     $super(callback, frequency);
@@ -5352,8 +5308,6 @@ Form.EventObserver = Class.create(Abstract.EventObserver, {
   var docEl = document.documentElement;
   var MOUSEENTER_MOUSELEAVE_EVENTS_SUPPORTED = 'onmouseenter' in docEl
     && 'onmouseleave' in docEl;
-
-
 
   var isIELegacyEvent = function(event) { return false; };
 
@@ -5461,7 +5415,6 @@ Form.EventObserver = Class.create(Abstract.EventObserver, {
        (docElement.clientTop || 0));
   }
 
-
   function stop(event) {
     Event.extend(event);
     event.preventDefault();
@@ -5469,7 +5422,6 @@ Form.EventObserver = Class.create(Abstract.EventObserver, {
 
     event.stopped = true;
   }
-
 
   Event.Methods = {
     isLeftClick:   isLeftClick,
@@ -5619,7 +5571,6 @@ Form.EventObserver = Class.create(Abstract.EventObserver, {
 
   if (Prototype.Browser.WebKit)
     window.addEventListener('unload', Prototype.emptyFunction, false);
-
 
   var _getDOMEventName = Prototype.K,
       translations = { mouseenter: "mouseover", mouseleave: "mouseout" };
@@ -5926,7 +5877,6 @@ var Position = {
       return ((this.offset[0] + element.offsetWidth) - this.xcomp) /
         element.offsetWidth;
   },
-
 
   cumulativeOffset: Element.Methods.cumulativeOffset,
 

@@ -351,5 +351,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->enableSendPluginUpdateCommunication = $pluginUpdateCommunication->isEnabled();
     }
 
-
 }

@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-
 /**
  * Proxy headers
  *

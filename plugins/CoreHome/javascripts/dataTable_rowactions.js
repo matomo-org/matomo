@@ -110,7 +110,6 @@ DataTable_RowActions_Registry.register({
 
 });
 
-
 /**
  * DataTable Row Actions
  *
@@ -124,7 +123,6 @@ DataTable_RowActions_Registry.register({
  *
  * The two template methods are performAction and doOpenPopover
  */
-
 
 //
 // BASE CLASS
@@ -248,7 +246,6 @@ DataTable_RowAction.prototype.performAction = function (label, tr, e) {
 };
 DataTable_RowAction.prototype.doOpenPopover = function (parameter) {
 };
-
 
 //
 // ROW EVOLUTION

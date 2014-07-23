@@ -18,8 +18,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
-
-
     /**
      * @group Core
      */
@@ -68,7 +66,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInJpgFormat($files);
     }
 
-
     /**
      * @group Core
      */
@@ -88,10 +85,8 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
-
         require_once PIWIK_INCLUDE_PATH . "/core/TaskScheduler.php";
         $this->assertFalse(DEBUG_FORCE_SCHEDULED_TASKS);
-
 
         // Check the index.php has "backtrace disabled"
         $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");
@@ -170,7 +165,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         foreach($files as $file) {
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
-
 
             $isIniFile = strpos($file, ".ini.php") !== false || strpos($file, ".ini.travis.php") !== false;
             if($isIniFile) {
@@ -258,7 +252,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         }
         $this->assertTrue($count > $magicPlugins);
     }
-
 
     /**
      * @group Core
@@ -386,6 +379,5 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
         return $addedToGit;
     }
-
 
 }

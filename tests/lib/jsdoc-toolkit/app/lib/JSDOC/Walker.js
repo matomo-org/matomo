@@ -49,7 +49,6 @@ JSDOC.Walker.prototype.step = function() {
 
 		var doc = new JSDOC.DocComment(this.token.data);
 
-
 		if (doc.getTag("exports").length > 0) {
 			var exports = doc.getTag("exports")[0];
 
@@ -312,7 +311,6 @@ JSDOC.Walker.prototype.step = function() {
 				symbol = new JSDOC.Symbol(name, params, "OBJECT", doc);
 				if (isInner) symbol.isInner = true;
 
-
 				if (doc) JSDOC.Parser.addSymbol(symbol);
 
 				this.namescope.push(symbol);
@@ -334,7 +332,6 @@ JSDOC.Walker.prototype.step = function() {
 					symbol = new JSDOC.Symbol(name, params, "OBJECT", doc);
 					if (isInner) symbol.isInner = true;
 
-
 					if (doc) JSDOC.Parser.addSymbol(symbol);
 				}
 			}
@@ -354,7 +351,6 @@ JSDOC.Walker.prototype.step = function() {
 				symbol = new JSDOC.Symbol(name, params, "OBJECT", doc);
 				if (isInner) symbol.isInner = true;
 
-
 				if (doc) JSDOC.Parser.addSymbol(symbol);
 			}
 			// foo: {}
@@ -364,7 +360,6 @@ JSDOC.Walker.prototype.step = function() {
 				if (this.lastDoc) doc = this.lastDoc;
 
 				symbol = new JSDOC.Symbol(name, params, "OBJECT", doc);
-
 
 				if (doc) JSDOC.Parser.addSymbol(symbol);
 
@@ -381,7 +376,6 @@ JSDOC.Walker.prototype.step = function() {
 				if (this.lastDoc) doc = this.lastDoc;
 
 				symbol = new JSDOC.Symbol(name, params, "OBJECT", doc);
-
 
 				if (doc) JSDOC.Parser.addSymbol(symbol);
 			}

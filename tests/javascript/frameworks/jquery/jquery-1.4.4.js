@@ -909,7 +909,6 @@ return (window.jQuery = window.$ = jQuery);
 
 })();
 
-
 (function() {
 
 	jQuery.support = {};
@@ -1103,8 +1102,6 @@ return (window.jQuery = window.$ = jQuery);
 	// release memory in IE
 	root = script = div = all = a = null;
 })();
-
-
 
 var windowData = {},
 	rbrace = /^(?:\{.*\}|\[.*\])$/;
@@ -1327,9 +1324,6 @@ function dataAttr( elem, key, data ) {
 	return data;
 }
 
-
-
-
 jQuery.extend({
 	queue: function( elem, type, data ) {
 		if ( !elem ) {
@@ -1421,9 +1415,6 @@ jQuery.fn.extend({
 		return this.queue( type || "fx", [] );
 	}
 });
-
-
-
 
 var rclass = /[\n\t]/g,
 	rspaces = /\s+/,
@@ -1631,7 +1622,6 @@ jQuery.fn.extend({
 					return elem.getAttribute("value") === null ? "on" : elem.value;
 				}
 
-
 				// Everything else, we just grab the value
 				return (elem.value || "").replace(rreturn, "");
 
@@ -1798,9 +1788,6 @@ jQuery.extend({
 		return attr === null ? undefined : attr;
 	}
 });
-
-
-
 
 var rnamespaces = /\.(.*)$/,
 	rformElems = /^(?:textarea|input|select)$/i,
@@ -2995,7 +2982,6 @@ if ( window.attachEvent && !window.addEventListener ) {
 		}
 	});
 }
-
 
 /*!
  * Sizzle CSS Selector Engine - v1.0
@@ -4318,9 +4304,7 @@ jQuery.text = Sizzle.getText;
 jQuery.isXMLDoc = Sizzle.isXML;
 jQuery.contains = Sizzle.contains;
 
-
 })();
-
 
 var runtil = /Until$/,
 	rparentsprev = /^(?:parents|prevUntil|prevAll)/,
@@ -4617,9 +4601,6 @@ function winnow( elements, qualifier, keep ) {
 		return (jQuery.inArray( elem, qualifier ) >= 0) === keep;
 	});
 }
-
-
-
 
 var rinlinejQuery = / jQuery\d+="(?:\d+|null)"/g,
 	rleadingWhitespace = /^\s+/,
@@ -5229,9 +5210,6 @@ function evalScript( i, elem ) {
 	}
 }
 
-
-
-
 var ralpha = /alpha\([^)]*\)/i,
 	ropacity = /opacity=([^)]*)/,
 	rdashAlpha = /-([a-z])/ig,
@@ -5561,9 +5539,6 @@ if ( jQuery.expr && jQuery.expr.filters ) {
 		return !jQuery.expr.filters.hidden( elem );
 	};
 }
-
-
-
 
 var jsc = jQuery.now(),
 	rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
@@ -6281,9 +6256,6 @@ if ( window.ActiveXObject ) {
 // Does this browser support XHR requests?
 jQuery.support.ajax = !!jQuery.ajaxSettings.xhr();
 
-
-
-
 var elemdisplay = {},
 	rfxtypes = /^(?:toggle|show|hide)$/,
 	rfxnum = /^([+\-]=)?([\d+.\-]+)(.*)$/,
@@ -6805,9 +6777,6 @@ function defaultDisplay( nodeName ) {
 	return elemdisplay[ nodeName ];
 }
 
-
-
-
 var rtable = /^t(?:able|d|h)$/i,
 	rroot = /^(?:body|html)$/i;
 
@@ -7019,7 +6988,6 @@ jQuery.offset = {
 	}
 };
 
-
 jQuery.fn.extend({
 	position: function() {
 		if ( !this[0] ) {
@@ -7062,7 +7030,6 @@ jQuery.fn.extend({
 		});
 	}
 });
-
 
 // Create scrollLeft and scrollTop methods
 jQuery.each( ["Left", "Top"], function( i, name ) {
@@ -7109,9 +7076,6 @@ function getWindow( elem ) {
 			elem.defaultView || elem.parentWindow :
 			false;
 }
-
-
-
 
 // Create innerHeight, innerWidth, outerHeight and outerWidth methods
 jQuery.each([ "Height", "Width" ], function( i, name ) {
@@ -7174,6 +7138,5 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 	};
 
 });
-
 
 })(window);

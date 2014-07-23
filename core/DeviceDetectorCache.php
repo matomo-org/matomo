@@ -41,7 +41,6 @@ class DeviceDetectorCache extends CacheFile implements \DeviceDetector\Cache\Cac
         return parent::get($id);
     }
 
-
     /**
      * A function to store content a cache entry.
      *

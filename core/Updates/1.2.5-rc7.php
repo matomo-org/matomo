@@ -31,4 +31,3 @@ class Updates_1_2_5_rc7 extends Updates
     }
 }
 
-

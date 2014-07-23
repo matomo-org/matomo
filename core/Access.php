@@ -289,7 +289,6 @@ class Access
         );
     }
 
-
     /**
      * Returns an array of ID sites for which the user has a VIEW access only.
      *

@@ -218,7 +218,6 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SegmentEditor.update', array($idSegment, $bind));
 
-
         $db = Db::get();
         $db->update(Common::prefixTable("segment"),
             $bind,

@@ -35,7 +35,6 @@ if (filesize(dirname(__FILE__).'/unittest.dbf') == 0)
 	}
 }
 
-
 if (isset($_GET['requests'])) {
 	$token = get_magic_quotes_gpc() ? stripslashes($_GET['requests']) : $_GET['requests'];
 	$ua = $_SERVER['HTTP_USER_AGENT'];

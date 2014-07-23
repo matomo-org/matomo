@@ -183,7 +183,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-
         // CSV Scheduled Report
         array_push(
             $apiCalls,

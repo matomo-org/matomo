@@ -71,7 +71,6 @@ Chain.prototype.joinLeft = function() {
 	return result;
 }
 
-
 /* USAGE:
 
 var path = "one/two/three.four/five-six";

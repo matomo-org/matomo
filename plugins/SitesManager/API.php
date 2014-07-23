@@ -1175,7 +1175,6 @@ class API extends \Piwik\Plugin\API
             "idsite = $idSite"
         );
 
-
         // we now update the main + alias URLs
         $this->deleteSiteAliasUrls($idSite);
         if (count($urls) > 1) {

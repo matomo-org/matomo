@@ -294,5 +294,4 @@ class ArchiveSelector
         " value = '" . ArchiveWriter::DONE_OK_TEMPORARY . "'))";
     }
 
-
 }

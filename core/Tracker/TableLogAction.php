@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\SegmentExpression;
 use Piwik\Tracker;
 
-
 /**
  * This class is used to query Action IDs from the log_action table.
  *
@@ -175,7 +174,6 @@ class TableLogAction
         }
         return array($fieldNameToActionId, $fieldNamesToInsert);
     }
-
 
     /**
      * Convert segment expression to an action ID or an SQL expression.

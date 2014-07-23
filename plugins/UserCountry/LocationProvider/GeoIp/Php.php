@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
-
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;

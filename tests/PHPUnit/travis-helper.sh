@@ -40,7 +40,6 @@ local timeout=40
   shift
 local count=0
 
-
   # clear the line
   echo -e "\n"
 

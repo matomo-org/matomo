@@ -204,7 +204,6 @@ if(typeof dojo == "undefined"){
 		return !!d.getObject(name, false, obj); // Boolean
 	}
 
-
 	dojo["eval"] = function(/*String*/ scriptFragment){
 		// summary:
 		//		Perform an evaluation in the global scope.  Use this rather than
@@ -316,7 +315,6 @@ if(typeof dojo == "undefined"){
 		_unloaders: [],
 		_loadNotifying: false
 	});
-
 
 		dojo._loadPath = function(/*String*/relpath, /*String?*/module, /*Function?*/cb){
 		// 	summary:
@@ -646,7 +644,6 @@ if(typeof dojo == "undefined"){
 		}
 	}
 
-
 	dojo.requireIf = function(/*Boolean*/ condition, /*String*/ resourceName){
 		// summary:
 		//		If the condition is true then call dojo.require() for the specified
@@ -739,7 +736,6 @@ if(typeof dojo == "undefined"){
 		d.require("dojo.i18n");
 		d.i18n._requireLocalization.apply(d.hostenv, arguments);
 	};
-
 
 	var ore = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?$");
 	var ire = new RegExp("^((([^:]+:)?([^@]+))@)?([^:]*)(:([0-9]+))?$");
@@ -885,7 +881,6 @@ if(typeof dojo == "undefined"){
 if(typeof window != 'undefined'){
 	dojo.isBrowser = true;
 	dojo._name = "browser";
-
 
 	// attempt to figure out the path to dojo if it isn't set in the config
 	(function(){
@@ -1350,7 +1345,6 @@ dojo.delegate = function(obj, props){
 }
 =====*/
 
-
 dojo.delegate = dojo._delegate = function(obj, props){
 
 	// boodman/crockford delegation
@@ -1444,7 +1438,6 @@ dojo.trim = function(/*String*/ str){
 if(!dojo._hasResource["dojo._base.declare"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.declare"] = true;
 dojo.provide("dojo._base.declare");
-
 
 // this file courtesy of the TurboAjax group, licensed under a Dojo CLA
 
@@ -1631,7 +1624,6 @@ dojo.mixin(dojo.declare, {
 if(!dojo._hasResource["dojo._base.connect"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.connect"] = true;
 dojo.provide("dojo._base.connect");
-
 
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
@@ -1918,7 +1910,6 @@ if(!dojo._hasResource["dojo._base.Deferred"]){ //_hasResource checks added by bu
 dojo._hasResource["dojo._base.Deferred"] = true;
 dojo.provide("dojo._base.Deferred");
 
-
 dojo.Deferred = function(/*Function?*/ canceller){
 	// summary:
 	//		Encapsulates a sequence of callbacks in response to a value that
@@ -2197,7 +2188,6 @@ dojo.extend(dojo.Deferred, {
 			this.results[0].cancel();
 		}
 	},
-
 
 	_resback: function(res){
 		// summary:
@@ -2650,8 +2640,6 @@ if(!dojo._hasResource["dojo._base.Color"]){ //_hasResource checks added by build
 dojo._hasResource["dojo._base.Color"] = true;
 dojo.provide("dojo._base.Color");
 
-
-
 dojo.Color = function(/*Array|String|Object*/ color){
 	// summary:
 	//		takes a named string, hex string, array of rgb or rgba values,
@@ -2678,7 +2666,6 @@ dojo.Color.named = {
 	teal:		[0,128,128],
 	aqua:		[0,255,255]
 };
-
 
 dojo.extend(dojo.Color, {
 	r: 255, g: 255, b: 255, a: 1,
@@ -2806,20 +2793,6 @@ dojo.colorFromString = function(/*String*/ str, /*dojo.Color?*/ obj){
 if(!dojo._hasResource["dojo._base"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base"] = true;
 dojo.provide("dojo._base");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 (function(){
 	if(djConfig.require){
@@ -2980,7 +2953,6 @@ dojo.withDoc = function(	/*Object*/documentObject,
 if(!dojo._hasResource["dojo._base.event"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.event"] = true;
 dojo.provide("dojo._base.event");
-
 
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
@@ -4496,8 +4468,6 @@ if(!dojo._hasResource["dojo._base.NodeList"]){ //_hasResource checks added by bu
 dojo._hasResource["dojo._base.NodeList"] = true;
 dojo.provide("dojo._base.NodeList");
 
-
-
 (function(){
 
 	var d = dojo;
@@ -4964,7 +4934,6 @@ if(!dojo._hasResource["dojo._base.query"]){ //_hasResource checks added by build
 dojo._hasResource["dojo._base.query"] = true;
 dojo.provide("dojo._base.query");
 
-
 /*
 	dojo.query() architectural overview:
 
@@ -5160,7 +5129,6 @@ dojo.provide("dojo._base.query");
 		}
 		return qparts;
 	};
-
 
 	////////////////////////////////////////////////////////////////////////
 	// XPath query code
@@ -6050,10 +6018,6 @@ if(!dojo._hasResource["dojo._base.xhr"]){ //_hasResource checks added by build. 
 dojo._hasResource["dojo._base.xhr"] = true;
 dojo.provide("dojo._base.xhr");
 
-
-
-
-
 (function(){
 	var _d = dojo;
 	function setValue(/*Object*/obj, /*String*/name, /*String*/value){
@@ -6146,7 +6110,6 @@ dojo.provide("dojo._base.xhr");
 		//	yeilds the following query string:
 		//
 		//	|	"blah=blah&multi=thud&multi=thonk"
-
 
 		// FIXME: need to implement encodeAscii!!
 		var ec = encodeURIComponent;
@@ -6381,8 +6344,6 @@ dojo.provide("dojo._base.xhr");
 		//		callbacks directly.
 	}
 	=====*/
-
-
 
 	dojo._ioSetArgs = function(/*dojo.__ioArgs*/args,
 			/*Function*/canceller,
@@ -6745,11 +6706,6 @@ dojo.provide("dojo._base.xhr");
 if(!dojo._hasResource["dojo._base.fx"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.fx"] = true;
 dojo.provide("dojo._base.fx");
-
-
-
-
-
 
 /*
 	Animation losely package based on Dan Pupius' work, contributed under CLA:

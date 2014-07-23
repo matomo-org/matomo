@@ -217,7 +217,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var container = $('#' + self.workingDivId + ' .piwik-graph');
 
-
         var params = {};
         for (var key in self.param) {
             if (typeof self.param[key] != "undefined" && self.param[key] != '')
@@ -1010,7 +1009,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         });
 
-
         $('.exportToFormatItems a', domElem)
             // prevent click jacking attacks by dynamically adding the token auth when the link is clicked
             .click(function () {
@@ -1062,7 +1060,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     + '&date=' + param_date
                     + ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
                     + ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '');
-
 
                 if (typeof self.param.flat != "undefined") {
                     str += '&flat=' + (self.param.flat == 0 ? '0' : '1');

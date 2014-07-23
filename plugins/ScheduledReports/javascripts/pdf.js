@@ -52,7 +52,6 @@ function formSetEditReport(idReport) {
         }
     }
 
-
     $('[name=reportsList] input').prop('checked', false);
 
     var key;

@@ -27,7 +27,6 @@ class Mysqli extends Db
     protected $charset;
     protected $activeTransaction = false;
 
-
     /**
      * Builds the DB object
      *

@@ -145,7 +145,6 @@ class DateTest extends PHPUnit_Framework_TestCase
         $date = $date->addHour(0)->addHour(0)->addHour(0);
         $this->assertEquals($timestamp, $date->getTimestamp());
 
-
         if (SettingsServer::isTimezoneSupportEnabled()) {
             $date = Date::factory('2010-01-01')->setTimezone('Europe/Paris');
             $dateExpected = clone $date;

@@ -9,7 +9,6 @@
 
 namespace Piwik\Translate\Filter;
 
-
 /**
  */
 class EmptyTranslations extends FilterAbstract

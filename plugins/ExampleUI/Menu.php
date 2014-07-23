@@ -38,7 +38,6 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->addPlatformItem('UI Notifications', $urlParams, $order = 3);
     }
 
-
     private function addSubMenu(MenuReporting $menu, $subMenu, $action, $order)
     {
         $menu->add('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order);

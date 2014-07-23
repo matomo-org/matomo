@@ -133,7 +133,6 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends IntegrationT
              */
             'archive_numeric_2010_12' => 17 * 3,
 
-
             /**
              * In the January date range,
              * we archive only Actions plugins.

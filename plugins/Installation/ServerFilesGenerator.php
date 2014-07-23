@@ -202,7 +202,6 @@ class ServerFilesGenerator
         return $denyAll;
     }
 
-
     /**
      * @return string
      */

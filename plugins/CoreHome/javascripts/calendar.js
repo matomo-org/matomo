@@ -484,7 +484,6 @@
             $('#calendarTo').datepicker(options).datepicker("setDate", $.datepicker.parseDate('yy-mm-dd', piwik.endDateString));
             onDateRangeSelect(piwik.endDateString, { "id": "calendarTo" });
 
-
             // If not called, the first date appears light brown instead of dark brown
             $('.ui-state-hover').removeClass('ui-state-hover');
 
@@ -508,7 +507,6 @@
                     broadcast.propagateNewPage('period=range&date=' + dateFrom + ',' + dateTo);
                 })
                 .show();
-
 
             // Bind the input fields to update the calendar's date when date is manually changed
             $('#inputCalendarFrom, #inputCalendarTo')

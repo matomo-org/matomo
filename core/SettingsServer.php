@@ -40,7 +40,6 @@ class SettingsServer
         return !empty($GLOBALS['PIWIK_TRACKER_MODE']);
     }
 
-
     /**
      * Returns `true` if running on Microsoft IIS 7 (or above), `false` if otherwise.
      *

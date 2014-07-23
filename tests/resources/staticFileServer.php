@@ -60,7 +60,6 @@ define("WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE", "wholeTestFileWithRange");
 define("PARTIAL_BYTE_START", 1204);
 define("PARTIAL_BYTE_END", 14724);
 
-
 /**
  * If the static file server has been requested, the response sent back to the browser will be the content produced by
  * the execution of Piwik:serverStaticFile(). In this case, unit tests won't be executed

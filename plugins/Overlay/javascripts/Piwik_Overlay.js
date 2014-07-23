@@ -19,7 +19,6 @@ var Piwik_Overlay = (function () {
     var iframeCurrentActionLabel = '';
     var updateComesFromInsideFrame = false;
 
-
     /** Load the sidebar for a url */
     function loadSidebar(currentUrl) {
         showLoading();

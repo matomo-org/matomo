@@ -99,7 +99,6 @@ class VisitsInPastInvalidateOldReportsTest extends IntegrationTestCase
         } catch(Exception $e) {
         }
 
-
         // 2) Call API again, with an older date, which should now return data
         $this->runApiTests($api, $params);
     }

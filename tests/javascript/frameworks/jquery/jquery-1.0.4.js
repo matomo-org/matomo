@@ -66,17 +66,13 @@ if ( typeof $ != "undefined" )
 // Map the jQuery namespace to the '$' one
 var $ = jQuery;
 
-
-
 jQuery.fn = jQuery.prototype = {
 
 	jquery: "1.0.4",
 
-
 	size: function() {
 		return this.length;
 	},
-
 
 	get: function( num ) {
 		return num == undefined ?
@@ -108,7 +104,6 @@ jQuery.fn = jQuery.prototype = {
 		return pos;
 	},
 
-
 	attr: function( key, value, type ) {
 		// Check to see if we're setting style values
 		return key.constructor != String || value != undefined ?
@@ -134,7 +129,6 @@ jQuery.fn = jQuery.prototype = {
 			jQuery[ type || "attr" ]( this[0], key );
 	},
 
-
 	css: function( key, value ) {
 		return this.attr( key, value, "curCSS" );
 	},
@@ -151,7 +145,6 @@ jQuery.fn = jQuery.prototype = {
 		}
 		return t;
 	},
-
 
 	wrap: function() {
 		// The elements to wrap the target around
@@ -174,13 +167,11 @@ jQuery.fn = jQuery.prototype = {
 		});
 	},
 
-
 	append: function() {
 		return this.domManip(arguments, true, 1, function(a){
 			this.appendChild( a );
 		});
 	},
-
 
 	prepend: function() {
 		return this.domManip(arguments, true, -1, function(a){
@@ -188,13 +179,11 @@ jQuery.fn = jQuery.prototype = {
 		});
 	},
 
-
 	before: function() {
 		return this.domManip(arguments, false, 1, function(a){
 			this.parentNode.insertBefore( a, this );
 		});
 	},
-
 
 	after: function() {
 		return this.domManip(arguments, false, -1, function(a){
@@ -220,7 +209,6 @@ jQuery.fn = jQuery.prototype = {
 		}), arguments );
 	},
 
-
 	filter: function(t) {
 		return this.pushStack(
 			t.constructor == Array &&
@@ -240,13 +228,11 @@ jQuery.fn = jQuery.prototype = {
 			jQuery.filter(t,this).r, arguments );
 	},
 
-
 	not: function(t) {
 		return this.pushStack( typeof t == "string" ?
 			jQuery.filter(t,this,false).r :
 			jQuery.grep(this,function(a){ return a != t; }), arguments );
 	},
-
 
 	add: function(t) {
 		return this.pushStack( jQuery.merge( this, typeof t == "string" ?
@@ -305,7 +291,6 @@ jQuery.fn = jQuery.prototype = {
 		return this;
 	}
 };
-
 
 jQuery.extend = jQuery.fn.extend = function() {
 	// copy reference to target object
@@ -531,7 +516,6 @@ jQuery.extend({
 				while ( wrap[0]-- ) div = div.firstChild;
 				arg = div.childNodes;
 			}
-
 
 			if ( arg.length != undefined && ( (jQuery.browser.safari && typeof arg == 'function') || !arg.nodeType ) ) // Safari reports typeof on a DOM NodeList to be a function
 				for ( var n = 0; n < arg.length; n++ ) // Handles Array, jQuery, DOM NodeList collections
@@ -1082,7 +1066,6 @@ jQuery.extend({
 	}
 });
 
-
 /*
  * Wheather the W3C compliant box model is being used.
  *
@@ -1118,61 +1101,42 @@ jQuery.macros = {
 		insertAfter: "after"
 	},
 
-
-
 	css: "width,height,top,left,position,float,overflow,color,background".split(","),
-
-
 
 	filter: [ "eq", "lt", "gt", "contains" ],
 
 	attr: {
 
-
 		val: "value",
-
 
 		html: "innerHTML",
 
-
 		id: null,
-
 
 		title: null,
 
-
 		name: null,
-
 
 		href: null,
 
-
 		src: null,
-
 
 		rel: null
 	},
 
 	axis: {
 
-
 		parent: "a.parentNode",
-
 
 		ancestors: jQuery.parents,
 
-
 		parents: jQuery.parents,
-
 
 		next: "jQuery.sibling(a).next",
 
-
 		prev: "jQuery.sibling(a).prev",
 
-
 		siblings: "jQuery.sibling(a, null, true)",
-
 
 		children: "jQuery.sibling(a.firstChild)"
 	},
@@ -1213,7 +1177,6 @@ jQuery.macros = {
 			jQuery.className[ jQuery.className.has(this,c) ? "remove" : "add" ](this, c);
 		},
 
-
 		remove: function(a){
 			if ( !a || jQuery.filter( a, [this] ).r )
 				this.parentNode.removeChild( this );
@@ -1227,7 +1190,6 @@ jQuery.macros = {
 		bind: function( type, fn ) {
 			jQuery.event.add( this, type, fn );
 		},
-
 
 		unbind: function( type, fn ) {
 			jQuery.event.remove( this, type, fn );

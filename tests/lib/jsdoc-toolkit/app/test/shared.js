@@ -24,7 +24,6 @@ Array.prototype.filter = function(){};
 
 /**#@-*/
 
-
 /**
  * A first in, first out data structure.
  * @constructor

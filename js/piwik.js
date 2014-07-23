@@ -1222,7 +1222,6 @@ if (typeof Piwik !== 'object') {
                 // Visitor UUID
                 visitorUUID;
 
-
             /*
              * Set cookie value
              */
@@ -1694,7 +1693,6 @@ if (typeof Piwik !== 'object') {
                         lastVisitTs = currentVisitTs;
                     }
 
-
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set
                     // Or if it was set but we must attribute to the most recent one
@@ -1765,7 +1763,6 @@ if (typeof Piwik !== 'object') {
                     (String(lastEcommerceOrderTs).length ? '&_ects=' + lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '');
-
 
                 // browser features
                 for (i in browserFeatures) {
@@ -3052,7 +3049,6 @@ if (typeof Piwik !== 'object') {
                         logSiteSearch(keyword, category, resultsCount);
                     });
                 },
-
 
                 /**
                  * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.

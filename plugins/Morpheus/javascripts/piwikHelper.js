@@ -5,7 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 function _pk_translate(translationStringId, values) {
 
     function sprintf (translation, values) {
@@ -382,7 +381,6 @@ var piwikHelper = {
     }
 
 };
-
 
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");

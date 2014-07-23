@@ -598,7 +598,6 @@ dojo.global = {
 		_loadNotifying: false
 	});
 
-
 		dojo._loadPath = function(/*String*/relpath, /*String?*/module, /*Function?*/cb){
 		// 	summary:
 		//		Load a Javascript module given a relative path
@@ -1191,7 +1190,6 @@ dojo.global = {
 		d.i18n._requireLocalization.apply(d.hostenv, arguments);
 	};
 
-
 	var ore = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?$"),
 		ire = new RegExp("^((([^\\[:]+):)?([^@]+)@)?(\\[([^\\]]+)\\]|([^\\[:]*))(:([0-9]+))?$");
 
@@ -1352,8 +1350,6 @@ dojo.global = {
 		return new d._Url(loc, url); // dojo._Url
 	};
 
-
-
 })();
 
 /*=====
@@ -1425,7 +1421,6 @@ dojo = {
 if(typeof window != 'undefined'){
 	dojo.isBrowser = true;
 	dojo._name = "browser";
-
 
 	// attempt to figure out the path to dojo if it isn't set in the config
 	(function(){
@@ -1613,7 +1608,6 @@ if(typeof window != 'undefined'){
 			return http.responseText; // String
 		}
 
-
 		var _w = window;
 		var _handleNodeEvent = function(/*String*/evtName, /*Function*/fp){
 			// summary:
@@ -1627,7 +1621,6 @@ if(typeof window != 'undefined'){
 				fp.apply(_w, arguments);
 			}, false);
 		};
-
 
 		d._windowUnloaders = [];
 
@@ -1784,7 +1777,6 @@ if(typeof window != 'undefined'){
 	}
 		//END DOMContentLoaded
 
-
 	/*
 	OpenAjax.subscribe("OpenAjax", "onload", function(){
 		if(dojo._inFlightCount == 0){
@@ -1824,11 +1816,9 @@ if(dojo.config.debugAtAllCosts){
 	dojo.require("dojo.i18n");
 }
 
-
 if(!dojo._hasResource["dojo._base.lang"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.lang"] = true;
 dojo.provide("dojo._base.lang");
-
 
 (function(){
 	var d = dojo, opts = Object.prototype.toString;
@@ -2220,8 +2210,6 @@ if(!dojo._hasResource["dojo._base.array"]){ //_hasResource checks added by build
 dojo._hasResource["dojo._base.array"] = true;
 dojo.provide("dojo._base.array");
 
-
-
 (function(){
 	var _getParts = function(arr, obj, cb){
 		return [
@@ -2476,9 +2464,6 @@ dojo.provide("dojo._base.array");
 if(!dojo._hasResource["dojo._base.declare"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.declare"] = true;
 dojo.provide("dojo._base.declare");
-
-
-
 
 (function(){
 	var d = dojo, mix = d._mixin, op = Object.prototype, opts = op.toString,
@@ -2800,7 +2785,6 @@ dojo.provide("dojo._base.declare");
 			}
 		};
 	}
-
 
 	// chained constructor compatible with the legacy dojo.declare()
 	function singleConstructor(ctor, ctorSpecial){
@@ -3519,8 +3503,6 @@ if(!dojo._hasResource["dojo._base.connect"]){ //_hasResource checks added by bui
 dojo._hasResource["dojo._base.connect"] = true;
 dojo.provide("dojo._base.connect");
 
-
-
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 // low-level delegation machinery
@@ -3824,8 +3806,6 @@ if(!dojo._hasResource["dojo._base.Deferred"]){ //_hasResource checks added by bu
 dojo._hasResource["dojo._base.Deferred"] = true;
 dojo.provide("dojo._base.Deferred");
 
-
-
 (function(){
 	var mutator = function(){};
 	var freeze = Object.freeze || function(){};
@@ -4026,7 +4006,6 @@ dojo.provide("dojo._base.Deferred");
 			complete(value);
 		};
 
-
 		// calling error will indicate that the promise failed
 		this.reject = this.errback = function(error){
 			// summary:
@@ -4163,7 +4142,6 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 if(!dojo._hasResource["dojo._base.json"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.json"] = true;
 dojo.provide("dojo._base.json");
-
 
 dojo.fromJson = function(/*String*/ json){
 	// summary:
@@ -4312,9 +4290,6 @@ dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _ind
 if(!dojo._hasResource["dojo._base.Color"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.Color"] = true;
 dojo.provide("dojo._base.Color");
-
-
-
 
 (function(){
 
@@ -4535,7 +4510,6 @@ if(!dojo._hasResource["dojo._base.window"]){ //_hasResource checks added by buil
 dojo._hasResource["dojo._base.window"] = true;
 dojo.provide("dojo._base.window");
 
-
 /*=====
 dojo.doc = {
 	// summary:
@@ -4636,8 +4610,6 @@ dojo.withDoc = function(	/*DocumentElement*/documentObject,
 if(!dojo._hasResource["dojo._base.event"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.event"] = true;
 dojo.provide("dojo._base.event");
-
-
 
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
@@ -5278,8 +5250,6 @@ if(dojo.isIE){
 if(!dojo._hasResource["dojo._base.html"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.html"] = true;
 dojo.provide("dojo._base.html");
-
-
 
 // FIXME: need to add unit tests for all the semi-public methods
 
@@ -7109,11 +7079,6 @@ if(!dojo._hasResource["dojo._base.NodeList"]){ //_hasResource checks added by bu
 dojo._hasResource["dojo._base.NodeList"] = true;
 dojo.provide("dojo._base.NodeList");
 
-
-
-
-
-
 (function(){
 
 	var d = dojo;
@@ -8177,7 +8142,6 @@ var defineQuery= function(d){
 	// Global utilities
 	////////////////////////////////////////////////////////////////////////
 
-
 	// on browsers that support the "children" collection we can avoid a lot of
 	// iteration on chaff (non-element) nodes.
 	// why.
@@ -8213,7 +8177,6 @@ var defineQuery= function(d){
 		//		expression. The structure for parts is documented in the code
 		//		below.
 
-
 		// NOTE:
 		//		this code is designed to run fast and compress well. Sacrifices
 		//		to readability and maintainability have been made.  Your best
@@ -8241,7 +8204,6 @@ var defineQuery= function(d){
 
 		// the overall data graph of the full query, as represented by queryPart objects
 		var queryParts = [];
-
 
 		// state keeping vars
 		var inBrackets = -1, inParens = -1, inMatchFor = -1,
@@ -8315,7 +8277,6 @@ var defineQuery= function(d){
 					currentPart.classes.length	);
 
 			currentPart.oquery = currentPart.query = ts(pStart, x); // save the full expression as a string
-
 
 			// otag/tag are hints to suggest to the system whether or not
 			// it's an operator or a tag. We save a copy of otag since the
@@ -8496,7 +8457,6 @@ var defineQuery= function(d){
 		}
 		return queryParts;
 	};
-
 
 	////////////////////////////////////////////////////////////////////////
 	// DOM query infrastructure
@@ -9286,7 +9246,6 @@ var defineQuery= function(d){
 		//		trivially rewrite the query to the form "#synid > .thinger" to
 		//		use the QSA branch
 
-
 		if(useQSA){
 			var tq = (specials.indexOf(query.charAt(query.length-1)) >= 0) ?
 						(query + " *") : query;
@@ -9694,7 +9653,6 @@ var defineAcme= function(){
 	if(this["dojo"]){
 		dojo.provide("dojo._base.query");
 
-
 		defineQuery(this["queryPortability"]||this["acme"]||dojo);
 	}else{
 		defineQuery(this["queryPortability"]||this["acme"]||defineAcme());
@@ -9710,11 +9668,6 @@ var defineAcme= function(){
 if(!dojo._hasResource["dojo._base.xhr"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.xhr"] = true;
 dojo.provide("dojo._base.xhr");
-
-
-
-
-
 
 (function(){
 	var _d = dojo, cfg = _d.config;
@@ -10144,7 +10097,6 @@ dojo.provide("dojo._base.xhr");
 	}
 	=====*/
 
-
 	/*=====
 	dojo.__IoPublish = function(){
 		// 	summary:
@@ -10183,7 +10135,6 @@ dojo.provide("dojo._base.xhr");
 		this.stop = "/dojo/io/stop";
 	}
 	=====*/
-
 
 	dojo._ioSetArgs = function(/*dojo.__IoArgs*/args,
 			/*Function*/canceller,
@@ -10327,7 +10278,6 @@ dojo.provide("dojo._base.xhr");
 	// something fierece if we don't use unified loops.
 	var _inFlightIntvl = null;
 	var _inFlight = [];
-
 
 	//Use a separate count for knowing if we are starting/stopping io calls.
 	//Cannot use _inFlight.length since it can change at a different time than
@@ -10646,11 +10596,6 @@ dojo.provide("dojo._base.xhr");
 if(!dojo._hasResource["dojo._base.fx"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base.fx"] = true;
 dojo.provide("dojo._base.fx");
-
-
-
-
-
 
 /*
 	Animation loosely package based on Dan Pupius' work, contributed under CLA:
@@ -11311,14 +11256,6 @@ if(!dojo._hasResource["dojo._base.browser"]){ //_hasResource checks added by bui
 dojo._hasResource["dojo._base.browser"] = true;
 dojo.provide("dojo._base.browser");
 
-
-
-
-
-
-
-
-
 	//Need this to be the last code segment in base, so do not place any
 	//dojo/requireIf calls in this file/ Otherwise, due to how the build system
 	//puts all requireIf dependencies after the current file, the require calls
@@ -11332,16 +11269,6 @@ dojo.provide("dojo._base.browser");
 if(!dojo._hasResource["dojo._base"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojo._base"] = true;
 dojo.provide("dojo._base");
-
-
-
-
-
-
-
-
-
-
 
 }
 

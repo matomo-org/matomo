@@ -485,7 +485,6 @@ var Piwik_Overlay_FollowingPages = (function () {
         }
     }
 
-
     return {
 
         /**

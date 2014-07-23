@@ -402,7 +402,6 @@ class ArchivingHelper
         return self::$defaultActionUrlWhenNotDefined;
     }
 
-
     /**
      * Explodes action name into an array of elements.
      *

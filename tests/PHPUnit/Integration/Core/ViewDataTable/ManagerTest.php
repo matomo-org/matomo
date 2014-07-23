@@ -69,7 +69,6 @@ class Core_Plugin_ViewDataTable_ManagerTest extends DatabaseTestCase
         $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin3', 'API.get5'));
     }
 
-
     public function test_clearUserViewDataTableParameters_shouldOnlyRemoveAUsersParameters()
     {
         ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get1', array('flat' => 1));

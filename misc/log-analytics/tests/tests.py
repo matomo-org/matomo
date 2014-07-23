@@ -44,7 +44,6 @@ def test_format_detection():
         f.description = 'Testing autodetection of format ' + format_name + ' w/ garbage at end of line'
         yield f
 
-
 class Options(object):
     """Mock config options necessary to run checkers from Parser class."""
     debug = False
@@ -65,18 +64,15 @@ class Options(object):
     included_paths = []
     enable_http_errors = False
 
-
 class Config(object):
     """Mock configuration."""
     options = Options()
     format = import_logs.FORMATS['ncsa_extended']
 
-
 class Resolver(object):
     """Mock resolver which doesn't check connection to real piwik."""
     def check_format(self, format_):
         pass
-
 
 class Recorder(object):
     """Mock recorder which collects hits but doesn't put their in database."""

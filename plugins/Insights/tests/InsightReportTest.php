@@ -346,7 +346,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(100, $metadata['evolutionDifference']);
         $this->assertEquals(200, $metadata['evolutionTotal']);
 
-
         $report   = $this->generateMoverAndShaker(75, 50);
         $metadata = $report->getAllTableMetadata();
 
@@ -354,7 +353,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(75, $metadata['totalValue']);
         $this->assertEquals(25, $metadata['evolutionDifference']);
         $this->assertEquals(50, $metadata['evolutionTotal']);
-
 
         $report   = $this->generateMoverAndShaker(25, 50);
         $metadata = $report->getAllTableMetadata();
@@ -385,7 +383,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(6, $metadata['minNewPercent']);
         $this->assertEquals(8, $metadata['minDisappearedPercent']);
 
-
         $report   = $this->generateMoverAndShaker(225, 150);
         $metadata = $report->getAllTableMetadata();
 
@@ -395,7 +392,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, $metadata['minNewPercent']);
         $this->assertEquals(7, $metadata['minDisappearedPercent']);
 
-
         $report   = $this->generateMoverAndShaker(300, 600);
         $metadata = $report->getAllTableMetadata();
 
@@ -404,7 +400,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $metadata['minMoversPercent']);
         $this->assertEquals(5, $metadata['minNewPercent']);
         $this->assertEquals(7, $metadata['minDisappearedPercent']);
-
 
         // make sure to force a change of at least 2 visits in all rows if total is soooo low
         $report   = $this->generateMoverAndShaker(25, 50);
@@ -416,7 +411,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(8, $metadata['minNewPercent']);
         $this->assertEquals(8, $metadata['minDisappearedPercent']);
 
-
         // make sure to force a change of at least 2 visits
         $report   = $this->generateMoverAndShaker(75, 150);
         $metadata = $report->getAllTableMetadata();
@@ -426,7 +420,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $metadata['minMoversPercent']);
         $this->assertEquals(5, $metadata['minNewPercent']);
         $this->assertEquals(7, $metadata['minDisappearedPercent']);
-
 
         // make sure no division by zero issue
         $report   = $this->generateMoverAndShaker(0, 150);

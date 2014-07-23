@@ -193,7 +193,6 @@ class ProxyHttp
         !empty($autoAppendFile);
     }
 
-
     /**
      * Workaround IE bug when downloading certain document types over SSL and
      * cache control headers are present, e.g.,
@@ -219,7 +218,6 @@ class ProxyHttp
             }
         }
     }
-
 
     /**
      * Set response header, e.g., HTTP/1.0 200 Ok

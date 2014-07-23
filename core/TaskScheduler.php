@@ -82,7 +82,6 @@ class TaskScheduler extends Singleton
         return self::getInstance()->doRunTasks();
     }
 
-
     // for backwards compatibility
     private function collectTasksRegisteredViaEvent()
     {

@@ -618,7 +618,6 @@ JQPlotExternalSeriesToggle.prototype = {
 
 };
 
-
 // ROW EVOLUTION SERIES TOGGLE
 
 function RowEvolutionSeriesToggle(targetDivId, jqplotData, initiallyShowAll) {
@@ -674,7 +673,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         }
     }
 };
-
 
 // ------------------------------------------------------------
 //  PIWIK TICKS PLUGIN FOR JQPLOT
@@ -835,7 +833,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
 })(jQuery);
 
-
 // ------------------------------------------------------------
 //  LEGEND PLUGIN FOR JQPLOT
 //  Render legend on canvas
@@ -933,7 +930,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.postDrawHooks.push($.jqplot.CanvasLegendRenderer.postDraw);
 
 })(jQuery);
-
 
 // ------------------------------------------------------------
 //  SERIES PICKER

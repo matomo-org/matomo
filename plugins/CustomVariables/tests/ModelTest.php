@@ -177,5 +177,4 @@ class ModelTest extends \DatabaseTestCase
         return new Model(Model::SCOPE_CONVERSION);
     }
 
-
 }

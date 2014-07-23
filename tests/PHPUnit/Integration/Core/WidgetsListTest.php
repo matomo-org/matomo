@@ -36,7 +36,6 @@ class Core_WidgetsListTest extends DatabaseTestCase
         $widgets = WidgetsList::get();
         WidgetsList::_reset();
 
-
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
             'VisitsSummary_VisitsSummary'  => 6,
@@ -166,7 +165,6 @@ class Core_WidgetsListTest extends DatabaseTestCase
 
         WidgetsList::_reset();
     }
-
 
     /**
      * @group Core

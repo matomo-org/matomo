@@ -23,7 +23,6 @@ class UIAssetMinifier extends Singleton
         parent::__construct();
     }
 
-
     /**
      * Indicates if the provided JavaScript content has already been minified or not.
      * The heuristic is based on a custom ratio : (size of file) / (number of lines).

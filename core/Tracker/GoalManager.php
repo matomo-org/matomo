@@ -828,7 +828,6 @@ class GoalManager
         return $match;
     }
 
-
     /**
      * @param ConversionDimension[] $dimensions
      * @param string $hook

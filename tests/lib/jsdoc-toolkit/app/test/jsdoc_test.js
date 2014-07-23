@@ -9,7 +9,6 @@
  * @version 0.1
  */
 
-
 /**
  * Construct a new Shape object.
  * @class This is the basic Shape class.
@@ -63,7 +62,6 @@ function Shape(){
 function Hexagon(sideLength) {
 }
 
-
 /**
  * This is an unattached (static) function that adds two integers together.
  * @param {int} One The first number to add
@@ -74,7 +72,6 @@ function Hexagon(sideLength) {
 function Add(One, Two){
     return One + Two;
 }
-
 
 /**
  * The color of this shape
@@ -168,7 +165,6 @@ function Rectangle(width, // This is the width
    }
 }
 
-
 /* Inherit from Shape */
 Rectangle.prototype = new Shape();
 
@@ -244,7 +240,6 @@ Rectangle.prototype.getArea = function(){
    return width * height;
 }
 
-
 /**
  * Create a new Square instance.
  * @class A Square is a subclass of {@link Rectangle}
@@ -282,7 +277,6 @@ Square.prototype.setWidth = function(width){
 Square.prototype.setHeight = function(height){
    this.height = this.width = height;
 }
-
 
 /**
  * Create a new Circle instance based on a radius.
@@ -342,7 +336,6 @@ Circle.prototype.setRadius = function(radius){
 Circle.createCircle = function(radius){
     return new Circle(radius);
 }
-
 
 /**
  * Create a new Coordinate instance based on x and y grid data.
@@ -446,7 +439,6 @@ MySingletonShapeFactory = function(){
    }
 
 }
-
 
 /**
  * Create a new Foo instance.

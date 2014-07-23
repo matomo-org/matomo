@@ -396,10 +396,7 @@ String.extend('uniqueID', function(){
 	return (UID++).toString(36);
 });
 
-
-
 }).call(this);
-
 
 /*
 ---
@@ -568,9 +565,6 @@ Array.implement({
 
 });
 
-
-
-
 /*
 ---
 
@@ -654,7 +648,6 @@ String.implement({
 
 });
 
-
 /*
 ---
 
@@ -707,7 +700,6 @@ Number.alias('each', 'times');
 	});
 	Number.implement(methods);
 })(['abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'exp', 'floor', 'log', 'max', 'min', 'pow', 'sin', 'sqrt', 'tan']);
-
 
 /*
 ---
@@ -776,9 +768,6 @@ Function.implement({
 	}
 
 });
-
-
-
 
 /*
 ---
@@ -898,9 +887,6 @@ Object.extend({
 });
 
 })();
-
-
-
 
 /*
 ---
@@ -1101,10 +1087,7 @@ try {
 	});
 }
 
-
-
 }).call(this);
-
 
 /*
 ---
@@ -1216,8 +1199,6 @@ Event.Keys = {
 	'delete': 46
 };
 
-
-
 Event.implement({
 
 	stop: function(){
@@ -1237,7 +1218,6 @@ Event.implement({
 	}
 
 });
-
 
 /*
 ---
@@ -1355,7 +1335,6 @@ Class.Mutators = {
 
 }).call(this);
 
-
 /*
 ---
 
@@ -1406,8 +1385,6 @@ this.Events = new Class({
 
 	addEvent: function(type, fn, internal){
 		type = removeOn(type);
-
-
 
 		this.$events[type] = (this.$events[type] || []).include(fn);
 		if (internal) fn.internal = true;
@@ -1475,7 +1452,6 @@ this.Options = new Class({
 });
 
 }).call(this);
-
 
 /*
 ---
@@ -1707,7 +1683,6 @@ Slick.escapeRegExp = escapeRegExp;
 if (!this.Slick) this.Slick = Slick;
 
 }).apply(/*<CommonJS>*/(typeof exports != 'undefined') ? exports : /*</CommonJS>*/this);
-
 
 /*
 ---
@@ -2668,7 +2643,6 @@ if (!this.Slick) this.Slick = Slick;
 
 }).apply(/*<CommonJS>*/(typeof exports != 'undefined') ? exports : /*</CommonJS>*/this);
 
-
 /*
 ---
 
@@ -2739,8 +2713,6 @@ if (!Browser.Element){
 }
 
 Element.Constructors = {};
-
-
 
 var IFrame = new Type('IFrame', function(){
 	var params = Array.link(arguments, {
@@ -2830,8 +2802,6 @@ new Type('Elements', Elements).implement({
 	}.protect()
 
 });
-
-
 
 (function(){
 
@@ -2963,8 +2933,6 @@ Window.implement({
 
 });
 
-
-
 if (window.$$ == null) Window.implement('$$', function(selector){
 	if (arguments.length == 1){
 		if (typeof selector == 'string') return Slick.search(this.document, selector, new Elements);
@@ -3041,8 +3009,6 @@ var inserters = {
 };
 
 inserters.inside = inserters.bottom;
-
-
 
 var injectCombinator = function(expression, combinator){
 	if (!expression) return combinator;
@@ -3313,8 +3279,6 @@ var contains = {contains: function(element){
 if (!document.contains) Document.implement(contains);
 if (!document.createElement('div').contains) Element.implement(contains);
 
-
-
 [Element, Window, Document].invoke('implement', {
 
 	addListener: function(type, fn){
@@ -3367,8 +3331,6 @@ if (window.attachEvent && !window.addEventListener) window.addListener('unload',
 })();
 
 Element.Properties = {};
-
-
 
 Element.Properties.style = {
 
@@ -3439,7 +3401,6 @@ Element.Properties.html = (function(){
 
 	return html;
 })();
-
 
 /*
 ---
@@ -3599,8 +3560,6 @@ Element.Styles = {
 	zIndex: '@', 'zoom': '@', fontWeight: '@', textIndent: '@px', opacity: '@'
 };
 
-
-
 Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, borderStyle: {}, borderColor: {}};
 
 ['Top', 'Right', 'Bottom', 'Left'].each(function(direction){
@@ -3620,7 +3579,6 @@ Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, bor
 });
 
 }).call(this);
-
 
 /*
 ---
@@ -3790,10 +3748,7 @@ Element.Events = {
 
 };
 
-
-
 }).call(this);
-
 
 /*
 ---
@@ -3977,7 +3932,6 @@ Element.implement({
 
 });
 
-
 [Document, Window].invoke('implement', {
 
 	getSize: function(){
@@ -4078,7 +4032,6 @@ Element.alias({position: 'setPosition'}); //compatability
 	}
 
 });
-
 
 /*
 ---
@@ -4260,7 +4213,6 @@ var pullInstance = function(fps){
 
 }).call(this);
 
-
 /*
 ---
 
@@ -4405,9 +4357,6 @@ Fx.CSS.Parsers = {
 
 };
 
-
-
-
 /*
 ---
 
@@ -4512,7 +4461,6 @@ Element.implement({
 
 });
 
-
 /*
 ---
 
@@ -4591,7 +4539,6 @@ Element.implement({
 
 });
 
-
 /*
 ---
 
@@ -4650,8 +4597,6 @@ Fx.Transitions = {
 
 };
 
-
-
 Fx.Transitions.extend = function(transitions){
 	for (var transition in transitions) Fx.Transitions[transition] = new Fx.Transition(transitions[transition]);
 };
@@ -4701,7 +4646,6 @@ Fx.Transitions.extend({
 		return Math.pow(p, i + 2);
 	});
 });
-
 
 /*
 ---
@@ -5064,7 +5008,6 @@ Element.implement({
 
 });
 
-
 /*
 ---
 
@@ -5084,8 +5027,6 @@ provides: JSON
 */
 
 if (typeof JSON == 'undefined') this.JSON = {};
-
-
 
 (function(){
 
@@ -5140,7 +5081,6 @@ JSON.decode = function(string, secure){
 
 }).call(this);
 
-
 /*
 ---
 
@@ -5187,7 +5127,6 @@ Request.JSON = new Class({
 	}
 
 });
-
 
 /*
 ---
@@ -5263,7 +5202,6 @@ Cookie.read = function(key){
 Cookie.dispose = function(key, options){
 	return new Cookie(key, options).dispose();
 };
-
 
 /*
 ---
@@ -5373,7 +5311,6 @@ window.addEvent('load', function(){
 });
 
 })(window, document);
-
 
 /*
 ---
