@@ -1352,7 +1352,7 @@ if (typeof Piwik !== 'object') {
 
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
-                    if (typeof callback === 'function') callback()
+                    if (typeof callback === 'function') { callback(); }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -1378,7 +1378,7 @@ if (typeof Piwik !== 'object') {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
                             getImage(request, callback);
                         } else {
-                          if (typeof callback === 'function') callback()
+                            if (typeof callback === 'function') { callback(); }
                         }
                     };
 
@@ -3372,4 +3372,3 @@ if (typeof piwik_log !== 'function') {
 }
 
 /*! @license-end */
-
